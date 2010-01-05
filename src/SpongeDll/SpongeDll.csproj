@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D1715E95-B418-4A4E-924A-93B771E4072B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SIL.Sponge</RootNamespace>
+    <AssemblyName>SpongeDll</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\output\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Palaso, Version=1.2.496.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
+    </Reference>
+    <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\common\SilUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ViewButtonManager.cs" />
+    <Compile Include="Views\BaseSplitVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\BaseSplitVw.designer.cs">
+      <DependentUpon>BaseSplitVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GridPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ListPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListPanel.Designer.cs">
+      <DependentUpon>ListPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWnd.designer.cs">
+      <DependentUpon>MainWnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OverviewVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\OverviewVw.designer.cs">
+      <DependentUpon>OverviewVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PeopleVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\PeopleVw.designer.cs">
+      <DependentUpon>PeopleVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SendReceiveVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SendReceiveVw.Designer.cs">
+      <DependentUpon>SendReceiveVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SessionsVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SessionsVw.designer.cs">
+      <DependentUpon>SessionsVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SetupVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SetupVw.designer.cs">
+      <DependentUpon>SetupVw.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\BaseSplitVw.resx">
+      <DependentUpon>BaseSplitVw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListPanel.resx">
+      <DependentUpon>ListPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWnd.resx">
+      <DependentUpon>MainWnd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\OverviewVw.resx">
+      <DependentUpon>OverviewVw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PeopleVw.resx">
+      <DependentUpon>PeopleVw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SessionsVw.resx">
+      <DependentUpon>SessionsVw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SetupVw.resx">
+      <DependentUpon>SetupVw.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Overview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\People.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\People-orig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SendReceive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sessions.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Setup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NoPhotoSilhouette.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

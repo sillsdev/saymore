@@ -1,0 +1,4 @@
+glob:obj/*
+glob:output/*
+glob:*.suo
+glob:*.user

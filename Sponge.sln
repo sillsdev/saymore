@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sponge", "src\Sponge\Sponge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpongeDll", "src\SpongeDll\SpongeDll.csproj", "{D1715E95-B418-4A4E-924A-93B771E4072B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpongeTests", "SpongeTests\SpongeTests.csproj", "{8769F2A3-6C9B-4272-A668-F98BDBB90647}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpongeTests", "src\SpongeTests\SpongeTests.csproj", "{8769F2A3-6C9B-4272-A668-F98BDBB90647}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

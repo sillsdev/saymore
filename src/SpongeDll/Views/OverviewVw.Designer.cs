@@ -15,14 +15,9 @@ namespace SIL.Sponge
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OverviewVw));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			this.tsOverview = new System.Windows.Forms.ToolStrip();
-			this.tsbStatistics = new System.Windows.Forms.ToolStripButton();
-			this.tsbGenre = new System.Windows.Forms.ToolStripButton();
-			this.tsbContributor = new System.Windows.Forms.ToolStripButton();
-			this.tsbTasks = new System.Windows.Forms.ToolStripButton();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OverviewVw));
 			this.pnlStatistics = new SilUtils.Controls.SilPanel();
 			this.gridGenre = new SilUtils.SilGrid();
 			this.genreNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -30,7 +25,6 @@ namespace SIL.Sponge
 			this.genreMinRepeatedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.genreTranscribedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.gridTasks = new SilUtils.SilGrid();
-			this.pnlContributor = new SilUtils.Controls.SilPanel();
 			this.taskNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.taskGenreCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.taskDescribedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -38,75 +32,16 @@ namespace SIL.Sponge
 			this.taskRepeatedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.taskTranscribedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.taskSubmittedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.tsOverview.SuspendLayout();
+			this.pnlContributor = new SilUtils.Controls.SilPanel();
+			this.tsOverview = new SIL.Sponge.SpongeBar();
+			this.tsbStatistics = new System.Windows.Forms.ToolStripButton();
+			this.tsbGenre = new System.Windows.Forms.ToolStripButton();
+			this.tsbContributor = new System.Windows.Forms.ToolStripButton();
+			this.tsbTasks = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.gridGenre)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridTasks)).BeginInit();
+			this.tsOverview.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// tsOverview
-			// 
-			this.tsOverview.Dock = System.Windows.Forms.DockStyle.Left;
-			this.tsOverview.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.tsOverview.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsbStatistics,
-            this.tsbGenre,
-            this.tsbContributor,
-            this.tsbTasks});
-			this.tsOverview.Location = new System.Drawing.Point(0, 0);
-			this.tsOverview.Name = "tsOverview";
-			this.tsOverview.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.tsOverview.Size = new System.Drawing.Size(121, 351);
-			this.tsOverview.TabIndex = 0;
-			this.tsOverview.Text = "toolStrip1";
-			this.tsOverview.Paint += new System.Windows.Forms.PaintEventHandler(this.tsOverview_Paint);
-			// 
-			// tsbStatistics
-			// 
-			this.tsbStatistics.AutoSize = false;
-			this.tsbStatistics.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.tsbStatistics.Image = ((System.Drawing.Image)(resources.GetObject("tsbStatistics.Image")));
-			this.tsbStatistics.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbStatistics.Margin = new System.Windows.Forms.Padding(10, 5, 10, 2);
-			this.tsbStatistics.Name = "tsbStatistics";
-			this.tsbStatistics.Size = new System.Drawing.Size(100, 24);
-			this.tsbStatistics.Text = "Statistics";
-			this.tsbStatistics.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// tsbGenre
-			// 
-			this.tsbGenre.AutoSize = false;
-			this.tsbGenre.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.tsbGenre.Image = ((System.Drawing.Image)(resources.GetObject("tsbGenre.Image")));
-			this.tsbGenre.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbGenre.Margin = new System.Windows.Forms.Padding(10, 2, 10, 2);
-			this.tsbGenre.Name = "tsbGenre";
-			this.tsbGenre.Size = new System.Drawing.Size(100, 24);
-			this.tsbGenre.Text = "By Genre";
-			this.tsbGenre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// tsbContributor
-			// 
-			this.tsbContributor.AutoSize = false;
-			this.tsbContributor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.tsbContributor.Image = ((System.Drawing.Image)(resources.GetObject("tsbContributor.Image")));
-			this.tsbContributor.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbContributor.Margin = new System.Windows.Forms.Padding(10, 2, 10, 2);
-			this.tsbContributor.Name = "tsbContributor";
-			this.tsbContributor.Size = new System.Drawing.Size(100, 24);
-			this.tsbContributor.Text = "By Contributor";
-			this.tsbContributor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// tsbTasks
-			// 
-			this.tsbTasks.AutoSize = false;
-			this.tsbTasks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.tsbTasks.Image = ((System.Drawing.Image)(resources.GetObject("tsbTasks.Image")));
-			this.tsbTasks.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbTasks.Margin = new System.Windows.Forms.Padding(10, 2, 10, 2);
-			this.tsbTasks.Name = "tsbTasks";
-			this.tsbTasks.Size = new System.Drawing.Size(100, 24);
-			this.tsbTasks.Text = "Session Tasks";
-			this.tsbTasks.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// pnlStatistics
 			// 
@@ -226,23 +161,6 @@ namespace SIL.Sponge
 			this.gridTasks.Visible = false;
 			this.gridTasks.WaterMark = "!";
 			// 
-			// pnlContributor
-			// 
-			this.pnlContributor.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(166)))), ((int)(((byte)(170)))));
-			this.pnlContributor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlContributor.ClipTextForChildControls = true;
-			this.pnlContributor.ControlReceivingFocusOnMnemonic = null;
-			this.pnlContributor.DoubleBuffered = true;
-			this.pnlContributor.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pnlContributor.Location = new System.Drawing.Point(383, 3);
-			this.pnlContributor.MnemonicGeneratesClick = false;
-			this.pnlContributor.Name = "pnlContributor";
-			this.pnlContributor.PaintExplorerBarBackground = false;
-			this.pnlContributor.Size = new System.Drawing.Size(152, 119);
-			this.pnlContributor.TabIndex = 2;
-			this.pnlContributor.Text = "By Contributor";
-			this.pnlContributor.Visible = false;
-			// 
 			// taskNameCol
 			// 
 			this.taskNameCol.HeaderText = "Name";
@@ -290,6 +208,88 @@ namespace SIL.Sponge
 			this.taskSubmittedCol.Name = "taskSubmittedCol";
 			this.taskSubmittedCol.Width = 64;
 			// 
+			// pnlContributor
+			// 
+			this.pnlContributor.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(166)))), ((int)(((byte)(170)))));
+			this.pnlContributor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlContributor.ClipTextForChildControls = true;
+			this.pnlContributor.ControlReceivingFocusOnMnemonic = null;
+			this.pnlContributor.DoubleBuffered = true;
+			this.pnlContributor.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.pnlContributor.Location = new System.Drawing.Point(383, 3);
+			this.pnlContributor.MnemonicGeneratesClick = false;
+			this.pnlContributor.Name = "pnlContributor";
+			this.pnlContributor.PaintExplorerBarBackground = false;
+			this.pnlContributor.Size = new System.Drawing.Size(152, 119);
+			this.pnlContributor.TabIndex = 2;
+			this.pnlContributor.Text = "By Contributor";
+			this.pnlContributor.Visible = false;
+			// 
+			// tsOverview
+			// 
+			this.tsOverview.Dock = System.Windows.Forms.DockStyle.Left;
+			this.tsOverview.GradientAngle = 65F;
+			this.tsOverview.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.tsOverview.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbStatistics,
+            this.tsbGenre,
+            this.tsbContributor,
+            this.tsbTasks});
+			this.tsOverview.Location = new System.Drawing.Point(0, 0);
+			this.tsOverview.Name = "tsOverview";
+			this.tsOverview.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.tsOverview.Size = new System.Drawing.Size(121, 351);
+			this.tsOverview.TabIndex = 0;
+			this.tsOverview.Text = "toolStrip1";
+			// 
+			// tsbStatistics
+			// 
+			this.tsbStatistics.AutoSize = false;
+			this.tsbStatistics.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.tsbStatistics.Image = ((System.Drawing.Image)(resources.GetObject("tsbStatistics.Image")));
+			this.tsbStatistics.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbStatistics.Margin = new System.Windows.Forms.Padding(10, 5, 10, 2);
+			this.tsbStatistics.Name = "tsbStatistics";
+			this.tsbStatistics.Size = new System.Drawing.Size(100, 24);
+			this.tsbStatistics.Text = "Statistics";
+			this.tsbStatistics.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// tsbGenre
+			// 
+			this.tsbGenre.AutoSize = false;
+			this.tsbGenre.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.tsbGenre.Image = ((System.Drawing.Image)(resources.GetObject("tsbGenre.Image")));
+			this.tsbGenre.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbGenre.Margin = new System.Windows.Forms.Padding(10, 2, 10, 2);
+			this.tsbGenre.Name = "tsbGenre";
+			this.tsbGenre.Size = new System.Drawing.Size(100, 24);
+			this.tsbGenre.Text = "By Genre";
+			this.tsbGenre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// tsbContributor
+			// 
+			this.tsbContributor.AutoSize = false;
+			this.tsbContributor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.tsbContributor.Image = ((System.Drawing.Image)(resources.GetObject("tsbContributor.Image")));
+			this.tsbContributor.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbContributor.Margin = new System.Windows.Forms.Padding(10, 2, 10, 2);
+			this.tsbContributor.Name = "tsbContributor";
+			this.tsbContributor.Size = new System.Drawing.Size(100, 24);
+			this.tsbContributor.Text = "By Contributor";
+			this.tsbContributor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// tsbTasks
+			// 
+			this.tsbTasks.AutoSize = false;
+			this.tsbTasks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.tsbTasks.Image = ((System.Drawing.Image)(resources.GetObject("tsbTasks.Image")));
+			this.tsbTasks.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbTasks.Margin = new System.Windows.Forms.Padding(10, 2, 10, 2);
+			this.tsbTasks.Name = "tsbTasks";
+			this.tsbTasks.Size = new System.Drawing.Size(100, 24);
+			this.tsbTasks.Text = "Session Tasks";
+			this.tsbTasks.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// OverviewVw
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -301,10 +301,10 @@ namespace SIL.Sponge
 			this.Controls.Add(this.tsOverview);
 			this.Name = "OverviewVw";
 			this.Size = new System.Drawing.Size(657, 351);
-			this.tsOverview.ResumeLayout(false);
-			this.tsOverview.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridGenre)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridTasks)).EndInit();
+			this.tsOverview.ResumeLayout(false);
+			this.tsOverview.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -312,7 +312,7 @@ namespace SIL.Sponge
 
 		#endregion
 
-		private System.Windows.Forms.ToolStrip tsOverview;
+		private SpongeBar tsOverview;
 		private System.Windows.Forms.ToolStripButton tsbStatistics;
 		private System.Windows.Forms.ToolStripButton tsbGenre;
 		private System.Windows.Forms.ToolStripButton tsbContributor;

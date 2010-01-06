@@ -55,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\SpongeBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ViewButtonManager.cs" />
     <Compile Include="Views\BaseSplitVw.cs">
       <SubType>UserControl</SubType>

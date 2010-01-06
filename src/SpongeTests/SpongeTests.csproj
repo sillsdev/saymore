@@ -53,7 +53,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\SpongeDll\SpongeDll.csproj">
+    <ProjectReference Include="..\SpongeDll\SpongeDll.csproj">
       <Project>{D1715E95-B418-4A4E-924A-93B771E4072B}</Project>
       <Name>SpongeDll</Name>
     </ProjectReference>

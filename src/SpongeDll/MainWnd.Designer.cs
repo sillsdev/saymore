@@ -15,7 +15,7 @@ namespace SIL.Sponge
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tsMain = new System.Windows.Forms.ToolStrip();
+			this.tsMain = new SpongeBar();
 			this.tsbSetup = new System.Windows.Forms.ToolStripButton();
 			this.tsbOverview = new System.Windows.Forms.ToolStripButton();
 			this.tsbSessions = new System.Windows.Forms.ToolStripButton();
@@ -40,7 +40,6 @@ namespace SIL.Sponge
 			this.tsMain.Size = new System.Drawing.Size(797, 70);
 			this.tsMain.TabIndex = 0;
 			this.tsMain.Text = "toolStrip1";
-			this.tsMain.Paint += new System.Windows.Forms.PaintEventHandler(this.tsMain_Paint);
 			// 
 			// tsbSetup
 			// 
@@ -116,7 +115,7 @@ namespace SIL.Sponge
 
 		#endregion
 
-		private System.Windows.Forms.ToolStrip tsMain;
+		private SpongeBar tsMain;
 		private System.Windows.Forms.ToolStripButton tsbPeople;
 		private System.Windows.Forms.ToolStripButton tsbOverview;
 		private System.Windows.Forms.ToolStripButton tsbSetup;

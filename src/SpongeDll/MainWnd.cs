@@ -1,7 +1,4 @@
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using SilUtils;
 
 namespace SIL.Sponge
 {
@@ -65,20 +62,6 @@ namespace SIL.Sponge
 			}
 
 			base.Dispose(disposing);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paint the background of the toolbar our own way.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void tsMain_Paint(object sender, PaintEventArgs e)
-		{
-			Color clr1 = ColorHelper.CalculateColor(Color.LightSteelBlue, Color.White, 200);
-			Color clr2 = Color.SteelBlue;
-
-			using (var br = new LinearGradientBrush(tsMain.ClientRectangle, clr1, clr2, 20))
-				e.Graphics.FillRectangle(br, tsMain.ClientRectangle);
 		}
 	}
 }

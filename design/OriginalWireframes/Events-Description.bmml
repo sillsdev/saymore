@@ -1,0 +1,80 @@
+<mockup version="1.0" skin="sketch" measuredW="1107" measuredH="636" mockupW="1017" mockupH="600">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="80" y="26" w="1017" h="600" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>MOLDD%200.1.925%20%20-%20C%3A%5CUsers%5CJohn%5CDocuments%5CLangDocProjects%5CEdolo</text>
+        <topheight>26</topheight>
+        <bottomheight>0</bottomheight>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="276" y="117" w="821" h="509" measuredW="474" measuredH="100" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Description%2C%20Contributors%20%26%20Permissions%2C%20Task%20Status%2C%20Files</text>
+        <selectedIndex>0</selectedIndex>
+        <hrefs>Events-Description%26bm%3BEvents-Description.bmml%26bm%3BEvents-Description.bmml%26bm%3BEvents-Description.bmml%2CEvents-Contributors%26bm%3BEvents-Contributors.bmml%26bm%3BEvents-Contributors.bmml%26bm%3BEvents-Contributors.bmml%2CEvents-TaskStatus%26bm%3BEvents-TaskStatus.bmml%26bm%3BEvents-TaskStatus.bmml%26bm%3BEvents-TaskStatus.bmml%2CEvents-Files%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml</hrefs>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22216%2C91%2C297%2C120%22%20href%3D%22Events-Description.bmml%22%20alt%3D%22Events-Description%22%20id%3D%221_0%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22297%2C91%2C469%2C120%22%20href%3D%22Events-Contributors.bmml%22%20alt%3D%22Events-Contributors%22%20id%3D%221_1%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22469%2C91%2C554%2C120%22%20href%3D%22Events-TaskStatus.bmml%22%20alt%3D%22Events-TaskStatus%22%20id%3D%221_2%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22554%2C91%2C596%2C120%22%20href%3D%22Events-Files.bmml%22%20alt%3D%22Events-Files%22%20id%3D%221_3%22/%3E%0A</map>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::List" x="81" y="140" w="195" h="486" measuredW="100" measuredH="126" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>How%20to%20make%20tofu%0AWhen%20I%20was%20a%20kid%0AWhy%20bananas%20are%20yellow%0A%3CNew%20Event...%3E</text>
+        <selectedIndex>0</selectedIndex>
+      </controlProperties>
+    </control>
+    <control controlID="18" controlTypeID="com.balsamiq.mockups::CallOut" x="338" y="195" w="644" h="322" measuredW="510" measuredH="40" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Title%0ADate%09Time%0AEvent%20Type%0ALocation%20*%0ASetting%0ASituation%0A%20%0AEvent%20words%0AList%20words%0A%20%0A%20%0A%20%0A%20%0A*%20%20%28bonus%20points%3A%20bring%20up%20embedded%20browser%20with%20GoogleMaps%20to%20pinpoint%20it%29</text>
+        <color>16777215</color>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::IconLabel" x="368" y="61" w="87" h="-1" measuredW="44" measuredH="49" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>UsersIcon%7Csmall</icon>
+        <text>People</text>
+        <href>People%26bm%3BPeople.bmml%26bm%3BPeople.bmml%26bm%3BPeople.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22288%2C35%2C375%2C84%22%20href%3D%22People.bmml%22%20alt%3D%22People%22%20id%3D%228%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::IconLabel" x="460" y="61" w="122" h="-1" measuredW="90" measuredH="49" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>UpRightArrowIcon%7Csmall</icon>
+        <text>Send/Recieve</text>
+        <href>SendReceive%26bm%3BSendReceive.bmml%26bm%3BSendReceive.bmml%26bm%3BSendReceive.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22380%2C35%2C502%2C84%22%20href%3D%22SendReceive.bmml%22%20alt%3D%22SendReceive%22%20id%3D%229%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Canvas" x="270" y="56" w="83" h="54" measuredW="100" measuredH="70" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <backgroundAlpha>0.25</backgroundAlpha>
+        <color>40463</color>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::IconLabel" x="270" y="61" w="72" h="-1" measuredW="57" measuredH="49" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>VideoCameraIcon%7Csmall</icon>
+        <text>Sessions</text>
+        <borderStyle>none</borderStyle>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22190%2C35%2C262%2C84%22%20href%3D%22Events-Files.bmml%22%20alt%3D%22Events-Files%22%20id%3D%2211%22/%3E</map>
+        <href>Events-Files%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml</href>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::IconLabel" x="165" y="61" w="95" h="-1" measuredW="62" measuredH="49" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>NumberedListIcon%7Csmall</icon>
+        <text>Overview</text>
+        <href>Overview-Statistics%26bm%3BOverview-Statistics.bmml%26bm%3BOverview-Statistics.bmml%26bm%3BOverview-Statistics.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2285%2C35%2C180%2C84%22%20href%3D%22Overview-Statistics.bmml%22%20alt%3D%22Overview-Statistics%22%20id%3D%2212%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::IconLabel" x="80" y="60" w="95" h="-1" measuredW="41" measuredH="49" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>GearIcon%7Csmall</icon>
+        <text>Setup</text>
+        <href>Setup%26bm%3BSetup.bmml%26bm%3BSetup.bmml%26bm%3BSetup.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C34%2C95%2C83%22%20href%3D%22Setup.bmml%22%20alt%3D%22Setup%22%20id%3D%2213%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="1079" y="146" w="-1" h="480" measuredW="16" measuredH="100" zOrder="9" locked="false" isInGroup="-1"/>
+  </controls>
+</mockup>

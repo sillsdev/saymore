@@ -1,0 +1,105 @@
+<mockup version="1.0" skin="sketch" measuredW="1127" measuredH="656" mockupW="1017" mockupH="600">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="100" y="46" w="1017" h="600" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>MOLDD%200.1.925%20%20-%20C%3A%5CUsers%5CJohn%5CDocuments%5CLangDocProjects%5CEdolo</text>
+        <topheight>26</topheight>
+        <bottomheight>0</bottomheight>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::IconLabel" x="388" y="81" w="87" h="-1" measuredW="44" measuredH="49" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>UsersIcon%7Csmall</icon>
+        <text>People</text>
+        <href>People%26bm%3BPeople.bmml%26bm%3BPeople.bmml%26bm%3BPeople.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22288%2C35%2C375%2C84%22%20href%3D%22People.bmml%22%20alt%3D%22People%22%20id%3D%221%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::IconLabel" x="464" y="81" w="138" h="-1" measuredW="90" measuredH="49" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>UpRightArrowIcon%7Csmall</icon>
+        <text>Send/Recieve</text>
+        <href>SendReceive%26bm%3BSendReceive.bmml%26bm%3BSendReceive.bmml%26bm%3BSendReceive.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22364%2C35%2C502%2C84%22%20href%3D%22SendReceive.bmml%22%20alt%3D%22SendReceive%22%20id%3D%222%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Canvas" x="193" y="73" w="83" h="54" measuredW="100" measuredH="70" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <backgroundAlpha>0.25</backgroundAlpha>
+        <color>40463</color>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::IconLabel" x="290" y="81" w="72" h="-1" measuredW="57" measuredH="49" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>VideoCameraIcon%7Csmall</icon>
+        <text>Sessions</text>
+        <borderStyle>none</borderStyle>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22190%2C35%2C262%2C84%22%20href%3D%22Events-Files.bmml%22%20alt%3D%22Events-Files%22%20id%3D%224%22/%3E</map>
+        <href>Events-Files%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml</href>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::IconLabel" x="185" y="81" w="95" h="-1" measuredW="62" measuredH="49" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>NumberedListIcon%7Csmall</icon>
+        <text>Overview</text>
+        <href>Overview-Statistics%26bm%3BOverview-Statistics.bmml%26bm%3BOverview-Statistics.bmml%26bm%3BOverview-Statistics.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2285%2C35%2C180%2C84%22%20href%3D%22Overview-Statistics.bmml%22%20alt%3D%22Overview-Statistics%22%20id%3D%225%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::IconLabel" x="100" y="80" w="95" h="-1" measuredW="41" measuredH="49" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>GearIcon%7Csmall</icon>
+        <text>Setup</text>
+        <href>Setup%26bm%3BSetup.bmml%26bm%3BSetup.bmml%26bm%3BSetup.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C34%2C95%2C83%22%20href%3D%22Setup.bmml%22%20alt%3D%22Setup%22%20id%3D%226%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Label" x="114" y="181" w="-1" h="-1" measuredW="62" measuredH="25" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>By%20Genre</text>
+        <href>Overview-Genre%26bm%3BOverview-Genre.bmml%26bm%3BOverview-Genre.bmml%26bm%3BOverview-Genre.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2214%2C135%2C76%2C160%22%20href%3D%22Overview-Genre.bmml%22%20alt%3D%22Overview-Genre%22%20id%3D%228%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Label" x="114" y="154" w="66" h="20" measuredW="66" measuredH="25" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Statistics</text>
+        <href>Overview-Statistics%26bm%3BOverview-Statistics.bmml%26bm%3BOverview-Statistics.bmml%26bm%3BOverview-Statistics.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2214%2C108%2C80%2C128%22%20href%3D%22Overview-Statistics.bmml%22%20alt%3D%22Overview-Statistics%22%20id%3D%229%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Label" x="114" y="206" w="-1" h="-1" measuredW="95" measuredH="25" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>By%20Contributor</text>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::Canvas" x="116" y="230" w="93" h="26" measuredW="100" measuredH="70" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <backgroundAlpha>0.25</backgroundAlpha>
+        <color>40463</color>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::DataGrid" x="220" y="151" w="897" h="495" measuredW="683" measuredH="178" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Name%2C%20Genre%2C%20Described%2C%20Recorded%2C%20Repeated%2C%20Transcribed%2C%20Submitted%0AWhen%20I%20was%20a%20kid%2C%20AutoBio%20Narr%2C%20%u263A%u263A%u263Ax%2C%20x%2C%20x%2C%20x%2C%20x%0AHow%20to%20make%20tofu%2C%20Procedure%2C%20x%2C%20x%2C%20%2C%2C%20x%0AWhy%20bananas%20are%20yellow%2C%20Folk%20Tale%2C%20x%2C%20x%0AXY%20Word%20List%2C%20x%2C%20x%2C%20x%0A%3CNew%3E</text>
+        <selectedIndex>2</selectedIndex>
+      </controlProperties>
+    </control>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::Label" x="114" y="231" w="-1" h="-1" measuredW="92" measuredH="25" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Session%20Tasks</text>
+        <href>Overview-Session%26bm%3BOverview-Session.bmml%26bm%3BOverview-Session.bmml%26bm%3BOverview-Session.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2214%2C185%2C106%2C210%22%20href%3D%22Overview-Session.bmml%22%20alt%3D%22Overview-Session%22%20id%3D%2215%22/%3E</map>
+      </controlProperties>
+    </control>
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::Canvas" x="100" y="66" w="1016" h="73" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <backgroundAlpha>0.25</backgroundAlpha>
+        <color>13158600</color>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

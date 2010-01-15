@@ -1,24 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Sponge.ConfigTools;
 
-namespace SIL.Sponge
+namespace SIL.Sponge.ConfigTools
 {
-	public partial class SetupVw : UserControl
+	public partial class WelcomeDlg : Form
 	{
-		public SetupVw()
+		public WelcomeDlg()
 		{
 			InitializeComponent();
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
 		}
 	}
 }

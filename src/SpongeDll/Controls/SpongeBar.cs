@@ -20,16 +20,41 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Sponge
+namespace SIL.Sponge.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	///
+	/// Implements a tool strip control used for making pretty blue gradient tool bars in
+	/// the application.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class SpongeBar : ToolStrip
 	{
+		private ToolStripRenderer m_prevRenderer;
 		public float GradientAngle { get; set; }
+
+		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the lighter color of the gradient sponge bar color.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Color SpongeBarColorBegin
+		{
+			get { return ColorHelper.CalculateColor(Color.LightSteelBlue, Color.White, 200); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the darker color of the gradient sponge bar color.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Color SpongeBarColorEnd
+		{
+			get { return Color.SteelBlue; }
+		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -38,9 +63,13 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		protected override void OnRendererChanged(EventArgs e)
 		{
-			Renderer.RenderToolStripBorder -= OverrideSpongeBarBorderPainting;
+			if (m_prevRenderer != null)
+				m_prevRenderer.RenderToolStripBorder -= OverrideSpongeBarBorderPainting;
+
 			base.OnRendererChanged(e);
+
 			Renderer.RenderToolStripBorder += OverrideSpongeBarBorderPainting;
+			m_prevRenderer = Renderer;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,26 +112,6 @@ namespace SIL.Sponge
 		{
 			using (var br = new LinearGradientBrush(rc, SpongeBarColorBegin, SpongeBarColorEnd, GradientAngle))
 				g.FillRectangle(br, rc);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the lighter color of the gradient sponge bar color.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color SpongeBarColorBegin
-		{
-			get { return ColorHelper.CalculateColor(Color.LightSteelBlue, Color.White, 200); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the darker color of the gradient sponge bar color.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color SpongeBarColorEnd
-		{
-			get { return Color.SteelBlue; }
 		}
 	}
 }

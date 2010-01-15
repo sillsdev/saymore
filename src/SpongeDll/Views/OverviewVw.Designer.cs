@@ -1,3 +1,5 @@
+using SIL.Sponge.Controls;
+
 namespace SIL.Sponge
 {
 	partial class OverviewVw
@@ -33,7 +35,7 @@ namespace SIL.Sponge
 			this.taskTranscribedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.taskSubmittedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.pnlContributor = new SilUtils.Controls.SilPanel();
-			this.tsOverview = new SIL.Sponge.SpongeBar();
+			this.tsOverview = new SpongeBar();
 			this.tsbStatistics = new System.Windows.Forms.ToolStripButton();
 			this.tsbGenre = new System.Windows.Forms.ToolStripButton();
 			this.tsbContributor = new System.Windows.Forms.ToolStripButton();

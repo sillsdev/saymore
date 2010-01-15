@@ -1,3 +1,5 @@
+using SIL.Sponge.Controls;
+
 namespace SIL.Sponge
 {
 	partial class SessionsVw
@@ -28,8 +30,8 @@ namespace SIL.Sponge
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabSessions = new System.Windows.Forms.TabControl();
 			this.tpgDescription = new System.Windows.Forms.TabPage();
 			this.tpgContributors = new System.Windows.Forms.TabPage();
@@ -37,21 +39,26 @@ namespace SIL.Sponge
 			this.tpgFiles = new System.Windows.Forms.TabPage();
 			this.pnlGrid = new SilUtils.Controls.SilPanel();
 			this.gridFiles = new SilUtils.SilGrid();
+			this.iconCol = new System.Windows.Forms.DataGridViewImageColumn();
 			this.filesNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.filesTypeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.filesTagsCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.filesDateCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.filesSizeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.lpEvents = new SIL.Sponge.ListPanel();
+			this.lpSessions = new ListPanel();
+			this.picIcon = new System.Windows.Forms.PictureBox();
+			this.lblFile = new System.Windows.Forms.Label();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
 			this.splitRightSide.Panel1.SuspendLayout();
+			this.splitRightSide.Panel2.SuspendLayout();
 			this.splitRightSide.SuspendLayout();
 			this.tabSessions.SuspendLayout();
 			this.tpgFiles.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridFiles)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// splitOuter
@@ -59,7 +66,7 @@ namespace SIL.Sponge
 			// 
 			// splitOuter.Panel1
 			// 
-			this.splitOuter.Panel1.Controls.Add(this.lpEvents);
+			this.splitOuter.Panel1.Controls.Add(this.lpSessions);
 			this.splitOuter.Panel1MinSize = 165;
 			this.splitOuter.SplitterDistance = 165;
 			// 
@@ -70,6 +77,11 @@ namespace SIL.Sponge
 			// 
 			this.splitRightSide.Panel1.Controls.Add(this.tabSessions);
 			this.splitRightSide.Panel1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
+			// 
+			// splitRightSide.Panel2
+			// 
+			this.splitRightSide.Panel2.Controls.Add(this.lblFile);
+			this.splitRightSide.Panel2.Controls.Add(this.picIcon);
 			this.splitRightSide.Size = new System.Drawing.Size(488, 383);
 			this.splitRightSide.SplitterDistance = 288;
 			// 
@@ -155,22 +167,23 @@ namespace SIL.Sponge
 			this.gridFiles.AllowUserToDeleteRows = false;
 			this.gridFiles.AllowUserToOrderColumns = true;
 			this.gridFiles.AllowUserToResizeRows = false;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-			this.gridFiles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+			this.gridFiles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
 			this.gridFiles.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this.gridFiles.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.gridFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.gridFiles.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
 			this.gridFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.gridFiles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.iconCol,
             this.filesNameCol,
             this.filesTypeCol,
             this.filesTagsCol,
@@ -190,6 +203,15 @@ namespace SIL.Sponge
 			this.gridFiles.Size = new System.Drawing.Size(478, 253);
 			this.gridFiles.TabIndex = 0;
 			this.gridFiles.WaterMark = "!";
+			// 
+			// iconCol
+			// 
+			this.iconCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.iconCol.HeaderText = "";
+			this.iconCol.Name = "iconCol";
+			this.iconCol.ReadOnly = true;
+			this.iconCol.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.iconCol.Width = 5;
 			// 
 			// filesNameCol
 			// 
@@ -216,16 +238,34 @@ namespace SIL.Sponge
 			this.filesSizeCol.HeaderText = "Size";
 			this.filesSizeCol.Name = "filesSizeCol";
 			// 
-			// lpEvents
+			// lpSessions
 			// 
-			this.lpEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lpEvents.Location = new System.Drawing.Point(0, 0);
-			this.lpEvents.MinimumSize = new System.Drawing.Size(165, 0);
-			this.lpEvents.Name = "lpEvents";
-			this.lpEvents.NewItemText = "New Event";
-			this.lpEvents.Size = new System.Drawing.Size(165, 383);
-			this.lpEvents.TabIndex = 0;
-			this.lpEvents.Text = "Events";
+			this.lpSessions.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lpSessions.Location = new System.Drawing.Point(0, 0);
+			this.lpSessions.MinimumSize = new System.Drawing.Size(165, 0);
+			this.lpSessions.Name = "lpSessions";
+			this.lpSessions.NewItemText = "New Session Name";
+			this.lpSessions.Size = new System.Drawing.Size(165, 383);
+			this.lpSessions.TabIndex = 0;
+			this.lpSessions.Text = "Sessions";
+			// 
+			// picIcon
+			// 
+			this.picIcon.Location = new System.Drawing.Point(6, 21);
+			this.picIcon.Name = "picIcon";
+			this.picIcon.Size = new System.Drawing.Size(32, 32);
+			this.picIcon.TabIndex = 1;
+			this.picIcon.TabStop = false;
+			// 
+			// lblFile
+			// 
+			this.lblFile.AutoSize = true;
+			this.lblFile.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblFile.Location = new System.Drawing.Point(6, 4);
+			this.lblFile.Name = "lblFile";
+			this.lblFile.Size = new System.Drawing.Size(14, 13);
+			this.lblFile.TabIndex = 2;
+			this.lblFile.Text = "#";
 			// 
 			// SessionsVw
 			// 
@@ -236,11 +276,14 @@ namespace SIL.Sponge
 			this.splitOuter.Panel2.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
 			this.splitRightSide.Panel1.ResumeLayout(false);
+			this.splitRightSide.Panel2.ResumeLayout(false);
+			this.splitRightSide.Panel2.PerformLayout();
 			this.splitRightSide.ResumeLayout(false);
 			this.tabSessions.ResumeLayout(false);
 			this.tpgFiles.ResumeLayout(false);
 			this.pnlGrid.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.gridFiles)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -254,11 +297,14 @@ namespace SIL.Sponge
 		private System.Windows.Forms.TabPage tpgFiles;
 		private SilUtils.Controls.SilPanel pnlGrid;
 		private SilUtils.SilGrid gridFiles;
+		private ListPanel lpSessions;
+		private System.Windows.Forms.DataGridViewImageColumn iconCol;
 		private System.Windows.Forms.DataGridViewTextBoxColumn filesNameCol;
 		private System.Windows.Forms.DataGridViewTextBoxColumn filesTypeCol;
 		private System.Windows.Forms.DataGridViewTextBoxColumn filesTagsCol;
 		private System.Windows.Forms.DataGridViewTextBoxColumn filesDateCol;
 		private System.Windows.Forms.DataGridViewTextBoxColumn filesSizeCol;
-		private ListPanel lpEvents;
+		private System.Windows.Forms.Label lblFile;
+		private System.Windows.Forms.PictureBox picIcon;
 	}
 }

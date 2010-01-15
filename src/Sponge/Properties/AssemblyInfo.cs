@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SpongeExe")]
+[assembly: AssemblyTitle("Sponge")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jaars, Inc.")]
-[assembly: AssemblyProduct("SpongeExe")]
-[assembly: AssemblyCopyright("Copyright © Jaars, Inc. 2009")]
+[assembly: AssemblyCompany("SIL, Inc.")]
+[assembly: AssemblyProduct("Sponge")]
+[assembly: AssemblyCopyright("Copyright © SIL, Inc. 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.1.*")]
+[assembly: AssemblyFileVersion("0.1")]

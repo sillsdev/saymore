@@ -1,3 +1,5 @@
+using SIL.Sponge.Controls;
+
 namespace SIL.Sponge
 {
 	partial class PeopleVw
@@ -28,7 +30,7 @@ namespace SIL.Sponge
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.lpPeople = new SIL.Sponge.ListPanel();
+			this.lpPeople = new ListPanel();
 			this.tabPeople = new System.Windows.Forms.TabControl();
 			this.tpgAbout = new System.Windows.Forms.TabPage();
 			this.textBox8 = new System.Windows.Forms.TextBox();

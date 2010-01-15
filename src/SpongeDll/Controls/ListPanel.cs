@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace SIL.Sponge
+namespace SIL.Sponge.Controls
 {
 	public partial class ListPanel : UserControl
 	{

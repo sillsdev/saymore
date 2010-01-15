@@ -1,4 +1,6 @@
 using System.Windows.Forms;
+using SIL.Sponge.ConfigTools;
+using SIL.Sponge.Model;
 
 namespace SIL.Sponge
 {
@@ -18,11 +20,22 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the current Sponge project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static SpongeProject CurrentProject { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Initializes a new instance of the <see cref="MainWnd"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public MainWnd()
 		{
+			using (var dlg = new WelcomeDlg())
+				dlg.ShowDialog();
+
+
 			InitializeComponent();
 			SetupViews();
 			m_viewManger.SetView(tsbSetup);

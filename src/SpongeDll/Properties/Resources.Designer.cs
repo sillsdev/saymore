@@ -101,5 +101,19 @@ namespace SIL.Sponge.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap kimidSponge {
+            get {
+                object obj = ResourceManager.GetObject("kimidSponge", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon Sponge {
+            get {
+                object obj = ResourceManager.GetObject("Sponge", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

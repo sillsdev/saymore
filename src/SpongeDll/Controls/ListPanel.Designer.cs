@@ -1,4 +1,6 @@
-namespace SIL.Sponge
+using SilUtils.Controls;
+
+namespace SIL.Sponge.Controls
 {
 	partial class ListPanel
 	{
@@ -33,7 +35,7 @@ namespace SIL.Sponge
 			this.hdrList = new System.Windows.Forms.ColumnHeader();
 			this.btnDelete = new System.Windows.Forms.Button();
 			this.btnNew = new System.Windows.Forms.Button();
-			this.hlblItems = new SIL.Pa.UI.Controls.HeaderLabel();
+			this.hlblItems = new HeaderLabel();
 			this.pnlList.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -136,6 +138,6 @@ namespace SIL.Sponge
 		private System.Windows.Forms.ColumnHeader hdrList;
 		private System.Windows.Forms.Button btnDelete;
 		private System.Windows.Forms.Button btnNew;
-		private SIL.Pa.UI.Controls.HeaderLabel hlblItems;
+		private HeaderLabel hlblItems;
 	}
 }

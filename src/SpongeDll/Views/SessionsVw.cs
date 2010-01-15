@@ -1,5 +1,7 @@
 using System;
 using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 using SilUtils;
 
 namespace SIL.Sponge
@@ -15,7 +17,6 @@ namespace SIL.Sponge
 		{
 			InitializeComponent();
 
-			gridFiles.Rows.Add(10);
 
 			gridFiles.AlternatingRowsDefaultCellStyle.BackColor =
 				ColorHelper.CalculateColor(Color.Black, gridFiles.DefaultCellStyle.BackColor, 10);
@@ -30,6 +31,40 @@ namespace SIL.Sponge
 		private void tabSessions_SizeChanged(object sender, EventArgs e)
 		{
 			tabSessions.Invalidate();
+		}
+
+		private void btnAddFile_Click(object sender, EventArgs e)
+		{
+			using (var dlg = new OpenFileDialog())
+			{
+				dlg.Filter = "All Files (*.*)|*.*";
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
+
+				if (dlg.ShowDialog() == DialogResult.OK)
+					AddFile(dlg.FileName);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds the file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AddFile(string fileName)
+		{
+
+
+
+
+			//object[] cells = new object[gridFiles.ColumnCount];
+			////cells[0] = bm;
+			//cells[0] = IconHelper.GetIconAsBitmapFromFile(fileName);
+			//cells[1] = Path.GetFileName(fileName);
+			//cells[2] = Convert.ToString(shinfo.szTypeName.Trim());
+			//FileInfo fi = new FileInfo(fileName);
+			//cells[4] = fi.LastWriteTime.ToString();
+			//gridFiles.AddRow(cells);
 		}
 	}
 }

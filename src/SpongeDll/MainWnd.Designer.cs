@@ -1,3 +1,5 @@
+using SIL.Sponge.Controls;
+
 namespace SIL.Sponge
 {
 	partial class MainWnd
@@ -15,7 +17,8 @@ namespace SIL.Sponge
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tsMain = new SpongeBar();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWnd));
+			this.tsMain = new SIL.Sponge.Controls.SpongeBar();
 			this.tsbSetup = new System.Windows.Forms.ToolStripButton();
 			this.tsbOverview = new System.Windows.Forms.ToolStripButton();
 			this.tsbSessions = new System.Windows.Forms.ToolStripButton();
@@ -26,6 +29,7 @@ namespace SIL.Sponge
 			// 
 			// tsMain
 			// 
+			this.tsMain.GradientAngle = 0F;
 			this.tsMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsMain.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -104,6 +108,7 @@ namespace SIL.Sponge
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(797, 469);
 			this.Controls.Add(this.tsMain);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainWnd";
 			this.Text = "Sponge";
 			this.tsMain.ResumeLayout(false);

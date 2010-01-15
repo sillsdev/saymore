@@ -21,7 +21,7 @@ using System.Windows.Forms;
 using SilUtils;
 using SilUtils.Controls;
 
-namespace SIL.Sponge
+namespace SIL.Sponge.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

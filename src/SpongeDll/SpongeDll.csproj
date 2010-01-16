@@ -203,6 +203,18 @@
   <ItemGroup>
     <None Include="Resources\Sponge.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewProject.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SpongeText.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SpongeSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BrowseForProject.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -39,18 +39,20 @@ namespace SIL.Sponge.ConfigTools
 			this.welcomeControl1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 			this.welcomeControl1.Location = new System.Drawing.Point(0, 0);
 			this.welcomeControl1.Name = "welcomeControl1";
-			this.welcomeControl1.Size = new System.Drawing.Size(598, 402);
+			this.welcomeControl1.Size = new System.Drawing.Size(442, 342);
 			this.welcomeControl1.TabIndex = 0;
 			// 
 			// WelcomeDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(598, 402);
+			this.ClientSize = new System.Drawing.Size(442, 342);
 			this.Controls.Add(this.welcomeControl1);
+			this.DoubleBuffered = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(450, 375);
 			this.Name = "WelcomeDlg";
 			this.Text = "Sponge";
 			this.ResumeLayout(false);

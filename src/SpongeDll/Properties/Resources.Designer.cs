@@ -60,6 +60,20 @@ namespace SIL.Sponge.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidBrowseForProject {
+            get {
+                object obj = ResourceManager.GetObject("kimidBrowseForProject", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidNewProject {
+            get {
+                object obj = ResourceManager.GetObject("kimidNewProject", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidNoPhoto {
             get {
                 object obj = ResourceManager.GetObject("kimidNoPhoto", resourceCulture);
@@ -105,6 +119,20 @@ namespace SIL.Sponge.Properties {
         internal static System.Drawing.Bitmap kimidSponge {
             get {
                 object obj = ResourceManager.GetObject("kimidSponge", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidSpongeSmall {
+            get {
+                object obj = ResourceManager.GetObject("kimidSpongeSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidSpongeText {
+            get {
+                object obj = ResourceManager.GetObject("kimidSpongeText", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

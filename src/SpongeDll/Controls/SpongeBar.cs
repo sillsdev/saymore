@@ -30,18 +30,32 @@ namespace SIL.Sponge.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class SpongeBar : ToolStrip
 	{
+		public static Color DefaultSpongeBarColorBegin =
+			ColorHelper.CalculateColor(Color.LightSteelBlue, Color.White, 200);
+
+		public static Color DefaultSpongeBarColorEnd = Color.SteelBlue;
+
 		private ToolStripRenderer m_prevRenderer;
-		public float GradientAngle { get; set; }
+		private Color m_clrBegin = DefaultSpongeBarColorBegin;
+		private Color m_clrEnd = DefaultSpongeBarColorEnd;
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the gradient angle.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public float GradientAngle { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the lighter color of the gradient sponge bar color.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Color SpongeBarColorBegin
+		public Color BackColorBegin
 		{
-			get { return ColorHelper.CalculateColor(Color.LightSteelBlue, Color.White, 200); }
+			get { return m_clrBegin; }
+			set { m_clrBegin = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -49,9 +63,10 @@ namespace SIL.Sponge.Controls
 		/// Gets the darker color of the gradient sponge bar color.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Color SpongeBarColorEnd
+		public Color BackColorEnd
 		{
-			get { return Color.SteelBlue; }
+			get { return m_clrEnd; }
+			set { m_clrEnd = value; }
 		}
 
 		#endregion
@@ -99,7 +114,7 @@ namespace SIL.Sponge.Controls
 			// Paint over a couple of pixels at the left edge.
 			rc = e.ToolStrip.ClientRectangle;
 			rc.Width = 2;
-			using (var br = new SolidBrush(SpongeBarColorBegin))
+			using (var br = new SolidBrush(BackColorBegin))
 				e.Graphics.FillRectangle(br, rc);
 		}
 
@@ -110,7 +125,7 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public void PaintSpongeBarBackground(Graphics g, Rectangle rc)
 		{
-			using (var br = new LinearGradientBrush(rc, SpongeBarColorBegin, SpongeBarColorEnd, GradientAngle))
+			using (var br = new LinearGradientBrush(rc, BackColorBegin, BackColorEnd, GradientAngle))
 				g.FillRectangle(br, rc);
 		}
 	}

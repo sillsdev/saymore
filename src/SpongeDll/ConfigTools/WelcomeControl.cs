@@ -17,7 +17,6 @@ namespace SIL.Sponge.ConfigTools
 	public partial class WelcomeControl : UserControl
 	{
 		public event EventHandler NewProjectClicked;
-		public event EventHandler NewProjectFromFlexClicked;
 		public Action<string> OpenSpecifiedProject;
 		public event EventHandler ChooseProjectClicked;
 
@@ -37,6 +36,11 @@ namespace SIL.Sponge.ConfigTools
 			DateTime bldDate = new DateTime(2000, 1, 1).AddDays(ver.Build);
 			lblVersionInfo.Text = "Version " + ver.Major + "." + ver.Minor + "." +
 				ver.Revision + "    Built on " + bldDate.ToString("dd-MMM-yyyy");
+
+			LoadButtons();
+
+			tsOptions.BackColorBegin = Color.White;
+			tsOptions.BackColorEnd = Color.White;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -145,9 +149,6 @@ namespace SIL.Sponge.ConfigTools
 
 			AddChoice("Create new blank project", string.Empty, "newProject", true,
 				createNewProject_LinkClicked, panel);
-
-			AddChoice("Create new project from FLEx LIFT export", string.Empty, "flex", true,
-				OnCreateProjectFromFLEx_LinkClicked, panel);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -158,11 +159,11 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		private void AddGetChoices(TableLayoutPanel panel)
 		{
-			AddSection("Get", panel);
-			//nb: we want these always enabled, so that we can give a message explaining about hg if needed
-			AddChoice("Get From USB drive", "Get a project from a Chorus repository on a USB flash drive", "getFromUsb", true, OnGetFromUsb, panel);
-			AddChoice("Get from Internet", "Get a project from a Chorus repository which is hosted on the internet (e.g. public.languagedepot.org) and put it on this computer",
-			"getFromInternet", true, OnGetFromInternet, panel);
+			//AddSection("Get", panel);
+			////nb: we want these always enabled, so that we can give a message explaining about hg if needed
+			//AddChoice("Get From USB drive", "Get a project from a Chorus repository on a USB flash drive", "getFromUsb", true, OnGetFromUsb, panel);
+			//AddChoice("Get from Internet", "Get a project from a Chorus repository which is hosted on the internet (e.g. public.languagedepot.org) and put it on this computer",
+			//"getFromInternet", true, OnGetFromInternet, panel);
 		}
 
 		private void OnGetFromInternet(object sender, EventArgs e)
@@ -249,22 +250,6 @@ namespace SIL.Sponge.ConfigTools
 				NewProjectClicked.Invoke(this, null);
 		}
 
-		private void WelcomeControl_Load(object sender, EventArgs e)
-		{
-			LoadButtons();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Called when [create project from FL ex_ link clicked].
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void OnCreateProjectFromFLEx_LinkClicked(object sender, EventArgs e)
-		{
-			if (NewProjectFromFlexClicked != null)
-				NewProjectFromFlexClicked.Invoke(this, null);
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Handles painting some stuff.
@@ -277,26 +262,36 @@ namespace SIL.Sponge.ConfigTools
 			var rc = new Rectangle(0, 0, ClientSize.Width, 45);
 
 			// Draw the gradient blue bar.
-			using (var br = new LinearGradientBrush(rc, SpongeBar.SpongeBarColorBegin,
-				SpongeBar.SpongeBarColorEnd, 0.0))
+			using (var br = new LinearGradientBrush(rc, SpongeBar.DefaultSpongeBarColorBegin,
+				SpongeBar.DefaultSpongeBarColorEnd, 0.0))
 			{
 				e.Graphics.FillRectangle(br, rc);
 			}
 
 			// Draw a line at the bottom of the gradient blue bar.
-			using (var pen = new Pen(SpongeBar.SpongeBarColorEnd))
+			using (var pen = new Pen(SpongeBar.DefaultSpongeBarColorEnd))
 				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
 
 			// Draw the sponge text, half in the blue bar and half below.
-			using (var fnt = new Font(lblSubTitle.Font.FontFamily, 28, FontStyle.Bold))
-			{
-				TextRenderer.DrawText(e.Graphics, "Sponge", fnt,
-					new Point(lblSubTitle.Left - 6, 16), lblSubTitle.ForeColor);
-			}
+			//using (var fnt = new Font(lblSubTitle.Font.FontFamily, 28, FontStyle.Bold))
+			//{
+			//    TextRenderer.DrawText(e.Graphics, "Sponge", fnt,
+			//        new Point(lblSubTitle.Left - 6, 16), lblSubTitle.ForeColor);
+			//}
+
+			rc = new Rectangle(new Point(lblSubTitle.Left - 6, 4),
+				Properties.Resources.kimidSpongeText.Size);
+			rc.Inflate(-4, -4);
+			e.Graphics.DrawImage(Properties.Resources.kimidSpongeText, rc);
 
 			// Draw the Sponge logo image.
-			rc = new Rectangle(flwPanel.Left, 22, 80, 80);
+			rc = new Rectangle(pnlOptions.Left, 16, 80, 80);
 			e.Graphics.DrawImage(Properties.Resources.kimidSponge, rc);
+		}
+
+		private void tsOptions_Paint(object sender, PaintEventArgs e)
+		{
+
 		}
 	}
 }

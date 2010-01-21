@@ -1,5 +1,9 @@
 using System;
 using System.Windows.Forms;
+using SIL.Sponge.ConfigTools;
+using SIL.Sponge.Model;
+using SilUtils;
+
 //using Palaso.Reporting;
 
 namespace SIL.Sponge
@@ -18,9 +22,21 @@ namespace SIL.Sponge
 			//ErrorReport.AddStandardProperties();
 			//ExceptionHandler.Init();
 
+			PortableSettingsProvider.SettingsFilePath = SpongeProject.MainProjectsFolder;
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainWnd());
+
+			string prj = null;
+
+			using (var dlg = new WelcomeDlg())
+			{
+				if (dlg.ShowDialog() == DialogResult.OK)
+					prj = string.Empty;
+			}
+
+			if (!string.IsNullOrEmpty(prj))
+				Application.Run(new MainWnd());
 		}
 	}
 }

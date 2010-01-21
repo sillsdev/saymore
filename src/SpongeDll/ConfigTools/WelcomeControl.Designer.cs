@@ -35,8 +35,6 @@ namespace SIL.Sponge.ConfigTools
 			this._imageList = new System.Windows.Forms.ImageList(this.components);
 			this._debounceListIndexChangedEvent = new System.Windows.Forms.Timer(this.components);
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.lblTemplate = new System.Windows.Forms.Label();
-			this.flwPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.lblSubTitle = new System.Windows.Forms.Label();
 			this.lblVersionInfo = new System.Windows.Forms.Label();
 			this.lblProdInfo1 = new System.Windows.Forms.Label();
@@ -50,11 +48,8 @@ namespace SIL.Sponge.ConfigTools
 			this.tsbCreate = new System.Windows.Forms.ToolStripButton();
 			this.tslblOpen = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbMru1 = new System.Windows.Forms.ToolStripButton();
-			this.tsbMru2 = new System.Windows.Forms.ToolStripButton();
-			this.tsbMru3 = new System.Windows.Forms.ToolStripButton();
+			this.tsbMru0 = new System.Windows.Forms.ToolStripButton();
 			this.tsbBrowse = new System.Windows.Forms.ToolStripButton();
-			this.btnTemplate = new System.Windows.Forms.Button();
 			this.pnlOptions.SuspendLayout();
 			this.tsOptions.SuspendLayout();
 			this.SuspendLayout();
@@ -74,34 +69,11 @@ namespace SIL.Sponge.ConfigTools
 			// 
 			this.toolTip1.AutomaticDelay = 300;
 			// 
-			// lblTemplate
-			// 
-			this.lblTemplate.AutoSize = true;
-			this.lblTemplate.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblTemplate.ForeColor = System.Drawing.Color.DarkOliveGreen;
-			this.lblTemplate.Location = new System.Drawing.Point(445, 9);
-			this.lblTemplate.Name = "lblTemplate";
-			this.lblTemplate.Size = new System.Drawing.Size(116, 20);
-			this.lblTemplate.TabIndex = 7;
-			this.lblTemplate.Text = "Template Label";
-			this.lblTemplate.Visible = false;
-			// 
-			// flwPanel
-			// 
-			this.flwPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.flwPanel.BackColor = System.Drawing.Color.DarkGray;
-			this.flwPanel.Location = new System.Drawing.Point(360, 9);
-			this.flwPanel.Name = "flwPanel";
-			this.flwPanel.Size = new System.Drawing.Size(77, 45);
-			this.flwPanel.TabIndex = 8;
-			// 
 			// lblSubTitle
 			// 
 			this.lblSubTitle.AutoSize = true;
 			this.lblSubTitle.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblSubTitle.Location = new System.Drawing.Point(113, 67);
+			this.lblSubTitle.Location = new System.Drawing.Point(141, 68);
 			this.lblSubTitle.Name = "lblSubTitle";
 			this.lblSubTitle.Size = new System.Drawing.Size(300, 17);
 			this.lblSubTitle.TabIndex = 9;
@@ -191,9 +163,7 @@ namespace SIL.Sponge.ConfigTools
             this.tsbCreate,
             this.tslblOpen,
             this.toolStripSeparator2,
-            this.tsbMru1,
-            this.tsbMru2,
-            this.tsbMru3,
+            this.tsbMru0,
             this.tsbBrowse});
 			this.tsOptions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.tsOptions.Location = new System.Drawing.Point(0, 0);
@@ -228,6 +198,7 @@ namespace SIL.Sponge.ConfigTools
 			this.tsbCreate.Size = new System.Drawing.Size(532, 21);
 			this.tsbCreate.Text = "Create new blank project...";
 			this.tsbCreate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.tsbCreate.Click += new System.EventHandler(this.tsbCreate_Click);
 			// 
 			// tslblOpen
 			// 
@@ -243,41 +214,18 @@ namespace SIL.Sponge.ConfigTools
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(540, 6);
 			// 
-			// tsbMru1
+			// tsbMru0
 			// 
-			this.tsbMru1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tsbMru1.Image = global::SIL.Sponge.Properties.Resources.kimidSpongeSmall;
-			this.tsbMru1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.tsbMru1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbMru1.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
-			this.tsbMru1.Name = "tsbMru1";
-			this.tsbMru1.Size = new System.Drawing.Size(532, 21);
-			this.tsbMru1.Text = "#";
-			this.tsbMru1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// tsbMru2
-			// 
-			this.tsbMru2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tsbMru2.Image = global::SIL.Sponge.Properties.Resources.kimidSpongeSmall;
-			this.tsbMru2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.tsbMru2.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbMru2.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
-			this.tsbMru2.Name = "tsbMru2";
-			this.tsbMru2.Size = new System.Drawing.Size(532, 21);
-			this.tsbMru2.Text = "#";
-			this.tsbMru2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// tsbMru3
-			// 
-			this.tsbMru3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tsbMru3.Image = global::SIL.Sponge.Properties.Resources.kimidSpongeSmall;
-			this.tsbMru3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.tsbMru3.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbMru3.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
-			this.tsbMru3.Name = "tsbMru3";
-			this.tsbMru3.Size = new System.Drawing.Size(532, 21);
-			this.tsbMru3.Text = "#";
-			this.tsbMru3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.tsbMru0.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.tsbMru0.Image = global::SIL.Sponge.Properties.Resources.kimidSpongeSmall;
+			this.tsbMru0.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.tsbMru0.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbMru0.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
+			this.tsbMru0.Name = "tsbMru0";
+			this.tsbMru0.Size = new System.Drawing.Size(532, 21);
+			this.tsbMru0.Text = "#";
+			this.tsbMru0.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.tsbMru0.Click += new System.EventHandler(this.tsbMruItem_Click);
 			// 
 			// tsbBrowse
 			// 
@@ -290,27 +238,7 @@ namespace SIL.Sponge.ConfigTools
 			this.tsbBrowse.Size = new System.Drawing.Size(532, 21);
 			this.tsbBrowse.Text = "Browse for project...";
 			this.tsbBrowse.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// btnTemplate
-			// 
-			this.btnTemplate.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			this.btnTemplate.FlatAppearance.BorderSize = 0;
-			this.btnTemplate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.CornflowerBlue;
-			this.btnTemplate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-			this.btnTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnTemplate.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnTemplate.ImageKey = "wesayProject";
-			this.btnTemplate.ImageList = this._imageList;
-			this.btnTemplate.Location = new System.Drawing.Point(3, 9);
-			this.btnTemplate.Name = "btnTemplate";
-			this.btnTemplate.Size = new System.Drawing.Size(351, 26);
-			this.btnTemplate.TabIndex = 6;
-			this.btnTemplate.Text = "   templateButton";
-			this.btnTemplate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnTemplate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.btnTemplate.UseVisualStyleBackColor = true;
-			this.btnTemplate.Visible = false;
+			this.tsbBrowse.Click += new System.EventHandler(this.tsbBrowse_Click);
 			// 
 			// WelcomeControl
 			// 
@@ -322,9 +250,6 @@ namespace SIL.Sponge.ConfigTools
 			this.Controls.Add(this.lblProdInfo1);
 			this.Controls.Add(this.lblVersionInfo);
 			this.Controls.Add(this.lblSubTitle);
-			this.Controls.Add(this.flwPanel);
-			this.Controls.Add(this.lblTemplate);
-			this.Controls.Add(this.btnTemplate);
 			this.Controls.Add(this.lblProdInfo2);
 			this.Controls.Add(this.pnlOptions);
 			this.Name = "WelcomeControl";
@@ -341,10 +266,7 @@ namespace SIL.Sponge.ConfigTools
 
 		private System.Windows.Forms.ImageList _imageList;
         private System.Windows.Forms.Timer _debounceListIndexChangedEvent;
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button btnTemplate;
-        private System.Windows.Forms.Label lblTemplate;
-		private System.Windows.Forms.FlowLayoutPanel flwPanel;
+		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.Label lblSubTitle;
 		private System.Windows.Forms.Label lblVersionInfo;
 		private System.Windows.Forms.Label lblProdInfo1;
@@ -358,9 +280,7 @@ namespace SIL.Sponge.ConfigTools
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripLabel tslblOpen;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		private System.Windows.Forms.ToolStripButton tsbMru1;
-		private System.Windows.Forms.ToolStripButton tsbMru2;
-		private System.Windows.Forms.ToolStripButton tsbMru3;
+		private System.Windows.Forms.ToolStripButton tsbMru0;
 		private System.Windows.Forms.ToolStripButton tsbBrowse;
 
     }

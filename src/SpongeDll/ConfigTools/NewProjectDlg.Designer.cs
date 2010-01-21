@@ -38,10 +38,10 @@ namespace SIL.Sponge.ConfigTools
 			// lblMsg
 			// 
 			this.lblMsg.AutoSize = true;
-			this.lblMsg.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblMsg.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblMsg.Location = new System.Drawing.Point(12, 23);
 			this.lblMsg.Name = "lblMsg";
-			this.lblMsg.Size = new System.Drawing.Size(227, 15);
+			this.lblMsg.Size = new System.Drawing.Size(258, 17);
 			this.lblMsg.TabIndex = 0;
 			this.lblMsg.Text = "What would you like to call this project?";
 			// 
@@ -104,6 +104,7 @@ namespace SIL.Sponge.ConfigTools
 			this.Name = "NewProjectDlg";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "New Sponge Project";
 			this.ResumeLayout(false);
 			this.PerformLayout();

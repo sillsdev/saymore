@@ -32,10 +32,6 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public MainWnd()
 		{
-			using (var dlg = new WelcomeDlg())
-				dlg.ShowDialog();
-
-
 			InitializeComponent();
 			SetupViews();
 			m_viewManger.SetView(tsbSetup);

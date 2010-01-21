@@ -34,11 +34,11 @@ namespace SIL.Sponge.Model
 		/// Creates a new project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static SpongeProject Create()
+		public static SpongeProject Create(IWin32Window parent)
 		{
 			using (var dlg = new NewProjectDlg())
 			{
-				return (dlg.ShowDialog() == DialogResult.OK ?
+				return (dlg.ShowDialog(parent) == DialogResult.OK ?
 					Create(dlg.PathOfNewProject) : null);
 			}
 		}

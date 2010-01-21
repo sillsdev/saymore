@@ -17,7 +17,6 @@ namespace SIL.Sponge
 		{
 			InitializeComponent();
 
-
 			gridFiles.AlternatingRowsDefaultCellStyle.BackColor =
 				ColorHelper.CalculateColor(Color.Black, gridFiles.DefaultCellStyle.BackColor, 10);
 		}

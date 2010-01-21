@@ -136,9 +136,6 @@
   <data name="kimidSetup" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Setup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidSponge" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sponge.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Sponge" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Sponge.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -147,6 +144,9 @@
   </data>
   <data name="kimidBrowseForProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BrowseForProject.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSponge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sponge.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidSpongeSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SpongeSmall.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

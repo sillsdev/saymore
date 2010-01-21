@@ -1,7 +1,9 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SIL.Sponge.Model;
+using SIL.Sponge.Properties;
 
 namespace SIL.Sponge.ConfigTools
 {

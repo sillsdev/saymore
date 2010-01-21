@@ -40,6 +40,7 @@
       <HintPath>..\..\lib\common\SilUtils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -62,12 +63,6 @@
     <Compile Include="ConfigTools\NewProjectDlg.Designer.cs">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfigTools\WelcomeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ConfigTools\WelcomeControl.designer.cs">
-      <DependentUpon>WelcomeControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="ConfigTools\WelcomeDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +75,12 @@
     <Compile Include="Model\SessionFile.cs" />
     <Compile Include="Model\SpongeProject.cs" />
     <Compile Include="Model\Tag.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Utilities\IconHelper.cs" />
     <Compile Include="ViewButtonManager.cs" />
     <Compile Include="Views\BaseSplitVw.cs">
@@ -144,9 +145,6 @@
     <EmbeddedResource Include="ConfigTools\NewProjectDlg.resx">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfigTools\WelcomeControl.resx">
-      <DependentUpon>WelcomeControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ConfigTools\WelcomeDlg.resx">
       <DependentUpon>WelcomeDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -198,9 +196,6 @@
     <None Include="Resources\NoPhotoSilhouette.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Sponge.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Sponge.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +210,14 @@
   <ItemGroup>
     <None Include="Resources\BrowseForProject.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\sponge.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -224,6 +227,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>copy $(ProjectDir)..\..\DistFiles\Sponge.Values.xml $(OutDir)</PreBuildEvent>
+    <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\Sponge.Values.xml" "$(OutDir)"
+if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"</PreBuildEvent>
   </PropertyGroup>
 </Project>

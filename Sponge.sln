@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sponge", "src\SpongeDll\Sponge.csproj", "{D1715E95-B418-4A4E-924A-93B771E4072B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sponge", "src\Sponge\Sponge.csproj", "{D1715E95-B418-4A4E-924A-93B771E4072B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpongeTests", "src\SpongeTests\SpongeTests.csproj", "{8769F2A3-6C9B-4272-A668-F98BDBB90647}"
 EndProject

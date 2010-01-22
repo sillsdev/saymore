@@ -15,7 +15,7 @@ namespace SIL.Sponge.ConfigTools
 	{
 		public const int MaxMRUListSize = 4;
 
-		private static readonly List<string> s_paths = new List<string>(/*MaxMRUListSize*/);
+		private static readonly List<string> s_paths = new List<string>(MaxMRUListSize);
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -35,11 +35,7 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		public static string[] Paths
 		{
-			get
-			{
-				RemoveStalePaths();
-				return s_paths.ToArray();
-			}
+			get { return s_paths.ToArray(); }
 			set { LoadList(value); }
 		}
 
@@ -57,15 +53,16 @@ namespace SIL.Sponge.ConfigTools
 			int i = 0;
 			foreach (object val in values)
 			{
+				string path = val as string;
+				if (path == null || !Directory.Exists(path))
+					continue;
+
 				if (i++ == MaxMRUListSize)
 					break;
 
-				string path = val as string;
-				if (path != null && !s_paths.Contains(path))
+				if (!s_paths.Contains(path))
 					s_paths.Add(path);
 			}
-
-			RemoveStalePaths();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -75,7 +72,7 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		public static string Latest
 		{
-			get { return (s_paths.Count == 0 ? null : s_paths[s_paths.Count - 1]); }
+			get { return (s_paths.Count == 0 ? null : s_paths[0]); }
 		}
 
 		/// ------------------------------------------------------------------------------------

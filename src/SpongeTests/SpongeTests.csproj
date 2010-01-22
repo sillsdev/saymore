@@ -40,6 +40,7 @@
       <HintPath>..\..\lib\common\SilUtils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -53,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigToolsTests\MruProjectsTests.cs" />
     <Compile Include="ModelTests\SpongeProjectTests.cs" />
     <Compile Include="ModelTests\TagTests.cs" />
     <Compile Include="PretendTests.cs" />

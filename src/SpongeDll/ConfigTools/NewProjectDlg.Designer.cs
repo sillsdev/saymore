@@ -71,9 +71,10 @@ namespace SIL.Sponge.ConfigTools
 			// 
 			this.txtProjectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtProjectName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtProjectName.Location = new System.Drawing.Point(12, 48);
 			this.txtProjectName.Name = "txtProjectName";
-			this.txtProjectName.Size = new System.Drawing.Size(335, 20);
+			this.txtProjectName.Size = new System.Drawing.Size(335, 21);
 			this.txtProjectName.TabIndex = 1;
 			this.txtProjectName.TextChanged += new System.EventHandler(this.txtProjectName_TextChanged);
 			// 
@@ -81,9 +82,9 @@ namespace SIL.Sponge.ConfigTools
 			// 
 			this.lblPath.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblPath.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-			this.lblPath.Location = new System.Drawing.Point(12, 71);
+			this.lblPath.Location = new System.Drawing.Point(12, 73);
 			this.lblPath.Name = "lblPath";
-			this.lblPath.Size = new System.Drawing.Size(335, 44);
+			this.lblPath.Size = new System.Drawing.Size(335, 42);
 			this.lblPath.TabIndex = 2;
 			this.lblPath.Text = "#";
 			// 

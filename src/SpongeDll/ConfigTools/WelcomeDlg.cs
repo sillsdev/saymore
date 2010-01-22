@@ -122,7 +122,7 @@ namespace SIL.Sponge.ConfigTools
 		/// Browse for an existing project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tsbBrowse_Click(object sender, System.EventArgs e)
+		private void tsbBrowse_Click(object sender, EventArgs e)
 		{
 			DialogResult = DialogResult.OK;
 		}
@@ -132,7 +132,7 @@ namespace SIL.Sponge.ConfigTools
 		/// Create a new project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tsbCreate_Click(object sender, System.EventArgs e)
+		private void tsbCreate_Click(object sender, EventArgs e)
 		{
 			SpongeProject = SpongeProject.Create(this);
 			if (SpongeProject != null)
@@ -149,7 +149,7 @@ namespace SIL.Sponge.ConfigTools
 		/// Load one of the MRU projects.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tsbMru_Click(object sender, System.EventArgs e)
+		private void tsbMru_Click(object sender, EventArgs e)
 		{
 			DialogResult = DialogResult.OK;
 			Close();
@@ -199,7 +199,5 @@ namespace SIL.Sponge.ConfigTools
 			rc.Inflate(-8, -8);
 			e.Graphics.DrawImage(Resources.kimidSponge, rc);
 		}
-
-
 	}
 }

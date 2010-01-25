@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.Model;
 
 namespace SIL.Sponge.ConfigTools
@@ -12,6 +13,8 @@ namespace SIL.Sponge.ConfigTools
 	/// ----------------------------------------------------------------------------------------
 	public partial class NewProjectDlg : Form
 	{
+		private string m_fmtLocation;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NewProjectDlg"/> class.
@@ -21,6 +24,7 @@ namespace SIL.Sponge.ConfigTools
 		{
 			InitializeComponent();
 			btnOK.Enabled = false;
+			m_fmtLocation = lblPath.Text;
 			lblPath.Text = string.Empty;
 		}
 
@@ -38,16 +42,19 @@ namespace SIL.Sponge.ConfigTools
 				if (dirs.Length > 1)
 				{
 					string root = Path.Combine(dirs[dirs.Length - 3], dirs[dirs.Length - 2]);
-					lblPath.Text = string.Format("Project will be created in: {0}",
-					Path.Combine(root, dirs[dirs.Length - 1]));
+					root = Path.Combine(root, dirs[dirs.Length - 1]);
+					lblPath.Text = string.Format(m_fmtLocation, root);
 				}
 
 				lblPath.Invalidate();
 			}
 			else
 			{
-				lblPath.Text = (txtProjectName.Text.Length > 0 ?
-					"Unable to create a new project there." : string.Empty);
+				var msg = LocalizationManager.LocalizeString("NewProjectDlg.InvalidLocationMsg",
+					"Unable to create a new project there.", null, "Dialog Boxes",
+					LocalizationCategory.Label, LocalizationPriority.High);
+
+				lblPath.Text = (txtProjectName.Text.Length > 0 ? msg : string.Empty);
 			}
 		}
 
@@ -73,7 +80,7 @@ namespace SIL.Sponge.ConfigTools
 				if (txtProjectName.Text.IndexOfAny(Path.GetInvalidFileNameChars()) > -1)
 					return false;
 
-				var path = Path.Combine(SpongeProject.MainProjectsFolder, NewProjectName);
+				var path = Path.Combine(SpongeProject.ProjectsFolder, NewProjectName);
 
 				if (Directory.Exists(path) || File.Exists(path))
 					return false;

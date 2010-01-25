@@ -35,7 +35,7 @@ namespace SIL.Sponge.Controls
 			this.hdrList = new System.Windows.Forms.ColumnHeader();
 			this.btnDelete = new System.Windows.Forms.Button();
 			this.btnNew = new System.Windows.Forms.Button();
-			this.hlblItems = new HeaderLabel();
+			this.hlblItems = new SilUtils.Controls.HeaderLabel();
 			this.pnlList.SuspendLayout();
 			this.SuspendLayout();
 			// 

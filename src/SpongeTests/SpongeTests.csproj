@@ -57,7 +57,6 @@
     <Compile Include="ConfigToolsTests\MruProjectsTests.cs" />
     <Compile Include="ModelTests\SpongeProjectTests.cs" />
     <Compile Include="ModelTests\TagTests.cs" />
-    <Compile Include="PretendTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

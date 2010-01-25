@@ -77,7 +77,7 @@ namespace SIL.Sponge.Model
 		{
 			var prj = new SpongeProject();
 			prj.ProjectName = prjName;
-			prj.ProjectPath = Path.Combine(MainProjectsFolder, prjName);
+			prj.ProjectPath = Path.Combine(ProjectsFolder, prjName);
 			prj.ProjectFileName = prjName.Replace(" ", string.Empty) + ".sprj";
 
 			Directory.CreateDirectory(prj.ProjectPath);
@@ -91,13 +91,9 @@ namespace SIL.Sponge.Model
 		/// Gets the parent folder for all project folders.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string MainProjectsFolder
+		public static string ProjectsFolder
 		{
-			get
-			{
-				return Path.Combine(Environment.GetFolderPath(
-					Environment.SpecialFolder.MyDocuments), "Sponge");
-			}
+			get { return Path.Combine(SpongeRunner.MainAppSettingsFolder, "Projects"); }
 		}
 
 		#endregion

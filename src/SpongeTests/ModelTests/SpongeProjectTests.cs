@@ -92,7 +92,7 @@ namespace SIL.Sponge.Model
 		private static void VerifyProject(SpongeProject prj, string expectedPrjName)
 		{
 			Assert.IsNotNull(prj);
-			var expectedPath = Path.Combine(SpongeProject.MainProjectsFolder, expectedPrjName);
+			var expectedPath = Path.Combine(SpongeProject.ProjectsFolder, expectedPrjName);
 			Assert.AreEqual(expectedPath, prj.ProjectPath);
 			Assert.IsTrue(Directory.Exists(prj.ProjectPath));
 

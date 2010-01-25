@@ -4,6 +4,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.Controls;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
@@ -129,7 +130,33 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		private void tsbBrowse_Click(object sender, EventArgs e)
 		{
+			var caption = LocalizationManager.LocalizeString("WelcomeDlg.OpenPrjCaption",
+				"Open Sponge Project", null, "Dialog Boxes", LocalizationCategory.WindowOrDialog,
+				LocalizationPriority.MediumHigh);
+
+			var prjFilterText = LocalizationManager.LocalizeString("WelcomeDlg.SpongePrjFileType",
+				"Sponge Project (*.sprj)", null, "Dialog Boxes", LocalizationCategory.WindowOrDialog,
+				LocalizationPriority.MediumHigh);
+
+			var allFileFilterText = LocalizationManager.LocalizeString("WelcomeDlg.AllFileType",
+				"All Files (*.*)", null, "Dialog Boxes", LocalizationCategory.WindowOrDialog,
+				LocalizationPriority.MediumHigh);
+
+			using (var dlg = new OpenFileDialog())
+			{
+				dlg.Title = caption;
+				dlg.Filter = prjFilterText + "|*.sprj|" + allFileFilterText + "|*.*";
+				dlg.InitialDirectory = SpongeProject.ProjectsFolder;
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
+				if (dlg.ShowDialog(this) == DialogResult.Cancel)
+					return;
+
+				SpongeProject = SpongeProject.Load(dlg.FileName);
+			}
+
 			DialogResult = DialogResult.OK;
+			Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -156,6 +183,12 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		private void tsbMru_Click(object sender, EventArgs e)
 		{
+			var tsb = sender as ToolStripButton;
+			if (tsb == null)
+				return;
+
+			// The full path to the project file is in the tooltip of the button.
+			SpongeProject = SpongeProject.Load(tsb.ToolTipText);
 			DialogResult = DialogResult.OK;
 			Close();
 		}

@@ -247,7 +247,7 @@
     <value>2</value>
   </data>
   <data name="lblPath.Text" xml:space="preserve">
-    <value>#</value>
+    <value>Project will be created in: {0}</value>
   </data>
   <data name="&gt;&gt;lblPath.Name" xml:space="preserve">
     <value>lblPath</value>

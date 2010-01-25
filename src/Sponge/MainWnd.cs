@@ -1,6 +1,8 @@
+using System.Drawing;
 using System.Windows.Forms;
 using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Model;
+using SIL.Sponge.Properties;
 
 namespace SIL.Sponge
 {
@@ -33,8 +35,22 @@ namespace SIL.Sponge
 		public MainWnd()
 		{
 			InitializeComponent();
+
+			if (Settings.Default.MainWndSize.IsEmpty && Settings.Default.MainWndLocation.IsEmpty)
+				StartPosition = FormStartPosition.CenterScreen;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MainWnd"/> class.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public MainWnd(SpongeProject prj) : this()
+		{
+			CurrentProject = prj;
 			SetupViews();
 			m_viewManger.SetView(tsbSetup);
+			Text = string.Format(Text, prj.ProjectName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,6 +87,36 @@ namespace SIL.Sponge
 			}
 
 			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Form.Shown"/> event.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(System.EventArgs e)
+		{
+			base.OnShown(e);
+
+			if (!Settings.Default.MainWndSize.IsEmpty && !Settings.Default.MainWndLocation.IsEmpty)
+			{
+				// It works better to set these values here rather than in the constructor.
+				Size = Settings.Default.MainWndSize;
+				Location = Settings.Default.MainWndLocation;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Form.FormClosing"/> event.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnFormClosing(FormClosingEventArgs e)
+		{
+			base.OnFormClosing(e);
+			Settings.Default.MainWndSize = Size;
+			Settings.Default.MainWndLocation = Location;
+			Settings.Default.Save();
 		}
 	}
 }

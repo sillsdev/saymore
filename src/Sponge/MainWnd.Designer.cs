@@ -49,7 +49,7 @@ namespace SIL.Sponge
 			this.tsMain.Location = new System.Drawing.Point(0, 0);
 			this.tsMain.Name = "tsMain";
 			this.tsMain.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.tsMain.Size = new System.Drawing.Size(797, 70);
+			this.tsMain.Size = new System.Drawing.Size(697, 70);
 			this.tsMain.TabIndex = 0;
 			this.tsMain.Text = "toolStrip1";
 			// 
@@ -133,14 +133,15 @@ namespace SIL.Sponge
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(797, 469);
+			this.ClientSize = new System.Drawing.Size(697, 469);
 			this.Controls.Add(this.tsMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "MainWnd.WindowTitle");
+			this.MinimumSize = new System.Drawing.Size(600, 450);
 			this.Name = "MainWnd";
-			this.Text = "Sponge";
+			this.Text = "{0} - Sponge";
 			this.tsMain.ResumeLayout(false);
 			this.tsMain.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

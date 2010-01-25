@@ -17,7 +17,7 @@ namespace SIL.Sponge
 	///
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	static class Program
+	static class SpongeRunner
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -33,26 +33,46 @@ namespace SIL.Sponge
 			//ErrorReport.AddStandardProperties();
 			//ExceptionHandler.Init();
 
-			PortableSettingsProvider.SettingsFilePath = SpongeProject.MainProjectsFolder;
+			if (!Directory.Exists(MainAppSettingsFolder))
+				Directory.CreateDirectory(MainAppSettingsFolder);
+
+			if (!Directory.Exists(SpongeProject.ProjectsFolder))
+				Directory.CreateDirectory(SpongeProject.ProjectsFolder);
+
+			PortableSettingsProvider.SettingsFilePath = MainAppSettingsFolder;
 
 			Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("fr");
 
 			LocalizationManager.Enabled = true;
-			LocalizationManager.Initialize(Path.Combine(SpongeProject.MainProjectsFolder, "Localizations"));
+			LocalizationManager.Initialize(Path.Combine(MainAppSettingsFolder, "Localizations"));
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			string prj = null;
+			SpongeProject prj = null;
 
 			using (var dlg = new WelcomeDlg())
 			{
 				if (dlg.ShowDialog() == DialogResult.OK)
-					prj = string.Empty;
+					prj = dlg.SpongeProject;
 			}
 
-			if (!string.IsNullOrEmpty(prj))
-				Application.Run(new MainWnd());
+			if (prj != null)
+				Application.Run(new MainWnd(prj));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the parent folder in which all the Sponge settings and projects are stored.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string MainAppSettingsFolder
+		{
+			get
+			{
+				return Path.Combine(Environment.GetFolderPath(
+					Environment.SpecialFolder.MyDocuments), "Sponge");
+			}
 		}
 	}
 }

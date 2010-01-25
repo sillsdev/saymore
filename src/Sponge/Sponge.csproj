@@ -79,6 +79,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Model\MetaData\FieldDefinition.cs" />
+    <Compile Include="Model\Person.cs" />
     <Compile Include="Model\SessionFile.cs" />
     <Compile Include="Model\SpongeProject.cs" />
     <Compile Include="Model\Tag.cs" />

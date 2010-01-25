@@ -1,11 +1,7 @@
 namespace SIL.Sponge.ConfigTools
 {
     partial class NewProjectDlg
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        protected readonly System.ComponentModel.IContainer components = null;
+	{
 
         /// <summary>
         /// Clean up any resources being used.
@@ -28,85 +24,88 @@ namespace SIL.Sponge.ConfigTools
         /// </summary>
         private void InitializeComponent()
         {
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewProjectDlg));
 			this.lblMsg = new System.Windows.Forms.Label();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.txtProjectName = new System.Windows.Forms.TextBox();
 			this.lblPath = new System.Windows.Forms.Label();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// lblMsg
 			// 
-			this.lblMsg.AutoSize = true;
-			this.lblMsg.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblMsg.Location = new System.Drawing.Point(12, 23);
+			resources.ApplyResources(this.lblMsg, "lblMsg");
+			this.locExtender.SetLocalizableToolTip(this.lblMsg, null);
+			this.locExtender.SetLocalizationComment(this.lblMsg, null);
+			this.locExtender.SetLocalizingId(this.lblMsg, "NewProjectDlg.lblMsg");
 			this.lblMsg.Name = "lblMsg";
-			this.lblMsg.Size = new System.Drawing.Size(258, 17);
-			this.lblMsg.TabIndex = 0;
-			this.lblMsg.Text = "What would you like to call this project?";
 			// 
 			// btnOK
 			// 
-			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.btnOK, "btnOK");
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnOK.Location = new System.Drawing.Point(181, 120);
+			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
+			this.locExtender.SetLocalizationComment(this.btnOK, null);
+			this.locExtender.SetLocalizingId(this.btnOK, "NewProjectDlg.btnOK");
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(80, 26);
-			this.btnOK.TabIndex = 3;
-			this.btnOK.Text = "&OK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.btnCancel, "btnCancel");
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(267, 120);
+			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
+			this.locExtender.SetLocalizationComment(this.btnCancel, null);
+			this.locExtender.SetLocalizingId(this.btnCancel, "NewProjectDlg.btnCancel");
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(80, 26);
-			this.btnCancel.TabIndex = 4;
-			this.btnCancel.Text = "&Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
 			// txtProjectName
 			// 
-			this.txtProjectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtProjectName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtProjectName.Location = new System.Drawing.Point(12, 48);
+			resources.ApplyResources(this.txtProjectName, "txtProjectName");
+			this.locExtender.SetLocalizableToolTip(this.txtProjectName, null);
+			this.locExtender.SetLocalizationComment(this.txtProjectName, null);
+			this.locExtender.SetLocalizationPriority(this.txtProjectName, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.txtProjectName, "NewProjectDlg.txtProjectName");
 			this.txtProjectName.Name = "txtProjectName";
-			this.txtProjectName.Size = new System.Drawing.Size(335, 21);
-			this.txtProjectName.TabIndex = 1;
 			this.txtProjectName.TextChanged += new System.EventHandler(this.txtProjectName_TextChanged);
 			// 
 			// lblPath
 			// 
-			this.lblPath.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			resources.ApplyResources(this.lblPath, "lblPath");
 			this.lblPath.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-			this.lblPath.Location = new System.Drawing.Point(12, 73);
+			this.locExtender.SetLocalizableToolTip(this.lblPath, null);
+			this.locExtender.SetLocalizationComment(this.lblPath, null);
+			this.locExtender.SetLocalizationPriority(this.lblPath, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblPath, "NewProjectDlg.lblPath");
 			this.lblPath.Name = "lblPath";
-			this.lblPath.Size = new System.Drawing.Size(335, 42);
-			this.lblPath.TabIndex = 2;
-			this.lblPath.Text = "#";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// NewProjectDlg
 			// 
 			this.AcceptButton = this.btnOK;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.AutoSize = true;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(359, 158);
 			this.Controls.Add(this.lblPath);
 			this.Controls.Add(this.txtProjectName);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.lblMsg);
 			this.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "NewProjectDlg.WindowTitle");
 			this.Name = "NewProjectDlg";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "New Sponge Project";
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -119,5 +118,7 @@ namespace SIL.Sponge.ConfigTools
         protected System.Windows.Forms.Button btnCancel;
         protected System.Windows.Forms.TextBox txtProjectName;
         protected System.Windows.Forms.Label lblPath;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private System.ComponentModel.IContainer components;
     }
 }

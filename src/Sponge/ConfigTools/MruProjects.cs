@@ -35,7 +35,11 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		public static string[] Paths
 		{
-			get { return s_paths.ToArray(); }
+			get
+			{
+				RemoveStalePaths();
+				return s_paths.ToArray();
+			}
 			set { LoadList(value); }
 		}
 
@@ -54,7 +58,7 @@ namespace SIL.Sponge.ConfigTools
 			foreach (object val in values)
 			{
 				string path = val as string;
-				if (path == null || !Directory.Exists(path))
+				if (path == null || !File.Exists(path))
 					continue;
 
 				if (i++ == MaxMRUListSize)
@@ -86,7 +90,7 @@ namespace SIL.Sponge.ConfigTools
 			{
 				for (int i = s_paths.Count - 1; i >= 0; i--)
 				{
-					if (!Directory.Exists(s_paths[i]))
+					if (!File.Exists(s_paths[i]))
 						s_paths.RemoveAt(i);
 				}
 			}
@@ -94,17 +98,16 @@ namespace SIL.Sponge.ConfigTools
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Adds path to top of list of most recently used files if it exists (returns false
-		/// if it doesn't exist)
+		/// Adds the specified file path to top of list of most recently used files if it
+		/// exists (returns false if it doesn't exist)
 		/// </summary>
-		/// <returns>true if successful, false if given file does not exist</returns>
 		/// ------------------------------------------------------------------------------------
 		public static bool AddNewPath(string path)
 		{
 			if (path == null)
 				throw new ArgumentNullException("path");
 
-			if (!Directory.Exists(path))
+			if (!File.Exists(path))
 				return false;
 
 			// Remove the path from the list if it exists already.

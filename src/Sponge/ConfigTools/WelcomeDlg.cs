@@ -26,7 +26,7 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		public WelcomeDlg()
 		{
-			Font = SystemFonts.MessageBoxFont;//use the default OS UI font
+			Font = SystemFonts.MessageBoxFont; //use the default OS UI font
 			MruProjects.Initialize(Settings.Default.MRUList);
 
 			InitializeComponent();
@@ -47,8 +47,8 @@ namespace SIL.Sponge.ConfigTools
 
 			// The build number is just the number of days since 01/01/2000
 			DateTime bldDate = new DateTime(2000, 1, 1).AddDays(ver.Build);
-			lblVersionInfo.Text = "Version " + ver.Major + "." + ver.Minor + "." +
-				ver.Revision + "    Built on " + bldDate.ToString("dd-MMM-yyyy");
+			lblVersionInfo.Text = string.Format(lblVersionInfo.Text, ver.Major,
+				ver.Minor, ver.Revision, bldDate.ToString("dd-MMM-yyyy"));
 
 			LoadMRUButtons();
 
@@ -92,8 +92,13 @@ namespace SIL.Sponge.ConfigTools
 				}
 
 				tsb.Visible = true;
-				tsb.Text = Path.GetFileNameWithoutExtension(prjName);
 				tsb.ToolTipText = prjName;
+
+				// For the text, use only the project file's immediate parent
+				// folder for the project name.
+				var dir = Path.GetDirectoryName(prjName);
+				int isep = dir.LastIndexOf(Path.DirectorySeparatorChar);
+				tsb.Text = (isep >= 0 ? dir.Substring(isep + 1) : dir);
 			}
 		}
 
@@ -137,7 +142,7 @@ namespace SIL.Sponge.ConfigTools
 			SpongeProject = SpongeProject.Create(this);
 			if (SpongeProject != null)
 			{
-				MruProjects.AddNewPath(SpongeProject.ProjectPath);
+				MruProjects.AddNewPath(SpongeProject.FullProjectPath);
 				MruProjects.Save();
 				DialogResult = DialogResult.OK;
 				Close();

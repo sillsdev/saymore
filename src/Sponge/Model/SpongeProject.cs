@@ -28,6 +28,7 @@ namespace SIL.Sponge.Model
 	/// Encapsulates information for a single Sponge project.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
+	[XmlType("spongeproject")]
 	public class SpongeProject
 	{
 		#region Static methods/properties
@@ -41,22 +42,47 @@ namespace SIL.Sponge.Model
 			using (var dlg = new NewProjectDlg())
 			{
 				return (dlg.ShowDialog(parent) == DialogResult.OK ?
-					Create(dlg.PathOfNewProject) : null);
+					Create(dlg.NewProjectName) : null);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a Sponge project in the specified folder.
+		/// Loads the specified project file. The file is a full path and file name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static SpongeProject Load(string prjFilePath)
+		{
+			Exception e;
+			var prj = Utils.DeserializeData(prjFilePath, typeof(SpongeProject), out e) as SpongeProject;
+			if (e != null)
+			{
+				Utils.MsgBox(e.Message);
+				return null;
+			}
+
+			prj.ProjectPath = Path.GetDirectoryName(prjFilePath);
+			prj.ProjectFileName = prjFilePath;
+			int i = prj.ProjectPath.LastIndexOf(Path.DirectorySeparatorChar);
+			prj.ProjectName = (i >= 0 ? prj.ProjectPath.Substring(i + 1) : prj.ProjectPath);
+			return prj;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a Sponge project with the specified name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static SpongeProject Create(string prjName)
 		{
 			var prj = new SpongeProject();
+			prj.ProjectName = prjName;
 			prj.ProjectPath = Path.Combine(MainProjectsFolder, prjName);
-			prj.ProjectFileName = Path.ChangeExtension(prjName.Replace(" ", string.Empty), "sprj");
+			prj.ProjectFileName = prjName.Replace(" ", string.Empty) + ".sprj";
+
 			Directory.CreateDirectory(prj.ProjectPath);
 			Directory.CreateDirectory(prj.SessionsPath);
+			prj.Save();
 			return prj;
 		}
 
@@ -79,6 +105,14 @@ namespace SIL.Sponge.Model
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the project's name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string ProjectName { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the project's path (not including the project file name).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -92,6 +126,17 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string ProjectFileName { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the project's path and file name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string FullProjectPath
+		{
+			get { return Path.Combine(ProjectPath, ProjectFileName); }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -113,8 +158,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			string fullPath = Path.Combine(ProjectPath, ProjectFileName);
-			Utils.SerializeData(fullPath, this);
+			Utils.SerializeData(FullProjectPath, this);
 		}
 	}
 }

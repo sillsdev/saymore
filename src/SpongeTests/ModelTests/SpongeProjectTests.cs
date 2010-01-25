@@ -30,23 +30,18 @@ namespace SIL.Sponge.Model
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Tests the Create method
+		/// Tests the private Create method
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void Create()
 		{
 			var prj = ReflectionHelper.GetResult(typeof(SpongeProject),
-				"Create", "moldysponge") as SpongeProject;
+				"Create", "Moldy Sponge") as SpongeProject;
 
 			try
 			{
-				Assert.IsNotNull(prj);
-				string expectedPath = Path.Combine(SpongeProject.MainProjectsFolder, "moldysponge");
-				Assert.AreEqual(expectedPath, prj.ProjectPath);
-				Assert.IsTrue(Directory.Exists(prj.ProjectPath));
-				expectedPath = Path.Combine(prj.ProjectPath, "Sessions");
-				Assert.IsTrue(Directory.Exists(expectedPath));
+				VerifyProject(prj, "Moldy Sponge");
 			}
 			finally
 			{
@@ -58,6 +53,56 @@ namespace SIL.Sponge.Model
 			}
 
 			Assert.IsFalse(Directory.Exists(prj.ProjectPath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the Load method
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Load()
+		{
+			var prj1 = ReflectionHelper.GetResult(typeof(SpongeProject),
+				"Create", "Moldy Sponge") as SpongeProject;
+
+			try
+			{
+				VerifyProject(prj1, "Moldy Sponge");
+				var prj2 = SpongeProject.Load(prj1.FullProjectPath);
+				VerifyProject(prj2, "Moldy Sponge");
+			}
+			finally
+			{
+				try
+				{
+					Directory.Delete(prj1.ProjectPath, true);
+				}
+				catch { }
+			}
+
+			Assert.IsFalse(Directory.Exists(prj1.ProjectPath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Verifies the existence of the specified project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void VerifyProject(SpongeProject prj, string expectedPrjName)
+		{
+			Assert.IsNotNull(prj);
+			var expectedPath = Path.Combine(SpongeProject.MainProjectsFolder, expectedPrjName);
+			Assert.AreEqual(expectedPath, prj.ProjectPath);
+			Assert.IsTrue(Directory.Exists(prj.ProjectPath));
+
+			expectedPath = Path.Combine(prj.ProjectPath, "Sessions");
+			Assert.AreEqual(expectedPath, prj.SessionsPath);
+			Assert.IsTrue(Directory.Exists(prj.SessionsPath));
+
+			expectedPath = Path.Combine(prj.ProjectPath, "MoldySponge.sprj");
+			Assert.AreEqual(expectedPath, prj.FullProjectPath);
+			Assert.IsTrue(File.Exists(prj.FullProjectPath));
 		}
 	}
 }

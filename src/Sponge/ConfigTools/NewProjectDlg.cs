@@ -1,9 +1,7 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SIL.Sponge.Model;
-using SIL.Sponge.Properties;
 
 namespace SIL.Sponge.ConfigTools
 {
@@ -36,7 +34,7 @@ namespace SIL.Sponge.ConfigTools
 			btnOK.Enabled = NameLooksOk;
 			if (btnOK.Enabled)
 			{
-				string[] dirs = PathOfNewProject.Split(Path.DirectorySeparatorChar);
+				string[] dirs = NewProjectName.Split(Path.DirectorySeparatorChar);
 				if (dirs.Length > 1)
 				{
 					string root = Path.Combine(dirs[dirs.Length - 3], dirs[dirs.Length - 2]);
@@ -75,7 +73,9 @@ namespace SIL.Sponge.ConfigTools
 				if (txtProjectName.Text.IndexOfAny(Path.GetInvalidFileNameChars()) > -1)
 					return false;
 
-				if (Directory.Exists(PathOfNewProject) || File.Exists(PathOfNewProject))
+				var path = Path.Combine(SpongeProject.MainProjectsFolder, NewProjectName);
+
+				if (Directory.Exists(path) || File.Exists(path))
 					return false;
 
 				return true;
@@ -87,21 +87,9 @@ namespace SIL.Sponge.ConfigTools
 		/// Gets the path to new project directory.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string PathOfNewProject
+		public string NewProjectName
 		{
-			get { return Path.Combine(SpongeProject.MainProjectsFolder, txtProjectName.Text); }
+			get { return txtProjectName.Text.Trim(); }
 		}
-
-		//protected void btnOK_Click(object sender, EventArgs e)
-		//{
-		//DialogResult = DialogResult.OK;
-		//Close();
-		//}
-
-		//protected void btnCancel_Click(object sender, EventArgs e)
-		//{
-		//DialogResult = DialogResult.Cancel;
-		//Close();
-		//}
 	}
 }

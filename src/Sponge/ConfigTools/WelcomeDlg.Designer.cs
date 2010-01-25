@@ -28,6 +28,8 @@ namespace SIL.Sponge.ConfigTools
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WelcomeDlg));
 			this.pnlOptions = new System.Windows.Forms.Panel();
 			this.tsOptions = new SIL.Sponge.Controls.SpongeBar();
 			this.tslblCreate = new System.Windows.Forms.ToolStripLabel();
@@ -43,29 +45,25 @@ namespace SIL.Sponge.ConfigTools
 			this.lblVersionInfo = new System.Windows.Forms.Label();
 			this.lblProdInfo2 = new System.Windows.Forms.Label();
 			this.lblSubTitle = new System.Windows.Forms.Label();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlOptions.SuspendLayout();
 			this.tsOptions.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlOptions
 			// 
-			this.pnlOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.pnlOptions, "pnlOptions");
 			this.pnlOptions.BackColor = System.Drawing.Color.LightGray;
 			this.pnlOptions.Controls.Add(this.tsOptions);
-			this.pnlOptions.Location = new System.Drawing.Point(30, 96);
 			this.pnlOptions.Name = "pnlOptions";
-			this.pnlOptions.Size = new System.Drawing.Size(418, 230);
-			this.pnlOptions.TabIndex = 17;
 			// 
 			// tsOptions
 			// 
-			this.tsOptions.AutoSize = false;
+			resources.ApplyResources(this.tsOptions, "tsOptions");
 			this.tsOptions.BackColor = System.Drawing.Color.White;
 			this.tsOptions.BackColorBegin = System.Drawing.Color.FromArgb(((int)(((byte)(193)))), ((int)(((byte)(208)))), ((int)(((byte)(229)))));
 			this.tsOptions.BackColorEnd = System.Drawing.Color.SteelBlue;
-			this.tsOptions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tsOptions.GradientAngle = 0F;
 			this.tsOptions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -77,155 +75,136 @@ namespace SIL.Sponge.ConfigTools
             this.tsbMru0,
             this.tsbBrowse});
 			this.tsOptions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-			this.tsOptions.Location = new System.Drawing.Point(0, 0);
+			this.locExtender.SetLocalizableToolTip(this.tsOptions, null);
+			this.locExtender.SetLocalizationComment(this.tsOptions, null);
+			this.locExtender.SetLocalizingId(this.tsOptions, "WelcomeDlg.tsOptions");
 			this.tsOptions.Name = "tsOptions";
 			this.tsOptions.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.tsOptions.Size = new System.Drawing.Size(418, 230);
-			this.tsOptions.TabIndex = 0;
-			this.tsOptions.Text = "toolStrip1";
 			// 
 			// tslblCreate
 			// 
-			this.tslblCreate.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			resources.ApplyResources(this.tslblCreate, "tslblCreate");
 			this.tslblCreate.ForeColor = System.Drawing.Color.DarkOliveGreen;
+			this.locExtender.SetLocalizableToolTip(this.tslblCreate, null);
+			this.locExtender.SetLocalizationComment(this.tslblCreate, null);
+			this.locExtender.SetLocalizingId(this.tslblCreate, "WelcomeDlg.tslblCreate");
 			this.tslblCreate.Name = "tslblCreate";
-			this.tslblCreate.Size = new System.Drawing.Size(416, 20);
-			this.tslblCreate.Text = "Create";
-			this.tslblCreate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(416, 6);
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			// 
 			// tsbCreate
 			// 
-			this.tsbCreate.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			resources.ApplyResources(this.tsbCreate, "tsbCreate");
 			this.tsbCreate.Image = global::SIL.Sponge.Properties.Resources.kimidNewProject;
-			this.tsbCreate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.tsbCreate.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this.tsbCreate, null);
+			this.locExtender.SetLocalizationComment(this.tsbCreate, null);
+			this.locExtender.SetLocalizingId(this.tsbCreate, "WelcomeDlg.tsbCreate");
 			this.tsbCreate.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
 			this.tsbCreate.Name = "tsbCreate";
-			this.tsbCreate.Size = new System.Drawing.Size(408, 21);
-			this.tsbCreate.Text = "Create new blank project...";
-			this.tsbCreate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.tsbCreate.Click += new System.EventHandler(this.tsbCreate_Click);
 			// 
 			// tslblOpen
 			// 
-			this.tslblOpen.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			resources.ApplyResources(this.tslblOpen, "tslblOpen");
 			this.tslblOpen.ForeColor = System.Drawing.Color.DarkOliveGreen;
+			this.locExtender.SetLocalizableToolTip(this.tslblOpen, null);
+			this.locExtender.SetLocalizationComment(this.tslblOpen, null);
+			this.locExtender.SetLocalizingId(this.tslblOpen, "WelcomeDlg.tslblOpen");
 			this.tslblOpen.Name = "tslblOpen";
-			this.tslblOpen.Size = new System.Drawing.Size(416, 20);
-			this.tslblOpen.Text = "Open";
-			this.tslblOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(416, 6);
+			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
 			// 
 			// tsbMru0
 			// 
-			this.tsbMru0.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			resources.ApplyResources(this.tsbMru0, "tsbMru0");
 			this.tsbMru0.Image = global::SIL.Sponge.Properties.Resources.kimidSpongeSmall;
-			this.tsbMru0.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.tsbMru0.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this.tsbMru0, null);
+			this.locExtender.SetLocalizationComment(this.tsbMru0, null);
+			this.locExtender.SetLocalizationPriority(this.tsbMru0, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.tsbMru0, "WelcomeDlg.tsbMru0");
 			this.tsbMru0.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
 			this.tsbMru0.Name = "tsbMru0";
-			this.tsbMru0.Size = new System.Drawing.Size(408, 21);
-			this.tsbMru0.Text = "#";
-			this.tsbMru0.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.tsbMru0.Click += new System.EventHandler(this.tsbMru_Click);
 			// 
 			// tsbBrowse
 			// 
-			this.tsbBrowse.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			resources.ApplyResources(this.tsbBrowse, "tsbBrowse");
 			this.tsbBrowse.Image = global::SIL.Sponge.Properties.Resources.kimidBrowseForProject;
-			this.tsbBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.tsbBrowse.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this.tsbBrowse, null);
+			this.locExtender.SetLocalizationComment(this.tsbBrowse, null);
+			this.locExtender.SetLocalizingId(this.tsbBrowse, "WelcomeDlg.tsbBrowse");
 			this.tsbBrowse.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
 			this.tsbBrowse.Name = "tsbBrowse";
-			this.tsbBrowse.Size = new System.Drawing.Size(408, 21);
-			this.tsbBrowse.Text = "Browse for project...";
-			this.tsbBrowse.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.tsbBrowse.Click += new System.EventHandler(this.tsbBrowse_Click);
 			// 
 			// lnkSpongeWebSite
 			// 
-			this.lnkSpongeWebSite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lnkSpongeWebSite.AutoSize = true;
-			this.lnkSpongeWebSite.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lnkSpongeWebSite.Location = new System.Drawing.Point(296, 345);
+			resources.ApplyResources(this.lnkSpongeWebSite, "lnkSpongeWebSite");
+			this.locExtender.SetLocalizableToolTip(this.lnkSpongeWebSite, null);
+			this.locExtender.SetLocalizationComment(this.lnkSpongeWebSite, null);
+			this.locExtender.SetLocalizingId(this.lnkSpongeWebSite, "WelcomeDlg.lnkSpongeWebSite");
 			this.lnkSpongeWebSite.Name = "lnkSpongeWebSite";
-			this.lnkSpongeWebSite.Size = new System.Drawing.Size(96, 13);
-			this.lnkSpongeWebSite.TabIndex = 22;
 			this.lnkSpongeWebSite.TabStop = true;
-			this.lnkSpongeWebSite.Text = "Sponge web site.";
 			this.lnkSpongeWebSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSpongeWebSite_LinkClicked);
 			// 
 			// lnkSIL
 			// 
-			this.lnkSIL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lnkSIL.AutoSize = true;
-			this.lnkSIL.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lnkSIL.Location = new System.Drawing.Point(153, 345);
+			resources.ApplyResources(this.lnkSIL, "lnkSIL");
+			this.locExtender.SetLocalizableToolTip(this.lnkSIL, null);
+			this.locExtender.SetLocalizationComment(this.lnkSIL, null);
+			this.locExtender.SetLocalizingId(this.lnkSIL, "WelcomeDlg.lnkSIL");
 			this.lnkSIL.Name = "lnkSIL";
-			this.lnkSIL.Size = new System.Drawing.Size(94, 13);
-			this.lnkSIL.TabIndex = 20;
 			this.lnkSIL.TabStop = true;
-			this.lnkSIL.Text = "SIL International.";
 			this.lnkSIL.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSIL_LinkClicked);
 			// 
 			// lblProdInfo1
 			// 
-			this.lblProdInfo1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lblProdInfo1.AutoSize = true;
-			this.lblProdInfo1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblProdInfo1.Location = new System.Drawing.Point(31, 345);
+			resources.ApplyResources(this.lblProdInfo1, "lblProdInfo1");
+			this.locExtender.SetLocalizableToolTip(this.lblProdInfo1, null);
+			this.locExtender.SetLocalizationComment(this.lblProdInfo1, null);
+			this.locExtender.SetLocalizingId(this.lblProdInfo1, "WelcomeDlg.lblProdInfo1");
 			this.lblProdInfo1.Name = "lblProdInfo1";
-			this.lblProdInfo1.Size = new System.Drawing.Size(128, 13);
-			this.lblProdInfo1.TabIndex = 19;
-			this.lblProdInfo1.Text = "Sponge is a product of ";
 			// 
 			// lblVersionInfo
 			// 
-			this.lblVersionInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lblVersionInfo.AutoSize = true;
-			this.lblVersionInfo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblVersionInfo.Location = new System.Drawing.Point(31, 329);
+			resources.ApplyResources(this.lblVersionInfo, "lblVersionInfo");
+			this.locExtender.SetLocalizableToolTip(this.lblVersionInfo, null);
+			this.locExtender.SetLocalizationComment(this.lblVersionInfo, null);
+			this.locExtender.SetLocalizingId(this.lblVersionInfo, "WelcomeDlg.lblVersionInfo");
 			this.lblVersionInfo.Name = "lblVersionInfo";
-			this.lblVersionInfo.Size = new System.Drawing.Size(14, 13);
-			this.lblVersionInfo.TabIndex = 18;
-			this.lblVersionInfo.Text = "#";
 			// 
 			// lblProdInfo2
 			// 
-			this.lblProdInfo2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lblProdInfo2.AutoSize = true;
-			this.lblProdInfo2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblProdInfo2.Location = new System.Drawing.Point(251, 345);
+			resources.ApplyResources(this.lblProdInfo2, "lblProdInfo2");
+			this.locExtender.SetLocalizableToolTip(this.lblProdInfo2, null);
+			this.locExtender.SetLocalizationComment(this.lblProdInfo2, null);
+			this.locExtender.SetLocalizingId(this.lblProdInfo2, "WelcomeDlg.lblProdInfo2");
 			this.lblProdInfo2.Name = "lblProdInfo2";
-			this.lblProdInfo2.Size = new System.Drawing.Size(49, 13);
-			this.lblProdInfo2.TabIndex = 21;
-			this.lblProdInfo2.Text = "Visit the";
 			// 
 			// lblSubTitle
 			// 
-			this.lblSubTitle.AutoSize = true;
-			this.lblSubTitle.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblSubTitle.Location = new System.Drawing.Point(141, 68);
+			resources.ApplyResources(this.lblSubTitle, "lblSubTitle");
+			this.lblSubTitle.AutoEllipsis = true;
+			this.locExtender.SetLocalizableToolTip(this.lblSubTitle, null);
+			this.locExtender.SetLocalizationComment(this.lblSubTitle, null);
+			this.locExtender.SetLocalizingId(this.lblSubTitle, "WelcomeDlg.lblSubTitle");
 			this.lblSubTitle.Name = "lblSubTitle";
-			this.lblSubTitle.Size = new System.Drawing.Size(300, 17);
-			this.lblSubTitle.TabIndex = 23;
-			this.lblSubTitle.Text = "Language Documentation Project Management";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// WelcomeDlg
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(460, 367);
 			this.Controls.Add(this.lblSubTitle);
 			this.Controls.Add(this.lnkSpongeWebSite);
 			this.Controls.Add(this.lnkSIL);
@@ -234,15 +213,16 @@ namespace SIL.Sponge.ConfigTools
 			this.Controls.Add(this.lblProdInfo2);
 			this.Controls.Add(this.pnlOptions);
 			this.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "WelcomeDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(450, 400);
 			this.Name = "WelcomeDlg";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Sponge";
 			this.pnlOptions.ResumeLayout(false);
 			this.tsOptions.ResumeLayout(false);
 			this.tsOptions.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -265,6 +245,7 @@ namespace SIL.Sponge.ConfigTools
 		private System.Windows.Forms.Label lblVersionInfo;
 		private System.Windows.Forms.Label lblProdInfo2;
 		private System.Windows.Forms.Label lblSubTitle;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 
 
 	}

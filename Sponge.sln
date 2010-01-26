@@ -5,10 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sponge", "src\Sponge\Sponge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpongeTests", "src\SpongeTests\SpongeTests.csproj", "{8769F2A3-6C9B-4272-A668-F98BDBB90647}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilUtils", "..\Phonology Assistant 3.2\src\SilUtils\SilUtils.csproj", "{87F94FCC-BC32-4203-A919-115F4FF43FF0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationUtils", "..\Localization Project\LocalizationUtils\LocalizationUtils.csproj", "{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,11 +19,6 @@ Global
 		{8769F2A3-6C9B-4272-A668-F98BDBB90647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8769F2A3-6C9B-4272-A668-F98BDBB90647}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8769F2A3-6C9B-4272-A668-F98BDBB90647}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87F94FCC-BC32-4203-A919-115F4FF43FF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87F94FCC-BC32-4203-A919-115F4FF43FF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,11 +17,11 @@
     <control controlID="3" controlTypeID="com.balsamiq.mockups::DataGrid" x="258" y="127" w="815" h="324" measuredW="511" measuredH="268" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Name%2C%20Type%2C%20Date%20Modified%2C%20Size%0A%20%20%20%20%20tofu-ori.wav%2C%20Audio%2C%201/1/2009%2C%2023M%0A%20%20%20%20%20tofu-otc.wav%2C%20Audio%2C%201/1/2009%2C%20%0A%20%20%20%20%20tofu.eaf%2C%20Elan%20Annotations%0A%20%20%20%20%20tofu.pfsx%2C%20Elan%20Prefs%0A%20%20%20%20%20tofu-permissions.perm%2C%20Permissions%0A%20%20%20%20%20tofu.olac%2C%20Archive%20metadata%0A%20%20%20%20%20tofu-description.html%2CSituational%20description%0A%20%20%20%20%20tofu-permissionScan.pdf</text>
-        <borderStyle>none</borderStyle>
         <selectedIndex>1</selectedIndex>
+        <borderStyle>none</borderStyle>
       </controlProperties>
     </control>
-    <control controlID="4" controlTypeID="com.balsamiq.mockups::CallOut" x="271" y="618" w="716" h="133" measuredW="690" measuredH="39" zOrder="4" locked="false" isInGroup="-1">
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::CallOut" x="271" y="618" w="716" h="133" measuredW="690" measuredH="40" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Down%20here%2C%20controls%20for%20editing%20info%20on%20the%20selected%20item.%0AApply%20tags%20%28see%20windows%207%20windows%20explorer%20for%20nice%20interface%29.%0Aoperations%3A%20open%20file%20in%20explorer%2C%20open%20in%20its%20natural%20application%2C%20conform%20to%20filenaming%20convention%0AFor%20photos%2C%20thumbnail.%0AFor%20recordings%3A%20recordist%2C%20notes%2C%20Device%2CMic%2C%09Channel%2C%20Bit%20Depth%2C%20Sampling%20Rate%09%2CAnalog%20Gain%2CDigital%20Gain</text>
         <backgroundAlpha>0.25</backgroundAlpha>
@@ -62,9 +62,9 @@
       <controlProperties>
         <icon>VideoCameraIcon%7Csmall</icon>
         <text>Sessions</text>
+        <href>Events-Files%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml</href>
         <borderStyle>none</borderStyle>
         <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22190%2C35%2C262%2C84%22%20href%3D%22Events-Files.bmml%22%20alt%3D%22Events-Files%22%20id%3D%2226%22/%3E</map>
-        <href>Events-Files%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml</href>
       </controlProperties>
     </control>
     <control controlID="28" controlTypeID="com.balsamiq.mockups::IconLabel" x="60" y="40" w="95" h="-1" measuredW="41" measuredH="49" zOrder="11" locked="false" isInGroup="-1">
@@ -77,8 +77,8 @@
     </control>
     <control controlID="29" controlTypeID="com.balsamiq.mockups::Canvas" x="250" y="36" w="83" h="54" measuredW="100" measuredH="70" zOrder="9" locked="false" isInGroup="-1">
       <controlProperties>
-        <borderStyle>none</borderStyle>
         <backgroundAlpha>0.25</backgroundAlpha>
+        <borderStyle>none</borderStyle>
         <color>40463</color>
       </controlProperties>
     </control>
@@ -111,7 +111,7 @@
     </control>
     <control controlID="39" controlTypeID="com.balsamiq.mockups::Paragraph" x="377" y="501" w="135" h="81" measuredW="200" measuredH="140" zOrder="18" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Recordist%3A%0ADevice%3A%0AMicrophone%3A%0AChannel%3A</text>
+        <text>Task%3A%0ARecordist%3A%0ADevice%3A%0AMicrophone%3A%0AChannel%3A</text>
         <align>right</align>
         <size>11</size>
         <bold>false</bold>
@@ -134,7 +134,7 @@
     </control>
     <control controlID="42" controlTypeID="com.balsamiq.mockups::Paragraph" x="512" y="501" w="135" h="63" measuredW="200" measuredH="140" zOrder="21" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Sponge%20Bob%0ARoland%20123</text>
+        <text>Oral%20Transcription%0ASponge%20Bob%0ARoland%20123</text>
         <align>left</align>
         <size>11</size>
         <bold>true</bold>

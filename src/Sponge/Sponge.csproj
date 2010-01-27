@@ -69,6 +69,14 @@
     <Compile Include="ConfigTools\NewProjectDlg.Designer.cs">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigTools\NewSessionDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigTools\NewSessionDlg.Designer.cs">
+      <DependentUpon>NewSessionDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigTools\PathValidator.cs">
+    </Compile>
     <Compile Include="ConfigTools\WelcomeDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +99,7 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Utilities\IconHelper.cs" />
+    <Compile Include="Utilities\XmlSerializationHelper.cs" />
     <Compile Include="ViewButtonManager.cs" />
     <Compile Include="Views\BaseSplitVw.cs">
       <SubType>UserControl</SubType>
@@ -153,6 +162,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ConfigTools\NewProjectDlg.resx">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigTools\NewSessionDlg.resx">
+      <DependentUpon>NewSessionDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigTools\WelcomeDlg.resx">
       <DependentUpon>WelcomeDlg.cs</DependentUpon>

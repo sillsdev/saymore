@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Model;
+using SIL.Sponge.Properties;
 using SilUtils;
 
 //using Palaso.Reporting;
@@ -46,6 +47,11 @@ namespace SIL.Sponge
 			LocalizationManager.Enabled = true;
 			LocalizationManager.Initialize(Path.Combine(MainAppSettingsFolder, "Localizations"));
 
+			LocalizeItemDlg.SetDialogBounds += LocalizeItemDlg_SetDialogBounds;
+			LocalizeItemDlg.SetDialogSplitterPosition += LocalizeItemDlg_SetDialogSplitterPosition;
+			LocalizeItemDlg.SaveDialogBounds += LocalizeItemDlg_SaveDialogBounds;
+			LocalizeItemDlg.SaveDialogSplitterPosition += LocalizeItemDlg_SaveDialogSplitterPosition;
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
@@ -60,6 +66,55 @@ namespace SIL.Sponge
 			if (prj != null)
 				Application.Run(new MainWnd(prj));
 		}
+
+		#region methods for saving and setting localization dialog settings
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns the location of the splitter on the localization dialog box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static int LocalizeItemDlg_SetDialogSplitterPosition()
+		{
+			return Settings.Default.LocalizationDlgSplitterPos;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves the size and location of the localization dialog box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static void LocalizeItemDlg_SetDialogBounds(LocalizeItemDlg dlg)
+		{
+			var rc = Settings.Default.LocalizationDlgBounds;
+			if (rc.Height < 0)
+				dlg.StartPosition = FormStartPosition.CenterScreen;
+			else
+				dlg.Bounds = rc;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves the location of the splitter on the localization dialog box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void LocalizeItemDlg_SaveDialogSplitterPosition(int pos)
+		{
+			Settings.Default.LocalizationDlgSplitterPos = pos;
+			Settings.Default.Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves the size and location of the localization dialog box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void LocalizeItemDlg_SaveDialogBounds(LocalizeItemDlg dlg)
+		{
+			Settings.Default.LocalizationDlgBounds = dlg.Bounds;
+			Settings.Default.Save();
+		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

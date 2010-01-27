@@ -132,87 +132,12 @@
     <value>Fill</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="tsOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tsOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 230</value>
-  </data>
-  <data name="tsOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tsOptions.Name" xml:space="preserve">
-    <value>tsOptions</value>
-  </data>
-  <data name="&gt;&gt;tsOptions.Type" xml:space="preserve">
-    <value>SIL.Sponge.Controls.SpongeBar, Sponge, Version=0.1.3677.19588, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;tsOptions.Parent" xml:space="preserve">
-    <value>pnlOptions</value>
-  </data>
-  <data name="&gt;&gt;tsOptions.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pnlOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>30, 96</value>
-  </data>
-  <data name="pnlOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 230</value>
-  </data>
-  <data name="pnlOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="&gt;&gt;pnlOptions.Name" xml:space="preserve">
-    <value>pnlOptions</value>
-  </data>
-  <data name="&gt;&gt;pnlOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlOptions.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlOptions.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="tslblOpen.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 11.25pt, style=Bold</value>
   </data>
   <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>117, 6</value>
   </metadata>
-  <data name="tslblCreate.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11.25pt, style=Bold</value>
-  </data>
-  <data name="tslblCreate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>416, 20</value>
-  </data>
-  <data name="tslblCreate.Text" xml:space="preserve">
-    <value>Create</value>
-  </data>
-  <data name="tslblCreate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>416, 6</value>
-  </data>
-  <data name="tsbCreate.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="tsbCreate.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="tsbCreate.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="tsbCreate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 21</value>
-  </data>
-  <data name="tsbCreate.Text" xml:space="preserve">
-    <value>Create new, blank project...</value>
-  </data>
-  <data name="tsbCreate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="tslblOpen.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11.25pt, style=Bold</value>
-  </data>
   <data name="tslblOpen.Size" type="System.Drawing.Size, System.Drawing">
     <value>416, 20</value>
   </data>
@@ -222,7 +147,7 @@
   <data name="tslblOpen.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>416, 6</value>
   </data>
   <data name="tsbMru0.Font" type="System.Drawing.Font, System.Drawing">
@@ -261,104 +186,119 @@
   <data name="tsbBrowse.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="lnkSpongeWebSite.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+  <data name="tslblCreate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 11.25pt, style=Bold</value>
   </data>
-  <data name="lnkSpongeWebSite.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="tslblCreate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>416, 20</value>
   </data>
-  <data name="lnkSpongeWebSite.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 8.25pt</value>
+  <data name="tslblCreate.Text" xml:space="preserve">
+    <value>Create</value>
   </data>
-  <data name="lnkSpongeWebSite.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 345</value>
+  <data name="tslblCreate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
-  <data name="lnkSpongeWebSite.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 13</value>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>416, 6</value>
   </data>
-  <data name="lnkSpongeWebSite.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
+  <data name="tsbCreate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
   </data>
-  <data name="lnkSpongeWebSite.Text" xml:space="preserve">
-    <value>Sponge web site.</value>
+  <data name="tsbCreate.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
-  <data name="&gt;&gt;lnkSpongeWebSite.Name" xml:space="preserve">
-    <value>lnkSpongeWebSite</value>
+  <data name="tsbCreate.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
   </data>
-  <data name="&gt;&gt;lnkSpongeWebSite.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="tsbCreate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 21</value>
   </data>
-  <data name="&gt;&gt;lnkSpongeWebSite.Parent" xml:space="preserve">
+  <data name="tsbCreate.Text" xml:space="preserve">
+    <value>Create new, blank project...</value>
+  </data>
+  <data name="tsbCreate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="tsOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tsOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>418, 230</value>
+  </data>
+  <data name="tsOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tsOptions.Name" xml:space="preserve">
+    <value>tsOptions</value>
+  </data>
+  <data name="&gt;&gt;tsOptions.Type" xml:space="preserve">
+    <value>SIL.Sponge.Controls.SpongeBar, Sponge, Version=0.1.3679.21739, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tsOptions.Parent" xml:space="preserve">
+    <value>pnlOptions</value>
+  </data>
+  <data name="&gt;&gt;tsOptions.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pnlOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 96</value>
+  </data>
+  <data name="pnlOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>418, 230</value>
+  </data>
+  <data name="pnlOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;pnlOptions.Name" xml:space="preserve">
+    <value>pnlOptions</value>
+  </data>
+  <data name="&gt;&gt;pnlOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlOptions.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;lnkSpongeWebSite.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;pnlOptions.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
-  <data name="lnkSIL.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="lnkWebSites.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
-  <data name="lnkSIL.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lnkWebSites.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lnkSIL.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="lnkWebSites.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 8.25pt</value>
   </data>
-  <data name="lnkSIL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>153, 345</value>
+  <data name="lnkWebSites.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="lnkSIL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 13</value>
+  <data name="lnkWebSites.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
+    <value>28, 17</value>
   </data>
-  <data name="lnkSIL.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="lnkSIL.Text" xml:space="preserve">
-    <value>SIL International.</value>
-  </data>
-  <data name="&gt;&gt;lnkSIL.Name" xml:space="preserve">
-    <value>lnkSIL</value>
-  </data>
-  <data name="&gt;&gt;lnkSIL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lnkSIL.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lnkSIL.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lblProdInfo1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="lblProdInfo1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblProdInfo1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 8.25pt</value>
-  </data>
-  <data name="lblProdInfo1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lnkWebSites.Location" type="System.Drawing.Point, System.Drawing">
     <value>31, 345</value>
   </data>
-  <data name="lblProdInfo1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 13</value>
+  <data name="lnkWebSites.Size" type="System.Drawing.Size, System.Drawing">
+    <value>11, 20</value>
   </data>
-  <data name="lblProdInfo1.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
+  <data name="lnkWebSites.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
-  <data name="lblProdInfo1.Text" xml:space="preserve">
-    <value>Sponge is a product of </value>
+  <data name="lnkWebSites.Text" xml:space="preserve">
+    <value>#</value>
   </data>
-  <data name="&gt;&gt;lblProdInfo1.Name" xml:space="preserve">
-    <value>lblProdInfo1</value>
+  <data name="&gt;&gt;lnkWebSites.Name" xml:space="preserve">
+    <value>lnkWebSites</value>
   </data>
-  <data name="&gt;&gt;lblProdInfo1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;lnkWebSites.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblProdInfo1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lnkWebSites.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;lblProdInfo1.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;lnkWebSites.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="lblVersionInfo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -369,6 +309,9 @@
   <data name="lblVersionInfo.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 8.25pt</value>
   </data>
+  <data name="lblVersionInfo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="lblVersionInfo.Location" type="System.Drawing.Point, System.Drawing">
     <value>31, 329</value>
   </data>
@@ -376,7 +319,7 @@
     <value>159, 13</value>
   </data>
   <data name="lblVersionInfo.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
+    <value>1</value>
   </data>
   <data name="lblVersionInfo.Text" xml:space="preserve">
     <value>Version {0}.{1}.{2}    Built on {3}</value>
@@ -391,40 +334,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblVersionInfo.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="lblProdInfo2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="lblProdInfo2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblProdInfo2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 8.25pt</value>
-  </data>
-  <data name="lblProdInfo2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>307, 345</value>
-  </data>
-  <data name="lblProdInfo2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 13</value>
-  </data>
-  <data name="lblProdInfo2.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="lblProdInfo2.Text" xml:space="preserve">
-    <value>Visit the</value>
-  </data>
-  <data name="&gt;&gt;lblProdInfo2.Name" xml:space="preserve">
-    <value>lblProdInfo2</value>
-  </data>
-  <data name="&gt;&gt;lblProdInfo2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblProdInfo2.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblProdInfo2.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>2</value>
   </data>
   <data name="lblSubTitle.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -432,9 +342,9 @@
   <data name="lblSubTitle.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9.75pt, style=Bold</value>
   </data>
-  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>117, 6</value>
-  </metadata>
+  <data name="lblSubTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="lblSubTitle.Location" type="System.Drawing.Point, System.Drawing">
     <value>141, 68</value>
   </data>
@@ -442,7 +352,7 @@
     <value>307, 21</value>
   </data>
   <data name="lblSubTitle.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
+    <value>0</value>
   </data>
   <data name="lblSubTitle.Text" xml:space="preserve">
     <value>Language Documentation Project Management</value>
@@ -468,6 +378,9 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>460, 367</value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>450, 400</value>
   </data>
@@ -477,23 +390,11 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Sponge</value>
   </data>
-  <data name="&gt;&gt;tslblCreate.Name" xml:space="preserve">
-    <value>tslblCreate</value>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
   </data>
-  <data name="&gt;&gt;tslblCreate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
-    <value>toolStripSeparator1</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tsbCreate.Name" xml:space="preserve">
-    <value>tsbCreate</value>
-  </data>
-  <data name="&gt;&gt;tsbCreate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tslblOpen.Name" xml:space="preserve">
     <value>tslblOpen</value>
@@ -501,10 +402,10 @@
   <data name="&gt;&gt;tslblOpen.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
-    <value>toolStripSeparator2</value>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
   </data>
-  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tsbMru0.Name" xml:space="preserve">
@@ -519,11 +420,23 @@
   <data name="&gt;&gt;tsbBrowse.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
-    <value>locExtender</value>
+  <data name="&gt;&gt;tslblCreate.Name" xml:space="preserve">
+    <value>tslblCreate</value>
   </data>
-  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;tslblCreate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
+    <value>toolStripSeparator2</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tsbCreate.Name" xml:space="preserve">
+    <value>tsbCreate</value>
+  </data>
+  <data name="&gt;&gt;tsbCreate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>WelcomeDlg</value>

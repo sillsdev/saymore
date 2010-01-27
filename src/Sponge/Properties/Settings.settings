@@ -2,20 +2,20 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SIL.Sponge.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="WelcomeDlgSize" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Size" Scope="User">
-      <Value Profile="(Default)">0, 0</Value>
-    </Setting>
-    <Setting Name="WelcomeDlgLocation" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Point" Scope="User">
-      <Value Profile="(Default)">0, 0</Value>
-    </Setting>
-    <Setting Name="MainWndSize" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Size" Scope="User">
-      <Value Profile="(Default)">0, 0</Value>
-    </Setting>
-    <Setting Name="MainWndLocation" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Point" Scope="User">
-      <Value Profile="(Default)">0, 0</Value>
-    </Setting>
     <Setting Name="MRUList" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LocalizationDlgSplitterPos" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="LocalizationDlgBounds" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
+      <Value Profile="(Default)">0, 0, 0, -1</Value>
+    </Setting>
+    <Setting Name="MainWndBounds" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
+      <Value Profile="(Default)">0, 0, 0, -1</Value>
+    </Setting>
+    <Setting Name="WelcomeDlgBounds" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
+      <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

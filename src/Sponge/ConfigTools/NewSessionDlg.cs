@@ -8,17 +8,19 @@ namespace SIL.Sponge.ConfigTools
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Dialog for allowing user to enter the name of a new project.
+	/// Dialog for allowing user to enter the name of a new session.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class NewProjectDlg : Form
+	public partial class NewSessionDlg : Form
 	{
+		private readonly string m_projectPath;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="NewProjectDlg"/> class.
+		/// Initializes a new instance of the <see cref="NewSessionDlg"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public NewProjectDlg()
+		public NewSessionDlg()
 		{
 			InitializeComponent();
 			btnOK.Enabled = false;
@@ -28,10 +30,20 @@ namespace SIL.Sponge.ConfigTools
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Handles the TextChanged event of the txtProjectName control.
+		/// Initializes a new instance of the <see cref="NewSessionDlg"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected void txtProjectName_TextChanged(object sender, EventArgs e)
+		public NewSessionDlg(string prjPath) : this()
+		{
+			m_projectPath = prjPath;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the TextChanged event of the txtSessionName control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtSessionName_TextChanged(object sender, EventArgs e)
 		{
 			SetLocationMsg();
 		}
@@ -44,13 +56,13 @@ namespace SIL.Sponge.ConfigTools
 		private void SetLocationMsg()
 		{
 			var invalidPathMsg = LocalizationManager.LocalizeString(
-				"NewProjectDlg.lblPath.InvalidPathMsg", "Unable to create a new project there.",
-				"This text is displayed under the project name when it is invalid.", "Dialog Boxes");
+				"NewSessionDlg.lblPath.InvalidPathMsg", "Unable to create a new session there.",
+				"This text is displayed under the session name when it is invalid.", "Dialog Boxes");
 
 			var validPathMsg = LocalizationManager.GetString(lblPath);
 
-			btnOK.Enabled = PathValidator.ValidatePathEntry(SpongeProject.ProjectsFolder,
-				NewProjectName, lblPath, validPathMsg, invalidPathMsg, toolTip);
+			btnOK.Enabled = PathValidator.ValidatePathEntry(m_projectPath,
+				txtSessionName.Text.Trim(), lblPath, validPathMsg, invalidPathMsg, toolTip);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,9 +81,9 @@ namespace SIL.Sponge.ConfigTools
 		/// Gets the path to new project directory.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string NewProjectName
+		public string NewSessionName
 		{
-			get { return txtProjectName.Text.Trim(); }
+			get { return txtSessionName.Text.Trim(); }
 		}
 
 		/// ------------------------------------------------------------------------------------

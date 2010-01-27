@@ -234,6 +234,9 @@
   <data name="&gt;&gt;txtProjectName.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="lblPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
   <data name="lblPath.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 8.25pt</value>
   </data>
@@ -241,7 +244,7 @@
     <value>12, 73</value>
   </data>
   <data name="lblPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>335, 42</value>
+    <value>335, 17</value>
   </data>
   <data name="lblPath.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -261,6 +264,9 @@
   <data name="&gt;&gt;lblPath.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>126, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -284,6 +290,12 @@
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
     <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
+    <value>toolTip</value>
+  </data>
+  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>NewProjectDlg</value>

@@ -26,60 +26,63 @@ namespace SIL.Sponge.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Size WelcomeDlgSize {
-            get {
-                return ((global::System.Drawing.Size)(this["WelcomeDlgSize"]));
-            }
-            set {
-                this["WelcomeDlgSize"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Point WelcomeDlgLocation {
-            get {
-                return ((global::System.Drawing.Point)(this["WelcomeDlgLocation"]));
-            }
-            set {
-                this["WelcomeDlgLocation"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Size MainWndSize {
-            get {
-                return ((global::System.Drawing.Size)(this["MainWndSize"]));
-            }
-            set {
-                this["MainWndSize"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Point MainWndLocation {
-            get {
-                return ((global::System.Drawing.Point)(this["MainWndLocation"]));
-            }
-            set {
-                this["MainWndLocation"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection MRUList {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["MRUList"]));
             }
             set {
                 this["MRUList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int LocalizationDlgSplitterPos {
+            get {
+                return ((int)(this["LocalizationDlgSplitterPos"]));
+            }
+            set {
+                this["LocalizationDlgSplitterPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle LocalizationDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["LocalizationDlgBounds"]));
+            }
+            set {
+                this["LocalizationDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle MainWndBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["MainWndBounds"]));
+            }
+            set {
+                this["MainWndBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle WelcomeDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["WelcomeDlgBounds"]));
+            }
+            set {
+                this["WelcomeDlgBounds"] = value;
             }
         }
     }

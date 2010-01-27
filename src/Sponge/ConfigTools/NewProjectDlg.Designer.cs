@@ -32,6 +32,7 @@ namespace SIL.Sponge.ConfigTools
 			this.txtProjectName = new System.Windows.Forms.TextBox();
 			this.lblPath = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -78,10 +79,11 @@ namespace SIL.Sponge.ConfigTools
 			resources.ApplyResources(this.lblPath, "lblPath");
 			this.lblPath.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.locExtender.SetLocalizableToolTip(this.lblPath, null);
-			this.locExtender.SetLocalizationComment(this.lblPath, null);
-			this.locExtender.SetLocalizationPriority(this.lblPath, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationComment(this.lblPath, "This text is displayed under the project name and includes where it will be creat" +
+					"ed.");
 			this.locExtender.SetLocalizingId(this.lblPath, "NewProjectDlg.lblPath");
 			this.lblPath.Name = "lblPath";
+			this.lblPath.TextChanged += new System.EventHandler(this.lblPath_TextChanged);
 			// 
 			// locExtender
 			// 
@@ -99,9 +101,12 @@ namespace SIL.Sponge.ConfigTools
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.lblMsg);
 			this.DoubleBuffered = true;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "NewProjectDlg.WindowTitle");
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "NewProjectDlg";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
@@ -120,5 +125,6 @@ namespace SIL.Sponge.ConfigTools
         protected System.Windows.Forms.Label lblPath;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 		private System.ComponentModel.IContainer components;
+		private System.Windows.Forms.ToolTip toolTip;
     }
 }

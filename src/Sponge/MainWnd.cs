@@ -1,6 +1,5 @@
-using System.Drawing;
 using System.Windows.Forms;
-using SIL.Sponge.ConfigTools;
+using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 
@@ -36,7 +35,7 @@ namespace SIL.Sponge
 		{
 			InitializeComponent();
 
-			if (Settings.Default.MainWndSize.IsEmpty && Settings.Default.MainWndLocation.IsEmpty)
+			if (Settings.Default.MainWndBounds.Height < 0)
 				StartPosition = FormStartPosition.CenterScreen;
 		}
 
@@ -50,7 +49,8 @@ namespace SIL.Sponge
 			CurrentProject = prj;
 			SetupViews();
 			m_viewManger.SetView(tsbSetup);
-			Text = string.Format(Text, prj.ProjectName);
+			SetWindowText();
+			LocalizeItemDlg.StringsLocalized += SetWindowText;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -91,19 +91,25 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Sets the localized window title texts.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetWindowText()
+		{
+			var fmt = LocalizationManager.GetString(this);
+			Text = string.Format(fmt, CurrentProject.ProjectName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Raises the <see cref="E:System.Windows.Forms.Form.Shown"/> event.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(System.EventArgs e)
 		{
 			base.OnShown(e);
-
-			if (!Settings.Default.MainWndSize.IsEmpty && !Settings.Default.MainWndLocation.IsEmpty)
-			{
-				// It works better to set these values here rather than in the constructor.
-				Size = Settings.Default.MainWndSize;
-				Location = Settings.Default.MainWndLocation;
-			}
+			if (Settings.Default.MainWndBounds.Height >= 0)
+				Bounds = Settings.Default.MainWndBounds;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,9 +120,9 @@ namespace SIL.Sponge
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);
-			Settings.Default.MainWndSize = Size;
-			Settings.Default.MainWndLocation = Location;
+			Settings.Default.MainWndBounds = Bounds;
 			Settings.Default.Save();
+			LocalizeItemDlg.StringsLocalized -= SetWindowText;
 		}
 	}
 }

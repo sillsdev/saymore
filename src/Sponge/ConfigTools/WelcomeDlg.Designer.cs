@@ -31,24 +31,21 @@ namespace SIL.Sponge.ConfigTools
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WelcomeDlg));
 			this.pnlOptions = new System.Windows.Forms.Panel();
-			this.tsOptions = new SIL.Sponge.Controls.SpongeBar();
-			this.tslblCreate = new System.Windows.Forms.ToolStripLabel();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbCreate = new System.Windows.Forms.ToolStripButton();
-			this.tslblOpen = new System.Windows.Forms.ToolStripLabel();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbMru0 = new System.Windows.Forms.ToolStripButton();
-			this.tsbBrowse = new System.Windows.Forms.ToolStripButton();
-			this.lnkSpongeWebSite = new System.Windows.Forms.LinkLabel();
-			this.lnkSIL = new System.Windows.Forms.LinkLabel();
-			this.lblProdInfo1 = new System.Windows.Forms.Label();
+			this.lnkWebSites = new System.Windows.Forms.LinkLabel();
 			this.lblVersionInfo = new System.Windows.Forms.Label();
-			this.lblProdInfo2 = new System.Windows.Forms.Label();
 			this.lblSubTitle = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.tsOptions = new SIL.Sponge.Controls.SpongeBar();
+			this.tslblOpen = new System.Windows.Forms.ToolStripLabel();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbMru0 = new System.Windows.Forms.ToolStripButton();
+			this.tsbBrowse = new System.Windows.Forms.ToolStripButton();
+			this.tslblCreate = new System.Windows.Forms.ToolStripLabel();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsbCreate = new System.Windows.Forms.ToolStripButton();
 			this.pnlOptions.SuspendLayout();
-			this.tsOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			this.tsOptions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pnlOptions
@@ -57,6 +54,38 @@ namespace SIL.Sponge.ConfigTools
 			this.pnlOptions.BackColor = System.Drawing.Color.LightGray;
 			this.pnlOptions.Controls.Add(this.tsOptions);
 			this.pnlOptions.Name = "pnlOptions";
+			// 
+			// lnkWebSites
+			// 
+			this.lnkWebSites.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			resources.ApplyResources(this.lnkWebSites, "lnkWebSites");
+			this.locExtender.SetLocalizableToolTip(this.lnkWebSites, null);
+			this.locExtender.SetLocalizationComment(this.lnkWebSites, null);
+			this.locExtender.SetLocalizingId(this.lnkWebSites, "WelcomeDlg.lnkSIL");
+			this.lnkWebSites.Name = "lnkWebSites";
+			this.lnkWebSites.UseCompatibleTextRendering = true;
+			this.lnkWebSites.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWebSites_LinkClicked);
+			// 
+			// lblVersionInfo
+			// 
+			resources.ApplyResources(this.lblVersionInfo, "lblVersionInfo");
+			this.locExtender.SetLocalizableToolTip(this.lblVersionInfo, null);
+			this.locExtender.SetLocalizationComment(this.lblVersionInfo, null);
+			this.locExtender.SetLocalizingId(this.lblVersionInfo, "WelcomeDlg.lblVersionInfo");
+			this.lblVersionInfo.Name = "lblVersionInfo";
+			// 
+			// lblSubTitle
+			// 
+			resources.ApplyResources(this.lblSubTitle, "lblSubTitle");
+			this.lblSubTitle.AutoEllipsis = true;
+			this.locExtender.SetLocalizableToolTip(this.lblSubTitle, null);
+			this.locExtender.SetLocalizationComment(this.lblSubTitle, null);
+			this.locExtender.SetLocalizingId(this.lblSubTitle, "WelcomeDlg.lblSubTitle");
+			this.lblSubTitle.Name = "lblSubTitle";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// tsOptions
 			// 
@@ -67,44 +96,19 @@ namespace SIL.Sponge.ConfigTools
 			this.tsOptions.GradientAngle = 0F;
 			this.tsOptions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tslblCreate,
-            this.toolStripSeparator1,
-            this.tsbCreate,
             this.tslblOpen,
-            this.toolStripSeparator2,
+            this.toolStripSeparator1,
             this.tsbMru0,
-            this.tsbBrowse});
+            this.tsbBrowse,
+            this.tslblCreate,
+            this.toolStripSeparator2,
+            this.tsbCreate});
 			this.tsOptions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.locExtender.SetLocalizableToolTip(this.tsOptions, null);
 			this.locExtender.SetLocalizationComment(this.tsOptions, null);
 			this.locExtender.SetLocalizingId(this.tsOptions, "WelcomeDlg.tsOptions");
 			this.tsOptions.Name = "tsOptions";
 			this.tsOptions.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			// 
-			// tslblCreate
-			// 
-			resources.ApplyResources(this.tslblCreate, "tslblCreate");
-			this.tslblCreate.ForeColor = System.Drawing.Color.DarkOliveGreen;
-			this.locExtender.SetLocalizableToolTip(this.tslblCreate, null);
-			this.locExtender.SetLocalizationComment(this.tslblCreate, null);
-			this.locExtender.SetLocalizingId(this.tslblCreate, "WelcomeDlg.tslblCreate");
-			this.tslblCreate.Name = "tslblCreate";
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
-			// 
-			// tsbCreate
-			// 
-			resources.ApplyResources(this.tsbCreate, "tsbCreate");
-			this.tsbCreate.Image = global::SIL.Sponge.Properties.Resources.kimidNewProject;
-			this.locExtender.SetLocalizableToolTip(this.tsbCreate, null);
-			this.locExtender.SetLocalizationComment(this.tsbCreate, null);
-			this.locExtender.SetLocalizingId(this.tsbCreate, "WelcomeDlg.tsbCreate");
-			this.tsbCreate.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
-			this.tsbCreate.Name = "tsbCreate";
-			this.tsbCreate.Click += new System.EventHandler(this.tsbCreate_Click);
 			// 
 			// tslblOpen
 			// 
@@ -115,10 +119,10 @@ namespace SIL.Sponge.ConfigTools
 			this.locExtender.SetLocalizingId(this.tslblOpen, "WelcomeDlg.tslblOpen");
 			this.tslblOpen.Name = "tslblOpen";
 			// 
-			// toolStripSeparator2
+			// toolStripSeparator1
 			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			// 
 			// tsbMru0
 			// 
@@ -143,62 +147,30 @@ namespace SIL.Sponge.ConfigTools
 			this.tsbBrowse.Name = "tsbBrowse";
 			this.tsbBrowse.Click += new System.EventHandler(this.tsbBrowse_Click);
 			// 
-			// lnkSpongeWebSite
+			// tslblCreate
 			// 
-			resources.ApplyResources(this.lnkSpongeWebSite, "lnkSpongeWebSite");
-			this.locExtender.SetLocalizableToolTip(this.lnkSpongeWebSite, null);
-			this.locExtender.SetLocalizationComment(this.lnkSpongeWebSite, null);
-			this.locExtender.SetLocalizingId(this.lnkSpongeWebSite, "WelcomeDlg.lnkSpongeWebSite");
-			this.lnkSpongeWebSite.Name = "lnkSpongeWebSite";
-			this.lnkSpongeWebSite.TabStop = true;
-			this.lnkSpongeWebSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSpongeWebSite_LinkClicked);
+			resources.ApplyResources(this.tslblCreate, "tslblCreate");
+			this.tslblCreate.ForeColor = System.Drawing.Color.DarkOliveGreen;
+			this.locExtender.SetLocalizableToolTip(this.tslblCreate, null);
+			this.locExtender.SetLocalizationComment(this.tslblCreate, null);
+			this.locExtender.SetLocalizingId(this.tslblCreate, "WelcomeDlg.tslblCreate");
+			this.tslblCreate.Name = "tslblCreate";
 			// 
-			// lnkSIL
+			// toolStripSeparator2
 			// 
-			resources.ApplyResources(this.lnkSIL, "lnkSIL");
-			this.locExtender.SetLocalizableToolTip(this.lnkSIL, null);
-			this.locExtender.SetLocalizationComment(this.lnkSIL, null);
-			this.locExtender.SetLocalizingId(this.lnkSIL, "WelcomeDlg.lnkSIL");
-			this.lnkSIL.Name = "lnkSIL";
-			this.lnkSIL.TabStop = true;
-			this.lnkSIL.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSIL_LinkClicked);
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
 			// 
-			// lblProdInfo1
+			// tsbCreate
 			// 
-			resources.ApplyResources(this.lblProdInfo1, "lblProdInfo1");
-			this.locExtender.SetLocalizableToolTip(this.lblProdInfo1, null);
-			this.locExtender.SetLocalizationComment(this.lblProdInfo1, null);
-			this.locExtender.SetLocalizingId(this.lblProdInfo1, "WelcomeDlg.lblProdInfo1");
-			this.lblProdInfo1.Name = "lblProdInfo1";
-			// 
-			// lblVersionInfo
-			// 
-			resources.ApplyResources(this.lblVersionInfo, "lblVersionInfo");
-			this.locExtender.SetLocalizableToolTip(this.lblVersionInfo, null);
-			this.locExtender.SetLocalizationComment(this.lblVersionInfo, null);
-			this.locExtender.SetLocalizingId(this.lblVersionInfo, "WelcomeDlg.lblVersionInfo");
-			this.lblVersionInfo.Name = "lblVersionInfo";
-			// 
-			// lblProdInfo2
-			// 
-			resources.ApplyResources(this.lblProdInfo2, "lblProdInfo2");
-			this.locExtender.SetLocalizableToolTip(this.lblProdInfo2, null);
-			this.locExtender.SetLocalizationComment(this.lblProdInfo2, null);
-			this.locExtender.SetLocalizingId(this.lblProdInfo2, "WelcomeDlg.lblProdInfo2");
-			this.lblProdInfo2.Name = "lblProdInfo2";
-			// 
-			// lblSubTitle
-			// 
-			resources.ApplyResources(this.lblSubTitle, "lblSubTitle");
-			this.lblSubTitle.AutoEllipsis = true;
-			this.locExtender.SetLocalizableToolTip(this.lblSubTitle, null);
-			this.locExtender.SetLocalizationComment(this.lblSubTitle, null);
-			this.locExtender.SetLocalizingId(this.lblSubTitle, "WelcomeDlg.lblSubTitle");
-			this.lblSubTitle.Name = "lblSubTitle";
-			// 
-			// locExtender
-			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			resources.ApplyResources(this.tsbCreate, "tsbCreate");
+			this.tsbCreate.Image = global::SIL.Sponge.Properties.Resources.kimidNewProject;
+			this.locExtender.SetLocalizableToolTip(this.tsbCreate, null);
+			this.locExtender.SetLocalizationComment(this.tsbCreate, null);
+			this.locExtender.SetLocalizingId(this.tsbCreate, "WelcomeDlg.tsbCreate");
+			this.tsbCreate.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
+			this.tsbCreate.Name = "tsbCreate";
+			this.tsbCreate.Click += new System.EventHandler(this.tsbCreate_Click);
 			// 
 			// WelcomeDlg
 			// 
@@ -206,11 +178,8 @@ namespace SIL.Sponge.ConfigTools
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.lblSubTitle);
-			this.Controls.Add(this.lnkSpongeWebSite);
-			this.Controls.Add(this.lnkSIL);
-			this.Controls.Add(this.lblProdInfo1);
+			this.Controls.Add(this.lnkWebSites);
 			this.Controls.Add(this.lblVersionInfo);
-			this.Controls.Add(this.lblProdInfo2);
 			this.Controls.Add(this.pnlOptions);
 			this.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
@@ -220,9 +189,9 @@ namespace SIL.Sponge.ConfigTools
 			this.MinimizeBox = false;
 			this.Name = "WelcomeDlg";
 			this.pnlOptions.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.tsOptions.ResumeLayout(false);
 			this.tsOptions.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -239,11 +208,8 @@ namespace SIL.Sponge.ConfigTools
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripButton tsbMru0;
 		private System.Windows.Forms.ToolStripButton tsbBrowse;
-		private System.Windows.Forms.LinkLabel lnkSpongeWebSite;
-		private System.Windows.Forms.LinkLabel lnkSIL;
-		private System.Windows.Forms.Label lblProdInfo1;
+		private System.Windows.Forms.LinkLabel lnkWebSites;
 		private System.Windows.Forms.Label lblVersionInfo;
-		private System.Windows.Forms.Label lblProdInfo2;
 		private System.Windows.Forms.Label lblSubTitle;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 

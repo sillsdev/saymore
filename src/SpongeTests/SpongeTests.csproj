@@ -44,6 +44,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -55,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigToolsTests\MruProjectsTests.cs" />
+    <Compile Include="ConfigToolsTests\PathValidatorTests.cs" />
     <Compile Include="ModelTests\SpongeProjectTests.cs" />
     <Compile Include="ModelTests\TagTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

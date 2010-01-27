@@ -19,6 +19,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Sponge.ConfigTools;
+using SIL.Sponge.Utilities;
 using SilUtils;
 
 namespace SIL.Sponge.Model
@@ -54,7 +55,7 @@ namespace SIL.Sponge.Model
 		public static SpongeProject Load(string prjFilePath)
 		{
 			Exception e;
-			var prj = Utils.DeserializeData(prjFilePath, typeof(SpongeProject), out e) as SpongeProject;
+			var prj = XmlSerializationHelper.DeserializeFromFile<SpongeProject>(prjFilePath, out e);
 			if (e != null)
 			{
 				Utils.MsgBox(e.Message);
@@ -154,7 +155,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			Utils.SerializeData(FullProjectPath, this);
+			XmlSerializationHelper.SerializeToFile(FullProjectPath, this);
 		}
 	}
 }

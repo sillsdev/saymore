@@ -19,7 +19,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Sponge.ConfigTools;
-using SIL.Sponge.Utilities;
 using SilUtils;
 
 namespace SIL.Sponge.Model
@@ -94,7 +93,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static string ProjectsFolder
 		{
-			get { return Path.Combine(SpongeRunner.MainAppSettingsFolder, "Projects"); }
+			get { return Path.Combine(Sponge.MainAppSettingsFolder, "Projects"); }
 		}
 
 		#endregion

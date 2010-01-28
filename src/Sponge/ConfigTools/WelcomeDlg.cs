@@ -158,19 +158,16 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		private void tsbBrowse_Click(object sender, EventArgs e)
 		{
-			var caption = LocalizationManager.LocalizeString(
-				"WelcomeDlg.OpenPrjCaption", "Open Sponge Project", "Dialog Boxes");
-
-			var prjFilterText = LocalizationManager.LocalizeString(
-				"WelcomeDlg.SpongePrjFileType", "Sponge Project (*.sprj)", "Dialog Boxes");
-
-			var allFileFilterText = LocalizationManager.LocalizeString(
-				"WelcomeDlg.AllFileType", "All Files (*.*)", "Dialog Boxes");
-
 			using (var dlg = new OpenFileDialog())
 			{
+				var caption = LocalizationManager.LocalizeString(
+					"WelcomeDlg.OpenFileDlgCaption", "Open Sponge Project", "Dialog Boxes");
+
+				var prjFilterText = LocalizationManager.LocalizeString(
+					"WelcomeDlg.SpongePrjFileType", "Sponge Project (*.sprj)", "Dialog Boxes");
+
 				dlg.Title = caption;
-				dlg.Filter = prjFilterText + "|*.sprj|" + allFileFilterText + "|*.*";
+				dlg.Filter = prjFilterText + "|*.sprj|" + Sponge.OFDlgAllFileTypeText + "|*.*";
 				dlg.InitialDirectory = SpongeProject.ProjectsFolder;
 				dlg.CheckFileExists = true;
 				dlg.CheckPathExists = true;
@@ -178,6 +175,11 @@ namespace SIL.Sponge.ConfigTools
 					return;
 
 				SpongeProject = SpongeProject.Load(dlg.FileName);
+				if (SpongeProject != null)
+				{
+					MruProjects.AddNewPath(dlg.FileName);
+					MruProjects.Save();
+				}
 			}
 
 			DialogResult = DialogResult.OK;

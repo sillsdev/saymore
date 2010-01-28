@@ -99,7 +99,6 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Utilities\IconHelper.cs" />
-    <Compile Include="Utilities\XmlSerializationHelper.cs" />
     <Compile Include="ViewButtonManager.cs" />
     <Compile Include="Views\BaseSplitVw.cs">
       <SubType>UserControl</SubType>

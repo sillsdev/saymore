@@ -207,31 +207,31 @@
   <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="txtProjectName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="txtName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="txtProjectName.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="txtName.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt</value>
   </data>
-  <data name="txtProjectName.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="txtName.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 48</value>
   </data>
-  <data name="txtProjectName.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="txtName.Size" type="System.Drawing.Size, System.Drawing">
     <value>335, 21</value>
   </data>
-  <data name="txtProjectName.TabIndex" type="System.Int32, mscorlib">
+  <data name="txtName.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;txtProjectName.Name" xml:space="preserve">
-    <value>txtProjectName</value>
+  <data name="&gt;&gt;txtName.Name" xml:space="preserve">
+    <value>txtName</value>
   </data>
-  <data name="&gt;&gt;txtProjectName.Type" xml:space="preserve">
+  <data name="&gt;&gt;txtName.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;txtProjectName.Parent" xml:space="preserve">
+  <data name="&gt;&gt;txtName.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;txtProjectName.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;txtName.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="lblPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">

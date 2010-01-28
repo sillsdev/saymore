@@ -18,7 +18,7 @@ namespace SIL.Sponge
 	///
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	static class SpongeRunner
+	static class Sponge
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -127,6 +127,21 @@ namespace SIL.Sponge
 			{
 				return Path.Combine(Environment.GetFolderPath(
 					Environment.SpecialFolder.MyDocuments), "Sponge");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the localized text for "All Files" displayed in open file dialog boxes.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string OFDlgAllFileTypeText
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("AllFileType", "All Files (*.*)",
+					"Text shown in file type box of open file dialog boxes.",
+					"Miscellaneous Strings");
 			}
 		}
 	}

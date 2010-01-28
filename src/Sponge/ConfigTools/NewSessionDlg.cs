@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
-using SIL.Sponge.Model;
 
 namespace SIL.Sponge.ConfigTools
 {
@@ -14,6 +15,7 @@ namespace SIL.Sponge.ConfigTools
 	public partial class NewSessionDlg : Form
 	{
 		private readonly string m_projectPath;
+		private readonly HashSet<string> m_sessionFiles = new HashSet<string>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -43,7 +45,7 @@ namespace SIL.Sponge.ConfigTools
 		/// Handles the TextChanged event of the txtSessionName control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void txtSessionName_TextChanged(object sender, EventArgs e)
+		private void txtName_TextChanged(object sender, EventArgs e)
 		{
 			SetLocationMsg();
 		}
@@ -62,7 +64,7 @@ namespace SIL.Sponge.ConfigTools
 			var validPathMsg = LocalizationManager.GetString(lblPath);
 
 			btnOK.Enabled = PathValidator.ValidatePathEntry(m_projectPath,
-				txtSessionName.Text.Trim(), lblPath, validPathMsg, invalidPathMsg, toolTip);
+				txtName.Text.Trim(), lblPath, validPathMsg, invalidPathMsg, toolTip);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,7 +85,17 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		public string NewSessionName
 		{
-			get { return txtSessionName.Text.Trim(); }
+			get { return txtName.Text.Trim(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the files added to the session.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] SessionFiles
+		{
+			get { return m_sessionFiles.ToArray(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -97,8 +109,30 @@ namespace SIL.Sponge.ConfigTools
 			{
 				var sz = new Size(lblPath.Width, 0);
 				sz = TextRenderer.MeasureText(g, lblPath.Text, lblPath.Font, sz, TextFormatFlags.WordBreak);
-				if (lblPath.Height != sz.Height && lblPath.Bottom < btnOK.Top)
+				if (lblPath.Height != sz.Height && lblPath.Bottom < btnCopyFiles.Top)
 					lblPath.Height = sz.Height;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the Click event of the btnCopyFiles control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnCopyFiles_Click(object sender, EventArgs e)
+		{
+			using (var dlg = new OpenFileDialog())
+			{
+				var caption = LocalizationManager.LocalizeString(
+					"NewSessionDlg.OpenFileDlgCaption", "Copy Files into Session", "Dialog Boxes");
+
+				dlg.Title = caption;
+				dlg.Filter = Sponge.OFDlgAllFileTypeText + "|*.*";
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
+				dlg.Multiselect = true;
+				if (dlg.ShowDialog(this) == DialogResult.Cancel)
+					return;
 			}
 		}
 	}

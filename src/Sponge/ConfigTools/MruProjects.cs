@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
+using SilUtils;
 
 namespace SIL.Sponge.ConfigTools
 {
@@ -58,7 +60,11 @@ namespace SIL.Sponge.ConfigTools
 			foreach (object val in values)
 			{
 				string path = val as string;
-				if (path == null || !File.Exists(path))
+				if (path == null)
+					continue;
+
+				path = Path.Combine(SpongeProject.ProjectsFolder, path);
+				if (!File.Exists(path))
 					continue;
 
 				if (i++ == MaxMRUListSize)
@@ -130,7 +136,7 @@ namespace SIL.Sponge.ConfigTools
 		{
 			var collection = new System.Collections.Specialized.StringCollection();
 			foreach (string path in s_paths)
-				collection.Add(path);
+				collection.Add(Utils.MakeRelativePath(SpongeProject.ProjectsFolder, path));
 
 			Settings.Default.MRUList = (collection.Count == 0 ? null : collection);
 			Settings.Default.Save();

@@ -30,12 +30,13 @@ namespace SIL.Sponge.ConfigTools
 		{
 			this.components = new System.ComponentModel.Container();
 			this.lblPath = new System.Windows.Forms.Label();
-			this.txtSessionName = new System.Windows.Forms.TextBox();
+			this.txtName = new System.Windows.Forms.TextBox();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lblMsg = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.btnCopyFiles = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -53,24 +54,24 @@ namespace SIL.Sponge.ConfigTools
 			this.locExtender.SetLocalizingId(this.lblPath, "NewSessionDlg.lblPath");
 			this.lblPath.Location = new System.Drawing.Point(12, 73);
 			this.lblPath.Name = "lblPath";
-			this.lblPath.Size = new System.Drawing.Size(335, 25);
-			this.lblPath.TabIndex = 7;
+			this.lblPath.Size = new System.Drawing.Size(335, 39);
+			this.lblPath.TabIndex = 2;
 			this.lblPath.Text = "Session will be created in: {0}";
 			this.lblPath.TextChanged += new System.EventHandler(this.lblPath_TextChanged);
 			// 
-			// txtSessionName
+			// txtName
 			// 
-			this.txtSessionName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtSessionName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.locExtender.SetLocalizableToolTip(this.txtSessionName, null);
-			this.locExtender.SetLocalizationComment(this.txtSessionName, null);
-			this.locExtender.SetLocalizingId(this.txtSessionName, "NewSessionDlg.txtSessionName");
-			this.txtSessionName.Location = new System.Drawing.Point(12, 48);
-			this.txtSessionName.Name = "txtSessionName";
-			this.txtSessionName.Size = new System.Drawing.Size(337, 21);
-			this.txtSessionName.TabIndex = 6;
-			this.txtSessionName.TextChanged += new System.EventHandler(this.txtSessionName_TextChanged);
+			this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			this.locExtender.SetLocalizableToolTip(this.txtName, null);
+			this.locExtender.SetLocalizationComment(this.txtName, null);
+			this.locExtender.SetLocalizingId(this.txtName, "NewSessionDlg.txtSessionName");
+			this.txtName.Location = new System.Drawing.Point(12, 48);
+			this.txtName.Name = "txtName";
+			this.txtName.Size = new System.Drawing.Size(337, 21);
+			this.txtName.TabIndex = 1;
+			this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
 			// 
 			// btnCancel
 			// 
@@ -80,10 +81,10 @@ namespace SIL.Sponge.ConfigTools
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
 			this.locExtender.SetLocalizingId(this.btnCancel, "NewSessionDlg.btnCancel");
-			this.btnCancel.Location = new System.Drawing.Point(267, 120);
+			this.btnCancel.Location = new System.Drawing.Point(267, 166);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(80, 26);
-			this.btnCancel.TabIndex = 9;
+			this.btnCancel.TabIndex = 5;
 			this.btnCancel.Text = "&Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
@@ -95,10 +96,10 @@ namespace SIL.Sponge.ConfigTools
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
 			this.locExtender.SetLocalizingId(this.btnOK, "NewSessionDlg.btnOK");
-			this.btnOK.Location = new System.Drawing.Point(181, 120);
+			this.btnOK.Location = new System.Drawing.Point(181, 166);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(80, 26);
-			this.btnOK.TabIndex = 8;
+			this.btnOK.TabIndex = 4;
 			this.btnOK.Text = "&OK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			// 
@@ -113,12 +114,26 @@ namespace SIL.Sponge.ConfigTools
 			this.lblMsg.Location = new System.Drawing.Point(12, 23);
 			this.lblMsg.Name = "lblMsg";
 			this.lblMsg.Size = new System.Drawing.Size(260, 17);
-			this.lblMsg.TabIndex = 5;
+			this.lblMsg.TabIndex = 0;
 			this.lblMsg.Text = "What would you like to call this session?";
 			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			// 
+			// btnCopyFiles
+			// 
+			this.locExtender.SetLocalizableToolTip(this.btnCopyFiles, null);
+			this.locExtender.SetLocalizationComment(this.btnCopyFiles, null);
+			this.locExtender.SetLocalizationPriority(this.btnCopyFiles, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnCopyFiles, "NewSessionDlg.btnCopyFiles");
+			this.btnCopyFiles.Location = new System.Drawing.Point(181, 124);
+			this.btnCopyFiles.Name = "btnCopyFiles";
+			this.btnCopyFiles.Size = new System.Drawing.Size(166, 26);
+			this.btnCopyFiles.TabIndex = 3;
+			this.btnCopyFiles.Text = "Copy Files into the Session...";
+			this.btnCopyFiles.UseVisualStyleBackColor = true;
+			this.btnCopyFiles.Click += new System.EventHandler(this.btnCopyFiles_Click);
 			// 
 			// NewSessionDlg
 			// 
@@ -126,9 +141,10 @@ namespace SIL.Sponge.ConfigTools
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(359, 158);
+			this.ClientSize = new System.Drawing.Size(359, 204);
+			this.Controls.Add(this.btnCopyFiles);
 			this.Controls.Add(this.lblPath);
-			this.Controls.Add(this.txtSessionName);
+			this.Controls.Add(this.txtName);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.lblMsg);
@@ -152,11 +168,12 @@ namespace SIL.Sponge.ConfigTools
 		#endregion
 
 		protected System.Windows.Forms.Label lblPath;
-		protected System.Windows.Forms.TextBox txtSessionName;
+		protected System.Windows.Forms.TextBox txtName;
 		protected System.Windows.Forms.Button btnCancel;
 		protected System.Windows.Forms.Button btnOK;
 		protected System.Windows.Forms.Label lblMsg;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolTip toolTip;
+		private System.Windows.Forms.Button btnCopyFiles;
 	}
 }

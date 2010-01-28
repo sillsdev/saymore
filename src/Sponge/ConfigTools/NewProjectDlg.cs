@@ -31,7 +31,7 @@ namespace SIL.Sponge.ConfigTools
 		/// Handles the TextChanged event of the txtProjectName control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected void txtProjectName_TextChanged(object sender, EventArgs e)
+		protected void txtName_TextChanged(object sender, EventArgs e)
 		{
 			SetLocationMsg();
 		}
@@ -71,7 +71,7 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		public string NewProjectName
 		{
-			get { return txtProjectName.Text.Trim(); }
+			get { return txtName.Text.Trim(); }
 		}
 
 		/// ------------------------------------------------------------------------------------

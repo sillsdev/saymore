@@ -29,7 +29,7 @@ namespace SIL.Sponge.ConfigTools
 			this.lblMsg = new System.Windows.Forms.Label();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
-			this.txtProjectName = new System.Windows.Forms.TextBox();
+			this.txtName = new System.Windows.Forms.TextBox();
 			this.lblPath = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -64,15 +64,15 @@ namespace SIL.Sponge.ConfigTools
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
-			// txtProjectName
+			// txtName
 			// 
-			resources.ApplyResources(this.txtProjectName, "txtProjectName");
-			this.locExtender.SetLocalizableToolTip(this.txtProjectName, null);
-			this.locExtender.SetLocalizationComment(this.txtProjectName, null);
-			this.locExtender.SetLocalizationPriority(this.txtProjectName, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.txtProjectName, "NewProjectDlg.txtProjectName");
-			this.txtProjectName.Name = "txtProjectName";
-			this.txtProjectName.TextChanged += new System.EventHandler(this.txtProjectName_TextChanged);
+			resources.ApplyResources(this.txtName, "txtName");
+			this.locExtender.SetLocalizableToolTip(this.txtName, null);
+			this.locExtender.SetLocalizationComment(this.txtName, null);
+			this.locExtender.SetLocalizationPriority(this.txtName, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.txtName, "NewProjectDlg.txtProjectName");
+			this.txtName.Name = "txtName";
+			this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
 			// 
 			// lblPath
 			// 
@@ -96,7 +96,7 @@ namespace SIL.Sponge.ConfigTools
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.CancelButton = this.btnCancel;
 			this.Controls.Add(this.lblPath);
-			this.Controls.Add(this.txtProjectName);
+			this.Controls.Add(this.txtName);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.lblMsg);
@@ -121,7 +121,7 @@ namespace SIL.Sponge.ConfigTools
         protected System.Windows.Forms.Label lblMsg;
         protected System.Windows.Forms.Button btnOK;
         protected System.Windows.Forms.Button btnCancel;
-        protected System.Windows.Forms.TextBox txtProjectName;
+        protected System.Windows.Forms.TextBox txtName;
         protected System.Windows.Forms.Label lblPath;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 		private System.ComponentModel.IContainer components;

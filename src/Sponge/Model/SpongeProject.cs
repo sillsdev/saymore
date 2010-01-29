@@ -15,6 +15,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -31,6 +32,8 @@ namespace SIL.Sponge.Model
 	[XmlType("spongeproject")]
 	public class SpongeProject
 	{
+		private List<string> m_sessions = new List<string>();
+
 		#region Static methods/properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -145,6 +148,24 @@ namespace SIL.Sponge.Model
 			get { return Path.Combine(ProjectPath, "Sessions"); }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the sessions.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("sessions"), XmlArrayItem("sessionName")]
+		public List<string> Sessions
+		{
+			get { return m_sessions; }
+			set
+			{
+				if (value == null)
+					m_sessions.Clear();
+				else
+					m_sessions = value;
+			}
+		}
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -154,7 +175,58 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
+			m_sessions.Sort();
 			XmlSerializationHelper.SerializeToFile(FullProjectPath, this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds the a session having the specified name. If adding the session succeeded,
+		/// then true is returned. Otherwise, false.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool AddSession(string sessionName)
+		{
+			var path = Path.Combine(SessionsPath, sessionName);
+			if (Directory.Exists(path))
+				return false;
+
+			Directory.CreateDirectory(path);
+			m_sessions.Add(sessionName);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path to the folder for the specified session. If the session folder
+		/// does not exist, then null is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetSessionFolder(string sessionName)
+		{
+			if (string.IsNullOrEmpty(sessionName))
+				return null;
+
+			var path = Path.Combine(SessionsPath, sessionName);
+			return (Directory.Exists(path) ? path : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the files found in the specified session. If the folder for the session does
+		/// not exist, then null is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] GetSessionFiles(string sessionName)
+		{
+			var path = GetSessionFolder(sessionName);
+			if (path == null)
+				return null;
+
+			var unsortedFiles = Directory.GetFiles(path, "*.*");
+			var sortedFiles = new List<string>(unsortedFiles);
+			sortedFiles.Sort();
+			return sortedFiles.ToArray();
 		}
 	}
 }

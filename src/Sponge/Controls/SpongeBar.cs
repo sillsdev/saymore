@@ -106,16 +106,22 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private void OverrideSpongeBarBorderPainting(object sender, ToolStripRenderEventArgs e)
 		{
-			// Paint over the bottom 3 pixels of the toolbar.
-			Rectangle rc = e.ToolStrip.ClientRectangle;
-			rc.Y = rc.Bottom - 3;
-			PaintSpongeBarBackground(e.Graphics, rc);
+			if (Dock == DockStyle.Top || Dock == DockStyle.Left)
+			{
+				// Paint over a couple of pixels at the left edge.
+				var rc = e.ToolStrip.ClientRectangle;
+				rc.Y = rc.Bottom - 3;
+				rc.Height = 3;
+				PaintSpongeBarBackground(e.Graphics, e.ToolStrip.ClientRectangle, rc);
+			}
 
-			// Paint over a couple of pixels at the left edge.
-			rc = e.ToolStrip.ClientRectangle;
-			rc.Width = 2;
-			using (var br = new SolidBrush(BackColorBegin))
-				e.Graphics.FillRectangle(br, rc);
+			if (Dock == DockStyle.Top)
+			{
+				// Paint over a couple of pixels at the left edge.
+				var rc = e.ToolStrip.ClientRectangle;
+				rc.Width = 2;
+				PaintSpongeBarBackground(e.Graphics, e.ToolStrip.ClientRectangle, rc);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -123,10 +129,25 @@ namespace SIL.Sponge.Controls
 		/// Paint in the specified rectangle the gradient blue of a sponge bar background.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void PaintSpongeBarBackground(Graphics g, Rectangle rc)
+		private void PaintSpongeBarBackground(Graphics g, Rectangle rc)
 		{
-			using (var br = new LinearGradientBrush(rc, BackColorBegin, BackColorEnd, GradientAngle))
-				g.FillRectangle(br, rc);
+			PaintSpongeBarBackground(g, rc, rc);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Paint in the specified rectangle the gradient blue of a sponge bar background.
+		/// </summary>
+		/// <param name="g">The graphics object.</param>
+		/// <param name="rcGradient">The rectangle used for calculating the gradient (i.e.
+		/// the rectangle used for constructing the LinearGradientBrush).</param>
+		/// <param name="rcFill">The rectangle that's filled using the FillRectangle method.
+		/// </param>
+		/// ------------------------------------------------------------------------------------
+		private void PaintSpongeBarBackground(Graphics g, Rectangle rcGradient, Rectangle rcFill)
+		{
+			using (var br = new LinearGradientBrush(rcGradient, BackColorBegin, BackColorEnd, GradientAngle))
+				g.FillRectangle(br, rcFill);
 		}
 	}
 }

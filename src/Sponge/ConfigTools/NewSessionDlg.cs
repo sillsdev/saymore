@@ -131,8 +131,11 @@ namespace SIL.Sponge.ConfigTools
 				dlg.CheckFileExists = true;
 				dlg.CheckPathExists = true;
 				dlg.Multiselect = true;
-				if (dlg.ShowDialog(this) == DialogResult.Cancel)
-					return;
+				if (dlg.ShowDialog(this) == DialogResult.OK)
+				{
+					foreach (string file in dlg.FileNames)
+						m_sessionFiles.Add(file);
+				}
 			}
 		}
 	}

@@ -102,12 +102,14 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Raises the <see cref="E:System.Windows.Forms.Form.Shown"/> event.
+		/// Raises the <see cref="E:System.Windows.Forms.Form.Load"/> event.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnShown(System.EventArgs e)
+		protected override void OnLoad(System.EventArgs e)
 		{
-			base.OnShown(e);
+			base.OnLoad(e);
+
+			// Do this here because it doesn't work in the constructor.
 			if (Settings.Default.MainWndBounds.Height >= 0)
 				Bounds = Settings.Default.MainWndBounds;
 		}

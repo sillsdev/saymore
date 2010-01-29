@@ -28,6 +28,41 @@ namespace SIL.Sponge.Model
 	[TestFixture]
 	public class SpongeProjectTests
 	{
+		private const string kTestPrjName = "~~Moldy Sponge";
+		private const string kTestPrjFileName = "~~MoldySponge.sprj";
+		private const string kTestSessionName = "~~Fungus";
+
+		private SpongeProject m_prj;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Runs before each test.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[SetUp]
+		public void TestSetup()
+		{
+			m_prj = ReflectionHelper.GetResult(typeof(SpongeProject),
+				"Create", kTestPrjName) as SpongeProject;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Runs after each test.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[TearDown]
+		public void TestTearDown()
+		{
+			try
+			{
+				Directory.Delete(m_prj.ProjectPath, true);
+			}
+			catch { }
+
+			Assert.IsFalse(Directory.Exists(m_prj.ProjectPath));
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Tests the private Create method
@@ -36,23 +71,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void Create()
 		{
-			var prj = ReflectionHelper.GetResult(typeof(SpongeProject),
-				"Create", "Moldy Sponge") as SpongeProject;
-
-			try
-			{
-				VerifyProject(prj, "Moldy Sponge");
-			}
-			finally
-			{
-				try
-				{
-					Directory.Delete(prj.ProjectPath, true);
-				}
-				catch { }
-			}
-
-			Assert.IsFalse(Directory.Exists(prj.ProjectPath));
+			VerifyProject(m_prj, kTestPrjName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,25 +82,10 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void Load()
 		{
-			var prj1 = ReflectionHelper.GetResult(typeof(SpongeProject),
-				"Create", "Moldy Sponge") as SpongeProject;
+			VerifyProject(m_prj, kTestPrjName);
 
-			try
-			{
-				VerifyProject(prj1, "Moldy Sponge");
-				var prj2 = SpongeProject.Load(prj1.FullProjectPath);
-				VerifyProject(prj2, "Moldy Sponge");
-			}
-			finally
-			{
-				try
-				{
-					Directory.Delete(prj1.ProjectPath, true);
-				}
-				catch { }
-			}
-
-			Assert.IsFalse(Directory.Exists(prj1.ProjectPath));
+			m_prj = SpongeProject.Load(m_prj.FullProjectPath);
+			VerifyProject(m_prj, kTestPrjName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,9 +104,72 @@ namespace SIL.Sponge.Model
 			Assert.AreEqual(expectedPath, prj.SessionsPath);
 			Assert.IsTrue(Directory.Exists(prj.SessionsPath));
 
-			expectedPath = Path.Combine(prj.ProjectPath, "MoldySponge.sprj");
+			expectedPath = Path.Combine(prj.ProjectPath, kTestPrjFileName);
 			Assert.AreEqual(expectedPath, prj.FullProjectPath);
 			Assert.IsTrue(File.Exists(prj.FullProjectPath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the AddSession method
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddSession()
+		{
+			Assert.AreEqual(0, m_prj.Sessions.Count);
+			Assert.IsTrue(m_prj.AddSession(kTestSessionName));
+			Assert.AreEqual(1, m_prj.Sessions.Count);
+			Assert.AreEqual(kTestSessionName, m_prj.Sessions[0]);
+
+			// Now add a session that already exists.
+			Assert.IsFalse(m_prj.AddSession(kTestSessionName));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the GetSessionFolder method
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSessionFolder()
+		{
+			Assert.IsNull(m_prj.GetSessionFolder(null));
+			Assert.IsNull(m_prj.GetSessionFolder(string.Empty));
+			Assert.IsNull(m_prj.GetSessionFolder(kTestSessionName));
+
+			m_prj.AddSession(kTestSessionName);
+			var path = Path.Combine(m_prj.SessionsPath, kTestSessionName);
+			Assert.AreEqual(path, m_prj.GetSessionFolder(kTestSessionName));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the GetSessionFiles method
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSessionFiles()
+		{
+			Assert.IsNull(m_prj.GetSessionFiles(null));
+			Assert.IsNull(m_prj.GetSessionFiles(string.Empty));
+
+			m_prj.AddSession(kTestSessionName);
+			Assert.AreEqual(0, m_prj.GetSessionFiles(kTestSessionName).Length);
+
+			// Create a few files in the session folder. Must use CreateText so we can
+			// close the files because Create leaves them locked too long.
+			var path = m_prj.GetSessionFolder(kTestSessionName);
+			File.CreateText(Path.Combine(path, "yak.pdf")).Close();
+			File.CreateText(Path.Combine(path, "hippo.wav")).Close();
+			File.CreateText(Path.Combine(path, "meerkat.wma")).Close();
+
+			// Get session's files and make sure they're returned sorted.
+			var files = m_prj.GetSessionFiles(kTestSessionName);
+			Assert.AreEqual(3, files.Length);
+			Assert.AreEqual(files[0], Path.Combine(path, "hippo.wav"));
+			Assert.AreEqual(files[1], Path.Combine(path, "meerkat.wma"));
+			Assert.AreEqual(files[2], Path.Combine(path, "yak.pdf"));
 		}
 	}
 }

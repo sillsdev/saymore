@@ -244,7 +244,6 @@ namespace SIL.Sponge
 			this.lpSessions.Location = new System.Drawing.Point(0, 0);
 			this.lpSessions.MinimumSize = new System.Drawing.Size(165, 0);
 			this.lpSessions.Name = "lpSessions";
-			this.lpSessions.NewItemText = "New Session Name";
 			this.lpSessions.Size = new System.Drawing.Size(165, 383);
 			this.lpSessions.TabIndex = 0;
 			this.lpSessions.Text = "Sessions";

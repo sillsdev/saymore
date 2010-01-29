@@ -31,12 +31,14 @@ namespace SIL.Sponge.Controls
 		private void InitializeComponent()
 		{
 			this.pnlList = new SilUtils.Controls.SilPanel();
+			this.pnlButtons = new System.Windows.Forms.Panel();
+			this.btnNew = new System.Windows.Forms.Button();
+			this.btnDelete = new System.Windows.Forms.Button();
 			this.lvItems = new System.Windows.Forms.ListView();
 			this.hdrList = new System.Windows.Forms.ColumnHeader();
-			this.btnDelete = new System.Windows.Forms.Button();
-			this.btnNew = new System.Windows.Forms.Button();
 			this.hlblItems = new SilUtils.Controls.HeaderLabel();
 			this.pnlList.SuspendLayout();
+			this.pnlButtons.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pnlList
@@ -46,9 +48,8 @@ namespace SIL.Sponge.Controls
 			this.pnlList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlList.ClipTextForChildControls = true;
 			this.pnlList.ControlReceivingFocusOnMnemonic = null;
+			this.pnlList.Controls.Add(this.pnlButtons);
 			this.pnlList.Controls.Add(this.lvItems);
-			this.pnlList.Controls.Add(this.btnDelete);
-			this.pnlList.Controls.Add(this.btnNew);
 			this.pnlList.Controls.Add(this.hlblItems);
 			this.pnlList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlList.DoubleBuffered = true;
@@ -59,6 +60,39 @@ namespace SIL.Sponge.Controls
 			this.pnlList.PaintExplorerBarBackground = false;
 			this.pnlList.Size = new System.Drawing.Size(165, 277);
 			this.pnlList.TabIndex = 1;
+			// 
+			// pnlButtons
+			// 
+			this.pnlButtons.Controls.Add(this.btnNew);
+			this.pnlButtons.Controls.Add(this.btnDelete);
+			this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.pnlButtons.Location = new System.Drawing.Point(0, 241);
+			this.pnlButtons.Name = "pnlButtons";
+			this.pnlButtons.Size = new System.Drawing.Size(163, 34);
+			this.pnlButtons.TabIndex = 2;
+			this.pnlButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlButtons_Paint);
+			// 
+			// btnNew
+			// 
+			this.btnNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnNew.Location = new System.Drawing.Point(4, 5);
+			this.btnNew.Name = "btnNew";
+			this.btnNew.Size = new System.Drawing.Size(75, 24);
+			this.btnNew.TabIndex = 0;
+			this.btnNew.Text = "&New";
+			this.btnNew.UseVisualStyleBackColor = true;
+			this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+			// 
+			// btnDelete
+			// 
+			this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnDelete.Location = new System.Drawing.Point(84, 5);
+			this.btnDelete.Name = "btnDelete";
+			this.btnDelete.Size = new System.Drawing.Size(75, 24);
+			this.btnDelete.TabIndex = 1;
+			this.btnDelete.Text = "&Delete";
+			this.btnDelete.UseVisualStyleBackColor = true;
+			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
 			// lvItems
 			// 
@@ -72,36 +106,15 @@ namespace SIL.Sponge.Controls
 			this.lvItems.LabelEdit = true;
 			this.lvItems.Location = new System.Drawing.Point(2, 31);
 			this.lvItems.Name = "lvItems";
-			this.lvItems.Size = new System.Drawing.Size(159, 213);
+			this.lvItems.Size = new System.Drawing.Size(159, 209);
 			this.lvItems.TabIndex = 0;
 			this.lvItems.UseCompatibleStateImageBehavior = false;
 			this.lvItems.View = System.Windows.Forms.View.Details;
+			this.lvItems.SelectedIndexChanged += new System.EventHandler(this.lvItems_SelectedIndexChanged);
 			// 
 			// hdrList
 			// 
 			this.hdrList.Text = "Events";
-			// 
-			// btnDelete
-			// 
-			this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnDelete.Location = new System.Drawing.Point(84, 248);
-			this.btnDelete.Name = "btnDelete";
-			this.btnDelete.Size = new System.Drawing.Size(75, 24);
-			this.btnDelete.TabIndex = 1;
-			this.btnDelete.Text = "&Delete";
-			this.btnDelete.UseVisualStyleBackColor = true;
-			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-			// 
-			// btnNew
-			// 
-			this.btnNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnNew.Location = new System.Drawing.Point(3, 248);
-			this.btnNew.Name = "btnNew";
-			this.btnNew.Size = new System.Drawing.Size(75, 24);
-			this.btnNew.TabIndex = 0;
-			this.btnNew.Text = "&New";
-			this.btnNew.UseVisualStyleBackColor = true;
-			this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
 			// 
 			// hlblItems
 			// 
@@ -123,10 +136,12 @@ namespace SIL.Sponge.Controls
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.pnlList);
+			this.DoubleBuffered = true;
 			this.MinimumSize = new System.Drawing.Size(165, 0);
 			this.Name = "ListPanel";
 			this.Size = new System.Drawing.Size(165, 277);
 			this.pnlList.ResumeLayout(false);
+			this.pnlButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -139,5 +154,6 @@ namespace SIL.Sponge.Controls
 		private System.Windows.Forms.Button btnDelete;
 		private System.Windows.Forms.Button btnNew;
 		private HeaderLabel hlblItems;
+		private System.Windows.Forms.Panel pnlButtons;
 	}
 }

@@ -90,7 +90,6 @@ namespace SIL.Sponge
 			this.lpPeople.Location = new System.Drawing.Point(0, 0);
 			this.lpPeople.MinimumSize = new System.Drawing.Size(165, 0);
 			this.lpPeople.Name = "lpPeople";
-			this.lpPeople.NewItemText = "New Person";
 			this.lpPeople.Size = new System.Drawing.Size(171, 383);
 			this.lpPeople.TabIndex = 0;
 			this.lpPeople.Text = "People";

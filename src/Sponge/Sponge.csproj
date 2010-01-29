@@ -91,7 +91,7 @@
     <Compile Include="Model\SessionFile.cs" />
     <Compile Include="Model\SpongeProject.cs" />
     <Compile Include="Model\Tag.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Sponge.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

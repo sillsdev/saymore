@@ -7,8 +7,15 @@ namespace SIL.Sponge
 	/// Used as the base class for all views needing slit panels
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class BaseSplitVw : UserControl
+	public partial class BaseSplitVw : UserControl, ISpongeView
 	{
+		protected bool m_isViewActive;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BaseSplitVw"/> class.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public BaseSplitVw()
 		{
 			InitializeComponent();
@@ -36,5 +43,38 @@ namespace SIL.Sponge
 			get { return !splitRightSide.Panel2Collapsed; }
 			set { splitRightSide.Panel2Collapsed = !value; }
 		}
+
+		#region ISpongeView Members
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether the view is active.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual bool IsViewActive
+		{
+			get { return m_isViewActive; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called when views is activated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual void ViewActivated(bool firstTime)
+		{
+			m_isViewActive = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called when the view is deactivated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual void ViewDeactivated()
+		{
+			m_isViewActive = false;
+		}
+
+		#endregion
 	}
 }

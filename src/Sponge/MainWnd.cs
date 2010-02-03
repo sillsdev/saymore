@@ -47,6 +47,7 @@ namespace SIL.Sponge
 		public MainWnd(SpongeProject prj) : this()
 		{
 			CurrentProject = prj;
+			CurrentProject.FileWatcherSynchronizingObject = this;
 			SetupViews();
 			m_viewManger.SetView(tsbSetup);
 			SetWindowText();
@@ -62,7 +63,7 @@ namespace SIL.Sponge
 		{
 			m_setupView = new SetupVw();
 			m_overviewView = new OverviewVw();
-			m_sessionsView = new SessionsVw();
+			m_sessionsView = new SessionsVw(CurrentProject);
 			m_peopleView = new PeopleVw();
 			m_sendReceiveView = new SendReceiveVw();
 

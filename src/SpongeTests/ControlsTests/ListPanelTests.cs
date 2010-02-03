@@ -16,10 +16,8 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.IO;
 using NUnit.Framework;
 using SilUtils;
-using System.Windows.Forms;
 
 namespace SIL.Sponge.Controls
 {
@@ -86,7 +84,7 @@ namespace SIL.Sponge.Controls
 			Assert.IsNull(m_lp.CurrentItem);
 
 			m_lp.Items = new[] { "eyes", "ears", "nose", "mouth" };
-			Assert.IsNull(m_lp.CurrentItem);
+			Assert.AreEqual("eyes", m_lp.CurrentItem);
 
 			m_lp.CurrentItem = "nose";
 			Assert.AreEqual("nose", m_lp.CurrentItem);
@@ -120,7 +118,7 @@ namespace SIL.Sponge.Controls
 		{
 			bool delegateCalled = false;
 
-			m_lp.DeleteButtonClicked += delegate(object sender, List<string> itemsToDelete)
+			m_lp.DeleteButtonClicked += delegate(object sender, List<object> itemsToDelete)
 			{
 				Assert.AreEqual(3, itemsToDelete.Count);
 				Assert.AreEqual("water", itemsToDelete[0]);
@@ -166,16 +164,16 @@ namespace SIL.Sponge.Controls
 		[Test]
 		public void SelectedItemChanged()
 		{
-			string expectedItem = null;
+			string expectedItem = "wheat";
 			bool delegateCalled = false;
 
-			m_lp.SelectedItemChanged += delegate(object sender, string newItem)
+			m_lp.SelectedItemChanged += delegate(object sender, object newItem)
 			{
 				Assert.AreEqual(expectedItem, newItem);
 				delegateCalled = true;
 			};
 
-			m_lp.Items = new[] { "wheat", "oats", "flax", "rice" };
+			m_lp.Items = new[] { expectedItem, "oats", "flax", "rice" };
 			Assert.AreEqual(4, m_lp.Items.Length);
 
 			expectedItem = "oats";

@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -37,6 +38,23 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Creates an array of SessionFile objects from the specified list of session names.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static SessionFile[] CreateArray(string[] sessionFileNames)
+		{
+			if (sessionFileNames == null)
+				return null;
+
+			var sessionFiles = new List<SessionFile>(sessionFileNames.Length);
+			foreach (string file in sessionFileNames)
+				sessionFiles.Add(new SessionFile(file));
+
+			return sessionFiles.ToArray();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Initializes a new instance of the <see cref="SessionFile"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -47,6 +65,16 @@ namespace SIL.Sponge.Model
 			Icon icon = Icon.ExtractAssociatedIcon(m_fileName);
 			LargeIcon = new Bitmap(icon.ToBitmap());
 			SetSmallIcon();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the name of the file (without its path).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string FileName
+		{
+			get { return Path.GetFileName(m_fileName); }
 		}
 
 		/// ------------------------------------------------------------------------------------

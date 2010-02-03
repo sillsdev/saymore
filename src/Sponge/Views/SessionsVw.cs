@@ -1,7 +1,13 @@
 using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using SIL.Sponge.ConfigTools;
+using SIL.Sponge.Model;
+using SIL.Sponge.Properties;
 using SilUtils;
 
 namespace SIL.Sponge
@@ -13,12 +19,60 @@ namespace SIL.Sponge
 	/// ----------------------------------------------------------------------------------------
 	public partial class SessionsVw : BaseSplitVw
 	{
+		private SpongeProject m_currProj;
+		private Session m_currSession;
+		private SessionFile[] m_currSessionFiles;
+		private bool m_refreshNeeded;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SessionsVw"/> class.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public SessionsVw()
 		{
 			InitializeComponent();
 
 			gridFiles.AlternatingRowsDefaultCellStyle.BackColor =
 				ColorHelper.CalculateColor(Color.Black, gridFiles.DefaultCellStyle.BackColor, 10);
+
+			gridFiles.Dock = DockStyle.Fill;
+
+			lblNoSessionsMsg.BackColor = lpSessions.ListView.BackColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SessionsVw"/> class.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SessionsVw(SpongeProject m_prj) : this()
+		{
+			m_currProj = (m_prj ?? MainWnd.CurrentProject);
+			m_currProj.ProjectChanged += HandleProjectChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.HandleDestroyed"/> event.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			m_currProj.ProjectChanged -= HandleProjectChanged;
+
+			// Persist the width of each column on the files tab.
+			var colWidths = new int[gridFiles.Columns.Count];
+			for (int i = 0; i < gridFiles.ColumnCount; i++)
+				colWidths[i] = gridFiles.Columns[i].Width;
+
+			Settings.Default.SessionFileCols =
+				PortableSettingsProvider.GetStringFromIntArray(colWidths);
+
+			Settings.Default.SessionVwSplitterPos = splitOuter.SplitterDistance;
+			Settings.Default.Save();
+
+			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -32,38 +86,249 @@ namespace SIL.Sponge
 			tabSessions.Invalidate();
 		}
 
-		private void btnAddFile_Click(object sender, EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handle adding a new session via clicking on the new button.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private object lpSessions_NewButtonClicked(object sender)
 		{
-			using (var dlg = new OpenFileDialog())
+			using (var dlg = new NewSessionDlg(m_currProj.ProjectPath))
 			{
-				dlg.Filter = "All Files (*.*)|*.*";
-				dlg.CheckFileExists = true;
-				dlg.CheckPathExists = true;
+				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
+				{
+					var newSession = m_currProj.AddSession(dlg.NewSessionName);
+					newSession.AddFiles(dlg.SessionFiles);
+					lblNoSessionsMsg.Visible = false;
+					lpSessions.ListView.Focus();
+					return newSession;
+				}
+			}
 
-				if (dlg.ShowDialog() == DialogResult.OK)
-					AddFile(dlg.FileName);
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handle deleting a session via clicking on the delete button.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool lpSessions_DeleteButtonClicked(object sender, List<object> itemsToDelete)
+		{
+			//lblNoSessionsMsg.Visible = true;
+
+			return default(bool);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the selected session changing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void lpSessions_SelectedItemChanged(object sender, object newItem)
+		{
+			RefreshFileList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adjust the size of the empty session message and move the session folder link
+		/// accordingly.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void pnlGrid_SizeChanged(object sender, EventArgs e)
+		{
+			using (var g = lblEmptySessionMsg.CreateGraphics())
+			{
+				var sz = new Size(lblEmptySessionMsg.Width, int.MaxValue);
+				var dy = TextRenderer.MeasureText(g, lblEmptySessionMsg.Text,
+					lblEmptySessionMsg.Font, sz, TextFormatFlags.WordBreak).Height;
+
+				lblEmptySessionMsg.Height = dy;
+				lnkSessionPath.Top = lblEmptySessionMsg.Bottom + 5;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Adds the file.
+		/// Start an OS process to browse the file system.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void AddFile(string fileName)
+		private void lnkSessionPath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-
-
-
-
-			//object[] cells = new object[gridFiles.ColumnCount];
-			////cells[0] = bm;
-			//cells[0] = IconHelper.GetIconAsBitmapFromFile(fileName);
-			//cells[1] = Path.GetFileName(fileName);
-			//cells[2] = Convert.ToString(shinfo.szTypeName.Trim());
-			//FileInfo fi = new FileInfo(fileName);
-			//cells[4] = fi.LastWriteTime.ToString();
-			//gridFiles.AddRow(cells);
+			Process.Start(lnkSessionPath.Text);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the CellValueNeeded event of the gridFiles control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void gridFiles_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+		{
+			if (m_currSessionFiles == null || e.RowIndex < 0 || e.RowIndex >= m_currSessionFiles.Length)
+				e.Value = null;
+			else
+			{
+				e.Value = ReflectionHelper.GetProperty(m_currSessionFiles[e.RowIndex],
+					gridFiles.Columns[e.ColumnIndex].DataPropertyName);
+			}
+		}
+
+		#region Methods for dragging and dropping files on files tab
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Files the list drag drop.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void FileListDragDrop(object sender, DragEventArgs e)
+		{
+			var droppedFiles = e.Data.GetData(DataFormats.FileDrop) as string[];
+			if (droppedFiles == null || e.AllowedEffect == DragDropEffects.None)
+				return;
+
+			// TODO: Handle copy/move when dropping folders.
+			// REVIEW: What should we do when dragging a folder? Should session folders be
+			// allowed to contain subfolders?
+			m_currSession.AddFiles(droppedFiles);
+			RefreshFileList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the DragOver event of the pnlGrid control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void FileListDragOver(object sender, DragEventArgs e)
+		{
+			const int leftMouse = 1;
+			const int shift = 4 + leftMouse;
+			//const int ctrl = 8 + leftMouse;
+
+			if (!e.Data.GetDataPresent(DataFormats.FileDrop) || (e.KeyState & leftMouse) == 0 ||
+				lpSessions.CurrentItem == null)
+			{
+				e.Effect = DragDropEffects.None;
+				return;
+			}
+
+			// TODO: Handle move.
+			e.Effect = (e.KeyState == shift ? DragDropEffects.None : DragDropEffects.Copy);
+		}
+
+		#endregion
+
+		#region Methods for refreshing sessions and sessions file lists
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Fired when there's a change in the files or folders of the project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleProjectChanged(object sender, EventArgs e)
+		{
+			if (!m_isViewActive)
+			{
+				// The view is not active so don't update it yet. Set a flag so that when
+				// the view does become active again, it will be Wait until the view
+				// becomes active again.
+				m_refreshNeeded = true;
+				return;
+			}
+
+			RefreshSessionList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Refreshes the list of sessions.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void RefreshSessionList()
+		{
+			lpSessions.Items = m_currProj.Sessions.ToArray();
+			lblNoSessionsMsg.Visible = (lpSessions.Items.Length == 0);
+
+			// RefreshFileList will be called automatically when there are some sessions
+			// (as a result of setting the lpSessions.Items property above). However, when
+			// there are no sessions, it won't be called automatically so we need to force
+			// the issue here.
+			if (lpSessions.Items.Length == 0)
+				RefreshFileList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Refreshes the file list for the current session.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void RefreshFileList()
+		{
+			tabSessions.SuspendLayout();
+
+			// TODO: keep track of currently selected file and try to restore
+			// that after rebuilding the list.
+			m_currSession = lpSessions.CurrentItem as Session;
+			m_currSessionFiles = (m_currSession == null ? null :
+				(from x in m_currSession.SessionFiles
+				 select new SessionFile(x)).ToArray());
+
+			lblEmptySessionMsg.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
+			lnkSessionPath.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
+			gridFiles.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length > 0);
+
+			if (m_currSessionFiles != null)
+			{
+				gridFiles.RowCount = m_currSessionFiles.Length;
+				lnkSessionPath.Text = m_currSession.SessionPath;
+			}
+
+			tabSessions.ResumeLayout(true);
+			tabSessions.Invalidate();
+		}
+
+		#endregion
+
+		#region Overrides
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called when views is activated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override void ViewActivated(bool firstTime)
+		{
+			base.ViewActivated(firstTime);
+
+			if (m_refreshNeeded || firstTime)
+			{
+				RefreshSessionList();
+				m_refreshNeeded = false;
+			}
+
+			if (firstTime)
+			{
+				if (Settings.Default.SessionVwSplitterPos > 0)
+					splitOuter.SplitterDistance = Settings.Default.SessionVwSplitterPos;
+
+				var colWidths = PortableSettingsProvider.GetIntArrayFromString(
+					Settings.Default.SessionFileCols);
+
+				for (int i = 0; i < colWidths.Length && i < gridFiles.ColumnCount; i++)
+					gridFiles.Columns[i].Width = colWidths[i];
+
+				//fileSysWatcher.Path = m_currProj.ProjectPath;
+				//fileSysWatcher.EnableRaisingEvents = true;
+
+				// When running tests, subscribing to these events should not be done,
+				// therefore, only do so when there is a form hosting this view.
+				if (FindForm() != null)
+				{
+					pnlGrid.AllowDrop = true;
+					pnlGrid.DragOver += FileListDragOver;
+					pnlGrid.DragDrop += FileListDragDrop;
+				}
+			}
+		}
+
+		#endregion
 	}
 }

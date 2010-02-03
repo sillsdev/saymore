@@ -30,6 +30,7 @@ namespace SIL.Sponge.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.pnlList = new SilUtils.Controls.SilPanel();
 			this.pnlButtons = new System.Windows.Forms.Panel();
 			this.btnNew = new System.Windows.Forms.Button();
@@ -37,8 +38,10 @@ namespace SIL.Sponge.Controls
 			this.lvItems = new System.Windows.Forms.ListView();
 			this.hdrList = new System.Windows.Forms.ColumnHeader();
 			this.hlblItems = new SilUtils.Controls.HeaderLabel();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlList.SuspendLayout();
 			this.pnlButtons.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlList
@@ -54,6 +57,9 @@ namespace SIL.Sponge.Controls
 			this.pnlList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlList.DoubleBuffered = true;
 			this.pnlList.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.locExtender.SetLocalizableToolTip(this.pnlList, null);
+			this.locExtender.SetLocalizationComment(this.pnlList, null);
+			this.locExtender.SetLocalizingId(this.pnlList, "ListPanel.pnlList");
 			this.pnlList.Location = new System.Drawing.Point(0, 0);
 			this.pnlList.MnemonicGeneratesClick = false;
 			this.pnlList.Name = "pnlList";
@@ -75,6 +81,9 @@ namespace SIL.Sponge.Controls
 			// btnNew
 			// 
 			this.btnNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.locExtender.SetLocalizableToolTip(this.btnNew, null);
+			this.locExtender.SetLocalizationComment(this.btnNew, null);
+			this.locExtender.SetLocalizingId(this.btnNew, "ListPanel.btnNew");
 			this.btnNew.Location = new System.Drawing.Point(4, 5);
 			this.btnNew.Name = "btnNew";
 			this.btnNew.Size = new System.Drawing.Size(75, 24);
@@ -86,6 +95,9 @@ namespace SIL.Sponge.Controls
 			// btnDelete
 			// 
 			this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.locExtender.SetLocalizableToolTip(this.btnDelete, null);
+			this.locExtender.SetLocalizationComment(this.btnDelete, null);
+			this.locExtender.SetLocalizingId(this.btnDelete, "ListPanel.btnDelete");
 			this.btnDelete.Location = new System.Drawing.Point(84, 5);
 			this.btnDelete.Name = "btnDelete";
 			this.btnDelete.Size = new System.Drawing.Size(75, 24);
@@ -103,6 +115,7 @@ namespace SIL.Sponge.Controls
 			this.lvItems.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.hdrList});
 			this.lvItems.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			this.lvItems.HideSelection = false;
 			this.lvItems.LabelEdit = true;
 			this.lvItems.Location = new System.Drawing.Point(2, 31);
 			this.lvItems.Name = "lvItems";
@@ -114,6 +127,9 @@ namespace SIL.Sponge.Controls
 			// 
 			// hdrList
 			// 
+			this.locExtender.SetLocalizableToolTip(this.hdrList, null);
+			this.locExtender.SetLocalizationComment(this.hdrList, null);
+			this.locExtender.SetLocalizingId(this.hdrList, "ListPanel.lvItems");
 			this.hdrList.Text = "Events";
 			// 
 			// hlblItems
@@ -122,6 +138,10 @@ namespace SIL.Sponge.Controls
 			this.hlblItems.ControlReceivingFocusOnMnemonic = null;
 			this.hlblItems.Dock = System.Windows.Forms.DockStyle.Top;
 			this.hlblItems.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.locExtender.SetLocalizableToolTip(this.hlblItems, null);
+			this.locExtender.SetLocalizationComment(this.hlblItems, "Localized in controls that host this one.");
+			this.locExtender.SetLocalizationPriority(this.hlblItems, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.hlblItems, "ListPanel.hlblItems");
 			this.hlblItems.Location = new System.Drawing.Point(0, 0);
 			this.hlblItems.MinimumSize = new System.Drawing.Size(165, 0);
 			this.hlblItems.MnemonicGeneratesClick = false;
@@ -131,17 +151,25 @@ namespace SIL.Sponge.Controls
 			this.hlblItems.TabIndex = 0;
 			this.hlblItems.Text = "Items";
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Misc. Controls";
+			// 
 			// ListPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.pnlList);
 			this.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "ListPanel.ListPanel");
 			this.MinimumSize = new System.Drawing.Size(165, 0);
 			this.Name = "ListPanel";
 			this.Size = new System.Drawing.Size(165, 277);
 			this.pnlList.ResumeLayout(false);
 			this.pnlButtons.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -155,5 +183,6 @@ namespace SIL.Sponge.Controls
 		private System.Windows.Forms.Button btnNew;
 		private HeaderLabel hlblItems;
 		private System.Windows.Forms.Panel pnlButtons;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}
 }

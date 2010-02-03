@@ -85,5 +85,29 @@ namespace SIL.Sponge.Properties {
                 this["WelcomeDlgBounds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int SessionVwSplitterPos {
+            get {
+                return ((int)(this["SessionVwSplitterPos"]));
+            }
+            set {
+                this["SessionVwSplitterPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string SessionFileCols {
+            get {
+                return ((string)(this["SessionFileCols"]));
+            }
+            set {
+                this["SessionFileCols"] = value;
+            }
+        }
     }
 }

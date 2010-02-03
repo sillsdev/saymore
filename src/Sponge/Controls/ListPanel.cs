@@ -7,15 +7,20 @@ using System.Windows.Forms;
 
 namespace SIL.Sponge.Controls
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// Control encapsulating a heading, list view and 'New'/'Delete' buttons.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class ListPanel : UserControl
 	{
-		public delegate void SelectedItemChangedHandler(object sender, string newItem);
+		public delegate void SelectedItemChangedHandler(object sender, object newItem);
 		public event SelectedItemChangedHandler SelectedItemChanged;
 
-		public delegate bool DeleteButtonClickHandler(object sender, List<string> itemsToDelete);
+		public delegate bool DeleteButtonClickHandler(object sender, List<object> itemsToDelete);
 		public event DeleteButtonClickHandler DeleteButtonClicked;
 
-		public delegate string NewButtonClickedHandler(object sender);
+		public delegate object NewButtonClickedHandler(object sender);
 		public event NewButtonClickedHandler NewButtonClicked;
 
 		/// ------------------------------------------------------------------------------------
@@ -56,26 +61,29 @@ namespace SIL.Sponge.Controls
 		/// Gets the list of items.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string[] Items
+		public object[] Items
 		{
 			get
 			{
 				if (lvItems.Items.Count == 0)
-					return new string[] { };
+					return new object[] { };
 
-				var items = new List<string>(lvItems.Items.Count);
+				var items = new List<object>(lvItems.Items.Count);
 				foreach (ListViewItem item in lvItems.Items)
-					items.Add(item.Text);
+					items.Add(item.Tag);
 
 				return items.ToArray();
 			}
 			set
 			{
+				var currItem = CurrentItem;
 				lvItems.Items.Clear();
-				if (value != null)
+				if (value != null && value.Length > 0)
 				{
-					foreach (string text in value)
-						lvItems.Items.Add(text);
+					foreach (object obj in value)
+						lvItems.Items.Add(obj.ToString()).Tag = obj;
+
+					CurrentItem = (currItem ?? value[0]);
 				}
 			}
 		}
@@ -85,18 +93,20 @@ namespace SIL.Sponge.Controls
 		/// Gets or sets the current item in the list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string CurrentItem
+		public object CurrentItem
 		{
-			get { return (lvItems.FocusedItem == null ? null : lvItems.FocusedItem.Text); }
+			get { return (lvItems.FocusedItem == null ? null : lvItems.FocusedItem.Tag); }
 			set
 			{
 				if (value != null)
 				{
-					lvItems.FocusedItem = lvItems.FindItemWithText(value);
+					lvItems.FocusedItem = lvItems.FindItemWithText(value.ToString());
 					lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
 					lvItems.SelectedItems.Clear();
 					lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
-					lvItems.FocusedItem.Selected = true;
+
+					if (lvItems.FocusedItem != null)
+						lvItems.FocusedItem.Selected = true;
 				}
 			}
 		}
@@ -126,25 +136,25 @@ namespace SIL.Sponge.Controls
 			if (lvItems.SelectedItems.Count == 0 || DeleteButtonClicked == null)
 				return;
 
-			// Create a list with the text of each selected item.
-			var itemsToDelete = new List<string>(lvItems.SelectedItems.Count);
+			// Create a list containing each selected item.
+			var itemsToDelete = new List<object>(lvItems.SelectedItems.Count);
 			foreach (ListViewItem item in lvItems.SelectedItems)
-				itemsToDelete.Add(item.Text);
+				itemsToDelete.Add(item.Tag);
 
 			// Call delegates.
 			if (!DeleteButtonClicked(this, itemsToDelete))
 				return;
 
-			var currText =  lvItems.FocusedItem.Text;
+			var currText = lvItems.FocusedItem.Text;
 			var currIndex = lvItems.FocusedItem.Index;
 
 			lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
 
 			// Remove the selected item. (This list could have been modified by a
 			// delegate.)
-			foreach (string text in itemsToDelete)
+			foreach (object obj in itemsToDelete)
 			{
-				var item = lvItems.FindItemWithText(text);
+				var item = lvItems.FindItemWithText(obj.ToString());
 				if (item != null)
 					lvItems.Items.Remove(item);
 			}
@@ -189,7 +199,7 @@ namespace SIL.Sponge.Controls
 			{
 				// TODO: Insert item in sorted order.
 				lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
-				lvItems.Items.Add(newItem);
+				lvItems.Items.Add(newItem.ToString()).Tag = newItem;
 				lvItems.SelectedItems.Clear();
 				lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
 				CurrentItem = newItem;
@@ -206,7 +216,7 @@ namespace SIL.Sponge.Controls
 			if (SelectedItemChanged != null)
 			{
 				SelectedItemChanged(this, lvItems.FocusedItem != null ?
-					lvItems.FocusedItem.Text : null);
+					lvItems.FocusedItem.Tag : null);
 			}
 		}
 

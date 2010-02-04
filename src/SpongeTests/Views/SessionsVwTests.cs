@@ -40,7 +40,6 @@ namespace SIL.Sponge.Model
 		private Label m_lblNoSessionsMsg;
 		private Label m_lblEmptySessionMsg;
 		private LinkLabel m_lnkSessionPath;
-		private SessionFile[] m_currSessionFiles;
 
 		private string[] m_sessionNames = new[] { "cake", "donuts", "icecream", "pie" };
 
@@ -84,7 +83,6 @@ namespace SIL.Sponge.Model
 			m_lnkSessionPath = ReflectionHelper.GetField(m_vw, "lnkSessionPath") as LinkLabel;
 			m_lpSessions = ReflectionHelper.GetField(m_vw, "lpSessions") as ListPanel;
 			m_gridFiles = ReflectionHelper.GetField(m_vw, "gridFiles") as DataGridView;
-			m_currSessionFiles = ReflectionHelper.GetField(m_vw, "m_currSessionFiles") as SessionFile[];
 
 			m_frmHost.Controls.Add(m_vw);
 			m_frmHost.Show();
@@ -181,40 +179,110 @@ namespace SIL.Sponge.Model
 
 			Assert.AreEqual(0, m_gridFiles.RowCount);
 
-			//m_currSessionFiles = new SessionFile[3];
-			//var path = m_prj.GetSessionFolder(m_sessionNames[3]);
-			//var sessionFiles
+			var session = m_lpSessions.CurrentItem as Session;
 
-			//var file = Path.Combine(path, "fred.pdf");
-			//File.CreateText(file).Close();
-			//m_prj.AddSessionFiles(
-			//var sf = new SessionFile(file);
-			//m_currSessionFiles[0] = sf;
+			// Add a file to the session
+			var file = Path.Combine(session.SessionPath, "fred.pdf");
+			File.CreateText(file).Close();
+			session.AddFiles(new[] { file });
+			ReflectionHelper.CallMethod(m_vw, "RefreshFileList");
+			var currSessionFiles = ReflectionHelper.GetField(m_vw, "m_currSessionFiles") as SessionFile[];
 
-			//file = Path.Combine(path, "barney.mp3");
-			//File.CreateText(file).Close();
-			//sf = new SessionFile(file);
-			//m_currSessionFiles[1] = sf;
+			// Verify a bunch of stuff after adding a single file.
+			Assert.AreEqual(1, currSessionFiles.Length);
+			Assert.AreEqual("fred.pdf", currSessionFiles[0].FileName);
+			Assert.AreEqual(1, m_gridFiles.RowCount);
+			Assert.IsFalse(m_lblEmptySessionMsg.Visible);
+			Assert.IsFalse(m_lnkSessionPath.Visible);
+			Assert.IsTrue(m_gridFiles.Visible);
 
-			//file = Path.Combine(path, "wilma.doc");
-			//File.CreateText(file).Close();
-			//sf = new SessionFile(file);
-			//m_currSessionFiles[2] = sf;
+			// Add a couple more files to the session.
+			var file1 = Path.Combine(session.SessionPath, "barney.mp3");
+			var file2 = Path.Combine(session.SessionPath, "wilma.doc");
+			File.CreateText(file1).Close();
+			File.CreateText(file2).Close();
+			session.AddFiles(new[] { file1, file2 });
+			ReflectionHelper.CallMethod(m_vw, "RefreshFileList");
+			currSessionFiles = ReflectionHelper.GetField(m_vw, "m_currSessionFiles") as SessionFile[];
 
-			//ReflectionHelper.CallMethod(m_vw, "RefreshSessionList");
-			//Assert.AreEqual(3, m_gridFiles.RowCount);
+			// Verify stuff after adding another two files, including order of file names.
+			Assert.AreEqual(3, currSessionFiles.Length);
+			Assert.AreEqual("barney.mp3", currSessionFiles[0].FileName);
+			Assert.AreEqual("fred.pdf", currSessionFiles[1].FileName);
+			Assert.AreEqual("wilma.doc", currSessionFiles[2].FileName);
+			Assert.AreEqual(3, m_gridFiles.RowCount);
+		}
 
-			//m_currSessionFiles = m_currProj.GetSessionFiles(lpSessions.CurrentItem);
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the FileListDragOver method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void FileListDragOver()
+		{
+			SetTab("tpgFiles");
 
-			//lblEmptySessionMsg.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
-			//lnkSessionPath.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
-			//gridFiles.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length > 0);
+			const int leftMouse = 1;
+			const int shift = 4 + leftMouse;
+			const int ctrl = 8 + leftMouse;
 
-			//if (m_currSessionFiles != null)
-			//{
-			//    gridFiles.RowCount = m_currSessionFiles.Length;
-			//    lnkSessionPath.Text = m_currProj.GetSessionFolder(lpSessions.CurrentItem);
-			//}
+			var tmpFiles = new[] {Path.GetTempFileName(),
+				Path.GetTempFileName(), Path.GetTempFileName() };
+
+			try
+			{
+				// Make sure there is no current session specified in the side panel sessions list.
+				Assert.IsNull(m_lpSessions.CurrentItem);
+
+				// Test when there is no current session selected.
+				var dragObj = new DataObject(DataFormats.FileDrop, tmpFiles);
+				var args = new DragEventArgs(dragObj, leftMouse, 0, 0, DragDropEffects.All, DragDropEffects.All);
+				ReflectionHelper.CallMethod(m_vw, "FileListDragOver", new[] { null, args });
+				Assert.AreEqual(DragDropEffects.None, args.Effect);
+
+				// Add some sessions, update the side panel sessions list and set the current session.
+				AddTestSessions();
+				ReflectionHelper.CallMethod(m_vw, "RefreshSessionList");
+				m_lpSessions.CurrentItem = m_sessionNames[3];
+				Assert.AreEqual(m_sessionNames[3], m_lpSessions.CurrentItem.ToString());
+
+				// Test when KeyState invalid.
+				args = new DragEventArgs(dragObj, 0, 0, 0, DragDropEffects.All, DragDropEffects.All);
+				ReflectionHelper.CallMethod(m_vw, "FileListDragOver", new[] { null, args });
+				Assert.AreEqual(DragDropEffects.None, args.Effect);
+
+				// Test when data format is invalid.
+				dragObj = new DataObject(DataFormats.Bitmap, tmpFiles);
+				args = new DragEventArgs(dragObj, leftMouse, 0, 0, DragDropEffects.All, DragDropEffects.All);
+				ReflectionHelper.CallMethod(m_vw, "FileListDragOver", new[] { null, args });
+				Assert.AreEqual(DragDropEffects.None, args.Effect);
+
+				// Test when all info. is valid and CTRL and SHIFT are not pressed.
+				dragObj = new DataObject(DataFormats.FileDrop, tmpFiles);
+				args = new DragEventArgs(dragObj, leftMouse, 0, 0, DragDropEffects.All, DragDropEffects.All);
+				ReflectionHelper.CallMethod(m_vw, "FileListDragOver", new[] { null, args });
+				Assert.AreEqual(DragDropEffects.Copy, args.Effect);
+
+				// Test when all info. is valid and CTRL is pressed (i.e. file copy).
+				args = new DragEventArgs(dragObj, ctrl, 0, 0, DragDropEffects.All, DragDropEffects.All);
+				ReflectionHelper.CallMethod(m_vw, "FileListDragOver", new[] { null, args });
+				Assert.AreEqual(DragDropEffects.Copy, args.Effect);
+
+				// TODO: Uncomment when move is supported
+				// Test when all info. is valid and Shift is pressed (i.e. file move).
+				//args = new DragEventArgs(dragObj, shift, 0, 0, DragDropEffects.All, DragDropEffects.All);
+				//ReflectionHelper.CallMethod(m_vw, "FileListDragOver", new[] { null, args });
+				//Assert.AreEqual(DragDropEffects.Copy, args.Effect);
+			}
+			finally
+			{
+				foreach (string file in tmpFiles)
+				{
+					try { File.Delete(file); }
+					catch { }
+				}
+			}
 		}
 	}
 }

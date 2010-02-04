@@ -49,7 +49,7 @@ namespace SIL.Sponge
 		public SessionsVw(SpongeProject m_prj) : this()
 		{
 			m_currProj = (m_prj ?? MainWnd.CurrentProject);
-			m_currProj.ProjectChanged += HandleProjectChanged;
+			m_currProj.ProjectChanged += HandleProjectFoldersChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			m_currProj.ProjectChanged -= HandleProjectChanged;
+			m_currProj.ProjectChanged -= HandleProjectFoldersChanged;
 
 			// Persist the width of each column on the files tab.
 			var colWidths = new int[gridFiles.Columns.Count];
@@ -212,8 +212,9 @@ namespace SIL.Sponge
 				return;
 			}
 
-			// TODO: Handle move.
-			e.Effect = (e.KeyState == shift ? DragDropEffects.None : DragDropEffects.Copy);
+			// TODO: Uncomment when move is supported.
+			//e.Effect = (e.KeyState == shift ? DragDropEffects.Move : DragDropEffects.Copy);
+			e.Effect = DragDropEffects.Copy;
 		}
 
 		#endregion
@@ -224,7 +225,7 @@ namespace SIL.Sponge
 		/// Fired when there's a change in the files or folders of the project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleProjectChanged(object sender, EventArgs e)
+		private void HandleProjectFoldersChanged(object sender, EventArgs e)
 		{
 			if (!m_isViewActive)
 			{

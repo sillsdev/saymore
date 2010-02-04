@@ -196,7 +196,7 @@ namespace SIL.Sponge.Model
 			Directory.CreateDirectory(Path.Combine(m_prj.SessionsPath, "guava"));
 
 			ReflectionHelper.CallMethod(m_prj, "UpdateSessions");
-			Assert.AreEqual(5, m_prj.SessionNames.Length);
+			Assert.AreEqual(5, m_prj.Sessions.Count);
 			Assert.AreEqual("grapefruit", m_prj.Sessions[0].Name);
 			Assert.AreEqual("guava", m_prj.Sessions[1].Name);
 		}

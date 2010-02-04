@@ -54,17 +54,8 @@ namespace SIL.Sponge.Model
 		private Session(SpongeProject prj, string name)
 		{
 			Project = prj;
-
-			if (Path.IsPathRooted(name))
-			{
-				Name = Path.GetFileName(name);
-				SessionPath = name;
-			}
-			else
-			{
-				Name = name;
-				SessionPath = Path.Combine(prj.SessionsPath, Name);
-			}
+			Name = name;
+			SessionPath = Path.Combine(prj.SessionsPath, Name);
 		}
 
 		/// ------------------------------------------------------------------------------------

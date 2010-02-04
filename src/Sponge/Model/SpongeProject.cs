@@ -122,7 +122,7 @@ namespace SIL.Sponge.Model
 
 			Sessions = (from folders in Directory.GetDirectories(SessionsPath)
 						orderby folders
-						select Session.Create(this, folders)).ToList();
+						select Session.Create(this, Path.GetFileName(folders))).ToList();
 
 			m_fileWatcher = new FileSystemWatcher(ProjectPath);
 			m_fileWatcher.Renamed += HandleFileWatcherRename;
@@ -348,7 +348,7 @@ namespace SIL.Sponge.Model
 			{
 				var session = Sessions.FirstOrDefault(x => x.SessionPath == sessionName);
 				if (session == null)
-					AddSession(sessionName);
+					AddSession(Path.GetFileName(sessionName));
 			}
 		}
 

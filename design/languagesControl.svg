@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.47pre3 "
+   sodipodi:docname="languagesFOrm.svg">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <inkscape:perspective
+       id="perspective3644"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3728"
+       inkscape:persp3d-origin="50 : 33.333333 : 1"
+       inkscape:vp_z="100 : 50 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 50 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <radialGradient
+       r="18.90852"
+       fy="340.2211"
+       fx="627.57733"
+       cy="340.2211"
+       cx="627.57733"
+       gradientTransform="matrix(2.8450099,-0.1751509,0.2570865,1.3768963,-1254.8787,-43.717707)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2519"
+       xlink:href="#linearGradient883"
+       inkscape:collect="always" />
+    <radialGradient
+       r="18.90852"
+       fy="344.68451"
+       fx="619.71777"
+       cy="344.68451"
+       cx="619.71777"
+       gradientTransform="matrix(4.7352824,0.7318412,-0.4418724,2.7652263,-2181.3503,-1090.4926)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2516"
+       xlink:href="#linearGradient11719"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient883">
+      <stop
+         style="stop-color:#1f1f1f;stop-opacity:0.55371898;"
+         offset="0.0000000"
+         id="stop884" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0.0000000;"
+         offset="1.0000000"
+         id="stop885" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient865">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1.0000000;"
+         offset="0.00000000"
+         id="stop866" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.00000000;"
+         offset="1.0000000"
+         id="stop868" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient1400">
+      <stop
+         style="stop-color:#000000;stop-opacity:0.67843139;"
+         offset="0.0000000"
+         id="stop1401" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0.32941177;"
+         offset="0.56999999"
+         id="stop1403" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0.00000000;"
+         offset="1.0000000"
+         id="stop1402" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient853">
+      <stop
+         style="stop-color:#e3f9ff;stop-opacity:1.0000000;"
+         offset="0.0000000"
+         id="stop854" />
+      <stop
+         style="stop-color:#73bee7;stop-opacity:1.0000000;"
+         offset="0.36194703"
+         id="stop867" />
+      <stop
+         style="stop-color:#438ec5;stop-opacity:1.0000000;"
+         offset="0.62534887"
+         id="stop856" />
+      <stop
+         style="stop-color:#477daf;stop-opacity:1.0000000;"
+         offset="0.72607356"
+         id="stop1185" />
+      <stop
+         style="stop-color:#020407;stop-opacity:1.0000000;"
+         offset="1.0000000"
+         id="stop855" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient11719">
+      <stop
+         id="stop11721"
+         offset="0"
+         style="stop-color:black;stop-opacity:0;" />
+      <stop
+         id="stop11723"
+         offset="0.60000002"
+         style="stop-color:black;stop-opacity:0;" />
+      <stop
+         id="stop11725"
+         offset="1"
+         style="stop-color:black;stop-opacity:1;" />
+    </linearGradient>
+    <inkscape:perspective
+       id="perspective3917"
+       inkscape:persp3d-origin="1000 : 350.78739 : 1"
+       inkscape:vp_z="2000 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient11719"
+       id="radialGradient4150"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.12315569,-0.45626252,0.39781868,0.1058135,252.90607,207.29386)"
+       cx="387.06323"
+       cy="167.87946"
+       fx="387.06323"
+       fy="167.87946"
+       r="60.30331" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient11719"
+       id="radialGradient4152"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.53117037,0,0,0.36124747,150.26408,-35.156538)"
+       cx="411.14557"
+       cy="235.52438"
+       fx="411.14557"
+       fy="235.52438"
+       r="35.011574" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient11719"
+       id="radialGradient4154"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.195199,-0.33562245,0.38434311,0.22027581,225.05817,136.73275)"
+       cx="406.67474"
+       cy="192.46031"
+       fx="406.67474"
+       fy="192.46031"
+       r="60.30331" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4990664"
+     inkscape:cx="32.672773"
+     inkscape:cy="873.17739"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1581"
+     inkscape:window-height="1028"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#00ffcc;fill-opacity:1;fill-rule:nonzero;stroke:#000033;stroke-width:0.34999999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect4467"
+       width="349.05661"
+       height="343.39624"
+       x="31.38637"
+       y="305.12253"
+       rx="7.5086989" />
+    <g
+       id="g4164"
+       transform="translate(13.6613,0.52805474)"
+       inkscape:export-filename="C:\dev\sponge\Design\LanguagesControl.png"
+       inkscape:export-xdpi="103.61"
+       inkscape:export-ydpi="103.61" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="15.621469"
+       y="46.133858"
+       id="text2816"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102"><tspan
+         sodipodi:role="line"
+         id="tspan2818"
+         x="15.621469"
+         y="46.133858">Edolo</tspan><tspan
+         sodipodi:role="line"
+         x="15.621469"
+         y="63.633858"
+         id="tspan2824" /></text>
+    <text
+       id="text2826"
+       y="137.86795"
+       x="15.560301"
+       style="font-size:13.60991478px;font-style:normal;font-weight:normal;text-align:start;line-height:200%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"
+       sodipodi:linespacing="200%"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102"><tspan
+         id="tspan2830"
+         y="137.86795"
+         x="15.560301"
+         sodipodi:role="line"
+         style="font-size:13.60991478px;text-align:start;line-height:200%;writing-mode:lr-tb;text-anchor:start">Huli</tspan><tspan
+         id="tspan2832"
+         y="165.08778"
+         x="15.560301"
+         sodipodi:role="line"
+         style="font-size:13.60991478px;text-align:start;line-height:200%;writing-mode:lr-tb;text-anchor:start">Tok Pisin</tspan><tspan
+         id="tspan2834"
+         y="192.30762"
+         x="15.560301"
+         sodipodi:role="line"
+         style="font-size:13.60991478px;text-align:start;line-height:200%;writing-mode:lr-tb;text-anchor:start">English</tspan></text>
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.26259571;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2842"
+       width="124.18616"
+       height="17.252943"
+       x="76.268089"
+       y="62.002712"
+       rx="7.2441931"
+       ry="0"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="14.390847"
+       y="75.943756"
+       id="text2844"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102"><tspan
+         sodipodi:role="line"
+         id="tspan2846"
+         x="14.390847"
+         y="75.943756">Learned in:</tspan></text>
+    <text
+       id="text2852"
+       y="18.790758"
+       x="12.571428"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102"><tspan
+         y="18.790758"
+         x="12.571428"
+         id="tspan2854"
+         sodipodi:role="line">Primary Language</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 9.285717,23.790753 197.142853,0 L 205,23.076467 l 2.14286,2.142858"
+       id="path2856"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="14"
+       y="108.6479"
+       id="text3630"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102"><tspan
+         sodipodi:role="line"
+         id="tspan3632"
+         x="14"
+         y="108.6479">Other Languages</tspan></text>
+    <path
+       id="path3634"
+       d="m 10.714288,113.6479 197.142852,0 -1.42857,-0.71429 2.14286,2.14286"
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102" />
+    <g
+       id="g4132"
+       transform="matrix(0.54960069,0,0,0.54960069,-16.879587,18.441455)"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102">
+      <g
+         transform="matrix(0.14226657,0,0,0.14226657,311.43144,13.74873)"
+         id="g4128">
+        <path
+           sodipodi:type="inkscape:offset"
+           inkscape:radius="8.7661829"
+           inkscape:original="M 797.59375 -251.46875 C 766.29791 -250.81462 732.39465 -238.35322 700.03125 -209.3125 C 707.9339 -213.31738 742.4367 -222.90483 751.5625 -222.4375 C 766.92081 -221.65101 771.59973 -213.34375 760.65625 -213.34375 C 724.39149 -213.34375 635.01322 -165.13876 669.21875 -77.5 C 695.64504 -111.36375 747.14792 -145.56779 785.90625 -163.875 C 781.3412 -171.7819 783.09998 -175.55628 788.0625 -170.59375 C 813.21197 -145.44428 858.15873 -106.95931 877.3125 -60.3125 C 904.18615 -151.00877 862.38539 -174.29364 866.71875 -197.1875 C 885.84052 -189.9092 898.6664 -110.66607 884.90625 -59.3125 C 882.06955 -48.725791 871.03887 -46.876259 868.71875 -57.78125 C 853.86732 -13.261089 824.21247 12.006291 813.1875 23.03125 C 805.02885 31.189896 805.10403 76.818997 844.5 91.71875 C 883.89595 106.6185 929.13262 108.04953 968.21875 82.125 C 992.96745 65.710021 1000.315 46.000482 1000.0625 17.96875 C 961.42416 39.434492 919.88713 11.346826 919.25 -39.625 C 918.49239 -100.23415 932.17358 -106.42099 919.75 -159.3125 C 907.62455 -210.93476 857.34035 -252.71755 797.59375 -251.46875 z "
+           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+           id="path10214"
+           d="m 797.40625,-260.21875 c -33.48909,0.69997 -69.51811,14.13434 -103.21875,44.375 a 8.7670595,8.7670595 0 0 0 7.40625,15.125 c -6.74019,4.68124 -13.27736,10.1064 -19.34375,16.28125 -24.37491,24.81074 -39.42848,63.38938 -21.1875,110.125 a 8.7670595,8.7670595 0 0 0 15.0625,2.21875 c 24.78908,-31.76576 75.87391,-66.05659 113.53125,-83.84375 a 8.7670595,8.7670595 0 0 0 0.5625,-0.3125 c 24.03854,23.41024 57.17804,54.51025 74.96875,90.46875 a 8.7670595,8.7670595 0 0 0 -4.78125,5.21875 C 846.34824,-18.420784 818.84723,4.9965326 807,16.84375 c -4.93336,4.933358 -5.9945,10.670112 -6.625,17.46875 -0.6305,6.798638 -0.0619,14.65139 2.1875,22.84375 4.49872,16.38472 16.37808,34.25337 38.84375,42.75 41.29904,15.61951 89.84992,17.26 131.65625,-10.46875 26.77629,-17.75981 36.0479,-41.962111 35.7813,-71.5625 A 8.7670595,8.7670595 0 0 0 995.8125,10.3125 C 979.07798,19.609453 963.13099,18.045503 950.4375,9.15625 937.74401,0.2669968 928.28906,-16.6246 928,-39.75 c -0.37052,-29.641411 2.76569,-45.39884 4.59375,-61.625 1.82806,-16.22616 2.08048,-32.72034 -4.3125,-59.9375 -13.11832,-55.84923 -66.94135,-100.24257 -130.875,-98.90625 z m -5.375,88.84375 c -0.0689,-0.23926 0.0741,-0.21394 0.0937,0.1875 -0.0103,-0.0325 -0.0859,-0.16026 -0.0937,-0.1875 z"
+           transform="matrix(0.6070562,0,0,0.6024061,-63.494201,259.77123)"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+        <path
+           sodipodi:type="inkscape:offset"
+           inkscape:radius="8.6307468"
+           inkscape:original="M 728.15625 -121.46875 C 711.67036 -109.67715 696.20781 -96.772203 684.21875 -83.9375 C 686.9836 -66.98615 689.35199 -38.824314 678.8125 -21.4375 C 651.1745 24.156434 618.71875 -22.4375 618.71875 -22.4375 C 609.0749 10.862468 616.26483 50.683291 668.21875 66.96875 L 753.5625 73.53125 L 800.53125 43.0625 C 800.3199 39.784622 800.35196 36.630539 800.625 33.6875 C 801.26087 26.833378 802.33714 21.036119 807.3125 16.0625 C 808.55402 14.821415 810.04424 13.376065 811.59375 11.875 L 788.125 -8.3125 L 778.53125 -46.6875 L 729.84375 -116.875 L 728.15625 -121.46875 z "
+           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+           id="path10224"
+           d="M 728.3125,-130.09375 A 8.6316099,8.6316099 0 0 0 723.125,-128.5 c -16.83244,12.03947 -32.67276,25.22534 -45.21875,38.65625 a 8.6316099,8.6316099 0 0 0 -2.21875,7.28125 c 2.64643,16.225297 3.85082,43.292469 -4.25,56.65625 -6.18354,10.200886 -11.76779,13.996302 -16.125,15.28125 -4.35721,1.2849476 -8.49193,0.427224 -12.96875,-1.875 -8.95365,-4.604448 -16.53125,-14.875 -16.53125,-14.875 a 8.6316099,8.6316099 0 0 0 -15.375,2.53125 c -5.23705,18.0834087 -6.09094,38.453886 2.03125,56.96875 8.12219,18.514864 25.37187,34.384466 53.15625,43.09375 a 8.6316099,8.6316099 0 0 0 1.9375,0.34375 l 85.34375,6.5625 A 8.6316099,8.6316099 0 0 0 758.25,80.78125 L 805.21875,50.3125 a 8.6316099,8.6316099 0 0 0 3.9375,-7.8125 c -0.18487,-2.867183 -0.16388,-5.559865 0.0625,-8 0.59447,-6.407885 1.14359,-9.300904 4.1875,-12.34375 1.16882,-1.168406 2.64036,-2.594979 4.1875,-4.09375 a 8.6316099,8.6316099 0 0 0 -0.375,-12.71875 l -21.375,-18.375 -8.9375,-35.75 a 8.6316099,8.6316099 0 0 0 -1.28125,-2.8125 l -48.0625,-69.3125 -1.3125,-3.53125 a 8.6316099,8.6316099 0 0 0 -7.9375,-5.65625 z"
+           transform="matrix(0.6019307,0,0,0.5975294,-59.539095,260.3129)"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+      </g>
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         id="path9333"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         style="fill:#8b4513;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         style="fill:url(#radialGradient4150);fill-opacity:1;fill-rule:evenodd;stroke:none"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         id="path11713"
+         sodipodi:nodetypes="cssscsccsccsscssc" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         id="path10208"
+         d="m 365.44417,40.017004 c -1.48704,1.055833 -2.88177,2.211358 -3.9632,3.360592 0.2494,1.517844 0.46303,4.03949 -0.48764,5.596326 -2.49297,4.082536 -5.4205,-0.08954 -5.4205,-0.08954 -0.86989,2.981718 -0.22135,6.547318 4.46493,8.005538 l 7.69807,0.58762 4.23662,-2.72821 c -0.0191,-0.2935 -0.0162,-0.57593 0.008,-0.83945 0.0573,-0.61373 0.15443,-1.13282 0.60322,-1.57816 0.11198,-0.11113 0.2464,-0.24055 0.38617,-0.37496 l -2.1169,-1.807609 -0.86536,-3.436144 -4.39165,-6.28467 -0.15221,-0.411331 z"
+         style="fill:#8b4513;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         style="fill:url(#radialGradient4152);fill-opacity:1;fill-rule:evenodd;stroke:none"
+         d="m 365.44417,40.017004 c -1.48704,1.055833 -2.88177,2.211358 -3.9632,3.360592 0.2494,1.517844 0.46303,4.03949 -0.48764,5.596326 -2.49297,4.082536 -5.4205,-0.08954 -5.4205,-0.08954 -0.86989,2.981718 -0.22135,6.547318 4.46493,8.005538 l 7.69807,0.58762 4.23662,-2.72821 c -0.0191,-0.2935 -0.0162,-0.57593 0.008,-0.83945 0.0573,-0.61373 0.15443,-1.13282 0.60322,-1.57816 0.11198,-0.11113 0.2464,-0.24055 0.38617,-0.37496 l -2.1169,-1.807609 -0.86536,-3.436144 -4.39165,-6.28467 -0.15221,-0.411331 z"
+         id="path11727" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         id="path10228"
+         d="m 371.58346,36.337421 c -0.12767,0.0037 -0.2523,0.03908 -0.36363,0.103532 -0.002,0.0012 -10e-4,0.002 -0.003,0.0028 -0.98078,0.441756 -2.12226,0.797643 -3.28387,1.214402 -1.36588,0.796746 -2.77139,1.725061 -4.06467,2.72541 0.0921,0.409973 0.28179,1.045347 0.31288,1.208805 0.14522,0.763327 0.13157,1.355234 -0.23396,2.694631 -0.26098,0.956343 -0.71162,1.646813 -1.04013,2.439998 -0.3285,0.793185 -0.43508,1.794575 0.16349,2.781374 1.18724,1.95722 3.03668,3.553853 6.42963,3.920223 -0.2023,0.37488 -0.502,0.72068 -0.96966,1.05491 -0.25363,0.18184 -0.36969,0.4938 -0.28752,0.78068 0.0822,0.28689 0.34474,0.48863 0.65396,0.50088 l 2.91461,0.10633 c 0.21782,0.008 0.43164,-0.0804 0.58349,-0.23785 0.15184,-0.15747 0.22658,-0.36964 0.20295,-0.57922 -0.0467,-0.40488 -0.042,-0.7848 0.003,-1.12206 0.0187,-0.14055 0.0378,-0.26302 0.0592,-0.36656 0.0447,-0.21812 -0.0166,-0.44029 -0.16631,-0.6016 -0.0241,-0.026 -0.0369,-0.0475 -0.0592,-0.0728 2.54,-1.718001 4.16748,-3.894424 5.17809,-5.867743 0.18473,-0.413312 0.35623,-0.845765 0.5102,-1.303943 0.01,0.04514 0.021,0.08561 0.0338,0.125916 0.15681,-0.379036 0.2929,-0.743245 0.40591,-1.088484 6e-4,-0.0019 0.002,-0.0037 0.003,-0.0056 -1.67134,-3.431475 -4.80498,-6.325569 -6.97646,-8.414073 -0.002,3.4e-5 -0.004,-5.1e-5 -0.006,0 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         id="path10210"
+         d="m 371.21983,35.330082 c -3e-4,0.0023 10e-4,0.0058 0.003,0.01119 7.5e-4,0.0025 0.008,0.01386 0.008,0.01679 -0.001,-0.02718 -0.0102,-0.03475 -0.0113,-0.02798 z m -0.16348,1.376695 c -0.0167,0.01003 -0.0333,0.01921 -0.0507,0.02798 -1.99031,0.932905 -4.39384,2.368767 -6.50009,3.970593 -0.006,0.16617 0.007,0.329373 0.0423,0.489679 0.19362,0.870582 0.19313,1.648764 -0.1353,3.07518 -0.5033,2.185867 -1.83543,3.111314 -0.77516,4.79605 1.30052,2.066507 3.09197,3.609477 6.9229,3.752337 -0.13021,0.88654 -0.59825,1.66031 -1.45731,2.30568 l 2.92025,0.10913 c -0.0702,-0.47049 -0.0802,-0.91762 -0.0423,-1.32353 0.0138,-0.14743 0.0281,-0.28863 0.0507,-0.42532 -0.25272,-0.26854 -0.45178,-0.5218 -0.55812,-0.7555 3.73472,-2.375849 5.45026,-5.877852 6.14775,-8.338526 -1.6649,-3.041189 -4.48766,-5.676278 -6.56492,-7.683755 z"
+         style="fill:#deb887;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         id="path11731"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         style="fill:url(#radialGradient4154);fill-opacity:1;fill-rule:evenodd;stroke:none" />
+    </g>
+    <g
+       id="g4220"
+       transform="translate(1.7857143,89.000001)"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102">
+      <g
+         transform="translate(-11.664593,-0.05230236)"
+         id="g4160" />
+      <g
+         transform="matrix(0.54960069,0,0,0.54960069,-6.9061458,23.937462)"
+         id="g4144">
+        <path
+           sodipodi:nodetypes="csssscssscsssscccsssssssc"
+           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+           d="m 320.65198,22.695817 c -0.38843,-0.321608 -0.80891,-0.536925 -1.40118,-0.797497 -4.50482,-1.981917 -11.47937,-1.937586 -18.14888,-1.325689 -2.75535,0.252782 -4.46105,0.839537 -6.35135,1.32154 -1.59553,0.406841 -2.16103,1.836794 -1.784,3.082851 0.61722,2.039949 1.62027,5.111679 3.26488,7.471694 -0.23677,0.08053 -0.4502,0.185008 -0.62735,0.312317 -0.78479,0.563967 -1.11975,1.309762 -1.13818,2.162092 -0.0221,1.011034 0.52451,1.813552 1.24649,2.51576 0.67188,0.653533 1.65394,1.223132 2.73569,1.241555 0.32959,1.083839 0.63352,2.320118 2.27647,4.870555 2.32523,3.609563 7.28995,5.811786 11.15813,3.619114 2.69226,-1.526097 3.93568,-2.564307 5.50641,-4.059666 0.49359,-0.469871 0.85111,-0.926098 0.99346,-1.527613 0.14237,-0.601489 -0.051,-1.303414 -0.33268,-1.789486 -1.89183,-2.63671 -3.87663,-8.276564 -1.0337,-9.006576 0.47881,-0.151615 -2.09788,-0.399571 -1.59116,-0.483055 0.49464,-0.09918 1.00378,-0.147948 1.51852,-0.503402 0.51474,-0.355455 0.80244,-0.841723 1.18469,-1.582192 0.32365,-0.62704 0.77938,-1.260504 1.18952,-1.673238 0.20509,-0.206355 0.39998,-0.356669 0.51832,-0.423891 0.0506,-0.02873 0.0737,-0.02734 0.0766,-0.02629 0.5441,0.04673 1.14823,-0.02998 1.53804,-0.521079 0.43423,-0.547045 0.27486,-1.290889 0.0352,-1.758822 -0.0907,-0.177111 -0.33839,-0.70872 -0.83398,-1.118996 z"
+           id="path10310"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+        <path
+           style="fill:#deb887;fill-opacity:1;fill-rule:evenodd;stroke:none"
+           d="m 313.11147,30.310176 c 0.61988,0.15964 1.0692,0.273525 1.02113,1.152216 -0.10428,1.905628 -0.14435,4.316907 1.38073,6.594028 1.4783,2.207279 3.03204,2.735869 1.33268,4.428866 -1.56101,1.555175 -2.69056,2.551076 -5.36045,4.137139 -3.33866,1.983339 -7.4834,0.08373 -9.53077,-3.081124 -1.96808,-3.042309 -1.8764,-3.907762 -2.46331,-5.452095 -0.35578,-0.936167 -0.59505,-0.372847 -1.07079,-0.338293 -1.39081,0.10102 -2.73838,-1.484405 -2.73102,-2.381768 0.007,-0.897385 1.00832,-2.52082 2.76049,-1.207752 0.95434,0.715184 1.59574,1.497328 1.48413,0.562351 -0.058,-0.482227 -0.0354,-0.490255 0.44418,-0.700971 0.27073,-0.11895 0.53854,0.06978 0.73833,-0.958577 0.34762,-1.789457 0.97859,-4.167113 1.35883,-5.822004 0.18898,-0.822486 0.85737,-0.535965 1.32407,-0.271083 3.17083,1.799635 6.40777,2.591245 9.31175,3.339104 z"
+           id="path10247"
+           sodipodi:nodetypes="csssssssssssssss"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+        <path
+           style="opacity:0.9;fill:#000000;fill-opacity:1;stroke:none"
+           d="m 298.84238,35.44322 c -0.31687,-0.258509 -0.93153,-0.551401 -1.16698,-0.192087 -0.15,0.477268 0.90205,0.660826 0.61719,1.154342 -0.32539,0.455772 0.56926,0.934594 0.71803,0.380329 0.26711,-0.36271 0.35852,-0.992719 -0.16824,-1.342584 z"
+           id="path10249"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+        <path
+           style="fill:#daa520;fill-opacity:1;fill-rule:evenodd;stroke:none"
+           d="m 297.20439,31.98799 c 0.51917,0.738412 0.82115,0.89372 1.31975,0.896162 0.75287,0.0037 0.8883,0.0071 1.27503,0.0062 0.25603,-5.6e-4 0.4674,0.05124 0.55759,-0.468297 0.26565,-1.530183 0.42782,-4.15243 1.09506,-5.751632 0.38859,-0.931389 0.86126,-0.987044 1.41633,-0.725787 3.28918,1.548194 8.98607,3.649446 12.32765,2.929702 1.0699,-0.23045 1.28859,-0.184519 2.00821,-1.655976 0.7322,-1.497144 1.98096,-2.90868 2.75578,-2.806345 0.74358,0.09821 0.89291,-0.250584 0.65584,-0.709664 -0.23708,-0.459097 -0.26409,-0.69179 -1.51029,-1.237276 -3.99173,-1.747239 -11.1102,-1.77561 -17.80669,-1.081334 -2.67527,0.277365 -4.28937,0.872693 -6.26376,1.408653 -1.03702,0.281502 -1.25771,1.222235 -1.07046,1.826545 0.64582,2.084209 1.73353,5.226431 3.23998,7.369047 z"
+           id="path10303"
+           sodipodi:nodetypes="cssssssssssssss"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+      </g>
+    </g>
+    <g
+       id="g11307"
+       transform="matrix(0.05470765,0,0,0.05470765,424.85504,95.675727)"
+       inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+       inkscape:export-xdpi="35.299999"
+       inkscape:export-ydpi="35.299999" />
+    <g
+       transform="matrix(-0.02280035,-0.10205808,0.12058343,0,325.89623,226.1425)"
+       id="g4084" />
+    <g
+       transform="matrix(-0.02280035,-0.10205808,0.12058343,0,226.01344,2.7302218)"
+       id="g8602" />
+    <g
+       transform="matrix(-0.02280035,-0.10205808,0.12058343,0,450.88498,117.09906)"
+       id="g30230" />
+    <g
+       transform="matrix(-0.02280035,-0.10205808,0.12058343,0,351.0022,-106.31322)"
+       id="g30240" />
+    <rect
+       ry="0"
+       rx="7.5086989"
+       y="33.259624"
+       x="13.644281"
+       height="18.108849"
+       width="128.72055"
+       id="rect4457"
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.27389792000000002;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.27389792;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect4459"
+       width="128.72055"
+       height="18.108849"
+       x="12.634129"
+       y="122.11244"
+       rx="7.5086989"
+       ry="0"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102" />
+    <rect
+       ry="0"
+       rx="7.5086989"
+       y="150.39671"
+       x="11.118899"
+       height="18.108849"
+       width="128.72055"
+       id="rect4461"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.27389792;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.27389792;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect4463"
+       width="128.72055"
+       height="18.108849"
+       x="10.108747"
+       y="178.68098"
+       rx="7.5086989"
+       ry="0"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102" />
+    <rect
+       ry="0"
+       rx="7.5086989"
+       y="204.94495"
+       x="10.108747"
+       height="18.108849"
+       width="128.72055"
+       id="rect4465"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.27389792;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102" />
+    <g
+       id="g4495"
+       transform="translate(-0.20921392,86.66383)"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102"
+       style="opacity:0.70400002">
+      <g
+         id="g4497"
+         transform="translate(-9.5217359,84.233412)" />
+      <g
+         style="fill:#ffffff;stroke:#000000"
+         id="g4499"
+         transform="matrix(0.54960069,0,0,0.54960069,-4.7632887,108.22318)">
+        <path
+           inkscape:export-ydpi="35.299999"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           id="path4501"
+           d="m 320.65198,22.695817 c -0.38843,-0.321608 -0.80891,-0.536925 -1.40118,-0.797497 -4.50482,-1.981917 -11.47937,-1.937586 -18.14888,-1.325689 -2.75535,0.252782 -4.46105,0.839537 -6.35135,1.32154 -1.59553,0.406841 -2.16103,1.836794 -1.784,3.082851 0.61722,2.039949 1.62027,5.111679 3.26488,7.471694 -0.23677,0.08053 -0.4502,0.185008 -0.62735,0.312317 -0.78479,0.563967 -1.11975,1.309762 -1.13818,2.162092 -0.0221,1.011034 0.52451,1.813552 1.24649,2.51576 0.67188,0.653533 1.65394,1.223132 2.73569,1.241555 0.32959,1.083839 0.63352,2.320118 2.27647,4.870555 2.32523,3.609563 7.28995,5.811786 11.15813,3.619114 2.69226,-1.526097 3.93568,-2.564307 5.50641,-4.059666 0.49359,-0.469871 0.85111,-0.926098 0.99346,-1.527613 0.14237,-0.601489 -0.051,-1.303414 -0.33268,-1.789486 -1.89183,-2.63671 -3.87663,-8.276564 -1.0337,-9.006576 0.47881,-0.151615 -2.09788,-0.399571 -1.59116,-0.483055 0.49464,-0.09918 1.00378,-0.147948 1.51852,-0.503402 0.51474,-0.355455 0.80244,-0.841723 1.18469,-1.582192 0.32365,-0.62704 0.77938,-1.260504 1.18952,-1.673238 0.20509,-0.206355 0.39998,-0.356669 0.51832,-0.423891 0.0506,-0.02873 0.0737,-0.02734 0.0766,-0.02629 0.5441,0.04673 1.14823,-0.02998 1.53804,-0.521079 0.43423,-0.547045 0.27486,-1.290889 0.0352,-1.758822 -0.0907,-0.177111 -0.33839,-0.70872 -0.83398,-1.118996 z"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+           sodipodi:nodetypes="csssscssscsssscccsssssssc" />
+        <path
+           inkscape:export-ydpi="35.299999"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           sodipodi:nodetypes="csssssssssssssss"
+           id="path4503"
+           d="m 313.11147,30.310176 c 0.61988,0.15964 1.0692,0.273525 1.02113,1.152216 -0.10428,1.905628 -0.14435,4.316907 1.38073,6.594028 1.4783,2.207279 3.03204,2.735869 1.33268,4.428866 -1.56101,1.555175 -2.69056,2.551076 -5.36045,4.137139 -3.33866,1.983339 -7.4834,0.08373 -9.53077,-3.081124 -1.96808,-3.042309 -1.8764,-3.907762 -2.46331,-5.452095 -0.35578,-0.936167 -0.59505,-0.372847 -1.07079,-0.338293 -1.39081,0.10102 -2.73838,-1.484405 -2.73102,-2.381768 0.007,-0.897385 1.00832,-2.52082 2.76049,-1.207752 0.95434,0.715184 1.59574,1.497328 1.48413,0.562351 -0.058,-0.482227 -0.0354,-0.490255 0.44418,-0.700971 0.27073,-0.11895 0.53854,0.06978 0.73833,-0.958577 0.34762,-1.789457 0.97859,-4.167113 1.35883,-5.822004 0.18898,-0.822486 0.85737,-0.535965 1.32407,-0.271083 3.17083,1.799635 6.40777,2.591245 9.31175,3.339104 z"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000" />
+        <path
+           inkscape:export-ydpi="35.299999"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           id="path4505"
+           d="m 298.84238,35.44322 c -0.31687,-0.258509 -0.93153,-0.551401 -1.16698,-0.192087 -0.15,0.477268 0.90205,0.660826 0.61719,1.154342 -0.32539,0.455772 0.56926,0.934594 0.71803,0.380329 0.26711,-0.36271 0.35852,-0.992719 -0.16824,-1.342584 z"
+           style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000" />
+      </g>
+    </g>
+    <g
+       style="opacity:0.70400002"
+       inkscape:export-ydpi="103.61102"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       transform="translate(-0.20921392,31.475151)"
+       id="g4521">
+      <g
+         transform="translate(-9.5217359,84.233412)"
+         id="g4523" />
+      <g
+         transform="matrix(0.54960069,0,0,0.54960069,-4.7632887,108.22318)"
+         id="g4525"
+         style="fill:#ffffff;stroke:#000000">
+        <path
+           sodipodi:nodetypes="csssscssscsssscccsssssssc"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+           d="m 320.65198,22.695817 c -0.38843,-0.321608 -0.80891,-0.536925 -1.40118,-0.797497 -4.50482,-1.981917 -11.47937,-1.937586 -18.14888,-1.325689 -2.75535,0.252782 -4.46105,0.839537 -6.35135,1.32154 -1.59553,0.406841 -2.16103,1.836794 -1.784,3.082851 0.61722,2.039949 1.62027,5.111679 3.26488,7.471694 -0.23677,0.08053 -0.4502,0.185008 -0.62735,0.312317 -0.78479,0.563967 -1.11975,1.309762 -1.13818,2.162092 -0.0221,1.011034 0.52451,1.813552 1.24649,2.51576 0.67188,0.653533 1.65394,1.223132 2.73569,1.241555 0.32959,1.083839 0.63352,2.320118 2.27647,4.870555 2.32523,3.609563 7.28995,5.811786 11.15813,3.619114 2.69226,-1.526097 3.93568,-2.564307 5.50641,-4.059666 0.49359,-0.469871 0.85111,-0.926098 0.99346,-1.527613 0.14237,-0.601489 -0.051,-1.303414 -0.33268,-1.789486 -1.89183,-2.63671 -3.87663,-8.276564 -1.0337,-9.006576 0.47881,-0.151615 -2.09788,-0.399571 -1.59116,-0.483055 0.49464,-0.09918 1.00378,-0.147948 1.51852,-0.503402 0.51474,-0.355455 0.80244,-0.841723 1.18469,-1.582192 0.32365,-0.62704 0.77938,-1.260504 1.18952,-1.673238 0.20509,-0.206355 0.39998,-0.356669 0.51832,-0.423891 0.0506,-0.02873 0.0737,-0.02734 0.0766,-0.02629 0.5441,0.04673 1.14823,-0.02998 1.53804,-0.521079 0.43423,-0.547045 0.27486,-1.290889 0.0352,-1.758822 -0.0907,-0.177111 -0.33839,-0.70872 -0.83398,-1.118996 z"
+           id="path4527"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000"
+           d="m 313.11147,30.310176 c 0.61988,0.15964 1.0692,0.273525 1.02113,1.152216 -0.10428,1.905628 -0.14435,4.316907 1.38073,6.594028 1.4783,2.207279 3.03204,2.735869 1.33268,4.428866 -1.56101,1.555175 -2.69056,2.551076 -5.36045,4.137139 -3.33866,1.983339 -7.4834,0.08373 -9.53077,-3.081124 -1.96808,-3.042309 -1.8764,-3.907762 -2.46331,-5.452095 -0.35578,-0.936167 -0.59505,-0.372847 -1.07079,-0.338293 -1.39081,0.10102 -2.73838,-1.484405 -2.73102,-2.381768 0.007,-0.897385 1.00832,-2.52082 2.76049,-1.207752 0.95434,0.715184 1.59574,1.497328 1.48413,0.562351 -0.058,-0.482227 -0.0354,-0.490255 0.44418,-0.700971 0.27073,-0.11895 0.53854,0.06978 0.73833,-0.958577 0.34762,-1.789457 0.97859,-4.167113 1.35883,-5.822004 0.18898,-0.822486 0.85737,-0.535965 1.32407,-0.271083 3.17083,1.799635 6.40777,2.591245 9.31175,3.339104 z"
+           id="path4529"
+           sodipodi:nodetypes="csssssssssssssss"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+        <path
+           style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000"
+           d="m 298.84238,35.44322 c -0.31687,-0.258509 -0.93153,-0.551401 -1.16698,-0.192087 -0.15,0.477268 0.90205,0.660826 0.61719,1.154342 -0.32539,0.455772 0.56926,0.934594 0.71803,0.380329 0.26711,-0.36271 0.35852,-0.992719 -0.16824,-1.342584 z"
+           id="path4531"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+      </g>
+    </g>
+    <g
+       inkscape:export-ydpi="103.61102"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       style="opacity:0.70400002;fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+       id="g4533"
+       transform="matrix(0.54960069,0,0,0.54960069,-13.227847,133.41906)">
+      <g
+         style="fill:#ffffff;stroke:#000000;stroke-width:4.47628689;stroke-miterlimit:4;stroke-dasharray:none"
+         transform="matrix(0.14226657,0,0,0.14226657,311.43144,13.74873)"
+         id="g4535" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         id="path4537"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         id="path4539"
+         sodipodi:nodetypes="cssscsccsccsscssc" />
+      <path
+         sodipodi:nodetypes="ccccsccccssc"
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         id="path4541"
+         d="m 365.59593,40.428337 -0.15221,-0.411331 4.5e-4,-2e-6 c -1.48704,1.055833 -2.88177,2.211358 -3.9632,3.360592 0.2494,1.517844 0.46303,4.03949 -0.48764,5.596326 -2.49297,4.082536 -5.4205,-0.08954 -5.4205,-0.08954 -0.86989,2.981718 -0.22135,6.547318 4.46493,8.005538 l 7.69807,0.58762 4.23662,-2.72821 c -0.0191,-0.2935 -0.0162,-0.57593 0.008,-0.83945 0.0573,-0.61373 0.15443,-1.13282 0.60322,-1.57816 0.11198,-0.11113 0.51697,-0.231802 0.38617,-0.37496"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         id="path4543"
+         d="m 371.58346,36.337421 c -0.12767,0.0037 -0.2523,0.03908 -0.36363,0.103532 -0.002,0.0012 -10e-4,0.002 -0.003,0.0028 -0.98078,0.441756 -2.12226,0.797643 -3.28387,1.214402 -1.36588,0.796746 -2.77139,1.725061 -4.06467,2.72541 0.0921,0.409973 0.28179,1.045347 0.31288,1.208805 0.14522,0.763327 0.13157,1.355234 -0.23396,2.694631 -0.26098,0.956343 -0.71162,1.646813 -1.04013,2.439998 -0.3285,0.793185 -0.43508,1.794575 0.16349,2.781374 1.18724,1.95722 3.03668,3.553853 6.42963,3.920223 -0.2023,0.37488 -0.502,0.72068 -0.96966,1.05491 -0.25363,0.18184 -0.36969,0.4938 -0.28752,0.78068 0.0822,0.28689 0.34474,0.48863 0.65396,0.50088 l 2.91461,0.10633 c 0.21782,0.008 0.43164,-0.0804 0.58349,-0.23785 0.15184,-0.15747 0.22658,-0.36964 0.20295,-0.57922 -0.0467,-0.40488 -0.042,-0.7848 0.003,-1.12206 0.0187,-0.14055 0.0378,-0.26302 0.0592,-0.36656 0.0447,-0.21812 -0.0166,-0.44029 -0.16631,-0.6016 -0.0241,-0.026 -0.0369,-0.0475 -0.0592,-0.0728 2.54,-1.718001 4.16748,-3.894424 5.17809,-5.867743 0.18473,-0.413312 0.35623,-0.845765 0.5102,-1.303943 0.01,0.04514 0.021,0.08561 0.0338,0.125916 0.15681,-0.379036 0.2929,-0.743245 0.40591,-1.088484 6e-4,-0.0019 0.002,-0.0037 0.003,-0.0056 -1.67134,-3.431475 -4.80498,-6.325569 -6.97646,-8.414073 -0.002,3.4e-5 -0.004,-5.1e-5 -0.006,0 z"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         id="path4545"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       transform="matrix(0.54960069,0,0,0.54960069,-13.227847,188.60774)"
+       id="g4507"
+       style="opacity:0.70400002;fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102">
+      <g
+         id="g4509"
+         transform="matrix(0.14226657,0,0,0.14226657,311.43144,13.74873)"
+         style="fill:#ffffff;stroke:#000000;stroke-width:4.47628689;stroke-miterlimit:4;stroke-dasharray:none" />
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         id="path4511"
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-ydpi="35.299999" />
+      <path
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         id="path4513"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-ydpi="35.299999" />
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 365.59593,40.428337 -0.15221,-0.411331 4.5e-4,-2e-6 c -1.48704,1.055833 -2.88177,2.211358 -3.9632,3.360592 0.2494,1.517844 0.46303,4.03949 -0.48764,5.596326 -2.49297,4.082536 -5.4205,-0.08954 -5.4205,-0.08954 -0.86989,2.981718 -0.22135,6.547318 4.46493,8.005538 l 7.69807,0.58762 4.23662,-2.72821 c -0.0191,-0.2935 -0.0162,-0.57593 0.008,-0.83945 0.0573,-0.61373 0.15443,-1.13282 0.60322,-1.57816 0.11198,-0.11113 0.51697,-0.231802 0.38617,-0.37496"
+         id="path4515"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-ydpi="35.299999"
+         sodipodi:nodetypes="ccccsccccssc" />
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 371.58346,36.337421 c -0.12767,0.0037 -0.2523,0.03908 -0.36363,0.103532 -0.002,0.0012 -10e-4,0.002 -0.003,0.0028 -0.98078,0.441756 -2.12226,0.797643 -3.28387,1.214402 -1.36588,0.796746 -2.77139,1.725061 -4.06467,2.72541 0.0921,0.409973 0.28179,1.045347 0.31288,1.208805 0.14522,0.763327 0.13157,1.355234 -0.23396,2.694631 -0.26098,0.956343 -0.71162,1.646813 -1.04013,2.439998 -0.3285,0.793185 -0.43508,1.794575 0.16349,2.781374 1.18724,1.95722 3.03668,3.553853 6.42963,3.920223 -0.2023,0.37488 -0.502,0.72068 -0.96966,1.05491 -0.25363,0.18184 -0.36969,0.4938 -0.28752,0.78068 0.0822,0.28689 0.34474,0.48863 0.65396,0.50088 l 2.91461,0.10633 c 0.21782,0.008 0.43164,-0.0804 0.58349,-0.23785 0.15184,-0.15747 0.22658,-0.36964 0.20295,-0.57922 -0.0467,-0.40488 -0.042,-0.7848 0.003,-1.12206 0.0187,-0.14055 0.0378,-0.26302 0.0592,-0.36656 0.0447,-0.21812 -0.0166,-0.44029 -0.16631,-0.6016 -0.0241,-0.026 -0.0369,-0.0475 -0.0592,-0.0728 2.54,-1.718001 4.16748,-3.894424 5.17809,-5.867743 0.18473,-0.413312 0.35623,-0.845765 0.5102,-1.303943 0.01,0.04514 0.021,0.08561 0.0338,0.125916 0.15681,-0.379036 0.2929,-0.743245 0.40591,-1.088484 6e-4,-0.0019 0.002,-0.0037 0.003,-0.0056 -1.67134,-3.431475 -4.80498,-6.325569 -6.97646,-8.414073 -0.002,3.4e-5 -0.004,-5.1e-5 -0.006,0 z"
+         id="path4517"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-ydpi="35.299999" />
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         id="path4519"
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-ydpi="35.299999" />
+    </g>
+    <g
+       style="opacity:0.70400002"
+       inkscape:export-ydpi="103.61102"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       transform="translate(-0.20921392,61.66383)"
+       id="g4547">
+      <g
+         transform="translate(-9.5217359,84.233412)"
+         id="g4549" />
+      <g
+         transform="matrix(0.54960069,0,0,0.54960069,-4.7632887,108.22318)"
+         id="g4551"
+         style="fill:#ffffff;stroke:#000000">
+        <path
+           sodipodi:nodetypes="csssscssscsssscccsssssssc"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+           d="m 320.65198,22.695817 c -0.38843,-0.321608 -0.80891,-0.536925 -1.40118,-0.797497 -4.50482,-1.981917 -11.47937,-1.937586 -18.14888,-1.325689 -2.75535,0.252782 -4.46105,0.839537 -6.35135,1.32154 -1.59553,0.406841 -2.16103,1.836794 -1.784,3.082851 0.61722,2.039949 1.62027,5.111679 3.26488,7.471694 -0.23677,0.08053 -0.4502,0.185008 -0.62735,0.312317 -0.78479,0.563967 -1.11975,1.309762 -1.13818,2.162092 -0.0221,1.011034 0.52451,1.813552 1.24649,2.51576 0.67188,0.653533 1.65394,1.223132 2.73569,1.241555 0.32959,1.083839 0.63352,2.320118 2.27647,4.870555 2.32523,3.609563 7.28995,5.811786 11.15813,3.619114 2.69226,-1.526097 3.93568,-2.564307 5.50641,-4.059666 0.49359,-0.469871 0.85111,-0.926098 0.99346,-1.527613 0.14237,-0.601489 -0.051,-1.303414 -0.33268,-1.789486 -1.89183,-2.63671 -3.87663,-8.276564 -1.0337,-9.006576 0.47881,-0.151615 -2.09788,-0.399571 -1.59116,-0.483055 0.49464,-0.09918 1.00378,-0.147948 1.51852,-0.503402 0.51474,-0.355455 0.80244,-0.841723 1.18469,-1.582192 0.32365,-0.62704 0.77938,-1.260504 1.18952,-1.673238 0.20509,-0.206355 0.39998,-0.356669 0.51832,-0.423891 0.0506,-0.02873 0.0737,-0.02734 0.0766,-0.02629 0.5441,0.04673 1.14823,-0.02998 1.53804,-0.521079 0.43423,-0.547045 0.27486,-1.290889 0.0352,-1.758822 -0.0907,-0.177111 -0.33839,-0.70872 -0.83398,-1.118996 z"
+           id="path4553"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000"
+           d="m 313.11147,30.310176 c 0.61988,0.15964 1.0692,0.273525 1.02113,1.152216 -0.10428,1.905628 -0.14435,4.316907 1.38073,6.594028 1.4783,2.207279 3.03204,2.735869 1.33268,4.428866 -1.56101,1.555175 -2.69056,2.551076 -5.36045,4.137139 -3.33866,1.983339 -7.4834,0.08373 -9.53077,-3.081124 -1.96808,-3.042309 -1.8764,-3.907762 -2.46331,-5.452095 -0.35578,-0.936167 -0.59505,-0.372847 -1.07079,-0.338293 -1.39081,0.10102 -2.73838,-1.484405 -2.73102,-2.381768 0.007,-0.897385 1.00832,-2.52082 2.76049,-1.207752 0.95434,0.715184 1.59574,1.497328 1.48413,0.562351 -0.058,-0.482227 -0.0354,-0.490255 0.44418,-0.700971 0.27073,-0.11895 0.53854,0.06978 0.73833,-0.958577 0.34762,-1.789457 0.97859,-4.167113 1.35883,-5.822004 0.18898,-0.822486 0.85737,-0.535965 1.32407,-0.271083 3.17083,1.799635 6.40777,2.591245 9.31175,3.339104 z"
+           id="path4555"
+           sodipodi:nodetypes="csssssssssssssss"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+        <path
+           style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000"
+           d="m 298.84238,35.44322 c -0.31687,-0.258509 -0.93153,-0.551401 -1.16698,-0.192087 -0.15,0.477268 0.90205,0.660826 0.61719,1.154342 -0.32539,0.455772 0.56926,0.934594 0.71803,0.380329 0.26711,-0.36271 0.35852,-0.992719 -0.16824,-1.342584 z"
+           id="path4557"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-ydpi="35.299999" />
+      </g>
+    </g>
+    <g
+       inkscape:export-ydpi="103.61102"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       style="opacity:0.70400002;fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+       id="g4559"
+       transform="matrix(0.54960069,0,0,0.54960069,-13.227847,163.60774)">
+      <g
+         style="fill:#ffffff;stroke:#000000;stroke-width:4.47628689;stroke-miterlimit:4;stroke-dasharray:none"
+         transform="matrix(0.14226657,0,0,0.14226657,311.43144,13.74873)"
+         id="g4561" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         id="path4563"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         id="path4565"
+         sodipodi:nodetypes="cssscsccsccsscssc" />
+      <path
+         sodipodi:nodetypes="ccccsccccssc"
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         id="path4567"
+         d="m 365.59593,40.428337 -0.15221,-0.411331 4.5e-4,-2e-6 c -1.48704,1.055833 -2.88177,2.211358 -3.9632,3.360592 0.2494,1.517844 0.46303,4.03949 -0.48764,5.596326 -2.49297,4.082536 -5.4205,-0.08954 -5.4205,-0.08954 -0.86989,2.981718 -0.22135,6.547318 4.46493,8.005538 l 7.69807,0.58762 4.23662,-2.72821 c -0.0191,-0.2935 -0.0162,-0.57593 0.008,-0.83945 0.0573,-0.61373 0.15443,-1.13282 0.60322,-1.57816 0.11198,-0.11113 0.51697,-0.231802 0.38617,-0.37496"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         id="path4569"
+         d="m 371.58346,36.337421 c -0.12767,0.0037 -0.2523,0.03908 -0.36363,0.103532 -0.002,0.0012 -10e-4,0.002 -0.003,0.0028 -0.98078,0.441756 -2.12226,0.797643 -3.28387,1.214402 -1.36588,0.796746 -2.77139,1.725061 -4.06467,2.72541 0.0921,0.409973 0.28179,1.045347 0.31288,1.208805 0.14522,0.763327 0.13157,1.355234 -0.23396,2.694631 -0.26098,0.956343 -0.71162,1.646813 -1.04013,2.439998 -0.3285,0.793185 -0.43508,1.794575 0.16349,2.781374 1.18724,1.95722 3.03668,3.553853 6.42963,3.920223 -0.2023,0.37488 -0.502,0.72068 -0.96966,1.05491 -0.25363,0.18184 -0.36969,0.4938 -0.28752,0.78068 0.0822,0.28689 0.34474,0.48863 0.65396,0.50088 l 2.91461,0.10633 c 0.21782,0.008 0.43164,-0.0804 0.58349,-0.23785 0.15184,-0.15747 0.22658,-0.36964 0.20295,-0.57922 -0.0467,-0.40488 -0.042,-0.7848 0.003,-1.12206 0.0187,-0.14055 0.0378,-0.26302 0.0592,-0.36656 0.0447,-0.21812 -0.0166,-0.44029 -0.16631,-0.6016 -0.0241,-0.026 -0.0369,-0.0475 -0.0592,-0.0728 2.54,-1.718001 4.16748,-3.894424 5.17809,-5.867743 0.18473,-0.413312 0.35623,-0.845765 0.5102,-1.303943 0.01,0.04514 0.021,0.08561 0.0338,0.125916 0.15681,-0.379036 0.2929,-0.743245 0.40591,-1.088484 6e-4,-0.0019 0.002,-0.0037 0.003,-0.0056 -1.67134,-3.431475 -4.80498,-6.325569 -6.97646,-8.414073 -0.002,3.4e-5 -0.004,-5.1e-5 -0.006,0 z"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="35.299999"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         id="path4571"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       transform="matrix(0.54960069,0,0,0.54960069,-13.227847,107.94736)"
+       id="g4573"
+       style="opacity:0.70400002;fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102">
+      <g
+         id="g4575"
+         transform="matrix(0.14226657,0,0,0.14226657,311.43144,13.74873)"
+         style="fill:#ffffff;stroke:#000000;stroke-width:4.47628689;stroke-miterlimit:4;stroke-dasharray:none" />
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         id="path4577"
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-ydpi="35.299999" />
+      <path
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         id="path4579"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-ydpi="35.299999" />
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 365.59593,40.428337 -0.15221,-0.411331 4.5e-4,-2e-6 c -1.48704,1.055833 -2.88177,2.211358 -3.9632,3.360592 0.2494,1.517844 0.46303,4.03949 -0.48764,5.596326 -2.49297,4.082536 -5.4205,-0.08954 -5.4205,-0.08954 -0.86989,2.981718 -0.22135,6.547318 4.46493,8.005538 l 7.69807,0.58762 4.23662,-2.72821 c -0.0191,-0.2935 -0.0162,-0.57593 0.008,-0.83945 0.0573,-0.61373 0.15443,-1.13282 0.60322,-1.57816 0.11198,-0.11113 0.51697,-0.231802 0.38617,-0.37496"
+         id="path4581"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-ydpi="35.299999"
+         sodipodi:nodetypes="ccccsccccssc" />
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 371.58346,36.337421 c -0.12767,0.0037 -0.2523,0.03908 -0.36363,0.103532 -0.002,0.0012 -10e-4,0.002 -0.003,0.0028 -0.98078,0.441756 -2.12226,0.797643 -3.28387,1.214402 -1.36588,0.796746 -2.77139,1.725061 -4.06467,2.72541 0.0921,0.409973 0.28179,1.045347 0.31288,1.208805 0.14522,0.763327 0.13157,1.355234 -0.23396,2.694631 -0.26098,0.956343 -0.71162,1.646813 -1.04013,2.439998 -0.3285,0.793185 -0.43508,1.794575 0.16349,2.781374 1.18724,1.95722 3.03668,3.553853 6.42963,3.920223 -0.2023,0.37488 -0.502,0.72068 -0.96966,1.05491 -0.25363,0.18184 -0.36969,0.4938 -0.28752,0.78068 0.0822,0.28689 0.34474,0.48863 0.65396,0.50088 l 2.91461,0.10633 c 0.21782,0.008 0.43164,-0.0804 0.58349,-0.23785 0.15184,-0.15747 0.22658,-0.36964 0.20295,-0.57922 -0.0467,-0.40488 -0.042,-0.7848 0.003,-1.12206 0.0187,-0.14055 0.0378,-0.26302 0.0592,-0.36656 0.0447,-0.21812 -0.0166,-0.44029 -0.16631,-0.6016 -0.0241,-0.026 -0.0369,-0.0475 -0.0592,-0.0728 2.54,-1.718001 4.16748,-3.894424 5.17809,-5.867743 0.18473,-0.413312 0.35623,-0.845765 0.5102,-1.303943 0.01,0.04514 0.021,0.08561 0.0338,0.125916 0.15681,-0.379036 0.2929,-0.743245 0.40591,-1.088484 6e-4,-0.0019 0.002,-0.0037 0.003,-0.0056 -1.67134,-3.431475 -4.80498,-6.325569 -6.97646,-8.414073 -0.002,3.4e-5 -0.004,-5.1e-5 -0.006,0 z"
+         id="path4583"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-ydpi="35.299999" />
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 389.96927,52.502158 c 0.0228,2.50999 -0.63782,4.27377 -2.87017,5.74359 -3.5256,2.32131 -7.60822,2.19342 -11.16177,0.85928 -3.55354,-1.33415 -3.56052,-5.42009 -2.82461,-6.15062 0.99446,-0.98719 3.6718,-3.249634 5.01141,-7.236021 0.20928,0.976444 1.20199,0.812271 1.45786,-0.135675 1.24118,-4.598263 0.0847,-11.694755 -1.64009,-12.346461 -0.39088,2.049941 3.38074,4.134957 0.95672,12.256009 -1.72768,-4.176811 -5.78221,-7.622852 -8.05072,-9.874764 -0.44762,-0.444349 -0.60709,-0.104381 -0.19532,0.603613 -3.49603,1.639248 -8.14029,4.701295 -10.52396,7.733496 -3.08536,-7.847279 4.97494,-12.165561 8.24604,-12.165561 0.98712,0 0.56529,-0.743627 -0.82004,-0.81405 -0.82316,-0.04185 -3.93412,0.81725 -4.64695,1.175852 8.49223,-7.564626 18.15121,-2.566244 19.81784,4.477289 1.12062,4.735968 -0.11389,5.29134 -0.0456,10.718356 0.0575,4.564077 3.80411,7.077737 7.28932,5.155667 z"
+         id="path4585"
+         sodipodi:nodetypes="cssscsccsccsscssc"
+         inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+         inkscape:export-xdpi="35.299999"
+         inkscape:export-ydpi="35.299999" />
+    </g>
+    <g
+       id="g4587"
+       transform="translate(-0.20921392,-84.202848)"
+       inkscape:export-filename="C:\dev\sponge\design\OriginalWireframes\assets\LanguagesControl.png"
+       inkscape:export-xdpi="103.61102"
+       inkscape:export-ydpi="103.61102"
+       style="opacity:0.70400002">
+      <g
+         id="g4589"
+         transform="translate(-9.5217359,84.233412)" />
+      <g
+         style="fill:#ffffff;stroke:#000000"
+         id="g4591"
+         transform="matrix(0.54960069,0,0,0.54960069,-4.7632887,108.22318)">
+        <path
+           inkscape:export-ydpi="35.299999"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           id="path4593"
+           d="m 320.65198,22.695817 c -0.38843,-0.321608 -0.80891,-0.536925 -1.40118,-0.797497 -4.50482,-1.981917 -11.47937,-1.937586 -18.14888,-1.325689 -2.75535,0.252782 -4.46105,0.839537 -6.35135,1.32154 -1.59553,0.406841 -2.16103,1.836794 -1.784,3.082851 0.61722,2.039949 1.62027,5.111679 3.26488,7.471694 -0.23677,0.08053 -0.4502,0.185008 -0.62735,0.312317 -0.78479,0.563967 -1.11975,1.309762 -1.13818,2.162092 -0.0221,1.011034 0.52451,1.813552 1.24649,2.51576 0.67188,0.653533 1.65394,1.223132 2.73569,1.241555 0.32959,1.083839 0.63352,2.320118 2.27647,4.870555 2.32523,3.609563 7.28995,5.811786 11.15813,3.619114 2.69226,-1.526097 3.93568,-2.564307 5.50641,-4.059666 0.49359,-0.469871 0.85111,-0.926098 0.99346,-1.527613 0.14237,-0.601489 -0.051,-1.303414 -0.33268,-1.789486 -1.89183,-2.63671 -3.87663,-8.276564 -1.0337,-9.006576 0.47881,-0.151615 -2.09788,-0.399571 -1.59116,-0.483055 0.49464,-0.09918 1.00378,-0.147948 1.51852,-0.503402 0.51474,-0.355455 0.80244,-0.841723 1.18469,-1.582192 0.32365,-0.62704 0.77938,-1.260504 1.18952,-1.673238 0.20509,-0.206355 0.39998,-0.356669 0.51832,-0.423891 0.0506,-0.02873 0.0737,-0.02734 0.0766,-0.02629 0.5441,0.04673 1.14823,-0.02998 1.53804,-0.521079 0.43423,-0.547045 0.27486,-1.290889 0.0352,-1.758822 -0.0907,-0.177111 -0.33839,-0.70872 -0.83398,-1.118996 z"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.63682598;stroke-miterlimit:4;stroke-dasharray:none"
+           sodipodi:nodetypes="csssscssscsssscccsssssssc" />
+        <path
+           inkscape:export-ydpi="35.299999"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           sodipodi:nodetypes="csssssssssssssss"
+           id="path4595"
+           d="m 313.11147,30.310176 c 0.61988,0.15964 1.0692,0.273525 1.02113,1.152216 -0.10428,1.905628 -0.14435,4.316907 1.38073,6.594028 1.4783,2.207279 3.03204,2.735869 1.33268,4.428866 -1.56101,1.555175 -2.69056,2.551076 -5.36045,4.137139 -3.33866,1.983339 -7.4834,0.08373 -9.53077,-3.081124 -1.96808,-3.042309 -1.8764,-3.907762 -2.46331,-5.452095 -0.35578,-0.936167 -0.59505,-0.372847 -1.07079,-0.338293 -1.39081,0.10102 -2.73838,-1.484405 -2.73102,-2.381768 0.007,-0.897385 1.00832,-2.52082 2.76049,-1.207752 0.95434,0.715184 1.59574,1.497328 1.48413,0.562351 -0.058,-0.482227 -0.0354,-0.490255 0.44418,-0.700971 0.27073,-0.11895 0.53854,0.06978 0.73833,-0.958577 0.34762,-1.789457 0.97859,-4.167113 1.35883,-5.822004 0.18898,-0.822486 0.85737,-0.535965 1.32407,-0.271083 3.17083,1.799635 6.40777,2.591245 9.31175,3.339104 z"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000" />
+        <path
+           inkscape:export-ydpi="35.299999"
+           inkscape:export-xdpi="35.299999"
+           inkscape:export-filename="E:\Users\John\Desktop\chorus3.png"
+           id="path4597"
+           d="m 298.84238,35.44322 c -0.31687,-0.258509 -0.93153,-0.551401 -1.16698,-0.192087 -0.15,0.477268 0.90205,0.660826 0.61719,1.154342 -0.32539,0.455772 0.56926,0.934594 0.71803,0.380329 0.26711,-0.36271 0.35852,-0.992719 -0.16824,-1.342584 z"
+           style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000" />
+      </g>
+    </g>
+  </g>
+</svg>

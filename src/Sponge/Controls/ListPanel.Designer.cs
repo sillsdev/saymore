@@ -116,7 +116,6 @@ namespace SIL.Sponge.Controls
             this.hdrList});
 			this.lvItems.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.lvItems.HideSelection = false;
-			this.lvItems.LabelEdit = true;
 			this.lvItems.Location = new System.Drawing.Point(2, 31);
 			this.lvItems.Name = "lvItems";
 			this.lvItems.Size = new System.Drawing.Size(159, 209);

@@ -57,16 +57,6 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Fixture tear down.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void FixtureTearDown()
-		{
-			m_frmHost.Controls.Clear();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Create a test project before each test runs.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -84,6 +74,7 @@ namespace SIL.Sponge.Model
 			m_lpSessions = ReflectionHelper.GetField(m_vw, "lpSessions") as ListPanel;
 			m_gridFiles = ReflectionHelper.GetField(m_vw, "gridFiles") as DataGridView;
 
+			m_frmHost.Controls.Clear();
 			m_frmHost.Controls.Add(m_vw);
 			m_frmHost.Show();
 		}
@@ -227,6 +218,7 @@ namespace SIL.Sponge.Model
 			const int shift = 4 + leftMouse;
 			const int ctrl = 8 + leftMouse;
 
+			// Create an array of temp. files in the temp. folder.
 			var tmpFiles = new[] {Path.GetTempFileName(),
 				Path.GetTempFileName(), Path.GetTempFileName() };
 
@@ -274,6 +266,80 @@ namespace SIL.Sponge.Model
 				//args = new DragEventArgs(dragObj, shift, 0, 0, DragDropEffects.All, DragDropEffects.All);
 				//ReflectionHelper.CallMethod(m_vw, "FileListDragOver", new[] { null, args });
 				//Assert.AreEqual(DragDropEffects.Copy, args.Effect);
+			}
+			finally
+			{
+				foreach (string file in tmpFiles)
+				{
+					try { File.Delete(file); }
+					catch { }
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the FileListDragDrop method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void FileListDragDrop()
+		{
+			SetTab("tpgFiles");
+
+			// Add some sessions, update the side panel sessions list and set the current session.
+			AddTestSessions();
+			ReflectionHelper.CallMethod(m_vw, "RefreshSessionList");
+			m_lpSessions.CurrentItem = m_sessionNames[0];
+			var session = m_lpSessions.CurrentItem as Session;
+			Assert.AreEqual(m_sessionNames[0], session.Name);
+
+			// Create an array of temp. files in the temp. folder.
+			var tmpFiles = new[] {Path.GetTempFileName(), Path.GetTempFileName() };
+
+			try
+			{
+				// Test when there is no data to be dropped.
+				var dragObj = new DataObject(DataFormats.FileDrop, null);
+				var args = new DragEventArgs(dragObj, 0, 0, 0, DragDropEffects.Copy, DragDropEffects.All);
+				ReflectionHelper.CallMethod(m_vw, "FileListDragDrop", new[] { null, args });
+				var currSessionFiles = ReflectionHelper.GetField(m_vw, "m_currSessionFiles") as SessionFile[];
+				Assert.AreEqual(0, currSessionFiles.Length);
+
+				// Test when the allowed effects is not copy or move.
+				dragObj = new DataObject(DataFormats.FileDrop, tmpFiles);
+				args = new DragEventArgs(dragObj, 0, 0, 0, DragDropEffects.Link, DragDropEffects.All);
+				ReflectionHelper.CallMethod(m_vw, "FileListDragDrop", new[] { null, args });
+				currSessionFiles = ReflectionHelper.GetField(m_vw, "m_currSessionFiles") as SessionFile[];
+				Assert.AreEqual(0, currSessionFiles.Length);
+
+				// Test copying dropped files.
+				dragObj = new DataObject(DataFormats.FileDrop, tmpFiles);
+				args = new DragEventArgs(dragObj, 0, 0, 0, DragDropEffects.Copy, DragDropEffects.All);
+				ReflectionHelper.CallMethod(m_vw, "FileListDragDrop", new[] { null, args });
+				currSessionFiles = ReflectionHelper.GetField(m_vw, "m_currSessionFiles") as SessionFile[];
+				Assert.AreEqual(2, currSessionFiles.Length);
+				Assert.AreEqual(Path.GetFileName(tmpFiles[0]), currSessionFiles[0].FileName);
+				Assert.AreEqual(Path.GetFileName(tmpFiles[1]), currSessionFiles[1].FileName);
+				Assert.IsTrue(File.Exists(tmpFiles[0]));
+				Assert.IsTrue(File.Exists(tmpFiles[1]));
+
+				// Delete the two files just copied and refersh the view.
+				File.Delete(Path.Combine(session.SessionPath, currSessionFiles[0].FileName));
+				File.Delete(Path.Combine(session.SessionPath, currSessionFiles[1].FileName));
+				ReflectionHelper.CallMethod(m_vw, "RefreshFileList");
+
+				// TODO: Uncomment when move is supported
+				// Test moving dropped files.
+				//dragObj = new DataObject(DataFormats.FileDrop, tmpFiles);
+				//args = new DragEventArgs(dragObj, 0, 0, 0, DragDropEffects.Move, DragDropEffects.All);
+				//ReflectionHelper.CallMethod(m_vw, "FileListDragDrop", new[] { null, args });
+				//currSessionFiles = ReflectionHelper.GetField(m_vw, "m_currSessionFiles") as SessionFile[];
+				//Assert.AreEqual(2, currSessionFiles.Length);
+				//Assert.AreEqual(Path.GetFileName(tmpFiles[0]), currSessionFiles[0].FileName);
+				//Assert.AreEqual(Path.GetFileName(tmpFiles[1]), currSessionFiles[1].FileName);
+				//Assert.IsFalse(File.Exists(tmpFiles[0]));
+				//Assert.IsFalse(File.Exists(tmpFiles[1]));
 			}
 			finally
 			{

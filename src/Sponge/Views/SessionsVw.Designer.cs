@@ -51,7 +51,6 @@ namespace SIL.Sponge
 			this.lpSessions = new SIL.Sponge.Controls.ListPanel();
 			this.picIcon = new System.Windows.Forms.PictureBox();
 			this.lblFile = new System.Windows.Forms.Label();
-			this.fileSysWatcher = new System.IO.FileSystemWatcher();
 			this.lblNoSessionsMsg = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.splitOuter.Panel1.SuspendLayout();
@@ -65,7 +64,6 @@ namespace SIL.Sponge
 			this.pnlGrid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridFiles)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.fileSysWatcher)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -309,7 +307,7 @@ namespace SIL.Sponge
 			// 
 			this.lpSessions.CurrentItem = null;
 			this.lpSessions.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lpSessions.Items = new string[0];
+			this.lpSessions.Items = new object[0];
 			this.locExtender.SetLocalizableToolTip(this.lpSessions, null);
 			this.locExtender.SetLocalizationComment(this.lpSessions, null);
 			this.locExtender.SetLocalizingId(this.lpSessions, "SessionsVw.ListPanel");
@@ -347,15 +345,6 @@ namespace SIL.Sponge
 			this.lblFile.TabIndex = 2;
 			this.lblFile.Text = "#";
 			// 
-			// fileSysWatcher
-			// 
-			this.fileSysWatcher.IncludeSubdirectories = true;
-			this.fileSysWatcher.SynchronizingObject = this;
-			//this.fileSysWatcher.Renamed += new System.IO.RenamedEventHandler(this.fileSysWatcher_Renamed);
-			//this.fileSysWatcher.Deleted += new System.IO.FileSystemEventHandler(this.fileSysWatcherEvent);
-			//this.fileSysWatcher.Created += new System.IO.FileSystemEventHandler(this.fileSysWatcherEvent);
-			//this.fileSysWatcher.Changed += new System.IO.FileSystemEventHandler(this.fileSysWatcherEvent);
-			// 
 			// lblNoSessionsMsg
 			// 
 			this.lblNoSessionsMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -374,7 +363,7 @@ namespace SIL.Sponge
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "View";
+			this.locExtender.LocalizationGroup = "Views";
 			// 
 			// SessionsVw
 			// 
@@ -396,7 +385,6 @@ namespace SIL.Sponge
 			this.pnlGrid.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.gridFiles)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.fileSysWatcher)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
@@ -422,7 +410,6 @@ namespace SIL.Sponge
 		private System.Windows.Forms.DataGridViewTextBoxColumn filesTagsCol;
 		private System.Windows.Forms.DataGridViewTextBoxColumn filesDateCol;
 		private System.Windows.Forms.DataGridViewTextBoxColumn filesSizeCol;
-		private System.IO.FileSystemWatcher fileSysWatcher;
 		private System.Windows.Forms.Label lblNoSessionsMsg;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}

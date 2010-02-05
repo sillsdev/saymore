@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
@@ -115,9 +116,29 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private bool lpSessions_DeleteButtonClicked(object sender, List<object> itemsToDelete)
 		{
-			//lblNoSessionsMsg.Visible = true;
+			if (itemsToDelete == null || itemsToDelete.Count == 0)
+				return false;
 
-			return default(bool);
+			var msg = LocalizationManager.LocalizeString("SessionVw.DeleteConfirmationMsg",
+				"Are you sure you want to delete the selected sessions and their content?",
+				"Question asked when delete button is clicked on the 'Files' tab of the Sessions view.",
+				"Views", LocalizationCategory.GeneralMessage, LocalizationPriority.High);
+
+			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				//m_currProj.EnableFileWatching = false;
+				//lpSessions.SelectedItemChanged -= lpSessions_SelectedItemChanged;
+
+				for (int i = itemsToDelete.Count - 1; i >= 0; i--)
+					Directory.Delete(((Session)itemsToDelete[i]).SessionPath, true);
+
+				//m_currProj.EnableFileWatching = true;
+				//lpSessions.SelectedItemChanged += lpSessions_SelectedItemChanged;
+
+				//RefreshSessionList();
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -184,13 +205,19 @@ namespace SIL.Sponge
 		private void FileListDragDrop(object sender, DragEventArgs e)
 		{
 			var droppedFiles = e.Data.GetData(DataFormats.FileDrop) as string[];
-			if (droppedFiles == null || e.AllowedEffect == DragDropEffects.None)
+			if (droppedFiles == null)
 				return;
 
-			// TODO: Handle copy/move when dropping folders.
 			// REVIEW: What should we do when dragging a folder? Should session folders be
 			// allowed to contain subfolders?
-			m_currSession.AddFiles(droppedFiles);
+
+			switch (e.AllowedEffect)
+			{
+				case DragDropEffects.Copy: m_currSession.AddFiles(droppedFiles); break;
+				//case DragDropEffects.Move: TODO: Handle move when dropping folders.
+				default: return;
+			}
+
 			RefreshFileList();
 		}
 
@@ -202,7 +229,7 @@ namespace SIL.Sponge
 		private void FileListDragOver(object sender, DragEventArgs e)
 		{
 			const int leftMouse = 1;
-			const int shift = 4 + leftMouse;
+			//const int shift = 4 + leftMouse;
 			//const int ctrl = 8 + leftMouse;
 
 			if (!e.Data.GetDataPresent(DataFormats.FileDrop) || (e.KeyState & leftMouse) == 0 ||
@@ -316,11 +343,8 @@ namespace SIL.Sponge
 				for (int i = 0; i < colWidths.Length && i < gridFiles.ColumnCount; i++)
 					gridFiles.Columns[i].Width = colWidths[i];
 
-				//fileSysWatcher.Path = m_currProj.ProjectPath;
-				//fileSysWatcher.EnableRaisingEvents = true;
-
-				// When running tests, subscribing to these events should not be done,
-				// therefore, only do so when there is a form hosting this view.
+				// Setting up drap/drop crashes when there is no hosting form,
+				// so make sure/ we're being hosted before doing so.
 				if (FindForm() != null)
 				{
 					pnlGrid.AllowDrop = true;

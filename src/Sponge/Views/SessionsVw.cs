@@ -43,13 +43,6 @@ namespace SIL.Sponge
 
 			lblNoSessionsMsg.BackColor = lpSessions.ListView.BackColor;
 
-			//lblTxtBox1.InnerLabel.Text = "One:";
-			//lblTxtBox2.InnerLabel.Text = "Two Two:";
-			//lblTxtBox3.InnerLabel.Text = "Three Three Three:";
-			//lblTxtBox4.InnerLabel.Text = "Four Four Four Four:";
-
-			//lblTxtBox1.InnerLabel.Width = lblTxtBox2.InnerLabel.Width =
-			//lblTxtBox3.InnerLabel.Width = lblTxtBox4.InnerLabel.Width = 100;
 
 
 		}
@@ -105,6 +98,7 @@ namespace SIL.Sponge
 				PortableSettingsProvider.GetStringFromIntArray(colWidths);
 
 			Settings.Default.SessionVwSplitterPos = splitOuter.SplitterDistance;
+			Settings.Default.SessionFileInfoPanelSplitterPos = m_infoPanel.SplitterPosition;
 			Settings.Default.Save();
 
 			base.OnHandleDestroyed(e);
@@ -119,6 +113,16 @@ namespace SIL.Sponge
 		private void tabSessions_SizeChanged(object sender, EventArgs e)
 		{
 			tabSessions.Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the Selected event of the tabSessions control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void tabSessions_Selected(object sender, TabControlEventArgs e)
+		{
+			UpdateSessionFileInfo(CurrentSessionFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -252,7 +256,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void UpdateSessionFileInfo(SessionFile sessionFile)
 		{
-			if (sessionFile == null)
+			if (sessionFile == null || tabSessions.SelectedTab != tpgFiles)
 			{
 				m_infoPanel.Visible = false;
 				return;
@@ -264,7 +268,9 @@ namespace SIL.Sponge
 			var template = SessionFileInfoTemplateList.GetTemplateByExt(
 				Path.GetExtension(sessionFile.FileName));
 
-			if (template != null)
+			if (template == null)
+				m_infoPanel.ClearInfo();
+			else
 			{
 				var list = new List<KeyValuePair<string, string>>(template.Fields.Count);
 
@@ -417,6 +423,9 @@ namespace SIL.Sponge
 			{
 				if (Settings.Default.SessionVwSplitterPos > 0)
 					splitOuter.SplitterDistance = Settings.Default.SessionVwSplitterPos;
+
+				if (Settings.Default.SessionFileInfoPanelSplitterPos > 0)
+					m_infoPanel.SplitterPosition = Settings.Default.SessionFileInfoPanelSplitterPos;
 
 				var colWidths = PortableSettingsProvider.GetIntArrayFromString(
 					Settings.Default.SessionFileCols);

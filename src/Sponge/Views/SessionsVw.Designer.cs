@@ -104,6 +104,7 @@ namespace SIL.Sponge
 			this.tabSessions.SelectedIndex = 0;
 			this.tabSessions.Size = new System.Drawing.Size(486, 285);
 			this.tabSessions.TabIndex = 0;
+			this.tabSessions.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabSessions_Selected);
 			this.tabSessions.SizeChanged += new System.EventHandler(this.tabSessions_SizeChanged);
 			// 
 			// tpgDescription

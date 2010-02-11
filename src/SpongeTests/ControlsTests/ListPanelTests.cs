@@ -64,10 +64,10 @@ namespace SIL.Sponge.Controls
 
 			m_lp.Items = new[] { "cheese", "wine", "bread", "pickles" };
 			Assert.AreEqual(4, m_lp.Items.Length);
-			Assert.AreEqual("cheese", m_lp.Items[0]);
-			Assert.AreEqual("wine", m_lp.Items[1]);
-			Assert.AreEqual("bread", m_lp.Items[2]);
-			Assert.AreEqual("pickles", m_lp.Items[3]);
+			Assert.AreEqual("bread", m_lp.Items[0]);
+			Assert.AreEqual("cheese", m_lp.Items[1]);
+			Assert.AreEqual("pickles", m_lp.Items[2]);
+			Assert.AreEqual("wine", m_lp.Items[3]);
 
 			m_lp.Items = null;
 			Assert.AreEqual(0, m_lp.Items.Length);
@@ -83,17 +83,17 @@ namespace SIL.Sponge.Controls
 		{
 			Assert.IsNull(m_lp.CurrentItem);
 
-			m_lp.Items = new[] { "eyes", "ears", "nose", "mouth" };
+			m_lp.Items = new[] { "nose", "eyes", "ears", "mouth" };
+			Assert.AreEqual("ears", m_lp.CurrentItem);
+
+			m_lp.CurrentItem = "eyes";
 			Assert.AreEqual("eyes", m_lp.CurrentItem);
 
-			m_lp.CurrentItem = "nose";
-			Assert.AreEqual("nose", m_lp.CurrentItem);
-
 			m_lp.CurrentItem = "lips";
-			Assert.AreEqual("nose", m_lp.CurrentItem);
+			Assert.AreEqual("eyes", m_lp.CurrentItem);
 
 			m_lp.CurrentItem = null;
-			Assert.AreEqual("nose", m_lp.CurrentItem);
+			Assert.AreEqual("eyes", m_lp.CurrentItem);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -102,9 +102,9 @@ namespace SIL.Sponge.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void DeleteClicked_EmptyList()
+		public void AfterItemsDeleted_EmptyList()
 		{
-			m_lp.DeleteButtonClicked += delegate { throw new Exception("Should never get here!"); };
+			m_lp.AfterItemsDeleted += delegate { throw new Exception("Should never get here!"); };
 			ReflectionHelper.CallMethodWithThrow(m_lp, "btnDelete_Click", new object[] { null, null });
 		}
 
@@ -114,29 +114,24 @@ namespace SIL.Sponge.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void DeleteClicked()
+		public void AfterItemsDeleted()
 		{
 			bool delegateCalled = false;
 
-			m_lp.DeleteButtonClicked += delegate(object sender, List<object> itemsToDelete)
+			m_lp.AfterItemsDeleted += delegate(object sender, List<object> itemsToDelete)
 			{
 				Assert.AreEqual(3, itemsToDelete.Count);
-				Assert.AreEqual("water", itemsToDelete[0]);
-				Assert.AreEqual("fire", itemsToDelete[1]);
-				Assert.AreEqual("wind", itemsToDelete[2]);
-
-				// Remove one of the selected items so it will not be removed from the list.
-				itemsToDelete.Remove("fire");
-
+				Assert.AreEqual("rock", itemsToDelete[0]);
+				Assert.AreEqual("sky", itemsToDelete[1]);
+				Assert.AreEqual("water", itemsToDelete[2]);
 				delegateCalled = true;
-				return true;
 			};
 
 			m_lp.Items = new[] { "sky", "earth", "water", "fire", "wind", "rock" };
 			Assert.AreEqual(6, m_lp.Items.Length);
 
-			m_lp.CurrentItem = "fire";
-			Assert.AreEqual("fire", m_lp.CurrentItem);
+			m_lp.CurrentItem = "sky";
+			Assert.AreEqual("sky", m_lp.CurrentItem);
 
 			m_lp.ListView.Items[2].Selected = true;
 			m_lp.ListView.Items[3].Selected = true;
@@ -145,15 +140,14 @@ namespace SIL.Sponge.Controls
 			ReflectionHelper.CallMethod(m_lp, "btnDelete_Click", new object[] { null, null });
 			Assert.IsTrue(delegateCalled);
 
-			Assert.AreEqual("fire", m_lp.CurrentItem);
+			Assert.AreEqual("wind", m_lp.CurrentItem);
 
-			// Make sure only two of the 3 originally selected items got removed.
+			// Make sure the 3 items selected got removed.
 			var items = m_lp.Items;
-			Assert.AreEqual(4, items.Length);
-			Assert.AreEqual("sky", items[0]);
-			Assert.AreEqual("earth", items[1]);
-			Assert.AreEqual("fire", items[2]);
-			Assert.AreEqual("rock", items[3]);
+			Assert.AreEqual(3, items.Length);
+			Assert.AreEqual("earth", items[0]);
+			Assert.AreEqual("fire", items[1]);
+			Assert.AreEqual("wind", items[2]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -164,7 +158,7 @@ namespace SIL.Sponge.Controls
 		[Test]
 		public void SelectedItemChanged()
 		{
-			string expectedItem = "wheat";
+			string expectedItem = "flax";
 			bool delegateCalled = false;
 
 			m_lp.SelectedItemChanged += delegate(object sender, object newItem)
@@ -188,8 +182,8 @@ namespace SIL.Sponge.Controls
 			Assert.IsTrue(delegateCalled);
 			delegateCalled = false;
 
-			expectedItem = "wheat";
-			m_lp.CurrentItem = expectedItem;
+			expectedItem = "rice";
+			m_lp.CurrentItem = "wheat";
 			Assert.AreEqual(1, m_lp.ListView.SelectedItems.Count);
 			Assert.IsTrue(delegateCalled);
 		}

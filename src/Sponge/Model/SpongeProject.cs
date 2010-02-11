@@ -16,10 +16,8 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Localize.LocalizationUtils;

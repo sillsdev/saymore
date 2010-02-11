@@ -17,8 +17,11 @@ namespace SIL.Sponge.Controls
 		public delegate void SelectedItemChangedHandler(object sender, object newItem);
 		public event SelectedItemChangedHandler SelectedItemChanged;
 
-		public delegate bool DeleteButtonClickHandler(object sender, List<object> itemsToDelete);
-		public event DeleteButtonClickHandler DeleteButtonClicked;
+		public delegate bool BeforeItemsDeletedHandler(object sender, List<object> itemsToDelete);
+		public event BeforeItemsDeletedHandler BeforeItemsDeleted;
+
+		public delegate void AfterItemsDeletedHandler(object sender, List<object> itemsToDelete);
+		public event AfterItemsDeletedHandler AfterItemsDeleted;
 
 		public delegate object NewButtonClickedHandler(object sender);
 		public event NewButtonClickedHandler NewButtonClicked;
@@ -80,10 +83,12 @@ namespace SIL.Sponge.Controls
 				lvItems.Items.Clear();
 				if (value != null && value.Length > 0)
 				{
-					foreach (object obj in value)
+					var list = new List<object>(value);
+					list.Sort((x, y) => x.ToString().CompareTo(y.ToString()));
+					foreach (object obj in list)
 						lvItems.Items.Add(obj.ToString()).Tag = obj;
 
-					CurrentItem = (currItem ?? value[0]);
+					CurrentItem = (currItem ?? list[0]);
 				}
 			}
 		}
@@ -133,7 +138,7 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
-			if (lvItems.SelectedItems.Count == 0 || DeleteButtonClicked == null)
+			if (lvItems.SelectedItems.Count == 0)
 				return;
 
 			// Create a list containing each selected item.
@@ -141,8 +146,10 @@ namespace SIL.Sponge.Controls
 			foreach (ListViewItem item in lvItems.SelectedItems)
 				itemsToDelete.Add(item.Tag);
 
-			// Call delegates.
-			if (!DeleteButtonClicked(this, itemsToDelete))
+			if (itemsToDelete.Count == 0)
+				return;
+
+			if (BeforeItemsDeleted != null && !BeforeItemsDeleted(this, itemsToDelete))
 				return;
 
 			var currText = lvItems.FocusedItem.Text;
@@ -160,6 +167,10 @@ namespace SIL.Sponge.Controls
 			}
 
 			lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
+
+			// Call delegates.
+			if (AfterItemsDeleted != null)
+				AfterItemsDeleted(this, itemsToDelete);
 
 			// Check if the currently focused item is the same as the one that was
 			// focused before removing anything from the list.

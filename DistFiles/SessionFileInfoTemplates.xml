@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sessionFileInfoTemplates>
+	<template id="AudioRecording">
+		<fileExtensions>wav,mp3,ogg,wma</fileExtensions>
+		<field id="recordist">
+			<textStringId>SessionsVw.lblRecordist</textStringId>
+			<defaultText>Recordist:</defaultText>
+			<type>Text</type>
+		</field>
+		<field id="device">
+			<textStringId>SessionsVw.lblDevice</textStringId>
+			<defaultText>Device:</defaultText>
+			<type>Text</type>
+		</field>
+		<field id="microphone">
+			<textStringId>SessionsVw.lblMicrophone</textStringId>
+			<defaultText>Microphone:</defaultText>
+			<type>Text</type>
+		</field>
+		<field id="channel">
+			<textStringId>SessionsVw.lblChannel</textStringId>
+			<defaultText>Channel:</defaultText>
+			<type>Text</type>
+		</field>
+		<field id="bitDepth">
+			<textStringId>SessionsVw.lblBitDepth</textStringId>
+			<defaultText>Bit Depth:</defaultText>
+			<type>Text</type>
+		</field>
+		<field id="sampleRate">
+			<textStringId>SessionsVw.lblSampleRate</textStringId>
+			<defaultText>Sample Rate:</defaultText>
+			<type>ComboBox</type>
+		</field>
+		<field id="analogGain">
+			<textStringId>SessionsVw.lblAnalogGain</textStringId>
+			<defaultText>Analog Gain:</defaultText>
+			<type>Text</type>
+		</field>
+		<field id="digitalGain">
+			<textStringId>SessionsVw.lblDigitalGain</textStringId>
+			<defaultText>Digital Gain:</defaultText>
+			<type>Text</type>
+		</field>
+	</template>
+</sessionFileInfoTemplates>

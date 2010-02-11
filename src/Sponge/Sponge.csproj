@@ -37,6 +37,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\LocalizationUtils.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Palaso, Version=1.2.496.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
@@ -50,6 +52,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
@@ -83,6 +86,24 @@
     <Compile Include="ConfigTools\WelcomeDlg.Designer.cs">
       <DependentUpon>WelcomeDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HoverCueTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\HoverCueTextBox.Designer.cs">
+      <DependentUpon>HoverCueTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\InfoPanel.Designer.cs">
+      <DependentUpon>InfoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LabeledTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LabeledTextBox.Designer.cs">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SpongeBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -90,6 +111,7 @@
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\SessionFile.cs" />
+    <Compile Include="Model\SessionFileInfoTemplate.cs" />
     <Compile Include="Model\SpongeProject.cs" />
     <Compile Include="Model\Tag.cs" />
     <Compile Include="Sponge.cs" />
@@ -169,6 +191,15 @@
     <EmbeddedResource Include="ConfigTools\WelcomeDlg.resx">
       <DependentUpon>WelcomeDlg.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\HoverCueTextBox.resx">
+      <DependentUpon>HoverCueTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\InfoPanel.resx">
+      <DependentUpon>InfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\LabeledTextBox.resx">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\BaseSplitVw.resx">
       <DependentUpon>BaseSplitVw.cs</DependentUpon>
     </EmbeddedResource>
@@ -240,6 +271,7 @@
     <None Include="Resources\sponge.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\More_Action.png" />
     <Content Include="Sponge.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -252,6 +284,7 @@
   -->
   <PropertyGroup>
     <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\Sponge.Values.xml" "$(OutDir)"
+copy "$(ProjectDir)..\..\DistFiles\SessionFileInfoTemplates.xml" "$(OutDir)"
 if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -49,10 +49,9 @@ namespace SIL.Sponge
 			this.filesDateCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.filesSizeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.lpSessions = new SIL.Sponge.Controls.ListPanel();
-			this.picIcon = new System.Windows.Forms.PictureBox();
-			this.lblFile = new System.Windows.Forms.Label();
 			this.lblNoSessionsMsg = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.m_infoPanel = new SIL.Sponge.Controls.InfoPanel();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -63,7 +62,6 @@ namespace SIL.Sponge
 			this.tpgFiles.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridFiles)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -87,8 +85,8 @@ namespace SIL.Sponge
 			// 
 			// splitRightSide.Panel2
 			// 
-			this.splitRightSide.Panel2.Controls.Add(this.lblFile);
-			this.splitRightSide.Panel2.Controls.Add(this.picIcon);
+			this.splitRightSide.Panel2.Controls.Add(this.m_infoPanel);
+			this.splitRightSide.Panel2.Padding = new System.Windows.Forms.Padding(0, 0, 3, 3);
 			this.splitRightSide.Size = new System.Drawing.Size(488, 383);
 			this.splitRightSide.SplitterDistance = 288;
 			// 
@@ -233,7 +231,7 @@ namespace SIL.Sponge
 			this.gridFiles.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -265,6 +263,7 @@ namespace SIL.Sponge
 			this.gridFiles.VirtualMode = true;
 			this.gridFiles.Visible = false;
 			this.gridFiles.WaterMark = "!";
+			this.gridFiles.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFiles_RowEnter);
 			this.gridFiles.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridFiles_CellValueNeeded);
 			// 
 			// iconCol
@@ -317,33 +316,10 @@ namespace SIL.Sponge
 			this.lpSessions.Size = new System.Drawing.Size(165, 383);
 			this.lpSessions.TabIndex = 0;
 			this.lpSessions.Text = "Sessions";
+			this.lpSessions.BeforeItemsDeleted += new SIL.Sponge.Controls.ListPanel.BeforeItemsDeletedHandler(this.BeforeSessionsDeleted);
 			this.lpSessions.SelectedItemChanged += new SIL.Sponge.Controls.ListPanel.SelectedItemChangedHandler(this.lpSessions_SelectedItemChanged);
-			this.lpSessions.DeleteButtonClicked += new SIL.Sponge.Controls.ListPanel.DeleteButtonClickHandler(this.lpSessions_DeleteButtonClicked);
+			this.lpSessions.AfterItemsDeleted += new SIL.Sponge.Controls.ListPanel.AfterItemsDeletedHandler(this.AfterSessionsDeleted);
 			this.lpSessions.NewButtonClicked += new SIL.Sponge.Controls.ListPanel.NewButtonClickedHandler(this.lpSessions_NewButtonClicked);
-			// 
-			// picIcon
-			// 
-			this.locExtender.SetLocalizableToolTip(this.picIcon, null);
-			this.locExtender.SetLocalizationComment(this.picIcon, null);
-			this.locExtender.SetLocalizingId(this.picIcon, "SessionsVw.picIcon");
-			this.picIcon.Location = new System.Drawing.Point(6, 21);
-			this.picIcon.Name = "picIcon";
-			this.picIcon.Size = new System.Drawing.Size(32, 32);
-			this.picIcon.TabIndex = 1;
-			this.picIcon.TabStop = false;
-			// 
-			// lblFile
-			// 
-			this.lblFile.AutoSize = true;
-			this.lblFile.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.locExtender.SetLocalizableToolTip(this.lblFile, null);
-			this.locExtender.SetLocalizationComment(this.lblFile, null);
-			this.locExtender.SetLocalizingId(this.lblFile, "SessionsVw.lblFile");
-			this.lblFile.Location = new System.Drawing.Point(6, 4);
-			this.lblFile.Name = "lblFile";
-			this.lblFile.Size = new System.Drawing.Size(14, 13);
-			this.lblFile.TabIndex = 2;
-			this.lblFile.Text = "#";
 			// 
 			// lblNoSessionsMsg
 			// 
@@ -365,6 +341,21 @@ namespace SIL.Sponge
 			// 
 			this.locExtender.LocalizationGroup = "Views";
 			// 
+			// m_infoPanel
+			// 
+			this.m_infoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.m_infoPanel.FileName = "#";
+			this.m_infoPanel.Icon = null;
+			this.locExtender.SetLocalizableToolTip(this.m_infoPanel, null);
+			this.locExtender.SetLocalizationComment(this.m_infoPanel, "Localized in base class");
+			this.locExtender.SetLocalizationPriority(this.m_infoPanel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_infoPanel, "SessionsVw.InfoPanel");
+			this.m_infoPanel.Location = new System.Drawing.Point(0, 0);
+			this.m_infoPanel.Name = "m_infoPanel";
+			this.m_infoPanel.Notes = "";
+			this.m_infoPanel.Size = new System.Drawing.Size(485, 88);
+			this.m_infoPanel.TabIndex = 0;
+			// 
 			// SessionsVw
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -378,13 +369,11 @@ namespace SIL.Sponge
 			this.splitOuter.ResumeLayout(false);
 			this.splitRightSide.Panel1.ResumeLayout(false);
 			this.splitRightSide.Panel2.ResumeLayout(false);
-			this.splitRightSide.Panel2.PerformLayout();
 			this.splitRightSide.ResumeLayout(false);
 			this.tabSessions.ResumeLayout(false);
 			this.tpgFiles.ResumeLayout(false);
 			this.pnlGrid.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.gridFiles)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
@@ -400,8 +389,6 @@ namespace SIL.Sponge
 		private SilUtils.Controls.SilPanel pnlGrid;
 		private SilUtils.SilGrid gridFiles;
 		private ListPanel lpSessions;
-		private System.Windows.Forms.Label lblFile;
-		private System.Windows.Forms.PictureBox picIcon;
 		private System.Windows.Forms.LinkLabel lnkSessionPath;
 		private System.Windows.Forms.Label lblEmptySessionMsg;
 		private System.Windows.Forms.DataGridViewImageColumn iconCol;
@@ -412,5 +399,6 @@ namespace SIL.Sponge
 		private System.Windows.Forms.DataGridViewTextBoxColumn filesSizeCol;
 		private System.Windows.Forms.Label lblNoSessionsMsg;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private InfoPanel m_infoPanel;
 	}
 }

@@ -34,6 +34,8 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public TestHostForm()
 		{
+			StartPosition = FormStartPosition.Manual;
+			ShowInTaskbar = false;
 			ShowIcon = false;
 			MaximizeBox = false;
 			MinimizeBox = false;

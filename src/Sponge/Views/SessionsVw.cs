@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.ConfigTools;
+using SIL.Sponge.Controls;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 using SilUtils;
@@ -33,6 +34,7 @@ namespace SIL.Sponge
 		public SessionsVw()
 		{
 			InitializeComponent();
+			UpdateSessionFileInfo(null);
 
 			gridFiles.AlternatingRowsDefaultCellStyle.BackColor =
 				ColorHelper.CalculateColor(Color.Black, gridFiles.DefaultCellStyle.BackColor, 10);
@@ -40,6 +42,16 @@ namespace SIL.Sponge
 			gridFiles.Dock = DockStyle.Fill;
 
 			lblNoSessionsMsg.BackColor = lpSessions.ListView.BackColor;
+
+			//lblTxtBox1.InnerLabel.Text = "One:";
+			//lblTxtBox2.InnerLabel.Text = "Two Two:";
+			//lblTxtBox3.InnerLabel.Text = "Three Three Three:";
+			//lblTxtBox4.InnerLabel.Text = "Four Four Four Four:";
+
+			//lblTxtBox1.InnerLabel.Width = lblTxtBox2.InnerLabel.Width =
+			//lblTxtBox3.InnerLabel.Width = lblTxtBox4.InnerLabel.Width = 100;
+
+
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -51,6 +63,28 @@ namespace SIL.Sponge
 		{
 			m_currProj = (m_prj ?? MainWnd.CurrentProject);
 			m_currProj.ProjectChanged += HandleProjectFoldersChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the session file for the current row in the grid on the files tab for the
+		/// current session.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SessionFile CurrentSessionFile
+		{
+			get { return GetSessionFile(gridFiles.CurrentCellAddress.Y); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the session file for the specified index from the current session's file list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SessionFile GetSessionFile(int i)
+		{
+			return (m_currSessionFiles == null || i < 0 ||
+				i >= m_currSessionFiles.Count() ? null : m_currSessionFiles[i]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,31 +148,33 @@ namespace SIL.Sponge
 		/// Handle deleting a session via clicking on the delete button.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool lpSessions_DeleteButtonClicked(object sender, List<object> itemsToDelete)
+		private bool BeforeSessionsDeleted(object sender, List<object> itemsToDelete)
 		{
 			if (itemsToDelete == null || itemsToDelete.Count == 0)
 				return false;
 
-			var msg = LocalizationManager.LocalizeString("SessionVw.DeleteConfirmationMsg",
+			var msg = LocalizationManager.LocalizeString("SessionsVw.DeleteConfirmationMsg",
 				"Are you sure you want to delete the selected sessions and their content?",
 				"Question asked when delete button is clicked on the 'Files' tab of the Sessions view.",
 				"Views", LocalizationCategory.GeneralMessage, LocalizationPriority.High);
 
-			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
-			{
-				//m_currProj.EnableFileWatching = false;
-				//lpSessions.SelectedItemChanged -= lpSessions_SelectedItemChanged;
+			return (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes);
+		}
 
-				for (int i = itemsToDelete.Count - 1; i >= 0; i--)
-					Directory.Delete(((Session)itemsToDelete[i]).SessionPath, true);
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handle deleting sessions from the disk.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AfterSessionsDeleted(object sender, List<object> itemsToDelete)
+		{
+			bool enableFileWatchingState = m_currProj.EnableFileWatching;
+			m_currProj.EnableFileWatching = false;
 
-				//m_currProj.EnableFileWatching = true;
-				//lpSessions.SelectedItemChanged += lpSessions_SelectedItemChanged;
+			foreach (Session session in itemsToDelete)
+				Directory.Delete(session.SessionPath, true);
 
-				//RefreshSessionList();
-			}
-
-			return false;
+			m_currProj.EnableFileWatching = enableFileWatchingState;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,6 +185,7 @@ namespace SIL.Sponge
 		private void lpSessions_SelectedItemChanged(object sender, object newItem)
 		{
 			RefreshFileList();
+			UpdateSessionFileInfo(CurrentSessionFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -187,13 +224,57 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void gridFiles_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
-			if (m_currSessionFiles == null || e.RowIndex < 0 || e.RowIndex >= m_currSessionFiles.Length)
+			var currSession = GetSessionFile(e.RowIndex);
+
+			if (currSession == null)
 				e.Value = null;
 			else
 			{
-				e.Value = ReflectionHelper.GetProperty(m_currSessionFiles[e.RowIndex],
+				e.Value = ReflectionHelper.GetProperty(currSession,
 					gridFiles.Columns[e.ColumnIndex].DataPropertyName);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the RowEnter event of the gridFiles control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void gridFiles_RowEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			UpdateSessionFileInfo(GetSessionFile(e.RowIndex));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the session file info.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void UpdateSessionFileInfo(SessionFile sessionFile)
+		{
+			if (sessionFile == null)
+			{
+				m_infoPanel.Visible = false;
+				return;
+			}
+
+			m_infoPanel.Icon = sessionFile.LargeIcon;
+			m_infoPanel.FileName = sessionFile.FileName;
+
+			var template = SessionFileInfoTemplateList.GetTemplateByExt(
+				Path.GetExtension(sessionFile.FileName));
+
+			if (template != null)
+			{
+				var list = new List<KeyValuePair<string, string>>(template.Fields.Count);
+
+				foreach (var field in template.Fields)
+					list.Add(new KeyValuePair<string, string>(field.DefaultText, null));
+
+				m_infoPanel.Initialize(list);
+			}
+
+			m_infoPanel.Visible = true;
 		}
 
 		#region Methods for dragging and dropping files on files tab

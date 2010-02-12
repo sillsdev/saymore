@@ -52,6 +52,9 @@ namespace SIL.Sponge
 			this.lblNoSessionsMsg = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.m_infoPanel = new SIL.Sponge.Controls.InfoPanel();
+			this.cmnuMoreActions = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.cmnuOpenInFileManager = new System.Windows.Forms.ToolStripMenuItem();
+			this.openInApp = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -63,6 +66,7 @@ namespace SIL.Sponge
 			this.pnlGrid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridFiles)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			this.cmnuMoreActions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitOuter
@@ -355,7 +359,43 @@ namespace SIL.Sponge
 			this.m_infoPanel.Name = "m_infoPanel";
 			this.m_infoPanel.Notes = "";
 			this.m_infoPanel.Size = new System.Drawing.Size(485, 88);
+			this.m_infoPanel.SplitterPosition = 253;
 			this.m_infoPanel.TabIndex = 0;
+			this.m_infoPanel.MoreActionButtonClicked += new System.EventHandler(this.m_infoPanel_MoreActionButtonClicked);
+			// 
+			// cmnuMoreActions
+			// 
+			this.cmnuMoreActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmnuOpenInFileManager,
+            this.openInApp});
+			this.locExtender.SetLocalizableToolTip(this.cmnuMoreActions, null);
+			this.locExtender.SetLocalizationComment(this.cmnuMoreActions, null);
+			this.locExtender.SetLocalizationPriority(this.cmnuMoreActions, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.cmnuMoreActions, "cmnuMoreActions");
+			this.cmnuMoreActions.Name = "cmnuMoreActions";
+			this.cmnuMoreActions.Size = new System.Drawing.Size(242, 70);
+			// 
+			// cmnuOpenInFileManager
+			// 
+			this.locExtender.SetLocalizableToolTip(this.cmnuOpenInFileManager, null);
+			this.locExtender.SetLocalizationComment(this.cmnuOpenInFileManager, null);
+			this.locExtender.SetLocalizationPriority(this.cmnuOpenInFileManager, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.cmnuOpenInFileManager, "SessionsVw.cmnuOpenInFileManager");
+			this.cmnuOpenInFileManager.Name = "cmnuOpenInFileManager";
+			this.cmnuOpenInFileManager.Size = new System.Drawing.Size(241, 22);
+			this.cmnuOpenInFileManager.Text = "Show file in Windows Explorer...";
+			this.cmnuOpenInFileManager.Click += new System.EventHandler(this.cmnuOpenInFileManager_Click);
+			// 
+			// openInApp
+			// 
+			this.locExtender.SetLocalizableToolTip(this.openInApp, null);
+			this.locExtender.SetLocalizationComment(this.openInApp, null);
+			this.locExtender.SetLocalizationPriority(this.openInApp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.openInApp, "SessionsVw.openInApp");
+			this.openInApp.Name = "openInApp";
+			this.openInApp.Size = new System.Drawing.Size(241, 22);
+			this.openInApp.Text = "Open in {0}...";
+			this.openInApp.Click += new System.EventHandler(this.openInApp_Click);
 			// 
 			// SessionsVw
 			// 
@@ -365,6 +405,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "SessionsVw.BaseSplitVw");
 			this.Name = "SessionsVw";
+			this.Controls.SetChildIndex(this.splitOuter, 0);
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.Panel2.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
@@ -376,6 +417,7 @@ namespace SIL.Sponge
 			this.pnlGrid.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.gridFiles)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			this.cmnuMoreActions.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -401,5 +443,8 @@ namespace SIL.Sponge
 		private System.Windows.Forms.Label lblNoSessionsMsg;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 		private InfoPanel m_infoPanel;
+		private System.Windows.Forms.ContextMenuStrip cmnuMoreActions;
+		private System.Windows.Forms.ToolStripMenuItem cmnuOpenInFileManager;
+		private System.Windows.Forms.ToolStripMenuItem openInApp;
 	}
 }

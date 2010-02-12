@@ -42,9 +42,6 @@ namespace SIL.Sponge
 			gridFiles.Dock = DockStyle.Fill;
 
 			lblNoSessionsMsg.BackColor = lpSessions.ListView.BackColor;
-
-
-
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -209,6 +206,21 @@ namespace SIL.Sponge
 				lblEmptySessionMsg.Height = dy;
 				lnkSessionPath.Top = lblEmptySessionMsg.Bottom + 5;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the MoreActionButtonClicked event of the m_infoPanel control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_infoPanel_MoreActionButtonClicked(object sender, EventArgs e)
+		{
+			var btn = sender as Control;
+			if (btn == null)
+				return;
+
+			var pt = btn.PointToScreen(new Point(0, btn.Height));
+			cmnuMoreActions.Show(pt);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -434,7 +446,7 @@ namespace SIL.Sponge
 					gridFiles.Columns[i].Width = colWidths[i];
 
 				// Setting up drap/drop crashes when there is no hosting form,
-				// so make sure/ we're being hosted before doing so.
+				// so make sure we're being hosted before doing so.
 				if (FindForm() != null)
 				{
 					pnlGrid.AllowDrop = true;
@@ -445,5 +457,21 @@ namespace SIL.Sponge
 		}
 
 		#endregion
+
+		private void cmnuOpenInFileManager_Click(object sender, EventArgs e)
+		{
+			if (m_currSession != null)
+				Process.Start(m_currSession.SessionPath);
+		}
+
+		private void openInApp_Click(object sender, EventArgs e)
+		{
+			var sessionFile = CurrentSessionFile;
+			if (sessionFile != null)
+			{
+				var path = Path.Combine(m_currSession.SessionPath, sessionFile.FileName);
+				Process.Start(path);
+			}
+		}
 	}
 }

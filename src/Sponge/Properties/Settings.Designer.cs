@@ -111,7 +111,7 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int SessionFileInfoPanelSplitterPos {
             get {

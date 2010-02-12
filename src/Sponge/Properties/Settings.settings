@@ -23,7 +23,7 @@
     <Setting Name="SessionFileCols" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SessionFileInfoPanelSplitterPos" Provider="SilUtils.PortableSettingsProvi" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+    <Setting Name="SessionFileInfoPanelSplitterPos" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>

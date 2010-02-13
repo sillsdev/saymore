@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace SIL.Sponge.Model.MetaData
 {
@@ -23,28 +24,15 @@ namespace SIL.Sponge.Model.MetaData
 	/// presentation (e.g. visibility) to a separate class.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
+	[XmlType("field")]
 	public class FieldDefinition
 	{
-		/* JH: not sure if we'll need/want each field to know its class here... not sure that we have to deal with any hierarchy yet*/
-		// private string _className = string.Empty;
-		private string _fieldName;
-		private List<string> _writingSystemIds;
-		private string _displayName = string.Empty;
-		private string _description = string.Empty;
-		private string _dataTypeName;
-		// private bool _enabled;
-		private bool _isSpellCheckingEnabled;
-		//private bool _enabledNotSet = true;
-		private string _optionsListFile;
-		private bool _isMultiParagraph;
-
+		#region Enumerations
 		public enum MultiplicityType
 		{
 			ZeroOr1 = 0,
 			ZeroOrMore = 1
 		}
-
-		private MultiplicityType _multiplicity = MultiplicityType.ZeroOr1;
 
 		public enum BuiltInDataType
 		{
@@ -63,8 +51,23 @@ namespace SIL.Sponge.Model.MetaData
 			//Invisible  use Enabled=false rather than Invisible
 		}
 
-		private VisibilitySetting _visibility = VisibilitySetting.Visible;
+		#endregion
 
+		/* JH: not sure if we'll need/want each field to know its class here...
+		 * not sure that we have to deal with any hierarchy yet*/
+		private string _fieldName;
+		private string _displayName = string.Empty;
+		private List<string> _writingSystemIds;
+		private bool _isSpellCheckingEnabled;
+		private string _optionsListFile;
+		private bool _isMultiParagraph;
+		private MultiplicityType _multiplicity = MultiplicityType.ZeroOr1;
+		private VisibilitySetting _visibility = VisibilitySetting.Visible;
+		// private string _className = string.Empty;
+		// private bool _enabled;
+		// private bool _enabledNotSet = true;
+
+		#region Construction and Initialization
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FieldDefinition"/> class.
@@ -78,6 +81,7 @@ namespace SIL.Sponge.Model.MetaData
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FieldDefinition"/> class.
+		/// REVIEW: Don't know what to do with the className. Do we need it?
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public FieldDefinition(string fieldName, string className, IEnumerable<string> writingSystemIds)
@@ -88,22 +92,35 @@ namespace SIL.Sponge.Model.MetaData
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FieldDefinition"/> class.
+		/// REVIEW: Don't know what to do with the parentClassName. Do we need it?
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FieldDefinition(string fieldName,
-				 string parentClassName,
-				 IEnumerable<string> writingSystemIds,
-				 MultiplicityType multiplicity,
-				 string dataTypeName)
+		public FieldDefinition(string fieldName, string parentClassName,
+			IEnumerable<string> writingSystemIds, MultiplicityType multiplicity, string dataTypeName)
 		{
 			if (writingSystemIds == null)
-			{
 				throw new ArgumentNullException();
-			}
 
 			Initialize(fieldName, dataTypeName, multiplicity, writingSystemIds);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes the specified field name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void Initialize(string fieldName, string dataTypeName,
+			MultiplicityType multiplicity, IEnumerable<string> writingSystemIds)
+		{
+			FieldName = fieldName;
+			WritingSystemIds = new List<string>(writingSystemIds);
+			_multiplicity = multiplicity;
+			DataTypeName = dataTypeName;
+		}
+
+		#endregion
+
+		#region Static stuff
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Clean up after exposing field name to UI for user editting.
@@ -112,59 +129,72 @@ namespace SIL.Sponge.Model.MetaData
 		public static string MakeFieldNameSafe(string text)
 		{
 			// Parentheses mess up our greps, don't really belong in xml names
-			char[] charsToRemove = new[]
-			{
-			   ' ', '(', ')', '*', ']', '[', '?', '{', '}', '\\', '<', '>',
-			   '+', '&'
-			};
-
-			foreach (char c in charsToRemove)
-			{
-				text = text.Replace(c.ToString(), "");
-			}
+			foreach (char c in "()[]{}<>\\?*+& ")
+				text = text.Replace(c.ToString(), string.Empty);
 
 			return text.Trim();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes the specified field name.
+		/// Modifies the master from user.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void Initialize(string fieldName,
-							string dataTypeName,
-							MultiplicityType multiplicity,
-							IEnumerable<string> writingSystemIds)
+		public static void ModifyMasterFromUser(FieldDefinition master, FieldDefinition user)
 		{
-			FieldName = fieldName;
-			WritingSystemIds = new List<string>(writingSystemIds);
-			_multiplicity = multiplicity;
-			DataTypeName = dataTypeName;
+			// this worked so long as the master had all possible valid writing systems in each field
+			//          master.WritingSystemIds = GetIntersectionOfWsIdLists(master, user);
+			master.WritingSystemIds = user.WritingSystemIds;
+			master.Visibility = user.Visibility;
 		}
 
+		//        private static List<string> GetIntersectionOfWsIdLists(FieldDefinition master, FieldDefinition user)
+		//        {
+		//            List<string> l = new List<string>();
+		//            foreach (string id in master.WritingSystemIds)
+		//            {
+		//                if (user.WritingSystemIds.Contains(id))
+		//                {
+		//                    l.Add(id);
+		//                }
+		//            }
+		//            return l;
+		//        }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the new field name prefix.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string NewFieldNamePrefix
+		{
+			get { return "newField"; }
+		}
+
+		#endregion
+
+		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the name of the field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("name")]
 		[Description("The name of the field, as it will appear an external file.")]
 		public string FieldName
 		{
 			get
 			{
 				if (_fieldName == null)
-				{
-					throw new InvalidOperationException(
-							"FieldName must be set before it can be used.");
-				}
+					throw new InvalidOperationException("FieldName must be set before it can be used.");
+
 				return _fieldName;
 			}
 			set
 			{
 				if (value == null)
-				{
 					throw new ArgumentNullException("value");
-				}
+
 				_fieldName = MakeFieldNameSafe(value);
 			}
 		}
@@ -181,9 +211,19 @@ namespace SIL.Sponge.Model.MetaData
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets or sets the localization string id. REVIEW: Should this be the Key?
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("stringId")]
+		[Description("The string id used to identify the DisplayName for localization purposes.")]
+		public string StringId { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets or sets the display name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("defaultDisplayName")]
 		[Description("The label of the field as it will be displayed to the user.")]
 		public string DisplayName
 		{
@@ -221,12 +261,9 @@ namespace SIL.Sponge.Model.MetaData
 		/// Gets or sets the name of the data type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("dataType")]
 		[Description("The type of the field. E.g. multilingual text, option, option collection, relation.")]
-		public string DataTypeName
-		{
-			get { return _dataTypeName; }
-			set { _dataTypeName = value; }
-		}
+		public string DataTypeName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -238,7 +275,7 @@ namespace SIL.Sponge.Model.MetaData
 		{
 			get
 			{
-				// this is about trying to get the win version to stop outputing
+				// This is about trying to get the win version to stop outputing
 				// <optionsListfile>(return)</optionsListFile>(whereas mono doesn't)
 				return (_optionsListFile == null ? null : _optionsListFile.Trim());
 			}
@@ -247,35 +284,24 @@ namespace SIL.Sponge.Model.MetaData
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Returns a <see cref="System.String"/> that represents this instance.
+		/// Gets or sets the writing system ids. TODO: Turn off XmlIgnore when this is
+		/// supported.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return DisplayName;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the writing system ids.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		[Browsable(false)]
 		public IList<string> WritingSystemIds
 		{
 			get { return _writingSystemIds; }
 			set
 			{
-				int i = 0;
-				foreach (string s in value)
+				int i = value.IndexOf(null);
+				if (i >= 0)
 				{
-					i++;
-					if (s == null)
-					{
-						throw new ArgumentNullException("value",
-								  "Writing System argument" + i + "is null");
-					}
+					throw new ArgumentNullException("value",
+						string.Format("Writing System argument {0} is null", i + 1));
 				}
+
 				_writingSystemIds = new List<string>(value);
 			}
 		}
@@ -285,12 +311,9 @@ namespace SIL.Sponge.Model.MetaData
 		/// Gets or sets the description.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("description")]
 		[Browsable(false)]
-		public string Description
-		{
-			get { return _description; }
-			set { _description = value; }
-		}
+		public string Description { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -347,6 +370,7 @@ namespace SIL.Sponge.Model.MetaData
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		[Browsable(false)]
 		public bool ShowOptionListStuff
 		{
@@ -367,16 +391,6 @@ namespace SIL.Sponge.Model.MetaData
 		{
 			get { return _multiplicity; }
 			set { _multiplicity = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the new field name prefix.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string NewFieldNamePrefix
-		{
-			get { return "newField"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -402,6 +416,9 @@ namespace SIL.Sponge.Model.MetaData
 			set { _isMultiParagraph = value; }
 		}
 
+		#endregion
+
+		#region Misc. methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Determines whether [has writing system] [the specified writing system id].
@@ -410,34 +427,19 @@ namespace SIL.Sponge.Model.MetaData
 		[Browsable(false)]
 		public bool HasWritingSystem(string writingSystemId)
 		{
-			return _writingSystemIds.Exists(delegate(string s) { return s == writingSystemId; });
+			return _writingSystemIds.Exists(s => s == writingSystemId);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Modifies the master from user.
+		/// Returns a <see cref="System.String"/> that represents this instance.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void ModifyMasterFromUser(FieldDefinition master, FieldDefinition user)
+		public override string ToString()
 		{
-			// this worked so long as the master had all possible valid writing systems in each field
-			//          master.WritingSystemIds = GetIntersectionOfWsIdLists(master, user);
-			master.WritingSystemIds = user.WritingSystemIds;
-			master.Visibility = user.Visibility;
+			return DisplayName;
 		}
 
-		//        private static List<string> GetIntersectionOfWsIdLists(FieldDefinition master, FieldDefinition user)
-		//        {
-		//            List<string> l = new List<string>();
-		//            foreach (string id in master.WritingSystemIds)
-		//            {
-		//                if (user.WritingSystemIds.Contains(id))
-		//                {
-		//                    l.Add(id);
-		//                }
-		//            }
-		//            return l;
-		//        }
-
+		#endregion
 	}
 }

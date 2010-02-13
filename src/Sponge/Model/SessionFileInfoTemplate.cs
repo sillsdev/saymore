@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Xml.Serialization;
+using SIL.Sponge.Model.MetaData;
 using SilUtils;
 
 namespace SIL.Sponge.Model
@@ -25,10 +23,25 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Loads the list of session file info. templates.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void Initialize(string path)
+		{
+			// TODO: Do something when there's an exception returned.
+			Exception e;
+			s_list = XmlSerializationHelper.DeserializeFromFile<SessionFileInfoTemplateList>(path, out e);
+
+			if (e != null)
+				throw e;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Initializes a new instance of the <see cref="SessionFileInfoTemplate"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SessionFileInfoTemplateList()
+		private SessionFileInfoTemplateList()
 		{
 			Templates = new List<SessionFileInfoTemplate>();
 		}
@@ -40,7 +53,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static SessionFileInfoTemplate GetTemplateById(string tempateId)
 		{
-			LoadList();
+			VerifyListLoaded();
 			return s_list.Templates.FirstOrDefault(x => x.Id == tempateId);
 		}
 
@@ -51,26 +64,22 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static SessionFileInfoTemplate GetTemplateByExt(string ext)
 		{
-			LoadList();
+			VerifyListLoaded();
 			ext = ext.TrimStart('.').ToLower();
 			return s_list.Templates.FirstOrDefault(x => x.FileExtensions.Contains(ext));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Loads the list of templates if it hasn't already been loaded.
+		/// Verifies that the templates list has been loaded.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void LoadList()
+		private static void VerifyListLoaded()
 		{
 			if (s_list == null)
 			{
-				string path = Path.GetDirectoryName(Application.ExecutablePath);
-				path = Path.Combine(path, "SessionFileInfoTemplates.xml");
-
-				// TODO: Do something when there's an exception returned.
-				Exception e;
-				s_list = XmlSerializationHelper.DeserializeFromFile<SessionFileInfoTemplateList>(path, out e);
+				throw new NullReferenceException(
+					"The session file information templates have not been loaded.");
 			}
 		}
 	}
@@ -85,6 +94,8 @@ namespace SIL.Sponge.Model
 	/// ----------------------------------------------------------------------------------------
 	public class SessionFileInfoTemplate
 	{
+		private string m_fileExtensions;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SessionFileInfoTemplate"/> class.
@@ -92,7 +103,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public SessionFileInfoTemplate()
 		{
-			Fields = new List<SessionFileInfoField>();
+			Fields = new List<FieldDefinition>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,7 +121,11 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("fileExtensions")]
-		public string FileExtensions { get; set; }
+		public string FileExtensions
+		{
+			get { return m_fileExtensions; }
+			set { m_fileExtensions = (value == null ? null : value.ToLower()); }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -118,7 +133,17 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("field")]
-		public List<SessionFileInfoField> Fields { get; set; }
+		public List<FieldDefinition> Fields { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the field definition for the specified field name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FieldDefinition GetFieldDefinition(string fieldName)
+		{
+			return Fields.FirstOrDefault(x => x.FieldName == fieldName);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -133,56 +158,64 @@ namespace SIL.Sponge.Model
 
 	#endregion
 
-	#region SessionFileInfoField class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class SessionFileInfoField
-	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the field id.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlAttribute("id")]
-		public string Id { get; set; }
+	//#region SessionFileInfoField class
+	///// ----------------------------------------------------------------------------------------
+	///// <summary>
+	/////
+	///// </summary>
+	///// ----------------------------------------------------------------------------------------
+	//public class SessionFileInfoField : IInfoPanelField
+	//{
+	//    /// ------------------------------------------------------------------------------------
+	//    /// <summary>
+	//    /// Gets the field id.
+	//    /// </summary>
+	//    /// ------------------------------------------------------------------------------------
+	//    [XmlAttribute("id")]
+	//    public string Id { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the field's string id (for localization).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("textStringId")]
-		public string TextStringId { get; set; }
+	//    /// ------------------------------------------------------------------------------------
+	//    /// <summary>
+	//    /// Gets the field's text.
+	//    /// </summary>
+	//    /// ------------------------------------------------------------------------------------
+	//    [XmlElement("value")]
+	//    public string Value { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the field's text.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("defaultText")]
-		public string DefaultText { get; set; }
+	//    /// ------------------------------------------------------------------------------------
+	//    /// <summary>
+	//    /// Gets the default (i.e. before localization) field's display text.
+	//    /// </summary>
+	//    /// ------------------------------------------------------------------------------------
+	//    [XmlElement("defaultDisplayText")]
+	//    public string DefaultDisplayText { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the field's type (e.g. Text, ComboBox, etc.).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("type")]
-		public string FieldType { get; set; }
+	//    /// ------------------------------------------------------------------------------------
+	//    /// <summary>
+	//    /// Gets the field's type (e.g. Text, ComboBox, etc.).
+	//    /// </summary>
+	//    /// ------------------------------------------------------------------------------------
+	//    [XmlElement("type")]
+	//    public string FieldType { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns a <see cref="System.String"/> that represents this instance.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return DefaultText;
-		}
-	}
+	//    /// ------------------------------------------------------------------------------------
+	//    /// <summary>
+	//    /// Gets the field's string id (for localization).
+	//    /// </summary>
+	//    /// ------------------------------------------------------------------------------------
+	//    [XmlElement("textStringId")]
+	//    public string TextStringId { get; set; }
 
-	#endregion
+	//    /// ------------------------------------------------------------------------------------
+	//    /// <summary>
+	//    /// Returns a <see cref="System.String"/> that represents this instance.
+	//    /// </summary>
+	//    /// ------------------------------------------------------------------------------------
+	//    public override string ToString()
+	//    {
+	//        return DefaultDisplayText;
+	//    }
+	//}
+
+	//#endregion
 }

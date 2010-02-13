@@ -239,7 +239,7 @@ namespace SIL.Sponge.Controls
 		private void pnlButtons_Paint(object sender, PaintEventArgs e)
 		{
 			using (var br = new LinearGradientBrush(pnlButtons.ClientRectangle,
-				SpongeBar.DefaultSpongeBarColorBegin, SpongeBar.DefaultSpongeBarColorEnd, -30))
+				SpongeBar.DefaultSpongeBarColorBegin, SpongeBar.DefaultSpongeBarColorEnd, -30f))
 			{
 				e.Graphics.FillRectangle(br, pnlButtons.ClientRectangle);
 			}

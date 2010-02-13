@@ -33,6 +33,7 @@ namespace SIL.Sponge
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabSessions = new System.Windows.Forms.TabControl();
 			this.tpgDescription = new System.Windows.Forms.TabPage();
 			this.tpgContributors = new System.Windows.Forms.TabPage();
@@ -42,12 +43,6 @@ namespace SIL.Sponge
 			this.lnkSessionPath = new System.Windows.Forms.LinkLabel();
 			this.lblEmptySessionMsg = new System.Windows.Forms.Label();
 			this.gridFiles = new SilUtils.SilGrid();
-			this.iconCol = new System.Windows.Forms.DataGridViewImageColumn();
-			this.filesNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.filesTypeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.filesTagsCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.filesDateCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.filesSizeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.lpSessions = new SIL.Sponge.Controls.ListPanel();
 			this.lblNoSessionsMsg = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
@@ -55,6 +50,12 @@ namespace SIL.Sponge
 			this.cmnuMoreActions = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.cmnuOpenInFileManager = new System.Windows.Forms.ToolStripMenuItem();
 			this.openInApp = new System.Windows.Forms.ToolStripMenuItem();
+			this.iconCol = new System.Windows.Forms.DataGridViewImageColumn();
+			this.filesNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.filesTypeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.filesTagsCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.filesDateCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.filesSizeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -271,42 +272,6 @@ namespace SIL.Sponge
 			this.gridFiles.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFiles_RowEnter);
 			this.gridFiles.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridFiles_CellValueNeeded);
 			// 
-			// iconCol
-			// 
-			this.iconCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.iconCol.DataPropertyName = "SmallIcon";
-			this.iconCol.HeaderText = "";
-			this.iconCol.Name = "iconCol";
-			this.iconCol.ReadOnly = true;
-			this.iconCol.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.iconCol.Width = 5;
-			// 
-			// filesNameCol
-			// 
-			this.filesNameCol.DataPropertyName = "FileName";
-			this.filesNameCol.HeaderText = "Name";
-			this.filesNameCol.Name = "filesNameCol";
-			// 
-			// filesTypeCol
-			// 
-			this.filesTypeCol.HeaderText = "Type";
-			this.filesTypeCol.Name = "filesTypeCol";
-			// 
-			// filesTagsCol
-			// 
-			this.filesTagsCol.HeaderText = "Tags";
-			this.filesTagsCol.Name = "filesTagsCol";
-			// 
-			// filesDateCol
-			// 
-			this.filesDateCol.HeaderText = "Date Modified";
-			this.filesDateCol.Name = "filesDateCol";
-			// 
-			// filesSizeCol
-			// 
-			this.filesSizeCol.HeaderText = "Size";
-			this.filesSizeCol.Name = "filesSizeCol";
-			// 
 			// lpSessions
 			// 
 			this.lpSessions.CurrentItem = null;
@@ -373,7 +338,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationPriority(this.cmnuMoreActions, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cmnuMoreActions, "cmnuMoreActions");
 			this.cmnuMoreActions.Name = "cmnuMoreActions";
-			this.cmnuMoreActions.Size = new System.Drawing.Size(242, 70);
+			this.cmnuMoreActions.Size = new System.Drawing.Size(307, 48);
 			// 
 			// cmnuOpenInFileManager
 			// 
@@ -382,7 +347,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationPriority(this.cmnuOpenInFileManager, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cmnuOpenInFileManager, "SessionsVw.cmnuOpenInFileManager");
 			this.cmnuOpenInFileManager.Name = "cmnuOpenInFileManager";
-			this.cmnuOpenInFileManager.Size = new System.Drawing.Size(241, 22);
+			this.cmnuOpenInFileManager.Size = new System.Drawing.Size(306, 22);
 			this.cmnuOpenInFileManager.Text = "Show file in Windows Explorer...";
 			this.cmnuOpenInFileManager.Click += new System.EventHandler(this.cmnuOpenInFileManager_Click);
 			// 
@@ -393,9 +358,57 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationPriority(this.openInApp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.openInApp, "SessionsVw.openInApp");
 			this.openInApp.Name = "openInApp";
-			this.openInApp.Size = new System.Drawing.Size(241, 22);
-			this.openInApp.Text = "Open in {0}...";
+			this.openInApp.Size = new System.Drawing.Size(306, 22);
+			this.openInApp.Text = "Open in Program Associated with this File ...";
 			this.openInApp.Click += new System.EventHandler(this.openInApp_Click);
+			// 
+			// iconCol
+			// 
+			this.iconCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.iconCol.DataPropertyName = "SmallIcon";
+			this.iconCol.HeaderText = "";
+			this.iconCol.Name = "iconCol";
+			this.iconCol.ReadOnly = true;
+			this.iconCol.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.iconCol.Width = 5;
+			// 
+			// filesNameCol
+			// 
+			this.filesNameCol.DataPropertyName = "FileName";
+			this.filesNameCol.HeaderText = "Name";
+			this.filesNameCol.Name = "filesNameCol";
+			this.filesNameCol.ReadOnly = true;
+			// 
+			// filesTypeCol
+			// 
+			this.filesTypeCol.DataPropertyName = "FileType";
+			this.filesTypeCol.HeaderText = "Type";
+			this.filesTypeCol.Name = "filesTypeCol";
+			this.filesTypeCol.ReadOnly = true;
+			// 
+			// filesTagsCol
+			// 
+			this.filesTagsCol.HeaderText = "Tags";
+			this.filesTagsCol.Name = "filesTagsCol";
+			this.filesTagsCol.ReadOnly = true;
+			// 
+			// filesDateCol
+			// 
+			this.filesDateCol.DataPropertyName = "DateModified";
+			this.filesDateCol.HeaderText = "Date Modified";
+			this.filesDateCol.Name = "filesDateCol";
+			this.filesDateCol.ReadOnly = true;
+			this.filesDateCol.Width = 107;
+			// 
+			// filesSizeCol
+			// 
+			this.filesSizeCol.DataPropertyName = "FileSize";
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.filesSizeCol.DefaultCellStyle = dataGridViewCellStyle3;
+			this.filesSizeCol.HeaderText = "Size";
+			this.filesSizeCol.Name = "filesSizeCol";
+			this.filesSizeCol.ReadOnly = true;
+			this.filesSizeCol.Width = 52;
 			// 
 			// SessionsVw
 			// 
@@ -434,17 +447,17 @@ namespace SIL.Sponge
 		private ListPanel lpSessions;
 		private System.Windows.Forms.LinkLabel lnkSessionPath;
 		private System.Windows.Forms.Label lblEmptySessionMsg;
-		private System.Windows.Forms.DataGridViewImageColumn iconCol;
-		private System.Windows.Forms.DataGridViewTextBoxColumn filesNameCol;
-		private System.Windows.Forms.DataGridViewTextBoxColumn filesTypeCol;
-		private System.Windows.Forms.DataGridViewTextBoxColumn filesTagsCol;
-		private System.Windows.Forms.DataGridViewTextBoxColumn filesDateCol;
-		private System.Windows.Forms.DataGridViewTextBoxColumn filesSizeCol;
 		private System.Windows.Forms.Label lblNoSessionsMsg;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 		private InfoPanel m_infoPanel;
 		private System.Windows.Forms.ContextMenuStrip cmnuMoreActions;
 		private System.Windows.Forms.ToolStripMenuItem cmnuOpenInFileManager;
 		private System.Windows.Forms.ToolStripMenuItem openInApp;
+		private System.Windows.Forms.DataGridViewImageColumn iconCol;
+		private System.Windows.Forms.DataGridViewTextBoxColumn filesNameCol;
+		private System.Windows.Forms.DataGridViewTextBoxColumn filesTypeCol;
+		private System.Windows.Forms.DataGridViewTextBoxColumn filesTagsCol;
+		private System.Windows.Forms.DataGridViewTextBoxColumn filesDateCol;
+		private System.Windows.Forms.DataGridViewTextBoxColumn filesSizeCol;
 	}
 }

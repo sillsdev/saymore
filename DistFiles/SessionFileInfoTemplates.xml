@@ -2,45 +2,45 @@
 <sessionFileInfoTemplates>
 	<template id="AudioRecording">
 		<fileExtensions>wav,mp3,ogg,wma</fileExtensions>
-		<field id="recordist">
-			<textStringId>SessionsVw.lblRecordist</textStringId>
-			<defaultText>Recordist:</defaultText>
-			<type>Text</type>
+		<field name="recordist">
+			<stringId>SessionsVw.lblRecordist</stringId>
+			<defaultDisplayName>Recordist:</defaultDisplayName>
+			<dataType>Text</dataType>
 		</field>
-		<field id="device">
-			<textStringId>SessionsVw.lblDevice</textStringId>
-			<defaultText>Device:</defaultText>
-			<type>Text</type>
+		<field name="device">
+			<stringId>SessionsVw.lblDevice</stringId>
+			<defaultDisplayName>Device:</defaultDisplayName>
+			<dataType>Text</dataType>
 		</field>
-		<field id="microphone">
-			<textStringId>SessionsVw.lblMicrophone</textStringId>
-			<defaultText>Microphone:</defaultText>
-			<type>Text</type>
+		<field name="microphone">
+			<stringId>SessionsVw.lblMicrophone</stringId>
+			<defaultDisplayName>Microphone:</defaultDisplayName>
+			<dataType>Text</dataType>
 		</field>
-		<field id="channel">
-			<textStringId>SessionsVw.lblChannel</textStringId>
-			<defaultText>Channel:</defaultText>
-			<type>Text</type>
+		<field name="channel">
+			<stringId>SessionsVw.lblChannel</stringId>
+			<defaultDisplayName>Channel:</defaultDisplayName>
+			<dataType>Text</dataType>
 		</field>
-		<field id="bitDepth">
-			<textStringId>SessionsVw.lblBitDepth</textStringId>
-			<defaultText>Bit Depth:</defaultText>
-			<type>Text</type>
+		<field name="bitDepth">
+			<stringId>SessionsVw.lblBitDepth</stringId>
+			<defaultDisplayName>Bit Depth:</defaultDisplayName>
+			<dataType>Text</dataType>
 		</field>
-		<field id="sampleRate">
-			<textStringId>SessionsVw.lblSampleRate</textStringId>
-			<defaultText>Sample Rate:</defaultText>
-			<type>ComboBox</type>
+		<field name="sampleRate">
+			<stringId>SessionsVw.lblSampleRate</stringId>
+			<defaultDisplayName>Sample Rate:</defaultDisplayName>
+			<dataType>ComboBox</dataType>
 		</field>
-		<field id="analogGain">
-			<textStringId>SessionsVw.lblAnalogGain</textStringId>
-			<defaultText>Analog Gain:</defaultText>
-			<type>Text</type>
+		<field name="analogGain">
+			<stringId>SessionsVw.lblAnalogGain</stringId>
+			<defaultDisplayName>Analog Gain:</defaultDisplayName>
+			<dataType>Text</dataType>
 		</field>
-		<field id="digitalGain">
-			<textStringId>SessionsVw.lblDigitalGain</textStringId>
-			<defaultText>Digital Gain:</defaultText>
-			<type>Text</type>
+		<field name="digitalGain">
+			<stringId>SessionsVw.lblDigitalGain</stringId>
+			<defaultDisplayName>Digital Gain:</defaultDisplayName>
+			<dataType>Text</dataType>
 		</field>
 	</template>
 </sessionFileInfoTemplates>

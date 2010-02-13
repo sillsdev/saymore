@@ -37,8 +37,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\LocalizationUtils.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Palaso, Version=1.2.496.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
@@ -92,6 +90,7 @@
     <Compile Include="Controls\HoverCueTextBox.Designer.cs">
       <DependentUpon>HoverCueTextBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\IInfoPanelField.cs" />
     <Compile Include="Controls\InfoPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -111,6 +110,7 @@
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\SessionFile.cs" />
+    <Compile Include="Model\SessionFileInfo.cs" />
     <Compile Include="Model\SessionFileInfoTemplate.cs" />
     <Compile Include="Model\SpongeProject.cs" />
     <Compile Include="Model\Tag.cs" />

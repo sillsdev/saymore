@@ -61,23 +61,23 @@ namespace SIL.Sponge.Controls
 		/// Initializes the panel with the specified labels and values.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Initialize(List<KeyValuePair<string, string>> labelsAndValues)
+		public void Initialize(List<IInfoPanelField> fldInfo)
 		{
 			Utils.SetWindowRedraw(flwFileInfo, false);
 			ClearInfo();
 
-			if (labelsAndValues != null)
+			if (fldInfo != null)
 			{
 				using (Graphics g = flwFileInfo.CreateGraphics())
 				{
 					int maxLblWidth = 0;
-					foreach (var kvp in labelsAndValues)
+					foreach (var info in fldInfo)
 					{
-						var ltb = new LabeledTextBox(kvp.Key);
-						ltb.InnerTextBox.Text = kvp.Value;
+						var ltb = new LabeledTextBox(info.DisplayText);
+						ltb.InnerTextBox.Text = info.Value;
 						ltb.Margin = new Padding(ltb.Margin.Left, 0, ltb.Margin.Right, 0);
 						ltb.Font = flwFileInfo.Font;
-						var dx = TextRenderer.MeasureText(g, kvp.Key, ltb.Font).Width;
+						var dx = TextRenderer.MeasureText(g, info.DisplayText, ltb.Font).Width;
 						maxLblWidth = Math.Max(maxLblWidth, dx);
 						flwFileInfo.Controls.Add(ltb);
 					}

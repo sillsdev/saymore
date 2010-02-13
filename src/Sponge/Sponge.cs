@@ -52,6 +52,9 @@ namespace SIL.Sponge
 			LocalizeItemDlg.SaveDialogBounds += LocalizeItemDlg_SaveDialogBounds;
 			LocalizeItemDlg.SaveDialogSplitterPosition += LocalizeItemDlg_SaveDialogSplitterPosition;
 
+			string path = Path.GetDirectoryName(Application.ExecutablePath);
+			SessionFileInfoTemplateList.Initialize(Path.Combine(path, "SessionFileInfoTemplates.xml"));
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 

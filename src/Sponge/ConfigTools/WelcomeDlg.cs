@@ -246,7 +246,7 @@ namespace SIL.Sponge.ConfigTools
 
 			// Draw the gradient blue bar.
 			using (var br = new LinearGradientBrush(rc, SpongeBar.DefaultSpongeBarColorBegin,
-				SpongeBar.DefaultSpongeBarColorEnd, 0.0))
+				SpongeBar.DefaultSpongeBarColorEnd, 0.0f))
 			{
 				e.Graphics.FillRectangle(br, rc);
 			}

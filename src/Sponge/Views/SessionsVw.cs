@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -185,8 +186,11 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void lpSessions_SelectedItemChanged(object sender, object newItem)
 		{
-			RefreshFileList();
-			UpdateSessionFileInfo(CurrentSessionFile);
+			if (newItem != m_currSession)
+			{
+				RefreshFileList();
+				UpdateSessionFileInfo(CurrentSessionFile);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -276,23 +280,47 @@ namespace SIL.Sponge
 
 			m_infoPanel.Icon = sessionFile.LargeIcon;
 			m_infoPanel.FileName = sessionFile.FileName;
-
-			var template = SessionFileInfoTemplateList.GetTemplateByExt(
-				Path.GetExtension(sessionFile.FileName));
-
-			if (template == null)
-				m_infoPanel.ClearInfo();
-			else
-			{
-				var list = new List<KeyValuePair<string, string>>(template.Fields.Count);
-
-				foreach (var field in template.Fields)
-					list.Add(new KeyValuePair<string, string>(field.DefaultText, null));
-
-				m_infoPanel.Initialize(list);
-			}
+			m_infoPanel.Initialize(
+				(sessionFile.Data.Select(x => (IInfoPanelField)x).ToList()));
 
 			m_infoPanel.Visible = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Open current session's folder in the OS' file manager. ENHANCE: After opening
+		/// the file manager, it would be nice to select the current session file, but that
+		/// appears to be harder to accomplish, so I leave that for a future exercise.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void cmnuOpenInFileManager_Click(object sender, EventArgs e)
+		{
+			if (m_currSession != null)
+				Process.Start(m_currSession.SessionPath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Open current session file in its associated application.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void openInApp_Click(object sender, EventArgs e)
+		{
+			var sessionFile = CurrentSessionFile;
+			if (sessionFile != null)
+			{
+				var path = Path.Combine(m_currSession.SessionPath, sessionFile.FileName);
+				try
+				{
+					Process.Start(path);
+				}
+				catch (Win32Exception)
+				{
+					// REVIEW: Is it OK to assume any Win32Exception is no application association?
+					Utils.MsgBox(
+						string.Format("No application is associated with {0}", sessionFile.FileName));
+				}
+			}
 		}
 
 		#region Methods for dragging and dropping files on files tab
@@ -363,6 +391,7 @@ namespace SIL.Sponge
 			}
 
 			RefreshSessionList();
+			RefreshFileList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -397,7 +426,7 @@ namespace SIL.Sponge
 			m_currSession = lpSessions.CurrentItem as Session;
 			m_currSessionFiles = (m_currSession == null ? null :
 				(from x in m_currSession.SessionFiles
-				 select new SessionFile(x)).ToArray());
+				 select SessionFile.Create(x)).ToArray());
 
 			lblEmptySessionMsg.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
 			lnkSessionPath.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
@@ -457,21 +486,5 @@ namespace SIL.Sponge
 		}
 
 		#endregion
-
-		private void cmnuOpenInFileManager_Click(object sender, EventArgs e)
-		{
-			if (m_currSession != null)
-				Process.Start(m_currSession.SessionPath);
-		}
-
-		private void openInApp_Click(object sender, EventArgs e)
-		{
-			var sessionFile = CurrentSessionFile;
-			if (sessionFile != null)
-			{
-				var path = Path.Combine(m_currSession.SessionPath, sessionFile.FileName);
-				Process.Start(path);
-			}
-		}
 	}
 }

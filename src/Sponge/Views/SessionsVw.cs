@@ -8,7 +8,6 @@ using System.IO;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.ConfigTools;
-using SIL.Sponge.Controls;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 using SilUtils;
@@ -24,6 +23,7 @@ namespace SIL.Sponge
 	{
 		private SpongeProject m_currProj;
 		private Session m_currSession;
+		private SessionFile m_currSessionFile;
 		private SessionFile[] m_currSessionFiles;
 		private bool m_refreshNeeded;
 
@@ -262,7 +262,11 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void gridFiles_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			UpdateSessionFileInfo(GetSessionFile(e.RowIndex));
+			// This event gets fired even when the grid gets focus when the user clicks
+			// on the row that is already current. In that case we don't want to bother
+			// doing anything, therefore we'll ignore that situation.
+			if (e.RowIndex != gridFiles.CurrentCellAddress.Y)
+				UpdateSessionFileInfo(GetSessionFile(e.RowIndex));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -272,6 +276,9 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void UpdateSessionFileInfo(SessionFile sessionFile)
 		{
+			SaveCurrentSessionFileInfo();
+			m_currSessionFile = sessionFile;
+
 			if (sessionFile == null || tabSessions.SelectedTab != tpgFiles)
 			{
 				m_infoPanel.Visible = false;
@@ -280,10 +287,23 @@ namespace SIL.Sponge
 
 			m_infoPanel.Icon = sessionFile.LargeIcon;
 			m_infoPanel.FileName = sessionFile.FileName;
-			m_infoPanel.Initialize(
-				(sessionFile.Data.Select(x => (IInfoPanelField)x).ToList()));
-
+			m_infoPanel.Initialize(sessionFile.Data);
 			m_infoPanel.Visible = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves the current session file info.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SaveCurrentSessionFileInfo()
+		{
+			if (m_currSessionFile != null)
+			{
+				m_infoPanel.Save(m_currSessionFile.Data);
+				m_currSessionFile.Save();
+				m_currSessionFile = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -390,6 +410,7 @@ namespace SIL.Sponge
 				return;
 			}
 
+			SaveCurrentSessionFileInfo();
 			RefreshSessionList();
 			RefreshFileList();
 		}
@@ -419,7 +440,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void RefreshFileList()
 		{
-			tabSessions.SuspendLayout();
+			Utils.SetWindowRedraw(tabSessions, false);
 
 			// TODO: keep track of currently selected file and try to restore
 			// that after rebuilding the list.
@@ -438,8 +459,7 @@ namespace SIL.Sponge
 				lnkSessionPath.Text = m_currSession.SessionPath;
 			}
 
-			tabSessions.ResumeLayout(true);
-			tabSessions.Invalidate();
+			Utils.SetWindowRedraw(tabSessions, true);
 		}
 
 		#endregion

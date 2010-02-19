@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using SilUtils;
 
 namespace SIL.Sponge
 {
@@ -117,7 +118,7 @@ namespace SIL.Sponge
 		public void SetView(ToolStripButton btn)
 		{
 			if (m_toolStripOwner != null)
-				m_toolStripOwner.SuspendLayout();
+				Utils.SetWindowRedraw(m_toolStripOwner, false);
 
 			ToolStripButton currbtn = CurrentViewButton;
 			if (btn == currbtn)
@@ -142,7 +143,7 @@ namespace SIL.Sponge
 			}
 
 			if (m_toolStripOwner != null)
-				m_toolStripOwner.ResumeLayout(true);
+				Utils.SetWindowRedraw(m_toolStripOwner, true);
 
 			if (newVw is ISpongeView)
 			{

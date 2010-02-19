@@ -53,6 +53,11 @@ namespace SIL.Sponge.Model
 		public void FixtureSetup()
 		{
 			m_frmHost = new TestHostForm();
+
+			var list = ReflectionHelper.GetField(
+				typeof(SessionFileInfoTemplateList), "s_list") as SessionFileInfoTemplateList;
+
+			list = new SessionFileInfoTemplateList();
 		}
 
 		/// ------------------------------------------------------------------------------------

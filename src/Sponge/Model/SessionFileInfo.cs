@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 using SIL.Sponge.Controls;
-using SIL.Sponge.Model.MetaData;
 
 namespace SIL.Sponge.Model
 {
@@ -50,6 +45,16 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string DisplayText { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents this instance.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return Value;
+		}
 	}
 
 	#endregion

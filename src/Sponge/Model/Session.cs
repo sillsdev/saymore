@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace SIL.Sponge.Model
 {
@@ -72,7 +73,12 @@ namespace SIL.Sponge.Model
 					return null;
 
 				var unsortedFiles = Directory.GetFiles(SessionPath, "*.*");
-				var sortedFiles = new List<string>(unsortedFiles);
+
+				// Filter out the standoff markup files so they don't show in the list.
+				var sortedFiles = new List<string>(from x in unsortedFiles
+								  where !x.EndsWith(SessionFile.SessionFileExtension)
+								  select x);
+
 				sortedFiles.Sort();
 				return sortedFiles.ToArray();
 			}

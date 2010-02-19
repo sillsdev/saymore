@@ -67,6 +67,41 @@ namespace SIL.Sponge.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidChangePicture {
+            get {
+                object obj = ResourceManager.GetObject("kimidChangePicture", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidFemale_NotSelected {
+            get {
+                object obj = ResourceManager.GetObject("kimidFemale_NotSelected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidFemale_Selected {
+            get {
+                object obj = ResourceManager.GetObject("kimidFemale_Selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidMale_NotSelected {
+            get {
+                object obj = ResourceManager.GetObject("kimidMale_NotSelected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidMale_Selected {
+            get {
+                object obj = ResourceManager.GetObject("kimidMale_Selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidMoreAction {
             get {
                 object obj = ResourceManager.GetObject("kimidMoreAction", resourceCulture);

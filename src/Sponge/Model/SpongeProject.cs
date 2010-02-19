@@ -116,11 +116,25 @@ namespace SIL.Sponge.Model
 			if (!Directory.Exists(SessionsPath))
 				Directory.CreateDirectory(SessionsPath);
 
+			if (!Directory.Exists(PeoplesPath))
+				Directory.CreateDirectory(PeoplesPath);
+
 			Save();
 
-			Sessions = (from folders in Directory.GetDirectories(SessionsPath)
-						orderby folders
-						select Session.Create(this, Path.GetFileName(folders))).ToList();
+			Sessions = (from folder in Directory.GetDirectories(SessionsPath)
+						orderby folder
+						select Session.Create(this, Path.GetFileName(folder))).ToList();
+
+			People = (from file in Directory.GetFiles(PeoplesPath)
+					  orderby file
+					  select Person.CreateFromFile(file)).ToList();
+
+			// Remove any null person objects.
+			for (int i = People.Count - 1; i >= 0; i--)
+			{
+				if (People[i] == null)
+					People.RemoveAt(i);
+			}
 
 			m_fileWatcher = new FileSystemWatcher(ProjectPath);
 			m_fileWatcher.Renamed += HandleFileWatcherRename;
@@ -196,11 +210,19 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the sessions.
+		/// Gets the project's sessions.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public List<Session> Sessions { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the project's people.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public List<Person> People { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -239,13 +261,24 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the folder in which all the project's sessions are saved.
+		/// Gets the full path to the folder in which all the project's sessions are saved.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string SessionsPath
 		{
 			get { return Path.Combine(ProjectPath, "Sessions"); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path to the folder in which all the project's people are saved.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string PeoplesPath
+		{
+			get { return Path.Combine(ProjectPath, "People"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -295,6 +328,10 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		private void HandleFileWatcherEvent(object sender, FileSystemEventArgs e)
 		{
+			// We don't care when changes occur to our standoff markup files.
+			if (e.Name.EndsWith(SessionFile.SessionFileExtension))
+				return;
+
 			EnableFileWatching = false;
 			VerifySessionsPathExists();
 			UpdateSessions();

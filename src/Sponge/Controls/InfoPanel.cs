@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
@@ -61,7 +63,7 @@ namespace SIL.Sponge.Controls
 		/// Initializes the panel with the specified labels and values.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Initialize(List<IInfoPanelField> fldInfo)
+		public void Initialize(IEnumerable fldInfo)
 		{
 			Utils.SetWindowRedraw(flwFileInfo, false);
 			ClearInfo();
@@ -71,15 +73,20 @@ namespace SIL.Sponge.Controls
 				using (Graphics g = flwFileInfo.CreateGraphics())
 				{
 					int maxLblWidth = 0;
-					foreach (var info in fldInfo)
+					foreach (var obj in fldInfo)
 					{
-						var ltb = new LabeledTextBox(info.DisplayText);
-						ltb.InnerTextBox.Text = info.Value;
-						ltb.Margin = new Padding(ltb.Margin.Left, 0, ltb.Margin.Right, 0);
-						ltb.Font = flwFileInfo.Font;
-						var dx = TextRenderer.MeasureText(g, info.DisplayText, ltb.Font).Width;
-						maxLblWidth = Math.Max(maxLblWidth, dx);
-						flwFileInfo.Controls.Add(ltb);
+						var info = obj as IInfoPanelField;
+						if (info != null)
+						{
+							var ltb = new LabeledTextBox(info.DisplayText);
+							ltb.Name = info.FieldName;
+							ltb.InnerTextBox.Text = info.Value;
+							ltb.Margin = new Padding(ltb.Margin.Left, 0, ltb.Margin.Right, 0);
+							ltb.Font = flwFileInfo.Font;
+							var dx = TextRenderer.MeasureText(g, info.DisplayText, ltb.Font).Width;
+							maxLblWidth = Math.Max(maxLblWidth, dx);
+							flwFileInfo.Controls.Add(ltb);
+						}
 					}
 
 					foreach (Control ltb in flwFileInfo.Controls)
@@ -91,6 +98,26 @@ namespace SIL.Sponge.Controls
 			}
 
 			Utils.SetWindowRedraw(flwFileInfo, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves the values in the panel's fields to the specified list of IInfoPanelField
+		/// objects.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Save(IEnumerable fldInfo)
+		{
+			foreach (var obj in fldInfo)
+			{
+				var info = obj as IInfoPanelField;
+				if (info != null)
+				{
+					var ltb = flwFileInfo.Controls[info.FieldName] as LabeledTextBox;
+					if (ltb != null)
+						info.Value = ltb.InnerTextBox.Text;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -41,7 +41,7 @@ namespace SIL.Sponge.Model
 		/// Initializes a new instance of the <see cref="SessionFileInfoTemplate"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private SessionFileInfoTemplateList()
+		public SessionFileInfoTemplateList()
 		{
 			Templates = new List<SessionFileInfoTemplate>();
 		}

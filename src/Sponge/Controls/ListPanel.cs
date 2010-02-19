@@ -26,6 +26,8 @@ namespace SIL.Sponge.Controls
 		public delegate object NewButtonClickedHandler(object sender);
 		public event NewButtonClickedHandler NewButtonClicked;
 
+		private string m_pushedItem;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ListPanel"/> class.
@@ -86,7 +88,11 @@ namespace SIL.Sponge.Controls
 					var list = new List<object>(value);
 					list.Sort((x, y) => x.ToString().CompareTo(y.ToString()));
 					foreach (object obj in list)
-						lvItems.Items.Add(obj.ToString()).Tag = obj;
+					{
+						var newLvItem = lvItems.Items.Add(obj.ToString());
+						newLvItem.Tag = obj;
+						newLvItem.Name = obj.ToString();
+					}
 
 					CurrentItem = (currItem ?? list[0]);
 				}
@@ -103,16 +109,19 @@ namespace SIL.Sponge.Controls
 			get { return (lvItems.FocusedItem == null ? null : lvItems.FocusedItem.Tag); }
 			set
 			{
-				if (value != null)
-				{
-					lvItems.FocusedItem = lvItems.FindItemWithText(value.ToString());
-					lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
-					lvItems.SelectedItems.Clear();
-					lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
+				if (value == null)
+					return;
 
-					if (lvItems.FocusedItem != null)
-						lvItems.FocusedItem.Selected = true;
-				}
+				lvItems.FocusedItem = (value is ListViewItem ?
+					(ListViewItem)value :
+					lvItems.FocusedItem = lvItems.FindItemWithText(value.ToString()));
+
+				lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
+				lvItems.SelectedItems.Clear();
+				lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
+
+				if (lvItems.FocusedItem != null)
+					lvItems.FocusedItem.Selected = true;
 			}
 		}
 
@@ -128,6 +137,53 @@ namespace SIL.Sponge.Controls
 			base.OnResize(e);
 			hdrList.Width = lvItems.ClientSize.Width - 1;
 			pnlButtons.Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Refreshes each item's text from its underlying object.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RefreshItemTexts()
+		{
+			foreach (ListViewItem item in lvItems.Items)
+				item.Text = item.Tag.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves the focused item and, if clear is true, clears the focused and selected
+		/// items so there are none.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void PushFocusedItem(bool clear)
+		{
+			if (lvItems.FocusedItem != null)
+			{
+				m_pushedItem = lvItems.FocusedItem.Tag.ToString();
+				if (clear)
+					lvItems.FocusedItem.Focused = false;
+			}
+
+			if (clear)
+				lvItems.SelectedItems.Clear();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes a previously pushed focused item. If makeCurrent is true, then the popped
+		/// item is made the current item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void PopFocusedItem(bool makeCurrent)
+		{
+			if (m_pushedItem != null)
+			{
+				if (makeCurrent)
+					CurrentItem = lvItems.FindItemWithText(m_pushedItem);
+
+				m_pushedItem = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -202,18 +258,36 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private void btnNew_Click(object sender, EventArgs e)
 		{
-			if (NewButtonClicked == null)
-				return;
+			if (NewButtonClicked != null)
+				AddItem(NewButtonClicked(this), true);
+		}
 
-			var newItem = NewButtonClicked(this);
-			if (newItem != null)
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds an item to the list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void AddItem(object item, bool selectAfterAdd)
+		{
+			if (item != null)
 			{
+				if (lvItems.Items.Find(item.ToString(), true).Length > 0)
+				{
+					// REVIEW: Is it OK to just leave if the item already exists
+					// or should we throw an error or something like that?
+					return;
+				}
+
 				// TODO: Insert item in sorted order.
 				lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
-				lvItems.Items.Add(newItem.ToString()).Tag = newItem;
+				var newLvItem = lvItems.Items.Add(item.ToString());
+				newLvItem.Tag = item;
+				newLvItem.Name = item.ToString();
 				lvItems.SelectedItems.Clear();
 				lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
-				CurrentItem = newItem;
+
+				if (selectAfterAdd)
+					CurrentItem = item;
 			}
 		}
 

@@ -64,7 +64,7 @@ namespace SIL.Sponge
 			m_setupView = new SetupVw();
 			m_overviewView = new OverviewVw();
 			m_sessionsView = new SessionsVw(CurrentProject);
-			m_peopleView = new PeopleVw();
+			m_peopleView = new PeopleVw(CurrentProject);
 			m_sendReceiveView = new SendReceiveVw();
 
 			Controls.AddRange(new Control[] { m_setupView, m_overviewView,

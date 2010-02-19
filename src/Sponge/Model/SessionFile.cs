@@ -22,7 +22,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 using Palaso.Reporting;
-using SIL.Sponge.Model.MetaData;
 using SilUtils;
 
 namespace SIL.Sponge.Model
@@ -36,6 +35,8 @@ namespace SIL.Sponge.Model
 	public class SessionFile
 	{
 		private string m_fileName;
+
+		public const string SessionFileExtension = "sponge";
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -56,10 +57,10 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a SessionFile object the specified file name. The first attempt to create
-		/// a SessionFile object is via deserializing the specified file's standoff markup
-		/// file. If that fails, it's assumed there is no standoff markup, therefore, a new
-		/// SessionFile is instantiated.
+		/// Creates a SessionFile object for the specified file name. The first attempt to
+		/// create a SessionFile object is via deserializing the specified file's standoff
+		/// markup file. If that fails, it's assumed there is no standoff markup, therefore,
+		/// a new SessionFile is instantiated.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static SessionFile Create(string fileName)
@@ -100,7 +101,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		private static string GetStandoffFile(string fileName)
 		{
-			return Path.ChangeExtension(fileName, "sponge");
+			return Path.ChangeExtension(fileName, SessionFileExtension);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -298,5 +299,15 @@ namespace SIL.Sponge.Model
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents this instance.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return FileName;
+		}
 	}
 }

@@ -103,8 +103,14 @@
     <Compile Include="Controls\LabeledTextBox.Designer.cs">
       <DependentUpon>LabeledTextBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PeopleRadioButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\SpongeBar.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UnderlinedHdgBox.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Model\MetaData\FieldDefinition.cs" />
     <Compile Include="Model\Person.cs" />
@@ -272,6 +278,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\More_Action.png" />
+    <None Include="Resources\Female_NotSelected.png" />
+    <None Include="Resources\Female_Selected.png" />
+    <None Include="Resources\Male_NotSelected.png" />
+    <None Include="Resources\Male_Selected.png" />
+    <None Include="Resources\ChangePicture.png" />
     <Content Include="Sponge.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

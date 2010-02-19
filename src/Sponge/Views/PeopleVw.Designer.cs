@@ -30,6 +30,7 @@ namespace SIL.Sponge
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.lpPeople = new SIL.Sponge.Controls.ListPanel();
 			this.tabPeople = new System.Windows.Forms.TabControl();
 			this.tpgAbout = new System.Windows.Forms.TabPage();
@@ -66,8 +67,9 @@ namespace SIL.Sponge
 			this.m_gender = new System.Windows.Forms.ComboBox();
 			this.lblContact = new System.Windows.Forms.Label();
 			this.m_birthYear = new System.Windows.Forms.TextBox();
-			this.lblHGender = new System.Windows.Forms.Label();
+			this.lblGender = new System.Windows.Forms.Label();
 			this.tpgContributors = new System.Windows.Forms.TabPage();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -81,6 +83,7 @@ namespace SIL.Sponge
 			this.uhbPrimaryLanguage.SuspendLayout();
 			this.pnlRightSide.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_picture)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// splitOuter
@@ -109,6 +112,9 @@ namespace SIL.Sponge
 			this.lpPeople.CurrentItem = null;
 			this.lpPeople.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lpPeople.Items = new object[0];
+			this.locExtender.SetLocalizableToolTip(this.lpPeople, null);
+			this.locExtender.SetLocalizationComment(this.lpPeople, null);
+			this.locExtender.SetLocalizingId(this.lpPeople, "PeopleVw.ListPanel");
 			this.lpPeople.Location = new System.Drawing.Point(0, 0);
 			this.lpPeople.MinimumSize = new System.Drawing.Size(165, 0);
 			this.lpPeople.Name = "lpPeople";
@@ -137,6 +143,9 @@ namespace SIL.Sponge
 			// tpgAbout
 			// 
 			this.tpgAbout.Controls.Add(this.tblLayout);
+			this.locExtender.SetLocalizableToolTip(this.tpgAbout, null);
+			this.locExtender.SetLocalizationComment(this.tpgAbout, null);
+			this.locExtender.SetLocalizingId(this.tpgAbout, "PeopleVw.tpgAbout");
 			this.tpgAbout.Location = new System.Drawing.Point(4, 26);
 			this.tpgAbout.Name = "tpgAbout";
 			this.tpgAbout.Padding = new System.Windows.Forms.Padding(3);
@@ -183,6 +192,9 @@ namespace SIL.Sponge
 			// lblPimaryOccupation
 			// 
 			this.lblPimaryOccupation.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.lblPimaryOccupation, null);
+			this.locExtender.SetLocalizationComment(this.lblPimaryOccupation, null);
+			this.locExtender.SetLocalizingId(this.lblPimaryOccupation, "PeopleVw.lblPimaryOccupation");
 			this.lblPimaryOccupation.Location = new System.Drawing.Point(8, 345);
 			this.lblPimaryOccupation.Name = "lblPimaryOccupation";
 			this.lblPimaryOccupation.Size = new System.Drawing.Size(112, 15);
@@ -193,6 +205,10 @@ namespace SIL.Sponge
 			// 
 			this.m_primaryOccupation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_primaryOccupation, null);
+			this.locExtender.SetLocalizationComment(this.m_primaryOccupation, null);
+			this.locExtender.SetLocalizationPriority(this.m_primaryOccupation, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_primaryOccupation, "PeopleVw.m_primaryOccupation");
 			this.m_primaryOccupation.Location = new System.Drawing.Point(5, 363);
 			this.m_primaryOccupation.Name = "m_primaryOccupation";
 			this.m_primaryOccupation.Size = new System.Drawing.Size(274, 23);
@@ -201,6 +217,9 @@ namespace SIL.Sponge
 			// lblEducation
 			// 
 			this.lblEducation.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.lblEducation, null);
+			this.locExtender.SetLocalizationComment(this.lblEducation, null);
+			this.locExtender.SetLocalizingId(this.lblEducation, "PeopleVw.lblEducation");
 			this.lblEducation.Location = new System.Drawing.Point(8, 294);
 			this.lblEducation.Name = "lblEducation";
 			this.lblEducation.Size = new System.Drawing.Size(63, 15);
@@ -211,6 +230,10 @@ namespace SIL.Sponge
 			// 
 			this.m_education.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_education, null);
+			this.locExtender.SetLocalizationComment(this.m_education, null);
+			this.locExtender.SetLocalizationPriority(this.m_education, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_education, "PeopleVw.m_education");
 			this.m_education.Location = new System.Drawing.Point(5, 312);
 			this.m_education.Name = "m_education";
 			this.m_education.Size = new System.Drawing.Size(274, 23);
@@ -219,6 +242,9 @@ namespace SIL.Sponge
 			// lblFullName
 			// 
 			this.lblFullName.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.lblFullName, null);
+			this.locExtender.SetLocalizationComment(this.lblFullName, null);
+			this.locExtender.SetLocalizingId(this.lblFullName, "PeopleVw.lblFullName");
 			this.lblFullName.Location = new System.Drawing.Point(8, 7);
 			this.lblFullName.Name = "lblFullName";
 			this.lblFullName.Size = new System.Drawing.Size(64, 15);
@@ -229,10 +255,15 @@ namespace SIL.Sponge
 			// 
 			this.m_fullName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_fullName, null);
+			this.locExtender.SetLocalizationComment(this.m_fullName, null);
+			this.locExtender.SetLocalizationPriority(this.m_fullName, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_fullName, "PeopleVw.m_fullName");
 			this.m_fullName.Location = new System.Drawing.Point(5, 25);
 			this.m_fullName.Name = "m_fullName";
 			this.m_fullName.Size = new System.Drawing.Size(274, 23);
 			this.m_fullName.TabIndex = 1;
+			this.m_fullName.TextChanged += new System.EventHandler(this.m_fullName_TextChanged);
 			// 
 			// uhbOtherLanguages
 			// 
@@ -250,6 +281,9 @@ namespace SIL.Sponge
 			this.uhbOtherLanguages.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this.uhbOtherLanguages.LineColor = System.Drawing.SystemColors.ControlDark;
 			this.uhbOtherLanguages.LineThickness = 1;
+			this.locExtender.SetLocalizableToolTip(this.uhbOtherLanguages, null);
+			this.locExtender.SetLocalizationComment(this.uhbOtherLanguages, null);
+			this.locExtender.SetLocalizingId(this.uhbOtherLanguages, "PeopleVw.lblOtherLanguages");
 			this.uhbOtherLanguages.Location = new System.Drawing.Point(5, 146);
 			this.uhbOtherLanguages.Name = "uhbOtherLanguages";
 			this.uhbOtherLanguages.Size = new System.Drawing.Size(274, 138);
@@ -260,6 +294,10 @@ namespace SIL.Sponge
 			// 
 			this.m_otherLanguage3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_otherLanguage3, null);
+			this.locExtender.SetLocalizationComment(this.m_otherLanguage3, null);
+			this.locExtender.SetLocalizationPriority(this.m_otherLanguage3, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_otherLanguage3, "PeopleVw.m_otherLanguage3");
 			this.m_otherLanguage3.Location = new System.Drawing.Point(0, 115);
 			this.m_otherLanguage3.Name = "m_otherLanguage3";
 			this.m_otherLanguage3.Size = new System.Drawing.Size(216, 23);
@@ -269,6 +307,10 @@ namespace SIL.Sponge
 			// 
 			this.m_otherLanguageParentGender3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_otherLanguageParentGender3.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.m_otherLanguageParentGender3, null);
+			this.locExtender.SetLocalizationComment(this.m_otherLanguageParentGender3, null);
+			this.locExtender.SetLocalizationPriority(this.m_otherLanguageParentGender3, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_otherLanguageParentGender3, "PeopleVw.m_otherLanguageParentGender3");
 			this.m_otherLanguageParentGender3.Location = new System.Drawing.Point(222, 113);
 			this.m_otherLanguageParentGender3.MaximumSize = new System.Drawing.Size(52, 24);
 			this.m_otherLanguageParentGender3.MinimumSize = new System.Drawing.Size(52, 24);
@@ -281,6 +323,10 @@ namespace SIL.Sponge
 			// 
 			this.m_otherLanguage2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_otherLanguage2, null);
+			this.locExtender.SetLocalizationComment(this.m_otherLanguage2, null);
+			this.locExtender.SetLocalizationPriority(this.m_otherLanguage2, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_otherLanguage2, "PeopleVw.m_otherLanguage2");
 			this.m_otherLanguage2.Location = new System.Drawing.Point(0, 85);
 			this.m_otherLanguage2.Name = "m_otherLanguage2";
 			this.m_otherLanguage2.Size = new System.Drawing.Size(216, 23);
@@ -290,6 +336,10 @@ namespace SIL.Sponge
 			// 
 			this.m_otherLanguageParentGender2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_otherLanguageParentGender2.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.m_otherLanguageParentGender2, null);
+			this.locExtender.SetLocalizationComment(this.m_otherLanguageParentGender2, null);
+			this.locExtender.SetLocalizationPriority(this.m_otherLanguageParentGender2, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_otherLanguageParentGender2, "PeopleVw.m_otherLanguageParentGender2");
 			this.m_otherLanguageParentGender2.Location = new System.Drawing.Point(222, 83);
 			this.m_otherLanguageParentGender2.MaximumSize = new System.Drawing.Size(52, 24);
 			this.m_otherLanguageParentGender2.MinimumSize = new System.Drawing.Size(52, 24);
@@ -302,6 +352,10 @@ namespace SIL.Sponge
 			// 
 			this.m_otherLanguage1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_otherLanguage1, null);
+			this.locExtender.SetLocalizationComment(this.m_otherLanguage1, null);
+			this.locExtender.SetLocalizationPriority(this.m_otherLanguage1, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_otherLanguage1, "PeopleVw.m_otherLanguage1");
 			this.m_otherLanguage1.Location = new System.Drawing.Point(0, 55);
 			this.m_otherLanguage1.Name = "m_otherLanguage1";
 			this.m_otherLanguage1.Size = new System.Drawing.Size(216, 23);
@@ -311,6 +365,10 @@ namespace SIL.Sponge
 			// 
 			this.m_otherLanguageParentGender1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_otherLanguageParentGender1.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.m_otherLanguageParentGender1, null);
+			this.locExtender.SetLocalizationComment(this.m_otherLanguageParentGender1, null);
+			this.locExtender.SetLocalizationPriority(this.m_otherLanguageParentGender1, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_otherLanguageParentGender1, "PeopleVw.m_otherLanguageParentGender1");
 			this.m_otherLanguageParentGender1.Location = new System.Drawing.Point(222, 53);
 			this.m_otherLanguageParentGender1.MaximumSize = new System.Drawing.Size(52, 24);
 			this.m_otherLanguageParentGender1.MinimumSize = new System.Drawing.Size(52, 24);
@@ -323,6 +381,10 @@ namespace SIL.Sponge
 			// 
 			this.m_otherLanguage0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_otherLanguage0, null);
+			this.locExtender.SetLocalizationComment(this.m_otherLanguage0, null);
+			this.locExtender.SetLocalizationPriority(this.m_otherLanguage0, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_otherLanguage0, "PeopleVw.m_otherLanguage0");
 			this.m_otherLanguage0.Location = new System.Drawing.Point(0, 25);
 			this.m_otherLanguage0.Name = "m_otherLanguage0";
 			this.m_otherLanguage0.Size = new System.Drawing.Size(216, 23);
@@ -332,6 +394,10 @@ namespace SIL.Sponge
 			// 
 			this.m_otherLanguageParentGender0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_otherLanguageParentGender0.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.m_otherLanguageParentGender0, null);
+			this.locExtender.SetLocalizationComment(this.m_otherLanguageParentGender0, null);
+			this.locExtender.SetLocalizationPriority(this.m_otherLanguageParentGender0, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_otherLanguageParentGender0, "PeopleVw.m_otherLanguageParentGender0");
 			this.m_otherLanguageParentGender0.Location = new System.Drawing.Point(222, 23);
 			this.m_otherLanguageParentGender0.MaximumSize = new System.Drawing.Size(52, 24);
 			this.m_otherLanguageParentGender0.MinimumSize = new System.Drawing.Size(52, 24);
@@ -352,6 +418,9 @@ namespace SIL.Sponge
 			this.uhbPrimaryLanguage.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.uhbPrimaryLanguage.LineColor = System.Drawing.SystemColors.ControlDark;
 			this.uhbPrimaryLanguage.LineThickness = 1;
+			this.locExtender.SetLocalizableToolTip(this.uhbPrimaryLanguage, null);
+			this.locExtender.SetLocalizationComment(this.uhbPrimaryLanguage, null);
+			this.locExtender.SetLocalizingId(this.uhbPrimaryLanguage, "PeopleVw.lblPrimaryLanguage");
 			this.uhbPrimaryLanguage.Location = new System.Drawing.Point(5, 58);
 			this.uhbPrimaryLanguage.Name = "uhbPrimaryLanguage";
 			this.uhbPrimaryLanguage.Size = new System.Drawing.Size(274, 78);
@@ -362,6 +431,10 @@ namespace SIL.Sponge
 			// 
 			this.m_primaryLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_primaryLanguage, null);
+			this.locExtender.SetLocalizationComment(this.m_primaryLanguage, null);
+			this.locExtender.SetLocalizationPriority(this.m_primaryLanguage, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_primaryLanguage, "PeopleVw.m_primaryLanguage");
 			this.m_primaryLanguage.Location = new System.Drawing.Point(0, 25);
 			this.m_primaryLanguage.Name = "m_primaryLanguage";
 			this.m_primaryLanguage.Size = new System.Drawing.Size(216, 23);
@@ -371,6 +444,10 @@ namespace SIL.Sponge
 			// 
 			this.m_learnedIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_learnedIn, null);
+			this.locExtender.SetLocalizationComment(this.m_learnedIn, null);
+			this.locExtender.SetLocalizationPriority(this.m_learnedIn, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_learnedIn, "PeopleVw.m_learnedIn");
 			this.m_learnedIn.Location = new System.Drawing.Point(82, 55);
 			this.m_learnedIn.Name = "m_learnedIn";
 			this.m_learnedIn.Size = new System.Drawing.Size(192, 23);
@@ -380,6 +457,10 @@ namespace SIL.Sponge
 			// 
 			this.m_primaryLanguageParent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_primaryLanguageParent.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.m_primaryLanguageParent, null);
+			this.locExtender.SetLocalizationComment(this.m_primaryLanguageParent, null);
+			this.locExtender.SetLocalizationPriority(this.m_primaryLanguageParent, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_primaryLanguageParent, "PeopleVw.m_primaryLanguageParent");
 			this.m_primaryLanguageParent.Location = new System.Drawing.Point(222, 23);
 			this.m_primaryLanguageParent.MaximumSize = new System.Drawing.Size(52, 24);
 			this.m_primaryLanguageParent.MinimumSize = new System.Drawing.Size(52, 24);
@@ -391,6 +472,9 @@ namespace SIL.Sponge
 			// lblLearnedIn
 			// 
 			this.lblLearnedIn.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.lblLearnedIn, null);
+			this.locExtender.SetLocalizationComment(this.lblLearnedIn, null);
+			this.locExtender.SetLocalizingId(this.lblLearnedIn, "PeopleVw.lblLearnedIn");
 			this.lblLearnedIn.Location = new System.Drawing.Point(3, 58);
 			this.lblLearnedIn.Name = "lblLearnedIn";
 			this.lblLearnedIn.Size = new System.Drawing.Size(65, 15);
@@ -412,7 +496,7 @@ namespace SIL.Sponge
 			this.pnlRightSide.Controls.Add(this.m_gender);
 			this.pnlRightSide.Controls.Add(this.lblContact);
 			this.pnlRightSide.Controls.Add(this.m_birthYear);
-			this.pnlRightSide.Controls.Add(this.lblHGender);
+			this.pnlRightSide.Controls.Add(this.lblGender);
 			this.pnlRightSide.Location = new System.Drawing.Point(292, 3);
 			this.pnlRightSide.Name = "pnlRightSide";
 			this.pnlRightSide.Size = new System.Drawing.Size(231, 390);
@@ -421,6 +505,9 @@ namespace SIL.Sponge
 			// btnSave
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.btnSave, null);
+			this.locExtender.SetLocalizationComment(this.btnSave, null);
+			this.locExtender.SetLocalizingId(this.btnSave, "PeopleVw.btnSave");
 			this.btnSave.Location = new System.Drawing.Point(75, 366);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(75, 24);
@@ -432,6 +519,9 @@ namespace SIL.Sponge
 			// btnCancel
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
+			this.locExtender.SetLocalizationComment(this.btnCancel, null);
+			this.locExtender.SetLocalizingId(this.btnCancel, "PeopleVw.btnCancel");
 			this.btnCancel.Location = new System.Drawing.Point(156, 366);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 24);
@@ -445,6 +535,10 @@ namespace SIL.Sponge
 			this.m_notes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_notes, null);
+			this.locExtender.SetLocalizationComment(this.m_notes, null);
+			this.locExtender.SetLocalizationPriority(this.m_notes, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_notes, "PeopleVw.m_notes");
 			this.m_notes.Location = new System.Drawing.Point(3, 261);
 			this.m_notes.Multiline = true;
 			this.m_notes.Name = "m_notes";
@@ -455,6 +549,9 @@ namespace SIL.Sponge
 			// lblNotes
 			// 
 			this.lblNotes.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.lblNotes, null);
+			this.locExtender.SetLocalizationComment(this.lblNotes, null);
+			this.locExtender.SetLocalizingId(this.lblNotes, "PeopleVw.lblNotes");
 			this.lblNotes.Location = new System.Drawing.Point(4, 243);
 			this.lblNotes.Name = "lblNotes";
 			this.lblNotes.Size = new System.Drawing.Size(41, 15);
@@ -465,8 +562,12 @@ namespace SIL.Sponge
 			// 
 			this.m_picture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.m_picture.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.m_picture.Image = global::SIL.Sponge.Properties.Resources.kimidNoPhoto;
 			this.m_picture.InitialImage = null;
+			this.locExtender.SetLocalizableToolTip(this.m_picture, "Click to Change Picture");
+			this.locExtender.SetLocalizationComment(this.m_picture, null);
+			this.locExtender.SetLocalizingId(this.m_picture, "PeopleVw.personsPicture");
 			this.m_picture.Location = new System.Drawing.Point(101, 0);
 			this.m_picture.Name = "m_picture";
 			this.m_picture.Size = new System.Drawing.Size(130, 130);
@@ -481,6 +582,9 @@ namespace SIL.Sponge
 			// lblBirthYear
 			// 
 			this.lblBirthYear.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.lblBirthYear, null);
+			this.locExtender.SetLocalizationComment(this.lblBirthYear, null);
+			this.locExtender.SetLocalizingId(this.lblBirthYear, "PeopleVw.lblBirthYear");
 			this.lblBirthYear.Location = new System.Drawing.Point(4, 4);
 			this.lblBirthYear.Name = "lblBirthYear";
 			this.lblBirthYear.Size = new System.Drawing.Size(61, 15);
@@ -491,6 +595,10 @@ namespace SIL.Sponge
 			// 
 			this.m_contact.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this.m_contact, null);
+			this.locExtender.SetLocalizationComment(this.m_contact, null);
+			this.locExtender.SetLocalizationPriority(this.m_contact, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_contact, "PeopleVw.m_contact");
 			this.m_contact.Location = new System.Drawing.Point(3, 161);
 			this.m_contact.Multiline = true;
 			this.m_contact.Name = "m_contact";
@@ -505,6 +613,9 @@ namespace SIL.Sponge
 			this.m_gender.Items.AddRange(new object[] {
             "Male",
             "Female"});
+			this.locExtender.SetLocalizableToolTip(this.m_gender, null);
+			this.locExtender.SetLocalizationComment(this.m_gender, null);
+			this.locExtender.SetLocalizingId(this.m_gender, "PeopleVw.m_gender");
 			this.m_gender.Location = new System.Drawing.Point(3, 73);
 			this.m_gender.Name = "m_gender";
 			this.m_gender.Size = new System.Drawing.Size(76, 23);
@@ -513,6 +624,9 @@ namespace SIL.Sponge
 			// lblContact
 			// 
 			this.lblContact.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.lblContact, null);
+			this.locExtender.SetLocalizationComment(this.lblContact, null);
+			this.locExtender.SetLocalizingId(this.lblContact, "PeopleVw.lblContact");
 			this.lblContact.Location = new System.Drawing.Point(4, 143);
 			this.lblContact.Name = "lblContact";
 			this.lblContact.Size = new System.Drawing.Size(94, 15);
@@ -521,22 +635,33 @@ namespace SIL.Sponge
 			// 
 			// m_birthYear
 			// 
+			this.locExtender.SetLocalizableToolTip(this.m_birthYear, null);
+			this.locExtender.SetLocalizationComment(this.m_birthYear, null);
+			this.locExtender.SetLocalizationPriority(this.m_birthYear, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_birthYear, "PeopleVw.m_birthYear");
 			this.m_birthYear.Location = new System.Drawing.Point(3, 22);
 			this.m_birthYear.Name = "m_birthYear";
 			this.m_birthYear.Size = new System.Drawing.Size(76, 23);
 			this.m_birthYear.TabIndex = 1;
 			// 
-			// lblHGender
+			// lblGender
 			// 
-			this.lblHGender.AutoSize = true;
-			this.lblHGender.Location = new System.Drawing.Point(4, 55);
-			this.lblHGender.Name = "lblHGender";
-			this.lblHGender.Size = new System.Drawing.Size(48, 15);
-			this.lblHGender.TabIndex = 2;
-			this.lblHGender.Text = "&Gender:";
+			this.lblGender.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.lblGender, null);
+			this.locExtender.SetLocalizationComment(this.lblGender, null);
+			this.locExtender.SetLocalizationPriority(this.lblGender, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblGender, "PeopleVw.lblGender");
+			this.lblGender.Location = new System.Drawing.Point(4, 55);
+			this.lblGender.Name = "lblGender";
+			this.lblGender.Size = new System.Drawing.Size(48, 15);
+			this.lblGender.TabIndex = 2;
+			this.lblGender.Text = "&Gender:";
 			// 
 			// tpgContributors
 			// 
+			this.locExtender.SetLocalizableToolTip(this.tpgContributors, null);
+			this.locExtender.SetLocalizationComment(this.tpgContributors, null);
+			this.locExtender.SetLocalizingId(this.tpgContributors, "PeopleVw.tpgContributors");
 			this.tpgContributors.Location = new System.Drawing.Point(4, 26);
 			this.tpgContributors.Name = "tpgContributors";
 			this.tpgContributors.Padding = new System.Windows.Forms.Padding(3);
@@ -546,11 +671,18 @@ namespace SIL.Sponge
 			this.tpgContributors.ToolTipText = "Contributors & Permissions";
 			this.tpgContributors.UseVisualStyleBackColor = true;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Views";
+			// 
 			// PeopleVw
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "PeopleVw.BaseSplitVw");
 			this.Name = "PeopleVw";
 			this.ShowRightBottomPanel = false;
 			this.Size = new System.Drawing.Size(709, 432);
@@ -571,6 +703,7 @@ namespace SIL.Sponge
 			this.pnlRightSide.ResumeLayout(false);
 			this.pnlRightSide.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_picture)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -598,7 +731,7 @@ namespace SIL.Sponge
 		private System.Windows.Forms.Label lblFullName;
 		private System.Windows.Forms.Label lblBirthYear;
 		private System.Windows.Forms.Label lblContact;
-		private System.Windows.Forms.Label lblHGender;
+		private System.Windows.Forms.Label lblGender;
 		private System.Windows.Forms.Label lblNotes;
 		private System.Windows.Forms.Label lblEducation;
 		private System.Windows.Forms.Label lblPimaryOccupation;
@@ -615,5 +748,6 @@ namespace SIL.Sponge
 		private System.Windows.Forms.Panel pnlRightSide;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnSave;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}
 }

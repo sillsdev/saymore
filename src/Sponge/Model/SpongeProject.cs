@@ -408,6 +408,70 @@ namespace SIL.Sponge.Model
 			return session;
 		}
 
+		#region Methods for managing the people list
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether or not a Person object exists for the specified name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool PersonExists(string fullName)
+		{
+			if (fullName == null)
+				return false;
+
+			fullName = fullName.Trim();
+			return (People.FirstOrDefault(x => x.FullName == fullName) != null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds the specified person to the project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool AddPerson(Person person, bool saveToFile)
+		{
+			if (person == null)
+				return false;
+
+			if (PersonExists(person.FullName))
+			{
+				var msg = LocalizationManager.LocalizeString("AddingDuplicatePersonMsg",
+					"The person '{0}' already exists and you may not add another person with the same name.",
+					"Miscellaneous Strings");
+
+				Utils.MsgBox(string.Format(msg, person.FullName));
+				return false;
+			}
+
+			if (saveToFile && person.CanSave)
+				person.Save(PeoplesPath);
+
+			People.Add(person);
+			People.Sort((x, y) => x.FullName.CompareTo(y.FullName));
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deletes the person from the project's internal list of people and removes its
+		/// associated disk file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void DeletePerson(string toEuthanize)
+		{
+			if (toEuthanize == null)
+				return;
+
+			var person = People.FirstOrDefault(x => x.FullName == toEuthanize);
+			if (person != null)
+			{
+				File.Delete(Path.Combine(PeoplesPath, person.FileName));
+				People.Remove(person);
+			}
+		}
+
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents this instance.

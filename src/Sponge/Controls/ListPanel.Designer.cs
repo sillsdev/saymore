@@ -114,6 +114,7 @@ namespace SIL.Sponge.Controls
 			this.lvItems.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.lvItems.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.hdrList});
+			this.lvItems.FullRowSelect = true;
 			this.lvItems.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.lvItems.HideSelection = false;
 			this.lvItems.Location = new System.Drawing.Point(2, 31);

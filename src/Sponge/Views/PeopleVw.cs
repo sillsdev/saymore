@@ -57,6 +57,7 @@ namespace SIL.Sponge
 		{
 			Utils.SetWindowRedraw(pnlRightSide, false);
 			btnSave.Visible = true;
+			btnSave.Enabled = false;
 			btnCancel.Visible = true;
 			m_notes.Height = btnSave.Top - m_notes.Top - 7;
 			Utils.SetWindowRedraw(pnlRightSide, true);
@@ -158,15 +159,15 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void lpPeople_AfterItemsDeleted(object sender, List<object> itemsToDelete)
 		{
-			if (itemsToDelete == null || itemsToDelete.Count == 0)
-				return;
-
-			foreach (var obj in itemsToDelete)
+			if (itemsToDelete != null)
 			{
-				var person = m_currProj.People.FirstOrDefault(x => x.FullName == obj.ToString());
-				if (person != null)
-					m_currProj.People.Remove(person);
+				foreach (var obj in itemsToDelete)
+					m_currProj.DeletePerson(obj.ToString());
+
+				m_currPerson = null;
 			}
+
+			lpPeople.Focus();
 		}
 
 		#endregion
@@ -195,17 +196,43 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Determines when to enable/disable the save button when the user is in the process
+		/// of adding a new name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_fullName_TextChanged(object sender, EventArgs e)
+		{
+			if (btnSave.Visible)
+			{
+				// Enable the button if there's text in the name field
+				// and it doesn't match a name that already exists.
+				var name = m_fullName.Text.Trim();
+				btnSave.Enabled = (name != string.Empty &&
+					m_currProj.People.FirstOrDefault(x => x.FullName == name) == null);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Saves the new person, adds it to the people list and makes it the current person.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			// TODO: Deal with a missing full name.
-
 			HideSaveCancel();
-			LoadPersonFromForm(m_currPerson, true);
-			lpPeople.PopFocusedItem(false);
-			lpPeople.AddItem(m_currPerson, true);
+			LoadPersonFromForm(m_currPerson, false);
+
+			if (!m_currProj.AddPerson(m_currPerson, true))
+				lpPeople.PopFocusedItem(true);
+			else
+			{
+				lpPeople.PopFocusedItem(false);
+				lpPeople.SelectedItemChanged -= lpPeople_SelectedItemChanged;
+				lpPeople.Items = m_currProj.People.ToArray();
+				lpPeople.SelectedItemChanged += lpPeople_SelectedItemChanged;
+				lpPeople.CurrentItem = m_currPerson;
+			}
+
 			lpPeople.Enabled = true;
 			lpPeople.Focus();
 		}
@@ -238,7 +265,7 @@ namespace SIL.Sponge
 			using (var dlg = new OpenFileDialog())
 			{
 				var caption = LocalizationManager.LocalizeString(
-					"PeopleVw.ChangePictureDlgCaption", "Change Picture", "Dialog Boxes");
+					"PeopleVw.ChangePictureDlgCaption", "Change Picture", "Views");
 
 				dlg.Title = caption;
 				dlg.CheckFileExists = true;
@@ -298,6 +325,8 @@ namespace SIL.Sponge
 				person = new Person();
 			else
 			{
+				// REVIEW: How should we handle the fact that a name could be edited
+				// so that it matches a name of a different person?
 				if (saveAfterLoad && person.FullName != m_fullName.Text.Trim())
 				{
 					try

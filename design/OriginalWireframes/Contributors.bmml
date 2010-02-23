@@ -7,7 +7,7 @@
         <bottomheight>0</bottomheight>
       </controlProperties>
     </control>
-    <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="296" y="137" w="821" h="509" measuredW="430" measuredH="100" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="296" y="137" w="821" h="509" measuredW="431" measuredH="100" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Description%2C%20Contributors%2C%20Permissions%2C%20Text%2C%20Files</text>
         <selectedIndex>1</selectedIndex>
@@ -39,8 +39,8 @@
     </control>
     <control controlID="5" controlTypeID="com.balsamiq.mockups::Canvas" x="290" y="76" w="83" h="54" measuredW="100" measuredH="70" zOrder="5" locked="false" isInGroup="-1">
       <controlProperties>
-        <backgroundAlpha>0.25</backgroundAlpha>
         <borderStyle>none</borderStyle>
+        <backgroundAlpha>0.25</backgroundAlpha>
         <color>40463</color>
       </controlProperties>
     </control>
@@ -49,8 +49,8 @@
         <icon>VideoCameraIcon%7Csmall</icon>
         <text>Sessions</text>
         <href>Events-Files%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml</href>
-        <borderStyle>none</borderStyle>
         <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22190%2C35%2C262%2C84%22%20href%3D%22Events-Files.bmml%22%20alt%3D%22Events-Files%22%20id%3D%226%22/%3E</map>
+        <borderStyle>none</borderStyle>
       </controlProperties>
     </control>
     <control controlID="7" controlTypeID="com.balsamiq.mockups::IconLabel" x="185" y="81" w="95" h="-1" measuredW="62" measuredH="49" zOrder="7" locked="false" isInGroup="-1">
@@ -70,7 +70,7 @@
       </controlProperties>
     </control>
     <control controlID="9" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="1099" y="166" w="-1" h="480" measuredW="16" measuredH="100" zOrder="9" locked="false" isInGroup="-1"/>
-    <control controlID="10" controlTypeID="com.balsamiq.mockups::CallOut" x="741" y="354" w="343" h="120" measuredW="1237" measuredH="40" zOrder="10" locked="false" isInGroup="-1">
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::CallOut" x="741" y="354" w="343" h="120" measuredW="1237" measuredH="45" zOrder="10" locked="false" isInGroup="-1">
       <controlProperties>
         <text>I%20don%27t%20know%20what%20a%20reasonable%20breakdown%20of%20contributors%20is...%20we%20have%20the%20original%20speakers%2C%20the%20oral%20transcribers%2C%20the%20written%20transcribers%2C%20recordist%2C%20other%20technicians%2C%20the%20researcher...</text>
         <color>16777215</color>

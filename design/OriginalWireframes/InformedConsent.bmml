@@ -9,8 +9,8 @@
     </control>
     <control controlID="44" controlTypeID="com.balsamiq.mockups::Canvas" x="285" y="182" w="820" h="461" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
-        <backgroundAlpha>0.25</backgroundAlpha>
         <borderStyle>none</borderStyle>
+        <backgroundAlpha>0.25</backgroundAlpha>
         <color>6737151</color>
       </controlProperties>
     </control>

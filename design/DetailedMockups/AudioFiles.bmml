@@ -63,8 +63,8 @@
         <icon>VideoCameraIcon%7Csmall</icon>
         <text>Sessions</text>
         <href>Events-Files%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml</href>
-        <borderStyle>none</borderStyle>
         <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22190%2C35%2C262%2C84%22%20href%3D%22Events-Files.bmml%22%20alt%3D%22Events-Files%22%20id%3D%2226%22/%3E</map>
+        <borderStyle>none</borderStyle>
       </controlProperties>
     </control>
     <control controlID="28" controlTypeID="com.balsamiq.mockups::IconLabel" x="60" y="40" w="95" h="-1" measuredW="41" measuredH="49" zOrder="11" locked="false" isInGroup="-1">
@@ -77,8 +77,8 @@
     </control>
     <control controlID="29" controlTypeID="com.balsamiq.mockups::Canvas" x="250" y="36" w="83" h="54" measuredW="100" measuredH="70" zOrder="9" locked="false" isInGroup="-1">
       <controlProperties>
-        <backgroundAlpha>0.25</backgroundAlpha>
         <borderStyle>none</borderStyle>
+        <backgroundAlpha>0.25</backgroundAlpha>
         <color>40463</color>
       </controlProperties>
     </control>

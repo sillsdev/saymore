@@ -7,12 +7,12 @@
         <bottomheight>0</bottomheight>
       </controlProperties>
     </control>
-    <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="296" y="137" w="821" h="509" measuredW="342" measuredH="100" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="296" y="137" w="821" h="509" measuredW="430" measuredH="100" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Description%2C%20Permissions%2C%20Text%2C%20Files</text>
+        <text>Description%2C%20Contributors%2C%20Permissions%2C%20Text%2C%20Files</text>
         <selectedIndex>1</selectedIndex>
         <hrefs>Events-Description%26bm%3BEvents-Description.bmml%26bm%3BEvents-Description.bmml%26bm%3BEvents-Description.bmml%2CEvents-Contributors%26bm%3BEvents-Contributors.bmml%26bm%3BEvents-Contributors.bmml%26bm%3BEvents-Contributors.bmml%2CEvents-TaskStatus%26bm%3BEvents-TaskStatus.bmml%26bm%3BEvents-TaskStatus.bmml%26bm%3BEvents-TaskStatus.bmml%2CEvents-Files%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml%26bm%3BEvents-Files.bmml</hrefs>
-        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22216%2C91%2C298%2C120%22%20href%3D%22Events-Description.bmml%22%20alt%3D%22Events-Description%22%20id%3D%221_0%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22298%2C91%2C474%2C120%22%20href%3D%22Events-Contributors.bmml%22%20alt%3D%22Events-Contributors%22%20id%3D%221_1%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22474%2C91%2C559%2C120%22%20href%3D%22Events-TaskStatus.bmml%22%20alt%3D%22Events-TaskStatus%22%20id%3D%221_2%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22559%2C91%2C601%2C120%22%20href%3D%22Events-Files.bmml%22%20alt%3D%22Events-Files%22%20id%3D%221_3%22/%3E%0A</map>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22216%2C91%2C298%2C120%22%20href%3D%22Events-Description.bmml%22%20alt%3D%22Events-Description%22%20id%3D%221_0%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22298%2C91%2C379%2C120%22%20href%3D%22Events-Contributors.bmml%22%20alt%3D%22Events-Contributors%22%20id%3D%221_1%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22379%2C91%2C422%2C120%22%20href%3D%22Events-TaskStatus.bmml%22%20alt%3D%22Events-TaskStatus%22%20id%3D%221_2%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22422%2C91%2C464%2C120%22%20href%3D%22Events-Files.bmml%22%20alt%3D%22Events-Files%22%20id%3D%221_3%22/%3E%0A</map>
       </controlProperties>
     </control>
     <control controlID="2" controlTypeID="com.balsamiq.mockups::List" x="101" y="160" w="195" h="486" measuredW="100" measuredH="126" zOrder="2" locked="false" isInGroup="-1">
@@ -90,15 +90,9 @@
         <labelPosition>right</labelPosition>
       </controlProperties>
     </control>
-    <control controlID="14" controlTypeID="com.balsamiq.mockups::CallOut" x="385" y="217" w="430" h="109" measuredW="1103" measuredH="45" zOrder="13" locked="false" isInGroup="-1">
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::CallOut" x="385" y="217" w="430" h="109" measuredW="1103" measuredH="40" zOrder="13" locked="false" isInGroup="-1">
       <controlProperties>
         <text>These%20are%20drawn%20from%20the%20main%20list%20of%20people%20for%20the%20whole%20project.%20%20%28Sorry%20I%27m%20vacillating%20between%20people%2C%20speakers%2C%20contributors%2C%20%26%20participants.%20%20MPI%20uses%20%22actors%22%29.</text>
-        <color>16777215</color>
-      </controlProperties>
-    </control>
-    <control controlID="16" controlTypeID="com.balsamiq.mockups::CallOut" x="727" y="528" w="372" h="104" measuredW="1172" measuredH="40" zOrder="14" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>This%20screen%20needs%20to%20deal%20with%20permissions%20from%20all%20speakers%2C%20and%20copyrights%20from%20any%20other%20contributors%20not%20%22working%20for%20hire%22.%20It%20should%20link%20to%20actual%20evidence%20of%20the%20agreements.</text>
         <color>16777215</color>
       </controlProperties>
     </control>

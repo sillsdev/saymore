@@ -1,0 +1,76 @@
+<mockup version="1.0" skin="sketch" measuredW="1125" measuredH="656" mockupW="830" mockupH="490">
+  <controls>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::TabBar" x="290" y="156" w="825" h="490" measuredW="263" measuredH="100" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>About%2C%20Informed%20Consent</text>
+        <selectedIndex>1</selectedIndex>
+        <hrefs>%2C%2C</hrefs>
+      </controlProperties>
+    </control>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::Canvas" x="285" y="182" w="820" h="461" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0.25</backgroundAlpha>
+        <borderStyle>none</borderStyle>
+        <color>6737151</color>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::Label" x="313" y="212" w="319" h="25" measuredW="319" measuredH="25" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Files%20Related%20to%20Informed%20Consent%20by%20this%20person%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Canvas" x="525" y="252" w="531" h="358" measuredW="100" measuredH="70" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>3355443</color>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="1040" y="252" w="-1" h="358" measuredW="16" measuredH="100" zOrder="4" locked="false" isInGroup="-1"/>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::List" x="313" y="252" w="183" h="70" measuredW="100" measuredH="126" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>PermissionsFormPhoto.jpg</text>
+        <selectedIndex>0</selectedIndex>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="489" y="252" w="-1" h="70" measuredW="16" measuredH="100" zOrder="6" locked="false" isInGroup="-1"/>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Image" x="561" y="264" w="435" h="333" measuredW="640" measuredH="480" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>../../../../../../C%3A%5CUsers%5CJohn%5CDesktop%5CDSCF0093_Vga.JPG</src>
+      </controlProperties>
+    </control>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::Button" x="409" y="337" w="-1" h="-1" measuredW="96" measuredH="28" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20File...</text>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::Arrow" x="430" y="521" w="84" h="61" measuredW="150" measuredH="100" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+        <rightArrow>true</rightArrow>
+        <leftArrow>false</leftArrow>
+        <direction>bottom</direction>
+        <curvature>1</curvature>
+      </controlProperties>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::Arrow" x="327" y="315" w="82" h="92" measuredW="150" measuredH="100" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+        <rightArrow>true</rightArrow>
+        <leftArrow>false</leftArrow>
+        <direction>bottom</direction>
+        <curvature>-1</curvature>
+      </controlProperties>
+    </control>
+    <control controlID="60" controlTypeID="com.balsamiq.mockups::Paragraph" x="313" y="405" w="200" h="52" measuredW="200" measuredH="140" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Shows%20contents%20of%0APeople/Tom/Permissions</text>
+        <bold>false</bold>
+      </controlProperties>
+    </control>
+    <control controlID="61" controlTypeID="com.balsamiq.mockups::Paragraph" x="327" y="582" w="200" h="52" measuredW="200" measuredH="140" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>.net%20WebBrowser%20Control</text>
+        <bold>false</bold>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

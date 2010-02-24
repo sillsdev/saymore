@@ -14,7 +14,6 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -28,10 +27,7 @@ namespace SIL.Sponge.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Session
 	{
-		public string Name { get; private set; }
-		public SpongeProject Project { get; private set; }
-		public string SessionPath { get; private set; }
-
+		#region static methods and properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the full path to the folder in which sessions are stored.
@@ -77,6 +73,8 @@ namespace SIL.Sponge.Model
 			return session;
 		}
 
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Session"/> class.
@@ -89,30 +87,49 @@ namespace SIL.Sponge.Model
 			SessionPath = Path.Combine(SessionsPath, Name);
 		}
 
+		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the full paths for the files found in the session's folder. If the folder
-		/// for the session does not exist, then null is returned.
+		/// Gets the session's name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string[] SessionFiles
+		public string Name { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the session's owning project
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SpongeProject Project { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path to the session's folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string SessionPath { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full paths to all the session files found in the session's folder.
+		/// If the folder for the session does not exist, then null is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] Files
 		{
 			get
 			{
 				if (!Directory.Exists(SessionPath))
 					return null;
 
-				var unsortedFiles = Directory.GetFiles(SessionPath, "*.*");
-
-				// Filter out the standoff markup files so they don't show in the list.
-				var sortedFiles = new List<string>(from x in unsortedFiles
-								  where !x.EndsWith(SessionFile.SessionFileExtension)
-								  select x);
-
-				sortedFiles.Sort();
-				return sortedFiles.ToArray();
+				return (from x in Directory.GetFiles(SessionPath, "*.*")
+						where !x.EndsWith("." + SessionFile.SessionFileExtension)
+						orderby x
+						select x).ToArray();
 			}
 		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

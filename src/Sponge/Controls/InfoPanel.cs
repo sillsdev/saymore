@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
@@ -177,8 +175,8 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public string Notes
 		{
-			get { return hctNotes.Text; }
-			set { hctNotes.Text = value; }
+			get { return hctNotes.Text.Trim(); }
+			set { hctNotes.Text = (value != null ? value.Trim() : string.Empty); }
 		}
 
 		/// ------------------------------------------------------------------------------------

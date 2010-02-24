@@ -130,7 +130,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private object lpSessions_NewButtonClicked(object sender)
 		{
-			using (var dlg = new NewSessionDlg(m_currProj.Path))
+			using (var dlg = new NewSessionDlg(m_currProj.ProjectPath))
 			{
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 				{
@@ -244,15 +244,28 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void gridFiles_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
-			var currSession = GetSessionFile(e.RowIndex);
+			var currSessionFile = GetSessionFile(e.RowIndex);
 
-			if (currSession == null)
+			if (currSessionFile == null)
 				e.Value = null;
 			else
 			{
-				e.Value = ReflectionHelper.GetProperty(currSession,
+				e.Value = ReflectionHelper.GetProperty(currSessionFile,
 					gridFiles.Columns[e.ColumnIndex].DataPropertyName);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the CellValuePushed event of the gridFiles control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void gridFiles_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
+		{
+			var currSessionFile = GetSessionFile(e.RowIndex);
+
+			if (currSessionFile != null)
+				currSessionFile.Tags = e.Value as string;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -287,6 +300,7 @@ namespace SIL.Sponge
 
 			m_infoPanel.Icon = sessionFile.LargeIcon;
 			m_infoPanel.FileName = sessionFile.FileName;
+			m_infoPanel.Notes = sessionFile.Notes;
 			m_infoPanel.Initialize(sessionFile.Data);
 			m_infoPanel.Visible = true;
 		}
@@ -301,6 +315,7 @@ namespace SIL.Sponge
 			if (m_currSessionFile != null)
 			{
 				m_infoPanel.Save(m_currSessionFile.Data);
+				m_currSessionFile.Notes = m_infoPanel.Notes;
 				m_currSessionFile.Save();
 				m_currSessionFile = null;
 			}
@@ -446,7 +461,7 @@ namespace SIL.Sponge
 			// that after rebuilding the list.
 			m_currSession = lpSessions.CurrentItem as Session;
 			m_currSessionFiles = (m_currSession == null ? null :
-				(from x in m_currSession.SessionFiles
+				(from x in m_currSession.Files
 				 select SessionFile.Create(x)).ToArray());
 
 			lblEmptySessionMsg.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);

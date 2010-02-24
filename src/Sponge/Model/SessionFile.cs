@@ -36,8 +36,10 @@ namespace SIL.Sponge.Model
 	{
 		private string m_fileName;
 
-		public const string SessionFileExtension = "sponge";
+		public const string SessionFileExtension = "session";
+		public const string TagDelimiter = ";";
 
+		#region static methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates an array of SessionFile objects from the specified list of session names.
@@ -104,6 +106,9 @@ namespace SIL.Sponge.Model
 			return Path.ChangeExtension(fileName, SessionFileExtension);
 		}
 
+		#endregion
+
+		#region Contstructors
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SessionFile"/> class.
@@ -128,6 +133,8 @@ namespace SIL.Sponge.Model
 				(template.Fields.Select(x => new SessionFileData(x.FieldName, x.DisplayName)).ToList()));
 		}
 
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Saves this instance of a SessionFile to it's standoff markup file.
@@ -139,6 +146,52 @@ namespace SIL.Sponge.Model
 		}
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the tags associated with the session file. This is a semi-colon list
+		/// of tags.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("tags")]
+		public string Tags { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the tags associated with the session file. This is a comma or
+		/// semi-colon list of tags.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public List<string> TagList
+		{
+			get
+			{
+				if (Tags == null)
+					return new List<string>(0);
+
+				var list = Tags.Split(TagDelimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+				return (from x in list
+					   where x.Trim() != string.Empty
+					   select x.Trim()).ToList();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the notes associated with the session file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("notes")]
+		public string Notes { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the standoff markup data for the session file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("data")]
+		public List<SessionFileData> Data { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the name of the file (without its path).
@@ -178,14 +231,6 @@ namespace SIL.Sponge.Model
 		{
 			get { return File.GetLastWriteTime(m_fileName).ToString(); }
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the standoff markup data for the session file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlArray("data")]
-		public List<SessionFileData> Data { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

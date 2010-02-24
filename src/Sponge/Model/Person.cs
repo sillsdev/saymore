@@ -1,9 +1,9 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Xml.Serialization;
 using Palaso.Reporting;
 using SilUtils;
+using System.Drawing;
 
 namespace SIL.Sponge.Model
 {
@@ -14,11 +14,18 @@ namespace SIL.Sponge.Model
 		Unknown
 	}
 
+	public enum ParentType
+	{
+		Father,
+		Mother
+	}
+
 	public enum Gender
 	{
 		Male,
 		Female
 	}
+
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Encapsulates information about a person (i.e. contributor)
@@ -39,8 +46,11 @@ namespace SIL.Sponge.Model
 		[XmlElement("learnedLanguageIn")]
 		public string LearnedLanguageIn { get; set; }
 
-		[XmlElement("primaryLanguageParent")]
-		public Gender PrimaryLanguageParent { get; set; }
+		[XmlElement("fathersLanguage")]
+		public string FathersLanguage { get; set; }
+
+		[XmlElement("mothersLanguage")]
+		public string MothersLanguage { get; set; }
 
 		[XmlElement("birthYear")]
 		public int BirthYear { get; set; }
@@ -60,18 +70,6 @@ namespace SIL.Sponge.Model
 		[XmlElement("otherLangauge3")]
 		public string OtherLangauge3 { get; set; }
 
-		[XmlElement("otherLangaugeParent0")]
-		public Gender OtherLangaugeParent0 { get; set; }
-
-		[XmlElement("otherLangaugeParent1")]
-		public Gender OtherLangaugeParent1 { get; set; }
-
-		[XmlElement("otherLangaugeParent2")]
-		public Gender OtherLangaugeParent2 { get; set; }
-
-		[XmlElement("otherLangaugeParent3")]
-		public Gender OtherLangaugeParent3 { get; set; }
-
 		[XmlElement("primaryOccupation")]
 		public string PrimaryOccupation { get; set; }
 
@@ -83,9 +81,6 @@ namespace SIL.Sponge.Model
 
 		[XmlElement("notes")]
 		public string Notes { get; set; }
-
-		[XmlElement("pictureFile")]
-		public string PictureFile { get; set; }
 
 		#endregion
 
@@ -183,6 +178,37 @@ namespace SIL.Sponge.Model
 		}
 
 		#endregion
+
+		public string GetPictureFile(string folderPath)
+		{
+			if (!Directory.Exists(folderPath))
+				throw new DirectoryNotFoundException(folderPath);
+
+			var pattern = Path.ChangeExtension(FileName, "*");
+			const string validPicExtensions = ".jpg.gif.tif.png.bmp.dib";
+
+			foreach (var file in Directory.GetFiles(folderPath, pattern))
+			{
+				if (validPicExtensions.Contains(Path.GetExtension(file)))
+					return file;
+			}
+
+			return null;
+		}
+
+		public string SetPictureFile(string destPath, string srcFile)
+		{
+			if (!File.Exists(srcFile))
+				throw new FileNotFoundException(srcFile);
+
+			if (!Directory.Exists(destPath))
+				throw new DirectoryNotFoundException(destPath);
+
+			var destFile = Path.Combine(destPath, FileName);
+			destFile = Path.ChangeExtension(destFile, Path.GetExtension(srcFile));
+			File.Copy(srcFile, destFile, true);
+			return destFile;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

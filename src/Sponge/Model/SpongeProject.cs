@@ -125,7 +125,7 @@ namespace SIL.Sponge.Model
 						orderby folder
 						select Session.Create(this, Path.GetFileName(folder))).ToList();
 
-			People = (from file in Directory.GetFiles(PeoplesPath)
+			People = (from file in Directory.GetFiles(PeoplesPath, "*." + Person.PersonFileExtension)
 					  orderby file
 					  select Person.CreateFromFile(file)).ToList();
 

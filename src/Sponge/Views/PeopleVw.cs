@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
+using SIL.Sponge.Controls;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 using SilUtils;
@@ -19,6 +21,13 @@ namespace SIL.Sponge
 	{
 		private readonly SpongeProject m_currProj;
 		private Person m_currPerson;
+		private List<TextBox> m_txtLanguages = new List<TextBox>(5);
+
+		private Dictionary<TextBox, ParentButton> m_langFathers =
+			new Dictionary<TextBox, ParentButton>(5);
+
+		private Dictionary<TextBox, ParentButton> m_langMothers =
+			new Dictionary<TextBox, ParentButton>(5);
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -32,6 +41,24 @@ namespace SIL.Sponge
 			m_gender.SelectedIndex = 0;
 			tblLayout.Enabled = false;
 			HideSaveCancel();
+
+			m_txtLanguages.Add(m_language0);
+			m_txtLanguages.Add(m_language1);
+			m_txtLanguages.Add(m_language2);
+			m_txtLanguages.Add(m_language3);
+			m_txtLanguages.Add(m_language4);
+
+			m_langFathers[m_language0] = m_languageFather0;
+			m_langFathers[m_language1] = m_languageFather1;
+			m_langFathers[m_language2] = m_languageFather2;
+			m_langFathers[m_language3] = m_languageFather3;
+			m_langFathers[m_language4] = m_languageFather4;
+
+			m_langMothers[m_language0] = m_languageMother0;
+			m_langMothers[m_language1] = m_languageMother1;
+			m_langMothers[m_language2] = m_languageMother2;
+			m_langMothers[m_language3] = m_languageMother3;
+			m_langMothers[m_language4] = m_languageMother4;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -277,8 +304,8 @@ namespace SIL.Sponge
 
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
-					m_picture.Load(dlg.FileName);
-					m_picture.Tag = dlg.FileName;
+					string picFile = m_currPerson.SetPictureFile(m_currProj.PeoplesPath, dlg.FileName);
+					m_picture.Load(picFile);
 				}
 			}
 		}
@@ -338,23 +365,23 @@ namespace SIL.Sponge
 			}
 
 			person.FullName = m_fullName.Text.Trim();
-			person.PrimaryLanguage = m_primaryLanguage.Text.Trim();
-			person.PrimaryLanguageParent = m_primaryLanguageParent.Value;
+			person.PrimaryLanguage = m_language0.Text.Trim();
 			person.LearnedLanguageIn = m_learnedIn.Text.Trim();
-			person.OtherLangauge0 = m_otherLanguage0.Text.Trim();
-			person.OtherLangauge1 = m_otherLanguage1.Text.Trim();
-			person.OtherLangauge2 = m_otherLanguage2.Text.Trim();
-			person.OtherLangauge3 = m_otherLanguage3.Text.Trim();
-			person.OtherLangaugeParent0 = m_otherLanguageParentGender0.Value;
-			person.OtherLangaugeParent1 = m_otherLanguageParentGender1.Value;
-			person.OtherLangaugeParent2 = m_otherLanguageParentGender2.Value;
-			person.OtherLangaugeParent3 = m_otherLanguageParentGender3.Value;
+			person.OtherLangauge0 = m_language1.Text.Trim();
+			person.OtherLangauge1 = m_language2.Text.Trim();
+			person.OtherLangauge2 = m_language3.Text.Trim();
+			person.OtherLangauge3 = m_language4.Text.Trim();
 			person.Education = m_education.Text.Trim();
 			person.PrimaryOccupation = m_primaryOccupation.Text.Trim();
 			person.ContactInfo = m_contact.Text.Trim();
 			person.Notes = m_notes.Text.Trim();
 			person.Gender = (Gender)Enum.Parse(typeof(Gender), m_gender.SelectedItem as string);
-			person.PictureFile = m_picture.Tag as string;
+
+			var kvp = m_langFathers.FirstOrDefault(x => x.Value.Selected);
+			person.FathersLanguage = (kvp.Key == null ? null : kvp.Key.Text.Trim());
+
+			kvp = m_langMothers.FirstOrDefault(x => x.Value.Selected);
+			person.MothersLanguage = (kvp.Key == null ? null : kvp.Key.Text.Trim());
 
 			int year;
 			if (int.TryParse(m_birthYear.Text, out year))
@@ -379,17 +406,12 @@ namespace SIL.Sponge
 				person = new Person();
 
 			m_fullName.Text = person.FullName;
-			m_primaryLanguage.Text = person.PrimaryLanguage;
-			m_primaryLanguageParent.Value = person.PrimaryLanguageParent;
+			m_language0.Text = person.PrimaryLanguage;
+			m_language1.Text = person.OtherLangauge0;
+			m_language2.Text = person.OtherLangauge1;
+			m_language3.Text = person.OtherLangauge2;
+			m_language4.Text = person.OtherLangauge3;
 			m_learnedIn.Text = person.LearnedLanguageIn;
-			m_otherLanguage0.Text = person.OtherLangauge0;
-			m_otherLanguage1.Text = person.OtherLangauge1;
-			m_otherLanguage2.Text = person.OtherLangauge2;
-			m_otherLanguage3.Text = person.OtherLangauge3;
-			m_otherLanguageParentGender0.Value = person.OtherLangaugeParent0;
-			m_otherLanguageParentGender1.Value = person.OtherLangaugeParent1;
-			m_otherLanguageParentGender2.Value = person.OtherLangaugeParent2;
-			m_otherLanguageParentGender3.Value = person.OtherLangaugeParent3;
 			m_education.Text = person.Education;
 			m_primaryOccupation.Text = person.PrimaryOccupation;
 			m_contact.Text = person.ContactInfo;
@@ -398,18 +420,80 @@ namespace SIL.Sponge
 			m_birthYear.Text = (person.BirthYear > 0 ?
 				person.BirthYear.ToString() : string.Empty);
 
+			var kvp = m_langFathers.FirstOrDefault(x => x.Key.Text == person.FathersLanguage);
+			if (kvp.Value != null)
+				kvp.Value.Selected = true;
+			else
+				m_languageFather0.Selected = true;
+
+			kvp = m_langMothers.FirstOrDefault(x => x.Key.Text == person.MothersLanguage);
+			if (kvp.Value != null)
+				kvp.Value.Selected = true;
+			else
+				m_languageMother0.Selected = true;
+
 			try
 			{
-				m_picture.Load(person.PictureFile);
-				m_picture.Tag = person.PictureFile;
+				m_picture.Load(person.GetPictureFile(m_currProj.PeoplesPath));
 			}
 			catch
 			{
 				m_picture.Image = Resources.kimidNoPhoto;
-				m_picture.Tag = null;
 			}
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the father selected changing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleFatherSelectedChanging(object sender, CancelEventArgs e)
+		{
+			// Uncomment this if having no father language specified is not allowed.
+			//var bpSender = sender as ParentButton;
+			//if (bpSender.Selected)
+			//{
+			//    e.Cancel = true;
+			//    return;
+			//}
+
+			foreach (var pb in m_langFathers.Values)
+			{
+				if (pb != sender)
+				{
+					pb.SelectedChanging -= HandleFatherSelectedChanging;
+					pb.Selected = false;
+					pb.SelectedChanging += HandleFatherSelectedChanging;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the mother selected changing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleMotherSelectedChanging(object sender, CancelEventArgs e)
+		{
+			// Uncomment this if having no mother language specified is not allowed.
+			//var bpSender = sender as ParentButton;
+			//if (bpSender.Selected)
+			//{
+			//    e.Cancel = true;
+			//    return;
+			//}
+
+			foreach (var pb in m_langMothers.Values)
+			{
+				if (pb != sender)
+				{
+					pb.SelectedChanging -= HandleMotherSelectedChanging;
+					pb.Selected = false;
+					pb.SelectedChanging += HandleMotherSelectedChanging;
+				}
+			}
+		}
 	}
 }

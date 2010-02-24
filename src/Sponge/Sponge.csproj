@@ -103,7 +103,7 @@
     <Compile Include="Controls\LabeledTextBox.Designer.cs">
       <DependentUpon>LabeledTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PeopleRadioButton.cs">
+    <Compile Include="Controls\ParentButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SpongeBar.cs">

@@ -70,6 +70,19 @@ namespace SIL.Sponge
 		{
 			m_currProj = (m_prj ?? MainWnd.CurrentProject);
 			lpPeople.Items = m_currProj.People.ToArray();
+			SetAutoCompleteLanguageList();
+		}
+
+		private void SetAutoCompleteLanguageList()
+		{
+			var langNames = new AutoCompleteStringCollection();
+			langNames.AddRange(m_currProj.LanguageNames.ToArray());
+
+			m_language0.AutoCompleteCustomSource = langNames;
+			m_language1.AutoCompleteCustomSource = langNames;
+			m_language2.AutoCompleteCustomSource = langNames;
+			m_language3.AutoCompleteCustomSource = langNames;
+			m_language4.AutoCompleteCustomSource = langNames;
 		}
 
 		#endregion
@@ -494,6 +507,17 @@ namespace SIL.Sponge
 					pb.SelectedChanging += HandleMotherSelectedChanging;
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the language name validated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleLanguageNameValidated(object sender, EventArgs e)
+		{
+//			m_currProj.AddLanguageNames(((TextBox)sender).Text.Trim());
+//			SetAutoCompleteLanguageList();
 		}
 	}
 }

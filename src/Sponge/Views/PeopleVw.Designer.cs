@@ -367,6 +367,8 @@ namespace SIL.Sponge
 			// 
 			this.m_language4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.m_language4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this.m_language4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.locExtender.SetLocalizableToolTip(this.m_language4, null);
 			this.locExtender.SetLocalizationComment(this.m_language4, null);
 			this.locExtender.SetLocalizationPriority(this.m_language4, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
@@ -375,6 +377,7 @@ namespace SIL.Sponge
 			this.m_language4.Name = "m_language4";
 			this.m_language4.Size = new System.Drawing.Size(216, 23);
 			this.m_language4.TabIndex = 9;
+			this.m_language4.Validated += new System.EventHandler(this.HandleLanguageNameValidated);
 			// 
 			// m_languageFather4
 			// 
@@ -396,6 +399,8 @@ namespace SIL.Sponge
 			// 
 			this.m_language3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.m_language3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this.m_language3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.locExtender.SetLocalizableToolTip(this.m_language3, null);
 			this.locExtender.SetLocalizationComment(this.m_language3, null);
 			this.locExtender.SetLocalizationPriority(this.m_language3, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
@@ -404,6 +409,7 @@ namespace SIL.Sponge
 			this.m_language3.Name = "m_language3";
 			this.m_language3.Size = new System.Drawing.Size(216, 23);
 			this.m_language3.TabIndex = 6;
+			this.m_language3.Validated += new System.EventHandler(this.HandleLanguageNameValidated);
 			// 
 			// m_languageFather3
 			// 
@@ -425,6 +431,8 @@ namespace SIL.Sponge
 			// 
 			this.m_language2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.m_language2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this.m_language2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.locExtender.SetLocalizableToolTip(this.m_language2, null);
 			this.locExtender.SetLocalizationComment(this.m_language2, null);
 			this.locExtender.SetLocalizationPriority(this.m_language2, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
@@ -433,6 +441,7 @@ namespace SIL.Sponge
 			this.m_language2.Name = "m_language2";
 			this.m_language2.Size = new System.Drawing.Size(216, 23);
 			this.m_language2.TabIndex = 3;
+			this.m_language2.Validated += new System.EventHandler(this.HandleLanguageNameValidated);
 			// 
 			// m_languageFather2
 			// 
@@ -454,6 +463,8 @@ namespace SIL.Sponge
 			// 
 			this.m_language1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.m_language1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this.m_language1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.locExtender.SetLocalizableToolTip(this.m_language1, null);
 			this.locExtender.SetLocalizationComment(this.m_language1, null);
 			this.locExtender.SetLocalizationPriority(this.m_language1, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
@@ -462,6 +473,7 @@ namespace SIL.Sponge
 			this.m_language1.Name = "m_language1";
 			this.m_language1.Size = new System.Drawing.Size(216, 23);
 			this.m_language1.TabIndex = 0;
+			this.m_language1.Validated += new System.EventHandler(this.HandleLanguageNameValidated);
 			// 
 			// m_languageFather1
 			// 
@@ -521,6 +533,8 @@ namespace SIL.Sponge
 			// 
 			this.m_language0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.m_language0.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this.m_language0.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.locExtender.SetLocalizableToolTip(this.m_language0, null);
 			this.locExtender.SetLocalizationComment(this.m_language0, null);
 			this.locExtender.SetLocalizationPriority(this.m_language0, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
@@ -529,6 +543,7 @@ namespace SIL.Sponge
 			this.m_language0.Name = "m_language0";
 			this.m_language0.Size = new System.Drawing.Size(216, 23);
 			this.m_language0.TabIndex = 0;
+			this.m_language0.Validated += new System.EventHandler(this.HandleLanguageNameValidated);
 			// 
 			// m_learnedIn
 			// 

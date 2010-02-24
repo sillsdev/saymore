@@ -136,6 +136,17 @@ namespace SIL.Sponge.Model
 					People.RemoveAt(i);
 			}
 
+			LanguageNames = new List<string>();
+
+			foreach (var person in People)
+			{
+				AddLanguageNames(person.PrimaryLanguage);
+				AddLanguageNames(person.OtherLangauge0);
+				AddLanguageNames(person.OtherLangauge1);
+				AddLanguageNames(person.OtherLangauge2);
+				AddLanguageNames(person.OtherLangauge3);
+			}
+
 			m_fileWatcher = new FileSystemWatcher(ProjectPath);
 			m_fileWatcher.Renamed += HandleFileWatcherRename;
 			m_fileWatcher.Deleted += HandleFileWatcherEvent;
@@ -157,6 +168,17 @@ namespace SIL.Sponge.Model
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds the specified language to the list of all language names.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void AddLanguageNames(string langName)
+		{
+			if (!LanguageNames.Contains(langName))
+				LanguageNames.Add(langName);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -223,6 +245,14 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public List<Person> People { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the list of langauge names found in all the people records.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public List<string> LanguageNames { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

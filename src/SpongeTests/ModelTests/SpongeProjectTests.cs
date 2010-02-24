@@ -59,8 +59,6 @@ namespace SIL.Sponge.Model
 				Directory.Delete(m_prj.ProjectPath, true);
 			}
 			catch { }
-
-			Assert.IsFalse(Directory.Exists(m_prj.ProjectPath));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -79,13 +77,12 @@ namespace SIL.Sponge.Model
 		/// Tests the Load method
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Ignore("Needs to be fixed.")]
 		[Test]
 		public void Load()
 		{
 			VerifyProject(m_prj, kTestPrjName);
 
-			m_prj = SpongeProject.Load(m_prj.FullProjectPath);
+			m_prj = SpongeProject.Load(m_prj.FullPath);
 			VerifyProject(m_prj, kTestPrjName);
 		}
 
@@ -100,9 +97,9 @@ namespace SIL.Sponge.Model
 			VerifyProject(m_prj, kTestPrjName);
 			Assert.AreEqual(0, m_prj.Sessions.Count);
 
-			Directory.CreateDirectory(Path.Combine(m_prj.SessionsPath, "waffles"));
-			Directory.CreateDirectory(Path.Combine(m_prj.SessionsPath, "eggs"));
-			Directory.CreateDirectory(Path.Combine(m_prj.SessionsPath, "bacon"));
+			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "waffles"));
+			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "eggs"));
+			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "bacon"));
 
 			ReflectionHelper.CallMethod(m_prj, "Initialize", new[] { kTestPrjName, null });
 
@@ -125,12 +122,12 @@ namespace SIL.Sponge.Model
 			Assert.IsTrue(Directory.Exists(prj.ProjectPath));
 
 			expectedPath = Path.Combine(prj.ProjectPath, "Sessions");
-			Assert.AreEqual(expectedPath, prj.SessionsPath);
-			Assert.IsTrue(Directory.Exists(prj.SessionsPath));
+			Assert.AreEqual(expectedPath, Session.SessionsPath);
+			Assert.IsTrue(Directory.Exists(Session.SessionsPath));
 
 			expectedPath = Path.Combine(prj.ProjectPath, kTestPrjFileName);
-			Assert.AreEqual(expectedPath, prj.FullProjectPath);
-			Assert.IsTrue(File.Exists(prj.FullProjectPath));
+			Assert.AreEqual(expectedPath, prj.FullPath);
+			Assert.IsTrue(File.Exists(prj.FullPath));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -175,7 +172,7 @@ namespace SIL.Sponge.Model
 			Assert.AreEqual("Yellow", m_prj.Sessions[2].Name);
 
 			// Make sure a file in the sessions folder doesn't get recognized as a folder.
-			File.CreateText(Path.Combine(m_prj.SessionsPath, "junk")).Close();
+			File.CreateText(Path.Combine(Session.SessionsPath, "junk")).Close();
 			Assert.AreEqual(3, m_prj.SessionNames.Length);
 		}
 
@@ -193,8 +190,8 @@ namespace SIL.Sponge.Model
 			Assert.IsNotNull(m_prj.AddSession("orange"));
 			Assert.AreEqual(3, m_prj.SessionNames.Length);
 
-			Directory.CreateDirectory(Path.Combine(m_prj.SessionsPath, "grapefruit"));
-			Directory.CreateDirectory(Path.Combine(m_prj.SessionsPath, "guava"));
+			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "grapefruit"));
+			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "guava"));
 
 			ReflectionHelper.CallMethod(m_prj, "UpdateSessions");
 			Assert.AreEqual(5, m_prj.Sessions.Count);

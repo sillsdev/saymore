@@ -130,7 +130,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private object lpSessions_NewButtonClicked(object sender)
 		{
-			using (var dlg = new NewSessionDlg(m_currProj.ProjectPath))
+			using (var dlg = new NewSessionDlg(m_currProj.Path))
 			{
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 				{

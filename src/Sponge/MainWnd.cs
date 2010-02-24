@@ -98,7 +98,7 @@ namespace SIL.Sponge
 		private void SetWindowText()
 		{
 			var fmt = LocalizationManager.GetString(this);
-			Text = string.Format(fmt, CurrentProject.ProjectName);
+			Text = string.Format(fmt, CurrentProject.Name);
 		}
 
 		/// ------------------------------------------------------------------------------------

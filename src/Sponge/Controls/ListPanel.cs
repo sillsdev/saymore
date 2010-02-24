@@ -26,8 +26,6 @@ namespace SIL.Sponge.Controls
 		public delegate object NewButtonClickedHandler(object sender);
 		public event NewButtonClickedHandler NewButtonClicked;
 
-		private string m_pushedItem;
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ListPanel"/> class.
@@ -56,6 +54,7 @@ namespace SIL.Sponge.Controls
 		/// Gets the list view.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public ListView ListView
 		{
 			get { return lvItems; }
@@ -158,42 +157,9 @@ namespace SIL.Sponge.Controls
 		{
 			foreach (ListViewItem item in lvItems.Items)
 				item.Text = item.Tag.ToString();
-		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the focused item and, if clear is true, clears the focused and selected
-		/// items so there are none.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void PushFocusedItem(bool clear)
-		{
-			if (lvItems.FocusedItem != null)
-			{
-				m_pushedItem = lvItems.FocusedItem.Tag.ToString();
-				if (clear)
-					lvItems.FocusedItem.Focused = false;
-			}
-
-			if (clear)
-				lvItems.SelectedItems.Clear();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Removes a previously pushed focused item. If makeCurrent is true, then the popped
-		/// item is made the current item.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void PopFocusedItem(bool makeCurrent)
-		{
-			if (m_pushedItem != null)
-			{
-				if (makeCurrent)
-					CurrentItem = lvItems.FindItemWithText(m_pushedItem);
-
-				m_pushedItem = null;
-			}
+			// TODO: Figure out how to sort without causing
+			// problems for views like the people view.
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -288,9 +254,16 @@ namespace SIL.Sponge.Controls
 					return;
 				}
 
-				// TODO: Insert item in sorted order.
 				lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
-				var newLvItem = lvItems.Items.Add(item.ToString());
+
+				int i = 0;
+				for (; i < lvItems.Items.Count; i++)
+				{
+					if (lvItems.Items[i].Text.CompareTo(item.ToString()) > 0)
+						break;
+				}
+
+				var newLvItem = lvItems.Items.Insert(i, item.ToString());
 				newLvItem.Tag = item;
 				newLvItem.Name = item.ToString();
 				lvItems.SelectedItems.Clear();

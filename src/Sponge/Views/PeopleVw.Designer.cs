@@ -62,8 +62,6 @@ namespace SIL.Sponge
 			this.lblLearnedIn = new System.Windows.Forms.Label();
 			this.m_languageFather0 = new SIL.Sponge.Controls.ParentButton();
 			this.pnlRightSide = new System.Windows.Forms.Panel();
-			this.btnSave = new System.Windows.Forms.Button();
-			this.btnCancel = new System.Windows.Forms.Button();
 			this.m_notes = new System.Windows.Forms.TextBox();
 			this.lblNotes = new System.Windows.Forms.Label();
 			this.m_picture = new System.Windows.Forms.PictureBox();
@@ -117,6 +115,23 @@ namespace SIL.Sponge
 			this.lpPeople.CurrentItem = null;
 			this.lpPeople.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lpPeople.Items = new object[0];
+			// 
+			// 
+			// 
+			this.lpPeople.ListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lpPeople.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.lpPeople.ListView.FullRowSelect = true;
+			this.lpPeople.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			this.lpPeople.ListView.HideSelection = false;
+			this.lpPeople.ListView.Location = new System.Drawing.Point(2, 31);
+			this.lpPeople.ListView.Name = "lvItems";
+			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 364);
+			this.lpPeople.ListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+			this.lpPeople.ListView.TabIndex = 0;
+			this.lpPeople.ListView.UseCompatibleStateImageBehavior = false;
+			this.lpPeople.ListView.View = System.Windows.Forms.View.Details;
 			this.locExtender.SetLocalizableToolTip(this.lpPeople, null);
 			this.locExtender.SetLocalizationComment(this.lpPeople, null);
 			this.locExtender.SetLocalizingId(this.lpPeople, "PeopleVw.ListPanel");
@@ -268,7 +283,6 @@ namespace SIL.Sponge
 			this.m_fullName.Name = "m_fullName";
 			this.m_fullName.Size = new System.Drawing.Size(274, 23);
 			this.m_fullName.TabIndex = 1;
-			this.m_fullName.TextChanged += new System.EventHandler(this.m_fullName_TextChanged);
 			// 
 			// uhbOtherLanguages
 			// 
@@ -377,7 +391,8 @@ namespace SIL.Sponge
 			this.m_language4.Name = "m_language4";
 			this.m_language4.Size = new System.Drawing.Size(216, 23);
 			this.m_language4.TabIndex = 9;
-			this.m_language4.Validated += new System.EventHandler(this.HandleLanguageNameValidated);
+			this.m_language4.Leave += new System.EventHandler(this.HandleLanguageNameLeave);
+			this.m_language4.Enter += new System.EventHandler(this.HandleLanguageNameEnter);
 			// 
 			// m_languageFather4
 			// 
@@ -409,7 +424,8 @@ namespace SIL.Sponge
 			this.m_language3.Name = "m_language3";
 			this.m_language3.Size = new System.Drawing.Size(216, 23);
 			this.m_language3.TabIndex = 6;
-			this.m_language3.Validated += new System.EventHandler(this.HandleLanguageNameValidated);
+			this.m_language3.Leave += new System.EventHandler(this.HandleLanguageNameLeave);
+			this.m_language3.Enter += new System.EventHandler(this.HandleLanguageNameEnter);
 			// 
 			// m_languageFather3
 			// 
@@ -441,7 +457,8 @@ namespace SIL.Sponge
 			this.m_language2.Name = "m_language2";
 			this.m_language2.Size = new System.Drawing.Size(216, 23);
 			this.m_language2.TabIndex = 3;
-			this.m_language2.Validated += new System.EventHandler(this.HandleLanguageNameValidated);
+			this.m_language2.Leave += new System.EventHandler(this.HandleLanguageNameLeave);
+			this.m_language2.Enter += new System.EventHandler(this.HandleLanguageNameEnter);
 			// 
 			// m_languageFather2
 			// 
@@ -473,7 +490,8 @@ namespace SIL.Sponge
 			this.m_language1.Name = "m_language1";
 			this.m_language1.Size = new System.Drawing.Size(216, 23);
 			this.m_language1.TabIndex = 0;
-			this.m_language1.Validated += new System.EventHandler(this.HandleLanguageNameValidated);
+			this.m_language1.Leave += new System.EventHandler(this.HandleLanguageNameLeave);
+			this.m_language1.Enter += new System.EventHandler(this.HandleLanguageNameEnter);
 			// 
 			// m_languageFather1
 			// 
@@ -543,7 +561,8 @@ namespace SIL.Sponge
 			this.m_language0.Name = "m_language0";
 			this.m_language0.Size = new System.Drawing.Size(216, 23);
 			this.m_language0.TabIndex = 0;
-			this.m_language0.Validated += new System.EventHandler(this.HandleLanguageNameValidated);
+			this.m_language0.Leave += new System.EventHandler(this.HandleLanguageNameLeave);
+			this.m_language0.Enter += new System.EventHandler(this.HandleLanguageNameEnter);
 			// 
 			// m_learnedIn
 			// 
@@ -591,8 +610,6 @@ namespace SIL.Sponge
 			this.pnlRightSide.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pnlRightSide.Controls.Add(this.btnSave);
-			this.pnlRightSide.Controls.Add(this.btnCancel);
 			this.pnlRightSide.Controls.Add(this.m_notes);
 			this.pnlRightSide.Controls.Add(this.lblNotes);
 			this.pnlRightSide.Controls.Add(this.m_picture);
@@ -607,34 +624,6 @@ namespace SIL.Sponge
 			this.pnlRightSide.Size = new System.Drawing.Size(231, 390);
 			this.pnlRightSide.TabIndex = 1;
 			// 
-			// btnSave
-			// 
-			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.locExtender.SetLocalizableToolTip(this.btnSave, null);
-			this.locExtender.SetLocalizationComment(this.btnSave, null);
-			this.locExtender.SetLocalizingId(this.btnSave, "PeopleVw.btnSave");
-			this.btnSave.Location = new System.Drawing.Point(75, 366);
-			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(75, 24);
-			this.btnSave.TabIndex = 8;
-			this.btnSave.Text = "Save";
-			this.btnSave.UseVisualStyleBackColor = true;
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-			// 
-			// btnCancel
-			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
-			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizingId(this.btnCancel, "PeopleVw.btnCancel");
-			this.btnCancel.Location = new System.Drawing.Point(156, 366);
-			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(75, 24);
-			this.btnCancel.TabIndex = 9;
-			this.btnCancel.Text = "Cancel";
-			this.btnCancel.UseVisualStyleBackColor = true;
-			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-			// 
 			// m_notes
 			// 
 			this.m_notes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -648,7 +637,7 @@ namespace SIL.Sponge
 			this.m_notes.Multiline = true;
 			this.m_notes.Name = "m_notes";
 			this.m_notes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.m_notes.Size = new System.Drawing.Size(228, 99);
+			this.m_notes.Size = new System.Drawing.Size(228, 129);
 			this.m_notes.TabIndex = 7;
 			// 
 			// lblNotes
@@ -851,8 +840,6 @@ namespace SIL.Sponge
 		private System.Windows.Forms.TableLayoutPanel tblLayout;
 		private System.Windows.Forms.Panel pnlLeftSide;
 		private System.Windows.Forms.Panel pnlRightSide;
-		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.Button btnSave;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 		private ParentButton m_languageMother0;
 		private ParentButton m_languageMother4;

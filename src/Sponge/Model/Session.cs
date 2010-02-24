@@ -34,6 +34,36 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the full path to the folder in which sessions are stored.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string SessionsPath { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes the people folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void InitializeSessionFolder(string prjPath)
+		{
+			SessionsPath = Path.Combine(prjPath, "Sessions");
+
+			if (!Directory.Exists(SessionsPath))
+				Directory.CreateDirectory(SessionsPath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets all the session names for a project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string[] Sessions
+		{
+			get { return Directory.GetDirectories(SessionsPath); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Creates a session having the specified name and for the specified project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -56,7 +86,7 @@ namespace SIL.Sponge.Model
 		{
 			Project = prj;
 			Name = name;
-			SessionPath = Path.Combine(prj.SessionsPath, Name);
+			SessionPath = Path.Combine(SessionsPath, Name);
 		}
 
 		/// ------------------------------------------------------------------------------------

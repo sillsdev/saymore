@@ -21,12 +21,11 @@ namespace SIL.Sponge
 	{
 		private readonly SpongeProject m_currProj;
 		private Person m_currPerson;
-		private List<TextBox> m_txtLanguages = new List<TextBox>(5);
 
-		private Dictionary<TextBox, ParentButton> m_langFathers =
+		private readonly Dictionary<TextBox, ParentButton> m_langFathers =
 			new Dictionary<TextBox, ParentButton>(5);
 
-		private Dictionary<TextBox, ParentButton> m_langMothers =
+		private readonly Dictionary<TextBox, ParentButton> m_langMothers =
 			new Dictionary<TextBox, ParentButton>(5);
 
 		#region Constructors
@@ -40,13 +39,6 @@ namespace SIL.Sponge
 			InitializeComponent();
 			m_gender.SelectedIndex = 0;
 			tblLayout.Enabled = false;
-			HideSaveCancel();
-
-			m_txtLanguages.Add(m_language0);
-			m_txtLanguages.Add(m_language1);
-			m_txtLanguages.Add(m_language2);
-			m_txtLanguages.Add(m_language3);
-			m_txtLanguages.Add(m_language4);
 
 			m_langFathers[m_language0] = m_languageFather0;
 			m_langFathers[m_language1] = m_languageFather1;
@@ -70,51 +62,6 @@ namespace SIL.Sponge
 		{
 			m_currProj = (m_prj ?? MainWnd.CurrentProject);
 			lpPeople.Items = m_currProj.People.ToArray();
-			SetAutoCompleteLanguageList();
-		}
-
-		private void SetAutoCompleteLanguageList()
-		{
-			var langNames = new AutoCompleteStringCollection();
-			langNames.AddRange(m_currProj.LanguageNames.ToArray());
-
-			m_language0.AutoCompleteCustomSource = langNames;
-			m_language1.AutoCompleteCustomSource = langNames;
-			m_language2.AutoCompleteCustomSource = langNames;
-			m_language3.AutoCompleteCustomSource = langNames;
-			m_language4.AutoCompleteCustomSource = langNames;
-		}
-
-		#endregion
-
-		#region Methods for showing and hiding the Save and Cancel buttons
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Shows the save and cancel buttons.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ShowSaveCancel()
-		{
-			Utils.SetWindowRedraw(pnlRightSide, false);
-			btnSave.Visible = true;
-			btnSave.Enabled = false;
-			btnCancel.Visible = true;
-			m_notes.Height = btnSave.Top - m_notes.Top - 7;
-			Utils.SetWindowRedraw(pnlRightSide, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Hides the save and cancel buttons.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HideSaveCancel()
-		{
-			Utils.SetWindowRedraw(pnlRightSide, false);
-			btnSave.Visible = false;
-			btnCancel.Visible = false;
-			m_notes.Height = btnSave.Bottom - m_notes.Top;
-			Utils.SetWindowRedraw(pnlRightSide, true);
 		}
 
 		#endregion
@@ -164,6 +111,9 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void lpPeople_SelectedItemChanged(object sender, object newItem)
 		{
+			if (m_currPerson == newItem)
+				return;
+
 			if (m_currPerson != null)
 				LoadPersonFromForm(m_currPerson, true);
 
@@ -171,7 +121,35 @@ namespace SIL.Sponge
 			LoadFormFromPerson(m_currPerson);
 		}
 
-		#region Event methods for deleting a person
+		#region Event handler for adeding and deleting a person
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Prepares the view to accept information for a new person.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private object lpPeople_NewButtonClicked(object sender)
+		{
+			if (m_currPerson != null)
+				LoadPersonFromForm(m_currPerson, true);
+
+			tblLayout.Enabled = true;
+
+			m_currPerson = new Person();
+			if (m_currProj.AddPerson(m_currPerson, true))
+			{
+				ClearForm();
+				m_fullName.Text = m_currPerson.FullName;
+				lpPeople.SelectedItemChanged -= lpPeople_SelectedItemChanged;
+				lpPeople.Items = m_currProj.People.ToArray();
+				lpPeople.SelectedItemChanged += lpPeople_SelectedItemChanged;
+				lpPeople.CurrentItem = m_currPerson;
+				m_fullName.SelectAll();
+				m_fullName.Focus();
+			}
+
+			return null;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Fired after the delete button on the list panel is clicked, but before the
@@ -212,88 +190,6 @@ namespace SIL.Sponge
 
 		#endregion
 
-		#region Event methods for adding a new person
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Prepares the view to accept information for a new person.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private object lpPeople_NewButtonClicked(object sender)
-		{
-			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson, true);
-
-			ShowSaveCancel();
-			lpPeople.PushFocusedItem(true);
-			lpPeople.Enabled = false;
-			tblLayout.Enabled = true;
-
-			m_currPerson = new Person();
-			LoadFormFromPerson(m_currPerson);
-			m_fullName.Focus();
-			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines when to enable/disable the save button when the user is in the process
-		/// of adding a new name.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_fullName_TextChanged(object sender, EventArgs e)
-		{
-			if (btnSave.Visible)
-			{
-				// Enable the button if there's text in the name field
-				// and it doesn't match a name that already exists.
-				var name = m_fullName.Text.Trim();
-				btnSave.Enabled = (name != string.Empty &&
-					m_currProj.People.FirstOrDefault(x => x.FullName == name) == null);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the new person, adds it to the people list and makes it the current person.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnSave_Click(object sender, EventArgs e)
-		{
-			HideSaveCancel();
-			LoadPersonFromForm(m_currPerson, false);
-
-			if (!m_currProj.AddPerson(m_currPerson, true))
-				lpPeople.PopFocusedItem(true);
-			else
-			{
-				lpPeople.PopFocusedItem(false);
-				lpPeople.SelectedItemChanged -= lpPeople_SelectedItemChanged;
-				lpPeople.Items = m_currProj.People.ToArray();
-				lpPeople.SelectedItemChanged += lpPeople_SelectedItemChanged;
-				lpPeople.CurrentItem = m_currPerson;
-			}
-
-			lpPeople.Enabled = true;
-			lpPeople.Focus();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Cancels adding a new person by restoring the person that was current before the
-		/// New button was pressed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			HideSaveCancel();
-			m_currPerson = null;
-			lpPeople.PopFocusedItem(true);
-			lpPeople.Enabled = true;
-			lpPeople.Focus();
-		}
-
-		#endregion
-
 		#region Event handlers for picture box
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -317,7 +213,7 @@ namespace SIL.Sponge
 
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
-					string picFile = m_currPerson.SetPictureFile(m_currProj.PeoplesPath, dlg.FileName);
+					string picFile = m_currPerson.CopyPictureFile(dlg.FileName);
 					m_picture.Load(picFile);
 				}
 			}
@@ -356,7 +252,8 @@ namespace SIL.Sponge
 		/// Loads the specified person from the data in the form's controls. If the person
 		/// is null then a new one is created. If the person is not null but the name is
 		/// different from the one currently in the form's full name field, then the old
-		/// person file is deleted first (unless saveAfterLoad is false).
+		/// person file is renamed first (unless saveAfterLoad is false). If the name in the
+		/// form is blank, then a unique name is assigned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void LoadPersonFromForm(Person person, bool saveAfterLoad)
@@ -365,16 +262,11 @@ namespace SIL.Sponge
 				person = new Person();
 			else
 			{
-				// REVIEW: How should we handle the fact that a name could be edited
-				// so that it matches a name of a different person?
+				if (m_fullName.Text.Trim() == string.Empty)
+					m_fullName.Text = Person.UniqueName;
+
 				if (saveAfterLoad && person.FullName != m_fullName.Text.Trim())
-				{
-					try
-					{
-						File.Delete(Path.Combine(m_currProj.PeoplesPath, person.FileName));
-					}
-					catch { }
-				}
+					person.Rename(m_fullName.Text.Trim());
 			}
 
 			person.FullName = m_fullName.Text.Trim();
@@ -401,7 +293,7 @@ namespace SIL.Sponge
 				person.BirthYear = year;
 
 			if (saveAfterLoad && person.CanSave)
-				person.Save(m_currProj.PeoplesPath);
+				person.Save();
 
 			lpPeople.RefreshItemTexts();
 		}
@@ -416,7 +308,10 @@ namespace SIL.Sponge
 			tblLayout.Enabled = (person != null);
 
 			if (person == null)
-				person = new Person();
+			{
+				ClearForm();
+				return;
+			}
 
 			m_fullName.Text = person.FullName;
 			m_language0.Text = person.PrimaryLanguage;
@@ -447,7 +342,7 @@ namespace SIL.Sponge
 
 			try
 			{
-				m_picture.Load(person.GetPictureFile(m_currProj.PeoplesPath));
+				m_picture.Load(person.PictureFile);
 			}
 			catch
 			{
@@ -455,8 +350,34 @@ namespace SIL.Sponge
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Clears all the fields on the form, setting them to their default values.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ClearForm()
+		{
+			m_fullName.Text = string.Empty;
+			m_language0.Text = string.Empty;
+			m_language1.Text = string.Empty;
+			m_language2.Text = string.Empty;
+			m_language3.Text = string.Empty;
+			m_language4.Text = string.Empty;
+			m_learnedIn.Text = string.Empty;
+			m_education.Text = string.Empty;
+			m_primaryOccupation.Text = string.Empty;
+			m_contact.Text = string.Empty;
+			m_notes.Text = string.Empty;
+			m_gender.SelectedItem = Gender.Male.ToString();
+			m_birthYear.Text = string.Empty;
+			m_languageFather0.Selected = true;
+			m_languageMother0.Selected = true;
+			m_picture.Image = Resources.kimidNoPhoto;
+		}
+
 		#endregion
 
+		#region Event handlers for managing the parent language options.
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Handles the father selected changing.
@@ -509,15 +430,32 @@ namespace SIL.Sponge
 			}
 		}
 
+		#endregion
+
+		#region Event handlers for maintaining and supporting language type-ahead list
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Handles the language name validated.
+		/// Makes sure a language text box has the lastest type-ahead list when it gets focus.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleLanguageNameValidated(object sender, EventArgs e)
+		private void HandleLanguageNameEnter(object sender, EventArgs e)
 		{
-//			m_currProj.AddLanguageNames(((TextBox)sender).Text.Trim());
-//			SetAutoCompleteLanguageList();
+			var langNames = new AutoCompleteStringCollection();
+			langNames.AddRange(m_currProj.LanguageNames.ToArray());
+			((TextBox)sender).AutoCompleteCustomSource = langNames;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Makes sure the language just entered in the text box is added to the project's
+		/// list of available langauges.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleLanguageNameLeave(object sender, EventArgs e)
+		{
+			m_currProj.AddLanguageNames(((TextBox)sender).Text.Trim());
+		}
+
+		#endregion
 	}
 }

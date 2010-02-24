@@ -42,7 +42,7 @@ namespace SIL.Sponge
 		private Label m_lblEmptySessionMsg;
 		private LinkLabel m_lnkSessionPath;
 
-		private string[] m_sessionNames = new[] { "cake", "donuts", "icecream", "pie" };
+		private readonly string[] m_sessionNames = new[] { "cake", "donuts", "icecream", "pie" };
 
 		#region Fixture/Test Setup/TearDown
 		/// ------------------------------------------------------------------------------------
@@ -55,10 +55,8 @@ namespace SIL.Sponge
 		{
 			m_frmHost = new TestHostForm();
 
-			var list = ReflectionHelper.GetField(
-				typeof(SessionFileInfoTemplateList), "s_list") as SessionFileInfoTemplateList;
-
-			list = new SessionFileInfoTemplateList();
+			ReflectionHelper.SetField(
+				typeof(SessionFileInfoTemplateList), "s_list", new SessionFileInfoTemplateList());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,8 +96,6 @@ namespace SIL.Sponge
 				Directory.Delete(m_prj.ProjectPath, true);
 			}
 			catch { }
-
-			Assert.IsFalse(Directory.Exists(m_prj.ProjectPath));
 		}
 
 		#endregion
@@ -156,7 +152,6 @@ namespace SIL.Sponge
 		/// Tests the RefreshFileList method
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Ignore("Needs to be fixed.")]
 		[Test]
 		public void RefreshFileList()
 		{
@@ -222,7 +217,7 @@ namespace SIL.Sponge
 			SetTab("tpgFiles");
 
 			const int leftMouse = 1;
-			const int shift = 4 + leftMouse;
+			//const int shift = 4 + leftMouse;
 			const int ctrl = 8 + leftMouse;
 
 			// Create an array of temp. files in the temp. folder.
@@ -289,7 +284,6 @@ namespace SIL.Sponge
 		/// Tests the FileListDragDrop method.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Ignore("Needs to be fixed.")]
 		[Test]
 		public void FileListDragDrop()
 		{

@@ -106,26 +106,23 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		private void Initialize(string prjName, string prjFileName)
 		{
-			ProjectName = prjName;
+			Name = prjName;
 			ProjectPath = Path.Combine(ProjectsFolder, prjName);
-			ProjectFileName = (prjFileName ?? prjName.Replace(" ", string.Empty) + ".sprj");
+			FileName = (prjFileName ?? prjName.Replace(" ", string.Empty) + ".sprj");
 
 			if (!Directory.Exists(ProjectPath))
 				Directory.CreateDirectory(ProjectPath);
 
-			if (!Directory.Exists(SessionsPath))
-				Directory.CreateDirectory(SessionsPath);
-
-			if (!Directory.Exists(PeoplesPath))
-				Directory.CreateDirectory(PeoplesPath);
+			Session.InitializeSessionFolder(ProjectPath);
+			Person.InitializePeopleFolder(ProjectPath);
 
 			Save();
 
-			Sessions = (from folder in Directory.GetDirectories(SessionsPath)
+			Sessions = (from folder in Session.Sessions
 						orderby folder
 						select Session.Create(this, Path.GetFileName(folder))).ToList();
 
-			People = (from file in Directory.GetFiles(PeoplesPath, "*." + Person.PersonFileExtension)
+			People = (from file in Person.PeopleFiles
 					  orderby file
 					  select Person.CreateFromFile(file)).ToList();
 
@@ -187,7 +184,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			XmlSerializationHelper.SerializeToFile(FullProjectPath, this);
+			XmlSerializationHelper.SerializeToFile(FullPath, this);
 		}
 
 		#region Properties
@@ -260,7 +257,7 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string ProjectName { get; private set; }
+		public string Name { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -276,7 +273,7 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string ProjectFileName { get; private set; }
+		public string FileName { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -284,31 +281,9 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string FullProjectPath
+		public string FullPath
 		{
-			get { return Path.Combine(ProjectPath, ProjectFileName); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the full path to the folder in which all the project's sessions are saved.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string SessionsPath
-		{
-			get { return Path.Combine(ProjectPath, "Sessions"); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the full path to the folder in which all the project's people are saved.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string PeoplesPath
-		{
-			get { return Path.Combine(ProjectPath, "People"); }
+			get { return Path.Combine(ProjectPath, FileName); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -334,7 +309,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		private void VerifySessionsPathExists()
 		{
-			if (!Directory.Exists(SessionsPath))
+			if (!Directory.Exists(Session.SessionsPath))
 			{
 				var msg = LocalizationManager.LocalizeString("MissingSessionsPathMsg",
 					"The sessions folder for the '{0}' project is missing. A new one will be " +
@@ -343,8 +318,8 @@ namespace SIL.Sponge.Model
 					"Message displayed when a project's sessions folder is found to be missing.",
 					"Miscellaneous Strings");
 
-				Utils.MsgBox(string.Format(msg, ProjectName));
-				Directory.CreateDirectory(SessionsPath);
+				Utils.MsgBox(string.Format(msg, Name));
+				Directory.CreateDirectory(Session.SessionsPath);
 			}
 		}
 
@@ -397,7 +372,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		private void UpdateSessions()
 		{
-			var sessionsFound = new HashSet<string>(Directory.GetDirectories(SessionsPath));
+			var sessionsFound = new HashSet<string>(Directory.GetDirectories(Session.SessionsPath));
 
 			// Go through the existing sessions we have and remove
 			// any that no longer have a sessions folder.
@@ -474,7 +449,7 @@ namespace SIL.Sponge.Model
 			}
 
 			if (saveToFile && person.CanSave)
-				person.Save(PeoplesPath);
+				person.Save();
 
 			People.Add(person);
 			People.Sort((x, y) => x.FullName.CompareTo(y.FullName));
@@ -495,7 +470,7 @@ namespace SIL.Sponge.Model
 			var person = People.FirstOrDefault(x => x.FullName == toEuthanize);
 			if (person != null)
 			{
-				File.Delete(Path.Combine(PeoplesPath, person.FileName));
+				File.Delete(Path.Combine(Person.PeoplesPath, person.FileName));
 				People.Remove(person);
 			}
 		}
@@ -509,7 +484,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return ProjectName;
+			return Name;
 		}
 	}
 }

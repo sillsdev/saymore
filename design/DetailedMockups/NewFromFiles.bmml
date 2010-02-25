@@ -1,0 +1,138 @@
+<mockup version="1.0" skin="sketch" measuredW="981" measuredH="724" mockupW="911" mockupH="704">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="60" y="10" w="868" h="420" measuredW="450" measuredH="400" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>New%20Sessions%20From%20Files...</text>
+        <topheight>26</topheight>
+        <bottomheight>0</bottomheight>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="324" y="61" w="-1" h="-1" measuredW="90" measuredH="25" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>r%3A%5Chalgp%5Cdcim</text>
+        <bold>false</bold>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::Label" x="639" y="96" w="-1" h="-1" measuredW="55" measuredH="26" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Preview</text>
+        <size>14</size>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Canvas" x="63" y="35" w="865" h="395" measuredW="100" measuredH="70" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0.25</backgroundAlpha>
+        <borderColor>16711808</borderColor>
+        <borderStyle>none</borderStyle>
+        <color>13158600</color>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Icon" x="120" y="161" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>MicIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::CheckBox" x="544" y="586" w="-1" h="-1" measuredW="321" measuredH="22" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Backup%20copied%20files%20to%3A%20%20%28Maxtor%29%20x%3A%5CoriginalRecordings</text>
+        <size>11</size>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::Label" x="94" y="331" w="479" h="66" measuredW="711" measuredH="22" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Mark%20each%20file%20which%20represents%20an%20original%20recording%20of%20an%20event.%20%20For%20each%20one%2C%20Sponge%20will%20create%20a%20new%20session%20and%20copy%20the%20file%20into%20it.</text>
+        <size>11</size>
+        <color>6710886</color>
+        <bold>false</bold>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::Button" x="881" y="663" w="63" h="-1" measuredW="43" measuredH="28" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>OK</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::DataGrid" x="94" y="129" w="516" h="198" measuredW="368" measuredH="118" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%5B%5D%2CName%2C%20Type%2C%20Date%20Modified%2C%20Size%2C%20Length%0A%5Bx%5D%2C%20xy18.wav%2CAudio%2C%201/1/2009%2C%2023M%2C%2015%20sec%0A%5B%5D%2Cxy19.mov%2CVideo%2C%201/1/2009%2C%20392M%0A%5Bx%5D%2Cxy20.wav%2CAudio%2C%201/1/2009%2C%2046M%2C%2031%20sec</text>
+        <hasHeader>true</hasHeader>
+        <selectedIndex>1</selectedIndex>
+        <alternateRowColor>16777215</alternateRowColor>
+        <vLines>false</vLines>
+        <borderStyle>square</borderStyle>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="600" y="129" w="-1" h="198" measuredW="16" measuredH="100" zOrder="5" locked="false" isInGroup="-1"/>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::VideoPlayer" x="639" y="127" w="250" h="200" measuredW="300" measuredH="200" zOrder="10" locked="false" isInGroup="-1"/>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::Button" x="868" y="583" w="-1" h="-1" measuredW="76" measuredH="28" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Browse...</text>
+        <size>11</size>
+        <bold>true</bold>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::Label" x="608" y="526" w="-1" h="-1" measuredW="313" measuredH="25" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Copying...%20%20%28and%20later%29%20%20Finished%20Creating%202%20Sessions</text>
+        <bold>false</bold>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Label" x="94" y="96" w="-1" h="-1" measuredW="102" measuredH="26" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Incoming%20Files</text>
+        <size>14</size>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Link" x="94" y="62" w="-1" h="-1" measuredW="198" measuredH="25" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Find%20Files%20on%20Recorder/Card...</text>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Image" x="645" y="136" w="237" h="151" measuredW="648" measuredH="486" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/boldpng.jpg</src>
+      </controlProperties>
+    </control>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::Label" x="544" y="527" w="-1" h="-1" measuredW="57" measuredH="25" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Status%3A%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::CheckBox" x="544" y="622" w="257" h="17" measuredW="226" measuredH="22" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Remove%20copied%20files%20from%20the%20device.</text>
+        <size>11</size>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::Alert" x="529" y="503" w="442" h="211" measuredW="200" measuredH="15" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::List" x="263" y="205" w="177" h="53" measuredW="100" measuredH="126" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Show%20File%20in%20Windows%20Explorer%0AOpen%20in%20%28The%20default%20app%29</text>
+        <size>10</size>
+      </controlProperties>
+    </control>
+    <control controlID="24" controlTypeID="com.balsamiq.mockups::Button" x="630" y="378" w="142" h="-1" measuredW="136" measuredH="28" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Create%202%20Sessions</text>
+      </controlProperties>
+    </control>
+    <control controlID="25" controlTypeID="com.balsamiq.mockups::Button" x="806" y="378" w="80" h="-1" measuredW="65" measuredH="28" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cancel</text>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Icon" x="120" y="220" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>MicIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Icon" x="257" y="205" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CursorIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

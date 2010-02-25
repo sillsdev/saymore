@@ -32,9 +32,9 @@
       </controlProperties>
     </control>
     <control controlID="51" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="489" y="252" w="-1" h="70" measuredW="16" measuredH="100" zOrder="6" locked="false" isInGroup="-1"/>
-    <control controlID="53" controlTypeID="com.balsamiq.mockups::Image" x="561" y="264" w="435" h="333" measuredW="640" measuredH="480" zOrder="7" locked="false" isInGroup="-1">
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Image" x="561" y="264" w="435" h="333" measuredW="419" measuredH="341" zOrder="7" locked="false" isInGroup="-1">
       <controlProperties>
-        <src>../../../../../../C%3A%5CUsers%5CJohn%5CDesktop%5CDSCF0093_Vga.JPG</src>
+        <src>./assets/consent.png</src>
       </controlProperties>
     </control>
     <control controlID="55" controlTypeID="com.balsamiq.mockups::Button" x="409" y="337" w="-1" h="-1" measuredW="96" measuredH="28" zOrder="8" locked="false" isInGroup="-1">
@@ -45,19 +45,19 @@
     <control controlID="57" controlTypeID="com.balsamiq.mockups::Arrow" x="430" y="521" w="84" h="61" measuredW="150" measuredH="100" zOrder="9" locked="false" isInGroup="-1">
       <controlProperties>
         <text/>
+        <curvature>1</curvature>
         <rightArrow>true</rightArrow>
         <leftArrow>false</leftArrow>
         <direction>bottom</direction>
-        <curvature>1</curvature>
       </controlProperties>
     </control>
     <control controlID="58" controlTypeID="com.balsamiq.mockups::Arrow" x="327" y="315" w="82" h="92" measuredW="150" measuredH="100" zOrder="10" locked="false" isInGroup="-1">
       <controlProperties>
         <text/>
+        <curvature>-1</curvature>
         <rightArrow>true</rightArrow>
         <leftArrow>false</leftArrow>
         <direction>bottom</direction>
-        <curvature>-1</curvature>
       </controlProperties>
     </control>
     <control controlID="60" controlTypeID="com.balsamiq.mockups::Paragraph" x="313" y="405" w="200" h="52" measuredW="200" measuredH="140" zOrder="11" locked="false" isInGroup="-1">

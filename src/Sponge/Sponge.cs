@@ -20,6 +20,8 @@ namespace SIL.Sponge
 	/// ----------------------------------------------------------------------------------------
 	static class Sponge
 	{
+		private static string s_mainAppSettingsFldr;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The main entry point for the application.
@@ -128,8 +130,18 @@ namespace SIL.Sponge
 		{
 			get
 			{
-				return Path.Combine(Environment.GetFolderPath(
-					Environment.SpecialFolder.MyDocuments), "Sponge");
+				// I would rather just return the Path.Combine result, but I'm getting a
+				// strange test failure on the Palaso build machine either in this property
+				// or in the SpongeProject.ProjectsFolder property where calling it once
+				// works, but the second time, it seems to concatenate to the value returned
+				// in a previous call. Grrr!
+				if (s_mainAppSettingsFldr == null)
+				{
+					s_mainAppSettingsFldr = Path.Combine(Environment.GetFolderPath(
+						Environment.SpecialFolder.MyDocuments), "Sponge");
+				}
+
+				return s_mainAppSettingsFldr;
 			}
 		}
 

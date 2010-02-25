@@ -27,7 +27,7 @@ namespace SIL.Sponge.Controls
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
-	public class ListPanelests
+	public class ListPanelTests
 	{
 		private ListPanel m_lp;
 

@@ -40,7 +40,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public ViewButtonManager(ToolStrip toolstrip, IEnumerable<Control> ctrls)
 		{
-			Debug.Assert(toolstrip.Items.Count == ctrls.Count());
+			Debug.Assert(toolstrip.Items.Count >= ctrls.Count());
 
 			m_toolStripOwner = toolstrip.TopLevelControl;
 			m_toolStrip = toolstrip;
@@ -117,14 +117,17 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public void SetView(ToolStripButton btn)
 		{
-			if (m_toolStripOwner != null)
-				Utils.SetWindowRedraw(m_toolStripOwner, false);
+			if (!m_controls.ContainsKey(btn))
+				return;
 
 			ToolStripButton currbtn = CurrentViewButton;
 			if (btn == currbtn)
 				return;
 
-			if (currbtn != null)
+			if (m_toolStripOwner != null)
+				Utils.SetWindowRedraw(m_toolStripOwner, false);
+
+			if (currbtn != null && m_controls.ContainsKey(currbtn))
 			{
 				currbtn.Checked = false;
 				m_controls[currbtn].Visible = false;

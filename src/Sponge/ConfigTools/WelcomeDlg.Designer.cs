@@ -31,10 +31,6 @@ namespace SIL.Sponge.ConfigTools
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WelcomeDlg));
 			this.pnlOptions = new System.Windows.Forms.Panel();
-			this.lnkWebSites = new System.Windows.Forms.LinkLabel();
-			this.lblVersionInfo = new System.Windows.Forms.Label();
-			this.lblSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.tsOptions = new SIL.Sponge.Controls.SpongeBar();
 			this.tslblOpen = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -43,9 +39,13 @@ namespace SIL.Sponge.ConfigTools
 			this.tslblCreate = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbCreate = new System.Windows.Forms.ToolStripButton();
+			this.lnkWebSites = new System.Windows.Forms.LinkLabel();
+			this.lblVersionInfo = new System.Windows.Forms.Label();
+			this.lblSubTitle = new System.Windows.Forms.Label();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlOptions.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.tsOptions.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlOptions
@@ -54,38 +54,6 @@ namespace SIL.Sponge.ConfigTools
 			this.pnlOptions.BackColor = System.Drawing.Color.LightGray;
 			this.pnlOptions.Controls.Add(this.tsOptions);
 			this.pnlOptions.Name = "pnlOptions";
-			// 
-			// lnkWebSites
-			// 
-			this.lnkWebSites.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-			resources.ApplyResources(this.lnkWebSites, "lnkWebSites");
-			this.locExtender.SetLocalizableToolTip(this.lnkWebSites, null);
-			this.locExtender.SetLocalizationComment(this.lnkWebSites, null);
-			this.locExtender.SetLocalizingId(this.lnkWebSites, "WelcomeDlg.lnkSIL");
-			this.lnkWebSites.Name = "lnkWebSites";
-			this.lnkWebSites.UseCompatibleTextRendering = true;
-			this.lnkWebSites.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWebSites_LinkClicked);
-			// 
-			// lblVersionInfo
-			// 
-			resources.ApplyResources(this.lblVersionInfo, "lblVersionInfo");
-			this.locExtender.SetLocalizableToolTip(this.lblVersionInfo, null);
-			this.locExtender.SetLocalizationComment(this.lblVersionInfo, null);
-			this.locExtender.SetLocalizingId(this.lblVersionInfo, "WelcomeDlg.lblVersionInfo");
-			this.lblVersionInfo.Name = "lblVersionInfo";
-			// 
-			// lblSubTitle
-			// 
-			resources.ApplyResources(this.lblSubTitle, "lblSubTitle");
-			this.lblSubTitle.AutoEllipsis = true;
-			this.locExtender.SetLocalizableToolTip(this.lblSubTitle, null);
-			this.locExtender.SetLocalizationComment(this.lblSubTitle, null);
-			this.locExtender.SetLocalizingId(this.lblSubTitle, "WelcomeDlg.lblSubTitle");
-			this.lblSubTitle.Name = "lblSubTitle";
-			// 
-			// locExtender
-			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// tsOptions
 			// 
@@ -172,6 +140,38 @@ namespace SIL.Sponge.ConfigTools
 			this.tsbCreate.Name = "tsbCreate";
 			this.tsbCreate.Click += new System.EventHandler(this.tsbCreate_Click);
 			// 
+			// lnkWebSites
+			// 
+			this.lnkWebSites.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			resources.ApplyResources(this.lnkWebSites, "lnkWebSites");
+			this.locExtender.SetLocalizableToolTip(this.lnkWebSites, null);
+			this.locExtender.SetLocalizationComment(this.lnkWebSites, null);
+			this.locExtender.SetLocalizingId(this.lnkWebSites, "WelcomeDlg.lnkSIL");
+			this.lnkWebSites.Name = "lnkWebSites";
+			this.lnkWebSites.UseCompatibleTextRendering = true;
+			this.lnkWebSites.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWebSites_LinkClicked);
+			// 
+			// lblVersionInfo
+			// 
+			resources.ApplyResources(this.lblVersionInfo, "lblVersionInfo");
+			this.locExtender.SetLocalizableToolTip(this.lblVersionInfo, null);
+			this.locExtender.SetLocalizationComment(this.lblVersionInfo, null);
+			this.locExtender.SetLocalizingId(this.lblVersionInfo, "WelcomeDlg.lblVersionInfo");
+			this.lblVersionInfo.Name = "lblVersionInfo";
+			// 
+			// lblSubTitle
+			// 
+			resources.ApplyResources(this.lblSubTitle, "lblSubTitle");
+			this.lblSubTitle.AutoEllipsis = true;
+			this.locExtender.SetLocalizableToolTip(this.lblSubTitle, null);
+			this.locExtender.SetLocalizationComment(this.lblSubTitle, null);
+			this.locExtender.SetLocalizingId(this.lblSubTitle, "WelcomeDlg.lblSubTitle");
+			this.lblSubTitle.Name = "lblSubTitle";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			// 
 			// WelcomeDlg
 			// 
 			resources.ApplyResources(this, "$this");
@@ -188,10 +188,11 @@ namespace SIL.Sponge.ConfigTools
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "WelcomeDlg";
+			this.ShowIcon = false;
 			this.pnlOptions.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.tsOptions.ResumeLayout(false);
 			this.tsOptions.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

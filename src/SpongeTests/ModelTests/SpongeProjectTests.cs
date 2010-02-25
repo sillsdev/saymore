@@ -80,6 +80,7 @@ namespace SIL.Sponge.Model
 			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "bacon"));
 
 			ReflectionHelper.CallMethod(m_prj, "Initialize", new[] { kTestPrjName, null });
+			m_prj.Initialize(null);
 
 			Assert.AreEqual(3, m_prj.Sessions.Count);
 			Assert.AreEqual("bacon", m_prj.Sessions[0].Name);

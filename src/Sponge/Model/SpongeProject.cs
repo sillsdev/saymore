@@ -56,7 +56,7 @@ namespace SIL.Sponge.Model
 			var prjName = Path.GetDirectoryName(prjFilePath);
 			int i = prjName.LastIndexOf(Path.DirectorySeparatorChar);
 			prjName = (i >= 0 ? prjName.Substring(i + 1) : prjName);
-			prj.Initialize(prjName, prjFilePath);
+			prj.InternalInitialize(prjName, prjFilePath);
 			return prj;
 		}
 
@@ -82,7 +82,7 @@ namespace SIL.Sponge.Model
 		private static SpongeProject Create(string prjName)
 		{
 			var prj = new SpongeProject();
-			prj.Initialize(prjName, null);
+			prj.InternalInitialize(prjName, null);
 			return prj;
 		}
 
@@ -104,7 +104,7 @@ namespace SIL.Sponge.Model
 		/// Initializes a new instance of the <see cref="SpongeProject"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void Initialize(string prjName, string prjFileName)
+		private void InternalInitialize(string prjName, string prjFileName)
 		{
 			Name = prjName;
 			ProjectPath = Path.Combine(ProjectsFolder, prjName);
@@ -114,18 +114,26 @@ namespace SIL.Sponge.Model
 			if (!Directory.Exists(ProjectPath))
 				Directory.CreateDirectory(ProjectPath);
 
+			Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes the sessions and people for the project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Initialize(Control fileWatcherSyncObj)
+		{
 			Session.InitializeSessionFolder(ProjectPath);
 			Person.InitializePeopleFolder(ProjectPath);
 
-			Save();
-
 			Sessions = (from folder in Session.Sessions
-						orderby folder
-						select Session.Create(this, Path.GetFileName(folder))).ToList();
+			orderby folder
+			select Session.Create(this, Path.GetFileName(folder))).ToList();
 
 			People = (from file in Person.PeopleFiles
-					  orderby file
-					  select Person.CreateFromFile(file)).ToList();
+			orderby file
+			select Person.CreateFromFile(file)).ToList();
 
 			// Remove any null person objects.
 			for (int i = People.Count - 1; i >= 0; i--)
@@ -151,6 +159,9 @@ namespace SIL.Sponge.Model
 			m_fileWatcher.Changed += HandleFileWatcherEvent;
 			m_fileWatcher.Created += HandleFileWatcherEvent;
 			m_fileWatcher.IncludeSubdirectories = true;
+
+			if (fileWatcherSyncObj != null)
+				FileWatcherSynchronizingObject = fileWatcherSyncObj;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -200,12 +211,12 @@ namespace SIL.Sponge.Model
 		{
 			get
 			{
-				return (m_fileWatcher.SynchronizingObject == null ?
+				return (m_fileWatcher == null || m_fileWatcher.SynchronizingObject == null ?
 					false : m_fileWatcher.EnableRaisingEvents);
 			}
 			set
 			{
-				if (m_fileWatcher.SynchronizingObject != null)
+				if (m_fileWatcher != null && m_fileWatcher.SynchronizingObject != null)
 					m_fileWatcher.EnableRaisingEvents = value;
 			}
 		}

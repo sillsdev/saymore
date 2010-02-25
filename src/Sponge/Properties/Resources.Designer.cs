@@ -74,6 +74,13 @@ namespace SIL.Sponge.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidChangeProject {
+            get {
+                object obj = ResourceManager.GetObject("kimidChangeProject", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidFemale_NotSelected {
             get {
                 object obj = ResourceManager.GetObject("kimidFemale_NotSelected", resourceCulture);

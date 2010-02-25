@@ -73,7 +73,7 @@ namespace SIL.Sponge
 			using (var dlg = new WelcomeDlg())
 			{
 				if (dlg.ShowDialog() == DialogResult.OK)
-					prj = dlg.SpongeProject;
+					prj = dlg.Project;
 			}
 
 			if (prj != null)

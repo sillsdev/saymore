@@ -232,7 +232,7 @@
     <value>tsOptions</value>
   </data>
   <data name="&gt;&gt;tsOptions.Type" xml:space="preserve">
-    <value>SIL.Sponge.Controls.SpongeBar, Sponge, Version=0.1.3679.21739, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Sponge.Controls.SpongeBar, Sponge, Version=0.1.3708.30131, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tsOptions.Parent" xml:space="preserve">
     <value>pnlOptions</value>
@@ -378,9 +378,6 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>460, 367</value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>450, 400</value>
   </data>
@@ -389,12 +386,6 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Sponge</value>
-  </data>
-  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
-    <value>locExtender</value>
-  </data>
-  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tslblOpen.Name" xml:space="preserve">
     <value>tslblOpen</value>
@@ -437,6 +428,12 @@
   </data>
   <data name="&gt;&gt;tsbCreate.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>WelcomeDlg</value>

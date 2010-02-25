@@ -1,7 +1,9 @@
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
+using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
+using SilUtils;
 
 namespace SIL.Sponge
 {
@@ -12,11 +14,11 @@ namespace SIL.Sponge
 	/// ----------------------------------------------------------------------------------------
 	public partial class MainWnd : Form
 	{
-		private SetupVw m_setupView;
 		private OverviewVw m_overviewView;
 		private SessionsVw m_sessionsView;
 		private PeopleVw m_peopleView;
 		private SendReceiveVw m_sendReceiveView;
+		private SetupVw m_setupView;
 		private ViewButtonManager m_viewManger;
 
 		/// ------------------------------------------------------------------------------------
@@ -46,12 +48,27 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public MainWnd(SpongeProject prj) : this()
 		{
+			Initialize(prj);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes the main window for the specified project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void Initialize(SpongeProject prj)
+		{
+			if (CurrentProject != null)
+				CurrentProject.Dispose();
+
 			CurrentProject = prj;
-			CurrentProject.FileWatcherSynchronizingObject = this;
+			CurrentProject.Initialize(this);
 			SetupViews();
-			m_viewManger.SetView(tsbSetup);
+			m_viewManger.SetView(tsbOverview);
 			SetWindowText();
+			LocalizeItemDlg.StringsLocalized -= SetWindowText;
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
+			Show();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,17 +78,20 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void SetupViews()
 		{
-			m_setupView = new SetupVw();
+			if (m_viewManger != null)
+				m_viewManger.Dispose();
+
 			m_overviewView = new OverviewVw();
 			m_sessionsView = new SessionsVw(CurrentProject);
 			m_peopleView = new PeopleVw(CurrentProject);
 			m_sendReceiveView = new SendReceiveVw();
+			m_setupView = new SetupVw();
 
-			Controls.AddRange(new Control[] { m_setupView, m_overviewView,
-				m_sessionsView, m_peopleView, m_sendReceiveView });
+			var views = new Control[] { m_overviewView, m_sessionsView,
+				m_peopleView, m_sendReceiveView, m_setupView };
 
-			m_viewManger = new ViewButtonManager(tsMain,
-				new Control[] { m_setupView, m_overviewView, m_sessionsView, m_peopleView, m_sendReceiveView });
+			Controls.AddRange(views);
+			m_viewManger = new ViewButtonManager(tsMain, views);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,6 +146,44 @@ namespace SIL.Sponge
 			Settings.Default.MainWndBounds = Bounds;
 			Settings.Default.Save();
 			LocalizeItemDlg.StringsLocalized -= SetWindowText;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Show the welcome dialog to allow the user to choose another project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void tsbChangeProject_Click(object sender, System.EventArgs e)
+		{
+			// TODO: Make sure project can be closed.
+
+			Hide();
+
+			using (var dlg = new WelcomeDlg())
+			{
+				if (dlg.ShowDialog() != DialogResult.OK || dlg.Project == null ||
+					dlg.Project.Name == CurrentProject.Name)
+				{
+					Show();
+				}
+				else
+				{
+					Controls.Remove(m_overviewView);
+					Controls.Remove(m_sessionsView);
+					Controls.Remove(m_peopleView);
+					Controls.Remove(m_sendReceiveView);
+					Controls.Remove(m_setupView);
+
+					m_overviewView.Dispose();
+					m_sessionsView.Dispose();
+					m_peopleView.Dispose();
+					m_sendReceiveView.Dispose();
+					m_setupView.Dispose();
+
+					Initialize(dlg.Project);
+					Focus();
+				}
+			}
 		}
 	}
 }

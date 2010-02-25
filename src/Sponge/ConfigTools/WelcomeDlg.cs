@@ -18,7 +18,7 @@ namespace SIL.Sponge.ConfigTools
 	/// ----------------------------------------------------------------------------------------
 	public partial class WelcomeDlg : Form
 	{
-		public SpongeProject SpongeProject { get; set; }
+		public SpongeProject Project { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -174,8 +174,8 @@ namespace SIL.Sponge.ConfigTools
 				if (dlg.ShowDialog(this) == DialogResult.Cancel)
 					return;
 
-				SpongeProject = SpongeProject.Load(dlg.FileName);
-				if (SpongeProject != null)
+				Project = SpongeProject.Load(dlg.FileName);
+				if (Project != null)
 				{
 					MruProjects.AddNewPath(dlg.FileName);
 					MruProjects.Save();
@@ -193,10 +193,10 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		private void tsbCreate_Click(object sender, EventArgs e)
 		{
-			SpongeProject = SpongeProject.Create(this);
-			if (SpongeProject != null)
+			Project = SpongeProject.Create(this);
+			if (Project != null)
 			{
-				MruProjects.AddNewPath(SpongeProject.FullPath);
+				MruProjects.AddNewPath(Project.FullPath);
 				MruProjects.Save();
 				DialogResult = DialogResult.OK;
 				Close();
@@ -215,7 +215,7 @@ namespace SIL.Sponge.ConfigTools
 				return;
 
 			// The full path to the project file is in the tooltip of the button.
-			SpongeProject = SpongeProject.Load(tsb.ToolTipText);
+			Project = SpongeProject.Load(tsb.ToolTipText);
 			DialogResult = DialogResult.OK;
 			Close();
 		}

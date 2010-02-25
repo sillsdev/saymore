@@ -84,7 +84,7 @@ namespace SIL.Sponge.Model
 
 		#endregion
 
-		#region static methods for creating a new person object
+		#region Creation and Construction methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates a Person object by deserializing the specified file. If that fails, null
@@ -112,6 +112,26 @@ namespace SIL.Sponge.Model
 		public static Person CreateFromName(string personName)
 		{
 			return new Person(personName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Person"/> class.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Person()
+		{
+			FullName = UniqueName;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Person"/> class.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private Person(string personName)
+		{
+			FullName = personName;
 		}
 
 		#endregion
@@ -167,29 +187,6 @@ namespace SIL.Sponge.Model
 						return name;
 				}
 			}
-		}
-
-		#endregion
-
-		#region Construction
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Person"/> class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Person()
-		{
-			FullName = UniqueName;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Person"/> class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private Person(string personName)
-		{
-			FullName = personName;
 		}
 
 		#endregion
@@ -253,12 +250,15 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Sets the picture file, by copying the specifed srcFile to the peoples folder and
-		/// giving the copyied file the same name as the person (while keeping the source
+		/// giving the copied file the same name as the person (while keeping the source
 		/// file's extension).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string CopyPictureFile(string srcFile)
 		{
+			if (srcFile == null)
+				throw new NullReferenceException("srcFile");
+
 			if (!File.Exists(srcFile))
 				throw new FileNotFoundException(srcFile);
 

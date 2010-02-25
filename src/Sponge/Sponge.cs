@@ -20,13 +20,15 @@ namespace SIL.Sponge
 	/// ----------------------------------------------------------------------------------------
 	public static class Sponge
 	{
+		public const string ApplicationFolderName = "Sponge";
+		public const string ProjectFolderName = "Projects";
 		public const string ProjectFileExtention = "sprj";
-		public const string SessionFileExtension = "session";
-		public const string PersonFileExtension = "person";
 		public const string SessionFolderName = "Sessions";
+		public const string SessionFileExtension = "session";
 		public const string PeopleFolderName = "People";
+		public const string PersonFileExtension = "person";
 
-		private static string s_mainAppSettingsFldr;
+		private static string s_mainAppFldr;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -42,18 +44,18 @@ namespace SIL.Sponge
 			//ErrorReport.AddStandardProperties();
 			//ExceptionHandler.Init();
 
-			if (!Directory.Exists(MainAppSettingsFolder))
-				Directory.CreateDirectory(MainAppSettingsFolder);
+			if (!Directory.Exists(MainApplicationFolder))
+				Directory.CreateDirectory(MainApplicationFolder);
 
 			if (!Directory.Exists(SpongeProject.ProjectsFolder))
 				Directory.CreateDirectory(SpongeProject.ProjectsFolder);
 
-			PortableSettingsProvider.SettingsFilePath = MainAppSettingsFolder;
+			PortableSettingsProvider.SettingsFilePath = MainApplicationFolder;
 
-			Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("fr");
+			//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("fr");
 
 			LocalizationManager.Enabled = true;
-			LocalizationManager.Initialize(Path.Combine(MainAppSettingsFolder, "Localizations"));
+			LocalizationManager.Initialize(Path.Combine(MainApplicationFolder, "Localizations"));
 
 			LocalizeItemDlg.SetDialogBounds += LocalizeItemDlg_SetDialogBounds;
 			LocalizeItemDlg.SetDialogSplitterPosition += LocalizeItemDlg_SetDialogSplitterPosition;
@@ -132,7 +134,7 @@ namespace SIL.Sponge
 		/// Gets the parent folder in which all the Sponge settings and projects are stored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string MainAppSettingsFolder
+		public static string MainApplicationFolder
 		{
 			get
 			{
@@ -141,13 +143,13 @@ namespace SIL.Sponge
 				// or in the SpongeProject.ProjectsFolder property where calling it once
 				// works, but the second time, it seems to concatenate to the value returned
 				// in a previous call. Grrr!
-				if (s_mainAppSettingsFldr == null)
+				if (s_mainAppFldr == null)
 				{
-					s_mainAppSettingsFldr = Path.Combine(Environment.GetFolderPath(
-						Environment.SpecialFolder.MyDocuments), "Sponge");
+					s_mainAppFldr = Path.Combine(Environment.GetFolderPath(
+						Environment.SpecialFolder.MyDocuments), ApplicationFolderName);
 				}
 
-				return s_mainAppSettingsFldr;
+				return s_mainAppFldr;
 			}
 		}
 

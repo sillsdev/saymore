@@ -127,7 +127,7 @@ namespace SIL.Sponge
 			this.lpPeople.ListView.HideSelection = false;
 			this.lpPeople.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpPeople.ListView.Name = "lvItems";
-			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 364);
+			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 984);
 			this.lpPeople.ListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.lpPeople.ListView.TabIndex = 0;
 			this.lpPeople.ListView.UseCompatibleStateImageBehavior = false;
@@ -317,10 +317,10 @@ namespace SIL.Sponge
 			// 
 			this.m_languageMother4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_languageMother4.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.m_languageMother4, null);
+			this.locExtender.SetLocalizableToolTip(this.m_languageMother4, "Mother\'s Language");
 			this.locExtender.SetLocalizationComment(this.m_languageMother4, null);
-			this.locExtender.SetLocalizationPriority(this.m_languageMother4, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_languageMother4, "PeopleVw.m_otherLanguageParentGender3");
+			this.locExtender.SetLocalizationPriority(this.m_languageMother4, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.m_languageMother4, "PeopleVw.m_languageMother4");
 			this.m_languageMother4.Location = new System.Drawing.Point(250, 113);
 			this.m_languageMother4.Name = "m_languageMother4";
 			this.m_languageMother4.ParentType = SIL.Sponge.Model.ParentType.Mother;
@@ -333,10 +333,10 @@ namespace SIL.Sponge
 			// 
 			this.m_languageMother3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_languageMother3.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.m_languageMother3, null);
+			this.locExtender.SetLocalizableToolTip(this.m_languageMother3, "Mother\'s Language");
 			this.locExtender.SetLocalizationComment(this.m_languageMother3, null);
-			this.locExtender.SetLocalizationPriority(this.m_languageMother3, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_languageMother3, "PeopleVw.m_otherLanguageParentGender2");
+			this.locExtender.SetLocalizationPriority(this.m_languageMother3, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.m_languageMother3, "PeopleVw.m_languageMother3");
 			this.m_languageMother3.Location = new System.Drawing.Point(250, 83);
 			this.m_languageMother3.Name = "m_languageMother3";
 			this.m_languageMother3.ParentType = SIL.Sponge.Model.ParentType.Mother;
@@ -349,10 +349,10 @@ namespace SIL.Sponge
 			// 
 			this.m_languageMother2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_languageMother2.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.m_languageMother2, null);
+			this.locExtender.SetLocalizableToolTip(this.m_languageMother2, "Mother\'s Language");
 			this.locExtender.SetLocalizationComment(this.m_languageMother2, null);
-			this.locExtender.SetLocalizationPriority(this.m_languageMother2, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_languageMother2, "PeopleVw.m_otherLanguageParentGender1");
+			this.locExtender.SetLocalizationPriority(this.m_languageMother2, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.m_languageMother2, "PeopleVw.m_languageMother2");
 			this.m_languageMother2.Location = new System.Drawing.Point(250, 53);
 			this.m_languageMother2.Name = "m_languageMother2";
 			this.m_languageMother2.ParentType = SIL.Sponge.Model.ParentType.Mother;
@@ -365,10 +365,10 @@ namespace SIL.Sponge
 			// 
 			this.m_languageMother1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_languageMother1.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.m_languageMother1, null);
+			this.locExtender.SetLocalizableToolTip(this.m_languageMother1, "Mother\'s Language");
 			this.locExtender.SetLocalizationComment(this.m_languageMother1, null);
-			this.locExtender.SetLocalizationPriority(this.m_languageMother1, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_languageMother1, "PeopleVw.m_otherLanguageParentGender0");
+			this.locExtender.SetLocalizationPriority(this.m_languageMother1, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.m_languageMother1, "PeopleVw.m_languageMother1");
 			this.m_languageMother1.Location = new System.Drawing.Point(250, 23);
 			this.m_languageMother1.Name = "m_languageMother1";
 			this.m_languageMother1.ParentType = SIL.Sponge.Model.ParentType.Mother;
@@ -398,10 +398,10 @@ namespace SIL.Sponge
 			// 
 			this.m_languageFather4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_languageFather4.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.m_languageFather4, null);
+			this.locExtender.SetLocalizableToolTip(this.m_languageFather4, "Father\'s Language");
 			this.locExtender.SetLocalizationComment(this.m_languageFather4, null);
-			this.locExtender.SetLocalizationPriority(this.m_languageFather4, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_languageFather4, "PeopleVw.m_otherLanguageParentGender3");
+			this.locExtender.SetLocalizationPriority(this.m_languageFather4, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.m_languageFather4, "PeopleVw.m_languageFather4");
 			this.m_languageFather4.Location = new System.Drawing.Point(222, 113);
 			this.m_languageFather4.Name = "m_languageFather4";
 			this.m_languageFather4.ParentType = SIL.Sponge.Model.ParentType.Father;
@@ -431,10 +431,10 @@ namespace SIL.Sponge
 			// 
 			this.m_languageFather3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_languageFather3.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.m_languageFather3, null);
+			this.locExtender.SetLocalizableToolTip(this.m_languageFather3, "Father\'s Language");
 			this.locExtender.SetLocalizationComment(this.m_languageFather3, null);
-			this.locExtender.SetLocalizationPriority(this.m_languageFather3, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_languageFather3, "PeopleVw.m_otherLanguageParentGender2");
+			this.locExtender.SetLocalizationPriority(this.m_languageFather3, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.m_languageFather3, "PeopleVw.m_languageFather3");
 			this.m_languageFather3.Location = new System.Drawing.Point(222, 83);
 			this.m_languageFather3.Name = "m_languageFather3";
 			this.m_languageFather3.ParentType = SIL.Sponge.Model.ParentType.Father;
@@ -464,10 +464,10 @@ namespace SIL.Sponge
 			// 
 			this.m_languageFather2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_languageFather2.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.m_languageFather2, null);
+			this.locExtender.SetLocalizableToolTip(this.m_languageFather2, "Father\'s Language");
 			this.locExtender.SetLocalizationComment(this.m_languageFather2, null);
-			this.locExtender.SetLocalizationPriority(this.m_languageFather2, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_languageFather2, "PeopleVw.m_otherLanguageParentGender1");
+			this.locExtender.SetLocalizationPriority(this.m_languageFather2, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.m_languageFather2, "PeopleVw.m_languageFather2");
 			this.m_languageFather2.Location = new System.Drawing.Point(222, 53);
 			this.m_languageFather2.Name = "m_languageFather2";
 			this.m_languageFather2.ParentType = SIL.Sponge.Model.ParentType.Father;
@@ -497,10 +497,10 @@ namespace SIL.Sponge
 			// 
 			this.m_languageFather1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_languageFather1.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.m_languageFather1, null);
+			this.locExtender.SetLocalizableToolTip(this.m_languageFather1, "Father\'s Language");
 			this.locExtender.SetLocalizationComment(this.m_languageFather1, null);
-			this.locExtender.SetLocalizationPriority(this.m_languageFather1, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_languageFather1, "PeopleVw.m_otherLanguageParentGender0");
+			this.locExtender.SetLocalizationPriority(this.m_languageFather1, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.m_languageFather1, "PeopleVw.m_languageFather1");
 			this.m_languageFather1.Location = new System.Drawing.Point(222, 23);
 			this.m_languageFather1.Name = "m_languageFather1";
 			this.m_languageFather1.ParentType = SIL.Sponge.Model.ParentType.Father;
@@ -535,10 +535,10 @@ namespace SIL.Sponge
 			// 
 			this.m_languageMother0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_languageMother0.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.m_languageMother0, null);
+			this.locExtender.SetLocalizableToolTip(this.m_languageMother0, "Mother\'s Language");
 			this.locExtender.SetLocalizationComment(this.m_languageMother0, null);
-			this.locExtender.SetLocalizationPriority(this.m_languageMother0, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_languageMother0, "PeopleVw.m_primaryLanguageParent");
+			this.locExtender.SetLocalizationPriority(this.m_languageMother0, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.m_languageMother0, "PeopleVw.m_languageMother0");
 			this.m_languageMother0.Location = new System.Drawing.Point(250, 23);
 			this.m_languageMother0.Name = "m_languageMother0";
 			this.m_languageMother0.ParentType = SIL.Sponge.Model.ParentType.Mother;
@@ -593,10 +593,10 @@ namespace SIL.Sponge
 			// 
 			this.m_languageFather0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.m_languageFather0.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.m_languageFather0, null);
+			this.locExtender.SetLocalizableToolTip(this.m_languageFather0, "Father\'s Language");
 			this.locExtender.SetLocalizationComment(this.m_languageFather0, null);
-			this.locExtender.SetLocalizationPriority(this.m_languageFather0, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_languageFather0, "PeopleVw.m_primaryLanguageParent");
+			this.locExtender.SetLocalizationPriority(this.m_languageFather0, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.m_languageFather0, "PeopleVw.m_languageFather0");
 			this.m_languageFather0.Location = new System.Drawing.Point(222, 23);
 			this.m_languageFather0.Name = "m_languageFather0";
 			this.m_languageFather0.ParentType = SIL.Sponge.Model.ParentType.Father;

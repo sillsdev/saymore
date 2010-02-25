@@ -14,10 +14,7 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using NUnit.Framework;
 using SIL.Sponge.Model;
 using SilUtils;
@@ -36,7 +33,7 @@ namespace SIL.Sponge
 		protected const string kTestSessionName = "~~Fungus";
 
 		protected SpongeProject m_prj;
-		private string m_mainAppSettingsFldr;
+		private string m_mainAppFldr;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -46,9 +43,9 @@ namespace SIL.Sponge
 		[SetUp]
 		public virtual void TestSetup()
 		{
-			m_mainAppSettingsFldr = Path.Combine(Path.GetTempPath(), "~SpongeTestProjects~");
-			Directory.CreateDirectory(m_mainAppSettingsFldr);
-			ReflectionHelper.SetField(typeof(Sponge), "s_mainAppSettingsFldr", m_mainAppSettingsFldr);
+			m_mainAppFldr = Path.Combine(Path.GetTempPath(), "~SpongeTestProjects~");
+			ReflectionHelper.SetField(typeof(Sponge), "s_mainAppFldr", m_mainAppFldr);
+			Directory.CreateDirectory(m_mainAppFldr);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -59,11 +56,11 @@ namespace SIL.Sponge
 		[TearDown]
 		public virtual void TestTearDown()
 		{
-			if (m_mainAppSettingsFldr != null)
+			if (m_mainAppFldr != null)
 			{
 				try
 				{
-					Directory.Delete(m_prj.ProjectPath, true);
+					Directory.Delete(m_mainAppFldr, true);
 				}
 				catch { }
 			}

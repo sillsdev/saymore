@@ -34,7 +34,6 @@ namespace SIL.Sponge.Model
 	[XmlType("spongeproject")]
 	public class SpongeProject : IDisposable
 	{
-		private static string s_prjFolder;
 		public event EventHandler ProjectChanged;
 		private FileSystemWatcher m_fileWatcher;
 
@@ -94,18 +93,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static string ProjectsFolder
 		{
-			get
-			{
-				// I would rather just return the Path.Combine result, but I'm getting a
-				// strange test failure on the Palaso build machine either in this property
-				// or in the Sponge.MainAppSettingsFolder property where calling it once
-				// works, but the second time, it seems to concatenate to the value returned
-				// in a previous call. Grrr!
-				if (s_prjFolder == null)
-					s_prjFolder = Path.Combine(Sponge.MainAppSettingsFolder, "Projects");
-
-				return s_prjFolder;
-			}
+			get { return Path.Combine(Sponge.MainApplicationFolder, Sponge.ProjectFolderName); }
 		}
 
 		#endregion

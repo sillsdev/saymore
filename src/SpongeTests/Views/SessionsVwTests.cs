@@ -29,12 +29,9 @@ namespace SIL.Sponge
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
-	public class SessionsVwTests
+	public class SessionsVwTests : TestBase
 	{
-		private const string kTestPrjName = "~~Moldy Sponge";
-
 		private TestHostForm m_frmHost;
-		private SpongeProject m_prj;
 		private SessionsVw m_vw;
 		private DataGridView m_gridFiles;
 		private ListPanel m_lpSessions;
@@ -64,11 +61,10 @@ namespace SIL.Sponge
 		/// Create a test project before each test runs.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[SetUp]
-		public void TestSetup()
+		public override void TestSetup()
 		{
-			m_prj = ReflectionHelper.GetResult(typeof(SpongeProject),
-				"Create", kTestPrjName) as SpongeProject;
+			base.TestSetup();
+			InitProject();
 
 			m_vw = new SessionsVw(m_prj);
 
@@ -81,21 +77,6 @@ namespace SIL.Sponge
 			m_frmHost.Controls.Clear();
 			m_frmHost.Controls.Add(m_vw);
 			m_frmHost.Show();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// After each test, remove the test project from the file system.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TearDown]
-		public void TestTearDown()
-		{
-			try
-			{
-				Directory.Delete(m_prj.ProjectPath, true);
-			}
-			catch { }
 		}
 
 		#endregion

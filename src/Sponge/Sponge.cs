@@ -18,8 +18,14 @@ namespace SIL.Sponge
 	///
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	static class Sponge
+	public static class Sponge
 	{
+		public const string ProjectFileExtention = "sprj";
+		public const string SessionFileExtension = "session";
+		public const string PersonFileExtension = "person";
+		public const string SessionFolderName = "Sessions";
+		public const string PeopleFolderName = "People";
+
 		private static string s_mainAppSettingsFldr;
 
 		/// ------------------------------------------------------------------------------------

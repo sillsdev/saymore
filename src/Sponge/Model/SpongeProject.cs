@@ -120,7 +120,8 @@ namespace SIL.Sponge.Model
 		{
 			Name = prjName;
 			ProjectPath = Path.Combine(ProjectsFolder, prjName);
-			FileName = (prjFileName ?? prjName.Replace(" ", string.Empty) + ".sprj");
+			FileName = (prjFileName ?? prjName.Replace(" ", string.Empty));
+			FileName = Path.ChangeExtension(FileName, Sponge.ProjectFileExtention);
 
 			if (!Directory.Exists(ProjectPath))
 				Directory.CreateDirectory(ProjectPath);
@@ -346,7 +347,7 @@ namespace SIL.Sponge.Model
 		private void HandleFileWatcherEvent(object sender, FileSystemEventArgs e)
 		{
 			// We don't care when changes occur to our standoff markup files.
-			if (e.Name.EndsWith(SessionFile.SessionFileExtension))
+			if (e.Name.EndsWith(Sponge.SessionFileExtension))
 				return;
 
 			EnableFileWatching = false;

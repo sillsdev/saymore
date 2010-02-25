@@ -42,7 +42,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static void InitializeSessionFolder(string prjPath)
 		{
-			SessionsPath = Path.Combine(prjPath, "Sessions");
+			SessionsPath = Path.Combine(prjPath, Sponge.SessionFolderName);
 
 			if (!Directory.Exists(SessionsPath))
 				Directory.CreateDirectory(SessionsPath);
@@ -123,7 +123,7 @@ namespace SIL.Sponge.Model
 					return null;
 
 				return (from x in Directory.GetFiles(SessionPath, "*.*")
-						where !x.EndsWith("." + SessionFile.SessionFileExtension)
+						where !x.EndsWith("." + Sponge.SessionFileExtension)
 						orderby x
 						select x).ToArray();
 			}

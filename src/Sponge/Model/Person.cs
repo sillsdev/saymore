@@ -36,8 +36,6 @@ namespace SIL.Sponge.Model
 	[XmlRoot("person")]
 	public class Person
 	{
-		public const string PersonFileExtension = "person";
-
 		#region Serialized/Deserialized Properties
 		[XmlElement("fullName")]
 		public string FullName { get; set; }
@@ -133,7 +131,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static void InitializePeopleFolder(string prjPath)
 		{
-			PeoplesPath = Path.Combine(prjPath, "People");
+			PeoplesPath = Path.Combine(prjPath, Sponge.PeopleFolderName);
 			if (!Directory.Exists(PeoplesPath))
 				Directory.CreateDirectory(PeoplesPath);
 		}
@@ -145,7 +143,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static string[] PeopleFiles
 		{
-			get { return Directory.GetFiles(PeoplesPath, "*." + PersonFileExtension); }
+			get { return Directory.GetFiles(PeoplesPath, "*." + Sponge.PersonFileExtension); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -164,7 +162,7 @@ namespace SIL.Sponge.Model
 				{
 					var name = string.Format(fmt, i++);
 					var path = Path.Combine(PeoplesPath, name);
-					path = Path.ChangeExtension(path, PersonFileExtension);
+					path = Path.ChangeExtension(path, Sponge.PersonFileExtension);
 					if (!File.Exists(path))
 						return name;
 				}
@@ -208,7 +206,7 @@ namespace SIL.Sponge.Model
 			get
 			{
 				return (string.IsNullOrEmpty(FullName) ? null :
-					Utils.MakeSafeFileName(FullName, '_') + "." + PersonFileExtension);
+					Utils.MakeSafeFileName(FullName, '_') + "." + Sponge.PersonFileExtension);
 			}
 		}
 
@@ -305,7 +303,7 @@ namespace SIL.Sponge.Model
 			// yet been saved to their file.
 			if (File.Exists(Path.Combine(PeoplesPath, FileName)))
 			{
-				var newFileName = Utils.MakeSafeFileName(newName, '_') + "." + PersonFileExtension;
+				var newFileName = Utils.MakeSafeFileName(newName, '_') + "." + Sponge.PersonFileExtension;
 				File.Move(Path.Combine(PeoplesPath, FileName), Path.Combine(PeoplesPath, newFileName));
 
 				var picFile = PictureFile;

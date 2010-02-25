@@ -36,7 +36,6 @@ namespace SIL.Sponge.Model
 	{
 		private string m_fileName;
 
-		public const string SessionFileExtension = "session";
 		public const string TagDelimiter = ";";
 
 		#region static methods
@@ -103,7 +102,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		private static string GetStandoffFile(string fileName)
 		{
-			return Path.ChangeExtension(fileName, SessionFileExtension);
+			return Path.ChangeExtension(fileName, Sponge.SessionFileExtension);
 		}
 
 		#endregion

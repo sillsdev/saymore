@@ -63,6 +63,7 @@
     <Compile Include="ModelTests\SpongeProjectTests.cs" />
     <Compile Include="ModelTests\TagTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBase.cs" />
     <Compile Include="TestHostForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -8,67 +8,76 @@
 // </copyright>
 #endregion
 //
-// File: SessionTests.cs
-// Responsibility: D. Olson
+// File: TestBase.cs
+// Responsibility: Olson
 //
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using NUnit.Framework;
+using SIL.Sponge.Model;
+using SilUtils;
 
-namespace SIL.Sponge.Model
+namespace SIL.Sponge
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	///
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[TestFixture]
-	public class SessionTests : TestBase
+	public class TestBase
 	{
+		protected const string kTestPrjName = "~~Moldy Sponge";
+		protected const string kTestPrjFileName = "~~MoldySponge.sprj";
+		protected const string kTestSessionName = "~~Fungus";
+
+		protected SpongeProject m_prj;
+		private string m_mainAppSettingsFldr;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Runs before each test.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public override void TestSetup()
+		[SetUp]
+		public virtual void TestSetup()
 		{
-			base.TestSetup();
-			InitProject();
+			m_mainAppSettingsFldr = Path.Combine(Path.GetTempPath(), "~SpongeTestProjects~");
+			Directory.CreateDirectory(m_mainAppSettingsFldr);
+			ReflectionHelper.SetField(typeof(Sponge), "s_mainAppSettingsFldr", m_mainAppSettingsFldr);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Tests the AddFiles method when the session's folder is missing.
+		/// Runs after each test.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void AddFiles_WhenSessionFolderMissing()
+		[TearDown]
+		public virtual void TestTearDown()
 		{
-			var session = Session.Create(m_prj, "wallace");
-			Directory.Delete(session.SessionPath, true);
-			Assert.IsFalse(session.AddFiles(new[] { string.Empty }));
+			if (m_mainAppSettingsFldr != null)
+			{
+				try
+				{
+					Directory.Delete(m_prj.ProjectPath, true);
+				}
+				catch { }
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Tests the AddFiles method
+		/// Initializes a test project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void AddFiles()
+		protected void InitProject()
 		{
-			var session = Session.Create(m_prj, "gromit");
-
-			var file1 = Path.Combine(m_prj.ProjectPath, "wrong.junk");
-			var file2 = Path.Combine(m_prj.ProjectPath, "trousers.junk");
-			File.CreateText(file1).Close();
-			File.CreateText(file2).Close();
-
-			Assert.IsTrue(session.AddFiles(new[] { file1, file2 }));
-			Assert.IsTrue(File.Exists(Path.Combine(session.SessionPath, file1)));
-			Assert.IsTrue(File.Exists(Path.Combine(session.SessionPath, file2)));
+			m_prj = ReflectionHelper.GetResult(typeof(SpongeProject),
+				"Create", kTestPrjName) as SpongeProject;
 		}
 	}
 }

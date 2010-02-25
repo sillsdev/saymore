@@ -8,15 +8,13 @@
 // </copyright>
 #endregion
 //
-// File: SpongeProjectTests.cs
-// Responsibility: Olson
+// File: SessionFileTests.cs
+// Responsibility: D. Olson
 //
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System.IO;
 using NUnit.Framework;
-using SilUtils;
 
 namespace SIL.Sponge.Model
 {
@@ -26,40 +24,17 @@ namespace SIL.Sponge.Model
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
-	public class SessionFileTests
+	public class SessionFileTests : TestBase
 	{
-		//private const string kTestPrjName = "~~Moldy Sponge";
-		//private const string kTestPrjFileName = "~~MoldySponge.sprj";
-		//private const string kTestSessionName = "~~Fungus";
-
-		//private SpongeProject m_prj;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Runs before each test.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[SetUp]
-		public void TestSetup()
-		{
-			//m_prj = ReflectionHelper.GetResult(typeof(SpongeProject),
-			//    "Create", kTestPrjName) as SpongeProject;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Runs after each test.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TearDown]
-		public void TestTearDown()
-		{
-			//try
-			//{
-			//    Directory.Delete(m_prj.ProjectPath, true);
-			//}
-			//catch { }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Runs before each test.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public override void TestSetup()
+		//{
+		//    base.TestSetup();
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

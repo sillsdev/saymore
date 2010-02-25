@@ -26,39 +26,17 @@ namespace SIL.Sponge.Model
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
-	public class SpongeProjectTests
+	public class SpongeProjectTests : TestBase
 	{
-		private const string kTestPrjName = "~~Moldy Sponge";
-		private const string kTestPrjFileName = "~~MoldySponge.sprj";
-		private const string kTestSessionName = "~~Fungus";
-
-		private SpongeProject m_prj;
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Runs before each test.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[SetUp]
-		public void TestSetup()
+		public override void TestSetup()
 		{
-			m_prj = ReflectionHelper.GetResult(typeof(SpongeProject),
-				"Create", kTestPrjName) as SpongeProject;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Runs after each test.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TearDown]
-		public void TestTearDown()
-		{
-			try
-			{
-				Directory.Delete(m_prj.ProjectPath, true);
-			}
-			catch { }
+			base.TestSetup();
+			InitProject();
 		}
 
 		/// ------------------------------------------------------------------------------------

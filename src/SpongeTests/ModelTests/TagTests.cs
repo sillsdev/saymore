@@ -15,8 +15,9 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using NUnit.Framework;
+using SIL.Sponge.Model;
 
-namespace SIL.Sponge.Model
+namespace SpongeTests.ModelTests
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -28,18 +29,18 @@ namespace SIL.Sponge.Model
 	{
 		private const string kXml =
 			"<fileTags>" +
-				"<tag fileExtensions=\"wma,mp3,wav\">" +
-					"<name>Recording</name>" +
-					"<description>Audio</description>" +
-				"</tag>" +
-				"<tag fileExtensions=\"pdf,doc\">" +
-					"<name>Transcription</name>" +
-					"<description>Document</description>" +
-				"</tag>" +
-				"<tag fileExtensions=\"eaf\">" +
-					"<name>Annotation</name>" +
-					"<description>ElanAnn</description>" +
-				"</tag>" +
+			"<tag fileExtensions=\"wma,mp3,wav\">" +
+			"<name>Recording</name>" +
+			"<description>Audio</description>" +
+			"</tag>" +
+			"<tag fileExtensions=\"pdf,doc\">" +
+			"<name>Transcription</name>" +
+			"<description>Document</description>" +
+			"</tag>" +
+			"<tag fileExtensions=\"eaf\">" +
+			"<name>Annotation</name>" +
+			"<description>ElanAnn</description>" +
+			"</tag>" +
 			"</fileTags>";
 
 		private TagList m_list;

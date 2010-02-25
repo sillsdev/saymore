@@ -16,8 +16,11 @@
 // ---------------------------------------------------------------------------------------------
 using System.IO;
 using NUnit.Framework;
+using Palaso.TestUtilities;
+using SIL.Sponge;
+using SIL.Sponge.Model;
 
-namespace SIL.Sponge.Model
+namespace SpongeTests.ModelTests
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -61,14 +64,13 @@ namespace SIL.Sponge.Model
 		{
 			var session = Session.Create(m_prj, "gromit");
 
-			var file1 = Path.Combine(m_prj.ProjectPath, "wrong.junk");
-			var file2 = Path.Combine(m_prj.ProjectPath, "trousers.junk");
-			File.CreateText(file1).Close();
-			File.CreateText(file2).Close();
-
-			Assert.IsTrue(session.AddFiles(new[] { file1, file2 }));
-			Assert.IsTrue(File.Exists(Path.Combine(session.SessionPath, file1)));
-			Assert.IsTrue(File.Exists(Path.Combine(session.SessionPath, file2)));
+			using(var file1 = new TempFile("wrong.junk"))
+			using (var file2 = new TempFile("trousers.junk"))
+			{
+				Assert.IsTrue(session.AddFiles(new[] { file1.Path, file2.Path }));
+				Assert.IsTrue(File.Exists(Path.Combine(session.SessionPath, Path.GetFileName(file1.Path))));
+				Assert.IsTrue(File.Exists(Path.Combine(session.SessionPath, Path.GetFileName(file1.Path))));
+			}
 		}
 	}
 }

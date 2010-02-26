@@ -56,7 +56,7 @@ namespace SIL.Sponge.Model
 			var prjName = Path.GetDirectoryName(prjFilePath);
 			int i = prjName.LastIndexOf(Path.DirectorySeparatorChar);
 			prjName = (i >= 0 ? prjName.Substring(i + 1) : prjName);
-			prj.InternalInitialize(prjName, prjFilePath);
+			prj.Initialize(prjName, prjFilePath);
 			return prj;
 		}
 
@@ -82,7 +82,7 @@ namespace SIL.Sponge.Model
 		private static SpongeProject Create(string prjName)
 		{
 			var prj = new SpongeProject();
-			prj.InternalInitialize(prjName, null);
+			prj.Initialize(prjName, null);
 			return prj;
 		}
 
@@ -104,7 +104,7 @@ namespace SIL.Sponge.Model
 		/// Initializes a new instance of the <see cref="SpongeProject"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void InternalInitialize(string prjName, string prjFileName)
+		private void Initialize(string prjName, string prjFileName)
 		{
 			Name = prjName;
 			ProjectPath = Path.Combine(ProjectsFolder, prjName);
@@ -115,25 +115,33 @@ namespace SIL.Sponge.Model
 				Directory.CreateDirectory(ProjectPath);
 
 			Save();
+
+			InitializePeopleAndLanguages();
+			InitializeSessions();
+
+			m_fileWatcher = new FileSystemWatcher(ProjectPath);
+			m_fileWatcher.Renamed += HandleFileWatcherRename;
+			m_fileWatcher.Deleted += HandleFileWatcherEvent;
+			m_fileWatcher.Changed += HandleFileWatcherEvent;
+			m_fileWatcher.Created += HandleFileWatcherEvent;
+			m_fileWatcher.IncludeSubdirectories = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes the sessions and people for the project.
+		/// Initializes the people and languages list for the project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Initialize(Control fileWatcherSyncObj)
+		private void InitializePeopleAndLanguages()
 		{
-			Session.InitializeSessionFolder(ProjectPath);
-			Person.InitializePeopleFolder(ProjectPath);
+			var path = Path.Combine(ProjectPath, Sponge.PeopleFolderName);
+			if (!Directory.Exists(path))
+				Directory.CreateDirectory(path);
 
-			Sessions = (from folder in Session.Sessions
-			orderby folder
-			select Session.Create(this, Path.GetFileName(folder))).ToList();
-
-			People = (from file in Person.PeopleFiles
-			orderby file
-			select Person.CreateFromFile(file)).ToList();
+			const string pattern = "*." + Sponge.PersonFileExtension;
+			People = (from file in Directory.GetFiles(path, pattern)
+					  orderby file
+					  select Person.CreateFromFile(this, file)).ToList();
 
 			// Remove any null person objects.
 			for (int i = People.Count - 1; i >= 0; i--)
@@ -152,16 +160,19 @@ namespace SIL.Sponge.Model
 				AddLanguageNames(person.OtherLangauge2);
 				AddLanguageNames(person.OtherLangauge3);
 			}
+		}
 
-			m_fileWatcher = new FileSystemWatcher(ProjectPath);
-			m_fileWatcher.Renamed += HandleFileWatcherRename;
-			m_fileWatcher.Deleted += HandleFileWatcherEvent;
-			m_fileWatcher.Changed += HandleFileWatcherEvent;
-			m_fileWatcher.Created += HandleFileWatcherEvent;
-			m_fileWatcher.IncludeSubdirectories = true;
-
-			if (fileWatcherSyncObj != null)
-				FileWatcherSynchronizingObject = fileWatcherSyncObj;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes the sessions for the project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void InitializeSessions()
+		{
+			Session.InitializeSessionFolder(ProjectPath);
+			Sessions = (from folder in Session.Sessions
+			orderby folder
+			select Session.Create(this, Path.GetFileName(folder))).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -300,6 +311,26 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the full path to the folder in which the project's people files are stored.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string PeopleFolder
+		{
+			get { return Path.Combine(ProjectPath, Sponge.PeopleFolderName); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path to the folder in which the project's session folders are stored.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string SessionFolder
+		{
+			get { return Path.Combine(ProjectPath, Sponge.SessionFolderName); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the list of sorted session names.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -311,27 +342,6 @@ namespace SIL.Sponge.Model
 				return (from session in Sessions
 						orderby session.Name
 						select session.Name).ToArray();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Verifies the existence of the sessions path.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void VerifySessionsPathExists()
-		{
-			if (!Directory.Exists(Session.SessionsPath))
-			{
-				var msg = LocalizationManager.LocalizeString("MissingSessionsPathMsg",
-					"The sessions folder for the '{0}' project is missing. A new one will be " +
-					"created for you.\n\nThis can happen if you have deleted or renamed the folder " +
-					"using your operating system's file manager program.",
-					"Message displayed when a project's sessions folder is found to be missing.",
-					"Miscellaneous Strings");
-
-				Utils.MsgBox(string.Format(msg, Name));
-				Directory.CreateDirectory(Session.SessionsPath);
 			}
 		}
 
@@ -406,6 +416,7 @@ namespace SIL.Sponge.Model
 
 		#endregion
 
+		#region Methods for managing sessions
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adds the a session having the specified name. If a session with the specified name
@@ -425,7 +436,49 @@ namespace SIL.Sponge.Model
 			return session;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Verifies the existence of the sessions path.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void VerifySessionsPathExists()
+		{
+			if (!Directory.Exists(Session.SessionsPath))
+			{
+				var msg = LocalizationManager.LocalizeString("MissingSessionsPathMsg",
+					"The sessions folder for the '{0}' project is missing. A new one will be " +
+					"created for you.\n\nThis can happen if you have deleted or renamed the folder " +
+					"using your operating system's file manager program.",
+					"Message displayed when a project's sessions folder is found to be missing.",
+					"Miscellaneous Strings");
+
+				Utils.MsgBox(string.Format(msg, Name));
+				Directory.CreateDirectory(Session.SessionsPath);
+			}
+		}
+
+		#endregion
+
 		#region Methods for managing the people list
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the first available, unique, unknown name for a person.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetUniquePersonName()
+		{
+			const string fmt = "Unknown Name {0:D2}";
+			int i = 1;
+			while (true)
+			{
+				var name = string.Format(fmt, i++);
+				var path = Path.Combine(PeopleFolder, name);
+				path = Path.ChangeExtension(path, Sponge.PersonFileExtension);
+				if (!File.Exists(path))
+					return name;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Determines whether or not a Person object exists for the specified name.
@@ -482,7 +535,7 @@ namespace SIL.Sponge.Model
 			var person = People.FirstOrDefault(x => x.FullName == toEuthanize);
 			if (person != null)
 			{
-				File.Delete(Path.Combine(Person.PeoplesPath, person.FileName));
+				File.Delete(person.FullPath);
 				People.Remove(person);
 			}
 		}

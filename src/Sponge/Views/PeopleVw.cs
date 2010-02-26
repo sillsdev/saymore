@@ -262,7 +262,7 @@ namespace SIL.Sponge
 			else
 			{
 				if (m_fullName.Text.Trim() == string.Empty)
-					m_fullName.Text = Person.UniqueName;
+					m_fullName.Text = m_currProj.GetUniquePersonName();
 
 				if (saveAfterLoad && person.FullName != m_fullName.Text.Trim())
 					person.Rename(m_fullName.Text.Trim());

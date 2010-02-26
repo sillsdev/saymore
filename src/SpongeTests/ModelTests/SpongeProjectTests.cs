@@ -80,7 +80,6 @@ namespace SIL.Sponge.Model
 			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "bacon"));
 
 			ReflectionHelper.CallMethod(m_prj, "Initialize", new[] { kTestPrjName, null });
-			m_prj.Initialize(null);
 
 			Assert.AreEqual(3, m_prj.Sessions.Count);
 			Assert.AreEqual("bacon", m_prj.Sessions[0].Name);
@@ -100,6 +99,10 @@ namespace SIL.Sponge.Model
 			Assert.AreEqual(expectedPath, prj.ProjectPath);
 			Assert.IsTrue(Directory.Exists(prj.ProjectPath));
 
+			expectedPath = Path.Combine(prj.ProjectPath, "People");
+			Assert.AreEqual(expectedPath, prj.PeopleFolder);
+			Assert.IsTrue(Directory.Exists(prj.PeopleFolder));
+
 			expectedPath = Path.Combine(prj.ProjectPath, "Sessions");
 			Assert.AreEqual(expectedPath, Session.SessionsPath);
 			Assert.IsTrue(Directory.Exists(Session.SessionsPath));
@@ -107,6 +110,22 @@ namespace SIL.Sponge.Model
 			expectedPath = Path.Combine(prj.ProjectPath, kTestPrjFileName);
 			Assert.AreEqual(expectedPath, prj.FullPath);
 			Assert.IsTrue(File.Exists(prj.FullPath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the GetUniquePersonName method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetUniquePersonName()
+		{
+			var name = m_prj.GetUniquePersonName();
+			Assert.AreEqual("Unknown Name 01", name);
+
+			var person = Person.CreateFromName(m_prj, name);
+			person.Save();
+			Assert.AreEqual("Unknown Name 02", m_prj.GetUniquePersonName());
 		}
 
 		/// ------------------------------------------------------------------------------------

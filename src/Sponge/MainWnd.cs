@@ -62,7 +62,7 @@ namespace SIL.Sponge
 				CurrentProject.Dispose();
 
 			CurrentProject = prj;
-			CurrentProject.Initialize(this);
+			CurrentProject.FileWatcherSynchronizingObject = this;
 			SetupViews();
 			m_viewManger.SetView(tsbOverview);
 			SetWindowText();

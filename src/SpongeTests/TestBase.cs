@@ -75,8 +75,6 @@ namespace SIL.Sponge
 		{
 			m_prj = ReflectionHelper.GetResult(typeof(SpongeProject),
 				"Create", kTestPrjName) as SpongeProject;
-
-			m_prj.Initialize(null);
 		}
 	}
 }

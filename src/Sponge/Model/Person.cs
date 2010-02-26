@@ -87,12 +87,19 @@ namespace SIL.Sponge.Model
 		#region Creation and Construction methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a Person object by deserializing the specified file. If that fails, null
-		/// is returned or, when there's an exception, it is thrown.
+		/// Creates a Person object by deserializing the specified file. The file can be just
+		/// the name of the file, without the path, or the full path specification. If that
+		/// fails, null is returned or, when there's an exception, it is thrown.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Person CreateFromFile(string fileName)
+		public static Person CreateFromFile(SpongeProject prj, string fileName)
 		{
+			if (!Path.IsPathRooted(fileName))
+			{
+				fileName = Path.GetFileName(fileName);
+				fileName = Path.Combine(prj.PeopleFolder, fileName);
+			}
+
 			Exception e;
 			var person = XmlSerializationHelper.DeserializeFromFile<Person>(fileName, out e);
 			if (e != null)
@@ -101,6 +108,7 @@ namespace SIL.Sponge.Model
 				Utils.MsgBox(msg);
 			}
 
+			person.Project = prj;
 			return person;
 		}
 
@@ -109,19 +117,19 @@ namespace SIL.Sponge.Model
 		/// Creates a Person object for the specified person's full name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Person CreateFromName(string personName)
+		public static Person CreateFromName(SpongeProject prj, string personName)
 		{
-			return new Person(personName);
+			return new Person(prj, personName);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Person"/> class.
+		/// Initializes a new instance of the <see cref="Person"/> class. This should only
+		/// be used for deserialization/serialization.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Person()
 		{
-			FullName = UniqueName;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,69 +137,23 @@ namespace SIL.Sponge.Model
 		/// Initializes a new instance of the <see cref="Person"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private Person(string personName)
+		private Person(SpongeProject prj, string personName)
 		{
+			Project = prj;
 			FullName = personName;
 		}
 
 		#endregion
 
-		#region Other static methods and properties
+		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the path to the folder in which people information files are stored.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string PeoplesPath { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the people folder.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void InitializePeopleFolder(string prjPath)
-		{
-			PeoplesPath = Path.Combine(prjPath, Sponge.PeopleFolderName);
-			if (!Directory.Exists(PeoplesPath))
-				Directory.CreateDirectory(PeoplesPath);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets all the full paths to the people files.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string[] PeopleFiles
-		{
-			get { return Directory.GetFiles(PeoplesPath, "*." + Sponge.PersonFileExtension); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the first available, unique, unknown name for a person.
+		/// Gets the person's owning project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public static string UniqueName
-		{
-			get
-			{
-				const string fmt = "Unknown Name {0:D2}";
-				int i = 1;
-				while (true)
-				{
-					var name = string.Format(fmt, i++);
-					var path = Path.Combine(PeoplesPath, name);
-					path = Path.ChangeExtension(path, Sponge.PersonFileExtension);
-					if (!File.Exists(path))
-						return name;
-				}
-			}
-		}
+		public SpongeProject Project { get; private set; }
 
-		#endregion
-
-		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the name of the file (without its path).
@@ -209,6 +171,17 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the full path (including filename) of the person's file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string FullPath
+		{
+			get { return (Project == null ? null : Path.Combine(Project.PeopleFolder, FileName)); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets a value indicating whether or not the person file can be saved (i.e. has
 		/// the full name been specified).
 		/// </summary>
@@ -216,7 +189,11 @@ namespace SIL.Sponge.Model
 		[XmlIgnore]
 		public bool CanSave
 		{
-			get { return (!string.IsNullOrEmpty(FileName)); }
+			get
+			{
+				return (!string.IsNullOrEmpty(Project.PeopleFolder) &&
+					Directory.Exists(Project.PeopleFolder) && !string.IsNullOrEmpty(FileName));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -229,13 +206,13 @@ namespace SIL.Sponge.Model
 		{
 			get
 			{
-				if (!Directory.Exists(PeoplesPath))
-					throw new DirectoryNotFoundException(PeoplesPath);
+				if (!Directory.Exists(Project.PeopleFolder))
+					throw new DirectoryNotFoundException(Project.PeopleFolder);
 
 				var pattern = Path.ChangeExtension(FileName, "*");
 				const string validPicExtensions = ".jpg.gif.tif.png.bmp.dib";
 
-				foreach (var file in Directory.GetFiles(PeoplesPath, pattern))
+				foreach (var file in Directory.GetFiles(Project.PeopleFolder, pattern))
 				{
 					if (validPicExtensions.Contains(Path.GetExtension(file).ToLower()))
 						return file;
@@ -262,11 +239,10 @@ namespace SIL.Sponge.Model
 			if (!File.Exists(srcFile))
 				throw new FileNotFoundException(srcFile);
 
-			if (!Directory.Exists(PeoplesPath))
-				throw new DirectoryNotFoundException(PeoplesPath);
+			if (!Directory.Exists(Project.PeopleFolder))
+				throw new DirectoryNotFoundException(Project.PeopleFolder);
 
-			var destFile = Path.Combine(PeoplesPath, FileName);
-			destFile = Path.ChangeExtension(destFile, Path.GetExtension(srcFile));
+			var destFile = Path.ChangeExtension(FullPath, Path.GetExtension(srcFile));
 			File.Copy(srcFile, destFile, true);
 			return destFile;
 		}
@@ -278,14 +254,12 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			if (!Directory.Exists(PeoplesPath))
-				throw new DirectoryNotFoundException(PeoplesPath);
+			FullName = (FullName ?? Project.GetUniquePersonName()).Trim();
+			if (FullName == string.Empty)
+				FullName = Project.GetUniquePersonName();
 
 			if (CanSave)
-			{
-				var fullPath = Path.Combine(PeoplesPath, FileName);
-				XmlSerializationHelper.SerializeToFile(fullPath, this);
-			}
+				XmlSerializationHelper.SerializeToFile(FullPath, this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -297,21 +271,21 @@ namespace SIL.Sponge.Model
 		public void Rename(string newName)
 		{
 			if (string.IsNullOrEmpty(newName))
-				newName = UniqueName;
+				newName = Project.GetUniquePersonName();
 
 			// Don't need to do any file renaming if the person hasn't
 			// yet been saved to their file.
-			if (File.Exists(Path.Combine(PeoplesPath, FileName)))
+			if (File.Exists(FullPath))
 			{
 				var newFileName = Utils.MakeSafeFileName(newName, '_') + "." + Sponge.PersonFileExtension;
-				File.Move(Path.Combine(PeoplesPath, FileName), Path.Combine(PeoplesPath, newFileName));
+				File.Move(FullPath, Path.Combine(Project.PeopleFolder, newFileName));
 
 				var picFile = PictureFile;
 				if (picFile != null)
 				{
 					var picExt = Path.GetExtension(picFile);
 					newFileName = Path.ChangeExtension(newFileName, picExt);
-					File.Move(picFile, Path.Combine(PeoplesPath, newFileName));
+					File.Move(picFile, Path.Combine(Project.PeopleFolder, newFileName));
 				}
 			}
 
@@ -327,7 +301,7 @@ namespace SIL.Sponge.Model
 		{
 			try
 			{
-				File.Delete(Path.Combine(PeoplesPath, FileName));
+				File.Delete(FullPath);
 			}
 			catch { }
 

@@ -169,10 +169,12 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public void InitializeSessions()
 		{
-			Session.InitializeSessionFolder(ProjectPath);
-			Sessions = (from folder in Session.Sessions
-			orderby folder
-			select Session.Create(this, Path.GetFileName(folder))).ToList();
+			if (!Directory.Exists(SessionsFolder))
+				Directory.CreateDirectory(SessionsFolder);
+
+			Sessions = (from folder in SessionNames
+						orderby folder
+						select Session.Create(this, Path.GetFileName(folder))).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -324,14 +326,14 @@ namespace SIL.Sponge.Model
 		/// Gets the full path to the folder in which the project's session folders are stored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string SessionFolder
+		public string SessionsFolder
 		{
 			get { return Path.Combine(ProjectPath, Sponge.SessionFolderName); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the list of sorted session names.
+		/// Gets the list of sorted session folders (including their full path) in the project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
@@ -339,9 +341,9 @@ namespace SIL.Sponge.Model
 		{
 			get
 			{
-				return (from session in Sessions
-						orderby session.Name
-						select session.Name).ToArray();
+				return (from x in Directory.GetDirectories(SessionsFolder)
+						orderby x
+						select x).ToArray();
 			}
 		}
 
@@ -394,13 +396,13 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		private void UpdateSessions()
 		{
-			var sessionsFound = new HashSet<string>(Directory.GetDirectories(Session.SessionsPath));
+			var sessionsFound = new HashSet<string>(Directory.GetDirectories(SessionsFolder));
 
 			// Go through the existing sessions we have and remove
 			// any that no longer have a sessions folder.
 			for (int i = Sessions.Count - 1; i >= 0; i--)
 			{
-				if (!sessionsFound.Contains(Sessions[i].SessionPath))
+				if (!sessionsFound.Contains(Sessions[i].FullPath))
 					Sessions.RemoveAt(i);
 			}
 
@@ -408,7 +410,7 @@ namespace SIL.Sponge.Model
 			// folders that do not have a corresponding session, a new one is added.
 			foreach (string sessionName in sessionsFound)
 			{
-				var session = Sessions.FirstOrDefault(x => x.SessionPath == sessionName);
+				var session = Sessions.FirstOrDefault(x => x.FullPath == sessionName);
 				if (session == null)
 					AddSession(Path.GetFileName(sessionName));
 			}
@@ -443,7 +445,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		private void VerifySessionsPathExists()
 		{
-			if (!Directory.Exists(Session.SessionsPath))
+			if (!Directory.Exists(SessionsFolder))
 			{
 				var msg = LocalizationManager.LocalizeString("MissingSessionsPathMsg",
 					"The sessions folder for the '{0}' project is missing. A new one will be " +
@@ -453,7 +455,7 @@ namespace SIL.Sponge.Model
 					"Miscellaneous Strings");
 
 				Utils.MsgBox(string.Format(msg, Name));
-				Directory.CreateDirectory(Session.SessionsPath);
+				Directory.CreateDirectory(SessionsFolder);
 			}
 		}
 

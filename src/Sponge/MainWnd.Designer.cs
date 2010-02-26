@@ -26,7 +26,7 @@ namespace SIL.Sponge
 			this.tsbPeople = new System.Windows.Forms.ToolStripButton();
 			this.tsbSendReceive = new System.Windows.Forms.ToolStripButton();
 			this.tsbSetup = new System.Windows.Forms.ToolStripButton();
-			this.tsbChangeProject = new System.Windows.Forms.ToolStripButton();
+			this.tsbChangeProjects = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.tsMain.SuspendLayout();
 			this.SuspendLayout();
@@ -48,7 +48,7 @@ namespace SIL.Sponge
             this.tsbPeople,
             this.tsbSendReceive,
             this.tsbSetup,
-            this.tsbChangeProject});
+            this.tsbChangeProjects});
 			this.locExtender.SetLocalizableToolTip(this.tsMain, null);
 			this.locExtender.SetLocalizationComment(this.tsMain, null);
 			this.locExtender.SetLocalizingId(this.tsMain, "MainWnd.tsMain");
@@ -131,23 +131,24 @@ namespace SIL.Sponge
 			this.tsbSetup.Text = "Setup";
 			this.tsbSetup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
-			// tsbChangeProject
+			// tsbChangeProjects
 			// 
-			this.tsbChangeProject.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.tsbChangeProject.AutoSize = false;
-			this.tsbChangeProject.Image = global::SIL.Sponge.Properties.Resources.kimidChangeProject;
-			this.tsbChangeProject.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this.tsbChangeProject, "Open Another Different Project");
-			this.locExtender.SetLocalizationComment(this.tsbChangeProject, null);
-			this.locExtender.SetLocalizingId(this.tsbChangeProject, "MainWnd.tsbChangeProject");
-			this.tsbChangeProject.Margin = new System.Windows.Forms.Padding(0, 10, 10, 10);
-			this.tsbChangeProject.Name = "tsbChangeProject";
-			this.tsbChangeProject.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-			this.tsbChangeProject.Size = new System.Drawing.Size(110, 50);
-			this.tsbChangeProject.Text = "Change Projects...";
-			this.tsbChangeProject.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.tsbChangeProject.ToolTipText = "Open Another Different Project";
-			this.tsbChangeProject.Click += new System.EventHandler(this.tsbChangeProject_Click);
+			this.tsbChangeProjects.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.tsbChangeProjects.AutoSize = false;
+			this.tsbChangeProjects.Image = global::SIL.Sponge.Properties.Resources.kimidChangeProject;
+			this.tsbChangeProjects.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this.tsbChangeProjects, "Open a Different Project");
+			this.locExtender.SetLocalizationComment(this.tsbChangeProjects, null);
+			this.locExtender.SetLocalizationPriority(this.tsbChangeProjects, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.tsbChangeProjects, "MainWnd.tsbChangeProjects");
+			this.tsbChangeProjects.Margin = new System.Windows.Forms.Padding(0, 10, 10, 10);
+			this.tsbChangeProjects.Name = "tsbChangeProjects";
+			this.tsbChangeProjects.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+			this.tsbChangeProjects.Size = new System.Drawing.Size(110, 50);
+			this.tsbChangeProjects.Text = "Change Projects...";
+			this.tsbChangeProjects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.tsbChangeProjects.ToolTipText = "Open a Different Project";
+			this.tsbChangeProjects.Click += new System.EventHandler(this.tsbChangeProjects_Click);
 			// 
 			// MainWnd
 			// 
@@ -179,7 +180,7 @@ namespace SIL.Sponge
 		private System.Windows.Forms.ToolStripButton tsbSendReceive;
 		private System.Windows.Forms.ToolStripButton tsbSessions;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
-		private System.Windows.Forms.ToolStripButton tsbChangeProject;
+		private System.Windows.Forms.ToolStripButton tsbChangeProjects;
 	}
 }
 

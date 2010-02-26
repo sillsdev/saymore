@@ -30,36 +30,6 @@ namespace SIL.Sponge.Model
 		#region static methods and properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the full path to the folder in which sessions are stored.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string SessionsPath { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the people folder.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void InitializeSessionFolder(string prjPath)
-		{
-			SessionsPath = Path.Combine(prjPath, Sponge.SessionFolderName);
-
-			if (!Directory.Exists(SessionsPath))
-				Directory.CreateDirectory(SessionsPath);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets all the session names for a project.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string[] Sessions
-		{
-			get { return Directory.GetDirectories(SessionsPath); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Creates a session having the specified name and for the specified project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -67,8 +37,8 @@ namespace SIL.Sponge.Model
 		{
 			var session = new Session(prj, name);
 
-			if (!Directory.Exists(session.SessionPath))
-				Directory.CreateDirectory(session.SessionPath);
+			if (!Directory.Exists(session.FullPath))
+				Directory.CreateDirectory(session.FullPath);
 
 			return session;
 		}
@@ -84,7 +54,7 @@ namespace SIL.Sponge.Model
 		{
 			Project = prj;
 			Name = name;
-			SessionPath = Path.Combine(SessionsPath, Name);
+			FullPath = Path.Combine(prj.SessionsFolder, Name);
 		}
 
 		#region Properties
@@ -107,7 +77,7 @@ namespace SIL.Sponge.Model
 		/// Gets the full path to the session's folder.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string SessionPath { get; private set; }
+		public string FullPath { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -119,10 +89,10 @@ namespace SIL.Sponge.Model
 		{
 			get
 			{
-				if (!Directory.Exists(SessionPath))
+				if (!Directory.Exists(FullPath))
 					return null;
 
-				return (from x in Directory.GetFiles(SessionPath, "*.*")
+				return (from x in Directory.GetFiles(FullPath, "*.*")
 						where !x.EndsWith("." + Sponge.SessionFileExtension)
 						orderby x
 						select x).ToArray();
@@ -140,7 +110,7 @@ namespace SIL.Sponge.Model
 		{
 			Debug.Assert(sessionFiles != null);
 
-			if (!Directory.Exists(SessionPath))
+			if (!Directory.Exists(FullPath))
 				return false;
 
 			bool fileWatchingState = Project.EnableFileWatching;
@@ -148,12 +118,12 @@ namespace SIL.Sponge.Model
 
 			foreach (string filePath in sessionFiles)
 			{
-				if (File.Exists(filePath) && Path.GetDirectoryName(filePath) != SessionPath)
+				if (File.Exists(filePath) && Path.GetDirectoryName(filePath) != FullPath)
 				{
 					var file = Path.GetFileName(filePath);
 
 					// TODO: Deal with file when it already exists in session folder.
-					File.Copy(filePath, Path.Combine(SessionPath, file));
+					File.Copy(filePath, Path.Combine(FullPath, file));
 				}
 			}
 

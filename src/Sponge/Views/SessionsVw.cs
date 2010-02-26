@@ -174,7 +174,7 @@ namespace SIL.Sponge
 			m_currProj.EnableFileWatching = false;
 
 			foreach (Session session in itemsToDelete)
-				Directory.Delete(session.SessionPath, true);
+				Directory.Delete(session.FullPath, true);
 
 			m_currProj.EnableFileWatching = enableFileWatchingState;
 		}
@@ -331,7 +331,7 @@ namespace SIL.Sponge
 		private void cmnuOpenInFileManager_Click(object sender, EventArgs e)
 		{
 			if (m_currSession != null)
-				Process.Start(m_currSession.SessionPath);
+				Process.Start(m_currSession.FullPath);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -344,7 +344,7 @@ namespace SIL.Sponge
 			var sessionFile = CurrentSessionFile;
 			if (sessionFile != null)
 			{
-				var path = Path.Combine(m_currSession.SessionPath, sessionFile.FileName);
+				var path = Path.Combine(m_currSession.FullPath, sessionFile.FileName);
 				try
 				{
 					Process.Start(path);
@@ -471,7 +471,7 @@ namespace SIL.Sponge
 			if (m_currSessionFiles != null)
 			{
 				gridFiles.RowCount = m_currSessionFiles.Length;
-				lnkSessionPath.Text = m_currSession.SessionPath;
+				lnkSessionPath.Text = m_currSession.FullPath;
 			}
 
 			Utils.SetWindowRedraw(tabSessions, true);

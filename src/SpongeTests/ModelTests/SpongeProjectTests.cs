@@ -75,9 +75,9 @@ namespace SIL.Sponge.Model
 			VerifyProject(m_prj, kTestPrjName);
 			Assert.AreEqual(0, m_prj.Sessions.Count);
 
-			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "waffles"));
-			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "eggs"));
-			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "bacon"));
+			Directory.CreateDirectory(Path.Combine(m_prj.SessionsFolder, "waffles"));
+			Directory.CreateDirectory(Path.Combine(m_prj.SessionsFolder, "eggs"));
+			Directory.CreateDirectory(Path.Combine(m_prj.SessionsFolder, "bacon"));
 
 			ReflectionHelper.CallMethod(m_prj, "Initialize", new[] { kTestPrjName, null });
 
@@ -104,8 +104,8 @@ namespace SIL.Sponge.Model
 			Assert.IsTrue(Directory.Exists(prj.PeopleFolder));
 
 			expectedPath = Path.Combine(prj.ProjectPath, "Sessions");
-			Assert.AreEqual(expectedPath, Session.SessionsPath);
-			Assert.IsTrue(Directory.Exists(Session.SessionsPath));
+			Assert.AreEqual(expectedPath, prj.SessionsFolder);
+			Assert.IsTrue(Directory.Exists(prj.SessionsFolder));
 
 			expectedPath = Path.Combine(prj.ProjectPath, kTestPrjFileName);
 			Assert.AreEqual(expectedPath, prj.FullPath);
@@ -170,7 +170,7 @@ namespace SIL.Sponge.Model
 			Assert.AreEqual("Yellow", m_prj.Sessions[2].Name);
 
 			// Make sure a file in the sessions folder doesn't get recognized as a folder.
-			File.CreateText(Path.Combine(Session.SessionsPath, "junk")).Close();
+			File.CreateText(Path.Combine(m_prj.SessionsFolder, "junk")).Close();
 			Assert.AreEqual(3, m_prj.SessionNames.Length);
 		}
 
@@ -188,8 +188,8 @@ namespace SIL.Sponge.Model
 			Assert.IsNotNull(m_prj.AddSession("orange"));
 			Assert.AreEqual(3, m_prj.SessionNames.Length);
 
-			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "grapefruit"));
-			Directory.CreateDirectory(Path.Combine(Session.SessionsPath, "guava"));
+			Directory.CreateDirectory(Path.Combine(m_prj.SessionsFolder, "grapefruit"));
+			Directory.CreateDirectory(Path.Combine(m_prj.SessionsFolder, "guava"));
 
 			ReflectionHelper.CallMethod(m_prj, "UpdateSessions");
 			Assert.AreEqual(5, m_prj.Sessions.Count);

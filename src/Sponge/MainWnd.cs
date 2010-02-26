@@ -78,8 +78,10 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void SetupViews()
 		{
-			if (m_viewManger != null)
-				m_viewManger.Dispose();
+			CleanOutViews();
+
+			foreach (ToolStripButton btn in tsMain.Items)
+				btn.Checked = false;
 
 			m_overviewView = new OverviewVw();
 			m_sessionsView = new SessionsVw(CurrentProject);
@@ -96,6 +98,32 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Remove and dispose of existing view controls.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CleanOutViews()
+		{
+			if (m_overviewView != null)
+			{
+				Controls.Remove(m_overviewView);
+				Controls.Remove(m_sessionsView);
+				Controls.Remove(m_peopleView);
+				Controls.Remove(m_sendReceiveView);
+				Controls.Remove(m_setupView);
+
+				m_overviewView.Dispose();
+				m_sessionsView.Dispose();
+				m_peopleView.Dispose();
+				m_sendReceiveView.Dispose();
+				m_setupView.Dispose();
+			}
+
+			if (m_viewManger != null)
+				m_viewManger.Dispose();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -103,8 +131,8 @@ namespace SIL.Sponge
 		{
 			if (disposing && (components != null))
 			{
+				CleanOutViews();
 				components.Dispose();
-				m_viewManger.Dispose();
 			}
 
 			base.Dispose(disposing);
@@ -153,7 +181,7 @@ namespace SIL.Sponge
 		/// Show the welcome dialog to allow the user to choose another project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tsbChangeProject_Click(object sender, System.EventArgs e)
+		private void tsbChangeProjects_Click(object sender, System.EventArgs e)
 		{
 			// TODO: Make sure project can be closed.
 
@@ -168,18 +196,6 @@ namespace SIL.Sponge
 				}
 				else
 				{
-					Controls.Remove(m_overviewView);
-					Controls.Remove(m_sessionsView);
-					Controls.Remove(m_peopleView);
-					Controls.Remove(m_sendReceiveView);
-					Controls.Remove(m_setupView);
-
-					m_overviewView.Dispose();
-					m_sessionsView.Dispose();
-					m_peopleView.Dispose();
-					m_sendReceiveView.Dispose();
-					m_setupView.Dispose();
-
 					Initialize(dlg.Project);
 					Focus();
 				}

@@ -9,19 +9,6 @@ namespace SIL.Sponge.Controls
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
-
 		#region Component Designer generated code
 
 		/// <summary> 
@@ -123,7 +110,7 @@ namespace SIL.Sponge.Controls
 			this.lvItems.TabIndex = 0;
 			this.lvItems.UseCompatibleStateImageBehavior = false;
 			this.lvItems.View = System.Windows.Forms.View.Details;
-			this.lvItems.SelectedIndexChanged += new System.EventHandler(this.lvItems_SelectedIndexChanged);
+			this.lvItems.FontChanged += new System.EventHandler(this.lvItems_FontChanged);
 			// 
 			// hdrList
 			// 

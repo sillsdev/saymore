@@ -39,6 +39,8 @@ namespace SIL.Sponge
 			m_gender.SelectedIndex = 0;
 			tblLayout.Enabled = false;
 
+			lblNoPeopleMsg.BackColor = lpPeople.ListView.BackColor;
+
 			m_langFathers[m_language0] = m_languageFather0;
 			m_langFathers[m_language1] = m_languageFather1;
 			m_langFathers[m_language2] = m_languageFather2;
@@ -60,7 +62,41 @@ namespace SIL.Sponge
 		public PeopleVw(SpongeProject m_prj) : this()
 		{
 			m_currProj = (m_prj ?? MainWnd.CurrentProject);
+			lblNoPeopleMsg.Visible = (m_currProj.People.Count == 0);
 			lpPeople.Items = m_currProj.People.ToArray();
+		}
+
+		#endregion
+
+		#region ISpongeView interface methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Save any changes to the current person's information when the view is
+		/// deactivated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override void ViewDeactivated()
+		{
+			base.ViewDeactivated();
+
+			if (m_currPerson != null)
+				LoadPersonFromForm(m_currPerson, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Make sure the name field is valid. If it is, then save any outstanding changes.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override bool IsOKToLeaveView(bool showMsgWhenNotOK)
+		{
+			if (!IsNameOK(showMsgWhenNotOK))
+				return false;
+
+			if (m_currPerson != null)
+				LoadPersonFromForm(m_currPerson, true);
+
+			return base.IsOKToLeaveView(showMsgWhenNotOK);
 		}
 
 		#endregion
@@ -80,20 +116,6 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Save any changes to the current person's information when the view is
-		/// deactivated.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override void ViewDeactivated()
-		{
-			base.ViewDeactivated();
-
-			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// This fixes a paint error in .Net that manifests itself when tab controls are
 		/// resized.
 		/// </summary>
@@ -101,6 +123,48 @@ namespace SIL.Sponge
 		private void tabPeople_SizeChanged(object sender, EventArgs e)
 		{
 			tabPeople.Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Validate the name, checking for no name, or whether or not the name already exists.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool IsNameOK(bool showMsgWhenNotOK)
+		{
+			if (!tblLayout.Enabled)
+				return true;
+
+			string msg = null;
+			var name = m_fullName.Text.Trim();
+
+			if (name == string.Empty)
+			{
+				msg = LocalizationManager.LocalizeString("PeopleVw.MissingNameMsg",
+					"You must enter the person's name.",
+					"Message displayed when a person's name is missing in the people view.",
+					"Views", LocalizationCategory.GeneralMessage, LocalizationPriority.High);
+			}
+			else if (m_currPerson.FullName != string.Empty)
+			{
+				var person = m_currProj.GetPerson(name);
+				if (person != null && person != m_currPerson)
+				{
+					msg = LocalizationManager.LocalizeString("PeopleVw.DuplicateNameMsg",
+						"The name {0} already exists.",
+						"Message displayed when entering an already existing person's name in the people view.",
+						"Views", LocalizationCategory.GeneralMessage, LocalizationPriority.High);
+
+					msg = string.Format(msg, name);
+				}
+			}
+			if (msg == null)
+				return true;
+
+			if (showMsgWhenNotOK)
+				Utils.MsgBox(msg);
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -120,7 +184,7 @@ namespace SIL.Sponge
 			LoadFormFromPerson(m_currPerson);
 		}
 
-		#region Event handler for adeding and deleting a person
+		#region Event handler for adding and deleting a person
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Prepares the view to accept information for a new person.
@@ -131,22 +195,40 @@ namespace SIL.Sponge
 			if (m_currPerson != null)
 				LoadPersonFromForm(m_currPerson, true);
 
-			tblLayout.Enabled = true;
+			m_currPerson = Person.CreateFromName(m_currProj, string.Empty);
+			m_currProj.AddPerson(m_currPerson);
+			ClearForm();
+			lblNoPeopleMsg.Visible = false;
+			lpPeople.AddItem(m_currPerson, true, false);
 
-			m_currPerson = new Person();
-			if (m_currProj.AddPerson(m_currPerson, true))
-			{
-				ClearForm();
-				m_fullName.Text = m_currPerson.FullName;
-				lpPeople.SelectedItemChanged -= lpPeople_SelectedItemChanged;
-				lpPeople.Items = m_currProj.People.ToArray();
-				lpPeople.SelectedItemChanged += lpPeople_SelectedItemChanged;
-				lpPeople.CurrentItem = m_currPerson;
-				m_fullName.SelectAll();
-				m_fullName.Focus();
-			}
+			tblLayout.Enabled = true;
+			m_fullName.SelectAll();
+			m_fullName.Focus();
 
 			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// If the current person's name is blank it means the user is in middle of entering
+		/// information for a new person. In that case, pressing ESC will cancel adding the
+		/// new person.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape && m_currPerson != null && m_currPerson.FullName == string.Empty)
+			{
+				m_currProj.People.Remove(m_currPerson);
+				m_currPerson = null;
+				lpPeople.DeleteCurrentItem();
+				lpPeople.UpdateItemText(m_currPerson, null);
+				m_fullName.SelectAll();
+				m_fullName.Focus();
+				return true;
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -184,6 +266,7 @@ namespace SIL.Sponge
 				m_currPerson = null;
 			}
 
+			lblNoPeopleMsg.Visible = (lpPeople.Items.Count() == 0);
 			lpPeople.Focus();
 		}
 
@@ -294,7 +377,7 @@ namespace SIL.Sponge
 			if (saveAfterLoad && person.CanSave)
 				person.Save();
 
-			lpPeople.RefreshItemTexts();
+			lpPeople.UpdateItemText(person, person.FullName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -312,7 +395,10 @@ namespace SIL.Sponge
 				return;
 			}
 
+			m_fullName.TextChanged -= m_fullName_TextChanged;
 			m_fullName.Text = person.FullName;
+			m_fullName.TextChanged += m_fullName_TextChanged;
+
 			m_language0.Text = person.PrimaryLanguage;
 			m_language1.Text = person.OtherLangauge0;
 			m_language2.Text = person.OtherLangauge1;
@@ -356,7 +442,10 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void ClearForm()
 		{
+			m_fullName.TextChanged -= m_fullName_TextChanged;
 			m_fullName.Text = string.Empty;
+			m_fullName.TextChanged += m_fullName_TextChanged;
+
 			m_language0.Text = string.Empty;
 			m_language1.Text = string.Empty;
 			m_language2.Text = string.Empty;
@@ -453,6 +542,53 @@ namespace SIL.Sponge
 		private void HandleLanguageNameLeave(object sender, EventArgs e)
 		{
 			m_currProj.AddLanguageNames(((TextBox)sender).Text.Trim());
+		}
+
+		#endregion
+
+		#region Event handlers for the person's name text box
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Turn on the text changing event.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_fullName_Enter(object sender, EventArgs e)
+		{
+			m_fullName.TextChanged += m_fullName_TextChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Turn off the text changing event.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_fullName_Leave(object sender, EventArgs e)
+		{
+			m_fullName.TextChanged -= m_fullName_TextChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the name in the peoples list as the user types in the name text box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_fullName_TextChanged(object sender, EventArgs e)
+		{
+			lpPeople.UpdateItemText(m_currPerson, m_fullName.Text.Trim());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Validate the name, checking for no name, or whether or not the name already exists.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_fullName_Validating(object sender, CancelEventArgs e)
+		{
+			if (!IsNameOK(true))
+			{
+				m_fullName.SelectAll();
+				e.Cancel = true;
+			}
 		}
 
 		#endregion

@@ -177,7 +177,11 @@ namespace SIL.Sponge.Model
 		[XmlIgnore]
 		public string FullPath
 		{
-			get { return (Project == null ? null : Path.Combine(Project.PeopleFolder, FileName)); }
+			get
+			{
+				return (Project == null || FileName == null ?
+					null : Path.Combine(Project.PeopleFolder, FileName));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

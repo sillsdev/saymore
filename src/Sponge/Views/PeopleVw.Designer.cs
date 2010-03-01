@@ -73,6 +73,7 @@ namespace SIL.Sponge
 			this.lblGender = new System.Windows.Forms.Label();
 			this.tpgContributors = new System.Windows.Forms.TabPage();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.lblNoPeopleMsg = new System.Windows.Forms.Label();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -94,6 +95,7 @@ namespace SIL.Sponge
 			// 
 			// splitOuter.Panel1
 			// 
+			this.splitOuter.Panel1.Controls.Add(this.lblNoPeopleMsg);
 			this.splitOuter.Panel1.Controls.Add(this.lpPeople);
 			this.splitOuter.Panel1MinSize = 165;
 			this.splitOuter.Size = new System.Drawing.Size(709, 432);
@@ -127,8 +129,7 @@ namespace SIL.Sponge
 			this.lpPeople.ListView.HideSelection = false;
 			this.lpPeople.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpPeople.ListView.Name = "lvItems";
-			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 984);
-			this.lpPeople.ListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 1604);
 			this.lpPeople.ListView.TabIndex = 0;
 			this.lpPeople.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpPeople.ListView.View = System.Windows.Forms.View.Details;
@@ -283,6 +284,9 @@ namespace SIL.Sponge
 			this.m_fullName.Name = "m_fullName";
 			this.m_fullName.Size = new System.Drawing.Size(274, 23);
 			this.m_fullName.TabIndex = 1;
+			this.m_fullName.Leave += new System.EventHandler(this.m_fullName_Leave);
+			this.m_fullName.Enter += new System.EventHandler(this.m_fullName_Enter);
+			this.m_fullName.Validating += new System.ComponentModel.CancelEventHandler(this.m_fullName_Validating);
 			// 
 			// uhbOtherLanguages
 			// 
@@ -769,6 +773,23 @@ namespace SIL.Sponge
 			// 
 			this.locExtender.LocalizationGroup = "Views";
 			// 
+			// lblNoPeopleMsg
+			// 
+			this.lblNoPeopleMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lblNoPeopleMsg.BackColor = System.Drawing.Color.Transparent;
+			this.lblNoPeopleMsg.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.locExtender.SetLocalizableToolTip(this.lblNoPeopleMsg, null);
+			this.locExtender.SetLocalizationComment(this.lblNoPeopleMsg, null);
+			this.locExtender.SetLocalizationPriority(this.lblNoPeopleMsg, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblNoPeopleMsg, "PeopleVw.lblNoPeopleMsg");
+			this.lblNoPeopleMsg.Location = new System.Drawing.Point(14, 45);
+			this.lblNoPeopleMsg.Name = "lblNoPeopleMsg";
+			this.lblNoPeopleMsg.Size = new System.Drawing.Size(138, 168);
+			this.lblNoPeopleMsg.TabIndex = 4;
+			this.lblNoPeopleMsg.Text = "To add a person, click the \'New\' button below.";
+			// 
 			// PeopleVw
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -846,5 +867,6 @@ namespace SIL.Sponge
 		private ParentButton m_languageMother3;
 		private ParentButton m_languageMother2;
 		private ParentButton m_languageMother1;
+		private System.Windows.Forms.Label lblNoPeopleMsg;
 	}
 }

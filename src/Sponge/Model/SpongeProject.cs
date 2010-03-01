@@ -486,13 +486,12 @@ namespace SIL.Sponge.Model
 		/// Determines whether or not a Person object exists for the specified name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool PersonExists(string fullName)
+		public Person GetPerson(string fullName)
 		{
-			if (fullName == null)
-				return false;
+			if (fullName != null)
+				fullName = fullName.Trim();
 
-			fullName = fullName.Trim();
-			return (People.FirstOrDefault(x => x.FullName == fullName) != null);
+			return People.FirstOrDefault(x => x.FullName == fullName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -500,27 +499,16 @@ namespace SIL.Sponge.Model
 		/// Adds the specified person to the project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool AddPerson(Person person, bool saveToFile)
+		public void AddPerson(Person person)
 		{
-			if (person == null)
-				return false;
-
-			if (PersonExists(person.FullName))
+			if (person != null)
 			{
-				var msg = LocalizationManager.LocalizeString("AddingDuplicatePersonMsg",
-					"The person '{0}' already exists and you may not add another person with the same name.",
-					"Miscellaneous Strings");
+				if (person.FullName == null)
+					person.FullName = string.Empty;
 
-				Utils.MsgBox(string.Format(msg, person.FullName));
-				return false;
+				People.Add(person);
+				People.Sort((x, y) => x.FullName.CompareTo(y.FullName));
 			}
-
-			if (saveToFile && person.CanSave)
-				person.Save();
-
-			People.Add(person);
-			People.Sort((x, y) => x.FullName.CompareTo(y.FullName));
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

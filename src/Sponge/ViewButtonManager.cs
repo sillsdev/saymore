@@ -17,6 +17,7 @@ namespace SIL.Sponge
 		void ViewActivated(bool firstTime);
 		void ViewDeactivated();
 		bool IsViewActive { get; }
+		bool IsOKToLeaveView(bool showMsgWhenNotOK);
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -83,6 +84,22 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets all the controls associated with buttons that implement the ISpongeView
+		/// interface.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<ISpongeView> Views
+		{
+			get
+			{
+				return from x in m_controls.Values
+					   where x is ISpongeView
+					   select x as ISpongeView;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the current button for the current view.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -123,6 +140,13 @@ namespace SIL.Sponge
 			ToolStripButton currbtn = CurrentViewButton;
 			if (btn == currbtn)
 				return;
+
+			// Now make sure we can leave the current view.
+			foreach (var vw in Views)
+			{
+				if (!vw.IsOKToLeaveView(true))
+					return;
+			}
 
 			if (m_toolStripOwner != null)
 				Utils.SetWindowRedraw(m_toolStripOwner, false);

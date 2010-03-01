@@ -75,6 +75,16 @@ namespace SIL.Sponge
 			m_isViewActive = false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Allows a subclass to cleans up its view (e.g. save outstanding changes).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual bool IsOKToLeaveView(bool showMsgWhenNotOK)
+		{
+			return true;
+		}
+
 		#endregion
 	}
 }

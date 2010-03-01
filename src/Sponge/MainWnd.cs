@@ -183,7 +183,11 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void tsbChangeProjects_Click(object sender, System.EventArgs e)
 		{
-			// TODO: Make sure project can be closed.
+			foreach (var vw in m_viewManger.Views)
+			{
+				if (!vw.IsOKToLeaveView(true))
+					return;
+			}
 
 			Hide();
 

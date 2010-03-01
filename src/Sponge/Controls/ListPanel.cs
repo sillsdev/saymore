@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -26,6 +27,11 @@ namespace SIL.Sponge.Controls
 		public delegate object NewButtonClickedHandler(object sender);
 		public event NewButtonClickedHandler NewButtonClicked;
 
+		// This font is used to indicate the text of the current item is a duplicate.
+		private Font m_fntDupItem;
+
+		private bool m_monitorSelectedIndexChanges = false;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ListPanel"/> class.
@@ -34,6 +40,25 @@ namespace SIL.Sponge.Controls
 		public ListPanel()
 		{
 			InitializeComponent();
+			m_fntDupItem = new Font(lvItems.Font, FontStyle.Italic | FontStyle.Bold);
+			lvItems.ListViewItemSorter = new ListSorter();
+			MonitorSelectedIndexChanges = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				m_fntDupItem.Dispose();
+				components.Dispose();
+			}
+
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,7 +110,7 @@ namespace SIL.Sponge.Controls
 				if (value != null && value.Length > 0)
 				{
 					var list = new List<object>(value);
-					list.Sort((x, y) => x.ToString().CompareTo(y.ToString()));
+					list.Sort((x, y) => (x.ToString() ?? string.Empty).CompareTo(y.ToString() ?? string.Empty));
 					foreach (object obj in list)
 					{
 						var newLvItem = lvItems.Items.Add(obj.ToString());
@@ -106,22 +131,61 @@ namespace SIL.Sponge.Controls
 		public object CurrentItem
 		{
 			get { return (lvItems.FocusedItem == null ? null : lvItems.FocusedItem.Tag); }
-			set
+			set { SelectItem(value, true); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Selects the item with the specified text.
+		/// </summary>
+		/// <param name="item">The item to be selected. This can be the text of the item,
+		/// the list view item, or the underlying object associated with a list view item.
+		/// </param>
+		/// <param name="generateSelChgEvent">if true, the SelectedItemChanged event is fired.
+		/// otherwise the event is not fired.</param>
+		/// ------------------------------------------------------------------------------------
+		public void SelectItem(object item, bool generateSelChgEvent)
+		{
+			if (item == null)
+				return;
+
+			MonitorSelectedIndexChanges = false;
+
+			if (item is string)
+				lvItems.FocusedItem = lvItems.FindItemWithText(item as string);
+			else if (item is ListViewItem)
+				lvItems.FocusedItem = (item as ListViewItem);
+			else
+				lvItems.FocusedItem = FindListViewItem(item);
+
+			lvItems.SelectedItems.Clear();
+
+			if (lvItems.FocusedItem != null)
+				lvItems.FocusedItem.Selected = true;
+
+			if (generateSelChgEvent && SelectedItemChanged != null)
 			{
-				if (value == null)
-					return;
-
-				lvItems.FocusedItem = (value is ListViewItem ?
-					(ListViewItem)value :
-					lvItems.FocusedItem = lvItems.FindItemWithText(value.ToString()));
-
-				lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
-				lvItems.SelectedItems.Clear();
-				lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
-
-				if (lvItems.FocusedItem != null)
-					lvItems.FocusedItem.Selected = true;
+				SelectedItemChanged(this, lvItems.FocusedItem != null ?
+					lvItems.FocusedItem.Tag : null);
 			}
+
+			MonitorSelectedIndexChanges = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tries to find the list view item associated with the specified object.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private ListViewItem FindListViewItem(object item)
+		{
+			foreach (ListViewItem lvi in lvItems.Items)
+			{
+				if (lvi.Tag == item)
+					return lvi;
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,16 +214,90 @@ namespace SIL.Sponge.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Refreshes each item's text from its underlying object.
+		/// Updates the displayed text for the specified item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void RefreshItemTexts()
+		public void UpdateItemText(object itemToRefresh, string newText)
 		{
-			foreach (ListViewItem item in lvItems.Items)
-				item.Text = item.Tag.ToString();
+			if (itemToRefresh == null)
+				return;
 
-			// TODO: Figure out how to sort without causing
-			// problems for views like the people view.
+			var lvi = FindListViewItem(itemToRefresh);
+			if (lvi == null)
+				return;
+
+			lvi.Text = (newText ?? itemToRefresh.ToString());
+			ReSort();
+
+			// Check if the item before or after the current item has the same text.
+			var i = lvi.Index;
+			if ((i > 0 && lvi.Text == lvItems.Items[i - 1].Text) ||
+				(i < lvItems.Items.Count - 1 && lvi.Text == lvItems.Items[i + 1].Text))
+			{
+				// Change the look of the current item if it's text is duplicated.
+				lvi.ForeColor = Color.Red;
+				lvi.BackColor = Color.PapayaWhip;
+				lvi.Font = m_fntDupItem;
+				lvItems.HideSelection = true;
+			}
+			else
+			{
+				// Restore the look of the current item to its default.
+				lvi.ForeColor = lvItems.ForeColor;
+				lvi.BackColor = lvItems.BackColor;
+				lvi.Font = lvItems.Font;
+				lvItems.HideSelection = false;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Recreate the font for duplicated items.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void lvItems_FontChanged(object sender, EventArgs e)
+		{
+			m_fntDupItem.Dispose();
+			m_fntDupItem = new Font(lvItems.Font, FontStyle.Italic | FontStyle.Bold);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Resorts the list and makes the item with the specified text the focused item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ReSort()
+		{
+			MonitorSelectedIndexChanges = false;
+			var selectedItem = lvItems.FocusedItem;
+			lvItems.BeginUpdate();
+			lvItems.Sort();
+			lvItems.EndUpdate();
+			MonitorSelectedIndexChanges = true;
+			SelectItem(selectedItem, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deletes the focused item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void DeleteCurrentItem()
+		{
+			if (lvItems.FocusedItem == null)
+				return;
+
+			var newIndex = lvItems.FocusedItem.Index;
+
+			MonitorSelectedIndexChanges = false;
+			lvItems.Items.RemoveAt(newIndex);
+			MonitorSelectedIndexChanges = true;
+
+			if (newIndex >= lvItems.Items.Count)
+				newIndex = lvItems.Items.Count - 1;
+
+			if (lvItems.Items.Count > 0)
+				CurrentItem = lvItems.Items[newIndex];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -187,7 +325,7 @@ namespace SIL.Sponge.Controls
 			var currText = lvItems.FocusedItem.Text;
 			var currIndex = lvItems.FocusedItem.Index;
 
-			lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
+			MonitorSelectedIndexChanges = false;
 
 			// Remove the selected item. (This list could have been modified by a
 			// delegate.)
@@ -198,7 +336,7 @@ namespace SIL.Sponge.Controls
 					lvItems.Items.Remove(item);
 			}
 
-			lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
+			MonitorSelectedIndexChanges = true;
 
 			// Call delegates.
 			if (AfterItemsDeleted != null)
@@ -235,7 +373,7 @@ namespace SIL.Sponge.Controls
 		private void btnNew_Click(object sender, EventArgs e)
 		{
 			if (NewButtonClicked != null)
-				AddItem(NewButtonClicked(this), true);
+				AddItem(NewButtonClicked(this), true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -243,34 +381,40 @@ namespace SIL.Sponge.Controls
 		/// Adds an item to the list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void AddItem(object item, bool selectAfterAdd)
+		public void AddItem(object item, bool selectAfterAdd, bool generateSelChgEvent)
 		{
-			if (item != null)
+			// REVIEW: Is it OK to do nothing if the item already exists
+			// or should we throw an error or something like that?
+			if (item != null && lvItems.Items.Find(item.ToString(), true).Length == 0)
 			{
-				if (lvItems.Items.Find(item.ToString(), true).Length > 0)
-				{
-					// REVIEW: Is it OK to just leave if the item already exists
-					// or should we throw an error or something like that?
-					return;
-				}
-
-				lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
-
-				int i = 0;
-				for (; i < lvItems.Items.Count; i++)
-				{
-					if (lvItems.Items[i].Text.CompareTo(item.ToString()) > 0)
-						break;
-				}
-
-				var newLvItem = lvItems.Items.Insert(i, item.ToString());
-				newLvItem.Tag = item;
-				newLvItem.Name = item.ToString();
-				lvItems.SelectedItems.Clear();
-				lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
+				lvItems.Items.Add(item.ToString()).Tag = item;
+				ReSort();
 
 				if (selectAfterAdd)
-					CurrentItem = item;
+					SelectItem(item, generateSelChgEvent);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether the list view's SelectedIndexChanged
+		/// event should be subscribed to. The setter will make sure that the event is never
+		/// subscribed to more than once at a time.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool MonitorSelectedIndexChanges
+		{
+			set
+			{
+				if (m_monitorSelectedIndexChanges != value)
+				{
+					if (value)
+						lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
+					else
+						lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
+
+					m_monitorSelectedIndexChanges = value;
+				}
 			}
 		}
 
@@ -303,6 +447,19 @@ namespace SIL.Sponge.Controls
 
 			using (var pen = new Pen(SpongeBar.DefaultSpongeBarColorEnd))
 				e.Graphics.DrawLine(pen, 0, 0, pnlButtons.Width, 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private class ListSorter : IComparer
+		{
+			public int Compare(object x, object y)
+			{
+				return string.Compare(((ListViewItem)x).Text, ((ListViewItem)y).Text);
+			}
 		}
 	}
 }

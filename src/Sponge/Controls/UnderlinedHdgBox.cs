@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
@@ -17,7 +16,7 @@ namespace SIL.Sponge.Controls
 	{
 		private Color m_lineColor = SystemColors.ControlDark;
 		private int m_lineThickness = 1;
-		private Label m_lblHeading;
+		private readonly Label m_lblHeading;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

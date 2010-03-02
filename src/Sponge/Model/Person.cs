@@ -236,7 +236,14 @@ namespace SIL.Sponge.Model
 		[XmlIgnore]
 		public string ImageKey
 		{
-			get { return (HasPermissions ? null : "kimidNoPermissionsWarning"); }
+			get
+			{
+				// If the full name is null or blank, it likely means the person hasn't
+				// been saved to their file yet, so in that case, it's a bit premature
+				// to return an image key.
+				return (HasPermissions || string.IsNullOrEmpty(FullName) ?
+					null : "kimidNoPermissionsWarning");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -346,14 +353,14 @@ namespace SIL.Sponge.Model
 			if (!Directory.Exists(Folder))
 				throw new DirectoryNotFoundException(Folder);
 
-			var destFile = Path.GetFileName(srcFile);
-			destFile = Path.Combine(PermissionsFolder, destFile);
-			if (File.Exists(destFile))
+			if (Path.GetDirectoryName(srcFile) == PermissionsFolder)
 				return;
 
 			if (!Directory.Exists(PermissionsFolder))
 				Directory.CreateDirectory(PermissionsFolder);
 
+			var destFile = Path.GetFileName(srcFile);
+			destFile = Path.Combine(PermissionsFolder, destFile);
 			File.Copy(srcFile, destFile, true);
 		}
 

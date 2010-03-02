@@ -39,6 +39,7 @@ namespace SIL.Sponge
 			InitializeComponent();
 			m_gender.SelectedIndex = 0;
 			tblLayout.Enabled = false;
+			pnlPermissions.Enabled = false;
 
 			lblNoPeopleMsg.BackColor = lpPeople.ListView.BackColor;
 
@@ -54,8 +55,9 @@ namespace SIL.Sponge
 			m_langMothers[m_language3] = m_languageMother3;
 			m_langMothers[m_language4] = m_languageMother4;
 
-			pnlBrowser.Width = tpgInformedConsent.Width - pnlBrowser.Left - 10;
-			pnlBrowser.Height = tpgInformedConsent.Height - pnlBrowser.Top - 10;
+			// Designer keeps messing up the size of pnlBrowser, so we'll force here.
+			pnlBrowser.Width = pnlPermissions.Width - pnlBrowser.Left - 10;
+			pnlBrowser.Height = pnlPermissions.Height - pnlBrowser.Top - 10;
 
 			tabPeople.ImageList = new ImageList();
 			tabPeople.ImageList.Images.Add(Resources.kimidNoPermissionsWarning);
@@ -87,7 +89,7 @@ namespace SIL.Sponge
 			base.ViewDeactivated();
 
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson, true);
+				LoadPersonFromForm(m_currPerson);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,7 +103,7 @@ namespace SIL.Sponge
 				return false;
 
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson, true);
+				LoadPersonFromForm(m_currPerson);
 
 			return base.IsOKToLeaveView(showMsgWhenNotOK);
 		}
@@ -118,7 +120,7 @@ namespace SIL.Sponge
 			base.OnHandleDestroyed(e);
 
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson, true);
+				LoadPersonFromForm(m_currPerson);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,7 +187,7 @@ namespace SIL.Sponge
 				return;
 
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson, true);
+				LoadPersonFromForm(m_currPerson);
 
 			m_currPerson = newItem as Person;
 			LoadFormFromPerson(m_currPerson);
@@ -200,7 +202,7 @@ namespace SIL.Sponge
 		private object lpPeople_NewButtonClicked(object sender)
 		{
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson, true);
+				LoadPersonFromForm(m_currPerson);
 
 			if (tabPeople.SelectedTab != tpgAbout)
 				tabPeople.SelectedTab = tpgAbout;
@@ -212,6 +214,7 @@ namespace SIL.Sponge
 			lpPeople.AddItem(m_currPerson, true, false);
 
 			tblLayout.Enabled = true;
+			pnlPermissions.Enabled = true;
 			m_fullName.SelectAll();
 			m_fullName.Focus();
 
@@ -370,30 +373,14 @@ namespace SIL.Sponge
 		/// form is blank, then a unique name is assigned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadPersonFromForm(Person person, bool saveAfterLoad)
+		private void LoadPersonFromForm(Person person)
 		{
 			bool nameChanged = true;
 
 			if (person == null)
 				person = new Person();
 			else
-			{
-				if (m_fullName.Text.Trim() == string.Empty)
-					m_fullName.Text = m_currProj.GetUniquePersonName();
-
-				var prevName = person.FullName ?? string.Empty;
-				nameChanged = (prevName != m_fullName.Text.Trim());
-
-				if (saveAfterLoad && nameChanged && prevName != string.Empty)
-				{
-					person.Rename(m_fullName.Text.Trim());
-
-					var currPermissionFile = (lstPermissionFiles.SelectedItem == null ?
-						null : lstPermissionFiles.SelectedItem.ToString());
-
-					LoadPermissionsTabFromPerson(person, currPermissionFile);
-				}
-			}
+				nameChanged = RenameIfNecessary(person);
 
 			person.FullName = m_fullName.Text.Trim();
 			person.PrimaryLanguage = m_language0.Text.Trim();
@@ -418,11 +405,41 @@ namespace SIL.Sponge
 			if (int.TryParse(m_birthYear.Text, out year))
 				person.BirthYear = year;
 
-			if (saveAfterLoad && person.CanSave)
+			if (person.CanSave)
 				person.Save();
 
 			if (nameChanged)
 				lpPeople.UpdateItem(person, person.FullName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Before loding a person object from the data in the form, determine whether or
+		/// not the name changed, and perform a rename if it has.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool RenameIfNecessary(Person person)
+		{
+			if (m_fullName.Text.Trim() == string.Empty)
+				m_fullName.Text = m_currProj.GetUniquePersonName();
+
+			var prevName = person.FullName ?? string.Empty;
+			var newName = m_fullName.Text.Trim();
+			bool nameChanged = (prevName != newName);
+
+			if (nameChanged && prevName != string.Empty)
+			{
+				person.Rename(newName);
+
+				// Rebuild the list of permissions files since they
+				// will have moved in the person renaming process.
+				var currPermissionFile = (lstPermissionFiles.SelectedItem == null ?
+					null : lstPermissionFiles.SelectedItem.ToString());
+
+				LoadPermissionsTabFromPerson(person, currPermissionFile);
+			}
+
+			return nameChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -432,7 +449,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void LoadFormFromPerson(Person person)
 		{
-			tblLayout.Enabled = (person != null);
+			tblLayout.Enabled = pnlPermissions.Enabled = (person != null);
 
 			if (person == null)
 			{
@@ -546,6 +563,7 @@ namespace SIL.Sponge
 			{
 				lblNoPeopleMsg.Visible = true;
 				tblLayout.Enabled = false;
+				pnlPermissions.Enabled = false;
 				ClearForm();
 				tpgInformedConsent.ImageIndex = -1;
 			}
@@ -677,7 +695,7 @@ namespace SIL.Sponge
 			}
 
 			// Perform the delete when the navigation is finished because until then, the
-			// browser control may have a handle on the file being displayed which means
+			// browser control may have a handle on the file being displayed, which means
 			// it cannot be deleted from the disk.
 			webConsent.Navigated += DeleteSelectedPermissionsFile;
 			webConsent.Navigate(string.Empty);
@@ -698,11 +716,12 @@ namespace SIL.Sponge
 				i = lstPermissionFiles.SelectedIndex - 1;
 
 			var newFile = (i < 0 ? null : lstPermissionFiles.Items[i].ToString());
+
 			var pf = lstPermissionFiles.SelectedItem as PermissionsFile;
 			m_currPerson.DeletePermissionsFile(pf.FullPath);
 			LoadPermissionsTabFromPerson(m_currPerson, newFile);
 
-			// If there's no more permission files, this will force the warning
+			// If there are no more permission files, this will force the warning
 			// icon to be displayed next to the person's name.
 			if (lstPermissionFiles.Items.Count == 0)
 				lpPeople.UpdateItem(m_currPerson, null);
@@ -710,7 +729,7 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Let the user add a new informed consent file.
+		/// Let the user add a new permissions file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnAddPermissionFile_Click(object sender, EventArgs e)
@@ -722,7 +741,7 @@ namespace SIL.Sponge
 			{
 				var caption = LocalizationManager.LocalizeString(
 					"NewInformedConsentFileDlg.OpenFileDlgCaption",
-					"Specify Informed Consent File", "Dialog Boxes");
+					"Specify an Informed Consent File", "Dialog Boxes");
 
 				dlg.Title = caption;
 				dlg.Filter = Sponge.OFDlgAllFileTypeText + "|*.*";
@@ -744,7 +763,7 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Attempts to find and selects the specified permissions file in the list of
+		/// Attempts to find and select the specified permissions file in the list of
 		/// permissions files for the current person.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -762,14 +781,14 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// When there is at least one consent file and no file is selected, then select
-		/// the first file.
+		/// When there is at least one permissions file and no file is selected, then select
+		/// the first one.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void tabPeople_Selected(object sender, TabControlEventArgs e)
 		{
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson, true);
+				LoadPersonFromForm(m_currPerson);
 
 			if (e.TabPage == tpgInformedConsent && lstPermissionFiles.SelectedItem == null)
 				ShowPermissionFile(0);

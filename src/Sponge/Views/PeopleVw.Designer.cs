@@ -71,7 +71,13 @@ namespace SIL.Sponge
 			this.lblContact = new System.Windows.Forms.Label();
 			this.m_birthYear = new System.Windows.Forms.TextBox();
 			this.lblGender = new System.Windows.Forms.Label();
-			this.tpgContributors = new System.Windows.Forms.TabPage();
+			this.tpgInformedConsent = new System.Windows.Forms.TabPage();
+			this.btnDeletePermissionFile = new System.Windows.Forms.Button();
+			this.pnlBrowser = new SilUtils.Controls.SilPanel();
+			this.webConsent = new System.Windows.Forms.WebBrowser();
+			this.btnAddPermissionFile = new System.Windows.Forms.Button();
+			this.lblHeading = new System.Windows.Forms.Label();
+			this.lstPermissionFiles = new System.Windows.Forms.ListBox();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.lblNoPeopleMsg = new System.Windows.Forms.Label();
 			this.splitOuter.Panel1.SuspendLayout();
@@ -87,6 +93,8 @@ namespace SIL.Sponge
 			this.uhbPrimaryLanguage.SuspendLayout();
 			this.pnlRightSide.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_picture)).BeginInit();
+			this.tpgInformedConsent.SuspendLayout();
+			this.pnlBrowser.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -129,7 +137,7 @@ namespace SIL.Sponge
 			this.lpPeople.ListView.HideSelection = false;
 			this.lpPeople.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpPeople.ListView.Name = "lvItems";
-			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 1604);
+			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 4549);
 			this.lpPeople.ListView.TabIndex = 0;
 			this.lpPeople.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpPeople.ListView.View = System.Windows.Forms.View.Details;
@@ -139,6 +147,7 @@ namespace SIL.Sponge
 			this.lpPeople.Location = new System.Drawing.Point(0, 0);
 			this.lpPeople.MinimumSize = new System.Drawing.Size(165, 0);
 			this.lpPeople.Name = "lpPeople";
+			this.lpPeople.ReSortWhenItemTextChanges = true;
 			this.lpPeople.Size = new System.Drawing.Size(165, 432);
 			this.lpPeople.TabIndex = 0;
 			this.lpPeople.Text = "People";
@@ -150,7 +159,7 @@ namespace SIL.Sponge
 			// tabPeople
 			// 
 			this.tabPeople.Controls.Add(this.tpgAbout);
-			this.tabPeople.Controls.Add(this.tpgContributors);
+			this.tabPeople.Controls.Add(this.tpgInformedConsent);
 			this.tabPeople.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabPeople.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tabPeople.ItemSize = new System.Drawing.Size(65, 22);
@@ -159,6 +168,7 @@ namespace SIL.Sponge
 			this.tabPeople.SelectedIndex = 0;
 			this.tabPeople.Size = new System.Drawing.Size(540, 429);
 			this.tabPeople.TabIndex = 0;
+			this.tabPeople.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabPeople_Selected);
 			this.tabPeople.SizeChanged += new System.EventHandler(this.tabPeople_SizeChanged);
 			// 
 			// tpgAbout
@@ -284,8 +294,7 @@ namespace SIL.Sponge
 			this.m_fullName.Name = "m_fullName";
 			this.m_fullName.Size = new System.Drawing.Size(274, 23);
 			this.m_fullName.TabIndex = 1;
-			this.m_fullName.Leave += new System.EventHandler(this.m_fullName_Leave);
-			this.m_fullName.Enter += new System.EventHandler(this.m_fullName_Enter);
+			this.m_fullName.TextChanged += new System.EventHandler(this.m_fullName_TextChanged);
 			this.m_fullName.Validating += new System.ComponentModel.CancelEventHandler(this.m_fullName_Validating);
 			// 
 			// uhbOtherLanguages
@@ -755,19 +764,110 @@ namespace SIL.Sponge
 			this.lblGender.TabIndex = 2;
 			this.lblGender.Text = "&Gender:";
 			// 
-			// tpgContributors
+			// tpgInformedConsent
 			// 
-			this.locExtender.SetLocalizableToolTip(this.tpgContributors, null);
-			this.locExtender.SetLocalizationComment(this.tpgContributors, null);
-			this.locExtender.SetLocalizingId(this.tpgContributors, "PeopleVw.tpgContributors");
-			this.tpgContributors.Location = new System.Drawing.Point(4, 26);
-			this.tpgContributors.Name = "tpgContributors";
-			this.tpgContributors.Padding = new System.Windows.Forms.Padding(3);
-			this.tpgContributors.Size = new System.Drawing.Size(480, 350);
-			this.tpgContributors.TabIndex = 1;
-			this.tpgContributors.Text = "Contributors && Permissions";
-			this.tpgContributors.ToolTipText = "Contributors & Permissions";
-			this.tpgContributors.UseVisualStyleBackColor = true;
+			this.tpgInformedConsent.Controls.Add(this.btnDeletePermissionFile);
+			this.tpgInformedConsent.Controls.Add(this.pnlBrowser);
+			this.tpgInformedConsent.Controls.Add(this.btnAddPermissionFile);
+			this.tpgInformedConsent.Controls.Add(this.lblHeading);
+			this.tpgInformedConsent.Controls.Add(this.lstPermissionFiles);
+			this.locExtender.SetLocalizableToolTip(this.tpgInformedConsent, "");
+			this.locExtender.SetLocalizationComment(this.tpgInformedConsent, null);
+			this.locExtender.SetLocalizationPriority(this.tpgInformedConsent, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.tpgInformedConsent, "PeopleVw.tpgInformedConsent");
+			this.tpgInformedConsent.Location = new System.Drawing.Point(4, 26);
+			this.tpgInformedConsent.Name = "tpgInformedConsent";
+			this.tpgInformedConsent.Padding = new System.Windows.Forms.Padding(3);
+			this.tpgInformedConsent.Size = new System.Drawing.Size(532, 399);
+			this.tpgInformedConsent.TabIndex = 1;
+			this.tpgInformedConsent.Text = "Informed Consent";
+			this.tpgInformedConsent.UseVisualStyleBackColor = true;
+			// 
+			// btnDeletePermissionFile
+			// 
+			this.locExtender.SetLocalizableToolTip(this.btnDeletePermissionFile, null);
+			this.locExtender.SetLocalizationComment(this.btnDeletePermissionFile, null);
+			this.locExtender.SetLocalizationPriority(this.btnDeletePermissionFile, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnDeletePermissionFile, "PeopleVw.btnDeletePermissionFile");
+			this.btnDeletePermissionFile.Location = new System.Drawing.Point(114, 171);
+			this.btnDeletePermissionFile.Name = "btnDeletePermissionFile";
+			this.btnDeletePermissionFile.Size = new System.Drawing.Size(95, 24);
+			this.btnDeletePermissionFile.TabIndex = 5;
+			this.btnDeletePermissionFile.Text = "Delete File";
+			this.btnDeletePermissionFile.UseVisualStyleBackColor = true;
+			this.btnDeletePermissionFile.Click += new System.EventHandler(this.btnDeletePermissionFile_Click);
+			// 
+			// pnlBrowser
+			// 
+			this.pnlBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlBrowser.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pnlBrowser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlBrowser.ClipTextForChildControls = true;
+			this.pnlBrowser.ControlReceivingFocusOnMnemonic = null;
+			this.pnlBrowser.Controls.Add(this.webConsent);
+			this.pnlBrowser.DoubleBuffered = true;
+			this.pnlBrowser.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.locExtender.SetLocalizableToolTip(this.pnlBrowser, null);
+			this.locExtender.SetLocalizationComment(this.pnlBrowser, null);
+			this.locExtender.SetLocalizationPriority(this.pnlBrowser, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlBrowser, "PeopleVw.pnlBrowser");
+			this.pnlBrowser.Location = new System.Drawing.Point(219, 41);
+			this.pnlBrowser.MnemonicGeneratesClick = false;
+			this.pnlBrowser.Name = "pnlBrowser";
+			this.pnlBrowser.PaintExplorerBarBackground = false;
+			this.pnlBrowser.Size = new System.Drawing.Size(127, 109);
+			this.pnlBrowser.TabIndex = 4;
+			// 
+			// webConsent
+			// 
+			this.webConsent.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.locExtender.SetLocalizableToolTip(this.webConsent, null);
+			this.locExtender.SetLocalizationComment(this.webConsent, null);
+			this.locExtender.SetLocalizationPriority(this.webConsent, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.webConsent, "webBrowser1.webBrowser1");
+			this.webConsent.Location = new System.Drawing.Point(0, 0);
+			this.webConsent.MinimumSize = new System.Drawing.Size(20, 20);
+			this.webConsent.Name = "webConsent";
+			this.webConsent.Size = new System.Drawing.Size(125, 107);
+			this.webConsent.TabIndex = 3;
+			// 
+			// btnAddPermissionFile
+			// 
+			this.locExtender.SetLocalizableToolTip(this.btnAddPermissionFile, null);
+			this.locExtender.SetLocalizationComment(this.btnAddPermissionFile, null);
+			this.locExtender.SetLocalizingId(this.btnAddPermissionFile, "button1.button1");
+			this.btnAddPermissionFile.Location = new System.Drawing.Point(10, 171);
+			this.btnAddPermissionFile.Name = "btnAddPermissionFile";
+			this.btnAddPermissionFile.Size = new System.Drawing.Size(95, 24);
+			this.btnAddPermissionFile.TabIndex = 2;
+			this.btnAddPermissionFile.Text = "Add File...";
+			this.btnAddPermissionFile.UseVisualStyleBackColor = true;
+			this.btnAddPermissionFile.Click += new System.EventHandler(this.btnAddPermissionFile_Click);
+			// 
+			// lblHeading
+			// 
+			this.lblHeading.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.lblHeading, null);
+			this.locExtender.SetLocalizationComment(this.lblHeading, null);
+			this.locExtender.SetLocalizingId(this.lblHeading, "label1.label1");
+			this.lblHeading.Location = new System.Drawing.Point(12, 15);
+			this.lblHeading.Name = "lblHeading";
+			this.lblHeading.Size = new System.Drawing.Size(260, 15);
+			this.lblHeading.TabIndex = 1;
+			this.lblHeading.Text = "Files related to informed consent by this person:";
+			// 
+			// lstPermissionFiles
+			// 
+			this.lstPermissionFiles.FormattingEnabled = true;
+			this.lstPermissionFiles.ItemHeight = 15;
+			this.lstPermissionFiles.Location = new System.Drawing.Point(10, 41);
+			this.lstPermissionFiles.Name = "lstPermissionFiles";
+			this.lstPermissionFiles.Size = new System.Drawing.Size(199, 124);
+			this.lstPermissionFiles.Sorted = true;
+			this.lstPermissionFiles.TabIndex = 0;
+			this.lstPermissionFiles.SelectedIndexChanged += new System.EventHandler(this.lstPermissionFiles_SelectedIndexChanged);
 			// 
 			// locExtender
 			// 
@@ -818,6 +918,9 @@ namespace SIL.Sponge
 			this.pnlRightSide.ResumeLayout(false);
 			this.pnlRightSide.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_picture)).EndInit();
+			this.tpgInformedConsent.ResumeLayout(false);
+			this.tpgInformedConsent.PerformLayout();
+			this.pnlBrowser.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
@@ -841,7 +944,7 @@ namespace SIL.Sponge
 		private System.Windows.Forms.PictureBox m_picture;
 		private System.Windows.Forms.TabControl tabPeople;
 		private System.Windows.Forms.TabPage tpgAbout;
-		private System.Windows.Forms.TabPage tpgContributors;
+		private System.Windows.Forms.TabPage tpgInformedConsent;
 		private System.Windows.Forms.Label lblLearnedIn;
 		private System.Windows.Forms.Label lblFullName;
 		private System.Windows.Forms.Label lblBirthYear;
@@ -868,5 +971,11 @@ namespace SIL.Sponge
 		private ParentButton m_languageMother2;
 		private ParentButton m_languageMother1;
 		private System.Windows.Forms.Label lblNoPeopleMsg;
+		private System.Windows.Forms.Button btnAddPermissionFile;
+		private System.Windows.Forms.Label lblHeading;
+		private System.Windows.Forms.ListBox lstPermissionFiles;
+		private SilUtils.Controls.SilPanel pnlBrowser;
+		private System.Windows.Forms.WebBrowser webConsent;
+		private System.Windows.Forms.Button btnDeletePermissionFile;
 	}
 }

@@ -284,6 +284,7 @@
     <None Include="Resources\Male_Selected.png" />
     <None Include="Resources\ChangePicture.png" />
     <None Include="Resources\FolderOpen.png" />
+    <None Include="Resources\NoPermissionsWarning.png" />
     <Content Include="Sponge.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

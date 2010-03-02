@@ -121,5 +121,23 @@ namespace SIL.Sponge.Properties {
                 this["SessionFileInfoPanelSplitterPos"] = value;
             }
         }
+        
+        /// <summary>
+        /// Character used to replace invalid path characters in a person&apos;s name when building a safe name to store in file system.
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsDescriptionAttribute("Character used to replace invalid path characters in a person\'s name when buildin" +
+            "g a safe name to store in file system.")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("_")]
+        public char SafeNameReplacementChar {
+            get {
+                return ((char)(this["SafeNameReplacementChar"]));
+            }
+            set {
+                this["SafeNameReplacementChar"] = value;
+            }
+        }
     }
 }

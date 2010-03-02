@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -52,6 +53,12 @@ namespace SIL.Sponge
 			m_langMothers[m_language2] = m_languageMother2;
 			m_langMothers[m_language3] = m_languageMother3;
 			m_langMothers[m_language4] = m_languageMother4;
+
+			pnlBrowser.Width = tpgInformedConsent.Width - pnlBrowser.Left - 10;
+			pnlBrowser.Height = tpgInformedConsent.Height - pnlBrowser.Top - 10;
+
+			tabPeople.ImageList = new ImageList();
+			tabPeople.ImageList.Images.Add(Resources.kimidNoPermissionsWarning);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -195,6 +202,9 @@ namespace SIL.Sponge
 			if (m_currPerson != null)
 				LoadPersonFromForm(m_currPerson, true);
 
+			if (tabPeople.SelectedTab != tpgAbout)
+				tabPeople.SelectedTab = tpgAbout;
+
 			m_currPerson = Person.CreateFromName(m_currProj, string.Empty);
 			m_currProj.AddPerson(m_currPerson);
 			ClearForm();
@@ -222,7 +232,8 @@ namespace SIL.Sponge
 				m_currProj.People.Remove(m_currPerson);
 				m_currPerson = null;
 				lpPeople.DeleteCurrentItem();
-				lpPeople.UpdateItemText(m_currPerson, null);
+				lpPeople.UpdateItem(m_currPerson, null);
+				CheckIfNoMorePeople();
 				m_fullName.SelectAll();
 				m_fullName.Focus();
 				return true;
@@ -258,6 +269,25 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void lpPeople_AfterItemsDeleted(object sender, List<object> itemsToDelete)
 		{
+			lpPeople.Tag = itemsToDelete;
+			webConsent.Navigated += DeleteSelectedPeople;
+			webConsent.Navigate(string.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deletes the list of people stored in the people's list panel tag property. This
+		/// is done in the event the permissions browser is done navigating to nothing
+		/// because until that's done, it may have a lock on a permissions file associated
+		/// with the person being deleted, which would prevent the deletion. It's sort of
+		/// a strange place to do the deletion, I know.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void DeleteSelectedPeople(object sender, WebBrowserNavigatedEventArgs e)
+		{
+			webConsent.Navigated -= DeleteSelectedPeople;
+			var itemsToDelete = lpPeople.Tag as List<object>;
+
 			if (itemsToDelete != null)
 			{
 				foreach (var obj in itemsToDelete)
@@ -266,9 +296,11 @@ namespace SIL.Sponge
 				m_currPerson = null;
 			}
 
-			lblNoPeopleMsg.Visible = (lpPeople.Items.Count() == 0);
+			CheckIfNoMorePeople();
 			lpPeople.Focus();
 		}
+
+
 
 		#endregion
 
@@ -340,6 +372,8 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void LoadPersonFromForm(Person person, bool saveAfterLoad)
 		{
+			bool nameChanged = true;
+
 			if (person == null)
 				person = new Person();
 			else
@@ -347,8 +381,18 @@ namespace SIL.Sponge
 				if (m_fullName.Text.Trim() == string.Empty)
 					m_fullName.Text = m_currProj.GetUniquePersonName();
 
-				if (saveAfterLoad && person.FullName != m_fullName.Text.Trim())
+				var prevName = person.FullName ?? string.Empty;
+				nameChanged = (prevName != m_fullName.Text.Trim());
+
+				if (saveAfterLoad && nameChanged && prevName != string.Empty)
+				{
 					person.Rename(m_fullName.Text.Trim());
+
+					var currPermissionFile = (lstPermissionFiles.SelectedItem == null ?
+						null : lstPermissionFiles.SelectedItem.ToString());
+
+					LoadPermissionsTabFromPerson(person, currPermissionFile);
+				}
 			}
 
 			person.FullName = m_fullName.Text.Trim();
@@ -377,7 +421,8 @@ namespace SIL.Sponge
 			if (saveAfterLoad && person.CanSave)
 				person.Save();
 
-			lpPeople.UpdateItemText(person, person.FullName);
+			if (nameChanged)
+				lpPeople.UpdateItem(person, person.FullName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -427,12 +472,39 @@ namespace SIL.Sponge
 
 			try
 			{
-				m_picture.Load(person.PictureFile);
+				// Do this instead of using the Load method because Load keeps a lock on the file.
+				FileStream fs = new FileStream(person.PictureFile, FileMode.Open, FileAccess.Read);
+				m_picture.Image = System.Drawing.Image.FromStream(fs);
+				fs.Close();
 			}
 			catch
 			{
 				m_picture.Image = Resources.kimidNoPhoto;
 			}
+
+			LoadPermissionsTabFromPerson(person, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the permissions tab from the specified person.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void LoadPermissionsTabFromPerson(Person person, string fileToSelect)
+		{
+			lstPermissionFiles.Items.Clear();
+
+			var list = person.PermissionFiles;
+			if (list.Length > 0)
+			{
+				lstPermissionFiles.Items.AddRange((from x in list
+												select new PermissionsFile(x)).ToArray());
+			}
+
+			if (string.IsNullOrEmpty(fileToSelect))
+				ShowPermissionFile(0);
+			else
+				SelectPermissionFile(fileToSelect);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -461,6 +533,22 @@ namespace SIL.Sponge
 			m_languageFather0.Selected = true;
 			m_languageMother0.Selected = true;
 			m_picture.Image = Resources.kimidNoPhoto;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks if all the people have been deleted. If so, the form is updated accordingly.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CheckIfNoMorePeople()
+		{
+			if (lpPeople.Items.Count() == 0)
+			{
+				lblNoPeopleMsg.Visible = true;
+				tblLayout.Enabled = false;
+				ClearForm();
+				tpgInformedConsent.ImageIndex = -1;
+			}
 		}
 
 		#endregion
@@ -549,32 +637,13 @@ namespace SIL.Sponge
 		#region Event handlers for the person's name text box
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Turn on the text changing event.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_fullName_Enter(object sender, EventArgs e)
-		{
-			m_fullName.TextChanged += m_fullName_TextChanged;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Turn off the text changing event.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_fullName_Leave(object sender, EventArgs e)
-		{
-			m_fullName.TextChanged -= m_fullName_TextChanged;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Updates the name in the peoples list as the user types in the name text box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void m_fullName_TextChanged(object sender, EventArgs e)
 		{
-			lpPeople.UpdateItemText(m_currPerson, m_fullName.Text.Trim());
+			if (m_fullName.Visible && m_fullName.Focused)
+				lpPeople.UpdateItem(m_currPerson, m_fullName.Text.Trim());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -588,6 +657,190 @@ namespace SIL.Sponge
 			{
 				m_fullName.SelectAll();
 				e.Cancel = true;
+			}
+		}
+
+		#endregion
+
+		#region Methods for managing permissions files
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Delete the selected permissions file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnDeletePermissionFile_Click(object sender, EventArgs e)
+		{
+			if (m_currPerson == null || m_currPerson.FullName == null ||
+				lstPermissionFiles.SelectedItem == null)
+			{
+				return;
+			}
+
+			// Perform the delete when the navigation is finished because until then, the
+			// browser control may have a handle on the file being displayed which means
+			// it cannot be deleted from the disk.
+			webConsent.Navigated += DeleteSelectedPermissionsFile;
+			webConsent.Navigate(string.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deletes the selected permissions file from the list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void DeleteSelectedPermissionsFile(object sender, WebBrowserNavigatedEventArgs e)
+		{
+			webConsent.Navigated -= DeleteSelectedPermissionsFile;
+
+			// Figure out what file should be selected after deleting the current file.
+			int i = lstPermissionFiles.SelectedIndex + 1;
+			if (i == lstPermissionFiles.Items.Count)
+				i = lstPermissionFiles.SelectedIndex - 1;
+
+			var newFile = (i < 0 ? null : lstPermissionFiles.Items[i].ToString());
+			var pf = lstPermissionFiles.SelectedItem as PermissionsFile;
+			m_currPerson.DeletePermissionsFile(pf.FullPath);
+			LoadPermissionsTabFromPerson(m_currPerson, newFile);
+
+			// If there's no more permission files, this will force the warning
+			// icon to be displayed next to the person's name.
+			if (lstPermissionFiles.Items.Count == 0)
+				lpPeople.UpdateItem(m_currPerson, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Let the user add a new informed consent file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnAddPermissionFile_Click(object sender, EventArgs e)
+		{
+			if (m_currPerson == null || m_currPerson.FullName == null)
+				return;
+
+			using (var dlg = new OpenFileDialog())
+			{
+				var caption = LocalizationManager.LocalizeString(
+					"NewInformedConsentFileDlg.OpenFileDlgCaption",
+					"Specify Informed Consent File", "Dialog Boxes");
+
+				dlg.Title = caption;
+				dlg.Filter = Sponge.OFDlgAllFileTypeText + "|*.*";
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
+				dlg.Multiselect = false;
+				if (dlg.ShowDialog(this) != DialogResult.OK)
+					return;
+
+				m_currPerson.AddPermissionFile(dlg.FileName);
+				LoadPermissionsTabFromPerson(m_currPerson, Path.GetFileName(dlg.FileName));
+
+				// If we've just added the first permissions file, then force the warning
+				// icon to be displayed next to the person's name.
+				if (lstPermissionFiles.Items.Count == 1)
+					lpPeople.UpdateItem(m_currPerson, null);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Attempts to find and selects the specified permissions file in the list of
+		/// permissions files for the current person.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SelectPermissionFile(string permissionFile)
+		{
+			foreach (object obj in lstPermissionFiles.Items)
+			{
+				if (obj.ToString() == permissionFile)
+				{
+					lstPermissionFiles.SelectedItem = obj;
+					break;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When there is at least one consent file and no file is selected, then select
+		/// the first file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void tabPeople_Selected(object sender, TabControlEventArgs e)
+		{
+			if (m_currPerson != null)
+				LoadPersonFromForm(m_currPerson, true);
+
+			if (e.TabPage == tpgInformedConsent && lstPermissionFiles.SelectedItem == null)
+				ShowPermissionFile(0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Show the selected file in the browser control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void lstPermissionFiles_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ShowPermissionFile(lstPermissionFiles.SelectedIndex);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Shows the permission file associated with the specified index in the permissions
+		/// file list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ShowPermissionFile(int i)
+		{
+			if (i < 0 || i >= lstPermissionFiles.Items.Count)
+			{
+				if (webConsent.Url != null && webConsent.Url.IsFile)
+				{
+					webConsent.Navigate(string.Empty);
+					tpgInformedConsent.ImageIndex = 0;
+				}
+			}
+			else
+			{
+				if (tabPeople.SelectedTab == tpgInformedConsent)
+				{
+					var file = lstPermissionFiles.Items[i] as PermissionsFile;
+					if (file != null && (webConsent.Url == null || webConsent.Url.LocalPath != file.FullPath))
+						webConsent.Navigate(file.FullPath);
+
+					if (lstPermissionFiles.SelectedIndex != i)
+					{
+						lstPermissionFiles.SelectedIndexChanged -= lstPermissionFiles_SelectedIndexChanged;
+						lstPermissionFiles.SelectedIndex = i;
+						lstPermissionFiles.SelectedIndexChanged += lstPermissionFiles_SelectedIndexChanged;
+					}
+				}
+
+				tpgInformedConsent.ImageIndex = -1;
+			}
+		}
+
+		#endregion
+
+		#region PermissionsFile class
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private class PermissionsFile
+		{
+			public string FullPath { get; private set; }
+
+			public PermissionsFile(string fullPath)
+			{
+				FullPath = fullPath;
+			}
+
+			public override string ToString()
+			{
+				return Path.GetFileName(FullPath);
 			}
 		}
 

@@ -123,6 +123,13 @@ namespace SIL.Sponge.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidNoPermissionsWarning {
+            get {
+                object obj = ResourceManager.GetObject("kimidNoPermissionsWarning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidNoPhoto {
             get {
                 object obj = ResourceManager.GetObject("kimidNoPhoto", resourceCulture);

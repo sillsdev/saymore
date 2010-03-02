@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using SIL.Sponge.Properties;
+using SilUtils;
 
 namespace SIL.Sponge.Controls
 {
@@ -30,7 +32,7 @@ namespace SIL.Sponge.Controls
 		// This font is used to indicate the text of the current item is a duplicate.
 		private Font m_fntDupItem;
 
-		private bool m_monitorSelectedIndexChanges = false;
+		private bool m_monitorSelectedIndexChanges;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -39,9 +41,12 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public ListPanel()
 		{
+			ReSortWhenItemTextChanges = false;
+
 			InitializeComponent();
 			m_fntDupItem = new Font(lvItems.Font, FontStyle.Italic | FontStyle.Bold);
 			lvItems.ListViewItemSorter = new ListSorter();
+			lvItems.SmallImageList = new ImageList();
 			MonitorSelectedIndexChanges = true;
 		}
 
@@ -116,11 +121,38 @@ namespace SIL.Sponge.Controls
 						var newLvItem = lvItems.Items.Add(obj.ToString());
 						newLvItem.Tag = obj;
 						newLvItem.Name = obj.ToString();
+						SetImage(newLvItem);
 					}
 
 					CurrentItem = (currItem ?? list[0]);
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the image for the specified list view item based on the object in its Tag
+		/// property.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void SetImage(ListViewItem lvi)
+		{
+			var imgKey = ReflectionHelper.GetProperty(lvi.Tag, "ImageKey") as string;
+			if (imgKey == null)
+			{
+				lvi.ImageKey = imgKey;
+				return;
+			}
+
+			var img = Resources.ResourceManager.GetObject(imgKey) as Bitmap;
+			if (img == null)
+				return;
+
+			var imgList = lvi.ListView.SmallImageList;
+			if (!imgList.Images.ContainsKey(imgKey))
+				imgList.Images.Add(imgKey, img);
+
+			lvi.ImageKey = imgKey;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,6 +165,14 @@ namespace SIL.Sponge.Controls
 			get { return (lvItems.FocusedItem == null ? null : lvItems.FocusedItem.Tag); }
 			set { SelectItem(value, true); }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not the list will be Re-sorted when
+		/// the UpdateItem is called and the text for the item being updated has changed.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool ReSortWhenItemTextChanges { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -217,7 +257,7 @@ namespace SIL.Sponge.Controls
 		/// Updates the displayed text for the specified item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void UpdateItemText(object itemToRefresh, string newText)
+		public void UpdateItem(object itemToRefresh, string newText)
 		{
 			if (itemToRefresh == null)
 				return;
@@ -227,7 +267,14 @@ namespace SIL.Sponge.Controls
 				return;
 
 			lvi.Text = (newText ?? itemToRefresh.ToString());
-			ReSort();
+			SetImage(lvi);
+
+			if (ReSortWhenItemTextChanges)
+			{
+				int index = InsertIndex(lvi.Text);
+				if (index - 1 != lvi.Index)
+					ReSort();
+			}
 
 			// Check if the item before or after the current item has the same text.
 			var i = lvi.Index;
@@ -248,6 +295,18 @@ namespace SIL.Sponge.Controls
 				lvi.Font = lvItems.Font;
 				lvItems.HideSelection = false;
 			}
+		}
+
+		private int InsertIndex(string text)
+		{
+			for (int i = 0; i < lvItems.Items.Count; i++)
+			{
+				if (lvItems.Items[i].Text.CompareTo(text) > 0)
+					return i;
+			}
+
+			return lvItems.Items.Count;
+
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -385,7 +444,8 @@ namespace SIL.Sponge.Controls
 		{
 			// REVIEW: Is it OK to do nothing if the item already exists
 			// or should we throw an error or something like that?
-			if (item != null && lvItems.Items.Find(item.ToString(), true).Length == 0)
+			if (item != null && (item.ToString() == string.Empty ||
+				lvItems.Items.Find(item.ToString(), true).Length == 0))
 			{
 				lvItems.Items.Add(item.ToString()).Tag = item;
 				ReSort();

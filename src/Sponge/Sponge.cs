@@ -27,6 +27,7 @@ namespace SIL.Sponge
 		public const string SessionFileExtension = "session";
 		public const string PeopleFolderName = "People";
 		public const string PersonFileExtension = "person";
+		public const string PermissionsFolderName = "Permissions";
 
 		private static string s_mainAppFldr;
 

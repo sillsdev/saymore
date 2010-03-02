@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Xml.Serialization;
 using Palaso.Reporting;
+using SIL.Sponge.Properties;
 using SilUtils;
 
 namespace SIL.Sponge.Model
@@ -92,13 +93,17 @@ namespace SIL.Sponge.Model
 		/// fails, null is returned or, when there's an exception, it is thrown.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Person CreateFromFile(SpongeProject prj, string fileName)
+		public static Person Load(SpongeProject prj, string pathName)
 		{
-			if (!Path.IsPathRooted(fileName))
-			{
-				fileName = Path.GetFileName(fileName);
-				fileName = Path.Combine(prj.PeopleFolder, fileName);
-			}
+			var fileName = Path.GetFileName(pathName);
+			var folder = fileName;
+			if (folder.EndsWith("." + Sponge.PersonFileExtension))
+				folder = fileName.Remove(folder.Length - (Sponge.PersonFileExtension.Length + 1));
+			else
+				fileName += ("." + Sponge.PersonFileExtension);
+
+			folder = Path.Combine(prj.PeopleFolder, folder);
+			fileName = Path.Combine(folder, fileName);
 
 			Exception e;
 			var person = XmlSerializationHelper.DeserializeFromFile<Person>(fileName, out e);
@@ -156,6 +161,22 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the person's name in a form that's safe to be used as a file or folder
+		/// name. (i.e. all invalid path characters are replaced with an underscore.)
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string SafeName
+		{
+			get
+			{
+				return (string.IsNullOrEmpty(FullName) ? null :
+					Utils.MakeSafeFileName(FullName, Settings.Default.SafeNameReplacementChar));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the name of the file (without its path).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -164,8 +185,24 @@ namespace SIL.Sponge.Model
 		{
 			get
 			{
-				return (string.IsNullOrEmpty(FullName) ? null :
-					Utils.MakeSafeFileName(FullName, '_') + "." + Sponge.PersonFileExtension);
+				return (string.IsNullOrEmpty(SafeName) ? null :
+					SafeName + "." + Sponge.PersonFileExtension);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path of the folder in which the person's file, picture file and
+		/// permissions are stored. (e.g. ...\People\Eggbert)
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string Folder
+		{
+			get
+			{
+				return (Project == null || SafeName == null ? null :
+					Path.Combine(Project.PeopleFolder, SafeName));
 			}
 		}
 
@@ -175,13 +212,31 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string FullPath
+		public string FullFilePath
 		{
-			get
-			{
-				return (Project == null || FileName == null ?
-					null : Path.Combine(Project.PeopleFolder, FileName));
-			}
+			get { return (Folder == null || FileName == null ? null : Path.Combine(Folder, FileName)); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path to the person's permissions folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string PermissionsFolder
+		{
+			get { return (Folder == null ? null : Path.Combine(Folder, Sponge.PermissionsFolderName)); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the name of the image resource used when the person has no permissions.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string ImageKey
+		{
+			get { return (HasPermissions ? null : "kimidNoPermissionsWarning"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -202,6 +257,32 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets a value indicating whether or not the person has any associated permissions.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool HasPermissions
+		{
+			get { return (PermissionFiles.Length > 0); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a list of the person's permission files.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string[] PermissionFiles
+		{
+			get
+			{
+				return (PermissionsFolder == null || !Directory.Exists(PermissionsFolder) ?
+					new string[] { } : Directory.GetFiles(PermissionsFolder, "*.*"));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the full path to the person's picture file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -210,13 +291,10 @@ namespace SIL.Sponge.Model
 		{
 			get
 			{
-				if (!Directory.Exists(Project.PeopleFolder))
-					throw new DirectoryNotFoundException(Project.PeopleFolder);
-
 				var pattern = Path.ChangeExtension(FileName, "*");
 				const string validPicExtensions = ".jpg.gif.tif.png.bmp.dib";
 
-				foreach (var file in Directory.GetFiles(Project.PeopleFolder, pattern))
+				foreach (var file in Directory.GetFiles(Folder, pattern))
 				{
 					if (validPicExtensions.Contains(Path.GetExtension(file).ToLower()))
 						return file;
@@ -243,12 +321,59 @@ namespace SIL.Sponge.Model
 			if (!File.Exists(srcFile))
 				throw new FileNotFoundException(srcFile);
 
-			if (!Directory.Exists(Project.PeopleFolder))
-				throw new DirectoryNotFoundException(Project.PeopleFolder);
+			if (!Directory.Exists(Folder))
+				throw new DirectoryNotFoundException(Folder);
 
-			var destFile = Path.ChangeExtension(FullPath, Path.GetExtension(srcFile));
+			var destFile = Path.ChangeExtension(FullFilePath, Path.GetExtension(srcFile));
 			File.Copy(srcFile, destFile, true);
 			return destFile;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds the specified permissions file to the person's list of permissions files.
+		/// (This will copy the specified file to the person's permissions file folder.)
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void AddPermissionFile(string srcFile)
+		{
+			if (srcFile == null)
+				throw new NullReferenceException("srcFile");
+
+			if (!File.Exists(srcFile))
+				throw new FileNotFoundException(srcFile);
+
+			if (!Directory.Exists(Folder))
+				throw new DirectoryNotFoundException(Folder);
+
+			var destFile = Path.GetFileName(srcFile);
+			destFile = Path.Combine(PermissionsFolder, destFile);
+			if (File.Exists(destFile))
+				return;
+
+			if (!Directory.Exists(PermissionsFolder))
+				Directory.CreateDirectory(PermissionsFolder);
+
+			File.Copy(srcFile, destFile, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deletes the specified permissions file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void DeletePermissionsFile(string file)
+		{
+			if (file == null)
+				throw new NullReferenceException("file");
+
+			if (!File.Exists(file))
+				throw new FileNotFoundException(file);
+
+			if (!Directory.Exists(Folder))
+				throw new DirectoryNotFoundException(Folder);
+
+			File.Delete(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -262,8 +387,11 @@ namespace SIL.Sponge.Model
 			if (FullName == string.Empty)
 				FullName = Project.GetUniquePersonName();
 
+			if (!Directory.Exists(Folder))
+				Directory.CreateDirectory(Folder);
+
 			if (CanSave)
-				XmlSerializationHelper.SerializeToFile(FullPath, this);
+				XmlSerializationHelper.SerializeToFile(FullFilePath, this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -274,23 +402,34 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public void Rename(string newName)
 		{
+			// REVIEW: Do we need to check for the new name already exisiting, or is it
+			// enough that the UI never lets that happen?
+
 			if (string.IsNullOrEmpty(newName))
 				newName = Project.GetUniquePersonName();
 
-			// Don't need to do any file renaming if the person hasn't
-			// yet been saved to their file.
-			if (File.Exists(FullPath))
-			{
-				var newFileName = Utils.MakeSafeFileName(newName, '_') + "." + Sponge.PersonFileExtension;
-				File.Move(FullPath, Path.Combine(Project.PeopleFolder, newFileName));
+			var picFile = PictureFile;
+			var newSafeName = Utils.MakeSafeFileName(newName, Settings.Default.SafeNameReplacementChar);
+			var newFolder = Path.Combine(Project.PeopleFolder, newSafeName);
 
-				var picFile = PictureFile;
-				if (picFile != null)
-				{
-					var picExt = Path.GetExtension(picFile);
-					newFileName = Path.ChangeExtension(newFileName, picExt);
-					File.Move(picFile, Path.Combine(Project.PeopleFolder, newFileName));
-				}
+			// Rename person's folder.
+			if (Directory.Exists(Folder))
+				Directory.Move(Folder, newFolder);
+
+			// Rename person's file.
+			var srcFile = Path.Combine(newFolder, FileName);
+			var dstFile = Path.Combine(newFolder, newSafeName + "." + Sponge.PersonFileExtension);
+			if (File.Exists(srcFile))
+				File.Move(srcFile, dstFile);
+
+			// Rename person's picture file.
+			if (picFile != null)
+			{
+				picFile = Path.GetFileName(picFile);
+				var picExt = Path.GetExtension(picFile);
+				srcFile = Path.Combine(newFolder, picFile);
+				dstFile = Path.Combine(newFolder, newSafeName + picExt);
+				File.Move(srcFile, dstFile);
 			}
 
 			FullName = newName;
@@ -298,25 +437,16 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Deletes the person's file and, optionally, the person's picture file too.
+		/// Deletes the person's folder and, of course, everything in it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Delete(bool deletePictureFileToo)
+		public void Delete()
 		{
 			try
 			{
-				File.Delete(FullPath);
+				Directory.Delete(Folder, true);
 			}
 			catch { }
-
-			if (deletePictureFileToo)
-			{
-				try
-				{
-					File.Delete(PictureFile);
-				}
-				catch { }
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -138,10 +138,9 @@ namespace SIL.Sponge.Model
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);
 
-			const string pattern = "*." + Sponge.PersonFileExtension;
-			People = (from file in Directory.GetFiles(path, pattern)
-					  orderby file
-					  select Person.CreateFromFile(this, file)).ToList();
+			People = (from dir in Directory.GetDirectories(path)
+					  orderby dir
+					  select Person.Load(this, dir)).ToList();
 
 			// Remove any null person objects.
 			for (int i = People.Count - 1; i >= 0; i--)
@@ -475,8 +474,7 @@ namespace SIL.Sponge.Model
 			{
 				var name = string.Format(fmt, i++);
 				var path = Path.Combine(PeopleFolder, name);
-				path = Path.ChangeExtension(path, Sponge.PersonFileExtension);
-				if (!File.Exists(path))
+				if (!Directory.Exists(path))
 					return name;
 			}
 		}
@@ -525,7 +523,7 @@ namespace SIL.Sponge.Model
 			var person = People.FirstOrDefault(x => x.FullName == toEuthanize);
 			if (person != null)
 			{
-				File.Delete(person.FullPath);
+				Directory.Delete(person.Folder, true);
 				People.Remove(person);
 			}
 		}

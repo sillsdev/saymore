@@ -284,21 +284,14 @@ namespace SIL.Sponge
 			{
 				// Test when there is no data to be dropped.
 				var dragObj = new DataObject(DataFormats.FileDrop, null);
-				var args = new DragEventArgs(dragObj, 0, 0, 0, DragDropEffects.Copy, DragDropEffects.All);
+				var args = new DragEventArgs(dragObj, 0, 0, 0, DragDropEffects.All, DragDropEffects.Copy);
 				ReflectionHelper.CallMethod(m_vw, "FileListDragDrop", new[] { null, args });
 				var currSessionFiles = ReflectionHelper.GetField(m_vw, "m_currSessionFiles") as SessionFile[];
 				Assert.AreEqual(0, currSessionFiles.Length);
 
-				// Test when the allowed effects is not copy or move.
-				dragObj = new DataObject(DataFormats.FileDrop, tmpFiles);
-				args = new DragEventArgs(dragObj, 0, 0, 0, DragDropEffects.Link, DragDropEffects.All);
-				ReflectionHelper.CallMethod(m_vw, "FileListDragDrop", new[] { null, args });
-				currSessionFiles = ReflectionHelper.GetField(m_vw, "m_currSessionFiles") as SessionFile[];
-				Assert.AreEqual(0, currSessionFiles.Length);
-
 				// Test copying dropped files.
 				dragObj = new DataObject(DataFormats.FileDrop, tmpFiles);
-				args = new DragEventArgs(dragObj, 0, 0, 0, DragDropEffects.Copy, DragDropEffects.All);
+				args = new DragEventArgs(dragObj, 0, 0, 0, DragDropEffects.All, DragDropEffects.Copy);
 				ReflectionHelper.CallMethod(m_vw, "FileListDragDrop", new[] { null, args });
 				currSessionFiles = ReflectionHelper.GetField(m_vw, "m_currSessionFiles") as SessionFile[];
 				Assert.AreEqual(2, currSessionFiles.Length);

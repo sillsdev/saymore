@@ -15,6 +15,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.IO;
+using System.Xml;
 using NUnit.Framework;
 using SilUtils;
 
@@ -75,16 +76,27 @@ namespace SIL.Sponge.Model
 			VerifyProject(m_prj, kTestPrjName);
 			Assert.AreEqual(0, m_prj.Sessions.Count);
 
-			Directory.CreateDirectory(Path.Combine(m_prj.SessionsFolder, "waffles"));
-			Directory.CreateDirectory(Path.Combine(m_prj.SessionsFolder, "eggs"));
-			Directory.CreateDirectory(Path.Combine(m_prj.SessionsFolder, "bacon"));
+			var path1 = Path.Combine(m_prj.SessionsFolder, "bacon");
+			var path2 = Path.Combine(m_prj.SessionsFolder, "eggs");
+
+			Directory.CreateDirectory(path1);
+			Directory.CreateDirectory(path2);
+
+			var writer = XmlWriter.Create(Path.Combine(path1, "bacon.session"));
+			writer.WriteStartElement("session");
+			writer.WriteEndElement();
+			writer.Close();
+
+			writer = XmlWriter.Create(Path.Combine(path2, "eggs.session"));
+			writer.WriteStartElement("session");
+			writer.WriteEndElement();
+			writer.Close();
 
 			ReflectionHelper.CallMethod(m_prj, "Initialize", new[] { kTestPrjName, null });
 
-			Assert.AreEqual(3, m_prj.Sessions.Count);
+			Assert.AreEqual(2, m_prj.Sessions.Count);
 			Assert.AreEqual("bacon", m_prj.Sessions[0].Name);
 			Assert.AreEqual("eggs", m_prj.Sessions[1].Name);
-			Assert.AreEqual("waffles", m_prj.Sessions[2].Name);
 		}
 
 		/// ------------------------------------------------------------------------------------

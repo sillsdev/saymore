@@ -446,6 +446,7 @@ namespace SIL.Sponge.Model
 			if (session == null)
 			{
 				session = Session.Create(this, sessionName);
+				session.Save();
 				Sessions.Add(session);
 				Sessions.Sort((x, y) => x.Name.CompareTo(y.Name));
 			}

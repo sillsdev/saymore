@@ -41,10 +41,6 @@ namespace SIL.Sponge.Model
 		public static Session Create(SpongeProject prj, string name)
 		{
 			var session = new Session(prj, name);
-
-			if (!Directory.Exists(session.Folder))
-				Directory.CreateDirectory(session.Folder);
-
 			return session;
 		}
 
@@ -57,6 +53,27 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static Session Load(SpongeProject prj, string pathName)
 		{
+			string errorMsg;
+			var session = Load(prj, pathName, out errorMsg);
+
+			if (errorMsg == null)
+				return session;
+
+			Utils.MsgBox(errorMsg);
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a session object by deserializing the specified file. The file can be just
+		/// the name of the file, without the path, or the full path specification. If that
+		/// fails, null is returned or, when there's an exception, it is thrown.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Session Load(SpongeProject prj, string pathName, out string errorMsg)
+		{
+			errorMsg = null;
+
 			var fileName = Path.GetFileName(pathName);
 			var folder = fileName;
 			if (folder.EndsWith("." + Sponge.SessionFileExtension))
@@ -71,8 +88,7 @@ namespace SIL.Sponge.Model
 			var session = XmlSerializationHelper.DeserializeFromFile<Session>(fileName, out e);
 			if (e != null)
 			{
-				var msg = ExceptionHelper.GetAllExceptionMessages(e);
-				Utils.MsgBox(msg);
+				errorMsg = ExceptionHelper.GetAllExceptionMessages(e);
 				return null;
 			}
 

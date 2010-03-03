@@ -504,9 +504,10 @@ namespace SIL.Sponge
 
 			lblEmptySessionMsg.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
 			splitFileTab.Panel2Collapsed = lblEmptySessionMsg.Visible;
-			lnkSessionPath.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
-			lnkSessionPath.Text = m_currSession.Folder ?? string.Empty;
 			gridFiles.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length > 0);
+			lnkSessionPath.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
+			lnkSessionPath.Text = (m_currSession != null && m_currSession.Folder != null ?
+				m_currSession.Folder : string.Empty);
 
 			if (m_currSessionFiles != null)
 				gridFiles.RowCount = m_currSessionFiles.Length;

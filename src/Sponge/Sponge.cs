@@ -25,6 +25,7 @@ namespace SIL.Sponge
 		public const string ProjectFileExtention = "sprj";
 		public const string SessionFolderName = "Sessions";
 		public const string SessionFileExtension = "session";
+		public const string SessionMetaDataFileExtension = "smd";
 		public const string PeopleFolderName = "People";
 		public const string PersonFileExtension = "person";
 		public const string PermissionsFolderName = "Permissions";

@@ -46,7 +46,6 @@ namespace SIL.Sponge.Controls
 			InitializeComponent();
 			m_fntDupItem = new Font(lvItems.Font, FontStyle.Italic | FontStyle.Bold);
 			lvItems.ListViewItemSorter = new ListSorter();
-			lvItems.SmallImageList = new ImageList();
 			MonitorSelectedIndexChanges = true;
 		}
 
@@ -147,6 +146,9 @@ namespace SIL.Sponge.Controls
 			var img = Resources.ResourceManager.GetObject(imgKey) as Bitmap;
 			if (img == null)
 				return;
+
+			if (lvi.ListView.SmallImageList == null)
+				lvi.ListView.SmallImageList = new ImageList();
 
 			var imgList = lvi.ListView.SmallImageList;
 			if (!imgList.Images.ContainsKey(imgKey))

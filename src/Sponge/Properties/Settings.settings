@@ -23,9 +23,6 @@
     <Setting Name="SessionFileCols" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SessionFileInfoPanelSplitterPos" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
     <Setting Name="SafeNameReplacementChar" Description="Character used to replace invalid path characters in a person's name when building a safe name to store in file system." Provider="SilUtils.PortableSettingsProvider" Type="System.Char" Scope="User">
       <Value Profile="(Default)">_</Value>
     </Setting>

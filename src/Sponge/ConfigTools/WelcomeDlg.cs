@@ -196,7 +196,7 @@ namespace SIL.Sponge.ConfigTools
 			Project = SpongeProject.Create(this);
 			if (Project != null)
 			{
-				MruProjects.AddNewPath(Project.FullPath);
+				MruProjects.AddNewPath(Project.FullFilePath);
 				MruProjects.Save();
 				DialogResult = DialogResult.OK;
 				Close();

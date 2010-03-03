@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
@@ -14,8 +15,7 @@ namespace SIL.Sponge.Controls
 	public partial class InfoPanel : UserControl
 	{
 		public event EventHandler MoreActionButtonClicked;
-
-		private int m_pendingSplitterPos;
+		private readonly List<LabeledTextBox> m_fields = new List<LabeledTextBox>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -29,46 +29,17 @@ namespace SIL.Sponge.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Raises the <see cref="E:System.Windows.Forms.Control.HandleCreated"/> event.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
-		{
-			base.OnHandleCreated(e);
-
-			var frm = FindForm();
-			if (frm != null)
-				frm.Shown += HandleParentFormShown;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set the splitter position only when the parent form is shown since that's the only
-		/// time when the panel is at its full width.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void HandleParentFormShown(object sender, EventArgs e)
-		{
-			if (m_pendingSplitterPos > 0)
-				splitContainer.SplitterDistance = m_pendingSplitterPos;
-
-			m_pendingSplitterPos = 0;
-			FindForm().Shown += HandleParentFormShown;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Initializes the panel with the specified labels and values.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(IEnumerable fldInfo)
 		{
-			Utils.SetWindowRedraw(flwFileInfo, false);
+			Utils.SetWindowRedraw(this, false);
 			ClearInfo();
 
 			if (fldInfo != null)
 			{
-				using (Graphics g = flwFileInfo.CreateGraphics())
+				using (Graphics g = CreateGraphics())
 				{
 					int maxLblWidth = 0;
 					foreach (var obj in fldInfo)
@@ -77,25 +48,90 @@ namespace SIL.Sponge.Controls
 						if (info != null)
 						{
 							var ltb = new LabeledTextBox(info.DisplayText);
+							ltb.Visible = false;
 							ltb.Name = info.FieldName;
 							ltb.InnerTextBox.Text = info.Value;
-							ltb.Margin = new Padding(ltb.Margin.Left, 0, ltb.Margin.Right, 0);
-							ltb.Font = flwFileInfo.Font;
+							ltb.Font = Font;
 							var dx = TextRenderer.MeasureText(g, info.DisplayText, ltb.Font).Width;
 							maxLblWidth = Math.Max(maxLblWidth, dx);
-							flwFileInfo.Controls.Add(ltb);
+							Controls.Add(ltb);
+							m_fields.Add(ltb);
 						}
 					}
 
-					foreach (Control ltb in flwFileInfo.Controls)
+					foreach (var ltb in m_fields)
 					{
-						((LabeledTextBox)ltb).InnerLabel.Width = maxLblWidth;
+						ltb.InnerLabel.Width = maxLblWidth;
 						ltb.Width = maxLblWidth + 150;
 					}
 				}
 			}
 
-			Utils.SetWindowRedraw(flwFileInfo, true);
+			Utils.SetWindowRedraw(this, true);
+			ArrangeFields();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Calculates how many columns are necessary to display all the fields.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private int CalcColumnCount()
+		{
+			if (m_fields.Count == 0)
+				return 0;
+
+			int workingHeight = ClientSize.Height - picIcon.Top;
+			int heightNeeded = m_fields.Count * m_fields[0].Height;
+			return (int)Math.Ceiling((decimal)heightNeeded / workingHeight);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Arranges the fields.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ArrangeFields()
+		{
+			if (m_fields.Count == 0)
+				return;
+
+			Utils.SetWindowRedraw(this, false);
+
+			const int dxGutter = 4;
+			int cols = CalcColumnCount();
+			int workingWidth = ClientSize.Width - picIcon.Right - 5;
+			int width = (workingWidth / cols) - (dxGutter * (cols - 1));
+
+			int dx = picIcon.Right + 5;
+			int dy = picIcon.Top;
+
+			foreach (var ltb in m_fields)
+			{
+				ltb.Visible = true;
+				ltb.Location = new Point(dx, dy);
+				ltb.Width = width;
+				dy += ltb.Height;
+
+				if (dy + ltb.Height > ClientSize.Height)
+				{
+					dx += ltb.Width + dxGutter;
+					dy = picIcon.Top;
+				}
+			}
+
+			Utils.SetWindowRedraw(this, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Rearrange the fields when the control's size changes.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			base.OnSizeChanged(e);
+			ArrangeFields();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,7 +147,7 @@ namespace SIL.Sponge.Controls
 				var info = obj as IInfoPanelField;
 				if (info != null)
 				{
-					var ltb = flwFileInfo.Controls[info.FieldName] as LabeledTextBox;
+					var ltb = Controls[info.FieldName] as LabeledTextBox;
 					if (ltb != null)
 						info.Value = ltb.InnerTextBox.Text;
 				}
@@ -125,7 +161,13 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public void ClearInfo()
 		{
-			flwFileInfo.Controls.Clear();
+			foreach (var ltb in m_fields)
+			{
+				Controls.Remove(ltb);
+				ltb.Dispose();
+			}
+
+			m_fields.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -140,9 +182,6 @@ namespace SIL.Sponge.Controls
 			{
 				base.Font = value;
 				lblFile.Font = value;
-				lblNotes.Font = value;
-				hctNotes.Font = value;
-				flwFileInfo.Font = value;
 			}
 		}
 
@@ -170,34 +209,6 @@ namespace SIL.Sponge.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the notes.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string Notes
-		{
-			get { return hctNotes.Text.Trim(); }
-			set { hctNotes.Text = (value != null ? value.Trim() : string.Empty); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the panel's splitter position.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public int SplitterPosition
-		{
-			get { return splitContainer.SplitterDistance; }
-			set
-			{
-				if (IsHandleCreated)
-					splitContainer.SplitterDistance = value;
-				else
-					m_pendingSplitterPos = value;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Handles the Click event of the btnMoreAction button.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -205,17 +216,6 @@ namespace SIL.Sponge.Controls
 		{
 			if (MoreActionButtonClicked != null)
 				MoreActionButtonClicked(sender, e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handles the SplitterMoved event of the splitContainer control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void splitContainer_SplitterMoved(object sender, SplitterEventArgs e)
-		{
-			lblNotes.Left = splitContainer.Left + e.SplitX + 5;
-			lblFile.Width = lblNotes.Left - lblFile.Left - 5;
 		}
 	}
 }

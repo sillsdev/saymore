@@ -141,10 +141,16 @@ namespace SIL.Sponge
 			if (btn == currbtn)
 				return;
 
+			Control newVw = (btn == null ? null : m_controls[btn]);
+
 			// Now make sure we can leave the current view.
 			foreach (var vw in Views)
 			{
-				if (!vw.IsOKToLeaveView(true))
+				var ctrl = vw as Control;
+				if (ctrl != null && !ctrl.IsHandleCreated)
+					continue;
+
+				if (vw != newVw && !vw.IsOKToLeaveView(true))
 					return;
 			}
 
@@ -160,11 +166,9 @@ namespace SIL.Sponge
 					((ISpongeView)m_controls[currbtn]).ViewDeactivated();
 			}
 
-			Control newVw = null;
 			if (btn != null)
 			{
 				btn.Checked = true;
-				newVw = m_controls[btn];
 				newVw.Visible = true;
 				newVw.BringToFront();
 			}

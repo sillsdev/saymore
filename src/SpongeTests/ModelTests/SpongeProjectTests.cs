@@ -60,7 +60,7 @@ namespace SIL.Sponge.Model
 		{
 			VerifyProject(m_prj, kTestPrjName);
 
-			m_prj = SpongeProject.Load(m_prj.FullPath);
+			m_prj = SpongeProject.Load(m_prj.FullFilePath);
 			VerifyProject(m_prj, kTestPrjName);
 		}
 
@@ -96,20 +96,20 @@ namespace SIL.Sponge.Model
 		{
 			Assert.IsNotNull(prj);
 			var expectedPath = Path.Combine(SpongeProject.ProjectsFolder, expectedPrjName);
-			Assert.AreEqual(expectedPath, prj.ProjectPath);
-			Assert.IsTrue(Directory.Exists(prj.ProjectPath));
+			Assert.AreEqual(expectedPath, prj.Folder);
+			Assert.IsTrue(Directory.Exists(prj.Folder));
 
-			expectedPath = Path.Combine(prj.ProjectPath, "People");
+			expectedPath = Path.Combine(prj.Folder, "People");
 			Assert.AreEqual(expectedPath, prj.PeopleFolder);
 			Assert.IsTrue(Directory.Exists(prj.PeopleFolder));
 
-			expectedPath = Path.Combine(prj.ProjectPath, "Sessions");
+			expectedPath = Path.Combine(prj.Folder, "Sessions");
 			Assert.AreEqual(expectedPath, prj.SessionsFolder);
 			Assert.IsTrue(Directory.Exists(prj.SessionsFolder));
 
-			expectedPath = Path.Combine(prj.ProjectPath, kTestPrjFileName);
-			Assert.AreEqual(expectedPath, prj.FullPath);
-			Assert.IsTrue(File.Exists(prj.FullPath));
+			expectedPath = Path.Combine(prj.Folder, kTestPrjFileName);
+			Assert.AreEqual(expectedPath, prj.FullFilePath);
+			Assert.IsTrue(File.Exists(prj.FullFilePath));
 		}
 
 		/// ------------------------------------------------------------------------------------

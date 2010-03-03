@@ -156,7 +156,7 @@ namespace SIL.Sponge
 			var session = m_lpSessions.CurrentItem as Session;
 
 			// Add a file to the session
-			var file = Path.Combine(session.FullPath, "fred.pdf");
+			var file = Path.Combine(session.Folder, "fred.pdf");
 			File.CreateText(file).Close();
 			session.AddFiles(new[] { file });
 			ReflectionHelper.CallMethod(m_vw, "RefreshFileList");
@@ -171,8 +171,8 @@ namespace SIL.Sponge
 			Assert.IsTrue(m_gridFiles.Visible);
 
 			// Add a couple more files to the session.
-			var file1 = Path.Combine(session.FullPath, "barney.mp3");
-			var file2 = Path.Combine(session.FullPath, "wilma.doc");
+			var file1 = Path.Combine(session.Folder, "barney.mp3");
+			var file2 = Path.Combine(session.Folder, "wilma.doc");
 			File.CreateText(file1).Close();
 			File.CreateText(file2).Close();
 			session.AddFiles(new[] { file1, file2 });
@@ -308,8 +308,8 @@ namespace SIL.Sponge
 				Assert.IsTrue(File.Exists(tmpFiles[1]));
 
 				// Delete the two files just copied and refersh the view.
-				File.Delete(Path.Combine(session.FullPath, currSessionFiles[0].FileName));
-				File.Delete(Path.Combine(session.FullPath, currSessionFiles[1].FileName));
+				File.Delete(Path.Combine(session.Folder, currSessionFiles[0].FileName));
+				File.Delete(Path.Combine(session.Folder, currSessionFiles[1].FileName));
 				ReflectionHelper.CallMethod(m_vw, "RefreshFileList");
 
 				// TODO: Uncomment when move is supported

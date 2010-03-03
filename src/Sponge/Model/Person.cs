@@ -177,7 +177,7 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the name of the file (without its path).
+		/// Gets the name of the person file (without its path).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
@@ -208,7 +208,7 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the full path (including filename) of the person's file.
+		/// Gets the full path (including filename and extension) of the person's file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]

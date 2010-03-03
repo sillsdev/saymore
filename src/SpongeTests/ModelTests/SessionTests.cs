@@ -50,7 +50,7 @@ namespace SpongeTests.ModelTests
 		public void AddFiles_WhenSessionFolderMissing()
 		{
 			var session = Session.Create(m_prj, "wallace");
-			Directory.Delete(session.FullPath, true);
+			Directory.Delete(session.Folder, true);
 			Assert.IsFalse(session.AddFiles(new[] { string.Empty }));
 		}
 
@@ -68,8 +68,8 @@ namespace SpongeTests.ModelTests
 			using (var file2 = new TempFile("trousers.junk"))
 			{
 				Assert.IsTrue(session.AddFiles(new[] { file1.Path, file2.Path }));
-				Assert.IsTrue(File.Exists(Path.Combine(session.FullPath, Path.GetFileName(file1.Path))));
-				Assert.IsTrue(File.Exists(Path.Combine(session.FullPath, Path.GetFileName(file1.Path))));
+				Assert.IsTrue(File.Exists(Path.Combine(session.Folder, Path.GetFileName(file1.Path))));
+				Assert.IsTrue(File.Exists(Path.Combine(session.Folder, Path.GetFileName(file1.Path))));
 			}
 		}
 	}

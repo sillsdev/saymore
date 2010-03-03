@@ -110,18 +110,6 @@ namespace SIL.Sponge.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public int SessionFileInfoPanelSplitterPos {
-            get {
-                return ((int)(this["SessionFileInfoPanelSplitterPos"]));
-            }
-            set {
-                this["SessionFileInfoPanelSplitterPos"] = value;
-            }
-        }
-        
         /// <summary>
         /// Character used to replace invalid path characters in a person&apos;s name when building a safe name to store in file system.
         /// </summary>

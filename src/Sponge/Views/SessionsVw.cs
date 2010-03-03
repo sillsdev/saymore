@@ -43,6 +43,9 @@ namespace SIL.Sponge
 			gridFiles.Dock = DockStyle.Fill;
 
 			lblNoSessionsMsg.BackColor = lpSessions.ListView.BackColor;
+
+			m_fileInfoNotes.Width = pnlFileInfoNotes.ClientSize.Width - m_fileInfoNotes.Left - 1;
+			m_fileInfoNotes.Height = pnlFileInfoNotes.ClientSize.Height - m_fileInfoNotes.Top - 1;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -96,8 +99,10 @@ namespace SIL.Sponge
 				PortableSettingsProvider.GetStringFromIntArray(colWidths);
 
 			Settings.Default.SessionVwSplitterPos = splitOuter.SplitterDistance;
-			Settings.Default.SessionFileInfoPanelSplitterPos = m_infoPanel.SplitterPosition;
 			Settings.Default.Save();
+
+			if (m_currSession != null)
+				LoadSessionFromDescriptionTab(m_currSession);
 
 			base.OnHandleDestroyed(e);
 		}
@@ -120,9 +125,56 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void tabSessions_Selected(object sender, TabControlEventArgs e)
 		{
-			UpdateSessionFileInfo(CurrentSessionFile);
+			if (e.TabPage == tpgDescription && e.Action == TabControlAction.Deselecting &&
+				m_currSession != null && !LoadSessionFromDescriptionTab(m_currSession))
+			{
+				tabSessions.Selected -= tabSessions_Selected;
+				tabSessions.SelectedTab = tpgDescription;
+				tabSessions.Selected += tabSessions_Selected;
+				return;
+			}
+
+			if (e.Action == TabControlAction.Selected)
+				LoadTabPage(e.TabPage);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the selected session changing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void lpSessions_SelectedItemChanged(object sender, object newItem)
+		{
+			if (newItem != m_currSession)
+			{
+				if (m_currSession != null && !LoadSessionFromDescriptionTab(m_currSession))
+				{
+					lpSessions.SelectItem(m_currSession, false);
+					return;
+				}
+
+				m_currSession = newItem as Session;
+				LoadTabPage(tabSessions.SelectedTab);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the selected tab page with relevant session data.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void LoadTabPage(TabPage tpg)
+		{
+			if (tpg == tpgDescription)
+				LoadDescriptionTabFromSession(m_currSession);
+			else if (tpg == tpgFiles)
+			{
+				RefreshFileList();
+				UpdateSessionFileInfo(CurrentSessionFile);
+			}
+		}
+
+		#region Methods for adding and deleting sessions
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Handle adding a new session via clicking on the new button.
@@ -130,7 +182,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private object lpSessions_NewButtonClicked(object sender)
 		{
-			using (var dlg = new NewSessionDlg(m_currProj.ProjectPath))
+			using (var dlg = new NewSessionDlg(m_currProj.Folder))
 			{
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 				{
@@ -174,24 +226,12 @@ namespace SIL.Sponge
 			m_currProj.EnableFileWatching = false;
 
 			foreach (Session session in itemsToDelete)
-				Directory.Delete(session.FullPath, true);
+				Directory.Delete(session.Folder, true);
 
 			m_currProj.EnableFileWatching = enableFileWatchingState;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handles the selected session changing.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void lpSessions_SelectedItemChanged(object sender, object newItem)
-		{
-			if (newItem != m_currSession)
-			{
-				RefreshFileList();
-				UpdateSessionFileInfo(CurrentSessionFile);
-			}
-		}
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -199,7 +239,7 @@ namespace SIL.Sponge
 		/// accordingly.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void pnlGrid_SizeChanged(object sender, EventArgs e)
+		private void HandleFileListPanelSizeChanged(object sender, EventArgs e)
 		{
 			using (var g = lblEmptySessionMsg.CreateGraphics())
 			{
@@ -290,7 +330,6 @@ namespace SIL.Sponge
 		private void UpdateSessionFileInfo(SessionFile sessionFile)
 		{
 			SaveCurrentSessionFileInfo();
-			m_currSessionFile = sessionFile;
 
 			if (sessionFile == null || tabSessions.SelectedTab != tpgFiles)
 			{
@@ -300,7 +339,7 @@ namespace SIL.Sponge
 
 			m_infoPanel.Icon = sessionFile.LargeIcon;
 			m_infoPanel.FileName = sessionFile.FileName;
-			m_infoPanel.Notes = sessionFile.Notes;
+			m_fileInfoNotes.Text = sessionFile.Notes;
 			m_infoPanel.Initialize(sessionFile.Data);
 			m_infoPanel.Visible = true;
 		}
@@ -315,7 +354,7 @@ namespace SIL.Sponge
 			if (m_currSessionFile != null)
 			{
 				m_infoPanel.Save(m_currSessionFile.Data);
-				m_currSessionFile.Notes = m_infoPanel.Notes;
+				m_currSessionFile.Notes = m_fileInfoNotes.Text.Trim();
 				m_currSessionFile.Save();
 				m_currSessionFile = null;
 			}
@@ -331,7 +370,7 @@ namespace SIL.Sponge
 		private void cmnuOpenInFileManager_Click(object sender, EventArgs e)
 		{
 			if (m_currSession != null)
-				Process.Start(m_currSession.FullPath);
+				Process.Start(m_currSession.Folder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -344,7 +383,7 @@ namespace SIL.Sponge
 			var sessionFile = CurrentSessionFile;
 			if (sessionFile != null)
 			{
-				var path = Path.Combine(m_currSession.FullPath, sessionFile.FileName);
+				var path = Path.Combine(m_currSession.Folder, sessionFile.FileName);
 				try
 				{
 					Process.Start(path);
@@ -373,7 +412,7 @@ namespace SIL.Sponge
 			// REVIEW: What should we do when dragging a folder? Should session folders be
 			// allowed to contain subfolders?
 
-			switch (e.AllowedEffect)
+			switch (e.Effect)
 			{
 				case DragDropEffects.Copy: m_currSession.AddFiles(droppedFiles); break;
 				//case DragDropEffects.Move: TODO: Handle move when dropping folders.
@@ -459,20 +498,18 @@ namespace SIL.Sponge
 
 			// TODO: keep track of currently selected file and try to restore
 			// that after rebuilding the list.
-			m_currSession = lpSessions.CurrentItem as Session;
 			m_currSessionFiles = (m_currSession == null ? null :
 				(from x in m_currSession.Files
 				 select SessionFile.Create(x)).ToArray());
 
 			lblEmptySessionMsg.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
+			splitFileTab.Panel2Collapsed = lblEmptySessionMsg.Visible;
 			lnkSessionPath.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
+			lnkSessionPath.Text = m_currSession.Folder ?? string.Empty;
 			gridFiles.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length > 0);
 
 			if (m_currSessionFiles != null)
-			{
 				gridFiles.RowCount = m_currSessionFiles.Length;
-				lnkSessionPath.Text = m_currSession.FullPath;
-			}
 
 			Utils.SetWindowRedraw(tabSessions, true);
 		}
@@ -500,9 +537,6 @@ namespace SIL.Sponge
 				if (Settings.Default.SessionVwSplitterPos > 0)
 					splitOuter.SplitterDistance = Settings.Default.SessionVwSplitterPos;
 
-				if (Settings.Default.SessionFileInfoPanelSplitterPos > 0)
-					m_infoPanel.SplitterPosition = Settings.Default.SessionFileInfoPanelSplitterPos;
-
 				var colWidths = PortableSettingsProvider.GetIntArrayFromString(
 					Settings.Default.SessionFileCols);
 
@@ -513,11 +547,208 @@ namespace SIL.Sponge
 				// so make sure we're being hosted before doing so.
 				if (FindForm() != null)
 				{
-					pnlGrid.AllowDrop = true;
-					pnlGrid.DragOver += FileListDragOver;
-					pnlGrid.DragDrop += FileListDragDrop;
+					splitFileTab.AllowDrop = true;
+					splitFileTab.DragOver += FileListDragOver;
+					splitFileTab.DragDrop += FileListDragDrop;
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Make sure the date field is valid. If it is, then save any outstanding changes.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override bool IsOKToLeaveView(bool showMsgWhenNotOK)
+		{
+			if (!IsDateOK(showMsgWhenNotOK))
+				return false;
+
+			if (m_currSession != null)
+				LoadSessionFromDescriptionTab(m_currSession);
+
+			return base.IsOKToLeaveView(showMsgWhenNotOK);
+		}
+
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Validate the date field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool IsDateOK(bool showMsgWhenNotOK)
+		{
+			return true;
+			//if (!tblDescription.Enabled)
+			//    return true;
+
+			//string msg = null;
+			//var date = m_date.Text.Trim();
+			//DateTime dt;
+
+			//if (date == string.Empty)
+			//{
+			//    msg = LocalizationManager.LocalizeString("SessionVw.MissingDateMsg",
+			//        "You must enter a date.",
+			//        "Message displayed when the date is missing in the sessions view.",
+			//        "Views", LocalizationCategory.GeneralMessage, LocalizationPriority.High);
+			//}
+			//else if (!DateTime.TryParse(date, out dt))
+			//{
+			//    msg = LocalizationManager.LocalizeString("SessionVw.InvalidDateMsg",
+			//        "The date is invalid.",
+			//        "Message displayed when an invalid date was entered.",
+			//        "Views", LocalizationCategory.GeneralMessage, LocalizationPriority.High);
+
+			//}
+			//if (msg == null)
+			//    return true;
+
+			//if (showMsgWhenNotOK)
+			//    Utils.MsgBox(msg);
+
+			//return false;
+		}
+
+		#region Methods for moving data back and forth between session object and form fields
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the fields on the description tab from the specified session.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void LoadDescriptionTabFromSession(Session session)
+		{
+			tblDescription.Enabled = (session != null);
+			mmScroll.Clear();
+
+			if (session == null)
+			{
+				ClearDescriptionTab();
+				return;
+			}
+
+			m_id.Text = session.Id;
+			m_date.Value = session.Date;
+			m_title.Text = session.Title;
+			m_participants.Text = session.Participants;
+			m_access.Text = session.Access;
+			m_setting.Text = session.Setting;
+			m_location.Text = session.Location;
+			m_situation.Text = session.Situation;
+			m_synopsis.Text = session.Synopsis;
+
+			mmScroll.AddFiles(m_currSession.Files);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the specified session from the fields on the description tab.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool LoadSessionFromDescriptionTab(Session session)
+		{
+			session.Id = m_id.Text.Trim();
+			session.Date = m_date.Value;
+			session.Title = m_title.Text.Trim();
+			session.Participants = m_participants.Text.Trim();
+			session.Access = m_access.Text.Trim();
+			session.Setting = m_setting.Text.Trim();
+			session.Location = m_location.Text.Trim();
+			session.Situation = m_situation.Text.Trim();
+			session.Synopsis = m_synopsis.Text;
+
+			//if (!IsDateOK(true))
+			//{
+			//    if (tabSessions.SelectedTab != tpgDescription)
+			//        tabSessions.SelectedTab = tpgDescription;
+
+			//    m_date.SelectAll();
+			//    m_date.Focus();
+			//    return false;
+			//}
+
+			//DateTime dt;
+			//DateTime.TryParse(m_date.Text.Trim(), out dt);
+			//session.Date = dt;
+			session.Save();		// REVIEW: What if saving fails?
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Clears all the fields on the description tab.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ClearDescriptionTab()
+		{
+			m_id.Text = string.Empty;
+			m_date.Text = string.Empty;
+			m_title.Text = string.Empty;
+			m_participants.Text = string.Empty;
+			m_access.Text = string.Empty;
+			m_setting.Text = string.Empty;
+			m_location.Text = string.Empty;
+			m_situation.Text = string.Empty;
+			m_synopsis.Text = string.Empty;
+			mmScroll.Clear();
+		}
+
+		#endregion
+
+		#region Methods for providing auto-complete (type-ahead) support for some fields.
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Load the auto complete list for the access field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_access_Enter(object sender, EventArgs e)
+		{
+			var list = (from x in m_currProj.Sessions
+						orderby x.Access
+						select x.Access).ToArray();
+
+			LoadAutoCompleteList(sender as TextBox, list);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Load the auto complete list for the setting field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_setting_Enter(object sender, EventArgs e)
+		{
+			var list = (from x in m_currProj.Sessions
+						orderby x.Setting
+						select x.Setting).ToArray();
+
+			LoadAutoCompleteList(sender as TextBox, list);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Load the auto complete list for the location field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_location_Enter(object sender, EventArgs e)
+		{
+			var list = (from x in m_currProj.Sessions
+						orderby x.Location
+						select x.Location).ToArray();
+
+			LoadAutoCompleteList(sender as TextBox, list);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the specified auto complete list for the specified text box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void LoadAutoCompleteList(TextBox txtBox, string[] list)
+		{
+			var acsc = new AutoCompleteStringCollection();
+			acsc.AddRange(list);
+			txtBox.AutoCompleteCustomSource = acsc;
 		}
 
 		#endregion

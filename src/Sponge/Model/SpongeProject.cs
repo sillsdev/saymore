@@ -107,19 +107,19 @@ namespace SIL.Sponge.Model
 		private void Initialize(string prjName, string prjFileName)
 		{
 			Name = prjName;
-			ProjectPath = Path.Combine(ProjectsFolder, prjName);
+			Folder = Path.Combine(ProjectsFolder, prjName);
 			FileName = (prjFileName ?? prjName.Replace(" ", string.Empty));
 			FileName = Path.ChangeExtension(FileName, Sponge.ProjectFileExtention);
 
-			if (!Directory.Exists(ProjectPath))
-				Directory.CreateDirectory(ProjectPath);
+			if (!Directory.Exists(Folder))
+				Directory.CreateDirectory(Folder);
 
 			Save();
 
 			InitializePeopleAndLanguages();
 			InitializeSessions();
 
-			m_fileWatcher = new FileSystemWatcher(ProjectPath);
+			m_fileWatcher = new FileSystemWatcher(Folder);
 			m_fileWatcher.Renamed += HandleFileWatcherRename;
 			m_fileWatcher.Deleted += HandleFileWatcherEvent;
 			m_fileWatcher.Changed += HandleFileWatcherEvent;
@@ -134,7 +134,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		private void InitializePeopleAndLanguages()
 		{
-			var path = Path.Combine(ProjectPath, Sponge.PeopleFolderName);
+			var path = Path.Combine(Folder, Sponge.PeopleFolderName);
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);
 
@@ -173,7 +173,7 @@ namespace SIL.Sponge.Model
 
 			Sessions = (from folder in SessionNames
 						orderby folder
-						select Session.Create(this, Path.GetFileName(folder))).ToList();
+						select Session.Load(this, Path.GetFileName(folder))).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -208,7 +208,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			XmlSerializationHelper.SerializeToFile(FullPath, this);
+			XmlSerializationHelper.SerializeToFile(FullFilePath, this);
 		}
 
 		#region Properties
@@ -269,6 +269,22 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets a list of all the names of the people in the project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public List<string> PeopleNames
+		{
+			get
+			{
+				return (from x in People
+						orderby x.FullName
+						select x.FullName).ToList();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the list of langauge names found in all the people records.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -285,15 +301,15 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the project's path (not including the project file name).
+		/// Gets the project's folder.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string ProjectPath { get; private set; }
+		public string Folder { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the project's file name (not including its path).
+		/// Gets the project's file name and extension (not including its path).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
@@ -305,9 +321,9 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string FullPath
+		public string FullFilePath
 		{
-			get { return Path.Combine(ProjectPath, FileName); }
+			get { return Path.Combine(Folder, FileName); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -317,7 +333,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public string PeopleFolder
 		{
-			get { return Path.Combine(ProjectPath, Sponge.PeopleFolderName); }
+			get { return Path.Combine(Folder, Sponge.PeopleFolderName); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -327,7 +343,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public string SessionsFolder
 		{
-			get { return Path.Combine(ProjectPath, Sponge.SessionFolderName); }
+			get { return Path.Combine(Folder, Sponge.SessionFolderName); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -357,7 +373,7 @@ namespace SIL.Sponge.Model
 		private void HandleFileWatcherEvent(object sender, FileSystemEventArgs e)
 		{
 			// We don't care when changes occur to our standoff markup files.
-			if (e.Name.EndsWith(Sponge.SessionFileExtension))
+			if (e.Name.EndsWith(Sponge.SessionMetaDataFileExtension))
 				return;
 
 			EnableFileWatching = false;
@@ -401,7 +417,7 @@ namespace SIL.Sponge.Model
 			// any that no longer have a sessions folder.
 			for (int i = Sessions.Count - 1; i >= 0; i--)
 			{
-				if (!sessionsFound.Contains(Sessions[i].FullPath))
+				if (!sessionsFound.Contains(Sessions[i].Folder))
 					Sessions.RemoveAt(i);
 			}
 
@@ -409,7 +425,7 @@ namespace SIL.Sponge.Model
 			// folders that do not have a corresponding session, a new one is added.
 			foreach (string sessionName in sessionsFound)
 			{
-				var session = Sessions.FirstOrDefault(x => x.FullPath == sessionName);
+				var session = Sessions.FirstOrDefault(x => x.Folder == sessionName);
 				if (session == null)
 					AddSession(Path.GetFileName(sessionName));
 			}

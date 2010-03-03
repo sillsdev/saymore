@@ -38,7 +38,7 @@ namespace SIL.Sponge
 		{
 			InitializeComponent();
 			m_gender.SelectedIndex = 0;
-			tblLayout.Enabled = false;
+			tblAbout.Enabled = false;
 			pnlPermissions.Enabled = false;
 
 			lblNoPeopleMsg.BackColor = lpPeople.ListView.BackColor;
@@ -89,7 +89,7 @@ namespace SIL.Sponge
 			base.ViewDeactivated();
 
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson);
+				LoadPersonFromView(m_currPerson);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ namespace SIL.Sponge
 				return false;
 
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson);
+				LoadPersonFromView(m_currPerson);
 
 			return base.IsOKToLeaveView(showMsgWhenNotOK);
 		}
@@ -120,7 +120,7 @@ namespace SIL.Sponge
 			base.OnHandleDestroyed(e);
 
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson);
+				LoadPersonFromView(m_currPerson);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public bool IsNameOK(bool showMsgWhenNotOK)
 		{
-			if (!tblLayout.Enabled)
+			if (!tblAbout.Enabled)
 				return true;
 
 			string msg = null;
@@ -187,10 +187,10 @@ namespace SIL.Sponge
 				return;
 
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson);
+				LoadPersonFromView(m_currPerson);
 
 			m_currPerson = newItem as Person;
-			LoadFormFromPerson(m_currPerson);
+			LoadViewFromPerson(m_currPerson);
 		}
 
 		#region Event handler for adding and deleting a person
@@ -202,18 +202,18 @@ namespace SIL.Sponge
 		private object lpPeople_NewButtonClicked(object sender)
 		{
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson);
+				LoadPersonFromView(m_currPerson);
 
 			if (tabPeople.SelectedTab != tpgAbout)
 				tabPeople.SelectedTab = tpgAbout;
 
 			m_currPerson = Person.CreateFromName(m_currProj, string.Empty);
 			m_currProj.AddPerson(m_currPerson);
-			ClearForm();
+			ClearView();
 			lblNoPeopleMsg.Visible = false;
 			lpPeople.AddItem(m_currPerson, true, false);
 
-			tblLayout.Enabled = true;
+			tblAbout.Enabled = true;
 			pnlPermissions.Enabled = true;
 			m_fullName.SelectAll();
 			m_fullName.Focus();
@@ -373,7 +373,7 @@ namespace SIL.Sponge
 		/// form is blank, then a unique name is assigned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadPersonFromForm(Person person)
+		private void LoadPersonFromView(Person person)
 		{
 			bool nameChanged = true;
 
@@ -447,13 +447,13 @@ namespace SIL.Sponge
 		/// Loads the form's controls from the data in the specified person.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadFormFromPerson(Person person)
+		private void LoadViewFromPerson(Person person)
 		{
-			tblLayout.Enabled = pnlPermissions.Enabled = (person != null);
+			tblAbout.Enabled = pnlPermissions.Enabled = (person != null);
 
 			if (person == null)
 			{
-				ClearForm();
+				ClearView();
 				return;
 			}
 
@@ -529,7 +529,7 @@ namespace SIL.Sponge
 		/// Clears all the fields on the form, setting them to their default values.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ClearForm()
+		private void ClearView()
 		{
 			m_fullName.TextChanged -= m_fullName_TextChanged;
 			m_fullName.Text = string.Empty;
@@ -562,9 +562,9 @@ namespace SIL.Sponge
 			if (lpPeople.Items.Count() == 0)
 			{
 				lblNoPeopleMsg.Visible = true;
-				tblLayout.Enabled = false;
+				tblAbout.Enabled = false;
 				pnlPermissions.Enabled = false;
-				ClearForm();
+				ClearView();
 				tpgInformedConsent.ImageIndex = -1;
 			}
 		}
@@ -788,7 +788,7 @@ namespace SIL.Sponge
 		private void tabPeople_Selected(object sender, TabControlEventArgs e)
 		{
 			if (m_currPerson != null)
-				LoadPersonFromForm(m_currPerson);
+				LoadPersonFromView(m_currPerson);
 
 			if (e.TabPage == tpgInformedConsent && lstPermissionFiles.SelectedItem == null)
 				ShowPermissionFile(0);

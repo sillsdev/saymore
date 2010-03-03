@@ -15,10 +15,11 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using SilUtils;
+using SIL.Sponge.Utilities;
 
 namespace SIL.Sponge.Controls
 {
@@ -30,14 +31,9 @@ namespace SIL.Sponge.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class SpongeBar : ToolStrip
 	{
-		public static Color DefaultSpongeBarColorBegin =
-			ColorHelper.CalculateColor(Color.LightSteelBlue, Color.White, 200);
-
-		public static Color DefaultSpongeBarColorEnd = Color.SteelBlue;
-
 		private ToolStripRenderer m_prevRenderer;
-		private Color m_clrBegin = DefaultSpongeBarColorBegin;
-		private Color m_clrEnd = DefaultSpongeBarColorEnd;
+		private Color m_clrBegin = SpongeColors.BarBegin;
+		private Color m_clrEnd = SpongeColors.BarEnd;
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
@@ -52,6 +48,8 @@ namespace SIL.Sponge.Controls
 		/// Gets the lighter color of the gradient sponge bar color.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color BackColorBegin
 		{
 			get { return m_clrBegin; }
@@ -63,6 +61,8 @@ namespace SIL.Sponge.Controls
 		/// Gets the darker color of the gradient sponge bar color.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color BackColorEnd
 		{
 			get { return m_clrEnd; }

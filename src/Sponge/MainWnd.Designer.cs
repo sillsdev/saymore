@@ -37,8 +37,6 @@ namespace SIL.Sponge
 			// 
 			// tsMain
 			// 
-			this.tsMain.BackColorBegin = System.Drawing.Color.FromArgb(((int)(((byte)(193)))), ((int)(((byte)(208)))), ((int)(((byte)(229)))));
-			this.tsMain.BackColorEnd = System.Drawing.Color.SteelBlue;
 			this.tsMain.GradientAngle = 0F;
 			this.tsMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsMain.ImageScalingSize = new System.Drawing.Size(32, 32);

@@ -149,7 +149,7 @@ namespace SIL.Sponge.Controls
 			fs.Dispose();
 
 			var pic = new PictureBox();
-			pic.Size = new Size(ClientSize.Width, 200);
+			pic.Size = new Size(m_pnl.ClientSize.Width, 200);
 			pic.Location = new Point(0, m_topOfNextCtrl);
 			pic.Anchor |= AnchorStyles.Right;
 			pic.Name = Path.GetFileName(file);
@@ -168,13 +168,21 @@ namespace SIL.Sponge.Controls
 		{
 #if !MONO
 			var wmp = new AxWindowsMediaPlayer();
-			wmp.Size = new Size(ClientSize.Width, isVideoFile ? 200 : WMPControlPanelHeight);
+			//var wmp = new WMPLib.WindowsMediaPlayer();
+			wmp.Size = new Size(m_pnl.ClientSize.Width, isVideoFile ? 200 : WMPControlPanelHeight);
 			wmp.Location = new Point(0, m_topOfNextCtrl);
 			wmp.Anchor |= AnchorStyles.Right;
 			wmp.Name = Path.GetFileName(file);
+			wmp.Tag = file;
 			m_pnl.Controls.Add(wmp);
-			wmp.settings.autoStart = false;
-			wmp.URL = file;
+
+			try
+			{
+				wmp.settings.autoStart = false;
+				wmp.URL = file;
+			}
+			catch { }
+
 			m_topOfNextCtrl += wmp.Height + GapBetweenControls;
 #endif
 		}

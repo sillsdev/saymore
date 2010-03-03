@@ -31,9 +31,9 @@ namespace SIL.Sponge
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabSessions = new System.Windows.Forms.TabControl();
 			this.tpgDescription = new System.Windows.Forms.TabPage();
 			this.tblDescription = new System.Windows.Forms.TableLayoutPanel();
@@ -123,10 +123,6 @@ namespace SIL.Sponge
 			// 
 			this.splitRightSide.Panel1.Controls.Add(this.tabSessions);
 			this.splitRightSide.Panel1.Padding = new System.Windows.Forms.Padding(0, 3, 2, 0);
-			// 
-			// splitRightSide.Panel2
-			// 
-			this.splitRightSide.Panel2.Padding = new System.Windows.Forms.Padding(0, 0, 3, 3);
 			this.splitRightSide.Panel2Collapsed = true;
 			this.splitRightSide.Size = new System.Drawing.Size(623, 466);
 			this.splitRightSide.SplitterDistance = 358;
@@ -157,7 +153,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.tpgDescription, "SessionsVw.tpgDescription");
 			this.tpgDescription.Location = new System.Drawing.Point(4, 26);
 			this.tpgDescription.Name = "tpgDescription";
-			this.tpgDescription.Padding = new System.Windows.Forms.Padding(3);
+			this.tpgDescription.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
 			this.tpgDescription.Size = new System.Drawing.Size(613, 433);
 			this.tpgDescription.TabIndex = 0;
 			this.tpgDescription.Text = "Description";
@@ -166,17 +162,18 @@ namespace SIL.Sponge
 			// 
 			// tblDescription
 			// 
+			this.tblDescription.BackColor = System.Drawing.Color.Transparent;
 			this.tblDescription.ColumnCount = 2;
 			this.tblDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
 			this.tblDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
 			this.tblDescription.Controls.Add(this.pnlDescriptionLeftSide, 0, 0);
 			this.tblDescription.Controls.Add(this.pnlDescriptionRightSide, 1, 0);
 			this.tblDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tblDescription.Location = new System.Drawing.Point(3, 3);
+			this.tblDescription.Location = new System.Drawing.Point(0, 2);
 			this.tblDescription.Name = "tblDescription";
 			this.tblDescription.RowCount = 1;
 			this.tblDescription.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tblDescription.Size = new System.Drawing.Size(607, 427);
+			this.tblDescription.Size = new System.Drawing.Size(611, 430);
 			this.tblDescription.TabIndex = 0;
 			// 
 			// pnlDescriptionLeftSide
@@ -202,7 +199,7 @@ namespace SIL.Sponge
 			this.pnlDescriptionLeftSide.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlDescriptionLeftSide.Location = new System.Drawing.Point(3, 3);
 			this.pnlDescriptionLeftSide.Name = "pnlDescriptionLeftSide";
-			this.pnlDescriptionLeftSide.Size = new System.Drawing.Size(267, 421);
+			this.pnlDescriptionLeftSide.Size = new System.Drawing.Size(268, 424);
 			this.pnlDescriptionLeftSide.TabIndex = 0;
 			// 
 			// m_date
@@ -214,7 +211,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_date, null);
 			this.locExtender.SetLocalizationPriority(this.m_date, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_date, "SessionsVw.m_date");
-			this.m_date.Location = new System.Drawing.Point(131, 22);
+			this.m_date.Location = new System.Drawing.Point(136, 22);
 			this.m_date.MinDate = new System.DateTime(1960, 1, 1, 0, 0, 0, 0);
 			this.m_date.Name = "m_date";
 			this.m_date.Size = new System.Drawing.Size(129, 23);
@@ -226,7 +223,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.lblId, null);
 			this.locExtender.SetLocalizationComment(this.lblId, null);
 			this.locExtender.SetLocalizingId(this.lblId, "SessionsVw.lblId");
-			this.lblId.Location = new System.Drawing.Point(2, 4);
+			this.lblId.Location = new System.Drawing.Point(6, 4);
 			this.lblId.Name = "lblId";
 			this.lblId.Size = new System.Drawing.Size(18, 15);
 			this.lblId.TabIndex = 0;
@@ -241,11 +238,11 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_situation, null);
 			this.locExtender.SetLocalizationPriority(this.m_situation, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_situation, "SessionsVw.m_situation");
-			this.m_situation.Location = new System.Drawing.Point(2, 298);
+			this.m_situation.Location = new System.Drawing.Point(6, 298);
 			this.m_situation.Multiline = true;
 			this.m_situation.Name = "m_situation";
 			this.m_situation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.m_situation.Size = new System.Drawing.Size(258, 117);
+			this.m_situation.Size = new System.Drawing.Size(259, 120);
 			this.m_situation.TabIndex = 17;
 			// 
 			// m_id
@@ -256,9 +253,9 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_id, null);
 			this.locExtender.SetLocalizationPriority(this.m_id, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_id, "SessionsVw.m_id");
-			this.m_id.Location = new System.Drawing.Point(2, 22);
+			this.m_id.Location = new System.Drawing.Point(6, 22);
 			this.m_id.Name = "m_id";
-			this.m_id.Size = new System.Drawing.Size(120, 23);
+			this.m_id.Size = new System.Drawing.Size(121, 23);
 			this.m_id.TabIndex = 1;
 			// 
 			// lblSituation
@@ -267,7 +264,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.lblSituation, null);
 			this.locExtender.SetLocalizationComment(this.lblSituation, null);
 			this.locExtender.SetLocalizingId(this.lblSituation, "SessionsVw.lblSituation");
-			this.lblSituation.Location = new System.Drawing.Point(2, 280);
+			this.lblSituation.Location = new System.Drawing.Point(6, 280);
 			this.lblSituation.Name = "lblSituation";
 			this.lblSituation.Size = new System.Drawing.Size(54, 15);
 			this.lblSituation.TabIndex = 16;
@@ -280,7 +277,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.label1, null);
 			this.locExtender.SetLocalizationComment(this.label1, null);
 			this.locExtender.SetLocalizingId(this.label1, "SessionsVw.label1");
-			this.label1.Location = new System.Drawing.Point(131, 4);
+			this.label1.Location = new System.Drawing.Point(136, 4);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(31, 15);
 			this.label1.TabIndex = 2;
@@ -291,7 +288,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.textBox2, null);
 			this.locExtender.SetLocalizationComment(this.textBox2, null);
 			this.locExtender.SetLocalizingId(this.textBox2, "textBox1.textBox1");
-			this.textBox2.Location = new System.Drawing.Point(2, 160);
+			this.textBox2.Location = new System.Drawing.Point(6, 160);
 			this.textBox2.Name = "textBox2";
 			this.textBox2.Size = new System.Drawing.Size(90, 23);
 			this.textBox2.TabIndex = 9;
@@ -302,7 +299,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.lblEventType, null);
 			this.locExtender.SetLocalizationComment(this.lblEventType, null);
 			this.locExtender.SetLocalizingId(this.lblEventType, "SessionsVw.lblEventType");
-			this.lblEventType.Location = new System.Drawing.Point(2, 142);
+			this.lblEventType.Location = new System.Drawing.Point(6, 142);
 			this.lblEventType.Name = "lblEventType";
 			this.lblEventType.Size = new System.Drawing.Size(65, 15);
 			this.lblEventType.TabIndex = 8;
@@ -330,9 +327,9 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_location, null);
 			this.locExtender.SetLocalizationPriority(this.m_location, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_location, "SessionsVw.m_location");
-			this.m_location.Location = new System.Drawing.Point(2, 252);
+			this.m_location.Location = new System.Drawing.Point(6, 252);
 			this.m_location.Name = "m_location";
-			this.m_location.Size = new System.Drawing.Size(258, 23);
+			this.m_location.Size = new System.Drawing.Size(259, 23);
 			this.m_location.TabIndex = 15;
 			this.m_location.Enter += new System.EventHandler(this.m_location_Enter);
 			// 
@@ -344,9 +341,9 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_title, null);
 			this.locExtender.SetLocalizationPriority(this.m_title, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_title, "SessionsVw.m_title");
-			this.m_title.Location = new System.Drawing.Point(2, 68);
+			this.m_title.Location = new System.Drawing.Point(6, 68);
 			this.m_title.Name = "m_title";
-			this.m_title.Size = new System.Drawing.Size(258, 23);
+			this.m_title.Size = new System.Drawing.Size(259, 23);
 			this.m_title.TabIndex = 5;
 			// 
 			// lblLocation
@@ -355,7 +352,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.lblLocation, null);
 			this.locExtender.SetLocalizationComment(this.lblLocation, null);
 			this.locExtender.SetLocalizingId(this.lblLocation, "SessionsVw.lblLocation");
-			this.lblLocation.Location = new System.Drawing.Point(2, 234);
+			this.lblLocation.Location = new System.Drawing.Point(6, 234);
 			this.lblLocation.Name = "lblLocation";
 			this.lblLocation.Size = new System.Drawing.Size(53, 15);
 			this.lblLocation.TabIndex = 14;
@@ -367,7 +364,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.lblParticipants, null);
 			this.locExtender.SetLocalizationComment(this.lblParticipants, null);
 			this.locExtender.SetLocalizingId(this.lblParticipants, "SessionsVw.lblParticipants");
-			this.lblParticipants.Location = new System.Drawing.Point(2, 96);
+			this.lblParticipants.Location = new System.Drawing.Point(6, 96);
 			this.lblParticipants.Name = "lblParticipants";
 			this.lblParticipants.Size = new System.Drawing.Size(69, 15);
 			this.lblParticipants.TabIndex = 6;
@@ -383,9 +380,9 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_setting, null);
 			this.locExtender.SetLocalizationPriority(this.m_setting, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_setting, "SessionsVw.m_setting");
-			this.m_setting.Location = new System.Drawing.Point(2, 206);
+			this.m_setting.Location = new System.Drawing.Point(6, 206);
 			this.m_setting.Name = "m_setting";
-			this.m_setting.Size = new System.Drawing.Size(258, 23);
+			this.m_setting.Size = new System.Drawing.Size(259, 23);
 			this.m_setting.TabIndex = 13;
 			this.m_setting.Enter += new System.EventHandler(this.m_setting_Enter);
 			// 
@@ -397,9 +394,9 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_participants, null);
 			this.locExtender.SetLocalizationPriority(this.m_participants, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_participants, "SessionsVw.m_participants");
-			this.m_participants.Location = new System.Drawing.Point(2, 114);
+			this.m_participants.Location = new System.Drawing.Point(6, 114);
 			this.m_participants.Name = "m_participants";
-			this.m_participants.Size = new System.Drawing.Size(258, 23);
+			this.m_participants.Size = new System.Drawing.Size(259, 23);
 			this.m_participants.TabIndex = 7;
 			// 
 			// lblSetting
@@ -408,7 +405,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.lblSetting, null);
 			this.locExtender.SetLocalizationComment(this.lblSetting, null);
 			this.locExtender.SetLocalizingId(this.lblSetting, "label1.label1");
-			this.lblSetting.Location = new System.Drawing.Point(2, 188);
+			this.lblSetting.Location = new System.Drawing.Point(6, 188);
 			this.lblSetting.Name = "lblSetting";
 			this.lblSetting.Size = new System.Drawing.Size(44, 15);
 			this.lblSetting.TabIndex = 12;
@@ -421,7 +418,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.lblAccess, null);
 			this.locExtender.SetLocalizationComment(this.lblAccess, null);
 			this.locExtender.SetLocalizingId(this.lblAccess, "SessionsVw.lblAccess");
-			this.lblAccess.Location = new System.Drawing.Point(117, 142);
+			this.lblAccess.Location = new System.Drawing.Point(122, 142);
 			this.lblAccess.Name = "lblAccess";
 			this.lblAccess.Size = new System.Drawing.Size(43, 15);
 			this.lblAccess.TabIndex = 10;
@@ -436,7 +433,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_access, null);
 			this.locExtender.SetLocalizationPriority(this.m_access, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_access, "SessionsVw.m_access");
-			this.m_access.Location = new System.Drawing.Point(117, 160);
+			this.m_access.Location = new System.Drawing.Point(122, 160);
 			this.m_access.Name = "m_access";
 			this.m_access.Size = new System.Drawing.Size(143, 23);
 			this.m_access.TabIndex = 11;
@@ -449,9 +446,9 @@ namespace SIL.Sponge
 			this.pnlDescriptionRightSide.Controls.Add(this.m_synopsis);
 			this.pnlDescriptionRightSide.Controls.Add(this.lblSynopsis);
 			this.pnlDescriptionRightSide.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlDescriptionRightSide.Location = new System.Drawing.Point(276, 3);
+			this.pnlDescriptionRightSide.Location = new System.Drawing.Point(277, 3);
 			this.pnlDescriptionRightSide.Name = "pnlDescriptionRightSide";
-			this.pnlDescriptionRightSide.Size = new System.Drawing.Size(328, 421);
+			this.pnlDescriptionRightSide.Size = new System.Drawing.Size(331, 424);
 			this.pnlDescriptionRightSide.TabIndex = 1;
 			// 
 			// lblMedia
@@ -478,7 +475,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.mmScroll, "multimediaScroll1.multimediaScroll1");
 			this.mmScroll.Location = new System.Drawing.Point(3, 144);
 			this.mmScroll.Name = "mmScroll";
-			this.mmScroll.Size = new System.Drawing.Size(319, 271);
+			this.mmScroll.Size = new System.Drawing.Size(322, 274);
 			this.mmScroll.TabIndex = 2;
 			// 
 			// m_synopsis
@@ -493,7 +490,7 @@ namespace SIL.Sponge
 			this.m_synopsis.Multiline = true;
 			this.m_synopsis.Name = "m_synopsis";
 			this.m_synopsis.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.m_synopsis.Size = new System.Drawing.Size(319, 99);
+			this.m_synopsis.Size = new System.Drawing.Size(322, 99);
 			this.m_synopsis.TabIndex = 1;
 			// 
 			// lblSynopsis
@@ -515,7 +512,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.tpgContributors, "SessionsVw.tpgContributors");
 			this.tpgContributors.Location = new System.Drawing.Point(4, 26);
 			this.tpgContributors.Name = "tpgContributors";
-			this.tpgContributors.Padding = new System.Windows.Forms.Padding(3);
+			this.tpgContributors.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
 			this.tpgContributors.Size = new System.Drawing.Size(478, 350);
 			this.tpgContributors.TabIndex = 1;
 			this.tpgContributors.Text = "Contributors && Permissions";
@@ -529,6 +526,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.tpgTaskStatus, "SessionsVw.tpgTaskStatus");
 			this.tpgTaskStatus.Location = new System.Drawing.Point(4, 26);
 			this.tpgTaskStatus.Name = "tpgTaskStatus";
+			this.tpgTaskStatus.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
 			this.tpgTaskStatus.Size = new System.Drawing.Size(478, 350);
 			this.tpgTaskStatus.TabIndex = 2;
 			this.tpgTaskStatus.Text = "Task Status";
@@ -543,7 +541,8 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.tpgFiles, "SessionsVw.tpgFiles");
 			this.tpgFiles.Location = new System.Drawing.Point(4, 26);
 			this.tpgFiles.Name = "tpgFiles";
-			this.tpgFiles.Size = new System.Drawing.Size(478, 350);
+			this.tpgFiles.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
+			this.tpgFiles.Size = new System.Drawing.Size(613, 433);
 			this.tpgFiles.TabIndex = 3;
 			this.tpgFiles.Text = "Files";
 			this.tpgFiles.ToolTipText = "Files";
@@ -553,7 +552,7 @@ namespace SIL.Sponge
 			// 
 			this.splitFileTab.BackColor = System.Drawing.SystemColors.Control;
 			this.splitFileTab.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitFileTab.Location = new System.Drawing.Point(0, 0);
+			this.splitFileTab.Location = new System.Drawing.Point(0, 2);
 			this.splitFileTab.Name = "splitFileTab";
 			this.splitFileTab.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
@@ -569,8 +568,9 @@ namespace SIL.Sponge
 			// 
 			this.splitFileTab.Panel2.Controls.Add(this.m_infoPanel);
 			this.splitFileTab.Panel2.Controls.Add(this.pnlFileInfoNotes);
-			this.splitFileTab.Size = new System.Drawing.Size(478, 350);
-			this.splitFileTab.SplitterDistance = 265;
+			this.splitFileTab.Panel2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 2);
+			this.splitFileTab.Size = new System.Drawing.Size(611, 430);
+			this.splitFileTab.SplitterDistance = 324;
 			this.splitFileTab.TabIndex = 2;
 			// 
 			// lnkSessionPath
@@ -583,7 +583,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.lnkSessionPath, "SessionsVw.lnkSessionPath");
 			this.lnkSessionPath.Location = new System.Drawing.Point(21, 58);
 			this.lnkSessionPath.Name = "lnkSessionPath";
-			this.lnkSessionPath.Size = new System.Drawing.Size(444, 21);
+			this.lnkSessionPath.Size = new System.Drawing.Size(577, 21);
 			this.lnkSessionPath.TabIndex = 2;
 			this.lnkSessionPath.TabStop = true;
 			this.lnkSessionPath.Text = "#";
@@ -600,7 +600,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.lblEmptySessionMsg, "SessionsVw.lblEmptySessionMsg");
 			this.lblEmptySessionMsg.Location = new System.Drawing.Point(19, 15);
 			this.lblEmptySessionMsg.Name = "lblEmptySessionMsg";
-			this.lblEmptySessionMsg.Size = new System.Drawing.Size(446, 40);
+			this.lblEmptySessionMsg.Size = new System.Drawing.Size(579, 40);
 			this.lblEmptySessionMsg.TabIndex = 1;
 			this.lblEmptySessionMsg.Text = "This session does not yet have any files. To add files, you may drag them here or" +
 				" directly into the session folder at:";
@@ -612,20 +612,20 @@ namespace SIL.Sponge
 			this.gridFiles.AllowUserToDeleteRows = false;
 			this.gridFiles.AllowUserToOrderColumns = true;
 			this.gridFiles.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			this.gridFiles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+			this.gridFiles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
 			this.gridFiles.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this.gridFiles.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.gridFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.gridFiles.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
 			this.gridFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.gridFiles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.iconCol,
@@ -697,8 +697,8 @@ namespace SIL.Sponge
 			// filesSizeCol
 			// 
 			this.filesSizeCol.DataPropertyName = "FileSize";
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.filesSizeCol.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.filesSizeCol.DefaultCellStyle = dataGridViewCellStyle9;
 			this.filesSizeCol.HeaderText = "Size";
 			this.filesSizeCol.Name = "filesSizeCol";
 			this.filesSizeCol.ReadOnly = true;
@@ -706,7 +706,7 @@ namespace SIL.Sponge
 			// 
 			// m_infoPanel
 			// 
-			this.m_infoPanel.BackColor = System.Drawing.SystemColors.Control;
+			this.m_infoPanel.BackColor = System.Drawing.Color.Transparent;
 			this.m_infoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_infoPanel.FileName = "#";
 			this.m_infoPanel.Icon = null;
@@ -714,21 +714,21 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_infoPanel, "Localized in base class");
 			this.locExtender.SetLocalizationPriority(this.m_infoPanel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_infoPanel, "SessionsVw.InfoPanel");
-			this.m_infoPanel.Location = new System.Drawing.Point(0, 0);
+			this.m_infoPanel.Location = new System.Drawing.Point(2, 3);
 			this.m_infoPanel.Name = "m_infoPanel";
-			this.m_infoPanel.Size = new System.Drawing.Size(308, 81);
+			this.m_infoPanel.Size = new System.Drawing.Size(437, 97);
 			this.m_infoPanel.TabIndex = 0;
 			this.m_infoPanel.MoreActionButtonClicked += new System.EventHandler(this.m_infoPanel_MoreActionButtonClicked);
 			// 
 			// pnlFileInfoNotes
 			// 
-			this.pnlFileInfoNotes.BackColor = System.Drawing.SystemColors.Control;
+			this.pnlFileInfoNotes.BackColor = System.Drawing.Color.Transparent;
 			this.pnlFileInfoNotes.Controls.Add(this.m_fileInfoNotes);
 			this.pnlFileInfoNotes.Controls.Add(this.lblFileInfoNotes);
 			this.pnlFileInfoNotes.Dock = System.Windows.Forms.DockStyle.Right;
-			this.pnlFileInfoNotes.Location = new System.Drawing.Point(308, 0);
+			this.pnlFileInfoNotes.Location = new System.Drawing.Point(439, 3);
 			this.pnlFileInfoNotes.Name = "pnlFileInfoNotes";
-			this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 81);
+			this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 97);
 			this.pnlFileInfoNotes.TabIndex = 1;
 			// 
 			// m_fileInfoNotes
@@ -737,6 +737,7 @@ namespace SIL.Sponge
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.m_fileInfoNotes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.m_fileInfoNotes.BackColor = System.Drawing.SystemColors.Window;
 			this.m_fileInfoNotes.DynamicBorder = false;
 			this.m_fileInfoNotes.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			// 
@@ -749,7 +750,7 @@ namespace SIL.Sponge
 			this.m_fileInfoNotes.InnerTextBox.Multiline = true;
 			this.m_fileInfoNotes.InnerTextBox.Name = "m_txtBox";
 			this.m_fileInfoNotes.InnerTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.m_fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 3022);
+			this.m_fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 27);
 			this.m_fileInfoNotes.InnerTextBox.TabIndex = 0;
 			this.locExtender.SetLocalizableToolTip(this.m_fileInfoNotes, null);
 			this.locExtender.SetLocalizationComment(this.m_fileInfoNotes, null);
@@ -758,7 +759,7 @@ namespace SIL.Sponge
 			this.m_fileInfoNotes.Location = new System.Drawing.Point(3, 19);
 			this.m_fileInfoNotes.Name = "m_fileInfoNotes";
 			this.m_fileInfoNotes.Padding = new System.Windows.Forms.Padding(1);
-			this.m_fileInfoNotes.Size = new System.Drawing.Size(150, 3024);
+			this.m_fileInfoNotes.Size = new System.Drawing.Size(150, 26);
 			this.m_fileInfoNotes.TabIndex = 1;
 			// 
 			// lblFileInfoNotes
@@ -790,7 +791,7 @@ namespace SIL.Sponge
 			this.lpSessions.ListView.HideSelection = false;
 			this.lpSessions.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpSessions.ListView.Name = "lvItems";
-			this.lpSessions.ListView.Size = new System.Drawing.Size(534, 7777);
+			this.lpSessions.ListView.Size = new System.Drawing.Size(638, 10234);
 			this.lpSessions.ListView.TabIndex = 0;
 			this.lpSessions.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpSessions.ListView.View = System.Windows.Forms.View.Details;

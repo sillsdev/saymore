@@ -139,7 +139,7 @@ namespace SIL.Sponge
 			this.lpPeople.ListView.HideSelection = false;
 			this.lpPeople.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpPeople.ListView.Name = "lvItems";
-			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 5169);
+			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 5634);
 			this.lpPeople.ListView.TabIndex = 0;
 			this.lpPeople.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpPeople.ListView.View = System.Windows.Forms.View.Details;
@@ -181,7 +181,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.tpgAbout, "PeopleVw.tpgAbout");
 			this.tpgAbout.Location = new System.Drawing.Point(4, 26);
 			this.tpgAbout.Name = "tpgAbout";
-			this.tpgAbout.Padding = new System.Windows.Forms.Padding(3);
+			this.tpgAbout.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
 			this.tpgAbout.Size = new System.Drawing.Size(532, 399);
 			this.tpgAbout.TabIndex = 0;
 			this.tpgAbout.Text = "About";
@@ -196,11 +196,11 @@ namespace SIL.Sponge
 			this.tblAbout.Controls.Add(this.pnlLeftSide, 0, 0);
 			this.tblAbout.Controls.Add(this.pnlRightSide, 1, 0);
 			this.tblAbout.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tblAbout.Location = new System.Drawing.Point(3, 3);
+			this.tblAbout.Location = new System.Drawing.Point(0, 2);
 			this.tblAbout.Name = "tblAbout";
 			this.tblAbout.RowCount = 1;
 			this.tblAbout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblAbout.Size = new System.Drawing.Size(526, 393);
+			this.tblAbout.Size = new System.Drawing.Size(530, 396);
 			this.tblAbout.TabIndex = 22;
 			// 
 			// pnlLeftSide
@@ -219,7 +219,7 @@ namespace SIL.Sponge
 			this.pnlLeftSide.Location = new System.Drawing.Point(0, 0);
 			this.pnlLeftSide.Margin = new System.Windows.Forms.Padding(0);
 			this.pnlLeftSide.Name = "pnlLeftSide";
-			this.pnlLeftSide.Size = new System.Drawing.Size(289, 396);
+			this.pnlLeftSide.Size = new System.Drawing.Size(291, 396);
 			this.pnlLeftSide.TabIndex = 0;
 			// 
 			// lblPimaryOccupation
@@ -228,7 +228,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.lblPimaryOccupation, null);
 			this.locExtender.SetLocalizationComment(this.lblPimaryOccupation, null);
 			this.locExtender.SetLocalizingId(this.lblPimaryOccupation, "PeopleVw.lblPimaryOccupation");
-			this.lblPimaryOccupation.Location = new System.Drawing.Point(5, 345);
+			this.lblPimaryOccupation.Location = new System.Drawing.Point(9, 345);
 			this.lblPimaryOccupation.Name = "lblPimaryOccupation";
 			this.lblPimaryOccupation.Size = new System.Drawing.Size(109, 15);
 			this.lblPimaryOccupation.TabIndex = 6;
@@ -242,9 +242,9 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_primaryOccupation, null);
 			this.locExtender.SetLocalizationPriority(this.m_primaryOccupation, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_primaryOccupation, "PeopleVw.m_primaryOccupation");
-			this.m_primaryOccupation.Location = new System.Drawing.Point(5, 363);
+			this.m_primaryOccupation.Location = new System.Drawing.Point(9, 363);
 			this.m_primaryOccupation.Name = "m_primaryOccupation";
-			this.m_primaryOccupation.Size = new System.Drawing.Size(274, 23);
+			this.m_primaryOccupation.Size = new System.Drawing.Size(276, 23);
 			this.m_primaryOccupation.TabIndex = 7;
 			// 
 			// lblEducation
@@ -253,7 +253,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.lblEducation, null);
 			this.locExtender.SetLocalizationComment(this.lblEducation, null);
 			this.locExtender.SetLocalizingId(this.lblEducation, "PeopleVw.lblEducation");
-			this.lblEducation.Location = new System.Drawing.Point(5, 294);
+			this.lblEducation.Location = new System.Drawing.Point(9, 294);
 			this.lblEducation.Name = "lblEducation";
 			this.lblEducation.Size = new System.Drawing.Size(60, 15);
 			this.lblEducation.TabIndex = 4;
@@ -267,9 +267,9 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_education, null);
 			this.locExtender.SetLocalizationPriority(this.m_education, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_education, "PeopleVw.m_education");
-			this.m_education.Location = new System.Drawing.Point(5, 312);
+			this.m_education.Location = new System.Drawing.Point(9, 312);
 			this.m_education.Name = "m_education";
-			this.m_education.Size = new System.Drawing.Size(274, 23);
+			this.m_education.Size = new System.Drawing.Size(276, 23);
 			this.m_education.TabIndex = 5;
 			// 
 			// lblFullName
@@ -278,7 +278,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.lblFullName, null);
 			this.locExtender.SetLocalizationComment(this.lblFullName, null);
 			this.locExtender.SetLocalizingId(this.lblFullName, "PeopleVw.lblFullName");
-			this.lblFullName.Location = new System.Drawing.Point(5, 7);
+			this.lblFullName.Location = new System.Drawing.Point(9, 7);
 			this.lblFullName.Name = "lblFullName";
 			this.lblFullName.Size = new System.Drawing.Size(61, 15);
 			this.lblFullName.TabIndex = 0;
@@ -292,9 +292,9 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_fullName, null);
 			this.locExtender.SetLocalizationPriority(this.m_fullName, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_fullName, "PeopleVw.m_fullName");
-			this.m_fullName.Location = new System.Drawing.Point(5, 25);
+			this.m_fullName.Location = new System.Drawing.Point(9, 25);
 			this.m_fullName.Name = "m_fullName";
-			this.m_fullName.Size = new System.Drawing.Size(274, 23);
+			this.m_fullName.Size = new System.Drawing.Size(276, 23);
 			this.m_fullName.TabIndex = 1;
 			this.m_fullName.TextChanged += new System.EventHandler(this.m_fullName_TextChanged);
 			this.m_fullName.Validating += new System.ComponentModel.CancelEventHandler(this.m_fullName_Validating);
@@ -322,9 +322,9 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.uhbOtherLanguages, null);
 			this.locExtender.SetLocalizationComment(this.uhbOtherLanguages, null);
 			this.locExtender.SetLocalizingId(this.uhbOtherLanguages, "PeopleVw.lblOtherLanguages");
-			this.uhbOtherLanguages.Location = new System.Drawing.Point(5, 146);
+			this.uhbOtherLanguages.Location = new System.Drawing.Point(9, 146);
 			this.uhbOtherLanguages.Name = "uhbOtherLanguages";
-			this.uhbOtherLanguages.Size = new System.Drawing.Size(274, 138);
+			this.uhbOtherLanguages.Size = new System.Drawing.Size(276, 138);
 			this.uhbOtherLanguages.TabIndex = 3;
 			this.uhbOtherLanguages.Text = "&Other Languages";
 			// 
@@ -336,7 +336,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_languageMother4, null);
 			this.locExtender.SetLocalizationPriority(this.m_languageMother4, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.m_languageMother4, "PeopleVw.m_languageMother4");
-			this.m_languageMother4.Location = new System.Drawing.Point(250, 113);
+			this.m_languageMother4.Location = new System.Drawing.Point(252, 113);
 			this.m_languageMother4.Name = "m_languageMother4";
 			this.m_languageMother4.ParentType = SIL.Sponge.Model.ParentType.Mother;
 			this.m_languageMother4.Selected = false;
@@ -352,7 +352,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_languageMother3, null);
 			this.locExtender.SetLocalizationPriority(this.m_languageMother3, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.m_languageMother3, "PeopleVw.m_languageMother3");
-			this.m_languageMother3.Location = new System.Drawing.Point(250, 83);
+			this.m_languageMother3.Location = new System.Drawing.Point(252, 83);
 			this.m_languageMother3.Name = "m_languageMother3";
 			this.m_languageMother3.ParentType = SIL.Sponge.Model.ParentType.Mother;
 			this.m_languageMother3.Selected = false;
@@ -368,7 +368,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_languageMother2, null);
 			this.locExtender.SetLocalizationPriority(this.m_languageMother2, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.m_languageMother2, "PeopleVw.m_languageMother2");
-			this.m_languageMother2.Location = new System.Drawing.Point(250, 53);
+			this.m_languageMother2.Location = new System.Drawing.Point(252, 53);
 			this.m_languageMother2.Name = "m_languageMother2";
 			this.m_languageMother2.ParentType = SIL.Sponge.Model.ParentType.Mother;
 			this.m_languageMother2.Selected = false;
@@ -384,7 +384,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_languageMother1, null);
 			this.locExtender.SetLocalizationPriority(this.m_languageMother1, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.m_languageMother1, "PeopleVw.m_languageMother1");
-			this.m_languageMother1.Location = new System.Drawing.Point(250, 23);
+			this.m_languageMother1.Location = new System.Drawing.Point(252, 23);
 			this.m_languageMother1.Name = "m_languageMother1";
 			this.m_languageMother1.ParentType = SIL.Sponge.Model.ParentType.Mother;
 			this.m_languageMother1.Selected = false;
@@ -404,7 +404,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.m_language4, "PeopleVw.m_otherLanguage3");
 			this.m_language4.Location = new System.Drawing.Point(0, 115);
 			this.m_language4.Name = "m_language4";
-			this.m_language4.Size = new System.Drawing.Size(216, 23);
+			this.m_language4.Size = new System.Drawing.Size(218, 23);
 			this.m_language4.TabIndex = 9;
 			this.m_language4.Leave += new System.EventHandler(this.HandleLanguageNameLeave);
 			this.m_language4.Enter += new System.EventHandler(this.HandleLanguageNameEnter);
@@ -417,7 +417,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_languageFather4, null);
 			this.locExtender.SetLocalizationPriority(this.m_languageFather4, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.m_languageFather4, "PeopleVw.m_languageFather4");
-			this.m_languageFather4.Location = new System.Drawing.Point(222, 113);
+			this.m_languageFather4.Location = new System.Drawing.Point(224, 113);
 			this.m_languageFather4.Name = "m_languageFather4";
 			this.m_languageFather4.ParentType = SIL.Sponge.Model.ParentType.Father;
 			this.m_languageFather4.Selected = false;
@@ -437,7 +437,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.m_language3, "PeopleVw.m_otherLanguage2");
 			this.m_language3.Location = new System.Drawing.Point(0, 85);
 			this.m_language3.Name = "m_language3";
-			this.m_language3.Size = new System.Drawing.Size(216, 23);
+			this.m_language3.Size = new System.Drawing.Size(218, 23);
 			this.m_language3.TabIndex = 6;
 			this.m_language3.Leave += new System.EventHandler(this.HandleLanguageNameLeave);
 			this.m_language3.Enter += new System.EventHandler(this.HandleLanguageNameEnter);
@@ -450,7 +450,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_languageFather3, null);
 			this.locExtender.SetLocalizationPriority(this.m_languageFather3, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.m_languageFather3, "PeopleVw.m_languageFather3");
-			this.m_languageFather3.Location = new System.Drawing.Point(222, 83);
+			this.m_languageFather3.Location = new System.Drawing.Point(224, 83);
 			this.m_languageFather3.Name = "m_languageFather3";
 			this.m_languageFather3.ParentType = SIL.Sponge.Model.ParentType.Father;
 			this.m_languageFather3.Selected = false;
@@ -470,7 +470,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.m_language2, "PeopleVw.m_otherLanguage1");
 			this.m_language2.Location = new System.Drawing.Point(0, 55);
 			this.m_language2.Name = "m_language2";
-			this.m_language2.Size = new System.Drawing.Size(216, 23);
+			this.m_language2.Size = new System.Drawing.Size(218, 23);
 			this.m_language2.TabIndex = 3;
 			this.m_language2.Leave += new System.EventHandler(this.HandleLanguageNameLeave);
 			this.m_language2.Enter += new System.EventHandler(this.HandleLanguageNameEnter);
@@ -483,7 +483,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_languageFather2, null);
 			this.locExtender.SetLocalizationPriority(this.m_languageFather2, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.m_languageFather2, "PeopleVw.m_languageFather2");
-			this.m_languageFather2.Location = new System.Drawing.Point(222, 53);
+			this.m_languageFather2.Location = new System.Drawing.Point(224, 53);
 			this.m_languageFather2.Name = "m_languageFather2";
 			this.m_languageFather2.ParentType = SIL.Sponge.Model.ParentType.Father;
 			this.m_languageFather2.Selected = false;
@@ -503,7 +503,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.m_language1, "PeopleVw.m_otherLanguage0");
 			this.m_language1.Location = new System.Drawing.Point(0, 25);
 			this.m_language1.Name = "m_language1";
-			this.m_language1.Size = new System.Drawing.Size(216, 23);
+			this.m_language1.Size = new System.Drawing.Size(218, 23);
 			this.m_language1.TabIndex = 0;
 			this.m_language1.Leave += new System.EventHandler(this.HandleLanguageNameLeave);
 			this.m_language1.Enter += new System.EventHandler(this.HandleLanguageNameEnter);
@@ -516,7 +516,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_languageFather1, null);
 			this.locExtender.SetLocalizationPriority(this.m_languageFather1, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.m_languageFather1, "PeopleVw.m_languageFather1");
-			this.m_languageFather1.Location = new System.Drawing.Point(222, 23);
+			this.m_languageFather1.Location = new System.Drawing.Point(224, 23);
 			this.m_languageFather1.Name = "m_languageFather1";
 			this.m_languageFather1.ParentType = SIL.Sponge.Model.ParentType.Father;
 			this.m_languageFather1.Selected = false;
@@ -540,9 +540,9 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.uhbPrimaryLanguage, null);
 			this.locExtender.SetLocalizationComment(this.uhbPrimaryLanguage, null);
 			this.locExtender.SetLocalizingId(this.uhbPrimaryLanguage, "PeopleVw.lblPrimaryLanguage");
-			this.uhbPrimaryLanguage.Location = new System.Drawing.Point(5, 58);
+			this.uhbPrimaryLanguage.Location = new System.Drawing.Point(9, 58);
 			this.uhbPrimaryLanguage.Name = "uhbPrimaryLanguage";
-			this.uhbPrimaryLanguage.Size = new System.Drawing.Size(274, 78);
+			this.uhbPrimaryLanguage.Size = new System.Drawing.Size(276, 78);
 			this.uhbPrimaryLanguage.TabIndex = 2;
 			this.uhbPrimaryLanguage.Text = "&Primary Language";
 			// 
@@ -554,7 +554,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_languageMother0, null);
 			this.locExtender.SetLocalizationPriority(this.m_languageMother0, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.m_languageMother0, "PeopleVw.m_languageMother0");
-			this.m_languageMother0.Location = new System.Drawing.Point(250, 23);
+			this.m_languageMother0.Location = new System.Drawing.Point(252, 23);
 			this.m_languageMother0.Name = "m_languageMother0";
 			this.m_languageMother0.ParentType = SIL.Sponge.Model.ParentType.Mother;
 			this.m_languageMother0.Selected = true;
@@ -574,7 +574,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.m_language0, "PeopleVw.m_primaryLanguage");
 			this.m_language0.Location = new System.Drawing.Point(0, 25);
 			this.m_language0.Name = "m_language0";
-			this.m_language0.Size = new System.Drawing.Size(216, 23);
+			this.m_language0.Size = new System.Drawing.Size(218, 23);
 			this.m_language0.TabIndex = 0;
 			this.m_language0.Leave += new System.EventHandler(this.HandleLanguageNameLeave);
 			this.m_language0.Enter += new System.EventHandler(this.HandleLanguageNameEnter);
@@ -589,7 +589,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.m_learnedIn, "PeopleVw.m_learnedIn");
 			this.m_learnedIn.Location = new System.Drawing.Point(79, 55);
 			this.m_learnedIn.Name = "m_learnedIn";
-			this.m_learnedIn.Size = new System.Drawing.Size(195, 23);
+			this.m_learnedIn.Size = new System.Drawing.Size(197, 23);
 			this.m_learnedIn.TabIndex = 4;
 			// 
 			// lblLearnedIn
@@ -612,7 +612,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this.m_languageFather0, null);
 			this.locExtender.SetLocalizationPriority(this.m_languageFather0, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.m_languageFather0, "PeopleVw.m_languageFather0");
-			this.m_languageFather0.Location = new System.Drawing.Point(222, 23);
+			this.m_languageFather0.Location = new System.Drawing.Point(224, 23);
 			this.m_languageFather0.Name = "m_languageFather0";
 			this.m_languageFather0.ParentType = SIL.Sponge.Model.ParentType.Father;
 			this.m_languageFather0.Selected = true;
@@ -634,9 +634,9 @@ namespace SIL.Sponge
 			this.pnlRightSide.Controls.Add(this.lblContact);
 			this.pnlRightSide.Controls.Add(this.m_birthYear);
 			this.pnlRightSide.Controls.Add(this.lblGender);
-			this.pnlRightSide.Location = new System.Drawing.Point(292, 3);
+			this.pnlRightSide.Location = new System.Drawing.Point(294, 3);
 			this.pnlRightSide.Name = "pnlRightSide";
-			this.pnlRightSide.Size = new System.Drawing.Size(231, 390);
+			this.pnlRightSide.Size = new System.Drawing.Size(233, 390);
 			this.pnlRightSide.TabIndex = 1;
 			// 
 			// m_notes
@@ -652,7 +652,7 @@ namespace SIL.Sponge
 			this.m_notes.Multiline = true;
 			this.m_notes.Name = "m_notes";
 			this.m_notes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.m_notes.Size = new System.Drawing.Size(228, 129);
+			this.m_notes.Size = new System.Drawing.Size(224, 123);
 			this.m_notes.TabIndex = 7;
 			// 
 			// lblNotes
@@ -677,7 +677,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizableToolTip(this.m_picture, "Click to Change Picture");
 			this.locExtender.SetLocalizationComment(this.m_picture, null);
 			this.locExtender.SetLocalizingId(this.m_picture, "PeopleVw.personsPicture");
-			this.m_picture.Location = new System.Drawing.Point(101, 0);
+			this.m_picture.Location = new System.Drawing.Point(97, 6);
 			this.m_picture.Name = "m_picture";
 			this.m_picture.Size = new System.Drawing.Size(130, 130);
 			this.m_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -712,7 +712,7 @@ namespace SIL.Sponge
 			this.m_contact.Multiline = true;
 			this.m_contact.Name = "m_contact";
 			this.m_contact.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.m_contact.Size = new System.Drawing.Size(228, 72);
+			this.m_contact.Size = new System.Drawing.Size(224, 72);
 			this.m_contact.TabIndex = 5;
 			// 
 			// m_gender
@@ -774,8 +774,8 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.tpgInformedConsent, "PeopleVw.tpgInformedConsent");
 			this.tpgInformedConsent.Location = new System.Drawing.Point(4, 26);
 			this.tpgInformedConsent.Name = "tpgInformedConsent";
-			this.tpgInformedConsent.Padding = new System.Windows.Forms.Padding(3);
-			this.tpgInformedConsent.Size = new System.Drawing.Size(532, 399);
+			this.tpgInformedConsent.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
+			this.tpgInformedConsent.Size = new System.Drawing.Size(480, 350);
 			this.tpgInformedConsent.TabIndex = 1;
 			this.tpgInformedConsent.Text = "Informed Consent";
 			this.tpgInformedConsent.UseVisualStyleBackColor = true;
@@ -788,9 +788,9 @@ namespace SIL.Sponge
 			this.pnlPermissions.Controls.Add(this.pnlBrowser);
 			this.pnlPermissions.Controls.Add(this.btnAddPermissionFile);
 			this.pnlPermissions.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlPermissions.Location = new System.Drawing.Point(3, 3);
+			this.pnlPermissions.Location = new System.Drawing.Point(0, 2);
 			this.pnlPermissions.Name = "pnlPermissions";
-			this.pnlPermissions.Size = new System.Drawing.Size(526, 393);
+			this.pnlPermissions.Size = new System.Drawing.Size(478, 347);
 			this.pnlPermissions.TabIndex = 6;
 			// 
 			// lstPermissionFiles
@@ -849,7 +849,7 @@ namespace SIL.Sponge
 			this.pnlBrowser.MnemonicGeneratesClick = false;
 			this.pnlBrowser.Name = "pnlBrowser";
 			this.pnlBrowser.PaintExplorerBarBackground = false;
-			this.pnlBrowser.Size = new System.Drawing.Size(233, 111);
+			this.pnlBrowser.Size = new System.Drawing.Size(185, 65);
 			this.pnlBrowser.TabIndex = 4;
 			// 
 			// webConsent
@@ -862,7 +862,7 @@ namespace SIL.Sponge
 			this.webConsent.Location = new System.Drawing.Point(0, 0);
 			this.webConsent.MinimumSize = new System.Drawing.Size(20, 20);
 			this.webConsent.Name = "webConsent";
-			this.webConsent.Size = new System.Drawing.Size(231, 109);
+			this.webConsent.Size = new System.Drawing.Size(183, 63);
 			this.webConsent.TabIndex = 3;
 			// 
 			// btnAddPermissionFile

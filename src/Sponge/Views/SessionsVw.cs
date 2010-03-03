@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +11,7 @@ using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
+using SIL.Sponge.Utilities;
 using SilUtils;
 
 namespace SIL.Sponge
@@ -46,6 +48,12 @@ namespace SIL.Sponge
 
 			m_fileInfoNotes.Width = pnlFileInfoNotes.ClientSize.Width - m_fileInfoNotes.Left - 1;
 			m_fileInfoNotes.Height = pnlFileInfoNotes.ClientSize.Height - m_fileInfoNotes.Top - 1;
+
+			tblDescription.Paint += SpongeColors.PaintDataEntryBackground;
+			splitFileTab.Panel2.Paint += SpongeColors.PaintDataEntryBorder;
+			splitFileTab.Panel2.BackColor = SpongeColors.DataEntryPanelBegin;
+			m_infoPanel.LabeledTextBoxBackgroundColor = SpongeColors.DataEntryPanelBegin;
+			m_fileInfoNotes.BackColor = SpongeColors.DataEntryPanelBegin;
 		}
 
 		/// ------------------------------------------------------------------------------------

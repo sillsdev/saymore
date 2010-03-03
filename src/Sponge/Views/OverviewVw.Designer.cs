@@ -35,7 +35,7 @@ namespace SIL.Sponge
 			this.taskTranscribedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.taskSubmittedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.pnlContributor = new SilUtils.Controls.SilPanel();
-			this.tsOverview = new SpongeBar();
+			this.tsOverview = new SIL.Sponge.Controls.SpongeBar();
 			this.tsbStatistics = new System.Windows.Forms.ToolStripButton();
 			this.tsbGenre = new System.Windows.Forms.ToolStripButton();
 			this.tsbContributor = new System.Windows.Forms.ToolStripButton();
@@ -179,7 +179,7 @@ namespace SIL.Sponge
 			this.taskDescribedCol.HeaderText = "Described";
 			this.taskDescribedCol.Name = "taskDescribedCol";
 			this.taskDescribedCol.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.taskDescribedCol.Width = 62;
+			this.taskDescribedCol.Width = 64;
 			// 
 			// taskRecordedCol
 			// 
@@ -187,28 +187,28 @@ namespace SIL.Sponge
 			this.taskRecordedCol.HeaderText = "Recorded";
 			this.taskRecordedCol.Name = "taskRecordedCol";
 			this.taskRecordedCol.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.taskRecordedCol.Width = 60;
+			this.taskRecordedCol.Width = 62;
 			// 
 			// taskRepeatedCol
 			// 
 			this.taskRepeatedCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
 			this.taskRepeatedCol.HeaderText = "Repeated";
 			this.taskRepeatedCol.Name = "taskRepeatedCol";
-			this.taskRepeatedCol.Width = 60;
+			this.taskRepeatedCol.Width = 62;
 			// 
 			// taskTranscribedCol
 			// 
 			this.taskTranscribedCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
 			this.taskTranscribedCol.HeaderText = "Transcribed";
 			this.taskTranscribedCol.Name = "taskTranscribedCol";
-			this.taskTranscribedCol.Width = 70;
+			this.taskTranscribedCol.Width = 72;
 			// 
 			// taskSubmittedCol
 			// 
 			this.taskSubmittedCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
 			this.taskSubmittedCol.HeaderText = "Submitted";
 			this.taskSubmittedCol.Name = "taskSubmittedCol";
-			this.taskSubmittedCol.Width = 64;
+			this.taskSubmittedCol.Width = 66;
 			// 
 			// pnlContributor
 			// 
@@ -242,7 +242,6 @@ namespace SIL.Sponge
 			this.tsOverview.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.tsOverview.Size = new System.Drawing.Size(121, 351);
 			this.tsOverview.TabIndex = 0;
-			this.tsOverview.Text = "toolStrip1";
 			// 
 			// tsbStatistics
 			// 

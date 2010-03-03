@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SIL.Sponge.Properties;
+using SIL.Sponge.Utilities;
 using SilUtils;
 
 namespace SIL.Sponge.Controls
@@ -502,12 +503,12 @@ namespace SIL.Sponge.Controls
 		private void pnlButtons_Paint(object sender, PaintEventArgs e)
 		{
 			using (var br = new LinearGradientBrush(pnlButtons.ClientRectangle,
-				SpongeBar.DefaultSpongeBarColorBegin, SpongeBar.DefaultSpongeBarColorEnd, -30f))
+				SpongeColors.BarBegin, SpongeColors.BarEnd, -30f))
 			{
 				e.Graphics.FillRectangle(br, pnlButtons.ClientRectangle);
 			}
 
-			using (var pen = new Pen(SpongeBar.DefaultSpongeBarColorEnd))
+			using (var pen = new Pen(SpongeColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, 0, pnlButtons.Width, 0);
 		}
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using SIL.Sponge.Utilities;
 using SilUtils;
 
 namespace SIL.Sponge.Controls
@@ -16,6 +17,7 @@ namespace SIL.Sponge.Controls
 	{
 		public event EventHandler MoreActionButtonClicked;
 		private readonly List<LabeledTextBox> m_fields = new List<LabeledTextBox>();
+		private Color m_labeledTextBoxBackgroundColor = SystemColors.Control;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -25,6 +27,55 @@ namespace SIL.Sponge.Controls
 		public InfoPanel()
 		{
 			InitializeComponent();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the create params.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x00000020;//WS_EX_TRANSPARENT
+				return cp;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the background color for the control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override Color BackColor
+		{
+			get { return base.BackColor; }
+			set
+			{
+				base.BackColor = value;
+				LabeledTextBoxBackgroundColor = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the background color of the labeled text boxes when the mouse is not
+		/// over them.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Color LabeledTextBoxBackgroundColor
+		{
+			get { return m_labeledTextBoxBackgroundColor; }
+			set
+			{
+				m_labeledTextBoxBackgroundColor = value;
+				foreach (var ltb in m_fields)
+					ltb.BackColor = value;
+
+				Invalidate();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -52,6 +103,7 @@ namespace SIL.Sponge.Controls
 							ltb.Name = info.FieldName;
 							ltb.InnerTextBox.Text = info.Value;
 							ltb.Font = Font;
+							ltb.BackColor = LabeledTextBoxBackgroundColor;
 							var dx = TextRenderer.MeasureText(g, info.DisplayText, ltb.Font).Width;
 							maxLblWidth = Math.Max(maxLblWidth, dx);
 							Controls.Add(ltb);

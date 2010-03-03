@@ -46,6 +46,23 @@ namespace SIL.Sponge.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets or sets the background color for the control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override Color BackColor
+		{
+			get { return base.BackColor; }
+			set
+			{
+				base.BackColor = value;
+				m_label.BackColor = value;
+				if (value != Color.Transparent)
+					m_txtBox.BackColor = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the inner label.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

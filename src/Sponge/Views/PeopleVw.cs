@@ -8,6 +8,7 @@ using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.Controls;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
+using SIL.Sponge.Utilities;
 using SilUtils;
 
 namespace SIL.Sponge
@@ -61,6 +62,9 @@ namespace SIL.Sponge
 
 			tabPeople.ImageList = new ImageList();
 			tabPeople.ImageList.Images.Add(Resources.kimidNoPermissionsWarning);
+
+			tblAbout.Paint += SpongeColors.PaintDataEntryBackground;
+			pnlPermissions.Paint += SpongeColors.PaintDataEntryBackground;
 		}
 
 		/// ------------------------------------------------------------------------------------

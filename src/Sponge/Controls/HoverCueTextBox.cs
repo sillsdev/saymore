@@ -77,20 +77,24 @@ namespace SIL.Sponge.Controls
 			}
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets or sets the background color of the control.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public override Color BackColor
-		//{
-		//    get { return base.BackColor; }
-		//    set
-		//    {
-		//        base.BackColor = value;
-		//        Inva
-		//    }
-		//}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the background color of the control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override Color BackColor
+		{
+			get { return base.BackColor; }
+			set
+			{
+				base.BackColor = value;
+
+				if (value != Color.Transparent)
+					m_txtBox.BackColor = value;
+
+				Invalidate();
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -191,8 +195,10 @@ namespace SIL.Sponge.Controls
 		{
 			if (!m_txtBox.Focused)
 			{
-				m_txtBox.BackColor = BackColor;
 				m_showHoverBorder = false;
+				m_txtBox.BackColor =
+					(BackColor == Color.Transparent ? SystemColors.Control : BackColor);
+
 				Invalidate();
 			}
 		}
@@ -208,7 +214,9 @@ namespace SIL.Sponge.Controls
 
 			if (!ClientRectangle.Contains(PointToClient(MousePosition)))
 			{
-				m_txtBox.BackColor = BackColor;
+				if (BackColor != Color.Transparent)
+					m_txtBox.BackColor = BackColor;
+
 				m_showHoverBorder = false;
 				Invalidate();
 			}

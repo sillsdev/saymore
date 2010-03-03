@@ -5,9 +5,9 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
-using SIL.Sponge.Controls;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
+using SIL.Sponge.Utilities;
 
 namespace SIL.Sponge.ConfigTools
 {
@@ -245,14 +245,14 @@ namespace SIL.Sponge.ConfigTools
 			var rc = new Rectangle(0, 0, ClientSize.Width, 45);
 
 			// Draw the gradient blue bar.
-			using (var br = new LinearGradientBrush(rc, SpongeBar.DefaultSpongeBarColorBegin,
-				SpongeBar.DefaultSpongeBarColorEnd, 0.0f))
+			using (var br = new LinearGradientBrush(rc, SpongeColors.BarBegin,
+				SpongeColors.BarEnd, 0.0f))
 			{
 				e.Graphics.FillRectangle(br, rc);
 			}
 
 			// Draw a line at the bottom of the gradient blue bar.
-			using (var pen = new Pen(SpongeBar.DefaultSpongeBarColorEnd))
+			using (var pen = new Pen(SpongeColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
 
 			rc = new Rectangle(new Point(lblSubTitle.Left - 6, 4), Resources.kimidSpongeText.Size);

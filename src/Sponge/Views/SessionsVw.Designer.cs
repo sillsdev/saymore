@@ -31,9 +31,9 @@ namespace SIL.Sponge
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabSessions = new System.Windows.Forms.TabControl();
 			this.tpgDescription = new System.Windows.Forms.TabPage();
 			this.tblDescription = new System.Windows.Forms.TableLayoutPanel();
@@ -513,7 +513,7 @@ namespace SIL.Sponge
 			this.tpgContributors.Location = new System.Drawing.Point(4, 26);
 			this.tpgContributors.Name = "tpgContributors";
 			this.tpgContributors.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
-			this.tpgContributors.Size = new System.Drawing.Size(478, 350);
+			this.tpgContributors.Size = new System.Drawing.Size(613, 433);
 			this.tpgContributors.TabIndex = 1;
 			this.tpgContributors.Text = "Contributors && Permissions";
 			this.tpgContributors.ToolTipText = "Contributors & Permissions";
@@ -542,7 +542,7 @@ namespace SIL.Sponge
 			this.tpgFiles.Location = new System.Drawing.Point(4, 26);
 			this.tpgFiles.Name = "tpgFiles";
 			this.tpgFiles.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
-			this.tpgFiles.Size = new System.Drawing.Size(613, 433);
+			this.tpgFiles.Size = new System.Drawing.Size(478, 350);
 			this.tpgFiles.TabIndex = 3;
 			this.tpgFiles.Text = "Files";
 			this.tpgFiles.ToolTipText = "Files";
@@ -569,8 +569,8 @@ namespace SIL.Sponge
 			this.splitFileTab.Panel2.Controls.Add(this.m_infoPanel);
 			this.splitFileTab.Panel2.Controls.Add(this.pnlFileInfoNotes);
 			this.splitFileTab.Panel2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 2);
-			this.splitFileTab.Size = new System.Drawing.Size(611, 430);
-			this.splitFileTab.SplitterDistance = 324;
+			this.splitFileTab.Size = new System.Drawing.Size(476, 347);
+			this.splitFileTab.SplitterDistance = 261;
 			this.splitFileTab.TabIndex = 2;
 			// 
 			// lnkSessionPath
@@ -583,7 +583,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.lnkSessionPath, "SessionsVw.lnkSessionPath");
 			this.lnkSessionPath.Location = new System.Drawing.Point(21, 58);
 			this.lnkSessionPath.Name = "lnkSessionPath";
-			this.lnkSessionPath.Size = new System.Drawing.Size(577, 21);
+			this.lnkSessionPath.Size = new System.Drawing.Size(442, 21);
 			this.lnkSessionPath.TabIndex = 2;
 			this.lnkSessionPath.TabStop = true;
 			this.lnkSessionPath.Text = "#";
@@ -600,7 +600,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.lblEmptySessionMsg, "SessionsVw.lblEmptySessionMsg");
 			this.lblEmptySessionMsg.Location = new System.Drawing.Point(19, 15);
 			this.lblEmptySessionMsg.Name = "lblEmptySessionMsg";
-			this.lblEmptySessionMsg.Size = new System.Drawing.Size(579, 40);
+			this.lblEmptySessionMsg.Size = new System.Drawing.Size(444, 40);
 			this.lblEmptySessionMsg.TabIndex = 1;
 			this.lblEmptySessionMsg.Text = "This session does not yet have any files. To add files, you may drag them here or" +
 				" directly into the session folder at:";
@@ -612,20 +612,20 @@ namespace SIL.Sponge
 			this.gridFiles.AllowUserToDeleteRows = false;
 			this.gridFiles.AllowUserToOrderColumns = true;
 			this.gridFiles.AllowUserToResizeRows = false;
-			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-			this.gridFiles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			this.gridFiles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.gridFiles.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this.gridFiles.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.gridFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.gridFiles.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.gridFiles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.gridFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.gridFiles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.iconCol,
@@ -697,8 +697,8 @@ namespace SIL.Sponge
 			// filesSizeCol
 			// 
 			this.filesSizeCol.DataPropertyName = "FileSize";
-			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.filesSizeCol.DefaultCellStyle = dataGridViewCellStyle9;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.filesSizeCol.DefaultCellStyle = dataGridViewCellStyle3;
 			this.filesSizeCol.HeaderText = "Size";
 			this.filesSizeCol.Name = "filesSizeCol";
 			this.filesSizeCol.ReadOnly = true;
@@ -710,13 +710,14 @@ namespace SIL.Sponge
 			this.m_infoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_infoPanel.FileName = "#";
 			this.m_infoPanel.Icon = null;
+			this.m_infoPanel.LabeledTextBoxBackgroundColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.m_infoPanel, null);
 			this.locExtender.SetLocalizationComment(this.m_infoPanel, "Localized in base class");
 			this.locExtender.SetLocalizationPriority(this.m_infoPanel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_infoPanel, "SessionsVw.InfoPanel");
 			this.m_infoPanel.Location = new System.Drawing.Point(2, 3);
 			this.m_infoPanel.Name = "m_infoPanel";
-			this.m_infoPanel.Size = new System.Drawing.Size(437, 97);
+			this.m_infoPanel.Size = new System.Drawing.Size(302, 77);
 			this.m_infoPanel.TabIndex = 0;
 			this.m_infoPanel.MoreActionButtonClicked += new System.EventHandler(this.m_infoPanel_MoreActionButtonClicked);
 			// 
@@ -726,9 +727,9 @@ namespace SIL.Sponge
 			this.pnlFileInfoNotes.Controls.Add(this.m_fileInfoNotes);
 			this.pnlFileInfoNotes.Controls.Add(this.lblFileInfoNotes);
 			this.pnlFileInfoNotes.Dock = System.Windows.Forms.DockStyle.Right;
-			this.pnlFileInfoNotes.Location = new System.Drawing.Point(439, 3);
+			this.pnlFileInfoNotes.Location = new System.Drawing.Point(304, 3);
 			this.pnlFileInfoNotes.Name = "pnlFileInfoNotes";
-			this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 97);
+			this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 77);
 			this.pnlFileInfoNotes.TabIndex = 1;
 			// 
 			// m_fileInfoNotes
@@ -750,7 +751,7 @@ namespace SIL.Sponge
 			this.m_fileInfoNotes.InnerTextBox.Multiline = true;
 			this.m_fileInfoNotes.InnerTextBox.Name = "m_txtBox";
 			this.m_fileInfoNotes.InnerTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.m_fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 27);
+			this.m_fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 32);
 			this.m_fileInfoNotes.InnerTextBox.TabIndex = 0;
 			this.locExtender.SetLocalizableToolTip(this.m_fileInfoNotes, null);
 			this.locExtender.SetLocalizationComment(this.m_fileInfoNotes, null);
@@ -759,7 +760,7 @@ namespace SIL.Sponge
 			this.m_fileInfoNotes.Location = new System.Drawing.Point(3, 19);
 			this.m_fileInfoNotes.Name = "m_fileInfoNotes";
 			this.m_fileInfoNotes.Padding = new System.Windows.Forms.Padding(1);
-			this.m_fileInfoNotes.Size = new System.Drawing.Size(150, 26);
+			this.m_fileInfoNotes.Size = new System.Drawing.Size(150, 34);
 			this.m_fileInfoNotes.TabIndex = 1;
 			// 
 			// lblFileInfoNotes
@@ -791,7 +792,7 @@ namespace SIL.Sponge
 			this.lpSessions.ListView.HideSelection = false;
 			this.lpSessions.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpSessions.ListView.Name = "lvItems";
-			this.lpSessions.ListView.Size = new System.Drawing.Size(638, 10234);
+			this.lpSessions.ListView.Size = new System.Drawing.Size(654, 10612);
 			this.lpSessions.ListView.TabIndex = 0;
 			this.lpSessions.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpSessions.ListView.View = System.Windows.Forms.View.Details;

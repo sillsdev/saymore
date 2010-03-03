@@ -15,10 +15,12 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using AxWMPLib;
+using SIL.Sponge.Properties;
 using SilUtils;
 using SilUtils.Controls;
 
@@ -91,8 +93,8 @@ namespace SIL.Sponge.Controls
 			for (int i = m_pnl.Controls.Count - 1; i >= 0; i--)
 			{
 				if (m_pnl.Controls[i] is AxWindowsMediaPlayer)
-					((AxWindowsMediaPlayer)m_pnl.Controls[i]).URL = string.Empty;
-
+					((AxWindowsMediaPlayer)m_pnl.Controls[i]).Ctlcontrols.stop();
+				//((AxWindowsMediaPlayer)m_pnl.Controls[i]).URL = string.Empty;
 				m_pnl.Controls[i].Dispose();
 			}
 
@@ -168,21 +170,17 @@ namespace SIL.Sponge.Controls
 		{
 #if !MONO
 			var wmp = new AxWindowsMediaPlayer();
-			//var wmp = new WMPLib.WindowsMediaPlayer();
+			((ISupportInitialize)(wmp)).BeginInit();
+			//wmp.OcxState = (AxHost.State)Resources.wmpOcxState;
 			wmp.Size = new Size(m_pnl.ClientSize.Width, isVideoFile ? 200 : WMPControlPanelHeight);
 			wmp.Location = new Point(0, m_topOfNextCtrl);
 			wmp.Anchor |= AnchorStyles.Right;
 			wmp.Name = Path.GetFileName(file);
 			wmp.Tag = file;
 			m_pnl.Controls.Add(wmp);
-
-			try
-			{
-				wmp.settings.autoStart = false;
-				wmp.URL = file;
-			}
-			catch { }
-
+			((ISupportInitialize)(wmp)).EndInit();
+			wmp.settings.autoStart = false;
+			wmp.URL = file;
 			m_topOfNextCtrl += wmp.Height + GapBetweenControls;
 #endif
 		}

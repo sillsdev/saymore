@@ -199,5 +199,12 @@ namespace SIL.Sponge.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        internal static object wmpOcxState {
+            get {
+                object obj = ResourceManager.GetObject("wmpOcxState", resourceCulture);
+                return ((object)(obj));
+            }
+        }
     }
 }

@@ -28,6 +28,7 @@ namespace SIL.Sponge
 		private SessionFile m_currSessionFile;
 		private SessionFile[] m_currSessionFiles;
 		private bool m_refreshNeeded;
+		private string m_unknownEventType;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -54,6 +55,16 @@ namespace SIL.Sponge
 			splitFileTab.Panel2.BackColor = SpongeColors.DataEntryPanelBegin;
 			m_infoPanel.LabeledTextBoxBackgroundColor = SpongeColors.DataEntryPanelBegin;
 			m_fileInfoNotes.BackColor = SpongeColors.DataEntryPanelBegin;
+
+			if (Sponge.DiscourseTypes != null)
+			{
+				m_unknownEventType = LocalizationManager.LocalizeString("SessionsVw.UnknownEventType",
+					"<Unknown>", "Unknown event type displayed in the event type drop-down list.",
+					"Views", LocalizationCategory.Other, LocalizationPriority.High);
+
+				m_eventType.Items.AddRange(Sponge.DiscourseTypes.ToArray());
+				m_eventType.Items.Add(m_unknownEventType);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -175,10 +186,16 @@ namespace SIL.Sponge
 		{
 			if (tpg == tpgDescription)
 				LoadDescriptionTabFromSession(m_currSession);
-			else if (tpg == tpgFiles)
+			else
 			{
-				RefreshFileList();
-				UpdateSessionFileInfo(CurrentSessionFile);
+				if (m_currSession != null)
+					LoadSessionFromDescriptionTab(m_currSession);
+
+				if (tpg == tpgFiles)
+				{
+					RefreshFileList();
+					UpdateSessionFileInfo(CurrentSessionFile);
+				}
 			}
 		}
 
@@ -647,6 +664,11 @@ namespace SIL.Sponge
 			m_situation.Text = session.Situation;
 			m_synopsis.Text = session.Synopsis;
 
+			if (session.EventType == null)
+				m_eventType.SelectedItem = m_unknownEventType;
+			else
+				m_eventType.SelectedItem = session.EventType;
+
 			mmScroll.AddFiles(m_currSession.Files);
 		}
 
@@ -666,20 +688,9 @@ namespace SIL.Sponge
 			session.Location = m_location.Text.Trim();
 			session.Situation = m_situation.Text.Trim();
 			session.Synopsis = m_synopsis.Text;
+			session.EventTypeId = ((m_eventType.SelectedItem as string) == m_unknownEventType ?
+				null : ((DiscourseType)m_eventType.SelectedItem).Id);
 
-			//if (!IsDateOK(true))
-			//{
-			//    if (tabSessions.SelectedTab != tpgDescription)
-			//        tabSessions.SelectedTab = tpgDescription;
-
-			//    m_date.SelectAll();
-			//    m_date.Focus();
-			//    return false;
-			//}
-
-			//DateTime dt;
-			//DateTime.TryParse(m_date.Text.Trim(), out dt);
-			//session.Date = dt;
 			session.Save();		// REVIEW: What if saving fails?
 			return true;
 		}
@@ -695,6 +706,7 @@ namespace SIL.Sponge
 			m_date.Text = string.Empty;
 			m_title.Text = string.Empty;
 			m_participants.Text = string.Empty;
+			m_eventType.SelectedItem = m_unknownEventType;
 			m_access.Text = string.Empty;
 			m_setting.Text = string.Empty;
 			m_location.Text = string.Empty;

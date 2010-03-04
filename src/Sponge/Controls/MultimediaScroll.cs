@@ -33,19 +33,6 @@ namespace SIL.Sponge.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class MultimediaScroll : UserControl
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is the height of the controls portion of the Windows Media player control
-		/// (i.e. the part with the play button, volumn control, etc.).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public const int WMPControlPanelHeight = 45;
-
-		private const int GapBetweenControls = 10;
-		private const string AudioFileExtensions = ".mp3.wav.wma.acc.ogg";
-		private const string VideoFileExtensions = ".wmv.avi.mpg.mpeg.mpa.asf";
-		private const string ImageFileExtensions = ".jpg.jpeg.gif.tif.png.bmp.dib";
-
 		private int m_topOfNextCtrl;
 		private readonly SilPanel m_pnl;
 
@@ -64,7 +51,8 @@ namespace SIL.Sponge.Controls
 			m_pnl.AutoScroll = true;
 			m_pnl.VerticalScroll.Visible = true;
 			m_pnl.HorizontalScroll.Visible = false;
-			BackColor = Color.Black;
+			m_pnl.BackColor = Color.DarkGray;
+
 			Controls.Add(m_pnl);
 		}
 
@@ -94,7 +82,7 @@ namespace SIL.Sponge.Controls
 			{
 				if (m_pnl.Controls[i] is AxWindowsMediaPlayer)
 					((AxWindowsMediaPlayer)m_pnl.Controls[i]).Ctlcontrols.stop();
-				//((AxWindowsMediaPlayer)m_pnl.Controls[i]).URL = string.Empty;
+
 				m_pnl.Controls[i].Dispose();
 			}
 
@@ -129,11 +117,11 @@ namespace SIL.Sponge.Controls
 
 			var ext = Path.GetExtension(file);
 
-			if (AudioFileExtensions.Contains(ext))
+			if (Settings.Default.AudioFileExtensions.Contains(ext))
 				AddAVFile(file, false);
-			else if (VideoFileExtensions.Contains(ext))
+			else if (Settings.Default.VideoFileExtensions.Contains(ext))
 				AddAVFile(file, true);
-			else if (ImageFileExtensions.Contains(ext))
+			else if (Settings.Default.ImageFileExtensions.Contains(ext))
 				AddImageFile(file);
 		}
 
@@ -151,14 +139,16 @@ namespace SIL.Sponge.Controls
 			fs.Dispose();
 
 			var pic = new PictureBox();
-			pic.Size = new Size(m_pnl.ClientSize.Width, 200);
+			pic.Size = new Size(m_pnl.ClientSize.Width,
+				Settings.Default.DefaultHeightOfImageControl);
+
 			pic.Location = new Point(0, m_topOfNextCtrl);
 			pic.Anchor |= AnchorStyles.Right;
 			pic.Name = Path.GetFileName(file);
 			pic.SizeMode = PictureBoxSizeMode.Zoom;
 			pic.Image = img;
 			m_pnl.Controls.Add(pic);
-			m_topOfNextCtrl += pic.Height + GapBetweenControls;
+			m_topOfNextCtrl += pic.Height + Settings.Default.GapBetweenMultimediaObjects;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -168,12 +158,16 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private void AddAVFile(string file, bool isVideoFile)
 		{
+			var pt = new Point(0, m_topOfNextCtrl);
+			var sz = new Size(m_pnl.ClientSize.Width, isVideoFile ?
+				Settings.Default.DefaultHeightOfVideoControl :
+				Settings.Default.DefaultHeightOfAudioControl);
 #if !MONO
 			var wmp = new AxWindowsMediaPlayer();
 			((ISupportInitialize)(wmp)).BeginInit();
 			//wmp.OcxState = (AxHost.State)Resources.wmpOcxState;
-			wmp.Size = new Size(m_pnl.ClientSize.Width, isVideoFile ? 200 : WMPControlPanelHeight);
-			wmp.Location = new Point(0, m_topOfNextCtrl);
+			wmp.Size = sz;
+			wmp.Location = pt;
 			wmp.Anchor |= AnchorStyles.Right;
 			wmp.Name = Path.GetFileName(file);
 			wmp.Tag = file;
@@ -181,8 +175,8 @@ namespace SIL.Sponge.Controls
 			((ISupportInitialize)(wmp)).EndInit();
 			wmp.settings.autoStart = false;
 			wmp.URL = file;
-			m_topOfNextCtrl += wmp.Height + GapBetweenControls;
 #endif
+			m_topOfNextCtrl += wmp.Height + Settings.Default.GapBetweenMultimediaObjects;
 		}
 	}
 }

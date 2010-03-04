@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -31,6 +32,7 @@ namespace SIL.Sponge
 		public const string PermissionsFolderName = "Permissions";
 
 		private static string s_mainAppFldr;
+		private static List<DiscourseType> s_discourseTypes;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -167,6 +169,26 @@ namespace SIL.Sponge
 				return LocalizationManager.LocalizeString("AllFileType", "All Files (*.*)",
 					"Text shown in file type box of open file dialog boxes.",
 					"Miscellaneous Strings");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the discourse types.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static List<DiscourseType> DiscourseTypes
+		{
+			get
+			{
+				if (s_discourseTypes == null)
+				{
+					var path = Application.ExecutablePath;
+					path = Path.Combine(Path.GetDirectoryName(path), "DiscourseTypes.xml");
+					s_discourseTypes = DiscourseType.Load(path);
+				}
+
+				return s_discourseTypes;
 			}
 		}
 	}

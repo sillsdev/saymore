@@ -123,6 +123,7 @@
     <Compile Include="Controls\UnderlinedHdgBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Model\DiscourseType.cs" />
     <Compile Include="Model\MetaData\FieldDefinition.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Session.cs" />
@@ -131,12 +132,12 @@
     <Compile Include="Model\SessionFileInfoTemplate.cs" />
     <Compile Include="Model\SpongeProject.cs" />
     <Compile Include="Model\Tag.cs" />
-    <Compile Include="Sponge.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Sponge.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Utilities\IconHelper.cs" />
     <Compile Include="Utilities\SpongeColors.cs" />
@@ -310,7 +311,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\Sponge.Values.xml" "$(OutDir)"
+    <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\DiscourseTypes.xml" "$(OutDir)"
+copy "$(ProjectDir)..\..\DistFiles\Sponge.Values.xml" "$(OutDir)"
 copy "$(ProjectDir)..\..\DistFiles\SessionFileInfoTemplates.xml" "$(OutDir)"
 if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"</PreBuildEvent>
   </PropertyGroup>

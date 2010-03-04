@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discourseTypes>
+	<type id="drama">
+		<name>Drama</name>
+		<definition>A planned, creative, rendition of discourse involving two or more participants.</definition>
+		<comments>Usually a drama involves mimesis of events, either real or imagined.</comments>
+		<examples>
+			<example>Play</example>
+			<example>Skit</example>
+			<example>Enacted Scene</example>
+		</examples>
+	</type>
+	<type id="formulaic_discourse">
+		<name>Formulaic Discourse</name>
+		<definition>A ritually or conventionally structured discourse.</definition>
+		<comments></comments>
+		<examples>
+			<example>Prayer</example>
+			<example>Curse</example>
+			<example>Blessing</example>
+			<example>Charm</example>
+			<example>Curing Ritual</example>
+			<example>Marriage Vows</example>
+			<example>Oath</example>
+		</examples>
+	</type>
+	<type id="interactive_discourse">
+		<name>Interactive Discourse</name>
+		<definition>Linguistic communication between two or more participants.</definition>
+		<comments></comments>
+		<examples>
+			<example>Conversation</example>
+			<example>Interview</example>
+			<example>Correspondence</example>
+			<example>Consultation</example>
+			<example>Greeting</example>
+			<example>Leave-Takings</example>
+		</examples>
+	</type>
+	<type id="language_play">
+		<name>Language Play</name>
+		<definition>A language whose primary function is to be part of play, or a style of speech that involves a creative manipulation of the structures of the language.</definition>
+		<comments></comments>
+		<examples>
+			<example>Verbal Art</example>
+			<example>Joke</example>
+			<example>Secret Language</example>
+			<example>Speech Disguise</example>
+		</examples>
+	</type>
+	<type id="oratory">
+		<name>Oratory</name>
+		<definition>Public speaking, or speaking eloquently according to rules or conventions.</definition>
+		<comments></comments>
+		<examples>
+			<example>Sermon</example>
+			<example>Lecture</example>
+			<example>Political Speech</example>
+			<example>Invocation</example>
+		</examples>
+	</type>
+	<type id="narrative">
+		<name>narrative</name>
+		<definition>A monologic discourse which represents temporally organized events.</definition>
+		<comments></comments>
+		<examples>
+			<example>Historical</example>
+			<example>Traditional</example>
+			<example>Personal</example>
+			<example>Myth</example>
+			<example>Folktale</example>
+			<example>Fable</example>
+			<example>Humorous Story</example>
+		</examples>
+	</type>
+	<type id="procedural_discourse">
+		<name>Procedural Discourse</name>
+		<definition>An explanation or description of a method, process, or situation having ordered steps.</definition>
+		<comments></comments>
+		<examples>
+			<example>Recipe</example>
+			<example>Instructions</example>
+			<example>Plan</example>
+		</examples>
+	</type>
+	<type id="report">
+		<name>Report</name>
+		<definition>A factual account of some event or circumstance.</definition>
+		<comments></comments>
+		<examples>
+			<example>News Report</example>
+			<example>Essay</example>
+			<example>Commentary</example>
+		</examples>
+	</type>
+	<type id="singing">
+		<name>Singing</name>
+		<definition>Words or sounds articulated in succession with musical inflections or modulations of the voice.</definition>
+		<comments></comments>
+		<examples>
+			<example>Chant</example>
+			<example>Song</example>
+			<example>Chorus</example>
+		</examples>
+	</type>
+	<type id="unintelligible_speech">
+		<name>Unintelligible Speech</name>
+		<definition>Utterances that are not intended to be interpretable as ordinary language.</definition>
+		<comments></comments>
+		<examples>
+			<example>Sacred Language</example>
+			<example>Glossolalia</example>
+			<example>Singing Syllables (fa-la-la)</example>
+		</examples>
+	</type>
+</discourseTypes>

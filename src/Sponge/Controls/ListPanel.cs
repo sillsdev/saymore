@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SIL.Sponge.Properties;
 using SIL.Sponge.Utilities;
@@ -502,16 +501,10 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private void pnlButtons_Paint(object sender, PaintEventArgs e)
 		{
-			using (var br = new LinearGradientBrush(pnlButtons.ClientRectangle,
-				SpongeColors.BarBegin, SpongeColors.BarEnd, -30f))
-			{
-				e.Graphics.FillRectangle(br, pnlButtons.ClientRectangle);
-			}
-
-			using (var pen = new Pen(SpongeColors.BarBorder))
-				e.Graphics.DrawLine(pen, 0, 0, pnlButtons.Width, 0);
+			SpongeColors.PaintDataEntryBackground(e.Graphics, pnlButtons.ClientRectangle, BorderSides.Top);
 		}
 
+		#region ListSorter class
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		///
@@ -524,5 +517,7 @@ namespace SIL.Sponge.Controls
 				return string.Compare(((ListViewItem)x).Text, ((ListViewItem)y).Text);
 			}
 		}
+
+		#endregion
 	}
 }

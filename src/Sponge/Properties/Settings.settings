@@ -26,5 +26,47 @@
     <Setting Name="SafeNameReplacementChar" Description="Character used to replace invalid path characters in a person's name when building a safe name to store in file system." Provider="SilUtils.PortableSettingsProvider" Type="System.Char" Scope="User">
       <Value Profile="(Default)">_</Value>
     </Setting>
+    <Setting Name="DataEntryPanelColorBegin" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">207, 240, 159</Value>
+    </Setting>
+    <Setting Name="DataEntryPanelColorEnd" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">169, 219, 168</Value>
+    </Setting>
+    <Setting Name="DataEntryPanelColorBorder" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">148, 195, 151</Value>
+    </Setting>
+    <Setting Name="BarColorBegin" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">196, 209, 227</Value>
+    </Setting>
+    <Setting Name="BarColorEnd" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">124, 153, 193</Value>
+    </Setting>
+    <Setting Name="BarColorBorder" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">83, 110, 145</Value>
+    </Setting>
+    <Setting Name="GapBetweenMultimediaObjects" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="DefaultHeightOfVideoControl" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="DefaultHeightOfAudioControl" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">65</Value>
+    </Setting>
+    <Setting Name="DefaultHeightOfImageControl" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="AudioFileExtensions" Provider="SilUtils.PortableSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.mp3,. wav, .wma, .acc, .ogg</Value>
+    </Setting>
+    <Setting Name="VideoFileExtensions" Provider="SilUtils.PortableSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.wmv, .avi, .mpg, .mpeg, .mpa, .asf</Value>
+    </Setting>
+    <Setting Name="ImageFileExtensions" Provider="SilUtils.PortableSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.jpg, .jpeg, .gif, .tif, .png, .bmp, .dib</Value>
+    </Setting>
+    <Setting Name="RedrawAsMainWndResizes" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

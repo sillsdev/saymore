@@ -157,6 +157,9 @@ namespace SIL.Sponge.Model
 		[XmlElement("participants")]
 		public string Participants { get; set; }
 
+		[XmlElement("eventType")]
+		public string EventTypeId { get; set; }
+
 		[XmlElement("access")]
 		public string Access { get; set; }
 
@@ -248,6 +251,16 @@ namespace SIL.Sponge.Model
 						orderby x
 						select x).ToArray();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the discourse type of the event.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public DiscourseType EventType
+		{
+			get { return Sponge.DiscourseTypes.FirstOrDefault(x => x.Id == EventTypeId); }
 		}
 
 		#endregion

@@ -18,6 +18,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public BaseSplitVw()
 		{
+			DoubleBuffered = true;
 			InitializeComponent();
 		}
 

@@ -38,13 +38,13 @@ namespace SIL.Sponge
 			this.tpgDescription = new System.Windows.Forms.TabPage();
 			this.tblDescription = new System.Windows.Forms.TableLayoutPanel();
 			this.pnlDescriptionLeftSide = new System.Windows.Forms.Panel();
+			this.m_eventType = new System.Windows.Forms.ComboBox();
 			this.m_date = new System.Windows.Forms.DateTimePicker();
 			this.lblId = new System.Windows.Forms.Label();
 			this.m_situation = new System.Windows.Forms.TextBox();
 			this.m_id = new System.Windows.Forms.TextBox();
 			this.lblSituation = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
-			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.lblEventType = new System.Windows.Forms.Label();
 			this.lblTitle = new System.Windows.Forms.Label();
 			this.m_location = new System.Windows.Forms.TextBox();
@@ -178,13 +178,13 @@ namespace SIL.Sponge
 			// 
 			// pnlDescriptionLeftSide
 			// 
+			this.pnlDescriptionLeftSide.Controls.Add(this.m_eventType);
 			this.pnlDescriptionLeftSide.Controls.Add(this.m_date);
 			this.pnlDescriptionLeftSide.Controls.Add(this.lblId);
 			this.pnlDescriptionLeftSide.Controls.Add(this.m_situation);
 			this.pnlDescriptionLeftSide.Controls.Add(this.m_id);
 			this.pnlDescriptionLeftSide.Controls.Add(this.lblSituation);
 			this.pnlDescriptionLeftSide.Controls.Add(this.label1);
-			this.pnlDescriptionLeftSide.Controls.Add(this.textBox2);
 			this.pnlDescriptionLeftSide.Controls.Add(this.lblEventType);
 			this.pnlDescriptionLeftSide.Controls.Add(this.lblTitle);
 			this.pnlDescriptionLeftSide.Controls.Add(this.m_location);
@@ -201,6 +201,22 @@ namespace SIL.Sponge
 			this.pnlDescriptionLeftSide.Name = "pnlDescriptionLeftSide";
 			this.pnlDescriptionLeftSide.Size = new System.Drawing.Size(268, 424);
 			this.pnlDescriptionLeftSide.TabIndex = 0;
+			// 
+			// m_eventType
+			// 
+			this.m_eventType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.m_eventType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.m_eventType.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this.m_eventType, null);
+			this.locExtender.SetLocalizationComment(this.m_eventType, null);
+			this.locExtender.SetLocalizationPriority(this.m_eventType, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_eventType, "SessionsVw.cboEventType");
+			this.m_eventType.Location = new System.Drawing.Point(6, 160);
+			this.m_eventType.MaxDropDownItems = 15;
+			this.m_eventType.Name = "m_eventType";
+			this.m_eventType.Size = new System.Drawing.Size(107, 23);
+			this.m_eventType.TabIndex = 18;
 			// 
 			// m_date
 			// 
@@ -282,16 +298,6 @@ namespace SIL.Sponge
 			this.label1.Size = new System.Drawing.Size(31, 15);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Date";
-			// 
-			// textBox2
-			// 
-			this.locExtender.SetLocalizableToolTip(this.textBox2, null);
-			this.locExtender.SetLocalizationComment(this.textBox2, null);
-			this.locExtender.SetLocalizingId(this.textBox2, "textBox1.textBox1");
-			this.textBox2.Location = new System.Drawing.Point(6, 160);
-			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(90, 23);
-			this.textBox2.TabIndex = 9;
 			// 
 			// lblEventType
 			// 
@@ -469,7 +475,7 @@ namespace SIL.Sponge
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.mmScroll.AutoScroll = true;
-			this.mmScroll.BackColor = System.Drawing.Color.Black;
+			this.mmScroll.BackColor = System.Drawing.Color.DimGray;
 			this.locExtender.SetLocalizableToolTip(this.mmScroll, null);
 			this.locExtender.SetLocalizationComment(this.mmScroll, null);
 			this.locExtender.SetLocalizingId(this.mmScroll, "multimediaScroll1.multimediaScroll1");
@@ -513,7 +519,7 @@ namespace SIL.Sponge
 			this.tpgContributors.Location = new System.Drawing.Point(4, 26);
 			this.tpgContributors.Name = "tpgContributors";
 			this.tpgContributors.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
-			this.tpgContributors.Size = new System.Drawing.Size(613, 433);
+			this.tpgContributors.Size = new System.Drawing.Size(478, 350);
 			this.tpgContributors.TabIndex = 1;
 			this.tpgContributors.Text = "Contributors && Permissions";
 			this.tpgContributors.ToolTipText = "Contributors & Permissions";
@@ -751,7 +757,7 @@ namespace SIL.Sponge
 			this.m_fileInfoNotes.InnerTextBox.Multiline = true;
 			this.m_fileInfoNotes.InnerTextBox.Name = "m_txtBox";
 			this.m_fileInfoNotes.InnerTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.m_fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 32);
+			this.m_fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 89);
 			this.m_fileInfoNotes.InnerTextBox.TabIndex = 0;
 			this.locExtender.SetLocalizableToolTip(this.m_fileInfoNotes, null);
 			this.locExtender.SetLocalizationComment(this.m_fileInfoNotes, null);
@@ -760,7 +766,7 @@ namespace SIL.Sponge
 			this.m_fileInfoNotes.Location = new System.Drawing.Point(3, 19);
 			this.m_fileInfoNotes.Name = "m_fileInfoNotes";
 			this.m_fileInfoNotes.Padding = new System.Windows.Forms.Padding(1);
-			this.m_fileInfoNotes.Size = new System.Drawing.Size(150, 34);
+			this.m_fileInfoNotes.Size = new System.Drawing.Size(150, 91);
 			this.m_fileInfoNotes.TabIndex = 1;
 			// 
 			// lblFileInfoNotes
@@ -792,7 +798,7 @@ namespace SIL.Sponge
 			this.lpSessions.ListView.HideSelection = false;
 			this.lpSessions.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpSessions.ListView.Name = "lvItems";
-			this.lpSessions.ListView.Size = new System.Drawing.Size(654, 10612);
+			this.lpSessions.ListView.Size = new System.Drawing.Size(710, 11935);
 			this.lpSessions.ListView.TabIndex = 0;
 			this.lpSessions.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpSessions.ListView.View = System.Windows.Forms.View.Details;
@@ -935,7 +941,6 @@ namespace SIL.Sponge
 		private System.Windows.Forms.Label lblAccess;
 		private System.Windows.Forms.TextBox m_setting;
 		private System.Windows.Forms.Label lblSetting;
-		private System.Windows.Forms.TextBox textBox2;
 		private System.Windows.Forms.Label lblEventType;
 		private System.Windows.Forms.TextBox m_location;
 		private System.Windows.Forms.Label lblLocation;
@@ -953,5 +958,6 @@ namespace SIL.Sponge
 		private System.Windows.Forms.DateTimePicker m_date;
 		private MultimediaScroll mmScroll;
 		private System.Windows.Forms.Label lblMedia;
+		private System.Windows.Forms.ComboBox m_eventType;
 	}
 }

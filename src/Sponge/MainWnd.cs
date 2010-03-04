@@ -21,6 +21,8 @@ namespace SIL.Sponge
 		private SetupVw m_setupView;
 		private ViewButtonManager m_viewManger;
 
+		public static bool Resizing { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the current Sponge project.
@@ -174,6 +176,38 @@ namespace SIL.Sponge
 			Settings.Default.MainWndBounds = Bounds;
 			Settings.Default.Save();
 			LocalizeItemDlg.StringsLocalized -= SetWindowText;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Form.ResizeBegin"/> event.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResizeBegin(System.EventArgs e)
+		{
+			if (!Settings.Default.RedrawAsMainWndResizes)
+				Utils.SetWindowRedraw(this, false);
+			else
+				Resizing = true;
+
+			base.OnResizeBegin(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Form.ResizeEnd"/> event.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResizeEnd(System.EventArgs e)
+		{
+			if (!Settings.Default.RedrawAsMainWndResizes)
+				Utils.SetWindowRedraw(this, true);
+			else
+			{
+				Resizing = false;
+				Invalidate(true);
+			}
+			base.OnResizeEnd(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

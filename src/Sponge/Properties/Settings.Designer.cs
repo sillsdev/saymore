@@ -127,5 +127,187 @@ namespace SIL.Sponge.Properties {
                 this["SafeNameReplacementChar"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("207, 240, 159")]
+        public global::System.Drawing.Color DataEntryPanelColorBegin {
+            get {
+                return ((global::System.Drawing.Color)(this["DataEntryPanelColorBegin"]));
+            }
+            set {
+                this["DataEntryPanelColorBegin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("169, 219, 168")]
+        public global::System.Drawing.Color DataEntryPanelColorEnd {
+            get {
+                return ((global::System.Drawing.Color)(this["DataEntryPanelColorEnd"]));
+            }
+            set {
+                this["DataEntryPanelColorEnd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
+        public global::System.Drawing.Color DataEntryPanelColorBorder {
+            get {
+                return ((global::System.Drawing.Color)(this["DataEntryPanelColorBorder"]));
+            }
+            set {
+                this["DataEntryPanelColorBorder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("196, 209, 227")]
+        public global::System.Drawing.Color BarColorBegin {
+            get {
+                return ((global::System.Drawing.Color)(this["BarColorBegin"]));
+            }
+            set {
+                this["BarColorBegin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("124, 153, 193")]
+        public global::System.Drawing.Color BarColorEnd {
+            get {
+                return ((global::System.Drawing.Color)(this["BarColorEnd"]));
+            }
+            set {
+                this["BarColorEnd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("83, 110, 145")]
+        public global::System.Drawing.Color BarColorBorder {
+            get {
+                return ((global::System.Drawing.Color)(this["BarColorBorder"]));
+            }
+            set {
+                this["BarColorBorder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int GapBetweenMultimediaObjects {
+            get {
+                return ((int)(this["GapBetweenMultimediaObjects"]));
+            }
+            set {
+                this["GapBetweenMultimediaObjects"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public int DefaultHeightOfVideoControl {
+            get {
+                return ((int)(this["DefaultHeightOfVideoControl"]));
+            }
+            set {
+                this["DefaultHeightOfVideoControl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("65")]
+        public int DefaultHeightOfAudioControl {
+            get {
+                return ((int)(this["DefaultHeightOfAudioControl"]));
+            }
+            set {
+                this["DefaultHeightOfAudioControl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public int DefaultHeightOfImageControl {
+            get {
+                return ((int)(this["DefaultHeightOfImageControl"]));
+            }
+            set {
+                this["DefaultHeightOfImageControl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".mp3,. wav, .wma, .acc, .ogg")]
+        public string AudioFileExtensions {
+            get {
+                return ((string)(this["AudioFileExtensions"]));
+            }
+            set {
+                this["AudioFileExtensions"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".wmv, .avi, .mpg, .mpeg, .mpa, .asf")]
+        public string VideoFileExtensions {
+            get {
+                return ((string)(this["VideoFileExtensions"]));
+            }
+            set {
+                this["VideoFileExtensions"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".jpg, .jpeg, .gif, .tif, .png, .bmp, .dib")]
+        public string ImageFileExtensions {
+            get {
+                return ((string)(this["ImageFileExtensions"]));
+            }
+            set {
+                this["ImageFileExtensions"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RedrawAsMainWndResizes {
+            get {
+                return ((bool)(this["RedrawAsMainWndResizes"]));
+            }
+            set {
+                this["RedrawAsMainWndResizes"] = value;
+            }
+        }
     }
 }

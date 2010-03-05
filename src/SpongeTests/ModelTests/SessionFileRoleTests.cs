@@ -46,6 +46,27 @@ public sealed class SessionFileRoleTests
 	public void GetSomeFileForThisRoleExists_HaveOneMatching_True()
 	{
 		SessionFileRole role = GetOriginalFileRole();
-		Assert.IsTrue(role.GetSomeFileForThisRoleExists(new string[]{"x.txt", @"c:\foo\y.wav", "z.doc"}));
+		Assert.IsTrue(role.GetSomeFileForThisRoleExists("mySession", new string[]{"x.txt", @"c:\foo\mySession_Original.wav", "z.doc"}));
 	}
+
+	[Test, Ignore("not yet")]
+	public void GetSomeFileForThisRoleExists_NonMatchingSession_False()
+	{
+		SessionFileRole role = GetOriginalFileRole();
+		Assert.IsTrue(role.GetSomeFileForThisRoleExists("mySession", new string[] {@"c:\foo\XSession_Original.wav"}));
+	}
+
+   [Test, Ignore("not yet")]
+	public void GetSomeFileForThisRoleExists_NonMatchingSessionExtension_False()
+	{
+		SessionFileRole role = GetOriginalFileRole();
+		Assert.IsTrue(role.GetSomeFileForThisRoleExists("mySession", new string[] { @"c:\foo\mySession_Original.txt" }));
+	}
+   [Test, Ignore("not yet")]
+   public void GetSomeFileForThisRoleExists_NonMatchingTemplat_False()
+   {
+	   SessionFileRole role = GetOriginalFileRole();
+	   Assert.IsTrue(role.GetSomeFileForThisRoleExists("mySession", new string[] { @"c:\foo\mySession_BLAH.wav" }));
+   }
+
 }

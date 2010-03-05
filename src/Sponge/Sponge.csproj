@@ -127,6 +127,7 @@
     <Compile Include="Model\DiscourseType.cs" />
     <Compile Include="Model\MetaData\FieldDefinition.cs" />
     <Compile Include="Model\Person.cs" />
+    <Compile Include="Model\SessionFileRole.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\SessionFile.cs" />
     <Compile Include="Model\SessionFileInfo.cs" />

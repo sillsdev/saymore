@@ -17,6 +17,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
+using Palaso.TestUtilities;
 
 namespace SIL.Sponge.Model
 {
@@ -175,11 +176,10 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void PictureFile()
+		public void PictureFile_PictureFileExists_GivesCorrectPath()
 		{
 			var person = Person.CreateFromName(m_prj, "D.Fogerty");
 			person.Save();
-			Assert.IsNull(person.PictureFile);
 
 			foreach (var ext in new[] { "jpg", "gif", "tif", "png", "bmp", "dib" })
 			{
@@ -190,6 +190,14 @@ namespace SIL.Sponge.Model
 			}
 		}
 
+		[Test]
+		public void PictureFile_PictureFileDoesNotExists_GivesNull()
+		{
+			var person = Person.CreateFromName(m_prj, "D.Fogerty");
+			person.Save();
+			Assert.IsNull(person.PictureFile);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Tests the CopyPictureFile method when the picture file does not exist.
@@ -197,7 +205,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[ExpectedException(typeof(FileNotFoundException))]
-		public void CopyPictureFile_BadFile()
+		public void CopyPictureFile_BadFile_Throws()
 		{
 			var person = Person.CreateFromName(m_prj, "P.Collins");
 			person.CopyPictureFile("invalid.jpg");
@@ -210,19 +218,14 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[ExpectedException(typeof(NullReferenceException))]
-		public void CopyPictureFile_NullFile()
+		public void CopyPictureFile_NullFile_Throws()
 		{
 			var person = Person.CreateFromName(m_prj, "Flock of Seagulls");
 			person.CopyPictureFile(null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the CopyPictureFile method.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CopyPictureFile()
+		public void CopyPictureFile_PersonIsSaved_CopiesAndRenames()
 		{
 			foreach (var ext in new[] { "jpg", "gif", "tif", "png", "bmp", "dib" })
 			{
@@ -249,6 +252,39 @@ namespace SIL.Sponge.Model
 					File.Delete(srcPicFile);
 				}
 			}
+		}
+
+		[Test]
+		public void CopyPictureFile_PersonNotYetSaved_CopiesAndRenames()
+		{
+			var person = Person.CreateFromName(m_prj, "Beethoven");
+
+			using (var pic = new TempFile())
+			{
+				person.CopyPictureFile(pic.Path);
+				using (TemporaryFolder.TrackExisting(person.Folder))
+				{
+					var expected = Path.Combine(person.Folder, "Beethoven");
+
+					expected = Path.ChangeExtension(expected, Path.GetExtension(pic.Path));
+					Assert.IsTrue(File.Exists(expected));
+				}
+			}
+		}
+
+		[Test]
+		public void CanChoosePicture_PersonHasNoName_False()
+		{
+			var person = Person.CreateFromName(m_prj, string.Empty);
+			Assert.IsFalse(person.CanChoosePicture);
+		}
+
+
+		[Test]
+		public void CanChoosePicture_PersonHasName_True()
+		{
+			var person = Person.CreateFromName(m_prj, "Beethoven");
+			Assert.IsTrue(person.CanChoosePicture);
 		}
 
 		/// ------------------------------------------------------------------------------------

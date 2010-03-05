@@ -311,6 +311,11 @@ namespace SIL.Sponge.Model
 			}
 		}
 
+		public bool CanChoosePicture
+		{
+			get { return Folder!=null; }
+		}
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -328,12 +333,17 @@ namespace SIL.Sponge.Model
 			if (!File.Exists(srcFile))
 				throw new FileNotFoundException(srcFile);
 
-			if (!Directory.Exists(Folder))
-				throw new DirectoryNotFoundException(Folder);
+			EnsureFolderExists();
 
 			var destFile = Path.ChangeExtension(FullFilePath, Path.GetExtension(srcFile));
 			File.Copy(srcFile, destFile, true);
 			return destFile;
+		}
+
+		private void EnsureFolderExists()
+		{
+			if (!Directory.Exists(Folder))
+				Directory.CreateDirectory(Folder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -394,8 +404,7 @@ namespace SIL.Sponge.Model
 			if (FullName == string.Empty)
 				FullName = Project.GetUniquePersonName();
 
-			if (!Directory.Exists(Folder))
-				Directory.CreateDirectory(Folder);
+			EnsureFolderExists();
 
 			if (CanSave)
 				XmlSerializationHelper.SerializeToFile(FullFilePath, this);

@@ -217,12 +217,19 @@ namespace SIL.Sponge
 			lblNoPeopleMsg.Visible = false;
 			lpPeople.AddItem(m_currPerson, true, false);
 
-			tblAbout.Enabled = true;
-			pnlPermissions.Enabled = true;
+			UpdateDisplay();
+
 			m_fullName.SelectAll();
 			m_fullName.Focus();
 
 			return null;
+		}
+
+
+		private void UpdateDisplay()
+		{
+			tblAbout.Enabled = pnlPermissions.Enabled = (m_currPerson != null);
+			m_picture.Enabled = m_currPerson != null && m_currPerson.CanChoosePicture;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -453,7 +460,6 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void LoadViewFromPerson(Person person)
 		{
-			tblAbout.Enabled = pnlPermissions.Enabled = (person != null);
 
 			if (person == null)
 			{
@@ -479,15 +485,15 @@ namespace SIL.Sponge
 			m_birthYear.Text = (person.BirthYear > 0 ?
 				person.BirthYear.ToString() : string.Empty);
 
-			var kvp = m_langFathers.FirstOrDefault(x => x.Key.Text == person.FathersLanguage);
-			if (kvp.Value != null)
-				kvp.Value.Selected = true;
+			var pair = m_langFathers.FirstOrDefault(x => x.Key.Text == person.FathersLanguage);
+			if (pair.Value != null)
+				pair.Value.Selected = true;
 			else
 				m_languageFather0.Selected = true;
 
-			kvp = m_langMothers.FirstOrDefault(x => x.Key.Text == person.MothersLanguage);
-			if (kvp.Value != null)
-				kvp.Value.Selected = true;
+			pair = m_langMothers.FirstOrDefault(x => x.Key.Text == person.MothersLanguage);
+			if (pair.Value != null)
+				pair.Value.Selected = true;
 			else
 				m_languageMother0.Selected = true;
 
@@ -502,6 +508,8 @@ namespace SIL.Sponge
 			{
 				m_picture.Image = Resources.kimidNoPhoto;
 			}
+
+			UpdateDisplay();
 
 			LoadPermissionsTabFromPerson(person, null);
 		}
@@ -666,6 +674,16 @@ namespace SIL.Sponge
 		{
 			if (m_fullName.Visible && m_fullName.Focused)
 				lpPeople.UpdateItem(m_currPerson, m_fullName.Text.Trim());
+
+			//review: the following (jh fix for SP-41) violates the pattern actually in use here (sorry)
+			// But the the current code combines view and logic.  If
+			// we're to keep logic out of the view code, how can we not change the model so
+			// that it can inform the state of things like, in this case, whether we're ready
+			// to receive a photot yet (we aren't, if we don't name and thus don't have a folder).
+			// Sorry, I didn't meant to mess with the pattern... will write an email.
+
+			m_currPerson.FullName = m_fullName.Text.Trim();
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -680,6 +698,7 @@ namespace SIL.Sponge
 				m_fullName.SelectAll();
 				e.Cancel = true;
 			}
+			UpdateDisplay();
 		}
 
 		#endregion

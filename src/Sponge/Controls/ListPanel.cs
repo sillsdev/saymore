@@ -33,6 +33,7 @@ namespace SIL.Sponge.Controls
 		private Font m_fntDupItem;
 
 		private bool m_monitorSelectedIndexChanges;
+		private readonly List<Button> m_buttons = new List<Button>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -299,6 +300,11 @@ namespace SIL.Sponge.Controls
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines the preferred index at which to insert the specified string.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private int InsertIndex(string text)
 		{
 			for (int i = 0; i < lvItems.Items.Count; i++)
@@ -308,7 +314,6 @@ namespace SIL.Sponge.Controls
 			}
 
 			return lvItems.Items.Count;
-
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -502,6 +507,77 @@ namespace SIL.Sponge.Controls
 		private void pnlButtons_Paint(object sender, PaintEventArgs e)
 		{
 			SpongeColors.PaintDataEntryBackground(e.Graphics, pnlButtons.ClientRectangle, BorderSides.Top);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Inserts the specified button in the panel of buttons at the bottom of the control.
+		/// The button will be inserted at the specified index, where zero is before the New
+		/// button, 1 is between the New and Delete button and so forth.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void InsertButton(int index, Button btn)
+		{
+			if (m_buttons.Count == 0)
+			{
+				m_buttons.Add(btnNew);
+				m_buttons.Add(btnDelete);
+			}
+
+			btn.Height = btnNew.Height;
+
+			if (index < 0)
+				m_buttons.Insert(0, btn);
+			else if (index >= m_buttons.Count)
+				m_buttons.Add(btn);
+			else
+				m_buttons.Insert(index, btn);
+
+			foreach (var b in m_buttons)
+				b.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+
+			pnlButtons.Controls.Add(btn);
+			HandleButtonPanelClientSizeChanged(null, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Arrange the buttons in the button panels into rows, from left to right, and wrap
+		/// around when a button will extend beyond the right edge of the panel. Then adjust
+		/// the height of the panel to accomodate the stack of buttons.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleButtonPanelClientSizeChanged(object sender, EventArgs e)
+		{
+			Utils.SetWindowRedraw(this, false);
+
+			const int horizMargin = 5;
+			const int vertMargin = 5;
+
+			int x = horizMargin;
+			int y = vertMargin;
+
+			foreach (var btn in m_buttons)
+			{
+				if (x + btn.Width > (pnlButtons.ClientSize.Width - horizMargin))
+				{
+					x = horizMargin;
+					y += btn.Height + vertMargin;
+				}
+
+				var pt = new Point(x, y);
+				if (btn.Location != pt)
+					btn.Location = pt;
+
+				x += (btn.Width + horizMargin);
+			}
+
+			pnlButtons.ClientSizeChanged -= HandleButtonPanelClientSizeChanged;
+			pnlButtons.Height = m_buttons[m_buttons.Count - 1].Bottom + vertMargin;
+			pnlButtons.Top = ClientSize.Height - pnlButtons.Height;
+			pnlButtons.ClientSizeChanged += HandleButtonPanelClientSizeChanged;
+
+			Utils.SetWindowRedraw(this, true);
 		}
 
 		#region ListSorter class

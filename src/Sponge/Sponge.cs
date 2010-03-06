@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.ConfigTools;
@@ -190,6 +188,54 @@ namespace SIL.Sponge
 
 				return s_discourseTypes;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Displays an open file dialog box for the user to select any type of file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string[] GetFilesOfAnyType(string caption)
+		{
+			using (var dlg = new OpenFileDialog())
+			{
+				dlg.Title = caption;
+				dlg.Filter = OFDlgAllFileTypeText + "|*.*";
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
+				dlg.Multiselect = true;
+				return (dlg.ShowDialog() == DialogResult.OK ? dlg.FileNames : null);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Builds a comma-delimited string of integers representing all the column widths of
+		/// the specified grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string StoreGridColumnWidthsInString(DataGridView grid)
+		{
+			// Persist the width of each column on the files tab.
+			var colWidths = new int[grid.Columns.Count];
+			for (int i = 0; i < grid.ColumnCount; i++)
+				colWidths[i] = grid.Columns[i].Width;
+
+			return PortableSettingsProvider.GetStringFromIntArray(colWidths);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the grid column widths from the specified string containing a comma-delimited
+		/// list of integers.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void SetGridColumnWidthsFromString(DataGridView grid, string widths)
+		{
+			var colWidths = PortableSettingsProvider.GetIntArrayFromString(widths);
+
+			for (int i = 0; i < colWidths.Length && i < grid.ColumnCount; i++)
+				grid.Columns[i].Width = colWidths[i];
 		}
 	}
 }

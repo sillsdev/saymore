@@ -166,10 +166,10 @@ namespace SIL.Sponge.Controls
 		private SilUtils.Controls.SilPanel pnlList;
 		private System.Windows.Forms.ListView lvItems;
 		private System.Windows.Forms.ColumnHeader hdrList;
-		private System.Windows.Forms.Button btnDelete;
-		private System.Windows.Forms.Button btnNew;
 		private HeaderLabel hlblItems;
-		private System.Windows.Forms.Panel pnlButtons;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		public System.Windows.Forms.Button btnDelete;
+		public System.Windows.Forms.Button btnNew;
+		public System.Windows.Forms.Panel pnlButtons;
 	}
 }

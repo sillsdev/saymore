@@ -309,5 +309,30 @@ namespace SIL.Sponge.Properties {
                 this["RedrawAsMainWndResizes"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle NewSessionsFromFilesDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["NewSessionsFromFilesDlgBounds"]));
+            }
+            set {
+                this["NewSessionsFromFilesDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string NewSessionsFromFilesDlgCols {
+            get {
+                return ((string)(this["NewSessionsFromFilesDlgCols"]));
+            }
+            set {
+                this["NewSessionsFromFilesDlgCols"] = value;
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.ConfigTools;
+using SIL.Sponge.Dialogs;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 using SIL.Sponge.Utilities;
@@ -28,7 +29,7 @@ namespace SIL.Sponge
 		private SessionFile m_currSessionFile;
 		private SessionFile[] m_currSessionFiles;
 		private bool m_refreshNeeded;
-		private string m_unknownEventType;
+		private readonly string m_unknownEventType;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -65,6 +66,9 @@ namespace SIL.Sponge
 				m_eventType.Items.AddRange(Sponge.DiscourseTypes.ToArray());
 				m_eventType.Items.Add(m_unknownEventType);
 			}
+
+			btnNewFromFiles.Parent.Controls.Remove(btnNewFromFiles);
+			lpSessions.InsertButton(1, btnNewFromFiles);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,13 +113,8 @@ namespace SIL.Sponge
 		{
 			m_currProj.ProjectChanged -= HandleProjectFoldersChanged;
 
-			// Persist the width of each column on the files tab.
-			var colWidths = new int[gridFiles.Columns.Count];
-			for (int i = 0; i < gridFiles.ColumnCount; i++)
-				colWidths[i] = gridFiles.Columns[i].Width;
-
 			Settings.Default.SessionFileCols =
-				PortableSettingsProvider.GetStringFromIntArray(colWidths);
+				Sponge.StoreGridColumnWidthsInString(gridFiles);
 
 			Settings.Default.SessionVwSplitterPos = splitOuter.SplitterDistance;
 			Settings.Default.Save();
@@ -563,11 +562,7 @@ namespace SIL.Sponge
 				if (Settings.Default.SessionVwSplitterPos > 0)
 					splitOuter.SplitterDistance = Settings.Default.SessionVwSplitterPos;
 
-				var colWidths = PortableSettingsProvider.GetIntArrayFromString(
-					Settings.Default.SessionFileCols);
-
-				for (int i = 0; i < colWidths.Length && i < gridFiles.ColumnCount; i++)
-					gridFiles.Columns[i].Width = colWidths[i];
+				Sponge.SetGridColumnWidthsFromString(gridFiles, Settings.Default.SessionFileCols);
 
 				// Setting up drap/drop crashes when there is no hosting form,
 				// so make sure we're being hosted before doing so.
@@ -773,5 +768,18 @@ namespace SIL.Sponge
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Open new sessions from files dialog box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnNewFromFiles_Click(object sender, EventArgs e)
+		{
+			using (var dlg = new NewSessionsFromFilesDlg())
+			{
+				dlg.ShowDialog();
+			}
+		}
 	}
 }

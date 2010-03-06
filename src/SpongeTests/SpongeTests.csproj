@@ -67,6 +67,7 @@
     <Compile Include="ConfigToolsTests\PathValidatorTests.cs" />
     <Compile Include="ControlsTests\ListPanelTests.cs" />
     <Compile Include="ModelTests\PersonTests.cs" />
+    <Compile Include="ModelTests\SessionFileBaseTests.cs" />
     <Compile Include="ModelTests\SessionFileRoleTests.cs" />
     <Compile Include="ModelTests\SessionFileTests.cs" />
     <Compile Include="ModelTests\SessionTests.cs" />

@@ -78,6 +78,7 @@ namespace SIL.Sponge
 			this.pnlFileInfoNotes = new System.Windows.Forms.Panel();
 			this.m_fileInfoNotes = new SIL.Sponge.Controls.HoverCueTextBox();
 			this.lblFileInfoNotes = new System.Windows.Forms.Label();
+			this.btnNewFromFiles = new System.Windows.Forms.Button();
 			this.lpSessions = new SIL.Sponge.Controls.ListPanel();
 			this.lblNoSessionsMsg = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
@@ -110,6 +111,7 @@ namespace SIL.Sponge
 			// splitOuter.Panel1
 			// 
 			this.splitOuter.Panel1.Controls.Add(this.lblNoSessionsMsg);
+			this.splitOuter.Panel1.Controls.Add(this.btnNewFromFiles);
 			this.splitOuter.Panel1.Controls.Add(this.lpSessions);
 			this.splitOuter.Panel1MinSize = 165;
 			this.splitOuter.Size = new System.Drawing.Size(800, 466);
@@ -207,6 +209,7 @@ namespace SIL.Sponge
 			this.m_eventType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.m_eventType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.m_eventType.DropDownWidth = 200;
 			this.m_eventType.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.m_eventType, null);
 			this.locExtender.SetLocalizationComment(this.m_eventType, null);
@@ -576,7 +579,7 @@ namespace SIL.Sponge
 			this.splitFileTab.Panel2.Controls.Add(this.pnlFileInfoNotes);
 			this.splitFileTab.Panel2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 2);
 			this.splitFileTab.Size = new System.Drawing.Size(476, 347);
-			this.splitFileTab.SplitterDistance = 261;
+			this.splitFileTab.SplitterDistance = 260;
 			this.splitFileTab.TabIndex = 2;
 			// 
 			// lnkSessionPath
@@ -723,7 +726,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizingId(this.m_infoPanel, "SessionsVw.InfoPanel");
 			this.m_infoPanel.Location = new System.Drawing.Point(2, 3);
 			this.m_infoPanel.Name = "m_infoPanel";
-			this.m_infoPanel.Size = new System.Drawing.Size(302, 77);
+			this.m_infoPanel.Size = new System.Drawing.Size(302, 78);
 			this.m_infoPanel.TabIndex = 0;
 			this.m_infoPanel.MoreActionButtonClicked += new System.EventHandler(this.m_infoPanel_MoreActionButtonClicked);
 			// 
@@ -735,7 +738,7 @@ namespace SIL.Sponge
 			this.pnlFileInfoNotes.Dock = System.Windows.Forms.DockStyle.Right;
 			this.pnlFileInfoNotes.Location = new System.Drawing.Point(304, 3);
 			this.pnlFileInfoNotes.Name = "pnlFileInfoNotes";
-			this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 77);
+			this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 78);
 			this.pnlFileInfoNotes.TabIndex = 1;
 			// 
 			// m_fileInfoNotes
@@ -757,7 +760,7 @@ namespace SIL.Sponge
 			this.m_fileInfoNotes.InnerTextBox.Multiline = true;
 			this.m_fileInfoNotes.InnerTextBox.Name = "m_txtBox";
 			this.m_fileInfoNotes.InnerTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.m_fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 89);
+			this.m_fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 690);
 			this.m_fileInfoNotes.InnerTextBox.TabIndex = 0;
 			this.locExtender.SetLocalizableToolTip(this.m_fileInfoNotes, null);
 			this.locExtender.SetLocalizationComment(this.m_fileInfoNotes, null);
@@ -766,7 +769,7 @@ namespace SIL.Sponge
 			this.m_fileInfoNotes.Location = new System.Drawing.Point(3, 19);
 			this.m_fileInfoNotes.Name = "m_fileInfoNotes";
 			this.m_fileInfoNotes.Padding = new System.Windows.Forms.Padding(1);
-			this.m_fileInfoNotes.Size = new System.Drawing.Size(150, 91);
+			this.m_fileInfoNotes.Size = new System.Drawing.Size(150, 692);
 			this.m_fileInfoNotes.TabIndex = 1;
 			// 
 			// lblFileInfoNotes
@@ -780,6 +783,20 @@ namespace SIL.Sponge
 			this.lblFileInfoNotes.Size = new System.Drawing.Size(41, 15);
 			this.lblFileInfoNotes.TabIndex = 0;
 			this.lblFileInfoNotes.Text = "Notes:";
+			// 
+			// btnNewFromFiles
+			// 
+			this.btnNewFromFiles.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.locExtender.SetLocalizableToolTip(this.btnNewFromFiles, "Create Session from Files");
+			this.locExtender.SetLocalizationComment(this.btnNewFromFiles, null);
+			this.locExtender.SetLocalizingId(this.btnNewFromFiles, "SessionsVw.btnNewFromFiles");
+			this.btnNewFromFiles.Location = new System.Drawing.Point(43, 350);
+			this.btnNewFromFiles.Name = "btnNewFromFiles";
+			this.btnNewFromFiles.Size = new System.Drawing.Size(117, 24);
+			this.btnNewFromFiles.TabIndex = 1;
+			this.btnNewFromFiles.Text = "New From Files...";
+			this.btnNewFromFiles.UseVisualStyleBackColor = true;
+			this.btnNewFromFiles.Click += new System.EventHandler(this.btnNewFromFiles_Click);
 			// 
 			// lpSessions
 			// 
@@ -798,13 +815,13 @@ namespace SIL.Sponge
 			this.lpSessions.ListView.HideSelection = false;
 			this.lpSessions.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpSessions.ListView.Name = "lvItems";
-			this.lpSessions.ListView.Size = new System.Drawing.Size(710, 11935);
+			this.lpSessions.ListView.Size = new System.Drawing.Size(790, 13825);
 			this.lpSessions.ListView.TabIndex = 0;
 			this.lpSessions.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpSessions.ListView.View = System.Windows.Forms.View.Details;
 			this.locExtender.SetLocalizableToolTip(this.lpSessions, null);
 			this.locExtender.SetLocalizationComment(this.lpSessions, null);
-			this.locExtender.SetLocalizingId(this.lpSessions, "SessionsVw.ListPanel");
+			this.locExtender.SetLocalizingId(this.lpSessions, "SessionsVw.lpSessions");
 			this.lpSessions.Location = new System.Drawing.Point(0, 0);
 			this.lpSessions.MinimumSize = new System.Drawing.Size(165, 0);
 			this.lpSessions.Name = "lpSessions";
@@ -959,5 +976,6 @@ namespace SIL.Sponge
 		private MultimediaScroll mmScroll;
 		private System.Windows.Forms.Label lblMedia;
 		private System.Windows.Forms.ComboBox m_eventType;
+		private System.Windows.Forms.Button btnNewFromFiles;
 	}
 }

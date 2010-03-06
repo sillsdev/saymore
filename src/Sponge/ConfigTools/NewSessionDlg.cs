@@ -121,21 +121,15 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		private void btnCopyFiles_Click(object sender, EventArgs e)
 		{
-			using (var dlg = new OpenFileDialog())
-			{
-				var caption = LocalizationManager.LocalizeString(
-					"NewSessionDlg.OpenFileDlgCaption", "Copy Files into Session", "Dialog Boxes");
+			var caption = LocalizationManager.LocalizeString(
+				"NewSessionDlg.OpenFileDlgCaption", "Copy Files into Session", "Dialog Boxes");
 
-				dlg.Title = caption;
-				dlg.Filter = Sponge.OFDlgAllFileTypeText + "|*.*";
-				dlg.CheckFileExists = true;
-				dlg.CheckPathExists = true;
-				dlg.Multiselect = true;
-				if (dlg.ShowDialog(this) == DialogResult.OK)
-				{
-					foreach (string file in dlg.FileNames)
-						m_sessionFiles.Add(file);
-				}
+			var fileNames = Sponge.GetFilesOfAnyType(caption);
+
+			if (fileNames != null)
+			{
+				foreach (string file in fileNames)
+					m_sessionFiles.Add(file);
 			}
 		}
 	}

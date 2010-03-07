@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using SIL.Sponge.Properties;
 
 namespace SIL.Sponge.Model
@@ -15,7 +13,10 @@ namespace SIL.Sponge.Model
 	public class NewSessionFile : SessionFileBase
 	{
 		public bool Selected { get; set; }
-		public NewSessionFile(string fullFilePath) : base(fullFilePath) { }
+		public NewSessionFile(string fullFilePath) : base(fullFilePath)
+		{
+			Selected = true;
+		}
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -23,16 +24,19 @@ namespace SIL.Sponge.Model
 	///
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class NewSessionsFromFileModel
+	public class NewSessionsFromFileDlgModel
 	{
+		private string m_selectedFolder;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="NewSessionsFromFileModel"/> class.
+		/// Initializes a new instance of the <see cref="NewSessionsFromFileDlgModel"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public NewSessionsFromFileModel()
+		public NewSessionsFromFileDlgModel()
 		{
 			Files = new List<NewSessionFile>();
+			SelectedFolder = Settings.Default.NewSessionsFromFilesLastFolder;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -66,16 +70,52 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Loads a the specified potential session file into the files list.
+		/// Gets or sets the selected folder from which new sessions will be created.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void AddFile(string fullFilePath)
+		public string SelectedFolder
 		{
-			if (File.Exists(fullFilePath) &&
-				Files.FirstOrDefault(x => x.FullFilePath == fullFilePath) == null)
+			get { return m_selectedFolder; }
+			set
 			{
-				Files.Add(new NewSessionFile(fullFilePath));
+				m_selectedFolder = value;
+				LoadFilesFromFolder(value);
+				Settings.Default.NewSessionsFromFilesLastFolder = value;
+				Settings.Default.Save();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the list of files from the audio and video files found in the specified
+		/// folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void LoadFilesFromFolder(string folder)
+		{
+			Files.Clear();
+
+			if (folder == null || !Directory.Exists(folder))
+				return;
+
+			var validExtensions = (Settings.Default.AudioFileExtensions +
+				Settings.Default.VideoFileExtensions).ToLower();
+
+			foreach (var file in Directory.GetFiles(folder))
+			{
+				if (validExtensions.Contains(Path.GetExtension(file.ToLower())))
+					Files.Add(new NewSessionFile(file));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Refreshes the file list by rereading the files from the selected folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Refresh()
+		{
+			LoadFilesFromFolder(SelectedFolder);
 		}
 	}
 }

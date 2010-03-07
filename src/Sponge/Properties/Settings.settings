@@ -74,5 +74,8 @@
     <Setting Name="NewSessionsFromFilesDlgCols" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="NewSessionsFromFilesLastFolder" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -1,4 +1,6 @@
 using System;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.Model;
@@ -17,7 +19,8 @@ namespace SIL.Sponge.Dialogs
 	{
 		private readonly string m_noFilesSelectedCreateButtonText;
 		private readonly string m_filesSelectedCreateButtonText;
-		private readonly NewSessionsFromFileModel m_viewModel;
+		private readonly NewSessionsFromFileDlgModel m_viewModel;
+		private readonly NewSessionsFromFilesDlgFolderNotFoundMsg m_folderMissingMsgCtrl;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -49,8 +52,32 @@ namespace SIL.Sponge.Dialogs
 			Sponge.SetGridColumnWidthsFromString(m_filesGrid,
 				Settings.Default.NewSessionsFromFilesDlgCols);
 
-			m_viewModel = new NewSessionsFromFileModel();
+			m_folderMissingMsgCtrl = new NewSessionsFromFilesDlgFolderNotFoundMsg();
+			m_filesPanel.Controls.Add(m_folderMissingMsgCtrl);
+			m_folderMissingMsgCtrl.BringToFront();
+
+			m_viewModel = new NewSessionsFromFileDlgModel();
 			UpdateDisplay();
+
+			Application.Idle += HandleApplicationIdle;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the application idle.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void HandleApplicationIdle(object sender, EventArgs e)
+		{
+			if (string.IsNullOrEmpty(m_viewModel.SelectedFolder))
+				return;
+
+			if ((!Directory.Exists(m_viewModel.SelectedFolder) && !m_folderMissingMsgCtrl.Visible) ||
+				(Directory.Exists(m_viewModel.SelectedFolder) && m_folderMissingMsgCtrl.Visible))
+			{
+				m_viewModel.Refresh();
+				UpdateDisplay();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -78,7 +105,17 @@ namespace SIL.Sponge.Dialogs
 		{
 			Utils.SetWindowRedraw(this, false);
 
-			m_filesPanel.Visible = (m_viewModel.Files.Count > 0);
+			m_filesPanel.Visible = !string.IsNullOrEmpty(m_viewModel.SelectedFolder);
+
+			var showMissingFolderMsg =
+				(!string.IsNullOrEmpty(m_viewModel.SelectedFolder) &&
+				!Directory.Exists(m_viewModel.SelectedFolder));
+
+			m_sourceFolderLabel.ForeColor = (showMissingFolderMsg ?
+				Color.Red : SystemColors.ControlText);
+
+			m_folderMissingMsgCtrl.Visible = showMissingFolderMsg;
+			m_sourceFolderLabel.Text = m_viewModel.SelectedFolder;
 
 			int selectedFileCount = m_viewModel.NumberOfSelectedFiles;
 			m_createSessionsButton.Enabled = m_viewModel.AnyFilesSelected;
@@ -86,11 +123,20 @@ namespace SIL.Sponge.Dialogs
 				m_noFilesSelectedCreateButtonText :
 				string.Format(m_filesSelectedCreateButtonText, selectedFileCount));
 
-			if (m_filesGrid.RowCount != m_viewModel.Files.Count)
-				m_filesGrid.RowCount = m_viewModel.Files.Count;
-
-			m_sourceFolderLabel.Text = (m_filesGrid.CurrentCellAddress.Y < 0 ? string.Empty :
-				m_viewModel.Files[m_filesGrid.CurrentCellAddress.Y].Folder);
+			var fileCount = m_viewModel.Files.Count;
+			if (m_filesGrid.RowCount != fileCount)
+			{
+				if (fileCount == 0)
+				{
+					m_filesGrid.CellValueNeeded -= HandleFileGridCellValueNeeded;
+					m_filesGrid.RowCount = fileCount;
+				}
+				else
+				{
+					m_filesGrid.RowCount = fileCount;
+					m_filesGrid.CellValueNeeded += HandleFileGridCellValueNeeded;
+				}
+			}
 
 			Utils.SetWindowRedraw(this, true);
 		}
@@ -113,17 +159,20 @@ namespace SIL.Sponge.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleFindFilesLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			var caption = LocalizationManager.LocalizeString(
-				"NewSessionsFromFilesDlg.OpenFileDlgCaption", "Choose Sessions Files", "Dialog Boxes");
-
-			var fileNames = Sponge.GetFilesOfAnyType(caption);
-
-			if (fileNames != null)
+			using (var dlg = new FolderBrowserDialog())
 			{
-				foreach (string file in fileNames)
-					m_viewModel.AddFile(file);
+				dlg.Description = LocalizationManager.LocalizeString(
+					"NewSessionsFromFilesDlg.FolderBrowserDlgDescription",
+					"Choose a Folder Medial Files.", "Dialog Boxes");
 
-				UpdateDisplay();
+				if (m_viewModel.SelectedFolder != null && Directory.Exists(m_viewModel.SelectedFolder))
+					dlg.SelectedPath = m_viewModel.SelectedFolder;
+
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+					m_viewModel.SelectedFolder = dlg.SelectedPath;
+					UpdateDisplay();
+				}
 			}
 		}
 
@@ -146,16 +195,6 @@ namespace SIL.Sponge.Dialogs
 				case 5: e.Value = m_viewModel.Files[row].FileSize; break;
 				case 6: e.Value = null; break;
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Update the display when a row is entered.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleFilesGridRowEnter(object sender, DataGridViewCellEventArgs e)
-		{
-			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------

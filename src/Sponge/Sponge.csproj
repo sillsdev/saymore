@@ -130,9 +130,15 @@
     <Compile Include="Dialogs\NewSessionsFromFilesDlg.Designer.cs">
       <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\NewSessionsFromFilesDlgFolderNotFoundMsg.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NewSessionsFromFilesDlgFolderNotFoundMsg.Designer.cs">
+      <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\DiscourseType.cs" />
     <Compile Include="Model\MetaData\FieldDefinition.cs" />
-    <Compile Include="Model\NewSessionsFromFileModel.cs" />
+    <Compile Include="Model\NewSessionsFromFileDlgModel.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\SessionFileBase.cs" />
     <Compile Include="Model\SessionFileRole.cs" />
@@ -232,6 +238,9 @@
     <EmbeddedResource Include="Dialogs\NewSessionsFromFilesDlg.resx">
       <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NewSessionsFromFilesDlgFolderNotFoundMsg.resx">
+      <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\BaseSplitVw.resx">
       <DependentUpon>BaseSplitVw.cs</DependentUpon>
     </EmbeddedResource>
@@ -313,6 +322,7 @@
     <None Include="Resources\ChangePicture.png" />
     <None Include="Resources\FolderOpen.png" />
     <None Include="Resources\NoPermissionsWarning.png" />
+    <None Include="Resources\Warning.png" />
     <Content Include="Sponge.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

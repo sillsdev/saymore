@@ -193,6 +193,13 @@ namespace SIL.Sponge.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidWarning {
+            get {
+                object obj = ResourceManager.GetObject("kimidWarning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Icon Sponge {
             get {
                 object obj = ResourceManager.GetObject("Sponge", resourceCulture);

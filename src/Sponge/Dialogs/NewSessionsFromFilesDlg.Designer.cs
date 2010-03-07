@@ -141,8 +141,6 @@ namespace SIL.Sponge.Dialogs
 			this.m_filesGrid.TabIndex = 4;
 			this.m_filesGrid.VirtualMode = true;
 			this.m_filesGrid.WaterMark = "!";
-			this.m_filesGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleFilesGridRowEnter);
-			this.m_filesGrid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleFileGridCellValueNeeded);
 			this.m_filesGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleFilesGridCellContentClick);
 			// 
 			// m_selectedCol

@@ -1,6 +1,4 @@
 using System;
-using System.ComponentModel;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -288,7 +286,9 @@ namespace SIL.Sponge
 				return;
 
 			var pt = btn.PointToScreen(new Point(0, btn.Height));
-			cmnuMoreActions.Show(pt);
+			m_fileContextMenu.Items.Clear();
+			m_fileContextMenu.Items.AddRange(CurrentSessionFile.GetContextMenuItems(m_id.Text).ToArray());
+			m_fileContextMenu.Show(pt);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -384,42 +384,7 @@ namespace SIL.Sponge
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Open current session's folder in the OS' file manager. ENHANCE: After opening
-		/// the file manager, it would be nice to select the current session file, but that
-		/// appears to be harder to accomplish, so I leave that for a future exercise.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void cmnuOpenInFileManager_Click(object sender, EventArgs e)
-		{
-			if (m_currSession != null)
-				Process.Start(m_currSession.Folder);
-		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Open current session file in its associated application.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void openInApp_Click(object sender, EventArgs e)
-		{
-			var sessionFile = CurrentSessionFile;
-			if (sessionFile != null)
-			{
-				var path = Path.Combine(m_currSession.Folder, sessionFile.FileName);
-				try
-				{
-					Process.Start(path);
-				}
-				catch (Win32Exception)
-				{
-					// REVIEW: Is it OK to assume any Win32Exception is no application association?
-					Utils.MsgBox(
-						string.Format("No application is associated with {0}", sessionFile.FileName));
-				}
-			}
-		}
 
 		#region Methods for dragging and dropping files on files tab
 		/// ------------------------------------------------------------------------------------
@@ -779,6 +744,22 @@ namespace SIL.Sponge
 			using (var dlg = new NewSessionsFromFilesDlg())
 			{
 				dlg.ShowDialog();
+			}
+		}
+
+		private void gridFiles_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				if (gridFiles.SelectedRows.Count > 0)
+					gridFiles.SelectedRows[0].Selected = false;
+				gridFiles.Rows[e.RowIndex].Selected = true;
+
+				m_infoPanel_MoreActionButtonClicked(null, null);
+				Point pt = gridFiles.PointToClient(Control.MousePosition);
+				m_fileContextMenu.Items.Clear();
+				m_fileContextMenu.Items.AddRange(CurrentSessionFile.GetContextMenuItems(m_id.Text).ToArray());
+				m_fileContextMenu.Show(gridFiles,pt);
 			}
 		}
 	}

@@ -16,10 +16,13 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using Palaso.Reporting;
 using SilUtils;
@@ -120,7 +123,7 @@ namespace SIL.Sponge.Model
 		/// Initializes a new instance of the <see cref="SessionFile"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private SessionFile(string fileName) : base(fileName)
+		private SessionFile(string path) : base(path)
 		{
 			var template = Template;
 
@@ -209,5 +212,73 @@ namespace SIL.Sponge.Model
 		{
 			return FileName;
 		}
+
+		public IEnumerable<ToolStripItem> GetContextMenuItems(string sessionId)
+		{
+	 //enhance: move these two ones up to the base class
+			yield return new ToolStripMenuItem("Show file in Windows Explorer...", null, HandleOpenInFileManager_Click);
+			yield return new ToolStripMenuItem("Open in Program Associated with this File ...", null, HandleOpenInApp_Click);
+
+			bool needSeparator = true;
+			foreach (var definition in SessionComponentDefinition.CreateHardCodedDefinitions())
+			{
+				if(definition.GetFileIsElligible(this.FullFilePath))
+				{
+					if(needSeparator)
+					{
+						needSeparator = false;
+						yield return new ToolStripSeparator();
+					}
+					string label = string.Format("Rename For {0}", definition.Name);
+					SessionComponentDefinition componentDefinition = definition;
+					yield return new ToolStripMenuItem(label, null, (sender, args) => IdentifyAsComponent(componentDefinition, sessionId));
+				}
+			}
+		}
+
+		public void IdentifyAsComponent(SessionComponentDefinition definition, string sessionId)
+		{
+			string newPath = definition.GetCanoncialName(sessionId, FullFilePath);
+			try
+			{
+				File.Move(FullFilePath, newPath);
+				FullFilePath = newPath;
+			}
+			catch (Exception e)
+			{
+				Palaso.Reporting.ErrorReport.ReportNonFatalException(e);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Open current session's folder in the OS' file manager. ENHANCE: After opening
+		/// the file manager, it would be nice to select the current session file, but that
+		/// appears to be harder to accomplish, so I leave that for a future exercise.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleOpenInFileManager_Click(object sender, EventArgs e)
+		{
+			Process.Start(Folder);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Open current session file in its associated application.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleOpenInApp_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Process.Start(FullFilePath);
+			}
+			catch (Win32Exception)
+			{
+				// REVIEW: Is it OK to assume any Win32Exception is no application association?
+				Utils.MsgBox(
+					string.Format("No application is associated with {0}", FileName));
+			}
+		 }
 	}
 }

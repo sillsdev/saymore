@@ -141,7 +141,7 @@
     <Compile Include="Model\NewSessionsFromFileDlgModel.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\SessionFileBase.cs" />
-    <Compile Include="Model\SessionFileRole.cs" />
+    <Compile Include="Model\SessionComponentDefinition.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\SessionFile.cs" />
     <Compile Include="Model\SessionFileInfo.cs" />

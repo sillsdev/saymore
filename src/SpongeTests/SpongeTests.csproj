@@ -39,6 +39,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso.TestUtilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.TestUtilities.dll</HintPath>
@@ -68,7 +72,7 @@
     <Compile Include="ControlsTests\ListPanelTests.cs" />
     <Compile Include="ModelTests\PersonTests.cs" />
     <Compile Include="ModelTests\SessionFileBaseTests.cs" />
-    <Compile Include="ModelTests\SessionFileRoleTests.cs" />
+    <Compile Include="ModelTests\SessionComponentDefinitionTests.cs" />
     <Compile Include="ModelTests\SessionFileTests.cs" />
     <Compile Include="ModelTests\SessionTests.cs" />
     <Compile Include="ModelTests\SpongeProjectTests.cs" />

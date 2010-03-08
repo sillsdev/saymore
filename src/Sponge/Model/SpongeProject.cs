@@ -556,5 +556,10 @@ namespace SIL.Sponge.Model
 		{
 			return Name;
 		}
+
+		public IEnumerable<string> GetPeopleNames()
+		{
+			return  from p in People select p.FullName;
+		}
 	}
 }

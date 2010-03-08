@@ -18,6 +18,7 @@ using System.IO;
 using System.Xml;
 using NUnit.Framework;
 using SilUtils;
+using System.Linq;
 
 namespace SIL.Sponge.Model
 {
@@ -254,5 +255,21 @@ namespace SIL.Sponge.Model
 		//    Assert.AreEqual(files[1], Path.Combine(path, "meerkat.wma"));
 		//    Assert.AreEqual(files[2], Path.Combine(path, "yak.pdf"));
 		//}
+
+		[Test]
+		public void GetPeopleName_NoPeople_Empty()
+		{
+			Assert.AreEqual(0, m_prj.GetPeopleNames().Count());
+		}
+
+		[Test]
+		public void GetPeopleName_TwoPeople_GivesTwoNames()
+		{
+			m_prj.People.Add(new Person(){FullName = "X"});
+			m_prj.People.Add(new Person() { FullName = "Y" });
+			Assert.AreEqual("X", m_prj.GetPeopleNames().First());
+			Assert.AreEqual("Y", m_prj.GetPeopleNames().ToArray()[1]);
+		}
 	}
+
 }

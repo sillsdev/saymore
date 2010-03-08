@@ -396,6 +396,8 @@ namespace SIL.Sponge
             // 
             this.m_participants.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_participants.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.m_participants.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.locExtender.SetLocalizableToolTip(this.m_participants, null);
             this.locExtender.SetLocalizationComment(this.m_participants, null);
             this.locExtender.SetLocalizationPriority(this.m_participants, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
@@ -404,6 +406,7 @@ namespace SIL.Sponge
             this.m_participants.Name = "m_participants";
             this.m_participants.Size = new System.Drawing.Size(259, 23);
             this.m_participants.TabIndex = 7;
+            this.m_participants.Enter += new System.EventHandler(this.HandleParticipants_Enter);
             // 
             // lblSetting
             // 

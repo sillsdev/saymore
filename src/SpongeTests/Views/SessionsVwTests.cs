@@ -66,7 +66,7 @@ namespace SIL.Sponge
 			base.TestSetup();
 			InitProject();
 
-			m_vw = new SessionsVw(m_prj);
+			m_vw = new SessionsVw(m_prj, ()=>new string[] {"JOE", "SUE"});
 
 			m_lblNoSessionsMsg = ReflectionHelper.GetField(m_vw, "lblNoSessionsMsg") as Label;
 			m_lblEmptySessionMsg = ReflectionHelper.GetField(m_vw, "lblEmptySessionMsg") as Label;

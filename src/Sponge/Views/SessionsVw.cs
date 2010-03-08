@@ -22,6 +22,7 @@ namespace SIL.Sponge
 	/// ----------------------------------------------------------------------------------------
 	public partial class SessionsVw : BaseSplitVw
 	{
+		private readonly Func<IEnumerable<string>> _peopleNameProvider;
 		private SpongeProject m_currProj;
 		private Session m_currSession;
 		private SessionFile m_currSessionFile;
@@ -74,8 +75,9 @@ namespace SIL.Sponge
 		/// Initializes a new instance of the <see cref="SessionsVw"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SessionsVw(SpongeProject m_prj) : this()
+		public SessionsVw(SpongeProject m_prj, Func<IEnumerable<string>> peopleNameProvider) : this()
 		{
+			_peopleNameProvider = peopleNameProvider;
 			m_currProj = (m_prj ?? MainWnd.CurrentProject);
 			m_currProj.ProjectChanged += HandleProjectFoldersChanged;
 		}
@@ -761,6 +763,12 @@ namespace SIL.Sponge
 				m_fileContextMenu.Items.AddRange(CurrentSessionFile.GetContextMenuItems(m_id.Text).ToArray());
 				m_fileContextMenu.Show(gridFiles,pt);
 			}
+		}
+
+		private void HandleParticipants_Enter(object sender, EventArgs e)
+		{
+			m_participants.AutoCompleteCustomSource = new AutoCompleteStringCollection();
+			m_participants.AutoCompleteCustomSource.AddRange(_peopleNameProvider().ToArray());
 		}
 	}
 }

@@ -86,7 +86,7 @@ namespace SIL.Sponge
 				btn.Checked = false;
 
 			m_overviewView = new OverviewVw();
-			m_sessionsView = new SessionsVw(CurrentProject);
+			m_sessionsView = new SessionsVw(CurrentProject, CurrentProject.GetPeopleNames);
 			m_peopleView = new PeopleVw(CurrentProject);
 			m_sendReceiveView = new SendReceiveVw();
 			m_setupView = new SetupVw();

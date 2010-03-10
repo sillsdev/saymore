@@ -770,5 +770,14 @@ namespace SIL.Sponge
 			m_participants.AutoCompleteCustomSource = new AutoCompleteStringCollection();
 			m_participants.AutoCompleteCustomSource.AddRange(_peopleNameProvider().ToArray());
 		}
+
+		private void Handle_IdValidating(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			e.Cancel = !m_currSession.ChangeIdAndSave(m_id.Text.Trim());
+			if(e.Cancel)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Please use a different id.");
+			}
+		}
 	}
 }

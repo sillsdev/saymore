@@ -273,6 +273,7 @@ namespace SIL.Sponge
             this.m_id.Name = "m_id";
             this.m_id.Size = new System.Drawing.Size(121, 23);
             this.m_id.TabIndex = 1;
+            this.m_id.Validating += new System.ComponentModel.CancelEventHandler(this.Handle_IdValidating);
             // 
             // lblSituation
             // 
@@ -551,7 +552,7 @@ namespace SIL.Sponge
             this.tpgFiles.Location = new System.Drawing.Point(4, 26);
             this.tpgFiles.Name = "tpgFiles";
             this.tpgFiles.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
-            this.tpgFiles.Size = new System.Drawing.Size(613, 433);
+            this.tpgFiles.Size = new System.Drawing.Size(478, 350);
             this.tpgFiles.TabIndex = 3;
             this.tpgFiles.Text = "Files";
             this.tpgFiles.ToolTipText = "Files";
@@ -578,8 +579,8 @@ namespace SIL.Sponge
             this.splitFileTab.Panel2.Controls.Add(this.m_infoPanel);
             this.splitFileTab.Panel2.Controls.Add(this.pnlFileInfoNotes);
             this.splitFileTab.Panel2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 2);
-            this.splitFileTab.Size = new System.Drawing.Size(611, 430);
-            this.splitFileTab.SplitterDistance = 322;
+            this.splitFileTab.Size = new System.Drawing.Size(476, 347);
+            this.splitFileTab.SplitterDistance = 259;
             this.splitFileTab.TabIndex = 2;
             // 
             // lnkSessionPath
@@ -592,7 +593,7 @@ namespace SIL.Sponge
             this.locExtender.SetLocalizingId(this.lnkSessionPath, "SessionsVw.lnkSessionPath");
             this.lnkSessionPath.Location = new System.Drawing.Point(21, 58);
             this.lnkSessionPath.Name = "lnkSessionPath";
-            this.lnkSessionPath.Size = new System.Drawing.Size(577, 21);
+            this.lnkSessionPath.Size = new System.Drawing.Size(442, 21);
             this.lnkSessionPath.TabIndex = 2;
             this.lnkSessionPath.TabStop = true;
             this.lnkSessionPath.Text = "#";
@@ -609,7 +610,7 @@ namespace SIL.Sponge
             this.locExtender.SetLocalizingId(this.lblEmptySessionMsg, "SessionsVw.lblEmptySessionMsg");
             this.lblEmptySessionMsg.Location = new System.Drawing.Point(19, 15);
             this.lblEmptySessionMsg.Name = "lblEmptySessionMsg";
-            this.lblEmptySessionMsg.Size = new System.Drawing.Size(579, 40);
+            this.lblEmptySessionMsg.Size = new System.Drawing.Size(444, 40);
             this.lblEmptySessionMsg.TabIndex = 1;
             this.lblEmptySessionMsg.Text = "This session does not yet have any files. To add files, you may drag them here or" +
                 " directly into the session folder at:";
@@ -727,7 +728,7 @@ namespace SIL.Sponge
             this.locExtender.SetLocalizingId(this.m_infoPanel, "SessionsVw.InfoPanel");
             this.m_infoPanel.Location = new System.Drawing.Point(2, 3);
             this.m_infoPanel.Name = "m_infoPanel";
-            this.m_infoPanel.Size = new System.Drawing.Size(437, 99);
+            this.m_infoPanel.Size = new System.Drawing.Size(302, 79);
             this.m_infoPanel.TabIndex = 0;
             this.m_infoPanel.MoreActionButtonClicked += new System.EventHandler(this.m_infoPanel_MoreActionButtonClicked);
             // 
@@ -737,9 +738,9 @@ namespace SIL.Sponge
             this.pnlFileInfoNotes.Controls.Add(this.m_fileInfoNotes);
             this.pnlFileInfoNotes.Controls.Add(this.lblFileInfoNotes);
             this.pnlFileInfoNotes.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlFileInfoNotes.Location = new System.Drawing.Point(439, 3);
+            this.pnlFileInfoNotes.Location = new System.Drawing.Point(304, 3);
             this.pnlFileInfoNotes.Name = "pnlFileInfoNotes";
-            this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 99);
+            this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 79);
             this.pnlFileInfoNotes.TabIndex = 1;
             // 
             // m_fileInfoNotes
@@ -761,7 +762,7 @@ namespace SIL.Sponge
             this.m_fileInfoNotes.InnerTextBox.Multiline = true;
             this.m_fileInfoNotes.InnerTextBox.Name = "m_txtBox";
             this.m_fileInfoNotes.InnerTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.m_fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 1549);
+            this.m_fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 1787);
             this.m_fileInfoNotes.InnerTextBox.TabIndex = 0;
             this.locExtender.SetLocalizableToolTip(this.m_fileInfoNotes, null);
             this.locExtender.SetLocalizationComment(this.m_fileInfoNotes, null);
@@ -770,7 +771,7 @@ namespace SIL.Sponge
             this.m_fileInfoNotes.Location = new System.Drawing.Point(3, 19);
             this.m_fileInfoNotes.Name = "m_fileInfoNotes";
             this.m_fileInfoNotes.Padding = new System.Windows.Forms.Padding(1);
-            this.m_fileInfoNotes.Size = new System.Drawing.Size(150, 1551);
+            this.m_fileInfoNotes.Size = new System.Drawing.Size(150, 1789);
             this.m_fileInfoNotes.TabIndex = 1;
             // 
             // lblFileInfoNotes
@@ -816,7 +817,7 @@ namespace SIL.Sponge
             this.lpSessions.ListView.HideSelection = false;
             this.lpSessions.ListView.Location = new System.Drawing.Point(2, 31);
             this.lpSessions.ListView.Name = "lvItems";
-            this.lpSessions.ListView.Size = new System.Drawing.Size(830, 14770);
+            this.lpSessions.ListView.Size = new System.Drawing.Size(838, 14959);
             this.lpSessions.ListView.TabIndex = 0;
             this.lpSessions.ListView.UseCompatibleStateImageBehavior = false;
             this.lpSessions.ListView.View = System.Windows.Forms.View.Details;

@@ -250,7 +250,7 @@ namespace SpongeTests.ModelTests
 		{
 			var session = Session.Create(m_prj, "ETR001");
 			session.Save();
-			Assert.IsFalse(session.ChangeIdAndSave("chan\\ge"));
+			Assert.IsFalse(session.ChangeIdAndSave("chan*ge"));
 			Assert.AreEqual("ETR001", session.Id);
 		}
 

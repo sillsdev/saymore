@@ -297,7 +297,7 @@ namespace SIL.Sponge
 			this.m_fullName.Size = new System.Drawing.Size(276, 23);
 			this.m_fullName.TabIndex = 1;
 			this.m_fullName.TextChanged += new System.EventHandler(this.m_fullName_TextChanged);
-			this.m_fullName.Validating += new System.ComponentModel.CancelEventHandler(this.m_fullName_Validating);
+			this.m_fullName.Validating += new System.ComponentModel.CancelEventHandler(this.HandleValidatingFullName);
 			// 
 			// uhbOtherLanguages
 			// 

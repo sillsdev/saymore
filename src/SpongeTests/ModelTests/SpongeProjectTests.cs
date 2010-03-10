@@ -265,10 +265,19 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void GetPeopleName_TwoPeople_GivesTwoNames()
 		{
-			m_prj.People.Add(new Person(){FullName = "X"});
-			m_prj.People.Add(new Person() { FullName = "Y" });
-			Assert.AreEqual("X", m_prj.GetPeopleNames().First());
-			Assert.AreEqual("Y", m_prj.GetPeopleNames().ToArray()[1]);
+			var a = new Person();
+			m_prj.AddPerson(a);
+			a.ChangeName("A");
+			a.Save();
+
+			var b = new Person();
+			m_prj.AddPerson(b);
+			b.ChangeName("B");
+			b.Save();
+
+			Assert.AreEqual(2, m_prj.GetPeopleNames().Count());
+			Assert.IsTrue(m_prj.GetPeopleNames().Any(p=>p=="A"));
+			Assert.IsTrue(m_prj.GetPeopleNames().Any(p => p == "B"));
 		}
 	}
 

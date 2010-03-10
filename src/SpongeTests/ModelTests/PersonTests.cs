@@ -15,6 +15,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
+using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
 using Palaso.TestUtilities;
@@ -412,6 +413,73 @@ namespace SIL.Sponge.Model
 			person = Person.Load(m_prj, @"junk\preceding\filename\Smash_Mouth.person");
 			Assert.IsNotNull(person);
 			Assert.AreEqual("BS, Whitworth College", person.Education);
+		}
+
+
+
+		[Test]
+		public void ChangeName_HadSameNameBefore_ReturnsTrue()
+		{
+			var person = Person.CreateFromName(m_prj, "Pedro");
+			person.Save();
+			person.ChangeName("Pedro");
+			Assert.AreEqual("Pedro", person.FullName);
+			Assert.AreEqual("Pedro", Path.GetFileName(person.Folder));
+			Assert.AreEqual("Pedro", Path.GetFileNameWithoutExtension(person.FullFilePath));
+		}
+
+		[Test, ExpectedException(typeof(ApplicationException))]
+		public void ChangeName_NewIdIsEmptyString_Throws()
+		{
+			var person = Person.CreateFromName(m_prj, "Pedro");
+			person.Save();
+			person.ChangeName("");
+		}
+
+		[Test, ExpectedException(typeof(ApplicationException))]
+		public void ChangeName_NewIdIsInvalidFolderName_Throws()
+		{
+			var person = Person.CreateFromName(m_prj, "Pedro");
+			person.Save();
+		   person.ChangeName("chan*ge");
+		}
+
+		[Test]
+		public void ChangeName_ShouldChange_NameAndFolderAndFileChange()
+		{
+			var person = Person.CreateFromName(m_prj, "Pedro");
+			person.Save();
+			string originalPath = person.FullFilePath;
+			person.ChangeName("change");
+			Assert.AreEqual("change", person.FullName);
+			Assert.AreEqual("change", Path.GetFileName(person.Folder));
+			Assert.AreEqual("change", Path.GetFileNameWithoutExtension(person.FullFilePath));
+			Assert.IsFalse(Directory.Exists(originalPath));
+			Assert.IsFalse(File.Exists(Path.Combine(person.Folder, "Pedro." + Sponge.PersonFileExtension)));
+		}
+
+		[Test]
+		public void ChangeName_ShouldChange_NameChangePersisted()
+		{
+			var person = Person.CreateFromName(m_prj, "Pedro");
+			person.FathersLanguage = "esperanto";
+			person.Save();
+			person.ChangeName("change");
+			person.Save();
+			var same = Person.Load(m_prj, Path.Combine(Path.Combine(m_prj.Folder, "people"), "change"));
+			Assert.AreEqual("change", same.FullName);
+			Assert.AreEqual("esperanto", same.FathersLanguage);
+		}
+
+		[Test]
+		public void ChangeName_HasFilesWithOldName_RenamesFiles()
+		{
+			var person = Person.CreateFromName(m_prj, "Pedro");
+			person.Save();
+			File.WriteAllText(Path.Combine(person.Folder, "Pedro.jpg"), "");
+			person.ChangeName("change");
+			Assert.IsTrue(File.Exists(Path.Combine(person.Folder, "change.jpg")));
+			Assert.IsFalse(File.Exists(Path.Combine(person.Folder, "Pedro.jpg")));
 		}
 	}
 }

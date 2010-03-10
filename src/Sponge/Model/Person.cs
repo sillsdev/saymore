@@ -157,7 +157,7 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public SpongeProject Project { get; private set; }
+		public SpongeProject Project { get; /*private*/ set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -395,7 +395,7 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Saves this instance of the person info to it's file.
+		/// Saves this instance of the person info to its file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Save()
@@ -473,6 +473,70 @@ namespace SIL.Sponge.Model
 		public override string ToString()
 		{
 			return FullName;
+		}
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <exception cref="ApplicationException">Throws if it can't make the change.</exception>
+		public void ChangeName(string newName)
+		{
+			newName = newName.Trim();
+			if (FullName == newName)
+			{
+				return;
+			}
+//
+//            if(FullName == null && newName == string.Empty)
+//            {
+//                return;//ok, we're no worse
+//            }
+			if (newName == string.Empty)
+			{
+				throw new ApplicationException("Name cannot be empty.");
+			}
+
+			if (!string.IsNullOrEmpty(FullName) && !string.IsNullOrEmpty(Folder))
+			{
+				var parent = Directory.GetParent(Folder).FullName;
+				string newFolderPath = Path.Combine(parent, newName);
+				if (Directory.Exists(newFolderPath))
+				{
+					throw new ApplicationException("There is already someone with that name.");
+				}
+
+				MoveAndRenameFiles(newName);
+				Directory.Move(Folder, newFolderPath);
+			}
+
+			FullName = newName;
+		}
+
+		private void MoveAndRenameFiles(string newName)
+		{
+			foreach (var file in Directory.GetFiles(Folder))
+			{
+				var name = Path.GetFileName(file);
+				if (name.ToLower().StartsWith(FullName.ToLower()))
+					// to be conservative, let's only trigger if it starts with the FullName
+				{
+					//todo: do a case-insensitive replacement
+					//todo... this could over-replace
+					try
+					{
+						File.Move(file, Path.Combine(Folder, name.Replace(FullName, newName)));
+					}
+					catch (ArgumentException error)
+					{
+						throw new ApplicationException("There is a problem with the name: " + Environment.NewLine +
+													   error.Message);
+					}
+					catch (Exception error)
+					{
+						throw;
+					}
+				}
+			}
 		}
 	}
 }

@@ -519,8 +519,10 @@ namespace SIL.Sponge.Model
 			if (person != null)
 			{
 				if (person.FullName == null)
+				{
 					person.FullName = string.Empty;
-
+				}
+				person.Project = this;
 				People.Add(person);
 				People.Sort((x, y) => x.FullName.CompareTo(y.FullName));
 			}

@@ -93,7 +93,7 @@ namespace SIL.Sponge
 			base.ViewDeactivated();
 
 			if (m_currPerson != null)
-				LoadPersonFromView(m_currPerson);
+				SavePersonFromView(m_currPerson);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ namespace SIL.Sponge
 				return false;
 
 			if (m_currPerson != null)
-				LoadPersonFromView(m_currPerson);
+				SavePersonFromView(m_currPerson);
 
 			return base.IsOKToLeaveView(showMsgWhenNotOK);
 		}
@@ -124,7 +124,7 @@ namespace SIL.Sponge
 			base.OnHandleDestroyed(e);
 
 			if (m_currPerson != null)
-				LoadPersonFromView(m_currPerson);
+				SavePersonFromView(m_currPerson);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ namespace SIL.Sponge
 				return;
 
 			if (m_currPerson != null)
-				LoadPersonFromView(m_currPerson);
+				SavePersonFromView(m_currPerson);
 
 			m_currPerson = newItem as Person;
 			LoadViewFromPerson(m_currPerson);
@@ -206,7 +206,7 @@ namespace SIL.Sponge
 		private object lpPeople_NewButtonClicked(object sender)
 		{
 			if (m_currPerson != null)
-				LoadPersonFromView(m_currPerson);
+				SavePersonFromView(m_currPerson);
 
 			if (tabPeople.SelectedTab != tpgAbout)
 				tabPeople.SelectedTab = tpgAbout;
@@ -230,6 +230,7 @@ namespace SIL.Sponge
 		{
 			tblAbout.Enabled = pnlPermissions.Enabled = (m_currPerson != null);
 			m_picture.Enabled = m_currPerson != null && m_currPerson.CanChoosePicture;
+			lpPeople.UpdateItem(m_currPerson, m_fullName.Text.Trim());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -384,7 +385,7 @@ namespace SIL.Sponge
 		/// form is blank, then a unique name is assigned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadPersonFromView(Person person)
+		private void SavePersonFromView(Person person)
 		{
 			bool nameChanged = true;
 
@@ -393,7 +394,7 @@ namespace SIL.Sponge
 			else
 				nameChanged = RenameIfNecessary(person);
 
-			person.FullName = m_fullName.Text.Trim();
+			person.ChangeName(m_fullName.Text.Trim());
 			person.PrimaryLanguage = m_language0.Text.Trim();
 			person.LearnedLanguageIn = m_learnedIn.Text.Trim();
 			person.OtherLangauge0 = m_language1.Text.Trim();
@@ -672,18 +673,18 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void m_fullName_TextChanged(object sender, EventArgs e)
 		{
-			if (m_fullName.Visible && m_fullName.Focused)
-				lpPeople.UpdateItem(m_currPerson, m_fullName.Text.Trim());
-
-			//review: the following (jh fix for SP-41) violates the pattern actually in use here (sorry)
-			// But the the current code combines view and logic.  If
-			// we're to keep logic out of the view code, how can we not change the model so
-			// that it can inform the state of things like, in this case, whether we're ready
-			// to receive a photot yet (we aren't, if we don't name and thus don't have a folder).
-			// Sorry, I didn't meant to mess with the pattern... will write an email.
-
-			m_currPerson.FullName = m_fullName.Text.Trim();
-			UpdateDisplay();
+//			if (m_fullName.Visible && m_fullName.Focused)
+//				lpPeople.UpdateItem(m_currPerson, m_fullName.Text.Trim());
+//
+//            //review: the following (jh fix for SP-41) violates the pattern actually in use here (sorry)
+//            // But the the current code combines view and logic.  If
+//            // we're to keep logic out of the view code, how can we not change the model so
+//            // that it can inform the state of things like, in this case, whether we're ready
+//            // to receive a photot yet (we aren't, if we don't name and thus don't have a folder).
+//            // Sorry, I didn't meant to mess with the pattern... will write an email.
+//
+//		    m_currPerson.FullName = m_fullName.Text.Trim();
+//            UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -691,11 +692,15 @@ namespace SIL.Sponge
 		/// Validate the name, checking for no name, or whether or not the name already exists.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_fullName_Validating(object sender, CancelEventArgs e)
+		private void HandleValidatingFullName(object sender, CancelEventArgs e)
 		{
-			if (!IsNameOK(true))
+			try
 			{
-				m_fullName.SelectAll();
+				m_currPerson.ChangeName(m_fullName.Text.Trim());
+			}
+			catch(Exception error)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error.Message);
 				e.Cancel = true;
 			}
 			UpdateDisplay();
@@ -811,7 +816,7 @@ namespace SIL.Sponge
 		private void tabPeople_Selected(object sender, TabControlEventArgs e)
 		{
 			if (m_currPerson != null)
-				LoadPersonFromView(m_currPerson);
+				SavePersonFromView(m_currPerson);
 
 			if (e.TabPage == tpgInformedConsent && lstPermissionFiles.SelectedItem == null)
 				ShowPermissionFile(0);

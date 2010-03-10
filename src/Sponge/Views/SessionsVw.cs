@@ -755,9 +755,7 @@ namespace SIL.Sponge
 		{
 			if (e.Button == MouseButtons.Right)
 			{
-				if (gridFiles.SelectedRows.Count > 0)
-					gridFiles.SelectedRows[0].Selected = false;
-				gridFiles.Rows[e.RowIndex].Selected = true;
+				gridFiles.CurrentCell = gridFiles.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
 				m_infoPanel_MoreActionButtonClicked(null, null);
 				Point pt = gridFiles.PointToClient(Control.MousePosition);

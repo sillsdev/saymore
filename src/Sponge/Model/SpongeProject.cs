@@ -440,15 +440,15 @@ namespace SIL.Sponge.Model
 		/// already exists, then it's returned. Otherwise the new session is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Session AddSession(string sessionName)
+		public Session AddSession(string id)
 		{
-			var session = Sessions.FirstOrDefault(x => x.Name == sessionName);
+			var session = Sessions.FirstOrDefault(x => x.Id == id);
 			if (session == null)
 			{
-				session = Session.Create(this, sessionName);
+				session = Session.Create(this, id);
 				session.Save();
 				Sessions.Add(session);
-				Sessions.Sort((x, y) => x.Name.CompareTo(y.Name));
+				Sessions.Sort((x, y) => x.Id.CompareTo(y.Id));
 			}
 
 			return session;

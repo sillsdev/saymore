@@ -52,7 +52,7 @@ namespace SpongeTests.ModelTests
 		public void Create()
 		{
 			var session = Session.Create(m_prj, "Ferrari");
-			Assert.AreEqual("Ferrari", session.Name);
+			Assert.AreEqual("Ferrari", session.Id);
 			Assert.AreEqual(m_prj, session.Project);
 		}
 
@@ -70,7 +70,7 @@ namespace SpongeTests.ModelTests
 			string msg;
 			var session = Session.Load(m_prj, file, out msg);
 
-			Assert.AreEqual("Jaguar", session.Name);
+			Assert.AreEqual("Jaguar", session.Id);
 			Assert.AreEqual(m_prj, session.Project);
 			Assert.AreEqual(file, session.FullFilePath);
 		}
@@ -88,7 +88,7 @@ namespace SpongeTests.ModelTests
 
 			string msg;
 			var session = Session.Load(m_prj, "Maserati", out msg);
-			Assert.AreEqual("Maserati", session.Name);
+			Assert.AreEqual("Maserati", session.Id);
 			Assert.AreEqual(m_prj, session.Project);
 
 			var file = Path.Combine(m_prj.SessionsFolder, "Maserati");
@@ -223,6 +223,60 @@ namespace SpongeTests.ModelTests
 			session = Session.Load(m_prj, "A Grand Day Out!", out msg);
 			Assert.IsNotNull(session);
 			Assert.IsNull(msg);
+		}
+
+		[Test]
+		public void ChangeIdAndSave_HadSameIdBefore_ReturnsTrue()
+		{
+			var session = Session.Create(m_prj, "ETR001");
+			session.Save();
+			Assert.IsTrue(session.ChangeIdAndSave("ETR001"));
+			Assert.AreEqual("ETR001", session.Id);
+			Assert.AreEqual("ETR001", Path.GetFileName(session.Folder));
+			Assert.AreEqual("ETR001", Path.GetFileNameWithoutExtension(session.FullFilePath));
+		}
+
+		[Test]
+		public void ChangeIdAndSave_NewIdIsEmptyString_ReturnsFalse()
+		{
+			var session = Session.Create(m_prj, "ETR001");
+			session.Save();
+			Assert.IsFalse(session.ChangeIdAndSave(""));
+			Assert.AreEqual("ETR001", session.Id);
+		}
+
+		[Test]
+		public void ChangeIdAndSave_NewIdIsInvalidFolderName_ReturnsFalse()
+		{
+			var session = Session.Create(m_prj, "ETR001");
+			session.Save();
+			Assert.IsFalse(session.ChangeIdAndSave("chan\\ge"));
+			Assert.AreEqual("ETR001", session.Id);
+		}
+
+		[Test]
+		public void ChangeIdAndSave_ShouldChange_IdAndFolderAndFileChange()
+		{
+			var session = Session.Create(m_prj, "ETR001");
+			session.Save();
+			string ETR001Path = session.FullFilePath;
+			Assert.IsTrue(session.ChangeIdAndSave("change"));
+			Assert.AreEqual("change", session.Id);
+			Assert.AreEqual("change", Path.GetFileName(session.Folder));
+			Assert.AreEqual("change", Path.GetFileNameWithoutExtension(session.FullFilePath));
+			Assert.IsFalse(Directory.Exists(ETR001Path));
+			Assert.IsFalse(File.Exists(Path.Combine(session.Folder, "ETR001."+Sponge.SessionFileExtension)));
+		}
+
+		[Test]
+		public void ChangeIdAndSave_HasFilesWithOldName_RenamesFiles()
+		{
+			var session = Session.Create(m_prj, "ETR001");
+			session.Save();
+			File.WriteAllText(Path.Combine(session.Folder,"ETR001_original.wav"),"");
+			session.ChangeIdAndSave("change");
+			Assert.IsTrue(File.Exists(Path.Combine(session.Folder, "change_original.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(session.Folder, "ETR001_original.wav")));
 		}
 	}
 }

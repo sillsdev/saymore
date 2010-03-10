@@ -275,7 +275,7 @@ namespace SIL.Sponge
 			ReflectionHelper.CallMethod(m_vw, "RefreshSessionList");
 			m_lpSessions.CurrentItem = m_sessionNames[0];
 			var session = m_lpSessions.CurrentItem as Session;
-			Assert.AreEqual(m_sessionNames[0], session.Name);
+			Assert.AreEqual(m_sessionNames[0], session.Id);
 
 			// Create an array of temp. files in the temp. folder.
 			var tmpFiles = new[] {Path.GetTempFileName(), Path.GetTempFileName() };

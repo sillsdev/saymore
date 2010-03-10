@@ -96,8 +96,8 @@ namespace SIL.Sponge.Model
 			ReflectionHelper.CallMethod(m_prj, "Initialize", new[] { kTestPrjName, null });
 
 			Assert.AreEqual(2, m_prj.Sessions.Count);
-			Assert.AreEqual("bacon", m_prj.Sessions[0].Name);
-			Assert.AreEqual("eggs", m_prj.Sessions[1].Name);
+			Assert.AreEqual("bacon", m_prj.Sessions[0].Id);
+			Assert.AreEqual("eggs", m_prj.Sessions[1].Id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -154,12 +154,12 @@ namespace SIL.Sponge.Model
 			var session = m_prj.AddSession(kTestSessionName);
 			Assert.IsNotNull(session);
 			Assert.AreEqual(1, m_prj.Sessions.Count);
-			Assert.AreEqual(kTestSessionName, m_prj.Sessions[0].Name);
+			Assert.AreEqual(kTestSessionName, m_prj.Sessions[0].Id);
 
 			// Now add a session that already exists.
 			Assert.AreEqual(session, m_prj.AddSession(kTestSessionName));
 			Assert.AreEqual(1, m_prj.Sessions.Count);
-			Assert.AreEqual(kTestSessionName, m_prj.Sessions[0].Name);
+			Assert.AreEqual(kTestSessionName, m_prj.Sessions[0].Id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -178,9 +178,9 @@ namespace SIL.Sponge.Model
 
 			// Make sure the list is sorted.
 			Assert.AreEqual(3, m_prj.SessionNames.Length);
-			Assert.AreEqual("Blue", m_prj.Sessions[0].Name);
-			Assert.AreEqual("Magenta", m_prj.Sessions[1].Name);
-			Assert.AreEqual("Yellow", m_prj.Sessions[2].Name);
+			Assert.AreEqual("Blue", m_prj.Sessions[0].Id);
+			Assert.AreEqual("Magenta", m_prj.Sessions[1].Id);
+			Assert.AreEqual("Yellow", m_prj.Sessions[2].Id);
 
 			// Make sure a file in the sessions folder doesn't get recognized as a folder.
 			File.CreateText(Path.Combine(m_prj.SessionsFolder, "junk")).Close();
@@ -206,8 +206,8 @@ namespace SIL.Sponge.Model
 
 			ReflectionHelper.CallMethod(m_prj, "UpdateSessions");
 			Assert.AreEqual(5, m_prj.Sessions.Count);
-			Assert.AreEqual("grapefruit", m_prj.Sessions[0].Name);
-			Assert.AreEqual("guava", m_prj.Sessions[1].Name);
+			Assert.AreEqual("grapefruit", m_prj.Sessions[0].Id);
+			Assert.AreEqual("guava", m_prj.Sessions[1].Id);
 		}
 
 		///// ------------------------------------------------------------------------------------

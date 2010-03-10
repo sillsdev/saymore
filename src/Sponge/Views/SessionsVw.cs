@@ -120,7 +120,7 @@ namespace SIL.Sponge
 			Settings.Default.Save();
 
 			if (m_currSession != null)
-				LoadSessionFromDescriptionTab(m_currSession);
+				SaveChangesToSession(m_currSession);
 
 			base.OnHandleDestroyed(e);
 		}
@@ -144,7 +144,7 @@ namespace SIL.Sponge
 		private void tabSessions_Selected(object sender, TabControlEventArgs e)
 		{
 			if (e.TabPage == tpgDescription && e.Action == TabControlAction.Deselecting &&
-				m_currSession != null && !LoadSessionFromDescriptionTab(m_currSession))
+				m_currSession != null && !SaveChangesToSession(m_currSession))
 			{
 				tabSessions.Selected -= tabSessions_Selected;
 				tabSessions.SelectedTab = tpgDescription;
@@ -165,7 +165,7 @@ namespace SIL.Sponge
 		{
 			if (newItem != m_currSession)
 			{
-				if (m_currSession != null && !LoadSessionFromDescriptionTab(m_currSession))
+				if (m_currSession != null && !SaveChangesToSession(m_currSession))
 				{
 					lpSessions.SelectItem(m_currSession, false);
 					return;
@@ -188,7 +188,7 @@ namespace SIL.Sponge
 			else
 			{
 				if (m_currSession != null)
-					LoadSessionFromDescriptionTab(m_currSession);
+					SaveChangesToSession(m_currSession);
 
 				if (tpg == tpgFiles)
 				{
@@ -553,7 +553,10 @@ namespace SIL.Sponge
 				return false;
 
 			if (m_currSession != null)
-				LoadSessionFromDescriptionTab(m_currSession);
+			{
+				if(!SaveChangesToSession(m_currSession))
+					return false;
+			}
 
 			return base.IsOKToLeaveView(showMsgWhenNotOK);
 		}
@@ -639,9 +642,8 @@ namespace SIL.Sponge
 		/// Loads the specified session from the fields on the description tab.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool LoadSessionFromDescriptionTab(Session session)
+		private bool SaveChangesToSession(Session session)
 		{
-			session.Id = m_id.Text.Trim();
 			session.Date = m_date.Value;
 			session.Title = m_title.Text.Trim();
 			session.Participants = m_participants.Text.Trim();
@@ -653,8 +655,8 @@ namespace SIL.Sponge
 			session.EventTypeId = ((m_eventType.SelectedItem as string) == m_unknownEventType ?
 				null : ((DiscourseType)m_eventType.SelectedItem).Id);
 
-			session.Save();		// REVIEW: What if saving fails?
-			return true;
+//			session.Save();		// REVIEW: What if saving fails?
+			return session.ChangeIdAndSave(m_id.Text.Trim());
 		}
 
 		/// ------------------------------------------------------------------------------------

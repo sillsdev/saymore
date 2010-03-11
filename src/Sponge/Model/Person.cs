@@ -475,10 +475,13 @@ namespace SIL.Sponge.Model
 			return FullName;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		///
+		/// Changes the name.
 		/// </summary>
+		/// <param name="newName">The new name.</param>
 		/// <exception cref="ApplicationException">Throws if it can't make the change.</exception>
+		/// ------------------------------------------------------------------------------------
 		public void ChangeName(string newName)
 		{
 			newName = newName.Trim();
@@ -512,29 +515,29 @@ namespace SIL.Sponge.Model
 			FullName = newName;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Moves the and rename files.
+		/// </summary>
+		/// <param name="newName">The new name.</param>
+		/// ------------------------------------------------------------------------------------
 		private void MoveAndRenameFiles(string newName)
 		{
 			foreach (var file in Directory.GetFiles(Folder))
 			{
 				var name = Path.GetFileName(file);
-				if (name.ToLower().StartsWith(FullName.ToLower()))
-					// to be conservative, let's only trigger if it starts with the FullName
+				if (!name.ToLower().StartsWith(FullName.ToLower()))
+					return;
+
+				//todo: do a case-insensitive replacement
+				//todo... this could over-replace
+				try
 				{
-					//todo: do a case-insensitive replacement
-					//todo... this could over-replace
-					try
-					{
-						File.Move(file, Path.Combine(Folder, name.Replace(FullName, newName)));
-					}
-					catch (ArgumentException error)
-					{
-						throw new ApplicationException("There is a problem with the name: " + Environment.NewLine +
-													   error.Message);
-					}
-					catch (Exception error)
-					{
-						throw;
-					}
+					File.Move(file, Path.Combine(Folder, name.Replace(FullName, newName)));
+				}
+				catch (ArgumentException error)
+				{
+					throw new ApplicationException("There is a problem with the name: " + Environment.NewLine + error.Message);
 				}
 			}
 		}

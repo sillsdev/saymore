@@ -98,7 +98,7 @@ namespace SIL.Sponge.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Updates the controls on the dialog.
+		/// Updates the state and content of the controls on the dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
@@ -115,6 +115,7 @@ namespace SIL.Sponge.Dialogs
 				Color.Red : SystemColors.ControlText);
 
 			m_folderMissingMsgCtrl.Visible = showMissingFolderMsg;
+			m_folderMissingMsgCtrl.SetDriveLetterFromPath(m_viewModel.SelectedFolder);
 			m_sourceFolderLabel.Text = m_viewModel.SelectedFolder;
 
 			int selectedFileCount = m_viewModel.NumberOfSelectedFiles;
@@ -184,6 +185,9 @@ namespace SIL.Sponge.Dialogs
 		private void HandleFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			int row = e.RowIndex;
+
+			if (row < 0 || row >= m_viewModel.Files.Count)
+				return;
 
 			switch (e.ColumnIndex)
 			{

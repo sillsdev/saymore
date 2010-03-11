@@ -1,3 +1,4 @@
+using System.Linq;
 using NUnit.Framework;
 using SIL.Sponge.Model;
 
@@ -25,7 +26,7 @@ public sealed class SessionComponentDefinitionTests
 
 	private SessionComponentDefinition GetDefinitionForOriginalRecording()
 	{
-		return new SessionComponentDefinition("original", "Original Recording", SessionComponentDefinition.GetIsAudioVideo, "$SessionId$_Original");
+		return SessionComponentDefinition.CreateHardCodedDefinitions().First();
 	}
 
 	[Test]

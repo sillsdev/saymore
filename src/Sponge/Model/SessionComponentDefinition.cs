@@ -15,8 +15,16 @@ namespace SIL.Sponge.Model
 	/// </summary>
 	public class SessionComponentDefinition
 	{
+		public enum MeasurementTypes {None, Time, Words}
+
+		public string Id { get; set; }
 		private readonly string _englishLabel;
-		private readonly Func<string, bool> _elligibilityFilter;
+		public MeasurementTypes MeasurementType{ get; private set;}
+
+		//tells whether this file looks like it *might* be filling this role
+		public Func<string, bool> ElligibilityFilter { get; private set; }
+
+
 		private readonly string _renamingTemplate;
 
 		public string Name
@@ -26,19 +34,32 @@ namespace SIL.Sponge.Model
 
 		public static IEnumerable<SessionComponentDefinition> CreateHardCodedDefinitions()
 		{
-			yield return new SessionComponentDefinition("original", "Original Recording", SessionComponentDefinition.GetIsAudioVideo, "$SessionId$_Original");
-			yield return new SessionComponentDefinition("carefulSpeech", "Careful Speech", SessionComponentDefinition.GetIsAudioVideo, "$SessionId$_Careful");
-			yield return new SessionComponentDefinition("oralTranslation", "Oral Translation", SessionComponentDefinition.GetIsAudioVideo, "$SessionId$_OralTranslation");
-			yield return new SessionComponentDefinition("transcription", "Transcription", (p => Path.GetExtension(p).ToLower() == ".txt"), "$SessionId$_Transcription");
-			yield return new SessionComponentDefinition("transcriptionN", "Written Translation", (p => Path.GetExtension(p).ToLower() == ".txt"), "$SessionId$_Translation-N");
+			yield return new SessionComponentDefinition("original", "Original Recording", MeasurementTypes.Time, SessionComponentDefinition.GetIsAudioVideo, "$SessionId$_Original");
+			yield return new SessionComponentDefinition("carefulSpeech", "Careful Speech", MeasurementTypes.Time, SessionComponentDefinition.GetIsAudioVideo, "$SessionId$_Careful");
+			yield return new SessionComponentDefinition("oralTranslation", "Oral Translation", MeasurementTypes.Time, SessionComponentDefinition.GetIsAudioVideo, "$SessionId$_OralTranslation");
+			yield return new SessionComponentDefinition("transcription", "Transcription", MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$SessionId$_Transcription");
+			yield return new SessionComponentDefinition("transcriptionN", "Written Translation", MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$SessionId$_Translation-N");
 		}
 
-		public SessionComponentDefinition(string id, string englishLabel, Func<string, bool> elligibilityFilter, string renamingTemplate)
+		public SessionComponentDefinition(string id, string englishLabel, MeasurementTypes measurementType, Func<string, bool> elligibilityFilter, string renamingTemplate)
 		{
+			Id = id;
 			_englishLabel = englishLabel;
-			_elligibilityFilter = elligibilityFilter;
+			MeasurementType = measurementType;
+			ElligibilityFilter = elligibilityFilter;
 			_renamingTemplate = renamingTemplate;
 		}
+
+		//tells whether this file has been identified as filling this role (i.e., it is named appropriately)
+		public Func<string, bool> MatchFilter
+		{
+			get
+			{
+				return path => ElligibilityFilter(path) &&
+					(Path.GetFileNameWithoutExtension(path).Contains(_renamingTemplate.Replace("$SessionId$","")));
+			}
+		}
+
 
 		public static bool GetIsAudioVideo(string path)
 		{
@@ -47,7 +68,7 @@ namespace SIL.Sponge.Model
 
 		public bool GetFileIsElligible(string path)
 		{
-			return _elligibilityFilter(path);
+			return ElligibilityFilter(path);
 		}
 
 		public string GetCanoncialName(string sessionId, string path)
@@ -72,7 +93,7 @@ namespace SIL.Sponge.Model
 			return paths.Any(p =>
 						  {
 							  var name = Path.GetFileNameWithoutExtension(p);
-							  return _elligibilityFilter(Path.GetExtension(p))
+							  return ElligibilityFilter(Path.GetExtension(p))
 								  && name.ToLower() == _renamingTemplate.Replace("$SessionId$", sessionId).ToLower() ;
 						  }
 				);

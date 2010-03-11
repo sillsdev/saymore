@@ -85,7 +85,7 @@ namespace SIL.Sponge
 			foreach (ToolStripButton btn in tsMain.Items)
 				btn.Checked = false;
 
-			m_overviewView = new OverviewVw();
+			m_overviewView = new OverviewVw(CurrentProject);
 			m_sessionsView = new SessionsVw(CurrentProject, CurrentProject.GetPeopleNames);
 			m_peopleView = new PeopleVw(CurrentProject);
 			m_sendReceiveView = new SendReceiveVw();

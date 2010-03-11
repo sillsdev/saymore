@@ -15,6 +15,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,7 @@ using SilUtils;
 
 namespace SIL.Sponge.Model
 {
+
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Encapsulates information about a single session.
@@ -32,6 +34,8 @@ namespace SIL.Sponge.Model
 	[XmlRoot("session")]
 	public class Session
 	{
+		private readonly Dictionary<string, TimeSpan> _durations= new Dictionary<string, TimeSpan>();
+
 		#region static methods and properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -59,7 +63,7 @@ namespace SIL.Sponge.Model
 			if (errorMsg == null)
 				return session;
 
-			Utils.MsgBox(errorMsg);
+			Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Could not load session \"{0}\". {1}", pathName, errorMsg);
 			return null;
 		}
 
@@ -82,13 +86,24 @@ namespace SIL.Sponge.Model
 				fileName += ("." + Sponge.SessionFileExtension);
 
 			folder = Path.Combine(prj.SessionsFolder, folder);
-			fileName = Path.Combine(folder, fileName);
+			var path = Path.Combine(folder, fileName);
+
+			if(!File.Exists(path))
+			{
+				errorMsg = string.Format("The session file at \"{0}\" is missing.",path);
+				return null;
+			}
 
 			Exception e;
-			var session = XmlSerializationHelper.DeserializeFromFile<Session>(fileName, out e);
+			var session = XmlSerializationHelper.DeserializeFromFile<Session>(path, out e);
 			if (e != null)
 			{
 				errorMsg = ExceptionHelper.GetAllExceptionMessages(e);
+				return null;
+			}
+			if (session == null)//jh: I've noticed that DeserializeFromFile likes to return null, with no error.
+			{
+				errorMsg = "Cause unknown";
 				return null;
 			}
 
@@ -379,6 +394,28 @@ namespace SIL.Sponge.Model
 		public override string ToString()
 		{
 			return Id;
+		}
+
+		public TimeSpan GetDurationOfMatchingFile(Func<string, bool> filter)
+		{
+			foreach (var path in Files)
+			{
+				if(filter(path))
+				{
+					TimeSpan duration;
+					if (!_durations.TryGetValue(path, out duration))
+					{
+						//jh: a managed debugging assistant complains here, but I haven't found the solution
+						//yet.
+						using (var audio = new Microsoft.DirectX.AudioVideoPlayback.Audio(path))
+						{
+						   _durations.Add(path, new TimeSpan(0, 0, 0, (int) audio.Duration));
+						}
+					}
+					return _durations[path];
+				}
+			}
+			return new TimeSpan();
 		}
 	}
 }

@@ -46,6 +46,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\LocalizationUtils.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.DirectX.AudioVideoPlayback, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.AudioVideoPlayback.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso, Version=1.2.496.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
@@ -179,12 +183,13 @@
     <Compile Include="MainWnd.designer.cs">
       <DependentUpon>MainWnd.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\OverviewVw.cs">
+    <Compile Include="Views\Overview\OverviewVw.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\OverviewVw.designer.cs">
+    <Compile Include="Views\Overview\OverviewVw.designer.cs">
       <DependentUpon>OverviewVw.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Overview\Statistics\StatisticsViewModel.cs" />
     <Compile Include="Views\PeopleVw.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -214,6 +219,12 @@
     </Compile>
     <Compile Include="Views\SetupVw.designer.cs">
       <DependentUpon>SetupVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Overview\Statistics\StatisticsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Overview\Statistics\StatisticsView.Designer.cs">
+      <DependentUpon>StatisticsView.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -255,8 +266,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\OverviewVw.resx">
+    <EmbeddedResource Include="Views\Overview\OverviewVw.resx">
       <DependentUpon>OverviewVw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Overview\Statistics\StatisticsView.resx">
+      <DependentUpon>StatisticsView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\PeopleVw.resx">
       <DependentUpon>PeopleVw.cs</DependentUpon>
@@ -323,6 +337,7 @@
     <None Include="Resources\FolderOpen.png" />
     <None Include="Resources\NoPermissionsWarning.png" />
     <None Include="Resources\Warning.png" />
+    <None Include="Resources\shortSound.wav" />
     <Content Include="Sponge.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

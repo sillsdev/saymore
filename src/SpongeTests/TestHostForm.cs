@@ -54,5 +54,17 @@ namespace SIL.Sponge
 		{
 			get { return true; }
 		}
+
+		private void InitializeComponent()
+		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestHostForm));
+			this.SuspendLayout();
+			//
+			// TestHostForm
+			//
+			this.Name = "TestHostForm";
+			this.ResumeLayout(false);
+
+		}
 	}
 }

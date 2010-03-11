@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Sponge.Model.MetaData;
 using SilUtils;
@@ -21,20 +23,6 @@ namespace SIL.Sponge.Model
 		[XmlElement("template")]
 		public List<SessionFileInfoTemplate> Templates { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the list of session file info. templates.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void Initialize(string path)
-		{
-			// TODO: Do something when there's an exception returned.
-			Exception e;
-			s_list = XmlSerializationHelper.DeserializeFromFile<SessionFileInfoTemplateList>(path, out e);
-
-			if (e != null)
-				throw e;
-		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -78,8 +66,15 @@ namespace SIL.Sponge.Model
 		{
 			if (s_list == null)
 			{
-				throw new NullReferenceException(
-					"The session file information templates have not been loaded.");
+				var distFilesDirectory = Path.Combine(Palaso.IO.FileLocator.DirectoryOfApplicationOrSolution, "DistFiles");
+				string path = Path.Combine(distFilesDirectory, "SessionFileInfoTemplates.xml");
+
+				// TODO: Do something when there's an exception returned.
+				Exception e;
+				s_list = XmlSerializationHelper.DeserializeFromFile<SessionFileInfoTemplateList>(path, out e);
+
+				if (e != null)
+					throw e;
 			}
 		}
 	}

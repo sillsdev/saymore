@@ -36,6 +36,7 @@ namespace SIL.Sponge.Model
 	{
 		public event EventHandler ProjectChanged;
 		private FileSystemWatcher m_fileWatcher;
+		private static string s_projectsFolder = Path.Combine(Sponge.MainApplicationFolder, Sponge.ProjectFolderName);
 
 		#region Static methods/properties
 		/// ------------------------------------------------------------------------------------
@@ -79,13 +80,21 @@ namespace SIL.Sponge.Model
 		/// Creates a Sponge project with the specified name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static SpongeProject Create(string prjName)
+		public static SpongeProject Create(string prjName)
 		{
 			var prj = new SpongeProject();
 			prj.Initialize(prjName, null);
 			return prj;
 		}
 
+		/// <summary>
+		/// Since this class is designed to only be created through factories,
+		/// prevent accidental direct construction
+		/// </summary>
+		private SpongeProject()
+		{
+
+		}
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the parent folder for all project folders.
@@ -93,7 +102,8 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static string ProjectsFolder
 		{
-			get { return Path.Combine(Sponge.MainApplicationFolder, Sponge.ProjectFolderName); }
+			get { return s_projectsFolder; }
+			set { s_projectsFolder = value;}//for tests
 		}
 
 		#endregion
@@ -110,6 +120,9 @@ namespace SIL.Sponge.Model
 			Folder = Path.Combine(ProjectsFolder, prjName);
 			FileName = (prjFileName ?? prjName.Replace(" ", string.Empty));
 			FileName = Path.ChangeExtension(FileName, Sponge.ProjectFileExtention);
+
+			Sessions = new List<Session>();
+			People = new List<Person>();
 
 			if (!Directory.Exists(Folder))
 				Directory.CreateDirectory(Folder);

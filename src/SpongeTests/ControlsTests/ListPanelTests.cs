@@ -29,7 +29,7 @@ namespace SIL.Sponge.Controls
 	[TestFixture]
 	public class ListPanelTests
 	{
-		private ListPanel m_lp;
+		private ListPanel _lp;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -39,7 +39,7 @@ namespace SIL.Sponge.Controls
 		[SetUp]
 		public void TestSetup()
 		{
-			m_lp = new ListPanel();
+			_lp = new ListPanel();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -50,17 +50,17 @@ namespace SIL.Sponge.Controls
 		[Test]
 		public void Items()
 		{
-			Assert.AreEqual(0, m_lp.Items.Length);
+			Assert.AreEqual(0, _lp.Items.Length);
 
-			m_lp.Items = new[] { "cheese", "wine", "bread", "pickles" };
-			Assert.AreEqual(4, m_lp.Items.Length);
-			Assert.AreEqual("bread", m_lp.Items[0]);
-			Assert.AreEqual("cheese", m_lp.Items[1]);
-			Assert.AreEqual("pickles", m_lp.Items[2]);
-			Assert.AreEqual("wine", m_lp.Items[3]);
+			_lp.Items = new[] { "cheese", "wine", "bread", "pickles" };
+			Assert.AreEqual(4, _lp.Items.Length);
+			Assert.AreEqual("bread", _lp.Items[0]);
+			Assert.AreEqual("cheese", _lp.Items[1]);
+			Assert.AreEqual("pickles", _lp.Items[2]);
+			Assert.AreEqual("wine", _lp.Items[3]);
 
-			m_lp.Items = null;
-			Assert.AreEqual(0, m_lp.Items.Length);
+			_lp.Items = null;
+			Assert.AreEqual(0, _lp.Items.Length);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,19 +71,19 @@ namespace SIL.Sponge.Controls
 		[Test]
 		public void CurrentItem()
 		{
-			Assert.IsNull(m_lp.CurrentItem);
+			Assert.IsNull(_lp.CurrentItem);
 
-			m_lp.Items = new[] { "nose", "eyes", "ears", "mouth" };
-			Assert.AreEqual("ears", m_lp.CurrentItem);
+			_lp.Items = new[] { "nose", "eyes", "ears", "mouth" };
+			Assert.AreEqual("ears", _lp.CurrentItem);
 
-			m_lp.CurrentItem = "eyes";
-			Assert.AreEqual("eyes", m_lp.CurrentItem);
+			_lp.CurrentItem = "eyes";
+			Assert.AreEqual("eyes", _lp.CurrentItem);
 
-			m_lp.CurrentItem = "lips";
-			Assert.AreEqual("eyes", m_lp.CurrentItem);
+			_lp.CurrentItem = "lips";
+			Assert.AreEqual("eyes", _lp.CurrentItem);
 
-			m_lp.CurrentItem = null;
-			Assert.AreEqual("eyes", m_lp.CurrentItem);
+			_lp.CurrentItem = null;
+			Assert.AreEqual("eyes", _lp.CurrentItem);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,8 +94,8 @@ namespace SIL.Sponge.Controls
 		[Test]
 		public void AfterItemsDeleted_EmptyList()
 		{
-			m_lp.AfterItemsDeleted += delegate { throw new Exception("Should never get here!"); };
-			ReflectionHelper.CallMethodWithThrow(m_lp, "btnDelete_Click", new object[] { null, null });
+			_lp.AfterItemsDeleted += delegate { throw new Exception("Should never get here!"); };
+			ReflectionHelper.CallMethodWithThrow(_lp, "btnDelete_Click", new object[] { null, null });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ namespace SIL.Sponge.Controls
 		{
 			bool delegateCalled = false;
 
-			m_lp.AfterItemsDeleted += delegate(object sender, List<object> itemsToDelete)
+			_lp.AfterItemsDeleted += delegate(object sender, List<object> itemsToDelete)
 			{
 				Assert.AreEqual(3, itemsToDelete.Count);
 				Assert.AreEqual("rock", itemsToDelete[0]);
@@ -117,23 +117,23 @@ namespace SIL.Sponge.Controls
 				delegateCalled = true;
 			};
 
-			m_lp.Items = new[] { "sky", "earth", "water", "fire", "wind", "rock" };
-			Assert.AreEqual(6, m_lp.Items.Length);
+			_lp.Items = new[] { "sky", "earth", "water", "fire", "wind", "rock" };
+			Assert.AreEqual(6, _lp.Items.Length);
 
-			m_lp.CurrentItem = "sky";
-			Assert.AreEqual("sky", m_lp.CurrentItem);
+			_lp.CurrentItem = "sky";
+			Assert.AreEqual("sky", _lp.CurrentItem);
 
-			m_lp.ListView.Items[2].Selected = true;
-			m_lp.ListView.Items[3].Selected = true;
-			m_lp.ListView.Items[4].Selected = true;
+			_lp.ListView.Items[2].Selected = true;
+			_lp.ListView.Items[3].Selected = true;
+			_lp.ListView.Items[4].Selected = true;
 
-			ReflectionHelper.CallMethod(m_lp, "btnDelete_Click", new object[] { null, null });
+			ReflectionHelper.CallMethod(_lp, "btnDelete_Click", new object[] { null, null });
 			Assert.IsTrue(delegateCalled);
 
-			Assert.AreEqual("wind", m_lp.CurrentItem);
+			Assert.AreEqual("wind", _lp.CurrentItem);
 
 			// Make sure the 3 items selected got removed.
-			var items = m_lp.Items;
+			var items = _lp.Items;
 			Assert.AreEqual(3, items.Length);
 			Assert.AreEqual("earth", items[0]);
 			Assert.AreEqual("fire", items[1]);
@@ -151,30 +151,30 @@ namespace SIL.Sponge.Controls
 			string expectedItem = "flax";
 			bool delegateCalled = false;
 
-			m_lp.SelectedItemChanged += delegate(object sender, object newItem)
+			_lp.SelectedItemChanged += delegate(object sender, object newItem)
 			{
 				Assert.AreEqual(expectedItem, newItem);
 				delegateCalled = true;
 			};
 
-			m_lp.Items = new[] { expectedItem, "oats", "flax", "rice" };
-			Assert.AreEqual(4, m_lp.Items.Length);
+			_lp.Items = new[] { expectedItem, "oats", "flax", "rice" };
+			Assert.AreEqual(4, _lp.Items.Length);
 
 			expectedItem = "oats";
-			m_lp.CurrentItem = expectedItem;
-			Assert.AreEqual(1, m_lp.ListView.SelectedItems.Count);
+			_lp.CurrentItem = expectedItem;
+			Assert.AreEqual(1, _lp.ListView.SelectedItems.Count);
 			Assert.IsTrue(delegateCalled);
 			delegateCalled = false;
 
 			expectedItem = "rice";
-			m_lp.CurrentItem = expectedItem;
-			Assert.AreEqual(1, m_lp.ListView.SelectedItems.Count);
+			_lp.CurrentItem = expectedItem;
+			Assert.AreEqual(1, _lp.ListView.SelectedItems.Count);
 			Assert.IsTrue(delegateCalled);
 			delegateCalled = false;
 
 			expectedItem = "rice";
-			m_lp.CurrentItem = "wheat";
-			Assert.AreEqual(1, m_lp.ListView.SelectedItems.Count);
+			_lp.CurrentItem = "wheat";
+			Assert.AreEqual(1, _lp.ListView.SelectedItems.Count);
 			Assert.IsTrue(delegateCalled);
 		}
 
@@ -189,24 +189,24 @@ namespace SIL.Sponge.Controls
 			string expectedNewItem = null;
 			bool delegateCalled = false;
 
-			m_lp.NewButtonClicked += delegate
+			_lp.NewButtonClicked += delegate
 			{
 				delegateCalled = true;
 				return expectedNewItem + "-foobar";
 			};
 
 			expectedNewItem = "Batman";
-			ReflectionHelper.CallMethod(m_lp, "btnNew_Click", new object[] { null, null });
+			ReflectionHelper.CallMethod(_lp, "btnNew_Click", new object[] { null, null });
 			Assert.IsTrue(delegateCalled);
-			Assert.AreEqual(1, m_lp.Items.Length);
-			Assert.AreEqual("Batman-foobar", m_lp.CurrentItem);
+			Assert.AreEqual(1, _lp.Items.Length);
+			Assert.AreEqual("Batman-foobar", _lp.CurrentItem);
 			delegateCalled = false;
 
 			expectedNewItem = "Superman";
-			ReflectionHelper.CallMethod(m_lp, "btnNew_Click", new object[] { null, null });
+			ReflectionHelper.CallMethod(_lp, "btnNew_Click", new object[] { null, null });
 			Assert.IsTrue(delegateCalled);
-			Assert.AreEqual(2, m_lp.Items.Length);
-			Assert.AreEqual("Superman-foobar", m_lp.CurrentItem);
+			Assert.AreEqual(2, _lp.Items.Length);
+			Assert.AreEqual("Superman-foobar", _lp.CurrentItem);
 		}
 	}
 }

@@ -28,29 +28,29 @@ namespace SIL.Sponge.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.m_txtBox = new System.Windows.Forms.TextBox();
+			this._txtBox = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
-			// m_txtBox
+			// _txtBox
 			// 
-			this.m_txtBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.m_txtBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.m_txtBox.Location = new System.Drawing.Point(1, 1);
-			this.m_txtBox.Name = "m_txtBox";
-			this.m_txtBox.Size = new System.Drawing.Size(245, 13);
-			this.m_txtBox.TabIndex = 0;
-			this.m_txtBox.MouseLeave += new System.EventHandler(this.m_txtBox_MouseLeave);
-			this.m_txtBox.Leave += new System.EventHandler(this.m_txtBox_Leave);
-			this.m_txtBox.Enter += new System.EventHandler(this.m_txtBox_Enter);
-			this.m_txtBox.SizeChanged += new System.EventHandler(this.HandleSizeChanged);
-			this.m_txtBox.MouseEnter += new System.EventHandler(this.m_txtBox_MouseEnter);
+			this._txtBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._txtBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._txtBox.Location = new System.Drawing.Point(1, 1);
+			this._txtBox.Name = "_txtBox";
+			this._txtBox.Size = new System.Drawing.Size(245, 13);
+			this._txtBox.TabIndex = 0;
+			this._txtBox.MouseLeave += new System.EventHandler(this._txtBox_MouseLeave);
+			this._txtBox.Leave += new System.EventHandler(this._txtBox_Leave);
+			this._txtBox.Enter += new System.EventHandler(this._txtBox_Enter);
+			this._txtBox.SizeChanged += new System.EventHandler(this.HandleSizeChanged);
+			this._txtBox.MouseEnter += new System.EventHandler(this._txtBox_MouseEnter);
 			// 
 			// HoverCueTextBox
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.Controls.Add(this.m_txtBox);
+			this.Controls.Add(this._txtBox);
 			this.DoubleBuffered = true;
 			this.Name = "HoverCueTextBox";
 			this.Padding = new System.Windows.Forms.Padding(1);
@@ -62,6 +62,6 @@ namespace SIL.Sponge.Controls
 
 		#endregion
 
-		private System.Windows.Forms.TextBox m_txtBox;
+		private System.Windows.Forms.TextBox _txtBox;
 	}
 }

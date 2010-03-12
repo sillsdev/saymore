@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using SIL.Sponge.Properties;
 
 namespace SIL.Sponge.Model
 {
@@ -60,10 +61,21 @@ namespace SIL.Sponge.Model
 			}
 		}
 
-
 		public static bool GetIsAudioVideo(string path)
 		{
-			return new [] {".mov", ".avi", ".mp3", ".ogg", ".wav"}.Contains(Path.GetExtension(path).ToLower());
+			return (GetIsAudio(path) || GetIsVideo(path));
+		}
+
+		public static bool GetIsAudio(string path)
+		{
+			var extensions = Settings.Default.AudioFileExtensions;
+			return extensions.Contains(Path.GetExtension(path).ToLower());
+		}
+
+		public static bool GetIsVideo(string path)
+		{
+			var extensions = Settings.Default.VideoFileExtensions;
+			return extensions.Contains(Path.GetExtension(path).ToLower());
 		}
 
 		public bool GetFileIsElligible(string path)
@@ -81,11 +93,8 @@ namespace SIL.Sponge.Model
 			{
 				return name;
 			}
-			else
-			{
-				return Path.Combine(dir, name);
-			}
 
+			return Path.Combine(dir, name);
 		}
 
 		public bool SessionHasThisComponent(string sessionId, string[] paths)
@@ -94,7 +103,7 @@ namespace SIL.Sponge.Model
 						  {
 							  var name = Path.GetFileNameWithoutExtension(p);
 							  return ElligibilityFilter(Path.GetExtension(p))
-								  && name.ToLower() == _renamingTemplate.Replace("$SessionId$", sessionId).ToLower() ;
+								  && name.ToLower() == _renamingTemplate.Replace("$SessionId$", sessionId).ToLower();
 						  }
 				);
 		}

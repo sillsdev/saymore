@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using SIL.Sponge;
 using SIL.Sponge.Model;
 using SIL.Sponge.Views.Overview.Statistics;
+using SilUtils;
 
-namespace SpongeTests.Views.Overview.Statistics
+namespace SIL.Sponge.Views
 {
 	[TestFixture]
 	public class StatisticsViewModelTests
@@ -23,10 +21,10 @@ namespace SpongeTests.Views.Overview.Statistics
 		[Test]
 		public void GetPairs_EmptyProject_GivesSomePairs()
 		{
-			using (var test = new TestProjectWithSessions(0))
+			using (new TestProjectWithSessions(0))
 			{
 				var pairs = new StatisticsViewModel(SpongeProject.Create("test")).GetPairs();
-				Assert.Less(0,pairs.Count());
+				Assert.Less(0, pairs.Count());
 			}
 		}
 
@@ -43,6 +41,7 @@ namespace SpongeTests.Views.Overview.Statistics
 		}
 
 		[Test]
+		[Ignore("Getting file durations using Microsoft.DirectX.AudioVideoPlayback doesn't work in tests.")]
 		public void GetRecordingDurations_SomeRecording_MoreThanZero()
 		{
 			using (var test = new TestProjectWithSessions(1))
@@ -51,8 +50,7 @@ namespace SpongeTests.Views.Overview.Statistics
 				CreateCanonciallyNamedRecordingInSession(firstRole, test.Project.Sessions[0]);
 
 				Assert.Less(new TimeSpan(0),
-							   new StatisticsViewModel(test.Project).GetRecordingDurations(
-								   firstRole));
+					new StatisticsViewModel(test.Project).GetRecordingDurations(firstRole));
 			}
 		}
 
@@ -72,33 +70,36 @@ namespace SpongeTests.Views.Overview.Statistics
 			}
 		}
 
-		private void CreateCanonciallyNamedRecordingInSession(SessionComponentDefinition roleDefinition, Session session)
+		private static void CreateCanonciallyNamedRecordingInSession(SessionComponentDefinition roleDefinition, Session session)
 		{
 			var path = CreateRecording(session.Folder);
 			File.Move(path, roleDefinition.GetCanoncialName(session.Id, path));
 		}
 
-		private string CreateRecording(string folder)
+		private static string CreateRecording(string folder)
 		{
 			var buf = new byte[Resources.shortSound.Length];
 			Resources.shortSound.Read(buf, 0, buf.Length);
 			string destination = folder;
-			string wavPath = Path.Combine(destination, Directory.GetFiles(destination).Count().ToString()+".wav");
-			File.WriteAllBytes(wavPath, buf);
+			string wavPath = Path.Combine(destination, Directory.GetFiles(destination).Count() + ".wav");
+			var f = File.CreateText(wavPath);
+			f.Write(buf);
+			f.Close();
 			return wavPath;
 		}
 	}
 
 	public class TestProjectWithSessions : IDisposable
 	{
-		private TemporaryFolder _folder;
+		private TemporaryFolder _testAppFolder;
 		public SpongeProject Project { get; private set; }
 
 		public TestProjectWithSessions(int sessionCount)
 		{
-			 _folder = new TemporaryFolder();
-			SpongeProject.ProjectsFolder = _folder.FolderPath;
-			Project = SpongeProject.Create("project");
+			 _testAppFolder = new TemporaryFolder("~~SpongeStatViewModelTestFolder~~");
+			 ReflectionHelper.SetField(typeof(Sponge), "s_mainAppFldr", _testAppFolder.FolderPath);
+
+			Project = SpongeProject.Create("statVwModelTestPrj");
 			for (int i = 0; i < sessionCount; i++)
 			{
 				Session session = Project.AddSession(i.ToString());
@@ -108,7 +109,7 @@ namespace SpongeTests.Views.Overview.Statistics
 
 		public void Dispose()
 		{
-			_folder.Dispose();
+			_testAppFolder.Dispose();
 		}
 	}
 }

@@ -32,8 +32,8 @@ namespace SIL.Sponge
 		protected const string kTestPrjFileName = "~~MoldySponge.sprj";
 		protected const string kTestSessionName = "~~Fungus";
 
-		protected SpongeProject m_prj;
-		private string m_mainAppFldr;
+		protected SpongeProject _prj;
+		private string _mainAppFldr;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -43,9 +43,11 @@ namespace SIL.Sponge
 		[SetUp]
 		public virtual void TestSetup()
 		{
-			m_mainAppFldr = Path.Combine(Path.GetTempPath(), "~SpongeTestProjects~");
-			ReflectionHelper.SetField(typeof(Sponge), "s_mainAppFldr", m_mainAppFldr);
-			Directory.CreateDirectory(m_mainAppFldr);
+			SessionFileBase.PreventGettingMediaFileDurationsUsingDirectX = true;
+
+			_mainAppFldr = Path.Combine(Path.GetTempPath(), "~SpongeTestProjects~");
+			ReflectionHelper.SetField(typeof(Sponge), "s_mainAppFldr", _mainAppFldr);
+			Directory.CreateDirectory(_mainAppFldr);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,11 +58,11 @@ namespace SIL.Sponge
 		[TearDown]
 		public virtual void TestTearDown()
 		{
-			if (m_mainAppFldr != null)
+			if (_mainAppFldr != null)
 			{
 				try
 				{
-					Directory.Delete(m_mainAppFldr, true);
+					Directory.Delete(_mainAppFldr, true);
 				}
 				catch { }
 			}
@@ -73,7 +75,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		protected void InitProject()
 		{
-			m_prj = ReflectionHelper.GetResult(typeof(SpongeProject),
+			_prj = ReflectionHelper.GetResult(typeof(SpongeProject),
 				"Create", kTestPrjName) as SpongeProject;
 		}
 	}

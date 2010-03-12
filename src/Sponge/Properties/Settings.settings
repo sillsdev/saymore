@@ -57,10 +57,10 @@
       <Value Profile="(Default)">200</Value>
     </Setting>
     <Setting Name="AudioFileExtensions" Provider="SilUtils.PortableSettingsProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.mp3,. wav, .wma, .acc, .ogg</Value>
+      <Value Profile="(Default)">.mp3, .wav, .wma, .acc, .ogg</Value>
     </Setting>
     <Setting Name="VideoFileExtensions" Provider="SilUtils.PortableSettingsProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.wmv, .avi, .mpg, .mpeg, .mpa, .asf</Value>
+      <Value Profile="(Default)">.wmv, .avi, .mpg, .mpeg, .mpa, .asf, .mov</Value>
     </Setting>
     <Setting Name="ImageFileExtensions" Provider="SilUtils.PortableSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">.jpg, .jpeg, .gif, .tif, .png, .bmp, .dib</Value>

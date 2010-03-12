@@ -49,6 +49,7 @@
     <Reference Include="Microsoft.DirectX.AudioVideoPlayback, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Microsoft.DirectX.AudioVideoPlayback.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Palaso, Version=1.2.496.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -139,6 +140,12 @@
     </Compile>
     <Compile Include="Dialogs\NewSessionsFromFilesDlgFolderNotFoundMsg.Designer.cs">
       <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\StatusDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\StatusDlg.Designer.cs">
+      <DependentUpon>StatusDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\DiscourseType.cs" />
     <Compile Include="Model\MetaData\FieldDefinition.cs" />
@@ -251,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\NewSessionsFromFilesDlgFolderNotFoundMsg.resx">
       <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\StatusDlg.resx">
+      <DependentUpon>StatusDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\BaseSplitVw.resx">
       <DependentUpon>BaseSplitVw.cs</DependentUpon>

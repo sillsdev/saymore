@@ -1,6 +1,6 @@
 using System.Windows.Forms;
 
-namespace SIL.Sponge
+namespace SIL.Sponge.Views
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -9,7 +9,7 @@ namespace SIL.Sponge
 	/// ----------------------------------------------------------------------------------------
 	public partial class BaseSplitVw : UserControl, ISpongeView
 	{
-		protected bool m_isViewActive;
+		protected bool _isViewActive;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -53,7 +53,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public virtual bool IsViewActive
 		{
-			get { return m_isViewActive; }
+			get { return _isViewActive; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public virtual void ViewActivated(bool firstTime)
 		{
-			m_isViewActive = true;
+			_isViewActive = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public virtual void ViewDeactivated()
 		{
-			m_isViewActive = false;
+			_isViewActive = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

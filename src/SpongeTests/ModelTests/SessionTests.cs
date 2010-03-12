@@ -22,7 +22,7 @@ using Palaso.TestUtilities;
 using SIL.Sponge;
 using SIL.Sponge.Model;
 
-namespace SpongeTests.ModelTests
+namespace SIL.Sponge.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -51,9 +51,9 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void Create()
 		{
-			var session = Session.Create(m_prj, "Ferrari");
+			var session = Session.Create(_prj, "Ferrari");
 			Assert.AreEqual("Ferrari", session.Id);
-			Assert.AreEqual(m_prj, session.Project);
+			Assert.AreEqual(_prj, session.Project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -64,14 +64,14 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void Load_FullPath()
 		{
-			Session.Create(m_prj, "Jaguar").Save();
-			var file = Path.Combine(m_prj.SessionsFolder, "Jaguar");
+			Session.Create(_prj, "Jaguar").Save();
+			var file = Path.Combine(_prj.SessionsFolder, "Jaguar");
 			file = Path.Combine(file, "Jaguar.session");
 			string msg;
-			var session = Session.Load(m_prj, file, out msg);
+			var session = Session.Load(_prj, file, out msg);
 
 			Assert.AreEqual("Jaguar", session.Id);
-			Assert.AreEqual(m_prj, session.Project);
+			Assert.AreEqual(_prj, session.Project);
 			Assert.AreEqual(file, session.FullFilePath);
 		}
 
@@ -84,14 +84,14 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void Load_NameOnly()
 		{
-			Session.Create(m_prj, "Maserati").Save();
+			Session.Create(_prj, "Maserati").Save();
 
 			string msg;
-			var session = Session.Load(m_prj, "Maserati", out msg);
+			var session = Session.Load(_prj, "Maserati", out msg);
 			Assert.AreEqual("Maserati", session.Id);
-			Assert.AreEqual(m_prj, session.Project);
+			Assert.AreEqual(_prj, session.Project);
 
-			var file = Path.Combine(m_prj.SessionsFolder, "Maserati");
+			var file = Path.Combine(_prj.SessionsFolder, "Maserati");
 			file = Path.Combine(file, "Maserati.session");
 			Assert.AreEqual(file, session.FullFilePath);
 		}
@@ -104,7 +104,7 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void Date()
 		{
-			var session = Session.Create(m_prj, "Lotus");
+			var session = Session.Create(_prj, "Lotus");
 			Assert.IsNull(session.SerializedDate);
 			var dt = new DateTime(1963, 4, 19);
 			session.Date = dt;
@@ -121,7 +121,7 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void FileName()
 		{
-			var session = Session.Create(m_prj, "Lamborghini");
+			var session = Session.Create(_prj, "Lamborghini");
 			Assert.AreEqual("Lamborghini.session", session.FileName);
 		}
 
@@ -133,8 +133,8 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void Folder()
 		{
-			var session = Session.Create(m_prj, "Alfa Romeo");
-			var path = Path.Combine(m_prj.SessionsFolder, "Alfa Romeo");
+			var session = Session.Create(_prj, "Alfa Romeo");
+			var path = Path.Combine(_prj.SessionsFolder, "Alfa Romeo");
 			Assert.AreEqual(path, session.Folder);
 		}
 
@@ -146,8 +146,8 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void FullFilePath()
 		{
-			var session = Session.Create(m_prj, "Aston Martin");
-			var path = Path.Combine(m_prj.SessionsFolder, "Aston Martin");
+			var session = Session.Create(_prj, "Aston Martin");
+			var path = Path.Combine(_prj.SessionsFolder, "Aston Martin");
 			Assert.AreEqual(Path.Combine(path, "Aston Martin.session"), session.FullFilePath);
 		}
 
@@ -159,7 +159,7 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void Files()
 		{
-			var session = Session.Create(m_prj, "Lancia");
+			var session = Session.Create(_prj, "Lancia");
 			session.Save();
 
 			var file1 = Path.Combine(session.Folder, "Mustang.pdf");
@@ -181,7 +181,7 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void AddFiles_WhenSessionFolderMissing()
 		{
-			var session = Session.Create(m_prj, "wallace");
+			var session = Session.Create(_prj, "wallace");
 			Assert.IsFalse(session.AddFiles(new[] { string.Empty }));
 		}
 
@@ -193,7 +193,7 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void AddFiles()
 		{
-			var session = Session.Create(m_prj, "gromit");
+			var session = Session.Create(_prj, "gromit");
 			session.Save();
 
 			using(var file1 = new TempFile("wrong.junk"))
@@ -213,14 +213,14 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void Save()
 		{
-			var session = Session.Create(m_prj, "A Grand Day Out!");
+			var session = Session.Create(_prj, "A Grand Day Out!");
 			Assert.IsFalse(Directory.Exists(session.Folder));
 			session.Save();
 			Assert.IsTrue(Directory.Exists(session.Folder));
 			Assert.IsTrue(File.Exists(session.FullFilePath));
 
 			string msg;
-			session = Session.Load(m_prj, "A Grand Day Out!", out msg);
+			session = Session.Load(_prj, "A Grand Day Out!", out msg);
 			Assert.IsNotNull(session);
 			Assert.IsNull(msg);
 		}
@@ -228,7 +228,7 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void ChangeIdAndSave_HadSameIdBefore_ReturnsTrue()
 		{
-			var session = Session.Create(m_prj, "ETR001");
+			var session = Session.Create(_prj, "ETR001");
 			session.Save();
 			Assert.IsTrue(session.ChangeIdAndSave("ETR001"));
 			Assert.AreEqual("ETR001", session.Id);
@@ -239,7 +239,7 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void ChangeIdAndSave_NewIdIsEmptyString_ReturnsFalse()
 		{
-			var session = Session.Create(m_prj, "ETR001");
+			var session = Session.Create(_prj, "ETR001");
 			session.Save();
 			Assert.IsFalse(session.ChangeIdAndSave(""));
 			Assert.AreEqual("ETR001", session.Id);
@@ -248,7 +248,7 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void ChangeIdAndSave_NewIdIsInvalidFolderName_ReturnsFalse()
 		{
-			var session = Session.Create(m_prj, "ETR001");
+			var session = Session.Create(_prj, "ETR001");
 			session.Save();
 			Assert.IsFalse(session.ChangeIdAndSave("chan*ge"));
 			Assert.AreEqual("ETR001", session.Id);
@@ -257,7 +257,7 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void ChangeIdAndSave_ShouldChange_IdAndFolderAndFileChange()
 		{
-			var session = Session.Create(m_prj, "ETR001");
+			var session = Session.Create(_prj, "ETR001");
 			session.Save();
 			string ETR001Path = session.FullFilePath;
 			Assert.IsTrue(session.ChangeIdAndSave("change"));
@@ -271,9 +271,9 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void ChangeIdAndSave_HasFilesWithOldName_RenamesFiles()
 		{
-			var session = Session.Create(m_prj, "ETR001");
+			var session = Session.Create(_prj, "ETR001");
 			session.Save();
-			File.WriteAllText(Path.Combine(session.Folder,"ETR001_original.wav"),"");
+			File.CreateText(Path.Combine(session.Folder,"ETR001_original.wav")).Close();
 			session.ChangeIdAndSave("change");
 			Assert.IsTrue(File.Exists(Path.Combine(session.Folder, "change_original.wav")));
 			Assert.IsFalse(File.Exists(Path.Combine(session.Folder, "ETR001_original.wav")));

@@ -1,4 +1,4 @@
-namespace SIL.Sponge
+namespace SIL.Sponge.Views
 {
 	partial class SendReceiveVw
 	{

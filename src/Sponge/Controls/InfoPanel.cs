@@ -16,8 +16,8 @@ namespace SIL.Sponge.Controls
 	public partial class InfoPanel : UserControl
 	{
 		public event EventHandler MoreActionButtonClicked;
-		private readonly List<LabeledTextBox> m_fields = new List<LabeledTextBox>();
-		private Color m_labeledTextBoxBackgroundColor = SystemColors.Control;
+		private readonly List<LabeledTextBox> _fields = new List<LabeledTextBox>();
+		private Color _labeledTextBoxBackgroundColor = SystemColors.Control;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -67,11 +67,11 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public Color LabeledTextBoxBackgroundColor
 		{
-			get { return m_labeledTextBoxBackgroundColor; }
+			get { return _labeledTextBoxBackgroundColor; }
 			set
 			{
-				m_labeledTextBoxBackgroundColor = value;
-				foreach (var ltb in m_fields)
+				_labeledTextBoxBackgroundColor = value;
+				foreach (var ltb in _fields)
 					ltb.BackColor = value;
 
 				Invalidate();
@@ -107,11 +107,11 @@ namespace SIL.Sponge.Controls
 							var dx = TextRenderer.MeasureText(g, info.DisplayText, ltb.Font).Width;
 							maxLblWidth = Math.Max(maxLblWidth, dx);
 							Controls.Add(ltb);
-							m_fields.Add(ltb);
+							_fields.Add(ltb);
 						}
 					}
 
-					foreach (var ltb in m_fields)
+					foreach (var ltb in _fields)
 					{
 						ltb.InnerLabel.Width = maxLblWidth;
 						ltb.Width = maxLblWidth + 150;
@@ -130,11 +130,11 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private int CalcColumnCount()
 		{
-			if (m_fields.Count == 0)
+			if (_fields.Count == 0)
 				return 0;
 
 			int workingHeight = ClientSize.Height - picIcon.Top;
-			int heightNeeded = m_fields.Count * m_fields[0].Height;
+			int heightNeeded = _fields.Count * _fields[0].Height;
 			return (int)Math.Ceiling((decimal)heightNeeded / workingHeight);
 		}
 
@@ -145,7 +145,7 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private void ArrangeFields()
 		{
-			if (m_fields.Count == 0)
+			if (_fields.Count == 0)
 				return;
 
 			Utils.SetWindowRedraw(this, false);
@@ -158,7 +158,7 @@ namespace SIL.Sponge.Controls
 			int dx = picIcon.Right + 5;
 			int dy = picIcon.Top;
 
-			foreach (var ltb in m_fields)
+			foreach (var ltb in _fields)
 			{
 				ltb.Visible = true;
 				ltb.Location = new Point(dx, dy);
@@ -213,13 +213,13 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public void ClearInfo()
 		{
-			foreach (var ltb in m_fields)
+			foreach (var ltb in _fields)
 			{
 				Controls.Remove(ltb);
 				ltb.Dispose();
 			}
 
-			m_fields.Clear();
+			_fields.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------

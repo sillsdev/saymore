@@ -8,7 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SpongeTests {
+namespace SIL.Sponge.Views
+{
     using System;
     
     

@@ -31,9 +31,9 @@ namespace SIL.Sponge.ConfigTools
 	[TestFixture]
 	public class MruProjectsTests
 	{
-		private StringCollection m_prjFiles;
-		private string m_settingsFilePath;
-		private List<string> m_paths;
+		private StringCollection _prjFiles;
+		private string _settingsFilePath;
+		private List<string> _paths;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -43,46 +43,46 @@ namespace SIL.Sponge.ConfigTools
 		[SetUp]
 		public void TestSetup()
 		{
-			m_settingsFilePath = Path.Combine(Path.GetTempPath(), "~mrutestsettingsfile~.settings");
-			PortableSettingsProvider.SettingsFilePath = m_settingsFilePath;
+			_settingsFilePath = Path.Combine(Path.GetTempPath(), "~mrutestsettingsfile~.settings");
+			PortableSettingsProvider.SettingsFilePath = _settingsFilePath;
 
 			MruProjects.Paths = new string[] { };
 
 			// Use a string collection because that's what the settings provider uses.
-			m_prjFiles = new StringCollection();
+			_prjFiles = new StringCollection();
 			var prjFile = Path.Combine(Path.GetTempPath(), "~beans");
 			Directory.CreateDirectory(prjFile);
 			prjFile = Path.Combine(prjFile, "~beans.sprj");
-			m_prjFiles.Add(prjFile);
+			_prjFiles.Add(prjFile);
 
 			prjFile = Path.Combine(Path.GetTempPath(), "~carrots");
 			Directory.CreateDirectory(prjFile);
 			prjFile = Path.Combine(prjFile, "~carrots.sprj");
-			m_prjFiles.Add(prjFile);
+			_prjFiles.Add(prjFile);
 
 			prjFile = Path.Combine(Path.GetTempPath(), "~turnips");
 			Directory.CreateDirectory(prjFile);
 			prjFile = Path.Combine(prjFile, "~turnips.sprj");
-			m_prjFiles.Add(prjFile);
+			_prjFiles.Add(prjFile);
 
 			prjFile = Path.Combine(Path.GetTempPath(), "~spinich");
 			Directory.CreateDirectory(prjFile);
 			prjFile = Path.Combine(prjFile, "~spinich.sprj");
-			m_prjFiles.Add(prjFile);
+			_prjFiles.Add(prjFile);
 
 			prjFile = Path.Combine(Path.GetTempPath(), "~peas");
 			Directory.CreateDirectory(prjFile);
 			prjFile = Path.Combine(prjFile, "~peas.sprj");
-			m_prjFiles.Add(prjFile);
+			_prjFiles.Add(prjFile);
 
 			// Create dummy project files.
-			foreach (string file in m_prjFiles)
+			foreach (string file in _prjFiles)
 				File.CreateText(file).Close();
 
 			// Get the private static variable that stores the paths.
-			m_paths = ReflectionHelper.GetField(typeof(MruProjects), "s_paths") as List<string>;
-			Assert.IsNotNull(m_paths);
-			Assert.AreEqual(0, m_paths.Count);
+			_paths = ReflectionHelper.GetField(typeof(MruProjects), "s_paths") as List<string>;
+			Assert.IsNotNull(_paths);
+			Assert.AreEqual(0, _paths.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ namespace SIL.Sponge.ConfigTools
 		[TearDown]
 		public void TestTearDown()
 		{
-			foreach (string file in m_prjFiles)
+			foreach (string file in _prjFiles)
 			{
 				try
 				{
@@ -105,7 +105,7 @@ namespace SIL.Sponge.ConfigTools
 
 			try
 			{
-				File.Delete(m_settingsFilePath);
+				File.Delete(_settingsFilePath);
 			}
 			catch { }
 		}
@@ -118,30 +118,30 @@ namespace SIL.Sponge.ConfigTools
 		[Test]
 		public void RemoveStalePaths()
 		{
-			Assert.IsNotNull(m_paths);
-			Assert.AreEqual(0, m_paths.Count);
+			Assert.IsNotNull(_paths);
+			Assert.AreEqual(0, _paths.Count);
 
-			foreach (string file in m_prjFiles)
-				m_paths.Add(file);
+			foreach (string file in _prjFiles)
+				_paths.Add(file);
 
 			var prjFile = Path.Combine(Path.GetTempPath(), "~frog");
 			prjFile = Path.Combine(prjFile, "~frog.sprj");
-			m_paths.Insert(2, prjFile);
+			_paths.Insert(2, prjFile);
 
 			prjFile = Path.Combine(Path.GetTempPath(), "~lizard");
 			prjFile = Path.Combine(prjFile, "~lizard.sprj");
-			m_paths.Insert(2, prjFile);
+			_paths.Insert(2, prjFile);
 
 			prjFile = Path.Combine(Path.GetTempPath(), "~toad");
 			prjFile = Path.Combine(prjFile, "~toad.sprj");
-			m_paths.Insert(2, prjFile);
+			_paths.Insert(2, prjFile);
 
-			Assert.AreEqual(m_prjFiles.Count + 3, m_paths.Count);
+			Assert.AreEqual(_prjFiles.Count + 3, _paths.Count);
 			ReflectionHelper.CallMethod(typeof(MruProjects), "RemoveStalePaths", null);
-			Assert.AreEqual(m_prjFiles.Count, m_paths.Count);
+			Assert.AreEqual(_prjFiles.Count, _paths.Count);
 
-			foreach (string file in m_prjFiles)
-				Assert.IsTrue(m_paths.Contains(file));
+			foreach (string file in _prjFiles)
+				Assert.IsTrue(_paths.Contains(file));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -167,33 +167,33 @@ namespace SIL.Sponge.ConfigTools
 			// Test a path that does not exists.
 			Assert.IsFalse(MruProjects.AddNewPath(Path.Combine(Path.GetTempPath(), "@#$%badpath")));
 
-			Assert.IsTrue(MruProjects.AddNewPath(m_prjFiles[0]));
-			Assert.AreEqual(m_prjFiles[0], m_paths[0]);
-			Assert.AreEqual(1, m_paths.Count);
+			Assert.IsTrue(MruProjects.AddNewPath(_prjFiles[0]));
+			Assert.AreEqual(_prjFiles[0], _paths[0]);
+			Assert.AreEqual(1, _paths.Count);
 
-			Assert.IsTrue(MruProjects.AddNewPath(m_prjFiles[1]));
-			Assert.AreEqual(m_prjFiles[1], m_paths[0]);
-			Assert.AreEqual(2, m_paths.Count);
+			Assert.IsTrue(MruProjects.AddNewPath(_prjFiles[1]));
+			Assert.AreEqual(_prjFiles[1], _paths[0]);
+			Assert.AreEqual(2, _paths.Count);
 
-			Assert.IsTrue(MruProjects.AddNewPath(m_prjFiles[2]));
-			Assert.AreEqual(m_prjFiles[2], m_paths[0]);
-			Assert.AreEqual(3, m_paths.Count);
+			Assert.IsTrue(MruProjects.AddNewPath(_prjFiles[2]));
+			Assert.AreEqual(_prjFiles[2], _paths[0]);
+			Assert.AreEqual(3, _paths.Count);
 
 			// Readd a path that already exists.
-			Assert.IsTrue(MruProjects.AddNewPath(m_prjFiles[1]));
-			Assert.AreEqual(m_prjFiles[1], m_paths[0]);
-			Assert.AreEqual(3, m_paths.Count);
+			Assert.IsTrue(MruProjects.AddNewPath(_prjFiles[1]));
+			Assert.AreEqual(_prjFiles[1], _paths[0]);
+			Assert.AreEqual(3, _paths.Count);
 
-			m_paths.Clear();
-			for (int i = 0; i < m_prjFiles.Count; i++)
+			_paths.Clear();
+			for (int i = 0; i < _prjFiles.Count; i++)
 			{
-				Assert.IsTrue(MruProjects.AddNewPath(m_prjFiles[i]));
-				Assert.IsTrue(m_paths.Count <= MruProjects.MaxMRUListSize);
+				Assert.IsTrue(MruProjects.AddNewPath(_prjFiles[i]));
+				Assert.IsTrue(_paths.Count <= MruProjects.MaxMRUListSize);
 
 				if (i < MruProjects.MaxMRUListSize)
 				{
-					Assert.AreEqual(i + 1, m_paths.Count);
-					Assert.AreEqual(m_prjFiles[i], m_paths[0]);
+					Assert.AreEqual(i + 1, _paths.Count);
+					Assert.AreEqual(_prjFiles[i], _paths[0]);
 				}
 			}
 		}
@@ -208,14 +208,14 @@ namespace SIL.Sponge.ConfigTools
 		{
 			Assert.IsNull(MruProjects.Latest);
 
-			Assert.IsTrue(MruProjects.AddNewPath(m_prjFiles[0]));
-			Assert.AreEqual(m_prjFiles[0], MruProjects.Latest);
+			Assert.IsTrue(MruProjects.AddNewPath(_prjFiles[0]));
+			Assert.AreEqual(_prjFiles[0], MruProjects.Latest);
 
-			Assert.IsTrue(MruProjects.AddNewPath(m_prjFiles[1]));
-			Assert.AreEqual(m_prjFiles[1], MruProjects.Latest);
+			Assert.IsTrue(MruProjects.AddNewPath(_prjFiles[1]));
+			Assert.AreEqual(_prjFiles[1], MruProjects.Latest);
 
-			Assert.IsTrue(MruProjects.AddNewPath(m_prjFiles[2]));
-			Assert.AreEqual(m_prjFiles[2], MruProjects.Latest);
+			Assert.IsTrue(MruProjects.AddNewPath(_prjFiles[2]));
+			Assert.AreEqual(_prjFiles[2], MruProjects.Latest);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -227,29 +227,29 @@ namespace SIL.Sponge.ConfigTools
 		public void LoadList()
 		{
 			ReflectionHelper.CallMethod(typeof(MruProjects), "LoadList", new object[] { null });
-			Assert.AreEqual(0, m_paths.Count);
+			Assert.AreEqual(0, _paths.Count);
 
 			// Load some non existant paths into our collection of paths.
 
 			var prjFile = Path.Combine(Path.GetTempPath(), "~frog");
 			prjFile = Path.Combine(prjFile, "~frog.sprj");
-			m_prjFiles.Insert(0, prjFile);
+			_prjFiles.Insert(0, prjFile);
 
 			prjFile = Path.Combine(Path.GetTempPath(), "~lizard");
 			prjFile = Path.Combine(prjFile, "~lizard.sprj");
-			m_prjFiles.Insert(0, prjFile);
+			_prjFiles.Insert(0, prjFile);
 
 			prjFile = Path.Combine(Path.GetTempPath(), "~toad");
 			prjFile = Path.Combine(prjFile, "~toad.sprj");
-			m_prjFiles.Insert(0, prjFile);
+			_prjFiles.Insert(0, prjFile);
 
-			Assert.IsTrue(m_prjFiles.Count > MruProjects.MaxMRUListSize);
-			ReflectionHelper.CallMethod(typeof(MruProjects), "LoadList", m_prjFiles);
-			Assert.AreEqual(MruProjects.MaxMRUListSize, m_paths.Count);
+			Assert.IsTrue(_prjFiles.Count > MruProjects.MaxMRUListSize);
+			ReflectionHelper.CallMethod(typeof(MruProjects), "LoadList", _prjFiles);
+			Assert.AreEqual(MruProjects.MaxMRUListSize, _paths.Count);
 
 			// Make sure only the first MaxMRUListSize valid paths in our collection were loaded.
 			for (int i = 0; i < MruProjects.MaxMRUListSize; i++)
-				Assert.AreEqual(m_prjFiles[i + 3], m_paths[i]);
+				Assert.AreEqual(_prjFiles[i + 3], _paths[i]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -263,13 +263,13 @@ namespace SIL.Sponge.ConfigTools
 			// Now make every path in our collection the same and verify that
 			// loading that list will result in only one path getting loaded.
 			StringCollection files = new StringCollection();
-			for (int i = 1; i < m_prjFiles.Count; i++)
-				files.Add(m_prjFiles[0]);
+			for (int i = 1; i < _prjFiles.Count; i++)
+				files.Add(_prjFiles[0]);
 
 			// Load the list in which all paths are the same.
 			ReflectionHelper.CallMethod(typeof(MruProjects), "LoadList", files);
-			Assert.AreEqual(1, m_paths.Count);
-			Assert.AreEqual(files[0], m_paths[0]);
+			Assert.AreEqual(1, _paths.Count);
+			Assert.AreEqual(files[0], _paths[0]);
 		}
 	}
 }

@@ -261,7 +261,7 @@ namespace SIL.Sponge.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".mp3,. wav, .wma, .acc, .ogg")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".mp3, .wav, .wma, .acc, .ogg")]
         public string AudioFileExtensions {
             get {
                 return ((string)(this["AudioFileExtensions"]));
@@ -274,7 +274,7 @@ namespace SIL.Sponge.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".wmv, .avi, .mpg, .mpeg, .mpa, .asf")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".wmv, .avi, .mpg, .mpeg, .mpa, .asf, .mov")]
         public string VideoFileExtensions {
             get {
                 return ((string)(this["VideoFileExtensions"]));

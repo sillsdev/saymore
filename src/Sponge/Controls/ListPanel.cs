@@ -30,10 +30,10 @@ namespace SIL.Sponge.Controls
 		public event NewButtonClickedHandler NewButtonClicked;
 
 		// This font is used to indicate the text of the current item is a duplicate.
-		private Font m_fntDupItem;
+		private Font _fntDupItem;
 
-		private bool m_monitorSelectedIndexChanges;
-		private readonly List<Button> m_buttons = new List<Button>();
+		private bool _monitorSelectedIndexChanges;
+		private readonly List<Button> _buttons = new List<Button>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -45,7 +45,7 @@ namespace SIL.Sponge.Controls
 			ReSortWhenItemTextChanges = false;
 
 			InitializeComponent();
-			m_fntDupItem = new Font(lvItems.Font, FontStyle.Italic | FontStyle.Bold);
+			_fntDupItem = new Font(lvItems.Font, FontStyle.Italic | FontStyle.Bold);
 			lvItems.ListViewItemSorter = new ListSorter();
 			MonitorSelectedIndexChanges = true;
 		}
@@ -59,7 +59,7 @@ namespace SIL.Sponge.Controls
 		{
 			if (disposing && (components != null))
 			{
-				m_fntDupItem.Dispose();
+				_fntDupItem.Dispose();
 				components.Dispose();
 			}
 
@@ -137,6 +137,9 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private static void SetImage(ListViewItem lvi)
 		{
+			if (lvi.Tag == null || lvi.Tag.GetType().GetProperty("ImageKey") == null)
+				return;
+
 			var imgKey = ReflectionHelper.GetProperty(lvi.Tag, "ImageKey") as string;
 			if (imgKey == null)
 			{
@@ -287,7 +290,7 @@ namespace SIL.Sponge.Controls
 				// Change the look of the current item if it's text is duplicated.
 				lvi.ForeColor = Color.Red;
 				lvi.BackColor = Color.PapayaWhip;
-				lvi.Font = m_fntDupItem;
+				lvi.Font = _fntDupItem;
 				lvItems.HideSelection = true;
 			}
 			else
@@ -323,8 +326,8 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private void lvItems_FontChanged(object sender, EventArgs e)
 		{
-			m_fntDupItem.Dispose();
-			m_fntDupItem = new Font(lvItems.Font, FontStyle.Italic | FontStyle.Bold);
+			_fntDupItem.Dispose();
+			_fntDupItem = new Font(lvItems.Font, FontStyle.Italic | FontStyle.Bold);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -473,14 +476,14 @@ namespace SIL.Sponge.Controls
 		{
 			set
 			{
-				if (m_monitorSelectedIndexChanges != value)
+				if (_monitorSelectedIndexChanges != value)
 				{
 					if (value)
 						lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
 					else
 						lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
 
-					m_monitorSelectedIndexChanges = value;
+					_monitorSelectedIndexChanges = value;
 				}
 			}
 		}
@@ -518,22 +521,22 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public void InsertButton(int index, Button btn)
 		{
-			if (m_buttons.Count == 0)
+			if (_buttons.Count == 0)
 			{
-				m_buttons.Add(btnNew);
-				m_buttons.Add(btnDelete);
+				_buttons.Add(btnNew);
+				_buttons.Add(btnDelete);
 			}
 
 			btn.Height = btnNew.Height;
 
 			if (index < 0)
-				m_buttons.Insert(0, btn);
-			else if (index >= m_buttons.Count)
-				m_buttons.Add(btn);
+				_buttons.Insert(0, btn);
+			else if (index >= _buttons.Count)
+				_buttons.Add(btn);
 			else
-				m_buttons.Insert(index, btn);
+				_buttons.Insert(index, btn);
 
-			foreach (var b in m_buttons)
+			foreach (var b in _buttons)
 				b.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 
 			pnlButtons.Controls.Add(btn);
@@ -557,7 +560,7 @@ namespace SIL.Sponge.Controls
 			int x = horizMargin;
 			int y = vertMargin;
 
-			foreach (var btn in m_buttons)
+			foreach (var btn in _buttons)
 			{
 				if (x + btn.Width > (pnlButtons.ClientSize.Width - horizMargin))
 				{
@@ -573,7 +576,7 @@ namespace SIL.Sponge.Controls
 			}
 
 			pnlButtons.ClientSizeChanged -= HandleButtonPanelClientSizeChanged;
-			pnlButtons.Height = m_buttons[m_buttons.Count - 1].Bottom + vertMargin;
+			pnlButtons.Height = _buttons[_buttons.Count - 1].Bottom + vertMargin;
 			pnlButtons.Top = ClientSize.Height - pnlButtons.Height;
 			pnlButtons.ClientSizeChanged += HandleButtonPanelClientSizeChanged;
 

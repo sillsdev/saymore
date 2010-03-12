@@ -89,7 +89,7 @@ namespace SIL.Sponge.Model
 	/// ----------------------------------------------------------------------------------------
 	public class SessionFileInfoTemplate
 	{
-		private string m_fileExtensions;
+		private string _fileExtensions;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -118,8 +118,8 @@ namespace SIL.Sponge.Model
 		[XmlElement("fileExtensions")]
 		public string FileExtensions
 		{
-			get { return m_fileExtensions; }
-			set { m_fileExtensions = (value == null ? null : value.ToLower()); }
+			get { return _fileExtensions; }
+			set { _fileExtensions = (value == null ? null : value.ToLower()); }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -35,9 +35,8 @@ namespace SIL.Sponge.Views.Overview.Statistics
 		{
 			var total = new TimeSpan(0);
 			foreach (var session in _project.Sessions)
-			{
 				total += session.GetDurationOfMatchingFile(definition.MatchFilter);
-			}
+
 			return total;
 		}
 	}

@@ -30,7 +30,7 @@ namespace SIL.Sponge.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class GridPanel : SilPanel
 	{
-		protected SilGrid m_grid = new SilGrid();
+		protected SilGrid _grid = new SilGrid();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -39,11 +39,11 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public GridPanel()
 		{
-			m_grid = new SilGrid();
-			m_grid.DefaultCellStyle = new DataGridViewCellStyle();
-			m_grid.BorderStyle = BorderStyle.None;
-			m_grid.Dock = DockStyle.Fill;
-			Controls.Add(m_grid);
+			_grid = new SilGrid();
+			_grid.DefaultCellStyle = new DataGridViewCellStyle();
+			_grid.BorderStyle = BorderStyle.None;
+			_grid.Dock = DockStyle.Fill;
+			Controls.Add(_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public DataGridView Grid
 		{
-			get { return m_grid; }
+			get { return _grid; }
 		}
 	}
 }

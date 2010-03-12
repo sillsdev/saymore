@@ -14,8 +14,8 @@ namespace SIL.Sponge.ConfigTools
 	/// ----------------------------------------------------------------------------------------
 	public partial class NewSessionDlg : Form
 	{
-		private readonly string m_projectPath;
-		private readonly HashSet<string> m_sessionFiles = new HashSet<string>();
+		private readonly string _projectPath;
+		private readonly HashSet<string> _sessionFiles = new HashSet<string>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -37,7 +37,7 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		public NewSessionDlg(string prjPath) : this()
 		{
-			m_projectPath = prjPath;
+			_projectPath = prjPath;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ namespace SIL.Sponge.ConfigTools
 
 			var validPathMsg = LocalizationManager.GetString(lblPath);
 
-			btnOK.Enabled = PathValidator.ValidatePathEntry(m_projectPath,
+			btnOK.Enabled = PathValidator.ValidatePathEntry(_projectPath,
 				txtName.Text.Trim(), lblPath, validPathMsg, invalidPathMsg, toolTip);
 		}
 
@@ -95,7 +95,7 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		public string[] SessionFiles
 		{
-			get { return m_sessionFiles.ToArray(); }
+			get { return _sessionFiles.ToArray(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ namespace SIL.Sponge.ConfigTools
 			if (fileNames != null)
 			{
 				foreach (string file in fileNames)
-					m_sessionFiles.Add(file);
+					_sessionFiles.Add(file);
 			}
 		}
 	}

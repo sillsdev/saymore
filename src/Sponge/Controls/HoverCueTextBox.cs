@@ -15,7 +15,7 @@ namespace SIL.Sponge.Controls
 	/// ----------------------------------------------------------------------------------------
 	public partial class HoverCueTextBox : UserControl
 	{
-		private bool m_showHoverBorder;
+		private bool _showHoverBorder;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -29,7 +29,7 @@ namespace SIL.Sponge.Controls
 				VisualStyleInformation.TextControlBorder : SystemColors.ControlDarkDark);
 
 			InitializeComponent();
-			m_txtBox.BackColor = BackColor;
+			_txtBox.BackColor = BackColor;
 			SetStyle(ControlStyles.UseTextForAccessibility, true);
 			SizeChanged += HandleSizeChanged;
 		}
@@ -58,8 +58,8 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return m_txtBox.Text; }
-			set { m_txtBox.Text = value; }
+			get { return _txtBox.Text; }
+			set { _txtBox.Text = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ namespace SIL.Sponge.Controls
 			set
 			{
 				base.Font = value;
-				m_txtBox.Font = value;
+				_txtBox.Font = value;
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace SIL.Sponge.Controls
 				base.BackColor = value;
 
 				if (value != Color.Transparent)
-					m_txtBox.BackColor = value;
+					_txtBox.BackColor = value;
 
 				Invalidate();
 			}
@@ -103,8 +103,8 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public override Color ForeColor
 		{
-			get { return m_txtBox.ForeColor; }
-			set { m_txtBox.ForeColor = value; }
+			get { return _txtBox.ForeColor; }
+			set { _txtBox.ForeColor = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ namespace SIL.Sponge.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public TextBox InnerTextBox
 		{
-			get { return m_txtBox; }
+			get { return _txtBox; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ namespace SIL.Sponge.Controls
 		private void HandleSizeChanged(object sender, EventArgs e)
 		{
 			SizeChanged -= HandleSizeChanged;
-			Height = m_txtBox.Height + Padding.Top + Padding.Bottom;
+			Height = _txtBox.Height + Padding.Top + Padding.Bottom;
 			SizeChanged += HandleSizeChanged;
 		}
 
@@ -139,7 +139,7 @@ namespace SIL.Sponge.Controls
 		protected override void OnMouseEnter(EventArgs e)
 		{
 			base.OnMouseEnter(e);
-			m_txtBox_MouseEnter(null, null);
+			_txtBox_MouseEnter(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,7 +150,7 @@ namespace SIL.Sponge.Controls
 		protected override void OnMouseLeave(EventArgs e)
 		{
 			base.OnMouseLeave(e);
-			m_txtBox_MouseLeave(null, null);
+			_txtBox_MouseLeave(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -161,17 +161,17 @@ namespace SIL.Sponge.Controls
 		protected override void OnEnter(EventArgs e)
 		{
 			base.OnEnter(e);
-			m_txtBox.Focus();
+			_txtBox.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Handles the MouseEnter event of the m_txtBox control.
+		/// Handles the MouseEnter event of the _txtBox control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_txtBox_MouseEnter(object sender, EventArgs e)
+		private void _txtBox_MouseEnter(object sender, EventArgs e)
 		{
-			m_txtBox_Enter(null, null);
+			_txtBox_Enter(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -179,11 +179,11 @@ namespace SIL.Sponge.Controls
 		/// Give control a border.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_txtBox_Enter(object sender, EventArgs e)
+		private void _txtBox_Enter(object sender, EventArgs e)
 		{
-			m_showHoverBorder = true;
+			_showHoverBorder = true;
 			Invalidate();
-			m_txtBox.BackColor = SystemColors.Window;
+			_txtBox.BackColor = SystemColors.Window;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -191,12 +191,12 @@ namespace SIL.Sponge.Controls
 		/// Remove border when control does not have focus.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_txtBox_MouseLeave(object sender, EventArgs e)
+		private void _txtBox_MouseLeave(object sender, EventArgs e)
 		{
-			if (!m_txtBox.Focused)
+			if (!_txtBox.Focused)
 			{
-				m_showHoverBorder = false;
-				m_txtBox.BackColor =
+				_showHoverBorder = false;
+				_txtBox.BackColor =
 					(BackColor == Color.Transparent ? SystemColors.Control : BackColor);
 
 				Invalidate();
@@ -208,16 +208,16 @@ namespace SIL.Sponge.Controls
 		/// Remove the border when the mouse is not over the control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_txtBox_Leave(object sender, EventArgs e)
+		private void _txtBox_Leave(object sender, EventArgs e)
 		{
-			m_txtBox.SelectionStart = 0;
+			_txtBox.SelectionStart = 0;
 
 			if (!ClientRectangle.Contains(PointToClient(MousePosition)))
 			{
 				if (BackColor != Color.Transparent)
-					m_txtBox.BackColor = BackColor;
+					_txtBox.BackColor = BackColor;
 
-				m_showHoverBorder = false;
+				_showHoverBorder = false;
 				Invalidate();
 			}
 		}
@@ -231,7 +231,7 @@ namespace SIL.Sponge.Controls
 		{
 			base.OnPaintBackground(e);
 
-			using (Pen pen = new Pen(m_showHoverBorder || !DynamicBorder ? HoverBorderColor : BackColor))
+			using (Pen pen = new Pen(_showHoverBorder || !DynamicBorder ? HoverBorderColor : BackColor))
 			{
 				Rectangle rc = ClientRectangle;
 				rc.Height--;

@@ -49,7 +49,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void Create()
 		{
-			VerifyProject(m_prj, kTestPrjName);
+			VerifyProject(_prj, kTestPrjName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,10 +60,10 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void Load()
 		{
-			VerifyProject(m_prj, kTestPrjName);
+			VerifyProject(_prj, kTestPrjName);
 
-			m_prj = SpongeProject.Load(m_prj.FullFilePath);
-			VerifyProject(m_prj, kTestPrjName);
+			_prj = SpongeProject.Load(_prj.FullFilePath);
+			VerifyProject(_prj, kTestPrjName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -74,11 +74,11 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void Initialize()
 		{
-			VerifyProject(m_prj, kTestPrjName);
-			Assert.AreEqual(0, m_prj.Sessions.Count);
+			VerifyProject(_prj, kTestPrjName);
+			Assert.AreEqual(0, _prj.Sessions.Count);
 
-			var path1 = Path.Combine(m_prj.SessionsFolder, "bacon");
-			var path2 = Path.Combine(m_prj.SessionsFolder, "eggs");
+			var path1 = Path.Combine(_prj.SessionsFolder, "bacon");
+			var path2 = Path.Combine(_prj.SessionsFolder, "eggs");
 
 			Directory.CreateDirectory(path1);
 			Directory.CreateDirectory(path2);
@@ -93,11 +93,11 @@ namespace SIL.Sponge.Model
 			writer.WriteEndElement();
 			writer.Close();
 
-			ReflectionHelper.CallMethod(m_prj, "Initialize", new[] { kTestPrjName, null });
+			ReflectionHelper.CallMethod(_prj, "Initialize", new[] { kTestPrjName, null });
 
-			Assert.AreEqual(2, m_prj.Sessions.Count);
-			Assert.AreEqual("bacon", m_prj.Sessions[0].Id);
-			Assert.AreEqual("eggs", m_prj.Sessions[1].Id);
+			Assert.AreEqual(2, _prj.Sessions.Count);
+			Assert.AreEqual("bacon", _prj.Sessions[0].Id);
+			Assert.AreEqual("eggs", _prj.Sessions[1].Id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,12 +133,12 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void GetUniquePersonName()
 		{
-			var name = m_prj.GetUniquePersonName();
+			var name = _prj.GetUniquePersonName();
 			Assert.AreEqual("Unknown Name 01", name);
 
-			var person = Person.CreateFromName(m_prj, name);
+			var person = Person.CreateFromName(_prj, name);
 			person.Save();
-			Assert.AreEqual("Unknown Name 02", m_prj.GetUniquePersonName());
+			Assert.AreEqual("Unknown Name 02", _prj.GetUniquePersonName());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,17 +149,17 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void AddSession()
 		{
-			Assert.AreEqual(0, m_prj.SessionNames.Length);
+			Assert.AreEqual(0, _prj.SessionNames.Length);
 
-			var session = m_prj.AddSession(kTestSessionName);
+			var session = _prj.AddSession(kTestSessionName);
 			Assert.IsNotNull(session);
-			Assert.AreEqual(1, m_prj.Sessions.Count);
-			Assert.AreEqual(kTestSessionName, m_prj.Sessions[0].Id);
+			Assert.AreEqual(1, _prj.Sessions.Count);
+			Assert.AreEqual(kTestSessionName, _prj.Sessions[0].Id);
 
 			// Now add a session that already exists.
-			Assert.AreEqual(session, m_prj.AddSession(kTestSessionName));
-			Assert.AreEqual(1, m_prj.Sessions.Count);
-			Assert.AreEqual(kTestSessionName, m_prj.Sessions[0].Id);
+			Assert.AreEqual(session, _prj.AddSession(kTestSessionName));
+			Assert.AreEqual(1, _prj.Sessions.Count);
+			Assert.AreEqual(kTestSessionName, _prj.Sessions[0].Id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -170,44 +170,44 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void Sessions()
 		{
-			Assert.AreEqual(0, m_prj.SessionNames.Length);
+			Assert.AreEqual(0, _prj.SessionNames.Length);
 
-			Assert.IsNotNull(m_prj.AddSession("Magenta"));
-			Assert.IsNotNull(m_prj.AddSession("Blue"));
-			Assert.IsNotNull(m_prj.AddSession("Yellow"));
+			Assert.IsNotNull(_prj.AddSession("Magenta"));
+			Assert.IsNotNull(_prj.AddSession("Blue"));
+			Assert.IsNotNull(_prj.AddSession("Yellow"));
 
 			// Make sure the list is sorted.
-			Assert.AreEqual(3, m_prj.SessionNames.Length);
-			Assert.AreEqual("Blue", m_prj.Sessions[0].Id);
-			Assert.AreEqual("Magenta", m_prj.Sessions[1].Id);
-			Assert.AreEqual("Yellow", m_prj.Sessions[2].Id);
+			Assert.AreEqual(3, _prj.SessionNames.Length);
+			Assert.AreEqual("Blue", _prj.Sessions[0].Id);
+			Assert.AreEqual("Magenta", _prj.Sessions[1].Id);
+			Assert.AreEqual("Yellow", _prj.Sessions[2].Id);
 
 			// Make sure a file in the sessions folder doesn't get recognized as a folder.
-			File.CreateText(Path.Combine(m_prj.SessionsFolder, "junk")).Close();
-			Assert.AreEqual(3, m_prj.SessionNames.Length);
+			File.CreateText(Path.Combine(_prj.SessionsFolder, "junk")).Close();
+			Assert.AreEqual(3, _prj.SessionNames.Length);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Tests the UpdateSessions property.
+		/// Tests the RefreshSessionList method.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void UpdateSessions()
+		public void RefreshSessionList()
 		{
-			Assert.AreEqual(0, m_prj.SessionNames.Length);
-			Assert.IsNotNull(m_prj.AddSession("lemon"));
-			Assert.IsNotNull(m_prj.AddSession("lime"));
-			Assert.IsNotNull(m_prj.AddSession("orange"));
-			Assert.AreEqual(3, m_prj.SessionNames.Length);
+			Assert.AreEqual(0, _prj.SessionNames.Length);
+			Assert.IsNotNull(_prj.AddSession("lemon"));
+			Assert.IsNotNull(_prj.AddSession("lime"));
+			Assert.IsNotNull(_prj.AddSession("orange"));
+			Assert.AreEqual(3, _prj.SessionNames.Length);
 
-			Directory.CreateDirectory(Path.Combine(m_prj.SessionsFolder, "grapefruit"));
-			Directory.CreateDirectory(Path.Combine(m_prj.SessionsFolder, "guava"));
+			Directory.CreateDirectory(Path.Combine(_prj.SessionsFolder, "grapefruit"));
+			Directory.CreateDirectory(Path.Combine(_prj.SessionsFolder, "guava"));
 
-			ReflectionHelper.CallMethod(m_prj, "UpdateSessions");
-			Assert.AreEqual(5, m_prj.Sessions.Count);
-			Assert.AreEqual("grapefruit", m_prj.Sessions[0].Id);
-			Assert.AreEqual("guava", m_prj.Sessions[1].Id);
+			_prj.RefreshSessionList();
+			Assert.AreEqual(5, _prj.Sessions.Count);
+			Assert.AreEqual("grapefruit", _prj.Sessions[0].Id);
+			Assert.AreEqual("guava", _prj.Sessions[1].Id);
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -218,13 +218,13 @@ namespace SIL.Sponge.Model
 		//[Test]
 		//public void GetSessionFolder()
 		//{
-		//    Assert.IsNull(m_prj.GetSessionFolder(null));
-		//    Assert.IsNull(m_prj.GetSessionFolder(string.Empty));
-		//    Assert.IsNull(m_prj.GetSessionFolder(kTestSessionName));
+		//    Assert.IsNull(_prj.GetSessionFolder(null));
+		//    Assert.IsNull(_prj.GetSessionFolder(string.Empty));
+		//    Assert.IsNull(_prj.GetSessionFolder(kTestSessionName));
 
-		//    m_prj.AddSession(kTestSessionName);
-		//    var path = Path.Combine(m_prj.SessionsPath, kTestSessionName);
-		//    Assert.AreEqual(path, m_prj.GetSessionFolder(kTestSessionName));
+		//    _prj.AddSession(kTestSessionName);
+		//    var path = Path.Combine(_prj.SessionsPath, kTestSessionName);
+		//    Assert.AreEqual(path, _prj.GetSessionFolder(kTestSessionName));
 		//}
 
 		///// ------------------------------------------------------------------------------------
@@ -235,21 +235,21 @@ namespace SIL.Sponge.Model
 		//[Test]
 		//public void GetSessionFiles()
 		//{
-		//    Assert.IsNull(m_prj.GetSessionFilesNames(null));
-		//    Assert.IsNull(m_prj.GetSessionFilesNames(string.Empty));
+		//    Assert.IsNull(_prj.GetSessionFilesNames(null));
+		//    Assert.IsNull(_prj.GetSessionFilesNames(string.Empty));
 
-		//    m_prj.AddSession(kTestSessionName);
-		//    Assert.AreEqual(0, m_prj.GetSessionFilesNames(kTestSessionName).Length);
+		//    _prj.AddSession(kTestSessionName);
+		//    Assert.AreEqual(0, _prj.GetSessionFilesNames(kTestSessionName).Length);
 
 		//    // Create a few files in the session folder. Must use CreateText so we can
 		//    // close the files because Create leaves them locked too long.
-		//    var path = m_prj.GetSessionFolder(kTestSessionName);
+		//    var path = _prj.GetSessionFolder(kTestSessionName);
 		//    File.CreateText(Path.Combine(path, "yak.pdf")).Close();
 		//    File.CreateText(Path.Combine(path, "hippo.wav")).Close();
 		//    File.CreateText(Path.Combine(path, "meerkat.wma")).Close();
 
 		//    // Get session's files and make sure they're returned sorted.
-		//    var files = m_prj.GetSessionFilesNames(kTestSessionName);
+		//    var files = _prj.GetSessionFilesNames(kTestSessionName);
 		//    Assert.AreEqual(3, files.Length);
 		//    Assert.AreEqual(files[0], Path.Combine(path, "hippo.wav"));
 		//    Assert.AreEqual(files[1], Path.Combine(path, "meerkat.wma"));
@@ -259,25 +259,25 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void GetPeopleName_NoPeople_Empty()
 		{
-			Assert.AreEqual(0, m_prj.GetPeopleNames().Count());
+			Assert.AreEqual(0, _prj.GetPeopleNames().Count());
 		}
 
 		[Test]
 		public void GetPeopleName_TwoPeople_GivesTwoNames()
 		{
 			var a = new Person();
-			m_prj.AddPerson(a);
+			_prj.AddPerson(a);
 			a.ChangeName("A");
 			a.Save();
 
 			var b = new Person();
-			m_prj.AddPerson(b);
+			_prj.AddPerson(b);
 			b.ChangeName("B");
 			b.Save();
 
-			Assert.AreEqual(2, m_prj.GetPeopleNames().Count());
-			Assert.IsTrue(m_prj.GetPeopleNames().Any(p=>p=="A"));
-			Assert.IsTrue(m_prj.GetPeopleNames().Any(p => p == "B"));
+			Assert.AreEqual(2, _prj.GetPeopleNames().Count());
+			Assert.IsTrue(_prj.GetPeopleNames().Any(p=>p=="A"));
+			Assert.IsTrue(_prj.GetPeopleNames().Any(p => p == "B"));
 		}
 	}
 

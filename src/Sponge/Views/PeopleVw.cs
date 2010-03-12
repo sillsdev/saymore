@@ -11,7 +11,7 @@ using SIL.Sponge.Properties;
 using SIL.Sponge.Utilities;
 using SilUtils;
 
-namespace SIL.Sponge
+namespace SIL.Sponge.Views
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -20,13 +20,13 @@ namespace SIL.Sponge
 	/// ----------------------------------------------------------------------------------------
 	public partial class PeopleVw : BaseSplitVw
 	{
-		private readonly SpongeProject m_currProj;
-		private Person m_currPerson;
+		private readonly SpongeProject _currProj;
+		private Person _currPerson;
 
-		private readonly Dictionary<TextBox, ParentButton> m_langFathers =
+		private readonly Dictionary<TextBox, ParentButton> _langFathers =
 			new Dictionary<TextBox, ParentButton>(5);
 
-		private readonly Dictionary<TextBox, ParentButton> m_langMothers =
+		private readonly Dictionary<TextBox, ParentButton> _langMothers =
 			new Dictionary<TextBox, ParentButton>(5);
 
 		#region Constructors
@@ -38,23 +38,23 @@ namespace SIL.Sponge
 		public PeopleVw()
 		{
 			InitializeComponent();
-			m_gender.SelectedIndex = 0;
+			_gender.SelectedIndex = 0;
 			tblAbout.Enabled = false;
 			pnlPermissions.Enabled = false;
 
 			lblNoPeopleMsg.BackColor = lpPeople.ListView.BackColor;
 
-			m_langFathers[m_language0] = m_languageFather0;
-			m_langFathers[m_language1] = m_languageFather1;
-			m_langFathers[m_language2] = m_languageFather2;
-			m_langFathers[m_language3] = m_languageFather3;
-			m_langFathers[m_language4] = m_languageFather4;
+			_langFathers[_language0] = _languageFather0;
+			_langFathers[_language1] = _languageFather1;
+			_langFathers[_language2] = _languageFather2;
+			_langFathers[_language3] = _languageFather3;
+			_langFathers[_language4] = _languageFather4;
 
-			m_langMothers[m_language0] = m_languageMother0;
-			m_langMothers[m_language1] = m_languageMother1;
-			m_langMothers[m_language2] = m_languageMother2;
-			m_langMothers[m_language3] = m_languageMother3;
-			m_langMothers[m_language4] = m_languageMother4;
+			_langMothers[_language0] = _languageMother0;
+			_langMothers[_language1] = _languageMother1;
+			_langMothers[_language2] = _languageMother2;
+			_langMothers[_language3] = _languageMother3;
+			_langMothers[_language4] = _languageMother4;
 
 			// Designer keeps messing up the size of pnlBrowser, so we'll force here.
 			pnlBrowser.Width = pnlPermissions.Width - pnlBrowser.Left - 10;
@@ -72,11 +72,11 @@ namespace SIL.Sponge
 		/// Initializes a new instance of the <see cref="SessionsVw"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PeopleVw(SpongeProject m_prj) : this()
+		public PeopleVw(SpongeProject _prj) : this()
 		{
-			m_currProj = (m_prj ?? MainWnd.CurrentProject);
-			lblNoPeopleMsg.Visible = (m_currProj.People.Count == 0);
-			lpPeople.Items = m_currProj.People.ToArray();
+			_currProj = (_prj ?? MainWnd.CurrentProject);
+			lblNoPeopleMsg.Visible = (_currProj.People.Count == 0);
+			lpPeople.Items = _currProj.People.ToArray();
 		}
 
 		#endregion
@@ -92,8 +92,8 @@ namespace SIL.Sponge
 		{
 			base.ViewDeactivated();
 
-			if (m_currPerson != null)
-				SavePersonFromView(m_currPerson);
+			if (_currPerson != null)
+				SavePersonFromView(_currPerson);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -106,8 +106,8 @@ namespace SIL.Sponge
 			if (!IsNameOK(showMsgWhenNotOK))
 				return false;
 
-			if (m_currPerson != null)
-				SavePersonFromView(m_currPerson);
+			if (_currPerson != null)
+				SavePersonFromView(_currPerson);
 
 			return base.IsOKToLeaveView(showMsgWhenNotOK);
 		}
@@ -123,8 +123,8 @@ namespace SIL.Sponge
 		{
 			base.OnHandleDestroyed(e);
 
-			if (m_currPerson != null)
-				SavePersonFromView(m_currPerson);
+			if (_currPerson != null)
+				SavePersonFromView(_currPerson);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,7 +149,7 @@ namespace SIL.Sponge
 				return true;
 
 			string msg = null;
-			var name = m_fullName.Text.Trim();
+			var name = _fullName.Text.Trim();
 
 			if (name == string.Empty)
 			{
@@ -158,10 +158,10 @@ namespace SIL.Sponge
 					"Message displayed when a person's name is missing in the people view.",
 					"Views", LocalizationCategory.GeneralMessage, LocalizationPriority.High);
 			}
-			else if (m_currPerson.FullName != string.Empty)
+			else if (_currPerson.FullName != string.Empty)
 			{
-				var person = m_currProj.GetPerson(name);
-				if (person != null && person != m_currPerson)
+				var person = _currProj.GetPerson(name);
+				if (person != null && person != _currPerson)
 				{
 					msg = LocalizationManager.LocalizeString("PeopleVw.DuplicateNameMsg",
 						"The name {0} already exists.",
@@ -187,14 +187,14 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void lpPeople_SelectedItemChanged(object sender, object newItem)
 		{
-			if (m_currPerson == newItem)
+			if (_currPerson == newItem)
 				return;
 
-			if (m_currPerson != null)
-				SavePersonFromView(m_currPerson);
+			if (_currPerson != null)
+				SavePersonFromView(_currPerson);
 
-			m_currPerson = newItem as Person;
-			LoadViewFromPerson(m_currPerson);
+			_currPerson = newItem as Person;
+			LoadViewFromPerson(_currPerson);
 		}
 
 		#region Event handler for adding and deleting a person
@@ -205,22 +205,22 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private object lpPeople_NewButtonClicked(object sender)
 		{
-			if (m_currPerson != null)
-				SavePersonFromView(m_currPerson);
+			if (_currPerson != null)
+				SavePersonFromView(_currPerson);
 
 			if (tabPeople.SelectedTab != tpgAbout)
 				tabPeople.SelectedTab = tpgAbout;
 
-			m_currPerson = Person.CreateFromName(m_currProj, string.Empty);
-			m_currProj.AddPerson(m_currPerson);
+			_currPerson = Person.CreateFromName(_currProj, string.Empty);
+			_currProj.AddPerson(_currPerson);
 			ClearView();
 			lblNoPeopleMsg.Visible = false;
-			lpPeople.AddItem(m_currPerson, true, false);
+			lpPeople.AddItem(_currPerson, true, false);
 
 			UpdateDisplay();
 
-			m_fullName.SelectAll();
-			m_fullName.Focus();
+			_fullName.SelectAll();
+			_fullName.Focus();
 
 			return null;
 		}
@@ -228,9 +228,9 @@ namespace SIL.Sponge
 
 		private void UpdateDisplay()
 		{
-			tblAbout.Enabled = pnlPermissions.Enabled = (m_currPerson != null);
-			m_picture.Enabled = m_currPerson != null && m_currPerson.CanChoosePicture;
-			lpPeople.UpdateItem(m_currPerson, m_fullName.Text.Trim());
+			tblAbout.Enabled = pnlPermissions.Enabled = (_currPerson != null);
+			_picture.Enabled = _currPerson != null && _currPerson.CanChoosePicture;
+			lpPeople.UpdateItem(_currPerson, _fullName.Text.Trim());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -242,15 +242,15 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			if (keyData == Keys.Escape && m_currPerson != null && m_currPerson.FullName == string.Empty)
+			if (keyData == Keys.Escape && _currPerson != null && _currPerson.FullName == string.Empty)
 			{
-				m_currProj.People.Remove(m_currPerson);
-				m_currPerson = null;
+				_currProj.People.Remove(_currPerson);
+				_currPerson = null;
 				lpPeople.DeleteCurrentItem();
-				lpPeople.UpdateItem(m_currPerson, null);
+				lpPeople.UpdateItem(_currPerson, null);
 				CheckIfNoMorePeople();
-				m_fullName.SelectAll();
-				m_fullName.Focus();
+				_fullName.SelectAll();
+				_fullName.Focus();
 				return true;
 			}
 
@@ -306,9 +306,9 @@ namespace SIL.Sponge
 			if (itemsToDelete != null)
 			{
 				foreach (var obj in itemsToDelete)
-					m_currProj.DeletePerson(obj.ToString());
+					_currProj.DeletePerson(obj.ToString());
 
-				m_currPerson = null;
+				_currPerson = null;
 			}
 
 			CheckIfNoMorePeople();
@@ -322,10 +322,10 @@ namespace SIL.Sponge
 		#region Event handlers for picture box
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Handles the MouseClick event of the m_photo control.
+		/// Handles the MouseClick event of the _photo control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_picture_MouseClick(object sender, MouseEventArgs e)
+		private void _picture_MouseClick(object sender, MouseEventArgs e)
 		{
 			using (var dlg = new OpenFileDialog())
 			{
@@ -342,8 +342,8 @@ namespace SIL.Sponge
 
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
-					string picFile = m_currPerson.CopyPictureFile(dlg.FileName);
-					m_picture.Load(picFile);
+					string picFile = _currPerson.CopyPictureFile(dlg.FileName);
+					_picture.Load(picFile);
 				}
 			}
 		}
@@ -355,7 +355,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void HandleMouseEnterLeaveOnPicture(object sender, EventArgs e)
 		{
-			m_picture.Invalidate();
+			_picture.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -364,12 +364,12 @@ namespace SIL.Sponge
 		/// indicate the user may click the photo to change it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_picture_Paint(object sender, PaintEventArgs e)
+		private void _picture_Paint(object sender, PaintEventArgs e)
 		{
-			if (m_picture.ClientRectangle.Contains(m_picture.PointToClient(MousePosition)))
+			if (_picture.ClientRectangle.Contains(_picture.PointToClient(MousePosition)))
 			{
 				e.Graphics.DrawImageUnscaledAndClipped(Resources.kimidChangePicture,
-					m_picture.ClientRectangle);
+					_picture.ClientRectangle);
 			}
 		}
 
@@ -394,27 +394,27 @@ namespace SIL.Sponge
 			else
 				nameChanged = RenameIfNecessary(person);
 
-			person.ChangeName(m_fullName.Text.Trim());
-			person.PrimaryLanguage = m_language0.Text.Trim();
-			person.LearnedLanguageIn = m_learnedIn.Text.Trim();
-			person.OtherLangauge0 = m_language1.Text.Trim();
-			person.OtherLangauge1 = m_language2.Text.Trim();
-			person.OtherLangauge2 = m_language3.Text.Trim();
-			person.OtherLangauge3 = m_language4.Text.Trim();
-			person.Education = m_education.Text.Trim();
-			person.PrimaryOccupation = m_primaryOccupation.Text.Trim();
-			person.ContactInfo = m_contact.Text.Trim();
-			person.Notes = m_notes.Text.Trim();
-			person.Gender = (Gender)Enum.Parse(typeof(Gender), m_gender.SelectedItem as string);
+			person.ChangeName(_fullName.Text.Trim());
+			person.PrimaryLanguage = _language0.Text.Trim();
+			person.LearnedLanguageIn = _learnedIn.Text.Trim();
+			person.OtherLangauge0 = _language1.Text.Trim();
+			person.OtherLangauge1 = _language2.Text.Trim();
+			person.OtherLangauge2 = _language3.Text.Trim();
+			person.OtherLangauge3 = _language4.Text.Trim();
+			person.Education = _education.Text.Trim();
+			person.PrimaryOccupation = _primaryOccupation.Text.Trim();
+			person.ContactInfo = _contact.Text.Trim();
+			person.Notes = _notes.Text.Trim();
+			person.Gender = (Gender)Enum.Parse(typeof(Gender), _gender.SelectedItem as string);
 
-			var kvp = m_langFathers.FirstOrDefault(x => x.Value.Selected);
+			var kvp = _langFathers.FirstOrDefault(x => x.Value.Selected);
 			person.FathersLanguage = (kvp.Key == null ? null : kvp.Key.Text.Trim());
 
-			kvp = m_langMothers.FirstOrDefault(x => x.Value.Selected);
+			kvp = _langMothers.FirstOrDefault(x => x.Value.Selected);
 			person.MothersLanguage = (kvp.Key == null ? null : kvp.Key.Text.Trim());
 
 			int year;
-			if (int.TryParse(m_birthYear.Text, out year))
+			if (int.TryParse(_birthYear.Text, out year))
 				person.BirthYear = year;
 
 			if (person.CanSave)
@@ -432,11 +432,11 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private bool RenameIfNecessary(Person person)
 		{
-			if (m_fullName.Text.Trim() == string.Empty)
-				m_fullName.Text = m_currProj.GetUniquePersonName();
+			if (_fullName.Text.Trim() == string.Empty)
+				_fullName.Text = _currProj.GetUniquePersonName();
 
 			var prevName = person.FullName ?? string.Empty;
-			var newName = m_fullName.Text.Trim();
+			var newName = _fullName.Text.Trim();
 			bool nameChanged = (prevName != newName);
 
 			if (nameChanged && prevName != string.Empty)
@@ -468,46 +468,46 @@ namespace SIL.Sponge
 				return;
 			}
 
-			m_fullName.TextChanged -= m_fullName_TextChanged;
-			m_fullName.Text = person.FullName;
-			m_fullName.TextChanged += m_fullName_TextChanged;
+			_fullName.TextChanged -= _fullName_TextChanged;
+			_fullName.Text = person.FullName;
+			_fullName.TextChanged += _fullName_TextChanged;
 
-			m_language0.Text = person.PrimaryLanguage;
-			m_language1.Text = person.OtherLangauge0;
-			m_language2.Text = person.OtherLangauge1;
-			m_language3.Text = person.OtherLangauge2;
-			m_language4.Text = person.OtherLangauge3;
-			m_learnedIn.Text = person.LearnedLanguageIn;
-			m_education.Text = person.Education;
-			m_primaryOccupation.Text = person.PrimaryOccupation;
-			m_contact.Text = person.ContactInfo;
-			m_notes.Text = person.Notes;
-			m_gender.SelectedItem = person.Gender.ToString();
-			m_birthYear.Text = (person.BirthYear > 0 ?
+			_language0.Text = person.PrimaryLanguage;
+			_language1.Text = person.OtherLangauge0;
+			_language2.Text = person.OtherLangauge1;
+			_language3.Text = person.OtherLangauge2;
+			_language4.Text = person.OtherLangauge3;
+			_learnedIn.Text = person.LearnedLanguageIn;
+			_education.Text = person.Education;
+			_primaryOccupation.Text = person.PrimaryOccupation;
+			_contact.Text = person.ContactInfo;
+			_notes.Text = person.Notes;
+			_gender.SelectedItem = person.Gender.ToString();
+			_birthYear.Text = (person.BirthYear > 0 ?
 				person.BirthYear.ToString() : string.Empty);
 
-			var pair = m_langFathers.FirstOrDefault(x => x.Key.Text == person.FathersLanguage);
+			var pair = _langFathers.FirstOrDefault(x => x.Key.Text == person.FathersLanguage);
 			if (pair.Value != null)
 				pair.Value.Selected = true;
 			else
-				m_languageFather0.Selected = true;
+				_languageFather0.Selected = true;
 
-			pair = m_langMothers.FirstOrDefault(x => x.Key.Text == person.MothersLanguage);
+			pair = _langMothers.FirstOrDefault(x => x.Key.Text == person.MothersLanguage);
 			if (pair.Value != null)
 				pair.Value.Selected = true;
 			else
-				m_languageMother0.Selected = true;
+				_languageMother0.Selected = true;
 
 			try
 			{
 				// Do this instead of using the Load method because Load keeps a lock on the file.
 				FileStream fs = new FileStream(person.PictureFile, FileMode.Open, FileAccess.Read);
-				m_picture.Image = System.Drawing.Image.FromStream(fs);
+				_picture.Image = System.Drawing.Image.FromStream(fs);
 				fs.Close();
 			}
 			catch
 			{
-				m_picture.Image = Resources.kimidNoPhoto;
+				_picture.Image = Resources.kimidNoPhoto;
 			}
 
 			UpdateDisplay();
@@ -544,25 +544,25 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void ClearView()
 		{
-			m_fullName.TextChanged -= m_fullName_TextChanged;
-			m_fullName.Text = string.Empty;
-			m_fullName.TextChanged += m_fullName_TextChanged;
+			_fullName.TextChanged -= _fullName_TextChanged;
+			_fullName.Text = string.Empty;
+			_fullName.TextChanged += _fullName_TextChanged;
 
-			m_language0.Text = string.Empty;
-			m_language1.Text = string.Empty;
-			m_language2.Text = string.Empty;
-			m_language3.Text = string.Empty;
-			m_language4.Text = string.Empty;
-			m_learnedIn.Text = string.Empty;
-			m_education.Text = string.Empty;
-			m_primaryOccupation.Text = string.Empty;
-			m_contact.Text = string.Empty;
-			m_notes.Text = string.Empty;
-			m_gender.SelectedItem = Gender.Male.ToString();
-			m_birthYear.Text = string.Empty;
-			m_languageFather0.Selected = true;
-			m_languageMother0.Selected = true;
-			m_picture.Image = Resources.kimidNoPhoto;
+			_language0.Text = string.Empty;
+			_language1.Text = string.Empty;
+			_language2.Text = string.Empty;
+			_language3.Text = string.Empty;
+			_language4.Text = string.Empty;
+			_learnedIn.Text = string.Empty;
+			_education.Text = string.Empty;
+			_primaryOccupation.Text = string.Empty;
+			_contact.Text = string.Empty;
+			_notes.Text = string.Empty;
+			_gender.SelectedItem = Gender.Male.ToString();
+			_birthYear.Text = string.Empty;
+			_languageFather0.Selected = true;
+			_languageMother0.Selected = true;
+			_picture.Image = Resources.kimidNoPhoto;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -600,7 +600,7 @@ namespace SIL.Sponge
 			//    return;
 			//}
 
-			foreach (var pb in m_langFathers.Values)
+			foreach (var pb in _langFathers.Values)
 			{
 				if (pb != sender)
 				{
@@ -626,7 +626,7 @@ namespace SIL.Sponge
 			//    return;
 			//}
 
-			foreach (var pb in m_langMothers.Values)
+			foreach (var pb in _langMothers.Values)
 			{
 				if (pb != sender)
 				{
@@ -648,7 +648,7 @@ namespace SIL.Sponge
 		private void HandleLanguageNameEnter(object sender, EventArgs e)
 		{
 			var langNames = new AutoCompleteStringCollection();
-			langNames.AddRange(m_currProj.LanguageNames.ToArray());
+			langNames.AddRange(_currProj.LanguageNames.ToArray());
 			((TextBox)sender).AutoCompleteCustomSource = langNames;
 		}
 
@@ -660,7 +660,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void HandleLanguageNameLeave(object sender, EventArgs e)
 		{
-			m_currProj.AddLanguageNames(((TextBox)sender).Text.Trim());
+			_currProj.AddLanguageNames(((TextBox)sender).Text.Trim());
 		}
 
 		#endregion
@@ -671,10 +671,10 @@ namespace SIL.Sponge
 		/// Updates the name in the peoples list as the user types in the name text box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_fullName_TextChanged(object sender, EventArgs e)
+		private void _fullName_TextChanged(object sender, EventArgs e)
 		{
-//			if (m_fullName.Visible && m_fullName.Focused)
-//				lpPeople.UpdateItem(m_currPerson, m_fullName.Text.Trim());
+//			if (_fullName.Visible && _fullName.Focused)
+//				lpPeople.UpdateItem(_currPerson, _fullName.Text.Trim());
 //
 //            //review: the following (jh fix for SP-41) violates the pattern actually in use here (sorry)
 //            // But the the current code combines view and logic.  If
@@ -683,7 +683,7 @@ namespace SIL.Sponge
 //            // to receive a photot yet (we aren't, if we don't name and thus don't have a folder).
 //            // Sorry, I didn't meant to mess with the pattern... will write an email.
 //
-//		    m_currPerson.FullName = m_fullName.Text.Trim();
+//		    _currPerson.FullName = _fullName.Text.Trim();
 //            UpdateDisplay();
 		}
 
@@ -696,7 +696,7 @@ namespace SIL.Sponge
 		{
 			try
 			{
-				m_currPerson.ChangeName(m_fullName.Text.Trim());
+				_currPerson.ChangeName(_fullName.Text.Trim());
 			}
 			catch(Exception error)
 			{
@@ -716,7 +716,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void btnDeletePermissionFile_Click(object sender, EventArgs e)
 		{
-			if (m_currPerson == null || m_currPerson.FullName == null ||
+			if (_currPerson == null || _currPerson.FullName == null ||
 				lstPermissionFiles.SelectedItem == null)
 			{
 				return;
@@ -746,13 +746,13 @@ namespace SIL.Sponge
 			var newFile = (i < 0 ? null : lstPermissionFiles.Items[i].ToString());
 
 			var pf = lstPermissionFiles.SelectedItem as PermissionsFile;
-			m_currPerson.DeletePermissionsFile(pf.FullPath);
-			LoadPermissionsTabFromPerson(m_currPerson, newFile);
+			_currPerson.DeletePermissionsFile(pf.FullPath);
+			LoadPermissionsTabFromPerson(_currPerson, newFile);
 
 			// If there are no more permission files, this will force the warning
 			// icon to be displayed next to the person's name.
 			if (lstPermissionFiles.Items.Count == 0)
-				lpPeople.UpdateItem(m_currPerson, null);
+				lpPeople.UpdateItem(_currPerson, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -762,7 +762,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void btnAddPermissionFile_Click(object sender, EventArgs e)
 		{
-			if (m_currPerson == null || m_currPerson.FullName == null)
+			if (_currPerson == null || _currPerson.FullName == null)
 				return;
 
 			using (var dlg = new OpenFileDialog())
@@ -779,13 +779,13 @@ namespace SIL.Sponge
 				if (dlg.ShowDialog(this) != DialogResult.OK)
 					return;
 
-				m_currPerson.AddPermissionFile(dlg.FileName);
-				LoadPermissionsTabFromPerson(m_currPerson, Path.GetFileName(dlg.FileName));
+				_currPerson.AddPermissionFile(dlg.FileName);
+				LoadPermissionsTabFromPerson(_currPerson, Path.GetFileName(dlg.FileName));
 
 				// If we've just added the first permissions file, then force the warning
 				// icon to be displayed next to the person's name.
 				if (lstPermissionFiles.Items.Count == 1)
-					lpPeople.UpdateItem(m_currPerson, null);
+					lpPeople.UpdateItem(_currPerson, null);
 			}
 		}
 
@@ -815,8 +815,8 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void tabPeople_Selected(object sender, TabControlEventArgs e)
 		{
-			if (m_currPerson != null)
-				SavePersonFromView(m_currPerson);
+			if (_currPerson != null)
+				SavePersonFromView(_currPerson);
 
 			if (e.TabPage == tpgInformedConsent && lstPermissionFiles.SelectedItem == null)
 				ShowPermissionFile(0);

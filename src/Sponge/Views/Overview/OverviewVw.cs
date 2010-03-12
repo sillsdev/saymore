@@ -1,15 +1,14 @@
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Sponge.Model;
-using SIL.Sponge.Views;
 using SIL.Sponge.Views.Overview.Statistics;
 using SilUtils;
 
-namespace SIL.Sponge
+namespace SIL.Sponge.Views
 {
 	public partial class OverviewVw : UserControl
 	{
-		private readonly ViewButtonManager m_viewBtnManger;
+		private readonly ViewButtonManager _viewBtnManger;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -32,10 +31,10 @@ namespace SIL.Sponge
 			var statisticsView = new StatisticsView(new StatisticsViewModel(project));
 			this.Controls.Add(statisticsView);
 
-			m_viewBtnManger = new ViewButtonManager(tsOverview,
+			_viewBtnManger = new ViewButtonManager(tsOverview,
 				new Control[] { statisticsView, gridGenre, pnlContributor, gridTasks });
 
-			m_viewBtnManger.SetView(tsbStatistics);
+			_viewBtnManger.SetView(tsbStatistics);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -48,7 +47,7 @@ namespace SIL.Sponge
 			if (disposing && (components != null))
 			{
 				components.Dispose();
-				m_viewBtnManger.Dispose();
+				_viewBtnManger.Dispose();
 			}
 
 			base.Dispose(disposing);

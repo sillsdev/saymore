@@ -30,7 +30,7 @@ namespace SIL.Sponge.Model
 	[XmlType("fileTags")]
 	public class TagList : List<Tag>
 	{
-		//private readonly Dictionary<string, Tag> m_tagsByExtension = new Dictionary<string, Tag>();
+		//private readonly Dictionary<string, Tag> _tagsByExtension = new Dictionary<string, Tag>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -63,7 +63,7 @@ namespace SIL.Sponge.Model
 		//    tag.Extensions = tag.Extensions.Replace(" ", string.Empty);
 		//    string[] extensions = tag.Extensions.Split(',');
 		//    foreach (string ext in extensions)
-		//        m_tagsByExtension[ext.Replace(".", string.Empty)] = tag;
+		//        _tagsByExtension[ext.Replace(".", string.Empty)] = tag;
 		//}
 
 		///// ------------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ namespace SIL.Sponge.Model
 		//public Tag GetTagForExtension(string ext)
 		//{
 		//    Tag tag;
-		//    return (m_tagsByExtension.TryGetValue(ext, out tag) ? tag : null);
+		//    return (_tagsByExtension.TryGetValue(ext, out tag) ? tag : null);
 		//}
 
 		///// ------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ namespace SIL.Sponge.Model
 		///// ------------------------------------------------------------------------------------
 		//public List<string> GetExtensionsForTag(Tag tag)
 		//{
-		//    return (from kvp in m_tagsByExtension
+		//    return (from kvp in _tagsByExtension
 		//            where kvp.Value == tag
 		//            select kvp.Key).ToList();
 		//}

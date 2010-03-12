@@ -13,7 +13,7 @@ using SIL.Sponge.Properties;
 using SIL.Sponge.Utilities;
 using SilUtils;
 
-namespace SIL.Sponge
+namespace SIL.Sponge.Views
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -23,12 +23,12 @@ namespace SIL.Sponge
 	public partial class SessionsVw : BaseSplitVw
 	{
 		private readonly Func<IEnumerable<string>> _peopleNameProvider;
-		private SpongeProject m_currProj;
-		private Session m_currSession;
-		private SessionFile m_currSessionFile;
-		private SessionFile[] m_currSessionFiles;
-		private bool m_refreshNeeded;
-		private readonly string m_unknownEventType;
+		private SpongeProject _currProj;
+		private Session _currSession;
+		private SessionFile _currSessionFile;
+		private SessionFile[] _currSessionFiles;
+		private bool _refreshNeeded;
+		private readonly string _unknownEventType;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -47,23 +47,23 @@ namespace SIL.Sponge
 
 			lblNoSessionsMsg.BackColor = lpSessions.ListView.BackColor;
 
-			m_fileInfoNotes.Width = pnlFileInfoNotes.ClientSize.Width - m_fileInfoNotes.Left - 1;
-			m_fileInfoNotes.Height = pnlFileInfoNotes.ClientSize.Height - m_fileInfoNotes.Top - 1;
+			_fileInfoNotes.Width = pnlFileInfoNotes.ClientSize.Width - _fileInfoNotes.Left - 1;
+			_fileInfoNotes.Height = pnlFileInfoNotes.ClientSize.Height - _fileInfoNotes.Top - 1;
 
 			tblDescription.Paint += SpongeColors.PaintDataEntryBackground;
 			splitFileTab.Panel2.Paint += SpongeColors.PaintDataEntryBorder;
 			splitFileTab.Panel2.BackColor = SpongeColors.DataEntryPanelBegin;
-			m_infoPanel.LabeledTextBoxBackgroundColor = SpongeColors.DataEntryPanelBegin;
-			m_fileInfoNotes.BackColor = SpongeColors.DataEntryPanelBegin;
+			_infoPanel.LabeledTextBoxBackgroundColor = SpongeColors.DataEntryPanelBegin;
+			_fileInfoNotes.BackColor = SpongeColors.DataEntryPanelBegin;
 
 			if (Sponge.DiscourseTypes != null)
 			{
-				m_unknownEventType = LocalizationManager.LocalizeString("SessionsVw.UnknownEventType",
+				_unknownEventType = LocalizationManager.LocalizeString("SessionsVw.UnknownEventType",
 					"<Unknown>", "Unknown event type displayed in the event type drop-down list.",
 					"Views", LocalizationCategory.Other, LocalizationPriority.High);
 
-				m_eventType.Items.AddRange(Sponge.DiscourseTypes.ToArray());
-				m_eventType.Items.Add(m_unknownEventType);
+				_eventType.Items.AddRange(Sponge.DiscourseTypes.ToArray());
+				_eventType.Items.Add(_unknownEventType);
 			}
 
 			btnNewFromFiles.Parent.Controls.Remove(btnNewFromFiles);
@@ -75,11 +75,11 @@ namespace SIL.Sponge
 		/// Initializes a new instance of the <see cref="SessionsVw"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SessionsVw(SpongeProject m_prj, Func<IEnumerable<string>> peopleNameProvider) : this()
+		public SessionsVw(SpongeProject _prj, Func<IEnumerable<string>> peopleNameProvider) : this()
 		{
 			_peopleNameProvider = peopleNameProvider;
-			m_currProj = (m_prj ?? MainWnd.CurrentProject);
-			m_currProj.ProjectChanged += HandleProjectFoldersChanged;
+			_currProj = (_prj ?? MainWnd.CurrentProject);
+			_currProj.ProjectChanged += HandleProjectFoldersChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,8 +100,8 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public SessionFile GetSessionFile(int i)
 		{
-			return (m_currSessionFiles == null || i < 0 ||
-				i >= m_currSessionFiles.Count() ? null : m_currSessionFiles[i]);
+			return (_currSessionFiles == null || i < 0 ||
+				i >= _currSessionFiles.Count() ? null : _currSessionFiles[i]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			m_currProj.ProjectChanged -= HandleProjectFoldersChanged;
+			_currProj.ProjectChanged -= HandleProjectFoldersChanged;
 
 			Settings.Default.SessionFileCols =
 				Sponge.StoreGridColumnWidthsInString(gridFiles);
@@ -119,8 +119,7 @@ namespace SIL.Sponge
 			Settings.Default.SessionVwSplitterPos = splitOuter.SplitterDistance;
 			Settings.Default.Save();
 
-			if (m_currSession != null)
-				SaveChangesToSession(m_currSession);
+			SaveChangesToSession(_currSession);
 
 			base.OnHandleDestroyed(e);
 		}
@@ -144,7 +143,7 @@ namespace SIL.Sponge
 		private void tabSessions_Selected(object sender, TabControlEventArgs e)
 		{
 			if (e.TabPage == tpgDescription && e.Action == TabControlAction.Deselecting &&
-				m_currSession != null && !SaveChangesToSession(m_currSession))
+				!SaveChangesToSession(_currSession))
 			{
 				tabSessions.Selected -= tabSessions_Selected;
 				tabSessions.SelectedTab = tpgDescription;
@@ -163,15 +162,15 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void lpSessions_SelectedItemChanged(object sender, object newItem)
 		{
-			if (newItem != m_currSession)
+			if (newItem != _currSession)
 			{
-				if (m_currSession != null && !SaveChangesToSession(m_currSession))
+				if (_currSession != null && !SaveChangesToSession(_currSession))
 				{
-					lpSessions.SelectItem(m_currSession, false);
+					lpSessions.SelectItem(_currSession, false);
 					return;
 				}
 
-				m_currSession = newItem as Session;
+				_currSession = newItem as Session;
 				LoadTabPage(tabSessions.SelectedTab);
 			}
 		}
@@ -184,11 +183,10 @@ namespace SIL.Sponge
 		private void LoadTabPage(TabPage tpg)
 		{
 			if (tpg == tpgDescription)
-				LoadDescriptionTabFromSession(m_currSession);
+				LoadDescriptionTabFromSession(_currSession);
 			else
 			{
-				if (m_currSession != null)
-					SaveChangesToSession(m_currSession);
+				SaveChangesToSession(_currSession);
 
 				if (tpg == tpgFiles)
 				{
@@ -206,11 +204,11 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private object lpSessions_NewButtonClicked(object sender)
 		{
-			using (var dlg = new NewSessionDlg(m_currProj.Folder))
+			using (var dlg = new NewSessionDlg(_currProj.Folder))
 			{
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 				{
-					var newSession = m_currProj.AddSession(dlg.NewSessionName);
+					var newSession = _currProj.AddSession(dlg.NewSessionName);
 					newSession.AddFiles(dlg.SessionFiles);
 					lblNoSessionsMsg.Visible = false;
 					lpSessions.ListView.Focus();
@@ -246,13 +244,13 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void AfterSessionsDeleted(object sender, List<object> itemsToDelete)
 		{
-			bool enableFileWatchingState = m_currProj.EnableFileWatching;
-			m_currProj.EnableFileWatching = false;
+			bool enableFileWatchingState = _currProj.EnableFileWatching;
+			_currProj.EnableFileWatching = false;
 
 			foreach (Session session in itemsToDelete)
 				Directory.Delete(session.Folder, true);
 
-			m_currProj.EnableFileWatching = enableFileWatchingState;
+			_currProj.EnableFileWatching = enableFileWatchingState;
 		}
 
 		#endregion
@@ -278,19 +276,19 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Handles the MoreActionButtonClicked event of the m_infoPanel control.
+		/// Handles the MoreActionButtonClicked event of the _infoPanel control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_infoPanel_MoreActionButtonClicked(object sender, EventArgs e)
+		private void _infoPanel_MoreActionButtonClicked(object sender, EventArgs e)
 		{
 			var btn = sender as Control;
 			if (btn == null)
 				return;
 
 			var pt = btn.PointToScreen(new Point(0, btn.Height));
-			m_fileContextMenu.Items.Clear();
-			m_fileContextMenu.Items.AddRange(CurrentSessionFile.GetContextMenuItems(m_id.Text).ToArray());
-			m_fileContextMenu.Show(pt);
+			_fileContextMenu.Items.Clear();
+			_fileContextMenu.Items.AddRange(CurrentSessionFile.GetContextMenuItems(_id.Text).ToArray());
+			_fileContextMenu.Show(pt);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -359,15 +357,15 @@ namespace SIL.Sponge
 
 			if (sessionFile == null || tabSessions.SelectedTab != tpgFiles)
 			{
-				m_infoPanel.Visible = false;
+				_infoPanel.Visible = false;
 				return;
 			}
 
-			m_infoPanel.Icon = sessionFile.LargeIcon;
-			m_infoPanel.FileName = sessionFile.FileName;
-			m_fileInfoNotes.Text = sessionFile.Notes;
-			m_infoPanel.Initialize(sessionFile.Data);
-			m_infoPanel.Visible = true;
+			_infoPanel.Icon = sessionFile.LargeIcon;
+			_infoPanel.FileName = sessionFile.FileName;
+			_fileInfoNotes.Text = sessionFile.Notes;
+			_infoPanel.Initialize(sessionFile.Data);
+			_infoPanel.Visible = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -377,16 +375,14 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void SaveCurrentSessionFileInfo()
 		{
-			if (m_currSessionFile != null)
+			if (_currSessionFile != null)
 			{
-				m_infoPanel.Save(m_currSessionFile.Data);
-				m_currSessionFile.Notes = m_fileInfoNotes.Text.Trim();
-				m_currSessionFile.Save();
-				m_currSessionFile = null;
+				_infoPanel.Save(_currSessionFile.Data);
+				_currSessionFile.Notes = _fileInfoNotes.Text.Trim();
+				_currSessionFile.Save();
+				_currSessionFile = null;
 			}
 		}
-
-
 
 		#region Methods for dragging and dropping files on files tab
 		/// ------------------------------------------------------------------------------------
@@ -405,7 +401,7 @@ namespace SIL.Sponge
 
 			switch (e.Effect)
 			{
-				case DragDropEffects.Copy: m_currSession.AddFiles(droppedFiles); break;
+				case DragDropEffects.Copy: _currSession.AddFiles(droppedFiles); break;
 				//case DragDropEffects.Move: TODO: Handle move when dropping folders.
 				default: return;
 			}
@@ -446,12 +442,12 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void HandleProjectFoldersChanged(object sender, EventArgs e)
 		{
-			if (!m_isViewActive)
+			if (!_isViewActive)
 			{
 				// The view is not active so don't update it yet. Set a flag so that when
 				// the view does become active again, it will be Wait until the view
 				// becomes active again.
-				m_refreshNeeded = true;
+				_refreshNeeded = true;
 				return;
 			}
 
@@ -467,7 +463,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void RefreshSessionList()
 		{
-			lpSessions.Items = m_currProj.Sessions.ToArray();
+			lpSessions.Items = _currProj.Sessions.ToArray();
 			lblNoSessionsMsg.Visible = (lpSessions.Items.Length == 0);
 
 			// RefreshFileList will be called automatically when there are some sessions
@@ -489,19 +485,19 @@ namespace SIL.Sponge
 
 			// TODO: keep track of currently selected file and try to restore
 			// that after rebuilding the list.
-			m_currSessionFiles = (m_currSession == null ? null :
-				(from x in m_currSession.Files
+			_currSessionFiles = (_currSession == null ? null :
+				(from x in _currSession.Files
 				 select SessionFile.Create(x)).ToArray());
 
-			lblEmptySessionMsg.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
+			lblEmptySessionMsg.Visible = (_currSessionFiles != null && _currSessionFiles.Length == 0);
 			splitFileTab.Panel2Collapsed = lblEmptySessionMsg.Visible;
-			gridFiles.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length > 0);
-			lnkSessionPath.Visible = (m_currSessionFiles != null && m_currSessionFiles.Length == 0);
-			lnkSessionPath.Text = (m_currSession != null && m_currSession.Folder != null ?
-				m_currSession.Folder : string.Empty);
+			gridFiles.Visible = (_currSessionFiles != null && _currSessionFiles.Length > 0);
+			lnkSessionPath.Visible = (_currSessionFiles != null && _currSessionFiles.Length == 0);
+			lnkSessionPath.Text = (_currSession != null && _currSession.Folder != null ?
+				_currSession.Folder : string.Empty);
 
-			if (m_currSessionFiles != null)
-				gridFiles.RowCount = m_currSessionFiles.Length;
+			if (_currSessionFiles != null)
+				gridFiles.RowCount = _currSessionFiles.Length;
 
 			Utils.SetWindowRedraw(tabSessions, true);
 		}
@@ -518,10 +514,10 @@ namespace SIL.Sponge
 		{
 			base.ViewActivated(firstTime);
 
-			if (m_refreshNeeded || firstTime)
+			if (_refreshNeeded || firstTime)
 			{
 				RefreshSessionList();
-				m_refreshNeeded = false;
+				_refreshNeeded = false;
 			}
 
 			if (firstTime)
@@ -549,58 +545,13 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public override bool IsOKToLeaveView(bool showMsgWhenNotOK)
 		{
-			if (!IsDateOK(showMsgWhenNotOK))
+			if (_currSession != null && !SaveChangesToSession(_currSession))
 				return false;
-
-			if (m_currSession != null)
-			{
-				if(!SaveChangesToSession(m_currSession))
-					return false;
-			}
 
 			return base.IsOKToLeaveView(showMsgWhenNotOK);
 		}
 
 		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Validate the date field.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsDateOK(bool showMsgWhenNotOK)
-		{
-			return true;
-			//if (!tblDescription.Enabled)
-			//    return true;
-
-			//string msg = null;
-			//var date = m_date.Text.Trim();
-			//DateTime dt;
-
-			//if (date == string.Empty)
-			//{
-			//    msg = LocalizationManager.LocalizeString("SessionVw.MissingDateMsg",
-			//        "You must enter a date.",
-			//        "Message displayed when the date is missing in the sessions view.",
-			//        "Views", LocalizationCategory.GeneralMessage, LocalizationPriority.High);
-			//}
-			//else if (!DateTime.TryParse(date, out dt))
-			//{
-			//    msg = LocalizationManager.LocalizeString("SessionVw.InvalidDateMsg",
-			//        "The date is invalid.",
-			//        "Message displayed when an invalid date was entered.",
-			//        "Views", LocalizationCategory.GeneralMessage, LocalizationPriority.High);
-
-			//}
-			//if (msg == null)
-			//    return true;
-
-			//if (showMsgWhenNotOK)
-			//    Utils.MsgBox(msg);
-
-			//return false;
-		}
 
 		#region Methods for moving data back and forth between session object and form fields
 		/// ------------------------------------------------------------------------------------
@@ -619,22 +570,22 @@ namespace SIL.Sponge
 				return;
 			}
 
-			m_id.Text = session.Id;
-			m_date.Value = session.Date;
-			m_title.Text = session.Title;
-			m_participants.Text = session.Participants;
-			m_access.Text = session.Access;
-			m_setting.Text = session.Setting;
-			m_location.Text = session.Location;
-			m_situation.Text = session.Situation;
-			m_synopsis.Text = session.Synopsis;
+			_id.Text = session.Id;
+			_date.Value = session.Date;
+			_title.Text = session.Title;
+			_participants.Text = session.Participants;
+			_access.Text = session.Access;
+			_setting.Text = session.Setting;
+			_location.Text = session.Location;
+			_situation.Text = session.Situation;
+			_synopsis.Text = session.Synopsis;
 
 			if (session.EventType == null)
-				m_eventType.SelectedItem = m_unknownEventType;
+				_eventType.SelectedItem = _unknownEventType;
 			else
-				m_eventType.SelectedItem = session.EventType;
+				_eventType.SelectedItem = session.EventType;
 
-			mmScroll.AddFiles(m_currSession.Files);
+			mmScroll.AddFiles(_currSession.Files);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -644,19 +595,21 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private bool SaveChangesToSession(Session session)
 		{
-			session.Date = m_date.Value;
-			session.Title = m_title.Text.Trim();
-			session.Participants = m_participants.Text.Trim();
-			session.Access = m_access.Text.Trim();
-			session.Setting = m_setting.Text.Trim();
-			session.Location = m_location.Text.Trim();
-			session.Situation = m_situation.Text.Trim();
-			session.Synopsis = m_synopsis.Text;
-			session.EventTypeId = ((m_eventType.SelectedItem as string) == m_unknownEventType ?
-				null : ((DiscourseType)m_eventType.SelectedItem).Id);
+			if (session == null)
+				return false;
 
-//			session.Save();		// REVIEW: What if saving fails?
-			return session.ChangeIdAndSave(m_id.Text.Trim());
+			session.Date = _date.Value;
+			session.Title = _title.Text.Trim();
+			session.Participants = _participants.Text.Trim();
+			session.Access = _access.Text.Trim();
+			session.Setting = _setting.Text.Trim();
+			session.Location = _location.Text.Trim();
+			session.Situation = _situation.Text.Trim();
+			session.Synopsis = _synopsis.Text;
+			session.EventTypeId = ((_eventType.SelectedItem as string) == _unknownEventType ?
+				null : ((DiscourseType)_eventType.SelectedItem).Id);
+
+			return session.ChangeIdAndSave(_id.Text.Trim());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -666,16 +619,16 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void ClearDescriptionTab()
 		{
-			m_id.Text = string.Empty;
-			m_date.Text = string.Empty;
-			m_title.Text = string.Empty;
-			m_participants.Text = string.Empty;
-			m_eventType.SelectedItem = m_unknownEventType;
-			m_access.Text = string.Empty;
-			m_setting.Text = string.Empty;
-			m_location.Text = string.Empty;
-			m_situation.Text = string.Empty;
-			m_synopsis.Text = string.Empty;
+			_id.Text = string.Empty;
+			_date.Text = string.Empty;
+			_title.Text = string.Empty;
+			_participants.Text = string.Empty;
+			_eventType.SelectedItem = _unknownEventType;
+			_access.Text = string.Empty;
+			_setting.Text = string.Empty;
+			_location.Text = string.Empty;
+			_situation.Text = string.Empty;
+			_synopsis.Text = string.Empty;
 			mmScroll.Clear();
 		}
 
@@ -687,9 +640,9 @@ namespace SIL.Sponge
 		/// Load the auto complete list for the access field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_access_Enter(object sender, EventArgs e)
+		private void _access_Enter(object sender, EventArgs e)
 		{
-			var list = (from x in m_currProj.Sessions
+			var list = (from x in _currProj.Sessions
 						orderby x.Access
 						select x.Access).ToArray();
 
@@ -701,9 +654,9 @@ namespace SIL.Sponge
 		/// Load the auto complete list for the setting field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_setting_Enter(object sender, EventArgs e)
+		private void _setting_Enter(object sender, EventArgs e)
 		{
-			var list = (from x in m_currProj.Sessions
+			var list = (from x in _currProj.Sessions
 						orderby x.Setting
 						select x.Setting).ToArray();
 
@@ -715,9 +668,9 @@ namespace SIL.Sponge
 		/// Load the auto complete list for the location field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_location_Enter(object sender, EventArgs e)
+		private void _location_Enter(object sender, EventArgs e)
 		{
-			var list = (from x in m_currProj.Sessions
+			var list = (from x in _currProj.Sessions
 						orderby x.Location
 						select x.Location).ToArray();
 
@@ -747,37 +700,43 @@ namespace SIL.Sponge
 		{
 			using (var dlg = new NewSessionsFromFilesDlg())
 			{
-				dlg.ShowDialog();
+				_currProj.EnableFileWatching = false;
+				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
+				{
+					_currProj.RefreshSessionList();
+					RefreshSessionList();
+					lpSessions.CurrentItem = dlg.FirstNewSessionAdded;
+				}
+				_currProj.EnableFileWatching = true;
+				FindForm().Focus();
 			}
 		}
 
-		private void gridFiles_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		private void HandleFilesGridCellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
 			{
 				gridFiles.CurrentCell = gridFiles.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-				m_infoPanel_MoreActionButtonClicked(null, null);
-				Point pt = gridFiles.PointToClient(Control.MousePosition);
-				m_fileContextMenu.Items.Clear();
-				m_fileContextMenu.Items.AddRange(CurrentSessionFile.GetContextMenuItems(m_id.Text).ToArray());
-				m_fileContextMenu.Show(gridFiles,pt);
+				_infoPanel_MoreActionButtonClicked(null, null);
+				Point pt = gridFiles.PointToClient(MousePosition);
+				_fileContextMenu.Items.Clear();
+				_fileContextMenu.Items.AddRange(CurrentSessionFile.GetContextMenuItems(_id.Text).ToArray());
+				_fileContextMenu.Show(gridFiles, pt);
 			}
 		}
 
 		private void HandleParticipants_Enter(object sender, EventArgs e)
 		{
-			m_participants.AutoCompleteCustomSource = new AutoCompleteStringCollection();
-			m_participants.AutoCompleteCustomSource.AddRange(_peopleNameProvider().ToArray());
+			_participants.AutoCompleteCustomSource = new AutoCompleteStringCollection();
+			_participants.AutoCompleteCustomSource.AddRange(_peopleNameProvider().ToArray());
 		}
 
 		private void Handle_IdValidating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			e.Cancel = !m_currSession.ChangeIdAndSave(m_id.Text.Trim());
-			if(e.Cancel)
-			{
+			e.Cancel = !_currSession.ChangeIdAndSave(_id.Text.Trim());
+			if (e.Cancel)
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Please use a different id.");
-			}
 		}
 	}
 }

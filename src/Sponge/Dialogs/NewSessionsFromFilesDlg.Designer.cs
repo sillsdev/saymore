@@ -30,86 +30,88 @@ namespace SIL.Sponge.Dialogs
 		{
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			this.m_findFilesLink = new System.Windows.Forms.LinkLabel();
-			this.m_createSessionsButton = new System.Windows.Forms.Button();
-			this.m_cancelButton = new System.Windows.Forms.Button();
-			this.m_sourceFolderLabel = new System.Windows.Forms.Label();
-			this.m_filesGrid = new SilUtils.SilGrid();
-			this.m_selectedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.m_iconCol = new System.Windows.Forms.DataGridViewImageColumn();
-			this.m_fileNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.m_fileTypeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.m_dateModifiedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.m_sizeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.m_lengthCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.m_incomingFilesLabel = new System.Windows.Forms.Label();
-			this.m_instructionsLabel = new System.Windows.Forms.Label();
-			this.m_filesPanel = new System.Windows.Forms.Panel();
-			((System.ComponentModel.ISupportInitialize)(this.m_filesGrid)).BeginInit();
-			this.m_filesPanel.SuspendLayout();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			this._findFilesLink = new System.Windows.Forms.LinkLabel();
+			this._createSessionsButton = new System.Windows.Forms.Button();
+			this._cancelButton = new System.Windows.Forms.Button();
+			this._sourceFolderLabel = new System.Windows.Forms.Label();
+			this._filesGrid = new SilUtils.SilGrid();
+			this._selectedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this._iconCol = new System.Windows.Forms.DataGridViewImageColumn();
+			this._fileNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._fileTypeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._dateModifiedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._sizeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._lengthCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._incomingFilesLabel = new System.Windows.Forms.Label();
+			this._instructionsLabel = new System.Windows.Forms.Label();
+			this._filesPanel = new System.Windows.Forms.Panel();
+			((System.ComponentModel.ISupportInitialize)(this._filesGrid)).BeginInit();
+			this._filesPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// m_findFilesLink
+			// _findFilesLink
 			// 
-			this.m_findFilesLink.AutoSize = true;
-			this.m_findFilesLink.BackColor = System.Drawing.Color.Transparent;
-			this.m_findFilesLink.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.m_findFilesLink.Location = new System.Drawing.Point(18, 25);
-			this.m_findFilesLink.Name = "m_findFilesLink";
-			this.m_findFilesLink.Size = new System.Drawing.Size(162, 15);
-			this.m_findFilesLink.TabIndex = 0;
-			this.m_findFilesLink.TabStop = true;
-			this.m_findFilesLink.Text = "Find Files on Recorder/Card...";
-			this.m_findFilesLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleFindFilesLinkClicked);
+			this._findFilesLink.AutoSize = true;
+			this._findFilesLink.BackColor = System.Drawing.Color.Transparent;
+			this._findFilesLink.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._findFilesLink.Location = new System.Drawing.Point(18, 25);
+			this._findFilesLink.Name = "_findFilesLink";
+			this._findFilesLink.Size = new System.Drawing.Size(162, 15);
+			this._findFilesLink.TabIndex = 0;
+			this._findFilesLink.TabStop = true;
+			this._findFilesLink.Text = "Find Files on Recorder/Card...";
+			this._findFilesLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleFindFilesLinkClicked);
 			// 
-			// m_createSessionsButton
+			// _createSessionsButton
 			// 
-			this.m_createSessionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.m_createSessionsButton.Location = new System.Drawing.Point(323, 301);
-			this.m_createSessionsButton.Name = "m_createSessionsButton";
-			this.m_createSessionsButton.Size = new System.Drawing.Size(142, 26);
-			this.m_createSessionsButton.TabIndex = 1;
-			this.m_createSessionsButton.Text = "Create {0} Sessions";
-			this.m_createSessionsButton.UseVisualStyleBackColor = true;
-			this.m_createSessionsButton.Click += new System.EventHandler(this.HandleCreateSessionsButtonClick);
+			this._createSessionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._createSessionsButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this._createSessionsButton.Location = new System.Drawing.Point(323, 301);
+			this._createSessionsButton.Name = "_createSessionsButton";
+			this._createSessionsButton.Size = new System.Drawing.Size(142, 26);
+			this._createSessionsButton.TabIndex = 1;
+			this._createSessionsButton.Text = "Create {0} Sessions";
+			this._createSessionsButton.UseVisualStyleBackColor = true;
+			this._createSessionsButton.Click += new System.EventHandler(this.HandleCreateSessionsButtonClick);
 			// 
-			// m_cancelButton
+			// _cancelButton
 			// 
-			this.m_cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.m_cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.m_cancelButton.Location = new System.Drawing.Point(471, 301);
-			this.m_cancelButton.Name = "m_cancelButton";
-			this.m_cancelButton.Size = new System.Drawing.Size(80, 26);
-			this.m_cancelButton.TabIndex = 2;
-			this.m_cancelButton.Text = "Cancel";
-			this.m_cancelButton.UseVisualStyleBackColor = true;
+			this._cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this._cancelButton.Location = new System.Drawing.Point(471, 301);
+			this._cancelButton.Name = "_cancelButton";
+			this._cancelButton.Size = new System.Drawing.Size(80, 26);
+			this._cancelButton.TabIndex = 2;
+			this._cancelButton.Text = "Cancel";
+			this._cancelButton.UseVisualStyleBackColor = true;
 			// 
-			// m_sourceFolderLabel
+			// _sourceFolderLabel
 			// 
-			this.m_sourceFolderLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this._sourceFolderLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.m_sourceFolderLabel.AutoEllipsis = true;
-			this.m_sourceFolderLabel.BackColor = System.Drawing.Color.Transparent;
-			this.m_sourceFolderLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.m_sourceFolderLabel.Location = new System.Drawing.Point(204, 25);
-			this.m_sourceFolderLabel.Name = "m_sourceFolderLabel";
-			this.m_sourceFolderLabel.Size = new System.Drawing.Size(347, 23);
-			this.m_sourceFolderLabel.TabIndex = 3;
-			this.m_sourceFolderLabel.Text = "#";
+			this._sourceFolderLabel.AutoEllipsis = true;
+			this._sourceFolderLabel.BackColor = System.Drawing.Color.Transparent;
+			this._sourceFolderLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._sourceFolderLabel.Location = new System.Drawing.Point(204, 25);
+			this._sourceFolderLabel.Name = "_sourceFolderLabel";
+			this._sourceFolderLabel.Size = new System.Drawing.Size(347, 23);
+			this._sourceFolderLabel.TabIndex = 3;
+			this._sourceFolderLabel.Text = "#";
 			// 
-			// m_filesGrid
+			// _filesGrid
 			// 
-			this.m_filesGrid.AllowUserToAddRows = false;
-			this.m_filesGrid.AllowUserToDeleteRows = false;
-			this.m_filesGrid.AllowUserToOrderColumns = true;
-			this.m_filesGrid.AllowUserToResizeRows = false;
-			this.m_filesGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			this._filesGrid.AllowUserToAddRows = false;
+			this._filesGrid.AllowUserToDeleteRows = false;
+			this._filesGrid.AllowUserToOrderColumns = true;
+			this._filesGrid.AllowUserToResizeRows = false;
+			this._filesGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.m_filesGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-			this.m_filesGrid.BackgroundColor = System.Drawing.SystemColors.Window;
-			this.m_filesGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.m_filesGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this._filesGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			this._filesGrid.BackgroundColor = System.Drawing.SystemColors.Window;
+			this._filesGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this._filesGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
@@ -117,144 +119,153 @@ namespace SIL.Sponge.Dialogs
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.m_filesGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-			this.m_filesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.m_filesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.m_selectedCol,
-            this.m_iconCol,
-            this.m_fileNameCol,
-            this.m_fileTypeCol,
-            this.m_dateModifiedCol,
-            this.m_sizeCol,
-            this.m_lengthCol});
-			this.m_filesGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-			this.m_filesGrid.IsDirty = false;
-			this.m_filesGrid.Location = new System.Drawing.Point(0, 22);
-			this.m_filesGrid.MultiSelect = false;
-			this.m_filesGrid.Name = "m_filesGrid";
-			this.m_filesGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			this.m_filesGrid.RowHeadersVisible = false;
-			this.m_filesGrid.RowHeadersWidth = 22;
-			this.m_filesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.m_filesGrid.ShowWaterMarkWhenDirty = false;
-			this.m_filesGrid.Size = new System.Drawing.Size(536, 165);
-			this.m_filesGrid.TabIndex = 4;
-			this.m_filesGrid.VirtualMode = true;
-			this.m_filesGrid.WaterMark = "!";
-			this.m_filesGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleFilesGridCellContentClick);
+			this._filesGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			this._filesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this._filesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._selectedCol,
+            this._iconCol,
+            this._fileNameCol,
+            this._fileTypeCol,
+            this._dateModifiedCol,
+            this._sizeCol,
+            this._lengthCol});
+			this._filesGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+			this._filesGrid.IsDirty = false;
+			this._filesGrid.Location = new System.Drawing.Point(0, 22);
+			this._filesGrid.MultiSelect = false;
+			this._filesGrid.Name = "_filesGrid";
+			this._filesGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this._filesGrid.RowHeadersVisible = false;
+			this._filesGrid.RowHeadersWidth = 22;
+			this._filesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this._filesGrid.ShowWaterMarkWhenDirty = false;
+			this._filesGrid.Size = new System.Drawing.Size(536, 165);
+			this._filesGrid.TabIndex = 4;
+			this._filesGrid.VirtualMode = true;
+			this._filesGrid.WaterMark = "!";
+			this._filesGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleFilesGridCellContentClick);
 			// 
-			// m_selectedCol
+			// _selectedCol
 			// 
-			this.m_selectedCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.m_selectedCol.HeaderText = "";
-			this.m_selectedCol.Name = "m_selectedCol";
-			this.m_selectedCol.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.m_selectedCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.m_selectedCol.Width = 19;
+			this._selectedCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this._selectedCol.DataPropertyName = "Selected";
+			this._selectedCol.HeaderText = "";
+			this._selectedCol.Name = "_selectedCol";
+			this._selectedCol.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this._selectedCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this._selectedCol.Width = 19;
 			// 
-			// m_iconCol
+			// _iconCol
 			// 
-			this.m_iconCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.m_iconCol.HeaderText = "";
-			this.m_iconCol.Name = "m_iconCol";
-			this.m_iconCol.ReadOnly = true;
-			this.m_iconCol.Width = 5;
+			this._iconCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this._iconCol.DataPropertyName = "SmallIcon";
+			this._iconCol.HeaderText = "";
+			this._iconCol.Name = "_iconCol";
+			this._iconCol.ReadOnly = true;
+			this._iconCol.Width = 5;
 			// 
-			// m_fileNameCol
+			// _fileNameCol
 			// 
-			this.m_fileNameCol.HeaderText = "Name";
-			this.m_fileNameCol.Name = "m_fileNameCol";
-			this.m_fileNameCol.ReadOnly = true;
-			this.m_fileNameCol.Width = 175;
+			this._fileNameCol.DataPropertyName = "FileName";
+			this._fileNameCol.HeaderText = "Name";
+			this._fileNameCol.Name = "_fileNameCol";
+			this._fileNameCol.ReadOnly = true;
+			this._fileNameCol.Width = 175;
 			// 
-			// m_fileTypeCol
+			// _fileTypeCol
 			// 
-			this.m_fileTypeCol.HeaderText = "Type";
-			this.m_fileTypeCol.Name = "m_fileTypeCol";
-			this.m_fileTypeCol.ReadOnly = true;
-			this.m_fileTypeCol.Width = 150;
+			this._fileTypeCol.DataPropertyName = "FileType";
+			this._fileTypeCol.HeaderText = "Type";
+			this._fileTypeCol.Name = "_fileTypeCol";
+			this._fileTypeCol.ReadOnly = true;
+			this._fileTypeCol.Width = 150;
 			// 
-			// m_dateModifiedCol
+			// _dateModifiedCol
 			// 
-			this.m_dateModifiedCol.HeaderText = "Date Modified";
-			this.m_dateModifiedCol.Name = "m_dateModifiedCol";
-			this.m_dateModifiedCol.ReadOnly = true;
-			this.m_dateModifiedCol.Width = 150;
+			this._dateModifiedCol.DataPropertyName = "DateModified";
+			this._dateModifiedCol.HeaderText = "Date Modified";
+			this._dateModifiedCol.Name = "_dateModifiedCol";
+			this._dateModifiedCol.ReadOnly = true;
+			this._dateModifiedCol.Width = 150;
 			// 
-			// m_sizeCol
+			// _sizeCol
 			// 
+			this._sizeCol.DataPropertyName = "FileSize";
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.m_sizeCol.DefaultCellStyle = dataGridViewCellStyle2;
-			this.m_sizeCol.HeaderText = "Size";
-			this.m_sizeCol.Name = "m_sizeCol";
-			this.m_sizeCol.ReadOnly = true;
-			this.m_sizeCol.Width = 75;
+			this._sizeCol.DefaultCellStyle = dataGridViewCellStyle2;
+			this._sizeCol.HeaderText = "Size";
+			this._sizeCol.Name = "_sizeCol";
+			this._sizeCol.ReadOnly = true;
+			this._sizeCol.Width = 75;
 			// 
-			// m_lengthCol
+			// _lengthCol
 			// 
-			this.m_lengthCol.HeaderText = "Length";
-			this.m_lengthCol.Name = "m_lengthCol";
-			this.m_lengthCol.ReadOnly = true;
-			this.m_lengthCol.Width = 60;
+			this._lengthCol.DataPropertyName = "DisplayableDuration";
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this._lengthCol.DefaultCellStyle = dataGridViewCellStyle3;
+			this._lengthCol.HeaderText = "Length";
+			this._lengthCol.Name = "_lengthCol";
+			this._lengthCol.ReadOnly = true;
+			this._lengthCol.Width = 60;
 			// 
-			// m_incomingFilesLabel
+			// _incomingFilesLabel
 			// 
-			this.m_incomingFilesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this._incomingFilesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.m_incomingFilesLabel.AutoSize = true;
-			this.m_incomingFilesLabel.BackColor = System.Drawing.Color.Transparent;
-			this.m_incomingFilesLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.m_incomingFilesLabel.Location = new System.Drawing.Point(3, 0);
-			this.m_incomingFilesLabel.Name = "m_incomingFilesLabel";
-			this.m_incomingFilesLabel.Size = new System.Drawing.Size(84, 15);
-			this.m_incomingFilesLabel.TabIndex = 5;
-			this.m_incomingFilesLabel.Text = "Incoming Files";
+			this._incomingFilesLabel.AutoSize = true;
+			this._incomingFilesLabel.BackColor = System.Drawing.Color.Transparent;
+			this._incomingFilesLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._incomingFilesLabel.Location = new System.Drawing.Point(3, 0);
+			this._incomingFilesLabel.Name = "_incomingFilesLabel";
+			this._incomingFilesLabel.Size = new System.Drawing.Size(84, 15);
+			this._incomingFilesLabel.TabIndex = 5;
+			this._incomingFilesLabel.Text = "Incoming Files";
 			// 
-			// m_instructionsLabel
+			// _instructionsLabel
 			// 
-			this.m_instructionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			this._instructionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.m_instructionsLabel.AutoEllipsis = true;
-			this.m_instructionsLabel.BackColor = System.Drawing.Color.Transparent;
-			this.m_instructionsLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.m_instructionsLabel.Location = new System.Drawing.Point(3, 194);
-			this.m_instructionsLabel.Name = "m_instructionsLabel";
-			this.m_instructionsLabel.Size = new System.Drawing.Size(532, 41);
-			this.m_instructionsLabel.TabIndex = 6;
-			this.m_instructionsLabel.Text = "Mark each file which represents an original recording of an event. For each one, " +
+			this._instructionsLabel.AutoEllipsis = true;
+			this._instructionsLabel.BackColor = System.Drawing.Color.Transparent;
+			this._instructionsLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._instructionsLabel.Location = new System.Drawing.Point(3, 194);
+			this._instructionsLabel.Name = "_instructionsLabel";
+			this._instructionsLabel.Size = new System.Drawing.Size(532, 41);
+			this._instructionsLabel.TabIndex = 6;
+			this._instructionsLabel.Text = "Mark each file which represents an original recording of an event. For each one, " +
 				"{0} will create a new session and copy the file into it.";
 			// 
-			// m_filesPanel
+			// _filesPanel
 			// 
-			this.m_filesPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			this._filesPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.m_filesPanel.Controls.Add(this.m_incomingFilesLabel);
-			this.m_filesPanel.Controls.Add(this.m_instructionsLabel);
-			this.m_filesPanel.Controls.Add(this.m_filesGrid);
-			this.m_filesPanel.Location = new System.Drawing.Point(15, 58);
-			this.m_filesPanel.Name = "m_filesPanel";
-			this.m_filesPanel.Size = new System.Drawing.Size(536, 237);
-			this.m_filesPanel.TabIndex = 7;
+			this._filesPanel.Controls.Add(this._incomingFilesLabel);
+			this._filesPanel.Controls.Add(this._instructionsLabel);
+			this._filesPanel.Controls.Add(this._filesGrid);
+			this._filesPanel.Location = new System.Drawing.Point(15, 58);
+			this._filesPanel.Name = "_filesPanel";
+			this._filesPanel.Size = new System.Drawing.Size(536, 237);
+			this._filesPanel.TabIndex = 7;
 			// 
 			// NewSessionsFromFilesDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(565, 342);
-			this.Controls.Add(this.m_filesPanel);
-			this.Controls.Add(this.m_sourceFolderLabel);
-			this.Controls.Add(this.m_cancelButton);
-			this.Controls.Add(this.m_createSessionsButton);
-			this.Controls.Add(this.m_findFilesLink);
+			this.Controls.Add(this._filesPanel);
+			this.Controls.Add(this._sourceFolderLabel);
+			this.Controls.Add(this._cancelButton);
+			this.Controls.Add(this._createSessionsButton);
+			this.Controls.Add(this._findFilesLink);
 			this.Name = "NewSessionsFromFilesDlg";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "New Sessions From Files";
-			((System.ComponentModel.ISupportInitialize)(this.m_filesGrid)).EndInit();
-			this.m_filesPanel.ResumeLayout(false);
-			this.m_filesPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._filesGrid)).EndInit();
+			this._filesPanel.ResumeLayout(false);
+			this._filesPanel.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -262,20 +273,20 @@ namespace SIL.Sponge.Dialogs
 
 		#endregion
 
-		private System.Windows.Forms.LinkLabel m_findFilesLink;
-		private System.Windows.Forms.Button m_createSessionsButton;
-		private System.Windows.Forms.Button m_cancelButton;
-		private System.Windows.Forms.Label m_sourceFolderLabel;
-		private SilUtils.SilGrid m_filesGrid;
-		private System.Windows.Forms.Label m_incomingFilesLabel;
-		private System.Windows.Forms.Label m_instructionsLabel;
-		private System.Windows.Forms.Panel m_filesPanel;
-		private System.Windows.Forms.DataGridViewCheckBoxColumn m_selectedCol;
-		private System.Windows.Forms.DataGridViewImageColumn m_iconCol;
-		private System.Windows.Forms.DataGridViewTextBoxColumn m_fileNameCol;
-		private System.Windows.Forms.DataGridViewTextBoxColumn m_fileTypeCol;
-		private System.Windows.Forms.DataGridViewTextBoxColumn m_dateModifiedCol;
-		private System.Windows.Forms.DataGridViewTextBoxColumn m_sizeCol;
-		private System.Windows.Forms.DataGridViewTextBoxColumn m_lengthCol;
+		private System.Windows.Forms.LinkLabel _findFilesLink;
+		private System.Windows.Forms.Button _createSessionsButton;
+		private System.Windows.Forms.Button _cancelButton;
+		private System.Windows.Forms.Label _sourceFolderLabel;
+		private SilUtils.SilGrid _filesGrid;
+		private System.Windows.Forms.Label _incomingFilesLabel;
+		private System.Windows.Forms.Label _instructionsLabel;
+		private System.Windows.Forms.Panel _filesPanel;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn _selectedCol;
+		private System.Windows.Forms.DataGridViewImageColumn _iconCol;
+		private System.Windows.Forms.DataGridViewTextBoxColumn _fileNameCol;
+		private System.Windows.Forms.DataGridViewTextBoxColumn _fileTypeCol;
+		private System.Windows.Forms.DataGridViewTextBoxColumn _dateModifiedCol;
+		private System.Windows.Forms.DataGridViewTextBoxColumn _sizeCol;
+		private System.Windows.Forms.DataGridViewTextBoxColumn _lengthCol;
 	}
 }

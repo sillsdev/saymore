@@ -15,7 +15,6 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
-using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
 using Palaso.TestUtilities;
@@ -49,7 +48,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void CreateFromName()
 		{
-			var person = Person.CreateFromName(m_prj, "Dudley Doright");
+			var person = Person.CreateFromName(_prj, "Dudley Doright");
 			Assert.AreEqual("Dudley Doright", person.FullName);
 		}
 
@@ -61,10 +60,10 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void FileName()
 		{
-			var person = Person.CreateFromName(m_prj, "Mozart");
+			var person = Person.CreateFromName(_prj, "Mozart");
 			Assert.AreEqual("Mozart.person", person.FileName);
 
-			person = Person.CreateFromName(m_prj, "J:S/Bach");
+			person = Person.CreateFromName(_prj, "J:S/Bach");
 			Assert.AreEqual("J_S_Bach.person", person.FileName);
 		}
 
@@ -76,8 +75,8 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void Folder()
 		{
-			var person = Person.CreateFromName(m_prj, "Brahms");
-			Assert.AreEqual(Path.Combine(m_prj.PeopleFolder, "Brahms"), person.Folder);
+			var person = Person.CreateFromName(_prj, "Brahms");
+			Assert.AreEqual(Path.Combine(_prj.PeopleFolder, "Brahms"), person.Folder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -88,8 +87,8 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void PermissionsFolder()
 		{
-			var person = Person.CreateFromName(m_prj, "Bach");
-			var expectedPath = Path.Combine(m_prj.PeopleFolder, "Bach");
+			var person = Person.CreateFromName(_prj, "Bach");
+			var expectedPath = Path.Combine(_prj.PeopleFolder, "Bach");
 			expectedPath = Path.Combine(expectedPath, "Permissions");
 			Assert.AreEqual(expectedPath, person.PermissionsFolder);
 		}
@@ -102,11 +101,11 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void PermissionsFiles()
 		{
-			var person = Person.CreateFromName(m_prj, "Chopin");
+			var person = Person.CreateFromName(_prj, "Chopin");
 			person.Save();
 			Assert.AreEqual(0, person.PermissionFiles.Length);
 
-			var path = Path.Combine(m_prj.PeopleFolder, "Chopin");
+			var path = Path.Combine(_prj.PeopleFolder, "Chopin");
 			path = Path.Combine(path, "Permissions");
 			Directory.CreateDirectory(path);
 			File.CreateText(Path.Combine(path, "concerto1.pdf")).Close();
@@ -125,7 +124,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void HasPermissions()
 		{
-			var person = Person.CreateFromName(m_prj, "E. Power Biggs");
+			var person = Person.CreateFromName(_prj, "E. Power Biggs");
 			person.Save();
 
 			Assert.IsFalse(person.HasPermissions);
@@ -144,13 +143,13 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void FullFilePath()
 		{
-			var person = Person.CreateFromName(m_prj, "Mozart");
-			var expectedPath = Path.Combine(m_prj.PeopleFolder, "Mozart");
+			var person = Person.CreateFromName(_prj, "Mozart");
+			var expectedPath = Path.Combine(_prj.PeopleFolder, "Mozart");
 			expectedPath = Path.Combine(expectedPath, "Mozart.person");
 			Assert.AreEqual(expectedPath, person.FullFilePath);
 
-			person = Person.CreateFromName(m_prj, "J:S/Bach");
-			expectedPath = Path.Combine(m_prj.PeopleFolder, "J_S_Bach");
+			person = Person.CreateFromName(_prj, "J:S/Bach");
+			expectedPath = Path.Combine(_prj.PeopleFolder, "J_S_Bach");
 			expectedPath = Path.Combine(expectedPath, "J_S_Bach.person");
 			Assert.AreEqual(expectedPath, person.FullFilePath);
 		}
@@ -163,11 +162,11 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void CanSave()
 		{
-			var person = Person.CreateFromName(m_prj, null);
+			var person = Person.CreateFromName(_prj, null);
 			Assert.IsFalse(person.CanSave);
-			person = Person.CreateFromName(m_prj, string.Empty);
+			person = Person.CreateFromName(_prj, string.Empty);
 			Assert.IsFalse(person.CanSave);
-			person = Person.CreateFromName(m_prj, "Fogerty");
+			person = Person.CreateFromName(_prj, "Fogerty");
 			Assert.IsTrue(person.CanSave);
 		}
 
@@ -179,7 +178,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void PictureFile_PictureFileExists_GivesCorrectPath()
 		{
-			var person = Person.CreateFromName(m_prj, "D.Fogerty");
+			var person = Person.CreateFromName(_prj, "D.Fogerty");
 			person.Save();
 
 			foreach (var ext in new[] { "jpg", "gif", "tif", "png", "bmp", "dib" })
@@ -194,7 +193,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void PictureFile_PictureFileDoesNotExists_GivesNull()
 		{
-			var person = Person.CreateFromName(m_prj, "D.Fogerty");
+			var person = Person.CreateFromName(_prj, "D.Fogerty");
 			person.Save();
 			Assert.IsNull(person.PictureFile);
 		}
@@ -208,7 +207,7 @@ namespace SIL.Sponge.Model
 		[ExpectedException(typeof(FileNotFoundException))]
 		public void CopyPictureFile_BadFile_Throws()
 		{
-			var person = Person.CreateFromName(m_prj, "P.Collins");
+			var person = Person.CreateFromName(_prj, "P.Collins");
 			person.CopyPictureFile("invalid.jpg");
 		}
 
@@ -221,7 +220,7 @@ namespace SIL.Sponge.Model
 		[ExpectedException(typeof(NullReferenceException))]
 		public void CopyPictureFile_NullFile_Throws()
 		{
-			var person = Person.CreateFromName(m_prj, "Flock of Seagulls");
+			var person = Person.CreateFromName(_prj, "Flock of Seagulls");
 			person.CopyPictureFile(null);
 		}
 
@@ -230,13 +229,13 @@ namespace SIL.Sponge.Model
 		{
 			foreach (var ext in new[] { "jpg", "gif", "tif", "png", "bmp", "dib" })
 			{
-				var person = Person.CreateFromName(m_prj, "Beethoven");
+				var person = Person.CreateFromName(_prj, "Beethoven");
 				person.Save();
 				string srcPicFile = null;
 
 				try
 				{
-					srcPicFile = Path.Combine(m_prj.PeopleFolder, "~SpongPic~");
+					srcPicFile = Path.Combine(_prj.PeopleFolder, "~SpongPic~");
 					srcPicFile = Path.ChangeExtension(srcPicFile, ext);
 					File.CreateText(srcPicFile).Close();
 
@@ -258,7 +257,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void CopyPictureFile_PersonNotYetSaved_CopiesAndRenames()
 		{
-			var person = Person.CreateFromName(m_prj, "Beethoven");
+			var person = Person.CreateFromName(_prj, "Beethoven");
 
 			using (var pic = new TempFile())
 			{
@@ -276,7 +275,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void CanChoosePicture_PersonHasNoName_False()
 		{
-			var person = Person.CreateFromName(m_prj, string.Empty);
+			var person = Person.CreateFromName(_prj, string.Empty);
 			Assert.IsFalse(person.CanChoosePicture);
 		}
 
@@ -284,7 +283,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void CanChoosePicture_PersonHasName_True()
 		{
-			var person = Person.CreateFromName(m_prj, "Beethoven");
+			var person = Person.CreateFromName(_prj, "Beethoven");
 			Assert.IsTrue(person.CanChoosePicture);
 		}
 
@@ -296,7 +295,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void Rename()
 		{
-			var person = Person.CreateFromName(m_prj, "Chumbawamba");
+			var person = Person.CreateFromName(_prj, "Chumbawamba");
 			person.Save();
 
 			var picFile = Path.Combine(person.Folder, "Chumbawamba.jpg");
@@ -305,7 +304,7 @@ namespace SIL.Sponge.Model
 			Assert.IsTrue(Directory.Exists(person.Folder));
 			Assert.IsTrue(File.Exists(picFile));
 			Assert.IsTrue(File.Exists(person.FullFilePath));
-			Assert.IsFalse(Directory.Exists(Path.Combine(m_prj.PeopleFolder, "B_Joel")));
+			Assert.IsFalse(Directory.Exists(Path.Combine(_prj.PeopleFolder, "B_Joel")));
 
 			var prevPersonFolder = person.Folder;
 			person.Rename("B:Joel");
@@ -327,7 +326,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void Delete()
 		{
-			var person = Person.CreateFromName(m_prj, "U2");
+			var person = Person.CreateFromName(_prj, "U2");
 			person.Save();
 			var picFile = Path.Combine(person.Folder, "U2.tif");
 			File.CreateText(picFile).Close();
@@ -354,7 +353,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void Load()
 		{
-			var person = Person.CreateFromName(m_prj, @"\Sweet");
+			var person = Person.CreateFromName(_prj, @"\Sweet");
 			person.PrimaryLanguage = "English";
 			person.OtherLangauge0 = "Farsi";
 			person.OtherLangauge1 = "Lithuanian";
@@ -372,7 +371,7 @@ namespace SIL.Sponge.Model
 			Assert.IsTrue(File.Exists(person.FullFilePath));
 
 			// Create from full path to the person's file.
-			person = Person.Load(m_prj, person.FullFilePath);
+			person = Person.Load(_prj, person.FullFilePath);
 			Assert.AreEqual(@"\Sweet", person.FullName);
 			Assert.AreEqual("English", person.PrimaryLanguage);
 			Assert.AreEqual("Farsi", person.OtherLangauge0);
@@ -390,8 +389,8 @@ namespace SIL.Sponge.Model
 			Assert.IsNull(person.OtherLangauge3);
 
 			// Create from full path to the person's folder.
-			var path = Path.Combine(m_prj.PeopleFolder, "_Sweet");
-			person = Person.Load(m_prj, path);
+			var path = Path.Combine(_prj.PeopleFolder, "_Sweet");
+			person = Person.Load(_prj, path);
 			Assert.IsNotNull(person);
 			Assert.AreEqual(@"\Sweet", person.FullName);
 		}
@@ -405,12 +404,12 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void CreateFromFile_WithIncompletePath()
 		{
-			var person = Person.CreateFromName(m_prj, @"Smash?Mouth");
+			var person = Person.CreateFromName(_prj, @"Smash?Mouth");
 			person.Education = "BS, Whitworth College";
 			person.Save();
 			Assert.IsTrue(File.Exists(person.FullFilePath));
 
-			person = Person.Load(m_prj, @"junk\preceding\filename\Smash_Mouth.person");
+			person = Person.Load(_prj, @"junk\preceding\filename\Smash_Mouth.person");
 			Assert.IsNotNull(person);
 			Assert.AreEqual("BS, Whitworth College", person.Education);
 		}
@@ -420,7 +419,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void ChangeName_HadSameNameBefore_ReturnsTrue()
 		{
-			var person = Person.CreateFromName(m_prj, "Pedro");
+			var person = Person.CreateFromName(_prj, "Pedro");
 			person.Save();
 			person.ChangeName("Pedro");
 			Assert.AreEqual("Pedro", person.FullName);
@@ -431,7 +430,7 @@ namespace SIL.Sponge.Model
 		[Test, ExpectedException(typeof(ApplicationException))]
 		public void ChangeName_NewIdIsEmptyString_Throws()
 		{
-			var person = Person.CreateFromName(m_prj, "Pedro");
+			var person = Person.CreateFromName(_prj, "Pedro");
 			person.Save();
 			person.ChangeName("");
 		}
@@ -439,7 +438,7 @@ namespace SIL.Sponge.Model
 		[Test, ExpectedException(typeof(ApplicationException))]
 		public void ChangeName_NewIdIsInvalidFolderName_Throws()
 		{
-			var person = Person.CreateFromName(m_prj, "Pedro");
+			var person = Person.CreateFromName(_prj, "Pedro");
 			person.Save();
 		   person.ChangeName("chan*ge");
 		}
@@ -447,7 +446,7 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void ChangeName_ShouldChange_NameAndFolderAndFileChange()
 		{
-			var person = Person.CreateFromName(m_prj, "Pedro");
+			var person = Person.CreateFromName(_prj, "Pedro");
 			person.Save();
 			string originalPath = person.FullFilePath;
 			person.ChangeName("change");
@@ -461,12 +460,12 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void ChangeName_ShouldChange_NameChangePersisted()
 		{
-			var person = Person.CreateFromName(m_prj, "Pedro");
+			var person = Person.CreateFromName(_prj, "Pedro");
 			person.FathersLanguage = "esperanto";
 			person.Save();
 			person.ChangeName("change");
 			person.Save();
-			var same = Person.Load(m_prj, Path.Combine(Path.Combine(m_prj.Folder, "people"), "change"));
+			var same = Person.Load(_prj, Path.Combine(Path.Combine(_prj.Folder, "people"), "change"));
 			Assert.AreEqual("change", same.FullName);
 			Assert.AreEqual("esperanto", same.FathersLanguage);
 		}
@@ -474,9 +473,9 @@ namespace SIL.Sponge.Model
 		[Test]
 		public void ChangeName_HasFilesWithOldName_RenamesFiles()
 		{
-			var person = Person.CreateFromName(m_prj, "Pedro");
+			var person = Person.CreateFromName(_prj, "Pedro");
 			person.Save();
-			File.WriteAllText(Path.Combine(person.Folder, "Pedro.jpg"), "");
+			File.CreateText(Path.Combine(person.Folder, "Pedro.jpg")).Close();
 			person.ChangeName("change");
 			Assert.IsTrue(File.Exists(Path.Combine(person.Folder, "change.jpg")));
 			Assert.IsFalse(File.Exists(Path.Combine(person.Folder, "Pedro.jpg")));

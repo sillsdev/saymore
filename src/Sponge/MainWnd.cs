@@ -3,6 +3,7 @@ using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
+using SIL.Sponge.Views;
 using SilUtils;
 
 namespace SIL.Sponge
@@ -14,12 +15,12 @@ namespace SIL.Sponge
 	/// ----------------------------------------------------------------------------------------
 	public partial class MainWnd : Form
 	{
-		private OverviewVw m_overviewView;
-		private SessionsVw m_sessionsView;
-		private PeopleVw m_peopleView;
-		private SendReceiveVw m_sendReceiveView;
-		private SetupVw m_setupView;
-		private ViewButtonManager m_viewManger;
+		private OverviewVw _overviewView;
+		private SessionsVw _sessionsView;
+		private PeopleVw _peopleView;
+		private SendReceiveVw _sendReceiveView;
+		private SetupVw _setupView;
+		private ViewButtonManager _viewManger;
 
 		public static bool Resizing { get; private set; }
 
@@ -66,7 +67,7 @@ namespace SIL.Sponge
 			CurrentProject = prj;
 			CurrentProject.FileWatcherSynchronizingObject = this;
 			SetupViews();
-			m_viewManger.SetView(tsbOverview);
+			_viewManger.SetView(tsbOverview);
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized -= SetWindowText;
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
@@ -85,17 +86,17 @@ namespace SIL.Sponge
 			foreach (ToolStripButton btn in tsMain.Items)
 				btn.Checked = false;
 
-			m_overviewView = new OverviewVw(CurrentProject);
-			m_sessionsView = new SessionsVw(CurrentProject, CurrentProject.GetPeopleNames);
-			m_peopleView = new PeopleVw(CurrentProject);
-			m_sendReceiveView = new SendReceiveVw();
-			m_setupView = new SetupVw();
+			_overviewView = new OverviewVw(CurrentProject);
+			_sessionsView = new SessionsVw(CurrentProject, CurrentProject.GetPeopleNames);
+			_peopleView = new PeopleVw(CurrentProject);
+			_sendReceiveView = new SendReceiveVw();
+			_setupView = new SetupVw();
 
-			var views = new Control[] { m_overviewView, m_sessionsView,
-				m_peopleView, m_sendReceiveView, m_setupView };
+			var views = new Control[] { _overviewView, _sessionsView,
+				_peopleView, _sendReceiveView, _setupView };
 
 			Controls.AddRange(views);
-			m_viewManger = new ViewButtonManager(tsMain, views);
+			_viewManger = new ViewButtonManager(tsMain, views);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,23 +106,23 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void CleanOutViews()
 		{
-			if (m_overviewView != null)
+			if (_overviewView != null)
 			{
-				Controls.Remove(m_overviewView);
-				Controls.Remove(m_sessionsView);
-				Controls.Remove(m_peopleView);
-				Controls.Remove(m_sendReceiveView);
-				Controls.Remove(m_setupView);
+				Controls.Remove(_overviewView);
+				Controls.Remove(_sessionsView);
+				Controls.Remove(_peopleView);
+				Controls.Remove(_sendReceiveView);
+				Controls.Remove(_setupView);
 
-				m_overviewView.Dispose();
-				m_sessionsView.Dispose();
-				m_peopleView.Dispose();
-				m_sendReceiveView.Dispose();
-				m_setupView.Dispose();
+				_overviewView.Dispose();
+				_sessionsView.Dispose();
+				_peopleView.Dispose();
+				_sendReceiveView.Dispose();
+				_setupView.Dispose();
 			}
 
-			if (m_viewManger != null)
-				m_viewManger.Dispose();
+			if (_viewManger != null)
+				_viewManger.Dispose();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -217,7 +218,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void tsbChangeProjects_Click(object sender, System.EventArgs e)
 		{
-			foreach (var vw in m_viewManger.Views)
+			foreach (var vw in _viewManger.Views)
 			{
 				if (!vw.IsOKToLeaveView(true))
 					return;

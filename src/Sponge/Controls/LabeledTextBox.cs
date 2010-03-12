@@ -25,7 +25,7 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public LabeledTextBox(string labelText) : this()
 		{
-			m_label.Text = labelText;
+			_label.Text = labelText;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -39,8 +39,8 @@ namespace SIL.Sponge.Controls
 			set
 			{
 				base.Font = value;
-				m_label.Font = value;
-				m_txtBox.Font = value;
+				_label.Font = value;
+				_txtBox.Font = value;
 			}
 		}
 
@@ -55,9 +55,9 @@ namespace SIL.Sponge.Controls
 			set
 			{
 				base.BackColor = value;
-				m_label.BackColor = value;
+				_label.BackColor = value;
 				if (value != Color.Transparent)
-					m_txtBox.BackColor = value;
+					_txtBox.BackColor = value;
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace SIL.Sponge.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public Label InnerLabel
 		{
-			get { return m_label; }
+			get { return _label; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,7 +80,7 @@ namespace SIL.Sponge.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public HoverCueTextBox InnerTextBox
 		{
-			get { return m_txtBox; }
+			get { return _txtBox; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -92,12 +92,12 @@ namespace SIL.Sponge.Controls
 		private void HandleSizeChanged(object sender, EventArgs e)
 		{
 			SizeChanged -= HandleSizeChanged;
-			m_txtBox.SizeChanged -= HandleSizeChanged;
+			_txtBox.SizeChanged -= HandleSizeChanged;
 
-			Height = m_txtBox.Height + Padding.Top + Padding.Bottom;
+			Height = _txtBox.Height + Padding.Top + Padding.Bottom;
 
 			SizeChanged += HandleSizeChanged;
-			m_txtBox.SizeChanged += HandleSizeChanged;
+			_txtBox.SizeChanged += HandleSizeChanged;
 		}
 	}
 }

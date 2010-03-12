@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using SIL.Sponge.Dialogs;
 using SIL.Sponge.Properties;
 
 namespace SIL.Sponge.Model
 {
+	#region NewSessionFile class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Encapsulates all the file information displayed in the NewSessionsFromFileDlg.
@@ -19,6 +22,9 @@ namespace SIL.Sponge.Model
 		}
 	}
 
+	#endregion
+
+	#region NewSessionsFromFileDlgModel class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	///
@@ -26,7 +32,7 @@ namespace SIL.Sponge.Model
 	/// ----------------------------------------------------------------------------------------
 	public class NewSessionsFromFileDlgModel
 	{
-		private string m_selectedFolder;
+		private string _selectedFolder;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -38,6 +44,13 @@ namespace SIL.Sponge.Model
 			Files = new List<NewSessionFile>();
 			SelectedFolder = Settings.Default.NewSessionsFromFilesLastFolder;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the Id of the first of the newly added sessions.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string FirstNewSessionAdded { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -75,10 +88,10 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public string SelectedFolder
 		{
-			get { return m_selectedFolder; }
+			get { return _selectedFolder; }
 			set
 			{
-				m_selectedFolder = value;
+				_selectedFolder = value;
 				LoadFilesFromFolder(value);
 				Settings.Default.NewSessionsFromFilesLastFolder = value;
 				Settings.Default.Save();
@@ -106,6 +119,8 @@ namespace SIL.Sponge.Model
 				if (validExtensions.Contains(Path.GetExtension(file.ToLower())))
 					Files.Add(new NewSessionFile(file));
 			}
+
+			Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -117,5 +132,61 @@ namespace SIL.Sponge.Model
 		{
 			LoadFilesFromFolder(SelectedFolder);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void CreateSessions()
+		{
+			using (var statusDlg = new StatusDlg())
+				statusDlg.ShowAndProcess(GetStatusMessageForFile, CreateSingleSession, Files);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called by the background worker in the status dialog when it's about to process
+		/// one of the items in its list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string GetStatusMessageForFile(object obj)
+		{
+			var file = obj as NewSessionFile;
+
+			if (file == null || !file.Selected)
+				return null;
+
+			var sessionId = Path.GetFileNameWithoutExtension(file.FileName);
+			return string.Format("Creating session '{0}'", sessionId);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Performs the actual work of creating a session from the specified file. New
+		///	session names are the name of the file without the extension. The Date of the
+		/// session is the file's DateModified date.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool CreateSingleSession(object obj)
+		{
+			var file = obj as NewSessionFile;
+
+			if (file == null || !file.Selected)
+				return false;
+
+			var sessionId = Path.GetFileNameWithoutExtension(file.FileName);
+			var session = Session.Create(MainWnd.CurrentProject, sessionId);
+			session.Date = System.DateTime.Parse(file.DateModified);
+			session.Save();
+			session.AddFile(file.FullFilePath);
+
+			if (FirstNewSessionAdded == null)
+				FirstNewSessionAdded = sessionId;
+
+			return true;
+		}
 	}
+
+	#endregion
 }

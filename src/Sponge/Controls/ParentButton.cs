@@ -16,8 +16,8 @@ namespace SIL.Sponge.Controls
 	{
 		public event CancelEventHandler SelectedChanging;
 
-		private ParentType m_parentType = ParentType.Father;
-		private bool m_selected;
+		private ParentType _parentType = ParentType.Father;
+		private bool _selected;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -36,10 +36,10 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public ParentType ParentType
 		{
-			get { return m_parentType; }
+			get { return _parentType; }
 			set
 			{
-				m_parentType = value;
+				_parentType = value;
 				Invalidate();
 			}
 		}
@@ -51,10 +51,10 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool Selected
 		{
-			get { return m_selected; }
+			get { return _selected; }
 			set
 			{
-				if (m_selected == value)
+				if (_selected == value)
 					return;
 
 				if (SelectedChanging != null)
@@ -65,7 +65,7 @@ namespace SIL.Sponge.Controls
 						return;
 				}
 
-				m_selected = value;
+				_selected = value;
 				Invalidate();
 			}
 		}
@@ -94,13 +94,13 @@ namespace SIL.Sponge.Controls
 		{
 			get
 			{
-				if (m_parentType == ParentType.Father)
+				if (_parentType == ParentType.Father)
 				{
-					return (m_selected && Enabled ?
+					return (_selected && Enabled ?
 						Resources.kimidMale_Selected : Resources.kimidMale_NotSelected);
 				}
 
-				return (m_selected && Enabled ?
+				return (_selected && Enabled ?
 					Resources.kimidFemale_Selected : Resources.kimidFemale_NotSelected);
 			}
 		}

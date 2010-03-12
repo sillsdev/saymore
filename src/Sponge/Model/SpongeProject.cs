@@ -35,8 +35,7 @@ namespace SIL.Sponge.Model
 	public class SpongeProject : IDisposable
 	{
 		public event EventHandler ProjectChanged;
-		private FileSystemWatcher m_fileWatcher;
-		private static string s_projectsFolder = Path.Combine(Sponge.MainApplicationFolder, Sponge.ProjectFolderName);
+		private FileSystemWatcher _fileWatcher;
 
 		#region Static methods/properties
 		/// ------------------------------------------------------------------------------------
@@ -102,8 +101,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static string ProjectsFolder
 		{
-			get { return s_projectsFolder; }
-			set { s_projectsFolder = value;}//for tests
+			get { return Path.Combine(Sponge.MainApplicationFolder, Sponge.ProjectFolderName); }
 		}
 
 		#endregion
@@ -132,12 +130,12 @@ namespace SIL.Sponge.Model
 			InitializePeopleAndLanguages();
 			InitializeSessions();
 
-			m_fileWatcher = new FileSystemWatcher(Folder);
-			m_fileWatcher.Renamed += HandleFileWatcherRename;
-			m_fileWatcher.Deleted += HandleFileWatcherEvent;
-			m_fileWatcher.Changed += HandleFileWatcherEvent;
-			m_fileWatcher.Created += HandleFileWatcherEvent;
-			m_fileWatcher.IncludeSubdirectories = true;
+			_fileWatcher = new FileSystemWatcher(Folder);
+			_fileWatcher.Renamed += HandleFileWatcherRename;
+			_fileWatcher.Deleted += HandleFileWatcherEvent;
+			_fileWatcher.Changed += HandleFileWatcherEvent;
+			_fileWatcher.Created += HandleFileWatcherEvent;
+			_fileWatcher.IncludeSubdirectories = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -197,8 +195,8 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			m_fileWatcher.Dispose();
-			m_fileWatcher = null;
+			_fileWatcher.Dispose();
+			_fileWatcher = null;
 		}
 
 		#endregion
@@ -236,13 +234,13 @@ namespace SIL.Sponge.Model
 		{
 			get
 			{
-				return (m_fileWatcher == null || m_fileWatcher.SynchronizingObject == null ?
-					false : m_fileWatcher.EnableRaisingEvents);
+				return (_fileWatcher == null || _fileWatcher.SynchronizingObject == null ?
+					false : _fileWatcher.EnableRaisingEvents);
 			}
 			set
 			{
-				if (m_fileWatcher != null && m_fileWatcher.SynchronizingObject != null)
-					m_fileWatcher.EnableRaisingEvents = value;
+				if (_fileWatcher != null && _fileWatcher.SynchronizingObject != null)
+					_fileWatcher.EnableRaisingEvents = value;
 			}
 		}
 
@@ -256,11 +254,11 @@ namespace SIL.Sponge.Model
 		[XmlIgnore]
 		public Control FileWatcherSynchronizingObject
 		{
-			get { return m_fileWatcher.SynchronizingObject as Control; }
+			get { return _fileWatcher.SynchronizingObject as Control; }
 			set
 			{
-				m_fileWatcher.SynchronizingObject = value;
-				m_fileWatcher.EnableRaisingEvents = (value != null);
+				_fileWatcher.SynchronizingObject = value;
+				_fileWatcher.EnableRaisingEvents = (value != null);
 			}
 		}
 
@@ -391,7 +389,7 @@ namespace SIL.Sponge.Model
 
 			EnableFileWatching = false;
 			VerifySessionsPathExists();
-			UpdateSessions();
+			RefreshSessionList();
 
 			if (ProjectChanged != null)
 				ProjectChanged(this, EventArgs.Empty);
@@ -408,7 +406,7 @@ namespace SIL.Sponge.Model
 		{
 			EnableFileWatching = false;
 			VerifySessionsPathExists();
-			UpdateSessions();
+			RefreshSessionList();
 
 			if (ProjectChanged != null)
 				ProjectChanged(this, EventArgs.Empty);
@@ -418,11 +416,11 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Updates the list of sessions after the file system watcher is notified of a
-		/// change in the file system.
+		/// Updates the list of sessions by looking in the file system for all the subfolders
+		/// in the project's sessions folder.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void UpdateSessions()
+		public void RefreshSessionList()
 		{
 			var sessionsFound = new HashSet<string>(Directory.GetDirectories(SessionsFolder));
 
@@ -450,7 +448,8 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adds the a session having the specified name. If a session with the specified name
-		/// already exists, then it's returned. Otherwise the new session is returned.
+		/// already exists, then it's returned. Otherwise the new session is returned. The
+		/// list of sessions is kept sorted by Id.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Session AddSession(string id)

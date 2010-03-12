@@ -31,9 +31,9 @@ namespace SIL.Sponge.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class SpongeBar : ToolStrip
 	{
-		private ToolStripRenderer m_prevRenderer;
-		private Color m_clrBegin = SpongeColors.BarBegin;
-		private Color m_clrEnd = SpongeColors.BarEnd;
+		private ToolStripRenderer _prevRenderer;
+		private Color _clrBegin = SpongeColors.BarBegin;
+		private Color _clrEnd = SpongeColors.BarEnd;
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
@@ -52,8 +52,8 @@ namespace SIL.Sponge.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color BackColorBegin
 		{
-			get { return m_clrBegin; }
-			set { m_clrBegin = value; }
+			get { return _clrBegin; }
+			set { _clrBegin = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,8 +65,8 @@ namespace SIL.Sponge.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color BackColorEnd
 		{
-			get { return m_clrEnd; }
-			set { m_clrEnd = value; }
+			get { return _clrEnd; }
+			set { _clrEnd = value; }
 		}
 
 		#endregion
@@ -78,13 +78,13 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnRendererChanged(EventArgs e)
 		{
-			if (m_prevRenderer != null)
-				m_prevRenderer.RenderToolStripBorder -= OverrideSpongeBarBorderPainting;
+			if (_prevRenderer != null)
+				_prevRenderer.RenderToolStripBorder -= OverrideSpongeBarBorderPainting;
 
 			base.OnRendererChanged(e);
 
 			Renderer.RenderToolStripBorder += OverrideSpongeBarBorderPainting;
-			m_prevRenderer = Renderer;
+			_prevRenderer = Renderer;
 		}
 
 		/// ------------------------------------------------------------------------------------

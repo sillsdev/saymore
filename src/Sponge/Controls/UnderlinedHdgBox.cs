@@ -14,9 +14,9 @@ namespace SIL.Sponge.Controls
 	[Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design", typeof(IDesigner))]
 	public class UnderlinedHdgBox : UserControl
 	{
-		private Color m_lineColor = SystemColors.ControlDark;
-		private int m_lineThickness = 1;
-		private readonly Label m_lblHeading;
+		private Color _lineColor = SystemColors.ControlDark;
+		private int _lineThickness = 1;
+		private readonly Label _lblHeading;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -25,11 +25,11 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public UnderlinedHdgBox()
 		{
-			m_lblHeading = new Label();
-			m_lblHeading.AutoEllipsis = true;
-			m_lblHeading.AutoSize = false;
-			m_lblHeading.Dock = DockStyle.Top;
-			Controls.Add(m_lblHeading);
+			_lblHeading = new Label();
+			_lblHeading.AutoEllipsis = true;
+			_lblHeading.AutoSize = false;
+			_lblHeading.Dock = DockStyle.Top;
+			Controls.Add(_lblHeading);
 			BackColor = Color.Transparent;
 
 			Font = SystemFonts.MenuFont;
@@ -42,10 +42,10 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public Color LineColor
 		{
-			get { return m_lineColor; }
+			get { return _lineColor; }
 			set
 			{
-				m_lineColor = value;
+				_lineColor = value;
 				Invalidate();
 			}
 		}
@@ -57,10 +57,10 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public int LineThickness
 		{
-			get { return m_lineThickness; }
+			get { return _lineThickness; }
 			set
 			{
-				m_lineThickness = value;
+				_lineThickness = value;
 				Invalidate();
 			}
 		}
@@ -76,11 +76,11 @@ namespace SIL.Sponge.Controls
 			set
 			{
 				base.Font = value;
-				m_lblHeading.Font = value;
+				_lblHeading.Font = value;
 
 				using (var g = CreateGraphics())
 				{
-					m_lblHeading.Height = TextRenderer.MeasureText(g, "X",
+					_lblHeading.Height = TextRenderer.MeasureText(g, "X",
 						value, new Size(int.MaxValue, int.MaxValue)).Height;
 				}
 
@@ -101,7 +101,7 @@ namespace SIL.Sponge.Controls
 			set
 			{
 				base.Text = value;
-				m_lblHeading.Text = value;
+				_lblHeading.Text = value;
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace SIL.Sponge.Controls
 			set
 			{
 				base.ForeColor = value;
-				m_lblHeading.ForeColor = value;
+				_lblHeading.ForeColor = value;
 			}
 		}
 
@@ -131,7 +131,7 @@ namespace SIL.Sponge.Controls
 			set
 			{
 				base.BackColor = value;
-				m_lblHeading.BackColor = value;
+				_lblHeading.BackColor = value;
 			}
 		}
 
@@ -145,7 +145,7 @@ namespace SIL.Sponge.Controls
 			base.OnPaintBackground(e);
 			using (Pen pen = new Pen(LineColor, LineThickness))
 			{
-				var dx = m_lblHeading.Bottom + 3 + (LineThickness / 2);
+				var dx = _lblHeading.Bottom + 3 + (LineThickness / 2);
 				pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
 				var pt1 = new Point(0, dx);
 				var pt2 = new Point(Width, dx);

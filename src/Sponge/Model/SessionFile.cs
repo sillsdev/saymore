@@ -18,10 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using Palaso.Reporting;
@@ -222,13 +220,14 @@ namespace SIL.Sponge.Model
 			bool needSeparator = true;
 			foreach (var definition in SessionComponentDefinition.CreateHardCodedDefinitions())
 			{
-				if(definition.GetFileIsElligible(this.FullFilePath))
+				if (definition.GetFileIsElligible(FullFilePath))
 				{
 					if(needSeparator)
 					{
 						needSeparator = false;
 						yield return new ToolStripSeparator();
 					}
+
 					string label = string.Format("Rename For {0}", definition.Name);
 					SessionComponentDefinition componentDefinition = definition;
 					yield return new ToolStripMenuItem(label, null, (sender, args) => IdentifyAsComponent(componentDefinition, sessionId));
@@ -246,7 +245,7 @@ namespace SIL.Sponge.Model
 			}
 			catch (Exception e)
 			{
-				Palaso.Reporting.ErrorReport.ReportNonFatalException(e);
+				ErrorReport.ReportNonFatalException(e);
 			}
 		}
 

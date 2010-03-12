@@ -29,10 +29,10 @@ namespace SIL.Sponge
 	/// ----------------------------------------------------------------------------------------
 	public class ViewButtonManager : IDisposable
 	{
-		private ToolStrip m_toolStrip;
-		private Control m_toolStripOwner;
-		private Dictionary<ToolStripButton, Control> m_controls;
-		private Dictionary<Control, bool> m_hasBeenActivatedList;
+		private ToolStrip _toolStrip;
+		private Control _toolStripOwner;
+		private Dictionary<ToolStripButton, Control> _controls;
+		private Dictionary<Control, bool> _hasBeenActivatedList;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -43,22 +43,22 @@ namespace SIL.Sponge
 		{
 			Debug.Assert(toolstrip.Items.Count >= ctrls.Count());
 
-			m_toolStripOwner = toolstrip.TopLevelControl;
-			m_toolStrip = toolstrip;
-			m_toolStrip.ItemClicked += toolstrip_ItemClicked;
-			m_controls = new Dictionary<ToolStripButton, Control>();
-			m_hasBeenActivatedList = new Dictionary<Control, bool>();
+			_toolStripOwner = toolstrip.TopLevelControl;
+			_toolStrip = toolstrip;
+			_toolStrip.ItemClicked += toolstrip_ItemClicked;
+			_controls = new Dictionary<ToolStripButton, Control>();
+			_hasBeenActivatedList = new Dictionary<Control, bool>();
 
 			int i = 0;
 			foreach (Control ctrl in ctrls)
 			{
 				ctrl.Dock = DockStyle.Fill;
 				ctrl.Visible = false;
-				Debug.Assert(m_toolStrip.Items[i] is ToolStripButton);
-				m_controls[m_toolStrip.Items[i++] as ToolStripButton] = ctrl;
+				Debug.Assert(_toolStrip.Items[i] is ToolStripButton);
+				_controls[_toolStrip.Items[i++] as ToolStripButton] = ctrl;
 
 				if (ctrl is ISpongeView)
-					m_hasBeenActivatedList[ctrl] = false;
+					_hasBeenActivatedList[ctrl] = false;
 			}
 		}
 
@@ -71,13 +71,13 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			if (m_toolStrip != null)
-				m_toolStrip.ItemClicked -= toolstrip_ItemClicked;
+			if (_toolStrip != null)
+				_toolStrip.ItemClicked -= toolstrip_ItemClicked;
 
-			m_toolStrip = null;
-			m_toolStripOwner = null;
-			m_controls = null;
-			m_hasBeenActivatedList = null;
+			_toolStrip = null;
+			_toolStripOwner = null;
+			_controls = null;
+			_hasBeenActivatedList = null;
 		}
 
 		#endregion
@@ -92,7 +92,7 @@ namespace SIL.Sponge
 		{
 			get
 			{
-				return from x in m_controls.Values
+				return from x in _controls.Values
 					   where x is ISpongeView
 					   select x as ISpongeView;
 			}
@@ -107,7 +107,7 @@ namespace SIL.Sponge
 		{
 			get
 			{
-				foreach (ToolStripButton btn in m_toolStrip.Items)
+				foreach (ToolStripButton btn in _toolStrip.Items)
 				{
 					if (btn.Checked)
 						return btn;
@@ -134,14 +134,14 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		public void SetView(ToolStripButton btn)
 		{
-			if (!m_controls.ContainsKey(btn))
+			if (!_controls.ContainsKey(btn))
 				return;
 
 			ToolStripButton currbtn = CurrentViewButton;
 			if (btn == currbtn)
 				return;
 
-			Control newVw = (btn == null ? null : m_controls[btn]);
+			Control newVw = (btn == null ? null : _controls[btn]);
 
 			// Now make sure we can leave the current view.
 			foreach (var vw in Views)
@@ -154,16 +154,16 @@ namespace SIL.Sponge
 					return;
 			}
 
-			if (m_toolStripOwner != null)
-				Utils.SetWindowRedraw(m_toolStripOwner, false);
+			if (_toolStripOwner != null)
+				Utils.SetWindowRedraw(_toolStripOwner, false);
 
-			if (currbtn != null && m_controls.ContainsKey(currbtn))
+			if (currbtn != null && _controls.ContainsKey(currbtn))
 			{
 				currbtn.Checked = false;
-				m_controls[currbtn].Visible = false;
+				_controls[currbtn].Visible = false;
 
-				if (m_controls[currbtn] is ISpongeView)
-					((ISpongeView)m_controls[currbtn]).ViewDeactivated();
+				if (_controls[currbtn] is ISpongeView)
+					((ISpongeView)_controls[currbtn]).ViewDeactivated();
 			}
 
 			if (btn != null)
@@ -173,13 +173,13 @@ namespace SIL.Sponge
 				newVw.BringToFront();
 			}
 
-			if (m_toolStripOwner != null)
-				Utils.SetWindowRedraw(m_toolStripOwner, true);
+			if (_toolStripOwner != null)
+				Utils.SetWindowRedraw(_toolStripOwner, true);
 
 			if (newVw is ISpongeView)
 			{
-				((ISpongeView)newVw).ViewActivated(!m_hasBeenActivatedList[newVw]);
-				m_hasBeenActivatedList[newVw] = true;
+				((ISpongeView)newVw).ViewActivated(!_hasBeenActivatedList[newVw]);
+				_hasBeenActivatedList[newVw] = true;
 			}
 		}
 	}

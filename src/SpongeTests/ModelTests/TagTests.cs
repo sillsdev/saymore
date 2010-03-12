@@ -17,7 +17,7 @@
 using NUnit.Framework;
 using SIL.Sponge.Model;
 
-namespace SpongeTests.ModelTests
+namespace SIL.Sponge.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -43,7 +43,7 @@ namespace SpongeTests.ModelTests
 			"</tag>" +
 			"</fileTags>";
 
-		private TagList m_list;
+		private TagList _list;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -53,7 +53,7 @@ namespace SpongeTests.ModelTests
 		[SetUp]
 		public void TestSetup()
 		{
-			m_list = TagList.Load(kXml);
+			_list = TagList.Load(kXml);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -64,14 +64,14 @@ namespace SpongeTests.ModelTests
 		[Test]
 		public void LoadTagList()
 		{
-			Assert.AreEqual(3, m_list.Count);
+			Assert.AreEqual(3, _list.Count);
 
-			Assert.AreEqual("Recording", m_list[0].Name);
-			Assert.AreEqual("Audio", m_list[0].Description);
-			Assert.AreEqual("Transcription", m_list[1].Name);
-			Assert.AreEqual("Document", m_list[1].Description);
-			Assert.AreEqual("Annotation", m_list[2].Name);
-			Assert.AreEqual("ElanAnn", m_list[2].Description);
+			Assert.AreEqual("Recording", _list[0].Name);
+			Assert.AreEqual("Audio", _list[0].Description);
+			Assert.AreEqual("Transcription", _list[1].Name);
+			Assert.AreEqual("Document", _list[1].Description);
+			Assert.AreEqual("Annotation", _list[2].Name);
+			Assert.AreEqual("ElanAnn", _list[2].Description);
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ namespace SpongeTests.ModelTests
 		//{
 		//    TagList list = new TagList();
 		//    var tagsByExt =
-		//        ReflectionHelper.GetField(list, "m_tagsByExtension") as Dictionary<string, Tag>;
+		//        ReflectionHelper.GetField(list, "_tagsByExtension") as Dictionary<string, Tag>;
 
 		//    Assert.IsNotNull(tagsByExt);
 
@@ -114,14 +114,14 @@ namespace SpongeTests.ModelTests
 		//[Test]
 		//public void GetTagForExtension()
 		//{
-		//    Assert.AreEqual(3, m_list.Count);
+		//    Assert.AreEqual(3, _list.Count);
 
-		//    Assert.AreEqual(m_list[0], m_list.GetTagForExtension("wma"));
-		//    Assert.AreEqual(m_list[0], m_list.GetTagForExtension("mp3"));
-		//    Assert.AreEqual(m_list[0], m_list.GetTagForExtension("wav"));
-		//    Assert.AreEqual(m_list[1], m_list.GetTagForExtension("pdf"));
-		//    Assert.AreEqual(m_list[1], m_list.GetTagForExtension("doc"));
-		//    Assert.AreEqual(m_list[2], m_list.GetTagForExtension("eaf"));
+		//    Assert.AreEqual(_list[0], _list.GetTagForExtension("wma"));
+		//    Assert.AreEqual(_list[0], _list.GetTagForExtension("mp3"));
+		//    Assert.AreEqual(_list[0], _list.GetTagForExtension("wav"));
+		//    Assert.AreEqual(_list[1], _list.GetTagForExtension("pdf"));
+		//    Assert.AreEqual(_list[1], _list.GetTagForExtension("doc"));
+		//    Assert.AreEqual(_list[2], _list.GetTagForExtension("eaf"));
 		//}
 
 		///// ------------------------------------------------------------------------------------
@@ -132,20 +132,20 @@ namespace SpongeTests.ModelTests
 		//[Test]
 		//public void GetExtensionsForTag()
 		//{
-		//    Assert.AreEqual(3, m_list.Count);
+		//    Assert.AreEqual(3, _list.Count);
 
-		//    var extensions = m_list.GetExtensionsForTag(m_list[0]);
+		//    var extensions = _list.GetExtensionsForTag(_list[0]);
 		//    Assert.AreEqual(3, extensions.Count);
 		//    Assert.IsTrue(extensions.Contains("wma"));
 		//    Assert.IsTrue(extensions.Contains("wav"));
 		//    Assert.IsTrue(extensions.Contains("mp3"));
 
-		//    extensions = m_list.GetExtensionsForTag(m_list[1]);
+		//    extensions = _list.GetExtensionsForTag(_list[1]);
 		//    Assert.AreEqual(2, extensions.Count);
 		//    Assert.IsTrue(extensions.Contains("pdf"));
 		//    Assert.IsTrue(extensions.Contains("doc"));
 
-		//    extensions = m_list.GetExtensionsForTag(m_list[2]);
+		//    extensions = _list.GetExtensionsForTag(_list[2]);
 		//    Assert.AreEqual(1, extensions.Count);
 		//    Assert.IsTrue(extensions.Contains("eaf"));
 		//}

@@ -16,7 +16,6 @@
 // ---------------------------------------------------------------------------------------------
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 
@@ -80,7 +79,7 @@ namespace SIL.Sponge.Model
 			using (var f = new TemporaryFolder("spongeTests"))
 			{
 				string path = f.Combine("foo.wav");//TODO: extract to TempWaveFile
-				File.WriteAllText(path, "");
+				File.CreateText(path).Close();
 				sf.FullFilePath = path;
 				Assert.IsTrue(sf.GetContextMenuItems("x").Count() > 4);
 			}
@@ -93,15 +92,13 @@ namespace SIL.Sponge.Model
 			using (var f = new TemporaryFolder("spongeTests"))
 			{
 				string path = f.Combine("foo.wav");
-				File.WriteAllText(path, "");
+				File.CreateText(path).Close();
 				sf.FullFilePath = path;
 				//couldn't use the menu directly from test code:  sf.GetContextMenuItems("x").ToArray()[3].Select();
 
 				sf.IdentifyAsComponent(SessionComponentDefinition.CreateHardCodedDefinitions().First(), "x");
 				Assert.AreEqual("x_Original.wav", sf.FileName);
 			}
-
 		}
-
 	}
 }

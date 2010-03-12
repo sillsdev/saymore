@@ -313,7 +313,7 @@ namespace SIL.Sponge.Model
 
 		public bool CanChoosePicture
 		{
-			get { return Folder!=null; }
+			get { return Folder != null; }
 		}
 
 		#endregion

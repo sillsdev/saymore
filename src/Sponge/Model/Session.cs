@@ -34,7 +34,8 @@ namespace SIL.Sponge.Model
 	[XmlRoot("session")]
 	public class Session
 	{
-		private readonly Dictionary<string, TimeSpan> _durations= new Dictionary<string, TimeSpan>();
+		private readonly Dictionary<string, TimeSpan> _sessionFileDurations =
+			new Dictionary<string, TimeSpan>();
 
 		#region static methods and properties
 		/// ------------------------------------------------------------------------------------
@@ -63,7 +64,7 @@ namespace SIL.Sponge.Model
 			if (errorMsg == null)
 				return session;
 
-			Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Could not load session \"{0}\". {1}", pathName, errorMsg);
+			ErrorReport.NotifyUserOfProblem("Could not load session \"{0}\". {1}", pathName, errorMsg);
 			return null;
 		}
 
@@ -88,7 +89,7 @@ namespace SIL.Sponge.Model
 			folder = Path.Combine(prj.SessionsFolder, folder);
 			var path = Path.Combine(folder, fileName);
 
-			if(!File.Exists(path))
+			if (!File.Exists(path))
 			{
 				errorMsg = string.Format("The session file at \"{0}\" is missing.",path);
 				return null;
@@ -101,6 +102,7 @@ namespace SIL.Sponge.Model
 				errorMsg = ExceptionHelper.GetAllExceptionMessages(e);
 				return null;
 			}
+
 			if (session == null)//jh: I've noticed that DeserializeFromFile likes to return null, with no error.
 			{
 				errorMsg = "Cause unknown";
@@ -135,70 +137,10 @@ namespace SIL.Sponge.Model
 		}
 
 		#region Serialized properties
-//	    [XmlAttribute("id")]
-		[XmlIgnore]
-		public string Id
-		{
-			get;
-			private set; //during construction, only
-		}
-
-		/// <summary>
-		/// why is this separate from the property?  Because
-		/// 1) You're not supposed to do anything non-trivial in property accessors (like renaming folders)
-		/// 2) It may fail, and needs a way to indicate that to the caller.
-		///
-		/// NB: at the moment, all the change is done immediately, so a Save() is needed to keep things consistent.
-		/// We could imagine just making the change pending until the next Save.
-		/// </summary>
-		/// <returns>true if the change was possible</returns>
-		public bool ChangeIdAndSave(string newId)
-		{
-			newId = newId.Trim();
-			if (Id == newId)
-			{
-				Save();
-				return true;
-			}
-
-			if(newId == string.Empty)
-			{
-				return false;
-			}
-
-			var parent = Directory.GetParent(Folder).FullName;
-			string newFolderPath = Path.Combine(parent, newId);
-			if(Directory.Exists(newFolderPath))
-			{
-				return false;
-			}
-
-			try
-			{
-				foreach(var file in Directory.GetFiles(Folder))
-				{
-					var name = Path.GetFileName(file);
-					if (name.ToLower().StartsWith(Id.ToLower()))// to be conservative, let's only trigger if it starts with the id
-					{
-						//todo: do a case-insensitive replacement
-						//todo... this could over-replace
-						File.Move(file, Path.Combine(Folder, name.Replace(Id, newId)));
-					}
-				}
-				Directory.Move(Folder, newFolderPath);
-			}
-			catch(Exception)
-			{
-				return false;
-			}
-			Id = newId;
-			Save();
-			return true;
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the date. Use this property rather than the SerializableDate.
+		/// Gets or sets the date. When getting or setting the session's date throughout the
+		/// code, this property should be used rather than the SerializableDate property.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
@@ -251,13 +193,17 @@ namespace SIL.Sponge.Model
 		#endregion
 
 		#region Non serialized properties
-//		/// ------------------------------------------------------------------------------------
-//		/// <summary>
-//		/// Gets the session's name.
-//		/// </summary>
-//		/// ------------------------------------------------------------------------------------
-//		[XmlIgnore]
-//		public string Name { get; private set; }
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string Id
+		{
+			get;
+			private set; //during construction, only
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -340,6 +286,59 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// why is this separate from the property?  Because
+		/// 1) You're not supposed to do anything non-trivial in property accessors (like renaming folders)
+		/// 2) It may fail, and needs a way to indicate that to the caller.
+		///
+		/// NB: at the moment, all the change is done immediately, so a Save() is needed to keep things consistent.
+		/// We could imagine just making the change pending until the next Save.
+		/// </summary>
+		/// <returns>true if the change was possible and occurred</returns>
+		/// ------------------------------------------------------------------------------------
+		public bool ChangeIdAndSave(string newId)
+		{
+			newId = newId.Trim();
+			if (Id == newId)
+			{
+				Save();
+				return true;
+			}
+
+			if (newId == string.Empty)
+				return false;
+
+			var parent = Directory.GetParent(Folder).FullName;
+			string newFolderPath = Path.Combine(parent, newId);
+			if (Directory.Exists(newFolderPath))
+				return false;
+
+			try
+			{
+				foreach (var file in Directory.GetFiles(Folder))
+				{
+					var name = Path.GetFileName(file);
+					if (name.ToLower().StartsWith(Id.ToLower()))// to be conservative, let's only trigger if it starts with the id
+					{
+						//todo: do a case-insensitive replacement
+						//todo... this could over-replace
+						File.Move(file, Path.Combine(Folder, name.Replace(Id, newId)));
+					}
+				}
+
+				Directory.Move(Folder, newFolderPath);
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+
+			Id = newId;
+			Save();
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Saves this instance of the session to it's file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -354,6 +353,15 @@ namespace SIL.Sponge.Model
 				Directory.CreateDirectory(Folder);
 
 			return XmlSerializationHelper.SerializeToFile(FullFilePath, this);
+		}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds the specified file to the session folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool AddFile(string sessionFile)
+		{
+			return AddFiles(new[] { sessionFile });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -386,6 +394,32 @@ namespace SIL.Sponge.Model
 			return true;
 		}
 
+		/// ------------------------------------------------------------------------
+		/// <summary>
+		/// Returns the duration of the first session file matching the specified
+		/// filter.
+		/// </summary>
+		/// ------------------------------------------------------------------------
+		public TimeSpan GetDurationOfMatchingFile(Func<string, bool> filter)
+		{
+			foreach (var path in Files)
+			{
+				if (filter(path))
+				{
+					TimeSpan duration;
+					if (!_sessionFileDurations.TryGetValue(path, out duration))
+					{
+						using (var sessionFile = SessionFile.Create(path))
+							_sessionFileDurations[path] = sessionFile.Duration;
+					}
+
+					return _sessionFileDurations[path];
+				}
+			}
+
+			return new TimeSpan();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents this instance.
@@ -394,28 +428,6 @@ namespace SIL.Sponge.Model
 		public override string ToString()
 		{
 			return Id;
-		}
-
-		public TimeSpan GetDurationOfMatchingFile(Func<string, bool> filter)
-		{
-			foreach (var path in Files)
-			{
-				if(filter(path))
-				{
-					TimeSpan duration;
-					if (!_durations.TryGetValue(path, out duration))
-					{
-						//jh: a managed debugging assistant complains here, but I haven't found the solution
-						//yet.
-						using (var audio = new Microsoft.DirectX.AudioVideoPlayback.Audio(path))
-						{
-						   _durations.Add(path, new TimeSpan(0, 0, 0, (int) audio.Duration));
-						}
-					}
-					return _durations[path];
-				}
-			}
-			return new TimeSpan();
 		}
 	}
 }

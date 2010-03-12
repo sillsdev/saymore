@@ -33,8 +33,8 @@ namespace SIL.Sponge.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class MultimediaScroll : UserControl
 	{
-		private int m_topOfNextCtrl;
-		private readonly SilPanel m_pnl;
+		private int _topOfNextCtrl;
+		private readonly SilPanel _pnl;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -46,14 +46,14 @@ namespace SIL.Sponge.Controls
 			DoubleBuffered = true;
 
 			// Provides the border
-			m_pnl = new SilPanel();
-			m_pnl.Dock = DockStyle.Fill;
-			m_pnl.AutoScroll = true;
-			m_pnl.VerticalScroll.Visible = true;
-			m_pnl.HorizontalScroll.Visible = false;
-			m_pnl.BackColor = Color.DarkGray;
+			_pnl = new SilPanel();
+			_pnl.Dock = DockStyle.Fill;
+			_pnl.AutoScroll = true;
+			_pnl.VerticalScroll.Visible = true;
+			_pnl.HorizontalScroll.Visible = false;
+			_pnl.BackColor = Color.DarkGray;
 
-			Controls.Add(m_pnl);
+			Controls.Add(_pnl);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ namespace SIL.Sponge.Controls
 			set
 			{
 				base.BackColor = value;
-				m_pnl.BackColor = value;
+				_pnl.BackColor = value;
 			}
 		}
 
@@ -78,16 +78,16 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Clear()
 		{
-			for (int i = m_pnl.Controls.Count - 1; i >= 0; i--)
+			for (int i = _pnl.Controls.Count - 1; i >= 0; i--)
 			{
-				if (m_pnl.Controls[i] is AxWindowsMediaPlayer)
-					((AxWindowsMediaPlayer)m_pnl.Controls[i]).Ctlcontrols.stop();
+				if (_pnl.Controls[i] is AxWindowsMediaPlayer)
+					((AxWindowsMediaPlayer)_pnl.Controls[i]).Ctlcontrols.stop();
 
-				m_pnl.Controls[i].Dispose();
+				_pnl.Controls[i].Dispose();
 			}
 
-			m_pnl.Controls.Clear();
-			m_topOfNextCtrl = 0;
+			_pnl.Controls.Clear();
+			_topOfNextCtrl = 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,13 +115,13 @@ namespace SIL.Sponge.Controls
 			if (!File.Exists(file))
 				return;
 
-			var ext = Path.GetExtension(file);
+			var ext = Path.GetExtension(file).ToLower();
 
-			if (Settings.Default.AudioFileExtensions.Contains(ext))
+			if (Settings.Default.AudioFileExtensions.ToLower().Contains(ext))
 				AddAVFile(file, false);
-			else if (Settings.Default.VideoFileExtensions.Contains(ext))
+			else if (Settings.Default.VideoFileExtensions.ToLower().Contains(ext))
 				AddAVFile(file, true);
-			else if (Settings.Default.ImageFileExtensions.Contains(ext))
+			else if (Settings.Default.ImageFileExtensions.ToLower().Contains(ext))
 				AddImageFile(file);
 		}
 
@@ -139,16 +139,16 @@ namespace SIL.Sponge.Controls
 			fs.Dispose();
 
 			var pic = new PictureBox();
-			pic.Size = new Size(m_pnl.ClientSize.Width,
+			pic.Size = new Size(_pnl.ClientSize.Width,
 				Settings.Default.DefaultHeightOfImageControl);
 
-			pic.Location = new Point(0, m_topOfNextCtrl);
+			pic.Location = new Point(0, _topOfNextCtrl);
 			pic.Anchor |= AnchorStyles.Right;
 			pic.Name = Path.GetFileName(file);
 			pic.SizeMode = PictureBoxSizeMode.Zoom;
 			pic.Image = img;
-			m_pnl.Controls.Add(pic);
-			m_topOfNextCtrl += pic.Height + Settings.Default.GapBetweenMultimediaObjects;
+			_pnl.Controls.Add(pic);
+			_topOfNextCtrl += pic.Height + Settings.Default.GapBetweenMultimediaObjects;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -158,8 +158,8 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private void AddAVFile(string file, bool isVideoFile)
 		{
-			var pt = new Point(0, m_topOfNextCtrl);
-			var sz = new Size(m_pnl.ClientSize.Width, isVideoFile ?
+			var pt = new Point(0, _topOfNextCtrl);
+			var sz = new Size(_pnl.ClientSize.Width, isVideoFile ?
 				Settings.Default.DefaultHeightOfVideoControl :
 				Settings.Default.DefaultHeightOfAudioControl);
 #if !MONO
@@ -171,12 +171,12 @@ namespace SIL.Sponge.Controls
 			wmp.Anchor |= AnchorStyles.Right;
 			wmp.Name = Path.GetFileName(file);
 			wmp.Tag = file;
-			m_pnl.Controls.Add(wmp);
+			_pnl.Controls.Add(wmp);
 			((ISupportInitialize)(wmp)).EndInit();
 			wmp.settings.autoStart = false;
 			wmp.URL = file;
 #endif
-			m_topOfNextCtrl += wmp.Height + Settings.Default.GapBetweenMultimediaObjects;
+			_topOfNextCtrl += wmp.Height + Settings.Default.GapBetweenMultimediaObjects;
 		}
 	}
 }

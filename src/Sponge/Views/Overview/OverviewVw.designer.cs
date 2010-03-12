@@ -1,6 +1,6 @@
 using SIL.Sponge.Controls;
 
-namespace SIL.Sponge
+namespace SIL.Sponge.Views
 {
 	partial class OverviewVw
 	{

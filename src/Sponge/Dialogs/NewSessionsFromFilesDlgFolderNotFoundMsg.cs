@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Windows.Forms;
 
@@ -13,7 +12,7 @@ namespace SIL.Sponge.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class NewSessionsFromFilesDlgFolderNotFoundMsg : UserControl
 	{
-		private readonly string m_msg2TextForFormat;
+		private readonly string _msg2TextForFormat;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -25,15 +24,15 @@ namespace SIL.Sponge.Dialogs
 			InitializeComponent();
 			Dock = DockStyle.Fill;
 
-			m_msg2TextForFormat = m_possibleProblemsMsg2Label.Text;
+			_msg2TextForFormat = _possibleProblemsMsg2Label.Text;
 
-			m_problemOverviewMsgLabel.Text =
-				string.Format(m_problemOverviewMsgLabel.Text, Application.ProductName);
+			_problemOverviewMsgLabel.Text =
+				string.Format(_problemOverviewMsgLabel.Text, Application.ProductName);
 
-			m_possibleProblemsMsg1Label.LeftMargin = m_problemOverviewMsgLabel.TextsXOffset;
-			m_possibleProblemsMsg2Label.LeftMargin = m_problemOverviewMsgLabel.TextsXOffset;
-			m_possibleProblemsMsg3Label.LeftMargin = m_problemOverviewMsgLabel.TextsXOffset;
-			m_driveLetterHintMsgLabel.LeftMargin = m_problemOverviewMsgLabel.TextsXOffset + 30;
+			_possibleProblemsMsg1Label.LeftMargin = _problemOverviewMsgLabel.TextsXOffset;
+			_possibleProblemsMsg2Label.LeftMargin = _problemOverviewMsgLabel.TextsXOffset;
+			_possibleProblemsMsg3Label.LeftMargin = _problemOverviewMsgLabel.TextsXOffset;
+			_driveLetterHintMsgLabel.LeftMargin = _problemOverviewMsgLabel.TextsXOffset + 30;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -46,7 +45,7 @@ namespace SIL.Sponge.Dialogs
 		{
 			var driveLetter = (path == null ? string.Empty : Path.GetPathRoot(path));
 			driveLetter = driveLetter.TrimEnd(Path.DirectorySeparatorChar, Path.VolumeSeparatorChar);
-			m_possibleProblemsMsg2Label.Text = string.Format(m_msg2TextForFormat, driveLetter);
+			_possibleProblemsMsg2Label.Text = string.Format(_msg2TextForFormat, driveLetter);
 		}
 	}
 }

@@ -20,6 +20,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using AxWMPLib;
+using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 using SilUtils;
 using SilUtils.Controls;
@@ -119,7 +120,7 @@ namespace SIL.Sponge.Controls
 
 			if (Settings.Default.AudioFileExtensions.ToLower().Contains(ext))
 				AddAVFile(file, false);
-			else if (Settings.Default.VideoFileExtensions.ToLower().Contains(ext))
+			else if (SpongeProject.VideoFileExtensions.ToLower().Contains(ext))
 				AddAVFile(file, true);
 			else if (Settings.Default.ImageFileExtensions.ToLower().Contains(ext))
 				AddImageFile(file);

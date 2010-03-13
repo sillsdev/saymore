@@ -112,7 +112,10 @@ namespace SIL.Sponge.Model
 				return;
 
 			var validExtensions = (Settings.Default.AudioFileExtensions +
-				Settings.Default.VideoFileExtensions).ToLower();
+				SpongeProject.VideoFileExtensions).ToLower();
+
+			//hack for john for now:
+			validExtensions += ".mov";
 
 			foreach (var file in Directory.GetFiles(folder))
 			{

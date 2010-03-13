@@ -36,6 +36,7 @@ namespace SIL.Sponge.Model
 	{
 		public event EventHandler ProjectChanged;
 		private FileSystemWatcher _fileWatcher;
+		public static string VideoFileExtensions = ".wmv, .avi, .mpg, .mpeg, .mpa, .asf, .mov";
 
 		#region Static methods/properties
 		/// ------------------------------------------------------------------------------------

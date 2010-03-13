@@ -74,7 +74,7 @@ namespace SIL.Sponge.Model
 
 		public static bool GetIsVideo(string path)
 		{
-			var extensions = Settings.Default.VideoFileExtensions;
+			var extensions = SpongeProject.VideoFileExtensions;
 			return extensions.Contains(Path.GetExtension(path).ToLower());
 		}
 

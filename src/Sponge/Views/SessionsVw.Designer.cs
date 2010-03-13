@@ -632,6 +632,7 @@ namespace SIL.Sponge.Views
 			this.gridFiles.WaterMark = "!";
 			this.gridFiles.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.HandleFilesGridCellMouseClick);
 			this.gridFiles.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFiles_RowEnter);
+			this.gridFiles.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleFileGridCellDoubleClick);
 			this.gridFiles.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridFiles_CellValueNeeded);
 			this.gridFiles.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridFiles_CellValuePushed);
 			// 
@@ -730,7 +731,7 @@ namespace SIL.Sponge.Views
 			this._fileInfoNotes.InnerTextBox.Multiline = true;
 			this._fileInfoNotes.InnerTextBox.Name = "_txtBox";
 			this._fileInfoNotes.InnerTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 2426);
+			this._fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 2820);
 			this._fileInfoNotes.InnerTextBox.TabIndex = 0;
 			this.locExtender.SetLocalizableToolTip(this._fileInfoNotes, null);
 			this.locExtender.SetLocalizationComment(this._fileInfoNotes, null);
@@ -739,7 +740,7 @@ namespace SIL.Sponge.Views
 			this._fileInfoNotes.Location = new System.Drawing.Point(3, 19);
 			this._fileInfoNotes.Name = "_fileInfoNotes";
 			this._fileInfoNotes.Padding = new System.Windows.Forms.Padding(1);
-			this._fileInfoNotes.Size = new System.Drawing.Size(150, 2428);
+			this._fileInfoNotes.Size = new System.Drawing.Size(150, 2822);
 			this._fileInfoNotes.TabIndex = 1;
 			// 
 			// lblFileInfoNotes
@@ -785,7 +786,7 @@ namespace SIL.Sponge.Views
 			this.lpSessions.ListView.HideSelection = false;
 			this.lpSessions.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpSessions.ListView.Name = "lvItems";
-			this.lpSessions.ListView.Size = new System.Drawing.Size(854, 15337);
+			this.lpSessions.ListView.Size = new System.Drawing.Size(862, 15526);
 			this.lpSessions.ListView.TabIndex = 0;
 			this.lpSessions.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpSessions.ListView.View = System.Windows.Forms.View.Details;

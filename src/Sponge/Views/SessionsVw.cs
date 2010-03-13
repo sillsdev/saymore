@@ -718,7 +718,7 @@ namespace SIL.Sponge.Views
 			{
 				gridFiles.CurrentCell = gridFiles.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-				_infoPanel_MoreActionButtonClicked(null, null);
+			 //   _infoPanel_MoreActionButtonClicked(null, null);
 				Point pt = gridFiles.PointToClient(MousePosition);
 				_fileContextMenu.Items.Clear();
 				_fileContextMenu.Items.AddRange(CurrentSessionFile.GetContextMenuItems(_id.Text).ToArray());
@@ -737,6 +737,12 @@ namespace SIL.Sponge.Views
 			e.Cancel = !_currSession.ChangeIdAndSave(_id.Text.Trim());
 			if (e.Cancel)
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Please use a different id.");
+		}
+
+		private void HandleFileGridCellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			gridFiles.CurrentCell = gridFiles.Rows[e.RowIndex].Cells[e.ColumnIndex];
+			CurrentSessionFile.HandleOpenInApp_Click(this,null);
 		}
 	}
 }

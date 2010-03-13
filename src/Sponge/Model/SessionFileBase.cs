@@ -93,7 +93,7 @@ namespace SIL.Sponge.Model
 			{
 				_fullFilePath = value;
 				DateModified = File.GetLastWriteTime(_fullFilePath).ToString();
-				Duration = GetMediaFileDuration(_fullFilePath);
+				//TODO: Duration = GetMediaFileDuration(_fullFilePath);
 
 				var fi = new FileInfo(_fullFilePath);
 				FileSize = GetDisplayableFileSize(fi.Length);

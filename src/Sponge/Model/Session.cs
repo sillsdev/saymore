@@ -310,7 +310,11 @@ namespace SIL.Sponge.Model
 			var parent = Directory.GetParent(Folder).FullName;
 			string newFolderPath = Path.Combine(parent, newId);
 			if (Directory.Exists(newFolderPath))
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
+					"Could not rename from {0} to {1} because there is already a folder with that name.", Id, newId);
 				return false;
+			}
 
 			try
 			{

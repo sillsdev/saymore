@@ -92,6 +92,8 @@ namespace SIL.Sponge.Dialogs
 		{
 			base.OnFormClosing(e);
 
+			Application.Idle -= HandleApplicationIdle;
+
 			Settings.Default.NewSessionsFromFilesDlgCols =
 				Sponge.StoreGridColumnWidthsInString(_filesGrid);
 

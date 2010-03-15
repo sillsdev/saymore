@@ -384,7 +384,7 @@ namespace SIL.Sponge.Dialogs
 
 			var sessionId = Path.GetFileNameWithoutExtension(file.FileName);
 			var session = Session.Create(MainWnd.CurrentProject, sessionId);
-			session.Date = DateTime.Parse(file.DateModified);
+			session.Date = File.GetLastWriteTime(file.FullFilePath);
 			session.Save();
 			session.AddFile(file.FullFilePath);
 

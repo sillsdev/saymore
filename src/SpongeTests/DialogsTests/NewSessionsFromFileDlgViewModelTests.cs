@@ -344,12 +344,12 @@ namespace SIL.Sponge.Dialogs
 			var path = _mainAppFldr.Combine("rabbit.ogg");
 			File.CreateText(path).Close();
 			var nsf = new NewSessionFile(path);
-			var date = File.GetLastWriteTime(path);
+			var date = File.GetLastWriteTime(path).ToShortDateString();
 			Assert.IsTrue(ReflectionHelper.GetBoolResult(_viewModel, "CreateSingleSession", nsf));
 
 			var session = Session.Create(_prj, "rabbit");
 			Assert.AreEqual("rabbit", session.Id);
-			Assert.AreEqual(date.ToString(), session.Date.ToString());
+			Assert.AreEqual(date, session.Date.ToShortDateString());
 			Assert.AreEqual(1, session.Files.Length);
 			Assert.AreEqual(Path.Combine(session.Folder, "rabbit.ogg"), session.Files[0]);
 		}

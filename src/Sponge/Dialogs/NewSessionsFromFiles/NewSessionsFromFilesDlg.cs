@@ -3,7 +3,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
-using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 using SilUtils;
 
@@ -19,7 +18,7 @@ namespace SIL.Sponge.Dialogs
 	{
 		private readonly string _noFilesSelectedCreateButtonText;
 		private readonly string _filesSelectedCreateButtonText;
-		private readonly NewSessionsFromFileDlgModel _viewModel;
+		private readonly NewSessionsFromFileDlgViewModel _viewModel;
 		private readonly NewSessionsFromFilesDlgFolderNotFoundMsg _folderMissingMsgCtrl;
 
 		/// ------------------------------------------------------------------------------------
@@ -57,7 +56,7 @@ namespace SIL.Sponge.Dialogs
 			_filesPanel.Controls.Add(_folderMissingMsgCtrl);
 			_folderMissingMsgCtrl.BringToFront();
 
-			_viewModel = new NewSessionsFromFileDlgModel();
+			_viewModel = new NewSessionsFromFileDlgViewModel();
 			UpdateDisplay();
 
 			Application.Idle += HandleApplicationIdle;

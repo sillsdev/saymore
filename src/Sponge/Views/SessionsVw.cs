@@ -23,7 +23,7 @@ namespace SIL.Sponge.Views
 	public partial class SessionsVw : BaseSplitVw
 	{
 		private readonly Func<IEnumerable<string>> _peopleNameProvider;
-		private SpongeProject _currProj;
+		private readonly SpongeProject _currProj;
 		private Session _currSession;
 		private SessionFile _currSessionFile;
 		private SessionFile[] _currSessionFiles;

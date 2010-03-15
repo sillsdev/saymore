@@ -29,21 +29,16 @@ namespace SIL.Sponge.Model
 	[TestFixture]
 	public class SessionFileTests : TestBase
 	{
-		[SetUp]
-		public void Setup()
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Runs before each test.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override void TestSetup()
 		{
+			base.TestSetup();
 			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Runs before each test.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public override void TestSetup()
-		//{
-		//    base.TestSetup();
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

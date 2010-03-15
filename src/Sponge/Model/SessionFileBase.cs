@@ -253,7 +253,11 @@ namespace SIL.Sponge.Model
 
 			// TODO: What should we do if DirectX throws an exception (e.g. the path is really
 			// not a valid audio or video stream)? For now, just ignore exceptions.
-
+			// REVIEW: Consider putting the code in the following if block in a different
+			// thread because if trying to create an Audio or Video instance on an invalid
+			// audio or video stream causes DirectX to throw an exception (not surprisingly),
+			// but then keeps some sort of lock on the file so it cannot be deleted. Perhaps
+			// wrapping that all in a thread will release the lock when the thread is exited.
 			if (SessionComponentDefinition.GetIsAudio(fullFilePath))
 			{
 				try

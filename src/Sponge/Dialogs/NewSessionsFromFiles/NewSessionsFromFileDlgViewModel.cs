@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using SIL.Sponge.Dialogs;
+using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 
-namespace SIL.Sponge.Model
+namespace SIL.Sponge.Dialogs
 {
 	#region NewSessionFile class
 	/// ----------------------------------------------------------------------------------------
@@ -24,22 +23,22 @@ namespace SIL.Sponge.Model
 
 	#endregion
 
-	#region NewSessionsFromFileDlgModel class
+	#region NewSessionsFromFileDlgViewModel class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	///
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class NewSessionsFromFileDlgModel
+	public class NewSessionsFromFileDlgViewModel
 	{
 		private string _selectedFolder;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="NewSessionsFromFileDlgModel"/> class.
+		/// Initializes a new instance of the <see cref="NewSessionsFromFileDlgViewModel"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public NewSessionsFromFileDlgModel()
+		public NewSessionsFromFileDlgViewModel()
 		{
 			Files = new List<NewSessionFile>();
 			SelectedFolder = Settings.Default.NewSessionsFromFilesLastFolder;

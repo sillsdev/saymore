@@ -265,7 +265,6 @@ namespace SIL.Sponge.Model
 				using (TemporaryFolder.TrackExisting(person.Folder))
 				{
 					var expected = Path.Combine(person.Folder, "Beethoven");
-
 					expected = Path.ChangeExtension(expected, Path.GetExtension(pic.Path));
 					Assert.IsTrue(File.Exists(expected));
 				}
@@ -278,7 +277,6 @@ namespace SIL.Sponge.Model
 			var person = Person.CreateFromName(_prj, string.Empty);
 			Assert.IsFalse(person.CanChoosePicture);
 		}
-
 
 		[Test]
 		public void CanChoosePicture_PersonHasName_True()
@@ -413,8 +411,6 @@ namespace SIL.Sponge.Model
 			Assert.IsNotNull(person);
 			Assert.AreEqual("BS, Whitworth College", person.Education);
 		}
-
-
 
 		[Test]
 		public void ChangeName_HadSameNameBefore_ReturnsTrue()

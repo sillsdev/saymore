@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+	<SafeNameReplacementChar>_</SafeNameReplacementChar>
+	<RedrawAsMainWndResizes>True</RedrawAsMainWndResizes>
+	<DefaultHeightOfVideoControl>200</DefaultHeightOfVideoControl>
+	<DefaultHeightOfImageControl>200</DefaultHeightOfImageControl>
+	<DefaultHeightOfAudioControl>65</DefaultHeightOfAudioControl>
+	<GapBetweenMultimediaObjects>10</GapBetweenMultimediaObjects>
+	<DataEntryPanelColorEnd>169, 219, 168</DataEntryPanelColorEnd>
+	<DataEntryPanelColorBegin>207, 240, 159</DataEntryPanelColorBegin>
+	<DataEntryPanelColorBorder>148, 195, 151</DataEntryPanelColorBorder>
+	<BarColorBegin>196, 209, 227</BarColorBegin>
+	<BarColorEnd>124, 153, 193</BarColorEnd>
+	<BarColorBorder>83, 110, 145</BarColorBorder>
+	<VideoFileExtensions>DAVID DAVID .wmv, .avi, .mpg, .mpeg, .mpa, .asf, .mov</VideoFileExtensions>
+	<AudioFileExtensions>.mp3, .wav, .wma, .acc, .ogg</AudioFileExtensions>
+	<ImageFileExtensions>.jpg, .jpeg, .gif, .tif, .png, .bmp, .dib</ImageFileExtensions>
+</Settings>

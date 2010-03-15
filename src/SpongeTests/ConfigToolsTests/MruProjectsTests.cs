@@ -44,7 +44,7 @@ namespace SIL.Sponge.ConfigTools
 		public void TestSetup()
 		{
 			_settingsFilePath = Path.Combine(Path.GetTempPath(), "~mrutestsettingsfile~.settings");
-			PortableSettingsProvider.SettingsFilePath = _settingsFilePath;
+			SpongeSettingsProvider.SettingsFileFolder = _settingsFilePath;
 
 			MruProjects.Paths = new string[] { };
 

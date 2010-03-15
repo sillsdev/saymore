@@ -24,7 +24,7 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection MRUList {
             get {
@@ -36,7 +36,7 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int LocalizationDlgSplitterPos {
             get {
@@ -48,7 +48,7 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle LocalizationDlgBounds {
@@ -61,7 +61,7 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle MainWndBounds {
@@ -74,7 +74,7 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle WelcomeDlgBounds {
@@ -87,7 +87,7 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int SessionVwSplitterPos {
             get {
@@ -99,7 +99,7 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string SessionFileCols {
             get {
@@ -113,7 +113,7 @@ namespace SIL.Sponge.Properties {
         /// <summary>
         /// Character used to replace invalid path characters in a person&apos;s name when building a safe name to store in file system.
         /// </summary>
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("Character used to replace invalid path characters in a person\'s name when buildin" +
             "g a safe name to store in file system.")]
@@ -123,12 +123,9 @@ namespace SIL.Sponge.Properties {
             get {
                 return ((char)(this["SafeNameReplacementChar"]));
             }
-            set {
-                this["SafeNameReplacementChar"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("207, 240, 159")]
@@ -136,12 +133,9 @@ namespace SIL.Sponge.Properties {
             get {
                 return ((global::System.Drawing.Color)(this["DataEntryPanelColorBegin"]));
             }
-            set {
-                this["DataEntryPanelColorBegin"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("169, 219, 168")]
@@ -149,12 +143,9 @@ namespace SIL.Sponge.Properties {
             get {
                 return ((global::System.Drawing.Color)(this["DataEntryPanelColorEnd"]));
             }
-            set {
-                this["DataEntryPanelColorEnd"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
@@ -162,12 +153,9 @@ namespace SIL.Sponge.Properties {
             get {
                 return ((global::System.Drawing.Color)(this["DataEntryPanelColorBorder"]));
             }
-            set {
-                this["DataEntryPanelColorBorder"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("196, 209, 227")]
@@ -175,38 +163,27 @@ namespace SIL.Sponge.Properties {
             get {
                 return ((global::System.Drawing.Color)(this["BarColorBegin"]));
             }
-            set {
-                this["BarColorBegin"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("124, 153, 193")]
         public global::System.Drawing.Color BarColorEnd {
             get {
                 return ((global::System.Drawing.Color)(this["BarColorEnd"]));
             }
-            set {
-                this["BarColorEnd"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("83, 110, 145")]
         public global::System.Drawing.Color BarColorBorder {
             get {
                 return ((global::System.Drawing.Color)(this["BarColorBorder"]));
             }
-            set {
-                this["BarColorBorder"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
@@ -214,12 +191,9 @@ namespace SIL.Sponge.Properties {
             get {
                 return ((int)(this["GapBetweenMultimediaObjects"]));
             }
-            set {
-                this["GapBetweenMultimediaObjects"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("200")]
@@ -227,12 +201,9 @@ namespace SIL.Sponge.Properties {
             get {
                 return ((int)(this["DefaultHeightOfVideoControl"]));
             }
-            set {
-                this["DefaultHeightOfVideoControl"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("65")]
@@ -240,12 +211,9 @@ namespace SIL.Sponge.Properties {
             get {
                 return ((int)(this["DefaultHeightOfAudioControl"]));
             }
-            set {
-                this["DefaultHeightOfAudioControl"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("200")]
@@ -253,51 +221,36 @@ namespace SIL.Sponge.Properties {
             get {
                 return ((int)(this["DefaultHeightOfImageControl"]));
             }
-            set {
-                this["DefaultHeightOfImageControl"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(".mp3, .wav, .wma, .acc, .ogg")]
         public string AudioFileExtensions {
             get {
                 return ((string)(this["AudioFileExtensions"]));
             }
-            set {
-                this["AudioFileExtensions"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(".wmv, .avi, .mpg, .mpeg, .mpa, .asf, .mov")]
         public string VideoFileExtensions {
             get {
                 return ((string)(this["VideoFileExtensions"]));
             }
-            set {
-                this["VideoFileExtensions"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(".jpg, .jpeg, .gif, .tif, .png, .bmp, .dib")]
         public string ImageFileExtensions {
             get {
                 return ((string)(this["ImageFileExtensions"]));
             }
-            set {
-                this["ImageFileExtensions"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -305,13 +258,10 @@ namespace SIL.Sponge.Properties {
             get {
                 return ((bool)(this["RedrawAsMainWndResizes"]));
             }
-            set {
-                this["RedrawAsMainWndResizes"] = value;
-            }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle NewSessionsFromFilesDlgBounds {
@@ -324,7 +274,7 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string NewSessionsFromFilesDlgCols {
             get {
@@ -336,7 +286,7 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string NewSessionsFromFilesLastFolder {
             get {

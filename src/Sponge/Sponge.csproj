@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="ConfigTools\PathValidator.cs">
     </Compile>
+    <Compile Include="ConfigTools\SpongeSettingsProvider.cs" />
     <Compile Include="ConfigTools\WelcomeDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,16 +130,16 @@
     <Compile Include="Controls\UnderlinedHdgBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Dialogs\NewSessionsFromFilesDlg.cs">
+    <Compile Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFilesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\NewSessionsFromFilesDlg.Designer.cs">
+    <Compile Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFilesDlg.Designer.cs">
       <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\NewSessionsFromFilesDlgFolderNotFoundMsg.cs">
+    <Compile Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Dialogs\NewSessionsFromFilesDlgFolderNotFoundMsg.Designer.cs">
+    <Compile Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.Designer.cs">
       <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\StatusDlg.cs">
@@ -149,7 +150,7 @@
     </Compile>
     <Compile Include="Model\DiscourseType.cs" />
     <Compile Include="Model\MetaData\FieldDefinition.cs" />
-    <Compile Include="Model\NewSessionsFromFileDlgModel.cs" />
+    <Compile Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFileDlgViewModel.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\SessionFileBase.cs" />
     <Compile Include="Model\SessionComponentDefinition.cs" />
@@ -253,10 +254,10 @@
     <EmbeddedResource Include="Controls\LabeledTextBox.resx">
       <DependentUpon>LabeledTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\NewSessionsFromFilesDlg.resx">
+    <EmbeddedResource Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFilesDlg.resx">
       <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\NewSessionsFromFilesDlgFolderNotFoundMsg.resx">
+    <EmbeddedResource Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.resx">
       <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\StatusDlg.resx">
@@ -360,8 +361,8 @@
   -->
   <PropertyGroup>
     <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\DiscourseTypes.xml" "$(OutDir)"
-copy "$(ProjectDir)..\..\DistFiles\Sponge.Values.xml" "$(OutDir)"
 copy "$(ProjectDir)..\..\DistFiles\SessionFileInfoTemplates.xml" "$(OutDir)"
 if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"</PreBuildEvent>
+    <PostBuildEvent>copy "$(OutDir)$(TargetFileName).config" "$(ProjectDir)..\..\DistFiles"</PostBuildEvent>
   </PropertyGroup>
 </Project>

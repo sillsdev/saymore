@@ -19,8 +19,6 @@ using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using SIL.Sponge;
-using SIL.Sponge.Model;
 
 namespace SIL.Sponge.Model
 {
@@ -196,7 +194,7 @@ namespace SIL.Sponge.Model
 			var session = Session.Create(_prj, "gromit");
 			session.Save();
 
-			using(var file1 = new TempFile("wrong.junk"))
+			using (var file1 = new TempFile("wrong.junk"))
 			using (var file2 = new TempFile("trousers.junk"))
 			{
 				Assert.IsTrue(session.AddFiles(new[] { file1.Path, file2.Path }));

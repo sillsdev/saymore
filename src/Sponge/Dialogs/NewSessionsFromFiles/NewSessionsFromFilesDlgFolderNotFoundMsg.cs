@@ -43,7 +43,7 @@ namespace SIL.Sponge.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public void SetDriveLetterFromPath(string path)
 		{
-			var driveLetter = (path == null ? string.Empty : Path.GetPathRoot(path));
+			var driveLetter = (string.IsNullOrEmpty(path) ? string.Empty : Path.GetPathRoot(path));
 			driveLetter = driveLetter.TrimEnd(Path.DirectorySeparatorChar, Path.VolumeSeparatorChar);
 			_possibleProblemsMsg2Label.Text = string.Format(_msg2TextForFormat, driveLetter);
 		}

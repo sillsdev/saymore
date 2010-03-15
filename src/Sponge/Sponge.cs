@@ -52,8 +52,6 @@ namespace SIL.Sponge
 			if (!Directory.Exists(SpongeProject.ProjectsFolder))
 				Directory.CreateDirectory(SpongeProject.ProjectsFolder);
 
-			PortableSettingsProvider.SettingsFilePath = MainApplicationFolder;
-
 			//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("fr");
 
 			LocalizationManager.Enabled = true;
@@ -63,7 +61,6 @@ namespace SIL.Sponge
 			LocalizeItemDlg.SetDialogSplitterPosition += LocalizeItemDlg_SetDialogSplitterPosition;
 			LocalizeItemDlg.SaveDialogBounds += LocalizeItemDlg_SaveDialogBounds;
 			LocalizeItemDlg.SaveDialogSplitterPosition += LocalizeItemDlg_SaveDialogSplitterPosition;
-
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

@@ -266,7 +266,7 @@ namespace SIL.Sponge.Model
 		/// Open current session file in its associated application.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleOpenInApp_Click(object sender, EventArgs e)
+		public void HandleOpenInApp_Click(object sender, EventArgs e)
 		{
 			try
 			{

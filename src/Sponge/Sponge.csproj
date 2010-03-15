@@ -363,6 +363,7 @@
     <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\DiscourseTypes.xml" "$(OutDir)"
 copy "$(ProjectDir)..\..\DistFiles\SessionFileInfoTemplates.xml" "$(OutDir)"
 if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"</PreBuildEvent>
-    <PostBuildEvent>copy "$(OutDir)$(TargetFileName).config" "$(ProjectDir)..\..\DistFiles"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

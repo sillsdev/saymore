@@ -28,9 +28,9 @@ namespace SIL.Sponge.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this._findFilesLink = new System.Windows.Forms.LinkLabel();
 			this._createSessionsButton = new System.Windows.Forms.Button();
 			this._cancelButton = new System.Windows.Forms.Button();
@@ -95,7 +95,7 @@ namespace SIL.Sponge.Dialogs
 			this._sourceFolderLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._sourceFolderLabel.Location = new System.Drawing.Point(204, 25);
 			this._sourceFolderLabel.Name = "_sourceFolderLabel";
-			this._sourceFolderLabel.Size = new System.Drawing.Size(347, 28);
+			this._sourceFolderLabel.Size = new System.Drawing.Size(347, 23);
 			this._sourceFolderLabel.TabIndex = 3;
 			this._sourceFolderLabel.Text = "#";
 			// 
@@ -112,14 +112,14 @@ namespace SIL.Sponge.Dialogs
 			this._filesGrid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this._filesGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this._filesGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this._filesGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this._filesGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this._filesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this._filesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._selectedCol,
@@ -191,8 +191,8 @@ namespace SIL.Sponge.Dialogs
 			// _sizeCol
 			// 
 			this._sizeCol.DataPropertyName = "FileSize";
-			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this._sizeCol.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this._sizeCol.DefaultCellStyle = dataGridViewCellStyle2;
 			this._sizeCol.HeaderText = "Size";
 			this._sizeCol.Name = "_sizeCol";
 			this._sizeCol.ReadOnly = true;
@@ -201,8 +201,8 @@ namespace SIL.Sponge.Dialogs
 			// _lengthCol
 			// 
 			this._lengthCol.DataPropertyName = "DisplayableDuration";
-			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this._lengthCol.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this._lengthCol.DefaultCellStyle = dataGridViewCellStyle3;
 			this._lengthCol.HeaderText = "Length";
 			this._lengthCol.Name = "_lengthCol";
 			this._lengthCol.ReadOnly = true;

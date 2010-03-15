@@ -70,7 +70,7 @@
     <Compile Include="ConfigToolsTests\MruProjectsTests.cs" />
     <Compile Include="ConfigToolsTests\PathValidatorTests.cs" />
     <Compile Include="ControlsTests\ListPanelTests.cs" />
-    <Compile Include="Dialogs\NewSessionsFromFileDlgViewModelTests.cs" />
+    <Compile Include="DialogsTests\NewSessionsFromFileDlgViewModelTests.cs" />
     <Compile Include="ModelTests\PersonTests.cs" />
     <Compile Include="ModelTests\SessionFileBaseTests.cs" />
     <Compile Include="ModelTests\SessionComponentDefinitionTests.cs" />

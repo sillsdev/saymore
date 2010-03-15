@@ -23,7 +23,7 @@ namespace SIL.Sponge.Dialogs
 
 	#endregion
 
-	#region NewSessionsFromFileDlgViewModel class
+	#region NewSessionsFromFileDlgModel class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	///

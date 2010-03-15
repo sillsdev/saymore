@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
+using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 using SilUtils;
 
@@ -90,6 +91,8 @@ namespace SIL.Sponge.Dialogs
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);
+
+			Application.Idle -= HandleApplicationIdle;
 
 			Settings.Default.NewSessionsFromFilesDlgCols =
 				Sponge.StoreGridColumnWidthsInString(_filesGrid);

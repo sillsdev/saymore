@@ -62,6 +62,7 @@ namespace SIL.Sponge
 			LocalizeItemDlg.SaveDialogBounds += LocalizeItemDlg_SaveDialogBounds;
 			LocalizeItemDlg.SaveDialogSplitterPosition += LocalizeItemDlg_SaveDialogSplitterPosition;
 
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 

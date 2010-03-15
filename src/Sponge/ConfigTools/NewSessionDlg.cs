@@ -35,9 +35,10 @@ namespace SIL.Sponge.ConfigTools
 		/// Initializes a new instance of the <see cref="NewSessionDlg"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public NewSessionDlg(string prjPath) : this()
+		public NewSessionDlg(string prjPath, string defaultId) : this()
 		{
 			_projectPath = prjPath;
+			txtName.Text = defaultId;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -92,7 +92,7 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		private SpongeProject()
 		{
-
+			IsoCode = "X";//todo
 		}
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -293,6 +293,8 @@ namespace SIL.Sponge.Model
 						select x.FullName).ToList();
 			}
 		}
+
+		public string IsoCode { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -27,7 +27,7 @@ namespace SIL.Sponge.Dialogs
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public NewSessionsFromFilesDlg()
+		public NewSessionsFromFilesDlg(NewSessionsFromFileDlgViewModel model)
 		{
 			InitializeComponent();
 
@@ -57,7 +57,7 @@ namespace SIL.Sponge.Dialogs
 			_filesPanel.Controls.Add(_folderMissingMsgCtrl);
 			_folderMissingMsgCtrl.BringToFront();
 
-			_viewModel = new NewSessionsFromFileDlgViewModel();
+			_viewModel = model;
 			UpdateDisplay();
 
 			Application.Idle += HandleApplicationIdle;
@@ -101,16 +101,6 @@ namespace SIL.Sponge.Dialogs
 			Settings.Default.Save();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the Id of the first of the newly added sessions. If the user closes the
-		/// the dialog box without adding any new sessions, then null is returned.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string FirstNewSessionAdded
-		{
-			get { return _viewModel.FirstNewSessionAdded; }
-		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

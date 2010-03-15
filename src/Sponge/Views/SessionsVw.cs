@@ -204,7 +204,7 @@ namespace SIL.Sponge.Views
 		/// ------------------------------------------------------------------------------------
 		private object lpSessions_NewButtonClicked(object sender)
 		{
-			using (var dlg = new NewSessionDlg(_currProj.Folder))
+			using (var dlg = new NewSessionDlg(_currProj.Folder, _currProj.IsoCode))
 			{
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 				{
@@ -698,14 +698,15 @@ namespace SIL.Sponge.Views
 		/// ------------------------------------------------------------------------------------
 		private void btnNewFromFiles_Click(object sender, EventArgs e)
 		{
-			using (var dlg = new NewSessionsFromFilesDlg())
+			var model = new NewSessionsFromFileDlgModel();
+			using (var dlg = new NewSessionsFromFilesDlg(model))
 			{
 				_currProj.EnableFileWatching = false;
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 				{
 					_currProj.RefreshSessionList();
 					RefreshSessionList();
-					lpSessions.CurrentItem = dlg.FirstNewSessionAdded;
+					lpSessions.CurrentItem = model.FirstNewSessionAdded;
 				}
 				_currProj.EnableFileWatching = true;
 				FindForm().Focus();

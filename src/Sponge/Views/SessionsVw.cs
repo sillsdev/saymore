@@ -23,7 +23,7 @@ namespace SIL.Sponge.Views
 	public partial class SessionsVw : BaseSplitVw
 	{
 		private readonly Func<IEnumerable<string>> _peopleNameProvider;
-		private SpongeProject _currProj;
+		private readonly SpongeProject _currProj;
 		private Session _currSession;
 		private SessionFile _currSessionFile;
 		private SessionFile[] _currSessionFiles;
@@ -698,16 +698,19 @@ namespace SIL.Sponge.Views
 		/// ------------------------------------------------------------------------------------
 		private void btnNewFromFiles_Click(object sender, EventArgs e)
 		{
-			var model = new NewSessionsFromFileDlgModel();
-			using (var dlg = new NewSessionsFromFilesDlg(model))
+			using (var viewModel = new NewSessionsFromFileDlgViewModel())
+			using (var dlg = new NewSessionsFromFilesDlg(viewModel))
 			{
+				viewModel.Dialog = dlg;
 				_currProj.EnableFileWatching = false;
+
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 				{
 					_currProj.RefreshSessionList();
 					RefreshSessionList();
-					lpSessions.CurrentItem = model.FirstNewSessionAdded;
+					lpSessions.CurrentItem = viewModel.FirstNewSessionAdded;
 				}
+
 				_currProj.EnableFileWatching = true;
 				FindForm().Focus();
 			}

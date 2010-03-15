@@ -153,22 +153,53 @@ namespace SIL.Sponge.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Tests that the Refresh method updates the files list when a file is added.
+		/// Tests the SelectAllFiles method.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void Refresh()
+		public void SelectAllFiles_False()
 		{
 			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
-			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
-			Assert.AreEqual(1, _viewModel.Files.Count);
-			Assert.AreEqual("dog.wav", _viewModel.Files[0].FileName);
-
 			File.CreateText(_tmpFolder.Combine("cat.mpg")).Close();
-			_viewModel.Refresh();
-			Assert.AreEqual(2, _viewModel.Files.Count);
-			Assert.AreEqual("cat.mpg", _viewModel.Files[0].FileName);
-			Assert.AreEqual("dog.wav", _viewModel.Files[1].FileName);
+			File.CreateText(_tmpFolder.Combine("goat.mov")).Close();
+
+			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
+
+			Assert.IsTrue(_viewModel.Files[0].Selected);
+			Assert.IsTrue(_viewModel.Files[1].Selected);
+			Assert.IsTrue(_viewModel.Files[2].Selected);
+
+			_viewModel.SelectAllFiles(false);
+
+			Assert.IsFalse(_viewModel.Files[0].Selected);
+			Assert.IsFalse(_viewModel.Files[1].Selected);
+			Assert.IsFalse(_viewModel.Files[2].Selected);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the SelectAllFiles method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SelectAllFiles_True()
+		{
+			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
+			File.CreateText(_tmpFolder.Combine("cat.mpg")).Close();
+			File.CreateText(_tmpFolder.Combine("goat.mov")).Close();
+
+			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
+			_viewModel.SelectAllFiles(false);
+
+			Assert.IsFalse(_viewModel.Files[0].Selected);
+			Assert.IsFalse(_viewModel.Files[1].Selected);
+			Assert.IsFalse(_viewModel.Files[2].Selected);
+
+			_viewModel.SelectAllFiles(true);
+
+			Assert.IsTrue(_viewModel.Files[0].Selected);
+			Assert.IsTrue(_viewModel.Files[1].Selected);
+			Assert.IsTrue(_viewModel.Files[2].Selected);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -227,6 +258,26 @@ namespace SIL.Sponge.Dialogs
 			Assert.IsFalse(_viewModel.AnyFilesSelected);
 			_viewModel.Files[0].Selected = true;
 			Assert.IsTrue(_viewModel.AnyFilesSelected);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that the AllFilesSelected property after adding two files and
+		/// unselecting one, then both.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AllFilesSelected()
+		{
+			Assert.IsFalse(_viewModel.AnyFilesSelected);
+			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
+			File.CreateText(_tmpFolder.Combine("cat.wav")).Close();
+			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
+			Assert.IsTrue(_viewModel.AllFilesSelected);
+			_viewModel.Files[1].Selected = false;
+			Assert.IsFalse(_viewModel.AllFilesSelected);
+			_viewModel.Files[1].Selected = true;
+			Assert.IsTrue(_viewModel.AllFilesSelected);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -35,6 +35,9 @@ namespace SIL.Sponge.Dialogs
 			this._createSessionsButton = new System.Windows.Forms.Button();
 			this._cancelButton = new System.Windows.Forms.Button();
 			this._sourceFolderLabel = new System.Windows.Forms.Label();
+			this._incomingFilesLabel = new System.Windows.Forms.Label();
+			this._instructionsLabel = new System.Windows.Forms.Label();
+			this._filesPanel = new System.Windows.Forms.Panel();
 			this._filesGrid = new SilUtils.SilGrid();
 			this._selectedCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this._iconCol = new System.Windows.Forms.DataGridViewImageColumn();
@@ -43,11 +46,8 @@ namespace SIL.Sponge.Dialogs
 			this._dateModifiedCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._sizeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._lengthCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this._incomingFilesLabel = new System.Windows.Forms.Label();
-			this._instructionsLabel = new System.Windows.Forms.Label();
-			this._filesPanel = new System.Windows.Forms.Panel();
-			((System.ComponentModel.ISupportInitialize)(this._filesGrid)).BeginInit();
 			this._filesPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._filesGrid)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _findFilesLink
@@ -99,6 +99,46 @@ namespace SIL.Sponge.Dialogs
 			this._sourceFolderLabel.TabIndex = 3;
 			this._sourceFolderLabel.Text = "#";
 			// 
+			// _incomingFilesLabel
+			// 
+			this._incomingFilesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._incomingFilesLabel.AutoSize = true;
+			this._incomingFilesLabel.BackColor = System.Drawing.Color.Transparent;
+			this._incomingFilesLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._incomingFilesLabel.Location = new System.Drawing.Point(3, 0);
+			this._incomingFilesLabel.Name = "_incomingFilesLabel";
+			this._incomingFilesLabel.Size = new System.Drawing.Size(84, 15);
+			this._incomingFilesLabel.TabIndex = 5;
+			this._incomingFilesLabel.Text = "Incoming Files";
+			// 
+			// _instructionsLabel
+			// 
+			this._instructionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._instructionsLabel.AutoEllipsis = true;
+			this._instructionsLabel.BackColor = System.Drawing.Color.Transparent;
+			this._instructionsLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._instructionsLabel.Location = new System.Drawing.Point(3, 194);
+			this._instructionsLabel.Name = "_instructionsLabel";
+			this._instructionsLabel.Size = new System.Drawing.Size(532, 41);
+			this._instructionsLabel.TabIndex = 6;
+			this._instructionsLabel.Text = "Mark each file which represents an original recording of an event. For each one, " +
+				"{0} will create a new session and copy the file into it.";
+			// 
+			// _filesPanel
+			// 
+			this._filesPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._filesPanel.Controls.Add(this._incomingFilesLabel);
+			this._filesPanel.Controls.Add(this._instructionsLabel);
+			this._filesPanel.Controls.Add(this._filesGrid);
+			this._filesPanel.Location = new System.Drawing.Point(15, 58);
+			this._filesPanel.Name = "_filesPanel";
+			this._filesPanel.Size = new System.Drawing.Size(536, 237);
+			this._filesPanel.TabIndex = 7;
+			// 
 			// _filesGrid
 			// 
 			this._filesGrid.AllowUserToAddRows = false;
@@ -114,7 +154,6 @@ namespace SIL.Sponge.Dialogs
 			this._filesGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -208,46 +247,6 @@ namespace SIL.Sponge.Dialogs
 			this._lengthCol.ReadOnly = true;
 			this._lengthCol.Width = 60;
 			// 
-			// _incomingFilesLabel
-			// 
-			this._incomingFilesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._incomingFilesLabel.AutoSize = true;
-			this._incomingFilesLabel.BackColor = System.Drawing.Color.Transparent;
-			this._incomingFilesLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._incomingFilesLabel.Location = new System.Drawing.Point(3, 0);
-			this._incomingFilesLabel.Name = "_incomingFilesLabel";
-			this._incomingFilesLabel.Size = new System.Drawing.Size(84, 15);
-			this._incomingFilesLabel.TabIndex = 5;
-			this._incomingFilesLabel.Text = "Incoming Files";
-			// 
-			// _instructionsLabel
-			// 
-			this._instructionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._instructionsLabel.AutoEllipsis = true;
-			this._instructionsLabel.BackColor = System.Drawing.Color.Transparent;
-			this._instructionsLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._instructionsLabel.Location = new System.Drawing.Point(3, 194);
-			this._instructionsLabel.Name = "_instructionsLabel";
-			this._instructionsLabel.Size = new System.Drawing.Size(532, 41);
-			this._instructionsLabel.TabIndex = 6;
-			this._instructionsLabel.Text = "Mark each file which represents an original recording of an event. For each one, " +
-				"{0} will create a new session and copy the file into it.";
-			// 
-			// _filesPanel
-			// 
-			this._filesPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._filesPanel.Controls.Add(this._incomingFilesLabel);
-			this._filesPanel.Controls.Add(this._instructionsLabel);
-			this._filesPanel.Controls.Add(this._filesGrid);
-			this._filesPanel.Location = new System.Drawing.Point(15, 58);
-			this._filesPanel.Name = "_filesPanel";
-			this._filesPanel.Size = new System.Drawing.Size(536, 237);
-			this._filesPanel.TabIndex = 7;
-			// 
 			// NewSessionsFromFilesDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -263,9 +262,9 @@ namespace SIL.Sponge.Dialogs
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "New Sessions From Files";
-			((System.ComponentModel.ISupportInitialize)(this._filesGrid)).EndInit();
 			this._filesPanel.ResumeLayout(false);
 			this._filesPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._filesGrid)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -222,7 +222,7 @@ namespace SIL.Sponge.Model
 			{
 				if (definition.GetFileIsElligible(FullFilePath))
 				{
-					if(needSeparator)
+					if (needSeparator)
 					{
 						needSeparator = false;
 						yield return new ToolStripSeparator();

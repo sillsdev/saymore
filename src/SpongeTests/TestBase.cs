@@ -16,6 +16,7 @@
 // ---------------------------------------------------------------------------------------------
 using System.IO;
 using NUnit.Framework;
+using Palaso.TestUtilities;
 using SIL.Sponge.Model;
 using SilUtils;
 
@@ -33,7 +34,7 @@ namespace SIL.Sponge
 		protected const string kTestSessionName = "~~Fungus";
 
 		protected SpongeProject _prj;
-		private string _mainAppFldr;
+		protected TemporaryFolder _mainAppFldr;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -44,10 +45,8 @@ namespace SIL.Sponge
 		public virtual void TestSetup()
 		{
 			SessionFileBase.PreventGettingMediaFileDurationsUsingDirectX = true;
-
-			_mainAppFldr = Path.Combine(Path.GetTempPath(), "~SpongeTestProjects~");
-			ReflectionHelper.SetField(typeof(Sponge), "s_mainAppFldr", _mainAppFldr);
-			Directory.CreateDirectory(_mainAppFldr);
+			_mainAppFldr = new TemporaryFolder("~SpongeTestProjects~");
+			ReflectionHelper.SetField(typeof(Sponge), "s_mainAppFldr", _mainAppFldr.FolderPath);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -59,13 +58,7 @@ namespace SIL.Sponge
 		public virtual void TestTearDown()
 		{
 			if (_mainAppFldr != null)
-			{
-				try
-				{
-					Directory.Delete(_mainAppFldr, true);
-				}
-				catch { }
-			}
+				_mainAppFldr.Dispose();
 		}
 
 		/// ------------------------------------------------------------------------------------

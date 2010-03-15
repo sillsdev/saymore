@@ -86,14 +86,17 @@ namespace SIL.Sponge.Model
 			return prj;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Since this class is designed to only be created through factories,
-		/// prevent accidental direct construction
+		/// Since this class is designed to only be created through factories, prevent
+		/// accidental direct construction
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private SpongeProject()
 		{
 			IsoCode = "X";//todo
 		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the parent folder for all project folders.
@@ -294,6 +297,11 @@ namespace SIL.Sponge.Model
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public string IsoCode { get; set; }
 
 		/// ------------------------------------------------------------------------------------

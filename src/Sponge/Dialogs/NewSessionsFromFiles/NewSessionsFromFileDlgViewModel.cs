@@ -37,6 +37,7 @@ namespace SIL.Sponge.Dialogs
 	{
 		private string _selectedFolder;
 		private NewSessionsFromFilesDlg _dlg;
+		private FileSystemWatcher _fileWatcher;
 
 		#region Construction, initialization and disposal.
 		/// ------------------------------------------------------------------------------------
@@ -46,6 +47,13 @@ namespace SIL.Sponge.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public NewSessionsFromFileDlgViewModel()
 		{
+			_fileWatcher = new FileSystemWatcher();
+			_fileWatcher.EnableRaisingEvents = false;
+			_fileWatcher.IncludeSubdirectories = false;
+			_fileWatcher.Renamed += HandleFileWatcherRenameEvent;
+			_fileWatcher.Deleted += HandleFileWatcherDeleteOrCreatedEvent;
+			_fileWatcher.Created += HandleFileWatcherDeleteOrCreatedEvent;
+
 			Files = new List<NewSessionFile>();
 			SelectedFolder = Settings.Default.NewSessionsFromFilesLastFolder;
 		}
@@ -58,6 +66,7 @@ namespace SIL.Sponge.Dialogs
 		public void Dispose()
 		{
 			Application.Idle -= HandleApplicationIdle;
+			_fileWatcher.Dispose();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,6 +80,8 @@ namespace SIL.Sponge.Dialogs
 			set
 			{
 				Application.Idle -= HandleApplicationIdle;
+				_fileWatcher.SynchronizingObject = value;
+				_fileWatcher.EnableRaisingEvents = (value != null && Directory.Exists(_selectedFolder));
 				_dlg = value;
 				if (_dlg != null)
 					Application.Idle += HandleApplicationIdle;
@@ -140,11 +151,14 @@ namespace SIL.Sponge.Dialogs
 				LoadFilesFromFolder(value);
 				Settings.Default.NewSessionsFromFilesLastFolder = value;
 				Settings.Default.Save();
+				_fileWatcher.Path = _selectedFolder;
+				_fileWatcher.EnableRaisingEvents = (_dlg != null && Directory.Exists(_selectedFolder));
 			}
 		}
 
 		#endregion
 
+		#region Methods for watching the file system
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Monitor the selected folder in case it disappears or reappears (e.g. when the user
@@ -156,13 +170,88 @@ namespace SIL.Sponge.Dialogs
 			if (string.IsNullOrEmpty(SelectedFolder) || _dlg == null)
 				return;
 
-			if ((!Directory.Exists(SelectedFolder) && !_dlg.IsSelectedFolderMissing) ||
-				(Directory.Exists(SelectedFolder) && _dlg.IsSelectedFolderMissing))
+			if ((!Directory.Exists(SelectedFolder) && !_dlg.IsMissingFolderMessageVisible) ||
+				(Directory.Exists(SelectedFolder) && _dlg.IsMissingFolderMessageVisible))
 			{
 				LoadFilesFromFolder(SelectedFolder);
-				_dlg.UpdateDisplay();
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleFileWatcherDeleteOrCreatedEvent(object sender, FileSystemEventArgs e)
+		{
+			if (e.ChangeType == WatcherChangeTypes.Deleted)
+				RemoveFile(e.FullPath);
+			else if (e.ChangeType == WatcherChangeTypes.Created)
+				AddFile(e.FullPath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void RemoveFile(string fullPath)
+		{
+			var nsf = Files.FirstOrDefault(x => x.FullFilePath == fullPath);
+			if (nsf != null)
+				Files.Remove(nsf);
+
+			if (_dlg != null)
+				_dlg.UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AddFile(string fullPath)
+		{
+			if (!File.Exists(fullPath) || Files.Any(x => x.FullFilePath == fullPath))
+				return;
+
+			Files.Add(new NewSessionFile(fullPath));
+			Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
+
+			if (_dlg != null)
+				_dlg.UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles a project file or folder being renamed.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleFileWatcherRenameEvent(object sender, RenamedEventArgs e)
+		{
+			RenameFile(e.FullPath, e.OldFullPath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Finds the file in the file list having the specified old path and renames its
+		/// file to the specified new path, finishing by sorting the file list accordingly.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void RenameFile(string newFullPath, string oldFullPath)
+		{
+			var nsf = Files.FirstOrDefault(x => x.FullFilePath == oldFullPath);
+			if (nsf == null)
+				return;
+
+			nsf.FullFilePath = newFullPath;
+			Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
+
+			if (_dlg != null)
+				_dlg.UpdateDisplay();
+		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -219,11 +308,7 @@ namespace SIL.Sponge.Dialogs
 					dlg.SelectedPath = SelectedFolder;
 
 				if (dlg.ShowDialog() == DialogResult.OK)
-				{
 					SelectedFolder = dlg.SelectedPath;
-					if (_dlg != null)
-						_dlg.UpdateDisplay();
-				}
 			}
 		}
 
@@ -250,6 +335,9 @@ namespace SIL.Sponge.Dialogs
 			}
 
 			Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
+
+			if (_dlg != null)
+				_dlg.UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------

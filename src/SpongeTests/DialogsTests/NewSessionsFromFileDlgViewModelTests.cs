@@ -17,7 +17,6 @@
 using System.Linq;
 using System.IO;
 using NUnit.Framework;
-using Palaso.TestUtilities;
 using SIL.Sponge.Model;
 using SilUtils;
 
@@ -32,7 +31,6 @@ namespace SIL.Sponge.Dialogs
 	public class NewSessionsFromFileDlgViewModelTests : TestBase
 	{
 		private NewSessionsFromFileDlgViewModel _viewModel;
-		private TemporaryFolder _tmpFolder;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -46,7 +44,6 @@ namespace SIL.Sponge.Dialogs
 
 			SessionFileBase.PreventGettingMediaFileDurationsUsingDirectX = true;
 			_viewModel = new NewSessionsFromFileDlgViewModel();
-			_tmpFolder = new TemporaryFolder("~~SpongeTestFolder~~");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -58,7 +55,6 @@ namespace SIL.Sponge.Dialogs
 		public override void TestTearDown()
 		{
 			base.TestTearDown();
-			_tmpFolder.Dispose();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,11 +65,11 @@ namespace SIL.Sponge.Dialogs
 		[Test]
 		public void LoadFilesFromFolder_VerifyFileTypesLoaded()
 		{
-			File.CreateText(_tmpFolder.Combine("hamster.pdf")).Close();
-			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
-			File.CreateText(_tmpFolder.Combine("cat.mpg")).Close();
+			File.CreateText(_mainAppFldr.Combine("hamster.pdf")).Close();
+			File.CreateText(_mainAppFldr.Combine("dog.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("cat.mpg")).Close();
 
-			ReflectionHelper.CallMethod(_viewModel, "LoadFilesFromFolder", _tmpFolder.FolderPath);
+			ReflectionHelper.CallMethod(_viewModel, "LoadFilesFromFolder", _mainAppFldr.FolderPath);
 
 			Assert.AreEqual(2, _viewModel.Files.Count);
 			Assert.IsNotNull(_viewModel.Files.First(x => x.FileName == "dog.wav"));
@@ -88,7 +84,7 @@ namespace SIL.Sponge.Dialogs
 		[Test]
 		public void LoadFilesFromFolder_FolderArgumentIsNull()
 		{
-			var path = _tmpFolder.Combine("bird.doc");
+			var path = _mainAppFldr.Combine("bird.doc");
 			File.CreateText(path).Close();
 			_viewModel.Files.Add(new NewSessionFile(path));
 			Assert.AreEqual(1, _viewModel.Files.Count);
@@ -105,7 +101,7 @@ namespace SIL.Sponge.Dialogs
 		[Test]
 		public void LoadFilesFromFolder_FolderArgumentIsEmpty()
 		{
-			var path = _tmpFolder.Combine("bird.doc");
+			var path = _mainAppFldr.Combine("bird.doc");
 			File.CreateText(path).Close();
 			_viewModel.Files.Add(new NewSessionFile(path));
 			Assert.AreEqual(1, _viewModel.Files.Count);
@@ -121,11 +117,11 @@ namespace SIL.Sponge.Dialogs
 		[Test]
 		public void LoadFilesFromFolder_VerifyFileListSorted()
 		{
-			File.CreateText(_tmpFolder.Combine("z.wma")).Close();
-			File.CreateText(_tmpFolder.Combine("y.wav")).Close();
-			File.CreateText(_tmpFolder.Combine("y.mp3")).Close();
+			File.CreateText(_mainAppFldr.Combine("z.wma")).Close();
+			File.CreateText(_mainAppFldr.Combine("y.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("y.mp3")).Close();
 
-			ReflectionHelper.CallMethod(_viewModel, "LoadFilesFromFolder", _tmpFolder.FolderPath);
+			ReflectionHelper.CallMethod(_viewModel, "LoadFilesFromFolder", _mainAppFldr.FolderPath);
 
 			Assert.AreEqual(3, _viewModel.Files.Count);
 			Assert.AreEqual("y.mp3", _viewModel.Files[0].FileName);
@@ -141,10 +137,10 @@ namespace SIL.Sponge.Dialogs
 		[Test]
 		public void SelectedFolder()
 		{
-			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
-			File.CreateText(_tmpFolder.Combine("cat.mpg")).Close();
+			File.CreateText(_mainAppFldr.Combine("dog.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("cat.mpg")).Close();
 
-			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
 
 			Assert.AreEqual(2, _viewModel.Files.Count);
 			Assert.AreEqual("cat.mpg", _viewModel.Files[0].FileName);
@@ -159,11 +155,11 @@ namespace SIL.Sponge.Dialogs
 		[Test]
 		public void SelectAllFiles_False()
 		{
-			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
-			File.CreateText(_tmpFolder.Combine("cat.mpg")).Close();
-			File.CreateText(_tmpFolder.Combine("goat.mov")).Close();
+			File.CreateText(_mainAppFldr.Combine("dog.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("cat.mpg")).Close();
+			File.CreateText(_mainAppFldr.Combine("goat.mov")).Close();
 
-			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
 
 			Assert.IsTrue(_viewModel.Files[0].Selected);
 			Assert.IsTrue(_viewModel.Files[1].Selected);
@@ -184,11 +180,11 @@ namespace SIL.Sponge.Dialogs
 		[Test]
 		public void SelectAllFiles_True()
 		{
-			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
-			File.CreateText(_tmpFolder.Combine("cat.mpg")).Close();
-			File.CreateText(_tmpFolder.Combine("goat.mov")).Close();
+			File.CreateText(_mainAppFldr.Combine("dog.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("cat.mpg")).Close();
+			File.CreateText(_mainAppFldr.Combine("goat.mov")).Close();
 
-			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
 			_viewModel.SelectAllFiles(false);
 
 			Assert.IsFalse(_viewModel.Files[0].Selected);
@@ -213,9 +209,9 @@ namespace SIL.Sponge.Dialogs
 		{
 			Assert.AreEqual(0, _viewModel.NumberOfSelectedFiles);
 
-			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
-			File.CreateText(_tmpFolder.Combine("cat.wav")).Close();
-			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
+			File.CreateText(_mainAppFldr.Combine("dog.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("cat.wav")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
 			Assert.AreEqual(2, _viewModel.NumberOfSelectedFiles);
 		}
 
@@ -228,9 +224,9 @@ namespace SIL.Sponge.Dialogs
 		[Test]
 		public void NumberOfSelectedFiles_ProperCountAfterUnselect()
 		{
-			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
-			File.CreateText(_tmpFolder.Combine("cat.wav")).Close();
-			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
+			File.CreateText(_mainAppFldr.Combine("dog.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("cat.wav")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
 			Assert.AreEqual(2, _viewModel.NumberOfSelectedFiles);
 			_viewModel.Files[1].Selected = false;
 			Assert.AreEqual(1, _viewModel.NumberOfSelectedFiles);
@@ -248,9 +244,9 @@ namespace SIL.Sponge.Dialogs
 		public void AnyFilesSelected()
 		{
 			Assert.IsFalse(_viewModel.AnyFilesSelected);
-			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
-			File.CreateText(_tmpFolder.Combine("cat.wav")).Close();
-			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
+			File.CreateText(_mainAppFldr.Combine("dog.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("cat.wav")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
 			Assert.IsTrue(_viewModel.AnyFilesSelected);
 			_viewModel.Files[1].Selected = false;
 			Assert.IsTrue(_viewModel.AnyFilesSelected);
@@ -270,9 +266,9 @@ namespace SIL.Sponge.Dialogs
 		public void AllFilesSelected()
 		{
 			Assert.IsFalse(_viewModel.AnyFilesSelected);
-			File.CreateText(_tmpFolder.Combine("dog.wav")).Close();
-			File.CreateText(_tmpFolder.Combine("cat.wav")).Close();
-			_viewModel.SelectedFolder = _tmpFolder.FolderPath;
+			File.CreateText(_mainAppFldr.Combine("dog.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("cat.wav")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
 			Assert.IsTrue(_viewModel.AllFilesSelected);
 			_viewModel.Files[1].Selected = false;
 			Assert.IsFalse(_viewModel.AllFilesSelected);
@@ -301,7 +297,7 @@ namespace SIL.Sponge.Dialogs
 		[Test]
 		public void CreateSingleSession_UnselectedFileIsIgnored()
 		{
-			var path = _tmpFolder.Combine("dog.wav");
+			var path = _mainAppFldr.Combine("dog.wav");
 			File.CreateText(path).Close();
 			var nsf = new NewSessionFile(path);
 			nsf.Selected = false;
@@ -321,12 +317,12 @@ namespace SIL.Sponge.Dialogs
 
 			Assert.IsNull(_viewModel.FirstNewSessionAdded);
 
-			var path = _tmpFolder.Combine("lizard.mov");
+			var path = _mainAppFldr.Combine("lizard.mov");
 			File.CreateText(path).Close();
 			var nsf  = new NewSessionFile(path);
 			Assert.IsTrue(ReflectionHelper.GetBoolResult(_viewModel, "CreateSingleSession", nsf));
 
-			path = _tmpFolder.Combine("skunk.wma");
+			path = _mainAppFldr.Combine("skunk.wma");
 			File.CreateText(path).Close();
 			nsf = new NewSessionFile(path);
 			Assert.IsTrue(ReflectionHelper.GetBoolResult(_viewModel, "CreateSingleSession", nsf));
@@ -345,7 +341,7 @@ namespace SIL.Sponge.Dialogs
 		{
 			InitProject();
 
-			var path = _tmpFolder.Combine("rabbit.ogg");
+			var path = _mainAppFldr.Combine("rabbit.ogg");
 			File.CreateText(path).Close();
 			var nsf = new NewSessionFile(path);
 			var date = File.GetLastWriteTime(path);
@@ -356,6 +352,154 @@ namespace SIL.Sponge.Dialogs
 			Assert.AreEqual(date.ToString(), session.Date.ToString());
 			Assert.AreEqual(1, session.Files.Length);
 			Assert.AreEqual(Path.Combine(session.Folder, "rabbit.ogg"), session.Files[0]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that the RenameFile ignores an invalid file name sent to RenameFile.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RenameFile_OldName_Invalid()
+		{
+			File.CreateText(_mainAppFldr.Combine("chicken.wav")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+
+			Assert.AreEqual("chicken.wav", _viewModel.Files[0].FileName);
+
+			ReflectionHelper.CallMethod(_viewModel, "RenameFile",
+				_mainAppFldr.Combine("chicken.wav"), _mainAppFldr.Combine("nonexistent.wav"));
+
+			Assert.AreEqual("chicken.wav", _viewModel.Files[0].FileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that the RenameFile changes the file path of the renamed
+		/// file and resorts the files list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RenameFile_OldName_Valid()
+		{
+			File.CreateText(_mainAppFldr.Combine("chicken.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("cow.wmv")).Close();
+			File.CreateText(_mainAppFldr.Combine("sheep.mpg")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+
+			Assert.AreEqual(3, _viewModel.Files.Count);
+			Assert.AreEqual("chicken.wav", _viewModel.Files[0].FileName);
+			Assert.AreEqual("cow.wmv", _viewModel.Files[1].FileName);
+			Assert.AreEqual("sheep.mpg", _viewModel.Files[2].FileName);
+
+			File.Move(_viewModel.Files[0].FullFilePath, _mainAppFldr.Combine("hen.wav"));
+
+			ReflectionHelper.CallMethod(_viewModel, "RenameFile",
+				_mainAppFldr.Combine("hen.wav"), _mainAppFldr.Combine("chicken.wav"));
+
+			Assert.AreEqual(3, _viewModel.Files.Count);
+			Assert.AreEqual("cow.wmv", _viewModel.Files[0].FileName);
+			Assert.AreEqual("hen.wav", _viewModel.Files[1].FileName);
+			Assert.AreEqual("sheep.mpg", _viewModel.Files[2].FileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that the RemoveFile ignores an invalid file name sent to RemoveFile.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveFile_fullPath_Invalid()
+		{
+			File.CreateText(_mainAppFldr.Combine("chicken.wav")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+
+			Assert.AreEqual("chicken.wav", _viewModel.Files[0].FileName);
+			ReflectionHelper.CallMethod(_viewModel, "RemoveFile", _mainAppFldr.Combine("nonexistent.wav"));
+			Assert.AreEqual("chicken.wav", _viewModel.Files[0].FileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that the RemoveFile removes a file from the files list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveFile_fullPath_Valid()
+		{
+			File.CreateText(_mainAppFldr.Combine("chicken.wav")).Close();
+			File.CreateText(_mainAppFldr.Combine("cow.wmv")).Close();
+			File.CreateText(_mainAppFldr.Combine("sheep.mpg")).Close();
+
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+
+			Assert.AreEqual(3, _viewModel.Files.Count);
+			Assert.AreEqual("chicken.wav", _viewModel.Files[0].FileName);
+			Assert.AreEqual("cow.wmv", _viewModel.Files[1].FileName);
+			Assert.AreEqual("sheep.mpg", _viewModel.Files[2].FileName);
+
+			ReflectionHelper.CallMethod(_viewModel, "RemoveFile", _mainAppFldr.Combine("chicken.wav"));
+
+			Assert.AreEqual(2, _viewModel.Files.Count);
+			Assert.AreEqual("cow.wmv", _viewModel.Files[0].FileName);
+			Assert.AreEqual("sheep.mpg", _viewModel.Files[1].FileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that the AddFile ignores an invalid file name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddFile_fullPath_Invalid()
+		{
+			Assert.AreEqual(0, _viewModel.Files.Count);
+			ReflectionHelper.CallMethod(_viewModel, "AddFile", _mainAppFldr.Combine("nonexistent.wav"));
+			Assert.AreEqual(0, _viewModel.Files.Count);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that the AddFile ignores an attempt to add a file that's already in the list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddFile_fullPath_AlreadyInList()
+		{
+			File.CreateText(_mainAppFldr.Combine("goat.mpg")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+			Assert.AreEqual(1, _viewModel.Files.Count);
+			Assert.AreEqual("goat.mpg", _viewModel.Files[0].FileName);
+			ReflectionHelper.CallMethod(_viewModel, "AddFile", _mainAppFldr.Combine("goat.mpg"));
+			Assert.AreEqual(1, _viewModel.Files.Count);
+			Assert.AreEqual("goat.mpg", _viewModel.Files[0].FileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that the AddFile adds a file to the files list and that the list is sorted
+		/// accordingly.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddFile_fullPath_Valid()
+		{
+			File.CreateText(_mainAppFldr.Combine("sheep.mpg")).Close();
+			File.CreateText(_mainAppFldr.Combine("chicken.wav")).Close();
+
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+
+			Assert.AreEqual(2, _viewModel.Files.Count);
+			Assert.AreEqual("chicken.wav", _viewModel.Files[0].FileName);
+			Assert.AreEqual("sheep.mpg", _viewModel.Files[1].FileName);
+
+			File.CreateText(_mainAppFldr.Combine("cow.wmv")).Close();
+			ReflectionHelper.CallMethod(_viewModel, "AddFile", _mainAppFldr.Combine("cow.wmv"));
+
+			Assert.AreEqual(3, _viewModel.Files.Count);
+			Assert.AreEqual("chicken.wav", _viewModel.Files[0].FileName);
+			Assert.AreEqual("cow.wmv", _viewModel.Files[1].FileName);
+			Assert.AreEqual("sheep.mpg", _viewModel.Files[2].FileName);
 		}
 	}
 }

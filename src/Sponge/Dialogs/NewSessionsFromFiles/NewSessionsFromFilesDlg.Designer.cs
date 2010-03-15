@@ -28,9 +28,9 @@ namespace SIL.Sponge.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
 			this._findFilesLink = new System.Windows.Forms.LinkLabel();
 			this._createSessionsButton = new System.Windows.Forms.Button();
 			this._cancelButton = new System.Windows.Forms.Button();
@@ -70,7 +70,7 @@ namespace SIL.Sponge.Dialogs
 			this._createSessionsButton.Location = new System.Drawing.Point(323, 301);
 			this._createSessionsButton.Name = "_createSessionsButton";
 			this._createSessionsButton.Size = new System.Drawing.Size(142, 26);
-			this._createSessionsButton.TabIndex = 1;
+			this._createSessionsButton.TabIndex = 3;
 			this._createSessionsButton.Text = "Create {0} Sessions";
 			this._createSessionsButton.UseVisualStyleBackColor = true;
 			this._createSessionsButton.Click += new System.EventHandler(this.HandleCreateSessionsButtonClick);
@@ -82,7 +82,7 @@ namespace SIL.Sponge.Dialogs
 			this._cancelButton.Location = new System.Drawing.Point(471, 301);
 			this._cancelButton.Name = "_cancelButton";
 			this._cancelButton.Size = new System.Drawing.Size(80, 26);
-			this._cancelButton.TabIndex = 2;
+			this._cancelButton.TabIndex = 4;
 			this._cancelButton.Text = "Cancel";
 			this._cancelButton.UseVisualStyleBackColor = true;
 			// 
@@ -96,7 +96,7 @@ namespace SIL.Sponge.Dialogs
 			this._sourceFolderLabel.Location = new System.Drawing.Point(204, 25);
 			this._sourceFolderLabel.Name = "_sourceFolderLabel";
 			this._sourceFolderLabel.Size = new System.Drawing.Size(347, 23);
-			this._sourceFolderLabel.TabIndex = 3;
+			this._sourceFolderLabel.TabIndex = 1;
 			this._sourceFolderLabel.Text = "#";
 			// 
 			// _incomingFilesLabel
@@ -109,8 +109,8 @@ namespace SIL.Sponge.Dialogs
 			this._incomingFilesLabel.Location = new System.Drawing.Point(3, 0);
 			this._incomingFilesLabel.Name = "_incomingFilesLabel";
 			this._incomingFilesLabel.Size = new System.Drawing.Size(84, 15);
-			this._incomingFilesLabel.TabIndex = 5;
-			this._incomingFilesLabel.Text = "Incoming Files";
+			this._incomingFilesLabel.TabIndex = 0;
+			this._incomingFilesLabel.Text = "Incoming &Files";
 			// 
 			// _instructionsLabel
 			// 
@@ -122,7 +122,7 @@ namespace SIL.Sponge.Dialogs
 			this._instructionsLabel.Location = new System.Drawing.Point(3, 194);
 			this._instructionsLabel.Name = "_instructionsLabel";
 			this._instructionsLabel.Size = new System.Drawing.Size(532, 41);
-			this._instructionsLabel.TabIndex = 6;
+			this._instructionsLabel.TabIndex = 2;
 			this._instructionsLabel.Text = "Mark each file which represents an original recording of an event. For each one, " +
 				"{0} will create a new session and copy the file into it.";
 			// 
@@ -137,7 +137,8 @@ namespace SIL.Sponge.Dialogs
 			this._filesPanel.Location = new System.Drawing.Point(15, 58);
 			this._filesPanel.Name = "_filesPanel";
 			this._filesPanel.Size = new System.Drawing.Size(536, 237);
-			this._filesPanel.TabIndex = 7;
+			this._filesPanel.TabIndex = 2;
+			this._filesPanel.TabStop = true;
 			// 
 			// _filesGrid
 			// 
@@ -152,13 +153,13 @@ namespace SIL.Sponge.Dialogs
 			this._filesGrid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this._filesGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this._filesGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this._filesGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this._filesGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
 			this._filesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this._filesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._selectedCol,
@@ -179,10 +180,10 @@ namespace SIL.Sponge.Dialogs
 			this._filesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this._filesGrid.ShowWaterMarkWhenDirty = false;
 			this._filesGrid.Size = new System.Drawing.Size(536, 165);
-			this._filesGrid.TabIndex = 4;
+			this._filesGrid.StandardTab = true;
+			this._filesGrid.TabIndex = 1;
 			this._filesGrid.VirtualMode = true;
 			this._filesGrid.WaterMark = "!";
-			this._filesGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleFilesGridCellContentClick);
 			// 
 			// _selectedCol
 			// 
@@ -230,8 +231,8 @@ namespace SIL.Sponge.Dialogs
 			// _sizeCol
 			// 
 			this._sizeCol.DataPropertyName = "FileSize";
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this._sizeCol.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this._sizeCol.DefaultCellStyle = dataGridViewCellStyle14;
 			this._sizeCol.HeaderText = "Size";
 			this._sizeCol.Name = "_sizeCol";
 			this._sizeCol.ReadOnly = true;
@@ -240,8 +241,8 @@ namespace SIL.Sponge.Dialogs
 			// _lengthCol
 			// 
 			this._lengthCol.DataPropertyName = "DisplayableDuration";
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this._lengthCol.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this._lengthCol.DefaultCellStyle = dataGridViewCellStyle15;
 			this._lengthCol.HeaderText = "Length";
 			this._lengthCol.Name = "_lengthCol";
 			this._lengthCol.ReadOnly = true;

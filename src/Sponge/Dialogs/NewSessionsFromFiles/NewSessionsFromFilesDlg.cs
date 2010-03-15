@@ -20,7 +20,6 @@ namespace SIL.Sponge.Dialogs
 		private readonly string _filesSelectedCreateButtonText;
 		private readonly NewSessionsFromFileDlgViewModel _viewModel;
 		private readonly NewSessionsFromFilesDlgFolderNotFoundMsg _folderMissingMsgCtrl;
-		private readonly CheckBoxColumnHeaderHandler _selectedColCheckHandler;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -58,9 +57,7 @@ namespace SIL.Sponge.Dialogs
 
 			_viewModel = viewModel;
 
-			_selectedColCheckHandler = new CheckBoxColumnHeaderHandler(_selectedCol);
-			_selectedColCheckHandler.CheckChanged += HandleSelectAllChanged;
-
+			new CheckBoxColumnHeaderHandler(_selectedCol);
 			UpdateDisplay();
 		}
 
@@ -83,12 +80,10 @@ namespace SIL.Sponge.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not the folder selected is missing. When this
-		/// dialog first loads and this is true, it means the selected folder chosen the last
-		/// time the user opened this dialog box is now missing.
+		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IsSelectedFolderMissing
+		public bool IsMissingFolderMessageVisible
 		{
 			get { return _folderMissingMsgCtrl.Visible; }
 		}
@@ -127,48 +122,18 @@ namespace SIL.Sponge.Dialogs
 				if (fileCount == 0)
 				{
 					_filesGrid.CellValueNeeded -= HandleFileGridCellValueNeeded;
+					_filesGrid.CellValuePushed -= HandleFileGridCellValuePushed;
 					_filesGrid.RowCount = fileCount;
 				}
 				else
 				{
-					_filesGrid.RowCount = fileCount;
 					_filesGrid.CellValueNeeded += HandleFileGridCellValueNeeded;
+					_filesGrid.RowCount = fileCount;
+					_filesGrid.CellValuePushed += HandleFileGridCellValuePushed;
 				}
 			}
 
-			SetSelectedColumnHeaderCheckBoxState();
-
 			Utils.SetWindowRedraw(this, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SetSelectedColumnHeaderCheckBoxState()
-		{
-			if (_viewModel.AllFilesSelected)
-				_selectedColCheckHandler.CheckState = CheckState.Checked;
-			else if (_viewModel.AnyFilesSelected)
-				_selectedColCheckHandler.CheckState = CheckState.Indeterminate;
-			else
-				_selectedColCheckHandler.CheckState = CheckState.Unchecked;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleSelectAllChanged(object sender, EventArgs e)
-		{
-			_viewModel.SelectAllFiles(_selectedColCheckHandler.CheckState == CheckState.Checked);
-
-			if (_filesGrid.IsCurrentCellInEditMode)
-				_filesGrid.EndEdit();
-
-			_filesGrid.InvalidateColumn(_selectedCol.Index);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -202,19 +167,17 @@ namespace SIL.Sponge.Dialogs
 		{
 			e.Value = _viewModel.GetPropertyValueForFile(e.RowIndex,
 				_filesGrid.Columns[e.ColumnIndex].DataPropertyName);
-
-			SetSelectedColumnHeaderCheckBoxState();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Handles toggling the selected state of a file in the file list.
+		/// Selected value changed in cell, so update the view model's file list accordingly.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleFilesGridCellContentClick(object sender, DataGridViewCellEventArgs e)
+		void HandleFileGridCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
 			if (e.ColumnIndex == 0)
-				_viewModel.ToggleFilesSelectedState(e.RowIndex);
+				_viewModel.Files[e.RowIndex].Selected = (bool)e.Value;
 		}
 	}
 }

@@ -204,12 +204,13 @@ namespace SIL.Sponge.Views
 		/// ------------------------------------------------------------------------------------
 		private object lpSessions_NewButtonClicked(object sender)
 		{
-			using (var dlg = new NewSessionDlg(_currProj.Folder, _currProj.IsoCode))
+			var viewModel = new NewSessionDlgViewModel(_currProj);
+			using (var dlg = new NewSessionDlg(viewModel))
 			{
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 				{
-					var newSession = _currProj.AddSession(dlg.NewSessionName);
-					newSession.AddFiles(dlg.SessionFiles);
+					var newSession = _currProj.AddSession(viewModel.NewSessionId);
+					newSession.AddFiles(viewModel.SessionFiles);
 					lblNoSessionsMsg.Visible = false;
 					lpSessions.ListView.Focus();
 					return newSession;

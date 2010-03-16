@@ -84,12 +84,13 @@
     <Compile Include="ConfigTools\NewProjectDlg.Designer.cs">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfigTools\NewSessionDlg.cs">
+    <Compile Include="ConfigTools\NewSessionDialog\NewSessionDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfigTools\NewSessionDlg.Designer.cs">
+    <Compile Include="ConfigTools\NewSessionDialog\NewSessionDlg.Designer.cs">
       <DependentUpon>NewSessionDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigTools\NewSessionDialog\NewSessionDlgViewModel.cs" />
     <Compile Include="ConfigTools\PathValidator.cs">
     </Compile>
     <Compile Include="ConfigTools\SpongeSettingsProvider.cs" />
@@ -239,7 +240,7 @@
     <EmbeddedResource Include="ConfigTools\NewProjectDlg.resx">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfigTools\NewSessionDlg.resx">
+    <EmbeddedResource Include="ConfigTools\NewSessionDialog\NewSessionDlg.resx">
       <DependentUpon>NewSessionDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigTools\WelcomeDlg.resx">

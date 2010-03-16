@@ -39,6 +39,7 @@ namespace SIL.Sponge.ConfigTools
 
 			if (!PathOK(basePath, newFolderName))
 			{
+				newFolderName = newFolderName ?? string.Empty;
 				lblMsg.Text = (newFolderName.Length > 0 ? invalidMsg : string.Empty);
 				return false;
 			}
@@ -49,7 +50,7 @@ namespace SIL.Sponge.ConfigTools
 			{
 				string root = Path.Combine(dirs[dirs.Length - 3], dirs[dirs.Length - 2]);
 				root = Path.Combine(root, dirs[dirs.Length - 1]);
-				lblMsg.Text = string.Format(validMsg, root);
+				lblMsg.Text = string.Format(validMsg ?? string.Empty, root);
 
 				if (tooltip != null)
 					tooltip.SetToolTip(lblMsg, fullPath);

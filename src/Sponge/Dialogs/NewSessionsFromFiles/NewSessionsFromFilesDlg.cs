@@ -1,7 +1,9 @@
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using AxWMPLib;
 using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.Properties;
 using SilUtils;
@@ -18,6 +20,7 @@ namespace SIL.Sponge.Dialogs
 	{
 		private readonly string _noFilesSelectedCreateButtonText;
 		private readonly string _filesSelectedCreateButtonText;
+		private readonly AxWindowsMediaPlayer _winMediaPlayer;
 		private readonly NewSessionsFromFileDlgViewModel _viewModel;
 		private readonly NewSessionsFromFilesDlgFolderNotFoundMsg _folderMissingMsgCtrl;
 
@@ -31,6 +34,7 @@ namespace SIL.Sponge.Dialogs
 			InitializeComponent();
 
 			_instructionsLabel.Text = string.Format(_instructionsLabel.Text, Application.ProductName);
+			_progressPanel.Visible = false;
 
 			_noFilesSelectedCreateButtonText = LocalizationManager.LocalizeString(
 				"NewSessionsFromFilesDlg.NoFilesSelectedCreateButtonText",
@@ -55,9 +59,32 @@ namespace SIL.Sponge.Dialogs
 			_filesPanel.Controls.Add(_folderMissingMsgCtrl);
 			_folderMissingMsgCtrl.BringToFront();
 
-			_viewModel = viewModel;
+			_mediaPlayerPanel.BorderStyle = BorderStyle.None;
 
+#if !MONO
+			_winMediaPlayer = new AxWindowsMediaPlayer();
+			((ISupportInitialize)(_winMediaPlayer)).BeginInit();
+			_winMediaPlayer.Dock = DockStyle.Fill;
+			_winMediaPlayer.Name = "_winMediaPlayer";
+			_mediaPlayerPanel.Controls.Add(_winMediaPlayer);
+			((ISupportInitialize)(_winMediaPlayer)).EndInit();
+			_winMediaPlayer.settings.autoStart = false;
+#endif
+
+			DialogResult = DialogResult.Cancel;
 			new CheckBoxColumnHeaderHandler(_selectedCol);
+			_viewModel = viewModel;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+			_viewModel.SelectedFolder = Settings.Default.NewSessionsFromFilesLastFolder;
 			UpdateDisplay();
 		}
 
@@ -69,6 +96,9 @@ namespace SIL.Sponge.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
+			if (DialogResult == DialogResult.Cancel && _progressPanel.Visible)
+				_viewModel.CancelLoad();
+
 			base.OnFormClosing(e);
 
 			Settings.Default.NewSessionsFromFilesDlgCols =
@@ -111,7 +141,7 @@ namespace SIL.Sponge.Dialogs
 			_sourceFolderLabel.Text = _viewModel.SelectedFolder;
 
 			int selectedFileCount = _viewModel.NumberOfSelectedFiles;
-			_createSessionsButton.Enabled = _viewModel.AnyFilesSelected;
+			_createSessionsButton.Enabled = _viewModel.AnyFilesSelected && !_progressPanel.Visible;
 			_createSessionsButton.Text = (selectedFileCount == 0 ?
 				_noFilesSelectedCreateButtonText :
 				string.Format(_filesSelectedCreateButtonText, selectedFileCount));
@@ -124,18 +154,86 @@ namespace SIL.Sponge.Dialogs
 					_filesGrid.CellValueNeeded -= HandleFileGridCellValueNeeded;
 					_filesGrid.CellValuePushed -= HandleFileGridCellValuePushed;
 					_filesGrid.RowCount = fileCount;
+					_mediaPlayerPanel.Enabled = false;
 				}
 				else
 				{
 					_filesGrid.CellValueNeeded += HandleFileGridCellValueNeeded;
 					_filesGrid.RowCount = fileCount;
 					_filesGrid.CellValuePushed += HandleFileGridCellValuePushed;
+					_mediaPlayerPanel.Enabled = true;
+					QueueMediaFile(_filesGrid.CurrentCellAddress.Y);
 				}
 			}
 
 			Utils.SetWindowRedraw(this, true);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void QueueMediaFile(int rowIndex)
+		{
+#if !MONO
+			_winMediaPlayer.Ctlcontrols.stop();
+			_winMediaPlayer.URL = _viewModel.GetFullFilePath(rowIndex);
+#endif
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Centers the progress bar panel in the file list grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SizeAndLocateProgressPanel()
+		{
+			_progressPanel.Width = (int)(_filesGrid.Width * .66);
+			var pt = new Point((_filesGrid.Width - _progressPanel.Width) / 2,
+				(_filesGrid.Height - _progressPanel.Height) / 2);
+
+			_progressPanel.Location = PointToClient(_filesGrid.PointToScreen(pt));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void InitializeProgressIndicatorForFileLoading(int fileCount)
+		{
+			_progressBar.Maximum = fileCount;
+			_progressBar.Value = 0;
+
+			SizeAndLocateProgressPanel();
+			_progressPanel.BackColor = _filesGrid.BackgroundColor;
+			_progressPanel.BringToFront();
+			_progressPanel.Visible = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void UpdateFileLoadingProgress()
+		{
+			_progressBar.Increment(1);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void FileLoadingProgressComplele()
+		{
+			_progressPanel.Visible = false;
+			UpdateDisplay();
+		}
+
+		#region Event handlers
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Handles creating new sessions from the selected files.
@@ -160,6 +258,16 @@ namespace SIL.Sponge.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleFilesGridRowEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			QueueMediaFile(e.RowIndex);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Feeds values about a file to the grid from the view model.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -179,5 +287,17 @@ namespace SIL.Sponge.Dialogs
 			if (e.ColumnIndex == 0)
 				_viewModel.Files[e.RowIndex].Selected = (bool)e.Value;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleOuterTableLayoutSizeChanged(object sender, EventArgs e)
+		{
+			SizeAndLocateProgressPanel();
+		}
+
+		#endregion
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -35,9 +36,17 @@ namespace SIL.Sponge.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public class NewSessionsFromFileDlgViewModel : IDisposable
 	{
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Used by
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool WaitForAsyncFileLoadingToFinish { get; set; }
+
 		private string _selectedFolder;
 		private NewSessionsFromFilesDlg _dlg;
-		private FileSystemWatcher _fileWatcher;
+		private readonly BackgroundWorker _fileLoaderWorker;
+		private readonly FileSystemWatcher _fileWatcher;
 
 		#region Construction, initialization and disposal.
 		/// ------------------------------------------------------------------------------------
@@ -54,8 +63,14 @@ namespace SIL.Sponge.Dialogs
 			_fileWatcher.Deleted += HandleFileWatcherDeleteOrCreatedEvent;
 			_fileWatcher.Created += HandleFileWatcherDeleteOrCreatedEvent;
 
+			_fileLoaderWorker = new BackgroundWorker();
+			_fileLoaderWorker.WorkerReportsProgress = true;
+			_fileLoaderWorker.WorkerSupportsCancellation = true;
+			_fileLoaderWorker.ProgressChanged += HandleFileLoaderProgressChanged;
+			_fileLoaderWorker.RunWorkerCompleted += HandleFileLoaderComplete;
+			_fileLoaderWorker.DoWork += HandleFileLoaderDoWork;
+
 			Files = new List<NewSessionFile>();
-			SelectedFolder = Settings.Default.NewSessionsFromFilesLastFolder;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,6 +82,7 @@ namespace SIL.Sponge.Dialogs
 		{
 			Application.Idle -= HandleApplicationIdle;
 			_fileWatcher.Dispose();
+			_fileLoaderWorker.Dispose();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,9 +96,9 @@ namespace SIL.Sponge.Dialogs
 			set
 			{
 				Application.Idle -= HandleApplicationIdle;
-				_fileWatcher.SynchronizingObject = value;
-				_fileWatcher.EnableRaisingEvents = (value != null && Directory.Exists(_selectedFolder));
 				_dlg = value;
+				_fileWatcher.SynchronizingObject = _dlg;
+				EnableFileWatchingIfAble();
 				if (_dlg != null)
 					Application.Idle += HandleApplicationIdle;
 			}
@@ -151,8 +167,7 @@ namespace SIL.Sponge.Dialogs
 				LoadFilesFromFolder(value);
 				Settings.Default.NewSessionsFromFilesLastFolder = value;
 				Settings.Default.Save();
-				_fileWatcher.Path = _selectedFolder;
-				_fileWatcher.EnableRaisingEvents = (_dlg != null && Directory.Exists(_selectedFolder));
+				EnableFileWatchingIfAble();
 			}
 		}
 
@@ -161,13 +176,29 @@ namespace SIL.Sponge.Dialogs
 		#region Methods for watching the file system
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void EnableFileWatchingIfAble()
+		{
+			if (_dlg == null || !Directory.Exists(_selectedFolder))
+				_fileWatcher.EnableRaisingEvents = false;
+			else
+			{
+				_fileWatcher.Path = _selectedFolder;
+				_fileWatcher.EnableRaisingEvents = true;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Monitor the selected folder in case it disappears or reappears (e.g. when the user
 		/// plug-in or unplugs the device containing the folder).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void HandleApplicationIdle(object sender, EventArgs e)
 		{
-			if (string.IsNullOrEmpty(SelectedFolder) || _dlg == null)
+			if (string.IsNullOrEmpty(SelectedFolder) || _dlg == null || _fileLoaderWorker.IsBusy)
 				return;
 
 			if ((!Directory.Exists(SelectedFolder) && !_dlg.IsMissingFolderMessageVisible) ||
@@ -253,6 +284,7 @@ namespace SIL.Sponge.Dialogs
 
 		#endregion
 
+		#region Misc. public methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the specified property value for the file at the specified index in the
@@ -263,6 +295,17 @@ namespace SIL.Sponge.Dialogs
 		{
 			return (fileIndex < 0 || fileIndex >= Files.Count ? null :
 				ReflectionHelper.GetProperty(Files[fileIndex], property));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// An empty string is returned if fileIndex is out of range.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetFullFilePath(int fileIndex)
+		{
+			return (fileIndex < 0 || fileIndex >= Files.Count ?
+				string.Empty : Files[fileIndex].FullFilePath);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -298,20 +341,32 @@ namespace SIL.Sponge.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public void LetUserChangeSelectedFolder()
 		{
+			bool interuptedLoad = false;
+			if (_fileLoaderWorker.IsBusy && !_fileLoaderWorker.CancellationPending)
+			{
+				_fileLoaderWorker.CancelAsync();
+				interuptedLoad = true;
+			}
+
 			using (var dlg = new FolderBrowserDialog())
 			{
 				dlg.Description = LocalizationManager.LocalizeString(
 					"NewSessionsFromFilesDlg.FolderBrowserDlgDescription",
-					"Choose a Folder Medial Files.", "Dialog Boxes");
+					"Choose a Folder of Medial Files.", "Dialog Boxes");
 
 				if (SelectedFolder != null && Directory.Exists(SelectedFolder))
 					dlg.SelectedPath = SelectedFolder;
 
 				if (dlg.ShowDialog() == DialogResult.OK)
 					SelectedFolder = dlg.SelectedPath;
+				else if (interuptedLoad)
+					SelectedFolder = _selectedFolder;
 			}
 		}
 
+		#endregion
+
+		#region Methods for loading (in a new process thread) files from selected folder
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the list of files from the audio and video files found in the specified
@@ -320,26 +375,113 @@ namespace SIL.Sponge.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadFilesFromFolder(string folder)
 		{
+			if (_fileLoaderWorker.IsBusy && !_fileLoaderWorker.CancellationPending)
+				_fileLoaderWorker.CancelAsync();
+
+			_fileWatcher.EnableRaisingEvents = false;
 			Files.Clear();
 
+			if (_dlg != null)
+				_dlg.UpdateDisplay();
+
 			if (folder == null || !Directory.Exists(folder))
+				return;
+
+			var fileList = Directory.GetFiles(folder);
+			if (_dlg != null)
+				_dlg.InitializeProgressIndicatorForFileLoading(fileList.Length);
+
+			_fileLoaderWorker.RunWorkerAsync(fileList);
+
+			if (WaitForAsyncFileLoadingToFinish)
+				while (_fileLoaderWorker.IsBusy) { Application.DoEvents(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void HandleFileLoaderDoWork(object sender, DoWorkEventArgs e)
+		{
+			var fileList = e.Argument as string[];
+			if (fileList == null)
 				return;
 
 			var validExtensions = (Settings.Default.AudioFileExtensions +
 				Settings.Default.VideoFileExtensions).ToLower();
 
-			foreach (var file in Directory.GetFiles(folder))
+			foreach (var file in fileList)
 			{
-				if (validExtensions.Contains(Path.GetExtension(file.ToLower())))
-					Files.Add(new NewSessionFile(file));
+				// If the file's path no longer exists, it probably means the user disconnected the
+				// storage device (e.g. recorder) before reading all its contents.
+				if (_fileLoaderWorker.CancellationPending || !Directory.Exists(Path.GetDirectoryName(file)))
+				{
+					e.Cancel = true;
+					return;
+				}
+
+				_fileLoaderWorker.ReportProgress(0);
+
+				try
+				{
+					if (validExtensions.Contains(Path.GetExtension(file.ToLower())))
+						Files.Add(new NewSessionFile(file));
+				}
+				catch (Exception)
+				{
+					if (Directory.Exists(Path.GetDirectoryName(file)))
+						throw;
+				}
 			}
-
-			Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
-
-			if (_dlg != null)
-				_dlg.UpdateDisplay();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void HandleFileLoaderProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			if (_dlg != null)
+				_dlg.UpdateFileLoadingProgress();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void CancelLoad()
+		{
+			if (!_fileLoaderWorker.CancellationPending)
+				_fileLoaderWorker.CancelAsync();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void HandleFileLoaderComplete(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (e.Cancelled)
+				Files.Clear();
+			else
+			{
+				Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
+				_fileWatcher.Path = _selectedFolder;
+			}
+
+			if (_dlg != null)
+				_dlg.FileLoadingProgressComplele();
+
+			EnableFileWatchingIfAble();
+		}
+
+		#endregion
+
+		#region Methods for creating sessions from selected files
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		///
@@ -393,6 +535,8 @@ namespace SIL.Sponge.Dialogs
 
 			return true;
 		}
+
+		#endregion
 	}
 
 	#endregion

@@ -14,7 +14,6 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System.IO;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SIL.Sponge.Model;

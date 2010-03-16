@@ -36,11 +36,11 @@
   <ItemGroup>
     <Reference Include="AxInterop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\AxInterop.WMPLib.dll</HintPath>
+      <HintPath>..\..\lib\dotnet\AxInterop.WMPLib.dll</HintPath>
     </Reference>
     <Reference Include="Interop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\Interop.WMPLib.dll</HintPath>
+      <HintPath>..\..\lib\dotnet\Interop.WMPLib.dll</HintPath>
     </Reference>
     <Reference Include="LocalizationUtils, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -20,7 +20,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using AxWMPLib;
-using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 using SilUtils;
 using SilUtils.Controls;

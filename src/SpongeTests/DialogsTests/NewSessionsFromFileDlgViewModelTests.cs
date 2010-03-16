@@ -44,6 +44,7 @@ namespace SIL.Sponge.Dialogs
 
 			SessionFileBase.PreventGettingMediaFileDurationsUsingDirectX = true;
 			_viewModel = new NewSessionsFromFileDlgViewModel();
+			_viewModel.WaitForAsyncFileLoadingToFinish = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -274,6 +275,94 @@ namespace SIL.Sponge.Dialogs
 			Assert.IsFalse(_viewModel.AllFilesSelected);
 			_viewModel.Files[1].Selected = true;
 			Assert.IsTrue(_viewModel.AllFilesSelected);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ToggleFilesSelectedState_fileIndex_TooLarge()
+		{
+			File.CreateText(_mainAppFldr.Combine("pig.wmv")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+			Assert.IsTrue(_viewModel.Files[0].Selected);
+			_viewModel.ToggleFilesSelectedState(1);
+			Assert.IsTrue(_viewModel.Files[0].Selected);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ToggleFilesSelectedState_fileIndex_TooSmall()
+		{
+			File.CreateText(_mainAppFldr.Combine("pig.wmv")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+			Assert.IsTrue(_viewModel.Files[0].Selected);
+			_viewModel.ToggleFilesSelectedState(-1);
+			Assert.IsTrue(_viewModel.Files[0].Selected);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ToggleFilesSelectedState_fileIndex_JustRight()
+		{
+			File.CreateText(_mainAppFldr.Combine("pig.wmv")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+			Assert.IsTrue(_viewModel.Files[0].Selected);
+			_viewModel.ToggleFilesSelectedState(0);
+			Assert.IsFalse(_viewModel.Files[0].Selected);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFullFilePath_fileIndex_TooLarge()
+		{
+			File.CreateText(_mainAppFldr.Combine("pig.wmv")).Close();
+			File.CreateText(_mainAppFldr.Combine("cow.wma")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+			Assert.AreEqual(string.Empty, _viewModel.GetFullFilePath(2));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFullFilePath_fileIndex_TooSmall()
+		{
+			File.CreateText(_mainAppFldr.Combine("pig.wmv")).Close();
+			File.CreateText(_mainAppFldr.Combine("cow.wma")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+			Assert.AreEqual(string.Empty, _viewModel.GetFullFilePath(-1));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFullFilePath_fileIndex_JustRight()
+		{
+			File.CreateText(_mainAppFldr.Combine("cow.wma")).Close();
+			File.CreateText(_mainAppFldr.Combine("pig.wmv")).Close();
+			_viewModel.SelectedFolder = _mainAppFldr.FolderPath;
+			Assert.AreEqual(_mainAppFldr.Combine("cow.wma"), _viewModel.GetFullFilePath(0));
+			Assert.AreEqual(_mainAppFldr.Combine("pig.wmv"), _viewModel.GetFullFilePath(1));
 		}
 
 		/// ------------------------------------------------------------------------------------

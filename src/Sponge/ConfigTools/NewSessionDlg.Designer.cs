@@ -35,8 +35,8 @@ namespace SIL.Sponge.ConfigTools
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lblMsg = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
-			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnCopyFiles = new System.Windows.Forms.Button();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -45,6 +45,7 @@ namespace SIL.Sponge.ConfigTools
 			this.lblPath.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lblPath.AutoEllipsis = true;
 			this.lblPath.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 			this.lblPath.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.lblPath.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -52,24 +53,23 @@ namespace SIL.Sponge.ConfigTools
 			this.locExtender.SetLocalizationComment(this.lblPath, "This text is displayed under the project name and includes where it will be creat" +
 					"ed.");
 			this.locExtender.SetLocalizingId(this.lblPath, "NewSessionDlg.lblPath");
-			this.lblPath.Location = new System.Drawing.Point(12, 73);
+			this.lblPath.Location = new System.Drawing.Point(12, 75);
 			this.lblPath.Name = "lblPath";
-			this.lblPath.Size = new System.Drawing.Size(335, 39);
+			this.lblPath.Size = new System.Drawing.Size(335, 46);
 			this.lblPath.TabIndex = 2;
 			this.lblPath.Text = "Session will be created in: {0}";
-			this.lblPath.TextChanged += new System.EventHandler(this.lblPath_TextChanged);
 			// 
 			// txtName
 			// 
 			this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			this.txtName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this.txtName, null);
 			this.locExtender.SetLocalizationComment(this.txtName, null);
 			this.locExtender.SetLocalizingId(this.txtName, "NewSessionDlg.txtSessionName");
-			this.txtName.Location = new System.Drawing.Point(12, 48);
+			this.txtName.Location = new System.Drawing.Point(12, 47);
 			this.txtName.Name = "txtName";
-			this.txtName.Size = new System.Drawing.Size(337, 21);
+			this.txtName.Size = new System.Drawing.Size(337, 23);
 			this.txtName.TabIndex = 1;
 			this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
 			// 

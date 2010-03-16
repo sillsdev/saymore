@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
@@ -14,7 +15,7 @@ namespace SIL.Sponge.ConfigTools
 	/// ----------------------------------------------------------------------------------------
 	public partial class NewSessionDlg : Form
 	{
-		private readonly string _projectPath;
+		private readonly string _projectsSessionsPath;
 		private readonly HashSet<string> _sessionFiles = new HashSet<string>();
 
 		/// ------------------------------------------------------------------------------------
@@ -37,7 +38,7 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		public NewSessionDlg(string prjPath, string defaultId) : this()
 		{
-			_projectPath = prjPath;
+			_projectsSessionsPath = Path.Combine(prjPath, Sponge.SessionFolderName);
 			txtName.Text = defaultId;
 		}
 
@@ -64,7 +65,7 @@ namespace SIL.Sponge.ConfigTools
 
 			var validPathMsg = LocalizationManager.GetString(lblPath);
 
-			btnOK.Enabled = PathValidator.ValidatePathEntry(_projectPath,
+			btnOK.Enabled = PathValidator.ValidatePathEntry(_projectsSessionsPath,
 				txtName.Text.Trim(), lblPath, validPathMsg, invalidPathMsg, toolTip);
 		}
 
@@ -97,22 +98,6 @@ namespace SIL.Sponge.ConfigTools
 		public string[] SessionFiles
 		{
 			get { return _sessionFiles.ToArray(); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make the label underneath the name text box only as tall as necessary.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void lblPath_TextChanged(object sender, EventArgs e)
-		{
-			using (var g = lblPath.CreateGraphics())
-			{
-				var sz = new Size(lblPath.Width, 0);
-				sz = TextRenderer.MeasureText(g, lblPath.Text, lblPath.Font, sz, TextFormatFlags.WordBreak);
-				if (lblPath.Height != sz.Height && lblPath.Bottom < btnCopyFiles.Top)
-					lblPath.Height = sz.Height;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

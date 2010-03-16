@@ -28,9 +28,9 @@ namespace SIL.Sponge.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this._findFilesLink = new System.Windows.Forms.LinkLabel();
 			this._createSessionsButton = new System.Windows.Forms.Button();
 			this._cancelButton = new System.Windows.Forms.Button();
@@ -159,13 +159,13 @@ namespace SIL.Sponge.Dialogs
 			this._filesGrid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this._filesGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this._filesGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this._filesGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this._filesGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this._filesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this._filesGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._selectedCol,
@@ -238,8 +238,8 @@ namespace SIL.Sponge.Dialogs
 			// _sizeCol
 			// 
 			this._sizeCol.DataPropertyName = "FileSize";
-			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this._sizeCol.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this._sizeCol.DefaultCellStyle = dataGridViewCellStyle2;
 			this._sizeCol.HeaderText = "Size";
 			this._sizeCol.Name = "_sizeCol";
 			this._sizeCol.ReadOnly = true;
@@ -248,8 +248,8 @@ namespace SIL.Sponge.Dialogs
 			// _lengthCol
 			// 
 			this._lengthCol.DataPropertyName = "DisplayableDuration";
-			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this._lengthCol.DefaultCellStyle = dataGridViewCellStyle9;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this._lengthCol.DefaultCellStyle = dataGridViewCellStyle3;
 			this._lengthCol.HeaderText = "Length";
 			this._lengthCol.Name = "_lengthCol";
 			this._lengthCol.ReadOnly = true;
@@ -278,7 +278,7 @@ namespace SIL.Sponge.Dialogs
 			this._progressPanel.BackColor = System.Drawing.Color.Transparent;
 			this._progressPanel.Controls.Add(this._progressLabel);
 			this._progressPanel.Controls.Add(this._progressBar);
-			this._progressPanel.Location = new System.Drawing.Point(430, 298);
+			this._progressPanel.Location = new System.Drawing.Point(430, 310);
 			this._progressPanel.Name = "_progressPanel";
 			this._progressPanel.Size = new System.Drawing.Size(228, 41);
 			this._progressPanel.TabIndex = 7;

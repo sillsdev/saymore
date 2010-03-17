@@ -68,10 +68,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigToolsTests\MruProjectsTests.cs" />
+    <Compile Include="ConfigToolsTests\NewProjectDlgViewModelTests.cs" />
     <Compile Include="ConfigToolsTests\NewSessionDlgViewModelTests.cs" />
     <Compile Include="ConfigToolsTests\PathValidatorTests.cs" />
     <Compile Include="ControlsTests\ListPanelTests.cs" />
-    <Compile Include="DialogsTests\NewSessionsFromFileDlgViewModelTests.cs" />
+    <Compile Include="DialogsTests\NewSessionsFromFileDlgViewModelTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ModelTests\PersonTests.cs" />
     <Compile Include="ModelTests\SessionFileBaseTests.cs" />
     <Compile Include="ModelTests\SessionComponentDefinitionTests.cs" />

@@ -67,10 +67,12 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public static SpongeProject Create(IWin32Window parent)
 		{
-			using (var dlg = new NewProjectDlg())
+			var viewModel = new NewProjectDlgViewModel();
+
+			using (var dlg = new NewProjectDlg(viewModel))
 			{
 				return (dlg.ShowDialog(parent) == DialogResult.OK ?
-					Create(dlg.NewProjectName) : null);
+					Create(viewModel.NewProjectName) : null);
 			}
 		}
 

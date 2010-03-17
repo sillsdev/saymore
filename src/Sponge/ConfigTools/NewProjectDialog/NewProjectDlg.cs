@@ -5,23 +5,23 @@ namespace SIL.Sponge.ConfigTools
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Dialog for allowing user to enter the name of a new session.
+	/// Dialog for allowing user to enter the name of a new project.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class NewSessionDlg : Form
+	public partial class NewProjectDlg : Form
 	{
-		private readonly NewSessionDlgViewModel _viewModel;
+		private readonly NewProjectDlgViewModel _viewModel;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public NewSessionDlg()
+		public NewProjectDlg()
 		{
 			InitializeComponent();
 			_OKButton.Enabled = false;
-			_newSessionPathLabel.Text = string.Empty;
+			_newProjectPathLabel.Text = string.Empty;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -29,10 +29,9 @@ namespace SIL.Sponge.ConfigTools
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public NewSessionDlg(NewSessionDlgViewModel viewModel) : this()
+		public NewProjectDlg(NewProjectDlgViewModel viewModel) : this()
 		{
 			_viewModel = viewModel;
-			_idTextBox.Text = _viewModel.DefaultNewSessionId;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -54,19 +53,10 @@ namespace SIL.Sponge.ConfigTools
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void txtName_TextChanged(object sender, EventArgs e)
+		protected void txtName_TextChanged(object sender, EventArgs e)
 		{
-			_OKButton.Enabled = _viewModel.IsNewSessionIdValid(_idTextBox.Text.Trim(), _newSessionPathLabel);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCopyFiles_Click(object sender, EventArgs e)
-		{
-			_viewModel.LetUserChooseSessionFiles();
+			_OKButton.Enabled = _viewModel.IsNewProjectNameValid(
+				_newNameTextBox.Text.Trim(), _newProjectPathLabel);
 		}
 	}
 }

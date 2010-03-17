@@ -79,7 +79,7 @@ namespace SIL.Sponge.ConfigTools
 		public bool IsNewSessionIdValid(string newId, Label newSessionPathLabel)
 		{
 			var invalidPathMsg = LocalizationManager.LocalizeString(
-				"NewSessionDlg.lblPath.InvalidPathMsg", "Unable to create a new session there.",
+				"NewSessionDlg.lblPath.InvalidPathMsg", "Unable to create a new session by that name.",
 				"This text is displayed under the session name when it is invalid.", "Dialog Boxes");
 
 			var validPathMsg = LocalizationManager.GetString(newSessionPathLabel);

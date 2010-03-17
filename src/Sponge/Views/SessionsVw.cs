@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Dialogs;
@@ -75,7 +76,8 @@ namespace SIL.Sponge.Views
 		/// Initializes a new instance of the <see cref="SessionsVw"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SessionsVw(SpongeProject _prj, Func<IEnumerable<string>> peopleNameProvider) : this()
+		public SessionsVw(SpongeProject _prj, Func<IEnumerable<string>> peopleNameProvider)
+			: this()
 		{
 			_peopleNameProvider = peopleNameProvider;
 			_currProj = (_prj ?? MainWnd.CurrentProject);
@@ -610,7 +612,18 @@ namespace SIL.Sponge.Views
 			session.EventTypeId = ((_eventType.SelectedItem as string) == _unknownEventType ?
 				null : ((DiscourseType)_eventType.SelectedItem).Id);
 
-			return session.ChangeIdAndSave(_id.Text.Trim());
+			string errorMessage;
+			bool result = session.ChangeIdAndSave(_id.Text.Trim(), out errorMessage);
+
+			if (errorMessage != null)
+			{
+				ErrorReport.NotifyUserOfProblem(errorMessage);
+				_id.Text = session.Id;
+				_id.SelectAll();
+				_id.Focus();
+			}
+
+			return result;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -717,13 +730,18 @@ namespace SIL.Sponge.Views
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void HandleFilesGridCellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
 			{
 				gridFiles.CurrentCell = gridFiles.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-			 //   _infoPanel_MoreActionButtonClicked(null, null);
+				//   _infoPanel_MoreActionButtonClicked(null, null);
 				Point pt = gridFiles.PointToClient(MousePosition);
 				_fileContextMenu.Items.Clear();
 				_fileContextMenu.Items.AddRange(CurrentSessionFile.GetContextMenuItems(_id.Text).ToArray());
@@ -731,23 +749,43 @@ namespace SIL.Sponge.Views
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void HandleParticipants_Enter(object sender, EventArgs e)
 		{
 			_participants.AutoCompleteCustomSource = new AutoCompleteStringCollection();
 			_participants.AutoCompleteCustomSource.AddRange(_peopleNameProvider().ToArray());
 		}
 
-		private void Handle_IdValidating(object sender, System.ComponentModel.CancelEventArgs e)
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleIdValidating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			e.Cancel = !_currSession.ChangeIdAndSave(_id.Text.Trim());
-			if (e.Cancel)
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Please use a different id.");
+			string errorMessage;
+			e.Cancel = !_currSession.ChangeIdAndSave(_id.Text.Trim(), out errorMessage);
+			if (errorMessage != null)
+			{
+				ErrorReport.NotifyUserOfProblem(errorMessage);
+				_id.Text = _currSession.Id;
+				_id.SelectAll();
+			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridCellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
 			gridFiles.CurrentCell = gridFiles.Rows[e.RowIndex].Cells[e.ColumnIndex];
-			CurrentSessionFile.HandleOpenInApp_Click(this,null);
+			CurrentSessionFile.HandleOpenInApp_Click(this, null);
 		}
 	}
 }

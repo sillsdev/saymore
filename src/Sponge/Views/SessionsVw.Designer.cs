@@ -269,7 +269,7 @@ namespace SIL.Sponge.Views
 			this._id.Name = "_id";
 			this._id.Size = new System.Drawing.Size(121, 23);
 			this._id.TabIndex = 1;
-			this._id.Validating += new System.ComponentModel.CancelEventHandler(this.Handle_IdValidating);
+			this._id.Validating += new System.ComponentModel.CancelEventHandler(this.HandleIdValidating);
 			// 
 			// lblSituation
 			// 

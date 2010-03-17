@@ -54,7 +54,7 @@ namespace SIL.Sponge.ConfigTools
 		public bool IsNewProjectNameValid(string newName, Label newProjectPathLabel)
 		{
 			var invalidPathMsg = LocalizationManager.LocalizeString(
-				"NewProjectDlg.newProjectPathLabel.InvalidPathMsg", "Unable to create a new project there.",
+				"NewProjectDlg.newProjectPathLabel.InvalidPathMsg", "Unable to create a new project by that name.",
 				"This text is displayed under the project name when it is invalid.", "Dialog Boxes");
 
 			var validPathMsg = LocalizationManager.GetString(newProjectPathLabel);

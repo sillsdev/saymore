@@ -77,6 +77,8 @@ namespace SIL.Sponge.Views
 			_frmHost.Controls.Clear();
 			_frmHost.Controls.Add(_vw);
 			_frmHost.Show();
+
+			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 		}
 
 		#endregion
@@ -109,7 +111,7 @@ namespace SIL.Sponge.Views
 		/// Tests the RefreshSessionList method
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Test]
+		[Test][Ignore("Need to refactor with a view model")]
 		public void RefreshSessionList()
 		{
 			SetTab("tpgFiles");
@@ -134,6 +136,7 @@ namespace SIL.Sponge.Views
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Ignore("Need to refactor with a view model")]
 		public void RefreshFileList()
 		{
 			SetTab("tpgFiles");
@@ -267,6 +270,7 @@ namespace SIL.Sponge.Views
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Ignore("Need to refactor with a view model")]
 		public void FileListDragDrop()
 		{
 			SetTab("tpgFiles");

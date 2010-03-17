@@ -286,17 +286,37 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// why is this separate from the property?  Because
-		/// 1) You're not supposed to do anything non-trivial in property accessors (like renaming folders)
-		/// 2) It may fail, and needs a way to indicate that to the caller.
+		/// The reason this is separate from the Id property is: 1) You're not supposed to do
+		/// anything non-trivial in property accessors (like renaming folders) and 2) It may
+		/// fail, and needs a way to indicate that to the caller.
 		///
-		/// NB: at the moment, all the change is done immediately, so a Save() is needed to keep things consistent.
-		/// We could imagine just making the change pending until the next Save.
+		/// NB: at the moment, all the change is done immediately, so a Save() is needed to
+		/// keep things consistent. We could imagine just making the change pending until
+		/// the next Save.
 		/// </summary>
 		/// <returns>true if the change was possible and occurred</returns>
 		/// ------------------------------------------------------------------------------------
 		public bool ChangeIdAndSave(string newId)
 		{
+			string errorMessage;
+			return ChangeIdAndSave(newId, out errorMessage);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The reason this is separate from the Id property is: 1) You're not supposed to do
+		/// anything non-trivial in property accessors (like renaming folders) and 2) It may
+		/// fail, and needs a way to indicate that to the caller.
+		///
+		/// NB: at the moment, all the change is done immediately, so a Save() is needed to
+		/// keep things consistent. We could imagine just making the change pending until
+		/// the next Save.
+		/// </summary>
+		/// <returns>true if the change was possible and occurred</returns>
+		/// ------------------------------------------------------------------------------------
+		public bool ChangeIdAndSave(string newId, out string errorMessage)
+		{
+			errorMessage = null;
 			newId = newId.Trim();
 			if (Id == newId)
 			{
@@ -305,14 +325,18 @@ namespace SIL.Sponge.Model
 			}
 
 			if (newId == string.Empty)
+			{
+				errorMessage = "You must specify a session id.";
 				return false;
+			}
 
 			var parent = Directory.GetParent(Folder).FullName;
 			string newFolderPath = Path.Combine(parent, newId);
 			if (Directory.Exists(newFolderPath))
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-					"Could not rename from {0} to {1} because there is already a folder with that name.", Id, newId);
+				errorMessage = string.Format(
+					"Could not rename from {0} to {1} because there is already a session by that name.", Id, newId);
+
 				return false;
 			}
 
@@ -331,8 +355,9 @@ namespace SIL.Sponge.Model
 
 				Directory.Move(Folder, newFolderPath);
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
+				errorMessage = ExceptionHelper.GetAllExceptionMessages(e);
 				return false;
 			}
 
@@ -358,6 +383,7 @@ namespace SIL.Sponge.Model
 
 			return XmlSerializationHelper.SerializeToFile(FullFilePath, this);
 		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adds the specified file to the session folder.

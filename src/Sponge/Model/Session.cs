@@ -342,6 +342,9 @@ namespace SIL.Sponge.Model
 
 			try
 			{
+				//todo... need a way to make this all one big all or nothing transaction.  As it is, some things can be
+				//renamed and then we run into a snag, and we're left in a bad, inconsistent state.
+
 				foreach (var file in Directory.GetFiles(Folder))
 				{
 					var name = Path.GetFileName(file);
@@ -457,7 +460,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return Id;
+			return Id+" "+Title;
 		}
 	}
 }

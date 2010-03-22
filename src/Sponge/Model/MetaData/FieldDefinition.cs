@@ -186,7 +186,7 @@ namespace SIL.Sponge.Model.MetaData
 			get
 			{
 				if (_fieldName == null)
-					throw new InvalidOperationException("FieldName must be set before it can be used.");
+					throw new InvalidOperationException("Name must be set before it can be used.");
 
 				return _fieldName;
 			}

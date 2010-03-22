@@ -58,7 +58,7 @@ namespace SIL.Sponge.Views
 			this._access = new System.Windows.Forms.TextBox();
 			this.pnlDescriptionRightSide = new System.Windows.Forms.Panel();
 			this.lblMedia = new System.Windows.Forms.Label();
-			this.mmScroll = new SIL.Sponge.Controls.MultimediaScroll();
+			this.m_mediaPanel = new SIL.Sponge.Controls.MultimediaScroll();
 			this._synopsis = new System.Windows.Forms.TextBox();
 			this.lblSynopsis = new System.Windows.Forms.Label();
 			this.tpgFiles = new System.Windows.Forms.TabPage();
@@ -324,7 +324,7 @@ namespace SIL.Sponge.Views
 			// 
 			this._location.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._location.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this._location.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
 			this._location.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.locExtender.SetLocalizableToolTip(this._location, null);
 			this.locExtender.SetLocalizationComment(this._location, null);
@@ -377,7 +377,7 @@ namespace SIL.Sponge.Views
 			// 
 			this._setting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._setting.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this._setting.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
 			this._setting.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.locExtender.SetLocalizableToolTip(this._setting, null);
 			this.locExtender.SetLocalizationComment(this._setting, null);
@@ -448,7 +448,7 @@ namespace SIL.Sponge.Views
 			// pnlDescriptionRightSide
 			// 
 			this.pnlDescriptionRightSide.Controls.Add(this.lblMedia);
-			this.pnlDescriptionRightSide.Controls.Add(this.mmScroll);
+			this.pnlDescriptionRightSide.Controls.Add(this.m_mediaPanel);
 			this.pnlDescriptionRightSide.Controls.Add(this._synopsis);
 			this.pnlDescriptionRightSide.Controls.Add(this.lblSynopsis);
 			this.pnlDescriptionRightSide.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -469,20 +469,20 @@ namespace SIL.Sponge.Views
 			this.lblMedia.TabIndex = 3;
 			this.lblMedia.Text = "Media";
 			// 
-			// mmScroll
+			// m_mediaPanel
 			// 
-			this.mmScroll.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			this.m_mediaPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.mmScroll.AutoScroll = true;
-			this.mmScroll.BackColor = System.Drawing.Color.DimGray;
-			this.locExtender.SetLocalizableToolTip(this.mmScroll, null);
-			this.locExtender.SetLocalizationComment(this.mmScroll, null);
-			this.locExtender.SetLocalizingId(this.mmScroll, "multimediaScroll1.multimediaScroll1");
-			this.mmScroll.Location = new System.Drawing.Point(3, 144);
-			this.mmScroll.Name = "mmScroll";
-			this.mmScroll.Size = new System.Drawing.Size(322, 274);
-			this.mmScroll.TabIndex = 2;
+			this.m_mediaPanel.AutoScroll = true;
+			this.m_mediaPanel.BackColor = System.Drawing.Color.DimGray;
+			this.locExtender.SetLocalizableToolTip(this.m_mediaPanel, null);
+			this.locExtender.SetLocalizationComment(this.m_mediaPanel, null);
+			this.locExtender.SetLocalizingId(this.m_mediaPanel, "multimediaScroll1.multimediaScroll1");
+			this.m_mediaPanel.Location = new System.Drawing.Point(3, 144);
+			this.m_mediaPanel.Name = "m_mediaPanel";
+			this.m_mediaPanel.Size = new System.Drawing.Size(322, 274);
+			this.m_mediaPanel.TabIndex = 2;
 			// 
 			// _synopsis
 			// 
@@ -547,8 +547,8 @@ namespace SIL.Sponge.Views
 			this.splitFileTab.Panel2.Controls.Add(this._infoPanel);
 			this.splitFileTab.Panel2.Controls.Add(this.pnlFileInfoNotes);
 			this.splitFileTab.Panel2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 2);
-			this.splitFileTab.Size = new System.Drawing.Size(476, 347);
-			this.splitFileTab.SplitterDistance = 258;
+			this.splitFileTab.Size = new System.Drawing.Size(611, 430);
+			this.splitFileTab.SplitterDistance = 320;
 			this.splitFileTab.TabIndex = 2;
 			// 
 			// lnkSessionPath
@@ -561,7 +561,7 @@ namespace SIL.Sponge.Views
 			this.locExtender.SetLocalizingId(this.lnkSessionPath, "SessionsVw.lnkSessionPath");
 			this.lnkSessionPath.Location = new System.Drawing.Point(21, 58);
 			this.lnkSessionPath.Name = "lnkSessionPath";
-			this.lnkSessionPath.Size = new System.Drawing.Size(442, 21);
+			this.lnkSessionPath.Size = new System.Drawing.Size(577, 21);
 			this.lnkSessionPath.TabIndex = 2;
 			this.lnkSessionPath.TabStop = true;
 			this.lnkSessionPath.Text = "#";
@@ -578,7 +578,7 @@ namespace SIL.Sponge.Views
 			this.locExtender.SetLocalizingId(this.lblEmptySessionMsg, "SessionsVw.lblEmptySessionMsg");
 			this.lblEmptySessionMsg.Location = new System.Drawing.Point(19, 15);
 			this.lblEmptySessionMsg.Name = "lblEmptySessionMsg";
-			this.lblEmptySessionMsg.Size = new System.Drawing.Size(444, 40);
+			this.lblEmptySessionMsg.Size = new System.Drawing.Size(579, 40);
 			this.lblEmptySessionMsg.TabIndex = 1;
 			this.lblEmptySessionMsg.Text = "This session does not yet have any files. To add files, you may drag them here or" +
 				" directly into the session folder at:";
@@ -707,9 +707,9 @@ namespace SIL.Sponge.Views
 			this.pnlFileInfoNotes.Controls.Add(this._fileInfoNotes);
 			this.pnlFileInfoNotes.Controls.Add(this.lblFileInfoNotes);
 			this.pnlFileInfoNotes.Dock = System.Windows.Forms.DockStyle.Right;
-			this.pnlFileInfoNotes.Location = new System.Drawing.Point(304, 3);
+			this.pnlFileInfoNotes.Location = new System.Drawing.Point(439, 3);
 			this.pnlFileInfoNotes.Name = "pnlFileInfoNotes";
-			this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 80);
+			this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 101);
 			this.pnlFileInfoNotes.TabIndex = 1;
 			// 
 			// _fileInfoNotes
@@ -731,7 +731,7 @@ namespace SIL.Sponge.Views
 			this._fileInfoNotes.InnerTextBox.Multiline = true;
 			this._fileInfoNotes.InnerTextBox.Name = "_txtBox";
 			this._fileInfoNotes.InnerTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 3254);
+			this._fileInfoNotes.InnerTextBox.Size = new System.Drawing.Size(148, 2820);
 			this._fileInfoNotes.InnerTextBox.TabIndex = 0;
 			this.locExtender.SetLocalizableToolTip(this._fileInfoNotes, null);
 			this.locExtender.SetLocalizationComment(this._fileInfoNotes, null);
@@ -740,7 +740,7 @@ namespace SIL.Sponge.Views
 			this._fileInfoNotes.Location = new System.Drawing.Point(3, 19);
 			this._fileInfoNotes.Name = "_fileInfoNotes";
 			this._fileInfoNotes.Padding = new System.Windows.Forms.Padding(1);
-			this._fileInfoNotes.Size = new System.Drawing.Size(150, 3256);
+			this._fileInfoNotes.Size = new System.Drawing.Size(150, 2822);
 			this._fileInfoNotes.TabIndex = 1;
 			// 
 			// lblFileInfoNotes
@@ -786,7 +786,7 @@ namespace SIL.Sponge.Views
 			this.lpSessions.ListView.HideSelection = false;
 			this.lpSessions.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpSessions.ListView.Name = "lvItems";
-			this.lpSessions.ListView.Size = new System.Drawing.Size(870, 15715);
+			this.lpSessions.ListView.Size = new System.Drawing.Size(862, 15526);
 			this.lpSessions.ListView.TabIndex = 0;
 			this.lpSessions.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpSessions.ListView.View = System.Windows.Forms.View.Details;
@@ -914,7 +914,7 @@ namespace SIL.Sponge.Views
 		private HoverCueTextBox _fileInfoNotes;
 		private System.Windows.Forms.Label lblFileInfoNotes;
 		private System.Windows.Forms.DateTimePicker _date;
-		private MultimediaScroll mmScroll;
+		private MultimediaScroll m_mediaPanel;
 		private System.Windows.Forms.Label lblMedia;
 		private System.Windows.Forms.ComboBox _eventType;
 		private System.Windows.Forms.Button btnNewFromFiles;

@@ -359,7 +359,7 @@ namespace SIL.Sponge.Model
 			person.OtherLangauge1 = "Lithuanian";
 			person.Notes = "It's a beautiful day";
 			person.LearnedLanguageIn = "Cradle";
-			person.BirthYear = 1812;
+			person.BirthYear = "around 1812";
 			person.ContactInfo = "Around the corner";
 			person.Education = "PhD";
 			person.FathersLanguage = "Farsi";
@@ -378,7 +378,7 @@ namespace SIL.Sponge.Model
 			Assert.AreEqual("Lithuanian", person.OtherLangauge1);
 			Assert.AreEqual("It's a beautiful day", person.Notes);
 			Assert.AreEqual("Cradle", person.LearnedLanguageIn);
-			Assert.AreEqual(1812, person.BirthYear);
+			Assert.AreEqual("around 1812", person.BirthYear);
 			Assert.AreEqual("Around the corner", person.ContactInfo);
 			Assert.AreEqual("PhD", person.Education);
 			Assert.AreEqual("Farsi", person.FathersLanguage);

@@ -100,7 +100,7 @@ namespace SIL.Sponge.Controls
 						{
 							var ltb = new LabeledTextBox(info.DisplayText);
 							ltb.Visible = false;
-							ltb.Name = info.FieldName;
+							ltb.Name = info.Name;
 							ltb.InnerTextBox.Text = info.Value;
 							ltb.Font = Font;
 							ltb.BackColor = LabeledTextBoxBackgroundColor;
@@ -199,7 +199,7 @@ namespace SIL.Sponge.Controls
 				var info = obj as IInfoPanelField;
 				if (info != null)
 				{
-					var ltb = Controls[info.FieldName] as LabeledTextBox;
+					var ltb = Controls[info.Name] as LabeledTextBox;
 					if (ltb != null)
 						info.Value = ltb.InnerTextBox.Text;
 				}

@@ -166,6 +166,7 @@ namespace SIL.Sponge.Views
 		{
 			if (newItem != _currSession)
 			{
+				SaveCurrentSessionFileInfo();
 				if (_currSession != null && !SaveChangesToSession(_currSession))
 				{
 					lpSessions.SelectItem(_currSession, false);
@@ -173,6 +174,10 @@ namespace SIL.Sponge.Views
 				}
 
 				_currSession = newItem as Session;
+				LoadDescriptionTabFromSession(_currSession);
+				RefreshFileList();
+				UpdateSessionFileInfo(CurrentSessionFile);
+
 				LoadTabPage(tabSessions.SelectedTab);
 			}
 		}
@@ -184,11 +189,12 @@ namespace SIL.Sponge.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadTabPage(TabPage tpg)
 		{
-			if (tpg == tpgDescription)
+//review: this was causing data from the session we're leaving to overwrite the one we're moving to:
+	/*		if (tpg == tpgDescription)
 				LoadDescriptionTabFromSession(_currSession);
 			else
 			{
-				SaveChangesToSession(_currSession);
+//review: this was causing data from the session we're leaving to overwrite the one we're moving to:	SaveChangesToSession(_currSession);
 
 				if (tpg == tpgFiles)
 				{
@@ -196,6 +202,10 @@ namespace SIL.Sponge.Views
 					UpdateSessionFileInfo(CurrentSessionFile);
 				}
 			}
+	 * */
+
+//			RefreshFileList();
+//			UpdateSessionFileInfo(CurrentSessionFile);
 		}
 
 		#region Methods for adding and deleting sessions
@@ -342,6 +352,7 @@ namespace SIL.Sponge.Views
 		/// ------------------------------------------------------------------------------------
 		private void gridFiles_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
+			SaveCurrentSessionFileInfo();
 			// This event gets fired even when the grid gets focus when the user clicks
 			// on the row that is already current. In that case we don't want to bother
 			// doing anything, therefore we'll ignore that situation.
@@ -356,18 +367,16 @@ namespace SIL.Sponge.Views
 		/// ------------------------------------------------------------------------------------
 		private void UpdateSessionFileInfo(SessionFile sessionFile)
 		{
-			SaveCurrentSessionFileInfo();
-
 			if (sessionFile == null || tabSessions.SelectedTab != tpgFiles)
 			{
 				_infoPanel.Visible = false;
 				return;
 			}
-
+			_currSessionFile = sessionFile;
 			_infoPanel.Icon = sessionFile.LargeIcon;
 			_infoPanel.FileName = sessionFile.FileName;
 			_fileInfoNotes.Text = sessionFile.Notes;
-			_infoPanel.Initialize(sessionFile.Data);
+			_infoPanel.Initialize(sessionFile.Fields);
 			_infoPanel.Visible = true;
 		}
 
@@ -380,10 +389,10 @@ namespace SIL.Sponge.Views
 		{
 			if (_currSessionFile != null)
 			{
-				_infoPanel.Save(_currSessionFile.Data);
+				_infoPanel.Save(_currSessionFile.Fields);
 				_currSessionFile.Notes = _fileInfoNotes.Text.Trim();
 				_currSessionFile.Save();
-				_currSessionFile = null;
+				//_currSessionFile = null;
 			}
 		}
 
@@ -565,7 +574,7 @@ namespace SIL.Sponge.Views
 		private void LoadDescriptionTabFromSession(Session session)
 		{
 			tblDescription.Enabled = (session != null);
-			mmScroll.Clear();
+			m_mediaPanel.Clear();
 
 			if (session == null)
 			{
@@ -588,7 +597,7 @@ namespace SIL.Sponge.Views
 			else
 				_eventType.SelectedItem = session.EventType;
 
-			mmScroll.AddFiles(_currSession.Files);
+			m_mediaPanel.AddFiles(_currSession.Files);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -621,7 +630,7 @@ namespace SIL.Sponge.Views
 				_id.Text = session.Id;
 				_id.SelectAll();
 				_id.Focus();
-			}
+		}
 
 			return result;
 		}
@@ -643,7 +652,7 @@ namespace SIL.Sponge.Views
 			_location.Text = string.Empty;
 			_situation.Text = string.Empty;
 			_synopsis.Text = string.Empty;
-			mmScroll.Clear();
+			m_mediaPanel.Clear();
 		}
 
 		#endregion
@@ -672,6 +681,7 @@ namespace SIL.Sponge.Views
 		{
 			var list = (from x in _currProj.Sessions
 						orderby x.Setting
+						where !string.IsNullOrEmpty(x.Setting)
 						select x.Setting).ToArray();
 
 			LoadAutoCompleteList(sender as TextBox, list);
@@ -686,6 +696,7 @@ namespace SIL.Sponge.Views
 		{
 			var list = (from x in _currProj.Sessions
 						orderby x.Location
+						where !string.IsNullOrEmpty(x.Setting)
 						select x.Location).ToArray();
 
 			LoadAutoCompleteList(sender as TextBox, list);
@@ -698,10 +709,13 @@ namespace SIL.Sponge.Views
 		/// ------------------------------------------------------------------------------------
 		private static void LoadAutoCompleteList(TextBox txtBox, string[] list)
 		{
+			if (list!=null && list.Length > 0)//trying to fix hard crash in location & settings
+			{
 			var acsc = new AutoCompleteStringCollection();
 			acsc.AddRange(list);
 			txtBox.AutoCompleteCustomSource = acsc;
 		}
+	}
 
 		#endregion
 
@@ -741,7 +755,7 @@ namespace SIL.Sponge.Views
 			{
 				gridFiles.CurrentCell = gridFiles.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-				//   _infoPanel_MoreActionButtonClicked(null, null);
+			 //   _infoPanel_MoreActionButtonClicked(null, null);
 				Point pt = gridFiles.PointToClient(MousePosition);
 				_fileContextMenu.Items.Clear();
 				_fileContextMenu.Items.AddRange(CurrentSessionFile.GetContextMenuItems(_id.Text).ToArray());

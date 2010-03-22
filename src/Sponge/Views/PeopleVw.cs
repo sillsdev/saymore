@@ -413,9 +413,7 @@ namespace SIL.Sponge.Views
 			kvp = _langMothers.FirstOrDefault(x => x.Value.Selected);
 			person.MothersLanguage = (kvp.Key == null ? null : kvp.Key.Text.Trim());
 
-			int year;
-			if (int.TryParse(_birthYear.Text, out year))
-				person.BirthYear = year;
+			person.BirthYear = _birthYear.Text;
 
 			if (person.CanSave)
 				person.Save();
@@ -483,8 +481,7 @@ namespace SIL.Sponge.Views
 			_contact.Text = person.ContactInfo;
 			_notes.Text = person.Notes;
 			_gender.SelectedItem = person.Gender.ToString();
-			_birthYear.Text = (person.BirthYear > 0 ?
-				person.BirthYear.ToString() : string.Empty);
+			_birthYear.Text = person.BirthYear;
 
 			var pair = _langFathers.FirstOrDefault(x => x.Key.Text == person.FathersLanguage);
 			if (pair.Value != null)
@@ -500,10 +497,19 @@ namespace SIL.Sponge.Views
 
 			try
 			{
-				// Do this instead of using the Load method because Load keeps a lock on the file.
-				FileStream fs = new FileStream(person.PictureFile, FileMode.Open, FileAccess.Read);
-				_picture.Image = System.Drawing.Image.FromStream(fs);
-				fs.Close();
+				if (!string.IsNullOrEmpty(person.PictureFile) && File.Exists(person.PictureFile))
+				{// Do this instead of using the Load method because Load keeps a lock on the file.
+					using (FileStream fs = new FileStream(person.PictureFile, FileMode.Open, FileAccess.Read))
+					{
+						_picture.Image = System.Drawing.Image.FromStream(fs);
+						fs.Close();
+					}
+				}
+				else
+				{
+					_picture.Image = Resources.kimidNoPhoto;//don't keep showing the previous person
+				}
+
 			}
 			catch
 			{
@@ -892,5 +898,13 @@ namespace SIL.Sponge.Views
 		}
 
 		#endregion
+
+		private void m_editImageMenuItem_Click(object sender, EventArgs e)
+		{
+			if(_currPerson.PictureFile != null && File.Exists(_currPerson.PictureFile))
+			{
+				System.Diagnostics.Process.Start(_currPerson.PictureFile);
+			}
+		}
 	}
 }

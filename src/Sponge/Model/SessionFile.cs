@@ -84,10 +84,19 @@ namespace SIL.Sponge.Model
 			var template = sessionFile.Template;
 			if (template != null)
 			{
-				foreach (var sfd in sessionFile.Data)
+				//review: (jh) seemed to leave things empty if they didn't already have data: foreach (var sfd in sessionFile.Fields)
+				foreach (var def in template.Fields)
 				{
-					var def = template.GetFieldDefinition(sfd.FieldName);
-					sfd.DisplayText = (def == null ? string.Empty : def.DisplayName);
+					//var def = template.GetFieldDefinition(sfd.Name);
+					var field = sessionFile.Fields.FirstOrDefault(x => x.Name == def.FieldName);
+					if(field==null)
+					{
+						sessionFile.Fields.Add(new SessionFileField(def.FieldName, def.DisplayName));
+					}
+					else
+					{
+						field.DisplayText = def.DisplayName;
+					}
 				}
 			}
 
@@ -125,8 +134,8 @@ namespace SIL.Sponge.Model
 		{
 			var template = Template;
 
-			Data = (template == null ? new List<SessionFileData>() :
-				(template.Fields.Select(x => new SessionFileData(x.FieldName, x.DisplayName)).ToList()));
+			Fields = (template == null ? new List<SessionFileField>() :
+				(template.Fields.Select(x => new SessionFileField(x.FieldName, x.DisplayName)).ToList()));
 		}
 
 		#endregion
@@ -186,7 +195,7 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlArray("data")]
-		public List<SessionFileData> Data { get; set; }
+		public List<SessionFileField> Fields { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

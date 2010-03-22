@@ -247,6 +247,8 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		private static TimeSpan GetMediaFileDuration(string fullFilePath)
 		{
+
+			/*
 #if !MONO
 			if (PreventGettingMediaFileDurationsUsingDirectX)
 				return default(TimeSpan);
@@ -279,6 +281,7 @@ namespace SIL.Sponge.Model
 #else
 			// Figure out how to get media file durations in Mono.
 #endif
+			*/
 			return new TimeSpan(0);
 		}
 

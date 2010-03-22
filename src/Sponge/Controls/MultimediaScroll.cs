@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using AxWMPLib;
 using SIL.Sponge.Properties;
@@ -35,6 +36,7 @@ namespace SIL.Sponge.Controls
 	{
 		private int _topOfNextCtrl;
 		private readonly SilPanel _pnl;
+		private bool m_pauseVideoImmediately;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -118,9 +120,9 @@ namespace SIL.Sponge.Controls
 			var ext = Path.GetExtension(file).ToLower();
 
 			if (Settings.Default.AudioFileExtensions.ToLower().Contains(ext))
-				AddAVFile(file, false);
+				AddAudioVideoFile(file, false);
 			else if (Settings.Default.VideoFileExtensions.ToLower().Contains(ext))
-				AddAVFile(file, true);
+				AddAudioVideoFile(file, true);
 			else if (Settings.Default.ImageFileExtensions.ToLower().Contains(ext))
 				AddImageFile(file);
 		}
@@ -156,7 +158,7 @@ namespace SIL.Sponge.Controls
 		/// Adds a control for the specified audio or video file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void AddAVFile(string file, bool isVideoFile)
+		private void AddAudioVideoFile(string file, bool isVideoFile)
 		{
 			var pt = new Point(0, _topOfNextCtrl);
 			var sz = new Size(_pnl.ClientSize.Width, isVideoFile ?
@@ -172,11 +174,27 @@ namespace SIL.Sponge.Controls
 			wmp.Name = Path.GetFileName(file);
 			wmp.Tag = file;
 			_pnl.Controls.Add(wmp);
+
 			((ISupportInitialize)(wmp)).EndInit();
 			wmp.settings.autoStart = false;
 			wmp.URL = file;
+
+			wmp.PlayStateChange += wmp_PlayStateChange;
+			//m_pauseVideoImmediately=true;
+			//wmp.Ctlcontrols.play();
+			//this is ignored if we do it now, so we instead do it when the playstatechange event fires.  wmp.Ctlcontrols.pause();
 #endif
 			_topOfNextCtrl += wmp.Height + Settings.Default.GapBetweenMultimediaObjects;
+		}
+
+		void wmp_PlayStateChange(object sender, _WMPOCXEvents_PlayStateChangeEvent e)
+		{
+			//todo: figure out the right state in which to do this
+			if(m_pauseVideoImmediately)
+			{
+				m_pauseVideoImmediately = false;
+				((AxWindowsMediaPlayer) sender).Ctlcontrols.pause();
+			}
 		}
 	}
 }

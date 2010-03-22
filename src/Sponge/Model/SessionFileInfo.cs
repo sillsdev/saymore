@@ -3,37 +3,37 @@ using SIL.Sponge.Controls;
 
 namespace SIL.Sponge.Model
 {
-	#region SessionFileData class
+	#region SessionFileField class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Class defining a field/value pair for a single session file field.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("field")]
-	public class SessionFileData : IInfoPanelField
+	public class SessionFileField : IInfoPanelField
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SessionFileData"/> class.
+		/// Initializes a new instance of the <see cref="SessionFileField"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SessionFileData()
+		public SessionFileField()
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SessionFileData"/> class.
+		/// Initializes a new instance of the <see cref="SessionFileField"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SessionFileData(string fieldName, string displayText)
+		public SessionFileField(string fieldName, string displayText)
 		{
-			FieldName = fieldName;
+			Name = fieldName;
 			DisplayText = displayText;
 		}
 
 		[XmlAttribute("name")]
-		public string FieldName { get; set; }
+		public string Name { get; set; }
 
 		[XmlText]
 		public string Value { get; set; }

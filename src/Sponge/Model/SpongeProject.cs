@@ -295,6 +295,7 @@ namespace SIL.Sponge.Model
 			{
 				return (from x in People
 						orderby x.FullName
+						where !string.IsNullOrEmpty(x.FullName )
 						select x.FullName).ToList();
 			}
 		}

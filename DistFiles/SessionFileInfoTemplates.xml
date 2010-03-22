@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sessionFileInfoTemplates>
-	<template id="AudioRecording">
-		<fileExtensions>wav,mp3,ogg,wma</fileExtensions>
+	<template id="AudioVideoRecording">
+		<fileExtensions>wav,mp3,ogg,wma,mov,avi,mp4,wmv</fileExtensions>
 		<field name="recordist">
 			<stringId>SessionsVw.lblRecordist</stringId>
 			<defaultDisplayName>Recordist:</defaultDisplayName>

@@ -81,6 +81,8 @@ namespace SIL.Sponge.Views
 			this.btnAddPermissionFile = new System.Windows.Forms.Button();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.lblNoPeopleMsg = new System.Windows.Forms.Label();
+			this.m_pictureMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.m_editImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -98,6 +100,7 @@ namespace SIL.Sponge.Views
 			this.pnlPermissions.SuspendLayout();
 			this.pnlBrowser.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			this.m_pictureMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitOuter
@@ -139,7 +142,7 @@ namespace SIL.Sponge.Views
 			this.lpPeople.ListView.HideSelection = false;
 			this.lpPeople.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpPeople.ListView.Name = "lvItems";
-			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 5634);
+			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 5789);
 			this.lpPeople.ListView.TabIndex = 0;
 			this.lpPeople.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpPeople.ListView.View = System.Windows.Forms.View.Details;
@@ -671,6 +674,7 @@ namespace SIL.Sponge.Views
 			// 
 			this._picture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._picture.ContextMenuStrip = this.m_pictureMenu;
 			this._picture.Cursor = System.Windows.Forms.Cursors.Hand;
 			this._picture.Image = global::SIL.Sponge.Properties.Resources.kimidNoPhoto;
 			this._picture.InitialImage = null;
@@ -899,17 +903,37 @@ namespace SIL.Sponge.Views
 			this.lblNoPeopleMsg.TabIndex = 4;
 			this.lblNoPeopleMsg.Text = "To add a person, click the \'New\' button below.";
 			// 
+			// m_pictureMenu
+			// 
+			this.m_pictureMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.m_editImageMenuItem});
+			this.locExtender.SetLocalizableToolTip(this.m_pictureMenu, null);
+			this.locExtender.SetLocalizationComment(this.m_pictureMenu, null);
+			this.locExtender.SetLocalizingId(this.m_pictureMenu, "contextMenuStrip1.contextMenuStrip1");
+			this.m_pictureMenu.Name = "m_pictureMenu";
+			this.m_pictureMenu.Size = new System.Drawing.Size(200, 48);
+			// 
+			// m_editImageMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this.m_editImageMenuItem, null);
+			this.locExtender.SetLocalizationComment(this.m_editImageMenuItem, null);
+			this.locExtender.SetLocalizingId(this.m_editImageMenuItem, ".openInDefaultEditorToolStripMenuItem");
+			this.m_editImageMenuItem.Name = "m_editImageMenuItem";
+			this.m_editImageMenuItem.Size = new System.Drawing.Size(199, 22);
+			this.m_editImageMenuItem.Text = "Open in default editor...";
+			this.m_editImageMenuItem.Click += new System.EventHandler(this.m_editImageMenuItem_Click);
+			// 
 			// PeopleVw
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "PeopleVw.BaseSplitVw");
 			this.Name = "PeopleVw";
 			this.ShowRightBottomPanel = false;
 			this.Size = new System.Drawing.Size(709, 432);
+			this.Controls.SetChildIndex(this.splitOuter, 0);
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.Panel2.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
@@ -932,6 +956,7 @@ namespace SIL.Sponge.Views
 			this.pnlPermissions.PerformLayout();
 			this.pnlBrowser.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			this.m_pictureMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -988,5 +1013,7 @@ namespace SIL.Sponge.Views
 		private System.Windows.Forms.WebBrowser webConsent;
 		private System.Windows.Forms.Button btnDeletePermissionFile;
 		private System.Windows.Forms.Panel pnlPermissions;
+		private System.Windows.Forms.ContextMenuStrip m_pictureMenu;
+		private System.Windows.Forms.ToolStripMenuItem m_editImageMenuItem;
 	}
 }

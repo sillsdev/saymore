@@ -54,7 +54,7 @@ namespace SIL.Sponge.Model
 		public string MothersLanguage { get; set; }
 
 		[XmlElement("birthYear")]
-		public int BirthYear { get; set; }
+		public string BirthYear { get; set; }
 
 		[XmlElement("gender")]
 		public Gender Gender { get; set; }

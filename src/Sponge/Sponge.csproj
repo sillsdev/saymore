@@ -38,10 +38,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\AxInterop.WMPLib.dll</HintPath>
     </Reference>
+    <Reference Include="Enchant.Net, Version=1.4.3.1, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="Interop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Interop.WMPLib.dll</HintPath>
     </Reference>
+    <Reference Include="Keyman7Interop, Version=1.4.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="KeymanLink, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="LocalizationUtils, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\LocalizationUtils.dll</HintPath>
@@ -55,10 +58,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
     </Reference>
+    <Reference Include="PalasoUIWindowsForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
+    </Reference>
     <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\SilUtils.dll</HintPath>
     </Reference>
+    <Reference Include="sysglobl" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -131,6 +139,13 @@
     </Compile>
     <Compile Include="Controls\UnderlinedHdgBox.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesViewModel.cs" />
+    <Compile Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesView.Designer.cs">
+      <DependentUpon>CopyFilesView.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFilesDlg.cs">
       <SubType>Form</SubType>
@@ -256,6 +271,9 @@
     <EmbeddedResource Include="Controls\LabeledTextBox.resx">
       <DependentUpon>LabeledTextBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesView.resx">
+      <DependentUpon>CopyFilesView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFilesDlg.resx">
       <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -351,6 +369,7 @@
     <None Include="Resources\NoPermissionsWarning.png" />
     <None Include="Resources\Warning.png" />
     <None Include="Resources\shortSound.wav" />
+    <None Include="Resources\finished.wav" />
     <Content Include="Sponge.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

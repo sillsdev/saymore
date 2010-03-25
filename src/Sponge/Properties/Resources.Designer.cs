@@ -60,6 +60,12 @@ namespace SIL.Sponge.Properties {
             }
         }
         
+        internal static System.IO.UnmanagedMemoryStream finished {
+            get {
+                return ResourceManager.GetStream("finished", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidBrowseForProject {
             get {
                 object obj = ResourceManager.GetObject("kimidBrowseForProject", resourceCulture);

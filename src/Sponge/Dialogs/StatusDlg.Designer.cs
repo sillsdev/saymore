@@ -52,7 +52,7 @@ namespace SIL.Sponge.Dialogs
 			this._statusLabel.Name = "_statusLabel";
 			this._statusLabel.Size = new System.Drawing.Size(42, 15);
 			this._statusLabel.TabIndex = 4;
-			this._statusLabel.Text = "Status:";
+			this._statusLabel.Text = "StatusString:";
 			// 
 			// _messageLabel
 			// 

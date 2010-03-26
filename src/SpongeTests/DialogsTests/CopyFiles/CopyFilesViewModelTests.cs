@@ -77,7 +77,37 @@ namespace SpongeTests.DialogsTests.CopyFiles
 		}
 
 		[Test]
-		public void ErrorMessage_ProblemEncountered_NotEmpty()
+		public void Copy_WhenFinished_DestinationFilesAreExpectedSize()
+		{
+			var copier = CreateCopier(1,2);
+			copier.Start();
+			while (!copier.Finished)
+				Thread.Sleep(100);
+			foreach (var pair in _sourceAndDestinationPathPairs)
+			{
+				Assert.AreEqual(new FileInfo(pair.Key).Length, new FileInfo(pair.Value).Length);
+			}
+		}
+
+		[Test]
+		public void Copy_BeforeCopyingFileRaisedForEachFile()
+		{
+			var copier = CreateCopier(1, 2);
+			int count = 0;
+			copier.BeforeCopyingFileRaised = (source, dest) =>
+												{
+													Assert.AreEqual(_sourceAndDestinationPathPairs[count].Key, source);
+													Assert.AreEqual(_sourceAndDestinationPathPairs[count].Value, dest);
+													count++;
+												};
+			copier.Start();
+			while (!copier.Finished)
+				Thread.Sleep(100);
+			Assert.AreEqual(2, count);
+		}
+
+		[Test]
+		public void StatusString_ProblemEncountered_NotifiesOfFailure()
 		{
 			var copier = CreateCopier();
 			File.WriteAllText(_sourceAndDestinationPathPairs.First().Value, "file in the way");
@@ -98,17 +128,8 @@ namespace SpongeTests.DialogsTests.CopyFiles
 		public void UI_3LargeFiles()
 		{
 			var c = CreateCopier(100, 3);
-			Form f = new Form()
-				;
-			f.Load += new EventHandler((sender, e) => c.Start());
-			bool waiting = true;
-//			Application.Idle += new EventHandler((sender, e) =>
-//			                                     	{
-//														if (waiting)
-//															c.Start();
-//			                                     		waiting = false;
-//			                                     	});
-
+			Form f = new Form();
+			f.Load += ((sender, e) => c.Start());
 			var view = new CopyFilesView(c);
 			f.Controls.Add(view);
 			Application.Run(f);

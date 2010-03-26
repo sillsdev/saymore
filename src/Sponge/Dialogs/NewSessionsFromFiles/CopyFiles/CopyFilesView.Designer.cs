@@ -68,7 +68,9 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 			this._progressBar.Location = new System.Drawing.Point(17, 12);
 			this._progressBar.Name = "_progressBar";
 			this._progressBar.Size = new System.Drawing.Size(432, 23);
+			this._progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this._progressBar.TabIndex = 2;
+			this._progressBar.Click += new System.EventHandler(this._progressBar_Click);
 			// 
 			// _timer
 			// 

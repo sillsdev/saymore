@@ -33,6 +33,7 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 			}
 			else
 			{
+				_progressBar.ForeColor = Color.Red;
 				//enhance...  play an error sound.
 			}
 		}
@@ -41,6 +42,11 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 		{
 			_progressBar.Value = _model.TotalPercentage;
 			_statusLabel.Text = _model.StatusString;
+		}
+
+		private void _progressBar_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

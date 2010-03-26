@@ -32,11 +32,12 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 				_totalBytes += new FileInfo(pair.Key).Length;
 			}
 			IndexOfCurrentFile = -1;
+			BeforeCopyingFileRaised = (source,dest) => { };
 		}
 
 		public int TotalPercentage
 		{
-			get { return (int) (_totalBytes == 0 ? 0 : 100* (_totalCopiedBytes/_totalBytes)); }
+			get { return (int) (_totalBytes == 0 ? 0 : 100* ((double)_totalCopiedBytes/(double)_totalBytes)); }
 		}
 		public int IndexOfCurrentFile{ get; private set; }
 
@@ -58,13 +59,21 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 					return "Copying failed:" + _encounteredError.Message;//todo: these won't be user friendly
 				}
 				if (Copying)
-					return string.Format("Copying {0} of {1} Files, ({2} of {3} Megabytes)", IndexOfCurrentFile, _sourceDestinationPathPairs.Count(),
+					return string.Format("Copying {0} of {1} Files, ({2} of {3} Megabytes)", 1+IndexOfCurrentFile, _sourceDestinationPathPairs.Count(),
 						Megs(_totalCopiedBytes),	Megs(_totalBytes));
 				if(Finished)
 					return "Finished";
 				return "Waiting to start...";
 			}
 			set { throw new NotImplementedException(); }
+		}
+
+		/// <summary>
+		/// Called with sourse and destination paths, just before each copy
+		/// </summary>
+		public Action<string,string> BeforeCopyingFileRaised
+		{
+			get; set;
 		}
 
 		private string Megs(long bytes)
@@ -84,9 +93,36 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 			{
 				for (IndexOfCurrentFile = 0; IndexOfCurrentFile < _sourceDestinationPathPairs.Count(); IndexOfCurrentFile++)
 				{
+
 					KeyValuePair<string, string> pair = _sourceDestinationPathPairs[IndexOfCurrentFile];
-					File.Copy(pair.Key, pair.Value, false);
-					_totalCopiedBytes += new FileInfo(pair.Key).Length;
+					BeforeCopyingFileRaised(pair.Key,pair.Value);
+					var buffer = new byte[5000 * 1024];
+
+					try
+					{
+						using(var source=new  FileStream(pair.Key,FileMode.Open))
+						using(var dest =  new FileStream(pair.Value, FileMode.CreateNew))
+						{
+							int bytesRead;
+							do
+							{
+								bytesRead = source.Read(buffer, 0, buffer.Length);
+
+								if (bytesRead > 0)
+								{
+									dest.Write(buffer, 0, bytesRead);
+									_totalCopiedBytes += bytesRead;
+								}
+							} while (bytesRead > 0);
+						}
+					}
+					catch(Exception e)
+					{
+						if(File.Exists(pair.Value))
+							File.Delete(pair.Value);
+						throw e;
+					}
+					//File.Copy(pair.Key, pair.Value, false);
 				}
 				IndexOfCurrentFile = -2;
 			}

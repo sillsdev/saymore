@@ -77,6 +77,19 @@ namespace SpongeTests.DialogsTests.CopyFiles
 		}
 
 		[Test]
+		public void Copy_WhenFinished_DestinationFileHasSameCreationAndModifiedDate()
+		{
+			var copier = CreateCopier();
+			copier.Start();
+			while (!copier.Finished)
+				Thread.Sleep(100);
+			foreach (var pair in _sourceAndDestinationPathPairs)
+			{
+				Assert.AreEqual(new FileInfo(pair.Key).LastWriteTimeUtc, new FileInfo(pair.Value).LastWriteTimeUtc);
+				Assert.AreEqual(new FileInfo(pair.Key).CreationTimeUtc, new FileInfo(pair.Value).CreationTimeUtc);
+			}
+		}
+		[Test]
 		public void Copy_WhenFinished_DestinationFilesAreExpectedSize()
 		{
 			var copier = CreateCopier(1,2);
@@ -130,7 +143,7 @@ namespace SpongeTests.DialogsTests.CopyFiles
 			var c = CreateCopier(100, 3);
 			Form f = new Form();
 			f.Load += ((sender, e) => c.Start());
-			var view = new CopyFilesView(c);
+			var view = new CopyFilesControl(c);
 			f.Controls.Add(view);
 			Application.Run(f);
 		}

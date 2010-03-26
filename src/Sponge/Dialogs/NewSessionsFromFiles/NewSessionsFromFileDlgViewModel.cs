@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
+using SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 using SilUtils;
@@ -234,7 +235,7 @@ namespace SIL.Sponge.Dialogs
 
 			if (_dlg != null)
 				_dlg.UpdateDisplay();
-		}
+			}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -361,8 +362,8 @@ namespace SIL.Sponge.Dialogs
 					SelectedFolder = dlg.SelectedPath;
 				else if (interuptedLoad)
 					SelectedFolder = _selectedFolder;
+				}
 			}
-		}
 
 		#endregion
 
@@ -425,9 +426,13 @@ namespace SIL.Sponge.Dialogs
 
 				try
 				{
-					if (validExtensions.Contains(Path.GetExtension(file.ToLower())))
-						Files.Add(new NewSessionFile(file));
+				if (validExtensions.Contains(Path.GetExtension(file.ToLower())))
+				{
+					var sessionFile = new NewSessionFile(file);
+					sessionFile.Selected = (new FileInfo(file).Attributes & FileAttributes.Archive)>0;
+					Files.Add(sessionFile);
 				}
+			}
 				catch (Exception)
 				{
 					if (Directory.Exists(Path.GetDirectoryName(file)))
@@ -469,7 +474,7 @@ namespace SIL.Sponge.Dialogs
 				Files.Clear();
 			else
 			{
-				Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
+			Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
 				_fileWatcher.Path = _selectedFolder;
 			}
 
@@ -489,8 +494,25 @@ namespace SIL.Sponge.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public void CreateSessions()
 		{
-			using (var statusDlg = new StatusDlg())
-				statusDlg.ShowAndProcess(GetStatusMessageForFile, CreateSingleSession, Files);
+//			using (var statusDlg = new StatusDlg())
+//				statusDlg.ShowAndProcess(GetStatusMessageForFile, CreateSingleSession, Files);
+
+			var pathpairs = new List<KeyValuePair<string, string>>();
+			foreach (var source in Files)
+			{
+				if (source.Selected)
+				{
+					string destPath = Path.Combine(MainWnd.CurrentProject.SessionsFolder,
+												   Path.GetFileNameWithoutExtension(source.FullFilePath));
+					destPath = Path.Combine(destPath,
+												   Path.GetFileName(source.FullFilePath));
+					pathpairs.Add(new KeyValuePair<string, string>(source.FullFilePath, destPath));
+				}
+			}
+			using (var dialog = new MakeSessionsFromFileProgressDialog(pathpairs, CreateSingleSession))
+			{
+				dialog.ShowDialog(Form.ActiveForm);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -512,28 +534,23 @@ namespace SIL.Sponge.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Performs the actual work of creating a session from the specified file. New
+		/// Creates a session which will "receive" the specified file. New
 		///	session names are the name of the file without the extension. The Date of the
 		/// session is the file's DateModified date.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool CreateSingleSession(object obj)
+		private void CreateSingleSession(string sourcePath, string destpath)
 		{
-			var file = obj as NewSessionFile;
-
-			if (file == null || !file.Selected)
-				return false;
+			var file = new NewSessionFile(sourcePath);
 
 			var sessionId = Path.GetFileNameWithoutExtension(file.FileName);
 			var session = Session.Create(MainWnd.CurrentProject, sessionId);
 			session.Date = File.GetLastWriteTime(file.FullFilePath);
 			session.Save();
-			session.AddFile(file.FullFilePath);
+			//session.AddFile(file.FullFilePath);
 
 			if (FirstNewSessionAdded == null)
 				FirstNewSessionAdded = sessionId;
-
-			return true;
 		}
 
 		#endregion

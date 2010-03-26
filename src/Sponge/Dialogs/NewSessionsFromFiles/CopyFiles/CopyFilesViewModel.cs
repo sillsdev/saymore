@@ -93,10 +93,25 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 			{
 				for (IndexOfCurrentFile = 0; IndexOfCurrentFile < _sourceDestinationPathPairs.Count(); IndexOfCurrentFile++)
 				{
-
 					KeyValuePair<string, string> pair = _sourceDestinationPathPairs[IndexOfCurrentFile];
 					BeforeCopyingFileRaised(pair.Key,pair.Value);
 					var buffer = new byte[5000 * 1024];
+					var sourceFileInfo = new FileInfo(pair.Key);
+					if(File.Exists(pair.Value))
+					{
+						if(new FileInfo(pair.Value).CreationTimeUtc== sourceFileInfo.CreationTimeUtc
+							&& new FileInfo(pair.Value).Length == sourceFileInfo.Length
+							&& new FileInfo(pair.Value).LastWriteTimeUtc == sourceFileInfo.LastWriteTimeUtc)
+						{
+							//enhance.. would be better if we has a reporting method we could talk to, to that this
+							//would be up the UI how/when/whether to display something.
+							Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
+								string.Format("The file {0} appears unchanged since it was copied before, so it will be skipped.", Path.GetFileName(pair.Value)));
+							continue;
+						}
+						_encounteredError = new ApplicationException(string.Format("The file {0} already exists", pair.Value));
+						return;
+					}
 
 					try
 					{
@@ -115,6 +130,9 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 								}
 							} while (bytesRead > 0);
 						}
+						new FileInfo(pair.Value).CreationTimeUtc = sourceFileInfo.CreationTimeUtc;
+						new FileInfo(pair.Value).LastWriteTimeUtc = sourceFileInfo.LastWriteTimeUtc;
+						sourceFileInfo.Attributes  = (FileAttributes) (sourceFileInfo.Attributes - FileAttributes.Archive);//enhance... could be under control of the client
 					}
 					catch(Exception e)
 					{

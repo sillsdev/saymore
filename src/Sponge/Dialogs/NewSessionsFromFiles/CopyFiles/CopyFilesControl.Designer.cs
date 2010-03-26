@@ -1,6 +1,6 @@
 namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 {
-	partial class CopyFilesView
+	partial class CopyFilesControl
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -58,7 +58,7 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 			this._statusLabel.Multiline = true;
 			this._statusLabel.Name = "_statusLabel";
 			this._statusLabel.ReadOnly = true;
-			this._statusLabel.Size = new System.Drawing.Size(454, 31);
+			this._statusLabel.Size = new System.Drawing.Size(454, 61);
 			this._statusLabel.TabIndex = 1;
 			this._statusLabel.TabStop = false;
 			this._statusLabel.Text = "Status";
@@ -78,15 +78,15 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 			this._timer.Interval = 300;
 			this._timer.Tick += new System.EventHandler(this._timer_Tick);
 			// 
-			// CopyFilesView
+			// CopyFilesControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._progressBar);
 			this.Controls.Add(this._statusLabel);
 			this.Controls.Add(this.betterLabel1);
-			this.Name = "CopyFilesView";
-			this.Size = new System.Drawing.Size(501, 88);
+			this.Name = "CopyFilesControl";
+			this.Size = new System.Drawing.Size(501, 117);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

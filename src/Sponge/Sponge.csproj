@@ -141,11 +141,17 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesViewModel.cs" />
-    <Compile Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesView.cs">
+    <Compile Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesView.Designer.cs">
-      <DependentUpon>CopyFilesView.cs</DependentUpon>
+    <Compile Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesControl.Designer.cs">
+      <DependentUpon>CopyFilesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\NewSessionsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NewSessionsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.Designer.cs">
+      <DependentUpon>MakeSessionsFromFileProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFilesDlg.cs">
       <SubType>Form</SubType>
@@ -271,8 +277,11 @@
     <EmbeddedResource Include="Controls\LabeledTextBox.resx">
       <DependentUpon>LabeledTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesView.resx">
-      <DependentUpon>CopyFilesView.cs</DependentUpon>
+    <EmbeddedResource Include="Dialogs\NewSessionsFromFiles\CopyFiles\CopyFilesControl.resx">
+      <DependentUpon>CopyFilesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NewSessionsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.resx">
+      <DependentUpon>MakeSessionsFromFileProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFilesDlg.resx">
       <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>

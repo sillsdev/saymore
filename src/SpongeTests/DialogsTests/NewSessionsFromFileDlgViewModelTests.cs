@@ -154,7 +154,7 @@ namespace SIL.Sponge.Dialogs
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SelectAllFiles_False()
+		public void SelectAllFiles_False_FilesAreUnselected()
 		{
 			File.CreateText(_mainAppFldr.Combine("dog.wav")).Close();
 			File.CreateText(_mainAppFldr.Combine("cat.mpg")).Close();
@@ -179,7 +179,7 @@ namespace SIL.Sponge.Dialogs
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SelectAllFiles_True()
+		public void SelectAllFiles_True_FilesAreSelected()
 		{
 			File.CreateText(_mainAppFldr.Combine("dog.wav")).Close();
 			File.CreateText(_mainAppFldr.Combine("cat.mpg")).Close();

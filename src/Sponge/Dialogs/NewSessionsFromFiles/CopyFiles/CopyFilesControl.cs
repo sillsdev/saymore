@@ -1,21 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
 using System.Media;
-using System.Text;
 using System.Windows.Forms;
 using SIL.Sponge.Properties;
 
 namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 {
-	public partial class CopyFilesView : UserControl
+	public partial class CopyFilesControl : UserControl
 	{
 		private readonly CopyFilesViewModel _model;
 
-		public CopyFilesView(CopyFilesViewModel model)
+		public CopyFilesControl(CopyFilesViewModel model)
 		{
 			_model = model;
 			model.OnFinished += new EventHandler(OnFinished);
@@ -33,6 +28,12 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 			}
 			else
 			{
+				if(InvokeRequired)
+				{
+					var d = new EventHandler(delegate { _progressBar.ForeColor = Color.Red; });
+					Invoke(d);
+					return;
+				}
 				_progressBar.ForeColor = Color.Red;
 				//enhance...  play an error sound.
 			}

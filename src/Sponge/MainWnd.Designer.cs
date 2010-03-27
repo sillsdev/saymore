@@ -41,10 +41,10 @@ namespace SIL.Sponge
 			this.tsMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsMain.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsbOverview,
             this.tsbSessions,
             this.tsbPeople,
             this.tsbSendReceive,
+            this.tsbOverview,
             this.tsbSetup,
             this.tsbChangeProjects});
 			this.locExtender.SetLocalizableToolTip(this.tsMain, null);

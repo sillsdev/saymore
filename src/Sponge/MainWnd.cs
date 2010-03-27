@@ -67,7 +67,7 @@ namespace SIL.Sponge
 			CurrentProject = prj;
 			CurrentProject.FileWatcherSynchronizingObject = this;
 			SetupViews();
-			_viewManger.SetView(tsbOverview);
+			_viewManger.SetView(tsbSessions);
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized -= SetWindowText;
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
@@ -92,11 +92,12 @@ namespace SIL.Sponge
 			_sendReceiveView = new SendReceiveVw();
 			_setupView = new SetupVw();
 
-			var views = new Control[] { _overviewView, _sessionsView,
-				_peopleView, _sendReceiveView, _setupView };
+			var views = new Control[] {  _sessionsView,
+				_peopleView, _sendReceiveView, _overviewView,_setupView };
 
 			Controls.AddRange(views);
 			_viewManger = new ViewButtonManager(tsMain, views);
+
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -21,10 +21,10 @@ namespace SIL.Sponge
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWnd));
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.tsMain = new SIL.Sponge.Controls.SpongeBar();
-			this.tsbOverview = new System.Windows.Forms.ToolStripButton();
 			this.tsbSessions = new System.Windows.Forms.ToolStripButton();
 			this.tsbPeople = new System.Windows.Forms.ToolStripButton();
 			this.tsbSendReceive = new System.Windows.Forms.ToolStripButton();
+			this.tsbOverview = new System.Windows.Forms.ToolStripButton();
 			this.tsbSetup = new System.Windows.Forms.ToolStripButton();
 			this.tsbChangeProjects = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -41,10 +41,10 @@ namespace SIL.Sponge
 			this.tsMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsMain.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbOverview,
             this.tsbSessions,
             this.tsbPeople,
             this.tsbSendReceive,
-            this.tsbOverview,
             this.tsbSetup,
             this.tsbChangeProjects});
 			this.locExtender.SetLocalizableToolTip(this.tsMain, null);
@@ -56,20 +56,6 @@ namespace SIL.Sponge
 			this.tsMain.Size = new System.Drawing.Size(697, 70);
 			this.tsMain.TabIndex = 0;
 			this.tsMain.Text = "toolStrip1";
-			// 
-			// tsbOverview
-			// 
-			this.tsbOverview.AutoSize = false;
-			this.tsbOverview.Image = global::SIL.Sponge.Properties.Resources.kimidOverview;
-			this.tsbOverview.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this.tsbOverview, "Project Overview");
-			this.locExtender.SetLocalizationComment(this.tsbOverview, null);
-			this.locExtender.SetLocalizingId(this.tsbOverview, "MainWnd.tsbOverview");
-			this.tsbOverview.Margin = new System.Windows.Forms.Padding(10, 10, 0, 10);
-			this.tsbOverview.Name = "tsbOverview";
-			this.tsbOverview.Size = new System.Drawing.Size(80, 50);
-			this.tsbOverview.Text = "Overview";
-			this.tsbOverview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
 			// tsbSessions
 			// 
@@ -114,6 +100,20 @@ namespace SIL.Sponge
 			this.tsbSendReceive.Size = new System.Drawing.Size(80, 50);
 			this.tsbSendReceive.Text = "Send/Receive";
 			this.tsbSendReceive.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			// 
+			// tsbOverview
+			// 
+			this.tsbOverview.AutoSize = false;
+			this.tsbOverview.Image = global::SIL.Sponge.Properties.Resources.kimidOverview;
+			this.tsbOverview.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this.tsbOverview, "Project Overview");
+			this.locExtender.SetLocalizationComment(this.tsbOverview, null);
+			this.locExtender.SetLocalizingId(this.tsbOverview, "MainWnd.tsbOverview");
+			this.tsbOverview.Margin = new System.Windows.Forms.Padding(10, 10, 0, 10);
+			this.tsbOverview.Name = "tsbOverview";
+			this.tsbOverview.Size = new System.Drawing.Size(80, 50);
+			this.tsbOverview.Text = "Overview";
+			this.tsbOverview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
 			// tsbSetup
 			// 

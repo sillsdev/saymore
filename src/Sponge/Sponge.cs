@@ -67,8 +67,12 @@ namespace SIL.Sponge
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			SpongeProject prj = null;
-
-			using (var dlg = new WelcomeDlg())
+			MruProjects.Initialize(Settings.Default.MRUList);
+			if (MruProjects.Latest!= null && File.Exists(MruProjects.Latest))
+			{
+				prj = SpongeProject.Load(MruProjects.Latest);
+			}
+			else using (var dlg = new WelcomeDlg())
 			{
 				if (dlg.ShowDialog() == DialogResult.OK)
 					prj = dlg.Project;

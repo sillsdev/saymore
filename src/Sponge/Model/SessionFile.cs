@@ -225,6 +225,7 @@ namespace SIL.Sponge.Model
 	 //enhance: move these two ones up to the base class
 			yield return new ToolStripMenuItem("Show file in Windows Explorer...", null, HandleOpenInFileManager_Click);
 			yield return new ToolStripMenuItem("Open in Program Associated with this File ...", null, HandleOpenInApp_Click);
+			yield return new ToolStripMenuItem("Open in GoldWave...", null, HandleOpenInGoldWave_Click);
 
 			bool needSeparator = true;
 			foreach (var definition in SessionComponentDefinition.CreateHardCodedDefinitions())
@@ -286,6 +287,19 @@ namespace SIL.Sponge.Model
 				// REVIEW: Is it OK to assume any Win32Exception is no application association?
 				Utils.MsgBox(
 					string.Format("No application is associated with {0}", FileName));
+			}
+		 }
+		public void HandleOpenInGoldWave_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Process.Start(@"c:\Program Files (x86)\GoldWave\GoldWave.exe", FullFilePath);
+			}
+			catch (Win32Exception)
+			{
+				// REVIEW: Is it OK to assume any Win32Exception is no application association?
+				Utils.MsgBox(
+					string.Format("Could not open with goldwave", FileName));
 			}
 		 }
 	}

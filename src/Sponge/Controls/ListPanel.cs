@@ -243,8 +243,16 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnResize(EventArgs e)
 		{
+			//HACK (jh): the vertical scroll bar refuses to show.  Some code I don't see is messing with the anchoring
+			// and perhaps the size of the list view.  Argghhhh.  Hence the next few, desperate lines
+
+			lvItems.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 			base.OnResize(e);
+			lvItems.Height = this.Height - (pnlButtons.Height + 50);
 			hdrList.Width = lvItems.ClientSize.Width - 1;
+			lvItems.Width = Width - 9;
+
+
 			pnlButtons.Invalidate();
 		}
 

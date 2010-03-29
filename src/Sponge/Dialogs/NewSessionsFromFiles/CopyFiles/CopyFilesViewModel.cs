@@ -95,7 +95,7 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 				{
 					KeyValuePair<string, string> pair = _sourceDestinationPathPairs[IndexOfCurrentFile];
 					BeforeCopyingFileRaised(pair.Key,pair.Value);
-					var buffer = new byte[5000 * 1024];
+					var buffer = new byte[1000 * 1024];
 					var sourceFileInfo = new FileInfo(pair.Key);
 					if(File.Exists(pair.Value))
 					{

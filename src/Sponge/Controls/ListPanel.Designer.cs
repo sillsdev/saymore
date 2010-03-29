@@ -95,9 +95,9 @@ namespace SIL.Sponge.Controls
 			// 
 			// lvItems
 			// 
-			this.lvItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
+			this.lvItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lvItems.BackColor = System.Drawing.SystemColors.Window;
 			this.lvItems.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.lvItems.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.hdrList});
@@ -106,7 +106,7 @@ namespace SIL.Sponge.Controls
 			this.lvItems.HideSelection = false;
 			this.lvItems.Location = new System.Drawing.Point(2, 31);
 			this.lvItems.Name = "lvItems";
-			this.lvItems.Size = new System.Drawing.Size(159, 209);
+			this.lvItems.Size = new System.Drawing.Size(159, 204);
 			this.lvItems.TabIndex = 0;
 			this.lvItems.UseCompatibleStateImageBehavior = false;
 			this.lvItems.View = System.Windows.Forms.View.Details;

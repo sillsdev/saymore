@@ -65,6 +65,8 @@ namespace SIL.Sponge.Views
 			this._notes = new System.Windows.Forms.TextBox();
 			this.lblNotes = new System.Windows.Forms.Label();
 			this._picture = new System.Windows.Forms.PictureBox();
+			this.m_pictureMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.m_editImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblBirthYear = new System.Windows.Forms.Label();
 			this._contact = new System.Windows.Forms.TextBox();
 			this._gender = new System.Windows.Forms.ComboBox();
@@ -81,8 +83,6 @@ namespace SIL.Sponge.Views
 			this.btnAddPermissionFile = new System.Windows.Forms.Button();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.lblNoPeopleMsg = new System.Windows.Forms.Label();
-			this.m_pictureMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.m_editImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -96,11 +96,11 @@ namespace SIL.Sponge.Views
 			this.uhbPrimaryLanguage.SuspendLayout();
 			this.pnlRightSide.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._picture)).BeginInit();
+			this.m_pictureMenu.SuspendLayout();
 			this.tpgInformedConsent.SuspendLayout();
 			this.pnlPermissions.SuspendLayout();
 			this.pnlBrowser.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
-			this.m_pictureMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitOuter
@@ -133,16 +133,16 @@ namespace SIL.Sponge.Views
 			// 
 			// 
 			// 
-			this.lpPeople.ListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
+			this.lpPeople.ListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lpPeople.ListView.BackColor = System.Drawing.SystemColors.Window;
 			this.lpPeople.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.lpPeople.ListView.FullRowSelect = true;
 			this.lpPeople.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.lpPeople.ListView.HideSelection = false;
 			this.lpPeople.ListView.Location = new System.Drawing.Point(2, 31);
 			this.lpPeople.ListView.Name = "lvItems";
-			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 5789);
+			this.lpPeople.ListView.Size = new System.Drawing.Size(159, 368);
 			this.lpPeople.ListView.TabIndex = 0;
 			this.lpPeople.ListView.UseCompatibleStateImageBehavior = false;
 			this.lpPeople.ListView.View = System.Windows.Forms.View.Details;
@@ -692,6 +692,26 @@ namespace SIL.Sponge.Views
 			this._picture.Paint += new System.Windows.Forms.PaintEventHandler(this._picture_Paint);
 			this._picture.MouseEnter += new System.EventHandler(this.HandleMouseEnterLeaveOnPicture);
 			// 
+			// m_pictureMenu
+			// 
+			this.m_pictureMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.m_editImageMenuItem});
+			this.locExtender.SetLocalizableToolTip(this.m_pictureMenu, null);
+			this.locExtender.SetLocalizationComment(this.m_pictureMenu, null);
+			this.locExtender.SetLocalizingId(this.m_pictureMenu, "contextMenuStrip1.contextMenuStrip1");
+			this.m_pictureMenu.Name = "m_pictureMenu";
+			this.m_pictureMenu.Size = new System.Drawing.Size(200, 26);
+			// 
+			// m_editImageMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this.m_editImageMenuItem, null);
+			this.locExtender.SetLocalizationComment(this.m_editImageMenuItem, null);
+			this.locExtender.SetLocalizingId(this.m_editImageMenuItem, ".openInDefaultEditorToolStripMenuItem");
+			this.m_editImageMenuItem.Name = "m_editImageMenuItem";
+			this.m_editImageMenuItem.Size = new System.Drawing.Size(199, 22);
+			this.m_editImageMenuItem.Text = "Open in default editor...";
+			this.m_editImageMenuItem.Click += new System.EventHandler(this.m_editImageMenuItem_Click);
+			// 
 			// lblBirthYear
 			// 
 			this.lblBirthYear.AutoSize = true;
@@ -779,7 +799,7 @@ namespace SIL.Sponge.Views
 			this.tpgInformedConsent.Location = new System.Drawing.Point(4, 26);
 			this.tpgInformedConsent.Name = "tpgInformedConsent";
 			this.tpgInformedConsent.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
-			this.tpgInformedConsent.Size = new System.Drawing.Size(480, 350);
+			this.tpgInformedConsent.Size = new System.Drawing.Size(532, 399);
 			this.tpgInformedConsent.TabIndex = 1;
 			this.tpgInformedConsent.Text = "Informed Consent";
 			this.tpgInformedConsent.UseVisualStyleBackColor = true;
@@ -794,7 +814,7 @@ namespace SIL.Sponge.Views
 			this.pnlPermissions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlPermissions.Location = new System.Drawing.Point(0, 2);
 			this.pnlPermissions.Name = "pnlPermissions";
-			this.pnlPermissions.Size = new System.Drawing.Size(478, 347);
+			this.pnlPermissions.Size = new System.Drawing.Size(530, 396);
 			this.pnlPermissions.TabIndex = 6;
 			// 
 			// lstPermissionFiles
@@ -853,7 +873,7 @@ namespace SIL.Sponge.Views
 			this.pnlBrowser.MnemonicGeneratesClick = false;
 			this.pnlBrowser.Name = "pnlBrowser";
 			this.pnlBrowser.PaintExplorerBarBackground = false;
-			this.pnlBrowser.Size = new System.Drawing.Size(185, 65);
+			this.pnlBrowser.Size = new System.Drawing.Size(237, 114);
 			this.pnlBrowser.TabIndex = 4;
 			// 
 			// webConsent
@@ -866,7 +886,7 @@ namespace SIL.Sponge.Views
 			this.webConsent.Location = new System.Drawing.Point(0, 0);
 			this.webConsent.MinimumSize = new System.Drawing.Size(20, 20);
 			this.webConsent.Name = "webConsent";
-			this.webConsent.Size = new System.Drawing.Size(183, 63);
+			this.webConsent.Size = new System.Drawing.Size(235, 112);
 			this.webConsent.TabIndex = 3;
 			// 
 			// btnAddPermissionFile
@@ -903,26 +923,6 @@ namespace SIL.Sponge.Views
 			this.lblNoPeopleMsg.TabIndex = 4;
 			this.lblNoPeopleMsg.Text = "To add a person, click the \'New\' button below.";
 			// 
-			// m_pictureMenu
-			// 
-			this.m_pictureMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.m_editImageMenuItem});
-			this.locExtender.SetLocalizableToolTip(this.m_pictureMenu, null);
-			this.locExtender.SetLocalizationComment(this.m_pictureMenu, null);
-			this.locExtender.SetLocalizingId(this.m_pictureMenu, "contextMenuStrip1.contextMenuStrip1");
-			this.m_pictureMenu.Name = "m_pictureMenu";
-			this.m_pictureMenu.Size = new System.Drawing.Size(200, 48);
-			// 
-			// m_editImageMenuItem
-			// 
-			this.locExtender.SetLocalizableToolTip(this.m_editImageMenuItem, null);
-			this.locExtender.SetLocalizationComment(this.m_editImageMenuItem, null);
-			this.locExtender.SetLocalizingId(this.m_editImageMenuItem, ".openInDefaultEditorToolStripMenuItem");
-			this.m_editImageMenuItem.Name = "m_editImageMenuItem";
-			this.m_editImageMenuItem.Size = new System.Drawing.Size(199, 22);
-			this.m_editImageMenuItem.Text = "Open in default editor...";
-			this.m_editImageMenuItem.Click += new System.EventHandler(this.m_editImageMenuItem_Click);
-			// 
 			// PeopleVw
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -951,12 +951,12 @@ namespace SIL.Sponge.Views
 			this.pnlRightSide.ResumeLayout(false);
 			this.pnlRightSide.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this._picture)).EndInit();
+			this.m_pictureMenu.ResumeLayout(false);
 			this.tpgInformedConsent.ResumeLayout(false);
 			this.pnlPermissions.ResumeLayout(false);
 			this.pnlPermissions.PerformLayout();
 			this.pnlBrowser.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
-			this.m_pictureMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

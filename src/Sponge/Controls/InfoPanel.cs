@@ -90,8 +90,6 @@ namespace SIL.Sponge.Controls
 		{
 			Utils.SetWindowRedraw(this, false);
 			ClearInfo();
-			LoadPresets();
-
 			if (fields != null)
 			{
 				using (Graphics g = CreateGraphics())
@@ -100,7 +98,7 @@ namespace SIL.Sponge.Controls
 					foreach (var obj in fields)
 					{
 						var info = obj as IInfoPanelField;
-						if (info != null)
+						if (info != null && !string.IsNullOrEmpty(info.DisplayText))
 						{
 							var control = new LabeledTextBox(info.DisplayText);
 							control.Visible = false;
@@ -127,18 +125,7 @@ namespace SIL.Sponge.Controls
 			ArrangeFields();
 		}
 
-		private void LoadPresets()
-		{
-//			m_presetCombo.Items.Clear();
-//			m_presetCombo.Visible = PresetProviderMethod != null;
-//			if (PresetProviderMethod != null)
-//			{
-//				foreach (KeyValuePair<string, Dictionary<string, string>> pair in PresetProviderMethod())
-//				{
-//					m_presetCombo.Items.Add(new PresetWrapper(pair.Key, pair.Value));
-//				}
-//			}
-		}
+
 
 		//stupid dotnet combo box control requires something like this
 		public class PresetWrapper

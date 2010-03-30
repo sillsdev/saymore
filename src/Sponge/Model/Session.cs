@@ -266,7 +266,8 @@ namespace SIL.Sponge.Model
 
 				return (from x in Directory.GetFiles(Folder, "*.*")
 						where (!x.EndsWith("." + Sponge.SessionMetaDataFileExtension) &&
-							!x.EndsWith("." + Sponge.SessionFileExtension))
+							!x.EndsWith("." + Sponge.SessionFileExtension) &&
+							!x.ToLower().EndsWith("thumbs.db"))
 						orderby x
 						select x).ToArray();
 			}

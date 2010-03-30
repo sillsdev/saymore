@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sessionFileInfoTemplates>
 	<template id="AudioVideoRecording">
-		<fileExtensions>wav,mp3,ogg,wma,mov,avi,mp4,wmv</fileExtensions>
+		<fileExtensions>wav,mp3,ogg,wma</fileExtensions>
 		<field name="recordist">
 			<stringId>SessionsVw.lblRecordist</stringId>
 			<defaultDisplayName>Recordist:</defaultDisplayName>
@@ -17,11 +17,6 @@
 			<defaultDisplayName>Microphone:</defaultDisplayName>
 			<dataType>Text</dataType>
 		</field>
-		<field name="channel">
-			<stringId>SessionsVw.lblChannel</stringId>
-			<defaultDisplayName>Channel:</defaultDisplayName>
-			<dataType>Text</dataType>
-		</field>
 		<field name="bitDepth">
 			<stringId>SessionsVw.lblBitDepth</stringId>
 			<defaultDisplayName>Bit Depth:</defaultDisplayName>
@@ -32,15 +27,37 @@
 			<defaultDisplayName>Sample Rate:</defaultDisplayName>
 			<dataType>ComboBox</dataType>
 		</field>
-		<field name="analogGain">
-			<stringId>SessionsVw.lblAnalogGain</stringId>
-			<defaultDisplayName>Analog Gain:</defaultDisplayName>
-			<dataType>Text</dataType>
-		</field>
-		<field name="digitalGain">
-			<stringId>SessionsVw.lblDigitalGain</stringId>
-			<defaultDisplayName>Digital Gain:</defaultDisplayName>
-			<dataType>Text</dataType>
-		</field>
 	</template>
+  <template id="VideoRecording">
+    <fileExtensions>mov,avi,mp4,wmv</fileExtensions>
+    <field name="recordist">
+      <stringId>SessionsVw.lblRecordist</stringId>
+      <defaultDisplayName>Recordist:</defaultDisplayName>
+      <dataType>Text</dataType>
+    </field>
+    <field name="device">
+      <stringId>SessionsVw.lblDevice</stringId>
+      <defaultDisplayName>Device:</defaultDisplayName>
+      <dataType>Text</dataType>
+    </field>
+    <field name="microphone">
+      <stringId>SessionsVw.lblMicrophone</stringId>
+      <defaultDisplayName>Microphone:</defaultDisplayName>
+      <dataType>Text</dataType>
+    </field>
+    <field name="bitDepth">
+      <stringId>SessionsVw.lblBitDepth</stringId>
+      <defaultDisplayName>Bit Depth:</defaultDisplayName>
+      <dataType>Text</dataType>
+    </field>
+    <field name="sampleRate">
+      <stringId>SessionsVw.lblSampleRate</stringId>
+      <defaultDisplayName>Sample Rate:</defaultDisplayName>
+      <dataType>ComboBox</dataType>
+    </field>
+    <field name="resolution">
+      <defaultDisplayName>Resolution:</defaultDisplayName>
+      <dataType>Text</dataType>
+    </field>
+  </template>
 </sessionFileInfoTemplates>

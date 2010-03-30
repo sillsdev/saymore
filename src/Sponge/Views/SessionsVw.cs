@@ -10,6 +10,7 @@ using SIL.Localize.LocalizationUtils;
 using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Dialogs;
 using SIL.Sponge.Model;
+using SIL.Sponge.Model.MetaData;
 using SIL.Sponge.Properties;
 using SIL.Sponge.Utilities;
 using SilUtils;
@@ -30,6 +31,7 @@ namespace SIL.Sponge.Views
 		private SessionFile[] _currSessionFiles;
 		private bool _refreshNeeded;
 		private readonly string _unknownEventType;
+		private PresetProvider _presetProvider;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -40,6 +42,7 @@ namespace SIL.Sponge.Views
 		{
 			InitializeComponent();
 			UpdateSessionFileInfo(null);
+
 
 			gridFiles.AlternatingRowsDefaultCellStyle.BackColor =
 				ColorHelper.CalculateColor(Color.Black, gridFiles.DefaultCellStyle.BackColor, 10);
@@ -72,9 +75,6 @@ namespace SIL.Sponge.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SessionsVw"/> class.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SessionsVw(SpongeProject _prj, Func<IEnumerable<string>> peopleNameProvider)
 			: this()
@@ -82,6 +82,11 @@ namespace SIL.Sponge.Views
 			_peopleNameProvider = peopleNameProvider;
 			_currProj = (_prj ?? MainWnd.CurrentProject);
 			_currProj.ProjectChanged += HandleProjectFoldersChanged;
+
+			//todo: this should go away when we have DI going, and the factory method for the panel injects the provider
+			//_presetProvider = new PresetProvider(_currProj.SessionsFolder);
+			_infoPanel.PresetProvider =  PresetProvider.CreateFromDirectory(_currProj.SessionsFolder);
+
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -367,7 +372,7 @@ namespace SIL.Sponge.Views
 		/// ------------------------------------------------------------------------------------
 		private void UpdateSessionFileInfo(SessionFile sessionFile)
 		{
-			if (sessionFile == null || tabSessions.SelectedTab != tpgFiles)
+			if (sessionFile == null)// || tabSessions.SelectedTab != tpgFiles)
 			{
 				_infoPanel.Visible = false;
 				return;
@@ -376,7 +381,7 @@ namespace SIL.Sponge.Views
 			_infoPanel.Icon = sessionFile.LargeIcon;
 			_infoPanel.FileName = sessionFile.FileName;
 			_fileInfoNotes.Text = sessionFile.Notes;
-			_infoPanel.Initialize(sessionFile.Fields);
+			_infoPanel.LoadData(sessionFile.Fields);
 			_infoPanel.Visible = true;
 		}
 
@@ -484,6 +489,7 @@ namespace SIL.Sponge.Views
 			// the issue here.
 			if (lpSessions.Items.Length == 0)
 				RefreshFileList();
+
 		}
 
 		/// ------------------------------------------------------------------------------------

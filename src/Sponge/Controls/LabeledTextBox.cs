@@ -83,6 +83,12 @@ namespace SIL.Sponge.Controls
 			get { return _txtBox; }
 		}
 
+		public string Value
+		{
+			get { return InnerTextBox.Text; }
+			set { InnerTextBox.Text = value; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Ensures the height of the user control is always the height of the text box plus

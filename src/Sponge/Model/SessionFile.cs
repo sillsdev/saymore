@@ -197,6 +197,18 @@ namespace SIL.Sponge.Model
 		[XmlArray("data")]
 		public List<SessionFileField> Fields { get; set; }
 
+		//review: We could probably switch these things to all be just dictionaries, so this conversion would not be needed
+		public Dictionary<string, string> GetMetaDataDictionary()
+		{
+			var d = new Dictionary<string, string>();
+			foreach (var field in Fields)
+			{
+				if(!string.IsNullOrEmpty(field.Value))
+					d.Add(field.Name, field.Value);
+			}
+			return d;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the template contianing the field definitions associated with the session file.

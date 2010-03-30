@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Palaso.Code;
+using SIL.Sponge.Model;
+using SIL.Sponge.Model.MetaData;
 using SIL.Sponge.Utilities;
 using SilUtils;
 
@@ -16,7 +19,7 @@ namespace SIL.Sponge.Controls
 	public partial class InfoPanel : UserControl
 	{
 		public event EventHandler MoreActionButtonClicked;
-		private readonly List<LabeledTextBox> _fields = new List<LabeledTextBox>();
+		private readonly List<LabeledTextBox> _fieldControls = new List<LabeledTextBox>();
 		private Color _labeledTextBoxBackgroundColor = SystemColors.Control;
 
 		/// ------------------------------------------------------------------------------------
@@ -71,8 +74,8 @@ namespace SIL.Sponge.Controls
 			set
 			{
 				_labeledTextBoxBackgroundColor = value;
-				foreach (var ltb in _fields)
-					ltb.BackColor = value;
+				foreach (var control in _fieldControls)
+					control.BackColor = value;
 
 				Invalidate();
 			}
@@ -83,44 +86,76 @@ namespace SIL.Sponge.Controls
 		/// Initializes the panel with the specified labels and values.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Initialize(IEnumerable fldInfo)
+		public void LoadData(IEnumerable<SessionFileField> fields)
 		{
 			Utils.SetWindowRedraw(this, false);
 			ClearInfo();
+			LoadPresets();
 
-			if (fldInfo != null)
+			if (fields != null)
 			{
 				using (Graphics g = CreateGraphics())
 				{
 					int maxLblWidth = 0;
-					foreach (var obj in fldInfo)
+					foreach (var obj in fields)
 					{
 						var info = obj as IInfoPanelField;
 						if (info != null)
 						{
-							var ltb = new LabeledTextBox(info.DisplayText);
-							ltb.Visible = false;
-							ltb.Name = info.Name;
-							ltb.InnerTextBox.Text = info.Value;
-							ltb.Font = Font;
-							ltb.BackColor = LabeledTextBoxBackgroundColor;
-							var dx = TextRenderer.MeasureText(g, info.DisplayText, ltb.Font).Width;
+							var control = new LabeledTextBox(info.DisplayText);
+							control.Visible = false;
+							control.Name = info.Name;
+							control.Value = info.Value;
+							control.Font = Font;
+							control.BackColor = LabeledTextBoxBackgroundColor;
+							var dx = TextRenderer.MeasureText(g, info.DisplayText, control.Font).Width;
 							maxLblWidth = Math.Max(maxLblWidth, dx);
-							Controls.Add(ltb);
-							_fields.Add(ltb);
+							Controls.Add(control);
+							_fieldControls.Add(control);
 						}
 					}
 
-					foreach (var ltb in _fields)
+					foreach (var control in _fieldControls)
 					{
-						ltb.InnerLabel.Width = maxLblWidth;
-						ltb.Width = maxLblWidth + 150;
+						control.InnerLabel.Width = maxLblWidth;
+						control.Width = maxLblWidth + 150;
 					}
 				}
 			}
 
 			Utils.SetWindowRedraw(this, true);
 			ArrangeFields();
+		}
+
+		private void LoadPresets()
+		{
+//			m_presetCombo.Items.Clear();
+//			m_presetCombo.Visible = PresetProviderMethod != null;
+//			if (PresetProviderMethod != null)
+//			{
+//				foreach (KeyValuePair<string, Dictionary<string, string>> pair in PresetProviderMethod())
+//				{
+//					m_presetCombo.Items.Add(new PresetWrapper(pair.Key, pair.Value));
+//				}
+//			}
+		}
+
+		//stupid dotnet combo box control requires something like this
+		public class PresetWrapper
+		{
+			public Dictionary<string, string> Dictionary { get; set; }
+			private readonly string label;
+
+			public PresetWrapper(string label, Dictionary<string, string> dictionary)
+			{
+				Dictionary = dictionary;
+				this.label = label;
+			}
+
+			public override string ToString()
+			{
+				return label;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -130,11 +165,11 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private int CalcColumnCount()
 		{
-			if (_fields.Count == 0)
+			if (_fieldControls.Count == 0)
 				return 0;
 
 			int workingHeight = ClientSize.Height - picIcon.Top;
-			int heightNeeded = _fields.Count * _fields[0].Height;
+			int heightNeeded = _fieldControls.Count * _fieldControls[0].Height;
 			return (int)Math.Ceiling((decimal)heightNeeded / workingHeight);
 		}
 
@@ -145,7 +180,7 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		private void ArrangeFields()
 		{
-			if (_fields.Count == 0)
+			if (_fieldControls.Count == 0)
 				return;
 
 			Utils.SetWindowRedraw(this, false);
@@ -156,18 +191,18 @@ namespace SIL.Sponge.Controls
 			int width = (workingWidth / cols) - (dxGutter * (cols - 1));
 
 			int dx = picIcon.Right + 5;
-			int dy = picIcon.Top;
+			int dy = picIcon.Bottom;
 
-			foreach (var ltb in _fields)
+			foreach (var fieldControl in _fieldControls)
 			{
-				ltb.Visible = true;
-				ltb.Location = new Point(dx, dy);
-				ltb.Width = width;
-				dy += ltb.Height;
+				fieldControl.Visible = true;
+				fieldControl.Location = new Point(dx, dy);
+				fieldControl.Width = width;
+				dy += fieldControl.Height;
 
-				if (dy + ltb.Height > ClientSize.Height)
+				if (dy + fieldControl.Height > ClientSize.Height)
 				{
-					dx += ltb.Width + dxGutter;
+					dx += fieldControl.Width + dxGutter;
 					dy = picIcon.Top;
 				}
 			}
@@ -192,17 +227,13 @@ namespace SIL.Sponge.Controls
 		/// objects.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Save(IEnumerable fldInfo)
+		public void Save(IEnumerable<SessionFileField> fields)
 		{
-			foreach (var obj in fldInfo)
+			foreach (var field in fields)
 			{
-				var info = obj as IInfoPanelField;
-				if (info != null)
-				{
-					var ltb = Controls[info.Name] as LabeledTextBox;
-					if (ltb != null)
-						info.Value = ltb.InnerTextBox.Text;
-				}
+				var control = Controls[field.Name] as LabeledTextBox;
+				if (control != null)
+					field.Value = control.Value;
 			}
 		}
 
@@ -213,13 +244,13 @@ namespace SIL.Sponge.Controls
 		/// ------------------------------------------------------------------------------------
 		public void ClearInfo()
 		{
-			foreach (var ltb in _fields)
+			foreach (var ltb in _fieldControls)
 			{
 				Controls.Remove(ltb);
 				ltb.Dispose();
 			}
 
-			_fields.Clear();
+			_fieldControls.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -259,6 +290,8 @@ namespace SIL.Sponge.Controls
 			set { lblFile.Text = value; }
 		}
 
+		public PresetProvider PresetProvider { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Handles the Click event of the btnMoreAction button.
@@ -268,6 +301,35 @@ namespace SIL.Sponge.Controls
 		{
 			if (MoreActionButtonClicked != null)
 				MoreActionButtonClicked(sender, e);
+		}
+
+		private void UsePreset(IDictionary<string, string> preset)
+		{
+			//just take whatever presets which have names matching fields we're showing
+			foreach (var fieldControl in _fieldControls)
+			{
+				string value;
+				if(preset.TryGetValue(fieldControl.Name, out value))
+				{
+					fieldControl.Value = value;
+				}
+			}
+		}
+
+		private void OnPresetButtonClick(object sender, EventArgs e)
+		{
+			_presetMenu.Items.Clear();
+			Guard.AgainstNull(PresetProvider, "PresetProvider");
+			if (PresetProvider != null)
+			{
+				foreach (KeyValuePair<string, Dictionary<string, string>> pair in PresetProvider.GetSuggestions())
+				{
+					KeyValuePair<string, Dictionary<string, string>> valuePair = pair;
+					_presetMenu.Items.Add(pair.Key, null, (obj, send) => UsePreset(valuePair.Value));
+				}
+				var pt = _presetMenuButton.PointToScreen(new Point(0, _presetMenuButton.Height));
+				_presetMenu.Show(pt);
+			}
 		}
 	}
 }

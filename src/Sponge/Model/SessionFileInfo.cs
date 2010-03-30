@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using SIL.Sponge.Controls;
 
@@ -31,6 +32,8 @@ namespace SIL.Sponge.Model
 			Name = fieldName;
 			DisplayText = displayText;
 		}
+
+
 
 		[XmlAttribute("name")]
 		public string Name { get; set; }

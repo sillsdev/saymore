@@ -520,7 +520,7 @@ namespace SIL.Sponge.Views
 			this.tpgFiles.Location = new System.Drawing.Point(4, 26);
 			this.tpgFiles.Name = "tpgFiles";
 			this.tpgFiles.Padding = new System.Windows.Forms.Padding(0, 2, 2, 1);
-			this.tpgFiles.Size = new System.Drawing.Size(478, 350);
+			this.tpgFiles.Size = new System.Drawing.Size(613, 433);
 			this.tpgFiles.TabIndex = 3;
 			this.tpgFiles.Text = "Files";
 			this.tpgFiles.ToolTipText = "Files";
@@ -547,7 +547,6 @@ namespace SIL.Sponge.Views
 			this.splitFileTab.Panel2.Controls.Add(this._infoPanel);
 			this.splitFileTab.Panel2.Controls.Add(this.pnlFileInfoNotes);
 			this.splitFileTab.Panel2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 2);
-			this.splitFileTab.Size = new System.Drawing.Size(611, 430);
 			this.splitFileTab.SplitterDistance = 320;
 			this.splitFileTab.TabIndex = 2;
 			// 
@@ -697,7 +696,7 @@ namespace SIL.Sponge.Views
 			this.locExtender.SetLocalizingId(this._infoPanel, "SessionsVw.InfoPanel");
 			this._infoPanel.Location = new System.Drawing.Point(2, 3);
 			this._infoPanel.Name = "_infoPanel";
-			this._infoPanel.Size = new System.Drawing.Size(302, 80);
+			this._infoPanel.Size = new System.Drawing.Size(437, 102);
 			this._infoPanel.TabIndex = 0;
 			this._infoPanel.MoreActionButtonClicked += new System.EventHandler(this._infoPanel_MoreActionButtonClicked);
 			// 
@@ -707,7 +706,6 @@ namespace SIL.Sponge.Views
 			this.pnlFileInfoNotes.Controls.Add(this._fileInfoNotes);
 			this.pnlFileInfoNotes.Controls.Add(this.lblFileInfoNotes);
 			this.pnlFileInfoNotes.Dock = System.Windows.Forms.DockStyle.Right;
-			this.pnlFileInfoNotes.Location = new System.Drawing.Point(439, 3);
 			this.pnlFileInfoNotes.Name = "pnlFileInfoNotes";
 			this.pnlFileInfoNotes.Size = new System.Drawing.Size(170, 101);
 			this.pnlFileInfoNotes.TabIndex = 1;
@@ -777,9 +775,9 @@ namespace SIL.Sponge.Views
 			// 
 			// 
 			// 
-			this.lpSessions.ListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
+			this.lpSessions.ListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lpSessions.ListView.BackColor = System.Drawing.SystemColors.Window;
 			this.lpSessions.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.lpSessions.ListView.FullRowSelect = true;
 			this.lpSessions.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;

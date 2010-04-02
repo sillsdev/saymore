@@ -29,6 +29,8 @@ namespace SIL.Sponge.Views
 
 		private void UpdateDisplay()
 		{
+			this.SuspendLayout();
+			_table.SuspendLayout();
 			_table.Controls.Clear();
 			_table.RowCount = 0;
 			_table.RowStyles.Clear();
@@ -37,6 +39,8 @@ namespace SIL.Sponge.Views
 			{
 				AddRow(pair.Key, pair.Value);
 			}
+			_table.ResumeLayout();
+			this.ResumeLayout();
 		}
 
 		private void AddRow(string label, string amount)
@@ -50,6 +54,16 @@ namespace SIL.Sponge.Views
 		private void OnRefreshButtonClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			UpdateDisplay();
+		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			_statusLabel.Text = _model.Status;
+		}
+
+		private void _refreshTimer_Tick(object sender, EventArgs e)
+		{
+			OnRefreshButtonClicked(this,null);
 		}
 	}
 }

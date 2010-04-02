@@ -171,6 +171,7 @@
     <Compile Include="Dialogs\StatusDlg.Designer.cs">
       <DependentUpon>StatusDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Overview\Statistics\BackgroundStatisticsMananager.cs" />
     <Compile Include="Model\DiscourseType.cs" />
     <Compile Include="Model\MetaData\FieldDefinition.cs" />
     <Compile Include="Dialogs\NewSessionsFromFiles\NewSessionsFromFileDlgViewModel.cs" />

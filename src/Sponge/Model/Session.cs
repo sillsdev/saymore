@@ -287,9 +287,6 @@ namespace SIL.Sponge.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// The reason this is separate from the Id property is: 1) You're not supposed to do
-		/// anything non-trivial in property accessors (like renaming folders) and 2) It may
-		/// fail, and needs a way to indicate that to the caller.
 		///
 		/// NB: at the moment, all the change is done immediately, so a Save() is needed to
 		/// keep things consistent. We could imagine just making the change pending until
@@ -318,10 +315,10 @@ namespace SIL.Sponge.Model
 		public bool ChangeIdAndSave(string newId, out string errorMessage)
 		{
 			errorMessage = null;
+			Save();
 			newId = newId.Trim();
 			if (Id == newId)
 			{
-				Save();
 				return true;
 			}
 
@@ -341,10 +338,26 @@ namespace SIL.Sponge.Model
 				return false;
 			}
 
+			var previousFileWatchingStatus = Project.EnableFileWatching;
 			try
 			{
+				Project.EnableFileWatching = false;
 				//todo... need a way to make this all one big all or nothing transaction.  As it is, some things can be
 				//renamed and then we run into a snag, and we're left in a bad, inconsistent state.
+
+				//for now, at least check for the very common situation where the rename of the directory itself will fail,
+				//and find that out *before* we do the file renamings
+				try
+				{
+					Directory.Move(Folder, Folder+"Renaming");
+					Directory.Move(Folder+"Renaming", Folder);
+				}
+				catch(Exception e)
+				{
+					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
+						"Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.");
+					return false;
+				}
 
 				foreach (var file in Directory.GetFiles(Folder))
 				{
@@ -357,12 +370,17 @@ namespace SIL.Sponge.Model
 					}
 				}
 
+				Project.EnableFileWatching = previousFileWatchingStatus;
 				Directory.Move(Folder, newFolderPath);
 			}
 			catch (Exception e)
 			{
 				errorMessage = ExceptionHelper.GetAllExceptionMessages(e);
 				return false;
+			}
+			finally
+			{
+				Project.EnableFileWatching = previousFileWatchingStatus;
 			}
 
 			Id = newId;

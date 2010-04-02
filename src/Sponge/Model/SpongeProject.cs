@@ -187,9 +187,13 @@ namespace SIL.Sponge.Model
 			if (!Directory.Exists(SessionsFolder))
 				Directory.CreateDirectory(SessionsFolder);
 
-			Sessions = (from folder in SessionNames
+			var x = (from folder in SessionNames
 						orderby folder
-						select Session.Load(this, Path.GetFileName(folder))).ToList();
+						select Session.Load(this, Path.GetFileName(folder)));
+
+			Sessions = (from session in x
+					   where session != null	// sessions we couldn't load are null
+					   select session).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -397,7 +401,10 @@ namespace SIL.Sponge.Model
 		private void HandleFileWatcherEvent(object sender, FileSystemEventArgs e)
 		{
 			// We don't care when changes occur to our standoff markup files.
-			if (e.Name.EndsWith(Sponge.SessionMetaDataFileExtension))
+			if (e.Name.EndsWith(Sponge.SessionMetaDataFileExtension)
+				|| e.Name.EndsWith(Sponge.SessionFileExtension)
+				|| e.FullPath.ToLower() == SessionsFolder.ToLower()
+				)
 				return;
 
 			EnableFileWatching = false;

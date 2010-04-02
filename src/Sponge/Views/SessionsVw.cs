@@ -468,7 +468,8 @@ namespace SIL.Sponge.Views
 				return;
 			}
 
-			SaveCurrentSessionFileInfo();
+			//this is problematic, when it is triggered by a rename of the project:
+			//SaveCurrentSessionFileInfo();
 			RefreshSessionList();
 			RefreshFileList();
 		}

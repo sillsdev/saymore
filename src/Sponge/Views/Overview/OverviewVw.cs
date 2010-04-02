@@ -15,7 +15,7 @@ namespace SIL.Sponge.Views
 		/// Initializes a new instance of the <see cref="OverviewVw"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public OverviewVw(SpongeProject project)
+		public OverviewVw(SpongeProject project, StatisticsViewModel statisticsModel)
 		{
 			InitializeComponent();
 
@@ -28,7 +28,7 @@ namespace SIL.Sponge.Views
 			gridTasks.AlternatingRowsDefaultCellStyle.BackColor =
 				ColorHelper.CalculateColor(Color.Black, gridTasks.DefaultCellStyle.BackColor, 10);
 
-			var statisticsView = new StatisticsView(new StatisticsViewModel(project));
+			var statisticsView = new StatisticsView(statisticsModel);
 			this.Controls.Add(statisticsView);
 
 			_viewBtnManger = new ViewButtonManager(tsOverview,

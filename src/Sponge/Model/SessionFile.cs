@@ -147,7 +147,24 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			XmlSerializationHelper.SerializeToFile(GetStandoffFile(FullFilePath), this);
+			try
+			{
+				if (Directory.Exists(Path.GetDirectoryName(FullFilePath)))
+				{
+					XmlSerializationHelper.SerializeToFile(GetStandoffFile(FullFilePath), this);
+				}
+				else
+				{
+					//TODO: this happens because of renaming of the project, whic at the moment
+					//can't happen while we have data which hasn't been saved already.  Anyhow,
+					//this all needs redesign, as the addition of renaming has led to many many
+					//problems of this sort.
+				}
+			}
+			catch (Exception e)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Could not save {0}", FullFilePath);
+			}
 		}
 
 		#region Properties

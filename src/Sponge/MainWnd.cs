@@ -4,6 +4,7 @@ using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;
 using SIL.Sponge.Views;
+using SIL.Sponge.Views.Overview.Statistics;
 using SilUtils;
 
 namespace SIL.Sponge
@@ -21,6 +22,7 @@ namespace SIL.Sponge
 		private SendReceiveVw _sendReceiveView;
 		private SetupVw _setupView;
 		private ViewButtonManager _viewManger;
+		private BackgroundStatisticsMananager _backgroundStatisticsGather;
 
 		public static bool Resizing { get; private set; }
 
@@ -86,7 +88,13 @@ namespace SIL.Sponge
 			foreach (ToolStripButton btn in tsMain.Items)
 				btn.Checked = false;
 
-			_overviewView = new OverviewVw(CurrentProject);
+			SpongeProject project = CurrentProject;
+			_backgroundStatisticsGather = new BackgroundStatisticsMananager(project.SessionsFolder);
+			_backgroundStatisticsGather.Start();
+
+			var statisticsModel = new StatisticsViewModel(project, _backgroundStatisticsGather );
+
+			_overviewView = new OverviewVw(project, statisticsModel);
 			_sessionsView = new SessionsVw(CurrentProject, CurrentProject.GetPeopleNames);
 			_peopleView = new PeopleVw(CurrentProject);
 			_sendReceiveView = new SendReceiveVw();
@@ -107,6 +115,7 @@ namespace SIL.Sponge
 		/// ------------------------------------------------------------------------------------
 		private void CleanOutViews()
 		{
+
 			if (_overviewView != null)
 			{
 				Controls.Remove(_overviewView);
@@ -124,6 +133,12 @@ namespace SIL.Sponge
 
 			if (_viewManger != null)
 				_viewManger.Dispose();
+
+			if (_backgroundStatisticsGather != null)
+			{
+				_backgroundStatisticsGather.Dispose();
+				_backgroundStatisticsGather = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

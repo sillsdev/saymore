@@ -23,9 +23,15 @@ namespace SIL.Sponge.Views
 		{
 			using (new TestProjectWithSessions(0))
 			{
-				var pairs = new StatisticsViewModel(SpongeProject.Create("test")).GetPairs();
+				SpongeProject project = SpongeProject.Create("test");
+				var pairs = CreateModel(project).GetPairs();
 				Assert.Less(0, pairs.Count());
 			}
+		}
+
+		private StatisticsViewModel CreateModel(SpongeProject project)
+		{
+			return new StatisticsViewModel(project, new BackgroundStatisticsMananager(project.SessionsFolder));
 		}
 
 		[Test]
@@ -35,8 +41,9 @@ namespace SIL.Sponge.Views
 
 			using (var test = new TestProjectWithSessions(1))
 			{
+				SpongeProject project = test.Project;
 				Assert.AreEqual(new TimeSpan(0),
-								new StatisticsViewModel(test.Project).GetRecordingDurations(originalRecording));
+							   CreateModel(project).GetRecordingDurations(originalRecording));
 			}
 		}
 
@@ -49,8 +56,9 @@ namespace SIL.Sponge.Views
 				SessionComponentDefinition firstRole = SessionComponentDefinition.CreateHardCodedDefinitions().First();
 				CreateCanonciallyNamedRecordingInSession(firstRole, test.Project.Sessions[0]);
 
+				SpongeProject project = test.Project;
 				Assert.Less(new TimeSpan(0),
-					new StatisticsViewModel(test.Project).GetRecordingDurations(firstRole));
+					CreateModel(project).GetRecordingDurations(firstRole));
 			}
 		}
 
@@ -65,7 +73,8 @@ namespace SIL.Sponge.Views
 				SessionComponentDefinition secondRole =
 					SessionComponentDefinition.CreateHardCodedDefinitions().ToArray()[1];
 
-				TimeSpan t = new StatisticsViewModel(test.Project).GetRecordingDurations(secondRole);
+				SpongeProject project = test.Project;
+				TimeSpan t = CreateModel(project).GetRecordingDurations(secondRole);
 				Assert.AreEqual(new TimeSpan(0), t, "should not find any files with the second role");
 			}
 		}

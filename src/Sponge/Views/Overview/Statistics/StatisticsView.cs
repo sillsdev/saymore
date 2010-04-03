@@ -29,18 +29,19 @@ namespace SIL.Sponge.Views
 
 		private void UpdateDisplay()
 		{
-			this.SuspendLayout();
-			_table.SuspendLayout();
-			_table.Controls.Clear();
-			_table.RowCount = 0;
-			_table.RowStyles.Clear();
+				_model.UIUpdateNeeded = false;
+				this.SuspendLayout();
+				_table.SuspendLayout();
+				_table.Controls.Clear();
+				_table.RowCount = 0;
+				_table.RowStyles.Clear();
 
-			foreach(KeyValuePair<string,string>  pair in _model.GetPairs())
-			{
-				AddRow(pair.Key, pair.Value);
-			}
-			_table.ResumeLayout();
-			this.ResumeLayout();
+				foreach (KeyValuePair<string, string> pair in _model.GetPairs())
+				{
+					AddRow(pair.Key, pair.Value);
+				}
+				_table.ResumeLayout();
+				this.ResumeLayout();
 		}
 
 		private void AddRow(string label, string amount)
@@ -48,11 +49,12 @@ namespace SIL.Sponge.Views
 			_table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 			_table.RowCount++;
 			_table.Controls.Add(new Label() { Text = label, Font = _headerFont, Width = TextRenderer.MeasureText(label, _headerFont).Width+10 }, 0, _table.RowCount);
-			_table.Controls.Add(new Label() { Text = amount, Font = _headerFont }, 1, _table.RowCount);
+			_table.Controls.Add(new Label() { Text = amount, Font = _headerFont, Width = TextRenderer.MeasureText(amount, _headerFont).Width+10 } , 1, _table.RowCount);
 		}
 
 		private void OnRefreshButtonClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
+			_model.Refresh();
 			UpdateDisplay();
 		}
 
@@ -63,7 +65,10 @@ namespace SIL.Sponge.Views
 
 		private void _refreshTimer_Tick(object sender, EventArgs e)
 		{
-			OnRefreshButtonClicked(this,null);
+			if (_model.UIUpdateNeeded)
+			{
+				UpdateDisplay();
+			}
 		}
 	}
 }

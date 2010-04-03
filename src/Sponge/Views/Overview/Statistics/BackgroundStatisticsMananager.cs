@@ -16,6 +16,15 @@ namespace SIL.Sponge.Views.Overview.Statistics
 		private Thread _workerThread;
 		private string _rootPath;
 		private Dictionary<string, FileStatistics> _statistics=new Dictionary<string, FileStatistics>();
+		private bool _restartRequested = true;
+
+		public event EventHandler NewStatistics;
+
+		private void InvokeNewStatistics()
+		{
+			EventHandler statistics = NewStatistics;
+			if (statistics != null) statistics(this, null);
+		}
 
 		public BackgroundStatisticsMananager(string rootPath)
 		{
@@ -49,27 +58,22 @@ namespace SIL.Sponge.Views.Overview.Statistics
 			watcher.Created+=new FileSystemEventHandler(OnFileCreated);
 			watcher.Renamed+=new RenamedEventHandler(OnFileRenamed);
 
-			//now that the watcher is up and running, gather up all existing files
-
-			string[] sessionDirectoryPaths = Directory.GetDirectories(_rootPath);
-			for(int i = 0; i< sessionDirectoryPaths.Length; i++)
-			{
-				if(ShouldStop)
-					break;
-				Status = string.Format("Processing {0} of {1} sessions", 1+i, sessionDirectoryPaths.Length);
-				foreach (var path in Directory.GetFiles(sessionDirectoryPaths[i]))
-				{
-					if(ShouldStop)
-						break;
-					AddStatisticsForFile(path);
-				}
-			}
-			Status = "Up to date";
-
 			//now just wait for file events that we should handle (on a different thread, in response to events)
 
 			while (!ShouldStop)
-				Thread.Sleep(5000);
+			{
+				if(_restartRequested )
+				{
+					_restartRequested = false;
+					ProcessFiles();
+				}
+				Thread.Sleep(100);
+			}
+		}
+
+		public void Restart()
+		{
+			_restartRequested = true;
 		}
 
 		protected bool ShouldStop
@@ -113,22 +117,33 @@ namespace SIL.Sponge.Views.Overview.Statistics
 
 		}
 
+
+
 		private void AddStatisticsForFile(string path)
 		{
 			try
 			{
-				Debug.WriteLine("processing "+path);
-				var statistics = new FileStatistics(path);
-				lock (((ICollection)_statistics).SyncRoot)
+				Debug.WriteLine("processing " + path);
+				if (!ShouldStop)
 				{
-					_statistics.Add(path.ToLower(), statistics);
+					var statistics = new FileStatistics(path);
+
+					lock (((ICollection) _statistics).SyncRoot)
+					{
+						if (_statistics.ContainsKey(path.ToLower()))
+						{
+							_statistics.Remove(path.ToLower());
+						}
+						_statistics.Add(path.ToLower(), statistics);
+					}
 				}
 			}
-			catch(Exception e )
+			catch (Exception e)
 			{
 				Debug.WriteLine(e.Message);
 				//nothing here is worth crashing over
 			}
+			InvokeNewStatistics();
 		}
 
 
@@ -149,6 +164,29 @@ namespace SIL.Sponge.Views.Overview.Statistics
 				//an error if/when this collection is altered on another thread
 				return _statistics.Values.ToList();
 			}
+		}
+
+		public void ProcessFiles()
+		{
+			//now that the watcher is up and running, gather up all existing files
+			lock (((ICollection) _statistics).SyncRoot)
+			{
+				_statistics.Clear();
+			}
+			string[] sessionDirectoryPaths = Directory.GetDirectories(_rootPath);
+			for (int i = 0; i < sessionDirectoryPaths.Length; i++)
+			{
+				if (ShouldStop)
+					break;
+				Status = string.Format("Processing {0} of {1} sessions", 1 + i, sessionDirectoryPaths.Length);
+				foreach (var path in Directory.GetFiles(sessionDirectoryPaths[i]))
+				{
+					if (ShouldStop)
+						break;
+					AddStatisticsForFile(path);
+				}
+			}
+			Status = "Up to date";
 		}
 	}
 
@@ -187,9 +225,13 @@ namespace SIL.Sponge.Views.Overview.Statistics
 
 					}
 				}
+				catch(ThreadAbortException)
+				{
+					//fine, just return
+				}
 				catch(Exception e)
 				{
-					Debug.WriteLine("Trying to get duration of "+Path+" : " + e.Message);
+					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e,"Could not get duration of "+Path);
 				}
 
 

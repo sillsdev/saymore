@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using SIL.Sponge.Model;
 
 namespace SIL.Sponge.Views.Overview.Statistics
 {
-	public class StatisticsViewModel
+	public class StatisticsViewModel :IDisposable
 	{
 		private readonly SpongeProject _project;
 		private BackgroundStatisticsMananager _backgroundStatisticsGather;
@@ -16,12 +17,16 @@ namespace SIL.Sponge.Views.Overview.Statistics
 		{
 			_project = project;
 			_backgroundStatisticsGather = backgroundStatisticsMananager;
+			_backgroundStatisticsGather.NewStatistics += new EventHandler(OnNewStatistics);
+
 		}
 
 		public string Status
 		{
 			get{ return _backgroundStatisticsGather.Status;}
 		}
+
+		public bool UIUpdateNeeded { get; set; }
 
 		public IEnumerable<KeyValuePair<string,string>> GetPairs()
 		{
@@ -39,8 +44,22 @@ namespace SIL.Sponge.Views.Overview.Statistics
 
 			foreach (var definition in SessionComponentDefinition.CreateHardCodedDefinitions().Where(def => def.MeasurementType == SessionComponentDefinition.MeasurementTypes.Time))
 			{
-				yield return new KeyValuePair<string, string>(definition.Name,
-					GetMegabytes(definition).ToString());
+				int megabytes = GetMegabytes(definition);
+				string value;
+				if(megabytes> 1000)//review: is a gigabyte 1000, or 1024 megabytes?
+				{
+					value = ((double)megabytes/1000.0).ToString("N",CultureInfo.InvariantCulture)+ " Gigabytes";
+				}
+				else if(megabytes == 0)
+				{
+					value = "---";
+				}
+				else
+				{
+					value = megabytes.ToString("###",CultureInfo.InvariantCulture)+ " Megabytes";
+				}
+				yield return new KeyValuePair<string, string>(definition.Name, value);
+
 			}
 		}
 
@@ -69,6 +88,21 @@ namespace SIL.Sponge.Views.Overview.Statistics
 			}
 
 			return total;
+		}
+
+		public void Refresh()
+		{
+			_backgroundStatisticsGather.Restart();
+		}
+
+		public void Dispose()
+		{
+			_backgroundStatisticsGather.NewStatistics -= new EventHandler(OnNewStatistics);
+		}
+
+		void OnNewStatistics(object sender, EventArgs e)
+		{
+			UIUpdateNeeded = true;
 		}
 	}
 }

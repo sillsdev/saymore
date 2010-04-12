@@ -81,6 +81,7 @@ namespace SIL.Sponge.Views
 			this.lblNoSessionsMsg = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this._fileContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.textBoxSpellChecker1 = new Palaso.UI.WindowsForms.Spelling.TextBoxSpellChecker();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -246,6 +247,7 @@ namespace SIL.Sponge.Views
 			this._situation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxSpellChecker1.SetLanguageForSpellChecking(this._situation, "en");
 			this.locExtender.SetLocalizableToolTip(this._situation, null);
 			this.locExtender.SetLocalizationComment(this._situation, null);
 			this.locExtender.SetLocalizationPriority(this._situation, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
@@ -379,6 +381,7 @@ namespace SIL.Sponge.Views
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._setting.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
 			this._setting.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+			this.textBoxSpellChecker1.SetLanguageForSpellChecking(this._setting, "en");
 			this.locExtender.SetLocalizableToolTip(this._setting, null);
 			this.locExtender.SetLocalizationComment(this._setting, null);
 			this.locExtender.SetLocalizationPriority(this._setting, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
@@ -488,6 +491,7 @@ namespace SIL.Sponge.Views
 			// 
 			this._synopsis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxSpellChecker1.SetLanguageForSpellChecking(this._synopsis, "en");
 			this.locExtender.SetLocalizableToolTip(this._synopsis, null);
 			this.locExtender.SetLocalizationComment(this._synopsis, null);
 			this.locExtender.SetLocalizationPriority(this._synopsis, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
@@ -696,6 +700,7 @@ namespace SIL.Sponge.Views
 			this.locExtender.SetLocalizingId(this._infoPanel, "SessionsVw.InfoPanel");
 			this._infoPanel.Location = new System.Drawing.Point(2, 3);
 			this._infoPanel.Name = "_infoPanel";
+			this._infoPanel.PresetProvider = null;
 			this._infoPanel.Size = new System.Drawing.Size(437, 102);
 			this._infoPanel.TabIndex = 0;
 			this._infoPanel.MoreActionButtonClicked += new System.EventHandler(this._infoPanel_MoreActionButtonClicked);
@@ -916,5 +921,6 @@ namespace SIL.Sponge.Views
 		private System.Windows.Forms.Label lblMedia;
 		private System.Windows.Forms.ComboBox _eventType;
 		private System.Windows.Forms.Button btnNewFromFiles;
+		private Palaso.UI.WindowsForms.Spelling.TextBoxSpellChecker textBoxSpellChecker1;
 	}
 }

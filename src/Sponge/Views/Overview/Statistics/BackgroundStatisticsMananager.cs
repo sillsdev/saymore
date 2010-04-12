@@ -34,6 +34,7 @@ namespace SIL.Sponge.Views.Overview.Statistics
 		public void Start()
 		{
 			_workerThread = new Thread(StartWorking);
+			_workerThread.Priority = ThreadPriority.Lowest;
 			_workerThread.Start();
 		}
 

@@ -354,8 +354,7 @@ namespace SIL.Sponge.Model
 				}
 				catch(Exception e)
 				{
-					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-						"Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.");
+					errorMessage="Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.";
 					return false;
 				}
 
@@ -479,7 +478,7 @@ namespace SIL.Sponge.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return Id+" "+Title;
+			return (Id+" "+Title).Trim();
 		}
 	}
 }

@@ -32,7 +32,7 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 				_totalBytes += new FileInfo(pair.Key).Length;
 			}
 			IndexOfCurrentFile = -1;
-			BeforeCopyingFileRaised = (source,dest) => { };
+			BeforeCopyingFileRaised = (source) => { };
 		}
 
 		public int TotalPercentage
@@ -71,7 +71,7 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 		/// <summary>
 		/// Called with sourse and destination paths, just before each copy
 		/// </summary>
-		public Action<string,string> BeforeCopyingFileRaised
+		public Action<string> BeforeCopyingFileRaised
 		{
 			get; set;
 		}
@@ -94,7 +94,7 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 				for (IndexOfCurrentFile = 0; IndexOfCurrentFile < _sourceDestinationPathPairs.Count(); IndexOfCurrentFile++)
 				{
 					KeyValuePair<string, string> pair = _sourceDestinationPathPairs[IndexOfCurrentFile];
-					BeforeCopyingFileRaised(pair.Key,pair.Value);
+					BeforeCopyingFileRaised(pair.Key);
 					var buffer = new byte[1000 * 1024];
 					var sourceFileInfo = new FileInfo(pair.Key);
 					if(File.Exists(pair.Value))

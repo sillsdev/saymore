@@ -14,7 +14,7 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 		private CopyFilesViewModel _model;
 
 		public MakeSessionsFromFileProgressDialog(IEnumerable<KeyValuePair<string, string>> sourceDestinationPathPairs,
-			Action<string, string> sessionCreatingMethod)
+			Action<string> sessionCreatingMethod)
 		{
 			InitializeComponent();
 			_model = new CopyFilesViewModel(sourceDestinationPathPairs);

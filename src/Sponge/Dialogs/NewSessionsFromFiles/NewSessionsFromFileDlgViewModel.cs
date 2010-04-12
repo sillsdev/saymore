@@ -492,11 +492,8 @@ namespace SIL.Sponge.Dialogs
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void CreateSessions()
+		public IEnumerable<KeyValuePair<string, string>> GetSourceAndDestinationPairs()
 		{
-//			using (var statusDlg = new StatusDlg())
-//				statusDlg.ShowAndProcess(GetStatusMessageForFile, CreateSingleSession, Files);
-
 			var pathpairs = new List<KeyValuePair<string, string>>();
 			foreach (var source in Files)
 			{
@@ -509,10 +506,7 @@ namespace SIL.Sponge.Dialogs
 					pathpairs.Add(new KeyValuePair<string, string>(source.FullFilePath, destPath));
 				}
 			}
-			using (var dialog = new MakeSessionsFromFileProgressDialog(pathpairs, CreateSingleSession))
-			{
-				dialog.ShowDialog(Form.ActiveForm);
-			}
+			return pathpairs;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -539,15 +533,14 @@ namespace SIL.Sponge.Dialogs
 		/// session is the file's DateModified date.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CreateSingleSession(string sourcePath, string destpath)
+		public void CreateSingleSession(string sourcePath)
 		{
 			var file = new NewSessionFile(sourcePath);
 
 			var sessionId = Path.GetFileNameWithoutExtension(file.FileName);
-			var session = Session.Create(MainWnd.CurrentProject, sessionId);
+			var session = Session.Create(MainWnd.CurrentProject, sessionId);//todo: remove static
 			session.Date = File.GetLastWriteTime(file.FullFilePath);
 			session.Save();
-			//session.AddFile(file.FullFilePath);
 
 			if (FirstNewSessionAdded == null)
 				FirstNewSessionAdded = sessionId;

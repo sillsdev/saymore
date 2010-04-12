@@ -17,6 +17,7 @@
 using System.Linq;
 using System.IO;
 using NUnit.Framework;
+using Palaso.TestUtilities;
 using SIL.Sponge.Model;
 using SilUtils;
 
@@ -370,11 +371,10 @@ namespace SIL.Sponge.Dialogs
 		/// Tests that passing a null object to the CreateSingleSession method does nothing.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Test]
+		[Test, Ignore("appears to violate the Fail Fast principle, unless there's a reason we'd be giving it nulls")]
 		public void CreateSingleSession_NullFileIsIgnored()
 		{
-			Assert.IsFalse(ReflectionHelper.GetBoolResult(
-				_viewModel, "CreateSingleSession", new object[] { null }));
+			_viewModel.CreateSingleSession(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -384,13 +384,20 @@ namespace SIL.Sponge.Dialogs
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateSingleSession_UnselectedFileIsIgnored()
+		public void GetSourceAndDestinationPairs_UnselectedFileIsIgnored()
 		{
-			var path = _mainAppFldr.Combine("dog.wav");
-			File.CreateText(path).Close();
-			var nsf = new NewSessionFile(path);
-			nsf.Selected = false;
-			Assert.IsFalse(ReflectionHelper.GetBoolResult(_viewModel, "CreateSingleSession", nsf));
+			using (var temp = new TempFile())
+			{
+				//var path = _mainAppFldr.Combine("dog.wav");
+				//File.CreateText(path).Close();
+				var sessionFile = new NewSessionFile(temp.Path);
+				sessionFile.Selected = false;
+				using (var model = new NewSessionsFromFileDlgViewModel())
+				{
+					model.Files.Add(sessionFile);
+					Assert.AreEqual(0,model.GetSourceAndDestinationPairs().Count());
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -402,45 +409,39 @@ namespace SIL.Sponge.Dialogs
 		[Test]
 		public void CreateSingleSession_SetsFirstNewSessionAddedProperly()
 		{
-			InitProject();
+			InitProject();//todo: remove this when CreateSingleSession no longer uses a static
 
-			Assert.IsNull(_viewModel.FirstNewSessionAdded);
-
-			var path = _mainAppFldr.Combine("lizard.mov");
-			File.CreateText(path).Close();
-			var nsf  = new NewSessionFile(path);
-			Assert.IsTrue(ReflectionHelper.GetBoolResult(_viewModel, "CreateSingleSession", nsf));
-
-			path = _mainAppFldr.Combine("skunk.wma");
-			File.CreateText(path).Close();
-			nsf = new NewSessionFile(path);
-			Assert.IsTrue(ReflectionHelper.GetBoolResult(_viewModel, "CreateSingleSession", nsf));
-
-			Assert.AreEqual("lizard", _viewModel.FirstNewSessionAdded);
+			using (var one = new TempFile())
+			using (var two = new TempFile())
+			{
+				using (var model = new NewSessionsFromFileDlgViewModel())
+				{
+					Assert.IsNull(model.FirstNewSessionAdded);
+					model.CreateSingleSession(one.Path);
+					model.CreateSingleSession(two.Path);
+					Assert.AreEqual(Path.GetFileNameWithoutExtension(one.Path), model.FirstNewSessionAdded);
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Tests that passing a selected file object to the CreateSingleSession method
+		/// Tests that passing a file object to the CreateSingleSession method
 		/// creates a new session with the correct data.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateSingleSession()
+		public void CreateSingleSession_CreatesSessionFolder()
 		{
 			InitProject();
-
-			var path = _mainAppFldr.Combine("rabbit.ogg");
-			File.CreateText(path).Close();
-			var nsf = new NewSessionFile(path);
-			var date = File.GetLastWriteTime(path).ToShortDateString();
-			Assert.IsTrue(ReflectionHelper.GetBoolResult(_viewModel, "CreateSingleSession", nsf));
-
-			var session = Session.Create(_prj, "rabbit");
-			Assert.AreEqual("rabbit", session.Id);
-			Assert.AreEqual(date, session.Date.ToShortDateString());
-			Assert.AreEqual(1, session.Files.Length);
-			Assert.AreEqual(Path.Combine(session.Folder, "rabbit.ogg"), session.Files[0]);
+			using (var temp = new TempFile())
+			{
+				_viewModel.CreateSingleSession(temp.Path);
+				var id = Path.GetFileNameWithoutExtension(temp.Path);
+				var session = Session.Create(_prj, id);
+				Assert.AreEqual(id, session.Id);
+				Assert.AreEqual(File.GetLastWriteTime(temp.Path).ToShortDateString(), session.Date.ToShortDateString());
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

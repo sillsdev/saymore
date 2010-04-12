@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using AxWMPLib;
 using SIL.Localize.LocalizationUtils;
+using SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles;
 using SIL.Sponge.Properties;
 using SilUtils;
 
@@ -242,7 +243,11 @@ namespace SIL.Sponge.Dialogs
 		private void HandleCreateSessionsButtonClick(object sender, EventArgs e)
 		{
 			Hide();
-			_viewModel.CreateSessions();
+
+			using (var dialog = new MakeSessionsFromFileProgressDialog(_viewModel.GetSourceAndDestinationPairs(), _viewModel.CreateSingleSession))
+			{
+				dialog.ShowDialog(Form.ActiveForm);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

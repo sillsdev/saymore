@@ -1,0 +1,1 @@
+Things in the namespace should have no depenencies in the rest of sponge.

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A61F5E06-CACD-40FA-BBAD-8744212AF14E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sponge2</RootNamespace>
+    <AssemblyName>Sponge2</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=2.1.13.813, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="LocalizationUtils, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\common\LocalizationUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
+    </Reference>
+    <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\common\SilUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BootStrapper.cs" />
+    <Compile Include="ProjectChosingAndCreating\PretendWelcomeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProjectChosingAndCreating\PretendWelcomeDialog.Designer.cs">
+      <DependentUpon>PretendWelcomeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="SessionsPM.cs" />
+    <Compile Include="SessionsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SessionsControl.Designer.cs">
+      <DependentUpon>SessionsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Shell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Shell.Designer.cs">
+      <DependentUpon>Shell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectChosingAndCreating\MruProjects.cs" />
+    <Compile Include="ProjectChosingAndCreating\PathValidator.cs" />
+    <Compile Include="SpongeProject.cs" />
+    <Compile Include="SpongeSettingsProvider.cs" />
+    <Compile Include="ProjectChosingAndCreating\WelcomeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProjectChosingAndCreating\WelcomeDialog.Designer.cs">
+      <DependentUpon>WelcomeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LowLevelControls\GridPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LowLevelControls\HoverCueTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LowLevelControls\HoverCueTextBox.Designer.cs">
+      <DependentUpon>HoverCueTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LowLevelControls\IInfoPanelField.cs" />
+    <Compile Include="LowLevelControls\LabeledTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LowLevelControls\LabeledTextBox.Designer.cs">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LowLevelControls\ListPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LowLevelControls\ListPanel.Designer.cs">
+      <DependentUpon>ListPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LowLevelControls\SpongeBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LowLevelControls\UnderlinedHdgBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ProjectChosingAndCreating\PretendWelcomeDialog.resx">
+      <DependentUpon>PretendWelcomeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SessionsControl.resx">
+      <DependentUpon>SessionsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shell.resx">
+      <DependentUpon>Shell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectChosingAndCreating\WelcomeDialog.resx">
+      <DependentUpon>WelcomeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LowLevelControls\HoverCueTextBox.resx">
+      <DependentUpon>HoverCueTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LowLevelControls\LabeledTextBox.resx">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LowLevelControls\ListPanel.resx">
+      <DependentUpon>ListPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Utilities\IconHelper.cs" />
+    <Compile Include="Utilities\SpongeColors.cs" />
+    <Compile Include="ViewButtonManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LowLevelControls\Readme.txt" />
+    <None Include="Resources\Warning.png" />
+    <None Include="Resources\SpongeText.png" />
+    <None Include="Resources\SpongeSmall.png" />
+    <None Include="Resources\Sponge.png" />
+    <None Include="Resources\Sponge.ico" />
+    <None Include="Resources\shortSound.wav" />
+    <None Include="Resources\Setup.png" />
+    <None Include="Resources\Sessions.png" />
+    <None Include="Resources\SendReceive.png" />
+    <None Include="Resources\People.png" />
+    <None Include="Resources\People-orig.png" />
+    <None Include="Resources\Overview.png" />
+    <None Include="Resources\NoPhotoSilhouette.png" />
+    <None Include="Resources\NoPermissionsWarning.png" />
+    <None Include="Resources\NewProject.png" />
+    <None Include="Resources\More_Action.png" />
+    <None Include="Resources\Male_Selected.png" />
+    <None Include="Resources\Male_NotSelected.png" />
+    <None Include="Resources\FolderOpen.png" />
+    <None Include="Resources\finished.wav" />
+    <None Include="Resources\Female_Selected.png" />
+    <None Include="Resources\Female_NotSelected.png" />
+    <None Include="Resources\ChangePicture.png" />
+    <None Include="Resources\BrowseForProject.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

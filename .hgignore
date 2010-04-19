@@ -2,3 +2,5 @@ glob:obj/*
 glob:output/*
 glob:*.suo
 glob:*.user
+glob:_ReSharper*
+glob:src/Sponge2/bin/*

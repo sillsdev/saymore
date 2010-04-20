@@ -11,38 +11,50 @@ namespace Sponge2
 	{
 		private readonly string _projectPath;
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="projectPath"></param>
+		/// ------------------------------------------------------------------------------------
 		public BootStrapper(string projectPath)
 		{
 			_projectPath = projectPath;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
 		public Shell CreateShell()
 		{
-			var builder = new Autofac.ContainerBuilder();
+			var builder = new ContainerBuilder();
 
 			//review: could have used a factory instead
 
-			builder.Register<SpongeProject>(c =>
+			builder.Register(c =>
 			{
-				var p = c.Resolve<SpongeProject>(new Parameter[] { new Autofac.PositionalParameter(0, _projectPath) });
+				var p = c.Resolve<SpongeProject>(new Parameter[] { new PositionalParameter(0, _projectPath) });
 				return p;
 			});
 
-			builder.Register<Shell>(c =>
-			{
-				return c.Resolve<Shell.Factory>()(_projectPath);
-			});
+			builder.Register(c => c.Resolve<Shell.Factory>()(_projectPath));
 
 			var dataAccess = Assembly.GetExecutingAssembly();
 
 			builder.RegisterAssemblyTypes(dataAccess);
 
 			var container = builder.Build();
-			var shell = container.Resolve<Shell>();
-
-			return shell;
+			return container.Resolve<Shell>();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
 		}

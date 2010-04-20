@@ -15,7 +15,7 @@ namespace SIL.Sponge
 	/// ----------------------------------------------------------------------------------------
 	public partial class Shell : Form
 	{
-		public delegate Shell Factory(string projectName);//autofac uses this
+		public delegate Shell Factory(string projectName); //autofac uses this
 
 		private ViewButtonManager _viewManger;
 		private string _projectName;
@@ -38,8 +38,8 @@ namespace SIL.Sponge
 		{
 			InitializeComponent();
 
-//			if (Settings.Default.MainWindowBounds.Height < 0)
-//				StartPosition = FormStartPosition.CenterScreen;
+			if (Settings.Default.MainWindowBounds.Height < 0)
+				StartPosition = FormStartPosition.CenterScreen;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ namespace SIL.Sponge
 		public Shell(string projectName, SessionsControl sessionsControl) : this()
 		{
 			_projectName = projectName;
-			var views = new Control[] {sessionsControl };
+			var views = new Control[] { sessionsControl };
 
 			Controls.AddRange(views);
 			_viewManger = new ViewButtonManager(tsMain, views);
@@ -107,7 +107,7 @@ namespace SIL.Sponge
 		/// Raises the <see cref="E:System.Windows.Forms.Form.Load"/> event.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnLoad(System.EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
 
@@ -149,7 +149,7 @@ namespace SIL.Sponge
 		/// Raises the <see cref="E:System.Windows.Forms.Form.ResizeEnd"/> event.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnResizeEnd(System.EventArgs e)
+		protected override void OnResizeEnd(EventArgs e)
 		{
 //			if (!Settings.Default.RedrawAsMainWindowResizes)
 //				Utils.SetWindowRedraw(this, true);
@@ -166,7 +166,7 @@ namespace SIL.Sponge
 		/// Show the welcome dialog to allow the user to choose another project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tsbChangeProjects_Click(object sender, System.EventArgs e)
+		private void tsbChangeProjects_Click(object sender, EventArgs e)
 		{
 			UserWantsToOpenADifferentProject = true;
 			Application.Exit();

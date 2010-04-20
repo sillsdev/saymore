@@ -1,3 +1,4 @@
+using SIL.Localization;
 using SilUtils.Controls;
 
 namespace SIL.Sponge.Controls
@@ -25,7 +26,7 @@ namespace SIL.Sponge.Controls
 			this.lvItems = new System.Windows.Forms.ListView();
 			this.hdrList = new System.Windows.Forms.ColumnHeader();
 			this.hlblItems = new SilUtils.Controls.HeaderLabel();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			this.pnlList.SuspendLayout();
 			this.pnlButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -127,7 +128,7 @@ namespace SIL.Sponge.Controls
 			this.hlblItems.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.locExtender.SetLocalizableToolTip(this.hlblItems, null);
 			this.locExtender.SetLocalizationComment(this.hlblItems, "Localized in controls that host this one.");
-			this.locExtender.SetLocalizationPriority(this.hlblItems, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.hlblItems, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.hlblItems, "ListPanel.hlblItems");
 			this.hlblItems.Location = new System.Drawing.Point(0, 0);
 			this.hlblItems.MinimumSize = new System.Drawing.Size(165, 0);
@@ -167,7 +168,7 @@ namespace SIL.Sponge.Controls
 		private System.Windows.Forms.ListView lvItems;
 		private System.Windows.Forms.ColumnHeader hdrList;
 		private HeaderLabel hlblItems;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private LocalizationExtender locExtender;
 		public System.Windows.Forms.Button btnDelete;
 		public System.Windows.Forms.Button btnNew;
 		public System.Windows.Forms.Panel pnlButtons;

@@ -3,31 +3,35 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using SIL.Localization;
 using SIL.Sponge;
 using SIL.Sponge.ConfigTools;
-using Sponge2.ProjectChosingAndCreating;
-using Sponge2.Properties;
+using SIL.Sponge.Properties;
 
 namespace Sponge2
 {
 	static class Program
 	{
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		[STAThread]
 		static void Main()
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-//			Properties.Settings.Default.Reset();
-//			Settings.Default.Save();
+			LocalizationManager.Enabled = true;
+			LocalizationManager.Initialize();
+
+			//Settings.Default.Reset();
+			//Settings.Default.Save();
 
 			SetUpErrorHandling();
 
-
-			MruProjects.Initialize(Properties.Settings.Default.MRUList);
+			MruProjects.Initialize(Settings.Default.MRUList);
 			bool userWantsToOpenAnotherProject = true;
 
 			if (MruProjects.Latest != null && File.Exists(MruProjects.Latest))
@@ -36,14 +40,19 @@ namespace Sponge2
 				userWantsToOpenAnotherProject = RunWindowForProject(path);
 			}
 
-			while(userWantsToOpenAnotherProject)
+			while (userWantsToOpenAnotherProject)
 			{
 				userWantsToOpenAnotherProject = OnOpenProject();
 			}
 
-			Properties.Settings.Default.Save();
+			Settings.Default.Save();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private static bool RunWindowForProject(string path)
 		{
 			using (var bootStrapper = new BootStrapper(path))
@@ -54,21 +63,32 @@ namespace Sponge2
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private static bool OnOpenProject()
 		{
-			using (var dlg = new PretendWelcomeDialog())// WelcomeDialog())
+			using (var dlg = new WelcomeDialog())
 			{
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
 					MruProjects.AddNewPath(dlg.ProjectPath);
 					MruProjects.Save();
-					Properties.Settings.Default.Save();
+					Settings.Default.Save();
 					return RunWindowForProject(dlg.ProjectPath);
 				}
+
 				return false;
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private static void SetUpErrorHandling()
 		{
 			Palaso.Reporting.ErrorReport.AddProperty("EmailAddress", "david_olson@sil.org");//hahah

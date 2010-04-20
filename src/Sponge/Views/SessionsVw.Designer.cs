@@ -1,3 +1,4 @@
+using SIL.Localization;
 using SIL.Sponge.Controls;
 
 namespace SIL.Sponge.Views
@@ -79,9 +80,9 @@ namespace SIL.Sponge.Views
 			this.btnNewFromFiles = new System.Windows.Forms.Button();
 			this.lpSessions = new SIL.Sponge.Controls.ListPanel();
 			this.lblNoSessionsMsg = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			this._fileContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.textBoxSpellChecker1 = new Palaso.UI.WindowsForms.Spelling.TextBoxSpellChecker();
+			this.textBoxSpellChecker1 = new System.Windows.Forms.TextBox(); // new Palaso.UI.WindowsForms.Spelling.TextBoxSpellChecker();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -207,7 +208,7 @@ namespace SIL.Sponge.Views
 			this._eventType.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this._eventType, null);
 			this.locExtender.SetLocalizationComment(this._eventType, null);
-			this.locExtender.SetLocalizationPriority(this._eventType, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._eventType, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._eventType, "SessionsVw.cboEventType");
 			this._eventType.Location = new System.Drawing.Point(6, 160);
 			this._eventType.MaxDropDownItems = 15;
@@ -222,7 +223,7 @@ namespace SIL.Sponge.Views
 			this._date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.locExtender.SetLocalizableToolTip(this._date, null);
 			this.locExtender.SetLocalizationComment(this._date, null);
-			this.locExtender.SetLocalizationPriority(this._date, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._date, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._date, "SessionsVw._date");
 			this._date.Location = new System.Drawing.Point(136, 22);
 			this._date.MinDate = new System.DateTime(1960, 1, 1, 0, 0, 0, 0);
@@ -247,10 +248,10 @@ namespace SIL.Sponge.Views
 			this._situation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxSpellChecker1.SetLanguageForSpellChecking(this._situation, "en");
+			//this.textBoxSpellChecker1.SetLanguageForSpellChecking(this._situation, "en");
 			this.locExtender.SetLocalizableToolTip(this._situation, null);
 			this.locExtender.SetLocalizationComment(this._situation, null);
-			this.locExtender.SetLocalizationPriority(this._situation, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._situation, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._situation, "SessionsVw._situation");
 			this._situation.Location = new System.Drawing.Point(6, 298);
 			this._situation.Multiline = true;
@@ -265,7 +266,7 @@ namespace SIL.Sponge.Views
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this._id, null);
 			this.locExtender.SetLocalizationComment(this._id, null);
-			this.locExtender.SetLocalizationPriority(this._id, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._id, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._id, "SessionsVw._id");
 			this._id.Location = new System.Drawing.Point(6, 22);
 			this._id.Name = "_id";
@@ -330,7 +331,7 @@ namespace SIL.Sponge.Views
 			this._location.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.locExtender.SetLocalizableToolTip(this._location, null);
 			this.locExtender.SetLocalizationComment(this._location, null);
-			this.locExtender.SetLocalizationPriority(this._location, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._location, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._location, "SessionsVw._location");
 			this._location.Location = new System.Drawing.Point(6, 252);
 			this._location.Name = "_location";
@@ -344,7 +345,7 @@ namespace SIL.Sponge.Views
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this._title, null);
 			this.locExtender.SetLocalizationComment(this._title, null);
-			this.locExtender.SetLocalizationPriority(this._title, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._title, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._title, "SessionsVw._title");
 			this._title.Location = new System.Drawing.Point(6, 68);
 			this._title.Name = "_title";
@@ -381,10 +382,10 @@ namespace SIL.Sponge.Views
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._setting.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
 			this._setting.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-			this.textBoxSpellChecker1.SetLanguageForSpellChecking(this._setting, "en");
+			//this.textBoxSpellChecker1.SetLanguageForSpellChecking(this._setting, "en");
 			this.locExtender.SetLocalizableToolTip(this._setting, null);
 			this.locExtender.SetLocalizationComment(this._setting, null);
-			this.locExtender.SetLocalizationPriority(this._setting, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._setting, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._setting, "SessionsVw._setting");
 			this._setting.Location = new System.Drawing.Point(6, 206);
 			this._setting.Name = "_setting";
@@ -400,7 +401,7 @@ namespace SIL.Sponge.Views
 			this._participants.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.locExtender.SetLocalizableToolTip(this._participants, null);
 			this.locExtender.SetLocalizationComment(this._participants, null);
-			this.locExtender.SetLocalizationPriority(this._participants, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._participants, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._participants, "SessionsVw._participants");
 			this._participants.Location = new System.Drawing.Point(6, 114);
 			this._participants.Name = "_participants";
@@ -440,7 +441,7 @@ namespace SIL.Sponge.Views
 			this._access.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.locExtender.SetLocalizableToolTip(this._access, null);
 			this.locExtender.SetLocalizationComment(this._access, null);
-			this.locExtender.SetLocalizationPriority(this._access, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._access, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._access, "SessionsVw._access");
 			this._access.Location = new System.Drawing.Point(122, 160);
 			this._access.Name = "_access";
@@ -491,10 +492,10 @@ namespace SIL.Sponge.Views
 			// 
 			this._synopsis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxSpellChecker1.SetLanguageForSpellChecking(this._synopsis, "en");
+			//this.textBoxSpellChecker1.SetLanguageForSpellChecking(this._synopsis, "en");
 			this.locExtender.SetLocalizableToolTip(this._synopsis, null);
 			this.locExtender.SetLocalizationComment(this._synopsis, null);
-			this.locExtender.SetLocalizationPriority(this._synopsis, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._synopsis, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._synopsis, "SessionsVw._synopsis");
 			this._synopsis.Location = new System.Drawing.Point(3, 22);
 			this._synopsis.Multiline = true;
@@ -696,7 +697,7 @@ namespace SIL.Sponge.Views
 			this._infoPanel.LabeledTextBoxBackgroundColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._infoPanel, null);
 			this.locExtender.SetLocalizationComment(this._infoPanel, "Localized in base class");
-			this.locExtender.SetLocalizationPriority(this._infoPanel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._infoPanel, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._infoPanel, "SessionsVw.InfoPanel");
 			this._infoPanel.Location = new System.Drawing.Point(2, 3);
 			this._infoPanel.Name = "_infoPanel";
@@ -738,7 +739,7 @@ namespace SIL.Sponge.Views
 			this._fileInfoNotes.InnerTextBox.TabIndex = 0;
 			this.locExtender.SetLocalizableToolTip(this._fileInfoNotes, null);
 			this.locExtender.SetLocalizationComment(this._fileInfoNotes, null);
-			this.locExtender.SetLocalizationPriority(this._fileInfoNotes, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._fileInfoNotes, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._fileInfoNotes, "SessionsVw.HoverCueTextBox");
 			this._fileInfoNotes.Location = new System.Drawing.Point(3, 19);
 			this._fileInfoNotes.Name = "_fileInfoNotes";
@@ -832,7 +833,7 @@ namespace SIL.Sponge.Views
 			// 
 			this.locExtender.SetLocalizableToolTip(this._fileContextMenu, null);
 			this.locExtender.SetLocalizationComment(this._fileContextMenu, null);
-			this.locExtender.SetLocalizationPriority(this._fileContextMenu, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._fileContextMenu, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._fileContextMenu, "cmnuMoreActions");
 			this._fileContextMenu.Name = "cmnuMoreActions";
 			this._fileContextMenu.Size = new System.Drawing.Size(61, 4);
@@ -882,7 +883,7 @@ namespace SIL.Sponge.Views
 		private System.Windows.Forms.LinkLabel lnkSessionPath;
 		private System.Windows.Forms.Label lblEmptySessionMsg;
 		private System.Windows.Forms.Label lblNoSessionsMsg;
-		private Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private LocalizationExtender locExtender;
 		private InfoPanel _infoPanel;
 		private System.Windows.Forms.ContextMenuStrip _fileContextMenu;
 		private System.Windows.Forms.DataGridViewImageColumn iconCol;
@@ -921,6 +922,7 @@ namespace SIL.Sponge.Views
 		private System.Windows.Forms.Label lblMedia;
 		private System.Windows.Forms.ComboBox _eventType;
 		private System.Windows.Forms.Button btnNewFromFiles;
-		private Palaso.UI.WindowsForms.Spelling.TextBoxSpellChecker textBoxSpellChecker1;
+//		private Palaso.UI.WindowsForms.Spelling.TextBoxSpellChecker textBoxSpellChecker1;
+		private System.Windows.Forms.TextBox textBoxSpellChecker1;
 	}
 }

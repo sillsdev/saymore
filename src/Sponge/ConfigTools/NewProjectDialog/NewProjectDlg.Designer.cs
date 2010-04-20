@@ -1,3 +1,5 @@
+using SIL.Localization;
+
 namespace SIL.Sponge.ConfigTools
 {
     partial class NewProjectDlg
@@ -31,7 +33,7 @@ namespace SIL.Sponge.ConfigTools
 			this._cancelButton = new System.Windows.Forms.Button();
 			this._newNameTextBox = new System.Windows.Forms.TextBox();
 			this._newProjectPathLabel = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -68,7 +70,7 @@ namespace SIL.Sponge.ConfigTools
 			resources.ApplyResources(this._newNameTextBox, "_newNameTextBox");
 			this.locExtender.SetLocalizableToolTip(this._newNameTextBox, null);
 			this.locExtender.SetLocalizationComment(this._newNameTextBox, null);
-			this.locExtender.SetLocalizationPriority(this._newNameTextBox, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._newNameTextBox, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._newNameTextBox, "NewProjectDlg._newNameTextBox");
 			this._newNameTextBox.Name = "_newNameTextBox";
 			this._newNameTextBox.TextChanged += new System.EventHandler(this.txtName_TextChanged);
@@ -122,7 +124,7 @@ namespace SIL.Sponge.ConfigTools
         protected System.Windows.Forms.Button _cancelButton;
         protected System.Windows.Forms.TextBox _newNameTextBox;
         protected System.Windows.Forms.Label _newProjectPathLabel;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private LocalizationExtender locExtender;
 		private System.ComponentModel.IContainer components;
     }
 }

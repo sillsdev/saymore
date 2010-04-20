@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using AxWMPLib;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles;
 using SIL.Sponge.Properties;
 using SilUtils;

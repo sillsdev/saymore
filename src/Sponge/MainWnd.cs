@@ -1,5 +1,5 @@
 using System.Windows.Forms;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Model;
 using SIL.Sponge.Properties;

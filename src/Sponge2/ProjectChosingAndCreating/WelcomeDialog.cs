@@ -4,11 +4,10 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Sponge.Properties;
 using SIL.Sponge.Utilities;
-using Sponge2;
-using Sponge2.Properties;
+
 
 namespace SIL.Sponge.ConfigTools
 {
@@ -108,23 +107,21 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		private void SetupLinkLabel()
 		{
-			LocalizationManager.LocalizeObject(lnkWebSites, "WelcomeDlg.lnkWebSites",
+			LocalizationManager.LocalizeObject(lnkWebSites, "WelcomeDialog.lnkWebSites",
 				"Sponge is brought to you by SIL International.  Visit the Sponge web Site.",
 				"Dialog Boxes");
 
 			var entireLink = LocalizationManager.GetString(lnkWebSites);
 
 			var silPortion = LocalizationManager.LocalizeString(
-				"WelcomeDlg.lnkWebSites.SILLinkPortion", "SIL International",
+				"WelcomeDialog.lnkWebSites.SILLinkPortion", "SIL International",
 				"This is the portion of the text that is underlined, indicating the link " +
-				"to the SIL web site.", "Dialog Boxes", LocalizationCategory.LinkLabel,
-				LocalizationPriority.High);
+				"to the SIL web site.", "Dialog Boxes");
 
 			var spongePortion = LocalizationManager.LocalizeString(
-				"WelcomeDlg.lnkWebSites.SpongeLinkPortion", "Sponge web site",
+				"WelcomeDialog.lnkWebSites.SpongeLinkPortion", "Sponge web site",
 				"This is the portion of the text that is underlined, indicating the link " +
-				"to the Sponge web site.", "Dialog Boxes", LocalizationCategory.LinkLabel,
-				LocalizationPriority.High);
+				"to the Sponge web site.", "Dialog Boxes");
 
 			lnkWebSites.Links.Clear();
 
@@ -136,7 +133,7 @@ namespace SIL.Sponge.ConfigTools
 			// Add the underline and link for Sponge's website.
 			i = entireLink.IndexOf(spongePortion);
 			if (i >= 0)
-				lnkWebSites.Links.Add(i, spongePortion.Length, "");
+				lnkWebSites.Links.Add(i, spongePortion.Length, string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -162,10 +159,10 @@ namespace SIL.Sponge.ConfigTools
 			using (var dlg = new OpenFileDialog())
 			{
 				var caption = LocalizationManager.LocalizeString(
-					"WelcomeDlg.OpenFileDlgCaption", "Open Sponge Project", "Dialog Boxes");
+					"WelcomeDialog.OpenFileDlgCaption", "Open Sponge Project", "Dialog Boxes");
 
 				var prjFilterText = LocalizationManager.LocalizeString(
-					"WelcomeDlg.SpongePrjFileType", "Sponge Project (*.sprj)", "Dialog Boxes");
+					"WelcomeDialog.SpongePrjFileType", "Sponge Project (*.sprj)", "Dialog Boxes");
 
 				dlg.Title = caption;
 				dlg.Filter = prjFilterText + "|*.sprj";//review: why allow these? +Sponge.OFDlgAllFileTypeText + "|*.*";

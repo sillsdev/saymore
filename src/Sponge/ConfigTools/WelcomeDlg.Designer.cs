@@ -1,3 +1,5 @@
+using SIL.Localization;
+
 namespace SIL.Sponge.ConfigTools
 {
 	partial class WelcomeDlg
@@ -42,7 +44,7 @@ namespace SIL.Sponge.ConfigTools
 			this.lnkWebSites = new System.Windows.Forms.LinkLabel();
 			this.lblVersionInfo = new System.Windows.Forms.Label();
 			this.lblSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			this.pnlOptions.SuspendLayout();
 			this.tsOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -98,7 +100,7 @@ namespace SIL.Sponge.ConfigTools
 			this.tsbMru0.Image = global::SIL.Sponge.Properties.Resources.kimidSpongeSmall;
 			this.locExtender.SetLocalizableToolTip(this.tsbMru0, null);
 			this.locExtender.SetLocalizationComment(this.tsbMru0, null);
-			this.locExtender.SetLocalizationPriority(this.tsbMru0, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tsbMru0, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tsbMru0, "WelcomeDlg.tsbMru0");
 			this.tsbMru0.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
 			this.tsbMru0.Name = "tsbMru0";
@@ -212,7 +214,7 @@ namespace SIL.Sponge.ConfigTools
 		private System.Windows.Forms.LinkLabel lnkWebSites;
 		private System.Windows.Forms.Label lblVersionInfo;
 		private System.Windows.Forms.Label lblSubTitle;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private LocalizationExtender locExtender;
 
 
 	}

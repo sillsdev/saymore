@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Sponge2.ProjectChosingAndCreating
+namespace SIL.Sponge
 {
 	public partial class PretendWelcomeDialog : Form
 	{

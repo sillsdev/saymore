@@ -1,4 +1,4 @@
-namespace Sponge2.ProjectChosingAndCreating
+namespace SIL.Sponge
 {
 	partial class PretendWelcomeDialog
 	{

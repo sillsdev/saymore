@@ -8,7 +8,7 @@
     <ProjectGuid>{A61F5E06-CACD-40FA-BBAD-8744212AF14E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sponge2</RootNamespace>
+    <RootNamespace>SIL.Sponge</RootNamespace>
     <AssemblyName>Sponge2</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -35,9 +35,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="LocalizationUtils, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="LocalizationManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\common\LocalizationUtils.dll</HintPath>
+      <HintPath>..\..\lib\common\LocalizationManager.dll</HintPath>
     </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LowLevelControls\Readme.txt" />
+    <None Include="app.config" />
     <None Include="Resources\Warning.png" />
     <None Include="Resources\SpongeText.png" />
     <None Include="Resources\SpongeSmall.png" />
@@ -204,4 +205,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PreBuildEvent>if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"</PreBuildEvent>
+  </PropertyGroup>
 </Project>

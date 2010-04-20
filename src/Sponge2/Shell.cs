@@ -1,11 +1,10 @@
 using System;
 using System.Windows.Forms;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Properties;
 using SilUtils;
 using Sponge2;
-using Sponge2.Properties;
 
 namespace SIL.Sponge
 {
@@ -58,6 +57,7 @@ namespace SIL.Sponge
 
 			_viewManger.SetView(tsbSessions);
 			SetWindowText();
+
 			//only one life to live, nowadays: LocalizeItemDlg.StringsLocalized -= SetWindowText;
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
 			Show();
@@ -112,8 +112,8 @@ namespace SIL.Sponge
 			base.OnLoad(e);
 
 			// Do this here because it doesn't work in the constructor.
-//			if (Settings.Default.MainWindowBounds.Height >= 0)
-//				Bounds = Settings.Default.MainWindowBounds;
+			if (Settings.Default.MainWindowBounds.Height >= 0)
+				Bounds = Settings.Default.MainWindowBounds;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ namespace SIL.Sponge
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);
-//			Settings.Default.MainWindowBounds = Bounds;
+			Settings.Default.MainWindowBounds = Bounds;
 			Settings.Default.Save();
 			LocalizeItemDlg.StringsLocalized -= SetWindowText;
 		}

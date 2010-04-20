@@ -1,3 +1,4 @@
+using SIL.Localization;
 using SIL.Sponge.Controls;
 
 namespace SIL.Sponge
@@ -19,7 +20,7 @@ namespace SIL.Sponge
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Shell));
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			this.tsMain = new SIL.Sponge.Controls.SpongeBar();
 			this.tsbSessions = new System.Windows.Forms.ToolStripButton();
 			this.tsbPeople = new System.Windows.Forms.ToolStripButton();
@@ -137,7 +138,7 @@ namespace SIL.Sponge
 			this.tsbChangeProjects.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this.tsbChangeProjects, "Open a Different Project");
 			this.locExtender.SetLocalizationComment(this.tsbChangeProjects, null);
-			this.locExtender.SetLocalizationPriority(this.tsbChangeProjects, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tsbChangeProjects, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tsbChangeProjects, "MainWnd.tsbChangeProjects");
 			this.tsbChangeProjects.Margin = new System.Windows.Forms.Padding(0, 10, 10, 10);
 			this.tsbChangeProjects.Name = "tsbChangeProjects";
@@ -177,7 +178,7 @@ namespace SIL.Sponge
 		private System.Windows.Forms.ToolStripButton tsbSetup;
 		private System.Windows.Forms.ToolStripButton tsbSendReceive;
 		private System.Windows.Forms.ToolStripButton tsbSessions;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolStripButton tsbChangeProjects;
 	}
 }

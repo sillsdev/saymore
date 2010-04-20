@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Sponge.Model;
 
 namespace SIL.Sponge.ConfigTools

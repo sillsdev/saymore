@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sponge2.Properties {
+namespace SIL.Sponge.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -294,6 +294,18 @@ namespace Sponge2.Properties {
             }
             set {
                 this["NewSessionsFromFilesLastFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle MainWindowBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["MainWindowBounds"]));
+            }
+            set {
+                this["MainWindowBounds"] = value;
             }
         }
     }

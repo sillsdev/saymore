@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using SIL.Sponge.Properties;
 using Sponge2;
-using Sponge2.Properties;
 using SilUtils;
 
 namespace SIL.Sponge.ConfigTools

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Palaso.Reporting;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Sponge.ConfigTools;
 using SIL.Sponge.Dialogs;
 using SIL.Sponge.Model;

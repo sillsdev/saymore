@@ -20,7 +20,7 @@ using System.Linq;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Sponge.ConfigTools;
 using SilUtils;
 

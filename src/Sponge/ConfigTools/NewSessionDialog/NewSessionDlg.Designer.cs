@@ -1,3 +1,5 @@
+using SIL.Localization;
+
 namespace SIL.Sponge.ConfigTools
 {
 	partial class NewSessionDlg
@@ -34,7 +36,7 @@ namespace SIL.Sponge.ConfigTools
 			this._cancelButton = new System.Windows.Forms.Button();
 			this._OKButton = new System.Windows.Forms.Button();
 			this._messageLabel = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			this._copyFilesButton = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -125,7 +127,7 @@ namespace SIL.Sponge.ConfigTools
 			// 
 			this.locExtender.SetLocalizableToolTip(this._copyFilesButton, null);
 			this.locExtender.SetLocalizationComment(this._copyFilesButton, null);
-			this.locExtender.SetLocalizationPriority(this._copyFilesButton, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._copyFilesButton, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._copyFilesButton, "NewSessionDlg.btnCopyFiles");
 			this._copyFilesButton.Location = new System.Drawing.Point(181, 124);
 			this._copyFilesButton.Name = "_copyFilesButton";
@@ -172,7 +174,7 @@ namespace SIL.Sponge.ConfigTools
 		protected System.Windows.Forms.Button _cancelButton;
 		protected System.Windows.Forms.Button _OKButton;
 		protected System.Windows.Forms.Label _messageLabel;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolTip toolTip;
 		private System.Windows.Forms.Button _copyFilesButton;
 	}

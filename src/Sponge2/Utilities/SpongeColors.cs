@@ -18,7 +18,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using Sponge2.Properties;
+using SIL.Sponge.Properties;
 
 namespace SIL.Sponge.Utilities
 {

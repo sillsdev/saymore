@@ -77,5 +77,8 @@
     <Setting Name="NewSessionsFromFilesLastFolder" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="MainWindowBounds" Type="System.Drawing.Rectangle" Scope="User">
+      <Value Profile="(Default)">0, 0, 0, -1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -1,63 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<sessionFileInfoTemplates>
+<sessionViewFileMetadataFieldsTemplates>
 	<template id="AudioVideoRecording">
 		<fileExtensions>wav,mp3,ogg,wma</fileExtensions>
 		<field name="recordist">
-			<stringId>SessionsVw.lblRecordist</stringId>
 			<defaultDisplayName>Recordist:</defaultDisplayName>
 			<dataType>Text</dataType>
+			<metadataType>Technical</metadataType>
 		</field>
 		<field name="device">
-			<stringId>SessionsVw.lblDevice</stringId>
 			<defaultDisplayName>Device:</defaultDisplayName>
 			<dataType>Text</dataType>
+			<metadataType>Technical</metadataType>
 		</field>
 		<field name="microphone">
-			<stringId>SessionsVw.lblMicrophone</stringId>
 			<defaultDisplayName>Microphone:</defaultDisplayName>
 			<dataType>Text</dataType>
+			<metadataType>Technical</metadataType>
 		</field>
+			<metadataType>Technical</metadataType>
 		<field name="bitDepth">
-			<stringId>SessionsVw.lblBitDepth</stringId>
 			<defaultDisplayName>Bit Depth:</defaultDisplayName>
 			<dataType>Text</dataType>
+			<metadataType>Technical</metadataType>
 		</field>
 		<field name="sampleRate">
-			<stringId>SessionsVw.lblSampleRate</stringId>
 			<defaultDisplayName>Sample Rate:</defaultDisplayName>
 			<dataType>ComboBox</dataType>
+			<metadataType>Technical</metadataType>
 		</field>
 	</template>
-  <template id="VideoRecording">
     <fileExtensions>mov,avi,mp4,wmv</fileExtensions>
     <field name="recordist">
-      <stringId>SessionsVw.lblRecordist</stringId>
+			<metadataType>Technical</metadataType>
       <defaultDisplayName>Recordist:</defaultDisplayName>
       <dataType>Text</dataType>
-    </field>
     <field name="device">
-      <stringId>SessionsVw.lblDevice</stringId>
-      <defaultDisplayName>Device:</defaultDisplayName>
+			<dataType>Text</dataType>
+			<metadataType>Technical</metadataType>
       <dataType>Text</dataType>
     </field>
     <field name="microphone">
       <stringId>SessionsVw.lblMicrophone</stringId>
       <defaultDisplayName>Microphone:</defaultDisplayName>
       <dataType>Text</dataType>
-    </field>
-    <field name="bitDepth">
-      <stringId>SessionsVw.lblBitDepth</stringId>
+		</field>
+		<field name="note">
+			<defaultDisplayName>Note:</defaultDisplayName>
       <defaultDisplayName>Bit Depth:</defaultDisplayName>
-      <dataType>Text</dataType>
-    </field>
-    <field name="sampleRate">
-      <stringId>SessionsVw.lblSampleRate</stringId>
+			<dataType>Text</dataType>
+			<metadataType>Session</metadataType>
+		</field>
+		<field name="tTag">
+			<defaultDisplayName>Tag:</defaultDisplayName>
       <defaultDisplayName>Sample Rate:</defaultDisplayName>
       <dataType>ComboBox</dataType>
     </field>
     <field name="resolution">
       <defaultDisplayName>Resolution:</defaultDisplayName>
-      <dataType>Text</dataType>
+			<dataType>Text</dataType>
+			<metadataType>Technical</metadataType>
     </field>
   </template>
-</sessionFileInfoTemplates>
+</sessionViewFileMetadataFieldsTemplates>

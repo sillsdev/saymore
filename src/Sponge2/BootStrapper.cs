@@ -15,7 +15,6 @@ namespace Sponge2
 		/// <summary>
 		///
 		/// </summary>
-		/// <param name="projectPath"></param>
 		/// ------------------------------------------------------------------------------------
 		public BootStrapper(string projectPath)
 		{
@@ -26,7 +25,6 @@ namespace Sponge2
 		/// <summary>
 		///
 		/// </summary>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		public Shell CreateShell()
 		{

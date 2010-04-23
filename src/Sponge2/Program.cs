@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using SIL.Localization;
 using SIL.Sponge;
@@ -31,7 +29,6 @@ namespace Sponge2
 
 			SetUpErrorHandling();
 
-			MruProjects.Initialize(Settings.Default.MRUList);
 			bool userWantsToOpenAnotherProject = true;
 
 			if (MruProjects.Latest != null && File.Exists(MruProjects.Latest))
@@ -70,14 +67,15 @@ namespace Sponge2
 		/// ------------------------------------------------------------------------------------
 		private static bool OnOpenProject()
 		{
-			using (var dlg = new WelcomeDialog())
+			var viewManager = new WelcomeDialogViewManager();
+
+			using (var dlg = new WelcomeDialog(viewManager))
 			{
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					MruProjects.AddNewPath(dlg.ProjectPath);
+					MruProjects.AddNewPath(viewManager.ProjectPath);
 					MruProjects.Save();
-					Settings.Default.Save();
-					return RunWindowForProject(dlg.ProjectPath);
+					return RunWindowForProject(viewManager.ProjectPath);
 				}
 
 				return false;

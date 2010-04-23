@@ -72,6 +72,7 @@
     <Compile Include="ProjectChosingAndCreating\PretendWelcomeDialog.Designer.cs">
       <DependentUpon>PretendWelcomeDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProjectChosingAndCreating\WelcomeDialogViewManager.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -93,7 +94,6 @@
     <Compile Include="ProjectChosingAndCreating\MruProjects.cs" />
     <Compile Include="ProjectChosingAndCreating\PathValidator.cs" />
     <Compile Include="SpongeProject.cs" />
-    <Compile Include="SpongeSettingsProvider.cs" />
     <Compile Include="ProjectChosingAndCreating\WelcomeDialog.cs">
       <SubType>Form</SubType>
     </Compile>

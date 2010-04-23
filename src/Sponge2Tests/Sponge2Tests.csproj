@@ -5,23 +5,19 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8769F2A3-6C9B-4272-A668-F98BDBB90647}</ProjectGuid>
+    <ProjectGuid>{B534A7B9-FF0D-46C7-A845-C00845B223BC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SpongeTests</RootNamespace>
-    <AssemblyName>SpongeTests</AssemblyName>
+    <AssemblyName>Sponge2Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
-    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
-    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
-    <SccProvider>Mercurial Source Control Package</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\output\DebugOriginalSponge\</OutputPath>
+    <OutputPath>..\..\output\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\output\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,12 +47,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\SilUtils.dll</HintPath>
     </Reference>
+    <Reference Include="Sponge2, Version=0.1.3765.23987, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -67,52 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigToolsTests\MruProjectsTests.cs" />
-    <Compile Include="ConfigToolsTests\NewProjectDlgViewModelTests.cs" />
-    <Compile Include="ConfigToolsTests\NewSessionDlgViewModelTests.cs" />
-    <Compile Include="ConfigToolsTests\PathValidatorTests.cs" />
-    <Compile Include="ControlsTests\ListPanelTests.cs" />
-    <Compile Include="DialogsTests\NewSessionsFromFileDlgViewModelTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ModelTests\PersonTests.cs" />
-    <Compile Include="ModelTests\SessionFileBaseTests.cs" />
-    <Compile Include="ModelTests\SessionComponentDefinitionTests.cs" />
-    <Compile Include="ModelTests\SessionFileTests.cs" />
-    <Compile Include="ModelTests\SessionTests.cs" />
-    <Compile Include="ModelTests\SpongeProjectTests.cs" />
-    <Compile Include="ModelTests\TagTests.cs" />
+    <Compile Include="ProjectChosingAndCreating\WelcomeDialogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="TestBase.cs" />
-    <Compile Include="TestHostForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Overview\Statistics\StatisticsViewModelTests.cs" />
-    <Compile Include="Views\SessionsVwTests.cs">
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TestHostForm.resx">
-      <DependentUpon>TestHostForm.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\shortSound.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Sponge\Sponge.csproj">
-      <Project>{D1715E95-B418-4A4E-924A-93B771E4072B}</Project>
-      <Name>Sponge</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

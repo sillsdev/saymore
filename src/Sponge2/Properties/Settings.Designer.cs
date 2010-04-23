@@ -24,7 +24,6 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection MRUList {
             get {
@@ -36,7 +35,6 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int LocalizationDlgSplitterPos {
             get {
@@ -48,7 +46,6 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle LocalizationDlgBounds {
@@ -61,7 +58,6 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle MainWndBounds {
@@ -74,20 +70,18 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle WelcomeDlgBounds {
+        public global::System.Drawing.Rectangle WelcomeDialogBounds {
             get {
-                return ((global::System.Drawing.Rectangle)(this["WelcomeDlgBounds"]));
+                return ((global::System.Drawing.Rectangle)(this["WelcomeDialogBounds"]));
             }
             set {
-                this["WelcomeDlgBounds"] = value;
+                this["WelcomeDialogBounds"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int SessionVwSplitterPos {
             get {
@@ -99,7 +93,6 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string SessionFileCols {
             get {
@@ -261,7 +254,6 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle NewSessionsFromFilesDlgBounds {
@@ -274,7 +266,6 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string NewSessionsFromFilesDlgCols {
             get {
@@ -286,7 +277,6 @@ namespace SIL.Sponge.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Sponge.ConfigTools.SpongeSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string NewSessionsFromFilesLastFolder {
             get {
@@ -306,6 +296,24 @@ namespace SIL.Sponge.Properties {
             }
             set {
                 this["MainWindowBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("www.sil.org")]
+        public string SilWebSite {
+            get {
+                return ((string)(this["SilWebSite"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("www.spongetheband.com")]
+        public string ProgramsWebSite {
+            get {
+                return ((string)(this["ProgramsWebSite"]));
             }
         }
     }

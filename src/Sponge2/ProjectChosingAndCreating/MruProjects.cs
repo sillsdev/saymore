@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using SIL.Sponge.Properties;
-using Sponge2;
-using SilUtils;
 
 namespace SIL.Sponge.ConfigTools
 {
@@ -20,20 +18,12 @@ namespace SIL.Sponge.ConfigTools
 		private static readonly List<string> s_paths = new List<string>(MaxMRUListSize);
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MruProjects"/> class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void Initialize(ICollection collection)
+		static MruProjects()
 		{
-			if (collection != null)
-				LoadList(collection);
+			if (Settings.Default.MRUList != null)
+				LoadList(Settings.Default.MRUList);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the list of project paths.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string[] Paths
 		{
@@ -45,10 +35,6 @@ namespace SIL.Sponge.ConfigTools
 			set { LoadList(value); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the list of paths from the specified collection.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void LoadList(ICollection values)
 		{
@@ -63,7 +49,6 @@ namespace SIL.Sponge.ConfigTools
 				if (path == null)
 					continue;
 
-				//not relative paths, anymore: path = Path.Combine(SpongeProject.ProjectsFolder, path);
 				if (!File.Exists(path))
 					continue;
 
@@ -128,19 +113,10 @@ namespace SIL.Sponge.ConfigTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the MRU list to the settings file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void Save()
 		{
 			var collection = new System.Collections.Specialized.StringCollection();
-//			foreach (string path in s_paths)
-//			{
-//				collection.Add(Utils.MakeRelativePath(SpongeProject.ProjectsFolder, path));
-//			}
 			collection.AddRange(s_paths.ToArray());
-
 			Settings.Default.MRUList = (collection.Count == 0 ? null : collection);
 			Settings.Default.Save();
 		}

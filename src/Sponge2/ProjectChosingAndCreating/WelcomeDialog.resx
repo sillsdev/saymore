@@ -122,7 +122,7 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <metadata name="tsOptions.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>0, 0</value>
+    <value>7, 2</value>
   </metadata>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tsOptions.AutoSize" type="System.Boolean, mscorlib">
@@ -136,7 +136,7 @@
     <value>Segoe UI, 11.25pt, style=Bold</value>
   </data>
   <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>117, 6</value>
+    <value>96, 0</value>
   </metadata>
   <data name="tslblOpen.Size" type="System.Drawing.Size, System.Drawing">
     <value>416, 20</value>
@@ -232,7 +232,7 @@
     <value>tsOptions</value>
   </data>
   <data name="&gt;&gt;tsOptions.Type" xml:space="preserve">
-    <value>SIL.Sponge.Controls.SpongeBar, Sponge, Version=0.1.3708.30131, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Sponge.Controls.SpongeBar, Sponge2, Version=0.1.3764.27419, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tsOptions.Parent" xml:space="preserve">
     <value>pnlOptions</value>
@@ -372,6 +372,9 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>32</value>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
@@ -433,7 +436,7 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>WelcomeDialog</value>

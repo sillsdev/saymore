@@ -46,6 +46,7 @@ namespace Sponge2
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.label1);
 			this.Name = "SessionsControl";
+			this.Size = new System.Drawing.Size(503, 350);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

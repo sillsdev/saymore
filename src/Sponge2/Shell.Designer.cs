@@ -20,12 +20,12 @@ namespace SIL.Sponge
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Shell));
-			this.locExtender = new LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.tsMain = new SIL.Sponge.Controls.SpongeBar();
+			this.tsbOverview = new System.Windows.Forms.ToolStripButton();
 			this.tsbSessions = new System.Windows.Forms.ToolStripButton();
 			this.tsbPeople = new System.Windows.Forms.ToolStripButton();
 			this.tsbSendReceive = new System.Windows.Forms.ToolStripButton();
-			this.tsbOverview = new System.Windows.Forms.ToolStripButton();
 			this.tsbSetup = new System.Windows.Forms.ToolStripButton();
 			this.tsbChangeProjects = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -57,6 +57,20 @@ namespace SIL.Sponge
 			this.tsMain.Size = new System.Drawing.Size(697, 70);
 			this.tsMain.TabIndex = 0;
 			this.tsMain.Text = "toolStrip1";
+			// 
+			// tsbOverview
+			// 
+			this.tsbOverview.AutoSize = false;
+			this.tsbOverview.Image = global::SIL.Sponge.Properties.Resources.kimidOverview;
+			this.tsbOverview.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this.tsbOverview, "Project Overview");
+			this.locExtender.SetLocalizationComment(this.tsbOverview, null);
+			this.locExtender.SetLocalizingId(this.tsbOverview, "MainWnd.tsbOverview");
+			this.tsbOverview.Margin = new System.Windows.Forms.Padding(10, 10, 0, 10);
+			this.tsbOverview.Name = "tsbOverview";
+			this.tsbOverview.Size = new System.Drawing.Size(80, 50);
+			this.tsbOverview.Text = "Overview";
+			this.tsbOverview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
 			// tsbSessions
 			// 
@@ -102,20 +116,6 @@ namespace SIL.Sponge
 			this.tsbSendReceive.Text = "Send/Receive";
 			this.tsbSendReceive.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
-			// tsbOverview
-			// 
-			this.tsbOverview.AutoSize = false;
-			this.tsbOverview.Image = global::SIL.Sponge.Properties.Resources.kimidOverview;
-			this.tsbOverview.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this.tsbOverview, "Project Overview");
-			this.locExtender.SetLocalizationComment(this.tsbOverview, null);
-			this.locExtender.SetLocalizingId(this.tsbOverview, "MainWnd.tsbOverview");
-			this.tsbOverview.Margin = new System.Windows.Forms.Padding(10, 10, 0, 10);
-			this.tsbOverview.Name = "tsbOverview";
-			this.tsbOverview.Size = new System.Drawing.Size(80, 50);
-			this.tsbOverview.Text = "Overview";
-			this.tsbOverview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			// 
 			// tsbSetup
 			// 
 			this.tsbSetup.AutoSize = false;
@@ -138,7 +138,7 @@ namespace SIL.Sponge
 			this.tsbChangeProjects.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this.tsbChangeProjects, "Open a Different Project");
 			this.locExtender.SetLocalizationComment(this.tsbChangeProjects, null);
-			this.locExtender.SetLocalizationPriority(this.tsbChangeProjects, LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tsbChangeProjects, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tsbChangeProjects, "MainWnd.tsbChangeProjects");
 			this.tsbChangeProjects.Margin = new System.Windows.Forms.Padding(0, 10, 10, 10);
 			this.tsbChangeProjects.Name = "tsbChangeProjects";
@@ -149,7 +149,7 @@ namespace SIL.Sponge
 			this.tsbChangeProjects.ToolTipText = "Open a Different Project";
 			this.tsbChangeProjects.Click += new System.EventHandler(this.tsbChangeProjects_Click);
 			// 
-			// MainWnd
+			// Shell
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -160,7 +160,7 @@ namespace SIL.Sponge
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "MainWnd.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(600, 450);
-			this.Name = "MainWnd";
+			this.Name = "Shell";
 			this.Text = "{0} - Sponge";
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.tsMain.ResumeLayout(false);

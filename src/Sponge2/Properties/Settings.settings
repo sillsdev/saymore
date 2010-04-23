@@ -2,25 +2,25 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SIL.Sponge.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="MRUList" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
+    <Setting Name="MRUList" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LocalizationDlgSplitterPos" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+    <Setting Name="LocalizationDlgSplitterPos" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="LocalizationDlgBounds" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="LocalizationDlgBounds" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="MainWndBounds" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="MainWndBounds" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="WelcomeDlgBounds" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="WelcomeDialogBounds" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="SessionVwSplitterPos" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+    <Setting Name="SessionVwSplitterPos" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="SessionFileCols" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+    <Setting Name="SessionFileCols" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SafeNameReplacementChar" Description="Character used to replace invalid path characters in a person's name when building a safe name to store in file system." Provider="SilUtils.PortableSettingsProvider" Type="System.Char" Scope="Application">
@@ -68,17 +68,23 @@
     <Setting Name="RedrawAsMainWndResizes" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="NewSessionsFromFilesDlgBounds" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="NewSessionsFromFilesDlgBounds" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="NewSessionsFromFilesDlgCols" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+    <Setting Name="NewSessionsFromFilesDlgCols" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="NewSessionsFromFilesLastFolder" Provider="SIL.Sponge.ConfigTools.SpongeSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+    <Setting Name="NewSessionsFromFilesLastFolder" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="MainWindowBounds" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
+    </Setting>
+    <Setting Name="SilWebSite" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">www.sil.org</Value>
+    </Setting>
+    <Setting Name="ProgramsWebSite" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">www.spongetheband.com</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -62,7 +62,7 @@ namespace SIL.Sponge.ConfigTools
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not the name is OK.
+		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static bool PathOK(string basePath, string relativePath)

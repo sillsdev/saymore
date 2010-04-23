@@ -44,7 +44,7 @@ namespace SIL.Sponge.ConfigTools
 			this.lnkWebSites = new System.Windows.Forms.LinkLabel();
 			this.lblVersionInfo = new System.Windows.Forms.Label();
 			this.lblSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlOptions.SuspendLayout();
 			this.tsOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -61,8 +61,6 @@ namespace SIL.Sponge.ConfigTools
 			// 
 			resources.ApplyResources(this.tsOptions, "tsOptions");
 			this.tsOptions.BackColor = System.Drawing.Color.White;
-			this.tsOptions.BackColorBegin = System.Drawing.Color.FromArgb(((int)(((byte)(193)))), ((int)(((byte)(208)))), ((int)(((byte)(229)))));
-			this.tsOptions.BackColorEnd = System.Drawing.Color.SteelBlue;
 			this.tsOptions.GradientAngle = 0F;
 			this.tsOptions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -97,14 +95,14 @@ namespace SIL.Sponge.ConfigTools
 			// tsbMru0
 			// 
 			resources.ApplyResources(this.tsbMru0, "tsbMru0");
-			this.tsbMru0.Image = Properties.Resources.kimidSpongeSmall;
+			this.tsbMru0.Image = global::SIL.Sponge.Properties.Resources.kimidSpongeSmall;
 			this.locExtender.SetLocalizableToolTip(this.tsbMru0, null);
 			this.locExtender.SetLocalizationComment(this.tsbMru0, null);
-			this.locExtender.SetLocalizationPriority(this.tsbMru0, LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tsbMru0, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tsbMru0, "WelcomeDlg.tsbMru0");
 			this.tsbMru0.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
 			this.tsbMru0.Name = "tsbMru0";
-			this.tsbMru0.Click += new System.EventHandler(this.OnMru_Click);
+			this.tsbMru0.Click += new System.EventHandler(this.HandleMruClick);
 			// 
 			// tsbBrowse
 			// 
@@ -115,7 +113,7 @@ namespace SIL.Sponge.ConfigTools
 			this.locExtender.SetLocalizingId(this.tsbBrowse, "WelcomeDlg.tsbBrowse");
 			this.tsbBrowse.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
 			this.tsbBrowse.Name = "tsbBrowse";
-			this.tsbBrowse.Click += new System.EventHandler(this.OnBrowse_Click);
+			this.tsbBrowse.Click += new System.EventHandler(this.HandleBrowseForExistingProjectClick);
 			// 
 			// tslblCreate
 			// 
@@ -140,7 +138,7 @@ namespace SIL.Sponge.ConfigTools
 			this.locExtender.SetLocalizingId(this.tsbCreate, "WelcomeDlg.tsbCreate");
 			this.tsbCreate.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
 			this.tsbCreate.Name = "tsbCreate";
-			this.tsbCreate.Click += new System.EventHandler(this.OnCreate_Click);
+			this.tsbCreate.Click += new System.EventHandler(this.HandleCreateProjectClick);
 			// 
 			// lnkWebSites
 			// 
@@ -148,10 +146,10 @@ namespace SIL.Sponge.ConfigTools
 			resources.ApplyResources(this.lnkWebSites, "lnkWebSites");
 			this.locExtender.SetLocalizableToolTip(this.lnkWebSites, null);
 			this.locExtender.SetLocalizationComment(this.lnkWebSites, null);
-			this.locExtender.SetLocalizingId(this.lnkWebSites, "WelcomeDlg.lnkSIL");
+			this.locExtender.SetLocalizingId(this.lnkWebSites, "WelcomeDialog.lnkWebSites");
 			this.lnkWebSites.Name = "lnkWebSites";
 			this.lnkWebSites.UseCompatibleTextRendering = true;
-			this.lnkWebSites.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWebSites_LinkClicked);
+			this.lnkWebSites.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebSiteLinkClicked);
 			// 
 			// lblVersionInfo
 			// 
@@ -174,7 +172,7 @@ namespace SIL.Sponge.ConfigTools
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
-			// WelcomeDlg
+			// WelcomeDialog
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -189,7 +187,7 @@ namespace SIL.Sponge.ConfigTools
 			this.locExtender.SetLocalizingId(this, "WelcomeDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "WelcomeDlg";
+			this.Name = "WelcomeDialog";
 			this.ShowIcon = false;
 			this.pnlOptions.ResumeLayout(false);
 			this.tsOptions.ResumeLayout(false);

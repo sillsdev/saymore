@@ -85,7 +85,7 @@ namespace SIL.Sponge.Views
 
 			//todo: this should go away when we have DI going, and the factory method for the panel injects the provider
 			//_presetProvider = new PresetProvider(_currProj.SessionsFolder);
-			_infoPanel.PresetProvider =  PresetProvider.CreateFromDirectory(_currProj.SessionsFolder);
+			//_infoPanel.PresetProvider =  PresetProvider.CreateFromDirectory(_currProj.SessionsFolder);
 
 		}
 

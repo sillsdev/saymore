@@ -28,59 +28,69 @@ namespace Sponge2
 			//Settings.Default.Save();
 
 			SetUpErrorHandling();
-
-			bool userWantsToOpenAnotherProject = true;
-
-			if (MruProjects.Latest != null && File.Exists(MruProjects.Latest))
-			{
-				string path = MruProjects.Latest;
-				userWantsToOpenAnotherProject = RunWindowForProject(path);
-			}
-
-			while (userWantsToOpenAnotherProject)
-			{
-				userWantsToOpenAnotherProject = OnOpenProject();
-			}
-
+			StartUpShellBasedOnMostRecentUsedIfPossible();
+			Application.Run();
 			Settings.Default.Save();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static bool RunWindowForProject(string path)
+		static void StartUpShellBasedOnMostRecentUsedIfPossible()
 		{
-			using (var bootStrapper = new BootStrapper(path))
+			if (MruProjects.Latest != null && File.Exists(MruProjects.Latest))
 			{
-				Shell shell = bootStrapper.CreateShell();
-				Application.Run(shell);
-				return shell.UserWantsToOpenADifferentProject;
+				//enhance: we could eventually have a single bootstrapper, if making it takes a long time
+				//but for now, this is clean.
+				using (var bootStrapper = new BootStrapper(MruProjects.Latest))
+				{
+					Shell shell = bootStrapper.CreateShell();
+					shell.Closed += OnShell_Closed;
+					shell.Show();
+				}
+			}
+			else
+			{
+				//since the message pump hasn't started yet, show the UI for choosing when it is
+				Application.Idle += ChooseAnotherProject;
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static bool OnOpenProject()
+		static void ChooseAnotherProject(object sender, EventArgs e)
 		{
+			Application.Idle -= ChooseAnotherProject;
+
 			var viewManager = new WelcomeDialogViewManager();
 
 			using (var dlg = new WelcomeDialog(viewManager))
 			{
-				if (dlg.ShowDialog() == DialogResult.OK)
+				if (dlg.ShowDialog() != DialogResult.OK)
 				{
-					MruProjects.AddNewPath(viewManager.ProjectPath);
-					MruProjects.Save();
-					return RunWindowForProject(viewManager.ProjectPath);
+					Application.Exit();
+					return;
 				}
 
-				return false;
+				MruProjects.AddNewPath(viewManager.ProjectPath);
+				MruProjects.Save();
+				using (var bootStrapper = new BootStrapper(viewManager.ProjectPath))
+				{
+					Shell shell = bootStrapper.CreateShell();
+					shell.Closed += OnShell_Closed;
+					shell.Show();
+				}
 			}
 		}
+
+		static void OnShell_Closed(object sender, EventArgs e)
+		{
+			if(((Shell) sender).UserWantsToOpenADifferentProject)
+			{
+				Application.Idle += ChooseAnotherProject;
+			}
+			else
+			{
+				Application.Exit();
+			}
+		}
+
+
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

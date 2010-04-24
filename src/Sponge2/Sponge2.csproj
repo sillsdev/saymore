@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="ProjectChosingAndCreating\MruProjects.cs" />
     <Compile Include="ProjectChosingAndCreating\PathValidator.cs" />
+    <Compile Include="SpongeApplicationContext.cs" />
     <Compile Include="SpongeProject.cs" />
     <Compile Include="ProjectChosingAndCreating\WelcomeDialog.cs">
       <SubType>Form</SubType>

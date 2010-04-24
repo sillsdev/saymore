@@ -169,7 +169,7 @@ namespace SIL.Sponge
 		private void tsbChangeProjects_Click(object sender, EventArgs e)
 		{
 			UserWantsToOpenADifferentProject = true;
-			Application.Exit();
+			this.Close();
 		}
 
 		public bool UserWantsToOpenADifferentProject { get; set; }

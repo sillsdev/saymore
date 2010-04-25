@@ -3,7 +3,7 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SIL.Sponge.Controls
+namespace Sponge2.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

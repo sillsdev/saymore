@@ -1,5 +1,5 @@
 
-namespace SIL.Sponge.Controls
+namespace Sponge2.Controls
 {
 	public interface IInfoPanelField
 	{

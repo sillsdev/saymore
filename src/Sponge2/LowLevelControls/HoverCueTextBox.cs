@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilUtils;
 
-namespace SIL.Sponge.Controls
+namespace Sponge2.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Sponge.Properties;
-using SIL.Sponge.Utilities;
+using Sponge2.Properties;
+using Sponge2.Utilities;
 using SilUtils;
 
-namespace SIL.Sponge.Controls
+namespace Sponge2.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -18,9 +18,9 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using SIL.Sponge.Properties;
+using Sponge2.Properties;
 
-namespace SIL.Sponge.Utilities
+namespace Sponge2.Utilities
 {
 	[Flags]
 	public enum BorderSides

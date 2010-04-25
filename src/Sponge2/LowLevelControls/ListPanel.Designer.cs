@@ -1,7 +1,7 @@
 using SIL.Localization;
 using SilUtils.Controls;
 
-namespace SIL.Sponge.Controls
+namespace Sponge2.Controls
 {
 	partial class ListPanel
 	{

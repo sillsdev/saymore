@@ -8,7 +8,7 @@
     <ProjectGuid>{A61F5E06-CACD-40FA-BBAD-8744212AF14E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SIL.Sponge</RootNamespace>
+    <RootNamespace>Sponge2</RootNamespace>
     <AssemblyName>Sponge2</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -66,13 +66,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootStrapper.cs" />
-    <Compile Include="ProjectChosingAndCreating\PretendWelcomeDialog.cs">
+    <Compile Include="Model\Person.cs" />
+    <Compile Include="Model\Project.cs" />
+    <Compile Include="Model\ProjectComponent.cs" />
+    <Compile Include="Model\Session.cs" />
+    <Compile Include="ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProjectChosingAndCreating\PretendWelcomeDialog.Designer.cs">
+    <Compile Include="ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.Designer.cs">
+      <DependentUpon>NewProjectDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlgViewModel.cs" />
+    <Compile Include="ProjectChoosingAndCreating\PretendWelcomeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProjectChoosingAndCreating\PretendWelcomeDialog.Designer.cs">
       <DependentUpon>PretendWelcomeDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProjectChosingAndCreating\WelcomeDialogViewManager.cs" />
+    <Compile Include="ProjectChoosingAndCreating\WelcomeDialogViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -91,14 +102,14 @@
     <Compile Include="Shell.Designer.cs">
       <DependentUpon>Shell.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProjectChosingAndCreating\MruProjects.cs" />
-    <Compile Include="ProjectChosingAndCreating\PathValidator.cs" />
+    <Compile Include="ProjectChoosingAndCreating\MruProjects.cs" />
+    <Compile Include="ProjectChoosingAndCreating\NewProjectDialog\PathValidator.cs" />
     <Compile Include="SpongeApplicationContext.cs" />
     <Compile Include="SpongeProject.cs" />
-    <Compile Include="ProjectChosingAndCreating\WelcomeDialog.cs">
+    <Compile Include="ProjectChoosingAndCreating\WelcomeDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProjectChosingAndCreating\WelcomeDialog.Designer.cs">
+    <Compile Include="ProjectChoosingAndCreating\WelcomeDialog.Designer.cs">
       <DependentUpon>WelcomeDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="LowLevelControls\GridPanel.cs">
@@ -131,7 +142,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ProjectChosingAndCreating\PretendWelcomeDialog.resx">
+    <EmbeddedResource Include="ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.resx">
+      <DependentUpon>NewProjectDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectChoosingAndCreating\PretendWelcomeDialog.resx">
       <DependentUpon>PretendWelcomeDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -145,7 +159,7 @@
     <EmbeddedResource Include="Shell.resx">
       <DependentUpon>Shell.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProjectChosingAndCreating\WelcomeDialog.resx">
+    <EmbeddedResource Include="ProjectChoosingAndCreating\WelcomeDialog.resx">
       <DependentUpon>WelcomeDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LowLevelControls\HoverCueTextBox.resx">

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Autofac.Core;
 using SIL.Sponge;
 using Autofac;
+using Sponge2.Model;
 
 namespace Sponge2
 {
@@ -34,7 +35,7 @@ namespace Sponge2
 
 			builder.Register(c =>
 			{
-				var p = c.Resolve<SpongeProject>(new Parameter[] { new PositionalParameter(0, _projectPath) });
+				var p = c.Resolve<Project>(new Parameter[] { new PositionalParameter(0, _projectPath) });
 				return p;
 			});
 

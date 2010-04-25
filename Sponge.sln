@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpongeTests", "src\SpongeTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sponge2", "src\Sponge2\Sponge2.csproj", "{A61F5E06-CACD-40FA-BBAD-8744212AF14E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sponge2Tests", "src\Sponge2Tests\Sponge2Tests.csproj", "{B534A7B9-FF0D-46C7-A845-C00845B223BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{A61F5E06-CACD-40FA-BBAD-8744212AF14E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A61F5E06-CACD-40FA-BBAD-8744212AF14E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A61F5E06-CACD-40FA-BBAD-8744212AF14E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B534A7B9-FF0D-46C7-A845-C00845B223BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B534A7B9-FF0D-46C7-A845-C00845B223BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B534A7B9-FF0D-46C7-A845-C00845B223BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B534A7B9-FF0D-46C7-A845-C00845B223BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

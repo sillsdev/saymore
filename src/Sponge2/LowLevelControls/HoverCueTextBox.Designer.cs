@@ -1,4 +1,4 @@
-namespace SIL.Sponge.Controls
+namespace Sponge2.Controls
 {
 	partial class HoverCueTextBox
 	{

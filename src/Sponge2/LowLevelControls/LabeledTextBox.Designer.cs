@@ -1,4 +1,4 @@
-namespace SIL.Sponge.Controls
+namespace Sponge2.Controls
 {
 	partial class LabeledTextBox
 	{
@@ -29,7 +29,7 @@ namespace SIL.Sponge.Controls
 		private void InitializeComponent()
 		{
 			this._label = new System.Windows.Forms.Label();
-			this._txtBox = new SIL.Sponge.Controls.HoverCueTextBox();
+			this._txtBox = new Sponge2.Controls.HoverCueTextBox();
 			this.SuspendLayout();
 			// 
 			// _label

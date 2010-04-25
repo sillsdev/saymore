@@ -1,14 +1,16 @@
+using Sponge2.Model;
+
 namespace Sponge2
 {
 	public class SessionsPM
 	{
-		private readonly SpongeProject _project;
+		private readonly Project _project;
 
-		public SessionsPM(SpongeProject project)
+		public SessionsPM(Project project)
 		{
 			_project = project;
 		}
 
-		public string TestLabel { get { return _project.Name; } }
+		public string TestLabel { get { return _project.FolderPath; } }
 	}
 }

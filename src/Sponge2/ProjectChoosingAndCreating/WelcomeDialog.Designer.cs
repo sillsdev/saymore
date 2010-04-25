@@ -1,6 +1,6 @@
 using SIL.Localization;
 
-namespace SIL.Sponge.ConfigTools
+namespace Sponge2.ProjectChoosingAndCreating
 {
 	partial class WelcomeDialog
 	{
@@ -33,7 +33,7 @@ namespace SIL.Sponge.ConfigTools
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WelcomeDialog));
 			this.pnlOptions = new System.Windows.Forms.Panel();
-			this.tsOptions = new SIL.Sponge.Controls.SpongeBar();
+			this.tsOptions = new Sponge2.Controls.SpongeBar();
 			this.tslblOpen = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbMru0 = new System.Windows.Forms.ToolStripButton();
@@ -64,13 +64,13 @@ namespace SIL.Sponge.ConfigTools
 			this.tsOptions.GradientAngle = 0F;
 			this.tsOptions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tslblOpen,
-            this.toolStripSeparator1,
-            this.tsbMru0,
-            this.tsbBrowse,
-            this.tslblCreate,
-            this.toolStripSeparator2,
-            this.tsbCreate});
+			                                                                       	this.tslblOpen,
+			                                                                       	this.toolStripSeparator1,
+			                                                                       	this.tsbMru0,
+			                                                                       	this.tsbBrowse,
+			                                                                       	this.tslblCreate,
+			                                                                       	this.toolStripSeparator2,
+			                                                                       	this.tsbCreate});
 			this.tsOptions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.locExtender.SetLocalizableToolTip(this.tsOptions, null);
 			this.locExtender.SetLocalizationComment(this.tsOptions, null);
@@ -95,7 +95,7 @@ namespace SIL.Sponge.ConfigTools
 			// tsbMru0
 			// 
 			resources.ApplyResources(this.tsbMru0, "tsbMru0");
-			this.tsbMru0.Image = global::SIL.Sponge.Properties.Resources.kimidSpongeSmall;
+			this.tsbMru0.Image = global::Sponge2.Properties.Resources.kimidSpongeSmall;
 			this.locExtender.SetLocalizableToolTip(this.tsbMru0, null);
 			this.locExtender.SetLocalizationComment(this.tsbMru0, null);
 			this.locExtender.SetLocalizationPriority(this.tsbMru0, SIL.Localization.LocalizationPriority.NotLocalizable);
@@ -107,7 +107,7 @@ namespace SIL.Sponge.ConfigTools
 			// tsbBrowse
 			// 
 			resources.ApplyResources(this.tsbBrowse, "tsbBrowse");
-			this.tsbBrowse.Image = global::SIL.Sponge.Properties.Resources.kimidBrowseForProject;
+			this.tsbBrowse.Image = global::Sponge2.Properties.Resources.kimidBrowseForProject;
 			this.locExtender.SetLocalizableToolTip(this.tsbBrowse, null);
 			this.locExtender.SetLocalizationComment(this.tsbBrowse, null);
 			this.locExtender.SetLocalizingId(this.tsbBrowse, "WelcomeDlg.tsbBrowse");
@@ -132,7 +132,7 @@ namespace SIL.Sponge.ConfigTools
 			// tsbCreate
 			// 
 			resources.ApplyResources(this.tsbCreate, "tsbCreate");
-			this.tsbCreate.Image = global::SIL.Sponge.Properties.Resources.kimidNewProject;
+			this.tsbCreate.Image = global::Sponge2.Properties.Resources.kimidNewProject;
 			this.locExtender.SetLocalizableToolTip(this.tsbCreate, null);
 			this.locExtender.SetLocalizationComment(this.tsbCreate, null);
 			this.locExtender.SetLocalizingId(this.tsbCreate, "WelcomeDlg.tsbCreate");
@@ -201,7 +201,7 @@ namespace SIL.Sponge.ConfigTools
 		#endregion
 
 		private System.Windows.Forms.Panel pnlOptions;
-		private SIL.Sponge.Controls.SpongeBar tsOptions;
+		private Sponge2.Controls.SpongeBar tsOptions;
 		private System.Windows.Forms.ToolStripLabel tslblCreate;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton tsbCreate;

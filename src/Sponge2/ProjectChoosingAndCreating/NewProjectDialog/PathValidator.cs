@@ -17,7 +17,7 @@
 using System.IO;
 using System.Windows.Forms;
 
-namespace SIL.Sponge.ConfigTools
+namespace Sponge2.ProjectChoosingAndCreating.NewProjectDialog
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -32,7 +32,7 @@ namespace SIL.Sponge.ConfigTools
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool ValidatePathEntry(string basePath, string newFolderName,
-			Label lblMsg, string validMsg, string invalidMsg, ToolTip tooltip)
+											 Label lblMsg, string validMsg, string invalidMsg, ToolTip tooltip)
 		{
 			if (tooltip != null)
 				tooltip.SetToolTip(lblMsg, null);

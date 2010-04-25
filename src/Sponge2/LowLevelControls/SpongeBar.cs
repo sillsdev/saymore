@@ -19,9 +19,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using SIL.Sponge.Utilities;
+using Sponge2.Utilities;
 
-namespace SIL.Sponge.Controls
+namespace Sponge2.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

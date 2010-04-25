@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.IO;
 using System.Xml.Serialization;
 using SilUtils;
@@ -9,10 +9,10 @@ namespace Sponge2
 	[XmlType("spongeProject")]
 	public class SpongeProject
 	{
-//		public delegate SpongeProject Factory(string path);//autofac uses this
 
-		[XmlIgnore]
-		public string Folder { get; private set; }
+		public const string ProjectFileExtention = "sprj";
+
+//		public delegate SpongeProject Factory(string path);//autofac uses this
 
 		/// ------------------------------------------------------------------------------------
 		public static bool CreateInFileSystem(string path)
@@ -66,5 +66,7 @@ namespace Sponge2
 		{
 			get { return Path.GetFileName(Folder); }
 		}
+
+
 	}
-}
+}*/

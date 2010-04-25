@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using SIL.Sponge.Properties;
+using Sponge2.Properties;
 
-namespace SIL.Sponge.ConfigTools
+namespace Sponge2.ProjectChoosingAndCreating
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

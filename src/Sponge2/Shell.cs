@@ -1,8 +1,7 @@
 using System;
 using System.Windows.Forms;
 using SIL.Localization;
-using SIL.Sponge.ConfigTools;
-using SIL.Sponge.Properties;
+using Sponge2.Properties;
 using SilUtils;
 using Sponge2;
 

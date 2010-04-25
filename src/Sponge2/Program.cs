@@ -3,8 +3,8 @@ using System.IO;
 using System.Windows.Forms;
 using SIL.Localization;
 using SIL.Sponge;
-using SIL.Sponge.ConfigTools;
-using SIL.Sponge.Properties;
+using Sponge2.ProjectChoosingAndCreating;
+using Sponge2.Properties;
 
 namespace Sponge2
 {
@@ -57,9 +57,9 @@ namespace Sponge2
 		{
 			Application.Idle -= ChooseAnotherProject;
 
-			var viewManager = new WelcomeDialogViewManager();
+			var welcomeModel = new WelcomeDialogViewModel();
 
-			using (var dlg = new WelcomeDialog(viewManager))
+			using (var dlg = new WelcomeDialog(welcomeModel))
 			{
 				if (dlg.ShowDialog() != DialogResult.OK)
 				{
@@ -67,9 +67,9 @@ namespace Sponge2
 					return;
 				}
 
-				MruProjects.AddNewPath(viewManager.ProjectPath);
+				MruProjects.AddNewPath(welcomeModel.ProjectSettingsFilePath);
 				MruProjects.Save();
-				using (var bootStrapper = new BootStrapper(viewManager.ProjectPath))
+				using (var bootStrapper = new BootStrapper(welcomeModel.ProjectSettingsFilePath))
 				{
 					Shell shell = bootStrapper.CreateShell();
 					shell.Closed += OnShell_Closed;

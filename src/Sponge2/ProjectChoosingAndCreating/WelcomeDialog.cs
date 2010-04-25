@@ -3,11 +3,13 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SIL.Localization;
-using SIL.Sponge.Properties;
-using SIL.Sponge.Utilities;
+using Sponge2.Model;
+using Sponge2.ProjectChoosingAndCreating.NewProjectDialog;
+using Sponge2.Properties;
+using Sponge2.Utilities;
 
 
-namespace SIL.Sponge.ConfigTools
+namespace Sponge2.ProjectChoosingAndCreating
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -17,7 +19,7 @@ namespace SIL.Sponge.ConfigTools
 	/// ----------------------------------------------------------------------------------------
 	public partial class WelcomeDialog : Form
 	{
-		private readonly WelcomeDialogViewManager _viewManager;
+		private readonly WelcomeDialogViewModel _viewModel;
 
 		/// ------------------------------------------------------------------------------------
 		public WelcomeDialog()
@@ -27,9 +29,9 @@ namespace SIL.Sponge.ConfigTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public WelcomeDialog(WelcomeDialogViewManager viewManager) : this()
+		public WelcomeDialog(WelcomeDialogViewModel viewModel) : this()
 		{
-			_viewManager = viewManager;
+			_viewModel = viewModel;
 
 			var rc = Settings.Default.WelcomeDialogBounds;
 			if (rc.Height < 0)
@@ -52,7 +54,7 @@ namespace SIL.Sponge.ConfigTools
 			tsbMru0.Visible = false;
 
 			int i = 0;
-			foreach (var recentProjectInfo in _viewManager.RecentlyUsedProjects)
+			foreach (var recentProjectInfo in _viewModel.RecentlyUsedProjects)
 			{
 				ToolStripButton tsb;
 
@@ -87,13 +89,13 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		private void LocalizationInitiated()
 		{
-			lblVersionInfo.Text = _viewManager.GetVersionInfo(lblVersionInfo.Text);
+			lblVersionInfo.Text = _viewModel.GetVersionInfo(lblVersionInfo.Text);
 
 			LocalizationManager.LocalizeObject(lnkWebSites, "WelcomeDialog.lnkWebSites",
-				"Sponge is brought to you by SIL International.  Visit the Sponge web site.",
-				locExtender.LocalizationGroup);
+											   "Sponge is brought to you by SIL International.  Visit the Sponge web site.",
+											   locExtender.LocalizationGroup);
 
-			var entireLink = LocalizationManager.GetString(lnkWebSites);
+			var entireLink = LocalizationManager.GetString((object) lnkWebSites);
 
 			var silPortion = LocalizationManager.LocalizeString(
 				"WelcomeDialog.lnkWebSites.SILLinkPortion", "SIL International",
@@ -161,7 +163,7 @@ namespace SIL.Sponge.ConfigTools
 				if (dlg.ShowDialog(this) == DialogResult.Cancel)
 					return;
 
-				_viewManager.ProjectPath = dlg.FileName;
+				_viewModel.ProjectSettingsFilePath = dlg.FileName;
 			}
 
 			DialogResult = DialogResult.OK;
@@ -171,28 +173,38 @@ namespace SIL.Sponge.ConfigTools
 		/// ------------------------------------------------------------------------------------
 		private void HandleCreateProjectClick(object sender, EventArgs e)
 		{
-			using (var dlg = new FolderBrowserDialog())
-			{
-				dlg.Description = LocalizationManager.LocalizeString(
-					"WelcomeDialog.CreateProjectFolderBrowserMsg",
-					"Choose the folder in which to create a project.",
-					locExtender.LocalizationGroup);
+//			using (var dlg = new FolderBrowserDialog())
+//			{
+//				dlg.Description = LocalizationManager.LocalizeString(
+//					"WelcomeDialog.CreateProjectFolderBrowserMsg",
+//					"Choose the folder in which to create a project.",
+//					locExtender.LocalizationGroup);
+//
+//				dlg.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+//
+//				if (DialogResult.Cancel == dlg.ShowDialog())
+//					return;
+//
+//				if (_viewModel.CreateNewProject(dlg.SelectedPath))
+//				{
+//					DialogResult = DialogResult.OK;
+//					Close();
+//				}
+//			}
+				var viewModel = new NewProjectDlgViewModel();
 
-				dlg.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-				while (true)
+				using (var dlg = new NewProjectDlg(viewModel))
 				{
-					if (DialogResult.Cancel == dlg.ShowDialog())
-						return;
-
-					if (_viewManager.CreateNewProject(dlg.SelectedPath))
+					if (dlg.ShowDialog() == DialogResult.OK)
 					{
-						DialogResult = DialogResult.OK;
-						Close();
-						break;
+						if (_viewModel.CreateNewProject(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName))
+						{
+							DialogResult = DialogResult.OK;
+							Close();
+						}
 					}
 				}
-			}
+
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -201,7 +213,7 @@ namespace SIL.Sponge.ConfigTools
 			var tsb = sender as ToolStripButton;
 			if (tsb != null)
 			{
-				_viewManager.ProjectPath = tsb.Name;
+				_viewModel.ProjectSettingsFilePath = tsb.Name;
 				DialogResult = DialogResult.OK;
 				Close();
 			}
@@ -216,7 +228,7 @@ namespace SIL.Sponge.ConfigTools
 
 			// Draw the gradient blue bar.
 			using (var br = new LinearGradientBrush(rc, SpongeColors.BarBegin,
-				SpongeColors.BarEnd, 0.0f))
+													SpongeColors.BarEnd, 0.0f))
 			{
 				e.Graphics.FillRectangle(br, rc);
 			}

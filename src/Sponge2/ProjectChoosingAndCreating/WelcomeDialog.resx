@@ -232,7 +232,7 @@
     <value>tsOptions</value>
   </data>
   <data name="&gt;&gt;tsOptions.Type" xml:space="preserve">
-    <value>SIL.Sponge.Controls.SpongeBar, Sponge2, Version=0.1.3764.27419, Culture=neutral, PublicKeyToken=null</value>
+    <value>Sponge2.Controls.SpongeBar, Sponge2, Version=0.1.3764.27419, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tsOptions.Parent" xml:space="preserve">
     <value>pnlOptions</value>

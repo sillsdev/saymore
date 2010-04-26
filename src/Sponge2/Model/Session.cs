@@ -9,13 +9,21 @@ namespace Sponge2.Model
 {
 	public class Session : ProjectChild
 	{
+		//autofac uses this
+		public delegate Session Factory();
+
+		[Obsolete("Only for use by the deserializer")]
 		public Session()
 		{
 		}
 
-		public static Session CreateAtLocation(string parentDirectoryPath, string id)
+		public Session(ComponentFile.Factory componentFileFactory): base(componentFileFactory)
 		{
-			return (Session)InitializeAtLocation(new Session(), parentDirectoryPath, id);
+		}
+
+		public static Session CreateAtLocation(string parentDirectoryPath, string id, ComponentFile.Factory componentFileFactory)
+		{
+			return (Session)InitializeAtLocation(new Session(componentFileFactory), parentDirectoryPath, id);
 		}
 
 		protected override string ExtensionWithoutPeriod

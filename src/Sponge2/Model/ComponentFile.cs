@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sponge2.Model
 {
@@ -10,21 +11,26 @@ namespace Sponge2.Model
 	/// </summary>
 	public class ComponentFile
 	{
+		//autofac uses this, so that callers only need to know the path, not all the dependencies
+		public delegate ComponentFile Factory(string path);
+
+		private readonly IEnumerable<FileType> _fileTypes;
 		public string Path { get; set; }
 
-		public ComponentFile(string path)
+		public ComponentFile(string path, IEnumerable<FileType> fileTypes)
 		{
+			_fileTypes = fileTypes;
 			Path = path;
 		}
 
-#if notyet
 
 		public FileType GetFileType()
 		{
-			return null;
+			var fileType = _fileTypes.FirstOrDefault(t => t.IsMatch(Path));
+			return fileType ?? new UnknownFileType();
 		}
 
-
+#if notyet
 		/// <summary>
 		/// What part(s) does this file play in the workflow of the session/person?
 		/// </summary>
@@ -49,5 +55,11 @@ namespace Sponge2.Model
 			get; private set;
 		}
 #endif
+
+		public static ComponentFile CreateMinimalComponentFileForTests(string path)
+		{
+			return new ComponentFile(path, new FileType[]{});
+		}
 	}
+
 }

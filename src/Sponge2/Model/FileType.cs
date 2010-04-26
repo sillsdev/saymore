@@ -27,11 +27,21 @@ namespace Sponge2.Model
 			_isMatchPredicate = isMatchPredicate;
 		}
 
+
 		public string Name { get; private set; }
 
 		public bool IsMatch(string path)
 		{
 			return _isMatchPredicate(path);
+		}
+	}
+
+
+	public class UnknownFileType : FileType
+	{
+		public UnknownFileType()
+			: base("Unknown", (path) => true)
+		{
 		}
 	}
 }

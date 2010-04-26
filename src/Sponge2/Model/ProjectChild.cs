@@ -17,21 +17,33 @@ namespace Sponge2.Model
 	/// </summary>
 	public abstract class ProjectChild
 	{
-		public ProjectChild()
-		{
+		/// <summary>
+		/// This lets us make componentFile instances without knowing all the inputs they need
+		/// </summary>
+		private ComponentFile.Factory _componentFileFactory;
 
+		public ProjectChild(ComponentFile.Factory componentFileFactory)
+		{
+			_componentFileFactory = componentFileFactory;
 		}
 
-		protected static ProjectChild InitializeAtLocation(ProjectChild component, string parentDirectoryPath, string id)
+		/// <summary>
+		/// for stupid serialization only
+		/// </summary>
+		protected ProjectChild()
 		{
-			var componentDirectory = Path.Combine(parentDirectoryPath, id);
+		}
+
+		protected static ProjectChild InitializeAtLocation(ProjectChild child, string parentDirectoryPath, string id)
+		{
+			var childDirectory = Path.Combine(parentDirectoryPath, id);
 			RequireThat.Directory(parentDirectoryPath).Exists();
-			RequireThat.Directory(componentDirectory).DoesNotExist();
-			Directory.CreateDirectory(componentDirectory);
-			component.Id = id;
-			component.ParentFolderPath = parentDirectoryPath;
-			component.Save();
-			return component;
+			RequireThat.Directory(childDirectory).DoesNotExist();
+			Directory.CreateDirectory(childDirectory);
+			child.Id = id;
+			child.ParentFolderPath = parentDirectoryPath;
+			child.Save();
+			return child;
 		}
 
 		public string Id { get; /*ideally only the factory and serializer should see this*/ set; }
@@ -44,7 +56,7 @@ namespace Sponge2.Model
 						//!x.EndsWith("." + Sponge.SessionFileExtension) &&
 						!x.ToLower().EndsWith("thumbs.db"))
 					orderby x
-					select new ComponentFile(x)).ToArray();
+					select _componentFileFactory(x)).ToArray();
 		}
 
 

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -27,9 +28,8 @@ namespace SpongeTests.model
 
 		private Session CreateSession(string id)
 		{
-			return Session.CreateAtLocation(_parentFolder.FolderPath, id);
+			return Session.CreateAtLocation(_parentFolder.FolderPath, id, ComponentFile.CreateMinimalComponentFileForTests);
 		}
-
 
 		[Test]
 		public void GetComponentFiles_AfterCreation_GivesASingleFile()

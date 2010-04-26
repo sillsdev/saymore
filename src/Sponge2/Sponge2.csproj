@@ -66,9 +66,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootStrapper.cs" />
+    <Compile Include="Model\ComponentFile.cs" />
+    <Compile Include="Model\ComponentRole.cs" />
+    <Compile Include="Model\Contribution.cs" />
+    <Compile Include="Model\FileType.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Project.cs" />
-    <Compile Include="Model\ProjectComponent.cs" />
+    <Compile Include="Model\ProjectChild.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.cs">
       <SubType>Form</SubType>

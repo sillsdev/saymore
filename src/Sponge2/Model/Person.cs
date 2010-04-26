@@ -5,7 +5,11 @@ using System.Text;
 
 namespace Sponge2.Model
 {
-	class Person : ProjectComponent
+	class Person : ProjectChild
 	{
+		protected override string ExtensionWithoutPeriod
+		{
+			get { return "person"; }
+		}
 	}
 }

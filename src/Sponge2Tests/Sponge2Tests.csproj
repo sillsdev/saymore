@@ -64,6 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="model\FileTypeTests.cs" />
+    <Compile Include="model\SessionTests.cs" />
     <Compile Include="model\ProjectTests.cs" />
     <Compile Include="ProjectChosingAndCreating\WelcomeDialogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

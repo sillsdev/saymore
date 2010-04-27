@@ -22,14 +22,12 @@ namespace Sponge2.Model
 		/// </summary>
 		private ComponentFile.Factory _componentFileFactory;
 
-		public ProjectChild(ComponentFile.Factory componentFileFactory)
+		protected ProjectChild(ComponentFile.Factory componentFileFactory)
 		{
 			_componentFileFactory = componentFileFactory;
 		}
 
-		/// <summary>
-		/// for stupid serialization only
-		/// </summary>
+		[Obsolete("Don't use this. It is for serialization only")]
 		protected ProjectChild()
 		{
 		}
@@ -92,7 +90,7 @@ namespace Sponge2.Model
 			{
 				x.CreateSerializer(typeof (Session)).Serialize(file, this);
 			}
-			//XmlSerializationHelper.SerializeToFile(SettingsFilePath, this);
+			//was swallowing the message that explained why it failed: XmlSerializationHelper.SerializeToFile(SettingsFilePath, this);
 		}
 	}
 }

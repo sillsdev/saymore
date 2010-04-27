@@ -90,7 +90,7 @@ namespace SIL.Sponge
 
 			/// <summary>
 			/// String that contains the name of the file as it appears in the Microsoft
-			/// Windows Shell, or the path and file name of the file that contains the
+			/// Windows ProjectWindow, or the path and file name of the file that contains the
 			/// icon representing the file.
 			/// </summary>
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]

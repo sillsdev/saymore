@@ -65,7 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BootStrapper.cs" />
+    <Compile Include="ProjectContext.cs" />
     <Compile Include="Model\ComponentFile.cs" />
     <Compile Include="Model\ComponentRole.cs" />
     <Compile Include="Model\Contribution.cs" />
@@ -81,12 +81,6 @@
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlgViewModel.cs" />
-    <Compile Include="ProjectChoosingAndCreating\PretendWelcomeDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ProjectChoosingAndCreating\PretendWelcomeDialog.Designer.cs">
-      <DependentUpon>PretendWelcomeDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ProjectChoosingAndCreating\WelcomeDialogViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
@@ -100,11 +94,11 @@
     <Compile Include="SessionsControl.Designer.cs">
       <DependentUpon>SessionsControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Shell.cs">
+    <Compile Include="ProjectWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Shell.Designer.cs">
-      <DependentUpon>Shell.cs</DependentUpon>
+    <Compile Include="ProjectWindow.Designer.cs">
+      <DependentUpon>ProjectWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="ProjectChoosingAndCreating\MruProjects.cs" />
     <Compile Include="ProjectChoosingAndCreating\NewProjectDialog\PathValidator.cs" />
@@ -149,9 +143,6 @@
     <EmbeddedResource Include="ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.resx">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProjectChoosingAndCreating\PretendWelcomeDialog.resx">
-      <DependentUpon>PretendWelcomeDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -160,8 +151,8 @@
     <EmbeddedResource Include="SessionsControl.resx">
       <DependentUpon>SessionsControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Shell.resx">
-      <DependentUpon>Shell.cs</DependentUpon>
+    <EmbeddedResource Include="ProjectWindow.resx">
+      <DependentUpon>ProjectWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProjectChoosingAndCreating\WelcomeDialog.resx">
       <DependentUpon>WelcomeDialog.cs</DependentUpon>

@@ -11,26 +11,29 @@ using Sponge2.Model;
 
 namespace Sponge2
 {
-	public class BootStrapper : IDisposable
+	/// <summary>
+	/// This is a bootstrapper: the class which loads up a DI container.
+	/// Here, we are doing something a bit unusual, in that we bootstrap everything based
+	/// on the project we want to open.  So the client of this class should dispose of it
+	/// when the project is closed, and it will see to the disposing of everything owned by
+	/// the container.
+	/// </summary>
+	public class ProjectContext:IDisposable
 	{
 		private readonly string _projectPath;
+		private IContainer _container;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public BootStrapper(string projectPath)
+		public ProjectContext(string projectPath)
 		{
 			_projectPath = projectPath;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		///
+		/// Make the main window
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Shell CreateShell()
+		public ProjectWindow CreateProjectWindow()
 		{
 			var builder = new ContainerBuilder();
 
@@ -44,7 +47,7 @@ namespace Sponge2
 				return p;
 			});
 
-			builder.Register(c => c.Resolve<Shell.Factory>()(_projectPath));
+			builder.Register(c => c.Resolve<ProjectWindow.Factory>()(_projectPath));
 
 			var dataAccess = Assembly.GetExecutingAssembly();
 
@@ -56,20 +59,29 @@ namespace Sponge2
 			//because we're using xmlserializer, we can't depend on the constructor for injecting
 			builder.RegisterType<Person>().PropertiesAutowired(true);
 
-			builder.RegisterInstance(FileType.Create("video", new[] {".avi", ".mov", ".mp4"}));
-			builder.RegisterInstance(FileType.Create("image", new[] { ".jpg", ".tiff", ".bmp" }));
-			builder.RegisterInstance(FileType.Create("audio", new[] { ".mp3", ".wav", ".ogg" }));
+			builder.RegisterInstance(FilesTypes).As(typeof(IEnumerable<FileType>));
 
-			var container = builder.Build();
+			_container = builder.Build();
 
-			var enumerable = container.Resolve<IEnumerable<FileType>>();
+			var enumerable = _container.Resolve<IEnumerable<FileType>>();
 			Debug.Assert(enumerable.Count() == 3);
-			return container.Resolve<Shell>();
+			return _container.Resolve<ProjectWindow>();
 		}
 
-		/// ------------------------------------------------------------------------------------
+		private static IEnumerable<FileType> FilesTypes
+		{
+			get
+			{
+				yield return FileType.Create("video", new[] {".avi", ".mov", ".mp4"});
+				yield return FileType.Create("image", new[] {".jpg", ".tiff", ".bmp"});
+				yield return FileType.Create("audio", new[] {".mp3", ".wav", ".ogg"});
+			}
+		}
+
 		public void Dispose()
 		{
+			_container.Dispose();
+			_container = null;
 		}
 	}
 }

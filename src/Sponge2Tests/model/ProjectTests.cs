@@ -25,7 +25,7 @@ namespace SpongeTests.model
 		{
 			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
 			{
-				var project = Project.CreateAtLocation(parent.FolderPath, "foo");
+				var project = Project.CreateAtLocation(parent.Path, "foo");
 				Assert.IsNotNull(Project.FromSettingsFilePath(project.SettingsFilePath));
 
 			}
@@ -36,14 +36,14 @@ namespace SpongeTests.model
 		{
 			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
 			{
-				var originalProject = Project.CreateAtLocation(parent.FolderPath, "foo");
+				var originalProject = Project.CreateAtLocation(parent.Path, "foo");
 
 				//rename the settings, but not the directory, and reload
 				string changedSettingsPath = originalProject.SettingsFilePath.Replace("foo." + Project.ProjectSettingsFileExtension, "baa." + Project.ProjectSettingsFileExtension);
 				File.Move(originalProject.SettingsFilePath, changedSettingsPath);
 				Project loadedProject = Project.FromSettingsFilePath(changedSettingsPath);
 				Assert.IsNotNull(loadedProject);
-				Assert.AreEqual(originalProject.FolderPath,loadedProject.FolderPath);
+				Assert.AreEqual(originalProject.FolderPath, loadedProject.FolderPath);
 				Assert.AreEqual(changedSettingsPath, loadedProject.SettingsFilePath);
 			}
 		}
@@ -53,7 +53,7 @@ namespace SpongeTests.model
 		{
 			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
 			{
-				var project = Project.CreateAtLocation(parent.FolderPath, "foo");
+				var project = Project.CreateAtLocation(parent.Path, "foo");
 				project.Iso639Code = "abc";
 				project.Save();
 				var sameProject = Project.FromSettingsFilePath(project.SettingsFilePath);
@@ -67,7 +67,7 @@ namespace SpongeTests.model
 			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
 			using (new Palaso.TestUtilities.TemporaryFolder(parent, "child"))
 			{
-				Project.CreateAtLocation(parent.FolderPath, "child");
+				Project.CreateAtLocation(parent.Path, "child");
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace SpongeTests.model
 		{
 			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
 			{
-				Project.CreateAtLocation(parent.FolderPath+"YY", "child");
+				Project.CreateAtLocation(parent.Path+"YY", "child");
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace SpongeTests.model
 		{
 			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
 			{
-				Assert.IsNotNull(Project.CreateAtLocation(parent.FolderPath, "foo"));
+				Assert.IsNotNull(Project.CreateAtLocation(parent.Path, "foo"));
 			}
 		}
 
@@ -94,7 +94,7 @@ namespace SpongeTests.model
 		{
 			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
 			{
-				Project.CreateAtLocation(parent.FolderPath, "foo");
+				Project.CreateAtLocation(parent.Path, "foo");
 				Assert.IsTrue(File.Exists(parent.Combine("foo", "foo."+Project.ProjectSettingsFileExtension)));
 			}
 		}

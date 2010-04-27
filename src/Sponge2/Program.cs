@@ -10,6 +10,12 @@ namespace Sponge2
 {
 	static class Program
 	{
+		/// <summary>
+		/// We have one project open at a time, and this helps us bootstrap the project and
+		/// properly dispose of various things when the project is closed.
+		/// </summary>
+		private static ProjectContext _projectContext;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The main entry point for the application.
@@ -31,20 +37,18 @@ namespace Sponge2
 			StartUpShellBasedOnMostRecentUsedIfPossible();
 			Application.Run();
 			Settings.Default.Save();
+			if(_projectContext!=null)
+			{
+				_projectContext.Dispose();
+			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		static void StartUpShellBasedOnMostRecentUsedIfPossible()
 		{
 			if (MruProjects.Latest != null && File.Exists(MruProjects.Latest))
 			{
-				//enhance: we could eventually have a single bootstrapper, if making it takes a long time
-				//but for now, this is clean.
-				using (var bootStrapper = new BootStrapper(MruProjects.Latest))
-				{
-					Shell shell = bootStrapper.CreateShell();
-					shell.Closed += OnShell_Closed;
-					shell.Show();
-				}
+				OpenProjectWindow(MruProjects.Latest);
 			}
 			else
 			{
@@ -53,6 +57,16 @@ namespace Sponge2
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private static void OpenProjectWindow(string projectPath)
+		{
+			_projectContext = new ProjectContext(projectPath);
+			ProjectWindow projectWindow = _projectContext.CreateProjectWindow();
+			projectWindow.Closed += OnProjectWindow_Closed;
+			projectWindow.Show();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		static void ChooseAnotherProject(object sender, EventArgs e)
 		{
 			Application.Idle -= ChooseAnotherProject;
@@ -69,18 +83,17 @@ namespace Sponge2
 
 				MruProjects.AddNewPath(welcomeModel.ProjectSettingsFilePath);
 				MruProjects.Save();
-				using (var bootStrapper = new BootStrapper(welcomeModel.ProjectSettingsFilePath))
-				{
-					Shell shell = bootStrapper.CreateShell();
-					shell.Closed += OnShell_Closed;
-					shell.Show();
-				}
+				OpenProjectWindow(welcomeModel.ProjectSettingsFilePath);
 			}
 		}
 
-		static void OnShell_Closed(object sender, EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		static void OnProjectWindow_Closed(object sender, EventArgs e)
 		{
-			if(((Shell) sender).UserWantsToOpenADifferentProject)
+			_projectContext.Dispose();
+			_projectContext = null;
+
+			if (((ProjectWindow)sender).UserWantsToOpenADifferentProject)
 			{
 				Application.Idle += ChooseAnotherProject;
 			}
@@ -90,12 +103,6 @@ namespace Sponge2
 			}
 		}
 
-
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void SetUpErrorHandling()
 		{

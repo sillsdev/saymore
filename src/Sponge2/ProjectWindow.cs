@@ -12,9 +12,9 @@ namespace SIL.Sponge
 	/// Class for the main window of the application.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class Shell : Form
+	public partial class ProjectWindow : Form
 	{
-		public delegate Shell Factory(string projectName); //autofac uses this
+		public delegate ProjectWindow Factory(string projectName); //autofac uses this
 
 		private ViewButtonManager _viewManger;
 		private string _projectName;
@@ -30,10 +30,10 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Shell"/> class.
+		/// Initializes a new instance of the <see cref="ProjectWindow"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Shell()
+		public ProjectWindow()
 		{
 			InitializeComponent();
 
@@ -43,10 +43,10 @@ namespace SIL.Sponge
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Shell"/> class.
+		/// Initializes a new instance of the <see cref="ProjectWindow"/> class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Shell(string projectName, SessionsControl sessionsControl) : this()
+		public ProjectWindow(string projectName, SessionsControl sessionsControl) : this()
 		{
 			_projectName = projectName;
 			var views = new Control[] { sessionsControl };

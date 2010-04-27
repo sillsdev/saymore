@@ -28,46 +28,7 @@ namespace SpongeTests.model
 			_parentFolder = null;
 		}
 
-		[Test]
-		public void CollectionResolution()
-		{
-			var builder = new ContainerBuilder();
 
-			//including this line makes the Resolve fail
-			builder.RegisterType<FileType>();
-
-			builder.RegisterInstance(FileType.Create("video", new[] { ".avi", ".mov", ".mp4" }));
-			builder.RegisterInstance(FileType.Create("image", new[] { ".jpg", ".tiff", ".bmp" }));
-			builder.RegisterInstance(FileType.Create("audio", new[] { ".mp3", ".wav", ".ogg" }));
-
-			var container = builder.Build();
-			var enumerable = container.Resolve<IEnumerable<FileType>>();
-			Assert.AreEqual(3,enumerable.Count());
-		}
-
-//		[Test]
-//		public void temporaryAutofacTest2()
-//		{
-//
-//			var builder = new ContainerBuilder();
-//
-//				builder.Register(c =>
-//				                 	{
-//				                 		var p = c.Resolve<Project>(new Parameter[] {new PositionalParameter(0, _projectPath)});
-//				                 		return p;
-//				                 	});
-//
-//
-//				builder.RegisterInstance(FileType.Create("video", new[] {".avi", ".mov", ".mp4"}));
-//				builder.RegisterInstance(FileType.Create("image", new[] {".jpg", ".tiff", ".bmp"}));
-//				builder.RegisterInstance(FileType.Create("audio", new[] {".mp3", ".wav", ".ogg"}));
-//
-//				var container = builder.Build();
-//
-//				var enumerable = container.Resolve<IEnumerable<FileType>>();
-//
-//
-//		}
 		[Test]
 		public void GetFileType_IsText_GivesTextFileType()
 		{
@@ -83,7 +44,7 @@ namespace SpongeTests.model
 		[Test]
 		public void GetFileType_UnknownType_UnknownFileType()
 		{
-			ComponentFile f = CreateComponentFile("abc.txt");
+			ComponentFile f = CreateComponentFile("abc.zzz");
 			Assert.AreEqual("Unknown", f.GetFileType().Name);
 		}
 

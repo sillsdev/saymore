@@ -48,8 +48,8 @@ namespace SpongeTests.ProjectChosingAndCreating
 		{
 			using (var tmpFolder = new TemporaryFolder("basketball"))
 			{
-				var prjFolder = Path.Combine(tmpFolder.FolderPath, "sonics");
-				Assert.IsTrue(_viewModel.CreateNewProject(tmpFolder.FolderPath, "sonics"));
+				var prjFolder = Path.Combine(tmpFolder.Path, "sonics");
+				Assert.IsTrue(_viewModel.CreateNewProject(tmpFolder.Path, "sonics"));
 				Assert.IsTrue(Directory.Exists(prjFolder));
 			}
 		}
@@ -60,7 +60,7 @@ namespace SpongeTests.ProjectChosingAndCreating
 		{
 			using (var tmpFolder = new TemporaryFolder("basketball"))
 			{
-				Assert.IsTrue(_viewModel.CreateNewProject(tmpFolder.FolderPath, "sonics"));
+				Assert.IsTrue(_viewModel.CreateNewProject(tmpFolder.Path, "sonics"));
 				Assert.AreEqual(tmpFolder.Combine("sonics", "sonics.sprj"),
 								_viewModel.ProjectSettingsFilePath);
 			}
@@ -73,7 +73,7 @@ namespace SpongeTests.ProjectChosingAndCreating
 //		{
 //			using (var tmpFolder = new TemporaryFolder("tennis1"))
 //			{
-//				NewProjectDlgViewModel newProjectInfo = tmpFolder.FolderPath;
+//				NewProjectDlgViewModel newProjectInfo = tmpFolder.Path;
 //				Assert.IsTrue(_viewModel.CreateNewProject(newProjectInfo, newProjectInfo.ParentFolderPathForNewProject));
 //			}
 //		}
@@ -84,9 +84,9 @@ namespace SpongeTests.ProjectChosingAndCreating
 //		{
 //			using (var tmpFolder = new TemporaryFolder("tennis3"))
 //			{
-//				NewProjectDlgViewModel newProjectInfo = tmpFolder.FolderPath;
+//				NewProjectDlgViewModel newProjectInfo = tmpFolder.Path;
 //				Assert.IsTrue(_viewModel.CreateNewProject(newProjectInfo, newProjectInfo.ParentFolderPathForNewProject));
-//				Assert.AreEqual(Path.Combine(tmpFolder.FolderPath, "tennis3.sprj"),
+//				Assert.AreEqual(Path.Combine(tmpFolder.Path, "tennis3.sprj"),
 //					_viewModel.ProjectSettingsFilePath);
 //			}
 //		}
@@ -101,7 +101,7 @@ namespace SpongeTests.ProjectChosingAndCreating
 				{
 					using (var projectFolder = new TemporaryFolder(parent, "sonics"))
 					{
-						Assert.IsFalse(_viewModel.CreateNewProject(parent.FolderPath, "sonics"));
+						Assert.IsFalse(_viewModel.CreateNewProject(parent.Path, "sonics"));
 					}
 				}
 			}
@@ -116,7 +116,7 @@ namespace SpongeTests.ProjectChosingAndCreating
 			{
 				using (var projectFolder = new TemporaryFolder(parent,"sonics"))
 				{
-					_viewModel.CreateNewProject(parent.FolderPath, "sonics");
+					_viewModel.CreateNewProject(parent.Path, "sonics");
 					Assert.IsNull(_viewModel.ProjectSettingsFilePath);
 				}
 			}

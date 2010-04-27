@@ -28,7 +28,7 @@ namespace SpongeTests.model
 
 		private Session CreateSession(string id)
 		{
-			return Session.CreateAtLocation(_parentFolder.FolderPath, id, ComponentFile.CreateMinimalComponentFileForTests);
+			return Session.CreateAtLocation(_parentFolder.Path, id, ComponentFile.CreateMinimalComponentFileForTests);
 		}
 
 		[Test]

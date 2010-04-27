@@ -29,7 +29,7 @@ namespace Sponge2.Model
 		public string Path { get; private set; }
 
 		[XmlArray("fieldValues"), XmlArrayItem("field")]
-		public string FieldValues { get; private set; }
+		public string FieldValues { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -65,6 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\FieldDefinition.cs" />
+    <Compile Include="Model\FieldTemplate.cs" />
+    <Compile Include="Model\FieldValue.cs" />
     <Compile Include="ProjectContext.cs" />
     <Compile Include="Model\ComponentFile.cs" />
     <Compile Include="Model\ComponentRole.cs" />

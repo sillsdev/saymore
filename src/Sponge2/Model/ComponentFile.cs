@@ -28,6 +28,9 @@ namespace Sponge2.Model
 		[XmlIgnore]
 		public string Path { get; private set; }
 
+		[XmlArray("fieldValues"), XmlArrayItem("field")]
+		public string FieldValues { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads into a ComponentFile object the information from a standoff markup file
@@ -74,7 +77,7 @@ namespace Sponge2.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentFile(string path, IEnumerable<FileType> fileTypes)
+		public ComponentFile(string path, IEnumerable<FileType> fileTypes) : this()
 		{
 			_fileTypes = fileTypes;
 			Path = path;

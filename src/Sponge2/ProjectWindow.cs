@@ -57,9 +57,7 @@ namespace SIL.Sponge
 			_viewManger.SetView(tsbSessions);
 			SetWindowText();
 
-			//only one life to live, nowadays: LocalizeItemDlg.StringsLocalized -= SetWindowText;
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
-			Show();
 		}
 
 

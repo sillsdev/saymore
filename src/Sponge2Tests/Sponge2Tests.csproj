@@ -51,9 +51,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\SilUtils.dll</HintPath>
     </Reference>
-    <Reference Include="Sponge2, Version=0.1.3765.23987, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -69,11 +66,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="model\ComponentFileTests.cs" />
+    <Compile Include="ProjectContextTests.cs" />
     <Compile Include="model\FileTypeTests.cs" />
     <Compile Include="model\SessionTests.cs" />
     <Compile Include="model\ProjectTests.cs" />
     <Compile Include="ProjectChosingAndCreating\WelcomeDialogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sponge2\Sponge2.csproj">
+      <Project>{A61F5E06-CACD-40FA-BBAD-8744212AF14E}</Project>
+      <Name>Sponge2</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

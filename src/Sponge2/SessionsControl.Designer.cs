@@ -29,6 +29,7 @@ namespace Sponge2
 		private void InitializeComponent()
 		{
 			this.label1 = new System.Windows.Forms.Label();
+			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -40,13 +41,23 @@ namespace Sponge2
 			this.label1.TabIndex = 0;
 			this.label1.Text = "label1";
 			// 
+			// textBox1
+			// 
+			this.textBox1.Location = new System.Drawing.Point(19, 78);
+			this.textBox1.Multiline = true;
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(237, 189);
+			this.textBox1.TabIndex = 1;
+			// 
 			// SessionsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.label1);
 			this.Name = "SessionsControl";
 			this.Size = new System.Drawing.Size(503, 350);
+			this.Load += new System.EventHandler(this.SessionsControl_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -55,5 +66,6 @@ namespace Sponge2
 		#endregion
 
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox textBox1;
 	}
 }

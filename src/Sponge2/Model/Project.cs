@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using Palaso.Code;
 using SilUtils;
@@ -14,12 +16,44 @@ namespace Sponge2.Model
 	[XmlType("Project")]
 	public class Project
 	{
+		//autofac uses this, so that callers only need to know the path, not all the dependencies
+		public delegate Project FactoryForNewProjects(string parentDirectoryPath, string projectName);
+		public delegate Project FromFileFactory();
+
+		private const string SessionFolderName = "sessions";
 		public const string ProjectSettingsFileExtension = "sprj";
+
+		public Session.Factory SessionFactory { get; set; }
+		public Func<Session, Session> SessionPropertyInjectionMethod { get; set; }
+
+		public Project(Session.Factory sessionFactory, Func<Session, Session> sessionPropertyInjectionMethod)
+		{
+			SessionFactory = sessionFactory;
+			SessionPropertyInjectionMethod = sessionPropertyInjectionMethod;
+		}
+
+		[Obsolete("For xmldeserialization only")]
+		public Project()
+		{
+		}
+
+		/// <summary>
+		/// Used for creating brand new projects
+		/// </summary>
+		public Project(string parentDirectoryPath, string projectName)
+		{
+			var projectDirectory = Path.Combine(parentDirectoryPath, projectName);
+			RequireThat.Directory(parentDirectoryPath).Exists();
+			RequireThat.Directory(projectDirectory).DoesNotExist();
+			Directory.CreateDirectory(projectDirectory);
+			Initialize(Path.Combine(projectDirectory, projectName + "." + ProjectSettingsFileExtension));
+			Save();
+		}
 
 		/// <summary>
 		/// Existing project factory method
 		/// </summary>
-		public static Project FromSettingsFilePath(string settingsFilePath)
+		public static Project FromSettingsFilePath(string settingsFilePath, Func<Project,Project> injectProjectProperiesMethod)
 		{
 			if(!File.Exists(settingsFilePath))
 			{
@@ -36,31 +70,76 @@ namespace Sponge2.Model
 			{
 				throw new ApplicationException("Could not load the project");
 			}
+			project = injectProjectProperiesMethod(project);
 			project.Initialize(settingsFilePath);
 			return project;
 		}
 
 
-		/// <summary>
-		/// New project Factory Method
-		/// </summary>
-		public static Project CreateAtLocation(string parentDirectoryPath, string projectName)
-		{
-			var project = new Project();
-			var projectDirectory = Path.Combine(parentDirectoryPath, projectName);
-			RequireThat.Directory(parentDirectoryPath).Exists();
-			RequireThat.Directory(projectDirectory).DoesNotExist();
-			Directory.CreateDirectory(projectDirectory);
-			project.Initialize(Path.Combine(projectDirectory,projectName+"."+ProjectSettingsFileExtension));
-			project.Save();
-			return project;
-		}
-
 		public void Initialize(string settingsFilePath)
 		{
 			SettingsFilePath = settingsFilePath;
+
+			Sessions = new List<Session>();
+			People = new List<Person>();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes the sessions for the project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void InitializeSessions()
+		{
+			if (!Directory.Exists(SessionsFolder))
+				Directory.CreateDirectory(SessionsFolder);
+
+			var allSessions = (from folder in SessionNames
+					 orderby folder
+					 select Session.LoadFromFolder(folder, SessionPropertyInjectionMethod));
+
+			Sessions = (from session in allSessions
+						where session != null	// sessions we couldn't load are null
+						select session).ToList();
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the list of sorted session folders (including their full path) in the project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string[] SessionNames
+		{
+			get
+			{
+				return (from x in Directory.GetDirectories(SessionsFolder)
+						orderby x
+						select x).ToArray();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path to the folder in which the project's session folders are stored.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string SessionsFolder
+		{
+			get { return Path.Combine(ProjectFolder, SessionFolderName); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		protected string ProjectFolder
+		{
+			get
+			{
+				return Path.GetDirectoryName(SettingsFilePath);
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Save()
@@ -97,5 +176,12 @@ namespace Sponge2.Model
 			get; set;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public List<Session> Sessions { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public List<Person> People { get; private set; }
 	}
 }

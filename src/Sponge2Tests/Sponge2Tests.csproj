@@ -55,6 +55,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -66,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="model\ComponentFileTests.cs" />
-    <Compile Include="ProjectContextTests.cs" />
+    <Compile Include="ApplicationContextTests.cs" />
     <Compile Include="model\FileTypeTests.cs" />
     <Compile Include="model\SessionTests.cs" />
     <Compile Include="model\ProjectTests.cs" />

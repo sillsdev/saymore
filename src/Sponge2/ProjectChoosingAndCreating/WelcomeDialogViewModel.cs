@@ -1,35 +1,24 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.
-//
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright>
-#endregion
-//
-// File: WelcomeDialogViewModel.cs
-// Responsibility: D. Olson
-//
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
-using SIL.Localization;
 using Sponge2.Model;
-using SilUtils;
-using Sponge2;
-using Sponge2.ProjectChoosingAndCreating.NewProjectDialog;
 
 namespace Sponge2.ProjectChoosingAndCreating
 {
-	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// This contains all easily testable logic/behavior for the WelcomeDialog,
+	/// which lets you open projects and create new ones.
+	/// </summary>
 	public class WelcomeDialogViewModel
 	{
+		private readonly Project.FactoryForNewProjects _projectFromFileCreateNewFactory;
+
+		public WelcomeDialogViewModel(Project.FactoryForNewProjects projectFromFileFactory)
+		{
+			_projectFromFileCreateNewFactory = projectFromFileFactory;
+		}
+
 		public string ProjectSettingsFilePath { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -90,7 +79,7 @@ namespace Sponge2.ProjectChoosingAndCreating
 		{
 			try
 			{
-				var project =Project.CreateAtLocation(parentFolderPath, newProjectName);
+				var project = _projectFromFileCreateNewFactory(parentFolderPath, newProjectName);
 				ProjectSettingsFilePath = project.SettingsFilePath;
 			}
 			catch (Exception error)

@@ -32,7 +32,7 @@ namespace SpongeTests.ProjectChosingAndCreating
 	public class WelcomeDialogTests
 	{
 		private WelcomeDialogViewModel _viewModel;
-
+		/*
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void TestSetup()
@@ -121,5 +121,6 @@ namespace SpongeTests.ProjectChosingAndCreating
 				}
 			}
 		}
+		 */
 	}
 }

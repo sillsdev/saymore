@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using SIL.Localization;
@@ -16,6 +17,8 @@ namespace Sponge2
 		/// </summary>
 		private static ProjectContext _projectContext;
 
+		private static ApplicationContext _applicationContext;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The main entry point for the application.
@@ -26,6 +29,8 @@ namespace Sponge2
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			_applicationContext = new ApplicationContext();
 
 			LocalizationManager.Enabled = true;
 			LocalizationManager.Initialize();
@@ -60,10 +65,10 @@ namespace Sponge2
 		/// ------------------------------------------------------------------------------------
 		private static void OpenProjectWindow(string projectPath)
 		{
-			_projectContext = new ProjectContext(projectPath);
-			ProjectWindow projectWindow = _projectContext.CreateProjectWindow();
-			projectWindow.Closed += OnProjectWindow_Closed;
-			projectWindow.Show();
+			Debug.Assert(_projectContext == null);
+			_projectContext = _applicationContext.CreateProjectContext(projectPath);
+			_projectContext.ProjectWindow.Closed += OnProjectWindow_Closed;
+			_projectContext.ProjectWindow.Show();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,9 +76,7 @@ namespace Sponge2
 		{
 			Application.Idle -= ChooseAnotherProject;
 
-			var welcomeModel = new WelcomeDialogViewModel();
-
-			using (var dlg = new WelcomeDialog(welcomeModel))
+			using (var dlg = _applicationContext.CreateWelcomeDialog())
 			{
 				if (dlg.ShowDialog() != DialogResult.OK)
 				{
@@ -81,9 +84,9 @@ namespace Sponge2
 					return;
 				}
 
-				MruProjects.AddNewPath(welcomeModel.ProjectSettingsFilePath);
+				MruProjects.AddNewPath(dlg.Model.ProjectSettingsFilePath);
 				MruProjects.Save();
-				OpenProjectWindow(welcomeModel.ProjectSettingsFilePath);
+				OpenProjectWindow(dlg.Model.ProjectSettingsFilePath);
 			}
 		}
 

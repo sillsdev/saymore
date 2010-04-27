@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\FieldDefinition.cs" />
+    <Compile Include="ApplicationContext.cs" />
     <Compile Include="Model\FieldTemplate.cs" />
     <Compile Include="Model\FieldValue.cs" />
     <Compile Include="ProjectContext.cs" />
@@ -90,7 +91,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="SessionsPM.cs" />
+    <Compile Include="SessionsViewModel.cs" />
     <Compile Include="SessionsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

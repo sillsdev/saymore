@@ -12,7 +12,7 @@ namespace Sponge2
 
 		public const string ProjectFileExtention = "sprj";
 
-//		public delegate SpongeProject Factory(string path);//autofac uses this
+//		public delegate SpongeProject FactoryForNewProjects(string path);//autofac uses this
 
 		/// ------------------------------------------------------------------------------------
 		public static bool CreateInFileSystem(string path)

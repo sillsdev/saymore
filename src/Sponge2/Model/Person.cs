@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sponge2.Model
 {
-	class Person : ProjectChild
+	public class Person : ProjectChild
 	{
 		public Person(ComponentFile.Factory componentFileFactory): base(componentFileFactory)
 		{

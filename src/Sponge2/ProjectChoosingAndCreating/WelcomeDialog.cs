@@ -19,19 +19,17 @@ namespace Sponge2.ProjectChoosingAndCreating
 	/// ----------------------------------------------------------------------------------------
 	public partial class WelcomeDialog : Form
 	{
-		private readonly WelcomeDialogViewModel _viewModel;
+//		/// ------------------------------------------------------------------------------------
+//		public WelcomeDialog()
+//		{
+//			Font = SystemFonts.MessageBoxFont; //use the default OS UI font
+//			InitializeComponent();
+//		}
 
 		/// ------------------------------------------------------------------------------------
-		public WelcomeDialog()
+		public WelcomeDialog(WelcomeDialogViewModel viewModel)
 		{
-			Font = SystemFonts.MessageBoxFont; //use the default OS UI font
-			InitializeComponent();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public WelcomeDialog(WelcomeDialogViewModel viewModel) : this()
-		{
-			_viewModel = viewModel;
+			Model = viewModel;
 
 			var rc = Settings.Default.WelcomeDialogBounds;
 			if (rc.Height < 0)
@@ -48,13 +46,15 @@ namespace Sponge2.ProjectChoosingAndCreating
 			LocalizeItemDlg.StringsLocalized += LocalizationInitiated;
 		}
 
+		public WelcomeDialogViewModel Model { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		private void LoadMRUButtons()
 		{
 			tsbMru0.Visible = false;
 
 			int i = 0;
-			foreach (var recentProjectInfo in _viewModel.RecentlyUsedProjects)
+			foreach (var recentProjectInfo in Model.RecentlyUsedProjects)
 			{
 				ToolStripButton tsb;
 
@@ -89,7 +89,7 @@ namespace Sponge2.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		private void LocalizationInitiated()
 		{
-			lblVersionInfo.Text = _viewModel.GetVersionInfo(lblVersionInfo.Text);
+			lblVersionInfo.Text = Model.GetVersionInfo(lblVersionInfo.Text);
 
 			LocalizationManager.LocalizeObject(lnkWebSites, "WelcomeDialog.lnkWebSites",
 											   "Sponge is brought to you by SIL International.  Visit the Sponge web site.",
@@ -163,7 +163,7 @@ namespace Sponge2.ProjectChoosingAndCreating
 				if (dlg.ShowDialog(this) == DialogResult.Cancel)
 					return;
 
-				_viewModel.ProjectSettingsFilePath = dlg.FileName;
+				Model.ProjectSettingsFilePath = dlg.FileName;
 			}
 
 			DialogResult = DialogResult.OK;
@@ -185,7 +185,7 @@ namespace Sponge2.ProjectChoosingAndCreating
 //				if (DialogResult.Cancel == dlg.ShowDialog())
 //					return;
 //
-//				if (_viewModel.CreateNewProject(dlg.SelectedPath))
+//				if (Model.CreateNewProject(dlg.SelectedPath))
 //				{
 //					DialogResult = DialogResult.OK;
 //					Close();
@@ -197,7 +197,7 @@ namespace Sponge2.ProjectChoosingAndCreating
 				{
 					if (dlg.ShowDialog() == DialogResult.OK)
 					{
-						if (_viewModel.CreateNewProject(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName))
+						if (Model.CreateNewProject(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName))
 						{
 							DialogResult = DialogResult.OK;
 							Close();
@@ -213,7 +213,7 @@ namespace Sponge2.ProjectChoosingAndCreating
 			var tsb = sender as ToolStripButton;
 			if (tsb != null)
 			{
-				_viewModel.ProjectSettingsFilePath = tsb.Name;
+				Model.ProjectSettingsFilePath = tsb.Name;
 				DialogResult = DialogResult.OK;
 				Close();
 			}

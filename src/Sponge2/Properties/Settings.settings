@@ -23,19 +23,19 @@
     <Setting Name="SessionFileCols" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SafeNameReplacementChar" Description="Character used to replace invalid path characters in a person's name when building a safe name to store in file system." Provider="SilUtils.PortableSettingsProvider" Type="System.Char" Scope="Application">
+    <Setting Name="SafeNameReplacementChar" Description="Character used to replace invalid path characters in a person's name when building a safe name to store in file system." Type="System.Char" Scope="Application">
       <Value Profile="(Default)">_</Value>
     </Setting>
-    <Setting Name="DataEntryPanelColorBegin" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="DataEntryPanelColorBegin" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">207, 240, 159</Value>
     </Setting>
-    <Setting Name="DataEntryPanelColorEnd" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="DataEntryPanelColorEnd" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">169, 219, 168</Value>
     </Setting>
-    <Setting Name="DataEntryPanelColorBorder" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="DataEntryPanelColorBorder" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">148, 195, 151</Value>
     </Setting>
-    <Setting Name="BarColorBegin" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="BarColorBegin" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">196, 209, 227</Value>
     </Setting>
     <Setting Name="BarColorEnd" Type="System.Drawing.Color" Scope="Application">
@@ -44,16 +44,16 @@
     <Setting Name="BarColorBorder" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">83, 110, 145</Value>
     </Setting>
-    <Setting Name="GapBetweenMultimediaObjects" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="Application">
+    <Setting Name="GapBetweenMultimediaObjects" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">10</Value>
     </Setting>
-    <Setting Name="DefaultHeightOfVideoControl" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="Application">
+    <Setting Name="DefaultHeightOfVideoControl" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">200</Value>
     </Setting>
-    <Setting Name="DefaultHeightOfAudioControl" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="Application">
+    <Setting Name="DefaultHeightOfAudioControl" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">65</Value>
     </Setting>
-    <Setting Name="DefaultHeightOfImageControl" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="Application">
+    <Setting Name="DefaultHeightOfImageControl" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">200</Value>
     </Setting>
     <Setting Name="AudioFileExtensions" Type="System.String" Scope="Application">
@@ -65,7 +65,7 @@
     <Setting Name="ImageFileExtensions" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.jpg, .jpeg, .gif, .tif, .png, .bmp, .dib</Value>
     </Setting>
-    <Setting Name="RedrawAsMainWndResizes" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="Application">
+    <Setting Name="RedrawAsMainWndResizes" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="NewSessionsFromFilesDlgBounds" Type="System.Drawing.Rectangle" Scope="User">

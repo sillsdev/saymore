@@ -107,7 +107,6 @@ namespace Sponge2.Properties {
         /// Character used to replace invalid path characters in a person&apos;s name when building a safe name to store in file system.
         /// </summary>
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("Character used to replace invalid path characters in a person\'s name when buildin" +
             "g a safe name to store in file system.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -119,7 +118,6 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("207, 240, 159")]
         public global::System.Drawing.Color DataEntryPanelColorBegin {
@@ -129,7 +127,6 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("169, 219, 168")]
         public global::System.Drawing.Color DataEntryPanelColorEnd {
@@ -139,7 +136,6 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
         public global::System.Drawing.Color DataEntryPanelColorBorder {
@@ -149,7 +145,6 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("196, 209, 227")]
         public global::System.Drawing.Color BarColorBegin {
@@ -177,7 +172,6 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
         public int GapBetweenMultimediaObjects {
@@ -187,7 +181,6 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("200")]
         public int DefaultHeightOfVideoControl {
@@ -197,7 +190,6 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("65")]
         public int DefaultHeightOfAudioControl {
@@ -207,7 +199,6 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("200")]
         public int DefaultHeightOfImageControl {
@@ -244,7 +235,6 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool RedrawAsMainWndResizes {

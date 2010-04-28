@@ -27,7 +27,9 @@ namespace SpongeTests
 			_parentFolder = null;
 		}
 
-
+		/// <summary>
+		/// This is mostly a "smoke test" for the Dependency Injection System
+		/// </summary>
 		[Test]
 		public void CreateWelcomeDialog_NotNull()
 		{
@@ -41,6 +43,19 @@ namespace SpongeTests
 		}
 
 		[Test]
+		public void CreateWelcomeDialog_CanCreateOnAfterAnother()
+		{
+			using (var appContext = new ApplicationContext())
+			{
+				appContext.CreateWelcomeDialog().Dispose();
+				appContext.CreateWelcomeDialog().Dispose();
+			}
+		}
+
+		/// <summary>
+		/// This is mostly a "smoke test" for the Dependency Injection System
+		/// </summary>
+		[Test]
 		public void CreateProjectContext_ProjectWindowIsNotNull()
 		{
 			using (var appContext = new ApplicationContext())
@@ -48,6 +63,25 @@ namespace SpongeTests
 				using (var projectContext = appContext.CreateProjectContext(_parentFolder.Combine("theProject")))
 				{
 					Assert.IsNotNull(projectContext.ProjectWindow);
+				}
+			}
+		}
+
+
+		[Test]
+		public void CreateProjectContext_CanCreateTwoProjectsConsecutively()
+		{
+			using (var appContext = new ApplicationContext())
+			{
+				using (var projectContext = appContext.CreateProjectContext(_parentFolder.Combine("theProject")))
+				{
+					Assert.IsNotNull(projectContext.ProjectWindow);
+					projectContext.ProjectWindow.Dispose();
+				}
+				using (var projectContext = appContext.CreateProjectContext(_parentFolder.Combine("theProject")))
+				{
+					Assert.IsNotNull(projectContext.ProjectWindow);
+					projectContext.ProjectWindow.Dispose();
 				}
 			}
 		}

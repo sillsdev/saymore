@@ -21,9 +21,12 @@ namespace Sponge2.Model
 		public delegate Project FromFileFactory();
 
 		private const string SessionFolderName = "sessions";
+		[XmlIgnore]
 		public const string ProjectSettingsFileExtension = "sprj";
 
+		[XmlIgnore]
 		public Session.Factory SessionFactory { get; set; }
+		[XmlIgnore]
 		public Func<Session, Session> SessionPropertyInjectionMethod { get; set; }
 
 		public Project(Session.Factory sessionFactory, Func<Session, Session> sessionPropertyInjectionMethod)

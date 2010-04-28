@@ -17,15 +17,24 @@ namespace Sponge2
 	/// </summary>
 	public class ProjectContext:IDisposable
 	{
+		/// <summary>
+		/// Any resources which belong only to this project will be tracked by this,
+		/// and disposed of along with this ProjectContext class
+		/// </summary>
 		private ILifetimeScope _scope;
 
 		public ProjectContext(string projectPath, IContainer parentContainer)
 		{
 			_scope = parentContainer.BeginLifetimeScope();
 
-			var factory = parentContainer.Resolve<ProjectWindow.Factory>();
+			Project = _scope.Resolve<Func<string, Project>>()(projectPath);
+
+			var factory = _scope.Resolve<ProjectWindow.Factory>();
 			ProjectWindow = factory(projectPath);
 		}
+
+
+		public Project Project { get; private set; }
 
 		public ProjectWindow ProjectWindow{ get; private set;}
 

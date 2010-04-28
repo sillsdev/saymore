@@ -29,11 +29,7 @@ namespace SIL.Sponge
 		//public static SpongeProject CurrentProject { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ProjectWindow"/> class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ProjectWindow()
+		private ProjectWindow()
 		{
 			InitializeComponent();
 
@@ -41,10 +37,6 @@ namespace SIL.Sponge
 				StartPosition = FormStartPosition.CenterScreen;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ProjectWindow"/> class.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ProjectWindow(string projectName, SessionsControl sessionsControl) : this()
 		{

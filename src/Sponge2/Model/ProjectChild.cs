@@ -1,12 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
+using System.Xml.Linq;
 using Palaso.Code;
-using SilUtils;
-using Sponge2.Properties;
 
 namespace Sponge2.Model
 {
@@ -22,27 +18,36 @@ namespace Sponge2.Model
 		/// </summary>
 		private ComponentFile.Factory _componentFileFactory;
 
-		protected ProjectChild(ComponentFile.Factory componentFileFactory)
+		protected ProjectChild(string desiredOrExistingFolder, ComponentFile.Factory componentFileFactory)
 		{
 			_componentFileFactory = componentFileFactory;
+
+			ParentFolderPath = Path.GetDirectoryName(desiredOrExistingFolder);
+			Id = Path.GetFileName(desiredOrExistingFolder);
+			Fields = new List<FieldValue>();
+
+			if (File.Exists(SettingsFilePath))
+			{
+				Load();
+			}
+			else
+			{
+				RequireThat.Directory(ParentFolderPath).Exists();
+
+				//review: we might be tempted to recover from someone deleting the sponge project file
+				//while leaving the other files in there... is that really worth recovering from?
+				//maybe it's better to say "whoaaaaa!" else they'll think we lost their data when
+				//all the fields are blank
+
+				RequireThat.Directory(ParentFolderPath).DoesNotExist();
+				Directory.CreateDirectory(desiredOrExistingFolder);
+
+				Save();
+			}
 		}
 
-		[Obsolete("Don't use this. It is for serialization only")]
-		protected ProjectChild()
-		{
-		}
 
-		protected static ProjectChild InitializeAtLocation(ProjectChild child, string parentDirectoryPath, string id)
-		{
-			var childDirectory = Path.Combine(parentDirectoryPath, id);
-			RequireThat.Directory(parentDirectoryPath).Exists();
-			RequireThat.Directory(childDirectory).DoesNotExist();
-			Directory.CreateDirectory(childDirectory);
-			child.Id = id;
-			child.ParentFolderPath = parentDirectoryPath;
-			child.Save();
-			return child;
-		}
+
 
 		public string Id { get; /*ideally only the factory and serializer should see this*/ set; }
 
@@ -58,10 +63,8 @@ namespace Sponge2.Model
 		}
 
 
-		[XmlIgnore]
 		protected internal string ParentFolderPath { get; set; }
 
-		[XmlIgnore]
 		private string FolderPath
 		{
 			get
@@ -70,7 +73,6 @@ namespace Sponge2.Model
 			}
 		}
 
-		[XmlIgnore]
 		public string SettingsFilePath
 		{
 			get
@@ -79,18 +81,43 @@ namespace Sponge2.Model
 			}
 		}
 
-		protected abstract string ExtensionWithoutPeriod
-		{ get;
-		}
+		protected abstract string ExtensionWithoutPeriod { get;}
 
+		public List<FieldValue> Fields { get; set; }
+
+		//TODO: consider extracting loading/saving to a class used for that purpose,
+		//and inject it.  This would allow
+		// 1) reuse for all persisted things: project, session, person, and meta data files
+		// 2) disk-less unit testing (by replacing the normal persister with a memory one or a null one)
+
+		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			var x = new XmlSerializerFactory();
-			using (var file = File.OpenWrite(SettingsFilePath))
+			XElement child = new XElement("ProjectChild");//todo could use actual name
+			foreach(FieldValue v in Fields)
 			{
-				x.CreateSerializer(typeof (Session)).Serialize(file, this);
+				var element = new XElement(v.FieldDefinitionKey, v.Value);
+				element.Add(new XAttribute("type", v.Type));
+				child.Add(element);
 			}
-			//was swallowing the message that explained why it failed: XmlSerializationHelper.SerializeToFile(SettingsFilePath, this);
+			child.Save(SettingsFilePath);
+		}
+		/// ------------------------------------------------------------------------------------
+		public void Load()
+		{
+			Fields.Clear();
+			XElement child = XElement.Load(SettingsFilePath);
+			foreach (var element in child.Descendants())
+			{
+				var type = element.Attribute("type").Value;
+
+				//Enhance: think about checking with existing field definitions
+				//1)we would probably NOT want to lose a value just because it wasn't
+				//defined on this computer.
+				//2)someday we may want to check the type, too
+				//Enhance: someday we may have other types
+				Fields.Add(new FieldValue(element.Name.LocalName, type, element.Value));
+			}
 		}
 	}
 }

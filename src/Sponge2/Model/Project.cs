@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using Palaso.Code;
-using SilUtils;
 
 namespace Sponge2.Model
 {
@@ -13,79 +13,41 @@ namespace Sponge2.Model
 	/// In that folder is a file which persists the settings, then a folder of
 	/// people, and another of sessions.
 	/// </summary>
-	[XmlType("Project")]
 	public class Project
 	{
-		//autofac uses this, so that callers only need to know the path, not all the dependencies
-		public delegate Project FactoryForNewProjects(string parentDirectoryPath, string projectName);
-		public delegate Project FromFileFactory();
-
 		private const string SessionFolderName = "sessions";
-		[XmlIgnore]
 		public const string ProjectSettingsFileExtension = "sprj";
 
-		[XmlIgnore]
 		public Session.Factory SessionFactory { get; set; }
-		[XmlIgnore]
 		public Func<Session, Session> SessionPropertyInjectionMethod { get; set; }
 
-		public Project(Session.Factory sessionFactory, Func<Session, Session> sessionPropertyInjectionMethod)
-		{
-			SessionFactory = sessionFactory;
-			SessionPropertyInjectionMethod = sessionPropertyInjectionMethod;
-		}
-
-		[Obsolete("For xmldeserialization only")]
-		public Project()
-		{
-		}
-
 		/// <summary>
-		/// Used for creating brand new projects
+		/// can be used whether the project exists already, or not
 		/// </summary>
-		public Project(string parentDirectoryPath, string projectName)
+		public Project(string desiredOrExistingFilePath)
 		{
-			var projectDirectory = Path.Combine(parentDirectoryPath, projectName);
-			RequireThat.Directory(parentDirectoryPath).Exists();
-			RequireThat.Directory(projectDirectory).DoesNotExist();
-			Directory.CreateDirectory(projectDirectory);
-			Initialize(Path.Combine(projectDirectory, projectName + "." + ProjectSettingsFileExtension));
-			Save();
-		}
+			SettingsFilePath = desiredOrExistingFilePath;
+			var projectDirectory = Path.GetDirectoryName(desiredOrExistingFilePath);
+			var parentDirectoryPath = Path.GetDirectoryName(projectDirectory);
 
-		/// <summary>
-		/// Existing project factory method
-		/// </summary>
-		public static Project FromSettingsFilePath(string settingsFilePath, Func<Project,Project> injectProjectProperiesMethod)
-		{
-			if(!File.Exists(settingsFilePath))
+			if (File.Exists(desiredOrExistingFilePath))
 			{
-				throw new FileNotFoundException("Could not find the file.", settingsFilePath);
+				Load();
 			}
-			Exception e;
-			var project = XmlSerializationHelper.DeserializeFromFile<Project>(settingsFilePath, out e);
-			if (e != null)
+			else
 			{
-				throw e;
+				RequireThat.Directory(parentDirectoryPath).Exists();
+
+				if (!Directory.Exists(projectDirectory))
+				{
+					Directory.CreateDirectory(projectDirectory);
+				}
+				Save();
 			}
-			if (project == null) //TODO: what does this  XmlSerializationHelper actually do for us?
-						// can it be fixed to not return null with no exception,as it now does?
-			{
-				throw new ApplicationException("Could not load the project");
-			}
-			project = injectProjectProperiesMethod(project);
-			project.Initialize(settingsFilePath);
-			return project;
-		}
-
-
-		public void Initialize(string settingsFilePath)
-		{
-			SettingsFilePath = settingsFilePath;
-
 			Sessions = new List<Session>();
 			People = new List<Person>();
 		}
+
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -147,9 +109,16 @@ namespace Sponge2.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			XmlSerializationHelper.SerializeToFile(SettingsFilePath, this);
+			XElement project = new XElement("Project");
+			project.Add(new XElement("Iso639Code", Iso639Code));
+			project.Save(SettingsFilePath);
 		}
-
+		/// ------------------------------------------------------------------------------------
+		public void Load()
+		{
+			XElement project = XElement.Load(SettingsFilePath);
+			Iso639Code = project.Descendants("Iso639Code").First().Value;
+		}
 
 		/// <summary>
 		/// This is, roughly, the "ethnologue code", taken either from 639-2 (2 letters),

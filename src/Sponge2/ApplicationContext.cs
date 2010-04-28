@@ -27,19 +27,9 @@ namespace Sponge2
 
 			builder.RegisterInstance(FilesTypes).As(typeof(IEnumerable<FileType>));
 
-			builder.RegisterInstance<Func<string, Project>>(path=>
-			{
-				return Project.FromSettingsFilePath(path, InjectProjectStuff);
-			});
-
 			_container = builder.Build();
 		}
 
-		private Project InjectProjectStuff(Project project)
-		{
-			//review: is this going to work if we have an inner scope? Will these things come from the outer scope?
-			return _container.InjectUnsetProperties(project);
-		}
 
 		public WelcomeDialog CreateWelcomeDialog()
 		{

@@ -13,6 +13,21 @@ namespace SpongeTests.model
 	[TestFixture]
 	public class ProjectTests
 	{
+		[Test]
+		public void Load_AfterSave_IsoPreserved()
+		{
+			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
+			{
+				string settingsPath = parent.Combine("foo." + Project.ProjectSettingsFileExtension);
+				var project = new Project(settingsPath);
+				project.Iso639Code = "abc";
+				project.Save();
+
+				var project2 = new Project(settingsPath);
+				Assert.AreEqual("abc",project2.Iso639Code);
+			}
+		}
+
 		/*
 		[Test, ExpectedException(typeof(FileNotFoundException))]
 		public void FromSettingsFilePath_FileNotFound_Throws()

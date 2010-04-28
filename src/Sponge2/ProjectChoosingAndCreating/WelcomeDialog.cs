@@ -29,6 +29,7 @@ namespace Sponge2.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		public WelcomeDialog(WelcomeDialogViewModel viewModel)
 		{
+			InitializeComponent();
 			Model = viewModel;
 
 			var rc = Settings.Default.WelcomeDialogBounds;
@@ -42,7 +43,8 @@ namespace Sponge2.ProjectChoosingAndCreating
 			DialogResult = DialogResult.Cancel;
 
 			LoadMRUButtons();
-			LocalizationInitiated();
+			if(LocalizationManager.Enabled)//review: to make work with dumb unit tests
+				LocalizationInitiated();
 			LocalizeItemDlg.StringsLocalized += LocalizationInitiated;
 		}
 

@@ -23,9 +23,8 @@ namespace Sponge2
 		public ApplicationContext()
 		{
 			var builder = new ContainerBuilder();
-			builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Except<Widget>();
+			builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t=>!t.Name.Contains("Factory"));
 
-			builder.RegisterType<Widget>();
 			builder.RegisterInstance(FilesTypes).As(typeof(IEnumerable<FileType>));
 
 			_container = builder.Build();

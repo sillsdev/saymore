@@ -55,7 +55,7 @@ namespace SIL.Sponge
 			_viewManger = new ViewButtonManager(tsMain, views);
 
 			_viewManger.SetView(tsbSessions);
-			SetWindowText();
+			//todo: breaks unit tests SetWindowText();
 
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
 		}

@@ -5,24 +5,10 @@ using System.Reflection;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using Sponge2;
-using Sponge2.Model;
-using Autofac;
-using Autofac.Core;
 
 
 namespace SpongeTests
 {
-	public class Widget
-	{
-		//public System.Func<string, Widget> Factory;
-		public delegate Widget Factory(string foo);
-
-		public Widget(string foo)
-		{
-
-		}
-	}
-
 	[TestFixture]
 	public class ApplicationContextTests
 	{
@@ -41,27 +27,6 @@ namespace SpongeTests
 			_parentFolder = null;
 		}
 
-		[Test]
-		public void FactoriesWithAutofac2()
-		{
-			var builder = new ContainerBuilder();
-			builder.RegisterType<Widget>();
-			var container = builder.Build();
-
-			var x = container.Resolve<Widget.Factory>();
-			x("hello");
-		}
-
-		[Test]
-		public void FactoriesWithAutofac2_AnotherApproach()
-		{
-			var builder = new ContainerBuilder();
-			builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());
-			var container = builder.Build();
-
-			var x = container.Resolve<System.Func<string,Widget>>();
-			x("hello");
-		}
 
 		[Test]
 		public void CreateWelcomeDialog_NotNull()

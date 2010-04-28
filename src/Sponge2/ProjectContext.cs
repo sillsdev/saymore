@@ -21,11 +21,10 @@ namespace Sponge2
 
 		public ProjectContext(string projectPath, IContainer parentContainer)
 		{
-			_scope = parentContainer.BeginLifetimeScope(builder =>
-			{
-				builder.Register(c => c.Resolve<ProjectWindow.Factory>()(projectPath));
-			});
-			ProjectWindow = _scope.Resolve<ProjectWindow>();
+			_scope = parentContainer.BeginLifetimeScope();
+
+			var factory = parentContainer.Resolve<ProjectWindow.Factory>();
+			ProjectWindow = factory(projectPath);
 		}
 
 		public ProjectWindow ProjectWindow{ get; private set;}

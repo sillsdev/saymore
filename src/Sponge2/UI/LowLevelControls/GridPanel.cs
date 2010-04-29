@@ -14,6 +14,7 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System.ComponentModel;
 using System.Windows.Forms;
 using SilUtils;
 using SilUtils.Controls;
@@ -48,7 +49,8 @@ namespace Sponge2.UI.LowLevelControls
 		/// Gets the panel's grid control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DataGridView Grid
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+		public SilGrid Grid
 		{
 			get { return _grid; }
 		}

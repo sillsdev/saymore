@@ -1,3 +1,6 @@
+using SilUtils;
+using Sponge2.UI.LowLevelControls;
+
 namespace Sponge2.UI
 {
 	partial class SessionsControl
@@ -28,92 +31,51 @@ namespace Sponge2.UI
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this._newSessionButton = new System.Windows.Forms.Button();
-			this._sessionListView = new System.Windows.Forms.ListView();
-			this._componentsListView = new System.Windows.Forms.ListView();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.tabControl1 = new System.Windows.Forms.TabControl();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			this._sessionComponentTab = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
-			this.tabControl1.SuspendLayout();
+			this._outerSplitter = new System.Windows.Forms.SplitContainer();
+			this._sessionsListPanel = new Sponge2.UI.LowLevelControls.ListPanel();
+			this._sessionComponentsSplitter = new System.Windows.Forms.SplitContainer();
+			this._componentGridPanel = new SilUtils.Controls.SilPanel();
+			this._componentGrid = new SilUtils.SilGrid();
+			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
+			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._sessionComponentTab.SuspendLayout();
+			this._outerSplitter.Panel1.SuspendLayout();
+			this._outerSplitter.Panel2.SuspendLayout();
+			this._outerSplitter.SuspendLayout();
+			this._sessionComponentsSplitter.Panel1.SuspendLayout();
+			this._sessionComponentsSplitter.Panel2.SuspendLayout();
+			this._sessionComponentsSplitter.SuspendLayout();
+			this._componentGridPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._componentGrid)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// _newSessionButton
+			// _sessionComponentTab
 			// 
-			this._newSessionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._newSessionButton.Location = new System.Drawing.Point(19, 320);
-			this._newSessionButton.Name = "_newSessionButton";
-			this._newSessionButton.Size = new System.Drawing.Size(99, 23);
-			this._newSessionButton.TabIndex = 2;
-			this._newSessionButton.Text = "New Session";
-			this._newSessionButton.UseVisualStyleBackColor = true;
-			this._newSessionButton.Click += new System.EventHandler(this.OnNewSessionButtonClick);
-			// 
-			// _sessionListView
-			// 
-			this._sessionListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)));
-			this._sessionListView.HideSelection = false;
-			this._sessionListView.Location = new System.Drawing.Point(19, 29);
-			this._sessionListView.MultiSelect = false;
-			this._sessionListView.Name = "_sessionListView";
-			this._sessionListView.Size = new System.Drawing.Size(121, 274);
-			this._sessionListView.TabIndex = 3;
-			this._sessionListView.UseCompatibleStateImageBehavior = false;
-			this._sessionListView.View = System.Windows.Forms.View.List;
-			this._sessionListView.SelectedIndexChanged += new System.EventHandler(this.OnSessionListView_SelectedIndexChanged);
-			// 
-			// _componentsListView
-			// 
-			this._componentsListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._componentsListView.HideSelection = false;
-			this._componentsListView.Location = new System.Drawing.Point(189, 39);
-			this._componentsListView.MultiSelect = false;
-			this._componentsListView.Name = "_componentsListView";
-			this._componentsListView.Size = new System.Drawing.Size(307, 98);
-			this._componentsListView.TabIndex = 4;
-			this._componentsListView.UseCompatibleStateImageBehavior = false;
-			this._componentsListView.View = System.Windows.Forms.View.List;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(16, 13);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(49, 13);
-			this.label1.TabIndex = 5;
-			this.label1.Text = "Sessions";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(186, 13);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(106, 13);
-			this.label2.TabIndex = 6;
-			this.label2.Text = "Session Components";
-			// 
-			// tabControl1
-			// 
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Location = new System.Drawing.Point(189, 160);
-			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(311, 187);
-			this.tabControl1.TabIndex = 7;
+			this._sessionComponentTab.Controls.Add(this.tabPage1);
+			this._sessionComponentTab.Controls.Add(this.tabPage2);
+			this._sessionComponentTab.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._sessionComponentTab.Location = new System.Drawing.Point(0, 0);
+			this._sessionComponentTab.Name = "_sessionComponentTab";
+			this._sessionComponentTab.SelectedIndex = 0;
+			this._sessionComponentTab.Size = new System.Drawing.Size(315, 197);
+			this._sessionComponentTab.TabIndex = 7;
 			// 
 			// tabPage1
 			// 
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(303, 161);
+			this.tabPage1.Size = new System.Drawing.Size(307, 171);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "tabPage1";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -123,39 +85,229 @@ namespace Sponge2.UI
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(303, 161);
+			this.tabPage2.Size = new System.Drawing.Size(307, 171);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "tabPage2";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// _outerSplitter
+			// 
+			this._outerSplitter.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._outerSplitter.Location = new System.Drawing.Point(0, 0);
+			this._outerSplitter.Name = "_outerSplitter";
+			// 
+			// _outerSplitter.Panel1
+			// 
+			this._outerSplitter.Panel1.Controls.Add(this._sessionsListPanel);
+			// 
+			// _outerSplitter.Panel2
+			// 
+			this._outerSplitter.Panel2.Controls.Add(this._sessionComponentsSplitter);
+			this._outerSplitter.Size = new System.Drawing.Size(503, 350);
+			this._outerSplitter.SplitterDistance = 182;
+			this._outerSplitter.SplitterWidth = 6;
+			this._outerSplitter.TabIndex = 9;
+			this._outerSplitter.TabStop = false;
+			// 
+			// _sessionsListPanel
+			// 
+			this._sessionsListPanel.CurrentItem = null;
+			this._sessionsListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._sessionsListPanel.Items = new object[0];
+			// 
+			// 
+			// 
+			this._sessionsListPanel.ListView.BackColor = System.Drawing.SystemColors.Window;
+			this._sessionsListPanel.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._sessionsListPanel.ListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._sessionsListPanel.ListView.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._sessionsListPanel.ListView.FullRowSelect = true;
+			this._sessionsListPanel.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			this._sessionsListPanel.ListView.HideSelection = false;
+			this._sessionsListPanel.ListView.Location = new System.Drawing.Point(0, 30);
+			this._sessionsListPanel.ListView.Name = "lvItems";
+			this._sessionsListPanel.ListView.Size = new System.Drawing.Size(180, 284);
+			this._sessionsListPanel.ListView.TabIndex = 0;
+			this._sessionsListPanel.ListView.UseCompatibleStateImageBehavior = false;
+			this._sessionsListPanel.ListView.View = System.Windows.Forms.View.Details;
+			this._sessionsListPanel.Location = new System.Drawing.Point(0, 0);
+			this._sessionsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
+			this._sessionsListPanel.Name = "_sessionsListPanel";
+			this._sessionsListPanel.ReSortWhenItemTextChanges = false;
+			this._sessionsListPanel.Size = new System.Drawing.Size(182, 350);
+			this._sessionsListPanel.TabIndex = 8;
+			this._sessionsListPanel.Text = "Sessions";
+			this._sessionsListPanel.NewButtonClicked += new Sponge2.UI.LowLevelControls.ListPanel.NewButtonClickedHandler(this.HandleNewSessionButtonClicked);
+			this._sessionsListPanel.SelectedItemChanged += new Sponge2.UI.LowLevelControls.ListPanel.SelectedItemChangedHandler(this.HandleSelectedSessionChanged);
+			// 
+			// _sessionComponentsSplitter
+			// 
+			this._sessionComponentsSplitter.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._sessionComponentsSplitter.Location = new System.Drawing.Point(0, 0);
+			this._sessionComponentsSplitter.Name = "_sessionComponentsSplitter";
+			this._sessionComponentsSplitter.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// _sessionComponentsSplitter.Panel1
+			// 
+			this._sessionComponentsSplitter.Panel1.Controls.Add(this._componentGridPanel);
+			// 
+			// _sessionComponentsSplitter.Panel2
+			// 
+			this._sessionComponentsSplitter.Panel2.Controls.Add(this._sessionComponentTab);
+			this._sessionComponentsSplitter.Size = new System.Drawing.Size(315, 350);
+			this._sessionComponentsSplitter.SplitterDistance = 147;
+			this._sessionComponentsSplitter.SplitterWidth = 6;
+			this._sessionComponentsSplitter.TabIndex = 0;
+			this._sessionComponentsSplitter.TabStop = false;
+			// 
+			// _componentGridPanel
+			// 
+			this._componentGridPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._componentGridPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._componentGridPanel.ClipTextForChildControls = true;
+			this._componentGridPanel.ControlReceivingFocusOnMnemonic = null;
+			this._componentGridPanel.Controls.Add(this._componentGrid);
+			this._componentGridPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._componentGridPanel.DoubleBuffered = true;
+			this._componentGridPanel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this._componentGridPanel.Location = new System.Drawing.Point(0, 0);
+			this._componentGridPanel.MnemonicGeneratesClick = false;
+			this._componentGridPanel.Name = "_componentGridPanel";
+			this._componentGridPanel.PaintExplorerBarBackground = false;
+			this._componentGridPanel.Size = new System.Drawing.Size(315, 147);
+			this._componentGridPanel.TabIndex = 1;
+			// 
+			// _componentGrid
+			// 
+			this._componentGrid.AllowUserToAddRows = false;
+			this._componentGrid.AllowUserToDeleteRows = false;
+			this._componentGrid.AllowUserToOrderColumns = true;
+			this._componentGrid.AllowUserToResizeRows = false;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			this._componentGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			this._componentGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			this._componentGrid.BackgroundColor = System.Drawing.SystemColors.Window;
+			this._componentGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._componentGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this._componentGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			this._componentGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this._componentGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colIcon,
+            this.colName,
+            this.colType,
+            this.colTags,
+            this.colDataModified,
+            this.colSize});
+			this._componentGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._componentGrid.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._componentGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(219)))), ((int)(((byte)(180)))));
+			this._componentGrid.IsDirty = false;
+			this._componentGrid.Location = new System.Drawing.Point(0, 0);
+			this._componentGrid.MultiSelect = false;
+			this._componentGrid.Name = "_componentGrid";
+			this._componentGrid.PaintHeaderAcrossFullGridWidth = true;
+			this._componentGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this._componentGrid.RowHeadersVisible = false;
+			this._componentGrid.RowHeadersWidth = 22;
+			this._componentGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this._componentGrid.ShowWaterMarkWhenDirty = false;
+			this._componentGrid.Size = new System.Drawing.Size(313, 145);
+			this._componentGrid.TabIndex = 0;
+			this._componentGrid.VirtualMode = true;
+			this._componentGrid.WaterMark = "!";
+			this._componentGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this._componentGrid_RowEnter);
+			this._componentGrid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this._componentGrid_CellValueNeeded);
+			// 
+			// colIcon
+			// 
+			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.colIcon.DataPropertyName = "SmallIcon";
+			this.colIcon.HeaderText = "";
+			this.colIcon.Name = "colIcon";
+			this.colIcon.ReadOnly = true;
+			this.colIcon.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.colIcon.Width = 5;
+			// 
+			// colName
+			// 
+			this.colName.DataPropertyName = "FileName";
+			this.colName.HeaderText = "Name";
+			this.colName.Name = "colName";
+			this.colName.ReadOnly = true;
+			// 
+			// colType
+			// 
+			this.colType.DataPropertyName = "FileType";
+			this.colType.HeaderText = "Type";
+			this.colType.Name = "colType";
+			this.colType.ReadOnly = true;
+			// 
+			// colTags
+			// 
+			this.colTags.DataPropertyName = "Tags";
+			this.colTags.HeaderText = "Tags";
+			this.colTags.Name = "colTags";
+			// 
+			// colDataModified
+			// 
+			this.colDataModified.DataPropertyName = "DateModified";
+			this.colDataModified.HeaderText = "Date Modified";
+			this.colDataModified.Name = "colDataModified";
+			this.colDataModified.ReadOnly = true;
+			this.colDataModified.Width = 107;
+			// 
+			// colSize
+			// 
+			this.colSize.DataPropertyName = "FileSize";
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
+			this.colSize.HeaderText = "Size";
+			this.colSize.Name = "colSize";
+			this.colSize.ReadOnly = true;
+			this.colSize.Width = 52;
 			// 
 			// SessionsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.tabControl1);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this._componentsListView);
-			this.Controls.Add(this._sessionListView);
-			this.Controls.Add(this._newSessionButton);
+			this.Controls.Add(this._outerSplitter);
 			this.Name = "SessionsControl";
 			this.Size = new System.Drawing.Size(503, 350);
-			this.Load += new System.EventHandler(this.SessionsControl_Load);
-			this.tabControl1.ResumeLayout(false);
+			this._sessionComponentTab.ResumeLayout(false);
+			this._outerSplitter.Panel1.ResumeLayout(false);
+			this._outerSplitter.Panel2.ResumeLayout(false);
+			this._outerSplitter.ResumeLayout(false);
+			this._sessionComponentsSplitter.Panel1.ResumeLayout(false);
+			this._sessionComponentsSplitter.Panel2.ResumeLayout(false);
+			this._sessionComponentsSplitter.ResumeLayout(false);
+			this._componentGridPanel.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this._componentGrid)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.Button _newSessionButton;
-		private System.Windows.Forms.ListView _sessionListView;
-		private System.Windows.Forms.ListView _componentsListView;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabControl _sessionComponentTab;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
+		private ListPanel _sessionsListPanel;
+		private System.Windows.Forms.SplitContainer _outerSplitter;
+		private System.Windows.Forms.SplitContainer _sessionComponentsSplitter;
+		private SilGrid _componentGrid;
+		private System.Windows.Forms.DataGridViewImageColumn colIcon;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colName;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colType;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
+		private SilUtils.Controls.SilPanel _componentGridPanel;
 	}
 }

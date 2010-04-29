@@ -24,6 +24,7 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection MRUList {
             get {
@@ -35,6 +36,7 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int LocalizationDlgSplitterPos {
             get {
@@ -46,6 +48,7 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle LocalizationDlgBounds {
@@ -58,18 +61,20 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle MainWndBounds {
+        public global::System.Drawing.Rectangle ProjectWindowBounds {
             get {
-                return ((global::System.Drawing.Rectangle)(this["MainWndBounds"]));
+                return ((global::System.Drawing.Rectangle)(this["ProjectWindowBounds"]));
             }
             set {
-                this["MainWndBounds"] = value;
+                this["ProjectWindowBounds"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle WelcomeDialogBounds {
@@ -82,6 +87,7 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int SessionVwSplitterPos {
             get {
@@ -93,6 +99,7 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string SessionFileCols {
             get {
@@ -244,6 +251,7 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle NewSessionsFromFilesDlgBounds {
@@ -256,6 +264,7 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string NewSessionsFromFilesDlgCols {
             get {
@@ -267,6 +276,7 @@ namespace Sponge2.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string NewSessionsFromFilesLastFolder {
             get {
@@ -274,18 +284,6 @@ namespace Sponge2.Properties {
             }
             set {
                 this["NewSessionsFromFilesLastFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle MainWindowBounds {
-            get {
-                return ((global::System.Drawing.Rectangle)(this["MainWindowBounds"]));
-            }
-            set {
-                this["MainWindowBounds"] = value;
             }
         }
         

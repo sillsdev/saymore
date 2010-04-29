@@ -17,7 +17,7 @@ namespace Sponge2.Model
 		public delegate Session Factory(string parentElementFolder, string id);
 
 		public Session(string parentElementFolder, string id, ComponentFile.Factory componentFileFactory)
-			:base(parentElementFolder,id, componentFileFactory)
+			: base(parentElementFolder,id, componentFileFactory)
 		{
 		}
 
@@ -51,6 +51,7 @@ namespace Sponge2.Model
 		{
 			get { return "session"; }
 		}
+
 		public string InfoForPrototype
 		{
 			get

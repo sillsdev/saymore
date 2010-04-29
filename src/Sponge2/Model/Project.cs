@@ -73,7 +73,6 @@ namespace Sponge2.Model
 				Directory.CreateDirectory(SessionsFolder);
 		}
 
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the list of sorted session folders (including their full path) in the project.
@@ -118,6 +117,7 @@ namespace Sponge2.Model
 			project.Add(new XElement("Iso639Code", Iso639Code));
 			project.Save(SettingsFilePath);
 		}
+
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
@@ -130,7 +130,6 @@ namespace Sponge2.Model
 		/// or, more often, 639-3 (3 letters)
 		/// </summary>
 		public string Iso639Code { get; set; }
-
 
 		/// <summary>
 		/// Note: while the folder name will match the settings file name when it

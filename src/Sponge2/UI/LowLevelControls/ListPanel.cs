@@ -29,6 +29,10 @@ namespace Sponge2.UI.LowLevelControls
 		public delegate object NewButtonClickedHandler(object sender);
 		public event NewButtonClickedHandler NewButtonClicked;
 
+		public delegate void ItemAddedHandler(object sender, object itemBeingAdded);
+		public event ItemAddedHandler BeforeItemAdded;
+		public event ItemAddedHandler AfterItemAdded;
+
 		// This font is used to indicate the text of the current item is a duplicate.
 		private Font _fntDupItem;
 
@@ -45,8 +49,14 @@ namespace Sponge2.UI.LowLevelControls
 			ReSortWhenItemTextChanges = false;
 
 			InitializeComponent();
-			_fntDupItem = new Font(lvItems.Font, FontStyle.Italic | FontStyle.Bold);
-			lvItems.ListViewItemSorter = new ListSorter();
+
+			if (DesignMode)
+				return;
+
+			_headerLabel.Font = SystemFonts.IconTitleFont;
+			_itemsListView.Font = SystemFonts.IconTitleFont;
+			_fntDupItem = new Font(_itemsListView.Font, FontStyle.Italic | FontStyle.Bold);
+			_itemsListView.ListViewItemSorter = new ListSorter();
 			MonitorSelectedIndexChanges = true;
 		}
 
@@ -75,8 +85,8 @@ namespace Sponge2.UI.LowLevelControls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
 		public override string Text
 		{
-			get { return hlblItems.Text; }
-			set { hlblItems.Text = value; }
+			get { return _headerLabel.Text; }
+			set { _headerLabel.Text = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -87,7 +97,7 @@ namespace Sponge2.UI.LowLevelControls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public ListView ListView
 		{
-			get { return lvItems; }
+			get { return _itemsListView; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -99,11 +109,11 @@ namespace Sponge2.UI.LowLevelControls
 		{
 			get
 			{
-				if (lvItems.Items.Count == 0)
+				if (_itemsListView.Items.Count == 0)
 					return new object[] { };
 
-				var items = new List<object>(lvItems.Items.Count);
-				foreach (ListViewItem item in lvItems.Items)
+				var items = new List<object>(_itemsListView.Items.Count);
+				foreach (ListViewItem item in _itemsListView.Items)
 					items.Add(item.Tag);
 
 				return items.ToArray();
@@ -111,14 +121,14 @@ namespace Sponge2.UI.LowLevelControls
 			set
 			{
 				var currItem = CurrentItem;
-				lvItems.Items.Clear();
+				_itemsListView.Items.Clear();
 				if (value != null && value.Length > 0)
 				{
 					var list = new List<object>(value);
 					list.Sort((x, y) => (x.ToString() ?? string.Empty).CompareTo(y.ToString() ?? string.Empty));
 					foreach (object obj in list)
 					{
-						var newLvItem = lvItems.Items.Add(obj.ToString());
+						var newLvItem = _itemsListView.Items.Add(obj.ToString());
 						newLvItem.Tag = obj;
 						newLvItem.Name = obj.ToString();
 						SetImage(newLvItem);
@@ -168,7 +178,7 @@ namespace Sponge2.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		public object CurrentItem
 		{
-			get { return (lvItems.FocusedItem == null ? null : lvItems.FocusedItem.Tag); }
+			get { return (_itemsListView.FocusedItem == null ? null : _itemsListView.FocusedItem.Tag); }
 			set { SelectItem(value, true); }
 		}
 
@@ -198,21 +208,21 @@ namespace Sponge2.UI.LowLevelControls
 			MonitorSelectedIndexChanges = false;
 
 			if (item is string)
-				lvItems.FocusedItem = lvItems.FindItemWithText(item as string);
+				_itemsListView.FocusedItem = _itemsListView.FindItemWithText(item as string);
 			else if (item is ListViewItem)
-				lvItems.FocusedItem = (item as ListViewItem);
+				_itemsListView.FocusedItem = (item as ListViewItem);
 			else
-				lvItems.FocusedItem = FindListViewItem(item);
+				_itemsListView.FocusedItem = FindListViewItem(item);
 
-			lvItems.SelectedItems.Clear();
+			_itemsListView.SelectedItems.Clear();
 
-			if (lvItems.FocusedItem != null)
-				lvItems.FocusedItem.Selected = true;
+			if (_itemsListView.FocusedItem != null)
+				_itemsListView.FocusedItem.Selected = true;
 
 			if (generateSelChgEvent && SelectedItemChanged != null)
 			{
-				SelectedItemChanged(this, lvItems.FocusedItem != null ?
-					lvItems.FocusedItem.Tag : null);
+				SelectedItemChanged(this, _itemsListView.FocusedItem != null ?
+					_itemsListView.FocusedItem.Tag : null);
 			}
 
 			MonitorSelectedIndexChanges = true;
@@ -225,7 +235,7 @@ namespace Sponge2.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private ListViewItem FindListViewItem(object item)
 		{
-			foreach (ListViewItem lvi in lvItems.Items)
+			foreach (ListViewItem lvi in _itemsListView.Items)
 			{
 				if (lvi.Tag == item)
 					return lvi;
@@ -236,34 +246,12 @@ namespace Sponge2.UI.LowLevelControls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Make sure the single list view column is a tiny bit narrower than the list view
-		/// control. This will prevent the list view's horizontal scrollbar from becoming
-		/// visible.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnResize(EventArgs e)
-		{
-			//HACK (jh): the vertical scroll bar refuses to show.  Some code I don't see is messing with the anchoring
-			// and perhaps the size of the list view.  Argghhhh.  Hence the next few, desperate lines
-
-			lvItems.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-			base.OnResize(e);
-			lvItems.Height = this.Height - (pnlButtons.Height + 50);
-			hdrList.Width = lvItems.ClientSize.Width - 1;
-			lvItems.Width = Width - 9;
-
-
-			pnlButtons.Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gives focus to the list view portion of the list panel.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public new void Focus()
 		{
-			lvItems.Focus();
+			_itemsListView.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -292,22 +280,22 @@ namespace Sponge2.UI.LowLevelControls
 
 			// Check if the item before or after the current item has the same text.
 			var i = lvi.Index;
-			if ((i > 0 && lvi.Text == lvItems.Items[i - 1].Text) ||
-				(i < lvItems.Items.Count - 1 && lvi.Text == lvItems.Items[i + 1].Text))
+			if ((i > 0 && lvi.Text == _itemsListView.Items[i - 1].Text) ||
+				(i < _itemsListView.Items.Count - 1 && lvi.Text == _itemsListView.Items[i + 1].Text))
 			{
 				// Change the look of the current item if it's text is duplicated.
 				lvi.ForeColor = Color.Red;
 				lvi.BackColor = Color.PapayaWhip;
 				lvi.Font = _fntDupItem;
-				lvItems.HideSelection = true;
+				_itemsListView.HideSelection = true;
 			}
 			else
 			{
 				// Restore the look of the current item to its default.
-				lvi.ForeColor = lvItems.ForeColor;
-				lvi.BackColor = lvItems.BackColor;
-				lvi.Font = lvItems.Font;
-				lvItems.HideSelection = false;
+				lvi.ForeColor = _itemsListView.ForeColor;
+				lvi.BackColor = _itemsListView.BackColor;
+				lvi.Font = _itemsListView.Font;
+				_itemsListView.HideSelection = false;
 			}
 		}
 
@@ -318,13 +306,13 @@ namespace Sponge2.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private int InsertIndex(string text)
 		{
-			for (int i = 0; i < lvItems.Items.Count; i++)
+			for (int i = 0; i < _itemsListView.Items.Count; i++)
 			{
-				if (lvItems.Items[i].Text.CompareTo(text) > 0)
+				if (_itemsListView.Items[i].Text.CompareTo(text) > 0)
 					return i;
 			}
 
-			return lvItems.Items.Count;
+			return _itemsListView.Items.Count;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -334,8 +322,11 @@ namespace Sponge2.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void lvItems_FontChanged(object sender, EventArgs e)
 		{
-			_fntDupItem.Dispose();
-			_fntDupItem = new Font(lvItems.Font, FontStyle.Italic | FontStyle.Bold);
+			if (_fntDupItem != null)
+			{
+				_fntDupItem.Dispose();
+				_fntDupItem = new Font(_itemsListView.Font, FontStyle.Italic | FontStyle.Bold);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -346,12 +337,24 @@ namespace Sponge2.UI.LowLevelControls
 		private void ReSort()
 		{
 			MonitorSelectedIndexChanges = false;
-			var selectedItem = lvItems.FocusedItem;
-			lvItems.BeginUpdate();
-			lvItems.Sort();
-			lvItems.EndUpdate();
+			var selectedItem = _itemsListView.FocusedItem;
+			_itemsListView.BeginUpdate();
+			_itemsListView.Sort();
+			_itemsListView.EndUpdate();
 			MonitorSelectedIndexChanges = true;
 			SelectItem(selectedItem, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsItemInList(object item)
+		{
+			return (item == null ? false : IsItemStringInList(item.ToString()));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsItemStringInList(string item)
+		{
+			return (_itemsListView.Items.Find(item, true).Length > 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -361,20 +364,20 @@ namespace Sponge2.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		public void DeleteCurrentItem()
 		{
-			if (lvItems.FocusedItem == null)
+			if (_itemsListView.FocusedItem == null)
 				return;
 
-			var newIndex = lvItems.FocusedItem.Index;
+			var newIndex = _itemsListView.FocusedItem.Index;
 
 			MonitorSelectedIndexChanges = false;
-			lvItems.Items.RemoveAt(newIndex);
+			_itemsListView.Items.RemoveAt(newIndex);
 			MonitorSelectedIndexChanges = true;
 
-			if (newIndex >= lvItems.Items.Count)
-				newIndex = lvItems.Items.Count - 1;
+			if (newIndex >= _itemsListView.Items.Count)
+				newIndex = _itemsListView.Items.Count - 1;
 
-			if (lvItems.Items.Count > 0)
-				CurrentItem = lvItems.Items[newIndex];
+			if (_itemsListView.Items.Count > 0)
+				CurrentItem = _itemsListView.Items[newIndex];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -385,12 +388,12 @@ namespace Sponge2.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
-			if (lvItems.SelectedItems.Count == 0)
+			if (_itemsListView.SelectedItems.Count == 0)
 				return;
 
 			// Create a list containing each selected item.
-			var itemsToDelete = new List<object>(lvItems.SelectedItems.Count);
-			foreach (ListViewItem item in lvItems.SelectedItems)
+			var itemsToDelete = new List<object>(_itemsListView.SelectedItems.Count);
+			foreach (ListViewItem item in _itemsListView.SelectedItems)
 				itemsToDelete.Add(item.Tag);
 
 			if (itemsToDelete.Count == 0)
@@ -399,8 +402,8 @@ namespace Sponge2.UI.LowLevelControls
 			if (BeforeItemsDeleted != null && !BeforeItemsDeleted(this, itemsToDelete))
 				return;
 
-			var currText = lvItems.FocusedItem.Text;
-			var currIndex = lvItems.FocusedItem.Index;
+			var currText = _itemsListView.FocusedItem.Text;
+			var currIndex = _itemsListView.FocusedItem.Index;
 
 			MonitorSelectedIndexChanges = false;
 
@@ -408,9 +411,9 @@ namespace Sponge2.UI.LowLevelControls
 			// delegate.)
 			foreach (object obj in itemsToDelete)
 			{
-				var item = lvItems.FindItemWithText(obj.ToString());
+				var item = _itemsListView.FindItemWithText(obj.ToString());
 				if (item != null)
-					lvItems.Items.Remove(item);
+					_itemsListView.Items.Remove(item);
 			}
 
 			MonitorSelectedIndexChanges = true;
@@ -421,25 +424,25 @@ namespace Sponge2.UI.LowLevelControls
 
 			// Check if the currently focused item is the same as the one that was
 			// focused before removing anything from the list.
-			if (lvItems.FocusedItem != null && currText == lvItems.FocusedItem.Text)
+			if (_itemsListView.FocusedItem != null && currText == _itemsListView.FocusedItem.Text)
 				return;
 
 			// Try to restore the focus to the item that had it before removing items.
-			var newItem = lvItems.FindItemWithText(currText);
+			var newItem = _itemsListView.FindItemWithText(currText);
 			if (newItem != null)
 			{
-				lvItems.FocusedItem = newItem;
+				_itemsListView.FocusedItem = newItem;
 				return;
 			}
 
 			// By now, we've failed to restore the focused item, so try to give focus
 			// to the item having the same index as that of the focused item before
 			// any items were removed from the list.
-			if (currIndex >= lvItems.Items.Count)
-				currIndex = lvItems.Items.Count - 1;
+			if (currIndex >= _itemsListView.Items.Count)
+				currIndex = _itemsListView.Items.Count - 1;
 
-			if (lvItems.Items.Count > 0)
-				lvItems.Items[currIndex].Selected = true;
+			if (_itemsListView.Items.Count > 0)
+				_itemsListView.Items[currIndex].Selected = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -454,6 +457,13 @@ namespace Sponge2.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void AddRange(IEnumerable<object> items)
+		{
+			foreach (object item in items)
+				AddItem(item, false, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adds an item to the list.
 		/// </summary>
@@ -462,14 +472,19 @@ namespace Sponge2.UI.LowLevelControls
 		{
 			// REVIEW: Is it OK to do nothing if the item already exists
 			// or should we throw an error or something like that?
-			if (item != null && (item.ToString() == string.Empty ||
-				lvItems.Items.Find(item.ToString(), true).Length == 0))
+			if (item != null && (item.ToString() == string.Empty || !IsItemInList(item)))
 			{
-				lvItems.Items.Add(item.ToString()).Tag = item;
+				if (BeforeItemAdded != null)
+					BeforeItemAdded(this, item);
+
+				_itemsListView.Items.Add(item.ToString()).Tag = item;
 				ReSort();
 
 				if (selectAfterAdd)
 					SelectItem(item, generateSelChgEvent);
+
+				if (AfterItemAdded != null)
+					AfterItemAdded(this, item);
 			}
 		}
 
@@ -487,9 +502,9 @@ namespace Sponge2.UI.LowLevelControls
 				if (_monitorSelectedIndexChanges != value)
 				{
 					if (value)
-						lvItems.SelectedIndexChanged += lvItems_SelectedIndexChanged;
+						_itemsListView.SelectedIndexChanged += lvItems_SelectedIndexChanged;
 					else
-						lvItems.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
+						_itemsListView.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
 
 					_monitorSelectedIndexChanges = value;
 				}
@@ -505,8 +520,8 @@ namespace Sponge2.UI.LowLevelControls
 		{
 			if (SelectedItemChanged != null)
 			{
-				SelectedItemChanged(this, lvItems.FocusedItem != null ?
-					lvItems.FocusedItem.Tag : null);
+				SelectedItemChanged(this, _itemsListView.FocusedItem != null ?
+					_itemsListView.FocusedItem.Tag : null);
 			}
 		}
 
@@ -515,9 +530,10 @@ namespace Sponge2.UI.LowLevelControls
 		/// Make it pretty behind the buttons.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void pnlButtons_Paint(object sender, PaintEventArgs e)
+		private void HandleButtonPanelPaint(object sender, PaintEventArgs e)
 		{
-			SpongeColors.PaintDataEntryBackground(e.Graphics, pnlButtons.ClientRectangle, BorderSides.Top);
+			SpongeColors.PaintDataEntryBackground(e.Graphics,
+				_buttonsFlowLayoutPanel.ClientRectangle, BorderSides.Top);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -531,11 +547,12 @@ namespace Sponge2.UI.LowLevelControls
 		{
 			if (_buttons.Count == 0)
 			{
-				_buttons.Add(btnNew);
-				_buttons.Add(btnDelete);
+				_buttons.Add(_newButton);
+				_buttons.Add(_deleteButton);
 			}
 
-			btn.Height = btnNew.Height;
+			btn.Height = _newButton.Height;
+			btn.Margin = _newButton.Margin;
 
 			if (index < 0)
 				_buttons.Insert(0, btn);
@@ -544,52 +561,50 @@ namespace Sponge2.UI.LowLevelControls
 			else
 				_buttons.Insert(index, btn);
 
+			_buttonsFlowLayoutPanel.Controls.Clear();
 			foreach (var b in _buttons)
-				b.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-
-			pnlButtons.Controls.Add(btn);
-			HandleButtonPanelClientSizeChanged(null, null);
+				_buttonsFlowLayoutPanel.Controls.Add(btn);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Arrange the buttons in the button panels into rows, from left to right, and wrap
-		/// around when a button will extend beyond the right edge of the panel. Then adjust
-		/// the height of the panel to accomodate the stack of buttons.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleButtonPanelClientSizeChanged(object sender, EventArgs e)
-		{
-			Utils.SetWindowRedraw(this, false);
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Arrange the buttons in the button panels into rows, from left to right, and wrap
+		///// around when a button will extend beyond the right edge of the panel. Then adjust
+		///// the height of the panel to accomodate the stack of buttons.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void HandleButtonPanelClientSizeChanged(object sender, EventArgs e)
+		//{
+		//    Utils.SetWindowRedraw(this, false);
 
-			const int horizMargin = 5;
-			const int vertMargin = 5;
+		//    const int horizMargin = 5;
+		//    const int vertMargin = 5;
 
-			int x = horizMargin;
-			int y = vertMargin;
+		//    int x = horizMargin;
+		//    int y = vertMargin;
 
-			foreach (var btn in _buttons)
-			{
-				if (x + btn.Width > (pnlButtons.ClientSize.Width - horizMargin))
-				{
-					x = horizMargin;
-					y += btn.Height + vertMargin;
-				}
+		//    foreach (var btn in _buttons)
+		//    {
+		//        if (x + btn.Width > (pnlButtons.ClientSize.Width - horizMargin))
+		//        {
+		//            x = horizMargin;
+		//            y += btn.Height + vertMargin;
+		//        }
 
-				var pt = new Point(x, y);
-				if (btn.Location != pt)
-					btn.Location = pt;
+		//        var pt = new Point(x, y);
+		//        if (btn.Location != pt)
+		//            btn.Location = pt;
 
-				x += (btn.Width + horizMargin);
-			}
+		//        x += (btn.Width + horizMargin);
+		//    }
 
-			pnlButtons.ClientSizeChanged -= HandleButtonPanelClientSizeChanged;
-			pnlButtons.Height = _buttons[_buttons.Count - 1].Bottom + vertMargin;
-			pnlButtons.Top = ClientSize.Height - pnlButtons.Height;
-			pnlButtons.ClientSizeChanged += HandleButtonPanelClientSizeChanged;
+		//    //pnlButtons.ClientSizeChanged -= HandleButtonPanelClientSizeChanged;
+		//    //pnlButtons.Height = _buttons[_buttons.Count - 1].Bottom + vertMargin;
+		//    //pnlButtons.Top = ClientSize.Height - pnlButtons.Height;
+		//    //pnlButtons.ClientSizeChanged += HandleButtonPanelClientSizeChanged;
 
-			Utils.SetWindowRedraw(this, true);
-		}
+		//    Utils.SetWindowRedraw(this, true);
+		//}
 
 		#region ListSorter class
 		/// ------------------------------------------------------------------------------------

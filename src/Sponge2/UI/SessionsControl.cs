@@ -1,66 +1,89 @@
 using System;
+using System.Linq;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using SilUtils;
 using Sponge2.Model;
 
 namespace Sponge2.UI
 {
+	/// ----------------------------------------------------------------------------------------
 	public partial class SessionsControl : UserControl
 	{
 		private readonly SessionsViewModel _model;
 
+		/// ------------------------------------------------------------------------------------
 		public SessionsControl(SessionsViewModel presentationModel)
 		{
 			_model = presentationModel;
 			InitializeComponent();
-			//label1.Text = _model.TestLabel;
+
+			if (DesignMode)
+				return;
+
+			_sessionComponentTab.Font = SystemFonts.IconTitleFont;
+			_componentGrid.Font = SystemFonts.IconTitleFont;
+			LoadSessionList();
 		}
 
-		private void SessionsControl_Load(object sender, EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		private void LoadSessionList()
 		{
-			UpdateDisplay();
+			var sessions = _model.Sessions.Cast<object>().ToList();
+
+			_sessionsListPanel.AddRange(sessions);
+
+			if (sessions.Count > 0)
+				_sessionsListPanel.SelectItem(sessions[0], true);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
-			//like everything here, this is just a hack
-			_componentsListView.Items.Clear();
-			_sessionListView.Items.Clear();
-			foreach (Session  session in _model.Sessions)
-			{
-				ListViewItem item = _sessionListView.Items.Add(session.Id);
-				var x = item.Tag = session;
-				if(x == _model.SelectedSession)
-				{
-					item.Selected = true;
-				}
-
-			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void UpdateComponentList()
 		{
-			_componentsListView.Items.Clear();
-			foreach (ComponentFile file in _model.ComponentsOfCurrentSession)
-			{
-				ListViewItem item = _componentsListView.Items.Add(Path.GetFileName(file.Path));
-				item.Tag = file;
-			}
+			_componentGrid.RowCount = _model.ComponentsOfSelectedSession.Count();
+			_componentGrid.Invalidate();
 		}
 
-		private void OnNewSessionButtonClick(object sender, EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		private object HandleNewSessionButtonClicked(object sender)
 		{
-			_model.CreateNewSession();
-			UpdateDisplay();
+			_model.SetSelectedSession(_model.CreateNewSession());
+			_sessionsListPanel.AddItem(_model.SelectedSession, true, true);
+			return null;
 		}
 
-		private void OnSessionListView_SelectedIndexChanged(object sender, EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		private void HandleSelectedSessionChanged(object sender, object newItem)
 		{
-			if (_sessionListView.SelectedItems.Count > 0)
-			{
-				_model.SelectedSession = _sessionListView.SelectedItems[0].Tag as Session;
-			}
+			_model.SetSelectedSession(newItem as Session);
 			UpdateComponentList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void _componentGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			_model.SetSelectedComponentFile(e.RowIndex);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void _componentGrid_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+		{
+			var dataPropName = _componentGrid.Columns[e.ColumnIndex].DataPropertyName;
+			var currSessionFile = _model.GetComponentFile(e.RowIndex);
+
+			e.Value = (currSessionFile == null ? null :
+				ReflectionHelper.GetProperty(currSessionFile, dataPropName));
+		}
+
+		private void HandleAfterSessionAdded(object sender, object itemBeingAdded)
+		{
+
 		}
 	}
 }

@@ -30,9 +30,6 @@ namespace Sponge2.UI.ProjectWindow
 		private ProjectWindow()
 		{
 			InitializeComponent();
-
-			if (Settings.Default.MainWindowBounds.Height < 0)
-				StartPosition = FormStartPosition.CenterScreen;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -45,8 +42,8 @@ namespace Sponge2.UI.ProjectWindow
 			_viewManger = new ViewButtonManager(tsMain, views);
 
 			_viewManger.SetView(tsbSessions);
-			//todo: breaks unit tests SetWindowText();
 
+			SetWindowText();
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
 		}
 
@@ -99,8 +96,8 @@ namespace Sponge2.UI.ProjectWindow
 			base.OnLoad(e);
 
 			// Do this here because it doesn't work in the constructor.
-			if (Settings.Default.MainWindowBounds.Height >= 0)
-				Bounds = Settings.Default.MainWindowBounds;
+			if (Settings.Default.ProjectWindowBounds.Height >= 0)
+				Bounds = Settings.Default.ProjectWindowBounds;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,8 +108,7 @@ namespace Sponge2.UI.ProjectWindow
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);
-			Settings.Default.MainWindowBounds = Bounds;
-			Settings.Default.Save();
+			Settings.Default.ProjectWindowBounds = Bounds;
 			LocalizeItemDlg.StringsLocalized -= SetWindowText;
 		}
 
@@ -156,7 +152,7 @@ namespace Sponge2.UI.ProjectWindow
 		private void tsbChangeProjects_Click(object sender, EventArgs e)
 		{
 			UserWantsToOpenADifferentProject = true;
-			this.Close();
+			Close();
 		}
 
 		public bool UserWantsToOpenADifferentProject { get; set; }

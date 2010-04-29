@@ -84,8 +84,9 @@ namespace Sponge2.Model
 
 		public string Id { get; /*ideally only the factory and serializer should see this*/ set; }
 
-		public IEnumerable<ComponentFile> GetComponentFiles()
+		public ComponentFile[] GetComponentFiles()
 		{
+			// John: Should we cache this?
 			return (from x in Directory.GetFiles(FolderPath, "*.*")
 					where (
 						//!x.EndsWith("." + Sponge.SessionMetaDataFileExtension) &&
@@ -110,7 +111,7 @@ namespace Sponge2.Model
 		{
 			get
 			{
-				return Path.Combine(FolderPath, Id +"." + ExtensionWithoutPeriod);
+				return Path.Combine(FolderPath, Id + "." + ExtensionWithoutPeriod);
 			}
 		}
 
@@ -135,6 +136,7 @@ namespace Sponge2.Model
 			}
 			child.Save(SettingsFilePath);
 		}
+
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
@@ -151,6 +153,12 @@ namespace Sponge2.Model
 				//Enhance: someday we may have other types
 				Fields.Add(new FieldValue(element.Name.LocalName, type, element.Value));
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return Id;
 		}
 	}
 }

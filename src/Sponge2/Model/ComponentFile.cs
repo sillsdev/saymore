@@ -97,8 +97,9 @@ namespace Sponge2.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// John: do you have a philosophy behind making this a method rather than a property?
-		/// Or, is it arbitrary?
+		/// John: It would be nice to make all the data displayed in a components grid
+		/// accessible through properties or methods, but not a mix of both. What do you think?
+		///
 		///
 		public FileType GetFileType()
 		{
@@ -131,6 +132,14 @@ namespace Sponge2.Model
 			get; private set;
 		}
 #endif
+
+		/// ------------------------------------------------------------------------------------
+		/// For now this is a property, but depending on the answer to my question above (about
+		/// methods or properties, this property may become a method.
+		public string FileName
+		{
+			get { return System.IO.Path.GetFileName(Path); }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)

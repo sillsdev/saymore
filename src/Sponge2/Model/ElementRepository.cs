@@ -71,7 +71,7 @@ namespace Sponge2.Model
 
 		public T CreateNew(string id)
 		{
-			T element =  _elementFactory(_rootFolder, id) as T;
+			T element = _elementFactory(_rootFolder, id) as T;
 			_items.Add(element);
 			return element;
 		}

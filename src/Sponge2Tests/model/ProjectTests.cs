@@ -1,4 +1,7 @@
+using System;
+using System.IO;
 using NUnit.Framework;
+using Palaso.TestUtilities;
 using Sponge2.Model;
 
 namespace Sponge2Tests.model
@@ -6,6 +9,22 @@ namespace Sponge2Tests.model
 	[TestFixture]
 	public class ProjectTests
 	{
+		private TemporaryFolder _parentFolder;
+
+		[SetUp]
+		public void Setup()
+		{
+			_parentFolder = new TemporaryFolder("projectTest");
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			_parentFolder.Dispose();
+			_parentFolder = null;
+		}
+
+
 		[Test]
 		public void Load_AfterSave_IsoPreserved()
 		{
@@ -69,45 +88,26 @@ namespace Sponge2Tests.model
 				Assert.AreEqual("abc", sameProject.Iso639Code);
 			}
 		}
+		*/
+
 
 		[Test, ExpectedException(typeof(ArgumentException))]
-		public void CreateAtLocation_FolderAlreadyExists_Throws()
+		public void Constructor_ParentFolderDoesNotExist_Throws()
 		{
-			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
-			using (new Palaso.TestUtilities.TemporaryFolder(parent, "child"))
-			{
-				Project.CreateAtLocation(parent.Path, "child", TODO);
-			}
-		}
-
-		[Test, ExpectedException(typeof(ArgumentException))]
-		public void CreateAtLocation_ParentFolderDoesNotExist_Throws()
-		{
-			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
-			{
-				Project.CreateAtLocation(parent.Path+"YY", "child", TODO);
-			}
+			Assert.IsTrue(File.Exists(_parentFolder.Combine("NotThere", "foo", "foo." + Project.ProjectSettingsFileExtension)));
 		}
 
 		[Test]
-		public void CreateAtLocation_EverythingOk_ReturnsProject()
+		public void Constructor_EverythingOk_CreatesFolderAndSettingsFile()
 		{
-			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
-			{
-				Assert.IsNotNull(Project.CreateAtLocation(parent.Path, "foo", TODO));
-			}
+				CreateProject(_parentFolder);
+				Assert.IsTrue(File.Exists(_parentFolder.Combine("foo", "foo."+Project.ProjectSettingsFileExtension)));
 		}
 
-		[Test]
-		public void CreateAtLocation_EverythingOk_CreatesFolderAndSettingsFile()
+		private void CreateProject(TemporaryFolder parent)
 		{
-			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
-			{
-				Project.CreateAtLocation(parent.Path, "foo", TODO);
-				Assert.IsTrue(File.Exists(parent.Combine("foo", "foo."+Project.ProjectSettingsFileExtension)));
-			}
+			new Project(parent.Combine("foo","foo." + Project.ProjectSettingsFileExtension));
 		}
-		 */
 	}
 
 }

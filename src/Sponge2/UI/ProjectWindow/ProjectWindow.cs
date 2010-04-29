@@ -39,7 +39,7 @@ namespace Sponge2.UI.ProjectWindow
 		public ProjectWindow(string projectName, SessionsControl sessionsControl) : this()
 		{
 			_projectName = projectName;
-			var views = new Control[] { sessionsControl };
+			var views = new Control[] { new TextBox(),  sessionsControl, new TextBox()};
 
 			Controls.AddRange(views);
 			_viewManger = new ViewButtonManager(tsMain, views);

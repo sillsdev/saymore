@@ -13,11 +13,11 @@ namespace Sponge2.UI.ProjectChoosingAndCreating
 	/// </summary>
 	public class WelcomeDialogViewModel
 	{
-		private readonly Project.Factory _projectFactory;
+		//private readonly Project.Factory _projectFactory;
 
-		public WelcomeDialogViewModel(Project.Factory projectFactory)
+		public WelcomeDialogViewModel()//Project.Factory projectFactory)
 		{
-			_projectFactory = projectFactory;
+			//_projectFactory = projectFactory;
 		}
 
 		public string ProjectSettingsFilePath { get; set; }
@@ -75,19 +75,19 @@ namespace Sponge2.UI.ProjectChoosingAndCreating
 								 bldDate.ToString("dd-MMM-yyyy"));
 		}
 
-		public bool CreateNewProject(string parentFolderPath, string newProjectName)
+		public void SetRequestedPath(string parentFolderPath, string newProjectName)
 		{
-			try
-			{
-				//var project = _projectFactory(parentFolderPath, newProjectName);
-				//ProjectSettingsFilePath = project.SettingsFilePath;
-			}
-			catch (Exception error)
-			{
-				ErrorReport.ReportNonFatalException(error);
-				return false;
-			}
-			return true;
+//			try
+//			{
+			//	var project = _projectFactory(parentFolderPath, newProjectName);
+				ProjectSettingsFilePath = Project.ComputePathToSettings(parentFolderPath, newProjectName);
+//			}
+//			catch (Exception error)
+//			{
+//				ErrorReport.ReportNonFatalException(error);
+//				return false;
+//			}
+//			return true;
 		}
 	}
 }

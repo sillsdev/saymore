@@ -14,9 +14,14 @@ namespace Sponge2.Model
 	public class Session : ProjectElement
 	{
 		//autofac uses this
-		public delegate Session Factory();
+		public delegate Session Factory(string parentElementFolder, string id);
 
-		/// <summary>
+		public Session(string parentElementFolder, string id, ComponentFile.Factory componentFileFactory)
+			:base(parentElementFolder,id, componentFileFactory)
+		{
+		}
+
+		/*/// <summary>
 		/// Use this for creating new elements
 		/// </summary>
 		/// <param name="parentElementFolder">E.g. "c:/MyProject/Sessions"</param>
@@ -35,7 +40,7 @@ namespace Sponge2.Model
 		public Session(string existingElementFolder, ComponentFile.Factory componentFileFactory)
 			:base(existingElementFolder,componentFileFactory)
 		{
-		}
+		}*/
 
 		protected override string ExtensionWithoutPeriod
 		{

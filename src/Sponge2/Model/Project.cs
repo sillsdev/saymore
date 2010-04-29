@@ -153,5 +153,10 @@ namespace Sponge2.Model
 			get; set;
 		}
 
+		public static string ComputePathToSettings(string parentFolderPath, string newProjectName)
+		{
+			var p=  Path.Combine(parentFolderPath, newProjectName);
+			return Path.Combine(p, newProjectName + "." + ProjectSettingsFileExtension);
+		}
 	}
 }

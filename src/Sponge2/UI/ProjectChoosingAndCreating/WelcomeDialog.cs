@@ -197,11 +197,12 @@ namespace Sponge2.UI.ProjectChoosingAndCreating
 				{
 					if (dlg.ShowDialog() == DialogResult.OK)
 					{
-						if (Model.CreateNewProject(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName))
-						{
-							DialogResult = DialogResult.OK;
+//						if (Model.CreateNewProject(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName))
+//						{
+						Model.SetRequestedPath(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName);
+						DialogResult = DialogResult.OK;
 							Close();
-						}
+//						}
 					}
 				}
 

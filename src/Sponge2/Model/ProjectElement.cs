@@ -18,6 +18,31 @@ namespace Sponge2.Model
 		private ComponentFile.Factory _componentFileFactory;
 
 		/// <summary>
+		/// Use this for creating new or existing elements
+		/// </summary>
+		/// <param name="parentElementFolder">E.g. "c:/MyProject/Sessions"</param>
+		/// <param name="id">e.g. "ETR007"</param>
+		protected ProjectElement(string parentElementFolder, string id, ComponentFile.Factory componentFileFactory)
+		{
+			_componentFileFactory = componentFileFactory;
+			RequireThat.Directory(parentElementFolder).Exists();
+
+			ParentFolderPath = parentElementFolder;
+			Id = id;
+			Fields = new List<FieldValue>();
+
+			if (File.Exists(SettingsFilePath))
+			{
+				Load();
+			}
+			else
+			{
+				Directory.CreateDirectory(FolderPath);
+				Save();
+			}
+		}
+
+/*		/// <summary>
 		/// Use this for creating new elements
 		/// </summary>
 		/// <param name="parentElementFolder">E.g. "c:/MyProject/Sessions"</param>
@@ -54,7 +79,7 @@ namespace Sponge2.Model
 			//all the fields are blank
 			Load();
 		}
-
+		*/
 
 
 		public string Id { get; /*ideally only the factory and serializer should see this*/ set; }

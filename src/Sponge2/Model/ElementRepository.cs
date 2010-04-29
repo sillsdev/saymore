@@ -15,11 +15,12 @@ namespace Sponge2.Model
 	{
 		public delegate ElementRepository<T> Factory(string projectDirectory, string elementGroupName);
 
-		private readonly Func<string, T> _elementFactory;
+		//private readonly Func<string, string, T> _elementFactory;
+		private readonly Session.Factory _elementFactory; //TODO: fix this. I'm struggling with autofac on this issue
 		private List<T> _items = new List<T>();
 		private string _rootFolder;
 
-		public ElementRepository(string projectDirectory, string elementGroupName, Func<string,T> elementFactory)
+		public ElementRepository(string projectDirectory, string elementGroupName, Session.Factory elementFactory)
 		{
 			_elementFactory = elementFactory;
 			RequireThat.Directory(projectDirectory).Exists();
@@ -57,16 +58,22 @@ namespace Sponge2.Model
 				var item = _items.FirstOrDefault(x => x.FolderPath == path);
 				if (item == null)
 				{
-					var element =_elementFactory(Path.GetFileName(path));
-					_items.Add(element);
+					var element =_elementFactory(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+					_items.Add(element as T);
 				}
 			}
-
 		}
 
 		public IEnumerable<T> AllItems
 		{
 			get {return _items;}
+		}
+
+		public T CreateNew(string id)
+		{
+			T element =  _elementFactory(_rootFolder, id) as T;
+			_items.Add(element);
+			return element;
 		}
 	}
 }

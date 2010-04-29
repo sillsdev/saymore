@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using SIL.Localization;
+using Sponge2.Model;
 using Sponge2.Properties;
 using Sponge2.UI.ProjectChoosingAndCreating;
 using Sponge2.UI.ProjectWindow;
@@ -86,6 +87,10 @@ namespace Sponge2
 
 				MruProjects.AddNewPath(dlg.Model.ProjectSettingsFilePath);
 				MruProjects.Save();
+//				if (!File.Exists(dlg.Model.ProjectSettingsFilePath))
+//				{
+//					new Project(dlg.Model.ProjectSettingsFilePath);
+//				}
 				OpenProjectWindow(dlg.Model.ProjectSettingsFilePath);
 			}
 		}

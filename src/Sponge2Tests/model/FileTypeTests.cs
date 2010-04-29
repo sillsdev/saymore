@@ -1,11 +1,8 @@
-using System.IO;
-using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using Sponge2.Model;
 
-
-namespace SpongeTests.model
+namespace Sponge2Tests.model
 {
 	[TestFixture]
 	public class FileTypeTests

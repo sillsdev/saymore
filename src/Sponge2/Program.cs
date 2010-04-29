@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using SIL.Localization;
-using SIL.Sponge;
-using Sponge2.ProjectChoosingAndCreating;
 using Sponge2.Properties;
+using Sponge2.UI.ProjectChoosingAndCreating;
+using Sponge2.UI.ProjectWindow;
 
 namespace Sponge2
 {
@@ -17,7 +17,7 @@ namespace Sponge2
 		/// </summary>
 		private static ProjectContext _projectContext;
 
-		private static ApplicationContext _applicationContext;
+		private static ApplicationContainer _applicationContainer;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -30,7 +30,7 @@ namespace Sponge2
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			_applicationContext = new ApplicationContext();
+			_applicationContainer = new ApplicationContainer();
 
 			LocalizationManager.Enabled = true;
 			LocalizationManager.Initialize();
@@ -66,7 +66,7 @@ namespace Sponge2
 		private static void OpenProjectWindow(string projectPath)
 		{
 			Debug.Assert(_projectContext == null);
-			_projectContext = _applicationContext.CreateProjectContext(projectPath);
+			_projectContext = _applicationContainer.CreateProjectContext(projectPath);
 			_projectContext.ProjectWindow.Closed += OnProjectWindow_Closed;
 			_projectContext.ProjectWindow.Show();
 		}
@@ -76,7 +76,7 @@ namespace Sponge2
 		{
 			Application.Idle -= ChooseAnotherProject;
 
-			using (var dlg = _applicationContext.CreateWelcomeDialog())
+			using (var dlg = _applicationContainer.CreateWelcomeDialog())
 			{
 				if (dlg.ShowDialog() != DialogResult.OK)
 				{

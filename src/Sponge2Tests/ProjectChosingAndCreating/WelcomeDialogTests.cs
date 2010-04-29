@@ -14,14 +14,11 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System.IO;
+
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using Sponge2.UI.ProjectChoosingAndCreating;
 
-using SilUtils;
-using Sponge2.ProjectChoosingAndCreating;
-
-namespace SpongeTests.ProjectChosingAndCreating
+namespace Sponge2Tests.ProjectChosingAndCreating
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

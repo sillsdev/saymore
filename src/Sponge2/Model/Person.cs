@@ -5,10 +5,12 @@ using System.Text;
 
 namespace Sponge2.Model
 {
-	public class Person : ProjectChild
+	public class Person : ProjectElement
 	{
-		public Person(ComponentFile.Factory componentFileFactory): base(componentFileFactory)
+		public Person(string desiredOrExistingFolder, ComponentFile.Factory componentFileFactory)
+			: base(desiredOrExistingFolder, componentFileFactory)
 		{
+
 		}
 
 		protected override string ExtensionWithoutPeriod

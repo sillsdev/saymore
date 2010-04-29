@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using SIL.Sponge;
 using Autofac;
 using Autofac.Core;
 using Sponge2.Model;
+using Sponge2.UI.ProjectWindow;
 
 namespace Sponge2
 {
@@ -23,14 +24,31 @@ namespace Sponge2
 		/// </summary>
 		private ILifetimeScope _scope;
 
-		public ProjectContext(string projectPath, IContainer parentContainer)
+		public ProjectContext(string projectSettingsPath, IContainer parentContainer)
 		{
 			_scope = parentContainer.BeginLifetimeScope();
 
-			Project = _scope.Resolve<Func<string, Project>>()(projectPath);
+			//REVIEW: this is done because some things (like the repositories) will need it to exist
+			//and they are actually created before the project at the moment.
+			//Hopefully I'll think more clearly about this in the future
 
+
+
+
+//			if (Directory.Exists(projectPath))
+			{
+				Project = _scope.Resolve<Func<string, Project>>()(projectSettingsPath);
+			}
+//			else
+//			{
+				//yuck
+//				string projectName = Path.GetFileName(projectPath);
+//				string parentDirectory = Path.GetDirectoryName(projectPath);
+//				Project = _scope.Resolve<Func<string, string, Project>>()(parentDirectory,projectName);
+//			}
+			var repo = _scope.Resolve<Func<string, string, ElementRepository<Session>>>()(Path.GetDirectoryName(projectSettingsPath), "Sesssions");
 			var factory = _scope.Resolve<ProjectWindow.Factory>();
-			ProjectWindow = factory(projectPath);
+			ProjectWindow = factory(projectSettingsPath);
 		}
 
 

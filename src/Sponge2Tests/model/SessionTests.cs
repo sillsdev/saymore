@@ -1,12 +1,10 @@
-using System;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using Sponge2.Model;
 
-
-namespace SpongeTests.model
+namespace Sponge2Tests.model
 {
 	[TestFixture]
 	public class SessionTests
@@ -28,7 +26,7 @@ namespace SpongeTests.model
 
 		private Session CreateSession(string id)
 		{
-			return Session.CreateAtLocation(_parentFolder.Path, id, ComponentFile.CreateMinimalComponentFileForTests);
+			return new Session(_parentFolder.Path, id, ComponentFile.CreateMinimalComponentFileForTests);
 		}
 
 		[Test]

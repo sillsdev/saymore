@@ -1,14 +1,8 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using Sponge2.Model;
-using Autofac;
-using Autofac.Core;
 
-
-namespace SpongeTests.model
+namespace Sponge2Tests.model
 {
 	[TestFixture]
 	public class ComponentFileTests

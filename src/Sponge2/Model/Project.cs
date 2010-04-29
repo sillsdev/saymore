@@ -18,19 +18,22 @@ namespace Sponge2.Model
 		private const string SessionFolderName = "sessions";
 		public const string ProjectSettingsFileExtension = "sprj";
 
+		public delegate Project Factory(string desiredOrExistingFilePath);
+		//public delegate Project FactoryForNew(string parentDirectory, int x, string projectName);
+
 		public Session.Factory SessionFactory { get; set; }
 		public Func<Session, Session> SessionPropertyInjectionMethod { get; set; }
 
 		/// <summary>
 		/// can be used whether the project exists already, or not
 		/// </summary>
-		public Project(string desiredOrExistingFilePath)
+		public Project(string desiredOrExistingSettingsFilePath)
 		{
-			SettingsFilePath = desiredOrExistingFilePath;
-			var projectDirectory = Path.GetDirectoryName(desiredOrExistingFilePath);
+			SettingsFilePath = desiredOrExistingSettingsFilePath;
+			var projectDirectory = Path.GetDirectoryName(desiredOrExistingSettingsFilePath);
 			var parentDirectoryPath = Path.GetDirectoryName(projectDirectory);
 
-			if (File.Exists(desiredOrExistingFilePath))
+			if (File.Exists(desiredOrExistingSettingsFilePath))
 			{
 				Load();
 			}
@@ -44,10 +47,20 @@ namespace Sponge2.Model
 				}
 				Save();
 			}
-			Sessions = new List<Session>();
-			People = new List<Person>();
 		}
 
+//		public Project(string parentDirectory,  string projectName)
+//		{
+//			RequireThat.Directory(parentDirectory).Exists();
+//
+//			var projectDirectory = Path.Combine(parentDirectory, projectName);
+//			RequireThat.Directory(projectDirectory).DoesNotExist();
+//			Directory.CreateDirectory(projectDirectory);
+//
+//			SettingsFilePath = Path.Combine(projectDirectory, projectName + "." + ProjectSettingsFileExtension);
+//			RequireThat.File(SettingsFilePath).DoesNotExist();
+//			Save();
+//		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -58,14 +71,6 @@ namespace Sponge2.Model
 		{
 			if (!Directory.Exists(SessionsFolder))
 				Directory.CreateDirectory(SessionsFolder);
-
-			var allSessions = (from folder in SessionNames
-					 orderby folder
-					 select Session.LoadFromFolder(folder, SessionPropertyInjectionMethod));
-
-			Sessions = (from session in allSessions
-						where session != null	// sessions we couldn't load are null
-						select session).ToList();
 		}
 
 
@@ -148,12 +153,5 @@ namespace Sponge2.Model
 			get; set;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public List<Session> Sessions { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public List<Person> People { get; private set; }
 	}
 }

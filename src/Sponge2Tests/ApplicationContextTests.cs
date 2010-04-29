@@ -5,9 +5,10 @@ using System.Reflection;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using Sponge2;
+using Sponge2.Model;
 
 
-namespace SpongeTests
+namespace Sponge2Tests
 {
 	[TestFixture]
 	public class ApplicationContextTests
@@ -33,7 +34,7 @@ namespace SpongeTests
 		[Test]
 		public void CreateWelcomeDialog_NotNull()
 		{
-			using(var appContext = new ApplicationContext())
+			using(var appContext = new ApplicationContainer())
 			{
 				 using(var form =appContext.CreateWelcomeDialog())
 				 {
@@ -45,7 +46,7 @@ namespace SpongeTests
 		[Test]
 		public void CreateWelcomeDialog_CanCreateOnAfterAnother()
 		{
-			using (var appContext = new ApplicationContext())
+			using (var appContext = new ApplicationContainer())
 			{
 				appContext.CreateWelcomeDialog().Dispose();
 				appContext.CreateWelcomeDialog().Dispose();
@@ -58,27 +59,32 @@ namespace SpongeTests
 		[Test]
 		public void CreateProjectContext_ProjectWindowIsNotNull()
 		{
-			using (var appContext = new ApplicationContext())
+			using (var appContext = new ApplicationContainer())
 			{
-				using (var projectContext = appContext.CreateProjectContext(_parentFolder.Combine("theProject")))
+				using (var projectContext = CreateProjectContext(appContext))
 				{
 					Assert.IsNotNull(projectContext.ProjectWindow);
 				}
 			}
 		}
 
+		private ProjectContext CreateProjectContext(ApplicationContainer appContext)
+		{
+			return appContext.CreateProjectContext(_parentFolder.Combine("theProject", "theProject."+Project.ProjectSettingsFileExtension));
+		}
+
 
 		[Test]
 		public void CreateProjectContext_CanCreateTwoProjectsConsecutively()
 		{
-			using (var appContext = new ApplicationContext())
+			using (var appContext = new ApplicationContainer())
 			{
-				using (var projectContext = appContext.CreateProjectContext(_parentFolder.Combine("theProject")))
+				using (var projectContext = CreateProjectContext(appContext))
 				{
 					Assert.IsNotNull(projectContext.ProjectWindow);
 					projectContext.ProjectWindow.Dispose();
 				}
-				using (var projectContext = appContext.CreateProjectContext(_parentFolder.Combine("theProject")))
+				using (var projectContext = CreateProjectContext(appContext))
 				{
 					Assert.IsNotNull(projectContext.ProjectWindow);
 					projectContext.ProjectWindow.Dispose();

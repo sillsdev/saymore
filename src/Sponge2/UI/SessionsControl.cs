@@ -48,6 +48,7 @@ namespace Sponge2.UI
 		{
 			_componentGrid.RowCount = _model.ComponentsOfSelectedSession.Count();
 			_componentGrid.Invalidate();
+			_sessionComponentTab.TabPages.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,6 +70,20 @@ namespace Sponge2.UI
 		private void _componentGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			_model.SetSelectedComponentFile(e.RowIndex);
+			UpdateComponentControls();
+		}
+
+		private void UpdateComponentControls()
+		{
+			_sessionComponentTab.TabPages.Clear();
+			foreach (var control in _model.GetComponentEditors())
+			{
+				var page = new TabPage();
+				page.Text = control.Name;
+				control.Dock = DockStyle.Fill;
+				page.Controls.Add(control);
+				_sessionComponentTab.TabPages.Add(page);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,5 +100,6 @@ namespace Sponge2.UI
 		{
 
 		}
+
 	}
 }

@@ -81,6 +81,12 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Session.cs" />
+    <Compile Include="UI\ComponentEditors\SimpleFileInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\SimpleFileInfoControl.Designer.cs">
+      <DependentUpon>SimpleFileInfoControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="UI\ComponentEditors\SimpleFileInfoControl.resx">
+      <DependentUpon>SimpleFileInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.resx">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
     </EmbeddedResource>

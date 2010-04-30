@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
+using Sponge2.UI.ComponentEditors;
 
 namespace Sponge2.Model
 {
@@ -7,7 +10,7 @@ namespace Sponge2.Model
 	/// Each file corresponds to a single kind of fileType.  The FileType then tells
 	/// us what controls are available for marking up, editing, or viewing that file.
 	/// </summary>
-	public class FileType
+	public  class FileType
 	{
 		private readonly Func<string, bool> _isMatchPredicate;
 
@@ -37,6 +40,11 @@ namespace Sponge2.Model
 		{
 			return _isMatchPredicate(path);
 		}
+
+		public virtual IEnumerable<Control> GetEditorFactories(ComponentFile file)
+		{
+			yield return new SimpleFileInfoControl(file);
+		}
 	}
 
 	/// ------------------------------------------------------------------------------------
@@ -45,6 +53,11 @@ namespace Sponge2.Model
 		public UnknownFileType()
 			: base("Unknown", path => true)
 		{
+		}
+
+		public override IEnumerable<Control> GetEditorFactories(ComponentFile file)
+		{
+			yield return new SimpleFileInfoControl(file);
 		}
 	}
 }

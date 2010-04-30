@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using Sponge2.Model;
 
 namespace Sponge2.UI
@@ -78,6 +80,19 @@ namespace Sponge2.UI
 		{
 			var id = "XYZ-" + _repository.AllItems.Count();
 			return _repository.CreateNew(id);
+		}
+
+		/// <summary>
+		/// For each component, we provide 1 or more viewers/editors base on its file type
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<Control> GetComponentEditors()
+		{
+			if (SelectedComponentFile==null)
+			{
+				return new Control[] {};
+			}
+			return SelectedComponentFile.FileType.GetEditorFactories(SelectedComponentFile);
 		}
 	}
 }

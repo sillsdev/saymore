@@ -37,6 +37,7 @@ namespace Sponge2.UI.LowLevelControls
 		private Font _fntDupItem;
 
 		private bool _monitorSelectedIndexChanges;
+		private ListViewItem _prevFocusedItem;
 		private readonly List<Button> _buttons = new List<Button>();
 
 		/// ------------------------------------------------------------------------------------
@@ -502,9 +503,9 @@ namespace Sponge2.UI.LowLevelControls
 				if (_monitorSelectedIndexChanges != value)
 				{
 					if (value)
-						_itemsListView.SelectedIndexChanged += lvItems_SelectedIndexChanged;
+						_itemsListView.SelectedIndexChanged += HandleSelectedIndexChanged;
 					else
-						_itemsListView.SelectedIndexChanged -= lvItems_SelectedIndexChanged;
+						_itemsListView.SelectedIndexChanged -= HandleSelectedIndexChanged;
 
 					_monitorSelectedIndexChanges = value;
 				}
@@ -516,13 +517,18 @@ namespace Sponge2.UI.LowLevelControls
 		/// Handles the SelectedIndexChanged event of the lvItems control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lvItems_SelectedIndexChanged(object sender, EventArgs e)
+		private void HandleSelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (SelectedItemChanged != null)
+			if (_itemsListView.SelectedIndices.Count == 0)
+				return;
+
+			if (SelectedItemChanged != null && _prevFocusedItem != _itemsListView.FocusedItem)
 			{
 				SelectedItemChanged(this, _itemsListView.FocusedItem != null ?
 					_itemsListView.FocusedItem.Tag : null);
 			}
+
+			_prevFocusedItem = _itemsListView.FocusedItem;
 		}
 
 		/// ------------------------------------------------------------------------------------

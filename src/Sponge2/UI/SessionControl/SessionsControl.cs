@@ -46,12 +46,49 @@ namespace Sponge2.UI
 		/// ------------------------------------------------------------------------------------
 		private void UpdateComponentList()
 		{
+			// I think there's a bug in the grid that fires the cell value needed event in
+			// the process of changing the row count but it fires it for rows that are
+			// no longer supposed to exist. This tends to happen when the row count was
+			// previously higher than the new value.
+			_componentGrid.CellValueNeeded -= HandleComponentFileGridCellValueNeeded;
 			_componentGrid.RowCount = _model.ComponentsOfSelectedSession.Count();
+			_componentGrid.CellValueNeeded += HandleComponentFileGridCellValueNeeded;
+
 			_componentGrid.Invalidate();
-			_componentEditorsTabControl.TabPages.Clear();
+			UpdateComponentEditors();
+
 
 			//TODO: editor tab (for now, just the first page) isn't currently
 			//being displayed, even though the first component shows as highlighted.
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateComponentEditors()
+		{
+			Utils.SetWindowRedraw(_componentEditorsTabControl, false);
+
+			// GRRR!!! This turns out to steal focus, giving it to the tab control. I think
+			// what we're going to have to do is reuse at least one page because removing
+			// all but one tab page prevents the problem.
+
+			_componentEditorsTabControl.Selecting -= HandleSelectedComponentEditorTabSelecting;
+			_componentEditorsTabControl.TabPages.Clear();
+
+			// At this point, we're just making the tabs and naming them,
+			//	so that the entire controls
+			// don't need to be build until the user actually tabs to them
+
+			foreach (var provider in _model.GetComponentEditorProviders())
+			{
+				var page = new ComponentEditorTabPage(provider);
+				_componentEditorsTabControl.TabPages.Add(page);
+
+				if (_componentEditorsTabControl.TabPages.Count == 1)
+					LoadComponentEditorsForTabPage(page);
+			}
+
+			_componentEditorsTabControl.Selecting += HandleSelectedComponentEditorTabSelecting;
+			Utils.SetWindowRedraw(_componentEditorsTabControl, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,30 +109,12 @@ namespace Sponge2.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleComponentFileGridRowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			_model.SetSelectedComponentFile(e.RowIndex);
-			UpdateComponentEditors();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void UpdateComponentEditors()
-		{
-			_componentEditorsTabControl.TabPages.Clear();
-
-			// At this point, we're just making the tabs and naming them,
-			//	so that the entire controls
-			// don't need to be build until the user actually tabs to them
-
-			foreach (var provider in _model.GetComponentEditorProviders())
+			// This event is fired even when the grid gains focus without the row actually
+			// changing, therefore we should just ignore the event when the row hasn't changed.
+			if (e.RowIndex != _componentGrid.CurrentCellAddress.Y)
 			{
-				var page = new ComponentEditorTabPage(provider);
-				_componentEditorsTabControl.TabPages.Add(page);
-			}
-
-			//TODO: this isn't actually leading to the editor being installed down
-			// in _sessionComponentTab_SelectedIndexChanged
-			if(_componentEditorsTabControl.TabPages.Count > 0)
-			{
-				_componentEditorsTabControl.SelectedTab = _componentEditorsTabControl.TabPages[0];
+				_model.SetSelectedComponentFile(e.RowIndex);
+				UpdateComponentEditors();
 			}
 		}
 
@@ -109,28 +128,29 @@ namespace Sponge2.UI
 				ReflectionHelper.GetProperty(currSessionFile, dataPropName));
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void HandleAfterSessionAdded(object sender, object itemBeingAdded)
 		{
 
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleSelectedComponentEditorTabChanged(object sender, EventArgs e)
+		private void HandleSelectedComponentEditorTabSelecting(object sender, TabControlCancelEventArgs e)
 		{
-			if (_componentEditorsTabControl.SelectedIndex < 0)
-				return;
+			if (e.Action == TabControlAction.Selecting)
+				LoadComponentEditorsForTabPage(e.TabPage as ComponentEditorTabPage);
+		}
 
-			if (_componentEditorsTabControl.Controls.Count > 2)
+		/// ------------------------------------------------------------------------------------
+		private void LoadComponentEditorsForTabPage(ComponentEditorTabPage page)
+		{
+			if (page != null && !page.AreEditorControlsLoaded)
 			{
-				return; //already has it
+				var control = page.EditorProvider.GetEditor(_model.SelectedComponentFile);
+				control.Dock = DockStyle.Fill;
+				_componentEditorsTabControl.SelectedTab.Controls.Add(control);
+				page.AreEditorControlsLoaded = true;
 			}
-
-			//TODO: this is getting called each time we select it, so I screwed up somewhere
-
-			var provider = ((ComponentEditorTabPage)_componentEditorsTabControl.SelectedTab).EditorProvider;
-			var control = provider.GetEditor(_model.SelectedComponentFile);
-			control.Dock = DockStyle.Fill;
-			_componentEditorsTabControl.SelectedTab.Controls.Add(control);
 		}
 	}
 }

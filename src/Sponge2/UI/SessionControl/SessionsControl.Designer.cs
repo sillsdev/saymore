@@ -59,7 +59,7 @@ namespace Sponge2.UI
 			((System.ComponentModel.ISupportInitialize)(this._componentGrid)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// _sessionComponentTab
+			// _componentEditorsTabControl
 			// 
 			this._componentEditorsTabControl.Controls.Add(this.tabPage1);
 			this._componentEditorsTabControl.Controls.Add(this.tabPage2);
@@ -69,7 +69,7 @@ namespace Sponge2.UI
 			this._componentEditorsTabControl.SelectedIndex = 0;
 			this._componentEditorsTabControl.Size = new System.Drawing.Size(315, 197);
 			this._componentEditorsTabControl.TabIndex = 7;
-			this._componentEditorsTabControl.SelectedIndexChanged += new System.EventHandler(this.HandleSelectedComponentEditorTabChanged);
+			this._componentEditorsTabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.HandleSelectedComponentEditorTabSelecting);
 			// 
 			// tabPage1
 			// 
@@ -230,7 +230,7 @@ namespace Sponge2.UI
 			// 
 			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
 			this.colIcon.DataPropertyName = "SmallIcon";
-			this.colIcon.HeaderText = "";
+			this.colIcon.HeaderText = string.Empty;
 			this.colIcon.Name = "colIcon";
 			this.colIcon.ReadOnly = true;
 			this.colIcon.Resizable = System.Windows.Forms.DataGridViewTriState.False;

@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Sponge2.Model;
 
 namespace Sponge2.UI
@@ -13,6 +10,7 @@ namespace Sponge2.UI
 		private IEnumerable<EditorProvider> _currentEditorProviders;
 
 		public Session SelectedSession { get; private set; }
+		public ComponentFile SelectedComponentFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public SessionsViewModel(ElementRepository<Session> repository)
@@ -29,20 +27,13 @@ namespace Sponge2.UI
 			}
 		}
 
-		public ComponentFile SelectedComponentFile { get; private set; }
-
-
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ComponentFile> ComponentsOfSelectedSession
+		public ComponentFile[] ComponentsOfSelectedSession
 		{
 			get
 			{
-				if (SelectedSession == null)
-				{
-					return new List<ComponentFile>(0);
-				}
-
-				return SelectedSession.GetComponentFiles();
+				return (SelectedSession == null ?
+					new ComponentFile[] {} : SelectedSession.GetComponentFiles().ToArray());
 			}
 		}
 
@@ -60,7 +51,7 @@ namespace Sponge2.UI
 		/// ------------------------------------------------------------------------------------
 		public bool SetSelectedComponentFile(int index)
 		{
-			var componentFiles = SelectedSession.GetComponentFiles();
+			var componentFiles = SelectedSession.GetComponentFiles().ToArray();
 
 			if (index < 0 || index >= componentFiles.Length)
 				return false;
@@ -77,7 +68,7 @@ namespace Sponge2.UI
 		{
 			// We probably don't want to do this everytime because this method will be called
 			// many times as the grid in the UI is being displayed.
-			var componentFiles = SelectedSession.GetComponentFiles();
+			var componentFiles = SelectedSession.GetComponentFiles().ToArray();
 			return componentFiles[index];
 		}
 
@@ -88,19 +79,15 @@ namespace Sponge2.UI
 			return _repository.CreateNew(id);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// For each component, we provide 1 or more viewers/editors base on its file type.
 		/// </summary>
-		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
 		public IEnumerable<EditorProvider> GetComponentEditorProviders()
 		{
-			if (SelectedComponentFile==null || _currentEditorProviders ==null)
-			{
-				return new EditorProvider[] { };
-			}
-			return _currentEditorProviders;
+			return (SelectedComponentFile == null || _currentEditorProviders == null ?
+				new EditorProvider[] { } : _currentEditorProviders);
 		}
-
-
 	}
 }

@@ -23,6 +23,7 @@ namespace Sponge2.UI
 	public class ComponentEditorTabPage : TabPage
 	{
 		public EditorProvider EditorProvider { get; private set; }
+		public bool AreEditorControlsLoaded { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public ComponentEditorTabPage(EditorProvider provider)

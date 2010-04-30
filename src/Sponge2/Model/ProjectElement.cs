@@ -20,12 +20,14 @@ namespace Sponge2.Model
 		private ComponentFile.Factory _componentFileFactory;
 		private FileSerializer _fileSerializer;
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Use this for creating new or existing elements
 		/// </summary>
 		/// <param name="parentElementFolder">E.g. "c:/MyProject/Sessions"</param>
 		/// <param name="id">e.g. "ETR007"</param>
 		/// <param name="fileSerializer">used to load/save</param>
+		/// ------------------------------------------------------------------------------------
 		protected ProjectElement(string parentElementFolder, string id,
 			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer)
 		{
@@ -49,12 +51,13 @@ namespace Sponge2.Model
 		}
 
 		public string Id { get; /*ideally only the factory and serializer should see this*/ set; }
+		protected internal string ParentFolderPath { get; set; }
+		protected abstract string ExtensionWithoutPeriod { get; }
+		public List<FieldValue> Fields { get; set; }
+		public abstract string RootElementName { get; }
 
-
-		//REVIEW David (JH):  Can we move this back to an IEnumerable? IEnumerables are perferred for their better encapsulation.
-		// if you want on the other end  (the caller) to work with an array, you can always convert it.
-		// As an array, the caller might think that the can make changes to it, but they can't really.
-		public ComponentFile[] GetComponentFiles()
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<ComponentFile> GetComponentFiles()
 		{
 			// John: Should we cache this?
 			// Ansr: if it proves slow, but then we have to complicate things to keep it up to date.
@@ -67,9 +70,7 @@ namespace Sponge2.Model
 					select _componentFileFactory(x)).ToArray();
 		}
 
-
-		protected internal string ParentFolderPath { get; set; }
-
+		/// ------------------------------------------------------------------------------------
 		public string FolderPath
 		{
 			get
@@ -78,6 +79,7 @@ namespace Sponge2.Model
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public string SettingsFilePath
 		{
 			get
@@ -85,12 +87,6 @@ namespace Sponge2.Model
 				return Path.Combine(FolderPath, Id + "." + ExtensionWithoutPeriod);
 			}
 		}
-
-		protected abstract string ExtensionWithoutPeriod { get;}
-
-		public List<FieldValue> Fields { get; set; }
-		public abstract string RootElementName { get; }
-
 
 		/// ------------------------------------------------------------------------------------
 		public void Save()
@@ -110,5 +106,4 @@ namespace Sponge2.Model
 			return Id;
 		}
 	}
-
 }

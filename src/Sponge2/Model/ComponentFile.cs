@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Palaso.Reporting;
 using SilUtils;
+using Sponge2.Persistence;
 
 namespace Sponge2.Model
 {
@@ -15,102 +16,61 @@ namespace Sponge2.Model
 	/// Each of these is represented by an object of this class.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[XmlType("componentFile")]
 	public class ComponentFile
 	{
 		//autofac uses this, so that callers only need to know the path, not all the dependencies
-		public delegate ComponentFile Factory(string path);
+		public delegate ComponentFile Factory(string pathToAnnotatedFile);
 
-		// John: is it necessary to lug around the whole list? Do you see a problem setting
-		// the component file's type during contstruction and not every time it's requested?
-		private readonly IEnumerable<FileType> _fileTypes;
-
-		[XmlIgnore]
-		public string Path { get; private set; }
-
-		[XmlArray("fieldValues"), XmlArrayItem("field")]
-		public string FieldValues { get; set; }
+		private FileType _fileType;
+		private FileSerializer _fileSerializer;
+		private const string RootElementName = "MetaData";
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads into a ComponentFile object the information from a standoff markup file
-		/// associated with the specified path.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static ComponentFile Load(string path)
+		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
+							 FileSerializer fileSerializer)
 		{
-			var standoffFile = GetStandoffFile(path);
+			_fileSerializer = fileSerializer;
+			PathToAnnotatedFile = pathToAnnotatedFile;
 
-			// Future: Perform migration transforms here on standoffFilie when needed.
-
-			Exception e = null;
-
-			ComponentFile componentFile = (!File.Exists(standoffFile) ? new ComponentFile() :
-				XmlSerializationHelper.DeserializeFromFile<ComponentFile>(standoffFile, out e));
-
-			// Review: should this be fatal?
-			if (e != null)
-				ErrorReport.ReportFatalException(e);
-
-			// Review: will DI provide the file types later?
-			componentFile.Path = path;
-			return componentFile;
+			SetFileType(fileTypes);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructs the full path to the (stand-off markup) data file for the session file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string GetStandoffFile(string fileName)
+		private void SetFileType(IEnumerable<FileType> fileTypes)
 		{
-			return System.IO.Path.ChangeExtension(fileName, "smd");
+			_fileType = fileTypes.FirstOrDefault(t => t.IsMatch(PathToAnnotatedFile));
+			_fileType = _fileType ?? new UnknownFileType();
+		}
+
+		public string PathToAnnotatedFile { get; private set; }
+		public List<FieldValue> MetaDataFieldValues { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public void Save()
+		{
+			_fileSerializer.Save(MetaDataFieldValues, MetaDataPath, RootElementName);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Used mainly for serialization.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ComponentFile()
+		public void Load()
 		{
+			_fileSerializer.Load(MetaDataFieldValues, MetaDataPath, RootElementName);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public ComponentFile(string path, IEnumerable<FileType> fileTypes) : this()
+		protected string MetaDataPath
 		{
-			_fileTypes = fileTypes;
-			Path = path;
+			get { return System.IO.Path.ChangeExtension(PathToAnnotatedFile, "smd"); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public bool Save()
+		public FileType FileType
 		{
-			var standoffFile = GetStandoffFile(Path);
-			Exception e = null;
-			bool result = XmlSerializationHelper.SerializeToFile(standoffFile, this, out e);
-
-			if (e != null)
-				ErrorReport.ReportNonFatalException(e);
-
-			return result;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// John: It would be nice to make all the data displayed in a components grid
-		/// accessible through properties or methods, but not a mix of both. What do you think?
-		///
-		///
-		public FileType GetFileType()
-		{
-			var fileType = _fileTypes.FirstOrDefault(t => t.IsMatch(Path));
-			return fileType ?? new UnknownFileType();
+			get { return _fileType; }
 		}
 
 #if notyet
-		/// <summary>
-		/// What part(s) does this file play in the workflow of the session/person?
-		/// </summary>
+	/// <summary>
+	/// What part(s) does this file play in the workflow of the session/person?
+	/// </summary>
 		public IEnumerable<ComponentRole> GetRoles()
 		{
 			return new ComponentRole[] {};
@@ -124,27 +84,20 @@ namespace Sponge2.Model
 			get; private set;
 		}
 
-		/// <summary>
-		/// The metadata we have associated with this file.
-		/// </summary>
-		public List<FieldValue> MetaDataValues
-		{
-			get; private set;
-		}
 #endif
 
-		/// ------------------------------------------------------------------------------------
-		/// For now this is a property, but depending on the answer to my question above (about
-		/// methods or properties, this property may become a method.
 		public string FileName
 		{
-			get { return System.IO.Path.GetFileName(Path); }
+			get { return Path.GetFileName(PathToAnnotatedFile); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
 		{
-			return new ComponentFile(path, new FileType[]{});
+			return new ComponentFile(path, new FileType[] {}, new FileSerializer());
 		}
+
+		public List<FieldValue> Fields { get; private set; }
+
 	}
 }

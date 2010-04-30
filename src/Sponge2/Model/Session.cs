@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Xml.Serialization;
 using Palaso.Code;
+using Sponge2.Persistence;
 
 namespace Sponge2.Model
 {
@@ -16,10 +17,12 @@ namespace Sponge2.Model
 		//autofac uses this
 		public delegate Session Factory(string parentElementFolder, string id);
 
-		public Session(string parentElementFolder, string id, ComponentFile.Factory componentFileFactory)
-			: base(parentElementFolder,id, componentFileFactory)
+		public Session(string parentElementFolder, string id,
+			ComponentFile.Factory componentFileFactory,  FileSerializer fileSerializer)
+			:base(parentElementFolder,id, componentFileFactory, fileSerializer)
 		{
 		}
+
 
 		/*/// <summary>
 		/// Use this for creating new elements
@@ -45,6 +48,11 @@ namespace Sponge2.Model
 		protected override string ExtensionWithoutPeriod
 		{
 			get { return ExtensionWithoutPeriodStatic; }
+		}
+
+		public override string RootElementName
+		{
+			get { return "Session"; }
 		}
 
 		protected static string ExtensionWithoutPeriodStatic

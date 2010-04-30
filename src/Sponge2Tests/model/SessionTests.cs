@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using Sponge2.Model;
+using Sponge2.Persistence;
 
 namespace Sponge2Tests.model
 {
@@ -26,7 +27,8 @@ namespace Sponge2Tests.model
 
 		private Session CreateSession(string id)
 		{
-			return new Session(_parentFolder.Path, id, ComponentFile.CreateMinimalComponentFileForTests);
+			return new Session(_parentFolder.Path, id, ComponentFile.CreateMinimalComponentFileForTests,
+				new FileSerializer());
 		}
 
 		[Test]

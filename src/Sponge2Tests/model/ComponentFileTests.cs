@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using Sponge2.Model;
+using Sponge2.Persistence;
 
 namespace Sponge2Tests.model
 {
@@ -27,19 +28,19 @@ namespace Sponge2Tests.model
 		public void GetFileType_IsText_GivesTextFileType()
 		{
 			ComponentFile f = CreateComponentFile("abc.txt");
-			Assert.AreEqual("Text",f.GetFileType().Name);
+			Assert.AreEqual("Text",f.FileType.Name);
 		}
 
 		private ComponentFile CreateComponentFile(string path)
 		{
-			return new ComponentFile(path, new FileType[]{FileType.Create("Text", ".txt"), });
+			return new ComponentFile(path, new FileType[]{FileType.Create("Text", ".txt"), }, new FileSerializer());
 		}
 
 		[Test]
 		public void GetFileType_UnknownType_UnknownFileType()
 		{
 			ComponentFile f = CreateComponentFile("abc.zzz");
-			Assert.AreEqual("Unknown", f.GetFileType().Name);
+			Assert.AreEqual("Unknown", f.FileType.Name);
 		}
 
 	}

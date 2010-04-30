@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Palaso.Code;
+using Sponge2.Persistence;
 
 namespace Sponge2.Model
 {
@@ -16,15 +18,19 @@ namespace Sponge2.Model
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
 		private ComponentFile.Factory _componentFileFactory;
+		private FileSerializer _fileSerializer;
 
 		/// <summary>
 		/// Use this for creating new or existing elements
 		/// </summary>
 		/// <param name="parentElementFolder">E.g. "c:/MyProject/Sessions"</param>
 		/// <param name="id">e.g. "ETR007"</param>
-		protected ProjectElement(string parentElementFolder, string id, ComponentFile.Factory componentFileFactory)
+		/// <param name="fileSerializer">used to load/save</param>
+		protected ProjectElement(string parentElementFolder, string id,
+			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer)
 		{
 			_componentFileFactory = componentFileFactory;
+			_fileSerializer = fileSerializer;
 			RequireThat.Directory(parentElementFolder).Exists();
 
 			ParentFolderPath = parentElementFolder;
@@ -42,51 +48,16 @@ namespace Sponge2.Model
 			}
 		}
 
-/*		/// <summary>
-		/// Use this for creating new elements
-		/// </summary>
-		/// <param name="parentElementFolder">E.g. "c:/MyProject/Sessions"</param>
-		/// <param name="id">e.g. "ETR007"</param>
-		protected ProjectElement(string parentElementFolder, string id, ComponentFile.Factory componentFileFactory)
-		{
-			_componentFileFactory = componentFileFactory;
-			RequireThat.Directory(parentElementFolder).Exists();
-
-			ParentFolderPath = parentElementFolder;
-			Id = id;
-			Fields = new List<FieldValue>();
-			Directory.CreateDirectory(FolderPath);
-			Save();
-		}
-
-		/// <summary>
-		/// Use this constructor for existing elements which just need to be read off disk
-		/// </summary>
-		/// <param name="existingElementFolder">E.g. "c:/MyProject/Sessions/ETR007"</param>
-		protected ProjectElement(string existingElementFolder, ComponentFile.Factory componentFileFactory)
-		{
-			_componentFileFactory = componentFileFactory;
-			RequireThat.Directory(existingElementFolder).Exists();
-
-			ParentFolderPath = Path.GetDirectoryName(existingElementFolder);
-			Id = Path.GetFileName(existingElementFolder);
-			Fields = new List<FieldValue>();
-
-
-			//review: we might be tempted to recover from someone deleting the sponge project file
-			//while leaving the other files in there... is that really worth recovering from?
-			//maybe it's better to say "whoaaaaa!" else they'll think we lost their data when
-			//all the fields are blank
-			Load();
-		}
-		*/
-
-
 		public string Id { get; /*ideally only the factory and serializer should see this*/ set; }
 
+
+		//REVIEW David (JH):  Can we move this back to an IEnumerable? IEnumerables are perferred for their better encapsulation.
+		// if you want on the other end  (the caller) to work with an array, you can always convert it.
+		// As an array, the caller might think that the can make changes to it, but they can't really.
 		public ComponentFile[] GetComponentFiles()
 		{
 			// John: Should we cache this?
+			// Ansr: if it proves slow, but then we have to complicate things to keep it up to date.
 			return (from x in Directory.GetFiles(FolderPath, "*.*")
 					where (
 						//!x.EndsWith("." + Sponge.SessionMetaDataFileExtension) &&
@@ -118,41 +89,19 @@ namespace Sponge2.Model
 		protected abstract string ExtensionWithoutPeriod { get;}
 
 		public List<FieldValue> Fields { get; set; }
+		public abstract string RootElementName { get; }
 
-		//TODO: consider extracting loading/saving to a class used for that purpose,
-		//and inject it.  This would allow
-		// 1) reuse for all persisted things: project, session, person, and meta data files
-		// 2) disk-less unit testing (by replacing the normal persister with a memory one or a null one)
 
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			var child = new XElement("ProjectElement");//todo could use actual name
-			foreach(var v in Fields)
-			{
-				var element = new XElement(v.FieldDefinitionKey, v.Value);
-				element.Add(new XAttribute("type", v.Type));
-				child.Add(element);
-			}
-			child.Save(SettingsFilePath);
+			_fileSerializer.Save(Fields, SettingsFilePath, RootElementName);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
-			Fields.Clear();
-			var child = XElement.Load(SettingsFilePath);
-			foreach (var element in child.Descendants())
-			{
-				var type = element.Attribute("type").Value;
-
-				//Enhance: think about checking with existing field definitions
-				//1)we would probably NOT want to lose a value just because it wasn't
-				//defined on this computer.
-				//2)someday we may want to check the type, too
-				//Enhance: someday we may have other types
-				Fields.Add(new FieldValue(element.Name.LocalName, type, element.Value));
-			}
+			_fileSerializer.Load(Fields, SettingsFilePath, RootElementName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -161,4 +110,5 @@ namespace Sponge2.Model
 			return Id;
 		}
 	}
+
 }

@@ -10,9 +10,9 @@ namespace Sponge2.UI
 	public class SessionsViewModel
 	{
 		private readonly ElementRepository<Session> _repository;
+		private IEnumerable<EditorProvider> _currentEditorProviders;
 
 		public Session SelectedSession { get; private set; }
-		public ComponentFile SelectedComponentFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public SessionsViewModel(ElementRepository<Session> repository)
@@ -28,6 +28,9 @@ namespace Sponge2.UI
 				return _repository.AllItems;
 			}
 		}
+
+		public ComponentFile SelectedComponentFile { get; private set; }
+
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentFile> ComponentsOfSelectedSession
@@ -63,6 +66,9 @@ namespace Sponge2.UI
 				return false;
 
 			SelectedComponentFile = componentFiles[index];
+
+			_currentEditorProviders = SelectedComponentFile.FileType.GetEditorProviders(SelectedComponentFile);
+
 			return true;
 		}
 
@@ -83,16 +89,18 @@ namespace Sponge2.UI
 		}
 
 		/// <summary>
-		/// For each component, we provide 1 or more viewers/editors base on its file type
+		/// For each component, we provide 1 or more viewers/editors base on its file type.
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerable<Control> GetComponentEditors()
+		public IEnumerable<EditorProvider> GetComponentEditorProviders()
 		{
-			if (SelectedComponentFile==null)
+			if (SelectedComponentFile==null || _currentEditorProviders ==null)
 			{
-				return new Control[] {};
+				return new EditorProvider[] { };
 			}
-			return SelectedComponentFile.FileType.GetEditorFactories(SelectedComponentFile);
+			return _currentEditorProviders;
 		}
+
+
 	}
 }

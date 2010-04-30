@@ -22,7 +22,7 @@ namespace Sponge2.UI
 			if (DesignMode)
 				return;
 
-			_sessionComponentTab.Font = SystemFonts.IconTitleFont;
+			_componentEditorsTabControl.Font = SystemFonts.IconTitleFont;
 			_componentGrid.Font = SystemFonts.IconTitleFont;
 			LoadSessionList();
 		}
@@ -48,7 +48,10 @@ namespace Sponge2.UI
 		{
 			_componentGrid.RowCount = _model.ComponentsOfSelectedSession.Count();
 			_componentGrid.Invalidate();
-			_sessionComponentTab.TabPages.Clear();
+			_componentEditorsTabControl.TabPages.Clear();
+
+			//TODO: editor tab (for now, just the first page) isn't currently
+			//being displayed, even though the first component shows as highlighted.
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -70,19 +73,30 @@ namespace Sponge2.UI
 		private void _componentGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			_model.SetSelectedComponentFile(e.RowIndex);
-			UpdateComponentControls();
+			UpdateComponentEditors();
 		}
 
-		private void UpdateComponentControls()
+		private void UpdateComponentEditors()
 		{
-			_sessionComponentTab.TabPages.Clear();
-			foreach (var control in _model.GetComponentEditors())
+			_componentEditorsTabControl.TabPages.Clear();
+
+			// At this point, we're just making the tabs and naming them,
+			//	so that the entire controls
+			// don't need to be build until the user actually tabs to them
+
+			foreach (var provider in _model.GetComponentEditorProviders())
 			{
 				var page = new TabPage();
-				page.Text = control.Name;
-				control.Dock = DockStyle.Fill;
-				page.Controls.Add(control);
-				_sessionComponentTab.TabPages.Add(page);
+				page.Text = provider.TabName;
+				page.Tag = provider;
+				_componentEditorsTabControl.TabPages.Add(page);
+			}
+
+			//TODO: this isn't actually leading to the editor being installed down
+			// in _sessionComponentTab_SelectedIndexChanged
+			if(_componentEditorsTabControl.TabPages.Count > 0)
+			{
+				_componentEditorsTabControl.SelectedTab = _componentEditorsTabControl.TabPages[0];
 			}
 		}
 
@@ -100,6 +114,26 @@ namespace Sponge2.UI
 		{
 
 		}
+
+		private void _sessionComponentTab_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if(_componentEditorsTabControl.SelectedIndex <0)
+				return;
+
+			if(_componentEditorsTabControl.Controls.Count > 2)
+			{
+				return;//already has it
+			}
+
+			//TODO: this is getting called each time we select it, so I screwed up somewhere
+
+			var provider = (EditorProvider) _componentEditorsTabControl.SelectedTab.Tag;
+			var control =provider.GetEditor(_model.SelectedComponentFile);
+			control.Dock = DockStyle.Fill;
+			_componentEditorsTabControl.SelectedTab.Controls.Add(control);
+		}
+
+
 
 	}
 }

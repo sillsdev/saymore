@@ -34,7 +34,7 @@ namespace Sponge2.UI
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			this._sessionComponentTab = new System.Windows.Forms.TabControl();
+			this._componentEditorsTabControl = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this._outerSplitter = new System.Windows.Forms.SplitContainer();
@@ -48,7 +48,7 @@ namespace Sponge2.UI
 			this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this._sessionComponentTab.SuspendLayout();
+			this._componentEditorsTabControl.SuspendLayout();
 			this._outerSplitter.Panel1.SuspendLayout();
 			this._outerSplitter.Panel2.SuspendLayout();
 			this._outerSplitter.SuspendLayout();
@@ -61,14 +61,15 @@ namespace Sponge2.UI
 			// 
 			// _sessionComponentTab
 			// 
-			this._sessionComponentTab.Controls.Add(this.tabPage1);
-			this._sessionComponentTab.Controls.Add(this.tabPage2);
-			this._sessionComponentTab.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._sessionComponentTab.Location = new System.Drawing.Point(0, 0);
-			this._sessionComponentTab.Name = "_sessionComponentTab";
-			this._sessionComponentTab.SelectedIndex = 0;
-			this._sessionComponentTab.Size = new System.Drawing.Size(315, 197);
-			this._sessionComponentTab.TabIndex = 7;
+			this._componentEditorsTabControl.Controls.Add(this.tabPage1);
+			this._componentEditorsTabControl.Controls.Add(this.tabPage2);
+			this._componentEditorsTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._componentEditorsTabControl.Location = new System.Drawing.Point(0, 0);
+			this._componentEditorsTabControl.Name = "_componentEditorsTabControl";
+			this._componentEditorsTabControl.SelectedIndex = 0;
+			this._componentEditorsTabControl.Size = new System.Drawing.Size(315, 197);
+			this._componentEditorsTabControl.TabIndex = 7;
+			this._componentEditorsTabControl.SelectedIndexChanged += new System.EventHandler(this._sessionComponentTab_SelectedIndexChanged);
 			// 
 			// tabPage1
 			// 
@@ -153,7 +154,7 @@ namespace Sponge2.UI
 			// 
 			// _sessionComponentsSplitter.Panel2
 			// 
-			this._sessionComponentsSplitter.Panel2.Controls.Add(this._sessionComponentTab);
+			this._sessionComponentsSplitter.Panel2.Controls.Add(this._componentEditorsTabControl);
 			this._sessionComponentsSplitter.Size = new System.Drawing.Size(315, 350);
 			this._sessionComponentsSplitter.SplitterDistance = 147;
 			this._sessionComponentsSplitter.SplitterWidth = 6;
@@ -280,7 +281,7 @@ namespace Sponge2.UI
 			this.Controls.Add(this._outerSplitter);
 			this.Name = "SessionsControl";
 			this.Size = new System.Drawing.Size(503, 350);
-			this._sessionComponentTab.ResumeLayout(false);
+			this._componentEditorsTabControl.ResumeLayout(false);
 			this._outerSplitter.Panel1.ResumeLayout(false);
 			this._outerSplitter.Panel2.ResumeLayout(false);
 			this._outerSplitter.ResumeLayout(false);
@@ -295,7 +296,7 @@ namespace Sponge2.UI
 
 		#endregion
 
-		private System.Windows.Forms.TabControl _sessionComponentTab;
+		private System.Windows.Forms.TabControl _componentEditorsTabControl;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
 		private ListPanel _sessionsListPanel;

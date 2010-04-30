@@ -70,12 +70,13 @@ namespace Sponge2.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void _componentGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
+		private void HandleComponentFileGridRowEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			_model.SetSelectedComponentFile(e.RowIndex);
 			UpdateComponentEditors();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void UpdateComponentEditors()
 		{
 			_componentEditorsTabControl.TabPages.Clear();
@@ -86,9 +87,7 @@ namespace Sponge2.UI
 
 			foreach (var provider in _model.GetComponentEditorProviders())
 			{
-				var page = new TabPage();
-				page.Text = provider.TabName;
-				page.Tag = provider;
+				var page = new ComponentEditorTabPage(provider);
 				_componentEditorsTabControl.TabPages.Add(page);
 			}
 
@@ -101,7 +100,7 @@ namespace Sponge2.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void _componentGrid_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+		private void HandleComponentFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			var dataPropName = _componentGrid.Columns[e.ColumnIndex].DataPropertyName;
 			var currSessionFile = _model.GetComponentFile(e.RowIndex);
@@ -115,25 +114,23 @@ namespace Sponge2.UI
 
 		}
 
-		private void _sessionComponentTab_SelectedIndexChanged(object sender, EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		private void HandleSelectedComponentEditorTabChanged(object sender, EventArgs e)
 		{
 			if (_componentEditorsTabControl.SelectedIndex < 0)
 				return;
 
 			if (_componentEditorsTabControl.Controls.Count > 2)
 			{
-				return;//already has it
+				return; //already has it
 			}
 
 			//TODO: this is getting called each time we select it, so I screwed up somewhere
 
-			var provider = (EditorProvider)_componentEditorsTabControl.SelectedTab.Tag;
+			var provider = ((ComponentEditorTabPage)_componentEditorsTabControl.SelectedTab).EditorProvider;
 			var control = provider.GetEditor(_model.SelectedComponentFile);
 			control.Dock = DockStyle.Fill;
 			_componentEditorsTabControl.SelectedTab.Controls.Add(control);
 		}
-
-
-
 	}
 }

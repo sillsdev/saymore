@@ -69,7 +69,7 @@ namespace Sponge2.UI
 			this._componentEditorsTabControl.SelectedIndex = 0;
 			this._componentEditorsTabControl.Size = new System.Drawing.Size(315, 197);
 			this._componentEditorsTabControl.TabIndex = 7;
-			this._componentEditorsTabControl.SelectedIndexChanged += new System.EventHandler(this._sessionComponentTab_SelectedIndexChanged);
+			this._componentEditorsTabControl.SelectedIndexChanged += new System.EventHandler(this.HandleSelectedComponentEditorTabChanged);
 			// 
 			// tabPage1
 			// 
@@ -223,8 +223,8 @@ namespace Sponge2.UI
 			this._componentGrid.TabIndex = 0;
 			this._componentGrid.VirtualMode = true;
 			this._componentGrid.WaterMark = "!";
-			this._componentGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this._componentGrid_RowEnter);
-			this._componentGrid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this._componentGrid_CellValueNeeded);
+			this._componentGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleComponentFileGridRowEnter);
+			this._componentGrid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleComponentFileGridCellValueNeeded);
 			// 
 			// colIcon
 			// 

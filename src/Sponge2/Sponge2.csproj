@@ -87,6 +87,9 @@
     <Compile Include="UI\ComponentEditors\SimpleFileInfoControl.Designer.cs">
       <DependentUpon>SimpleFileInfoControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ComponentEditorTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,11 +103,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="UI\SessionsViewModel.cs" />
-    <Compile Include="UI\SessionsControl.cs">
+    <Compile Include="UI\SessionControl\SessionsViewModel.cs" />
+    <Compile Include="UI\SessionControl\SessionsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\SessionsControl.Designer.cs">
+    <Compile Include="UI\SessionControl\SessionsControl.Designer.cs">
       <DependentUpon>SessionsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ProjectWindow\ProjectWindow.cs">
@@ -162,7 +165,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SessionsControl.resx">
+    <EmbeddedResource Include="UI\SessionControl\SessionsControl.resx">
       <DependentUpon>SessionsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\ProjectWindow.resx">

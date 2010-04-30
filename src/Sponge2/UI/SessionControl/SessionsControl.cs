@@ -117,18 +117,18 @@ namespace Sponge2.UI
 
 		private void _sessionComponentTab_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if(_componentEditorsTabControl.SelectedIndex <0)
+			if (_componentEditorsTabControl.SelectedIndex < 0)
 				return;
 
-			if(_componentEditorsTabControl.Controls.Count > 2)
+			if (_componentEditorsTabControl.Controls.Count > 2)
 			{
 				return;//already has it
 			}
 
 			//TODO: this is getting called each time we select it, so I screwed up somewhere
 
-			var provider = (EditorProvider) _componentEditorsTabControl.SelectedTab.Tag;
-			var control =provider.GetEditor(_model.SelectedComponentFile);
+			var provider = (EditorProvider)_componentEditorsTabControl.SelectedTab.Tag;
+			var control = provider.GetEditor(_model.SelectedComponentFile);
 			control.Dock = DockStyle.Fill;
 			_componentEditorsTabControl.SelectedTab.Controls.Add(control);
 		}

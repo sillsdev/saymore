@@ -15,12 +15,14 @@ namespace Sponge2.Model
 	{
 		public delegate ElementRepository<T> Factory(string projectDirectory, string elementGroupName);
 
-		//private readonly Func<string, string, T> _elementFactory;
-		private readonly Session.Factory _elementFactory; //TODO: fix this. I'm struggling with autofac on this issue
+		public delegate T ElementFactory<T>(string parentElementFolder, string id) where T : ProjectElement;
+
+		//private readonly  Func<string, string, T> _elementFactory;
+		private readonly ElementFactory<T> _elementFactory; //TODO: fix this. I'm struggling with autofac on this issue
 		private List<T> _items = new List<T>();
 		private string _rootFolder;
 
-		public ElementRepository(string projectDirectory, string elementGroupName, Session.Factory elementFactory)
+		public ElementRepository(string projectDirectory, string elementGroupName, ElementFactory<T> elementFactory)
 		{
 			_elementFactory = elementFactory;
 			RequireThat.Directory(projectDirectory).Exists();

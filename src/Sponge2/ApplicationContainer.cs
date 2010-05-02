@@ -19,9 +19,6 @@ namespace Sponge2
 		{
 			var builder = new ContainerBuilder();
 			builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t=>!t.Name.Contains("Factory"));
-			builder.RegisterType<ElementRepository<Session>>().InstancePerLifetimeScope();
-			builder.RegisterType<ElementRepository<Person>>().InstancePerLifetimeScope();
-
 			builder.RegisterInstance(FilesTypes).As(typeof(IEnumerable<FileType>));
 
 			_container = builder.Build();

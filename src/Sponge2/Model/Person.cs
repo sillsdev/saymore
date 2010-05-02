@@ -18,12 +18,6 @@ namespace Sponge2.Model
 		{
 			get { return "Person"; }
 		}
-//
-//		public Person(string desiredOrExistingFolder, ComponentFile.Factory componentFileFactory)
-//			: base(desiredOrExistingFolder, componentFileFactory)
-//		{
-//
-//		}
 
 		protected override string ExtensionWithoutPeriod
 		{

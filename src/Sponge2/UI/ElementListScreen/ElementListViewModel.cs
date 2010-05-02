@@ -2,24 +2,28 @@ using System.Collections.Generic;
 using System.Linq;
 using Sponge2.Model;
 
-namespace Sponge2.UI
+namespace Sponge2.UI.ElementListScreen
 {
-	public class SessionsViewModel
+	/// <summary>
+	/// This is the logic behind the screen which shows the list of sessions, and also the
+	/// screen swhich shows the list of persons
+	/// </summary>
+	public class ElementListViewModel<T> where T: ProjectElement
 	{
-		private readonly ElementRepository<Session> _repository;
+		private readonly ElementRepository<T> _repository;
 		private IEnumerable<EditorProvider> _currentEditorProviders;
 
-		public Session SelectedSession { get; private set; }
+		public T SelectedElement { get; private set; }
 		public ComponentFile SelectedComponentFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public SessionsViewModel(ElementRepository<Session> repository)
+		public ElementListViewModel(ElementRepository<T> repository)
 		{
 			_repository = repository;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<Session> Sessions
+		public IEnumerable<T> Elements
 		{
 			get
 			{
@@ -28,22 +32,22 @@ namespace Sponge2.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentFile[] ComponentsOfSelectedSession
+		public ComponentFile[] ComponentsOfSelectedElement
 		{
 			get
 			{
-				return (SelectedSession == null ?
-					new ComponentFile[] {} : SelectedSession.GetComponentFiles().ToArray());
+				return (SelectedElement == null ?
+					new ComponentFile[] {} : SelectedElement.GetComponentFiles().ToArray());
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool SetSelectedSession(Session session)
+		public bool SetSelectedElement(T element)
 		{
-			if (SelectedSession == session)
+			if (SelectedElement == element)
 				return false;
 
-			SelectedSession = session;
+			SelectedElement = element;
 			SetSelectedComponentFile(0);
 			return true;
 		}
@@ -51,7 +55,7 @@ namespace Sponge2.UI
 		/// ------------------------------------------------------------------------------------
 		public bool SetSelectedComponentFile(int index)
 		{
-			var componentFiles = SelectedSession.GetComponentFiles().ToArray();
+			var componentFiles = SelectedElement.GetComponentFiles().ToArray();
 
 			if (index < 0 || index >= componentFiles.Length)
 				return false;
@@ -68,12 +72,12 @@ namespace Sponge2.UI
 		{
 			// We probably don't want to do this everytime because this method will be called
 			// many times as the grid in the UI is being displayed.
-			var componentFiles = SelectedSession.GetComponentFiles().ToArray();
+			var componentFiles = SelectedElement.GetComponentFiles().ToArray();
 			return componentFiles[index];
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Session CreateNewSession()
+		public T CreateNewElement()
 		{
 			var id = "XYZ-" + _repository.AllItems.Count();
 			return _repository.CreateNew(id);

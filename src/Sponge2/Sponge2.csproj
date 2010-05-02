@@ -90,6 +90,18 @@
     <Compile Include="UI\ComponentEditorTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ElementListScreen\PersonListScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\PersonListScreen.Designer.cs">
+      <DependentUpon>PersonListScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\ElementListScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\ElementListScreen.Designer.cs">
+      <DependentUpon>ElementListScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,12 +115,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="UI\SessionControl\SessionsViewModel.cs" />
-    <Compile Include="UI\SessionControl\SessionsControl.cs">
+    <Compile Include="UI\ElementListScreen\ElementListViewModel.cs" />
+    <Compile Include="UI\ElementListScreen\SessionScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\SessionControl\SessionsControl.Designer.cs">
-      <DependentUpon>SessionsControl.cs</DependentUpon>
+    <Compile Include="UI\ElementListScreen\SessionScreen.Designer.cs">
+      <DependentUpon>SessionScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ProjectWindow\ProjectWindow.cs">
       <SubType>Form</SubType>
@@ -157,6 +169,12 @@
     <EmbeddedResource Include="UI\ComponentEditors\SimpleFileInfoControl.resx">
       <DependentUpon>SimpleFileInfoControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ElementListScreen\PersonListScreen.resx">
+      <DependentUpon>PersonListScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
+      <DependentUpon>ElementListScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.resx">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,8 +183,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SessionControl\SessionsControl.resx">
-      <DependentUpon>SessionsControl.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ElementListScreen\SessionScreen.resx">
+      <DependentUpon>SessionScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\ProjectWindow.resx">
       <DependentUpon>ProjectWindow.cs</DependentUpon>

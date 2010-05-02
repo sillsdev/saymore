@@ -1,9 +1,9 @@
 using SilUtils;
 using Sponge2.UI.LowLevelControls;
 
-namespace Sponge2.UI
+namespace Sponge2.UI.ElementListScreen
 {
-	partial class SessionsControl
+	partial class PersonListScreen
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -69,7 +69,6 @@ namespace Sponge2.UI
 			this._componentEditorsTabControl.SelectedIndex = 0;
 			this._componentEditorsTabControl.Size = new System.Drawing.Size(315, 197);
 			this._componentEditorsTabControl.TabIndex = 7;
-			this._componentEditorsTabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.HandleSelectedComponentEditorTabSelecting);
 			// 
 			// tabPage1
 			// 
@@ -138,8 +137,6 @@ namespace Sponge2.UI
 			this._sessionsListPanel.Size = new System.Drawing.Size(182, 350);
 			this._sessionsListPanel.TabIndex = 8;
 			this._sessionsListPanel.Text = "Sessions";
-			this._sessionsListPanel.NewButtonClicked += new Sponge2.UI.LowLevelControls.ListPanel.NewButtonClickedHandler(this.HandleNewSessionButtonClicked);
-			this._sessionsListPanel.SelectedItemChanged += new Sponge2.UI.LowLevelControls.ListPanel.SelectedItemChangedHandler(this.HandleSelectedSessionChanged);
 			// 
 			// _sessionComponentsSplitter
 			// 
@@ -223,14 +220,12 @@ namespace Sponge2.UI
 			this._componentGrid.TabIndex = 0;
 			this._componentGrid.VirtualMode = true;
 			this._componentGrid.WaterMark = "!";
-			this._componentGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleComponentFileGridRowEnter);
-			this._componentGrid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleComponentFileGridCellValueNeeded);
 			// 
 			// colIcon
 			// 
 			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
 			this.colIcon.DataPropertyName = "SmallIcon";
-			this.colIcon.HeaderText = string.Empty;
+			this.colIcon.HeaderText = "";
 			this.colIcon.Name = "colIcon";
 			this.colIcon.ReadOnly = true;
 			this.colIcon.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -274,12 +269,12 @@ namespace Sponge2.UI
 			this.colSize.ReadOnly = true;
 			this.colSize.Width = 52;
 			// 
-			// SessionsControl
+			// PersonListScreen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._outerSplitter);
-			this.Name = "SessionsControl";
+			this.Name = "PersonListScreen";
 			this.Size = new System.Drawing.Size(503, 350);
 			this._componentEditorsTabControl.ResumeLayout(false);
 			this._outerSplitter.Panel1.ResumeLayout(false);

@@ -284,7 +284,7 @@ namespace Sponge2.UI.LowLevelControls
 			if ((i > 0 && lvi.Text == _itemsListView.Items[i - 1].Text) ||
 				(i < _itemsListView.Items.Count - 1 && lvi.Text == _itemsListView.Items[i + 1].Text))
 			{
-				// Change the look of the current item if it's text is duplicated.
+				// Change the look of the current item if its text is duplicated.
 				lvi.ForeColor = Color.Red;
 				lvi.BackColor = Color.PapayaWhip;
 				lvi.Font = _fntDupItem;

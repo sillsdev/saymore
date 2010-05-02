@@ -24,27 +24,6 @@ namespace Sponge2.Model
 		}
 
 
-		/*/// <summary>
-		/// Use this for creating new elements
-		/// </summary>
-		/// <param name="parentElementFolder">E.g. "c:/MyProject/Sessions"</param>
-		/// <param name="id">e.g. "ETR007"</param>
-		/// <param name="componentFileFactory"></param>
-		public Session(string parentElementFolder, string id, ComponentFile.Factory componentFileFactory)
-			:base(parentElementFolder, id, componentFileFactory)
-		{
-		}
-
-		/// <summary>
-		/// Use this constructor for existing elements which just need to be read off disk
-		/// </summary>
-		/// <param name="existingElementFolder">E.g. "c:/MyProject/Sessions/ETR007"</param>
-		/// <param name="componentFileFactory"></param>
-		public Session(string existingElementFolder, ComponentFile.Factory componentFileFactory)
-			:base(existingElementFolder,componentFileFactory)
-		{
-		}*/
-
 		protected override string ExtensionWithoutPeriod
 		{
 			get { return ExtensionWithoutPeriodStatic; }

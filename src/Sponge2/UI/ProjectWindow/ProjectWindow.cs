@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using SIL.Localization;
 using Sponge2.Properties;
+using Sponge2.UI.ElementListScreen;
 
 namespace Sponge2.UI.ProjectWindow
 {
@@ -33,10 +34,13 @@ namespace Sponge2.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ProjectWindow(string projectName, SessionsControl sessionsControl) : this()
+		public ProjectWindow(string projectName,
+			SessionScreen sessionsScreen,
+			PersonListScreen personsScreen
+			) : this()
 		{
 			_projectName = projectName;
-			var views = new Control[] { new TextBox(),  sessionsControl, new TextBox()};
+			var views = new Control[] { new TextBox(), sessionsScreen, personsScreen };
 
 			Controls.AddRange(views);
 			_viewManger = new ViewButtonManager(tsMain, views);

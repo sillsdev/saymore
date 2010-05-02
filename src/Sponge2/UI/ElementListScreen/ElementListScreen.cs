@@ -1,26 +1,60 @@
 using System;
 using System.Linq;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using SilUtils;
 using Sponge2.Model;
+using Sponge2.UI.LowLevelControls;
 
-namespace Sponge2.UI
+namespace Sponge2.UI.ElementListScreen
 {
-	/// ----------------------------------------------------------------------------------------
-	public partial class SessionsControl : UserControl
+	/// <summary>
+	/// This is the base class for both People and Session screens.
+	///
+	/// Review for later: Some alternate ways to approach this:
+	/// * separate the 3 main areas of these screens into separate controls, each
+	/// with their own view model as needed.  This way the two screens could be more
+	/// naturally customized as needed.
+	/// *Move away from knowing about the generics at this level, and instead take an
+	/// IElementListViewModel. Leave it to the DI to give us the right one.  That might
+	/// have been an easier approach than what I've done here.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	public partial class ElementListScreen<T> : UserControl where T : ProjectElement
 	{
-		private readonly SessionsViewModel _model;
+		protected readonly ElementListViewModel<T> _model;
+
+		protected System.Windows.Forms.TabControl _componentEditorsTabControl;
+		protected ListPanel _sessionsListPanel;
+		protected SilGrid _componentGrid;
+
 
 		/// ------------------------------------------------------------------------------------
-		public SessionsControl(SessionsViewModel presentationModel)
+		public ElementListScreen(ElementListViewModel<T> presentationModel)
 		{
 			_model = presentationModel;
-			InitializeComponent();
+			//	InitializeComponent();
 
 			if (DesignMode)
 				return;
+		}
+
+		protected void Initialize(			TabControl componentEditorsTabControl,
+			SilGrid componentGrid,
+			ListPanel sessionsListPanel
+		)
+		{
+			_componentEditorsTabControl = componentEditorsTabControl;
+			_sessionsListPanel = sessionsListPanel;
+			_componentGrid = componentGrid;
+			_componentGrid.CellValueNeeded += HandleComponentFileGridCellValueNeeded;
+			_componentGrid.RowEnter+= HandleComponentFileGridRowEnter;
+
+
+			_sessionsListPanel.NewButtonClicked += HandleNewSessionButtonClicked;
+			_sessionsListPanel.SelectedItemChanged += HandleSelectedSessionChanged;
+
+			_componentEditorsTabControl.Selecting+= HandleSelectedComponentEditorTabSelecting;
 
 			_componentEditorsTabControl.Font = SystemFonts.IconTitleFont;
 			_componentGrid.Font = SystemFonts.IconTitleFont;
@@ -28,9 +62,9 @@ namespace Sponge2.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void LoadSessionList()
+		protected void LoadSessionList()
 		{
-			var sessions = _model.Sessions.Cast<object>().ToList();
+			var sessions = _model.Elements.Cast<object>().ToList();
 
 			_sessionsListPanel.AddRange(sessions);
 
@@ -39,19 +73,19 @@ namespace Sponge2.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateDisplay()
+		protected void UpdateDisplay()
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateComponentList()
+		protected void UpdateComponentList()
 		{
 			// I think there's a bug in the grid that fires the cell value needed event in
 			// the process of changing the row count but it fires it for rows that are
 			// no longer supposed to exist. This tends to happen when the row count was
 			// previously higher than the new value.
 			_componentGrid.CellValueNeeded -= HandleComponentFileGridCellValueNeeded;
-			_componentGrid.RowCount = _model.ComponentsOfSelectedSession.Count();
+			_componentGrid.RowCount = _model.ComponentsOfSelectedElement.Count();
 			_componentGrid.CellValueNeeded += HandleComponentFileGridCellValueNeeded;
 
 			_componentGrid.Invalidate();
@@ -63,7 +97,7 @@ namespace Sponge2.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateComponentEditors()
+		protected void UpdateComponentEditors()
 		{
 			Utils.SetWindowRedraw(_componentEditorsTabControl, false);
 
@@ -92,22 +126,22 @@ namespace Sponge2.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private object HandleNewSessionButtonClicked(object sender)
+		protected object HandleNewSessionButtonClicked(object sender)
 		{
-			_model.SetSelectedSession(_model.CreateNewSession());
-			_sessionsListPanel.AddItem(_model.SelectedSession, true, true);
+			_model.SetSelectedElement(_model.CreateNewElement());
+			_sessionsListPanel.AddItem(_model.SelectedElement, true, true);
 			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleSelectedSessionChanged(object sender, object newItem)
+		protected virtual void HandleSelectedSessionChanged(object sender, object newItem)
 		{
-			_model.SetSelectedSession(newItem as Session);
+			_model.SetSelectedElement(newItem as T);
 			UpdateComponentList();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleComponentFileGridRowEnter(object sender, DataGridViewCellEventArgs e)
+		protected void HandleComponentFileGridRowEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			// This event is fired even when the grid gains focus without the row actually
 			// changing, therefore we should just ignore the event when the row hasn't changed.
@@ -119,7 +153,7 @@ namespace Sponge2.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleComponentFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+		protected void HandleComponentFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			var dataPropName = _componentGrid.Columns[e.ColumnIndex].DataPropertyName;
 			var currSessionFile = _model.GetComponentFile(e.RowIndex);
@@ -128,21 +162,17 @@ namespace Sponge2.UI
 				ReflectionHelper.GetProperty(currSessionFile, dataPropName));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void HandleAfterSessionAdded(object sender, object itemBeingAdded)
-		{
 
-		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleSelectedComponentEditorTabSelecting(object sender, TabControlCancelEventArgs e)
+		protected void HandleSelectedComponentEditorTabSelecting(object sender, TabControlCancelEventArgs e)
 		{
 			if (e.Action == TabControlAction.Selecting)
 				LoadComponentEditorsForTabPage(e.TabPage as ComponentEditorTabPage);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void LoadComponentEditorsForTabPage(ComponentEditorTabPage page)
+		protected void LoadComponentEditorsForTabPage(ComponentEditorTabPage page)
 		{
 			if (page != null && !page.AreEditorControlsLoaded)
 			{

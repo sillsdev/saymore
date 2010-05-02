@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
 using Sponge2.Model;
+using Sponge2.Model.Files;
 using Sponge2.UI.ProjectChoosingAndCreating;
 
 namespace Sponge2

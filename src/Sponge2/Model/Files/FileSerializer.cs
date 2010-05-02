@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using Sponge2.Model;
 
-namespace Sponge2.Persistence
+namespace Sponge2.Model.Files
 {
-
-
 	/// <summary>
 	/// This class lets us save and load objects which have a set of fields.
 	/// </summary>

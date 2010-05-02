@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sponge2.Persistence;
+using Sponge2.Model.Files;
 
 namespace Sponge2.Model
 {

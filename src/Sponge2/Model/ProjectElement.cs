@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Palaso.Code;
-using Sponge2.Persistence;
+using Sponge2.Model.Files;
 
 namespace Sponge2.Model
 {

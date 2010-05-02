@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sponge2.Model;
+using Sponge2.Model.Files;
 
 namespace Sponge2.UI.ElementListScreen
 {

@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Xml.Serialization;
 using Palaso.Code;
-using Sponge2.Persistence;
+using Sponge2.Model.Files;
 
 namespace Sponge2.Model
 {

@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Windows.Forms;
+using SilUtils;
 using Sponge2.UI.ComponentEditors;
 
-namespace Sponge2.Model
+namespace Sponge2.Model.Files
 {
 	/// <summary>
 	/// Each file corresponds to a single kind of fileType.  The FileType then tells
 	/// us what controls are available for marking up, editing, or viewing that file.
+	/// It also tells us which commands to offer in, for example, a context menu.
 	/// </summary>
 	public  class FileType
 	{
@@ -46,43 +49,12 @@ namespace Sponge2.Model
 			yield return new EditorProvider(new SimpleFileInfoControl(file), "Info");
 			yield return new EditorProvider(new SimpleFileInfoControl(file), "TEST");
 		}
-	}
 
-	/// ------------------------------------------------------------------------------------
-	public class UnknownFileType : FileType
-	{
-		public UnknownFileType()
-			: base("Unknown", path => true)
+		public virtual IEnumerable<FileCommand> Commands
 		{
+			get { yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click); }
+			//note: we don't offer "open in app" choice for sponge files
 		}
 
-		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
-		{
-			yield return new EditorProvider(new SimpleFileInfoControl(file), "Info");
-		}
-	}
-
-	public class EditorProvider
-	{
-		private readonly Control _control;
-
-		public EditorProvider(Control control, string tabName)
-		{
-			_control = control;
-			TabName = tabName;
-		}
-
-		public string TabName { get; private set; }
-
-		/// <summary>
-		/// Note: the caller doesn't own what this returns: don't dispose of it, ever
-		/// </summary>
-		public Control GetEditor(ComponentFile file)
-		{
-			//NB: in the future, we can do more complicated things like reusing controls,
-			//constructing controls using the DI container, etc.
-			//This will be invisible to the client.
-			return _control;
-		}
 	}
 }

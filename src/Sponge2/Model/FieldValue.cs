@@ -4,6 +4,10 @@ using System.Xml.Serialization;
 
 namespace Sponge2.Model
 {
+	/// <summary>
+	/// A FieldValue is a conceptually a key-value pair.  We add other properties as necessary,
+	/// but that's the simple idea.
+	/// </summary>
 	public class FieldValue : IEquatable<FieldValue>
 	{
 		public FieldValue(string id, string type, string value)

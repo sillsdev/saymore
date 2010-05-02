@@ -1,13 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
-using Palaso.Reporting;
-using SilUtils;
-using Sponge2.Persistence;
 
-namespace Sponge2.Model
+namespace Sponge2.Model.Files
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

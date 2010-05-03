@@ -90,7 +90,6 @@ namespace Sponge2Tests.model
 		}
 		*/
 
-
 		[Test, ExpectedException(typeof(ArgumentException))]
 		public void Constructor_ParentFolderDoesNotExist_Throws()
 		{

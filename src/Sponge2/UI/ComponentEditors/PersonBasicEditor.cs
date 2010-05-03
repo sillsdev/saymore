@@ -13,9 +13,9 @@ namespace Sponge2.UI.ComponentEditors
 		{
 			InitializeComponent();
 			Name = "Basic";
-			_binder = new BindingHelper(file);
-			_binder.BindTextBox(_fullName, "fullName");
-			_binder.BindTextBox(_birthYear, "birthYear");
+			//_binder = new BindingHelper(file);
+			//_binder.BindTextBox(_fullName, "fullName");
+			//_binder.BindTextBox(_birthYear, "birthYear");
 		}
 	}
 }

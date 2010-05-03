@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\DiscourseType.cs" />
     <Compile Include="Model\EditorProvider.cs" />
     <Compile Include="Model\ElementRepository.cs" />
     <Compile Include="Model\FieldDefinition.cs" />
@@ -84,7 +85,9 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Session.cs" />
-    <Compile Include="UI\ComponentEditors\BindingHelper.cs" />
+    <Compile Include="UI\ComponentEditors\BindingHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\ComponentEditors\PersonBasicEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -273,6 +276,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"</PreBuildEvent>
+    <PreBuildEvent>if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"
+copy "$(ProjectDir)..\..\DistFiles\DiscourseTypes.xml" "$(OutDir)"</PreBuildEvent>
   </PropertyGroup>
 </Project>

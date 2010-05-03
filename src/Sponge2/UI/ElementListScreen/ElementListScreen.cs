@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
@@ -19,15 +18,13 @@ namespace Sponge2.UI.ElementListScreen
 	/// IElementListViewModel. Leave it to the DI to give us the right one.  That might
 	/// have been an easier approach than what I've done here.
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
 	public partial class ElementListScreen<T> : UserControl where T : ProjectElement
 	{
 		protected readonly ElementListViewModel<T> _model;
 
-		protected System.Windows.Forms.TabControl _componentEditorsTabControl;
+		protected TabControl _componentEditorsTabControl;
 		protected ListPanel _elementsListPanel;
 		protected SilGrid _componentGrid;
-
 
 		/// ------------------------------------------------------------------------------------
 		public ElementListScreen(ElementListViewModel<T> presentationModel)
@@ -39,22 +36,21 @@ namespace Sponge2.UI.ElementListScreen
 				return;
 		}
 
-		protected void Initialize(			TabControl componentEditorsTabControl,
-			SilGrid componentGrid,
-			ListPanel elementsListPanel
-		)
+		/// ------------------------------------------------------------------------------------
+		protected void Initialize(TabControl componentEditorsTabControl,
+			SilGrid componentGrid, ListPanel elementsListPanel)
 		{
 			_componentEditorsTabControl = componentEditorsTabControl;
+			_componentEditorsTabControl.TabPages.Clear();
 			_elementsListPanel = elementsListPanel;
 			_componentGrid = componentGrid;
 			_componentGrid.CellValueNeeded += HandleComponentFileGridCellValueNeeded;
-			_componentGrid.RowEnter+= HandleComponentFileGridRowEnter;
-
+			_componentGrid.RowEnter += HandleComponentFileGridRowEnter;
 
 			_elementsListPanel.NewButtonClicked += HandleNewElementButtonClicked;
 			_elementsListPanel.SelectedItemChanged += HandleSelectedElementChanged;
 
-			_componentEditorsTabControl.Selecting+= HandleSelectedComponentEditorTabSelecting;
+			_componentEditorsTabControl.Selecting += HandleSelectedComponentEditorTabSelecting;
 
 			_componentEditorsTabControl.Font = SystemFonts.IconTitleFont;
 			_componentGrid.Font = SystemFonts.IconTitleFont;
@@ -64,12 +60,12 @@ namespace Sponge2.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected void LoadElementList()
 		{
-			var Elements = _model.Elements.Cast<object>().ToList();
+			var elements = _model.Elements.Cast<object>().ToList();
 
-			_elementsListPanel.AddRange(Elements);
+			_elementsListPanel.AddRange(elements);
 
-			if (Elements.Count > 0)
-				_elementsListPanel.SelectItem(Elements[0], true);
+			if (elements.Count > 0)
+				_elementsListPanel.SelectItem(elements[0], true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -91,7 +87,6 @@ namespace Sponge2.UI.ElementListScreen
 			_componentGrid.Invalidate();
 			UpdateComponentEditors();
 
-
 			//TODO: editor tab (for now, just the first page) isn't currently
 			//being displayed, even though the first component shows as highlighted.
 		}
@@ -101,24 +96,32 @@ namespace Sponge2.UI.ElementListScreen
 		{
 			Utils.SetWindowRedraw(_componentEditorsTabControl, false);
 
-			// GRRR!!! This turns out to steal focus, giving it to the tab control. I think
-			// what we're going to have to do is reuse at least one page because removing
-			// all but one tab page prevents the problem.
-
 			_componentEditorsTabControl.Selecting -= HandleSelectedComponentEditorTabSelecting;
-			_componentEditorsTabControl.TabPages.Clear();
 
-			// At this point, we're just making the tabs and naming them,
-			//	so that the entire controls
-			// don't need to be build until the user actually tabs to them
+			// Remove all but one tab page because removing all of them will
+			// steal the focus from the active control. Go figure.
+			for (int i = _componentEditorsTabControl.TabCount - 1; i > 0; i--)
+				_componentEditorsTabControl.TabPages.RemoveAt(i);
 
+			// At this point, just make tabs and name them. A tab's editor
+			// controls will be built only when the user selects the tab.
 			foreach (var provider in _model.GetComponentEditorProviders())
 			{
-				var page = new ComponentEditorTabPage(provider);
-				_componentEditorsTabControl.TabPages.Add(page);
+				ComponentEditorTabPage page;
+
+				if (_componentEditorsTabControl.TabPages.Count != 1)
+				{
+					page = new ComponentEditorTabPage(provider);
+					_componentEditorsTabControl.TabPages.Add(page);
+				}
+				else
+				{
+					page = _componentEditorsTabControl.TabPages[0] as ComponentEditorTabPage;
+					page.SetProvider(provider);
+				}
 
 				if (_componentEditorsTabControl.TabPages.Count == 1)
-					LoadComponentEditorsForTabPage(page);
+					page.LoadEditorControl(_model.SelectedComponentFile);
 			}
 
 			_componentEditorsTabControl.Selecting += HandleSelectedComponentEditorTabSelecting;
@@ -162,25 +165,11 @@ namespace Sponge2.UI.ElementListScreen
 				ReflectionHelper.GetProperty(currElementFile, dataPropName));
 		}
 
-
-
 		/// ------------------------------------------------------------------------------------
 		protected void HandleSelectedComponentEditorTabSelecting(object sender, TabControlCancelEventArgs e)
 		{
 			if (e.Action == TabControlAction.Selecting)
-				LoadComponentEditorsForTabPage(e.TabPage as ComponentEditorTabPage);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected void LoadComponentEditorsForTabPage(ComponentEditorTabPage page)
-		{
-			if (page != null && !page.AreEditorControlsLoaded)
-			{
-				var control = page.EditorProvider.GetEditor(_model.SelectedComponentFile);
-				control.Dock = DockStyle.Fill;
-				_componentEditorsTabControl.SelectedTab.Controls.Add(control);
-				page.AreEditorControlsLoaded = true;
-			}
+				((ComponentEditorTabPage)e.TabPage).LoadEditorControl(_model.SelectedComponentFile);
 		}
 	}
 }

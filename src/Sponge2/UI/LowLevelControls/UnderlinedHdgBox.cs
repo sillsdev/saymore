@@ -136,6 +136,15 @@ namespace Sponge2.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnControlAdded(ControlEventArgs e)
+		{
+			base.OnControlAdded(e);
+
+			// This will make sure the heading is always at the top.
+			_lblHeading.SendToBack();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Draw the line.
 		/// </summary>

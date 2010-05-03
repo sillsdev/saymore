@@ -19,7 +19,7 @@ namespace Sponge2.Model
 
 		public Session(string parentElementFolder, string id,
 			ComponentFile.Factory componentFileFactory,  FileSerializer fileSerializer)
-			:base(parentElementFolder,id, componentFileFactory, fileSerializer)
+			:base(parentElementFolder,id, componentFileFactory, fileSerializer, new SessionFileType())
 		{
 		}
 

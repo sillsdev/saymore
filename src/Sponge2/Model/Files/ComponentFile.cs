@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,44 +18,89 @@ namespace Sponge2.Model.Files
 		public delegate ComponentFile Factory(string pathToAnnotatedFile);
 
 		private FileType _fileType;
-		private FileSerializer _fileSerializer;
-		private const string RootElementName = "MetaData";
+		private readonly FileSerializer _fileSerializer;
+		private string _rootElementName;
+		private string _fileNameToAdvertise;
 
 		/// ------------------------------------------------------------------------------------
 		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
 							 FileSerializer fileSerializer)
 		{
 			_fileSerializer = fileSerializer;
-			PathToAnnotatedFile = pathToAnnotatedFile;
 
-			SetFileType(fileTypes);
+			//we musn't do anything to remove the existing extension, as that is needed to keep, say,
+			// foo.wav and foo.txt separate. Instead, we just append ".meta"
+			MetaDataPath = pathToAnnotatedFile + ".meta";
+			_fileNameToAdvertise = Path.GetFileName(pathToAnnotatedFile);
+			_rootElementName = "MetaData";
+
+			MetaDataFieldValues = new List<FieldValue>();
+
+			SetFileType(pathToAnnotatedFile, fileTypes);
+		}
+
+		/// <summary>
+		/// This constructor is for files which are not annotating something else (e.g. person and session)
+		/// </summary>
+		public ComponentFile(string filePath, FileType fileType,
+							 FileSerializer fileSerializer, string rootElementName)
+		{
+			_fileType = fileType;
+			_fileNameToAdvertise = Path.GetFileName(filePath);
+			_fileSerializer = fileSerializer;
+			MetaDataPath = filePath;
+			MetaDataFieldValues = new List<FieldValue>();
+			_rootElementName = rootElementName;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SetFileType(IEnumerable<FileType> fileTypes)
+		private void SetFileType(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes)
 		{
-			_fileType = fileTypes.FirstOrDefault(t => t.IsMatch(PathToAnnotatedFile));
+			_fileType = fileTypes.FirstOrDefault(t => t.IsMatch(pathToAnnotatedFile));
 			_fileType = _fileType ?? new UnknownFileType();
 		}
 
-		public string PathToAnnotatedFile { get; private set; }
 		public List<FieldValue> MetaDataFieldValues { get; set; }
+
+		public string GetStringValue(string key, string defaultValue)
+		{
+			var field =MetaDataFieldValues.FirstOrDefault(v => v.FieldDefinitionKey == key);
+			if(field == null)
+			{
+				return defaultValue;
+			}
+			return field.Value;
+		}
+
+		public void SetValue(string key, string value)
+		{
+			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldDefinitionKey == key);
+			if (field == null)
+			{
+				MetaDataFieldValues.Add(new FieldValue(key, "string", value.Trim()));
+			}
+			else
+			{
+				field.Value = value;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			_fileSerializer.Save(MetaDataFieldValues, MetaDataPath, RootElementName);
+			_fileSerializer.Save(MetaDataFieldValues, MetaDataPath, _rootElementName);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
-			_fileSerializer.Load(MetaDataFieldValues, MetaDataPath, RootElementName);
+			_fileSerializer.CreateIfMissing(MetaDataPath, _rootElementName);
+			_fileSerializer.Load(MetaDataFieldValues, MetaDataPath, _rootElementName);
 		}
 
-		protected string MetaDataPath
+		private string MetaDataPath
 		{
-			get { return System.IO.Path.ChangeExtension(PathToAnnotatedFile, "smd"); }
+			get;  set;
 		}
 
 		public FileType FileType
@@ -81,10 +127,6 @@ namespace Sponge2.Model.Files
 
 #endif
 
-		public string FileName
-		{
-			get { return Path.GetFileName(PathToAnnotatedFile); }
-		}
 
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
@@ -94,5 +136,13 @@ namespace Sponge2.Model.Files
 
 		public List<FieldValue> Fields { get; private set; }
 
+
+		/// <summary>
+		/// WARNING: THIS NAME IS HARD-CODED IN THE UI GRID
+		/// </summary>
+		public string FileName
+		{
+			get { return _fileNameToAdvertise; }
+		}
 	}
 }

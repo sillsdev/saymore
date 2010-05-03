@@ -43,5 +43,29 @@ namespace Sponge2Tests.model
 			Assert.AreEqual("Unknown", f.FileType.Name);
 		}
 
+		[Test]
+		public void GetStringValue_FieldMissing_ReturnsSpecifiedDefault()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+
+			Assert.AreEqual("hello", f.GetStringValue("notThere", "hello"));
+		}
+
+		[Test]
+		public void GetStringValue_FieldIsThere_ReturnsCorrectValue()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+			f.SetValue("color", "red");
+			Assert.AreEqual("red", f.GetStringValue("color", "blue"));
+		}
+
+		[Test]
+		public void SetValue_ChangingValue_NewValueOverwritesOld()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+			f.SetValue("color", "red");
+			f.SetValue("color", "green");
+			Assert.AreEqual("green", f.GetStringValue("color", "blue"));
+		}
 	}
 }

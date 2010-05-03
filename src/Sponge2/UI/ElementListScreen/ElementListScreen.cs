@@ -25,7 +25,7 @@ namespace Sponge2.UI.ElementListScreen
 		protected readonly ElementListViewModel<T> _model;
 
 		protected System.Windows.Forms.TabControl _componentEditorsTabControl;
-		protected ListPanel _sessionsListPanel;
+		protected ListPanel _elementsListPanel;
 		protected SilGrid _componentGrid;
 
 
@@ -41,35 +41,35 @@ namespace Sponge2.UI.ElementListScreen
 
 		protected void Initialize(			TabControl componentEditorsTabControl,
 			SilGrid componentGrid,
-			ListPanel sessionsListPanel
+			ListPanel elementsListPanel
 		)
 		{
 			_componentEditorsTabControl = componentEditorsTabControl;
-			_sessionsListPanel = sessionsListPanel;
+			_elementsListPanel = elementsListPanel;
 			_componentGrid = componentGrid;
 			_componentGrid.CellValueNeeded += HandleComponentFileGridCellValueNeeded;
 			_componentGrid.RowEnter+= HandleComponentFileGridRowEnter;
 
 
-			_sessionsListPanel.NewButtonClicked += HandleNewSessionButtonClicked;
-			_sessionsListPanel.SelectedItemChanged += HandleSelectedSessionChanged;
+			_elementsListPanel.NewButtonClicked += HandleNewElementButtonClicked;
+			_elementsListPanel.SelectedItemChanged += HandleSelectedElementChanged;
 
 			_componentEditorsTabControl.Selecting+= HandleSelectedComponentEditorTabSelecting;
 
 			_componentEditorsTabControl.Font = SystemFonts.IconTitleFont;
 			_componentGrid.Font = SystemFonts.IconTitleFont;
-			LoadSessionList();
+			LoadElementList();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void LoadSessionList()
+		protected void LoadElementList()
 		{
-			var sessions = _model.Elements.Cast<object>().ToList();
+			var Elements = _model.Elements.Cast<object>().ToList();
 
-			_sessionsListPanel.AddRange(sessions);
+			_elementsListPanel.AddRange(Elements);
 
-			if (sessions.Count > 0)
-				_sessionsListPanel.SelectItem(sessions[0], true);
+			if (Elements.Count > 0)
+				_elementsListPanel.SelectItem(Elements[0], true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,15 +126,15 @@ namespace Sponge2.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected object HandleNewSessionButtonClicked(object sender)
+		protected object HandleNewElementButtonClicked(object sender)
 		{
 			_model.SetSelectedElement(_model.CreateNewElement());
-			_sessionsListPanel.AddItem(_model.SelectedElement, true, true);
+			_elementsListPanel.AddItem(_model.SelectedElement, true, true);
 			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleSelectedSessionChanged(object sender, object newItem)
+		protected virtual void HandleSelectedElementChanged(object sender, object newItem)
 		{
 			_model.SetSelectedElement(newItem as T);
 			UpdateComponentList();
@@ -156,10 +156,10 @@ namespace Sponge2.UI.ElementListScreen
 		protected void HandleComponentFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			var dataPropName = _componentGrid.Columns[e.ColumnIndex].DataPropertyName;
-			var currSessionFile = _model.GetComponentFile(e.RowIndex);
+			var currElementFile = _model.GetComponentFile(e.RowIndex);
 
-			e.Value = (currSessionFile == null ? null :
-				ReflectionHelper.GetProperty(currSessionFile, dataPropName));
+			e.Value = (currElementFile == null ? null :
+				ReflectionHelper.GetProperty(currElementFile, dataPropName));
 		}
 
 

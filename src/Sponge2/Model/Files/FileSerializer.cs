@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml.Linq;
 
 namespace Sponge2.Model.Files
@@ -19,6 +20,18 @@ namespace Sponge2.Model.Files
 				child.Add(element);
 			}
 			child.Save(path);
+		}
+
+		/// <summary>
+		/// Create an empty copy of the file if it isn't there.
+		/// </summary>
+		/// <returns>true if the file had to be created</returns>
+		public bool CreateIfMissing(string path, string rootElementName)
+		{
+			if(File.Exists(path))
+				return false;
+			Save(new FieldValue[]{}, path, rootElementName);
+			return true;
 		}
 
 		public void Load(List<FieldValue> fields, string path, string rootElementName)

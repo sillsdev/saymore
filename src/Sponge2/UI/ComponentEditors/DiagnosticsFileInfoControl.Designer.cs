@@ -1,6 +1,6 @@
 namespace Sponge2.UI.ComponentEditors
 {
-	partial class SimpleFileInfoControl
+	partial class DiagnosticsFileInfoControl
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -37,7 +37,7 @@ namespace Sponge2.UI.ComponentEditors
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.ReadOnly = true;
-			this.textBox1.Size = new System.Drawing.Size(282, 163);
+			this.textBox1.Size = new System.Drawing.Size(282, 142);
 			this.textBox1.TabIndex = 0;
 			// 
 			// SimpleFileInfoControl
@@ -45,7 +45,7 @@ namespace Sponge2.UI.ComponentEditors
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.textBox1);
-			this.Name = "SimpleFileInfoControl";
+			this.Name = "DiagnosticsFileInfoControl";
 			this.Size = new System.Drawing.Size(371, 226);
 			this.ResumeLayout(false);
 			this.PerformLayout();

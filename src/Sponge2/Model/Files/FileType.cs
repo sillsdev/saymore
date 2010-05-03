@@ -46,8 +46,8 @@ namespace Sponge2.Model.Files
 
 		public virtual IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			yield return new EditorProvider(new SimpleFileInfoControl(file), "Info");
-			yield return new EditorProvider(new SimpleFileInfoControl(file), "TEST");
+			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "Info");
+			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "TEST");
 		}
 
 		public virtual IEnumerable<FileCommand> Commands
@@ -55,6 +55,35 @@ namespace Sponge2.Model.Files
 			get { yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click); }
 			//note: we don't offer "open in app" choice for sponge files
 		}
+		public override string ToString()
+		{
+			return Name;
+		}
+	}
 
+	public class PersonFileType :FileType
+	{
+		public PersonFileType()
+			: base("Person", p=> p.EndsWith(".person"))
+		{
+
+		}
+		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		{
+			yield return new EditorProvider(new PersonBasicEditor(file), "Basic");
+		}
+	}
+
+	public class SessionFileType : FileType
+	{
+		public SessionFileType()
+			: base("Session", p=> p.EndsWith(".session"))
+		{
+
+		}
+		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		{
+			yield return new EditorProvider(new SessionBasicEditor(file), "BasicX");
+		}
 	}
 }

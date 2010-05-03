@@ -16,7 +16,7 @@ namespace Sponge2.Model.Files
 
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			yield return new EditorProvider(new SimpleFileInfoControl(file), "Info");
+			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "Info");
 		}
 
 		public override IEnumerable<FileCommand> Commands

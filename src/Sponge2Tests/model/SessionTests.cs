@@ -31,20 +31,8 @@ namespace Sponge2Tests.model
 				new FileSerializer());
 		}
 
-		[Test]
-		public void GetComponentFiles_AfterCreation_GivesASingleFile()
-		{
-			var session = CreateSession("xyz");
-			Assert.AreEqual(1, session.GetComponentFiles().Count());
-		}
-
-
-		[Test]
-		public void GetComponentFiles_SomeFiles_GivesThem()
-		{
-			var session = CreateSession("xyz");
-			File.WriteAllText(_parentFolder.Combine("xyz", "test.txt"), "hello");
-			Assert.AreEqual(2, session.GetComponentFiles().Count());
-		}
+		/*  THIS IS EMPTY BECAUSE MOST OF THE BEHAVIOR THUS FAR IS IN THE BASE CLASS, AND TESTED
+		 * THERE, INSTEAD
+		 */
 	}
 }

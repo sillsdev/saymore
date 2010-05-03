@@ -69,10 +69,11 @@
   <ItemGroup>
     <Compile Include="model\ComponentFileTests.cs" />
     <Compile Include="ApplicationContextTests.cs" />
+    <Compile Include="model\ProjectElementTests.cs" />
     <Compile Include="model\FileTypeTests.cs" />
     <Compile Include="model\SessionTests.cs" />
     <Compile Include="model\ProjectTests.cs" />
-    <Compile Include="Persistence\FileSerializerTests.cs" />
+    <Compile Include="model\FileSerializerTests.cs" />
     <Compile Include="ProjectChosingAndCreating\WelcomeDialogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -84,11 +84,24 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Session.cs" />
-    <Compile Include="UI\ComponentEditors\SimpleFileInfoControl.cs">
+    <Compile Include="UI\ComponentEditors\BindingHelper.cs" />
+    <Compile Include="UI\ComponentEditors\PersonBasicEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\ComponentEditors\SimpleFileInfoControl.Designer.cs">
-      <DependentUpon>SimpleFileInfoControl.cs</DependentUpon>
+    <Compile Include="UI\ComponentEditors\PersonBasicEditor.Designer.cs">
+      <DependentUpon>PersonBasicEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\DiagnosticsFileInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\DiagnosticsFileInfoControl.Designer.cs">
+      <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\SessionBasicEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\SessionBasicEditor.Designer.cs">
+      <DependentUpon>SessionBasicEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ComponentEditorTabPage.cs">
       <SubType>Component</SubType>
@@ -169,8 +182,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="UI\ComponentEditors\SimpleFileInfoControl.resx">
-      <DependentUpon>SimpleFileInfoControl.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ComponentEditors\PersonBasicEditor.resx">
+      <DependentUpon>PersonBasicEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\DiagnosticsFileInfoControl.resx">
+      <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\SessionBasicEditor.resx">
+      <DependentUpon>SessionBasicEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\PersonListScreen.resx">
       <DependentUpon>PersonListScreen.cs</DependentUpon>

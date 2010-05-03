@@ -10,7 +10,7 @@ namespace Sponge2.Model
 	{
 		public Person(string parentElementFolder, string id,
 			ComponentFile.Factory componentFileFactory,  FileSerializer fileSerializer)
-			:base(parentElementFolder,id, componentFileFactory, fileSerializer)
+			:base(parentElementFolder,id, componentFileFactory, fileSerializer, new PersonFileType())
 		{
 		}
 

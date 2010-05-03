@@ -35,7 +35,8 @@ namespace Sponge2
 		{
 			get
 			{
-				yield return FileType.Create("session", new[] {".session"});
+				yield return new SessionFileType();
+				yield return new PersonFileType();
 				yield return FileType.Create("video", new[] {".avi", ".mov", ".mp4"});
 				yield return FileType.Create("image", new[] {".jpg", ".tiff", ".bmp"});
 				yield return FileType.Create("audio", new[] {".mp3", ".wav", ".ogg"});

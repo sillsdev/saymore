@@ -39,12 +39,5 @@ namespace Sponge2.Model
 			get { return "session"; }
 		}
 
-		public string InfoForPrototype
-		{
-			get
-			{
-				return Id;
-			}
-		}
 	}
 }

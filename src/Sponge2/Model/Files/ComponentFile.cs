@@ -25,8 +25,7 @@ namespace Sponge2.Model.Files
 		public List<FieldValue> Fields { get; private set; }
 		public FileType FileType { get; private set; }
 
-		// Any reason this can't be a member variable rather than a property?
-		private string MetaDataPath { get; set; }
+		private string _metaDataPath;
 
 		/// ------------------------------------------------------------------------------------
 		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
@@ -36,7 +35,7 @@ namespace Sponge2.Model.Files
 
 			// we musn't do anything to remove the existing extension, as that is needed
 			// to keep, say, foo.wav and foo.txt separate. Instead, we just append ".meta"
-			MetaDataPath = pathToAnnotatedFile + ".meta";
+			_metaDataPath = pathToAnnotatedFile + ".meta";
 			_fileNameToAdvertise = Path.GetFileName(pathToAnnotatedFile);
 			_rootElementName = "MetaData";
 
@@ -57,7 +56,7 @@ namespace Sponge2.Model.Files
 			FileType = fileType;
 			_fileNameToAdvertise = Path.GetFileName(filePath);
 			_fileSerializer = fileSerializer;
-			MetaDataPath = filePath;
+			_metaDataPath = filePath;
 			MetaDataFieldValues = new List<FieldValue>();
 			_rootElementName = rootElementName;
 		}
@@ -93,14 +92,20 @@ namespace Sponge2.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			_fileSerializer.Save(MetaDataFieldValues, MetaDataPath, _rootElementName);
+			Save(_metaDataPath);
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void Save(string path)
+		{
+			_metaDataPath = path;
+			_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, _rootElementName);
+		}
+		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
-			_fileSerializer.CreateIfMissing(MetaDataPath, _rootElementName);
-			_fileSerializer.Load(MetaDataFieldValues, MetaDataPath, _rootElementName);
+			_fileSerializer.CreateIfMissing(_metaDataPath, _rootElementName);
+			_fileSerializer.Load(MetaDataFieldValues, _metaDataPath, _rootElementName);
 		}
 
 #if notyet

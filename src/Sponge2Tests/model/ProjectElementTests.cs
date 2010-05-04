@@ -72,6 +72,7 @@ namespace Sponge2Tests.model
 			Assert.AreEqual(2, person.GetComponentFiles().Count());
 		}
 
+
 		private ComponentFile MakeComponent(string pathtoannotatedfile)
 		{
 			return null;

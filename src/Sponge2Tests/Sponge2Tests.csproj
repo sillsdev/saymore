@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="model\ComponentFileTests.cs" />
     <Compile Include="ApplicationContextTests.cs" />
+    <Compile Include="model\ProjectElementRenamingTests.cs" />
     <Compile Include="model\ProjectElementTests.cs" />
     <Compile Include="model\FileTypeTests.cs" />
     <Compile Include="model\SessionTests.cs" />

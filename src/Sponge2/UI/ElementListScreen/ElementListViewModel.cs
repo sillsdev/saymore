@@ -33,10 +33,15 @@ namespace Sponge2.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+
 		public ComponentFile[] ComponentsOfSelectedElement
 		{
+			//TODO: unless the caller is expected to do array functions, I this wants to be IEnumerable<ComponentFile>
 			get
 			{
+				//TODO: properties are not supposed to do this much work, and in fact
+				//this is misleading, because it turns around and calls a method (which isn't
+				//a property because it's a lot of work.
 				return (SelectedElement == null ?
 					new ComponentFile[] {} : SelectedElement.GetComponentFiles().ToArray());
 			}
@@ -54,6 +59,8 @@ namespace Sponge2.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+
+		//review do (jh): why bother with all these indexes? Why not just pass the object itself?
 		public bool SetSelectedComponentFile(int index)
 		{
 			var componentFiles = SelectedElement.GetComponentFiles().ToArray();

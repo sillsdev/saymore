@@ -31,9 +31,6 @@ namespace Sponge2.UI.ElementListScreen
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this._componentEditorsTabControl = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -41,13 +38,7 @@ namespace Sponge2.UI.ElementListScreen
 			this._sessionsListPanel = new Sponge2.UI.LowLevelControls.ListPanel();
 			this._sessionComponentsSplitter = new System.Windows.Forms.SplitContainer();
 			this._componentGridPanel = new SilUtils.Controls.SilPanel();
-			this._componentGrid = new SilUtils.SilGrid();
-			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
-			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._componentFileGrid = new Sponge2.UI.ElementListScreen.ComponentFileGrid();
 			this._componentEditorsTabControl.SuspendLayout();
 			this._outerSplitter.Panel1.SuspendLayout();
 			this._outerSplitter.Panel2.SuspendLayout();
@@ -56,7 +47,6 @@ namespace Sponge2.UI.ElementListScreen
 			this._sessionComponentsSplitter.Panel2.SuspendLayout();
 			this._sessionComponentsSplitter.SuspendLayout();
 			this._componentGridPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this._componentGrid)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _componentEditorsTabControl
@@ -164,7 +154,7 @@ namespace Sponge2.UI.ElementListScreen
 			this._componentGridPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._componentGridPanel.ClipTextForChildControls = true;
 			this._componentGridPanel.ControlReceivingFocusOnMnemonic = null;
-			this._componentGridPanel.Controls.Add(this._componentGrid);
+			this._componentGridPanel.Controls.Add(this._componentFileGrid);
 			this._componentGridPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._componentGridPanel.DoubleBuffered = true;
 			this._componentGridPanel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
@@ -175,99 +165,13 @@ namespace Sponge2.UI.ElementListScreen
 			this._componentGridPanel.Size = new System.Drawing.Size(315, 147);
 			this._componentGridPanel.TabIndex = 1;
 			// 
-			// _componentGrid
+			// _componentFileGrid
 			// 
-			this._componentGrid.AllowUserToAddRows = false;
-			this._componentGrid.AllowUserToDeleteRows = false;
-			this._componentGrid.AllowUserToOrderColumns = true;
-			this._componentGrid.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			this._componentGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-			this._componentGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-			this._componentGrid.BackgroundColor = System.Drawing.SystemColors.Window;
-			this._componentGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._componentGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this._componentGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-			this._componentGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this._componentGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colIcon,
-            this.colName,
-            this.colType,
-            this.colTags,
-            this.colDataModified,
-            this.colSize});
-			this._componentGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._componentGrid.Font = new System.Drawing.Font("Segoe UI", 9F);
-			this._componentGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(219)))), ((int)(((byte)(180)))));
-			this._componentGrid.IsDirty = false;
-			this._componentGrid.Location = new System.Drawing.Point(0, 0);
-			this._componentGrid.MultiSelect = false;
-			this._componentGrid.Name = "_componentGrid";
-			this._componentGrid.PaintHeaderAcrossFullGridWidth = true;
-			this._componentGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			this._componentGrid.RowHeadersVisible = false;
-			this._componentGrid.RowHeadersWidth = 22;
-			this._componentGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this._componentGrid.ShowWaterMarkWhenDirty = false;
-			this._componentGrid.Size = new System.Drawing.Size(313, 145);
-			this._componentGrid.TabIndex = 0;
-			this._componentGrid.VirtualMode = true;
-			this._componentGrid.WaterMark = "!";
-			// 
-			// colIcon
-			// 
-			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.colIcon.DataPropertyName = "SmallIcon";
-			this.colIcon.HeaderText = "";
-			this.colIcon.Name = "colIcon";
-			this.colIcon.ReadOnly = true;
-			this.colIcon.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.colIcon.Width = 5;
-			// 
-			// colName
-			// 
-			this.colName.DataPropertyName = "FileName";
-			this.colName.HeaderText = "Name";
-			this.colName.Name = "colName";
-			this.colName.ReadOnly = true;
-			// 
-			// colType
-			// 
-			this.colType.DataPropertyName = "FileType";
-			this.colType.HeaderText = "Type";
-			this.colType.Name = "colType";
-			this.colType.ReadOnly = true;
-			// 
-			// colTags
-			// 
-			this.colTags.DataPropertyName = "Tags";
-			this.colTags.HeaderText = "Tags";
-			this.colTags.Name = "colTags";
-			// 
-			// colDataModified
-			// 
-			this.colDataModified.DataPropertyName = "DateModified";
-			this.colDataModified.HeaderText = "Date Modified";
-			this.colDataModified.Name = "colDataModified";
-			this.colDataModified.ReadOnly = true;
-			this.colDataModified.Width = 107;
-			// 
-			// colSize
-			// 
-			this.colSize.DataPropertyName = "FileSize";
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
-			this.colSize.HeaderText = "Size";
-			this.colSize.Name = "colSize";
-			this.colSize.ReadOnly = true;
-			this.colSize.Width = 52;
+			this._componentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._componentFileGrid.Location = new System.Drawing.Point(0, 0);
+			this._componentFileGrid.Name = "_componentFileGrid";
+			this._componentFileGrid.Size = new System.Drawing.Size(313, 145);
+			this._componentFileGrid.TabIndex = 1;
 			// 
 			// PersonListScreen
 			// 
@@ -284,7 +188,6 @@ namespace Sponge2.UI.ElementListScreen
 			this._sessionComponentsSplitter.Panel2.ResumeLayout(false);
 			this._sessionComponentsSplitter.ResumeLayout(false);
 			this._componentGridPanel.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this._componentGrid)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -297,13 +200,7 @@ namespace Sponge2.UI.ElementListScreen
 		private ListPanel _sessionsListPanel;
 		private System.Windows.Forms.SplitContainer _outerSplitter;
 		private System.Windows.Forms.SplitContainer _sessionComponentsSplitter;
-		private SilGrid _componentGrid;
-		private System.Windows.Forms.DataGridViewImageColumn colIcon;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colName;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colType;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
 		private SilUtils.Controls.SilPanel _componentGridPanel;
+		private ComponentFileGrid _componentFileGrid;
 	}
 }

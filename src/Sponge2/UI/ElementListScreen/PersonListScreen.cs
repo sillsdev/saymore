@@ -13,7 +13,7 @@ namespace Sponge2.UI.ElementListScreen
 			if (DesignMode)
 				return;
 
-			Initialize(_componentEditorsTabControl, _componentGrid, _sessionsListPanel);
+			Initialize(_componentEditorsTabControl, _componentFileGrid, _sessionsListPanel);
 		}
 	}
 

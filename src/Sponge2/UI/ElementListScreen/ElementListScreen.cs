@@ -25,7 +25,7 @@ namespace Sponge2.UI.ElementListScreen
 
 		protected TabControl _componentEditorsTabControl;
 		protected ListPanel _elementsListPanel;
-		protected SilGrid _componentGrid;
+		private ComponentFileGrid _componentFilesControl;
 
 		/// ------------------------------------------------------------------------------------
 		public ElementListScreen(ElementListViewModel<T> presentationModel)
@@ -39,14 +39,14 @@ namespace Sponge2.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		protected void Initialize(TabControl componentEditorsTabControl,
-			SilGrid componentGrid, ListPanel elementsListPanel)
+			ComponentFileGrid componentGrid, ListPanel elementsListPanel)
 		{
 			_componentEditorsTabControl = componentEditorsTabControl;
 			_componentEditorsTabControl.TabPages.Clear();
 			_elementsListPanel = elementsListPanel;
-			_componentGrid = componentGrid;
-			_componentGrid.CellValueNeeded += HandleComponentFileGridCellValueNeeded;
-			_componentGrid.RowEnter += HandleComponentFileGridRowEnter;
+
+			_componentFilesControl = componentGrid;
+			_componentFilesControl.ComponentSelectedCallback = OnComponentSelectedCallback;
 
 			_elementsListPanel.NewButtonClicked += HandleNewElementButtonClicked;
 			_elementsListPanel.SelectedItemChanged += HandleSelectedElementChanged;
@@ -54,8 +54,17 @@ namespace Sponge2.UI.ElementListScreen
 			_componentEditorsTabControl.Selecting += HandleSelectedComponentEditorTabSelecting;
 
 			_componentEditorsTabControl.Font = SystemFonts.IconTitleFont;
-			_componentGrid.Font = SystemFonts.IconTitleFont;
 			LoadElementList();
+		}
+
+		/// <summary>
+		/// Called by the component file grid when the user chooses a different file
+		/// </summary>
+		//review: why use index, why not the object?
+		private void OnComponentSelectedCallback(int index)
+		{
+			_model.SetSelectedComponentFile(index);
+			UpdateComponentEditors();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,14 +86,8 @@ namespace Sponge2.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected void UpdateComponentList()
 		{
-			// I think there's a bug in the grid that fires the cell value needed event in
-			// the process of changing the row count but it fires it for rows that are
-			// no longer supposed to exist. This tends to happen when the row count was
-			// previously higher than the new value.
-			_componentGrid.CellValueNeeded -= HandleComponentFileGridCellValueNeeded;
 			var componentsOfSelectedElement = _model.ComponentsOfSelectedElement;
-			_componentGrid.RowCount = componentsOfSelectedElement.Count();
-			_componentGrid.CellValueNeeded += HandleComponentFileGridCellValueNeeded;
+			_componentFilesControl.UpdateComponentList(componentsOfSelectedElement);
 
 			foreach (var componentFile in componentsOfSelectedElement)
 			{
@@ -92,7 +95,6 @@ namespace Sponge2.UI.ElementListScreen
 				componentFile.UiShouldRefresh += HandleUiShouldRefresh;
 				//review: and later, are we wired longer than we want to be?
 			}
-			_componentGrid.Invalidate();
 			UpdateComponentEditors();
 
 			//TODO: editor tab (for now, just the first page) isn't currently
@@ -110,8 +112,7 @@ namespace Sponge2.UI.ElementListScreen
 		void HandleUiShouldRefresh(object sender, System.EventArgs e)
 		{
 			_elementsListPanel.Invalidate(); //TODO: David, I couldn't get this to work. What I was wanting was to make the element list update what it has for this element
-			_componentGrid.Invalidate();
-			UpdateComponentEditors();
+			UpdateComponentList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -166,27 +167,7 @@ namespace Sponge2.UI.ElementListScreen
 			UpdateComponentList();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected void HandleComponentFileGridRowEnter(object sender, DataGridViewCellEventArgs e)
-		{
-			// This event is fired even when the grid gains focus without the row actually
-			// changing, therefore we should just ignore the event when the row hasn't changed.
-			if (e.RowIndex != _componentGrid.CurrentCellAddress.Y)
-			{
-				_model.SetSelectedComponentFile(e.RowIndex);
-				UpdateComponentEditors();
-			}
-		}
 
-		/// ------------------------------------------------------------------------------------
-		protected void HandleComponentFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
-		{
-			var dataPropName = _componentGrid.Columns[e.ColumnIndex].DataPropertyName;
-			var currElementFile = _model.GetComponentFile(e.RowIndex);
-
-			e.Value = (currElementFile == null ? null :
-				ReflectionHelper.GetProperty(currElementFile, dataPropName));
-		}
 
 		/// ------------------------------------------------------------------------------------
 		protected void HandleSelectedComponentEditorTabSelecting(object sender, TabControlCancelEventArgs e)

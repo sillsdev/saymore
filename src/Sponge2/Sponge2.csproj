@@ -110,6 +110,12 @@
     <Compile Include="UI\ComponentEditorTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ElementListScreen\ComponentFileGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\ComponentFileGrid.Designer.cs">
+      <DependentUpon>ComponentFileGrid.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ElementListScreen\PersonListScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -194,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\SessionBasicEditor.resx">
       <DependentUpon>SessionBasicEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ElementListScreen\ComponentFileGrid.resx">
+      <DependentUpon>ComponentFileGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\PersonListScreen.resx">
       <DependentUpon>PersonListScreen.cs</DependentUpon>

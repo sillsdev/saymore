@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -15,10 +14,16 @@ namespace Sponge2.UI.ComponentEditors
 	[ProvideProperty("IsBound", typeof(IComponent))]
 	public class BindingHelper : Component, IExtenderProvider
 	{
+		public delegate bool GetBoundControlValueHandler(BindingHelper helper,
+			Control boundControl, out string newValue);
+
+		public event GetBoundControlValueHandler GetBoundControlValue;
+
 		private Container components;
-		private readonly Dictionary<Control, bool> _extendedTextBoxes = new Dictionary<Control, bool>();
+		private readonly Dictionary<Control, bool> _extendedControls = new Dictionary<Control, bool>();
 		private ComponentFile _file;
 
+		#region Constructors
 		/// ------------------------------------------------------------------------------------
 		public BindingHelper()
 		{
@@ -36,6 +41,8 @@ namespace Sponge2.UI.ComponentEditors
 			container.Add(this);
 		}
 
+		#endregion
+
 		#region IExtenderProvider Members
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -50,8 +57,8 @@ namespace Sponge2.UI.ComponentEditors
 
 			var extend = (ctrl is TextBox || ctrl is DateTimePicker || ctrl is ComboBox);
 
-			if (extend && !_extendedTextBoxes.ContainsKey(ctrl))
-				_extendedTextBoxes[ctrl] = true;
+			if (extend && !_extendedControls.ContainsKey(ctrl))
+				_extendedControls[ctrl] = true;
 
 			return extend;
 		}
@@ -65,14 +72,14 @@ namespace Sponge2.UI.ComponentEditors
 		public bool GetIsBound(object obj)
 		{
 			bool isBound;
-			return (_extendedTextBoxes.TryGetValue(obj as Control, out isBound) ? isBound : false);
+			return (_extendedControls.TryGetValue(obj as Control, out isBound) ? isBound : false);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetIsBound(object obj, bool bind)
 		{
 			var ctrl = obj as Control;
-			_extendedTextBoxes[ctrl] = bind;
+			_extendedControls[ctrl] = bind;
 
 			// Do this just in case this is being called from outside the initialize
 			// components method and after the component file has been set.
@@ -87,7 +94,7 @@ namespace Sponge2.UI.ComponentEditors
 		{
 			_file = file;
 
-			foreach (var kvp in _extendedTextBoxes)
+			foreach (var kvp in _extendedControls)
 			{
 				kvp.Key.Font = SystemFonts.IconTitleFont;
 
@@ -118,9 +125,18 @@ namespace Sponge2.UI.ComponentEditors
 			var control = (Control)sender;
 			var key = control.Name.TrimStart('_');
 
+			string newValue = null;
+			var gotNewValueFromDelegate = (GetBoundControlValue != null &&
+				!GetBoundControlValue(this, control, out newValue));
+
 			string failureMessage;
-			control.Text = _file.SetValue(key, control.Text.Trim(), out failureMessage);
-			if(failureMessage !=null)
+
+			newValue = _file.SetValue(key, (newValue ?? control.Text.Trim()), out failureMessage);
+
+			if (!gotNewValueFromDelegate)
+				control.Text = newValue;
+
+			if (failureMessage != null)
 			{
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 			}
@@ -130,12 +146,12 @@ namespace Sponge2.UI.ComponentEditors
 			_file.Save();
 		}
 
+
+
 		/// ------------------------------------------------------------------------------------
 		private void HandleHandleDestroyed(object sender, System.EventArgs e)
 		{
-			var control = (Control)sender;
-			control.Validating -= HandleValidatingControl;
-			control.HandleDestroyed -= HandleHandleDestroyed;
+			UnBindControl(sender as Control);
 		}
 	}
 }

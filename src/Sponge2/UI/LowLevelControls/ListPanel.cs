@@ -347,6 +347,28 @@ namespace Sponge2.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void RefreshTextOfCurrentItem(bool resortAfterRefresh)
+		{
+			if (CurrentItem != null)
+			{
+				_itemsListView.FocusedItem.Text = _itemsListView.FocusedItem.Tag.ToString();
+
+				if (resortAfterRefresh)
+					ReSort();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void RefreshTextOfAllItems(bool resortAfterRefresh)
+		{
+			foreach (ListViewItem item in _itemsListView.Items)
+				item.Text = item.Tag.ToString();
+
+			if (resortAfterRefresh)
+				ReSort();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool IsItemInList(object item)
 		{
 			return (item == null ? false : IsItemStringInList(item.ToString()));
@@ -461,7 +483,9 @@ namespace Sponge2.UI.LowLevelControls
 		public void AddRange(IEnumerable<object> items)
 		{
 			foreach (object item in items)
-				AddItem(item, false, false);
+				AddItem(item, false, false, false);
+
+			ReSort();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -471,6 +495,17 @@ namespace Sponge2.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		public void AddItem(object item, bool selectAfterAdd, bool generateSelChgEvent)
 		{
+			AddItem(item, selectAfterAdd, generateSelChgEvent, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds an item to the list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void AddItem(object item, bool selectAfterAdd, bool generateSelChgEvent,
+			bool reSortAfterAdd)
+		{
 			// REVIEW: Is it OK to do nothing if the item already exists
 			// or should we throw an error or something like that?
 			if (item != null && (item.ToString() == string.Empty || !IsItemInList(item)))
@@ -479,7 +514,9 @@ namespace Sponge2.UI.LowLevelControls
 					BeforeItemAdded(this, item);
 
 				_itemsListView.Items.Add(item.ToString()).Tag = item;
-				ReSort();
+
+				if (reSortAfterAdd)
+					ReSort();
 
 				if (selectAfterAdd)
 					SelectItem(item, generateSelChgEvent);
@@ -568,49 +605,23 @@ namespace Sponge2.UI.LowLevelControls
 				_buttons.Insert(index, btn);
 
 			_buttonsFlowLayoutPanel.Controls.Clear();
+
 			foreach (var b in _buttons)
-				_buttonsFlowLayoutPanel.Controls.Add(btn);
+				_buttonsFlowLayoutPanel.Controls.Add(b);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Arrange the buttons in the button panels into rows, from left to right, and wrap
-		///// around when a button will extend beyond the right edge of the panel. Then adjust
-		///// the height of the panel to accomodate the stack of buttons.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void HandleButtonPanelClientSizeChanged(object sender, EventArgs e)
-		//{
-		//    Utils.SetWindowRedraw(this, false);
-
-		//    const int horizMargin = 5;
-		//    const int vertMargin = 5;
-
-		//    int x = horizMargin;
-		//    int y = vertMargin;
-
-		//    foreach (var btn in _buttons)
-		//    {
-		//        if (x + btn.Width > (pnlButtons.ClientSize.Width - horizMargin))
-		//        {
-		//            x = horizMargin;
-		//            y += btn.Height + vertMargin;
-		//        }
-
-		//        var pt = new Point(x, y);
-		//        if (btn.Location != pt)
-		//            btn.Location = pt;
-
-		//        x += (btn.Width + horizMargin);
-		//    }
-
-		//    //pnlButtons.ClientSizeChanged -= HandleButtonPanelClientSizeChanged;
-		//    //pnlButtons.Height = _buttons[_buttons.Count - 1].Bottom + vertMargin;
-		//    //pnlButtons.Top = ClientSize.Height - pnlButtons.Height;
-		//    //pnlButtons.ClientSizeChanged += HandleButtonPanelClientSizeChanged;
-
-		//    Utils.SetWindowRedraw(this, true);
-		//}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Make sure the single list view column is a tiny bit narrower than the list view
+		/// control. This will prevent the list view's horizontal scrollbar from becoming
+		/// visible.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			hdrList.Width = _itemsListView.ClientSize.Width - 1;
+		}
 
 		#region ListSorter class
 		/// ------------------------------------------------------------------------------------

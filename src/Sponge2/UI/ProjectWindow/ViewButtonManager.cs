@@ -16,7 +16,7 @@ namespace Sponge2.UI.ProjectWindow
 	{
 		void ViewActivated(bool firstTime);
 		void ViewDeactivated();
-		bool IsViewActive { get; }
+		//bool IsViewActive { get; }
 		bool IsOKToLeaveView(bool showMsgWhenNotOK);
 	}
 

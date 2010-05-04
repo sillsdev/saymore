@@ -173,7 +173,7 @@ namespace Sponge2.Model
 					Directory.Move(FolderPath, FolderPath + "Renaming");
 					Directory.Move(FolderPath + "Renaming", FolderPath);
 				}
-				catch (Exception e)
+				catch
 				{
 					failureMessage = "Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.";
 					return false;

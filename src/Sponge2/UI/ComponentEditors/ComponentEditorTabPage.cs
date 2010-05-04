@@ -14,11 +14,14 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using Sponge2.Model;
 using Sponge2.Model.Files;
+using Sponge2.UI.Utilities;
 
-namespace Sponge2.UI
+namespace Sponge2.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ComponentEditorTabPage : TabPage
@@ -29,7 +32,43 @@ namespace Sponge2.UI
 		/// ------------------------------------------------------------------------------------
 		public ComponentEditorTabPage(EditorProvider provider)
 		{
+			DoubleBuffered = true;
 			SetProvider(provider);
+			Padding = new Padding(3, 5, 5, 4);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This is to fix a .Net painting bug for tab controls.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResize(System.EventArgs eventargs)
+		{
+			base.OnResize(eventargs);
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnPaintBackground(PaintEventArgs e)
+		{
+			base.OnPaintBackground(e);
+
+			if (VisualStyleRenderer.IsSupported)
+			{
+				var renderer = new VisualStyleRenderer(VisualStyleElement.Tab.Body.Normal);
+				renderer.DrawBackground(e.Graphics, ClientRectangle);
+			}
+
+			if (Controls.Count > 0)
+			{
+				var rc = Controls[0].Bounds;
+				rc.Inflate(1,1);
+				rc.Width--;
+				rc.Height--;
+
+				using (var pen = new Pen(SpongeColors.DataEntryPanelBorder))
+					e.Graphics.DrawRectangle(pen, rc);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

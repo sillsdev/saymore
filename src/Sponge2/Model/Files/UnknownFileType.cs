@@ -13,7 +13,6 @@ namespace Sponge2.Model.Files
 		{
 		}
 
-
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "Info");

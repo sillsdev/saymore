@@ -79,9 +79,11 @@ namespace Sponge2.Model.Files
 			return (field == null ? defaultValue : field.Value);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Sets the value for persisting, and returns the same value, potentially modified
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public virtual string SetValue(string key, string value, out string failureMessage)
 		{
 			failureMessage = null;
@@ -94,7 +96,8 @@ namespace Sponge2.Model.Files
 			{
 				field.Value = value;
 			}
-			return value;//overrides may do more
+
+			return value; //overrides may do more
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,6 +112,7 @@ namespace Sponge2.Model.Files
 			_metaDataPath = path;
 			_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, _rootElementName);
 		}
+
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
@@ -116,6 +120,7 @@ namespace Sponge2.Model.Files
 			_fileSerializer.Load(MetaDataFieldValues, _metaDataPath, _rootElementName);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		protected void InvokeUiShouldRefresh()
 		{
 			if (UiShouldRefresh != null)

@@ -1,10 +1,12 @@
+using System;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
 using Sponge2.Model;
-using Sponge2.Model.Files;
+using Sponge2.UI.ComponentEditors;
 using Sponge2.UI.LowLevelControls;
+using Sponge2.UI.ProjectWindow;
 
 namespace Sponge2.UI.ElementListScreen
 {
@@ -44,6 +46,7 @@ namespace Sponge2.UI.ElementListScreen
 			_componentEditorsTabControl = componentEditorsTabControl;
 			_componentEditorsTabControl.TabPages.Clear();
 			_elementsListPanel = elementsListPanel;
+			_elementsListPanel.ReSortWhenItemTextChanges = true;
 
 			_componentFilesControl = componentGrid;
 			_componentFilesControl.ComponentSelectedCallback = OnComponentSelectedCallback;
@@ -91,27 +94,30 @@ namespace Sponge2.UI.ElementListScreen
 
 			foreach (var componentFile in componentsOfSelectedElement)
 			{
-				componentFile.UiShouldRefresh -=HandleUiShouldRefresh;
+				componentFile.UiShouldRefresh -= HandleUiShouldRefresh;
 				componentFile.UiShouldRefresh += HandleUiShouldRefresh;
 				//review: and later, are we wired longer than we want to be?
 			}
+
 			UpdateComponentEditors();
 
 			//TODO: editor tab (for now, just the first page) isn't currently
 			//being displayed, even though the first component shows as highlighted.
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// At the moment, this doesn't distinguish between events which would cause
 		/// the element list to need updating (e.g., person name column or file duration
 		/// column or some such) vs. things that just require that the component list update.
 		///
-		/// This is called when the Component File raises this even, in response to the user
+		/// This is called when the Component File raises this event, in response to the user
 		/// doing something like changing a person's name, or a session's id
 		/// </summary>
-		void HandleUiShouldRefresh(object sender, System.EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		void HandleUiShouldRefresh(object sender, EventArgs e)
 		{
-			_elementsListPanel.Invalidate(); //TODO: David, I couldn't get this to work. What I was wanting was to make the element list update what it has for this element
+			_elementsListPanel.RefreshTextOfCurrentItem(true);
 			UpdateComponentList();
 		}
 
@@ -167,13 +173,27 @@ namespace Sponge2.UI.ElementListScreen
 			UpdateComponentList();
 		}
 
-
-
 		/// ------------------------------------------------------------------------------------
 		protected void HandleSelectedComponentEditorTabSelecting(object sender, TabControlCancelEventArgs e)
 		{
 			if (e.Action == TabControlAction.Selecting)
 				((ComponentEditorTabPage)e.TabPage).LoadEditorControl(_model.SelectedComponentFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void ViewActivated(bool firstTime)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void ViewDeactivated()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool IsOKToLeaveView(bool showMsgWhenNotOK)
+		{
+			return true;
 		}
 	}
 }

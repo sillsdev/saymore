@@ -304,5 +304,53 @@ namespace Sponge2.Properties {
                 return ((string)(this["ProgramsWebSite"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int PersonScreenElementListSpiltterPos {
+            get {
+                return ((int)(this["PersonScreenElementListSpiltterPos"]));
+            }
+            set {
+                this["PersonScreenElementListSpiltterPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int PersonScreenComponentsSplitterPos {
+            get {
+                return ((int)(this["PersonScreenComponentsSplitterPos"]));
+            }
+            set {
+                this["PersonScreenComponentsSplitterPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int SessionsScreenElementsListSplitterPos {
+            get {
+                return ((int)(this["SessionsScreenElementsListSplitterPos"]));
+            }
+            set {
+                this["SessionsScreenElementsListSplitterPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int SessionsScreenComponentsSplitterPos {
+            get {
+                return ((int)(this["SessionsScreenComponentsSplitterPos"]));
+            }
+            set {
+                this["SessionsScreenComponentsSplitterPos"] = value;
+            }
+        }
     }
 }

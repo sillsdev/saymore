@@ -147,7 +147,7 @@ namespace Sponge2.UI.ProjectWindow
 			this.tsbChangeProjects.Text = "Change Projects...";
 			this.tsbChangeProjects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.tsbChangeProjects.ToolTipText = "Open a Different Project";
-			this.tsbChangeProjects.Click += new System.EventHandler(this.tsbChangeProjects_Click);
+			this.tsbChangeProjects.Click += new System.EventHandler(this.HandleChangeProjectsButtonClick);
 			// 
 			// ProjectWindow
 			// 

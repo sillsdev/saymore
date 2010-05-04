@@ -329,10 +329,7 @@ namespace Sponge2.UI.ComponentEditors
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(18F, 45F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.AutoScroll = true;
-			this.BackColor = System.Drawing.Color.Transparent;
 			this.Controls.Add(this._tblLayoutOuter);
-			this.Font = new System.Drawing.Font("Segoe UI", 24F);
 			this.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
 			this.Name = "SessionBasicEditor";
 			this.Size = new System.Drawing.Size(412, 299);

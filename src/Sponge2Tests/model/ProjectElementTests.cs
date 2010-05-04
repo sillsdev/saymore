@@ -41,11 +41,23 @@ namespace Sponge2Tests.model
 			return new Person(_parentFolder.Path, "xyz", MakeComponent, new FileSerializer());
 		}
 
+
+		public string SetValue(Person person, string key, string value)
+		{
+			string failureMessage;
+			var suceeded = person.MetaDataFile.SetValue("color", "red", out failureMessage);
+			if (!string.IsNullOrEmpty(failureMessage))
+			{
+				throw new ApplicationException(failureMessage);
+			}
+			return suceeded;
+		}
+
 		[Test]
 		public void Load_AfterSave_PreservesId()
 		{
 			Person person = CreatePerson();
-			person.MetaDataFile.SetValue("color", "red");
+			SetValue(person, "color", "red");
 			person.Save();
 			Person person2 = CreatePerson();
 			person2.Load();

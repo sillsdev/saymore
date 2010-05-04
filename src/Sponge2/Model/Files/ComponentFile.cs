@@ -17,6 +17,11 @@ namespace Sponge2.Model.Files
 		//autofac uses this, so that callers only need to know the path, not all the dependencies
 		public delegate ComponentFile Factory(string pathToAnnotatedFile);
 
+		/// <summary>
+		/// Things like list views should hook into this event
+		/// </summary>
+		public event EventHandler UiShouldRefresh;
+
 		private readonly FileSerializer _fileSerializer;
 		private string _rootElementName;
 		private string _fileNameToAdvertise;
@@ -46,11 +51,10 @@ namespace Sponge2.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This constructor is for files which are not annotating something else (e.g. person
-		/// and session)
+		/// used only by ProjectElementComponentFile
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ComponentFile(string filePath, FileType fileType,
+		protected ComponentFile(string filePath, FileType fileType,
 							 FileSerializer fileSerializer, string rootElementName)
 		{
 			FileType = fileType;
@@ -69,15 +73,18 @@ namespace Sponge2.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetStringValue(string key, string defaultValue)
+		public virtual string GetStringValue(string key, string defaultValue)
 		{
 			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldDefinitionKey == key);
 			return (field == null ? defaultValue : field.Value);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public void SetValue(string key, string value)
+		/// <summary>
+		/// Sets the value for persisting, and returns the same value, potentially modified
+		/// </summary>
+		public virtual string SetValue(string key, string value, out string failureMessage)
 		{
+			failureMessage = null;
 			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldDefinitionKey == key);
 			if (field == null)
 			{
@@ -87,6 +94,7 @@ namespace Sponge2.Model.Files
 			{
 				field.Value = value;
 			}
+			return value;//overrides may do more
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -107,6 +115,15 @@ namespace Sponge2.Model.Files
 			_fileSerializer.CreateIfMissing(_metaDataPath, _rootElementName);
 			_fileSerializer.Load(MetaDataFieldValues, _metaDataPath, _rootElementName);
 		}
+
+		protected void InvokeUiShouldRefresh()
+		{
+			if (UiShouldRefresh != null)
+			{
+				UiShouldRefresh(this, null);
+			}
+		}
+
 
 #if notyet
 	/// <summary>
@@ -132,7 +149,7 @@ namespace Sponge2.Model.Files
 		/// WARNING: THIS NAME IS HARD-CODED IN THE UI GRID
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string FileName
+		public virtual string FileName
 		{
 			get { return _fileNameToAdvertise; }
 		}

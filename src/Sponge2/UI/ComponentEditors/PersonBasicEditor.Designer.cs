@@ -30,17 +30,17 @@ namespace Sponge2.UI.ComponentEditors
 		{
 			this.components = new System.ComponentModel.Container();
 			this.lblFullName = new System.Windows.Forms.Label();
-			this._fullName = new System.Windows.Forms.TextBox();
+			this._id = new System.Windows.Forms.TextBox();
 			this.lblBirthYear = new System.Windows.Forms.Label();
 			this._birthYear = new System.Windows.Forms.TextBox();
 			this._tblLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._gender = new System.Windows.Forms.ComboBox();
-			this._lblgender = new System.Windows.Forms.Label();
 			this._pnlPrimaryLanguage = new Sponge2.UI.LowLevelControls.UnderlinedHdgBox();
 			this._tblLayoutPrimaryLanguage = new System.Windows.Forms.TableLayoutPanel();
 			this._lblPrimaryLanguageLearnedIn = new System.Windows.Forms.Label();
 			this._primaryLanguage = new System.Windows.Forms.TextBox();
 			this._primaryLanguageLearnedIn = new System.Windows.Forms.TextBox();
+			this._lblgender = new System.Windows.Forms.Label();
 			this._binder = new Sponge2.UI.ComponentEditors.BindingHelper(this.components);
 			this._tblLayoutOuter.SuspendLayout();
 			this._pnlPrimaryLanguage.SuspendLayout();
@@ -56,14 +56,14 @@ namespace Sponge2.UI.ComponentEditors
 			this.lblFullName.TabIndex = 4;
 			this.lblFullName.Text = "&Full Name";
 			// 
-			// _fullName
+			// _id
 			// 
-			this._fullName.Dock = System.Windows.Forms.DockStyle.Top;
-			this._binder.SetIsBound(this._fullName, true);
-			this._fullName.Location = new System.Drawing.Point(3, 16);
-			this._fullName.Name = "_fullName";
-			this._fullName.Size = new System.Drawing.Size(320, 20);
-			this._fullName.TabIndex = 5;
+			this._id.Dock = System.Windows.Forms.DockStyle.Top;
+			this._binder.SetIsBound(this._id, true);
+			this._id.Location = new System.Drawing.Point(3, 16);
+			this._id.Name = "_id";
+			this._id.Size = new System.Drawing.Size(320, 20);
+			this._id.TabIndex = 5;
 			// 
 			// lblBirthYear
 			// 
@@ -93,7 +93,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._tblLayoutOuter.Controls.Add(this._pnlPrimaryLanguage, 0, 2);
 			this._tblLayoutOuter.Controls.Add(this.lblFullName, 0, 0);
 			this._tblLayoutOuter.Controls.Add(this.lblBirthYear, 1, 0);
-			this._tblLayoutOuter.Controls.Add(this._fullName, 0, 1);
+			this._tblLayoutOuter.Controls.Add(this._id, 0, 1);
 			this._tblLayoutOuter.Controls.Add(this._birthYear, 1, 1);
 			this._tblLayoutOuter.Controls.Add(this._lblgender, 1, 2);
 			this._tblLayoutOuter.Dock = System.Windows.Forms.DockStyle.Top;
@@ -122,16 +122,6 @@ namespace Sponge2.UI.ComponentEditors
 			this._gender.Name = "_gender";
 			this._gender.Size = new System.Drawing.Size(171, 21);
 			this._gender.TabIndex = 9;
-			// 
-			// _lblgender
-			// 
-			this._lblgender.AutoSize = true;
-			this._lblgender.Location = new System.Drawing.Point(329, 44);
-			this._lblgender.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
-			this._lblgender.Name = "_lblgender";
-			this._lblgender.Size = new System.Drawing.Size(42, 13);
-			this._lblgender.TabIndex = 10;
-			this._lblgender.Text = "Gender";
 			// 
 			// _pnlPrimaryLanguage
 			// 
@@ -202,6 +192,16 @@ namespace Sponge2.UI.ComponentEditors
 			this._primaryLanguageLearnedIn.Size = new System.Drawing.Size(249, 23);
 			this._primaryLanguageLearnedIn.TabIndex = 7;
 			// 
+			// _lblgender
+			// 
+			this._lblgender.AutoSize = true;
+			this._lblgender.Location = new System.Drawing.Point(329, 44);
+			this._lblgender.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+			this._lblgender.Name = "_lblgender";
+			this._lblgender.Size = new System.Drawing.Size(42, 13);
+			this._lblgender.TabIndex = 10;
+			this._lblgender.Text = "Gender";
+			// 
 			// PersonBasicEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -224,7 +224,7 @@ namespace Sponge2.UI.ComponentEditors
 		#endregion
 
 		private System.Windows.Forms.Label lblFullName;
-		private System.Windows.Forms.TextBox _fullName;
+		private System.Windows.Forms.TextBox _id;
 		private System.Windows.Forms.Label lblBirthYear;
 		private System.Windows.Forms.TextBox _birthYear;
 		private System.Windows.Forms.TableLayoutPanel _tblLayoutOuter;

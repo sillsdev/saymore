@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using Sponge2.Model;
@@ -55,7 +56,7 @@ namespace Sponge2Tests.model
 		public void GetStringValue_FieldIsThere_ReturnsCorrectValue()
 		{
 			ComponentFile f = CreateComponentFile("abc.zzz");
-			f.SetValue("color", "red");
+			SetValue(f, "color", "red");
 			Assert.AreEqual("red", f.GetStringValue("color", "blue"));
 		}
 
@@ -63,9 +64,21 @@ namespace Sponge2Tests.model
 		public void SetValue_ChangingValue_NewValueOverwritesOld()
 		{
 			ComponentFile f = CreateComponentFile("abc.zzz");
-			f.SetValue("color", "red");
-			f.SetValue("color", "green");
+			SetValue(f, "color", "red");
+			SetValue(f, "color", "green");
 			Assert.AreEqual("green", f.GetStringValue("color", "blue"));
+		}
+
+
+		public string SetValue(ComponentFile file, string key, string value)
+		{
+			string failureMessage;
+			var suceeded = file.SetValue(key, value, out failureMessage);
+			if (!string.IsNullOrEmpty(failureMessage))
+			{
+				throw new ApplicationException(failureMessage);
+			}
+			return suceeded;
 		}
 	}
 }

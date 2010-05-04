@@ -21,7 +21,7 @@ namespace Sponge2.Model
 		private ComponentFile.Factory _componentFileFactory;
 		private FileSerializer _fileSerializer;
 		private string _id;
-		public ComponentFile MetaDataFile { get; private set; }
+		public ProjectElementComponentFile MetaDataFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -41,8 +41,8 @@ namespace Sponge2.Model
 
 			ParentFolderPath = parentElementFolder;
 			_id = id;
-			//Fields = new List<FieldValue>();
-			MetaDataFile = new ComponentFile(SettingsFilePath, fileType, _fileSerializer, RootElementName);
+
+			MetaDataFile = new ProjectElementComponentFile(this, fileType, _fileSerializer, RootElementName);
 
 			if (File.Exists(SettingsFilePath))
 			{
@@ -205,8 +205,8 @@ namespace Sponge2.Model
 
 			_id = newId;
 			Save();
+
 			return true;
 		}
-
 	}
 }

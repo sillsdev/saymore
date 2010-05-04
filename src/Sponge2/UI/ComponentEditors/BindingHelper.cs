@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -116,7 +117,13 @@ namespace Sponge2.UI.ComponentEditors
 		{
 			var control = (Control)sender;
 			var key = control.Name.TrimStart('_');
-			_file.SetValue(key, control.Text.Trim());
+
+			string failureMessage;
+			control.Text = _file.SetValue(key, control.Text.Trim(), out failureMessage);
+			if(failureMessage !=null)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+			}
 
 			//enchance: don't save so often, leave it to some higher level
 

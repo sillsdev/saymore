@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
 using Sponge2.Model;
+using Sponge2.Model.Files;
 using Sponge2.UI.LowLevelControls;
 
 namespace Sponge2.UI.ElementListScreen
@@ -81,14 +82,36 @@ namespace Sponge2.UI.ElementListScreen
 			// no longer supposed to exist. This tends to happen when the row count was
 			// previously higher than the new value.
 			_componentGrid.CellValueNeeded -= HandleComponentFileGridCellValueNeeded;
-			_componentGrid.RowCount = _model.ComponentsOfSelectedElement.Count();
+			var componentsOfSelectedElement = _model.ComponentsOfSelectedElement;
+			_componentGrid.RowCount = componentsOfSelectedElement.Count();
 			_componentGrid.CellValueNeeded += HandleComponentFileGridCellValueNeeded;
 
+			foreach (var componentFile in componentsOfSelectedElement)
+			{
+				componentFile.UiShouldRefresh -=HandleUiShouldRefresh;
+				componentFile.UiShouldRefresh += HandleUiShouldRefresh;
+				//review: and later, are we wired longer than we want to be?
+			}
 			_componentGrid.Invalidate();
 			UpdateComponentEditors();
 
 			//TODO: editor tab (for now, just the first page) isn't currently
 			//being displayed, even though the first component shows as highlighted.
+		}
+
+		/// <summary>
+		/// At the moment, this doesn't distinguish between events which would cause
+		/// the element list to need updating (e.g., person name column or file duration
+		/// column or some such) vs. things that just require that the component list update.
+		///
+		/// This is called when the Component File raises this even, in response to the user
+		/// doing something like changing a person's name, or a session's id
+		/// </summary>
+		void HandleUiShouldRefresh(object sender, System.EventArgs e)
+		{
+			_elementsListPanel.Invalidate(); //TODO: David, I couldn't get this to work. What I was wanting was to make the element list update what it has for this element
+			_componentGrid.Invalidate();
+			UpdateComponentEditors();
 		}
 
 		/// ------------------------------------------------------------------------------------

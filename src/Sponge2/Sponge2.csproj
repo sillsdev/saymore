@@ -76,7 +76,7 @@
     <Compile Include="Model\Files\FileCommand.cs" />
     <Compile Include="Model\Files\UnknownFileType.cs" />
     <Compile Include="Model\Files\FileSerializer.cs" />
-    <Compile Include="Model\ProjectElementComponentFile.cs" />
+    <Compile Include="Model\Files\ProjectElementComponentFile.cs" />
     <Compile Include="ProjectContext.cs" />
     <Compile Include="Model\Files\ComponentFile.cs" />
     <Compile Include="Model\ComponentRole.cs" />

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Sponge2.Model.Files
 {
@@ -22,6 +23,7 @@ namespace Sponge2.Model.Files
 		/// </summary>
 		public event EventHandler UiShouldRefresh;
 
+		private readonly string _pathToAnnotatedFile;
 		private readonly FileSerializer _fileSerializer;
 		private string _rootElementName;
 		private string _fileNameToAdvertise;
@@ -36,6 +38,7 @@ namespace Sponge2.Model.Files
 		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
 							 FileSerializer fileSerializer)
 		{
+			_pathToAnnotatedFile = pathToAnnotatedFile;
 			_fileSerializer = fileSerializer;
 
 			// we musn't do anything to remove the existing extension, as that is needed
@@ -46,7 +49,7 @@ namespace Sponge2.Model.Files
 
 			MetaDataFieldValues = new List<FieldValue>();
 
-			SetFileType(pathToAnnotatedFile, fileTypes);
+			DetermineFileType(pathToAnnotatedFile, fileTypes);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -66,7 +69,7 @@ namespace Sponge2.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SetFileType(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes)
+		private void DetermineFileType(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes)
 		{
 			FileType = (fileTypes.FirstOrDefault(t => t.IsMatch(pathToAnnotatedFile)) ??
 				new UnknownFileType());
@@ -163,6 +166,40 @@ namespace Sponge2.Model.Files
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
 		{
 			return new ComponentFile(path, new FileType[] {}, new FileSerializer());
+		}
+
+		public IEnumerable<ToolStripItem> GetContextMenuItems()
+		{
+			foreach (FileCommand cmd in FileType.Commands)
+			{
+				FileCommand cmd1 = cmd;// needed to avoid "access to modified closure". I.e., avoid executing the wrong command.
+				yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) => cmd1.Action(_pathToAnnotatedFile));
+			}
+
+			bool needSeparator = true;
+
+			// commands which assign to roles
+/*            foreach (var definition in SessionComponentDefinition.CreateHardCodedDefinitions())
+			{
+				if (definition.GetFileIsElligible(FullFilePath))
+				{
+					if (needSeparator)
+					{
+						needSeparator = false;
+						yield return new ToolStripSeparator();
+					}
+
+					string label = string.Format("Rename For {0}", definition.Name);
+					SessionComponentDefinition componentDefinition = definition;
+					yield return new ToolStripMenuItem(label, null, (sender, args) => IdentifyAsComponent(componentDefinition, sessionId));
+				}
+		   }
+*/
+		}
+
+		public virtual void HandleDoubleClick()
+		{
+			FileCommand.HandleOpenInApp_Click(_pathToAnnotatedFile);
 		}
 	}
 }

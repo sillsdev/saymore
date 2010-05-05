@@ -52,13 +52,17 @@ namespace Sponge2.Model.Files
 
 		public virtual IEnumerable<FileCommand> Commands
 		{
-			get { yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click); }
-			//note: we don't offer "open in app" choice for sponge files
+			get
+			{
+				yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click);
+				yield return new FileCommand("Open in Program Associated with this File ...", FileCommand.HandleOpenInApp_Click);
+			}
 		}
 		public override string ToString()
 		{
 			return Name;
 		}
+
 	}
 
 	public class PersonFileType :FileType
@@ -72,6 +76,15 @@ namespace Sponge2.Model.Files
 		{
 			yield return new EditorProvider(new PersonBasicEditor(file), "Basic");
 		}
+
+
+		public override IEnumerable<FileCommand> Commands
+		{
+			get
+			{
+				yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click);
+			}
+		}
 	}
 
 	public class SessionFileType : FileType
@@ -84,6 +97,14 @@ namespace Sponge2.Model.Files
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			yield return new EditorProvider(new SessionBasicEditor(file), "BasicX");
+		}
+
+		public override IEnumerable<FileCommand> Commands
+		{
+			get
+			{
+				yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click);
+			}
 		}
 	}
 }

@@ -14,16 +14,13 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Serialization;
 using SilUtils;
 
-namespace SIL.Sponge.Model
+namespace Sponge2.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

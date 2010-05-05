@@ -26,7 +26,7 @@ namespace Sponge2.Model.Files
 				{
 					yield return command;
 				}
-				yield return new FileCommand("Open in Program Associated with this File...", FileCommand.HandleOpenInApp_Click);
+				//yield return new FileCommand("Open in Program Associated with this File...", FileCommand.HandleOpenInApp_Click);
 			}
 		}
 

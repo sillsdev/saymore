@@ -1,7 +1,6 @@
 using System.IO;
-using Sponge2.Model.Files;
 
-namespace Sponge2.Model
+namespace Sponge2.Model.Files
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -48,6 +47,11 @@ namespace Sponge2.Model
 		public override string FileName
 		{
 			get { return Path.GetFileName(_parentElement.SettingsFilePath); }
+		}
+
+		public override void HandleDoubleClick()
+		{
+			//don't do anything
 		}
 	}
 }

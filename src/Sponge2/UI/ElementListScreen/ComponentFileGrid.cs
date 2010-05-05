@@ -21,10 +21,35 @@ namespace Sponge2.UI.ElementListScreen
 		{
 			InitializeComponent();
 
+			_grid.CellMouseClick += HandleMouseClick;
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
+			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
 			_grid.RowEnter += HandleFileGridRowEnter;
 			_grid.Font = SystemFonts.IconTitleFont;
 
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				_grid.CurrentCell = _grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+				Point pt = _grid.PointToClient(MousePosition);
+				var file = _files.ElementAt(e.RowIndex);
+				_contextMenuStrip.Items.Clear();
+				_contextMenuStrip.Items.AddRange(file.GetContextMenuItems().ToArray());
+				_contextMenuStrip.Show(_grid, pt);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFileGridCellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			_grid.CurrentCell = _grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
+			var file = _files.ElementAt(e.RowIndex);
+			file.HandleDoubleClick();
 		}
 
 		/// ------------------------------------------------------------------------------------

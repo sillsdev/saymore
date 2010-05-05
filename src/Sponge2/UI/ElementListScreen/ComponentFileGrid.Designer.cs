@@ -28,6 +28,7 @@ namespace Sponge2.UI.ElementListScreen
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -38,10 +39,11 @@ namespace Sponge2.UI.ElementListScreen
 			this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// _componentGrid
+			// _grid
 			// 
 			this._grid.AllowUserToAddRows = false;
 			this._grid.AllowUserToDeleteRows = false;
@@ -135,6 +137,11 @@ namespace Sponge2.UI.ElementListScreen
 			this.colSize.ReadOnly = true;
 			this.colSize.Width = 52;
 			// 
+			// contextMenuStrip1
+			// 
+			this._contextMenuStrip.Name = "_contextMenuStrip";
+			this._contextMenuStrip.Size = new System.Drawing.Size(153, 26);
+			// 
 			// ComponentFileGrid
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -156,6 +163,7 @@ namespace Sponge2.UI.ElementListScreen
 		private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
+		private System.Windows.Forms.ContextMenuStrip _contextMenuStrip;
 
 	}
 }

@@ -176,10 +176,10 @@ namespace Sponge2.Model.Files
 				yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) => cmd1.Action(_pathToAnnotatedFile));
 			}
 
-			bool needSeparator = true;
+/*			bool needSeparator = true;
 
 			// commands which assign to roles
-/*            foreach (var definition in SessionComponentDefinition.CreateHardCodedDefinitions())
+			foreach (var definition in SessionComponentDefinition.CreateHardCodedDefinitions())
 			{
 				if (definition.GetFileIsElligible(FullFilePath))
 				{

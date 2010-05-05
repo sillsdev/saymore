@@ -86,30 +86,6 @@ namespace Sponge2.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public int SessionVwSplitterPos {
-            get {
-                return ((int)(this["SessionVwSplitterPos"]));
-            }
-            set {
-                this["SessionVwSplitterPos"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public string SessionFileCols {
-            get {
-                return ((string)(this["SessionFileCols"]));
-            }
-            set {
-                this["SessionFileCols"] = value;
-            }
-        }
-        
         /// <summary>
         /// Character used to replace invalid path characters in a person&apos;s name when building a safe name to store in file system.
         /// </summary>
@@ -332,24 +308,144 @@ namespace Sponge2.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public int SessionsScreenElementsListSplitterPos {
+        public int SessionScreenElementsListSplitterPos {
             get {
-                return ((int)(this["SessionsScreenElementsListSplitterPos"]));
+                return ((int)(this["SessionScreenElementsListSplitterPos"]));
             }
             set {
-                this["SessionsScreenElementsListSplitterPos"] = value;
+                this["SessionScreenElementsListSplitterPos"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public int SessionsScreenComponentsSplitterPos {
+        public int SessionScreenComponentsSplitterPos {
             get {
-                return ((int)(this["SessionsScreenComponentsSplitterPos"]));
+                return ((int)(this["SessionScreenComponentsSplitterPos"]));
             }
             set {
-                this["SessionsScreenComponentsSplitterPos"] = value;
+                this["SessionScreenComponentsSplitterPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int SessionScreenComponentGridCol1Width {
+            get {
+                return ((int)(this["SessionScreenComponentGridCol1Width"]));
+            }
+            set {
+                this["SessionScreenComponentGridCol1Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int SessionScreenComponentGridCol2Width {
+            get {
+                return ((int)(this["SessionScreenComponentGridCol2Width"]));
+            }
+            set {
+                this["SessionScreenComponentGridCol2Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int SessionScreenComponentGridCol3Width {
+            get {
+                return ((int)(this["SessionScreenComponentGridCol3Width"]));
+            }
+            set {
+                this["SessionScreenComponentGridCol3Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int SessionScreenComponentGridCol4Width {
+            get {
+                return ((int)(this["SessionScreenComponentGridCol4Width"]));
+            }
+            set {
+                this["SessionScreenComponentGridCol4Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int SessionScreenComponentGridCol5Width {
+            get {
+                return ((int)(this["SessionScreenComponentGridCol5Width"]));
+            }
+            set {
+                this["SessionScreenComponentGridCol5Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int PersonScreenComponentGridCol1Width {
+            get {
+                return ((int)(this["PersonScreenComponentGridCol1Width"]));
+            }
+            set {
+                this["PersonScreenComponentGridCol1Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int PersonScreenComponentGridCol2Width {
+            get {
+                return ((int)(this["PersonScreenComponentGridCol2Width"]));
+            }
+            set {
+                this["PersonScreenComponentGridCol2Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int PersonScreenComponentGridCol3Width {
+            get {
+                return ((int)(this["PersonScreenComponentGridCol3Width"]));
+            }
+            set {
+                this["PersonScreenComponentGridCol3Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int PersonScreenComponentGridCol4Width {
+            get {
+                return ((int)(this["PersonScreenComponentGridCol4Width"]));
+            }
+            set {
+                this["PersonScreenComponentGridCol4Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int PersonScreenComponentGridCol5Width {
+            get {
+                return ((int)(this["PersonScreenComponentGridCol5Width"]));
+            }
+            set {
+                this["PersonScreenComponentGridCol5Width"] = value;
             }
         }
     }

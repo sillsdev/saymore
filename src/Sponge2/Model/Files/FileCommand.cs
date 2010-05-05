@@ -1,8 +1,6 @@
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using SilUtils;
 
 namespace Sponge2.Model.Files
 {

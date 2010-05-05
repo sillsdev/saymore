@@ -114,7 +114,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ElementListScreen\ComponentFileGrid.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ElementListScreen\ComponentFileGrid.Designer.cs">
       <DependentUpon>ComponentFileGrid.cs</DependentUpon>
@@ -292,7 +292,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"
-copy "$(ProjectDir)..\..\DistFiles\DiscourseTypes.xml" "$(OutDir)"</PreBuildEvent>
+    <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\DiscourseTypes.xml" "$(OutDir)"
+if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -15,7 +15,8 @@ namespace Sponge2.UI.ElementListScreen
 			if (DesignMode)
 				return;
 
-			Initialize(_componentEditorsTabControl, _componentFileGrid, _sessionsListPanel);
+			Initialize(_tabComponentEditors, _componentFileGrid, _peopleListPanel);
+			_componentFileGrid.InitializeColumnWidths("PersonScreen");
 		}
 
 		/// ------------------------------------------------------------------------------------

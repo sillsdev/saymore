@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using SIL.Localization;
 using SilUtils;
 
 namespace Sponge2.Model
@@ -47,12 +48,10 @@ namespace Sponge2.Model
 		[XmlArray("examples"), XmlArrayItem("example")]
 		public List<string> Examples { get; set; }
 
+		public static DiscourseType UnknownType { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the discourse types.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static List<DiscourseType> AllTypes
+		public static IEnumerable<DiscourseType> AllTypes
 		{
 			get
 			{
@@ -61,6 +60,15 @@ namespace Sponge2.Model
 					var path = Application.ExecutablePath;
 					path = Path.Combine(Path.GetDirectoryName(path), "DiscourseTypes.xml");
 					s_allTypes = Load(path);
+
+					UnknownType = new DiscourseType();
+					UnknownType.Id = "unknown";
+					UnknownType.Name = LocalizationManager.LocalizeString(
+						"UnknownSessionEventType", "<Unknown>",
+						"Unknown event type displayed in the event type drop-down list.",
+						"Misc. Strings");
+
+					s_allTypes.Add(UnknownType);
 				}
 
 				return s_allTypes;

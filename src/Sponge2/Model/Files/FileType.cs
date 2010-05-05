@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using SilUtils;
 using Sponge2.UI.ComponentEditors;
 
 namespace Sponge2.Model.Files
@@ -58,53 +55,83 @@ namespace Sponge2.Model.Files
 				yield return new FileCommand("Open in Program Associated with this File ...", FileCommand.HandleOpenInApp_Click);
 			}
 		}
+
 		public override string ToString()
 		{
 			return Name;
 		}
-
 	}
 
-	public class PersonFileType :FileType
+	#region PersonFileType class
+	/// ----------------------------------------------------------------------------------------
+	public class PersonFileType : FileType
 	{
-		public PersonFileType()
-			: base("Person", p=> p.EndsWith(".person"))
-		{
+		EditorProvider _provider;
 
+		/// ------------------------------------------------------------------------------------
+		public PersonFileType() : base("Person", p => p.EndsWith(".person"))
+		{
 		}
+
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			yield return new EditorProvider(new PersonBasicEditor(file), "Basic");
+			// review: this will create a new editor provider and basic editor for each
+			// person. That seems a bit resource intensive. It would be nice to reuse the editor.
+
+			if (_provider == null)
+				_provider = new EditorProvider(new PersonBasicEditor(file), "Basic");
+
+			yield return _provider;
 		}
 
-
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> Commands
 		{
 			get
 			{
-				yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click);
+				yield return new FileCommand("Show in File Explorer...",
+					FileCommand.HandleOpenInFileManager_Click);
 			}
 		}
 	}
 
+	#endregion
+
+	#region SessionFileType class
+	/// ----------------------------------------------------------------------------------------
 	public class SessionFileType : FileType
 	{
-		public SessionFileType()
-			: base("Session", p=> p.EndsWith(".session"))
-		{
+		EditorProvider _provider;
 
+		/// ------------------------------------------------------------------------------------
+		public SessionFileType() : base("Session", p=> p.EndsWith(".session"))
+		{
 		}
+
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			yield return new EditorProvider(new SessionBasicEditor(file), "BasicX");
+			// review: this will create a new editor provider and basic editor for each
+			// session. That seems a bit resource intensive when the user has a lot of
+			// sessions. It would be nice to reuse the editor.
+
+			if (_provider == null)
+				_provider = new EditorProvider(new SessionBasicEditor(file), "BasicX");
+
+			yield return _provider;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> Commands
 		{
 			get
 			{
-				yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click);
+				yield return new FileCommand("Show in File Explorer...",
+					FileCommand.HandleOpenInFileManager_Click);
 			}
 		}
 	}
+
+	#endregion
 }

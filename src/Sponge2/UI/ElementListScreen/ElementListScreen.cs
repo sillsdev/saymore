@@ -64,6 +64,11 @@ namespace Sponge2.UI.ElementListScreen
 		/// Called by the component file grid when the user chooses a different file
 		/// </summary>
 		//review: why use index, why not the object?
+		// If the object is used, the caller of this delegate would have to get the object
+		// this way: _model.GetComponentFile(index). Using the index here is really just
+		// passing off to the model the inevitable job of indexing into the component file list.
+		// The grid (i.e. the only object calling this delegate so far) does not keep a
+		// reference to each component files that it can pass to this delegate.
 		private void OnComponentSelectedCallback(int index)
 		{
 			_model.SetSelectedComponentFile(index);

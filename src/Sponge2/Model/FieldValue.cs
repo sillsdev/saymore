@@ -1,6 +1,4 @@
 using System;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace Sponge2.Model
 {
@@ -10,18 +8,19 @@ namespace Sponge2.Model
 	/// </summary>
 	public class FieldValue : IEquatable<FieldValue>
 	{
+		public string FieldDefinitionKey { get; set; }
+		public string Type { get; set; }
+		public string Value { get; set; }
+
+		/// ------------------------------------------------------------------------------------
 		public FieldValue(string id, string type, string value)
 		{
 			FieldDefinitionKey = id;
 			Type = type;
 			Value = value;
 		}
-		public string FieldDefinitionKey { get; set; }
 
-		public string Type { get; set; }
-
-		public string Value { get; set; }
-
+		/// ------------------------------------------------------------------------------------
 		public override bool Equals(object obj)
 		{
 			if (ReferenceEquals(null, obj)) return false;
@@ -30,14 +29,16 @@ namespace Sponge2.Model
 			return Equals((FieldValue) obj);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Indicates whether the current object is equal to another object of the same type.
 		/// </summary>
 		/// <returns>
-		/// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+		/// true if the current object is equal to the <paramref name="other"/> parameter;
+		/// otherwise, false.
 		/// </returns>
-		/// <param name="other">An object to compare with this object.
-		///                 </param>
+		/// <param name="other">An object to compare with this object.</param>
+		/// ------------------------------------------------------------------------------------
 		public bool Equals(FieldValue other)
 		{
 			if (ReferenceEquals(null, other)) return false;
@@ -45,6 +46,7 @@ namespace Sponge2.Model
 			return Equals(other.FieldDefinitionKey, FieldDefinitionKey) && Equals(other.Type, Type) && Equals(other.Value, Value);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Serves as a hash function for a particular type.
 		/// </summary>
@@ -52,25 +54,34 @@ namespace Sponge2.Model
 		/// A hash code for the current <see cref="T:System.Object"/>.
 		/// </returns>
 		/// <filterpriority>2</filterpriority>
+		/// ------------------------------------------------------------------------------------
 		public override int GetHashCode()
 		{
 			unchecked
 			{
 				int result = (FieldDefinitionKey != null ? FieldDefinitionKey.GetHashCode() : 0);
-				result = (result*397) ^ (Type != null ? Type.GetHashCode() : 0);
-				result = (result*397) ^ (Value != null ? Value.GetHashCode() : 0);
+				result = (result * 397) ^ (Type != null ? Type.GetHashCode() : 0);
+				result = (result * 397) ^ (Value != null ? Value.GetHashCode() : 0);
 				return result;
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public static bool operator ==(FieldValue left, FieldValue right)
 		{
 			return Equals(left, right);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public static bool operator !=(FieldValue left, FieldValue right)
 		{
 			return !Equals(left, right);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return string.Format("{0}='{1}'", FieldDefinitionKey, Value);
 		}
 	}
 }

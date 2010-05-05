@@ -5,18 +5,23 @@ using System.Linq;
 using System.Windows.Forms;
 using SilUtils;
 using Sponge2.Model.Files;
+using Sponge2.Properties;
 
 namespace Sponge2.UI.ElementListScreen
 {
-	public partial class ComponentFileGrid : UserControl
+	public partial class ComponentFileGrid : SilUtils.Controls.SilPanel
 	{
 		private IEnumerable<ComponentFile> _files;
+		private string _gridColSettingPrefix;
 
 		/// <summary>
 		/// When the user selects a different component, this is called
 		/// </summary>
+		/// John: this is really just an event. Is there any reason not to name it like
+		/// that? i.e. Does "Callback" make it more understandable? It's not very .Net-like.
 		public Action<int> ComponentSelectedCallback;
 
+		/// ------------------------------------------------------------------------------------
 		public ComponentFileGrid()
 		{
 			InitializeComponent();
@@ -26,7 +31,36 @@ namespace Sponge2.UI.ElementListScreen
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
 			_grid.RowEnter += HandleFileGridRowEnter;
 			_grid.Font = SystemFonts.IconTitleFont;
+		}
 
+		/// ------------------------------------------------------------------------------------
+		public void InitializeColumnWidths(string settingPrefix)
+		{
+			_gridColSettingPrefix = settingPrefix;
+
+			for (int i = 1; i < _grid.ColumnCount; i++)
+			{
+				var propName =
+					string.Format("{0}ComponentGridCol{1}Width", _gridColSettingPrefix, i);
+
+				int width = (int)Settings.Default[propName];
+				if (width > 0)
+					_grid.Columns[i].Width = width;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			for (int i = 1; i < _grid.ColumnCount; i++)
+			{
+				var propName =
+					string.Format("{0}ComponentGridCol{1}Width", _gridColSettingPrefix, i);
+
+				Settings.Default[propName] =_grid.Columns[i].Width;
+			}
+
+			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -34,7 +68,7 @@ namespace Sponge2.UI.ElementListScreen
 		{
 			if (e.Button == MouseButtons.Right)
 			{
-				_grid.CurrentCell = _grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
+				_grid.CurrentCell = _grid[e.ColumnIndex, e.RowIndex];
 
 				Point pt = _grid.PointToClient(MousePosition);
 				var file = _files.ElementAt(e.RowIndex);
@@ -47,7 +81,7 @@ namespace Sponge2.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridCellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
-			_grid.CurrentCell = _grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
+			_grid.CurrentCell = _grid[e.ColumnIndex, e.RowIndex];
 			var file = _files.ElementAt(e.RowIndex);
 			file.HandleDoubleClick();
 		}
@@ -60,7 +94,7 @@ namespace Sponge2.UI.ElementListScreen
 			if (e.RowIndex != _grid.CurrentCellAddress.Y)
 			{
 				//Model.SetSelectedComponentFile(e.RowIndex);
-				if(null!=ComponentSelectedCallback)
+				if (null != ComponentSelectedCallback)
 				{
 					ComponentSelectedCallback(e.RowIndex);
 				}
@@ -77,7 +111,7 @@ namespace Sponge2.UI.ElementListScreen
 				ReflectionHelper.GetProperty(currElementFile, dataPropName));
 		}
 
-
+		/// ------------------------------------------------------------------------------------
 		public void UpdateComponentList(IEnumerable<ComponentFile> componentFiles)
 		{
 			_files = componentFiles;

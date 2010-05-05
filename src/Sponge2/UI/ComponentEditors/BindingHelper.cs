@@ -120,6 +120,27 @@ namespace Sponge2.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public string GetValue(string key)
+		{
+			return _file.GetStringValue(key, string.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string SetValue(string key, string value)
+		{
+			string failureMessage;
+			var modifiedValue = _file.SetValue(key, value, out failureMessage);
+
+			if (failureMessage != null)
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+
+			//enchance: don't save so often, leave it to some higher level
+			_file.Save();
+
+			return modifiedValue;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleValidatingControl(object sender, CancelEventArgs e)
 		{
 			var control = (Control)sender;
@@ -142,11 +163,8 @@ namespace Sponge2.UI.ComponentEditors
 			}
 
 			//enchance: don't save so often, leave it to some higher level
-
 			_file.Save();
 		}
-
-
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleHandleDestroyed(object sender, System.EventArgs e)

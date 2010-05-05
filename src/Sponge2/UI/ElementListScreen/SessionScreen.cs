@@ -16,7 +16,8 @@ namespace Sponge2.UI.ElementListScreen
 			if (DesignMode)
 				return;
 
-			Initialize(_componentEditorsTabControl, _componentFileGrid, _sessionsListPanel);
+			Initialize(_tabComponentEditors, _componentFileGrid, _sessionsListPanel);
+			_componentFileGrid.InitializeColumnWidths("SessionScreen");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -26,19 +27,19 @@ namespace Sponge2.UI.ElementListScreen
 
 			if (firstTime)
 			{
-				if (Settings.Default.SessionsScreenElementsListSplitterPos > 0)
-					_elementListSplitter.SplitterDistance = Settings.Default.SessionsScreenElementsListSplitterPos;
+				if (Settings.Default.SessionScreenElementsListSplitterPos > 0)
+					_elementListSplitter.SplitterDistance = Settings.Default.SessionScreenElementsListSplitterPos;
 
-				if (Settings.Default.SessionsScreenComponentsSplitterPos > 0)
-					_componentsSplitter.SplitterDistance = Settings.Default.SessionsScreenComponentsSplitterPos;
+				if (Settings.Default.SessionScreenComponentsSplitterPos > 0)
+					_componentsSplitter.SplitterDistance = Settings.Default.SessionScreenComponentsSplitterPos;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			Settings.Default.SessionsScreenElementsListSplitterPos = _elementListSplitter.SplitterDistance;
-			Settings.Default.SessionsScreenComponentsSplitterPos = _componentsSplitter.SplitterDistance;
+			Settings.Default.SessionScreenElementsListSplitterPos = _elementListSplitter.SplitterDistance;
+			Settings.Default.SessionScreenComponentsSplitterPos = _componentsSplitter.SplitterDistance;
 			base.OnHandleDestroyed(e);
 		}
 	}

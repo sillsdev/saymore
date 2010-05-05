@@ -31,32 +31,30 @@ namespace Sponge2.UI.ElementListScreen
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this._componentEditorsTabControl = new System.Windows.Forms.TabControl();
+			this._tabComponentEditors = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this._elementListSplitter = new System.Windows.Forms.SplitContainer();
 			this._sessionsListPanel = new Sponge2.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
-			this._componentGridPanel = new SilUtils.Controls.SilPanel();
 			this._componentFileGrid = new Sponge2.UI.ElementListScreen.ComponentFileGrid();
-			this._componentEditorsTabControl.SuspendLayout();
+			this._tabComponentEditors.SuspendLayout();
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
 			this._elementListSplitter.SuspendLayout();
 			this._componentsSplitter.Panel1.SuspendLayout();
 			this._componentsSplitter.Panel2.SuspendLayout();
 			this._componentsSplitter.SuspendLayout();
-			this._componentGridPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// _componentEditorsTabControl
+			// _tabComponentEditors
 			// 
-			this._componentEditorsTabControl.Controls.Add(this.tabPage1);
-			this._componentEditorsTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._componentEditorsTabControl.Location = new System.Drawing.Point(0, 0);
-			this._componentEditorsTabControl.Name = "_componentEditorsTabControl";
-			this._componentEditorsTabControl.SelectedIndex = 0;
-			this._componentEditorsTabControl.Size = new System.Drawing.Size(315, 197);
-			this._componentEditorsTabControl.TabIndex = 7;
+			this._tabComponentEditors.Controls.Add(this.tabPage1);
+			this._tabComponentEditors.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._tabComponentEditors.Location = new System.Drawing.Point(0, 0);
+			this._tabComponentEditors.Name = "_tabComponentEditors";
+			this._tabComponentEditors.SelectedIndex = 0;
+			this._tabComponentEditors.Size = new System.Drawing.Size(315, 197);
+			this._tabComponentEditors.TabIndex = 7;
 			// 
 			// tabPage1
 			// 
@@ -125,40 +123,23 @@ namespace Sponge2.UI.ElementListScreen
 			// 
 			// _componentsSplitter.Panel1
 			// 
-			this._componentsSplitter.Panel1.Controls.Add(this._componentGridPanel);
+			this._componentsSplitter.Panel1.Controls.Add(this._componentFileGrid);
 			// 
 			// _componentsSplitter.Panel2
 			// 
-			this._componentsSplitter.Panel2.Controls.Add(this._componentEditorsTabControl);
+			this._componentsSplitter.Panel2.Controls.Add(this._tabComponentEditors);
 			this._componentsSplitter.Size = new System.Drawing.Size(315, 350);
 			this._componentsSplitter.SplitterDistance = 147;
 			this._componentsSplitter.SplitterWidth = 6;
 			this._componentsSplitter.TabIndex = 0;
 			this._componentsSplitter.TabStop = false;
 			// 
-			// _componentGridPanel
-			// 
-			this._componentGridPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this._componentGridPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this._componentGridPanel.ClipTextForChildControls = true;
-			this._componentGridPanel.ControlReceivingFocusOnMnemonic = null;
-			this._componentGridPanel.Controls.Add(this._componentFileGrid);
-			this._componentGridPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._componentGridPanel.DoubleBuffered = true;
-			this._componentGridPanel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this._componentGridPanel.Location = new System.Drawing.Point(0, 0);
-			this._componentGridPanel.MnemonicGeneratesClick = false;
-			this._componentGridPanel.Name = "_componentGridPanel";
-			this._componentGridPanel.PaintExplorerBarBackground = false;
-			this._componentGridPanel.Size = new System.Drawing.Size(315, 147);
-			this._componentGridPanel.TabIndex = 1;
-			// 
 			// _componentFileGrid
 			// 
 			this._componentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._componentFileGrid.Location = new System.Drawing.Point(0, 0);
 			this._componentFileGrid.Name = "_componentFileGrid";
-			this._componentFileGrid.Size = new System.Drawing.Size(313, 145);
+			this._componentFileGrid.Size = new System.Drawing.Size(315, 147);
 			this._componentFileGrid.TabIndex = 0;
 			// 
 			// SessionScreen
@@ -168,26 +149,24 @@ namespace Sponge2.UI.ElementListScreen
 			this.Controls.Add(this._elementListSplitter);
 			this.Name = "SessionScreen";
 			this.Size = new System.Drawing.Size(503, 350);
-			this._componentEditorsTabControl.ResumeLayout(false);
+			this._tabComponentEditors.ResumeLayout(false);
 			this._elementListSplitter.Panel1.ResumeLayout(false);
 			this._elementListSplitter.Panel2.ResumeLayout(false);
 			this._elementListSplitter.ResumeLayout(false);
 			this._componentsSplitter.Panel1.ResumeLayout(false);
 			this._componentsSplitter.Panel2.ResumeLayout(false);
 			this._componentsSplitter.ResumeLayout(false);
-			this._componentGridPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.TabControl _componentEditorsTabControl;
+		private System.Windows.Forms.TabControl _tabComponentEditors;
 		private System.Windows.Forms.TabPage tabPage1;
 		private ListPanel _sessionsListPanel;
 		private System.Windows.Forms.SplitContainer _elementListSplitter;
 		private System.Windows.Forms.SplitContainer _componentsSplitter;
-		private SilUtils.Controls.SilPanel _componentGridPanel;
 		private ComponentFileGrid _componentFileGrid;
 	}
 }

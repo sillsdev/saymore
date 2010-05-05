@@ -11,7 +11,7 @@ namespace Sponge2.Model
 	/// This is reposible for finding, creating, and removing items of the given type T
 	/// (i.e. Sessions or People)
 	/// </summary>
-	public class ElementRepository<T> where T: ProjectElement
+	public class ElementRepository<T> where T : ProjectElement
 	{
 		public delegate ElementRepository<T> Factory(string projectDirectory, string elementGroupName);
 

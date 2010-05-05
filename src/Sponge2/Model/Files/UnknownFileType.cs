@@ -18,17 +18,16 @@ namespace Sponge2.Model.Files
 			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "Info");
 		}
 
-		public override IEnumerable<FileCommand> Commands
-		{
-			get
-			{
-				foreach (var command in base.Commands)
-				{
-					yield return command;
-				}
-				//yield return new FileCommand("Open in Program Associated with this File...", FileCommand.HandleOpenInApp_Click);
-			}
-		}
-
+		//public override IEnumerable<FileCommand> Commands
+		//{
+		//    get
+		//    {
+		//        foreach (var command in base.Commands)
+		//        {
+		//            yield return command;
+		//        }
+		//        //yield return new FileCommand("Open in Program Associated with this File...", FileCommand.HandleOpenInApp_Click);
+		//    }
+		//}
 	}
 }

@@ -66,20 +66,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\DiscourseType.cs" />
+    <Compile Include="Model\Fields\DiscourseType.cs" />
     <Compile Include="Model\EditorProvider.cs" />
     <Compile Include="Model\ElementRepository.cs" />
-    <Compile Include="Model\FieldDefinition.cs" />
+    <Compile Include="Model\Fields\FieldDefinition.cs" />
     <Compile Include="ApplicationContainer.cs" />
-    <Compile Include="Model\FieldTemplate.cs" />
-    <Compile Include="Model\FieldValue.cs" />
+    <Compile Include="Model\Fields\FieldTemplate.cs" />
+    <Compile Include="Model\Fields\FieldValue.cs" />
     <Compile Include="Model\Files\FileCommand.cs" />
     <Compile Include="Model\Files\UnknownFileType.cs" />
     <Compile Include="Model\Files\FileSerializer.cs" />
     <Compile Include="Model\Files\ProjectElementComponentFile.cs" />
     <Compile Include="ProjectContext.cs" />
     <Compile Include="Model\Files\ComponentFile.cs" />
-    <Compile Include="Model\ComponentRole.cs" />
+    <Compile Include="Model\Files\ComponentRole.cs" />
     <Compile Include="Model\Contribution.cs" />
     <Compile Include="Model\Files\FileType.cs" />
     <Compile Include="Model\Person.cs" />

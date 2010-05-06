@@ -1,9 +1,8 @@
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using Sponge2.Model;
 using Sponge2.Model.Files;
 
-namespace Sponge2Tests.model
+namespace Sponge2Tests.model.Files
 {
 	[TestFixture]
 	public class FileTypeTests

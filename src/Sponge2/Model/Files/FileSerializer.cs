@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using Sponge2.Model.Fields;
 
 namespace Sponge2.Model.Files
 {

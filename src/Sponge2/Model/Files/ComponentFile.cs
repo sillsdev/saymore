@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Sponge2.Model.Fields;
 
 namespace Sponge2.Model.Files
 {
@@ -24,6 +25,7 @@ namespace Sponge2.Model.Files
 		public event EventHandler UiShouldRefresh;
 
 		private readonly string _pathToAnnotatedFile;
+		private readonly IEnumerable<ComponentRole> _componentRoles;
 		private readonly FileSerializer _fileSerializer;
 		private string _rootElementName;
 		private string _fileNameToAdvertise;
@@ -36,9 +38,11 @@ namespace Sponge2.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
+							IEnumerable<ComponentRole> componentRoles,
 							 FileSerializer fileSerializer)
 		{
 			_pathToAnnotatedFile = pathToAnnotatedFile;
+			_componentRoles = componentRoles;
 			_fileSerializer = fileSerializer;
 
 			// we musn't do anything to remove the existing extension, as that is needed
@@ -133,15 +137,30 @@ namespace Sponge2.Model.Files
 		}
 
 
-#if notyet
-	/// <summary>
-	/// What part(s) does this file play in the workflow of the session/person?
-	/// </summary>
-		public IEnumerable<ComponentRole> GetRoles()
+
+		/// <summary>
+		/// What part(s) does this file play in the workflow of the session/person?
+		/// </summary>
+		public virtual IEnumerable<ComponentRole> GetAssignedRoles()
 		{
-			return new ComponentRole[] {};
+			return from r in _componentRoles
+			   where r.IsMatch(_pathToAnnotatedFile)
+			   select r;
 		}
 
+		/// <summary>
+		/// Judging by the path (and maybe contents of the file itself), what
+		/// parts might this file conceivably play in the workflow of the session/person?
+		/// This is used to offer the user choices of assigning roles.
+		/// </summary>
+		public virtual IEnumerable<ComponentRole> GetPotentialRoles()
+		{
+			return from r in _componentRoles
+				   where r.IsPotential(_pathToAnnotatedFile)
+				   select r;
+		}
+
+#if notyet
 		/// <summary>
 		/// The roles various people have played in creating/editing this file.
 		/// </summary>
@@ -165,7 +184,7 @@ namespace Sponge2.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
 		{
-			return new ComponentFile(path, new FileType[] {}, new FileSerializer());
+			return new ComponentFile(path, new FileType[] {}, new ComponentRole[]{}, new FileSerializer());
 		}
 
 		public IEnumerable<ToolStripItem> GetContextMenuItems()

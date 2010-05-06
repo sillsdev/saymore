@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using Sponge2.Model;
 using System.Linq;
+using Sponge2.Model.Fields;
 using Sponge2.Model.Files;
 
-namespace Sponge2Tests.Persistence
+namespace Sponge2Tests.model.Files
 {
-
 	public class FileSerializerTests
 	{
 		private TemporaryFolder _parentFolder;

@@ -21,7 +21,7 @@ using System.Xml.Serialization;
 using SIL.Localization;
 using SilUtils;
 
-namespace Sponge2.Model
+namespace Sponge2.Model.Fields
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using Sponge2.Model;
+using Sponge2.Model.Fields;
 using Sponge2.Model.Files;
 
 namespace Sponge2.UI.ComponentEditors

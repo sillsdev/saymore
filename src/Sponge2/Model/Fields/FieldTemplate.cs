@@ -7,7 +7,7 @@ using Palaso.IO;
 using Palaso.Reporting;
 using SilUtils;
 
-namespace Sponge2.Model
+namespace Sponge2.Model.Fields
 {
 	#region FieldTemplateList class
 	/// ----------------------------------------------------------------------------------------

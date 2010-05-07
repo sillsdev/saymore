@@ -72,6 +72,7 @@ namespace Sponge2.Model.Files
 			_metaDataPath = filePath;
 			MetaDataFieldValues = new List<FieldValue>();
 			_rootElementName = rootElementName;
+			_componentRoles = new ComponentRole[] {};//no roles for person or session
 		}
 
 		/// ------------------------------------------------------------------------------------

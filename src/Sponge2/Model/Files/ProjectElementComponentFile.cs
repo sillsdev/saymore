@@ -18,6 +18,7 @@ namespace Sponge2.Model.Files
 			: base(parentElement.SettingsFilePath, fileType, fileSerializer, rootElementName)
 		{
 			_parentElement = parentElement;
+			PathToAnnotatedFile = parentElement.SettingsFilePath;//same thing, there isn't a pair of files for session/person
 		}
 
 		/// ------------------------------------------------------------------------------------

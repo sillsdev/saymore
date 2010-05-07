@@ -1,5 +1,6 @@
 using System.Linq;
 using NUnit.Framework;
+using Sponge2.Model;
 using Sponge2.Model.Files;
 
 namespace Sponge2Tests.model.Files
@@ -26,9 +27,9 @@ namespace Sponge2Tests.model.Files
 			Assert.IsFalse(role.IsPotential("fub.mp3x"));
 		}
 
-		private ComponentRole GetRoleForOriginalRecording()
+		private static ComponentRole GetRoleForOriginalRecording()
 		{
-			return ComponentRole.CreateHardCodedRoles().First();
+			return new ComponentRole(typeof(Session),"original", "Original Recording", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original");
 		}
 
 		[Test]
@@ -45,31 +46,32 @@ namespace Sponge2Tests.model.Files
 			Assert.AreEqual(@"c:\foo\mySession_Original.wav", role.GetCanoncialName("mySession", @"c:\foo\fub.wav"));
 		}
 
-//		[Test]
-//		public void SessionHasThisComponent_HaveOneMatching_True()
-//		{
-//			ComponentRole role = GetRoleForOriginalRecording();
-//			Assert.IsTrue(role.SessionHasThisComponent("mySession", new string[] { "x.txt", @"c:\foo\mySession_Original.wav", "z.doc" }));
-//		}
-//
-//		[Test]
-//		public void SessionHasThisComponent_NonMatchingSession_False()
-//		{
-//			ComponentRole role = GetRoleForOriginalRecording();
-//			Assert.IsFalse(role.SessionHasThisComponent("mySession", new string[] { @"c:\foo\XSession_Original.wav" }));
-//		}
-//
-//		[Test]
-//		public void SessionHasThisComponent_NonMatchingExtension_False()
-//		{
-//			ComponentRole role = GetRoleForOriginalRecording();
-//			Assert.IsFalse(role.SessionHasThisComponent("mySession", new string[] { @"c:\foo\mySession_Original.txt" }));
-//		}
-//		[Test]
-//		public void SessionHasThisComponent_NonMatchingTemplate_False()
-//		{
-//			ComponentRole role = GetRoleForOriginalRecording();
-//			Assert.IsFalse(role.SessionHasThisComponent("mySession", new string[] { @"c:\foo\mySession_BLAH.wav" }));
-//		}
+		[Test]
+		public void AtLeastOneFileHasThisRole_HaveOneMatching_True()
+		{
+			ComponentRole role = GetRoleForOriginalRecording();
+			Assert.IsTrue(role.AtLeastOneFileHasThisRole("mySession", new string[] { "x.txt", @"c:\foo\mySession_Original.wav", "z.doc" }));
+		}
+
+		[Test]
+		public void AtLeastOneFileHasThisRole_NonMatchingSession_False()
+		{
+			ComponentRole role = GetRoleForOriginalRecording();
+			Assert.IsFalse(role.AtLeastOneFileHasThisRole("mySession", new string[] { @"c:\foo\XSession_Original.wav" }));
+		}
+
+		[Test]
+		public void AtLeastOneFileHasThisRole_NonMatchingExtension_False()
+		{
+			ComponentRole role = GetRoleForOriginalRecording();
+			Assert.IsFalse(role.AtLeastOneFileHasThisRole("mySession", new string[] { @"c:\foo\mySession_Original.txt" }));
+		}
+
+		[Test]
+		public void AtLeastOneFileHasThisRole_NonMatchingTemplate_False()
+		{
+			ComponentRole role = GetRoleForOriginalRecording();
+			Assert.IsFalse(role.AtLeastOneFileHasThisRole("mySession", new string[] { @"c:\foo\mySession_BLAH.wav" }));
+		}
 	}
 }

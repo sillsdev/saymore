@@ -61,5 +61,10 @@ namespace Sponge2
 			_scope.Dispose();
 			_scope = null;
 		}
+
+		public T ResolveForTests<T>() where T: class
+		{
+			return _scope.Resolve<T>();
+		}
 	}
 }

@@ -6,6 +6,8 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using Sponge2;
 using Sponge2.Model;
+using Sponge2.Model.Files;
+using Sponge2.UI.ElementListScreen;
 
 
 namespace Sponge2Tests
@@ -91,6 +93,21 @@ namespace Sponge2Tests
 				}
 			}
 		}
+
+		[Test]
+		public void ContainerSanityCheck_CanGet_ComponentFile_Factory()
+		{
+			using (var appContext = new ApplicationContainer())
+			{
+				using (var projectContext = CreateProjectContext(appContext))
+				{
+					var factory = projectContext.ResolveForTests<ComponentFile.Factory>();
+					//will throw if the container couldn't put all the pieces together
+					factory(_parentFolder.Combine("test.txt"));
+				}
+			}
+		}
+
 
 	}
 }

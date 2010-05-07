@@ -73,7 +73,7 @@ namespace Sponge2.UI.ElementListScreen
 				Point pt = _grid.PointToClient(MousePosition);
 				var file = _files.ElementAt(e.RowIndex);
 				_contextMenuStrip.Items.Clear();
-				_contextMenuStrip.Items.AddRange(file.GetContextMenuItems().ToArray());
+				_contextMenuStrip.Items.AddRange(file.GetContextMenuItems(_grid.Invalidate).ToArray());
 				_contextMenuStrip.Show(_grid, pt);
 			}
 		}

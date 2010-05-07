@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Autofac;
 using Sponge2.Model;
@@ -21,8 +22,37 @@ namespace Sponge2
 			var builder = new ContainerBuilder();
 			builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t=>!t.Name.Contains("Factory"));
 			builder.RegisterInstance(FilesTypes).As(typeof(IEnumerable<FileType>));
+			builder.RegisterInstance(ComponentRoles).As(typeof(IEnumerable<ComponentRole>));
 
 			_container = builder.Build();
+		}
+
+		/// <summary>
+		/// Someday, we may put this under user control. For now, they are hard-coded.
+		/// </summary>
+		protected IEnumerable<ComponentRole> ComponentRoles
+		{
+			get
+			{
+				yield return
+					new ComponentRole(typeof (Session), "original", "Original Recording", ComponentRole.MeasurementTypes.Time,
+									  ComponentRole.GetIsAudioVideo, "$ElementId$_Original");
+				yield return
+					new ComponentRole(typeof (Session), "carefulSpeech", "Careful Speech", ComponentRole.MeasurementTypes.Time,
+									  ComponentRole.GetIsAudioVideo, "$ElementId$_Careful");
+				yield return
+					new ComponentRole(typeof (Session), "oralTranslation", "Oral Translation", ComponentRole.MeasurementTypes.Time,
+									  ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation");
+				yield return
+					new ComponentRole(typeof (Session), "transcription", "Transcription", ComponentRole.MeasurementTypes.Words,
+									  (p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Transcription");
+				yield return
+					new ComponentRole(typeof (Session), "transcriptionN", "Written Translation", ComponentRole.MeasurementTypes.Words,
+									  (p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N");
+				yield return
+					new ComponentRole(typeof (Person), "consent", "Informed Consent", ComponentRole.MeasurementTypes.None, (p => true),
+									  "$ElementId$_Consent");
+			}
 		}
 
 

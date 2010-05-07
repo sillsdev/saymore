@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using Sponge2.Model.Fields;
 
 namespace Sponge2.Model.Files
 {
-	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Both sessions and people are made up of a number of files: an xml file we help them edit
 	/// (i.e. .session or .person), plus any number of other files (videos, texts, images, etc.).
 	/// Each of these is represented by an object of this class.
 	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class ComponentFile
 	{
 		//autofac uses this, so that callers only need to know the path, not all the dependencies
@@ -24,11 +23,10 @@ namespace Sponge2.Model.Files
 		/// </summary>
 		public event EventHandler UiShouldRefresh;
 
-		private readonly string _pathToAnnotatedFile;
+		public string PathToAnnotatedFile { get; protected set; }
 		private readonly IEnumerable<ComponentRole> _componentRoles;
 		private readonly FileSerializer _fileSerializer;
 		private string _rootElementName;
-		private string _fileNameToAdvertise;
 
 		public List<FieldValue> MetaDataFieldValues { get; set; }
 		public List<FieldValue> Fields { get; private set; }
@@ -41,19 +39,24 @@ namespace Sponge2.Model.Files
 							IEnumerable<ComponentRole> componentRoles,
 							 FileSerializer fileSerializer)
 		{
-			_pathToAnnotatedFile = pathToAnnotatedFile;
+			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;
 			_fileSerializer = fileSerializer;
 
 			// we musn't do anything to remove the existing extension, as that is needed
 			// to keep, say, foo.wav and foo.txt separate. Instead, we just append ".meta"
-			_metaDataPath = pathToAnnotatedFile + ".meta";
-			_fileNameToAdvertise = Path.GetFileName(pathToAnnotatedFile);
+			_metaDataPath = ComputeMetaDataPath(pathToAnnotatedFile);
+
 			_rootElementName = "MetaData";
 
 			MetaDataFieldValues = new List<FieldValue>();
 
 			DetermineFileType(pathToAnnotatedFile, fileTypes);
+		}
+
+		private static string ComputeMetaDataPath(string pathToAnnotatedFile)
+		{
+			return pathToAnnotatedFile + ".meta";
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,7 +68,6 @@ namespace Sponge2.Model.Files
 							 FileSerializer fileSerializer, string rootElementName)
 		{
 			FileType = fileType;
-			_fileNameToAdvertise = Path.GetFileName(filePath);
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
 			MetaDataFieldValues = new List<FieldValue>();
@@ -144,7 +146,7 @@ namespace Sponge2.Model.Files
 		public virtual IEnumerable<ComponentRole> GetAssignedRoles()
 		{
 			return from r in _componentRoles
-			   where r.IsMatch(_pathToAnnotatedFile)
+			   where r.IsMatch(PathToAnnotatedFile)
 			   select r;
 		}
 
@@ -156,7 +158,7 @@ namespace Sponge2.Model.Files
 		public virtual IEnumerable<ComponentRole> GetPotentialRoles()
 		{
 			return from r in _componentRoles
-				   where r.IsPotential(_pathToAnnotatedFile)
+				   where r.IsPotential(PathToAnnotatedFile)
 				   select r;
 		}
 
@@ -178,7 +180,10 @@ namespace Sponge2.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string FileName
 		{
-			get { return _fileNameToAdvertise; }
+			get
+			{
+				return Path.GetFileName(PathToAnnotatedFile);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -187,20 +192,21 @@ namespace Sponge2.Model.Files
 			return new ComponentFile(path, new FileType[] {}, new ComponentRole[]{}, new FileSerializer());
 		}
 
-		public IEnumerable<ToolStripItem> GetContextMenuItems()
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<ToolStripItem> GetContextMenuItems(Action refreshAction)
 		{
 			foreach (FileCommand cmd in FileType.Commands)
 			{
 				FileCommand cmd1 = cmd;// needed to avoid "access to modified closure". I.e., avoid executing the wrong command.
-				yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) => cmd1.Action(_pathToAnnotatedFile));
+				yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) => cmd1.Action(PathToAnnotatedFile));
 			}
 
-/*			bool needSeparator = true;
+			bool needSeparator = true;
 
 			// commands which assign to roles
-			foreach (var definition in SessionComponentDefinition.CreateHardCodedDefinitions())
+			foreach (var role in _componentRoles)
 			{
-				if (definition.GetFileIsElligible(FullFilePath))
+				if (role.IsPotential(PathToAnnotatedFile))
 				{
 					if (needSeparator)
 					{
@@ -208,17 +214,54 @@ namespace Sponge2.Model.Files
 						yield return new ToolStripSeparator();
 					}
 
-					string label = string.Format("Rename For {0}", definition.Name);
-					SessionComponentDefinition componentDefinition = definition;
-					yield return new ToolStripMenuItem(label, null, (sender, args) => IdentifyAsComponent(componentDefinition, sessionId));
+					string label = string.Format("Rename For {0}", role.Name);
+					ComponentRole role1 = role;
+					yield return new ToolStripMenuItem(label, null, (sender, args) =>
+							{
+								AssignRole(role1);
+								refreshAction();
+							});
+
 				}
 		   }
-*/
+
+		}
+
+		/// <summary>
+		/// Rename the file so that it is clear (visually and programatically) that this file
+		/// plays this role.
+		/// </summary>
+		public void AssignRole(ComponentRole role)
+		{
+			var nameOfParentFolderWhichIsAlsoElementId = Path.GetFileName(Path.GetDirectoryName(PathToAnnotatedFile));
+			string newPath = role.GetCanoncialName(nameOfParentFolderWhichIsAlsoElementId,
+				PathToAnnotatedFile);
+			RenameAnnotatedFile(newPath);
+		}
+
+		private void RenameAnnotatedFile(string newPath)
+		{
+			try
+			{
+				File.Move(PathToAnnotatedFile, newPath);
+				var newMetaPath = ComputeMetaDataPath(newPath);
+				//enhance: if somethine goes wrong from here down,
+				//this would leave us with one file renamed, but not the other.
+				if(File.Exists(_metaDataPath))
+				{
+					File.Move(_metaDataPath,  newMetaPath);
+				}
+				PathToAnnotatedFile = newPath;
+			}
+			catch (Exception e)
+			{
+				ErrorReport.ReportNonFatalException(e);
+			}
 		}
 
 		public virtual void HandleDoubleClick()
 		{
-			FileCommand.HandleOpenInApp_Click(_pathToAnnotatedFile);
+			FileCommand.HandleOpenInApp_Click(PathToAnnotatedFile);
 		}
 	}
 }

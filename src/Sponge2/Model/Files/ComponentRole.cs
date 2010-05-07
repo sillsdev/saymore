@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using Sponge2.Properties;
 
 namespace Sponge2.Model.Files
@@ -22,6 +23,7 @@ namespace Sponge2.Model.Files
 		public enum MeasurementTypes { None, Time, Words }
 
 		public string Id { get; set; }
+		private readonly Type _releventElementType;
 		private readonly string _englishLabel;
 		public MeasurementTypes MeasurementType { get; private set; }
 
@@ -32,9 +34,10 @@ namespace Sponge2.Model.Files
 		private readonly string _renamingTemplate;
 
 
-		public ComponentRole(string id, string englishLabel, MeasurementTypes measurementType, Func<string, bool> elligibilityFilter, string renamingTemplate)
+		public ComponentRole(Type releventElementType, string id, string englishLabel, MeasurementTypes measurementType, Func<string, bool> elligibilityFilter, string renamingTemplate)
 		{
 			Id = id;
+			_releventElementType = releventElementType;
 			_englishLabel = englishLabel;
 			MeasurementType = measurementType;
 			ElligibilityFilter = elligibilityFilter;
@@ -54,7 +57,7 @@ namespace Sponge2.Model.Files
 		public bool IsMatch(string path)
 		{
 			return ((Func<string, bool>) (path1 => ElligibilityFilter(path1) &&
-									 (Path.GetFileNameWithoutExtension(path1).Contains(_renamingTemplate.Replace("$SessionId$","")))))(path);
+									 (Path.GetFileNameWithoutExtension(path1).Contains(_renamingTemplate.Replace("$ElementId$","")))))(path);
 		}
 
 		/// <summary>
@@ -71,14 +74,6 @@ namespace Sponge2.Model.Files
 			get { return _englishLabel; }
 		}
 
-		public static IEnumerable<ComponentRole> CreateHardCodedRoles()
-		{
-			yield return new ComponentRole("original", "Original Recording", MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$SessionId$_Original");
-			yield return new ComponentRole("carefulSpeech", "Careful Speech", MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$SessionId$_Careful");
-			yield return new ComponentRole("oralTranslation", "Oral Translation", MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$SessionId$_OralTranslation");
-			yield return new ComponentRole("transcription", "Transcription", MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$SessionId$_Transcription");
-			yield return new ComponentRole("transcriptionN", "Written Translation", MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$SessionId$_Translation-N");
-		}
 
 		public static bool GetIsAudioVideo(string path)
 		{
@@ -103,7 +98,7 @@ namespace Sponge2.Model.Files
 			var dir = Path.GetDirectoryName(path);
 			//var fileName = Path.GetFileNameWithoutExtension(path);
 			var name = _renamingTemplate + Path.GetExtension(path);
-			name = name.Replace("$SessionId$", sessionId);
+			name = name.Replace("$ElementId$", sessionId);
 			if (string.IsNullOrEmpty(dir))
 			{
 				return name;
@@ -112,5 +107,15 @@ namespace Sponge2.Model.Files
 			return Path.Combine(dir, name);
 		}
 
+		public bool AtLeastOneFileHasThisRole(string sessionId, string[] paths)
+		{
+			return paths.Any(p =>
+			{
+				var name = Path.GetFileNameWithoutExtension(p);
+				return ElligibilityFilter(Path.GetExtension(p))
+					&& name.ToLower() == _renamingTemplate.Replace("$ElementId$", sessionId).ToLower();
+			}
+				);
+		}
 	}
 }

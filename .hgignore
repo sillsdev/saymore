@@ -4,3 +4,6 @@ glob:*.suo
 glob:*.user
 glob:_ReSharper*
 glob:src/Sponge2/bin/*
+glob:design/Mockups 17Nov09.pdf
+glob:del.txt
+glob:bugs.txt

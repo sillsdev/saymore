@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
+using Sponge2.Model;
 using Sponge2.Model.Files;
 
 namespace Sponge2Tests.model.Files
@@ -17,6 +19,13 @@ namespace Sponge2Tests.model.Files
 		public void Setup()
 		{
 			_parentFolder = new TemporaryFolder("fileTypeTest");
+		}
+
+		private string ParentFolderName {
+			get
+			{
+				return Path.GetFileName(_parentFolder.Path);
+			}
 		}
 
 		[TearDown]
@@ -34,12 +43,16 @@ namespace Sponge2Tests.model.Files
 			Assert.AreEqual("Text",f.FileType.Name);
 		}
 
-		private ComponentFile CreateComponentFile(string path)
+		private ComponentFile CreateComponentFile(string fileName)
 		{
-			return new ComponentFile(path,
+			File.WriteAllText(_parentFolder.Combine(fileName), @"hello");
+			var cf= new ComponentFile(_parentFolder.Combine(fileName),
 				new FileType[]{FileType.Create("Text", ".txt"), },
 				new ComponentRole[]{},
 				new FileSerializer());
+
+			cf.Save();//creates the meta file path
+			return cf;
 		}
 
 		[Test]
@@ -74,22 +87,14 @@ namespace Sponge2Tests.model.Files
 			Assert.AreEqual("green", f.GetStringValue("color", "blue"));
 		}
 
-		private IEnumerable<ComponentRole> MakeComponentRoles()
-		{
-			yield return new ComponentRole("original", "Original Recording", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$SessionId$_Original");
-			yield return new ComponentRole("carefulSpeech", "Careful Speech", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$SessionId$_Careful");
-			yield return new ComponentRole("oralTranslation", "Oral Translation", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$SessionId$_OralTranslation");
-			yield return new ComponentRole("transcription", "Transcription", ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$SessionId$_Transcription");
-			yield return new ComponentRole("transcriptionN", "Written Translation", ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$SessionId$_Translation-N");
-		}
 
 		private ComponentFile CreateComponentFileWithRoleChoices(string path)
 		{
 			var componentRoles = new []
 									{
-										new ComponentRole("translation", "translation", ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"), "$SessionId$_Original"),
-										new ComponentRole("transcriptionN", "Written Translation", ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$SessionId$_Translation-N"),
-										new ComponentRole("original", "Original Recording", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$SessionId$_Original")
+										new ComponentRole(typeof(Session),"translation", "translation", ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"), "$ElementId$_Original"),
+										new ComponentRole(typeof(Session),"transcriptionN", "Written Translation", ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N"),
+										new ComponentRole(typeof(Session),"original", "Original Recording", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original")
 									};
 
 			return new ComponentFile(path,
@@ -111,6 +116,17 @@ namespace Sponge2Tests.model.Files
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc.txt");
 			Assert.AreEqual(0, f.GetAssignedRoles().Count());
+		}
+
+		[Test]
+		public void IdentifyAsRole_FileRenamed()
+		{
+			ComponentFile f = CreateComponentFile("abc.txt");
+			var role = new ComponentRole(typeof (Session), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
+										 p => p.EndsWith("txt"), "$ElementId$_someRole");
+			f.AssignRole(role);
+			Assert.AreEqual(ParentFolderName + "_someRole.txt", Path.GetFileName(f.PathToAnnotatedFile));
+			Assert.IsTrue(File.Exists(f.PathToAnnotatedFile));
 		}
 
 		public string SetValue(ComponentFile file, string key, string value)

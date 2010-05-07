@@ -56,9 +56,12 @@ namespace Sponge2.Model.Files
 		/// </summary>
 		public bool IsMatch(string path)
 		{
-			return ((Func<string, bool>) (path1 => ElligibilityFilter(path1) &&
-									 (Path.GetFileNameWithoutExtension(path1).Contains(_renamingTemplate.Replace("$ElementId$","")))))(path);
+			string partofRenamingTemplateWhichDoesNotDependOnId = _renamingTemplate.Replace("$ElementId$", "");
+			if(!Path.GetFileNameWithoutExtension(path).Contains(partofRenamingTemplateWhichDoesNotDependOnId))
+				return false;
+			return ElligibilityFilter(path);
 		}
+
 
 		/// <summary>
 		/// Does it make sense to offer this role as something the user can assign to this file?

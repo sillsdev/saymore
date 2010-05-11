@@ -26,15 +26,16 @@ namespace Sponge2.Model.Files
 		private readonly Type _releventElementType;
 		private readonly string _englishLabel;
 		public MeasurementTypes MeasurementType { get; private set; }
+		public Image Icon { get; set; }
 
 		//tells whether this file looks like it *might* be filling this role
 		public Func<string, bool> ElligibilityFilter { get; private set; }
 
-
 		private readonly string _renamingTemplate;
 
-
-		public ComponentRole(Type releventElementType, string id, string englishLabel, MeasurementTypes measurementType, Func<string, bool> elligibilityFilter, string renamingTemplate)
+		public ComponentRole(Type releventElementType, string id, string englishLabel,
+			MeasurementTypes measurementType, Func<string, bool> elligibilityFilter,
+			string renamingTemplate)
 		{
 			Id = id;
 			_releventElementType = releventElementType;
@@ -44,7 +45,6 @@ namespace Sponge2.Model.Files
 			_renamingTemplate = renamingTemplate;
 		}
 
-		public Image Icon { get; set; }
 
 		public string ConvertFileNameToMatchThisRole(string name)
 		{
@@ -57,7 +57,7 @@ namespace Sponge2.Model.Files
 		public bool IsMatch(string path)
 		{
 			return ((Func<string, bool>) (path1 => ElligibilityFilter(path1) &&
-									 (Path.GetFileNameWithoutExtension(path1).Contains(_renamingTemplate.Replace("$ElementId$","")))))(path);
+				(Path.GetFileNameWithoutExtension(path1).Contains(_renamingTemplate.Replace("$ElementId$","")))))(path);
 		}
 
 		/// <summary>

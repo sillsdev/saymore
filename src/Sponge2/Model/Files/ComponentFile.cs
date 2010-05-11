@@ -37,7 +37,7 @@ namespace Sponge2.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
 							IEnumerable<ComponentRole> componentRoles,
-							 FileSerializer fileSerializer)
+							FileSerializer fileSerializer)
 		{
 			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;

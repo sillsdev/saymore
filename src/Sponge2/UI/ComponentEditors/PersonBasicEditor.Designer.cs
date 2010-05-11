@@ -268,7 +268,8 @@ namespace Sponge2.UI.ComponentEditors
 			// _pbOtherLangMother3
 			// 
 			this._pbOtherLangMother3.BackColor = System.Drawing.Color.Transparent;
-			this._pbOtherLangMother3.Location = new System.Drawing.Point(328, 96);
+			this._pbOtherLangMother3.Location = new System.Drawing.Point(331, 96);
+			this._pbOtherLangMother3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangMother3.Name = "_pbOtherLangMother3";
 			this._pbOtherLangMother3.ParentType = Sponge2.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother3.Selected = false;
@@ -280,7 +281,8 @@ namespace Sponge2.UI.ComponentEditors
 			// 
 			this._pbOtherLangMother2.AllowDrop = true;
 			this._pbOtherLangMother2.BackColor = System.Drawing.Color.Transparent;
-			this._pbOtherLangMother2.Location = new System.Drawing.Point(328, 66);
+			this._pbOtherLangMother2.Location = new System.Drawing.Point(331, 66);
+			this._pbOtherLangMother2.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangMother2.Name = "_pbOtherLangMother2";
 			this._pbOtherLangMother2.ParentType = Sponge2.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother2.Selected = false;
@@ -291,7 +293,8 @@ namespace Sponge2.UI.ComponentEditors
 			// _pbOtherLangMother1
 			// 
 			this._pbOtherLangMother1.BackColor = System.Drawing.Color.Transparent;
-			this._pbOtherLangMother1.Location = new System.Drawing.Point(328, 36);
+			this._pbOtherLangMother1.Location = new System.Drawing.Point(331, 36);
+			this._pbOtherLangMother1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangMother1.Name = "_pbOtherLangMother1";
 			this._pbOtherLangMother1.ParentType = Sponge2.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother1.Selected = false;
@@ -302,7 +305,8 @@ namespace Sponge2.UI.ComponentEditors
 			// _pbOtherLangFather1
 			// 
 			this._pbOtherLangFather1.BackColor = System.Drawing.Color.Transparent;
-			this._pbOtherLangFather1.Location = new System.Drawing.Point(298, 36);
+			this._pbOtherLangFather1.Location = new System.Drawing.Point(307, 36);
+			this._pbOtherLangFather1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangFather1.Name = "_pbOtherLangFather1";
 			this._pbOtherLangFather1.ParentType = Sponge2.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather1.Selected = false;
@@ -312,31 +316,31 @@ namespace Sponge2.UI.ComponentEditors
 			// 
 			// _otherLanguage3
 			// 
-			this._otherLanguage3.Dock = System.Windows.Forms.DockStyle.Top;
+			this._otherLanguage3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._binder.SetIsBound(this._otherLanguage3, true);
 			this._otherLanguage3.Location = new System.Drawing.Point(0, 96);
 			this._otherLanguage3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage3.Name = "_otherLanguage3";
-			this._otherLanguage3.Size = new System.Drawing.Size(292, 23);
+			this._otherLanguage3.Size = new System.Drawing.Size(304, 23);
 			this._otherLanguage3.TabIndex = 9;
 			// 
 			// _otherLanguage0
 			// 
+			this._otherLanguage0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._otherLanguage0.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._otherLanguage0.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-			this._otherLanguage0.Dock = System.Windows.Forms.DockStyle.Top;
 			this._binder.SetIsBound(this._otherLanguage0, true);
 			this._otherLanguage0.Location = new System.Drawing.Point(0, 7);
 			this._otherLanguage0.Margin = new System.Windows.Forms.Padding(0, 7, 3, 3);
 			this._otherLanguage0.Name = "_otherLanguage0";
-			this._otherLanguage0.Size = new System.Drawing.Size(292, 23);
+			this._otherLanguage0.Size = new System.Drawing.Size(304, 23);
 			this._otherLanguage0.TabIndex = 0;
 			// 
 			// _pbOtherLangFather0
 			// 
 			this._pbOtherLangFather0.BackColor = System.Drawing.Color.Transparent;
-			this._pbOtherLangFather0.Location = new System.Drawing.Point(298, 7);
-			this._pbOtherLangFather0.Margin = new System.Windows.Forms.Padding(3, 7, 3, 0);
+			this._pbOtherLangFather0.Location = new System.Drawing.Point(307, 7);
+			this._pbOtherLangFather0.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this._pbOtherLangFather0.Name = "_pbOtherLangFather0";
 			this._pbOtherLangFather0.ParentType = Sponge2.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather0.Selected = false;
@@ -346,19 +350,19 @@ namespace Sponge2.UI.ComponentEditors
 			// 
 			// _otherLanguage1
 			// 
-			this._otherLanguage1.Dock = System.Windows.Forms.DockStyle.Top;
+			this._otherLanguage1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._binder.SetIsBound(this._otherLanguage1, true);
 			this._otherLanguage1.Location = new System.Drawing.Point(0, 36);
 			this._otherLanguage1.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage1.Name = "_otherLanguage1";
-			this._otherLanguage1.Size = new System.Drawing.Size(292, 23);
+			this._otherLanguage1.Size = new System.Drawing.Size(304, 23);
 			this._otherLanguage1.TabIndex = 3;
 			// 
 			// _pbOtherLangMother0
 			// 
 			this._pbOtherLangMother0.BackColor = System.Drawing.Color.Transparent;
-			this._pbOtherLangMother0.Location = new System.Drawing.Point(328, 7);
-			this._pbOtherLangMother0.Margin = new System.Windows.Forms.Padding(3, 7, 3, 0);
+			this._pbOtherLangMother0.Location = new System.Drawing.Point(331, 7);
+			this._pbOtherLangMother0.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this._pbOtherLangMother0.Name = "_pbOtherLangMother0";
 			this._pbOtherLangMother0.ParentType = Sponge2.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother0.Selected = false;
@@ -368,18 +372,19 @@ namespace Sponge2.UI.ComponentEditors
 			// 
 			// _otherLanguage2
 			// 
-			this._otherLanguage2.Dock = System.Windows.Forms.DockStyle.Top;
+			this._otherLanguage2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._binder.SetIsBound(this._otherLanguage2, true);
 			this._otherLanguage2.Location = new System.Drawing.Point(0, 66);
 			this._otherLanguage2.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage2.Name = "_otherLanguage2";
-			this._otherLanguage2.Size = new System.Drawing.Size(292, 23);
+			this._otherLanguage2.Size = new System.Drawing.Size(304, 23);
 			this._otherLanguage2.TabIndex = 6;
 			// 
 			// _pbOtherLangFather2
 			// 
 			this._pbOtherLangFather2.BackColor = System.Drawing.Color.Transparent;
-			this._pbOtherLangFather2.Location = new System.Drawing.Point(298, 66);
+			this._pbOtherLangFather2.Location = new System.Drawing.Point(307, 66);
+			this._pbOtherLangFather2.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangFather2.Name = "_pbOtherLangFather2";
 			this._pbOtherLangFather2.ParentType = Sponge2.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather2.Selected = false;
@@ -390,7 +395,8 @@ namespace Sponge2.UI.ComponentEditors
 			// _pbOtherLangFather3
 			// 
 			this._pbOtherLangFather3.BackColor = System.Drawing.Color.Transparent;
-			this._pbOtherLangFather3.Location = new System.Drawing.Point(298, 96);
+			this._pbOtherLangFather3.Location = new System.Drawing.Point(307, 96);
+			this._pbOtherLangFather3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangFather3.Name = "_pbOtherLangFather3";
 			this._pbOtherLangFather3.ParentType = Sponge2.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather3.Selected = false;
@@ -456,8 +462,8 @@ namespace Sponge2.UI.ComponentEditors
 			// _pbPrimaryLangMother
 			// 
 			this._pbPrimaryLangMother.BackColor = System.Drawing.Color.Transparent;
-			this._pbPrimaryLangMother.Location = new System.Drawing.Point(328, 7);
-			this._pbPrimaryLangMother.Margin = new System.Windows.Forms.Padding(3, 7, 3, 0);
+			this._pbPrimaryLangMother.Location = new System.Drawing.Point(331, 7);
+			this._pbPrimaryLangMother.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this._pbPrimaryLangMother.Name = "_pbPrimaryLangMother";
 			this._pbPrimaryLangMother.ParentType = Sponge2.UI.LowLevelControls.ParentType.Mother;
 			this._pbPrimaryLangMother.Selected = false;
@@ -468,8 +474,8 @@ namespace Sponge2.UI.ComponentEditors
 			// _pbPrimaryLangFather
 			// 
 			this._pbPrimaryLangFather.BackColor = System.Drawing.Color.Transparent;
-			this._pbPrimaryLangFather.Location = new System.Drawing.Point(298, 7);
-			this._pbPrimaryLangFather.Margin = new System.Windows.Forms.Padding(3, 7, 3, 0);
+			this._pbPrimaryLangFather.Location = new System.Drawing.Point(307, 7);
+			this._pbPrimaryLangFather.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this._pbPrimaryLangFather.Name = "_pbPrimaryLangFather";
 			this._pbPrimaryLangFather.ParentType = Sponge2.UI.LowLevelControls.ParentType.Father;
 			this._pbPrimaryLangFather.Selected = false;
@@ -489,15 +495,15 @@ namespace Sponge2.UI.ComponentEditors
 			// 
 			// _primaryLanguage
 			// 
+			this._primaryLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._primaryLanguage.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._primaryLanguage.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutPrimaryLanguage.SetColumnSpan(this._primaryLanguage, 2);
-			this._primaryLanguage.Dock = System.Windows.Forms.DockStyle.Top;
 			this._binder.SetIsBound(this._primaryLanguage, true);
 			this._primaryLanguage.Location = new System.Drawing.Point(0, 7);
 			this._primaryLanguage.Margin = new System.Windows.Forms.Padding(0, 7, 3, 3);
 			this._primaryLanguage.Name = "_primaryLanguage";
-			this._primaryLanguage.Size = new System.Drawing.Size(292, 23);
+			this._primaryLanguage.Size = new System.Drawing.Size(304, 23);
 			this._primaryLanguage.TabIndex = 0;
 			// 
 			// _primaryLanguageLearnedIn

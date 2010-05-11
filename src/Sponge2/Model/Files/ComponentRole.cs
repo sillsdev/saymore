@@ -33,8 +33,9 @@ namespace Sponge2.Model.Files
 
 		private readonly string _renamingTemplate;
 
-
-		public ComponentRole(Type releventElementType, string id, string englishLabel, MeasurementTypes measurementType, Func<string, bool> elligibilityFilter, string renamingTemplate)
+		/// ------------------------------------------------------------------------------------
+		public ComponentRole(Type releventElementType, string id, string englishLabel,
+			MeasurementTypes measurementType, Func<string, bool> elligibilityFilter, string renamingTemplate)
 		{
 			Id = id;
 			_releventElementType = releventElementType;

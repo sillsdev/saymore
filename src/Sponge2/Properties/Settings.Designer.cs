@@ -192,28 +192,54 @@ namespace Sponge2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".mp3, .wav, .wma, .acc, .ogg")]
-        public string AudioFileExtensions {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>.mp3</string>
+  <string>.wav</string>
+  <string>.wma</string>
+  <string>.acc</string>
+  <string>.ogg</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection AudioFileExtensions {
             get {
-                return ((string)(this["AudioFileExtensions"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["AudioFileExtensions"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".wmv, .avi, .mpg, .mpeg, .mpa, .asf, .mov")]
-        public string VideoFileExtensions {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>.wmv</string>
+  <string>.avi</string>
+  <string>.mpg</string>
+  <string>.mpeg</string>
+  <string>.mpa</string>
+  <string>.asf</string>
+  <string>.mov</string>
+  <string>.mp4</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection VideoFileExtensions {
             get {
-                return ((string)(this["VideoFileExtensions"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["VideoFileExtensions"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".jpg, .jpeg, .gif, .tif, .png, .bmp, .dib")]
-        public string ImageFileExtensions {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>.jpg</string>
+  <string>.jpeg</string>
+  <string>.gif</string>
+  <string>.tif</string>
+  <string>.png</string>
+  <string>.bmp</string>
+  <string>.dib</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection ImageFileExtensions {
             get {
-                return ((string)(this["ImageFileExtensions"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["ImageFileExtensions"]));
             }
         }
         

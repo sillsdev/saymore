@@ -86,6 +86,12 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Session.cs" />
+    <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\AudioComponentEditor.Designer.cs">
+      <DependentUpon>AudioComponentEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ComponentEditors\BindingHelper.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -133,6 +139,12 @@
     </Compile>
     <Compile Include="UI\LowLevelControls\ParentButton.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\VisuallyDynamicTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\VisuallyDynamicTextBox.designer.cs">
+      <DependentUpon>VisuallyDynamicTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.cs">
       <SubType>Form</SubType>
@@ -198,6 +210,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="UI\ComponentEditors\AudioComponentEditor.resx">
+      <DependentUpon>AudioComponentEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\PersonBasicEditor.resx">
       <DependentUpon>PersonBasicEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -215,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\VisuallyDynamicTextBox.resx">
+      <DependentUpon>VisuallyDynamicTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.resx">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>

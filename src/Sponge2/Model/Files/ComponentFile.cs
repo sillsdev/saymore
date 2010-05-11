@@ -54,6 +54,7 @@ namespace Sponge2.Model.Files
 			DetermineFileType(pathToAnnotatedFile, fileTypes);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private static string ComputeMetaDataPath(string pathToAnnotatedFile)
 		{
 			return pathToAnnotatedFile + ".meta";
@@ -65,7 +66,7 @@ namespace Sponge2.Model.Files
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected ComponentFile(string filePath, FileType fileType,
-							 FileSerializer fileSerializer, string rootElementName)
+			FileSerializer fileSerializer, string rootElementName)
 		{
 			FileType = fileType;
 			_fileSerializer = fileSerializer;
@@ -139,11 +140,11 @@ namespace Sponge2.Model.Files
 			}
 		}
 
-
-
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// What part(s) does this file play in the workflow of the session/person?
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentRole> GetAssignedRoles()
 		{
 			return from r in _componentRoles
@@ -151,11 +152,13 @@ namespace Sponge2.Model.Files
 			   select r;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Judging by the path (and maybe contents of the file itself), what
 		/// parts might this file conceivably play in the workflow of the session/person?
 		/// This is used to offer the user choices of assigning roles.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentRole> GetPotentialRoles()
 		{
 			return from r in _componentRoles
@@ -218,20 +221,20 @@ namespace Sponge2.Model.Files
 					string label = string.Format("Rename For {0}", role.Name);
 					ComponentRole role1 = role;
 					yield return new ToolStripMenuItem(label, null, (sender, args) =>
-							{
-								AssignRole(role1);
-								refreshAction();
-							});
-
+					{
+						AssignRole(role1);
+						refreshAction();
+					});
 				}
 		   }
-
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Rename the file so that it is clear (visually and programatically) that this file
 		/// plays this role.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void AssignRole(ComponentRole role)
 		{
 			var nameOfParentFolderWhichIsAlsoElementId = Path.GetFileName(Path.GetDirectoryName(PathToAnnotatedFile));
@@ -240,6 +243,7 @@ namespace Sponge2.Model.Files
 			RenameAnnotatedFile(newPath);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void RenameAnnotatedFile(string newPath)
 		{
 			try
@@ -260,9 +264,16 @@ namespace Sponge2.Model.Files
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public virtual void HandleDoubleClick()
 		{
 			FileCommand.HandleOpenInApp_Click(PathToAnnotatedFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return PathToAnnotatedFile;
 		}
 	}
 }

@@ -4,12 +4,15 @@ using System.IO;
 
 namespace Sponge2.Model.Files
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// A FileCommand is something the user can do with a file, normally by using a
 	/// context menu. E.g. rename, view in explorer, edit, etc.
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class FileCommand
 	{
+		/// ------------------------------------------------------------------------------------
 		public FileCommand(string englishLabel, Action<string> action)
 		{
 			EnglishLabel = englishLabel;
@@ -48,6 +51,12 @@ namespace Sponge2.Model.Files
 			{
 				Palaso.Reporting.ErrorReport.ReportNonFatalException(error);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return EnglishLabel;
 		}
 	}
 }

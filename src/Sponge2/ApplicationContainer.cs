@@ -1,10 +1,12 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Autofac;
 using Sponge2.Model;
 using Sponge2.Model.Files;
+using Sponge2.Properties;
 using Sponge2.UI.ProjectChoosingAndCreating;
 
 namespace Sponge2
@@ -34,27 +36,36 @@ namespace Sponge2
 		{
 			get
 			{
+				yield return new
+					ComponentRole(typeof (Session), "original", "Original Recording",
+						ComponentRole.MeasurementTypes.Time,
+						ComponentRole.GetIsAudioVideo, "$ElementId$_Original");
+
 				yield return
-					new ComponentRole(typeof (Session), "original", "Original Recording", ComponentRole.MeasurementTypes.Time,
-									  ComponentRole.GetIsAudioVideo, "$ElementId$_Original");
+					new ComponentRole(typeof (Session), "carefulSpeech", "Careful Speech",
+						ComponentRole.MeasurementTypes.Time,
+						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful");
+
 				yield return
-					new ComponentRole(typeof (Session), "carefulSpeech", "Careful Speech", ComponentRole.MeasurementTypes.Time,
-									  ComponentRole.GetIsAudioVideo, "$ElementId$_Careful");
+					new ComponentRole(typeof (Session), "oralTranslation", "Oral Translation",
+						ComponentRole.MeasurementTypes.Time,
+						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation");
+
 				yield return
-					new ComponentRole(typeof (Session), "oralTranslation", "Oral Translation", ComponentRole.MeasurementTypes.Time,
-									  ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation");
+					new ComponentRole(typeof (Session), "transcription", "Transcription",
+						ComponentRole.MeasurementTypes.Words,
+						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Transcription");
+
 				yield return
-					new ComponentRole(typeof (Session), "transcription", "Transcription", ComponentRole.MeasurementTypes.Words,
-									  (p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Transcription");
+					new ComponentRole(typeof (Session), "transcriptionN", "Written Translation",
+						ComponentRole.MeasurementTypes.Words,
+						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N");
+
 				yield return
-					new ComponentRole(typeof (Session), "transcriptionN", "Written Translation", ComponentRole.MeasurementTypes.Words,
-									  (p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N");
-				yield return
-					new ComponentRole(typeof (Person), "consent", "Informed Consent", ComponentRole.MeasurementTypes.None, (p => true),
-									  "$ElementId$_Consent");
+					new ComponentRole(typeof (Person), "consent", "Informed Consent",
+						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent");
 			}
 		}
-
 
 		public WelcomeDialog CreateWelcomeDialog()
 		{
@@ -67,9 +78,13 @@ namespace Sponge2
 			{
 				yield return new SessionFileType();
 				yield return new PersonFileType();
-				yield return FileType.Create("video", new[] {".avi", ".mov", ".mp4"});
-				yield return FileType.Create("image", new[] {".jpg", ".tiff", ".bmp"});
-				yield return FileType.Create("audio", new[] {".mp3", ".wav", ".ogg"});
+				yield return new AudioFileType();
+
+				yield return FileType.Create("Video",
+					Settings.Default.VideoFileExtensions.Cast<string>().ToArray());
+
+				yield return FileType.Create("Image",
+					Settings.Default.ImageFileExtensions.Cast<string>().ToArray());
 			}
 		}
 

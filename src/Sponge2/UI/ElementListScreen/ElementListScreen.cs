@@ -6,21 +6,25 @@ using SilUtils;
 using Sponge2.Model;
 using Sponge2.UI.ComponentEditors;
 using Sponge2.UI.LowLevelControls;
-using Sponge2.UI.ProjectWindow;
 
 namespace Sponge2.UI.ElementListScreen
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// This is the base class for both People and Session screens.
 	///
 	/// Review for later: Some alternate ways to approach this:
-	/// * separate the 3 main areas of these screens into separate controls, each
-	/// with their own view model as needed.  This way the two screens could be more
+	///
+	/// * Separate the 3 main areas of these screens into separate controls, each
+	/// with their own view model as needed. This way the two screens could be more
 	/// naturally customized as needed.
-	/// *Move away from knowing about the generics at this level, and instead take an
-	/// IElementListViewModel. Leave it to the DI to give us the right one.  That might
-	/// have been an easier approach than what I've done here.
+	///
+	/// * Move away from knowing about the generics
+	/// at this level, and instead take an IElementListViewModel. Leave it to the DI to
+	/// give us the right one.  That might have been an easier approach than what I've
+	/// done here.
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class ElementListScreen<T> : UserControl where T : ProjectElement
 	{
 		protected readonly ElementListViewModel<T> _model;
@@ -33,10 +37,6 @@ namespace Sponge2.UI.ElementListScreen
 		public ElementListScreen(ElementListViewModel<T> presentationModel)
 		{
 			_model = presentationModel;
-			//	InitializeComponent();
-
-			if (DesignMode)
-				return;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace Sponge2.UI.ElementListScreen
 		/// Called by the component file grid when the user chooses a different file
 		/// </summary>
 		//review: why use index, why not the object?
-		// If the object is used, the caller of this delegate would have to get the object
+		// Answser: If the object is used, the caller of this delegate would have to get the object
 		// this way: _model.GetComponentFile(index). Using the index here is really just
 		// passing off to the model the inevitable job of indexing into the component file list.
 		// The grid (i.e. the only object calling this delegate so far) does not keep a
@@ -81,7 +81,6 @@ namespace Sponge2.UI.ElementListScreen
 		protected void LoadElementList()
 		{
 			var elements = _model.Elements.Cast<object>().ToList();
-
 			_elementsListPanel.AddRange(elements);
 
 			if (elements.Count > 0)
@@ -96,7 +95,7 @@ namespace Sponge2.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected void UpdateComponentList()
 		{
-			var componentsOfSelectedElement = _model.ComponentsOfSelectedElement;
+			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement();
 			_componentFilesControl.UpdateComponentList(componentsOfSelectedElement);
 
 			foreach (var componentFile in componentsOfSelectedElement)

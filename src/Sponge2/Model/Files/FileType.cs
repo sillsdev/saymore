@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sponge2.Properties;
 using Sponge2.UI.ComponentEditors;
 
 namespace Sponge2.Model.Files
@@ -19,7 +20,7 @@ namespace Sponge2.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static FileType Create(string name, string matchForEndOfFileName)
 		{
-			return new FileType(name, p=> p.EndsWith(matchForEndOfFileName));
+			return new FileType(name, p => p.EndsWith(matchForEndOfFileName));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -43,6 +44,10 @@ namespace Sponge2.Model.Files
 
 		public virtual IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
+			System.Diagnostics.Debug.Write(file.ToString());
+
+
+
 			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "Info");
 			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "TEST");
 		}
@@ -105,7 +110,7 @@ namespace Sponge2.Model.Files
 		EditorProvider _provider;
 
 		/// ------------------------------------------------------------------------------------
-		public SessionFileType() : base("Session", p=> p.EndsWith(".session"))
+		public SessionFileType() : base("Session", p => p.EndsWith(".session"))
 		{
 		}
 
@@ -130,6 +135,30 @@ namespace Sponge2.Model.Files
 				yield return new FileCommand("Show in File Explorer...",
 					FileCommand.HandleOpenInFileManager_Click);
 			}
+		}
+	}
+
+	#endregion
+
+	#region AudioFileType class
+	/// ----------------------------------------------------------------------------------------
+	public class AudioFileType : FileType
+	{
+		EditorProvider _provider;
+
+		/// ------------------------------------------------------------------------------------
+		public AudioFileType() : base("Audio",
+			p => Settings.Default.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		{
+			if (_provider == null)
+				_provider = new EditorProvider(new AudioComponentEditor(), "Audio");
+
+			yield return _provider;
 		}
 	}
 

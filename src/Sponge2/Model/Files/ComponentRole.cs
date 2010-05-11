@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -56,7 +55,8 @@ namespace Sponge2.Model.Files
 		/// </summary>
 		public bool IsMatch(string path)
 		{
-			if(!Path.GetFileNameWithoutExtension(path).Contains(partofRenamingTemplateWhichDoesNotDependOnId))
+			string partofRenamingTemplateWhichDoesNotDependOnId = _renamingTemplate.Replace("$ElementId$", "");
+			if (!Path.GetFileNameWithoutExtension(path).Contains(partofRenamingTemplateWhichDoesNotDependOnId))
 				return false;
 			return ElligibilityFilter(path);
 		}

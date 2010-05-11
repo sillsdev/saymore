@@ -60,6 +60,7 @@ namespace Sponge2.UI.ElementListScreen
 			LoadElementList();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Called by the component file grid when the user chooses a different file
 		/// </summary>
@@ -69,6 +70,7 @@ namespace Sponge2.UI.ElementListScreen
 		// passing off to the model the inevitable job of indexing into the component file list.
 		// The grid (i.e. the only object calling this delegate so far) does not keep a
 		// reference to each component files that it can pass to this delegate.
+		/// ------------------------------------------------------------------------------------
 		private void OnComponentSelectedCallback(int index)
 		{
 			_model.SetSelectedComponentFile(index);

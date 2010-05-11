@@ -29,7 +29,7 @@ namespace Sponge2.UI.ElementListScreen
 			_grid.CellMouseClick += HandleMouseClick;
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
-			_grid.RowEnter += HandleFileGridRowEnter;
+			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
 			_grid.Font = SystemFonts.IconTitleFont;
 		}
 
@@ -87,18 +87,10 @@ namespace Sponge2.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void HandleFileGridRowEnter(object sender, DataGridViewCellEventArgs e)
+		void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
-			// This event is fired even when the grid gains focus without the row actually
-			// changing, therefore we should just ignore the event when the row hasn't changed.
-			if (e.RowIndex != _grid.CurrentCellAddress.Y)
-			{
-				//Model.SetSelectedComponentFile(e.RowIndex);
-				if (null != ComponentSelectedCallback)
-				{
-					ComponentSelectedCallback(e.RowIndex);
-				}
-			}
+			if (null != ComponentSelectedCallback)
+				ComponentSelectedCallback(_grid.CurrentCellAddress.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -34,10 +34,6 @@ namespace SIL.Sponge.Views
 		private PresetProvider _presetProvider;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SessionsVw"/> class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SessionsVw()
 		{
 			InitializeComponent();
@@ -74,7 +70,6 @@ namespace SIL.Sponge.Views
 			lpSessions.InsertButton(1, btnNewFromFiles);
 		}
 
-		/// ------------------------------------------------------------------------------------
 		/// ------------------------------------------------------------------------------------
 		public SessionsVw(SpongeProject _prj, Func<IEnumerable<string>> peopleNameProvider)
 			: this()

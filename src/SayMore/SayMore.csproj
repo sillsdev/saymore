@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A61F5E06-CACD-40FA-BBAD-8744212AF14E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SayMore</RootNamespace>
+    <AssemblyName>SayMore</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=2.1.13.813, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="LocalizationManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\common\LocalizationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
+    </Reference>
+    <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\common\SilUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model\Fields\DiscourseType.cs" />
+    <Compile Include="Model\EditorProvider.cs" />
+    <Compile Include="Model\ElementRepository.cs" />
+    <Compile Include="Model\Fields\FieldDefinition.cs" />
+    <Compile Include="ApplicationContainer.cs" />
+    <Compile Include="Model\Fields\FieldTemplate.cs" />
+    <Compile Include="Model\Fields\FieldValue.cs" />
+    <Compile Include="Model\Files\FileCommand.cs" />
+    <Compile Include="Model\Files\UnknownFileType.cs" />
+    <Compile Include="Model\Files\FileSerializer.cs" />
+    <Compile Include="Model\Files\ProjectElementComponentFile.cs" />
+    <Compile Include="ProjectContext.cs" />
+    <Compile Include="Model\Files\ComponentFile.cs" />
+    <Compile Include="Model\Files\ComponentRole.cs" />
+    <Compile Include="Model\Contribution.cs" />
+    <Compile Include="Model\Files\FileType.cs" />
+    <Compile Include="Model\Person.cs" />
+    <Compile Include="Model\Project.cs" />
+    <Compile Include="Model\ProjectElement.cs" />
+    <Compile Include="Model\Session.cs" />
+    <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\AudioComponentEditor.Designer.cs">
+      <DependentUpon>AudioComponentEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\BindingHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\EditorBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\PersonBasicEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\PersonBasicEditor.Designer.cs">
+      <DependentUpon>PersonBasicEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\DiagnosticsFileInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\DiagnosticsFileInfoControl.Designer.cs">
+      <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\SessionBasicEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\SessionBasicEditor.Designer.cs">
+      <DependentUpon>SessionBasicEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\ComponentEditorTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\ComponentFileGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\ComponentFileGrid.Designer.cs">
+      <DependentUpon>ComponentFileGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\PersonListScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\PersonListScreen.Designer.cs">
+      <DependentUpon>PersonListScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\ElementListScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\ElementListScreen.Designer.cs">
+      <DependentUpon>ElementListScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\ParentButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\VisuallyDynamicTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\VisuallyDynamicTextBox.designer.cs">
+      <DependentUpon>VisuallyDynamicTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.Designer.cs">
+      <DependentUpon>NewProjectDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlgViewModel.cs" />
+    <Compile Include="UI\ProjectChoosingAndCreating\WelcomeDialogViewModel.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\ElementListViewModel.cs" />
+    <Compile Include="UI\ElementListScreen\SessionScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\SessionScreen.Designer.cs">
+      <DependentUpon>SessionScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ProjectWindow\ProjectWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ProjectWindow\ProjectWindow.Designer.cs">
+      <DependentUpon>ProjectWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ProjectChoosingAndCreating\MruProjects.cs" />
+    <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\PathValidator.cs" />
+    <Compile Include="UI\ProjectChoosingAndCreating\WelcomeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ProjectChoosingAndCreating\WelcomeDialog.Designer.cs">
+      <DependentUpon>WelcomeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\GridPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\HoverCueTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\HoverCueTextBox.Designer.cs">
+      <DependentUpon>HoverCueTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\IInfoPanelField.cs" />
+    <Compile Include="UI\LowLevelControls\LabeledTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\LabeledTextBox.Designer.cs">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\ListPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\ListPanel.Designer.cs">
+      <DependentUpon>ListPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\SpongeBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\UnderlinedHdgBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="UI\ComponentEditors\AudioComponentEditor.resx">
+      <DependentUpon>AudioComponentEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\PersonBasicEditor.resx">
+      <DependentUpon>PersonBasicEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\DiagnosticsFileInfoControl.resx">
+      <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\SessionBasicEditor.resx">
+      <DependentUpon>SessionBasicEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ElementListScreen\ComponentFileGrid.resx">
+      <DependentUpon>ComponentFileGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ElementListScreen\PersonListScreen.resx">
+      <DependentUpon>PersonListScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
+      <DependentUpon>ElementListScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\VisuallyDynamicTextBox.resx">
+      <DependentUpon>VisuallyDynamicTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.resx">
+      <DependentUpon>NewProjectDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ElementListScreen\SessionScreen.resx">
+      <DependentUpon>SessionScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProjectWindow\ProjectWindow.resx">
+      <DependentUpon>ProjectWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProjectChoosingAndCreating\WelcomeDialog.resx">
+      <DependentUpon>WelcomeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\HoverCueTextBox.resx">
+      <DependentUpon>HoverCueTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\LabeledTextBox.resx">
+      <DependentUpon>LabeledTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\ListPanel.resx">
+      <DependentUpon>ListPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UI\Utilities\IconHelper.cs" />
+    <Compile Include="UI\Utilities\SpongeColors.cs" />
+    <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UI\LowLevelControls\Readme.txt" />
+    <None Include="app.config" />
+    <None Include="Resources\Warning.png" />
+    <None Include="Resources\SpongeText.png" />
+    <None Include="Resources\SpongeSmall.png" />
+    <None Include="Resources\Sponge.png" />
+    <None Include="Resources\Sponge.ico" />
+    <None Include="Resources\shortSound.wav" />
+    <None Include="Resources\Setup.png" />
+    <None Include="Resources\Sessions.png" />
+    <None Include="Resources\SendReceive.png" />
+    <None Include="Resources\People.png" />
+    <None Include="Resources\People-orig.png" />
+    <None Include="Resources\Overview.png" />
+    <None Include="Resources\NoPhotoSilhouette.png" />
+    <None Include="Resources\NoPermissionsWarning.png" />
+    <None Include="Resources\NewProject.png" />
+    <None Include="Resources\More_Action.png" />
+    <None Include="Resources\Male_Selected.png" />
+    <None Include="Resources\Male_NotSelected.png" />
+    <None Include="Resources\FolderOpen.png" />
+    <None Include="Resources\finished.wav" />
+    <None Include="Resources\Female_Selected.png" />
+    <None Include="Resources\Female_NotSelected.png" />
+    <None Include="Resources\ChangePicture.png" />
+    <None Include="Resources\BrowseForProject.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\DiscourseTypes.xml" "$(OutDir)"
+if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"</PreBuildEvent>
+  </PropertyGroup>
+</Project>

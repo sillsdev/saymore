@@ -1,0 +1,1354 @@
+<?xml version="1.0"?>
+<doc>
+	<assembly>
+		<name>PalasoUIWindowsForms</name>
+	</assembly>
+	<members>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.VoiceIdentifierView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.VoiceIdentifierView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.VoiceIdentifierView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.CustomIdentifierView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.CustomIdentifierView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.CustomIdentifierView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.LookupISOCodeDialog.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.LookupISOCodeDialog.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.LookupISOCodeDialog.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.HotSpot.HotSpotProvider.HotSpotPainter.GetHotSpotsFromOffset(System.Int32)">
+			<summary>
+			Find the first HotArea that contains the offset
+			</summary>
+			<returns>null when no HotArea contains the offset</returns>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.IpaIdentifierView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.IpaIdentifierView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.IpaIdentifierView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.Widgets.BetterLabel">
+			<summary>
+			Labels are fairly limitted even in .net, but on mono so far, multi-line
+			labels are trouble.  This class uses TextBox to essentially be a better
+			cross-platform label.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.Widgets.BetterLabel.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Widgets.BetterLabel.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Widgets.BetterLabel.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertySpec.#ctor(System.String,System.String,System.Type)">
+			<summary>
+			Initializes a new instance of the PropertySpec class.
+			</summary>
+			<param name="name">The name of the property displayed in the property grid.</param>
+			<param name="type">A Type that represents the type of the property.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertySpec.#ctor(System.String,System.String,System.Type,System.String)">
+			<summary>
+			Initializes a new instance of the PropertySpec class.
+			</summary>
+			<param name="name">The name of the property displayed in the property grid.</param>
+			<param name="type">A Type that represents the type of the property.</param>
+			<param name="category">The category under which the property is displayed in the
+			property grid.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertySpec.#ctor(System.String,System.String,System.Type,System.String,System.String)">
+			<summary>
+			Initializes a new instance of the PropertySpec class.
+			</summary>
+			<param name="name">The name of the property displayed in the property grid.</param>
+			<param name="type">A Type that represents the type of the property.</param>
+			<param name="category">The category under which the property is displayed in the
+			property grid.</param>
+			<param name="description">A string that is displayed in the help area of the
+			property grid.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertySpec.#ctor(System.String,System.String,System.Type,System.String,System.String,System.Object)">
+			<summary>
+			Initializes a new instance of the PropertySpec class.
+			</summary>
+			<param name="name">The name of the property displayed in the property grid.</param>
+			<param name="type">A Type that represents the type of the property.</param>
+			<param name="category">The category under which the property is displayed in the
+			property grid.</param>
+			<param name="description">A string that is displayed in the help area of the
+			property grid.</param>
+			<param name="defaultValue">The default value of the property, or null if there is
+			no default value.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertySpec.#ctor(System.String,System.String,System.Type,System.String,System.String,System.Object,System.String,System.Type)">
+			<summary>
+			Initializes a new instance of the PropertySpec class.
+			</summary>
+			<param name="name">The name of the property displayed in the property grid.</param>
+			<param name="type">A Type that represents the type of the property.</param>
+			<param name="category">The category under which the property is displayed in the
+			property grid.</param>
+			<param name="description">A string that is displayed in the help area of the
+			property grid.</param>
+			<param name="defaultValue">The default value of the property, or null if there is
+			no default value.</param>
+			<param name="editor">The fully qualified name of the type of the editor for this
+			property.  This type must derive from UITypeEditor.</param>
+			<param name="typeConverter">The Type that represents the type of the type
+			converter for this property.  This type must derive from TypeConverter.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertySpec.#ctor(System.String,System.String,System.Type,System.String,System.String,System.Object,System.Type,System.Type)">
+			<summary>
+			Initializes a new instance of the PropertySpec class.
+			</summary>
+			<param name="name">The name of the property displayed in the property grid.</param>
+			<param name="type">A Type that represents the type of the property.</param>
+			<param name="category">The category under which the property is displayed in the
+			property grid.</param>
+			<param name="description">A string that is displayed in the help area of the
+			property grid.</param>
+			<param name="defaultValue">The default value of the property, or null if there is
+			no default value.</param>
+			<param name="editor">The Type that represents the type of the editor for this
+			property.  This type must derive from UITypeEditor.</param>
+			<param name="typeConverter">The Type that represents the type of the type
+			converter for this property.  This type must derive from TypeConverter.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertySpec.#ctor(System.String,System.String,System.String,System.String,System.String[],System.String)">
+			<summary>
+			Initializes a new instance of the PropertySpec class.
+			</summary>
+			<param name="name">The name of the property displayed in the property grid.</param>
+			<param name="category">The category under which the property is displayed in the
+			property grid.</param>
+			<param name="description">A string that is displayed in the help area of the
+			property grid.</param>
+			<param name="enumValues">Allowed enum values.</param>
+			<param name="defaultValue">The default value of the property, or null if there is
+			no default value.</param>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertySpec.Attributes">
+			<summary>
+			Gets or sets a collection of additional Attributes for this property.  This can
+			be used to specify attributes beyond those supported intrinsically by the
+			PropertySpec class, such as ReadOnly and Browsable.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertySpec.ConverterTypeName">
+			<summary>
+			Gets or sets the type converter type for this property.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertySpec.EditorTypeName">
+			<summary>
+			Gets or sets the fully qualified name of the editor type for this property.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertySpec.TypeName">
+			<summary>
+			Gets or sets the type of this property.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.PropertySpecEventArgs">
+			<summary>
+			Provides data for the GetValue and SetValue events of the PropertyBag class.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertySpecEventArgs.#ctor(Palaso.UI.WindowsForms.PropertySpec,System.Object)">
+			<summary>
+			Initializes a new instance of the PropertySpecEventArgs class.
+			</summary>
+			<param name="property">The PropertySpec that represents the property whose
+			value is being requested or set.</param>
+			<param name="val">The current value of the property.</param>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertySpecEventArgs.Property">
+			<summary>
+			Gets the PropertySpec that represents the property whose value is being
+			requested or set.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertySpecEventArgs.Value">
+			<summary>
+			Gets or sets the current value of the property.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.PropertySpecEventHandler">
+			<summary>
+			Represents the method that will handle the GetValue and SetValue events of the
+			PropertyBag class.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.PropertyBag">
+			<summary>
+			Represents a collection of custom properties that can be selected into a
+			PropertyGrid to provide functionality beyond that of the simple reflection
+			normally used to query an object's properties.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.OnGetValue(Palaso.UI.WindowsForms.PropertySpecEventArgs)">
+			<summary>
+			Raises the GetValue event.
+			</summary>
+			<param name="e">A PropertySpecEventArgs that contains the event data.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.OnSetValue(Palaso.UI.WindowsForms.PropertySpecEventArgs)">
+			<summary>
+			Raises the SetValue event.
+			</summary>
+			<param name="e">A PropertySpecEventArgs that contains the event data.</param>
+		</member>
+		<member name="E:Palaso.UI.WindowsForms.PropertyBag.GetValue">
+			<summary>
+			Occurs when a PropertyGrid requests the value of a property.
+			</summary>
+		</member>
+		<member name="E:Palaso.UI.WindowsForms.PropertyBag.SetValue">
+			<summary>
+			Occurs when the user changes the value of a property in a PropertyGrid.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection">
+			<summary>
+			Encapsulates a collection of PropertySpec objects.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.#ctor">
+			<summary>
+			Initializes a new instance of the PropertySpecCollection class.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.Add(Palaso.UI.WindowsForms.PropertySpec)">
+			<summary>
+			Adds a PropertySpec to the end of the PropertySpecCollection.
+			</summary>
+			<param name="value">The PropertySpec to be added to the end of the PropertySpecCollection.</param>
+			<returns>The PropertySpecCollection index at which the value has been added.</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.AddRange(Palaso.UI.WindowsForms.PropertySpec[])">
+			<summary>
+			Adds the elements of an array of PropertySpec objects to the end of the PropertySpecCollection.
+			</summary>
+			<param name="array">The PropertySpec array whose elements should be added to the end of the
+			PropertySpecCollection.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.Clear">
+			<summary>
+			Removes all elements from the PropertySpecCollection.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.Contains(Palaso.UI.WindowsForms.PropertySpec)">
+			<summary>
+			Determines whether a PropertySpec is in the PropertySpecCollection.
+			</summary>
+			<param name="item">The PropertySpec to locate in the PropertySpecCollection. The element to locate
+			can be a null reference (Nothing in Visual Basic).</param>
+			<returns>true if item is found in the PropertySpecCollection; otherwise, false.</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.Contains(System.String)">
+			<summary>
+			Determines whether a PropertySpec with the specified name is in the PropertySpecCollection.
+			</summary>
+			<param name="name">The name of the PropertySpec to locate in the PropertySpecCollection.</param>
+			<returns>true if item is found in the PropertySpecCollection; otherwise, false.</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.CopyTo(Palaso.UI.WindowsForms.PropertySpec[])">
+			<summary>
+			Copies the entire PropertySpecCollection to a compatible one-dimensional Array, starting at the
+			beginning of the target array.
+			</summary>
+			<param name="array">The one-dimensional Array that is the destination of the elements copied
+			from PropertySpecCollection. The Array must have zero-based indexing.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.CopyTo(Palaso.UI.WindowsForms.PropertySpec[],System.Int32)">
+			<summary>
+			Copies the PropertySpecCollection or a portion of it to a one-dimensional array.
+			</summary>
+			<param name="array">The one-dimensional Array that is the destination of the elements copied
+			from the collection.</param>
+			<param name="index">The zero-based index in array at which copying begins.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.GetEnumerator">
+			<summary>
+			Returns an enumerator that can iterate through the PropertySpecCollection.
+			</summary>
+			<returns>An IEnumerator for the entire PropertySpecCollection.</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.IndexOf(Palaso.UI.WindowsForms.PropertySpec)">
+			<summary>
+			Searches for the specified PropertySpec and returns the zero-based index of the first
+			occurrence within the entire PropertySpecCollection.
+			</summary>
+			<param name="value">The PropertySpec to locate in the PropertySpecCollection.</param>
+			<returns>The zero-based index of the first occurrence of value within the entire PropertySpecCollection,
+			if found; otherwise, -1.</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.IndexOf(System.String)">
+			<summary>
+			Searches for the PropertySpec with the specified name and returns the zero-based index of
+			the first occurrence within the entire PropertySpecCollection.
+			</summary>
+			<param name="name">The name of the PropertySpec to locate in the PropertySpecCollection.</param>
+			<returns>The zero-based index of the first occurrence of value within the entire PropertySpecCollection,
+			if found; otherwise, -1.</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.Insert(System.Int32,Palaso.UI.WindowsForms.PropertySpec)">
+			<summary>
+			Inserts a PropertySpec object into the PropertySpecCollection at the specified index.
+			</summary>
+			<param name="index">The zero-based index at which value should be inserted.</param>
+			<param name="value">The PropertySpec to insert.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.Remove(Palaso.UI.WindowsForms.PropertySpec)">
+			<summary>
+			Removes the first occurrence of a specific object from the PropertySpecCollection.
+			</summary>
+			<param name="obj">The PropertySpec to remove from the PropertySpecCollection.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.Remove(System.String)">
+			<summary>
+			Removes the property with the specified name from the PropertySpecCollection.
+			</summary>
+			<param name="name">The name of the PropertySpec to remove from the PropertySpecCollection.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.RemoveAt(System.Int32)">
+			<summary>
+			Removes the object at the specified index of the PropertySpecCollection.
+			</summary>
+			<param name="index">The zero-based index of the element to remove.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.ToArray">
+			<summary>
+			Copies the elements of the PropertySpecCollection to a new PropertySpec array.
+			</summary>
+			<returns>A PropertySpec array containing copies of the elements of the PropertySpecCollection.</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
+			<summary>
+			This member supports the .NET Framework infrastructure and is not intended to be used directly from your code.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.System#Collections#IList#Add(System.Object)">
+			<summary>
+			This member supports the .NET Framework infrastructure and is not intended to be used directly from your code.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.System#Collections#IList#Contains(System.Object)">
+			<summary>
+			This member supports the .NET Framework infrastructure and is not intended to be used directly from your code.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.System#Collections#IList#IndexOf(System.Object)">
+			<summary>
+			This member supports the .NET Framework infrastructure and is not intended to be used directly from your code.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.System#Collections#IList#Insert(System.Int32,System.Object)">
+			<summary>
+			This member supports the .NET Framework infrastructure and is not intended to be used directly from your code.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.System#Collections#IList#Remove(System.Object)">
+			<summary>
+			This member supports the .NET Framework infrastructure and is not intended to be used directly from your code.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.Count">
+			<summary>
+			Gets the number of elements in the PropertySpecCollection.
+			</summary>
+			<value>
+			The number of elements contained in the PropertySpecCollection.
+			</value>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.IsFixedSize">
+			<summary>
+			Gets a value indicating whether the PropertySpecCollection has a fixed size.
+			</summary>
+			<value>
+			true if the PropertySpecCollection has a fixed size; otherwise, false.
+			</value>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.IsReadOnly">
+			<summary>
+			Gets a value indicating whether the PropertySpecCollection is read-only.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.IsSynchronized">
+			<summary>
+			Gets a value indicating whether access to the collection is synchronized (thread-safe).
+			</summary>
+			<value>
+			true if access to the PropertySpecCollection is synchronized (thread-safe); otherwise, false.
+			</value>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.System#Collections#ICollection#SyncRoot">
+			<summary>
+			Gets an object that can be used to synchronize access to the collection.
+			</summary>
+			<value>
+			An object that can be used to synchronize access to the collection.
+			</value>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.Item(System.Int32)">
+			<summary>
+			Gets or sets the element at the specified index.
+			In C#, this property is the indexer for the PropertySpecCollection class.
+			</summary>
+			<param name="index">The zero-based index of the element to get or set.</param>
+			<value>
+			The element at the specified index.
+			</value>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertyBag.PropertySpecCollection.System#Collections#IList#Item(System.Int32)">
+			<summary>
+			This member supports the .NET Framework infrastructure and is not intended to be used directly from your code.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.PropertyTable">
+			<summary>
+			An extension of PropertyBag that manages a table of property values, in
+			addition to firing events when property values are requested or set.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyTable.#ctor">
+			<summary>
+			Initializes a new instance of the PropertyTable class.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyTable.OnGetValue(Palaso.UI.WindowsForms.PropertySpecEventArgs)">
+			<summary>
+			This member overrides PropertyBag.OnGetValue.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.PropertyTable.OnSetValue(Palaso.UI.WindowsForms.PropertySpecEventArgs)">
+			<summary>
+			This member overrides PropertyBag.OnSetValue.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertyTable.PropertyValues">
+			<summary>
+			The property values being held.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.PropertyTable.Item(System.String)">
+			<summary>
+			Gets or sets the value of the property with the specified name.
+			<p>In C#, this property is the indexer of the PropertyTable class.</p>
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSFontControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSFontControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSFontControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSTree.GetDialectNameDialog.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSTree.GetDialectNameDialog.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSTree.GetDialectNameDialog.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:WeSay.LexicalTools.AddPictures.PictureChooser.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:WeSay.LexicalTools.AddPictures.PictureChooser.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:WeSay.LexicalTools.AddPictures.PictureChooser.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupView.WritingSystemSuggestor">
+			<summary>
+			Use this to set the appropriate kinds of writing systems according to your
+			application.  For example, is the user of your app likely to want voice? ipa? dialects?
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialogProgressState.NumberOfStepsCompleted">
+			<summary>
+			How much the task is done
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialogProgressState.StatusLabel">
+			<summary>
+			a label which describes what we are busy doing
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="P:Elsehemy.SuperToolTipInfo.OffsetForWhereToDisplay">
+			<summary>
+			Set this when you need to control just where the tt is going to display
+			</summary>
+		</member>
+		<member name="F:Elsehemy.SuperToolTipWindowData.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Elsehemy.SuperToolTipWindowData.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Elsehemy.SuperToolTipWindowData.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Elsehemy.SuperToolTip.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Elsehemy.SuperToolTip.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Elsehemy.SuperToolTip.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Elsehemy.dlgSuperToolTipEditor.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Elsehemy.dlgSuperToolTipEditor.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Elsehemy.dlgSuperToolTipEditor.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSSpellingControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSpellingControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSpellingControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.NothingSpecialView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.NothingSpecialView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.NothingSpecialView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageGallery.ThumbnailViewer.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageGallery.ThumbnailViewer.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageGallery.ThumbnailViewer.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.WSIdentifierView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.WSIdentifierView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.WSIdentifierView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageGallery.IImageCollection.GetThumbNail(System.Object)">
+			<summary>
+			The imageTOken here could be a path or whatever, the client doesn't need to know or care
+			</summary>
+			<param name="imageToken"></param>
+			<returns></returns>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemSuggestor.SuggestIpa">
+			<summary>
+			Consider setting this to true in linguistic applications
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemSuggestor.SuggestDialects">
+			<summary>
+			Consider setting this to true in linguistic applications
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemSuggestor.SuppressSuggestionsForMajorWorldLanguages">
+			<summary>
+			When true, no suggestions will be made some languages which may be supplied by the OS
+			but which are unlikely to be the study of language documentation efforst
+			</summary>
+		</member>
+		<member name="T:Elsehemy.SuperToolTipInfoWrapper">
+			<summary>
+			Class to wrap SuperToolTipInfo with a Boolean variable to use the
+			SuperToolTip or not.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialogHandler.TestEverythingClosedUp">
+			<summary>
+			tests (or anything else that is rapidly chaining these things together)
+			should use this to make sure we're ready to go on to the next activity
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.Progress.ProgressDialogHandler.ExceptionMethodInvoker">
+			<summary>
+			A delegate for a method which takes an exception as its only parmeter
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.Progress.ProgressDialog">
+			<summary>
+			Provides a progress dialog similar to the one shown by Windows
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.#ctor">
+			<summary>
+			Standard constructor
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.DelayShow">
+			<summary>
+			Show the control, but honor the
+			<see cref="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.DelayShowInterval"/>.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.ForceClose">
+			<summary>
+			Close the dialog, ignoring cancel status
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.OnCancelled(System.EventArgs)">
+			<summary>
+			Raises the cancelled event
+			</summary>
+			<param name="e">Event data</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.DelayShowInterval">
+			<summary>
+			Get / set the time in ms to delay
+			before showing the dialog
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.StatusText">
+			<summary>
+			Get / set the text to display in the first status panel
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.Overview">
+			<summary>
+			Description of why this dialog is even showing
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.ProgressRangeMinimum">
+			<summary>
+			Get / set the minimum range of the progress bar
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.ProgressRangeMaximum">
+			<summary>
+			Get / set the maximum range of the progress bar
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.Progress">
+			<summary>
+			Get / set the current value of the progress bar
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.CanCancel">
+			<summary>
+			Get/set a boolean which determines whether the form
+			will show a cancel option (true) or not (false)
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.BackgroundWorker">
+			<summary>
+			If this is set before showing, the dialog will run the worker and respond
+			to its events
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.ProgressState">
+			<summary>
+			Optional; one will be created (of some class or subclass) if you don't set it.
+			E.g. dlg.ProgressState = new BackgroundWorkerState(dlg.BackgroundWorker);
+			Also, you can use the getter to gain access to the progressstate, in order to add arguments
+			which the worker method can get at.
+			</summary>
+		</member>
+		<member name="E:Palaso.UI.WindowsForms.Progress.ProgressDialog.CancelRequested">
+			<summary>
+			Raised when the cancel button is clicked
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.#ctor(Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel)">
+			<summary>
+			Use this one to keep, say, a picker up to date with any change you make
+			while using the dialog.
+			</summary>
+			<param name="writingSystemModel"></param>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.WritingSystemSuggestor">
+			<summary>
+			Use this to set the appropriate kinds of writing systems according to your
+			application.  For example, is the user of your app likely to want voice? ipa? dialects?
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSKeyboardControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSKeyboardControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSKeyboardControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel">
+			<summary>
+			This is the presentation model for the UI for setting up Writing Systems using either
+			a writing system store or a single writing system.
+			In order to use any of the provided UI elements within your own forms, you need to
+			instantiate a WritingSystemSetupModel object and bind the UI elements to that object.
+			WritingSystemSetupDialog provides its own WritingSystemSetupModel object and can be used by itself.
+			</summary>
+			<example><code>
+			WritingSystemSetupModel model = new WritingSystemSetupModel(new LdmlInFolderWritingSystemStore();
+			WritingSystemSetupView panel = new WritingSystemSetupView();
+			panel.BindToModel(model);
+			</code></example>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.MethodToShowUiToBootstrapNewDefinition">
+			<summary>
+			UI layer can set this to something which shows a dialog to get the basic info
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.#ctor(Palaso.WritingSystems.IWritingSystemStore)">
+			<summary>
+			Creates the presentation model object based off of a writing system store of some sort.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.#ctor(Palaso.WritingSystems.WritingSystemDefinition)">
+			<summary>
+			Creates the presentation model object based off of a single writing system definition.
+			This is the easiest form to use if you only want part of the UI elements or only operate on
+			one WritingSystemDefiniion
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.SetCurrentIndexFromRfc46464(System.String)">
+			<summary>
+
+			</summary>
+			<param name="rfc4646"></param>
+			<returns>false if the code wasn't found</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.DeleteCurrent">
+			<summary>
+			Deletes the currently selected writing system.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.DuplicateCurrent">
+			<summary>
+			Makes a copy of the currently selected writing system and selects the new copy.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.AddNew">
+			<summary>
+			Creates a new writing system and selects it.
+			</summary>
+			<returns></returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.Save">
+			<summary>
+			Saves all writing systems in the store, if possible.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.ExportCurrentWritingSystemAsFile(System.String)">
+			<summary>
+			Exports the current writing system to a file.
+			</summary>
+			<param name="filePath"></param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.ActivateCurrentKeyboard">
+			<summary>
+			Activates the custom keyboard for the currently selected writing system.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.TestSort(System.String)">
+			<summary>
+			Performs a sort on the given string using the sort rules defined
+			in the current writing system.
+			</summary>
+			<param name="testString">String to sort, separated by newlines</param>
+			<returns>Sorted string</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.ValidateCurrentSortRules(System.String@)">
+			<summary>
+			Validates the current custom sort rules.
+			</summary>
+			<param name="message">Error message, if any.  This will only be set if false is returned.</param>
+			<returns>True if rules are valid, otherwise false.</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.ImportFile(System.String)">
+			<summary>
+			Imports the given file into the writing system store.
+			</summary>
+			<param name="fileName">Full path of file to import</param>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.WritingSystemSuggestor">
+			<summary>
+			Use this to set the appropriate kinds of writing systems according to your
+			application.  For example, is the user of your app likely to want voice? ipa? dialects?
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.KeyboardNames">
+			<summary>
+			Provides a list of all possible installed keyboards.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.FontFamilies">
+			<summary>
+			Provides a list of all available Font family names on the system.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.CurrentDefinition">
+			<summary>
+			For internal use only.  To access information about the writing system,
+			you should use the CurrentXXX Properties which mirror the public properties
+			available on WritingSystemDefinition.  This is needed to ensure that the UI
+			stays up to date with any changes to the underlying WritingSystemDefinition.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.CurrentIndex">
+			<summary>
+			The index of the currently selected WritingSystemDefinition from the list of
+			available definitions.  This will be -1 if there is no selection.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.HasCurrentSelection">
+			<summary>
+			Returns true if there is a WritingSystemDefinition currently selected
+			for display and editing.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.WritingSystemListColumns">
+			<summary>
+			Columns to include in a list of WritingSystemDefinitions.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.WritingSystemListItems">
+			<summary>
+			Returns a list of available WritingSystemDefinitions.  The arrays returned will have
+			elements corresponding with the columns returned by WritingSystemListColumns.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.WritingSystemListCanSave">
+			<summary>
+			Gives a true/false flag for all available WritingSystemDefinitions on whether or
+			not the underlying store will be able to save them.  This could be false due to
+			two definitions having the same identifying information.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.WritingSystemListCurrentItem">
+			<summary>
+			The columns to display in a list for only the currently selected writing system.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.WritingSystemCount">
+			<summary>
+			Returns the total number of writing systems available.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.CanSaveCurrent">
+			<summary>
+			Whether or not the underlying store will be able to save the currently
+			selected writing system.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.SortUsingOptions">
+			<summary>
+			Returns a list of possible sort options as (option, description) pairs
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.SortLanguageOptions">
+			<summary>
+			Gets a list of (value, description) pairs for language options for sorting
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.UsingWritingSystemStore">
+			<summary>
+			True if the model has an underlying writing system store,
+			false if it is operating on only a single WritingSystemDefinition.
+			</summary>
+		</member>
+		<member name="E:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.ItemAddedOrDeleted">
+			<summary>
+			Fires when a WritingSystemDefinition is added or deleted.
+			</summary>
+		</member>
+		<member name="E:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.ListColumnsChanged">
+			<summary>
+			Fires whenever the columns in a list of writing systems change.
+			</summary>
+		</member>
+		<member name="E:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.SelectionChanged">
+			<summary>
+			Fired when the selection changes to a different WritingSystemDefinition.
+			When the currently selected item is deleted, this event will fire first to
+			select another WritingSystemDefinition, and then the ItemAddedOrDeleted event will fire.
+			When an item is added, ItemAddedOrDeleted will fire first, and then this event
+			will fire to indicated the selection of the new item.
+			</summary>
+		</member>
+		<member name="E:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel.CurrentItemUpdated">
+			<summary>
+			This event is fired whenever the currently selected WritingSystemDefinition
+			is changed.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.ScriptRegionVariantView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.ScriptRegionVariantView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.ScriptRegionVariantView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSSortControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSortControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSortControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSPropertiesTabControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPropertiesTabControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPropertiesTabControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSAddDuplicateMoreButtonBar.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSAddDuplicateMoreButtonBar.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSAddDuplicateMoreButtonBar.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSTree.IpaSuggestion._fontsForIpa">
+			<summary>
+			these are ordered in terms of perference, so the last one is just the fallback
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.WritingSystems.WSTree.LanguageSuggestion">
+			<summary>
+			used to suggest languages not yet represented. Contrast with the other classes here,
+			which are use to suggest new writing systems based on already in-use languages
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelper.BeginInit">
+			<summary>
+			Signals the object that initialization is starting.
+			</summary>
+
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelper.EndInit">
+			<summary>
+			Signals the object that initialization is complete.
+			</summary>
+
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelper.CanExtend(System.Object)">
+			<summary>
+			Specifies whether this object can provide its extender properties to the specified object.
+			</summary>
+
+			<returns>
+			true if this object can provide extender properties to the specified object; otherwise, false.
+			</returns>
+
+			<param name="extendee">The <see cref="T:System.Object"></see> to receive the extender properties. </param>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.i8n.LocalizationHelper.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelper.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelper.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.i8n.LocalizationHelperDesigner">
+			<summary>
+			  Designer object used to set the Parent property.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelperDesigner.OnSetComponentDefaults">
+			  <summary>
+			  Sets the Parent property to "this" -
+			  the Form/UserControl where the component is being dropped.
+			  </summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingListView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingListView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingListView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.i8n.ILocalizableControl">
+			<summary>
+			A control can implement this to override some default localization behavior
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemFromWindowsLocaleProvider.TrimOffCountryNameOfMajorLanguage(System.Windows.Forms.InputLanguage)">
+			<summary>
+			It's confusing for people to be presented with "English (UnitedStates)" or Icelandic (Iceland)
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.Widgets.ControlListBox.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.Widgets.ControlListBox.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.Widgets.ControlListBox.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.Widgets.ControlListBox.AddControl(System.Windows.Forms.Control,System.Int32)">
+			<summary>
+			Callers: consider control.AutoSizeMode = AutoSizeMode.GrowAndShrink if the control supports it.
+			</summary>
+			<param name="control"></param>
+			<param name="insertAtRow"></param>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.Properties.Resources">
+			<summary>
+			  A strongly-typed resource class, for looking up localized strings, etc.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Properties.Resources.ResourceManager">
+			<summary>
+			  Returns the cached ResourceManager instance used by this class.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Properties.Resources.Culture">
+			<summary>
+			  Overrides the current thread's CurrentUICulture property for all
+			  resource lookups using this strongly typed resource class.
+			</summary>
+		</member>
+		<!-- Badly formed XML comment ignored for member "T:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog" -->
+		<member name="M:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog.Transform(System.Boolean)">
+			<summary>
+
+			</summary>
+			<returns>true if succeeded</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog.DoTransformWithProgressDialog(System.Boolean)">
+			<summary>
+
+			</summary>
+			<returns>false if not successful or cancelled</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog.OnDoTransformWork(System.Object,System.ComponentModel.DoWorkEventArgs)">
+			<summary>
+			this runs in a worker thread
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.WritingSystems.WritingSystemTreeModel">
+			<summary>
+			This is the Presentation Model (e.g., logic, no UI) for the list
+			of existing writing systems and ones the user might want to add.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemTreeModel.Suggestor">
+			<summary>
+			Given some existing writiting system definitions for a language, what other ones might they want ot add?
+			</summary>
+		</member>
+	</members>
+</doc>

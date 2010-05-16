@@ -1,9 +1,9 @@
 using System.Linq;
 using NUnit.Framework;
-using Sponge2.Model;
-using Sponge2.Model.Files;
+using SayMore.Model;
+using SayMore.Model.Files;
 
-namespace Sponge2Tests.model.Files
+namespace SayMoreTests.model.Files
 {
 	[TestFixture]
 	public sealed class ComponentRoleTests

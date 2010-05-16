@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Sponge2.Model.Files;
+using SayMore.Model.Files;
 
-namespace Sponge2.UI.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

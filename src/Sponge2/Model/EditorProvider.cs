@@ -1,7 +1,7 @@
 using System.Windows.Forms;
-using Sponge2.Model.Files;
+using SayMore.Model.Files;
 
-namespace Sponge2.Model
+namespace SayMore.Model
 {
 	public class EditorProvider
 	{

@@ -1,7 +1,7 @@
 using SIL.Localization;
 using SilUtils.Controls;
 
-namespace Sponge2.UI.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	partial class ListPanel
 	{

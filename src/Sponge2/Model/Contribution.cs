@@ -1,4 +1,4 @@
-namespace Sponge2.Model
+namespace SayMore.Model
 {
 	/// <summary>
 	/// This class helps us record who did what for each piece of the project

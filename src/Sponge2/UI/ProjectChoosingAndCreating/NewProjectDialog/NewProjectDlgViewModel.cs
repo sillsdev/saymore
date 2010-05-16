@@ -19,7 +19,7 @@ using System.IO;
 using System.Windows.Forms;
 using SIL.Localization;
 
-namespace Sponge2.UI.ProjectChoosingAndCreating.NewProjectDialog
+namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

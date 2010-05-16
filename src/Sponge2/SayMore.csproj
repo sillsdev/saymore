@@ -8,8 +8,8 @@
     <ProjectGuid>{A61F5E06-CACD-40FA-BBAD-8744212AF14E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sponge2</RootNamespace>
-    <AssemblyName>Sponge2</AssemblyName>
+    <RootNamespace>SayMore</RootNamespace>
+    <AssemblyName>SayMore</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

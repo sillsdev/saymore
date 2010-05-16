@@ -3,11 +3,11 @@ using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
-using Sponge2.Model;
-using Sponge2.UI.ComponentEditors;
-using Sponge2.UI.LowLevelControls;
+using SayMore.Model;
+using SayMore.UI.ComponentEditors;
+using SayMore.UI.LowLevelControls;
 
-namespace Sponge2.UI.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

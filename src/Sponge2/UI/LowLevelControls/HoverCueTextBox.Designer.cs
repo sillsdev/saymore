@@ -1,4 +1,4 @@
-namespace Sponge2.UI.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	partial class HoverCueTextBox
 	{

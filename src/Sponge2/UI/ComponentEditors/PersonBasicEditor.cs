@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
-using Sponge2.Model.Files;
-using Sponge2.Properties;
-using Sponge2.UI.LowLevelControls;
+using SayMore.Model.Files;
+using SayMore.Properties;
+using SayMore.UI.LowLevelControls;
 
-namespace Sponge2.UI.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class PersonBasicEditor : EditorBase

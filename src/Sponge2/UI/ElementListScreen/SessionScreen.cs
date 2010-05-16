@@ -1,9 +1,9 @@
 using System;
-using Sponge2.Model;
-using Sponge2.Properties;
-using Sponge2.UI.ProjectWindow;
+using SayMore.Model;
+using SayMore.Properties;
+using SayMore.UI.ProjectWindow;
 
-namespace Sponge2.UI.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class SessionScreen : ConcreteSessionScreen, ISpongeView

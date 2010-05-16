@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using Sponge2.Model;
+using SayMore.Model;
 
-namespace Sponge2Tests.model
+namespace SayMoreTests.model
 {
 	[TestFixture]
 	public class ProjectTests

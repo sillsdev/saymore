@@ -19,7 +19,7 @@ using System.Windows.Forms;
 using SilUtils;
 using SilUtils.Controls;
 
-namespace Sponge2.UI.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

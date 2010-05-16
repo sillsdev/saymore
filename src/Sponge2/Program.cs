@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.Localization;
-using Sponge2.Model;
-using Sponge2.Properties;
-using Sponge2.UI.ProjectChoosingAndCreating;
-using Sponge2.UI.ProjectWindow;
+using SayMore.Model;
+using SayMore.Properties;
+using SayMore.UI.ProjectChoosingAndCreating;
+using SayMore.UI.ProjectWindow;
 
-namespace Sponge2
+namespace SayMore
 {
 	static class Program
 	{

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sponge2.Properties;
-using Sponge2.UI.ComponentEditors;
+using SayMore.Properties;
+using SayMore.UI.ComponentEditors;
 
-namespace Sponge2.Model.Files
+namespace SayMore.Model.Files
 {
 	/// <summary>
 	/// Each file corresponds to a single kind of fileType.  The FileType then tells

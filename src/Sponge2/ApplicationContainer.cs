@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Autofac;
-using Sponge2.Model;
-using Sponge2.Model.Files;
-using Sponge2.Properties;
-using Sponge2.UI.ProjectChoosingAndCreating;
+using SayMore.Model;
+using SayMore.Model.Files;
+using SayMore.Properties;
+using SayMore.UI.ProjectChoosingAndCreating;
 
-namespace Sponge2
+namespace SayMore
 {
 	/// <summary>
 	/// This is sortof a wrapper around the DI container. I'm not thrilled with the name I've

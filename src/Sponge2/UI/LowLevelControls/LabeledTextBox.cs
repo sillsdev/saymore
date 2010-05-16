@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Sponge2.UI.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	public partial class LabeledTextBox : UserControl
 	{

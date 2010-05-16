@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Sponge2.UI.ProjectChoosingAndCreating.NewProjectDialog
+namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Sponge2.UI.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	public partial class AudioComponentEditor : EditorBase
 	{

@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Sponge2.Properties;
+using SayMore.Properties;
 
-namespace Sponge2.UI.ProjectChoosingAndCreating
+namespace SayMore.UI.ProjectChoosingAndCreating
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

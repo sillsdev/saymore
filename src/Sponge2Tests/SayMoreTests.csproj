@@ -80,9 +80,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sponge2\Sponge2.csproj">
+    <ProjectReference Include="..\Sponge2\SayMore.csproj">
       <Project>{A61F5E06-CACD-40FA-BBAD-8744212AF14E}</Project>
-      <Name>Sponge2</Name>
+      <Name>SayMore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

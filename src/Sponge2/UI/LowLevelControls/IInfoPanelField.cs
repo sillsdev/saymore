@@ -1,5 +1,5 @@
 
-namespace Sponge2.UI.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	public interface IInfoPanelField
 	{

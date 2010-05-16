@@ -1,4 +1,4 @@
-namespace Sponge2.UI.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	partial class SessionBasicEditor
 	{
@@ -50,7 +50,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._lblsetting = new System.Windows.Forms.Label();
 			this._setting = new System.Windows.Forms.TextBox();
 			this._lblsituation = new System.Windows.Forms.Label();
-			this._binder = new Sponge2.UI.ComponentEditors.BindingHelper(this.components);
+			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._tblLayoutOuter.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -343,7 +343,7 @@ namespace Sponge2.UI.ComponentEditors
 			// 
 			// _binder
 			// 
-			this._binder.GetBoundControlValue += new Sponge2.UI.ComponentEditors.BindingHelper.GetBoundControlValueHandler(this.HandleGetBoundControlValue);
+			this._binder.GetBoundControlValue += new SayMore.UI.ComponentEditors.BindingHelper.GetBoundControlValueHandler(this.HandleGetBoundControlValue);
 			// 
 			// SessionBasicEditor
 			// 

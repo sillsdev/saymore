@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
-using Sponge2.Model.Fields;
+using SayMore.Model.Fields;
 
-namespace Sponge2.Model.Files
+namespace SayMore.Model.Files
 {
 	/// <summary>
 	/// This class lets us save and load objects which have a set of fields.

@@ -1,7 +1,7 @@
 using SIL.Localization;
-using Sponge2.UI.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
-namespace Sponge2.UI.ProjectChoosingAndCreating
+namespace SayMore.UI.ProjectChoosingAndCreating
 {
 	partial class WelcomeDialog
 	{
@@ -96,7 +96,7 @@ namespace Sponge2.UI.ProjectChoosingAndCreating
 			// tsbMru0
 			// 
 			resources.ApplyResources(this.tsbMru0, "tsbMru0");
-			this.tsbMru0.Image = global::Sponge2.Properties.Resources.kimidSpongeSmall;
+			this.tsbMru0.Image = global::SayMore.Properties.Resources.kimidSpongeSmall;
 			this.locExtender.SetLocalizableToolTip(this.tsbMru0, null);
 			this.locExtender.SetLocalizationComment(this.tsbMru0, null);
 			this.locExtender.SetLocalizationPriority(this.tsbMru0, SIL.Localization.LocalizationPriority.NotLocalizable);
@@ -108,7 +108,7 @@ namespace Sponge2.UI.ProjectChoosingAndCreating
 			// tsbBrowse
 			// 
 			resources.ApplyResources(this.tsbBrowse, "tsbBrowse");
-			this.tsbBrowse.Image = global::Sponge2.Properties.Resources.kimidBrowseForProject;
+			this.tsbBrowse.Image = global::SayMore.Properties.Resources.kimidBrowseForProject;
 			this.locExtender.SetLocalizableToolTip(this.tsbBrowse, null);
 			this.locExtender.SetLocalizationComment(this.tsbBrowse, null);
 			this.locExtender.SetLocalizingId(this.tsbBrowse, "WelcomeDlg.tsbBrowse");
@@ -133,7 +133,7 @@ namespace Sponge2.UI.ProjectChoosingAndCreating
 			// tsbCreate
 			// 
 			resources.ApplyResources(this.tsbCreate, "tsbCreate");
-			this.tsbCreate.Image = global::Sponge2.Properties.Resources.kimidNewProject;
+			this.tsbCreate.Image = global::SayMore.Properties.Resources.kimidNewProject;
 			this.locExtender.SetLocalizableToolTip(this.tsbCreate, null);
 			this.locExtender.SetLocalizationComment(this.tsbCreate, null);
 			this.locExtender.SetLocalizingId(this.tsbCreate, "WelcomeDlg.tsbCreate");

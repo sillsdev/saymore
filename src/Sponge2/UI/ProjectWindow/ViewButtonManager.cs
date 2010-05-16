@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace Sponge2.UI.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

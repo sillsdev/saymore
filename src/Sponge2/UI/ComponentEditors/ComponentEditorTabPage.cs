@@ -17,11 +17,11 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using Sponge2.Model;
-using Sponge2.Model.Files;
-using Sponge2.UI.Utilities;
+using SayMore.Model;
+using SayMore.Model.Files;
+using SayMore.UI.Utilities;
 
-namespace Sponge2.UI.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ComponentEditorTabPage : TabPage

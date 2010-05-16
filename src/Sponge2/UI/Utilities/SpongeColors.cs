@@ -18,9 +18,9 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using Sponge2.Properties;
+using SayMore.Properties;
 
-namespace Sponge2.UI.Utilities
+namespace SayMore.UI.Utilities
 {
 	[Flags]
 	public enum BorderSides

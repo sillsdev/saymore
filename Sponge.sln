@@ -5,9 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sponge", "src\Sponge\Sponge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpongeTests", "src\SpongeTests\SpongeTests.csproj", "{8769F2A3-6C9B-4272-A668-F98BDBB90647}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sponge2", "src\Sponge2\Sponge2.csproj", "{A61F5E06-CACD-40FA-BBAD-8744212AF14E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SayMore", "src\Sponge2\SayMore.csproj", "{A61F5E06-CACD-40FA-BBAD-8744212AF14E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sponge2Tests", "src\Sponge2Tests\Sponge2Tests.csproj", "{B534A7B9-FF0D-46C7-A845-C00845B223BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SayMoreTests", "src\Sponge2Tests\SayMoreTests.csproj", "{B534A7B9-FF0D-46C7-A845-C00845B223BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace Sponge2.UI.Utilities
+namespace SayMore.UI.Utilities
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -1,4 +1,4 @@
-namespace Sponge2.UI.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	partial class DiagnosticsFileInfoControl
 	{

@@ -1,7 +1,7 @@
 using SIL.Localization;
-using Sponge2.UI.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
-namespace Sponge2.UI.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	partial class ProjectWindow
 	{
@@ -61,7 +61,7 @@ namespace Sponge2.UI.ProjectWindow
 			// tsbOverview
 			// 
 			this.tsbOverview.AutoSize = false;
-			this.tsbOverview.Image = global::Sponge2.Properties.Resources.kimidOverview;
+			this.tsbOverview.Image = global::SayMore.Properties.Resources.kimidOverview;
 			this.tsbOverview.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this.tsbOverview, "Project Overview");
 			this.locExtender.SetLocalizationComment(this.tsbOverview, null);
@@ -75,7 +75,7 @@ namespace Sponge2.UI.ProjectWindow
 			// tsbSessions
 			// 
 			this.tsbSessions.AutoSize = false;
-			this.tsbSessions.Image = global::Sponge2.Properties.Resources.kimidSessions;
+			this.tsbSessions.Image = global::SayMore.Properties.Resources.kimidSessions;
 			this.tsbSessions.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this.tsbSessions, "Manage Sessions");
 			this.locExtender.SetLocalizationComment(this.tsbSessions, null);
@@ -89,7 +89,7 @@ namespace Sponge2.UI.ProjectWindow
 			// tsbPeople
 			// 
 			this.tsbPeople.AutoSize = false;
-			this.tsbPeople.Image = global::Sponge2.Properties.Resources.kimidPeople;
+			this.tsbPeople.Image = global::SayMore.Properties.Resources.kimidPeople;
 			this.tsbPeople.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.tsbPeople.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this.tsbPeople, "Manage List of People");
@@ -104,7 +104,7 @@ namespace Sponge2.UI.ProjectWindow
 			// tsbSendReceive
 			// 
 			this.tsbSendReceive.AutoSize = false;
-			this.tsbSendReceive.Image = global::Sponge2.Properties.Resources.kimidSendReceive;
+			this.tsbSendReceive.Image = global::SayMore.Properties.Resources.kimidSendReceive;
 			this.tsbSendReceive.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.tsbSendReceive.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this.tsbSendReceive, "Send/Receive");
@@ -119,7 +119,7 @@ namespace Sponge2.UI.ProjectWindow
 			// tsbSetup
 			// 
 			this.tsbSetup.AutoSize = false;
-			this.tsbSetup.Image = global::Sponge2.Properties.Resources.kimidSetup;
+			this.tsbSetup.Image = global::SayMore.Properties.Resources.kimidSetup;
 			this.tsbSetup.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this.tsbSetup, "Project Setup");
 			this.locExtender.SetLocalizationComment(this.tsbSetup, null);
@@ -134,7 +134,7 @@ namespace Sponge2.UI.ProjectWindow
 			// 
 			this.tsbChangeProjects.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this.tsbChangeProjects.AutoSize = false;
-			this.tsbChangeProjects.Image = global::Sponge2.Properties.Resources.kimidChangeProject;
+			this.tsbChangeProjects.Image = global::SayMore.Properties.Resources.kimidChangeProject;
 			this.tsbChangeProjects.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this.tsbChangeProjects, "Open a Different Project");
 			this.locExtender.SetLocalizationComment(this.tsbChangeProjects, null);

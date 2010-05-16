@@ -2,9 +2,9 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Sponge2.Properties;
+using SayMore.Properties;
 
-namespace Sponge2.UI.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	public enum ParentType
 	{

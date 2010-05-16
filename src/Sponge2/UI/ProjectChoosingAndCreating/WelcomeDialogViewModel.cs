@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Palaso.Reporting;
-using Sponge2.Model;
+using SayMore.Model;
 
-namespace Sponge2.UI.ProjectChoosingAndCreating
+namespace SayMore.UI.ProjectChoosingAndCreating
 {
 	/// <summary>
 	/// This contains all easily testable logic/behavior for the WelcomeDialog,

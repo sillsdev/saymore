@@ -1,4 +1,4 @@
-namespace Sponge2.UI.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	partial class PersonBasicEditor
 	{
@@ -38,25 +38,25 @@ namespace Sponge2.UI.ComponentEditors
 			this._notes = new System.Windows.Forms.TextBox();
 			this._howToContact = new System.Windows.Forms.TextBox();
 			this._lblHowToContact = new System.Windows.Forms.Label();
-			this._pnlOtherLanguages = new Sponge2.UI.LowLevelControls.UnderlinedHdgBox();
+			this._pnlOtherLanguages = new SayMore.UI.LowLevelControls.UnderlinedHdgBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this._pbOtherLangMother3 = new Sponge2.UI.LowLevelControls.ParentButton();
-			this._pbOtherLangMother2 = new Sponge2.UI.LowLevelControls.ParentButton();
-			this._pbOtherLangMother1 = new Sponge2.UI.LowLevelControls.ParentButton();
-			this._pbOtherLangFather1 = new Sponge2.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangMother3 = new SayMore.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangMother2 = new SayMore.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangMother1 = new SayMore.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangFather1 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._otherLanguage3 = new System.Windows.Forms.TextBox();
 			this._otherLanguage0 = new System.Windows.Forms.TextBox();
-			this._pbOtherLangFather0 = new Sponge2.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangFather0 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._otherLanguage1 = new System.Windows.Forms.TextBox();
-			this._pbOtherLangMother0 = new Sponge2.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangMother0 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._otherLanguage2 = new System.Windows.Forms.TextBox();
-			this._pbOtherLangFather2 = new Sponge2.UI.LowLevelControls.ParentButton();
-			this._pbOtherLangFather3 = new Sponge2.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangFather2 = new SayMore.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangFather3 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._gender = new System.Windows.Forms.ComboBox();
-			this._pnlPrimaryLanguage = new Sponge2.UI.LowLevelControls.UnderlinedHdgBox();
+			this._pnlPrimaryLanguage = new SayMore.UI.LowLevelControls.UnderlinedHdgBox();
 			this._tblLayoutPrimaryLanguage = new System.Windows.Forms.TableLayoutPanel();
-			this._pbPrimaryLangMother = new Sponge2.UI.LowLevelControls.ParentButton();
-			this._pbPrimaryLangFather = new Sponge2.UI.LowLevelControls.ParentButton();
+			this._pbPrimaryLangMother = new SayMore.UI.LowLevelControls.ParentButton();
+			this._pbPrimaryLangFather = new SayMore.UI.LowLevelControls.ParentButton();
 			this._lblPrimaryLanguageLearnedIn = new System.Windows.Forms.Label();
 			this._primaryLanguage = new System.Windows.Forms.TextBox();
 			this._primaryLanguageLearnedIn = new System.Windows.Forms.TextBox();
@@ -66,7 +66,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._education = new System.Windows.Forms.TextBox();
 			this._lblEducation = new System.Windows.Forms.Label();
 			this._lblNotes = new System.Windows.Forms.Label();
-			this._binder = new Sponge2.UI.ComponentEditors.BindingHelper(this.components);
+			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._tblLayoutOuter.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._picture)).BeginInit();
 			this._pnlOtherLanguages.SuspendLayout();
@@ -166,7 +166,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._picture.Cursor = System.Windows.Forms.Cursors.Hand;
 			this._picture.ErrorImage = null;
-			this._picture.Image = global::Sponge2.Properties.Resources.kimidNoPhoto;
+			this._picture.Image = global::SayMore.Properties.Resources.kimidNoPhoto;
 			this._picture.InitialImage = null;
 			this._picture.Location = new System.Drawing.Point(463, 0);
 			this._picture.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -271,7 +271,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._pbOtherLangMother3.Location = new System.Drawing.Point(331, 96);
 			this._pbOtherLangMother3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangMother3.Name = "_pbOtherLangMother3";
-			this._pbOtherLangMother3.ParentType = Sponge2.UI.LowLevelControls.ParentType.Mother;
+			this._pbOtherLangMother3.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother3.Selected = false;
 			this._pbOtherLangMother3.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother3.TabIndex = 11;
@@ -284,7 +284,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._pbOtherLangMother2.Location = new System.Drawing.Point(331, 66);
 			this._pbOtherLangMother2.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangMother2.Name = "_pbOtherLangMother2";
-			this._pbOtherLangMother2.ParentType = Sponge2.UI.LowLevelControls.ParentType.Mother;
+			this._pbOtherLangMother2.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother2.Selected = false;
 			this._pbOtherLangMother2.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother2.TabIndex = 8;
@@ -296,7 +296,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._pbOtherLangMother1.Location = new System.Drawing.Point(331, 36);
 			this._pbOtherLangMother1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangMother1.Name = "_pbOtherLangMother1";
-			this._pbOtherLangMother1.ParentType = Sponge2.UI.LowLevelControls.ParentType.Mother;
+			this._pbOtherLangMother1.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother1.Selected = false;
 			this._pbOtherLangMother1.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother1.TabIndex = 5;
@@ -308,7 +308,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._pbOtherLangFather1.Location = new System.Drawing.Point(307, 36);
 			this._pbOtherLangFather1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangFather1.Name = "_pbOtherLangFather1";
-			this._pbOtherLangFather1.ParentType = Sponge2.UI.LowLevelControls.ParentType.Father;
+			this._pbOtherLangFather1.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather1.Selected = false;
 			this._pbOtherLangFather1.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather1.TabIndex = 4;
@@ -342,7 +342,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._pbOtherLangFather0.Location = new System.Drawing.Point(307, 7);
 			this._pbOtherLangFather0.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this._pbOtherLangFather0.Name = "_pbOtherLangFather0";
-			this._pbOtherLangFather0.ParentType = Sponge2.UI.LowLevelControls.ParentType.Father;
+			this._pbOtherLangFather0.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather0.Selected = false;
 			this._pbOtherLangFather0.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather0.TabIndex = 1;
@@ -364,7 +364,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._pbOtherLangMother0.Location = new System.Drawing.Point(331, 7);
 			this._pbOtherLangMother0.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this._pbOtherLangMother0.Name = "_pbOtherLangMother0";
-			this._pbOtherLangMother0.ParentType = Sponge2.UI.LowLevelControls.ParentType.Mother;
+			this._pbOtherLangMother0.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother0.Selected = false;
 			this._pbOtherLangMother0.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother0.TabIndex = 2;
@@ -386,7 +386,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._pbOtherLangFather2.Location = new System.Drawing.Point(307, 66);
 			this._pbOtherLangFather2.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangFather2.Name = "_pbOtherLangFather2";
-			this._pbOtherLangFather2.ParentType = Sponge2.UI.LowLevelControls.ParentType.Father;
+			this._pbOtherLangFather2.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather2.Selected = false;
 			this._pbOtherLangFather2.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather2.TabIndex = 7;
@@ -398,7 +398,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._pbOtherLangFather3.Location = new System.Drawing.Point(307, 96);
 			this._pbOtherLangFather3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._pbOtherLangFather3.Name = "_pbOtherLangFather3";
-			this._pbOtherLangFather3.ParentType = Sponge2.UI.LowLevelControls.ParentType.Father;
+			this._pbOtherLangFather3.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather3.Selected = false;
 			this._pbOtherLangFather3.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather3.TabIndex = 10;
@@ -465,7 +465,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._pbPrimaryLangMother.Location = new System.Drawing.Point(331, 7);
 			this._pbPrimaryLangMother.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this._pbPrimaryLangMother.Name = "_pbPrimaryLangMother";
-			this._pbPrimaryLangMother.ParentType = Sponge2.UI.LowLevelControls.ParentType.Mother;
+			this._pbPrimaryLangMother.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbPrimaryLangMother.Selected = false;
 			this._pbPrimaryLangMother.Size = new System.Drawing.Size(24, 24);
 			this._pbPrimaryLangMother.TabIndex = 2;
@@ -477,7 +477,7 @@ namespace Sponge2.UI.ComponentEditors
 			this._pbPrimaryLangFather.Location = new System.Drawing.Point(307, 7);
 			this._pbPrimaryLangFather.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this._pbPrimaryLangFather.Name = "_pbPrimaryLangFather";
-			this._pbPrimaryLangFather.ParentType = Sponge2.UI.LowLevelControls.ParentType.Father;
+			this._pbPrimaryLangFather.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
 			this._pbPrimaryLangFather.Selected = false;
 			this._pbPrimaryLangFather.Size = new System.Drawing.Size(24, 24);
 			this._pbPrimaryLangFather.TabIndex = 1;
@@ -610,7 +610,7 @@ namespace Sponge2.UI.ComponentEditors
 		private System.Windows.Forms.Label lblBirthYear;
 		private System.Windows.Forms.TextBox _birthYear;
 		private System.Windows.Forms.TableLayoutPanel _tblLayoutOuter;
-		private Sponge2.UI.LowLevelControls.UnderlinedHdgBox _pnlPrimaryLanguage;
+		private SayMore.UI.LowLevelControls.UnderlinedHdgBox _pnlPrimaryLanguage;
 		private System.Windows.Forms.TextBox _primaryLanguage;
 		private System.Windows.Forms.Label _lblPrimaryLanguageLearnedIn;
 		private System.Windows.Forms.TextBox _primaryLanguageLearnedIn;
@@ -618,22 +618,22 @@ namespace Sponge2.UI.ComponentEditors
 		private System.Windows.Forms.Label _lblgender;
 		private System.Windows.Forms.ComboBox _gender;
 		private BindingHelper _binder;
-		private Sponge2.UI.LowLevelControls.ParentButton _pbPrimaryLangMother;
-		private Sponge2.UI.LowLevelControls.ParentButton _pbPrimaryLangFather;
-		private Sponge2.UI.LowLevelControls.UnderlinedHdgBox _pnlOtherLanguages;
+		private SayMore.UI.LowLevelControls.ParentButton _pbPrimaryLangMother;
+		private SayMore.UI.LowLevelControls.ParentButton _pbPrimaryLangFather;
+		private SayMore.UI.LowLevelControls.UnderlinedHdgBox _pnlOtherLanguages;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private Sponge2.UI.LowLevelControls.ParentButton _pbOtherLangMother0;
-		private Sponge2.UI.LowLevelControls.ParentButton _pbOtherLangFather0;
+		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother0;
+		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather0;
 		private System.Windows.Forms.TextBox _otherLanguage0;
 		private System.Windows.Forms.TextBox _otherLanguage1;
 		private System.Windows.Forms.TextBox _otherLanguage2;
 		private System.Windows.Forms.TextBox _otherLanguage3;
-		private Sponge2.UI.LowLevelControls.ParentButton _pbOtherLangMother3;
-		private Sponge2.UI.LowLevelControls.ParentButton _pbOtherLangMother2;
-		private Sponge2.UI.LowLevelControls.ParentButton _pbOtherLangMother1;
-		private Sponge2.UI.LowLevelControls.ParentButton _pbOtherLangFather1;
-		private Sponge2.UI.LowLevelControls.ParentButton _pbOtherLangFather2;
-		private Sponge2.UI.LowLevelControls.ParentButton _pbOtherLangFather3;
+		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother3;
+		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother2;
+		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother1;
+		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather1;
+		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather2;
+		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather3;
 		private System.Windows.Forms.PictureBox _picture;
 		private System.Windows.Forms.Label _lblHowToContact;
 		private System.Windows.Forms.Label _lblEducation;

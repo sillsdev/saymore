@@ -1,4 +1,4 @@
-namespace Sponge2.UI.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	partial class AudioComponentEditor
 	{
@@ -29,13 +29,13 @@ namespace Sponge2.UI.ComponentEditors
 		private void InitializeComponent()
 		{
 			this._labelRecordist = new System.Windows.Forms.Label();
-			this._recordist = new Sponge2.UI.LowLevelControls.VisuallyDynamicTextBox();
+			this._recordist = new SayMore.UI.LowLevelControls.VisuallyDynamicTextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._notes = new Sponge2.UI.LowLevelControls.VisuallyDynamicTextBox();
+			this._notes = new SayMore.UI.LowLevelControls.VisuallyDynamicTextBox();
 			this._labelNotes = new System.Windows.Forms.Label();
-			this._microphone = new Sponge2.UI.LowLevelControls.VisuallyDynamicTextBox();
+			this._microphone = new SayMore.UI.LowLevelControls.VisuallyDynamicTextBox();
 			this._labelMicrophone = new System.Windows.Forms.Label();
-			this._device = new Sponge2.UI.LowLevelControls.VisuallyDynamicTextBox();
+			this._device = new SayMore.UI.LowLevelControls.VisuallyDynamicTextBox();
 			this._labelDevice = new System.Windows.Forms.Label();
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
@@ -237,14 +237,14 @@ namespace Sponge2.UI.ComponentEditors
 
 		#endregion
 
-		private Sponge2.UI.LowLevelControls.VisuallyDynamicTextBox _recordist;
+		private SayMore.UI.LowLevelControls.VisuallyDynamicTextBox _recordist;
 		private System.Windows.Forms.Label _labelRecordist;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private Sponge2.UI.LowLevelControls.VisuallyDynamicTextBox _device;
+		private SayMore.UI.LowLevelControls.VisuallyDynamicTextBox _device;
 		private System.Windows.Forms.Label _labelDevice;
-		private Sponge2.UI.LowLevelControls.VisuallyDynamicTextBox _notes;
+		private SayMore.UI.LowLevelControls.VisuallyDynamicTextBox _notes;
 		private System.Windows.Forms.Label _labelNotes;
-		private Sponge2.UI.LowLevelControls.VisuallyDynamicTextBox _microphone;
+		private SayMore.UI.LowLevelControls.VisuallyDynamicTextBox _microphone;
 		private System.Windows.Forms.Label _labelMicrophone;
 	}
 }

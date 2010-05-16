@@ -2,10 +2,10 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using Sponge2.Model;
-using Sponge2.Model.Files;
+using SayMore.Model;
+using SayMore.Model.Files;
 
-namespace Sponge2Tests.model
+namespace SayMoreTests.model
 {
 	[TestFixture]
 	public class SessionTests

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using Sponge2;
-using Sponge2.Model;
-using Sponge2.Model.Files;
-using Sponge2.UI.ElementListScreen;
+using SayMore;
+using SayMore.Model;
+using SayMore.Model.Files;
+using SayMore.UI.ElementListScreen;
 
 
-namespace Sponge2Tests
+namespace SayMoreTests
 {
 	[TestFixture]
 	public class ApplicationContextTests

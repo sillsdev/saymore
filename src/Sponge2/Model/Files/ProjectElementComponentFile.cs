@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Sponge2.Model.Files
+namespace SayMore.Model.Files
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

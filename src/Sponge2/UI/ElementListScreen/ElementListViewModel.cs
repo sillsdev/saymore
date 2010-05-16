@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Sponge2.Model;
-using Sponge2.Model.Files;
+using SayMore.Model;
+using SayMore.Model.Files;
 
-namespace Sponge2.UI.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	/// <summary>
 	/// This is the logic behind the screen which shows the list of sessions, and also the

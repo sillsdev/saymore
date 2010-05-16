@@ -3,11 +3,11 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SIL.Localization;
-using Sponge2.Properties;
-using Sponge2.UI.ProjectChoosingAndCreating.NewProjectDialog;
-using Sponge2.UI.Utilities;
+using SayMore.Properties;
+using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
+using SayMore.UI.Utilities;
 
-namespace Sponge2.UI.ProjectChoosingAndCreating
+namespace SayMore.UI.ProjectChoosingAndCreating
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

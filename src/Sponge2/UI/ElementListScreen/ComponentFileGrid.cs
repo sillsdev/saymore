@@ -4,10 +4,10 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SilUtils;
-using Sponge2.Model.Files;
-using Sponge2.Properties;
+using SayMore.Model.Files;
+using SayMore.Properties;
 
-namespace Sponge2.UI.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	public partial class ComponentFileGrid : SilUtils.Controls.SilPanel
 	{

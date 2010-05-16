@@ -1,6 +1,6 @@
 using SIL.Localization;
 
-namespace Sponge2.UI.ProjectChoosingAndCreating.NewProjectDialog
+namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
 	partial class NewProjectDlg
 	{

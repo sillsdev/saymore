@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Palaso.Code;
 
-namespace Sponge2.Model
+namespace SayMore.Model
 {
 	/// <summary>
 	/// A project corresponds to a single folder (with subfolders) on the disk.

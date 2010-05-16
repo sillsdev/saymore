@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace Sponge2.Model.Fields
+namespace SayMore.Model.Fields
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -7,11 +7,11 @@ using System.Reflection;
 using System.Windows.Forms;
 using Autofac;
 using Autofac.Core;
-using Sponge2.Model;
-using Sponge2.UI.ElementListScreen;
-using Sponge2.UI.ProjectWindow;
+using SayMore.Model;
+using SayMore.UI.ElementListScreen;
+using SayMore.UI.ProjectWindow;
 
-namespace Sponge2
+namespace SayMore
 {
 	/// <summary>
 	/// TODO: it might be cleaner to remove this class and just have it all be in method

@@ -1,6 +1,6 @@
 using System;
 
-namespace Sponge2.Model.Fields
+namespace SayMore.Model.Fields
 {
 	/// <summary>
 	/// A FieldValue is a conceptually a key-value pair.  We add other properties as necessary,

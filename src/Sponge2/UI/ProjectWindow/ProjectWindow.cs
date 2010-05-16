@@ -1,10 +1,10 @@
 using System;
 using System.Windows.Forms;
 using SIL.Localization;
-using Sponge2.Properties;
-using Sponge2.UI.ElementListScreen;
+using SayMore.Properties;
+using SayMore.UI.ElementListScreen;
 
-namespace Sponge2.UI.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

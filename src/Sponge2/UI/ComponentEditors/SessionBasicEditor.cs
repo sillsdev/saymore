@@ -1,10 +1,10 @@
 using System.Linq;
 using System.Windows.Forms;
-using Sponge2.Model;
-using Sponge2.Model.Fields;
-using Sponge2.Model.Files;
+using SayMore.Model;
+using SayMore.Model.Fields;
+using SayMore.Model.Files;
 
-namespace Sponge2.UI.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class SessionBasicEditor : EditorBase

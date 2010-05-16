@@ -15,9 +15,9 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.Windows.Forms;
-using Sponge2.UI.Utilities;
+using SayMore.UI.Utilities;
 
-namespace Sponge2.UI.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

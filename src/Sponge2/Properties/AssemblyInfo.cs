@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Sponge")]
+[assembly: AssemblyTitle("SayMore")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Sponge")]
+[assembly: AssemblyCompany("SIL International")]
+[assembly: AssemblyProduct("SayMore")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,15 +22,7 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("f83ce30d-c534-4127-8ba5-7cfd5f4998bb")]
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.*")]
-[assembly: AssemblyFileVersion("0.1")]
+//thsese are marked with 9's to flag that if a version gets out with these,
+// then it wasn't built by our build system so we don't really know what version it is
+[assembly: AssemblyVersion("0.1.9999.9999")]
+[assembly: AssemblyFileVersion("0.1.9999.9999")]

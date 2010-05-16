@@ -1,7 +1,7 @@
 using SilUtils;
-using Sponge2.UI.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
-namespace Sponge2.UI.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	partial class PersonListScreen
 	{
@@ -34,9 +34,9 @@ namespace Sponge2.UI.ElementListScreen
 			this._tabComponentEditors = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this._elementListSplitter = new System.Windows.Forms.SplitContainer();
-			this._peopleListPanel = new Sponge2.UI.LowLevelControls.ListPanel();
+			this._peopleListPanel = new SayMore.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
-			this._componentFileGrid = new Sponge2.UI.ElementListScreen.ComponentFileGrid();
+			this._componentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._tabComponentEditors.SuspendLayout();
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();

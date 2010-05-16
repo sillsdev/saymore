@@ -19,9 +19,9 @@ using System.IO;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SilUtils;
-using Sponge2.UI.ProjectChoosingAndCreating;
+using SayMore.UI.ProjectChoosingAndCreating;
 
-namespace Sponge2Tests.ProjectChosingAndCreating
+namespace SayMoreTests.ProjectChosingAndCreating
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

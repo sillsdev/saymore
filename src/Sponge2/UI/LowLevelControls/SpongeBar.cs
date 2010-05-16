@@ -19,9 +19,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using Sponge2.UI.Utilities;
+using SayMore.UI.Utilities;
 
-namespace Sponge2.UI.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

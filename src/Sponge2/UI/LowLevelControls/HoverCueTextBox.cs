@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilUtils;
 
-namespace Sponge2.UI.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

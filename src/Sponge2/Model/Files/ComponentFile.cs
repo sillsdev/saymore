@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Palaso.Reporting;
-using Sponge2.Model.Fields;
+using SayMore.Model.Fields;
 
-namespace Sponge2.Model.Files
+namespace SayMore.Model.Files
 {
 	/// <summary>
 	/// Both sessions and people are made up of a number of files: an xml file we help them edit

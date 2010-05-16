@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Sponge2.UI.ComponentEditors;
+using SayMore.UI.ComponentEditors;
 
-namespace Sponge2.Model.Files
+namespace SayMore.Model.Files
 {
 	/// <summary>
 	/// This is the type assigned to files which we don't recognize

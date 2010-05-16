@@ -2,9 +2,9 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Sponge2.Properties;
+using SayMore.Properties;
 
-namespace Sponge2.Model.Files
+namespace SayMore.Model.Files
 {
 	/// <summary>
 	/// A session or person folder contains multiple files, each of which is there because

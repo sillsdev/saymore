@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Palaso.Code;
 
-namespace Sponge2.Model
+namespace SayMore.Model
 {
 	/// <summary>
 	/// This is reposible for finding, creating, and removing items of the given type T

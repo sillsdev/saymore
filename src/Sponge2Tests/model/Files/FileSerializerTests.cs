@@ -4,10 +4,10 @@ using System.IO;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using System.Linq;
-using Sponge2.Model.Fields;
-using Sponge2.Model.Files;
+using SayMore.Model.Fields;
+using SayMore.Model.Files;
 
-namespace Sponge2Tests.model.Files
+namespace SayMoreTests.model.Files
 {
 	public class FileSerializerTests
 	{

@@ -7,3 +7,5 @@ glob:src/Sponge2/bin/*
 glob:design/Mockups 17Nov09.pdf
 glob:del.txt
 glob:bugs.txt
+glob:src/Sponge/bin/*
+glob:src/Sponge2/Sponge2.csproj.John

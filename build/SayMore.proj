@@ -1,5 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <UsingTask TaskName="StampAssemblies" AssemblyFile="c:\dev\palaso\output\debug\Palaso.BuildTasks.dll" />
+  <UsingTask TaskName="StampAssemblies" AssemblyFile="$(BaseDirectory)\lib\Palaso.BuildTasks.dll" />
   <UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(teamcity_dotnet_nunitlauncher_msbuild_task)"/>
 
   <Target Name="Build">

@@ -16,7 +16,7 @@
 	</Target>
 
   <Target Name="Compile" DependsOnTargets="SetVersion">
-	<MSBuild Projects="$(BaseDirectory)\src\SayMore.sln"
+	<MSBuild Projects="$(BaseDirectory)\SayMore.sln"
 			 Targets="Rebuild"
 			 Properties="Configuration=Release" />
   </Target>

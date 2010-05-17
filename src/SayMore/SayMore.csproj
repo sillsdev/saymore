@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=2.1.13.813, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -311,6 +312,6 @@
   -->
   <PropertyGroup>
     <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\DiscourseTypes.xml" "$(OutDir)"
-if exist "$(SolutionDir)copylibs.bat" "$(SolutionDir)copylibs.bat"</PreBuildEvent>
+</PreBuildEvent>
   </PropertyGroup>
 </Project>

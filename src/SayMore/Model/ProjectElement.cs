@@ -74,6 +74,7 @@ namespace SayMore.Model
 							 where (
 								 !x.EndsWith("." + ExtensionWithoutPeriod) &&
 								 //!x.EndsWith("." + Sponge.SessionFileExtension) &&
+								 !x.EndsWith(".meta") &&
 								 !x.ToLower().EndsWith("thumbs.db"))
 							 orderby x
 							 select _componentFileFactory(x);

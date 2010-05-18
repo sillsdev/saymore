@@ -80,7 +80,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sponge2\SayMore.csproj">
+    <ProjectReference Include="..\SayMore\SayMore.csproj">
       <Project>{A61F5E06-CACD-40FA-BBAD-8744212AF14E}</Project>
       <Name>SayMore</Name>
     </ProjectReference>

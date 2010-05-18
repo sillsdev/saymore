@@ -73,6 +73,7 @@ namespace SayMore.UI.LowLevelControls
 		/// Gets or sets the text associated with the control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
 		public override string Text
 		{
 			get { return _txtBox.Text; }
@@ -166,32 +167,24 @@ namespace SayMore.UI.LowLevelControls
 			SizeChanged += HandleSizeChanged;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseEnter"/> event.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseEnter(EventArgs e)
-		{
-			base.OnMouseEnter(e);
-			_txtBox_MouseEnter(null, null);
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Raises the <see cref="E:System.Windows.Forms.Control.MouseEnter"/> event.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnMouseEnter(EventArgs e)
+		//{
+		//    base.OnMouseEnter(e);
+		//    ShowVisualCue();
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseLeave"/> event.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseLeave(EventArgs e)
-		{
-			base.OnMouseLeave(e);
-			_txtBox_MouseLeave(null, null);
-		}
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnMouseLeave(EventArgs e)
+		//{
+		//    base.OnMouseLeave(e);
+		//    HideVisualCue();
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the <see cref="E:System.Windows.Forms.Control.Enter"/> event.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnEnter(EventArgs e)
 		{
@@ -200,24 +193,15 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handles the MouseEnter event of the _txtBox control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void _txtBox_MouseEnter(object sender, EventArgs e)
 		{
-			base.BackColor = FocusedBorderColor;
-			_txtBox.BackColor = FocusedBackColor;
+			ShowVisualCue();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Give control a border.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void _txtBox_Enter(object sender, EventArgs e)
 		{
-			_txtBox_MouseEnter(null, null);
+			ShowVisualCue();
 			_txtBox.SelectAll();
 		}
 
@@ -229,10 +213,7 @@ namespace SayMore.UI.LowLevelControls
 		private void _txtBox_MouseLeave(object sender, EventArgs e)
 		{
 			if (!_txtBox.Focused)
-			{
-				base.BackColor = UnfocusedBorderColor;
-				_txtBox.BackColor = UnfocusedBackColor;
-			}
+				HideVisualCue();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -242,58 +223,100 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void _txtBox_Leave(object sender, EventArgs e)
 		{
-			_txtBox.SelectionStart = 0;
-
 			if (!ClientRectangle.Contains(PointToClient(MousePosition)))
-			{
-				base.BackColor = UnfocusedBorderColor;
-				_txtBox.BackColor = UnfocusedBackColor;
-			}
+				HideVisualCue();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private void ShowVisualCue()
+		{
+			if (base.BackColor != FocusedBorderColor)
+				base.BackColor = FocusedBorderColor;
+
+			if (_txtBox.BackColor != FocusedBackColor)
+				_txtBox.BackColor = FocusedBackColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HideVisualCue()
+		{
+			if (base.BackColor != UnfocusedBorderColor)
+				base.BackColor = UnfocusedBorderColor;
+
+			if (_txtBox.BackColor != UnfocusedBackColor)
+				_txtBox.BackColor = UnfocusedBackColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void _txtBox_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyData == Keys.Enter && _txtBox.Multiline)
 				return;
 
-			if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up || e.KeyCode == Keys.Enter)
-			{
-				if (!ShouldMoveToDifferentControl(e.KeyCode != Keys.Up))
-					return;
+			var move = 0;
 
-				Parent.SelectNextControl(this, e.KeyCode != Keys.Up, true, true, true);
+			switch (e.KeyCode)
+			{
+				case Keys.Up: move = (ShouldUpMoveToPreviousControl() ? -1 : 0); break;
+				case Keys.Left: move = (ShouldLeftMoveToPreviousControl() ? -1 : 0); break;
+				case Keys.Down: move = (ShouldDownMoveToNextControl() ? 1 : 0); break;
+				case Keys.Right: move = (ShouldRightMoveToNextControl() ? 1 : 0); break;
+				case Keys.Enter: move = (ShouldEnterMoveToNextControl() ? 1 : 0); break;
+			}
+
+			if (move != 0)
+			{
+				Parent.SelectNextControl(this, move > 0, true, true, true);
 				e.SuppressKeyPress = true;
 				e.Handled = true;
 			}
-
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool ShouldMoveToDifferentControl(bool forward)
+		private bool ShouldUpMoveToPreviousControl()
 		{
 			if (!_txtBox.Multiline)
 				return true;
 
+			if (_txtBox.SelectionLength > 0)
+				return false;
+
 			var currLineIndex = _txtBox.GetLineFromCharIndex(_txtBox.SelectionStart + _txtBox.SelectionLength);
-			return (currLineIndex == (forward ? _txtBox.Lines.Length - 1 : 0));
+			return (currLineIndex == 0);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Paints the border around the text box.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnPaintBackground(PaintEventArgs e)
-		//{
-		//    base.OnPaintBackground(e);
+		/// ------------------------------------------------------------------------------------
+		private bool ShouldLeftMoveToPreviousControl()
+		{
+			return (_txtBox.SelectionLength == 0 && _txtBox.SelectionStart == 0);
+		}
 
-		//    using (Pen pen = new Pen(_showHoverBorder || !DynamicBorder ? FocusedBorderColor : BackColor))
-		//    {
-		//        Rectangle rc = ClientRectangle;
-		//        rc.Height--;
-		//        rc.Width--;
-		//        e.Graphics.DrawRectangle(pen, rc);
-		//    }
-		//}
+		/// ------------------------------------------------------------------------------------
+		private bool ShouldDownMoveToNextControl()
+		{
+			if (!_txtBox.Multiline || _txtBox.Lines.Length == 0)
+				return true;
+
+			if (_txtBox.SelectionLength > 0)
+				return false;
+
+			var currLineIndex = _txtBox.GetLineFromCharIndex(_txtBox.SelectionStart + _txtBox.SelectionLength);
+			return (currLineIndex == _txtBox.Lines.Length - 1);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool ShouldEnterMoveToNextControl()
+		{
+			if (_txtBox.Multiline)
+				return false;
+
+			return ShouldDownMoveToNextControl();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool ShouldRightMoveToNextControl()
+		{
+			return (_txtBox.SelectionLength == 0 && _txtBox.SelectionStart == _txtBox.Text.Length);
+		}
 	}
 }

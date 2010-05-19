@@ -51,14 +51,15 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			NewProjectName = newName;
 
 			return PathValidator.ValidatePathEntry(DefaultProjectsFolder,
-												   newName, newProjectPathLabel, validPathMsg, invalidPathMsg, _tooltip);
+				newName, newProjectPathLabel, validPathMsg, invalidPathMsg, _tooltip);
 		}
 
 		protected string DefaultProjectsFolder
 		{
 			get
 			{
-				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Sponge");
+				return Path.Combine(
+					Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore");
 			}
 		}
 

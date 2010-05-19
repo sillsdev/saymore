@@ -96,7 +96,7 @@ namespace SayMore
 
 		public ProjectContext CreateProjectContext(string projectSettingsPath)
 		{
-			return new ProjectContext(projectSettingsPath,_container);
+			return new ProjectContext(projectSettingsPath, _container);
 		}
 	}
 }

@@ -181,7 +181,6 @@
     <Compile Include="UI\ProjectWindow\ProjectWindow.Designer.cs">
       <DependentUpon>ProjectWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ProjectChoosingAndCreating\MruProjects.cs" />
     <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\PathValidator.cs" />
     <Compile Include="UI\ProjectChoosingAndCreating\WelcomeDialog.cs">
       <SubType>Form</SubType>
@@ -211,7 +210,7 @@
     <Compile Include="UI\LowLevelControls\ListPanel.Designer.cs">
       <DependentUpon>ListPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\LowLevelControls\SpongeBar.cs">
+    <Compile Include="UI\LowLevelControls\ElementBar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\LowLevelControls\UnderlinedHdgBox.cs">
@@ -279,7 +278,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="UI\Utilities\IconHelper.cs" />
-    <Compile Include="UI\Utilities\SpongeColors.cs" />
+    <Compile Include="UI\Utilities\AppColors.cs" />
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
   </ItemGroup>
   <ItemGroup>

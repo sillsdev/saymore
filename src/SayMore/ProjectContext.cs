@@ -17,7 +17,7 @@ namespace SayMore
 	/// TODO: it might be cleaner to remove this class and just have it all be in method
 	/// on applicationContext
 	/// </summary>
-	public class ProjectContext:IDisposable
+	public class ProjectContext : IDisposable
 	{
 		/// <summary>
 		/// Any resources which belong only to this project will be tracked by this,

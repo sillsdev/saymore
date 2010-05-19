@@ -21,7 +21,7 @@ namespace SayMore.UI.ProjectWindow
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectWindow));
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.tsMain = new SpongeBar();
+			this.tsMain = new SayMore.UI.LowLevelControls.ElementBar();
 			this.tsbOverview = new System.Windows.Forms.ToolStripButton();
 			this.tsbSessions = new System.Windows.Forms.ToolStripButton();
 			this.tsbPeople = new System.Windows.Forms.ToolStripButton();
@@ -161,7 +161,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizingId(this, "MainWnd.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(600, 450);
 			this.Name = "ProjectWindow";
-			this.Text = "{0} - Sponge";
+			this.Text = "{0} - SayMore";
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.tsMain.ResumeLayout(false);
 			this.tsMain.PerformLayout();
@@ -172,7 +172,7 @@ namespace SayMore.UI.ProjectWindow
 
 		#endregion
 
-		private SpongeBar tsMain;
+		private ElementBar tsMain;
 		private System.Windows.Forms.ToolStripButton tsbPeople;
 		private System.Windows.Forms.ToolStripButton tsbOverview;
 		private System.Windows.Forms.ToolStripButton tsbSetup;

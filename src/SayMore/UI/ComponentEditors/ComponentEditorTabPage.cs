@@ -66,7 +66,7 @@ namespace SayMore.UI.ComponentEditors
 				rc.Width--;
 				rc.Height--;
 
-				using (var pen = new Pen(SpongeColors.DataEntryPanelBorder))
+				using (var pen = new Pen(AppColors.DataEntryPanelBorder))
 					e.Graphics.DrawRectangle(pen, rc);
 			}
 		}

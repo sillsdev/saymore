@@ -122,7 +122,7 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <metadata name="tsOptions.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>7, 2</value>
+    <value>0, 0</value>
   </metadata>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tsOptions.AutoSize" type="System.Boolean, mscorlib">
@@ -232,7 +232,7 @@
     <value>tsOptions</value>
   </data>
   <data name="&gt;&gt;tsOptions.Type" xml:space="preserve">
-    <value>SayMore.Controls.SpongeBar, SayMore, Version=0.1.3764.27419, Culture=neutral, PublicKeyToken=null</value>
+    <value>SayMore.UI.LowLevelControls.SpongeBar, SayMore, Version=0.1.9999.9999, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tsOptions.Parent" xml:space="preserve">
     <value>pnlOptions</value>
@@ -388,7 +388,7 @@
     <value>Manual</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Sponge</value>
+    <value>SayMore</value>
   </data>
   <data name="&gt;&gt;tslblOpen.Name" xml:space="preserve">
     <value>tslblOpen</value>

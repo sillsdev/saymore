@@ -60,32 +60,6 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle ProjectWindowBounds {
-            get {
-                return ((global::System.Drawing.Rectangle)(this["ProjectWindowBounds"]));
-            }
-            set {
-                this["ProjectWindowBounds"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle WelcomeDialogBounds {
-            get {
-                return ((global::System.Drawing.Rectangle)(this["WelcomeDialogBounds"]));
-            }
-            set {
-                this["WelcomeDialogBounds"] = value;
-            }
-        }
-        
         /// <summary>
         /// Character used to replace invalid path characters in a person&apos;s name when building a safe name to store in file system.
         /// </summary>
@@ -300,7 +274,7 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("www.spongetheband.com")]
+        [global::System.Configuration.DefaultSettingValueAttribute("www.saymore.org")]
         public string ProgramsWebSite {
             get {
                 return ((string)(this["ProgramsWebSite"]));
@@ -472,6 +446,54 @@ namespace SayMore.Properties {
             }
             set {
                 this["PersonScreenComponentGridCol5Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.FormSettings WelcomeDialog {
+            get {
+                return ((global::SilUtils.FormSettings)(this["WelcomeDialog"]));
+            }
+            set {
+                this["WelcomeDialog"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.FormSettings ProjectWindow {
+            get {
+                return ((global::SilUtils.FormSettings)(this["ProjectWindow"]));
+            }
+            set {
+                this["ProjectWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings SessionScreenComponentGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["SessionScreenComponentGrid"]));
+            }
+            set {
+                this["SessionScreenComponentGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings PersonScreenComponentGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["PersonScreenComponentGrid"]));
+            }
+            set {
+                this["PersonScreenComponentGrid"] = value;
             }
         }
     }

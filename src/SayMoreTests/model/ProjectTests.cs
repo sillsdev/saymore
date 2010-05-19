@@ -24,11 +24,10 @@ namespace SayMoreTests.model
 			_parentFolder = null;
 		}
 
-
 		[Test]
 		public void Load_AfterSave_IsoPreserved()
 		{
-			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
+			using (var parent = new TemporaryFolder("parent"))
 			{
 				string settingsPath = parent.Combine("foo." + Project.ProjectSettingsFileExtension);
 				var project = new Project(settingsPath);
@@ -93,14 +92,18 @@ namespace SayMoreTests.model
 		[Test, ExpectedException(typeof(ArgumentException))]
 		public void Constructor_ParentFolderDoesNotExist_Throws()
 		{
-			Assert.IsTrue(File.Exists(_parentFolder.Combine("NotThere", "foo", "foo." + Project.ProjectSettingsFileExtension)));
+			// If Palaso's temp. folder Combine method is anything like .Net's Path.Combine,
+			// then an exception will *not* get thrown. What's this testing?
+
+			Assert.IsTrue(File.Exists(_parentFolder.Combine("NotThere", "foo", "foo." +
+				Project.ProjectSettingsFileExtension)));
 		}
 
 		[Test]
 		public void Constructor_EverythingOk_CreatesFolderAndSettingsFile()
 		{
-				CreateProject(_parentFolder);
-				Assert.IsTrue(File.Exists(_parentFolder.Combine("foo", "foo."+Project.ProjectSettingsFileExtension)));
+			CreateProject(_parentFolder);
+			Assert.IsTrue(File.Exists(_parentFolder.Combine("foo", "foo."+Project.ProjectSettingsFileExtension)));
 		}
 
 		private void CreateProject(TemporaryFolder parent)

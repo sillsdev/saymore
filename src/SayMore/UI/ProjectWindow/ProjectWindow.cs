@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using SIL.Localization;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
+using SilUtils;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -22,13 +23,6 @@ namespace SayMore.UI.ProjectWindow
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the current Sponge project.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		//public static SpongeProject CurrentProject { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
 		private ProjectWindow()
 		{
 			InitializeComponent();
@@ -38,6 +32,12 @@ namespace SayMore.UI.ProjectWindow
 		public ProjectWindow(string projectName, SessionScreen sessionsScreen,
 			PersonListScreen personsScreen) : this()
 		{
+			if (Settings.Default.ProjectWindow == null)
+			{
+				StartPosition = FormStartPosition.CenterScreen;
+				Settings.Default.ProjectWindow = FormSettings.Create(this);
+			}
+
 			_projectName = projectName;
 			var views = new Control[] { new TextBox(), sessionsScreen, personsScreen };
 
@@ -89,11 +89,8 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
+			Settings.Default.ProjectWindow.InitializeForm(this);
 			base.OnLoad(e);
-
-			// Do this here because it doesn't work in the constructor.
-			if (Settings.Default.ProjectWindowBounds.Height >= 0)
-				Bounds = Settings.Default.ProjectWindowBounds;
 
 			_viewManger.SetView(tsbSessions);
 		}
@@ -102,7 +99,6 @@ namespace SayMore.UI.ProjectWindow
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);
-			Settings.Default.ProjectWindowBounds = Bounds;
 			LocalizeItemDlg.StringsLocalized -= SetWindowText;
 		}
 

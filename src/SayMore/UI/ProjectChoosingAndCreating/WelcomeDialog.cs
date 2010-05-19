@@ -1,11 +1,13 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Windows.Forms;
 using SIL.Localization;
 using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SayMore.UI.Utilities;
+using SilUtils;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
 {
@@ -17,36 +19,32 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 	/// ----------------------------------------------------------------------------------------
 	public partial class WelcomeDialog : Form
 	{
-//		/// ------------------------------------------------------------------------------------
-//		public WelcomeDialog()
-//		{
-//			Font = SystemFonts.MessageBoxFont; //use the default OS UI font
-//			InitializeComponent();
-//		}
+		public WelcomeDialogViewModel Model { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public WelcomeDialog(WelcomeDialogViewModel viewModel)
 		{
 			InitializeComponent();
+
+			Font = SystemFonts.MessageBoxFont; //use the default OS UI font
+
 			Model = viewModel;
 
-			var rc = Settings.Default.WelcomeDialogBounds;
-			if (rc.Height < 0)
+			if (Settings.Default.WelcomeDialog == null)
+			{
 				StartPosition = FormStartPosition.CenterScreen;
-			else
-				Bounds = rc;
+				Settings.Default.WelcomeDialog = FormSettings.Create(this);
+			}
 
 			tsOptions.BackColorBegin = Color.White;
 			tsOptions.BackColorEnd = Color.White;
 			DialogResult = DialogResult.Cancel;
 
 			LoadMRUButtons();
-			if(LocalizationManager.Enabled)//review: to make work with dumb unit tests
-				LocalizationInitiated();
-			LocalizeItemDlg.StringsLocalized += LocalizationInitiated;
-		}
 
-		public WelcomeDialogViewModel Model { get; set; }
+			LocalizeItemDlg.StringsLocalized += LocalizationInitiated;
+			LocalizationInitiated();
+		}
 
 		/// ------------------------------------------------------------------------------------
 		private void LoadMRUButtons()
@@ -92,20 +90,20 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			lblVersionInfo.Text = Model.GetVersionInfo(lblVersionInfo.Text);
 
 			LocalizationManager.LocalizeObject(lnkWebSites, "WelcomeDialog.lnkWebSites",
-											   "Sponge is brought to you by SIL International.  Visit the Sponge web site.",
-											   locExtender.LocalizationGroup);
+			   "SayMore is brought to you by SIL International.  Visit the SayMore web site.",
+			   locExtender.LocalizationGroup);
 
-			var entireLink = LocalizationManager.GetString((object) lnkWebSites);
+			var entireLink = LocalizationManager.GetString(lnkWebSites);
 
 			var silPortion = LocalizationManager.LocalizeString(
 				"WelcomeDialog.lnkWebSites.SILLinkPortion", "SIL International",
 				"This is the portion of the text that is underlined, indicating the link " +
 				"to the SIL web site.", locExtender.LocalizationGroup);
 
-			var spongePortion = LocalizationManager.LocalizeString(
-				"WelcomeDialog.lnkWebSites.SpongeLinkPortion", "Sponge web site",
+			var appPortion = LocalizationManager.LocalizeString(
+				"WelcomeDialog.lnkWebSites.ApplicationLinkPortion", "SayMore web site",
 				"This is the portion of the text that is underlined, indicating the link " +
-				"to the Sponge web site.", locExtender.LocalizationGroup);
+				"to the application's web site.", locExtender.LocalizationGroup);
 
 			lnkWebSites.Links.Clear();
 
@@ -114,24 +112,29 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			if (i >= 0)
 				lnkWebSites.Links.Add(i, silPortion.Length, Settings.Default.SilWebSite);
 
-			// Add the underline and link for Sponge's website.
-			i = entireLink.IndexOf(spongePortion);
+			// Add the underline and link for application's website.
+			i = entireLink.IndexOf(appPortion);
 			if (i >= 0)
-				lnkWebSites.Links.Add(i, spongePortion.Length, Settings.Default.ProgramsWebSite);
+				lnkWebSites.Links.Add(i, appPortion.Length, Settings.Default.ProgramsWebSite);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			Settings.Default.WelcomeDialog.InitializeForm(this);
+			base.OnLoad(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);
-			Settings.Default.WelcomeDialogBounds = Bounds;
 			Settings.Default.Save();
 			LocalizeItemDlg.StringsLocalized -= LocalizationInitiated;
-		}
-
-		protected override void OnShown(EventArgs e)
-		{
-			base.OnShown(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,15 +152,22 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			using (var dlg = new OpenFileDialog())
 			{
 				dlg.Title = LocalizationManager.LocalizeString(
-					"WelcomeDialog.OpenFileDlgCaption", "Open Sponge Project",
+					"WelcomeDialog.OpenFileDlgCaption", "Open SayMore Project",
 					locExtender.LocalizationGroup);
 
 				var prjFilterText = LocalizationManager.LocalizeString(
-					"WelcomeDialog.ProjectFileType", "Sponge Project (*.sprj)",
+					"WelcomeDialog.ProjectFileType", "SayMore Project (*.sprj)",
 					locExtender.LocalizationGroup);
 
+				// TODO: This should really be a static or at least in a class that is accessible
+				// from anywhere because this is the second place it's used. I'm hesitant to use
+				// a static, because I don't understand the DI, app. container and project
+				// context stuff well enough.
+				var projPath = Path.Combine(
+					Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore");
+
 				dlg.Filter = prjFilterText + "|*.sprj";
-				dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+				dlg.InitialDirectory = projPath;
 				dlg.CheckFileExists = true;
 				dlg.CheckPathExists = true;
 				if (dlg.ShowDialog(this) == DialogResult.Cancel)
@@ -201,7 +211,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 //						{
 						Model.SetRequestedPath(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName);
 						DialogResult = DialogResult.OK;
-							Close();
+						Close();
 //						}
 					}
 				}
@@ -228,21 +238,18 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			var rc = new Rectangle(0, 0, ClientSize.Width, 45);
 
 			// Draw the gradient blue bar.
-			using (var br = new LinearGradientBrush(rc, SpongeColors.BarBegin,
-													SpongeColors.BarEnd, 0.0f))
-			{
+			using (var br = new LinearGradientBrush(rc, AppColors.BarBegin, AppColors.BarEnd, 0.0f))
 				e.Graphics.FillRectangle(br, rc);
-			}
 
 			// Draw a line at the bottom of the gradient blue bar.
-			using (var pen = new Pen(SpongeColors.BarBorder))
+			using (var pen = new Pen(AppColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
 
 			rc = new Rectangle(new Point(lblSubTitle.Left - 6, 4), Resources.kimidSpongeText.Size);
 			rc.Inflate(-4, -4);
 			e.Graphics.DrawImage(Resources.kimidSpongeText, rc);
 
-			// Draw the Sponge logo image.
+			// Draw the application's logo image.
 			rc = new Rectangle(new Point(pnlOptions.Left - 10, 16), Resources.kimidSponge.Size);
 			rc.Inflate(-8, -8);
 			e.Graphics.DrawImage(Resources.kimidSponge, rc);

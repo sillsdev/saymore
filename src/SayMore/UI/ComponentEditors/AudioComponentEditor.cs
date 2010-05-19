@@ -49,7 +49,7 @@ namespace SayMore.UI.ComponentEditors
 			else
 				rc.Height--;
 
-			using (Pen pen = new Pen(SpongeColors.DataEntryPanelBorder))
+			using (Pen pen = new Pen(AppColors.DataEntryPanelBorder))
 				e.Graphics.DrawRectangle(pen, rc);
 		}
 	}

@@ -1,5 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <UsingTask TaskName="StampAssemblies" AssemblyFile="c:\dev\palaso\output\debug\Palaso.BuildTasks.dll" />
+  <UsingTask TaskName="StampAssemblies" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
   <UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(teamcity_dotnet_nunitlauncher_msbuild_task)"/>
 
   <Target Name="Build">
@@ -10,13 +10,13 @@
 
   <Target Name="SetVersion">
 	  <ItemGroup>
-		<AssemblyInfoFiles Include="..\**\assemblyinfo.cs"/>
+		<AssemblyInfoFiles Include="$(teamcity_build_checkoutDir)/src/**/assemblyinfo.cs"/>
 	  </ItemGroup>
 	  <StampAssemblies Version="$(BUILD_NUMBER)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
 	</Target>
 
   <Target Name="Compile" DependsOnTargets="SetVersion">
-	<MSBuild Projects="$(BaseDirectory)\src\Sponge.sln"
+	<MSBuild Projects="$(teamcity_build_checkoutDir)/SayMore.sln"
 			 Targets="Rebuild"
 			 Properties="Configuration=Release" />
   </Target>
@@ -24,7 +24,7 @@
 
   <Target Name="Test" DependsOnTargets ="Build">
 	<ItemGroup>
-	  <TestAssemblies Include="**/release/*Tests.dll;"  Exclude="**\obj\**;" />
+	  <TestAssemblies Include="$(teamcity_build_checkoutDir)/output/release/*Tests.dll;"  Exclude="**\obj\**;" />
 	</ItemGroup>
 	<NUnitTeamCity Assemblies="@(TestAssemblies)" />
   </Target>

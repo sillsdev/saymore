@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using Palaso.Reporting;
 using SayMore.Model;
+using SilUtils;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
 {
@@ -55,10 +56,10 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			get
 			{
-				foreach (string prjPath in MruProjects.Paths)
+				foreach (string prjPath in MruFiles.Paths)
 				{
 					yield return new KeyValuePair<string, string>(prjPath,
-																  Path.GetFileNameWithoutExtension(prjPath));
+						Path.GetFileNameWithoutExtension(prjPath));
 				}
 			}
 		}

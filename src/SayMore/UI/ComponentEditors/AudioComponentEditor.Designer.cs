@@ -28,6 +28,7 @@ namespace SayMore.UI.ComponentEditors
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this._labelRecordist = new System.Windows.Forms.Label();
 			this._recordist = new SayMore.UI.LowLevelControls.VisuallyDynamicTextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -37,6 +38,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelMicrophone = new System.Windows.Forms.Label();
 			this._device = new SayMore.UI.LowLevelControls.VisuallyDynamicTextBox();
 			this._labelDevice = new System.Windows.Forms.Label();
+			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -246,5 +248,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelNotes;
 		private SayMore.UI.LowLevelControls.VisuallyDynamicTextBox _microphone;
 		private System.Windows.Forms.Label _labelMicrophone;
+		private BindingHelper _binder;
 	}
 }

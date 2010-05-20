@@ -34,7 +34,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WelcomeDialog));
 			this.pnlOptions = new System.Windows.Forms.Panel();
-			this.tsOptions = new SpongeBar();
+			this.tsOptions = new SayMore.UI.LowLevelControls.ElementBar();
 			this.tslblOpen = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbMru0 = new System.Windows.Forms.ToolStripButton();
@@ -65,13 +65,13 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.tsOptions.GradientAngle = 0F;
 			this.tsOptions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			                                                                       	this.tslblOpen,
-			                                                                       	this.toolStripSeparator1,
-			                                                                       	this.tsbMru0,
-			                                                                       	this.tsbBrowse,
-			                                                                       	this.tslblCreate,
-			                                                                       	this.toolStripSeparator2,
-			                                                                       	this.tsbCreate});
+            this.tslblOpen,
+            this.toolStripSeparator1,
+            this.tsbMru0,
+            this.tsbBrowse,
+            this.tslblCreate,
+            this.toolStripSeparator2,
+            this.tsbCreate});
 			this.tsOptions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.locExtender.SetLocalizableToolTip(this.tsOptions, null);
 			this.locExtender.SetLocalizationComment(this.tsOptions, null);
@@ -202,7 +202,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		#endregion
 
 		private System.Windows.Forms.Panel pnlOptions;
-		private SpongeBar tsOptions;
+		private ElementBar tsOptions;
 		private System.Windows.Forms.ToolStripLabel tslblCreate;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton tsbCreate;

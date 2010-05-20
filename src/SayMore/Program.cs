@@ -1,13 +1,11 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using SIL.Localization;
-using SayMore.Model;
 using SayMore.Properties;
-using SayMore.UI.ProjectChoosingAndCreating;
 using SayMore.UI.ProjectWindow;
+using SilUtils;
 
 namespace SayMore
 {
@@ -32,30 +30,28 @@ namespace SayMore
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
+			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer();
 
 			LocalizationManager.Enabled = true;
 			LocalizationManager.Initialize();
 
-			//Settings.Default.Reset();
-			//Settings.Default.Save();
-
 			SetUpErrorHandling();
 			StartUpShellBasedOnMostRecentUsedIfPossible();
+
 			Application.Run();
 			Settings.Default.Save();
-			if(_projectContext!=null)
-			{
+
+			if (_projectContext != null)
 				_projectContext.Dispose();
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		static void StartUpShellBasedOnMostRecentUsedIfPossible()
 		{
-			if (MruProjects.Latest != null && File.Exists(MruProjects.Latest))
+			if (MruFiles.Latest != null && File.Exists(MruFiles.Latest))
 			{
-				OpenProjectWindow(MruProjects.Latest);
+				OpenProjectWindow(MruFiles.Latest);
 			}
 			else
 			{
@@ -86,12 +82,7 @@ namespace SayMore
 					return;
 				}
 
-				MruProjects.AddNewPath(dlg.Model.ProjectSettingsFilePath);
-				MruProjects.Save();
-//				if (!File.Exists(dlg.Model.ProjectSettingsFilePath))
-//				{
-//					new Project(dlg.Model.ProjectSettingsFilePath);
-//				}
+				MruFiles.AddNewPath(dlg.Model.ProjectSettingsFilePath);
 				OpenProjectWindow(dlg.Model.ProjectSettingsFilePath);
 			}
 		}

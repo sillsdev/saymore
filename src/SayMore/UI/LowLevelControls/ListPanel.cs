@@ -575,7 +575,7 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonPanelPaint(object sender, PaintEventArgs e)
 		{
-			SpongeColors.PaintDataEntryBackground(e.Graphics,
+			AppColors.PaintDataEntryBackground(e.Graphics,
 				_buttonsFlowLayoutPanel.ClientRectangle, BorderSides.Top);
 		}
 

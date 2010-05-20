@@ -44,10 +44,6 @@ namespace SayMore.Model.Files
 
 		public virtual IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			System.Diagnostics.Debug.Write(file.ToString());
-
-
-
 			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "Info");
 			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "TEST");
 		}
@@ -156,7 +152,7 @@ namespace SayMore.Model.Files
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			if (_provider == null)
-				_provider = new EditorProvider(new AudioComponentEditor(), "Audio");
+				_provider = new EditorProvider(new AudioComponentEditor(file), "Audio");
 
 			yield return _provider;
 		}

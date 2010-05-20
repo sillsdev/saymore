@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.
-//
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright>
-#endregion
-//
-// File: SpongeBar.cs
-// Responsibility: D. Olson
-//
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -29,11 +13,11 @@ namespace SayMore.UI.LowLevelControls
 	/// the application.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class SpongeBar : ToolStrip
+	public class ElementBar : ToolStrip
 	{
 		private ToolStripRenderer _prevRenderer;
-		private Color _clrBegin = SpongeColors.BarBegin;
-		private Color _clrEnd = SpongeColors.BarEnd;
+		private Color _clrBegin = AppColors.BarBegin;
+		private Color _clrEnd = AppColors.BarEnd;
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
@@ -45,7 +29,7 @@ namespace SayMore.UI.LowLevelControls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the lighter color of the gradient sponge bar color.
+		/// Gets the lighter color of the gradient bar color.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
@@ -58,7 +42,7 @@ namespace SayMore.UI.LowLevelControls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the darker color of the gradient sponge bar color.
+		/// Gets the darker color of the gradient bar color.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
@@ -79,11 +63,11 @@ namespace SayMore.UI.LowLevelControls
 		protected override void OnRendererChanged(EventArgs e)
 		{
 			if (_prevRenderer != null)
-				_prevRenderer.RenderToolStripBorder -= OverrideSpongeBarBorderPainting;
+				_prevRenderer.RenderToolStripBorder -= OverrideElementBarBorderPainting;
 
 			base.OnRendererChanged(e);
 
-			Renderer.RenderToolStripBorder += OverrideSpongeBarBorderPainting;
+			Renderer.RenderToolStripBorder += OverrideElementBarBorderPainting;
 			_prevRenderer = Renderer;
 		}
 
@@ -95,7 +79,7 @@ namespace SayMore.UI.LowLevelControls
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			base.OnPaintBackground(e);
-			PaintSpongeBarBackground(e.Graphics, ClientRectangle);
+			PaintElementBarBackground(e.Graphics, ClientRectangle);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -104,7 +88,7 @@ namespace SayMore.UI.LowLevelControls
 		/// background of the rest of the main toolstrip.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void OverrideSpongeBarBorderPainting(object sender, ToolStripRenderEventArgs e)
+		private void OverrideElementBarBorderPainting(object sender, ToolStripRenderEventArgs e)
 		{
 			if (Dock == DockStyle.Top || Dock == DockStyle.Left)
 			{
@@ -112,7 +96,7 @@ namespace SayMore.UI.LowLevelControls
 				var rc = e.ToolStrip.ClientRectangle;
 				rc.Y = rc.Bottom - 3;
 				rc.Height = 3;
-				PaintSpongeBarBackground(e.Graphics, e.ToolStrip.ClientRectangle, rc);
+				PaintElementBarBackground(e.Graphics, e.ToolStrip.ClientRectangle, rc);
 			}
 
 			if (Dock == DockStyle.Top)
@@ -120,23 +104,23 @@ namespace SayMore.UI.LowLevelControls
 				// Paint over a couple of pixels at the left edge.
 				var rc = e.ToolStrip.ClientRectangle;
 				rc.Width = 2;
-				PaintSpongeBarBackground(e.Graphics, e.ToolStrip.ClientRectangle, rc);
+				PaintElementBarBackground(e.Graphics, e.ToolStrip.ClientRectangle, rc);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Paint in the specified rectangle the gradient blue of a sponge bar background.
+		/// Paint in the specified rectangle the gradient blue of a bar background.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void PaintSpongeBarBackground(Graphics g, Rectangle rc)
+		private void PaintElementBarBackground(Graphics g, Rectangle rc)
 		{
-			PaintSpongeBarBackground(g, rc, rc);
+			PaintElementBarBackground(g, rc, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Paint in the specified rectangle the gradient blue of a sponge bar background.
+		/// Paint in the specified rectangle the gradient blue of a bar background.
 		/// </summary>
 		/// <param name="g">The graphics object.</param>
 		/// <param name="rcGradient">The rectangle used for calculating the gradient (i.e.
@@ -144,7 +128,7 @@ namespace SayMore.UI.LowLevelControls
 		/// <param name="rcFill">The rectangle that's filled using the FillRectangle method.
 		/// </param>
 		/// ------------------------------------------------------------------------------------
-		private void PaintSpongeBarBackground(Graphics g, Rectangle rcGradient, Rectangle rcFill)
+		private void PaintElementBarBackground(Graphics g, Rectangle rcGradient, Rectangle rcFill)
 		{
 			using (var br = new LinearGradientBrush(rcGradient, BackColorBegin, BackColorEnd, GradientAngle))
 				g.FillRectangle(br, rcFill);

@@ -5,7 +5,7 @@ using SayMore.UI.ProjectWindow;
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class PersonListScreen : ConcretePersonListScreen, ISpongeView
+	public partial class PersonListScreen : ConcretePersonListScreen, ISayMoreView
 	{
 		public PersonListScreen(ElementListViewModel<Person> presentationModel)
 			: base(presentationModel)
@@ -16,7 +16,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			Initialize(_tabComponentEditors, _componentFileGrid, _peopleListPanel);
-			_componentFileGrid.InitializeColumnWidths("PersonScreen");
+			_componentFileGrid.InitializeGrid("PersonScreen");
 		}
 
 		/// ------------------------------------------------------------------------------------

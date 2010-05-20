@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.
-//
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright>
-#endregion
-//
-// File: SpongeColors.cs
-// Responsibility: D. Olson
-//
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -38,7 +22,7 @@ namespace SayMore.UI.Utilities
 	///
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class SpongeColors
+	public class AppColors
 	{
 		public static Color BarBegin = Settings.Default.BarColorBegin;
 		public static Color BarEnd = Settings.Default.BarColorEnd;

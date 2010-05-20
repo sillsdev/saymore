@@ -6,7 +6,7 @@ using SayMore.UI.ProjectWindow;
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class SessionScreen : ConcreteSessionScreen, ISpongeView
+	public partial class SessionScreen : ConcreteSessionScreen, ISayMoreView
 	{
 		public SessionScreen(ElementListViewModel<Session> presentationModel)
 			: base(presentationModel)
@@ -17,7 +17,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			Initialize(_tabComponentEditors, _componentFileGrid, _sessionsListPanel);
-			_componentFileGrid.InitializeColumnWidths("SessionScreen");
+			_componentFileGrid.InitializeGrid("SessionScreen");
 		}
 
 		/// ------------------------------------------------------------------------------------

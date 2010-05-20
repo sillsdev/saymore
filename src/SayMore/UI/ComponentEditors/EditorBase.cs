@@ -30,7 +30,7 @@ namespace SayMore.UI.ComponentEditors
 		public EditorBase()
 		{
 			DoubleBuffered = true;
-			BackColor = SpongeColors.DataEntryPanelBegin;
+			BackColor = AppColors.DataEntryPanelBegin;
 			Padding = new Padding(7);
 			AutoScroll = true;
 		}

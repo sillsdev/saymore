@@ -52,6 +52,9 @@ namespace SayMore.Model.Files
 			MetaDataFieldValues = new List<FieldValue>();
 
 			DetermineFileType(pathToAnnotatedFile, fileTypes);
+
+			if (File.Exists(_metaDataPath))
+				Load();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -252,10 +255,11 @@ namespace SayMore.Model.Files
 				var newMetaPath = ComputeMetaDataPath(newPath);
 				//enhance: if somethine goes wrong from here down,
 				//this would leave us with one file renamed, but not the other.
-				if(File.Exists(_metaDataPath))
+				if (File.Exists(_metaDataPath))
 				{
 					File.Move(_metaDataPath,  newMetaPath);
 				}
+
 				PathToAnnotatedFile = newPath;
 			}
 			catch (Exception e)

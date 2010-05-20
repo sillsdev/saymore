@@ -12,7 +12,7 @@ namespace SayMore.UI.ProjectWindow
 	///
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public interface ISpongeView
+	public interface ISayMoreView
 	{
 		void ViewActivated(bool firstTime);
 		void ViewDeactivated();
@@ -57,7 +57,7 @@ namespace SayMore.UI.ProjectWindow
 				Debug.Assert(_toolStrip.Items[i] is ToolStripButton);
 				_controls[_toolStrip.Items[i++] as ToolStripButton] = ctrl;
 
-				if (ctrl is ISpongeView)
+				if (ctrl is ISayMoreView)
 					_hasBeenActivatedList[ctrl] = false;
 			}
 		}
@@ -84,17 +84,17 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets all the controls associated with buttons that implement the ISpongeView
+		/// Gets all the controls associated with buttons that implement the ISayMoreView
 		/// interface.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ISpongeView> Views
+		public IEnumerable<ISayMoreView> Views
 		{
 			get
 			{
 				return from x in _controls.Values
-					   where x is ISpongeView
-					   select x as ISpongeView;
+					   where x is ISayMoreView
+					   select x as ISayMoreView;
 			}
 		}
 
@@ -162,8 +162,8 @@ namespace SayMore.UI.ProjectWindow
 				currbtn.Checked = false;
 				_controls[currbtn].Visible = false;
 
-				if (_controls[currbtn] is ISpongeView)
-					((ISpongeView)_controls[currbtn]).ViewDeactivated();
+				if (_controls[currbtn] is ISayMoreView)
+					((ISayMoreView)_controls[currbtn]).ViewDeactivated();
 			}
 
 			if (btn != null)
@@ -176,9 +176,9 @@ namespace SayMore.UI.ProjectWindow
 			if (_toolStripOwner != null)
 				Utils.SetWindowRedraw(_toolStripOwner, true);
 
-			if (newVw is ISpongeView)
+			if (newVw is ISayMoreView)
 			{
-				((ISpongeView)newVw).ViewActivated(!_hasBeenActivatedList[newVw]);
+				((ISayMoreView)newVw).ViewActivated(!_hasBeenActivatedList[newVw]);
 				_hasBeenActivatedList[newVw] = true;
 			}
 		}

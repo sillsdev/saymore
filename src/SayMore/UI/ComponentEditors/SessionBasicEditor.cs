@@ -28,7 +28,7 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Provide special handling for persisting the value for the event type combo.
+		/// Provide special handling for persisting the value of the event type combo.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool HandleGetBoundControlValue(BindingHelper helper, Control boundControl, out string newValue)

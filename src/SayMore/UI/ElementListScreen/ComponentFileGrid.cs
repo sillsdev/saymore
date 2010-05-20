@@ -34,32 +34,18 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void InitializeColumnWidths(string settingPrefix)
+		public void InitializeGrid(string settingPrefix)
 		{
 			_gridColSettingPrefix = settingPrefix;
 
-			for (int i = 1; i < _grid.ColumnCount; i++)
-			{
-				var propName =
-					string.Format("{0}ComponentGridCol{1}Width", _gridColSettingPrefix, i);
-
-				int width = (int)Settings.Default[propName];
-				if (width > 0)
-					_grid.Columns[i].Width = width;
-			}
+			if (Settings.Default[_gridColSettingPrefix + "ComponentGrid"] != null)
+				((GridSettings)Settings.Default[_gridColSettingPrefix + "ComponentGrid"]).InitializeGrid(_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			for (int i = 1; i < _grid.ColumnCount; i++)
-			{
-				var propName =
-					string.Format("{0}ComponentGridCol{1}Width", _gridColSettingPrefix, i);
-
-				Settings.Default[propName] =_grid.Columns[i].Width;
-			}
-
+			Settings.Default[_gridColSettingPrefix + "ComponentGrid"] = GridSettings.Create(_grid);
 			base.OnHandleDestroyed(e);
 		}
 

@@ -28,6 +28,7 @@ namespace SayMoreTests.model
 		[Test]
 		public void Load_AfterSave_IsoPreserved()
 		{
+			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
 			{
 				string settingsPath = parent.Combine("foo." + Project.ProjectSettingsFileExtension);
 				var project = new Project(settingsPath);

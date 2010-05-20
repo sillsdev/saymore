@@ -79,9 +79,7 @@ namespace SayMore
 				yield return new SessionFileType();
 				yield return new PersonFileType();
 				yield return new AudioFileType();
-
-				yield return FileType.Create("Video",
-					Settings.Default.VideoFileExtensions.Cast<string>().ToArray());
+				yield return new VideoFileType();
 
 				yield return FileType.Create("Image",
 					Settings.Default.ImageFileExtensions.Cast<string>().ToArray());

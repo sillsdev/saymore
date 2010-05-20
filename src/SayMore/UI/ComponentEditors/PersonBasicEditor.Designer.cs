@@ -29,15 +29,15 @@ namespace SayMore.UI.ComponentEditors
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.lblFullName = new System.Windows.Forms.Label();
+			this._labelFullName = new System.Windows.Forms.Label();
 			this._id = new System.Windows.Forms.TextBox();
-			this.lblBirthYear = new System.Windows.Forms.Label();
+			this.labelBirthYear = new System.Windows.Forms.Label();
 			this._birthYear = new System.Windows.Forms.TextBox();
 			this._tblLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._picture = new System.Windows.Forms.PictureBox();
 			this._notes = new System.Windows.Forms.TextBox();
 			this._howToContact = new System.Windows.Forms.TextBox();
-			this._lblHowToContact = new System.Windows.Forms.Label();
+			this._labelHowToContact = new System.Windows.Forms.Label();
 			this._pnlOtherLanguages = new SayMore.UI.LowLevelControls.UnderlinedHdgBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this._pbOtherLangMother3 = new SayMore.UI.LowLevelControls.ParentButton();
@@ -57,15 +57,15 @@ namespace SayMore.UI.ComponentEditors
 			this._tblLayoutPrimaryLanguage = new System.Windows.Forms.TableLayoutPanel();
 			this._pbPrimaryLangMother = new SayMore.UI.LowLevelControls.ParentButton();
 			this._pbPrimaryLangFather = new SayMore.UI.LowLevelControls.ParentButton();
-			this._lblPrimaryLanguageLearnedIn = new System.Windows.Forms.Label();
+			this._labelPrimaryLanguageLearnedIn = new System.Windows.Forms.Label();
 			this._primaryLanguage = new System.Windows.Forms.TextBox();
 			this._primaryLanguageLearnedIn = new System.Windows.Forms.TextBox();
-			this._lblgender = new System.Windows.Forms.Label();
+			this._labelgender = new System.Windows.Forms.Label();
 			this._primaryOccupation = new System.Windows.Forms.TextBox();
-			this._lblPrimaryOccupation = new System.Windows.Forms.Label();
+			this._labelPrimaryOccupation = new System.Windows.Forms.Label();
 			this._education = new System.Windows.Forms.TextBox();
-			this._lblEducation = new System.Windows.Forms.Label();
-			this._lblNotes = new System.Windows.Forms.Label();
+			this._labelEducation = new System.Windows.Forms.Label();
+			this._labelNotes = new System.Windows.Forms.Label();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._tblLayoutOuter.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._picture)).BeginInit();
@@ -75,15 +75,15 @@ namespace SayMore.UI.ComponentEditors
 			this._tblLayoutPrimaryLanguage.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// lblFullName
+			// _labelFullName
 			// 
-			this.lblFullName.AutoSize = true;
-			this.lblFullName.Location = new System.Drawing.Point(0, 0);
-			this.lblFullName.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-			this.lblFullName.Name = "lblFullName";
-			this.lblFullName.Size = new System.Drawing.Size(54, 13);
-			this.lblFullName.TabIndex = 0;
-			this.lblFullName.Text = "&Full Name";
+			this._labelFullName.AutoSize = true;
+			this._labelFullName.Location = new System.Drawing.Point(0, 0);
+			this._labelFullName.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
+			this._labelFullName.Name = "_labelFullName";
+			this._labelFullName.Size = new System.Drawing.Size(54, 13);
+			this._labelFullName.TabIndex = 0;
+			this._labelFullName.Text = "&Full Name";
 			// 
 			// _id
 			// 
@@ -95,15 +95,15 @@ namespace SayMore.UI.ComponentEditors
 			this._id.Size = new System.Drawing.Size(355, 20);
 			this._id.TabIndex = 1;
 			// 
-			// lblBirthYear
+			// labelBirthYear
 			// 
-			this.lblBirthYear.AutoSize = true;
-			this.lblBirthYear.Location = new System.Drawing.Point(365, 0);
-			this.lblBirthYear.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
-			this.lblBirthYear.Name = "lblBirthYear";
-			this.lblBirthYear.Size = new System.Drawing.Size(53, 13);
-			this.lblBirthYear.TabIndex = 8;
-			this.lblBirthYear.Text = "&Birth Year";
+			this.labelBirthYear.AutoSize = true;
+			this.labelBirthYear.Location = new System.Drawing.Point(365, 0);
+			this.labelBirthYear.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
+			this.labelBirthYear.Name = "labelBirthYear";
+			this.labelBirthYear.Size = new System.Drawing.Size(53, 13);
+			this.labelBirthYear.TabIndex = 8;
+			this.labelBirthYear.Text = "&Birth Year";
 			// 
 			// _birthYear
 			// 
@@ -127,20 +127,20 @@ namespace SayMore.UI.ComponentEditors
 			this._tblLayoutOuter.Controls.Add(this._picture, 2, 0);
 			this._tblLayoutOuter.Controls.Add(this._notes, 1, 7);
 			this._tblLayoutOuter.Controls.Add(this._howToContact, 1, 5);
-			this._tblLayoutOuter.Controls.Add(this._lblHowToContact, 1, 4);
+			this._tblLayoutOuter.Controls.Add(this._labelHowToContact, 1, 4);
 			this._tblLayoutOuter.Controls.Add(this._pnlOtherLanguages, 0, 4);
 			this._tblLayoutOuter.Controls.Add(this._gender, 1, 3);
 			this._tblLayoutOuter.Controls.Add(this._pnlPrimaryLanguage, 0, 2);
-			this._tblLayoutOuter.Controls.Add(this.lblFullName, 0, 0);
-			this._tblLayoutOuter.Controls.Add(this.lblBirthYear, 1, 0);
+			this._tblLayoutOuter.Controls.Add(this._labelFullName, 0, 0);
+			this._tblLayoutOuter.Controls.Add(this.labelBirthYear, 1, 0);
 			this._tblLayoutOuter.Controls.Add(this._id, 0, 1);
 			this._tblLayoutOuter.Controls.Add(this._birthYear, 1, 1);
-			this._tblLayoutOuter.Controls.Add(this._lblgender, 1, 2);
+			this._tblLayoutOuter.Controls.Add(this._labelgender, 1, 2);
 			this._tblLayoutOuter.Controls.Add(this._primaryOccupation, 0, 11);
-			this._tblLayoutOuter.Controls.Add(this._lblPrimaryOccupation, 0, 10);
+			this._tblLayoutOuter.Controls.Add(this._labelPrimaryOccupation, 0, 10);
 			this._tblLayoutOuter.Controls.Add(this._education, 0, 9);
-			this._tblLayoutOuter.Controls.Add(this._lblEducation, 0, 8);
-			this._tblLayoutOuter.Controls.Add(this._lblNotes, 1, 6);
+			this._tblLayoutOuter.Controls.Add(this._labelEducation, 0, 8);
+			this._tblLayoutOuter.Controls.Add(this._labelNotes, 1, 6);
 			this._tblLayoutOuter.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tblLayoutOuter.Location = new System.Drawing.Point(7, 7);
 			this._tblLayoutOuter.Name = "_tblLayoutOuter";
@@ -206,16 +206,16 @@ namespace SayMore.UI.ComponentEditors
 			this._howToContact.Size = new System.Drawing.Size(228, 87);
 			this._howToContact.TabIndex = 13;
 			// 
-			// _lblHowToContact
+			// _labelHowToContact
 			// 
-			this._lblHowToContact.AutoSize = true;
-			this._tblLayoutOuter.SetColumnSpan(this._lblHowToContact, 2);
-			this._lblHowToContact.Location = new System.Drawing.Point(365, 135);
-			this._lblHowToContact.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
-			this._lblHowToContact.Name = "_lblHowToContact";
-			this._lblHowToContact.Size = new System.Drawing.Size(81, 13);
-			this._lblHowToContact.TabIndex = 12;
-			this._lblHowToContact.Text = "How to Contact";
+			this._labelHowToContact.AutoSize = true;
+			this._tblLayoutOuter.SetColumnSpan(this._labelHowToContact, 2);
+			this._labelHowToContact.Location = new System.Drawing.Point(365, 135);
+			this._labelHowToContact.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
+			this._labelHowToContact.Name = "_labelHowToContact";
+			this._labelHowToContact.Size = new System.Drawing.Size(81, 13);
+			this._labelHowToContact.TabIndex = 12;
+			this._labelHowToContact.Text = "How to Contact";
 			// 
 			// _pnlOtherLanguages
 			// 
@@ -446,7 +446,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tblLayoutPrimaryLanguage.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tblLayoutPrimaryLanguage.Controls.Add(this._pbPrimaryLangMother, 3, 0);
 			this._tblLayoutPrimaryLanguage.Controls.Add(this._pbPrimaryLangFather, 2, 0);
-			this._tblLayoutPrimaryLanguage.Controls.Add(this._lblPrimaryLanguageLearnedIn, 0, 1);
+			this._tblLayoutPrimaryLanguage.Controls.Add(this._labelPrimaryLanguageLearnedIn, 0, 1);
 			this._tblLayoutPrimaryLanguage.Controls.Add(this._primaryLanguage, 0, 0);
 			this._tblLayoutPrimaryLanguage.Controls.Add(this._primaryLanguageLearnedIn, 1, 1);
 			this._tblLayoutPrimaryLanguage.Dock = System.Windows.Forms.DockStyle.Top;
@@ -483,15 +483,15 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangFather.TabIndex = 1;
 			this._pbPrimaryLangFather.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleFathersLanguageChanging);
 			// 
-			// _lblPrimaryLanguageLearnedIn
+			// _labelPrimaryLanguageLearnedIn
 			// 
-			this._lblPrimaryLanguageLearnedIn.AutoSize = true;
-			this._lblPrimaryLanguageLearnedIn.Location = new System.Drawing.Point(0, 40);
-			this._lblPrimaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 7, 3, 0);
-			this._lblPrimaryLanguageLearnedIn.Name = "_lblPrimaryLanguageLearnedIn";
-			this._lblPrimaryLanguageLearnedIn.Size = new System.Drawing.Size(65, 15);
-			this._lblPrimaryLanguageLearnedIn.TabIndex = 3;
-			this._lblPrimaryLanguageLearnedIn.Text = "&Learned In:";
+			this._labelPrimaryLanguageLearnedIn.AutoSize = true;
+			this._labelPrimaryLanguageLearnedIn.Location = new System.Drawing.Point(0, 40);
+			this._labelPrimaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 7, 3, 0);
+			this._labelPrimaryLanguageLearnedIn.Name = "_labelPrimaryLanguageLearnedIn";
+			this._labelPrimaryLanguageLearnedIn.Size = new System.Drawing.Size(65, 15);
+			this._labelPrimaryLanguageLearnedIn.TabIndex = 3;
+			this._labelPrimaryLanguageLearnedIn.Text = "&Learned In:";
 			// 
 			// _primaryLanguage
 			// 
@@ -517,17 +517,17 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryLanguageLearnedIn.Size = new System.Drawing.Size(284, 23);
 			this._primaryLanguageLearnedIn.TabIndex = 4;
 			// 
-			// _lblgender
+			// _labelgender
 			// 
-			this._lblgender.AutoEllipsis = true;
-			this._lblgender.AutoSize = true;
-			this._lblgender.Location = new System.Drawing.Point(365, 44);
-			this._lblgender.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
-			this._lblgender.MinimumSize = new System.Drawing.Size(42, 0);
-			this._lblgender.Name = "_lblgender";
-			this._lblgender.Size = new System.Drawing.Size(42, 13);
-			this._lblgender.TabIndex = 10;
-			this._lblgender.Text = "Gender";
+			this._labelgender.AutoEllipsis = true;
+			this._labelgender.AutoSize = true;
+			this._labelgender.Location = new System.Drawing.Point(365, 44);
+			this._labelgender.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
+			this._labelgender.MinimumSize = new System.Drawing.Size(42, 0);
+			this._labelgender.Name = "_labelgender";
+			this._labelgender.Size = new System.Drawing.Size(42, 13);
+			this._labelgender.TabIndex = 10;
+			this._labelgender.Text = "Gender";
 			// 
 			// _primaryOccupation
 			// 
@@ -539,15 +539,15 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryOccupation.Size = new System.Drawing.Size(355, 20);
 			this._primaryOccupation.TabIndex = 7;
 			// 
-			// _lblPrimaryOccupation
+			// _labelPrimaryOccupation
 			// 
-			this._lblPrimaryOccupation.AutoSize = true;
-			this._lblPrimaryOccupation.Location = new System.Drawing.Point(0, 323);
-			this._lblPrimaryOccupation.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
-			this._lblPrimaryOccupation.Name = "_lblPrimaryOccupation";
-			this._lblPrimaryOccupation.Size = new System.Drawing.Size(99, 13);
-			this._lblPrimaryOccupation.TabIndex = 6;
-			this._lblPrimaryOccupation.Text = "Primary Occupation";
+			this._labelPrimaryOccupation.AutoSize = true;
+			this._labelPrimaryOccupation.Location = new System.Drawing.Point(0, 323);
+			this._labelPrimaryOccupation.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
+			this._labelPrimaryOccupation.Name = "_labelPrimaryOccupation";
+			this._labelPrimaryOccupation.Size = new System.Drawing.Size(99, 13);
+			this._labelPrimaryOccupation.TabIndex = 6;
+			this._labelPrimaryOccupation.Text = "Primary Occupation";
 			// 
 			// _education
 			// 
@@ -559,26 +559,26 @@ namespace SayMore.UI.ComponentEditors
 			this._education.Size = new System.Drawing.Size(355, 20);
 			this._education.TabIndex = 5;
 			// 
-			// _lblEducation
+			// _labelEducation
 			// 
-			this._lblEducation.AutoSize = true;
-			this._lblEducation.Location = new System.Drawing.Point(0, 279);
-			this._lblEducation.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
-			this._lblEducation.Name = "_lblEducation";
-			this._lblEducation.Size = new System.Drawing.Size(55, 13);
-			this._lblEducation.TabIndex = 4;
-			this._lblEducation.Text = "Education";
+			this._labelEducation.AutoSize = true;
+			this._labelEducation.Location = new System.Drawing.Point(0, 279);
+			this._labelEducation.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
+			this._labelEducation.Name = "_labelEducation";
+			this._labelEducation.Size = new System.Drawing.Size(55, 13);
+			this._labelEducation.TabIndex = 4;
+			this._labelEducation.Text = "Education";
 			// 
-			// _lblNotes
+			// _labelNotes
 			// 
-			this._lblNotes.AutoSize = true;
-			this._tblLayoutOuter.SetColumnSpan(this._lblNotes, 2);
-			this._lblNotes.Location = new System.Drawing.Point(365, 246);
-			this._lblNotes.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
-			this._lblNotes.Name = "_lblNotes";
-			this._lblNotes.Size = new System.Drawing.Size(35, 13);
-			this._lblNotes.TabIndex = 14;
-			this._lblNotes.Text = "Notes";
+			this._labelNotes.AutoSize = true;
+			this._tblLayoutOuter.SetColumnSpan(this._labelNotes, 2);
+			this._labelNotes.Location = new System.Drawing.Point(365, 246);
+			this._labelNotes.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
+			this._labelNotes.Name = "_labelNotes";
+			this._labelNotes.Size = new System.Drawing.Size(35, 13);
+			this._labelNotes.TabIndex = 14;
+			this._labelNotes.Text = "Notes";
 			// 
 			// PersonBasicEditor
 			// 
@@ -605,17 +605,17 @@ namespace SayMore.UI.ComponentEditors
 
 		#endregion
 
-		private System.Windows.Forms.Label lblFullName;
+		private System.Windows.Forms.Label _labelFullName;
 		private System.Windows.Forms.TextBox _id;
-		private System.Windows.Forms.Label lblBirthYear;
+		private System.Windows.Forms.Label labelBirthYear;
 		private System.Windows.Forms.TextBox _birthYear;
 		private System.Windows.Forms.TableLayoutPanel _tblLayoutOuter;
 		private SayMore.UI.LowLevelControls.UnderlinedHdgBox _pnlPrimaryLanguage;
 		private System.Windows.Forms.TextBox _primaryLanguage;
-		private System.Windows.Forms.Label _lblPrimaryLanguageLearnedIn;
+		private System.Windows.Forms.Label _labelPrimaryLanguageLearnedIn;
 		private System.Windows.Forms.TextBox _primaryLanguageLearnedIn;
 		private System.Windows.Forms.TableLayoutPanel _tblLayoutPrimaryLanguage;
-		private System.Windows.Forms.Label _lblgender;
+		private System.Windows.Forms.Label _labelgender;
 		private System.Windows.Forms.ComboBox _gender;
 		private BindingHelper _binder;
 		private SayMore.UI.LowLevelControls.ParentButton _pbPrimaryLangMother;
@@ -635,12 +635,12 @@ namespace SayMore.UI.ComponentEditors
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather2;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather3;
 		private System.Windows.Forms.PictureBox _picture;
-		private System.Windows.Forms.Label _lblHowToContact;
-		private System.Windows.Forms.Label _lblEducation;
-		private System.Windows.Forms.Label _lblPrimaryOccupation;
+		private System.Windows.Forms.Label _labelHowToContact;
+		private System.Windows.Forms.Label _labelEducation;
+		private System.Windows.Forms.Label _labelPrimaryOccupation;
 		private System.Windows.Forms.TextBox _education;
 		private System.Windows.Forms.TextBox _primaryOccupation;
-		private System.Windows.Forms.Label _lblNotes;
+		private System.Windows.Forms.Label _labelNotes;
 		private System.Windows.Forms.TextBox _howToContact;
 		private System.Windows.Forms.TextBox _notes;
 	}

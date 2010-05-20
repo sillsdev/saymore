@@ -3,13 +3,13 @@ using SayMore.Model.Files;
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class AudioComponentEditor : EditorBase
+	public partial class VideoComponentEditor : EditorBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public AudioComponentEditor(ComponentFile file)
+		public VideoComponentEditor(ComponentFile file)
 		{
 			InitializeComponent();
-			Name = "Audio File Information";
+			Name = "Video File Information";
 			_binder.SetComponentFile(file);
 		}
 	}

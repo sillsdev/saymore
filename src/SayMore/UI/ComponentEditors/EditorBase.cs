@@ -14,6 +14,7 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System.Drawing;
 using System.Windows.Forms;
 using SayMore.UI.Utilities;
 
@@ -33,6 +34,25 @@ namespace SayMore.UI.ComponentEditors
 			BackColor = AppColors.DataEntryPanelBegin;
 			Padding = new Padding(7);
 			AutoScroll = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(System.EventArgs e)
+		{
+			SetLabelFonts(this, new Font(SystemFonts.IconTitleFont, FontStyle.Bold));
+			base.OnLoad(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void SetLabelFonts(Control parent, Font fnt)
+		{
+			foreach (Control ctrl in parent.Controls)
+			{
+				if (ctrl.Name.StartsWith("_label"))
+					ctrl.Font = fnt;
+				else
+					SetLabelFonts(ctrl, fnt);
+			}
 		}
 	}
 }

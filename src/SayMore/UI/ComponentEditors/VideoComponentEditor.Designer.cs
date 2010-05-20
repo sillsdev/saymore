@@ -1,6 +1,6 @@
 namespace SayMore.UI.ComponentEditors
 {
-	partial class AudioComponentEditor
+	partial class VideoComponentEditor
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -51,6 +51,8 @@ namespace SayMore.UI.ComponentEditors
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this._labelTags = new System.Windows.Forms.Label();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
+			this._labelResolution = new System.Windows.Forms.Label();
+			this._resolution = new System.Windows.Forms.TextBox();
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -72,6 +74,8 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46F));
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27F));
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27F));
+			this._tableLayout.Controls.Add(this._resolution, 2, 5);
+			this._tableLayout.Controls.Add(this._labelResolution, 2, 4);
 			this._tableLayout.Controls.Add(this._labelRecordist, 0, 0);
 			this._tableLayout.Controls.Add(this._recordist, 0, 1);
 			this._tableLayout.Controls.Add(this._labelDevice, 0, 2);
@@ -151,7 +155,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelNotes.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelNotes.Name = "_labelNotes";
 			this._labelNotes.Size = new System.Drawing.Size(35, 13);
-			this._labelNotes.TabIndex = 16;
+			this._labelNotes.TabIndex = 18;
 			this._labelNotes.Text = "Notes";
 			// 
 			// _notes
@@ -168,7 +172,7 @@ namespace SayMore.UI.ComponentEditors
 			this._notes.Name = "_notes";
 			this._notes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this._notes.Size = new System.Drawing.Size(312, 105);
-			this._notes.TabIndex = 17;
+			this._notes.TabIndex = 19;
 			// 
 			// _labelMicrophone
 			// 
@@ -321,7 +325,7 @@ namespace SayMore.UI.ComponentEditors
 			this.textBox1.Name = "textBox1";
 			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.textBox1.Size = new System.Drawing.Size(113, 105);
-			this.textBox1.TabIndex = 19;
+			this.textBox1.TabIndex = 21;
 			// 
 			// _labelTags
 			// 
@@ -331,16 +335,39 @@ namespace SayMore.UI.ComponentEditors
 			this._labelTags.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelTags.Name = "_labelTags";
 			this._labelTags.Size = new System.Drawing.Size(31, 13);
-			this._labelTags.TabIndex = 18;
+			this._labelTags.TabIndex = 20;
 			this._labelTags.Text = "Tags";
 			// 
-			// AudioComponentEditor
+			// _labelResolution
+			// 
+			this._labelResolution.AutoSize = true;
+			this._labelResolution.BackColor = System.Drawing.Color.Transparent;
+			this._labelResolution.Location = new System.Drawing.Point(322, 92);
+			this._labelResolution.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
+			this._labelResolution.Name = "_labelResolution";
+			this._labelResolution.Size = new System.Drawing.Size(57, 13);
+			this._labelResolution.TabIndex = 16;
+			this._labelResolution.Text = "Resolution";
+			// 
+			// _resolution
+			// 
+			this._resolution.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._resolution.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._binder.SetIsBound(this._resolution, true);
+			this._resolution.Location = new System.Drawing.Point(322, 108);
+			this._resolution.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
+			this._resolution.Name = "_resolution";
+			this._resolution.Size = new System.Drawing.Size(113, 22);
+			this._resolution.TabIndex = 17;
+			// 
+			// VideoComponentEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayout);
-			this.Name = "AudioComponentEditor";
-			this.Size = new System.Drawing.Size(449, 279);
+			this.Name = "VideoComponentEditor";
+			this.Size = new System.Drawing.Size(449, 291);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			this.ResumeLayout(false);
@@ -372,5 +399,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TextBox _channel;
 		private System.Windows.Forms.TextBox _notes;
 		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox _resolution;
+		private System.Windows.Forms.Label _labelResolution;
 	}
 }

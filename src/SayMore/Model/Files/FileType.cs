@@ -152,7 +152,31 @@ namespace SayMore.Model.Files
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			if (_provider == null)
-				_provider = new EditorProvider(new AudioComponentEditor(file), "Audio");
+				_provider = new EditorProvider(new AudioComponentEditor(file), "Audio File Metadata");
+
+			yield return _provider;
+		}
+	}
+
+	#endregion
+
+	#region VideoFileType class
+	/// ----------------------------------------------------------------------------------------
+	public class VideoFileType : FileType
+	{
+		EditorProvider _provider;
+
+		/// ------------------------------------------------------------------------------------
+		public VideoFileType() : base("Video",
+				p => Settings.Default.VideoFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		{
+			if (_provider == null)
+				_provider = new EditorProvider(new VideoComponentEditor(file), "Video File Metadata");
 
 			yield return _provider;
 		}

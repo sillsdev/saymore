@@ -28,9 +28,8 @@ namespace SayMoreTests.model
 		[Test]
 		public void Load_AfterSave_IsoPreserved()
 		{
-			using (var parent = new Palaso.TestUtilities.TemporaryFolder("parent"))
 			{
-				string settingsPath = parent.Combine("foo." + Project.ProjectSettingsFileExtension);
+				string settingsPath = _parentFolder.Combine("foo." + Project.ProjectSettingsFileExtension);
 				var project = new Project(settingsPath);
 				project.Iso639Code = "abc";
 				project.Save();
@@ -93,9 +92,11 @@ namespace SayMoreTests.model
 		[Test, ExpectedException(typeof(ArgumentException))]
 		public void Constructor_ParentFolderDoesNotExist_Throws()
 		{
+			Assert.IsTrue(File.Exists(_parentFolder.Combine("NotThere", "foo", "foo." + Project.ProjectSettingsFileExtension)));
 			var path = _parentFolder.Combine("NotThere", "foo", "foo." + Project.ProjectSettingsFileExtension);
 			new Project(path);
 		}
+
 		[Test]
 		public void Constructor_EverythingOk_CreatesFolderAndSettingsFile()
 		{

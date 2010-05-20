@@ -129,6 +129,12 @@
     <Compile Include="UI\ComponentEditors\ComponentEditorTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ComponentEditors\VideoComponentEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\VideoComponentEditor.designer.cs">
+      <DependentUpon>VideoComponentEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ElementListScreen\ComponentFileGrid.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -230,6 +236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\SessionBasicEditor.resx">
       <DependentUpon>SessionBasicEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\VideoComponentEditor.resx">
+      <DependentUpon>VideoComponentEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\ComponentFileGrid.resx">
       <DependentUpon>ComponentFileGrid.cs</DependentUpon>

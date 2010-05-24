@@ -105,8 +105,20 @@
     <Compile Include="UI\ComponentEditors\BindingHelper.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ComponentEditors\ContributorsEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\ContributorsEditor.designer.cs">
+      <DependentUpon>ContributorsEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ComponentEditors\EditorBase.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\NotesEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\NotesEditor.designer.cs">
+      <DependentUpon>NotesEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ComponentEditors\PersonBasicEditor.cs">
       <SubType>UserControl</SubType>
@@ -227,6 +239,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="UI\ComponentEditors\AudioComponentEditor.resx">
       <DependentUpon>AudioComponentEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\ContributorsEditor.resx">
+      <DependentUpon>ContributorsEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\NotesEditor.resx">
+      <DependentUpon>NotesEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\PersonBasicEditor.resx">
       <DependentUpon>PersonBasicEditor.cs</DependentUpon>

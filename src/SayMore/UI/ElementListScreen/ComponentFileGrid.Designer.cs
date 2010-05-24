@@ -33,13 +33,12 @@ namespace SayMore.UI.ElementListScreen
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this._grid = new SilUtils.SilGrid();
+			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
 			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -68,7 +67,6 @@ namespace SayMore.UI.ElementListScreen
             this.colIcon,
             this.colName,
             this.colType,
-            this.colTags,
             this.colDataModified,
             this.colSize});
 			this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -84,10 +82,15 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.RowHeadersWidth = 22;
 			this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this._grid.ShowWaterMarkWhenDirty = false;
-			this._grid.Size = new System.Drawing.Size(580, 260);
+			this._grid.Size = new System.Drawing.Size(578, 258);
 			this._grid.TabIndex = 1;
 			this._grid.VirtualMode = true;
 			this._grid.WaterMark = "!";
+			// 
+			// _contextMenuStrip
+			// 
+			this._contextMenuStrip.Name = "_contextMenuStrip";
+			this._contextMenuStrip.Size = new System.Drawing.Size(61, 4);
 			// 
 			// colIcon
 			// 
@@ -113,12 +116,6 @@ namespace SayMore.UI.ElementListScreen
 			this.colType.Name = "colType";
 			this.colType.ReadOnly = true;
 			// 
-			// colTags
-			// 
-			this.colTags.DataPropertyName = "Tags";
-			this.colTags.HeaderText = "Tags";
-			this.colTags.Name = "colTags";
-			// 
 			// colDataModified
 			// 
 			this.colDataModified.DataPropertyName = "DateModified";
@@ -137,15 +134,9 @@ namespace SayMore.UI.ElementListScreen
 			this.colSize.ReadOnly = true;
 			this.colSize.Width = 52;
 			// 
-			// contextMenuStrip1
-			// 
-			this._contextMenuStrip.Name = "_contextMenuStrip";
-			this._contextMenuStrip.Size = new System.Drawing.Size(153, 26);
-			// 
 			// ComponentFileGrid
 			// 
 			this.Controls.Add(this._grid);
-			this.Name = "ComponentFileGrid";
 			this.Size = new System.Drawing.Size(580, 260);
 			((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
 			this.ResumeLayout(false);
@@ -155,13 +146,12 @@ namespace SayMore.UI.ElementListScreen
 		#endregion
 
 		private SilUtils.SilGrid _grid;
+		private System.Windows.Forms.ContextMenuStrip _contextMenuStrip;
 		private System.Windows.Forms.DataGridViewImageColumn colIcon;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colName;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colType;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colTags;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
-		private System.Windows.Forms.ContextMenuStrip _contextMenuStrip;
 
 	}
 }

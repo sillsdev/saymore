@@ -139,25 +139,25 @@ namespace SayMore.UI.ElementListScreen
 			for (int i = _componentEditorsTabControl.TabCount - 1; i > 0; i--)
 				_componentEditorsTabControl.TabPages.RemoveAt(i);
 
+			int providerCount = 0;
+
 			// At this point, just make tabs and name them. A tab's editor
 			// controls will be built only when the user selects the tab.
 			foreach (var provider in _model.GetComponentEditorProviders())
 			{
 				ComponentEditorTabPage page;
 
-				if (_componentEditorsTabControl.TabPages.Count != 1)
+				if (providerCount++ == 0 && _componentEditorsTabControl.TabCount > 0)
+				{
+					page = _componentEditorsTabControl.TabPages[0] as ComponentEditorTabPage;
+					page.SetProvider(provider);
+					page.LoadEditorControl(_model.SelectedComponentFile);
+				}
+				else
 				{
 					page = new ComponentEditorTabPage(provider);
 					_componentEditorsTabControl.TabPages.Add(page);
 				}
-				else
-				{
-					page = _componentEditorsTabControl.TabPages[0] as ComponentEditorTabPage;
-					page.SetProvider(provider);
-				}
-
-				if (_componentEditorsTabControl.TabPages.Count == 1)
-					page.LoadEditorControl(_model.SelectedComponentFile);
 			}
 
 			_componentEditorsTabControl.Selecting += HandleSelectedComponentEditorTabSelecting;

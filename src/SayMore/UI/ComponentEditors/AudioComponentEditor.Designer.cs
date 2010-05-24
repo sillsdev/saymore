@@ -34,8 +34,6 @@ namespace SayMore.UI.ComponentEditors
 			this._recordist = new System.Windows.Forms.TextBox();
 			this._labelDevice = new System.Windows.Forms.Label();
 			this._device = new System.Windows.Forms.TextBox();
-			this._labelNotes = new System.Windows.Forms.Label();
-			this._notes = new System.Windows.Forms.TextBox();
 			this._labelMicrophone = new System.Windows.Forms.Label();
 			this._microphone = new System.Windows.Forms.TextBox();
 			this._labelSampleRate = new System.Windows.Forms.Label();
@@ -48,8 +46,6 @@ namespace SayMore.UI.ComponentEditors
 			this._digitalGain = new System.Windows.Forms.TextBox();
 			this._labelChannel = new System.Windows.Forms.Label();
 			this._channel = new System.Windows.Forms.TextBox();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this._labelTags = new System.Windows.Forms.Label();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
@@ -76,8 +72,6 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Controls.Add(this._recordist, 0, 1);
 			this._tableLayout.Controls.Add(this._labelDevice, 0, 2);
 			this._tableLayout.Controls.Add(this._device, 0, 3);
-			this._tableLayout.Controls.Add(this._labelNotes, 0, 6);
-			this._tableLayout.Controls.Add(this._notes, 0, 7);
 			this._tableLayout.Controls.Add(this._labelMicrophone, 0, 4);
 			this._tableLayout.Controls.Add(this._microphone, 0, 5);
 			this._tableLayout.Controls.Add(this._labelSampleRate, 1, 0);
@@ -90,22 +84,19 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Controls.Add(this._digitalGain, 2, 3);
 			this._tableLayout.Controls.Add(this._labelChannel, 1, 4);
 			this._tableLayout.Controls.Add(this._channel, 1, 5);
-			this._tableLayout.Controls.Add(this.textBox1, 2, 7);
-			this._tableLayout.Controls.Add(this._labelTags, 2, 6);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
 			this._tableLayout.Name = "_tableLayout";
-			this._tableLayout.RowCount = 8;
+			this._tableLayout.RowCount = 6;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayout.Size = new System.Drawing.Size(435, 262);
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this._tableLayout.Size = new System.Drawing.Size(435, 133);
 			this._tableLayout.TabIndex = 0;
 			// 
 			// _recordist
@@ -142,33 +133,6 @@ namespace SayMore.UI.ComponentEditors
 			this._device.Name = "_device";
 			this._device.Size = new System.Drawing.Size(195, 22);
 			this._device.TabIndex = 3;
-			// 
-			// _labelNotes
-			// 
-			this._labelNotes.AutoSize = true;
-			this._labelNotes.BackColor = System.Drawing.Color.Transparent;
-			this._labelNotes.Location = new System.Drawing.Point(0, 138);
-			this._labelNotes.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
-			this._labelNotes.Name = "_labelNotes";
-			this._labelNotes.Size = new System.Drawing.Size(35, 13);
-			this._labelNotes.TabIndex = 16;
-			this._labelNotes.Text = "Notes";
-			// 
-			// _notes
-			// 
-			this._notes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._tableLayout.SetColumnSpan(this._notes, 2);
-			this._notes.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._binder.SetIsBound(this._notes, true);
-			this._notes.Location = new System.Drawing.Point(0, 154);
-			this._notes.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
-			this._notes.Multiline = true;
-			this._notes.Name = "_notes";
-			this._notes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._notes.Size = new System.Drawing.Size(312, 105);
-			this._notes.TabIndex = 17;
 			// 
 			// _labelMicrophone
 			// 
@@ -308,39 +272,13 @@ namespace SayMore.UI.ComponentEditors
 			this._channel.Size = new System.Drawing.Size(107, 22);
 			this._channel.TabIndex = 11;
 			// 
-			// textBox1
-			// 
-			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._binder.SetIsBound(this.textBox1, true);
-			this.textBox1.Location = new System.Drawing.Point(322, 154);
-			this.textBox1.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBox1.Size = new System.Drawing.Size(113, 105);
-			this.textBox1.TabIndex = 19;
-			// 
-			// _labelTags
-			// 
-			this._labelTags.AutoSize = true;
-			this._labelTags.BackColor = System.Drawing.Color.Transparent;
-			this._labelTags.Location = new System.Drawing.Point(322, 138);
-			this._labelTags.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
-			this._labelTags.Name = "_labelTags";
-			this._labelTags.Size = new System.Drawing.Size(31, 13);
-			this._labelTags.TabIndex = 18;
-			this._labelTags.Text = "Tags";
-			// 
 			// AudioComponentEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayout);
 			this.Name = "AudioComponentEditor";
-			this.Size = new System.Drawing.Size(449, 279);
+			this.Size = new System.Drawing.Size(449, 188);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			this.ResumeLayout(false);
@@ -353,7 +291,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelRecordist;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private System.Windows.Forms.Label _labelDevice;
-		private System.Windows.Forms.Label _labelNotes;
 		private System.Windows.Forms.Label _labelMicrophone;
 		private BindingHelper _binder;
 		private System.Windows.Forms.TextBox _recordist;
@@ -363,14 +300,11 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TextBox _bitDepth;
 		private System.Windows.Forms.Label _labelSampleRate;
 		private System.Windows.Forms.TextBox _sampleRate;
-		private System.Windows.Forms.Label _labelTags;
 		private System.Windows.Forms.Label _labelAnalogGain;
 		private System.Windows.Forms.Label _labelDigitalGain;
 		private System.Windows.Forms.TextBox _analogGain;
 		private System.Windows.Forms.TextBox _digitalGain;
 		private System.Windows.Forms.Label _labelChannel;
 		private System.Windows.Forms.TextBox _channel;
-		private System.Windows.Forms.TextBox _notes;
-		private System.Windows.Forms.TextBox textBox1;
 	}
 }

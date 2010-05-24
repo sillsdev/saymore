@@ -67,7 +67,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class PersonFileType : FileType
 	{
-		EditorProvider _provider;
+		readonly List<EditorProvider> _providers = new List<EditorProvider>();
 
 		/// ------------------------------------------------------------------------------------
 		public PersonFileType() : base("Person", p => p.EndsWith(".person"))
@@ -80,10 +80,14 @@ namespace SayMore.Model.Files
 			// review: this will create a new editor provider and basic editor for each
 			// person. That seems a bit resource intensive. It would be nice to reuse the editor.
 
-			if (_provider == null)
-				_provider = new EditorProvider(new PersonBasicEditor(file), "Basic");
+			if (_providers.Count == 0)
+			{
+				_providers.Add(new EditorProvider(new PersonBasicEditor(file), "Basic"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
+			}
 
-			yield return _provider;
+			return _providers;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,7 +107,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class SessionFileType : FileType
 	{
-		EditorProvider _provider;
+		readonly List<EditorProvider> _providers = new List<EditorProvider>();
 
 		/// ------------------------------------------------------------------------------------
 		public SessionFileType() : base("Session", p => p.EndsWith(".session"))
@@ -117,10 +121,14 @@ namespace SayMore.Model.Files
 			// session. That seems a bit resource intensive when the user has a lot of
 			// sessions. It would be nice to reuse the editor.
 
-			if (_provider == null)
-				_provider = new EditorProvider(new SessionBasicEditor(file), "BasicX");
+			if (_providers.Count == 0)
+			{
+				_providers.Add(new EditorProvider(new SessionBasicEditor(file), "BasicX"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
+			}
 
-			yield return _provider;
+			return _providers;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -140,7 +148,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class AudioFileType : FileType
 	{
-		EditorProvider _provider;
+		readonly List<EditorProvider> _providers = new List<EditorProvider>();
 
 		/// ------------------------------------------------------------------------------------
 		public AudioFileType() : base("Audio",
@@ -151,10 +159,14 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			if (_provider == null)
-				_provider = new EditorProvider(new AudioComponentEditor(file), "Audio File Metadata");
+			if (_providers.Count == 0)
+			{
+				_providers.Add(new EditorProvider(new AudioComponentEditor(file), "Technical"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
+			}
 
-			yield return _provider;
+			return _providers;
 		}
 	}
 
@@ -164,7 +176,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class VideoFileType : FileType
 	{
-		EditorProvider _provider;
+		readonly List<EditorProvider> _providers = new List<EditorProvider>();
 
 		/// ------------------------------------------------------------------------------------
 		public VideoFileType() : base("Video",
@@ -175,10 +187,14 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			if (_provider == null)
-				_provider = new EditorProvider(new VideoComponentEditor(file), "Video File Metadata");
+			if (_providers.Count == 0)
+			{
+				_providers.Add(new EditorProvider(new VideoComponentEditor(file), "Technical"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
+			}
 
-			yield return _provider;
+			return _providers;
 		}
 	}
 

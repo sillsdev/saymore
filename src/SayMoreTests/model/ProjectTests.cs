@@ -89,10 +89,11 @@ namespace SayMoreTests.model
 		}
 		*/
 
+
+
 		[Test, ExpectedException(typeof(ArgumentException))]
 		public void Constructor_ParentFolderDoesNotExist_Throws()
 		{
-			Assert.IsTrue(File.Exists(_parentFolder.Combine("NotThere", "foo", "foo." + Project.ProjectSettingsFileExtension)));
 			var path = _parentFolder.Combine("NotThere", "foo", "foo." + Project.ProjectSettingsFileExtension);
 			new Project(path);
 		}

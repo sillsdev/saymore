@@ -7,7 +7,7 @@ using System.Linq;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 
-namespace SayMoreTests.model.Files
+namespace SayMoreTests.Model.Files
 {
 	public class FileSerializerTests
 	{

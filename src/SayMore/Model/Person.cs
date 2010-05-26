@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SayMore.Model.Files;
+using SayMore.Properties;
 
 namespace SayMore.Model
 {
@@ -21,7 +18,7 @@ namespace SayMore.Model
 
 		protected override string ExtensionWithoutPeriod
 		{
-			get { return "person"; }
+			get { return Settings.Default.PersonFileExtension.TrimStart('.'); }
 		}
 	}
 }

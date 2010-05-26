@@ -1,8 +1,5 @@
-using System;
-using System.IO;
-using System.Xml.Serialization;
-using Palaso.Code;
 using SayMore.Model.Files;
+using SayMore.Properties;
 
 namespace SayMore.Model
 {
@@ -23,7 +20,6 @@ namespace SayMore.Model
 		{
 		}
 
-
 		protected override string ExtensionWithoutPeriod
 		{
 			get { return ExtensionWithoutPeriodStatic; }
@@ -36,7 +32,7 @@ namespace SayMore.Model
 
 		protected static string ExtensionWithoutPeriodStatic
 		{
-			get { return "session"; }
+			get { return Settings.Default.SessionFileExtension.TrimStart('.'); }
 		}
 
 	}

@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Palaso.Code;
+using SayMore.Properties;
 
 namespace SayMore.Model
 {
@@ -16,7 +16,6 @@ namespace SayMore.Model
 	public class Project
 	{
 		private const string SessionFolderName = "sessions";
-		public const string ProjectSettingsFileExtension = "sprj";
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 		//public delegate Project FactoryForNew(string parentDirectory, int x, string projectName);
@@ -104,10 +103,7 @@ namespace SayMore.Model
 		[XmlIgnore]
 		protected string ProjectFolder
 		{
-			get
-			{
-				return Path.GetDirectoryName(SettingsFilePath);
-			}
+			get { return Path.GetDirectoryName(SettingsFilePath); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -125,36 +121,40 @@ namespace SayMore.Model
 			Iso639Code = project.Descendants("Iso639Code").First().Value;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This is, roughly, the "ethnologue code", taken either from 639-2 (2 letters),
 		/// or, more often, 639-3 (3 letters)
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public string Iso639Code { get; set; }
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Note: while the folder name will match the settings file name when it
-		/// is first created, it needn't remain that way.
-		/// A user can copy the project folder, rename
+		/// Note: while the folder name will match the settings file name when it is first
+		/// created, it needn't remain that way. A user can copy the project folder, rename
 		/// it "blah (old)", whatever, and this will still work.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string FolderPath
 		{
-			get
-			{
-				return Path.GetDirectoryName(SettingsFilePath);
-			}
+			get { return Path.GetDirectoryName(SettingsFilePath); }
 		}
 
 		[XmlIgnore]
-		public string SettingsFilePath
+		public string SettingsFilePath { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public static string ProjectSettingsFileExtension
 		{
-			get; set;
+			get { return Settings.Default.ProjectFileExtension.TrimStart('.'); }
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public static string ComputePathToSettings(string parentFolderPath, string newProjectName)
 		{
-			var p=  Path.Combine(parentFolderPath, newProjectName);
+			var p = Path.Combine(parentFolderPath, newProjectName);
 			return Path.Combine(p, newProjectName + "." + ProjectSettingsFileExtension);
 		}
 	}

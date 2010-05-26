@@ -164,6 +164,7 @@ namespace SayMore.Model.Files
 				_providers.Add(new EditorProvider(new AudioComponentEditor(file), "Technical"));
 				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
 				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
+				_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play"));
 			}
 
 			return _providers;
@@ -190,6 +191,35 @@ namespace SayMore.Model.Files
 			if (_providers.Count == 0)
 			{
 				_providers.Add(new EditorProvider(new VideoComponentEditor(file), "Technical"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
+				_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play"));
+			}
+
+			return _providers;
+		}
+	}
+
+	#endregion
+
+	#region ImageFileType class
+	/// ----------------------------------------------------------------------------------------
+	public class ImageFileType : FileType
+	{
+		readonly List<EditorProvider> _providers = new List<EditorProvider>();
+
+		/// ------------------------------------------------------------------------------------
+		public ImageFileType() : base("Image",
+			p => Settings.Default.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		{
+			if (_providers.Count == 0)
+			{
+				_providers.Add(new EditorProvider(new ImageViewer(file), "View"));
 				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
 				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
 			}

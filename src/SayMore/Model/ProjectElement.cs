@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Palaso.Code;
 using Palaso.Reporting;
 using SayMore.Model.Files;
+using SayMore.Properties;
 
 namespace SayMore.Model
 {
@@ -33,7 +34,8 @@ namespace SayMore.Model
 		/// <param name="fileType"></param>
 		/// ------------------------------------------------------------------------------------
 		protected ProjectElement(string parentElementFolder, string id,
-			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer, FileType fileType)
+			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
+			FileType fileType)
 		{
 			_componentFileFactory = componentFileFactory;
 			_fileSerializer = fileSerializer;
@@ -73,8 +75,7 @@ namespace SayMore.Model
 			var otherFiles = from x in Directory.GetFiles(FolderPath, "*.*")
 							 where (
 								 !x.EndsWith("." + ExtensionWithoutPeriod) &&
-								 //!x.EndsWith("." + Sponge.SessionFileExtension) &&
-								 !x.EndsWith(".meta") &&
+								 !x.EndsWith(Settings.Default.MetadataFileExtension) &&
 								 !x.ToLower().EndsWith("thumbs.db"))
 							 orderby x
 							 select _componentFileFactory(x);
@@ -121,6 +122,47 @@ namespace SayMore.Model
 			return Id;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public bool AddComponentFile(string fileToAdd)
+		{
+			return AddComponentFiles(new[] { fileToAdd });
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool AddComponentFiles(string[] filesToAdd)
+		{
+			filesToAdd = RemoveInvalidFilesFromProspectiveFilesToAdd(filesToAdd).ToArray();
+			if (filesToAdd.Length == 0)
+				return false;
+
+			foreach (var srcFile in filesToAdd)
+			{
+				try
+				{
+					var destFile = Path.Combine(FolderPath, Path.GetFileName(srcFile));
+					File.Copy(srcFile, destFile);
+				}
+				catch (Exception e)
+				{
+					ErrorReport.ReportNonFatalException(e);
+				}
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> RemoveInvalidFilesFromProspectiveFilesToAdd(string[] filesBeingAdded)
+		{
+			if (filesBeingAdded == null)
+				filesBeingAdded = new string[] { };
+
+			foreach (var prospectiveFile in filesBeingAdded.Where(ComponentFile.GetIsValidComponentFile))
+			{
+				if (!File.Exists(Path.Combine(FolderPath, Path.GetFileName(prospectiveFile))))
+					yield return prospectiveFile;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

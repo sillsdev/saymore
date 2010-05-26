@@ -1,7 +1,7 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using SilUtils;
 using SayMore.Model.Files;
@@ -21,11 +21,28 @@ namespace SayMore.UI.ElementListScreen
 		/// that? i.e. Does "Callback" make it more understandable? It's not very .Net-like.
 		public Action<int> ComponentSelectedCallback;
 
+		public Func<string[], DragDropEffects> FilesBeingDraggedOverGrid;
+		public Func<string[], bool> FilesDroppedOnGrid;
+
 		/// ------------------------------------------------------------------------------------
 		public ComponentFileGrid()
 		{
 			InitializeComponent();
 
+			try
+			{
+				// Sigh. Setting AllowDrop when tests are running throws an exception and
+				// I'm not quite sure why, even after using reflector to look at the
+				// code behind setting the property. Nonetheless, I've seen this before
+				// so I'm just going to ignore any exception thrown when enabling drag
+				// and drop. The worst that could happen is that the end user will not
+				// have that feature.
+				_grid.AllowDrop = true;
+			}
+			catch { }
+
+			_grid.DragEnter += HandleFileGridDragEnter;
+			_grid.DragDrop += HandleFileGridDragDrop;
 			_grid.CellMouseClick += HandleMouseClick;
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
@@ -90,12 +107,37 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		void HandleFileGridDragEnter(object sender, DragEventArgs e)
+		{
+			e.Effect = DragDropEffects.None;
+
+			if (!e.Data.GetFormats().Contains(DataFormats.FileDrop))
+				return;
+
+			if (FilesBeingDraggedOverGrid != null)
+				e.Effect = FilesBeingDraggedOverGrid(e.Data.GetData(DataFormats.FileDrop) as string[]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleFileGridDragDrop(object sender, DragEventArgs e)
+		{
+			if (!e.Data.GetFormats().Contains(DataFormats.FileDrop) || FilesDroppedOnGrid == null)
+				return;
+
+			if (FilesDroppedOnGrid(e.Data.GetData(DataFormats.FileDrop) as string[]))
+			{
+				// Refresh the grid.
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void UpdateComponentList(IEnumerable<ComponentFile> componentFiles)
 		{
 			_files = componentFiles;
-			// I (David) think there's a bug in the grid that fires the cell value needed event in
-			// the process of changing the row count but it fires it for rows that are
-			// no longer supposed to exist. This tends to happen when the row count was
+
+			// I (David) think there's a bug in the grid that fires the cell value needed
+			// event in the process of changing the row count but it fires it for rows that
+			// are no longer supposed to exist. This tends to happen when the row count was
 			// previously higher than the new value.
 
 			_grid.CellValueNeeded -= HandleFileGridCellValueNeeded;
@@ -103,5 +145,6 @@ namespace SayMore.UI.ElementListScreen
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.Invalidate();
 		}
+
 	}
 }

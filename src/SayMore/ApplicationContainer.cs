@@ -80,9 +80,7 @@ namespace SayMore
 				yield return new PersonFileType();
 				yield return new AudioFileType();
 				yield return new VideoFileType();
-
-				yield return FileType.Create("Image",
-					Settings.Default.ImageFileExtensions.Cast<string>().ToArray());
+				yield return new ImageFileType();
 			}
 		}
 

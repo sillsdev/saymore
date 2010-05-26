@@ -5,14 +5,17 @@ using System.Linq;
 using System.Windows.Forms;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
+using SayMore.Properties;
 
 namespace SayMore.Model.Files
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Both sessions and people are made up of a number of files: an xml file we help them edit
-	/// (i.e. .session or .person), plus any number of other files (videos, texts, images, etc.).
-	/// Each of these is represented by an object of this class.
+	/// Both sessions and people are made up of a number of files: an xml file we help them
+	/// edit (i.e. .session or .person), plus any number of other files (videos, texts, images,
+	/// etc.). Each of these is represented by an object of this class.
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class ComponentFile
 	{
 		//autofac uses this, so that callers only need to know the path, not all the dependencies
@@ -60,7 +63,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private static string ComputeMetaDataPath(string pathToAnnotatedFile)
 		{
-			return pathToAnnotatedFile + ".meta";
+			return pathToAnnotatedFile + Settings.Default.MetadataFileExtension;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -240,9 +243,12 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void AssignRole(ComponentRole role)
 		{
-			var nameOfParentFolderWhichIsAlsoElementId = Path.GetFileName(Path.GetDirectoryName(PathToAnnotatedFile));
-			string newPath = role.GetCanoncialName(nameOfParentFolderWhichIsAlsoElementId,
+			var nameOfParentFolderWhichIsAlsoElementId =
+				Path.GetFileName(Path.GetDirectoryName(PathToAnnotatedFile));
+
+			var newPath = role.GetCanoncialName(nameOfParentFolderWhichIsAlsoElementId,
 				PathToAnnotatedFile);
+
 			RenameAnnotatedFile(newPath);
 		}
 
@@ -257,7 +263,7 @@ namespace SayMore.Model.Files
 				//this would leave us with one file renamed, but not the other.
 				if (File.Exists(_metaDataPath))
 				{
-					File.Move(_metaDataPath,  newMetaPath);
+					File.Move(_metaDataPath, newMetaPath);
 				}
 
 				PathToAnnotatedFile = newPath;
@@ -278,6 +284,14 @@ namespace SayMore.Model.Files
 		public override string ToString()
 		{
 			return PathToAnnotatedFile;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsValidComponentFile(string fileName)
+		{
+			fileName = fileName.ToLower();
+			var badEndings = Settings.Default.ComponentFileEndingsNotAllowed.Cast<string>();
+			return !badEndings.Any(x => fileName.EndsWith(x.ToLower()));
 		}
 	}
 }

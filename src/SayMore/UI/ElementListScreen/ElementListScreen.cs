@@ -49,7 +49,9 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.ReSortWhenItemTextChanges = true;
 
 			_componentFilesControl = componentGrid;
-			_componentFilesControl.ComponentSelectedCallback = OnComponentSelectedCallback;
+			_componentFilesControl.ComponentSelectedCallback = HandleComponentSelectedCallback;
+			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
+			_componentFilesControl.FilesDroppedOnGrid = HandleFilesDroppedOnGrid;
 
 			_elementsListPanel.NewButtonClicked += HandleNewElementButtonClicked;
 			_elementsListPanel.SelectedItemChanged += HandleSelectedElementChanged;
@@ -71,10 +73,23 @@ namespace SayMore.UI.ElementListScreen
 		// The grid (i.e. the only object calling this delegate so far) does not keep a
 		// reference to each component files that it can pass to this delegate.
 		/// ------------------------------------------------------------------------------------
-		private void OnComponentSelectedCallback(int index)
+		private void HandleComponentSelectedCallback(int index)
 		{
 			_model.SetSelectedComponentFile(index);
 			UpdateComponentEditors();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private DragDropEffects HandleFilesBeingDraggedOverComponentGrid(string[] files)
+		{
+			var validFiles = _model.SelectedElement.RemoveInvalidFilesFromProspectiveFilesToAdd(files);
+			return (validFiles.Count() > 0 ? DragDropEffects.Copy : DragDropEffects.None);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool HandleFilesDroppedOnGrid(string[] files)
+		{
+			return _model.SelectedElement.AddComponentFiles(files);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -183,7 +198,10 @@ namespace SayMore.UI.ElementListScreen
 		protected void HandleSelectedComponentEditorTabSelecting(object sender, TabControlCancelEventArgs e)
 		{
 			if (e.Action == TabControlAction.Selecting)
+			{
 				((ComponentEditorTabPage)e.TabPage).LoadEditorControl(_model.SelectedComponentFile);
+				((ComponentEditorTabPage)e.TabPage).EditorProvider.Control.Focus();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

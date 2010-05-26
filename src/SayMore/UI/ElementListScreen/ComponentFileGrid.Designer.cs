@@ -33,12 +33,12 @@ namespace SayMore.UI.ElementListScreen
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this._grid = new SilUtils.SilGrid();
-			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
 			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -87,11 +87,6 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.VirtualMode = true;
 			this._grid.WaterMark = "!";
 			// 
-			// _contextMenuStrip
-			// 
-			this._contextMenuStrip.Name = "_contextMenuStrip";
-			this._contextMenuStrip.Size = new System.Drawing.Size(61, 4);
-			// 
 			// colIcon
 			// 
 			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -133,6 +128,11 @@ namespace SayMore.UI.ElementListScreen
 			this.colSize.Name = "colSize";
 			this.colSize.ReadOnly = true;
 			this.colSize.Width = 52;
+			// 
+			// _contextMenuStrip
+			// 
+			this._contextMenuStrip.Name = "_contextMenuStrip";
+			this._contextMenuStrip.Size = new System.Drawing.Size(61, 4);
 			// 
 			// ComponentFileGrid
 			// 

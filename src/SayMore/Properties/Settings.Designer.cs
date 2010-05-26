@@ -13,7 +13,7 @@ namespace SayMore.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "9.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
@@ -374,6 +374,76 @@ namespace SayMore.Properties {
             }
             set {
                 this["PersonScreenComponentGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PauseMediaPlayerWhenTabLoosesFocus {
+            get {
+                return ((bool)(this["PauseMediaPlayerWhenTabLoosesFocus"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("25, 50, 75,100, 125, 150, 175, 200, 225, 250, 275, 300")]
+        public string ImageViewerClickImageZoomPercentages {
+            get {
+                return ((string)(this["ImageViewerClickImageZoomPercentages"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>.session</string>
+  <string>.person</string>
+  <string>.meta</string>
+  <string>thumbs.db</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection ComponentFileEndingsNotAllowed {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["ComponentFileEndingsNotAllowed"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".meta")]
+        public string MetadataFileExtension {
+            get {
+                return ((string)(this["MetadataFileExtension"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".session")]
+        public string SessionFileExtension {
+            get {
+                return ((string)(this["SessionFileExtension"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".person")]
+        public string PersonFileExtension {
+            get {
+                return ((string)(this["PersonFileExtension"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".sprj")]
+        public string ProjectFileExtension {
+            get {
+                return ((string)(this["ProjectFileExtension"]));
             }
         }
     }

@@ -2,7 +2,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model.Files;
 
-namespace SayMoreTests.model.Files
+namespace SayMoreTests.Model.Files
 {
 	[TestFixture]
 	public class FileTypeTests

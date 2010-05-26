@@ -5,11 +5,11 @@ namespace SayMore.Model
 {
 	public class EditorProvider
 	{
-		private readonly Control _control;
+		public Control Control { get; private set; }
 
 		public EditorProvider(Control control, string tabName)
 		{
-			_control = control;
+			Control = control;
 			TabName = tabName;
 		}
 
@@ -23,7 +23,7 @@ namespace SayMore.Model
 			//NB: in the future, we can do more complicated things like reusing controls,
 			//constructing controls using the DI container, etc.
 			//This will be invisible to the client.
-			return _control;
+			return Control;
 		}
 	}
 }

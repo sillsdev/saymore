@@ -7,7 +7,7 @@ using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
 
-namespace SayMoreTests.model
+namespace SayMoreTests.Model
 {
 	/// <summary>
 	/// Notice, we're using Sessions as the concrete class here, but all the functionality

@@ -121,5 +121,32 @@
     <Setting Name="PersonScreenComponentGrid" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilUtils.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="PauseMediaPlayerWhenTabLoosesFocus" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ImageViewerClickImageZoomPercentages" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">25, 50, 75,100, 125, 150, 175, 200, 225, 250, 275, 300</Value>
+    </Setting>
+    <Setting Name="ComponentFileEndingsNotAllowed" Provider="SilUtils.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;.session&lt;/string&gt;
+  &lt;string&gt;.person&lt;/string&gt;
+  &lt;string&gt;.meta&lt;/string&gt;
+  &lt;string&gt;thumbs.db&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="MetadataFileExtension" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.meta</Value>
+    </Setting>
+    <Setting Name="SessionFileExtension" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.session</Value>
+    </Setting>
+    <Setting Name="PersonFileExtension" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.person</Value>
+    </Setting>
+    <Setting Name="ProjectFileExtension" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.sprj</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -41,6 +41,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\AxInterop.WMPLib.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\Interop.WMPLib.dll</HintPath>
+    </Reference>
     <Reference Include="LocalizationManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\LocalizationManager.dll</HintPath>
@@ -102,6 +106,12 @@
     <Compile Include="UI\ComponentEditors\AudioComponentEditor.Designer.cs">
       <DependentUpon>AudioComponentEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ComponentEditors\AudioVideoPlayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\AudioVideoPlayer.designer.cs">
+      <DependentUpon>AudioVideoPlayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ComponentEditors\BindingHelper.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -113,6 +123,12 @@
     </Compile>
     <Compile Include="UI\ComponentEditors\EditorBase.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\ImageViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\ImageViewer.designer.cs">
+      <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ComponentEditors\NotesEditor.cs">
       <SubType>UserControl</SubType>
@@ -240,8 +256,14 @@
     <EmbeddedResource Include="UI\ComponentEditors\AudioComponentEditor.resx">
       <DependentUpon>AudioComponentEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\AudioVideoPlayer.resx">
+      <DependentUpon>AudioVideoPlayer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\ContributorsEditor.resx">
       <DependentUpon>ContributorsEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\ImageViewer.resx">
+      <DependentUpon>ImageViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\NotesEditor.resx">
       <DependentUpon>NotesEditor.cs</DependentUpon>
@@ -297,7 +319,7 @@
       <DependentUpon>ListPanel.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">

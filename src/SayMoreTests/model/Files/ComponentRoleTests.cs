@@ -3,7 +3,7 @@ using NUnit.Framework;
 using SayMore.Model;
 using SayMore.Model.Files;
 
-namespace SayMoreTests.model.Files
+namespace SayMoreTests.Model.Files
 {
 	[TestFixture]
 	public sealed class ComponentRoleTests

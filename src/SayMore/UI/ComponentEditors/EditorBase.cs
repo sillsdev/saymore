@@ -44,6 +44,21 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnEnter(System.EventArgs e)
+		{
+			base.OnEnter(e);
+
+			foreach (Control ctrl in Controls)
+			{
+				if (ctrl.CanFocus)
+				{
+					ctrl.Focus();
+					return;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static void SetLabelFonts(Control parent, Font fnt)
 		{
 			foreach (Control ctrl in parent.Controls)

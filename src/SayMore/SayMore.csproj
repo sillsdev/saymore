@@ -164,7 +164,7 @@
       <DependentUpon>VideoComponentEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ElementListScreen\ComponentFileGrid.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\ElementListScreen\ComponentFileGrid.Designer.cs">
       <DependentUpon>ComponentFileGrid.cs</DependentUpon>
@@ -332,6 +332,11 @@
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ContributorsTab.png" />
+    <None Include="Resources\NotesTab.png" />
+    <None Include="Resources\PlayTab.png" />
+    <None Include="Resources\TechnicalTab.png" />
+    <None Include="Resources\ViewTab.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

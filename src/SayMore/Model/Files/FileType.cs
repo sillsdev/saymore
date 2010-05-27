@@ -11,7 +11,7 @@ namespace SayMore.Model.Files
 	/// us what controls are available for marking up, editing, or viewing that file.
 	/// It also tells us which commands to offer in, for example, a context menu.
 	/// </summary>
-	public  class FileType
+	public class FileType
 	{
 		private readonly Func<string, bool> _isMatchPredicate;
 
@@ -82,9 +82,9 @@ namespace SayMore.Model.Files
 
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new PersonBasicEditor(file), "Basic"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
+				_providers.Add(new EditorProvider(new PersonBasicEditor(file), "Technical", "Technical"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
 			}
 
 			return _providers;
@@ -123,9 +123,9 @@ namespace SayMore.Model.Files
 
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new SessionBasicEditor(file), "BasicX"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
+				_providers.Add(new EditorProvider(new SessionBasicEditor(file), "Technical", "Technical"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
 			}
 
 			return _providers;
@@ -161,10 +161,10 @@ namespace SayMore.Model.Files
 		{
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new AudioComponentEditor(file), "Technical"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
-				_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play"));
+				_providers.Add(new EditorProvider(new AudioComponentEditor(file), "Technical", "Technical"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
+				_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play", "Play"));
 			}
 
 			return _providers;
@@ -190,10 +190,10 @@ namespace SayMore.Model.Files
 		{
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new VideoComponentEditor(file), "Technical"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
-				_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play"));
+				_providers.Add(new EditorProvider(new VideoComponentEditor(file), "Technical", "Technical"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
+				_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play", "Play"));
 			}
 
 			return _providers;
@@ -219,9 +219,9 @@ namespace SayMore.Model.Files
 		{
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new ImageViewer(file), "View"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors"));
+				_providers.Add(new EditorProvider(new ImageViewer(file), "View", "View"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
 			}
 
 			return _providers;

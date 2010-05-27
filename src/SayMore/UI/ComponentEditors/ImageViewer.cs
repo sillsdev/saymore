@@ -118,10 +118,6 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private Size GetScaledSize(int percent)
 		{
 			var scaleFactor = percent / 100f;

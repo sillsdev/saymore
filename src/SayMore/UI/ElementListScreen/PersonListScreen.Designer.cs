@@ -136,17 +136,11 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _componentFileGrid
 			// 
-			this._componentFileGrid.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this._componentFileGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this._componentFileGrid.ClipTextForChildControls = true;
-			this._componentFileGrid.ControlReceivingFocusOnMnemonic = null;
 			this._componentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._componentFileGrid.DoubleBuffered = true;
 			this._componentFileGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this._componentFileGrid.Location = new System.Drawing.Point(0, 0);
-			this._componentFileGrid.MnemonicGeneratesClick = false;
 			this._componentFileGrid.Name = "_componentFileGrid";
-			this._componentFileGrid.PaintExplorerBarBackground = false;
 			this._componentFileGrid.Size = new System.Drawing.Size(315, 147);
 			this._componentFileGrid.TabIndex = 1;
 			// 

@@ -386,7 +386,13 @@ namespace SayMore.Properties {
             }
         }
         
+        /// <summary>
+        /// These are zoom percentages used when clicking on an image in an image viewer. For each click, the zoom is increased to the next percentage value. When the max value is reached, the zoom percentage changes to the lowest value, etc.
+        /// </summary>
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("These are zoom percentages used when clicking on an image in an image viewer. For" +
+            " each click, the zoom is increased to the next percentage value. When the max va" +
+            "lue is reached, the zoom percentage changes to the lowest value, etc.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("25, 50, 75,100, 125, 150, 175, 200, 225, 250, 275, 300")]
         public string ImageViewerClickImageZoomPercentages {
@@ -396,7 +402,6 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
@@ -444,6 +449,18 @@ namespace SayMore.Properties {
         public string ProjectFileExtension {
             get {
                 return ((string)(this["ProjectFileExtension"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string LastFolderForComponentFileAdd {
+            get {
+                return ((string)(this["LastFolderForComponentFileAdd"]));
+            }
+            set {
+                this["LastFolderForComponentFileAdd"] = value;
             }
         }
     }

@@ -14,6 +14,7 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.UI.Utilities;
@@ -37,14 +38,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnLoad(System.EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
 			SetLabelFonts(this, new Font(SystemFonts.IconTitleFont, FontStyle.Bold));
 			base.OnLoad(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnEnter(System.EventArgs e)
+		protected override void OnEnter(EventArgs e)
 		{
 			base.OnEnter(e);
 

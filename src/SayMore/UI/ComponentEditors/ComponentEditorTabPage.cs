@@ -72,10 +72,17 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnParentChanged(System.EventArgs e)
+		{
+			base.OnParentChanged(e);
+			ImageKey = EditorProvider.ImageKey;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetProvider(EditorProvider provider)
 		{
 			EditorProvider = provider;
-			Text = provider.TabName;
+			Text = provider.TabText;
 			IsEditorControlLoaded = false;
 			Controls.Clear();
 		}
@@ -89,6 +96,7 @@ namespace SayMore.UI.ComponentEditors
 			var control = EditorProvider.GetEditor(file);
 			control.Dock = DockStyle.Fill;
 			Controls.Add(control);
+			ImageKey = EditorProvider.ImageKey;
 			IsEditorControlLoaded = true;
 			return true;
 		}

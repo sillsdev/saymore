@@ -87,6 +87,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidContributorsTab {
+            get {
+                object obj = ResourceManager.GetObject("kimidContributorsTab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidFemale_NotSelected {
             get {
                 object obj = ResourceManager.GetObject("kimidFemale_NotSelected", resourceCulture);
@@ -143,6 +150,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidNotesTab {
+            get {
+                object obj = ResourceManager.GetObject("kimidNotesTab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidOverview {
             get {
                 object obj = ResourceManager.GetObject("kimidOverview", resourceCulture);
@@ -153,6 +167,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap kimidPeople {
             get {
                 object obj = ResourceManager.GetObject("kimidPeople", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidPlayTab {
+            get {
+                object obj = ResourceManager.GetObject("kimidPlayTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -195,6 +216,20 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap kimidSpongeText {
             get {
                 object obj = ResourceManager.GetObject("kimidSpongeText", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidTechnicalTab {
+            get {
+                object obj = ResourceManager.GetObject("kimidTechnicalTab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidViewTab {
+            get {
+                object obj = ResourceManager.GetObject("kimidViewTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

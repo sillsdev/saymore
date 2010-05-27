@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
+using SayMore.Properties;
 using SilUtils;
 using SayMore.Model;
 using SayMore.UI.ComponentEditors;
@@ -45,13 +46,25 @@ namespace SayMore.UI.ElementListScreen
 		{
 			_componentEditorsTabControl = componentEditorsTabControl;
 			_componentEditorsTabControl.TabPages.Clear();
+
+			var imgList = new ImageList();
+			imgList.ColorDepth = ColorDepth.Depth32Bit;
+			imgList.ImageSize = Resources.kimidPlayTab.Size;
+			imgList.Images.Add("Contributors", Resources.kimidContributorsTab);
+			imgList.Images.Add("Notes", Resources.kimidNotesTab);
+			imgList.Images.Add("Play", Resources.kimidPlayTab);
+			imgList.Images.Add("Technical", Resources.kimidTechnicalTab);
+			imgList.Images.Add("View", Resources.kimidViewTab);
+			_componentEditorsTabControl.ImageList = imgList;
+
 			_elementsListPanel = elementsListPanel;
 			_elementsListPanel.ReSortWhenItemTextChanges = true;
 
 			_componentFilesControl = componentGrid;
 			_componentFilesControl.ComponentSelectedCallback = HandleComponentSelectedCallback;
+			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
-			_componentFilesControl.FilesDroppedOnGrid = HandleFilesDroppedOnGrid;
+			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
 
 			_elementsListPanel.NewButtonClicked += HandleNewElementButtonClicked;
 			_elementsListPanel.SelectedItemChanged += HandleSelectedElementChanged;
@@ -87,9 +100,15 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool HandleFilesDroppedOnGrid(string[] files)
+		private bool HandleFilesAddedToComponentGrid(string[] files)
 		{
-			return _model.SelectedElement.AddComponentFiles(files);
+			if (_model.SelectedElement.AddComponentFiles(files))
+			{
+				UpdateComponentList();
+				return true;
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -121,9 +140,6 @@ namespace SayMore.UI.ElementListScreen
 			}
 
 			UpdateComponentEditors();
-
-			//TODO: editor tab (for now, just the first page) isn't currently
-			//being displayed, even though the first component shows as highlighted.
 		}
 
 		/// ------------------------------------------------------------------------------------

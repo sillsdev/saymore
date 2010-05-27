@@ -124,10 +124,10 @@
     <Setting Name="PauseMediaPlayerWhenTabLoosesFocus" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="ImageViewerClickImageZoomPercentages" Type="System.String" Scope="Application">
+    <Setting Name="ImageViewerClickImageZoomPercentages" Description="These are zoom percentages used when clicking on an image in an image viewer. For each click, the zoom is increased to the next percentage value. When the max value is reached, the zoom percentage changes to the lowest value, etc." Type="System.String" Scope="Application">
       <Value Profile="(Default)">25, 50, 75,100, 125, 150, 175, 200, 225, 250, 275, 300</Value>
     </Setting>
-    <Setting Name="ComponentFileEndingsNotAllowed" Provider="SilUtils.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="ComponentFileEndingsNotAllowed" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;.session&lt;/string&gt;
@@ -147,6 +147,9 @@
     </Setting>
     <Setting Name="ProjectFileExtension" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.sprj</Value>
+    </Setting>
+    <Setting Name="LastFolderForComponentFileAdd" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

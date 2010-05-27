@@ -31,14 +31,17 @@ namespace SayMore.UI.ElementListScreen
 		/// </summary>
 		private void InitializeComponent()
 		{
-
 			this.SuspendLayout();
-
+			// 
+			// ElementListScreen
+			// 
+			this.Name = "ElementListScreen";
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
+
 
 	}
 }

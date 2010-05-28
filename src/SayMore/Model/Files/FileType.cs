@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Model.Files
 {
@@ -13,9 +17,27 @@ namespace SayMore.Model.Files
 	/// </summary>
 	public class FileType
 	{
+		#region Windows API stuff
+#if !MONO
+		public const uint SHGFI_DISPLAYNAME = 0x00000200;
+		public const uint SHGFI_TYPENAME = 0x400;
+		public const uint SHGFI_EXETYPE = 0x2000;
+		public const uint SHGFI_ICON = 0x100;
+		public const uint SHGFI_LARGEICON = 0x0; // 'Large icon
+		public const uint SHGFI_SMALLICON = 0x1; // 'Small icon
+
+		[DllImport("shell32.dll")]
+		public static extern IntPtr SHGetFileInfo(string pszPath, uint
+			dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
+#endif
+		#endregion
+
 		private readonly Func<string, bool> _isMatchPredicate;
 
 		public string Name { get; private set; }
+		public virtual string TypeDescription { get; protected set; }
+		public virtual Image SmallIcon { get; protected set; }
+		public virtual string FileSize { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
 		public static FileType Create(string name, string matchForEndOfFileName)
@@ -39,15 +61,98 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool IsMatch(string path)
 		{
-			return _isMatchPredicate(path);
+			var match = _isMatchPredicate(path);
+			if (match)
+			{
+				Bitmap smallIcon;
+				string name;
+				GetSmallIconAndFileType(path, out smallIcon, out name);
+				SmallIcon = smallIcon;
+				Name = Name ?? name;
+
+				// File should only not exist during tests.
+				var fi = new FileInfo(path);
+				FileSize = (fi.Exists ? GetDisplayableFileSize(fi.Length) : "0 KB");
+			}
+
+			return match;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the small icon.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void GetSmallIconAndFileType(string fullFilePath, out Bitmap smallIcon,
+			out string fileType)
+		{
+#if !MONO
+			SHFILEINFO shinfo = new SHFILEINFO();
+			SHGetFileInfo(fullFilePath, 0, ref
+				shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
+				SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
+
+			// This should only be zero during tests.
+			smallIcon = (shinfo.hIcon == IntPtr.Zero ?
+				null : Icon.FromHandle(shinfo.hIcon).ToBitmap());
+
+			fileType = shinfo.szTypeName;
+#else
+			// REVIEW: Figure out a better way to get this in Mono.
+			Icon icon = Icon.ExtractAssociatedIcon(fullFilePath);
+			var largeIcons = new ImageList();
+			largeIcons.Images.Add(icon);
+			var bmSmall = new Bitmap(16, 16);
+
+			using (var g = Graphics.FromImage(bmSmall))
+			{
+				g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+				g.DrawImage(LargeIcon, new Rectangle(0, 0, 16, 16),
+					new Rectangle(new Point(0, 0), LargeIcon.Size), GraphicsUnit.Pixel);
+			}
+
+			smallIcon = bmSmall;
+			// TODO: Figure out how to get FileType in Mono.
+#endif
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the size of the session file in a displayable form.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string GetDisplayableFileSize(long fileSize)
+		{
+			if (fileSize < 1000)
+				return string.Format("{0} B", fileSize);
+
+			if (fileSize < Math.Pow(1024, 2))
+			{
+				var size = (int)Math.Round(fileSize / (decimal)1024, 2, MidpointRounding.AwayFromZero);
+				if (size < 1)
+					size = 1;
+
+				return string.Format("{0} KB", size.ToString("###"));
+			}
+
+			double dblSize;
+			if (fileSize < Math.Pow(1024, 3))
+			{
+				dblSize = Math.Round(fileSize / Math.Pow(1024, 2), 2, MidpointRounding.AwayFromZero);
+				return string.Format("{0} MB", dblSize.ToString("###.##"));
+			}
+
+			dblSize = Math.Round(fileSize / Math.Pow(1024, 3), 2, MidpointRounding.AwayFromZero);
+			return string.Format("{0} GB", dblSize.ToString("###,###.##"));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "Info");
-			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "TEST");
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<FileCommand> Commands
 		{
 			get
@@ -57,6 +162,7 @@ namespace SayMore.Model.Files
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
 			return Name;
@@ -169,6 +275,13 @@ namespace SayMore.Model.Files
 
 			return _providers;
 		}
+
+
+		/// ------------------------------------------------------------------------------------
+		public override Image SmallIcon
+		{
+			get {return Resources.AudioComponentFileImage;}
+		}
 	}
 
 	#endregion
@@ -198,6 +311,13 @@ namespace SayMore.Model.Files
 
 			return _providers;
 		}
+
+
+		/// ------------------------------------------------------------------------------------
+		public override Image SmallIcon
+		{
+			get { return Resources.VideoComponentFileImage; }
+		}
 	}
 
 	#endregion
@@ -225,6 +345,12 @@ namespace SayMore.Model.Files
 			}
 
 			return _providers;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override Image SmallIcon
+		{
+			get { return Resources.ImageComponentFileImage; }
 		}
 	}
 

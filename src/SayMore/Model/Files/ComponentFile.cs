@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -185,15 +186,25 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// WARNING: THIS NAME IS HARD-CODED IN THE UI GRID
+		/// Gets the component file name without its path. WARNING: THIS NAME IS HARD-CODED
+		/// IN THE UI GRID
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public virtual string FileName
 		{
-			get
-			{
-				return Path.GetFileName(PathToAnnotatedFile);
-			}
+			get { return Path.GetFileName(PathToAnnotatedFile); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Image SmallIcon
+		{
+			get { return FileType.SmallIcon; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string FileSize
+		{
+			get { return FileType.FileSize; }
 		}
 
 		/// ------------------------------------------------------------------------------------

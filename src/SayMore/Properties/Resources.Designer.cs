@@ -60,9 +60,30 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap AudioComponentFileImage {
+            get {
+                object obj = ResourceManager.GetObject("AudioComponentFileImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ContributorsTabImage {
+            get {
+                object obj = ResourceManager.GetObject("ContributorsTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream finished {
             get {
                 return ResourceManager.GetStream("finished", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ImageComponentFileImage {
+            get {
+                object obj = ResourceManager.GetObject("ImageComponentFileImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -83,13 +104,6 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap kimidChangeProject {
             get {
                 object obj = ResourceManager.GetObject("kimidChangeProject", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap kimidContributorsTab {
-            get {
-                object obj = ResourceManager.GetObject("kimidContributorsTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -150,13 +164,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap kimidNotesTab {
-            get {
-                object obj = ResourceManager.GetObject("kimidNotesTab", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap kimidOverview {
             get {
                 object obj = ResourceManager.GetObject("kimidOverview", resourceCulture);
@@ -167,13 +174,6 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap kimidPeople {
             get {
                 object obj = ResourceManager.GetObject("kimidPeople", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap kimidPlayTab {
-            get {
-                object obj = ResourceManager.GetObject("kimidPlayTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -220,23 +220,65 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap kimidTechnicalTab {
-            get {
-                object obj = ResourceManager.GetObject("kimidTechnicalTab", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap kimidViewTab {
-            get {
-                object obj = ResourceManager.GetObject("kimidViewTab", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap kimidWarning {
             get {
                 object obj = ResourceManager.GetObject("kimidWarning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap NotesTabImage {
+            get {
+                object obj = ResourceManager.GetObject("NotesTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PlayTabImage {
+            get {
+                object obj = ResourceManager.GetObject("PlayTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SmallOpenProjectImage {
+            get {
+                object obj = ResourceManager.GetObject("SmallOpenProjectImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SmallOverviewImage {
+            get {
+                object obj = ResourceManager.GetObject("SmallOverviewImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SmallPeopleImage {
+            get {
+                object obj = ResourceManager.GetObject("SmallPeopleImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SmallSendReceiveImage {
+            get {
+                object obj = ResourceManager.GetObject("SmallSendReceiveImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SmallSessionsImage {
+            get {
+                object obj = ResourceManager.GetObject("SmallSessionsImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SmallSetupImage {
+            get {
+                object obj = ResourceManager.GetObject("SmallSetupImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -245,6 +287,27 @@ namespace SayMore.Properties {
             get {
                 object obj = ResourceManager.GetObject("Sponge", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap TechnicalTabImage {
+            get {
+                object obj = ResourceManager.GetObject("TechnicalTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap VideoComponentFileImage {
+            get {
+                object obj = ResourceManager.GetObject("VideoComponentFileImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ViewTabImage {
+            get {
+                object obj = ResourceManager.GetObject("ViewTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

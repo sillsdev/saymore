@@ -8,8 +8,7 @@ namespace SayMore.Model.Files
 	/// </summary>
 	public class UnknownFileType : FileType
 	{
-		public UnknownFileType()
-			: base("Unknown", path => true)
+		public UnknownFileType() : base("Unknown", path => true)
 		{
 		}
 

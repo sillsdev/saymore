@@ -42,7 +42,7 @@ namespace SayMore.UI.ProjectWindow
 			var views = new Control[] { new TextBox(), sessionsScreen, personsScreen };
 
 			Controls.AddRange(views);
-			_viewManger = new ViewButtonManager(tsMain, views);
+			_viewManger = new ViewButtonManager(_mainToolStrip, views);
 
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
@@ -92,7 +92,7 @@ namespace SayMore.UI.ProjectWindow
 			Settings.Default.ProjectWindow.InitializeForm(this);
 			base.OnLoad(e);
 
-			_viewManger.SetView(tsbSessions);
+			_viewManger.SetView(_toolStripButtonSessions);
 		}
 
 		/// ------------------------------------------------------------------------------------

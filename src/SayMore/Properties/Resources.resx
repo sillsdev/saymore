@@ -195,19 +195,46 @@
   <data name="kimidSpongeSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SpongeSmall.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidContributorsTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ContributorsTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ContributorsTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidNotesTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="NotesTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NotesTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidPlayTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="PlayTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PlayTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidTechnicalTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="TechnicalTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TechnicalTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidViewTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ViewTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ViewTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmallOverviewImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Overview2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmallPeopleImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\People2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmallSendReceiveImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SendReceive2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmallSessionsImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sessions2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmallSetupImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Setup2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmallOpenProjectImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OpenProject2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AudioComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AudioComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VideoComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VideoComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

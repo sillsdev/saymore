@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sponge", "src\Sponge\Sponge.csproj", "{D1715E95-B418-4A4E-924A-93B771E4072B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpongeTests", "src\SpongeTests\SpongeTests.csproj", "{8769F2A3-6C9B-4272-A668-F98BDBB90647}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SayMore", "src\SayMore\SayMore.csproj", "{A61F5E06-CACD-40FA-BBAD-8744212AF14E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SayMoreTests", "src\SayMoreTests\SayMoreTests.csproj", "{B534A7B9-FF0D-46C7-A845-C00845B223BC}"
@@ -18,9 +16,6 @@ Global
 		{D1715E95-B418-4A4E-924A-93B771E4072B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D1715E95-B418-4A4E-924A-93B771E4072B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1715E95-B418-4A4E-924A-93B771E4072B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8769F2A3-6C9B-4272-A668-F98BDBB90647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8769F2A3-6C9B-4272-A668-F98BDBB90647}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8769F2A3-6C9B-4272-A668-F98BDBB90647}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A61F5E06-CACD-40FA-BBAD-8744212AF14E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A61F5E06-CACD-40FA-BBAD-8744212AF14E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A61F5E06-CACD-40FA-BBAD-8744212AF14E}.Release|Any CPU.ActiveCfg = Release|Any CPU

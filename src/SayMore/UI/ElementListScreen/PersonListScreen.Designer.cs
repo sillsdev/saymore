@@ -136,7 +136,6 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _componentFileGrid
 			// 
-			this._componentFileGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._componentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._componentFileGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this._componentFileGrid.Location = new System.Drawing.Point(0, 0);

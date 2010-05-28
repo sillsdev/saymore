@@ -49,12 +49,12 @@ namespace SayMore.UI.ElementListScreen
 
 			var imgList = new ImageList();
 			imgList.ColorDepth = ColorDepth.Depth32Bit;
-			imgList.ImageSize = Resources.kimidPlayTab.Size;
-			imgList.Images.Add("Contributors", Resources.kimidContributorsTab);
-			imgList.Images.Add("Notes", Resources.kimidNotesTab);
-			imgList.Images.Add("Play", Resources.kimidPlayTab);
-			imgList.Images.Add("Technical", Resources.kimidTechnicalTab);
-			imgList.Images.Add("View", Resources.kimidViewTab);
+			imgList.ImageSize = Resources.PlayTabImage.Size;
+			imgList.Images.Add("Contributors", Resources.ContributorsTabImage);
+			imgList.Images.Add("Notes", Resources.NotesTabImage);
+			imgList.Images.Add("Play", Resources.PlayTabImage);
+			imgList.Images.Add("Technical", Resources.TechnicalTabImage);
+			imgList.Images.Add("View", Resources.ViewTabImage);
 			_componentEditorsTabControl.ImageList = imgList;
 
 			_elementsListPanel = elementsListPanel;

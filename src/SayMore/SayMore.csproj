@@ -337,6 +337,15 @@
     <None Include="Resources\PlayTab.png" />
     <None Include="Resources\TechnicalTab.png" />
     <None Include="Resources\ViewTab.png" />
+    <None Include="Resources\OpenProject2.png" />
+    <None Include="Resources\Overview2.png" />
+    <None Include="Resources\People2.png" />
+    <None Include="Resources\Sessions2.png" />
+    <None Include="Resources\Setup2.png" />
+    <None Include="Resources\SendReceive2.png" />
+    <None Include="Resources\AudioComponentFile.png" />
+    <None Include="Resources\ImageComponentFile.png" />
+    <None Include="Resources\VideoComponentFile.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

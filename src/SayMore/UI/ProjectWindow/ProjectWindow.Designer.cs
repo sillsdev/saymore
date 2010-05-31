@@ -175,7 +175,6 @@ namespace SayMore.UI.ProjectWindow
 			this._mainMenuStrip.Size = new System.Drawing.Size(697, 24);
 			this._mainMenuStrip.TabIndex = 1;
 			this._mainMenuStrip.Text = "menuStrip1";
-			this._mainMenuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this._mainMenuStrip_ItemClicked);
 			// 
 			// _menuFile
 			// 
@@ -206,7 +205,7 @@ namespace SayMore.UI.ProjectWindow
 			this._exportSessionsMenuItem.Size = new System.Drawing.Size(163, 22);
 			this._exportSessionsMenuItem.Tag = "export";
 			this._exportSessionsMenuItem.Text = "Export Sessions...";
-			this._exportSessionsMenuItem.Click += new System.EventHandler(this._exportSessionsMenuItem_Click);
+			this._exportSessionsMenuItem.Click += new System.EventHandler(this.OnCommandMenuItem_Click);
 			// 
 			// ProjectWindow
 			// 

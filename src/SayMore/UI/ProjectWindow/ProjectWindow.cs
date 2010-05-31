@@ -143,14 +143,9 @@ namespace SayMore.UI.ProjectWindow
 			Close();
 		}
 
-		private void _mainMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		private void OnCommandMenuItem_Click(object sender, EventArgs e)
 		{
-
-		}
-
-		private void _exportSessionsMenuItem_Click(object sender, EventArgs e)
-		{
-			var handler = _commands.First(c => c.Id == "export");
+			var handler = _commands.First(c => c.Id == (string) ((ToolStripMenuItem) sender).Tag);
 			handler.Execute();
 		}
 	}

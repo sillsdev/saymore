@@ -16,7 +16,7 @@ namespace SayMore.UI.ProjectWindow
 	/// ----------------------------------------------------------------------------------------
 	public partial class ProjectWindow : Form
 	{
-		public delegate ProjectWindow Factory(string projectName, IEnumerable<ICommand> commands); //autofac uses this
+		public delegate ProjectWindow Factory(string projectName); //autofac uses this
 
 		private readonly ViewButtonManager _viewManger;
 		private readonly string _projectName;

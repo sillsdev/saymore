@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExportTests.cs" />
     <Compile Include="model\Files\ComponentFileTests.cs" />
     <Compile Include="ApplicationContextTests.cs" />
     <Compile Include="model\ProjectElementRenamingTests.cs" />

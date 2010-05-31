@@ -53,7 +53,8 @@ namespace SayMore
 			var p = _scope.Resolve<ElementListViewModel<Person>>();
 
 			var factory = _scope.Resolve<ProjectWindow.Factory>();
-			ProjectWindow = factory(projectSettingsPath);
+//			ProjectWindow = factory(projectSettingsPath, _scope.Resolve<IEnumerable<CommandAdaptor>>());
+			ProjectWindow = factory(projectSettingsPath, _scope.Resolve<IEnumerable<ICommand>>());
 		}
 
 		/// ------------------------------------------------------------------------------------

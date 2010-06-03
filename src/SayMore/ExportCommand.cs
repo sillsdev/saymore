@@ -68,7 +68,7 @@ namespace SayMore
 		public string GetFileString(IEnumerable<ProjectElement> elements)
 		{
 			return GetFileString(
-				elements.Select(element => element.MetaDataFile.MetaDataFieldValues)
+				elements.Select(element => element.ExportFields)
 					.Cast<IEnumerable<FieldValue>>().ToList());
 		}
 

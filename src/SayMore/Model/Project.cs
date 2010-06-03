@@ -38,7 +38,10 @@ namespace SayMore.Model
 			}
 			else
 			{
-				RequireThat.Directory(parentDirectoryPath).Exists();
+				if (!Directory.Exists(parentDirectoryPath))
+				{
+					Directory.CreateDirectory(parentDirectoryPath);
+				}
 
 				if (!Directory.Exists(projectDirectory))
 				{

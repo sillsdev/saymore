@@ -970,6 +970,21 @@
 			(e.g. {1, 10}) that are listed in the intervals parameter.  It will get version number and name out of the application.
 			</summary>
 		</member>
+		<member name="P:Palaso.Reporting.UsageReporter.AppReportingSettings">
+			<summary>
+			The deal here is, Cambell changed this so that it is the responsibility of
+			the client to set this, and then save the settings.
+			E.g., in the Settings.Designer.cs, add
+
+				[UserScopedSetting()]
+				[DebuggerNonUserCode()]
+				public Palaso.Reporting.ReportingSettings Reporting
+				{
+					get { return ((Palaso.Reporting.ReportingSettings)(this["Reporting"])); }
+					set { this["Reporting"] = value; }
+				}
+			</summary>
+		</member>
 		<member name="M:Palaso.Reporting.ExceptionHandler.HandleUnhandledException(System.Object,System.UnhandledExceptionEventArgs)">
 			------------------------------------------------------------------------------------
 			<summary>
@@ -2220,9 +2235,15 @@
 			This will not report the problem to the developer.  Use one of the "report" methods for that.
 			</summary>
 		</member>
+		<member name="M:Palaso.Reporting.ErrorReport.ReportNonFatalExceptionWithMessage(System.Exception,System.String,System.Object[])">
+			<summary>
+			Bring up a "yellow box" that let's them send in a report, then return to the program.
+			</summary>
+		</member>
 		<member name="M:Palaso.Reporting.ErrorReport.ReportNonFatalMessageWithStackTrace(System.String,System.Object[])">
 			<summary>
 			Bring up a "yellow box" that let's them send in a report, then return to the program.
+			Use this one only when you don't have an exception (else you're not reporting the exception's message)
 			</summary>
 		</member>
 		<member name="M:Palaso.Reporting.ErrorReport.ReportFatalMessageWithStackTrace(System.String,System.Object[])">
@@ -2232,7 +2253,7 @@
 		</member>
 		<member name="M:Palaso.Reporting.ErrorReport.ReportNonFatalException(System.Exception)">
 			<summary>
-			Bring up a "yellow box" that let's them send in a report, then return to the program.
+			Bring up a "yellow box" that lets them send in a report, then return to the program.
 			</summary>
 		</member>
 		<member name="M:Palaso.Reporting.ErrorReport.ReportNonFatalException(System.Exception,Palaso.Reporting.IRepeatNoticePolicy)">

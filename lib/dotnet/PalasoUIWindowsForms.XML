@@ -617,6 +617,17 @@
 			the contents of this method with the code editor.
 			</summary>
 		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.#ctor">
+			<summary>
+			This one is for supporting the designer, and must be followed by a call to BindToModel
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.BindToModel(Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel)">
+			<summary>
+			Call this explicitly if using the constructor which does not set the model
+			</summary>
+			<param name="model"></param>
+		</member>
 		<member name="P:Elsehemy.SuperToolTipInfo.OffsetForWhereToDisplay">
 			<summary>
 			Set this when you need to control just where the tt is going to display

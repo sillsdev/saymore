@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Localization;
 using SayMore.Properties;
@@ -18,6 +20,7 @@ namespace SayMore.UI.ProjectWindow
 
 		private readonly ViewButtonManager _viewManger;
 		private readonly string _projectName;
+		private readonly IEnumerable<ICommand> _commands;
 
 		public static bool Resizing { get; private set; }
 		public bool UserWantsToOpenADifferentProject { get; set; }
@@ -30,7 +33,8 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectWindow(string projectName, SessionScreen sessionsScreen,
-			PersonListScreen personsScreen) : this()
+			PersonListScreen personsScreen, IEnumerable<ICommand> commands)
+			: this()
 		{
 			if (Settings.Default.ProjectWindow == null)
 			{
@@ -39,6 +43,7 @@ namespace SayMore.UI.ProjectWindow
 			}
 
 			_projectName = projectName;
+			_commands = commands;
 			var views = new Control[] { new TextBox(), sessionsScreen, personsScreen };
 
 			Controls.AddRange(views);
@@ -137,5 +142,12 @@ namespace SayMore.UI.ProjectWindow
 			UserWantsToOpenADifferentProject = true;
 			Close();
 		}
+
+		private void OnCommandMenuItem_Click(object sender, EventArgs e)
+		{
+			var handler = _commands.First(c => c.Id == (string) ((ToolStripMenuItem) sender).Tag);
+			handler.Execute();
+		}
 	}
+
 }

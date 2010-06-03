@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExportCommand.cs" />
     <Compile Include="Model\Fields\DiscourseType.cs" />
     <Compile Include="Model\EditorProvider.cs" />
     <Compile Include="Model\ElementRepository.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="UI\ElementListScreen\SessionScreen.Designer.cs">
       <DependentUpon>SessionScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Command.cs" />
     <Compile Include="UI\ProjectWindow\ProjectWindow.cs">
       <SubType>Form</SubType>
     </Compile>

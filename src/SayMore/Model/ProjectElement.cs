@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Palaso.Code;
 using Palaso.Reporting;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
@@ -100,6 +101,18 @@ namespace SayMore.Model
 			get
 			{
 				return Path.Combine(FolderPath, Id + "." + ExtensionWithoutPeriod);
+			}
+		}
+
+		public IEnumerable<FieldValue>ExportFields
+		{
+			get
+			{
+				yield return new FieldValue("id", "string", Id);
+				foreach (var field in MetaDataFile.MetaDataFieldValues)
+				{
+					yield return field;
+				}
 			}
 		}
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Autofac;
 using SayMore.Model;
@@ -20,7 +21,14 @@ namespace SayMore
 		public ApplicationContainer()
 		{
 			var builder = new ContainerBuilder();
-			builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t=>!t.Name.Contains("Factory"));
+			builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());
+
+			//this one overrides the above, for commands, so that anything requiring
+			//IEnumerable<ICommand> will get a list of *instances*, one each, of each command.
+			builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+				.As<ICommand>()
+				.Where(t => t.GetInterfaces().Contains(typeof(ICommand)));
+
 			builder.RegisterInstance(FilesTypes).As(typeof(IEnumerable<FileType>));
 			builder.RegisterInstance(ComponentRoles).As(typeof(IEnumerable<ComponentRole>));
 

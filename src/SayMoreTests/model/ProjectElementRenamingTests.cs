@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -30,7 +28,6 @@ namespace SayMoreTests.Model
 			_parentFolder.Dispose();
 			_parentFolder = null;
 		}
-
 
 		private Session CreateSession()
 		{

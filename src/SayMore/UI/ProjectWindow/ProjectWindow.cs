@@ -132,7 +132,7 @@ namespace SayMore.UI.ProjectWindow
 		/// Show the welcome dialog to allow the user to choose another project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleChangeProjectsButtonClick(object sender, EventArgs e)
+		private void HandleOpenProjectClick(object sender, EventArgs e)
 		{
 			UserWantsToOpenADifferentProject = true;
 			Close();

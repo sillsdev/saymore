@@ -229,25 +229,24 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle NewSessionsFromFilesDlgBounds {
+        public global::SilUtils.FormSettings NewSessionsFromFilesDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["NewSessionsFromFilesDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["NewSessionsFromFilesDlg"]));
             }
             set {
-                this["NewSessionsFromFilesDlgBounds"] = value;
+                this["NewSessionsFromFilesDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public string NewSessionsFromFilesDlgCols {
+        public global::SilUtils.GridSettings NewSessionsFromFilesDlgComponentGrid {
             get {
-                return ((string)(this["NewSessionsFromFilesDlgCols"]));
+                return ((global::SilUtils.GridSettings)(this["NewSessionsFromFilesDlgComponentGrid"]));
             }
             set {
-                this["NewSessionsFromFilesDlgCols"] = value;
+                this["NewSessionsFromFilesDlgComponentGrid"] = value;
             }
         }
         

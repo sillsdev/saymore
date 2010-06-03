@@ -1,12 +1,10 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Autofac;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating;
 
 namespace SayMore
@@ -72,7 +70,7 @@ namespace SayMore
 			return _container.Resolve<WelcomeDialog>();
 		}
 
-		private static IEnumerable<FileType> FilesTypes
+		public static IEnumerable<FileType> FilesTypes
 		{
 			get
 			{

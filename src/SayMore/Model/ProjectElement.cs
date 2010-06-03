@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
 using Palaso.Code;
 using Palaso.Reporting;
 using SayMore.Model.Files;
@@ -19,10 +18,15 @@ namespace SayMore.Model
 		/// <summary>
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
-		private ComponentFile.Factory _componentFileFactory;
-		private FileSerializer _fileSerializer;
+		private readonly ComponentFile.Factory _componentFileFactory;
+		private readonly FileSerializer _fileSerializer;
 		private string _id;
+
+		public string Id { get { return _id; } }
 		public ProjectElementComponentFile MetaDataFile { get; private set; }
+		public abstract string RootElementName { get; }
+		protected internal string ParentFolderPath { get; set; }
+		protected abstract string ExtensionWithoutPeriod { get; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -30,6 +34,7 @@ namespace SayMore.Model
 		/// </summary>
 		/// <param name="parentElementFolder">E.g. "c:/MyProject/Sessions"</param>
 		/// <param name="id">e.g. "ETR007"</param>
+		/// <param name="componentFileFactory"></param>
 		/// <param name="fileSerializer">used to load/save</param>
 		/// <param name="fileType"></param>
 		/// ------------------------------------------------------------------------------------
@@ -44,23 +49,17 @@ namespace SayMore.Model
 			ParentFolderPath = parentElementFolder;
 			_id = id;
 
-			MetaDataFile = new ProjectElementComponentFile(this, fileType, _fileSerializer, RootElementName);
+			MetaDataFile = new ProjectElementComponentFile(this, fileType,
+				_fileSerializer, RootElementName);
 
 			if (File.Exists(SettingsFilePath))
-			{
 				Load();
-			}
 			else
 			{
 				Directory.CreateDirectory(FolderPath);
 				Save();
 			}
 		}
-
-		public string Id { get { return _id; } }
-		protected internal string ParentFolderPath { get; set; }
-		protected abstract string ExtensionWithoutPeriod { get; }
-		public abstract string RootElementName { get; }
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentFile> GetComponentFiles()
@@ -209,8 +208,8 @@ namespace SayMore.Model
 				//todo... need a way to make this all one big all or nothing transaction.  As it is, some things can be
 				//renamed and then we run into a snag, and we're left in a bad, inconsistent state.
 
-				//for now, at least check for the very common situation where the rename of the directory itself will fail,
-				//and find that out *before* we do the file renamings
+				// for now, at least check for the very common situation where the rename of the
+				// directory itself will fail, and find that out *before* we do the file renamings
 				try
 				{
 					Directory.Move(FolderPath, FolderPath + "Renaming");
@@ -241,10 +240,10 @@ namespace SayMore.Model
 				failureMessage = ExceptionHelper.GetAllExceptionMessages(e);
 				return false;
 			}
-			finally
-			{
-				//Project.EnableFileWatching = previousFileWatchingStatus;
-			}
+			//finally
+			//{
+			//    Project.EnableFileWatching = previousFileWatchingStatus;
+			//}
 
 			_id = newId;
 			Save();

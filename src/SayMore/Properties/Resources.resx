@@ -148,7 +148,7 @@
   <data name="kimidFemale_NotSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Female_NotSelected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="finished" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Finished" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\finished.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="kimidChangePicture" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -236,5 +236,11 @@
   </data>
   <data name="VideoComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VideoComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PersonComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PersonComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SessionComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SessionComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

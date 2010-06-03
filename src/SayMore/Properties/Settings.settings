@@ -82,10 +82,10 @@
     <Setting Name="RedrawAsMainWndResizes" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="NewSessionsFromFilesDlgBounds" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
-      <Value Profile="(Default)">0, 0, 0, -1</Value>
+    <Setting Name="NewSessionsFromFilesDlg" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilUtils.FormSettings" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="NewSessionsFromFilesDlgCols" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+    <Setting Name="NewSessionsFromFilesDlgComponentGrid" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilUtils.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="NewSessionsFromFilesLastFolder" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">

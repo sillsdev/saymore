@@ -8,25 +8,22 @@ namespace SayMore.Model.Files
 	/// </summary>
 	public class UnknownFileType : FileType
 	{
+		/// ------------------------------------------------------------------------------------
 		public UnknownFileType() : base("Unknown", path => true)
 		{
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "Info");
-		}
+			if (_providers.Count == 0)
+			{
+				_providers.Add(new EditorProvider(new BrowserEditor(file), "View"));
+				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
+				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
+			}
 
-		//public override IEnumerable<FileCommand> Commands
-		//{
-		//    get
-		//    {
-		//        foreach (var command in base.Commands)
-		//        {
-		//            yield return command;
-		//        }
-		//        //yield return new FileCommand("Open in Program Associated with this File...", FileCommand.HandleOpenInApp_Click);
-		//    }
-		//}
+			return _providers;
+		}
 	}
 }

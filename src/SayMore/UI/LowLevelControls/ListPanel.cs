@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,10 +21,10 @@ namespace SayMore.UI.LowLevelControls
 		public delegate void SelectedItemChangedHandler(object sender, object newItem);
 		public event SelectedItemChangedHandler SelectedItemChanged;
 
-		public delegate bool BeforeItemsDeletedHandler(object sender, List<object> itemsToDelete);
+		public delegate bool BeforeItemsDeletedHandler(object sender, IEnumerable<object> itemsToDelete);
 		public event BeforeItemsDeletedHandler BeforeItemsDeleted;
 
-		public delegate void AfterItemsDeletedHandler(object sender, List<object> itemsToDelete);
+		public delegate void AfterItemsDeletedHandler(object sender, IEnumerable<object> itemsToDelete);
 		public event AfterItemsDeletedHandler AfterItemsDeleted;
 
 		public delegate object NewButtonClickedHandler(object sender);
@@ -113,16 +114,13 @@ namespace SayMore.UI.LowLevelControls
 				if (_itemsListView.Items.Count == 0)
 					return new object[] { };
 
-				var items = new List<object>(_itemsListView.Items.Count);
-				foreach (ListViewItem item in _itemsListView.Items)
-					items.Add(item.Tag);
-
-				return items.ToArray();
+				return _itemsListView.Items.Cast<ListViewItem>().Select(x => x.Tag).ToArray();
 			}
 			set
 			{
 				var currItem = CurrentItem;
 				_itemsListView.Items.Clear();
+
 				if (value != null && value.Length > 0)
 				{
 					var list = new List<object>(value);
@@ -414,10 +412,7 @@ namespace SayMore.UI.LowLevelControls
 			if (_itemsListView.SelectedItems.Count == 0)
 				return;
 
-			// Create a list containing each selected item.
-			var itemsToDelete = new List<object>(_itemsListView.SelectedItems.Count);
-			foreach (ListViewItem item in _itemsListView.SelectedItems)
-				itemsToDelete.Add(item.Tag);
+			var itemsToDelete = _itemsListView.SelectedItems.Cast<ListViewItem>().Select(x => x.Tag).ToList();
 
 			if (itemsToDelete.Count == 0)
 				return;
@@ -430,8 +425,8 @@ namespace SayMore.UI.LowLevelControls
 
 			MonitorSelectedIndexChanges = false;
 
-			// Remove the selected item. (This list could have been modified by a
-			// delegate.)
+			// Remove the selected item. (Note: this list could have
+			// been modified by a BeforeItemsDeleted delegate.)
 			foreach (object obj in itemsToDelete)
 			{
 				var item = _itemsListView.FindItemWithText(obj.ToString());
@@ -441,22 +436,7 @@ namespace SayMore.UI.LowLevelControls
 
 			MonitorSelectedIndexChanges = true;
 
-			// Call delegates.
-			if (AfterItemsDeleted != null)
-				AfterItemsDeleted(this, itemsToDelete);
-
-			// Check if the currently focused item is the same as the one that was
-			// focused before removing anything from the list.
-			if (_itemsListView.FocusedItem != null && currText == _itemsListView.FocusedItem.Text)
-				return;
-
-			// Try to restore the focus to the item that had it before removing items.
-			var newItem = _itemsListView.FindItemWithText(currText);
-			if (newItem != null)
-			{
-				_itemsListView.FocusedItem = newItem;
-				return;
-			}
+			SelectItem(currText, false);
 
 			// By now, we've failed to restore the focused item, so try to give focus
 			// to the item having the same index as that of the focused item before
@@ -466,6 +446,9 @@ namespace SayMore.UI.LowLevelControls
 
 			if (_itemsListView.Items.Count > 0)
 				_itemsListView.Items[currIndex].Selected = true;
+
+			if (AfterItemsDeleted != null)
+				AfterItemsDeleted(this, itemsToDelete);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -477,6 +460,12 @@ namespace SayMore.UI.LowLevelControls
 		{
 			if (NewButtonClicked != null)
 				AddItem(NewButtonClicked(this), true, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Clear()
+		{
+			_itemsListView.Items.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------

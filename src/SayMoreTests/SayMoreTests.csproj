@@ -78,6 +78,7 @@
     <Compile Include="model\Files\FileSerializerTests.cs" />
     <Compile Include="ProjectChosingAndCreating\WelcomeDialogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\LowLevelControls\ListPanelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SayMore\SayMore.csproj">

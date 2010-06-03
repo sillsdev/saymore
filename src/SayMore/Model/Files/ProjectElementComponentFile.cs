@@ -50,6 +50,7 @@ namespace SayMore.Model.Files
 			get { return Path.GetFileName(_parentElement.SettingsFilePath); }
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public override void HandleDoubleClick()
 		{
 			//don't do anything

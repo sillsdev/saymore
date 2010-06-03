@@ -1,12 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Windows.Forms;
 using Autofac;
-using Autofac.Core;
 using SayMore.Model;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.ProjectWindow;
@@ -49,8 +43,8 @@ namespace SayMore
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
 			peopleRepoFactory(Path.GetDirectoryName(projectSettingsPath), "People");
 
-			var s = _scope.Resolve<ElementListViewModel<Session>>();
-			var p = _scope.Resolve<ElementListViewModel<Person>>();
+			_scope.Resolve<ElementListViewModel<Session>>();
+			_scope.Resolve<ElementListViewModel<Person>>();
 
 			var factory = _scope.Resolve<ProjectWindow.Factory>();
 			ProjectWindow = factory(projectSettingsPath);

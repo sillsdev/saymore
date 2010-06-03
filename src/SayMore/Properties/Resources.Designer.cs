@@ -74,9 +74,9 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.IO.UnmanagedMemoryStream finished {
+        internal static System.IO.UnmanagedMemoryStream Finished {
             get {
-                return ResourceManager.GetStream("finished", resourceCulture);
+                return ResourceManager.GetStream("Finished", resourceCulture);
             }
         }
         
@@ -234,9 +234,23 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap PersonComponentFileImage {
+            get {
+                object obj = ResourceManager.GetObject("PersonComponentFileImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap PlayTabImage {
             get {
                 object obj = ResourceManager.GetObject("PlayTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SessionComponentFileImage {
+            get {
+                object obj = ResourceManager.GetObject("SessionComponentFileImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

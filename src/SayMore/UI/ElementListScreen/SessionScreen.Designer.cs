@@ -34,6 +34,7 @@ namespace SayMore.UI.ElementListScreen
 			this._tabComponentEditors = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this._elementListSplitter = new System.Windows.Forms.SplitContainer();
+			this._buttonNewFromFiles = new System.Windows.Forms.Button();
 			this._sessionsListPanel = new SayMore.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
 			this._componentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
@@ -74,6 +75,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _elementListSplitter.Panel1
 			// 
+			this._elementListSplitter.Panel1.Controls.Add(this._buttonNewFromFiles);
 			this._elementListSplitter.Panel1.Controls.Add(this._sessionsListPanel);
 			// 
 			// _elementListSplitter.Panel2
@@ -84,6 +86,20 @@ namespace SayMore.UI.ElementListScreen
 			this._elementListSplitter.SplitterWidth = 6;
 			this._elementListSplitter.TabIndex = 9;
 			this._elementListSplitter.TabStop = false;
+			// 
+			// _buttonNewFromFiles
+			// 
+			this._buttonNewFromFiles.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._buttonNewFromFiles.AutoSize = true;
+			this._buttonNewFromFiles.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._buttonNewFromFiles.Location = new System.Drawing.Point(33, 163);
+			this._buttonNewFromFiles.MinimumSize = new System.Drawing.Size(117, 26);
+			this._buttonNewFromFiles.Name = "_buttonNewFromFiles";
+			this._buttonNewFromFiles.Size = new System.Drawing.Size(117, 26);
+			this._buttonNewFromFiles.TabIndex = 9;
+			this._buttonNewFromFiles.Text = "New From Files...";
+			this._buttonNewFromFiles.UseVisualStyleBackColor = true;
+			this._buttonNewFromFiles.Click += new System.EventHandler(this.HandleButtonNewFromFilesClick);
 			// 
 			// _sessionsListPanel
 			// 
@@ -136,6 +152,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _componentFileGrid
 			// 
+			this._componentFileGrid.AddButtonVisible = true;
 			this._componentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._componentFileGrid.Location = new System.Drawing.Point(0, 0);
 			this._componentFileGrid.Name = "_componentFileGrid";
@@ -151,6 +168,7 @@ namespace SayMore.UI.ElementListScreen
 			this.Size = new System.Drawing.Size(503, 350);
 			this._tabComponentEditors.ResumeLayout(false);
 			this._elementListSplitter.Panel1.ResumeLayout(false);
+			this._elementListSplitter.Panel1.PerformLayout();
 			this._elementListSplitter.Panel2.ResumeLayout(false);
 			this._elementListSplitter.ResumeLayout(false);
 			this._componentsSplitter.Panel1.ResumeLayout(false);
@@ -168,5 +186,6 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.SplitContainer _elementListSplitter;
 		private System.Windows.Forms.SplitContainer _componentsSplitter;
 		private ComponentFileGrid _componentFileGrid;
+		private System.Windows.Forms.Button _buttonNewFromFiles;
 	}
 }

@@ -1,6 +1,8 @@
 using System;
+using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Properties;
+using SayMore.UI.NewSessionsFromFiles;
 using SayMore.UI.ProjectWindow;
 
 namespace SayMore.UI.ElementListScreen
@@ -8,6 +10,7 @@ namespace SayMore.UI.ElementListScreen
 	/// ----------------------------------------------------------------------------------------
 	public partial class SessionScreen : ConcreteSessionScreen, ISayMoreView
 	{
+		/// ------------------------------------------------------------------------------------
 		public SessionScreen(ElementListViewModel<Session> presentationModel)
 			: base(presentationModel)
 		{
@@ -18,6 +21,8 @@ namespace SayMore.UI.ElementListScreen
 
 			Initialize(_tabComponentEditors, _componentFileGrid, _sessionsListPanel);
 			_componentFileGrid.InitializeGrid("SessionScreen");
+
+			_sessionsListPanel.InsertButton(1, _buttonNewFromFiles);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -41,6 +46,21 @@ namespace SayMore.UI.ElementListScreen
 			Settings.Default.SessionScreenElementsListSplitterPos = _elementListSplitter.SplitterDistance;
 			Settings.Default.SessionScreenComponentsSplitterPos = _componentsSplitter.SplitterDistance;
 			base.OnHandleDestroyed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleButtonNewFromFilesClick(object sender, EventArgs e)
+		{
+			using (var viewModel = new NewSessionsFromFileDlgViewModel(_model))
+			using (var dlg = new NewSessionsFromFilesDlg(viewModel))
+			{
+				viewModel.Dialog = dlg;
+
+				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
+					LoadElementList(viewModel.FirstNewSessionAdded);
+
+				FindForm().Focus();
+			}
 		}
 	}
 

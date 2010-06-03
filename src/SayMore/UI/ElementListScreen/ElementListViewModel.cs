@@ -26,10 +26,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<T> Elements
 		{
-			get
-			{
-				return _repository.AllItems;
-			}
+			get { return _repository.AllItems; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -37,6 +34,12 @@ namespace SayMore.UI.ElementListScreen
 		{
 			return (SelectedElement == null ?
 				new ComponentFile[] { } : SelectedElement.GetComponentFiles().ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void RefreshElementList()
+		{
+			_repository.RefreshItemList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -81,6 +84,24 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var id = "XYZ-" + _repository.AllItems.Count();
 			return _repository.CreateNew(id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public T CreateNewElementWithId(string id)
+		{
+			return _repository.CreateNew(id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool Remove(string id)
+		{
+			return _repository.Remove(id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool Remove(T item)
+		{
+			return _repository.Remove(item);
 		}
 
 		/// ------------------------------------------------------------------------------------

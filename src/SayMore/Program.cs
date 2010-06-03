@@ -65,7 +65,7 @@ namespace SayMore
 		{
 			Debug.Assert(_projectContext == null);
 			_projectContext = _applicationContainer.CreateProjectContext(projectPath);
-			_projectContext.ProjectWindow.Closed += OnProjectWindow_Closed;
+			_projectContext.ProjectWindow.Closed += HandleProjectWindowClosed;
 			_projectContext.ProjectWindow.Show();
 		}
 
@@ -88,7 +88,7 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
-		static void OnProjectWindow_Closed(object sender, EventArgs e)
+		static void HandleProjectWindowClosed(object sender, EventArgs e)
 		{
 			_projectContext.Dispose();
 			_projectContext = null;

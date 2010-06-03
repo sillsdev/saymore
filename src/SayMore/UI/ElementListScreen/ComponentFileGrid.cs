@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -52,6 +54,12 @@ namespace SayMore.UI.ElementListScreen
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
 			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
 			_grid.Font = SystemFonts.IconTitleFont;
+			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
+
+			var clr = ColorHelper.CalculateColor(Color.White,
+				 _grid.DefaultCellStyle.SelectionBackColor, 140);
+
+			_grid.DefaultCellStyle.SelectionBackColor = clr;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -68,6 +76,24 @@ namespace SayMore.UI.ElementListScreen
 		{
 			Settings.Default[_gridColSettingPrefix + "ComponentGrid"] = GridSettings.Create(_grid);
 			base.OnHandleDestroyed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool AddButtonVisible
+		{
+			get { return _buttonAdd.Visible; }
+			set
+			{
+				if (_buttonAdd.Visible != value)
+					_buttonAdd.Visible = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		public DataGridView Grid
+		{
+			get { return _grid; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -99,14 +125,14 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
+		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
 			if (null != ComponentSelectedCallback)
 				ComponentSelectedCallback(_grid.CurrentCellAddress.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void HandleFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+		protected virtual void HandleFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			var dataPropName = _grid.Columns[e.ColumnIndex].DataPropertyName;
 			var currElementFile = _files.ElementAt(e.RowIndex);
@@ -118,7 +144,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public void UpdateComponentList(IEnumerable<ComponentFile> componentFiles)
 		{
-			var currFile = (_grid.CurrentCellAddress.Y >= 0 ?
+			var currFile = (_grid.CurrentCellAddress.Y >= 0 && _files.Count() > 0 ?
 				_files.ElementAt(_grid.CurrentCellAddress.Y).PathToAnnotatedFile : null);
 
 			_files = componentFiles;
@@ -141,7 +167,10 @@ namespace SayMore.UI.ElementListScreen
 			foreach (var file in _files)
 			{
 				if (file.PathToAnnotatedFile == currFile)
+				{
 					_grid.CurrentCell = _grid[0, i];
+					break;
+				}
 
 				i++;
 			}
@@ -193,17 +222,27 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Draw a line between the add button and the grid. Use the same color as the grid
-		/// lines.
+		/// lines. Then fill the area below that line with a gradient fill.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandlePaintingGridButtonSeparatorLine(object sender, PaintEventArgs e)
 		{
+			if (!_buttonAdd.Visible)
+				return;
+
 			// Get the Y coordinate of the bottom of the grid, relative to the outer panel.
 			var pt = _tableLayout.PointToScreen(new Point(0, _grid.Bottom));
 			var dy = _panelOuter.PointToClient(pt).Y;
 
 			using (var pen = new Pen(_grid.GridColor))
 				e.Graphics.DrawLine(pen, 0, dy, _panelOuter.Width, dy);
+
+			var rc = new Rectangle(0, dy + 1, _panelOuter.Width, _panelOuter.ClientSize.Height - dy - 1);
+			var clr1 = Color.FromArgb(95, _panelOuter.BorderColor);
+			var clr2 = Color.FromArgb(40, _panelOuter.BorderColor);
+
+			using (var br = new LinearGradientBrush(rc, clr1, clr2, LinearGradientMode.Horizontal))
+				e.Graphics.FillRectangle(br, rc);
 		}
 	}
 }

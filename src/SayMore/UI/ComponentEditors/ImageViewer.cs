@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SIL.Localization;
 using SilUtils;
 using SilUtils.Controls;
 
@@ -24,7 +23,6 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "ImageViewer";
 
-			_labelZoomPercent.Font = SystemFonts.IconTitleFont;
 			_labelZoom.Font = SystemFonts.IconTitleFont;
 
 			_image = new Bitmap(file.PathToAnnotatedFile);
@@ -111,8 +109,10 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandleZoomTrackBarValueChanged(object sender, EventArgs e)
 		{
-			var fmt = LocalizationManager.LocalizeString("ImageViewer.ZoomValueFormat", "{0}%");
-			_labelZoomPercent.Text = string.Format(fmt, _zoomTrackBar.Value);
+			// REVIEW: Perhaps this information in a tooltip may be helpful.
+			//var fmt = LocalizationManager.LocalizeString("ImageViewer.ZoomValueFormat", "{0}%");
+			//_labelZoomPercent.Text = string.Format(fmt, _zoomTrackBar.Value);
+
 			_panelImage.AutoScrollMinSize = GetScaledSize(_zoomTrackBar.Value);
 			_panelImage.Invalidate();
 		}

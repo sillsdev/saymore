@@ -112,7 +112,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// colType
 			// 
-			this.colType.DataPropertyName = "FileType";
+			this.colType.DataPropertyName = "FileTypeDescription";
 			this.colType.HeaderText = "Type";
 			this.colType.Name = "colType";
 			this.colType.ReadOnly = true;
@@ -212,14 +212,14 @@ namespace SayMore.UI.ElementListScreen
 
 		private SilUtils.SilGrid _grid;
 		private System.Windows.Forms.ContextMenuStrip _contextMenuStrip;
+		private SilUtils.Controls.SilPanel _panelOuter;
+		private System.Windows.Forms.TableLayoutPanel _tableLayout;
+		private System.Windows.Forms.Button _buttonAdd;
 		private System.Windows.Forms.DataGridViewImageColumn colIcon;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colName;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colType;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
-		private SilUtils.Controls.SilPanel _panelOuter;
-		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private System.Windows.Forms.Button _buttonAdd;
 
 	}
 }

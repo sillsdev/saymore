@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
@@ -67,6 +68,7 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
 
 			_elementsListPanel.NewButtonClicked += HandleNewElementButtonClicked;
+			_elementsListPanel.AfterItemsDeleted += HandleElementsDeleted;
 			_elementsListPanel.SelectedItemChanged += HandleSelectedElementChanged;
 
 			_componentEditorsTabControl.Selecting += HandleSelectedComponentEditorTabSelecting;
@@ -114,11 +116,23 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected void LoadElementList()
 		{
+			LoadElementList(null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void LoadElementList(string itemToSelectAfterLoad)
+		{
+			_elementsListPanel.Clear();
 			var elements = _model.Elements.Cast<object>().ToList();
 			_elementsListPanel.AddRange(elements);
 
-			if (elements.Count > 0)
+			if (elements.Count == 0)
+				return;
+
+			if (itemToSelectAfterLoad == null)
 				_elementsListPanel.SelectItem(elements[0], true);
+			else
+				_elementsListPanel.SelectItem(itemToSelectAfterLoad, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -196,7 +210,16 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected object HandleNewElementButtonClicked(object sender)
+		protected virtual void HandleElementsDeleted(object sender, IEnumerable<object> itemsToDelete)
+		{
+			foreach (var item in itemsToDelete)
+				_model.Remove(item as T);
+
+			LoadElementList(_elementsListPanel.CurrentItem.ToString());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual object HandleNewElementButtonClicked(object sender)
 		{
 			_model.SetSelectedElement(_model.CreateNewElement());
 			_elementsListPanel.AddItem(_model.SelectedElement, true, true);

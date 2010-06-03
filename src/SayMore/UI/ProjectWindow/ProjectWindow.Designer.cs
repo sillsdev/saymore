@@ -26,11 +26,12 @@ namespace SayMore.UI.ProjectWindow
 			this._toolStripButtonSessions = new System.Windows.Forms.ToolStripButton();
 			this._toolStripButtonPeople = new System.Windows.Forms.ToolStripButton();
 			this._toolStripButtonSendReceive = new System.Windows.Forms.ToolStripButton();
-			this._toolStripButtonSetup = new System.Windows.Forms.ToolStripButton();
-			this._toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
 			this._mainMenuStrip = new System.Windows.Forms.MenuStrip();
-			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuFile = new System.Windows.Forms.ToolStripMenuItem();
+			this._menuOpenProject = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this._menuExit = new System.Windows.Forms.ToolStripMenuItem();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._mainToolStrip.SuspendLayout();
 			this._mainMenuStrip.SuspendLayout();
@@ -49,9 +50,7 @@ namespace SayMore.UI.ProjectWindow
             this._toolStripButtonOverview,
             this._toolStripButtonSessions,
             this._toolStripButtonPeople,
-            this._toolStripButtonSendReceive,
-            this._toolStripButtonSetup,
-            this._toolStripButtonOpenProject});
+            this._toolStripButtonSendReceive});
 			this.locExtender.SetLocalizableToolTip(this._mainToolStrip, null);
 			this.locExtender.SetLocalizationComment(this._mainToolStrip, null);
 			this.locExtender.SetLocalizingId(this._mainToolStrip, "MainWnd.tsMain");
@@ -125,43 +124,6 @@ namespace SayMore.UI.ProjectWindow
 			this._toolStripButtonSendReceive.Text = "Send/Receive";
 			this._toolStripButtonSendReceive.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
-			// _toolStripButtonSetup
-			// 
-			this._toolStripButtonSetup.AutoSize = false;
-			this._toolStripButtonSetup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this._toolStripButtonSetup.Image = global::SayMore.Properties.Resources.SmallSetupImage;
-			this._toolStripButtonSetup.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this._toolStripButtonSetup.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._toolStripButtonSetup, "Project Setup");
-			this.locExtender.SetLocalizationComment(this._toolStripButtonSetup, null);
-			this.locExtender.SetLocalizingId(this._toolStripButtonSetup, "MainWnd.tsbSetup");
-			this._toolStripButtonSetup.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this._toolStripButtonSetup.Name = "_toolStripButtonSetup";
-			this._toolStripButtonSetup.Size = new System.Drawing.Size(40, 30);
-			this._toolStripButtonSetup.Text = "Setup";
-			this._toolStripButtonSetup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			// 
-			// _toolStripButtonOpenProject
-			// 
-			this._toolStripButtonOpenProject.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._toolStripButtonOpenProject.AutoSize = false;
-			this._toolStripButtonOpenProject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this._toolStripButtonOpenProject.Image = ((System.Drawing.Image)(resources.GetObject("_toolStripButtonOpenProject.Image")));
-			this._toolStripButtonOpenProject.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this._toolStripButtonOpenProject.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._toolStripButtonOpenProject, "Open a Different Project");
-			this.locExtender.SetLocalizationComment(this._toolStripButtonOpenProject, null);
-			this.locExtender.SetLocalizationPriority(this._toolStripButtonOpenProject, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._toolStripButtonOpenProject, "MainWnd.tsbChangeProjects");
-			this._toolStripButtonOpenProject.Margin = new System.Windows.Forms.Padding(0, 4, 10, 4);
-			this._toolStripButtonOpenProject.Name = "_toolStripButtonOpenProject";
-			this._toolStripButtonOpenProject.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-			this._toolStripButtonOpenProject.Size = new System.Drawing.Size(50, 30);
-			this._toolStripButtonOpenProject.Text = "Change Projects...";
-			this._toolStripButtonOpenProject.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this._toolStripButtonOpenProject.ToolTipText = "Open a Different Project";
-			this._toolStripButtonOpenProject.Click += new System.EventHandler(this.HandleChangeProjectsButtonClick);
-			// 
 			// _mainMenuStrip
 			// 
 			this._mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -175,6 +137,43 @@ namespace SayMore.UI.ProjectWindow
 			this._mainMenuStrip.TabIndex = 1;
 			this._mainMenuStrip.Text = "menuStrip1";
 			// 
+			// _menuFile
+			// 
+			this._menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._menuOpenProject,
+            this.toolStripMenuItem1,
+            this._menuExit});
+			this.locExtender.SetLocalizableToolTip(this._menuFile, null);
+			this.locExtender.SetLocalizationComment(this._menuFile, null);
+			this.locExtender.SetLocalizingId(this._menuFile, "ProjectWindow._menuFile");
+			this._menuFile.Name = "_menuFile";
+			this._menuFile.Size = new System.Drawing.Size(37, 20);
+			this._menuFile.Text = "&File";
+			// 
+			// _menuOpenProject
+			// 
+			this.locExtender.SetLocalizableToolTip(this._menuOpenProject, null);
+			this.locExtender.SetLocalizationComment(this._menuOpenProject, null);
+			this.locExtender.SetLocalizingId(this._menuOpenProject, "ProjectWindow._menuOpenProject");
+			this._menuOpenProject.Name = "_menuOpenProject";
+			this._menuOpenProject.Size = new System.Drawing.Size(152, 22);
+			this._menuOpenProject.Text = "&Open Project...";
+			this._menuOpenProject.Click += new System.EventHandler(this.HandleOpenProjectClick);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+			// 
+			// _menuExit
+			// 
+			this.locExtender.SetLocalizableToolTip(this._menuExit, null);
+			this.locExtender.SetLocalizationComment(this._menuExit, null);
+			this.locExtender.SetLocalizingId(this._menuExit, "ProjectWindow._menuExit");
+			this._menuExit.Name = "_menuExit";
+			this._menuExit.Size = new System.Drawing.Size(152, 22);
+			this._menuExit.Text = "E&xit";
+			// 
 			// fileToolStripMenuItem
 			// 
 			this.locExtender.SetLocalizableToolTip(this.fileToolStripMenuItem, null);
@@ -183,15 +182,6 @@ namespace SayMore.UI.ProjectWindow
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "&File";
-			// 
-			// _menuFile
-			// 
-			this.locExtender.SetLocalizableToolTip(this._menuFile, null);
-			this.locExtender.SetLocalizationComment(this._menuFile, null);
-			this.locExtender.SetLocalizingId(this._menuFile, "ProjectWindow.fileToolStripMenuItem1");
-			this._menuFile.Name = "_menuFile";
-			this._menuFile.Size = new System.Drawing.Size(37, 20);
-			this._menuFile.Text = "&File";
 			// 
 			// ProjectWindow
 			// 
@@ -223,14 +213,15 @@ namespace SayMore.UI.ProjectWindow
 		private ElementBar _mainToolStrip;
 		private System.Windows.Forms.ToolStripButton _toolStripButtonPeople;
 		private System.Windows.Forms.ToolStripButton _toolStripButtonOverview;
-		private System.Windows.Forms.ToolStripButton _toolStripButtonSetup;
 		private System.Windows.Forms.ToolStripButton _toolStripButtonSendReceive;
 		private System.Windows.Forms.ToolStripButton _toolStripButtonSessions;
 		private LocalizationExtender locExtender;
-		private System.Windows.Forms.ToolStripButton _toolStripButtonOpenProject;
 		private System.Windows.Forms.MenuStrip _mainMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem _menuFile;
+		private System.Windows.Forms.ToolStripMenuItem _menuOpenProject;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem _menuExit;
 	}
 }
 

@@ -20,11 +20,11 @@ namespace SayMore.UI.LowLevelControls
 		{
 			this.components = new System.ComponentModel.Container();
 			this._outerPanel = new SilUtils.Controls.SilPanel();
+			this._itemsListView = new System.Windows.Forms.ListView();
+			this.hdrList = new System.Windows.Forms.ColumnHeader();
 			this._buttonsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this._newButton = new System.Windows.Forms.Button();
 			this._deleteButton = new System.Windows.Forms.Button();
-			this._itemsListView = new System.Windows.Forms.ListView();
-			this.hdrList = new System.Windows.Forms.ColumnHeader();
 			this._headerLabel = new SilUtils.Controls.HeaderLabel();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this._outerPanel.SuspendLayout();
@@ -56,6 +56,31 @@ namespace SayMore.UI.LowLevelControls
 			this._outerPanel.Size = new System.Drawing.Size(170, 277);
 			this._outerPanel.TabIndex = 1;
 			// 
+			// _itemsListView
+			// 
+			this._itemsListView.BackColor = System.Drawing.SystemColors.Window;
+			this._itemsListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._itemsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.hdrList});
+			this._itemsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._itemsListView.FullRowSelect = true;
+			this._itemsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			this._itemsListView.HideSelection = false;
+			this._itemsListView.Location = new System.Drawing.Point(0, 30);
+			this._itemsListView.Name = "_itemsListView";
+			this._itemsListView.Size = new System.Drawing.Size(168, 209);
+			this._itemsListView.TabIndex = 0;
+			this._itemsListView.UseCompatibleStateImageBehavior = false;
+			this._itemsListView.View = System.Windows.Forms.View.Details;
+			this._itemsListView.FontChanged += new System.EventHandler(this.lvItems_FontChanged);
+			// 
+			// hdrList
+			// 
+			this.locExtender.SetLocalizableToolTip(this.hdrList, null);
+			this.locExtender.SetLocalizationComment(this.hdrList, null);
+			this.locExtender.SetLocalizingId(this.hdrList, "ListPanel.lvItems");
+			this.hdrList.Text = "Events";
+			// 
 			// _buttonsFlowLayoutPanel
 			// 
 			this._buttonsFlowLayoutPanel.AutoSize = true;
@@ -63,10 +88,10 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonsFlowLayoutPanel.Controls.Add(this._newButton);
 			this._buttonsFlowLayoutPanel.Controls.Add(this._deleteButton);
 			this._buttonsFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._buttonsFlowLayoutPanel.Location = new System.Drawing.Point(0, 241);
+			this._buttonsFlowLayoutPanel.Location = new System.Drawing.Point(0, 239);
 			this._buttonsFlowLayoutPanel.Name = "_buttonsFlowLayoutPanel";
 			this._buttonsFlowLayoutPanel.Padding = new System.Windows.Forms.Padding(2);
-			this._buttonsFlowLayoutPanel.Size = new System.Drawing.Size(168, 34);
+			this._buttonsFlowLayoutPanel.Size = new System.Drawing.Size(168, 36);
 			this._buttonsFlowLayoutPanel.TabIndex = 3;
 			this._buttonsFlowLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleButtonPanelPaint);
 			// 
@@ -78,9 +103,9 @@ namespace SayMore.UI.LowLevelControls
 			this.locExtender.SetLocalizationComment(this._newButton, null);
 			this.locExtender.SetLocalizingId(this._newButton, "ListPanel._newButton");
 			this._newButton.Location = new System.Drawing.Point(5, 5);
-			this._newButton.MinimumSize = new System.Drawing.Size(75, 24);
+			this._newButton.MinimumSize = new System.Drawing.Size(75, 26);
 			this._newButton.Name = "_newButton";
-			this._newButton.Size = new System.Drawing.Size(75, 24);
+			this._newButton.Size = new System.Drawing.Size(75, 26);
 			this._newButton.TabIndex = 0;
 			this._newButton.Text = "&New";
 			this._newButton.UseVisualStyleBackColor = true;
@@ -94,38 +119,13 @@ namespace SayMore.UI.LowLevelControls
 			this.locExtender.SetLocalizationComment(this._deleteButton, null);
 			this.locExtender.SetLocalizingId(this._deleteButton, "ListPanel._deleteButton");
 			this._deleteButton.Location = new System.Drawing.Point(86, 5);
-			this._deleteButton.MinimumSize = new System.Drawing.Size(75, 24);
+			this._deleteButton.MinimumSize = new System.Drawing.Size(75, 26);
 			this._deleteButton.Name = "_deleteButton";
-			this._deleteButton.Size = new System.Drawing.Size(75, 24);
+			this._deleteButton.Size = new System.Drawing.Size(75, 26);
 			this._deleteButton.TabIndex = 1;
 			this._deleteButton.Text = "&Delete";
 			this._deleteButton.UseVisualStyleBackColor = true;
 			this._deleteButton.Click += new System.EventHandler(this.btnDelete_Click);
-			// 
-			// _itemsListView
-			// 
-			this._itemsListView.BackColor = System.Drawing.SystemColors.Window;
-			this._itemsListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._itemsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.hdrList});
-			this._itemsListView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._itemsListView.FullRowSelect = true;
-			this._itemsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-			this._itemsListView.HideSelection = false;
-			this._itemsListView.Location = new System.Drawing.Point(0, 30);
-			this._itemsListView.Name = "_itemsListView";
-			this._itemsListView.Size = new System.Drawing.Size(168, 211);
-			this._itemsListView.TabIndex = 0;
-			this._itemsListView.UseCompatibleStateImageBehavior = false;
-			this._itemsListView.View = System.Windows.Forms.View.Details;
-			this._itemsListView.FontChanged += new System.EventHandler(this.lvItems_FontChanged);
-			// 
-			// hdrList
-			// 
-			this.locExtender.SetLocalizableToolTip(this.hdrList, null);
-			this.locExtender.SetLocalizationComment(this.hdrList, null);
-			this.locExtender.SetLocalizingId(this.hdrList, "ListPanel.lvItems");
-			this.hdrList.Text = "Events";
 			// 
 			// _headerLabel
 			// 

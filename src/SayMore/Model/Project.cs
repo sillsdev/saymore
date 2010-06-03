@@ -8,11 +8,13 @@ using SayMore.Properties;
 
 namespace SayMore.Model
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// A project corresponds to a single folder (with subfolders) on the disk.
 	/// In that folder is a file which persists the settings, then a folder of
 	/// people, and another of sessions.
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class Project
 	{
 		private const string SessionFolderName = "sessions";
@@ -23,9 +25,11 @@ namespace SayMore.Model
 		public Session.Factory SessionFactory { get; set; }
 		public Func<Session, Session> SessionPropertyInjectionMethod { get; set; }
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// can be used whether the project exists already, or not
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public Project(string desiredOrExistingSettingsFilePath)
 		{
 			SettingsFilePath = desiredOrExistingSettingsFilePath;
@@ -33,17 +37,14 @@ namespace SayMore.Model
 			var parentDirectoryPath = Path.GetDirectoryName(projectDirectory);
 
 			if (File.Exists(desiredOrExistingSettingsFilePath))
-			{
 				Load();
-			}
 			else
 			{
 				RequireThat.Directory(parentDirectoryPath).Exists();
 
 				if (!Directory.Exists(projectDirectory))
-				{
 					Directory.CreateDirectory(projectDirectory);
-				}
+
 				Save();
 			}
 		}

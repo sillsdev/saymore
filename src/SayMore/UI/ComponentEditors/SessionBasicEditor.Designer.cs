@@ -85,9 +85,9 @@ namespace SayMore.UI.ComponentEditors
 			this._labelTitle.Location = new System.Drawing.Point(0, 46);
 			this._labelTitle.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelTitle.Name = "_labelTitle";
-			this._labelTitle.Size = new System.Drawing.Size(31, 13);
+			this._labelTitle.Size = new System.Drawing.Size(28, 13);
 			this._labelTitle.TabIndex = 2;
-			this._labelTitle.Text = "Title:";
+			this._labelTitle.Text = "Title";
 			// 
 			// _title
 			// 

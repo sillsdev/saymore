@@ -58,6 +58,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
     </Reference>
+    <Reference Include="PalasoUIWindowsForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
+    </Reference>
     <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\SilUtils.dll</HintPath>
@@ -114,6 +118,12 @@
     </Compile>
     <Compile Include="UI\ComponentEditors\BindingHelper.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\BrowserEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\BrowserEditor.designer.cs">
+      <DependentUpon>BrowserEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ComponentEditors\ContributorsEditor.cs">
       <SubType>UserControl</SubType>
@@ -190,6 +200,33 @@
     <Compile Include="UI\LowLevelControls\VisuallyDynamicTextBox.designer.cs">
       <DependentUpon>VisuallyDynamicTextBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesControl.Designer.cs">
+      <DependentUpon>CopyFilesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesViewModel.cs" />
+    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.Designer.cs">
+      <DependentUpon>MakeSessionsFromFileProgressDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NewSessionsFromFiles\NewComponentFile.cs" />
+    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFileDlgViewModel.cs" />
+    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlg.designer.cs">
+      <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.designer.cs">
+      <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -259,6 +296,9 @@
     <EmbeddedResource Include="UI\ComponentEditors\AudioVideoPlayer.resx">
       <DependentUpon>AudioVideoPlayer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\BrowserEditor.resx">
+      <DependentUpon>BrowserEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\ContributorsEditor.resx">
       <DependentUpon>ContributorsEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -291,6 +331,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LowLevelControls\VisuallyDynamicTextBox.resx">
       <DependentUpon>VisuallyDynamicTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesControl.resx">
+      <DependentUpon>CopyFilesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\NewSessionsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.resx">
+      <DependentUpon>MakeSessionsFromFileProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlg.resx">
+      <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.resx">
+      <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.resx">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>
@@ -346,6 +398,8 @@
     <None Include="Resources\AudioComponentFile.png" />
     <None Include="Resources\ImageComponentFile.png" />
     <None Include="Resources\VideoComponentFile.png" />
+    <None Include="Resources\PersonComponentFile.png" />
+    <None Include="Resources\SessionComponentFile.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

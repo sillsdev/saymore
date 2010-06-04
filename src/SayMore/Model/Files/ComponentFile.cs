@@ -120,6 +120,7 @@ namespace SayMore.Model.Files
 			// Initialize file's display size. File should only not exist during tests.
 			var fi = new FileInfo(path);
 			FileSize = (fi.Exists ? GetDisplayableFileSize(fi.Length) : "0 KB");
+			DateModified = (fi.Exists ? fi.LastWriteTime.ToString() : string.Empty);
 
 			// Initialize file's icon and description.
 			Bitmap icon;

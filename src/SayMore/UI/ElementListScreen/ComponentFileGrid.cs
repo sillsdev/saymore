@@ -234,7 +234,7 @@ namespace SayMore.UI.ElementListScreen
 			var pt = _tableLayout.PointToScreen(new Point(0, _grid.Bottom));
 			var dy = _panelOuter.PointToClient(pt).Y;
 
-			using (var pen = new Pen(_grid.GridColor))
+			using (var pen = new Pen(_panelOuter.BorderColor))
 				e.Graphics.DrawLine(pen, 0, dy, _panelOuter.Width, dy);
 
 			var rc = new Rectangle(0, dy + 1, _panelOuter.Width, _panelOuter.ClientSize.Height - dy - 1);

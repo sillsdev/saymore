@@ -1,5 +1,6 @@
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SIL.Localization;
 
 namespace SayMore.Model
 {
@@ -35,5 +36,14 @@ namespace SayMore.Model
 			get { return Settings.Default.SessionFileExtension.TrimStart('.'); }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public override string DefaultElementNamePrefix
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"SessionsView.NewSessionNamePrefix", "New Session");
+			}
+		}
 	}
 }

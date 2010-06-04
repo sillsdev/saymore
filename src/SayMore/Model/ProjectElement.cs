@@ -89,22 +89,17 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public string FolderPath
 		{
-			get
-			{
-				return Path.Combine(ParentFolderPath, Id);
-			}
+			get { return Path.Combine(ParentFolderPath, Id); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string SettingsFilePath
 		{
-			get
-			{
-				return Path.Combine(FolderPath, Id + "." + ExtensionWithoutPeriod);
-			}
+			get { return Path.Combine(FolderPath, Id + "." + ExtensionWithoutPeriod); }
 		}
 
-		public IEnumerable<FieldValue>ExportFields
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<FieldValue> ExportFields
 		{
 			get
 			{
@@ -114,6 +109,26 @@ namespace SayMore.Model
 					yield return field;
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetNewDefaultElementName()
+		{
+			var fmt = DefaultElementNamePrefix + " {0:D2}";
+
+			int i = 1;
+			var name = string.Format(fmt, i);
+
+			while (Directory.Exists(Path.Combine(ParentFolderPath, name)))
+				name = string.Format(fmt, ++i);
+
+			return name;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual string DefaultElementNamePrefix
+		{
+			get { throw new NotImplementedException(); }
 		}
 
 		/// ------------------------------------------------------------------------------------

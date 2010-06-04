@@ -4,6 +4,7 @@ using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Properties;
+using SIL.Localization;
 using SilUtils;
 using SayMore.Model;
 using SayMore.UI.ComponentEditors;
@@ -68,6 +69,7 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
 
 			_elementsListPanel.NewButtonClicked += HandleNewElementButtonClicked;
+			_elementsListPanel.BeforeItemsDeleted += HandleBeforeElementsDeleted;
 			_elementsListPanel.AfterItemsDeleted += HandleElementsDeleted;
 			_elementsListPanel.SelectedItemChanged += HandleSelectedElementChanged;
 
@@ -210,6 +212,19 @@ namespace SayMore.UI.ElementListScreen
 
 			_componentEditorsTabControl.Selecting += HandleSelectedComponentEditorTabSelecting;
 			Utils.SetWindowRedraw(_componentEditorsTabControl, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool HandleBeforeElementsDeleted(object sender, IEnumerable<object> itemsToDelete)
+		{
+			int itemCount = itemsToDelete.Count();
+
+			var msg = (itemCount == 1 ?
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "Are you sure you would like to delete 1 item?") :
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "Are you sure you would like to delete {0} items?"));
+
+			msg = string.Format(msg, itemCount);
+			return (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes);
 		}
 
 		/// ------------------------------------------------------------------------------------

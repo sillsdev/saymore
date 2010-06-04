@@ -27,7 +27,7 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public ProjectContext(string projectSettingsPath, IContainer parentContainer)
 		{
-			_scope = parentContainer.BeginLifetimeScope(builder=>
+			_scope = parentContainer.BeginLifetimeScope(builder =>
 			{
 				builder.RegisterType<ElementRepository<Session>>().InstancePerLifetimeScope();
 				builder.RegisterType<ElementRepository<Person>>().InstancePerLifetimeScope();

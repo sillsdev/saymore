@@ -89,9 +89,8 @@ namespace SayMoreTests.Model
 		}
 		*/
 
-
-
 		[Test, ExpectedException(typeof(ArgumentException))]
+		[Ignore("Instantiating a project will create the necessary folders. Is this test of any use?")]
 		public void Constructor_ParentFolderDoesNotExist_Throws()
 		{
 			var path = _parentFolder.Combine("NotThere", "foo", "foo." + Project.ProjectSettingsFileExtension);

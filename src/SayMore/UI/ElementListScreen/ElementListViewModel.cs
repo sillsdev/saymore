@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SayMore.Model;
@@ -82,8 +83,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public T CreateNewElement()
 		{
-			var id = "XYZ-" + _repository.AllItems.Count();
-			return _repository.CreateNew(id);
+			return _repository.CreateNew(SelectedElement.GetNewDefaultElementName());
 		}
 
 		/// ------------------------------------------------------------------------------------

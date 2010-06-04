@@ -502,7 +502,8 @@ namespace SayMore.UI.LowLevelControls
 				if (BeforeItemAdded != null)
 					BeforeItemAdded(this, item);
 
-				_itemsListView.Items.Add(item.ToString()).Tag = item;
+				var newLvItem = _itemsListView.Items.Add(item.ToString());
+				newLvItem.Tag = item;
 
 				if (reSortAfterAdd)
 					ReSort();

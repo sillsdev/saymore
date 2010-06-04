@@ -208,6 +208,27 @@ namespace SayMoreTests.Model
 			}
 		}
 
+		[Test]
+		public void GetNewDefaultElementName_NoClashOnFirstTry_GivesName()
+		{
+			var person = CreatePerson();
+
+			var expected = person.DefaultElementNamePrefix + " 01";
+			Assert.That(person.GetNewDefaultElementName(), Is.EqualTo(expected));
+		}
+
+		[Test]
+		public void GetNewDefaultElementName_FindsClash_GivesName()
+		{
+			var person = CreatePerson();
+
+			Directory.CreateDirectory(Path.Combine(_parentFolder.Path, person.DefaultElementNamePrefix + " 01"));
+			Directory.CreateDirectory(Path.Combine(_parentFolder.Path, person.DefaultElementNamePrefix + " 02"));
+
+			var expected = person.DefaultElementNamePrefix + " 03";
+			Assert.That(person.GetNewDefaultElementName(), Is.EqualTo(expected));
+		}
+
 		private ComponentFile MakeComponent(string pathtoannotatedfile)
 		{
 			return ComponentFile.CreateMinimalComponentFileForTests(pathtoannotatedfile);

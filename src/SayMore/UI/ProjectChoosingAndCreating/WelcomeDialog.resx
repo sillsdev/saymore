@@ -223,7 +223,7 @@
     <value>0, 0</value>
   </data>
   <data name="tsOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 230</value>
+    <value>418, 236</value>
   </data>
   <data name="tsOptions.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -232,7 +232,7 @@
     <value>tsOptions</value>
   </data>
   <data name="&gt;&gt;tsOptions.Type" xml:space="preserve">
-    <value>SayMore.UI.LowLevelControls.SpongeBar, SayMore, Version=0.1.9999.9999, Culture=neutral, PublicKeyToken=null</value>
+    <value>SayMore.UI.LowLevelControls.ElementBar, SayMore, Version=0.1.9999.9999, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tsOptions.Parent" xml:space="preserve">
     <value>pnlOptions</value>
@@ -241,10 +241,10 @@
     <value>0</value>
   </data>
   <data name="pnlOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>30, 96</value>
+    <value>30, 102</value>
   </data>
   <data name="pnlOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 230</value>
+    <value>418, 236</value>
   </data>
   <data name="pnlOptions.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -277,7 +277,7 @@
     <value>28, 17</value>
   </data>
   <data name="lnkWebSites.Location" type="System.Drawing.Point, System.Drawing">
-    <value>31, 345</value>
+    <value>31, 357</value>
   </data>
   <data name="lnkWebSites.Size" type="System.Drawing.Size, System.Drawing">
     <value>11, 20</value>
@@ -313,7 +313,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblVersionInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>31, 329</value>
+    <value>31, 341</value>
   </data>
   <data name="lblVersionInfo.Size" type="System.Drawing.Size, System.Drawing">
     <value>159, 13</value>
@@ -379,7 +379,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>460, 367</value>
+    <value>460, 379</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>450, 400</value>

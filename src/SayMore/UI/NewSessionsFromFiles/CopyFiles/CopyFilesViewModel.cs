@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using Palaso.Code;
 
-namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
+namespace SayMore.UI.NewSessionsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -16,8 +16,8 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 	public class CopyFilesViewModel : IDisposable
 	{
 		private readonly KeyValuePair<string, string>[] _sourceDestinationPathPairs;
+		private readonly long _totalBytes;
 		private Thread _workerThread;
-		private long _totalBytes;
 		private long _totalBytesCopied;
 		private Exception _encounteredError;
 
@@ -36,7 +36,7 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 				_totalBytes += new FileInfo(pair.Key).Length;
 
 			IndexOfCurrentFile = -1;
-			BeforeCopyingFileRaised = (source) => { };
+			BeforeCopyingFileRaised = source => { };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -153,14 +153,14 @@ namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
 
 						new FileInfo(pair.Value).CreationTimeUtc = sourceFileInfo.CreationTimeUtc;
 						new FileInfo(pair.Value).LastWriteTimeUtc = sourceFileInfo.LastWriteTimeUtc;
-						sourceFileInfo.Attributes  = (FileAttributes) (sourceFileInfo.Attributes - FileAttributes.Archive);//enhance... could be under control of the client
+						sourceFileInfo.Attributes  = (FileAttributes)(sourceFileInfo.Attributes - FileAttributes.Archive);//enhance... could be under control of the client
 					}
-					catch(Exception e)
+					catch (Exception e)
 					{
 						if (File.Exists(pair.Value))
 							File.Delete(pair.Value);
 
-						throw e;
+						throw;
 					}
 					//File.Copy(pair.Key, pair.Value, false);
 				}

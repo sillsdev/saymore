@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
+namespace SayMore.UI.NewSessionsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class MakeSessionsFromFileProgressDialog : Form

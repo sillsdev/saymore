@@ -145,6 +145,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement();
 			_componentFilesControl.UpdateComponentList(componentsOfSelectedElement);
+			_model.SetSelectedComponentFile(0);
 
 			foreach (var componentFile in componentsOfSelectedElement)
 			{
@@ -153,6 +154,8 @@ namespace SayMore.UI.ElementListScreen
 				//review: and later, are we wired longer than we want to be?
 			}
 
+			_model.SetSelectedComponentFile(0);
+			_componentFilesControl.SelectComponent(0);
 			UpdateComponentEditors();
 		}
 

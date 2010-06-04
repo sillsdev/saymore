@@ -4,7 +4,7 @@ using System.Media;
 using System.Windows.Forms;
 using SayMore.Properties;
 
-namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
+namespace SayMore.UI.NewSessionsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class CopyFilesControl : UserControl

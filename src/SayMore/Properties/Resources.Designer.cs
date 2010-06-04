@@ -199,20 +199,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap kimidSponge {
-            get {
-                object obj = ResourceManager.GetObject("kimidSponge", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap kimidSpongeSmall {
-            get {
-                object obj = ResourceManager.GetObject("kimidSpongeSmall", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap kimidSpongeText {
             get {
                 object obj = ResourceManager.GetObject("kimidSpongeText", resourceCulture);
@@ -223,6 +209,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap kimidWarning {
             get {
                 object obj = ResourceManager.GetObject("kimidWarning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap LargeSayMoreLogo {
+            get {
+                object obj = ResourceManager.GetObject("LargeSayMoreLogo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -276,6 +269,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap SmallSayMoreLogo {
+            get {
+                object obj = ResourceManager.GetObject("SmallSayMoreLogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap SmallSendReceiveImage {
             get {
                 object obj = ResourceManager.GetObject("SmallSendReceiveImage", resourceCulture);
@@ -294,13 +294,6 @@ namespace SayMore.Properties {
             get {
                 object obj = ResourceManager.GetObject("SmallSetupImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon Sponge {
-            get {
-                object obj = ResourceManager.GetObject("Sponge", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
         

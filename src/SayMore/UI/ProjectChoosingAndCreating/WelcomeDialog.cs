@@ -250,9 +250,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			e.Graphics.DrawImage(Resources.kimidSpongeText, rc);
 
 			// Draw the application's logo image.
-			rc = new Rectangle(new Point(pnlOptions.Left - 10, 16), Resources.kimidSponge.Size);
-			rc.Inflate(-8, -8);
-			e.Graphics.DrawImage(Resources.kimidSponge, rc);
+			rc = new Rectangle(new Point(pnlOptions.Left - 10, 0), Resources.LargeSayMoreLogo.Size);
+			e.Graphics.DrawImage(Resources.LargeSayMoreLogo, rc);
 		}
 	}
 }

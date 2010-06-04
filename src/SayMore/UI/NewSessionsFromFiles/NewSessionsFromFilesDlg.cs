@@ -8,7 +8,6 @@ using AxWMPLib;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SIL.Localization;
-using SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles;
 using SilUtils;
 
 namespace SayMore.UI.NewSessionsFromFiles

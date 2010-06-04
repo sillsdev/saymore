@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using SIL.Localization;
 using SayMore.Properties;
@@ -41,6 +43,9 @@ namespace SayMore.UI.ProjectWindow
 				StartPosition = FormStartPosition.CenterScreen;
 				Settings.Default.ProjectWindow = FormSettings.Create(this);
 			}
+
+			var asm = Assembly.GetExecutingAssembly();
+			Icon = new Icon (asm.GetManifestResourceStream ("SayMore.SayMore.ico"));
 
 			_projectName = projectName;
 			_commands = commands;

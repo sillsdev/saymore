@@ -1,6 +1,6 @@
 using Palaso.UI.WindowsForms.Widgets;
 
-namespace SIL.Sponge.Dialogs.NewSessionsFromFiles.CopyFiles
+namespace SayMore.UI.NewSessionsFromFiles
 {
 	partial class CopyFilesControl
 	{

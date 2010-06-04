@@ -96,7 +96,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			// tsbMru0
 			// 
 			resources.ApplyResources(this.tsbMru0, "tsbMru0");
-			this.tsbMru0.Image = global::SayMore.Properties.Resources.kimidSpongeSmall;
+			this.tsbMru0.Image = global::SayMore.Properties.Resources.SmallSayMoreLogo;
 			this.locExtender.SetLocalizableToolTip(this.tsbMru0, null);
 			this.locExtender.SetLocalizationComment(this.tsbMru0, null);
 			this.locExtender.SetLocalizationPriority(this.tsbMru0, SIL.Localization.LocalizationPriority.NotLocalizable);

@@ -12,6 +12,7 @@
     <AssemblyName>SayMore</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ApplicationIcon>SayMore.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -402,13 +403,13 @@
     <None Include="Resources\VideoComponentFile.png" />
     <None Include="Resources\PersonComponentFile.png" />
     <None Include="Resources\SessionComponentFile.png" />
+    <None Include="Resources\SayMoreLogo 16x16.png" />
+    <None Include="Resources\SayMoreLogo.png" />
+    <EmbeddedResource Include="SayMore.ico" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />
     <None Include="Resources\SpongeText.png" />
-    <None Include="Resources\SpongeSmall.png" />
-    <None Include="Resources\Sponge.png" />
-    <None Include="Resources\Sponge.ico" />
     <None Include="Resources\shortSound.wav" />
     <None Include="Resources\Setup.png" />
     <None Include="Resources\Sessions.png" />

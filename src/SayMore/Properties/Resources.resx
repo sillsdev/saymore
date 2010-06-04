@@ -127,9 +127,6 @@
   <data name="kimidFemale_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Female_Selected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidSponge" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sponge.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="kimidChangeProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FolderOpen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -166,9 +163,6 @@
   <data name="kimidSendReceive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SendReceive.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Sponge" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sponge.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="kimidSessions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Sessions.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -191,9 +185,6 @@
   </data>
   <data name="kimidNewProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NewProject.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="kimidSpongeSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SpongeSmall.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ContributorsTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ContributorsTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -242,5 +233,11 @@
   </data>
   <data name="SessionComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SessionComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LargeSayMoreLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SayMoreLogo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmallSayMoreLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SayMoreLogo 16x16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

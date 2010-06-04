@@ -142,6 +142,18 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Highlights the component file at the specified index. If the index is out of
+		/// range, then it is ignored.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SelectComponent(int index)
+		{
+			if (index >= 0 && index < _files.Count())
+				_grid.CurrentCell = _grid[0, index];
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void UpdateComponentList(IEnumerable<ComponentFile> componentFiles)
 		{
 			var currFile = (_grid.CurrentCellAddress.Y >= 0 && _files.Count() > 0 ?

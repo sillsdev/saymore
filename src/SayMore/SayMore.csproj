@@ -85,7 +85,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Statistics\BackgroundStatisticsMananager.cs" />
     <Compile Include="ExportCommand.cs" />
+    <Compile Include="Statistics\FileStatistics.cs" />
     <Compile Include="Model\Fields\DiscourseType.cs" />
     <Compile Include="Model\EditorProvider.cs" />
     <Compile Include="Model\ElementRepository.cs" />

@@ -8,8 +8,8 @@
     <ProjectGuid>{B534A7B9-FF0D-46C7-A845-C00845B223BC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sponge2Tests</RootNamespace>
-    <AssemblyName>Sponge2Tests</AssemblyName>
+    <RootNamespace>SayMoreTests</RootNamespace>
+    <AssemblyName>SayMoreTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Statistics\FileStatisticsTests.cs" />
     <Compile Include="ExportTests.cs" />
     <Compile Include="model\Files\ComponentFileTests.cs" />
     <Compile Include="ApplicationContextTests.cs" />
@@ -79,6 +80,11 @@
     <Compile Include="model\Files\FileSerializerTests.cs" />
     <Compile Include="ProjectChosingAndCreating\WelcomeDialogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="UI\LowLevelControls\ListPanelTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +92,15 @@
       <Project>{A61F5E06-CACD-40FA-BBAD-8744212AF14E}</Project>
       <Name>SayMore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shortSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

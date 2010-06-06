@@ -231,6 +231,19 @@
     <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.designer.cs">
       <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Overview\OverviewScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Overview\OverviewScreen.designer.cs">
+      <DependentUpon>OverviewScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Overview\Statistics\StatisticsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Overview\Statistics\StatisticsView.Designer.cs">
+      <DependentUpon>StatisticsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Overview\Statistics\StatisticsViewModel.cs" />
     <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -408,6 +421,12 @@
     <None Include="Resources\SayMoreLogo 16x16.png" />
     <None Include="Resources\SayMoreLogo.png" />
     <EmbeddedResource Include="SayMore.ico" />
+    <EmbeddedResource Include="UI\Overview\OverviewScreen.resx">
+      <DependentUpon>OverviewScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Overview\Statistics\StatisticsView.resx">
+      <DependentUpon>StatisticsView.cs</DependentUpon>
+    </EmbeddedResource>
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

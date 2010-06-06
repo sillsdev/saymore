@@ -35,7 +35,7 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectWindow(string projectName, SessionScreen sessionsScreen,
-			PersonListScreen personsScreen, IEnumerable<ICommand> commands)
+			PersonListScreen personsScreen, Overview.OverviewScreen  overviewScreen, IEnumerable<ICommand> commands)
 			: this()
 		{
 			if (Settings.Default.ProjectWindow == null)
@@ -49,7 +49,7 @@ namespace SayMore.UI.ProjectWindow
 
 			_projectName = projectName;
 			_commands = commands;
-			var views = new Control[] { new TextBox(), sessionsScreen, personsScreen };
+			var views = new Control[] { overviewScreen, sessionsScreen, personsScreen };
 
 			Controls.AddRange(views);
 			_viewManger = new ViewButtonManager(_mainToolStrip, views);

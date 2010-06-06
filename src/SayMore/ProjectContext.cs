@@ -4,6 +4,8 @@ using Autofac;
 using SayMore.Model;
 using SayMore.Statistics;
 using SayMore.UI.ElementListScreen;
+using SayMore.UI.Overview;
+using SayMore.UI.Overview.Statistics;
 using SayMore.UI.ProjectWindow;
 
 namespace SayMore
@@ -35,7 +37,11 @@ namespace SayMore
 				builder.RegisterType<ElementListViewModel<Session>>().InstancePerLifetimeScope();
 				builder.RegisterType<ElementListViewModel<Person>>().InstancePerLifetimeScope();
 				builder.RegisterType<BackgroundStatisticsManager>().InstancePerLifetimeScope();
-				builder.RegisterInstance(new BackgroundStatisticsManager(Path.GetDirectoryName(projectSettingsPath))).As<IProvideFileStatistics>();
+
+				//there's maybe something I'm doing wrong that requires me to register this twice like this...
+				var backgroundStatisticsManager = new BackgroundStatisticsManager(Path.GetDirectoryName(projectSettingsPath));
+				builder.RegisterInstance(backgroundStatisticsManager).As<IProvideFileStatistics>();
+				builder.RegisterInstance(backgroundStatisticsManager).As<BackgroundStatisticsManager>();
 
 			});
 
@@ -47,13 +53,12 @@ namespace SayMore
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
 			peopleRepoFactory(Path.GetDirectoryName(projectSettingsPath), "People");
 
-			_scope.Resolve<ElementListViewModel<Session>>();
-			_scope.Resolve<ElementListViewModel<Person>>();
-
 			((BackgroundStatisticsManager)_scope.Resolve<IProvideFileStatistics>()).Start();
 
 			var factory = _scope.Resolve<ProjectWindow.Factory>();
 			ProjectWindow = factory(projectSettingsPath);
+
+
 		}
 
 		/// ------------------------------------------------------------------------------------

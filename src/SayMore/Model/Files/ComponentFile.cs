@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Properties;
+using SayMore.Statistics;
 using SayMore.UI.Utilities;
 
 namespace SayMore.Model.Files
@@ -47,6 +48,7 @@ namespace SayMore.Model.Files
 		public string PathToAnnotatedFile { get; protected set; }
 		protected IEnumerable<ComponentRole> _componentRoles;
 		protected FileSerializer _fileSerializer;
+		private readonly IProvideFileStatistics _statisticsProvider;
 		protected string _rootElementName;
 
 		public List<FieldValue> MetaDataFieldValues { get; set; }
@@ -62,11 +64,13 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
 							IEnumerable<ComponentRole> componentRoles,
-							FileSerializer fileSerializer)
+							FileSerializer fileSerializer,
+							IProvideFileStatistics statisticsProvider)
 		{
 			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;
 			_fileSerializer = fileSerializer;
+			_statisticsProvider = statisticsProvider;
 
 			// we musn't do anything to remove the existing extension, as that is needed
 			// to keep, say, foo.wav and foo.txt separate. Instead, we just append ".meta"
@@ -84,6 +88,25 @@ namespace SayMore.Model.Files
 			InitializeFileTypeInfo(pathToAnnotatedFile);
 		}
 
+		public string DurationString
+		{
+			get
+			{
+				if(_statisticsProvider==null)
+				{
+					return string.Empty;
+				}
+				var stats = _statisticsProvider.GetStatistics(PathToAnnotatedFile);
+				if (stats == null || stats.Duration==default(TimeSpan))
+				{
+					return string.Empty;
+				}
+				else
+				{
+					return stats.Duration.ToString();
+				}
+			}
+		}
 		/// ------------------------------------------------------------------------------------
 		private static string ComputeMetaDataPath(string pathToAnnotatedFile)
 		{
@@ -236,7 +259,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
 		{
-			return new ComponentFile(path, new FileType[] {}, new ComponentRole[]{}, new FileSerializer());
+			return new ComponentFile(path, new FileType[] {}, new ComponentRole[]{}, new FileSerializer(), null);
 		}
 
 		/// ------------------------------------------------------------------------------------

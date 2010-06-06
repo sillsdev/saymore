@@ -20,7 +20,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	///
+	/// TODO: David, can you add comments for this one?  It's an odd bird...
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class NewComponentFile : ComponentFile
@@ -29,7 +29,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 		/// ------------------------------------------------------------------------------------
 		public NewComponentFile(string filePath) :
-			base(filePath, ApplicationContainer.FilesTypes, null, null)
+			base(filePath, ApplicationContainer.FilesTypes, null, null, null)
 		{
 			Selected = true;
 		}

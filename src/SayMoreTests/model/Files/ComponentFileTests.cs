@@ -49,7 +49,8 @@ namespace SayMoreTests.Model.Files
 			var cf= new ComponentFile(_parentFolder.Combine(fileName),
 				new FileType[]{FileType.Create("Text", ".txt"), },
 				new ComponentRole[]{},
-				new FileSerializer());
+				new FileSerializer(),
+				null);
 
 			cf.Save();//creates the meta file path
 			return cf;
@@ -100,7 +101,7 @@ namespace SayMoreTests.Model.Files
 			return new ComponentFile(path,
 				new FileType[] { FileType.Create("Text", ".txt"), },
 				componentRoles,
-				new FileSerializer());
+				new FileSerializer(), null);
 		}
 
 

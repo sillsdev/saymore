@@ -9,7 +9,12 @@ using ThreadState = System.Threading.ThreadState;
 
 namespace SayMore.Statistics
 {
-	public class BackgroundStatisticsMananager :IDisposable
+	public interface IProvideFileStatistics
+	{
+		FileStatistics GetStatistics(string filePath);
+	}
+
+	public class BackgroundStatisticsManager :IDisposable, IProvideFileStatistics
 	{
 		private Thread _workerThread;
 		private string _rootPath;
@@ -24,7 +29,7 @@ namespace SayMore.Statistics
 			if (statistics != null) statistics(this, null);
 		}
 
-		public BackgroundStatisticsMananager(string rootPath)
+		public BackgroundStatisticsManager(string rootPath)
 		{
 			_rootPath = rootPath;
 		}
@@ -172,13 +177,19 @@ namespace SayMore.Statistics
 			{
 				_statistics.Clear();
 			}
-			string[] sessionDirectoryPaths = Directory.GetDirectories(_rootPath);
-			for (int i = 0; i < sessionDirectoryPaths.Length; i++)
+			string[] sessionAndPeopleDirectoryPaths = Directory.GetDirectories(_rootPath);
+			var elementDirectoryPaths = new List<string>();
+			foreach (var directory in sessionAndPeopleDirectoryPaths)
+			{
+				elementDirectoryPaths.AddRange(Directory.GetDirectories(directory));
+			}
+
+			for (int i = 0; i < elementDirectoryPaths.ToArray().Length; i++)
 			{
 				if (ShouldStop)
 					break;
-				Status = string.Format("Processing {0} of {1} sessions", 1 + i, sessionDirectoryPaths.Length);
-				foreach (var path in Directory.GetFiles(sessionDirectoryPaths[i]))
+				Status = string.Format("Processing {0} of {1} sessions", 1 + i, elementDirectoryPaths.ToArray().Length);
+				foreach (var path in Directory.GetFiles(elementDirectoryPaths[i]))
 				{
 					if (ShouldStop)
 						break;

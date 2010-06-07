@@ -18,6 +18,7 @@ namespace SayMoreTests.Statistics
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void Duration_Audio_Correct()
 		{
 			using(var folder = new TemporaryFolder("FileStatisticsTests"))

@@ -204,6 +204,7 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Category("SkipOnTeamCity")]
 		[ExpectedException(typeof(FileNotFoundException))]
 		public void CopyPictureFile_BadFile_Throws()
 		{
@@ -217,6 +218,7 @@ namespace SIL.Sponge.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Category("SkipOnTeamCity")]
 		[ExpectedException(typeof(NullReferenceException))]
 		public void CopyPictureFile_NullFile_Throws()
 		{
@@ -427,7 +429,7 @@ namespace SIL.Sponge.Model
 			Assert.AreEqual("Pedro", Path.GetFileNameWithoutExtension(person.FullFilePath));
 		}
 
-		[Test, ExpectedException(typeof(ApplicationException))]
+		[Test, Category("SkipOnTeamCity"), ExpectedException(typeof(ApplicationException))]
 		public void ChangeName_NewIdIsEmptyString_Throws()
 		{
 			var person = Person.CreateFromName(_prj, "Pedro");
@@ -435,7 +437,7 @@ namespace SIL.Sponge.Model
 			person.ChangeName("");
 		}
 
-		[Test, ExpectedException(typeof(ApplicationException))]
+		[Test, Category("SkipOnTeamCity"), ExpectedException(typeof(ApplicationException))]
 		public void ChangeName_NewIdIsInvalidFolderName_Throws()
 		{
 			var person = Person.CreateFromName(_prj, "Pedro");

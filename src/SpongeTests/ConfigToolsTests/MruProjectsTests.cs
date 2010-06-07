@@ -150,6 +150,7 @@ namespace SIL.Sponge.ConfigTools
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Category("SkipOnTeamCity")]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void AddNewNullPath()
 		{

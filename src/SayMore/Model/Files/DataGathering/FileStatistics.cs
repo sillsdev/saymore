@@ -1,14 +1,12 @@
 using System;
 using System.IO;
 using System.Threading;
-using SayMore.Model.Files;
 
-namespace SayMore.Statistics
+namespace SayMore.Model.Files.DataGathering
 {
 	public class FileStatistics
 	{
 		public long LengthInBytes;
-		public string Path;
 		public TimeSpan Duration;
 
 		public FileStatistics(string path)
@@ -53,5 +51,10 @@ namespace SayMore.Statistics
 			return new TimeSpan();
 		}
 
+		public string Path
+		{
+			get ;
+			set;
+		}
 	}
 }

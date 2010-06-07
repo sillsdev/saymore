@@ -7,8 +7,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
+using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
-using SayMore.Statistics;
 using SayMore.UI.Utilities;
 
 namespace SayMore.Model.Files
@@ -96,7 +96,7 @@ namespace SayMore.Model.Files
 				{
 					return string.Empty;
 				}
-				var stats = _statisticsProvider.GetStatistics(PathToAnnotatedFile);
+				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
 				if (stats == null || stats.Duration==default(TimeSpan))
 				{
 					return string.Empty;

@@ -2,10 +2,8 @@ using System;
 using System.IO;
 using Autofac;
 using SayMore.Model;
-using SayMore.Statistics;
+using SayMore.Model.Files.DataGathering;
 using SayMore.UI.ElementListScreen;
-using SayMore.UI.Overview;
-using SayMore.UI.Overview.Statistics;
 using SayMore.UI.ProjectWindow;
 
 namespace SayMore

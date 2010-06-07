@@ -85,9 +85,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Statistics\BackgroundStatisticsManager.cs" />
-    <Compile Include="ExportCommand.cs" />
-    <Compile Include="Statistics\FileStatistics.cs" />
+    <Compile Include="Model\Files\DataGathering\BackgroundFileProcessor.cs" />
+    <Compile Include="Model\Files\DataGathering\PresetProvider.cs" />
+    <Compile Include="Model\Files\DataGathering\BackgroundStatisticsManager.cs" />
+    <Compile Include="Model\Files\ExportCommand.cs" />
+    <Compile Include="Model\Files\DataGathering\FileStatistics.cs" />
     <Compile Include="Model\Fields\DiscourseType.cs" />
     <Compile Include="Model\EditorProvider.cs" />
     <Compile Include="Model\ElementRepository.cs" />
@@ -400,6 +402,7 @@
     <Compile Include="UI\Utilities\IconHelper.cs" />
     <Compile Include="UI\Utilities\AppColors.cs" />
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
+    <Compile Include="Model\Files\DataGathering\UniqueCombinationsFinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ContributorsTab.png" />

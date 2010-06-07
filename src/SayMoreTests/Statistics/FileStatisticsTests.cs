@@ -4,7 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore;
-using SayMore.Statistics;
+using SayMore.Model.Files.DataGathering;
 
 namespace SayMoreTests.Statistics
 {

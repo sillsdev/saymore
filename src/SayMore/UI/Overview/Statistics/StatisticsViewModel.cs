@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.Statistics;
+using SayMore.Model.Files.DataGathering;
 
 namespace SayMore.UI.Overview.Statistics
 {
@@ -24,7 +24,7 @@ namespace SayMore.UI.Overview.Statistics
 			_sessions = sessions;
 			_componentRoles = componentRoles;
 			_backgroundStatisticsGather = backgroundStatisticsMananager;
-			_backgroundStatisticsGather.NewStatistics += new EventHandler(OnNewStatistics);
+			_backgroundStatisticsGather.NewDataAvailable += new EventHandler(OnNewStatistics);
 
 		}
 
@@ -102,7 +102,7 @@ namespace SayMore.UI.Overview.Statistics
 
 		public void Dispose()
 		{
-			_backgroundStatisticsGather.NewStatistics -= new EventHandler(OnNewStatistics);
+			_backgroundStatisticsGather.NewDataAvailable -= new EventHandler(OnNewStatistics);
 		}
 
 		void OnNewStatistics(object sender, EventArgs e)

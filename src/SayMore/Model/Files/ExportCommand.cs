@@ -4,10 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SayMore.Model;
 using SayMore.Model.Fields;
 
-namespace SayMore
+namespace SayMore.Model.Files
 {
 	/// <summary>
 	/// Exports metadata to file (currently, only csv)

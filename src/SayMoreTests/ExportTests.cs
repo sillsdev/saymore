@@ -6,6 +6,7 @@ using NUnit.Framework;
 using SayMore;
 using SayMore.Model;
 using SayMore.Model.Fields;
+using SayMore.Model.Files;
 
 namespace Sponge2Tests
 {

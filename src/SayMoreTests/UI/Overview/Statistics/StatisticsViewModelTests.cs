@@ -6,7 +6,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.Statistics;
+using SayMore.Model.Files.DataGathering;
 using SayMore.UI.Overview.Statistics;
 
 namespace SayMoreTests.UI.Overview.Statistics

@@ -155,7 +155,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 						new FileInfo(pair.Value).LastWriteTimeUtc = sourceFileInfo.LastWriteTimeUtc;
 						sourceFileInfo.Attributes  = (FileAttributes)(sourceFileInfo.Attributes - FileAttributes.Archive);//enhance... could be under control of the client
 					}
-					catch (Exception e)
+					catch (Exception)
 					{
 						if (File.Exists(pair.Value))
 							File.Delete(pair.Value);

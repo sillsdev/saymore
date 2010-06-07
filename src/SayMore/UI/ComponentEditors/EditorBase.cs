@@ -44,20 +44,20 @@ namespace SayMore.UI.ComponentEditors
 			base.OnLoad(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected override void OnEnter(EventArgs e)
-		{
-			base.OnEnter(e);
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnEnter(EventArgs e)
+		//{
+		//    base.OnEnter(e);
 
-			foreach (Control ctrl in Controls)
-			{
-				if (ctrl.CanFocus)
-				{
-					ctrl.Focus();
-					return;
-				}
-			}
-		}
+		//    foreach (Control ctrl in Controls)
+		//    {
+		//        if (ctrl.CanFocus)
+		//        {
+		//            ctrl.Focus();
+		//            return;
+		//        }
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private static void SetLabelFonts(Control parent, Font fnt)

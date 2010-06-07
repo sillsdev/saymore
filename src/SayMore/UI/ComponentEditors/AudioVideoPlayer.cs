@@ -10,7 +10,7 @@ namespace SayMore.UI.ComponentEditors
 	public partial class AudioVideoPlayer : EditorBase
 	{
 		AxWindowsMediaPlayer _wmpPlayer;
-		ComponentEditorTabPage _owningTab;
+		TabPage _owningTab;
 
 		/// ------------------------------------------------------------------------------------
 		public AudioVideoPlayer(ComponentFile file)
@@ -71,7 +71,7 @@ namespace SayMore.UI.ComponentEditors
 				_owningTab.Leave -= HandleOwningTabPageLeave;
 			}
 
-			_owningTab = Parent as ComponentEditorTabPage;
+			_owningTab = Parent as TabPage;
 
 			if (_owningTab != null)
 			{

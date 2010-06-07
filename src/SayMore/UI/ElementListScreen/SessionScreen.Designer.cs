@@ -96,7 +96,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles.MinimumSize = new System.Drawing.Size(117, 26);
 			this._buttonNewFromFiles.Name = "_buttonNewFromFiles";
 			this._buttonNewFromFiles.Size = new System.Drawing.Size(117, 26);
-			this._buttonNewFromFiles.TabIndex = 9;
+			this._buttonNewFromFiles.TabIndex = 1;
 			this._buttonNewFromFiles.Text = "New From Files...";
 			this._buttonNewFromFiles.UseVisualStyleBackColor = true;
 			this._buttonNewFromFiles.Click += new System.EventHandler(this.HandleButtonNewFromFilesClick);
@@ -118,7 +118,7 @@ namespace SayMore.UI.ElementListScreen
 			this._sessionsListPanel.ListView.HideSelection = false;
 			this._sessionsListPanel.ListView.Location = new System.Drawing.Point(0, 30);
 			this._sessionsListPanel.ListView.Name = "lvItems";
-			this._sessionsListPanel.ListView.Size = new System.Drawing.Size(180, 284);
+			this._sessionsListPanel.ListView.Size = new System.Drawing.Size(180, 282);
 			this._sessionsListPanel.ListView.TabIndex = 0;
 			this._sessionsListPanel.ListView.UseCompatibleStateImageBehavior = false;
 			this._sessionsListPanel.ListView.View = System.Windows.Forms.View.Details;
@@ -127,7 +127,7 @@ namespace SayMore.UI.ElementListScreen
 			this._sessionsListPanel.Name = "_sessionsListPanel";
 			this._sessionsListPanel.ReSortWhenItemTextChanges = false;
 			this._sessionsListPanel.Size = new System.Drawing.Size(182, 350);
-			this._sessionsListPanel.TabIndex = 8;
+			this._sessionsListPanel.TabIndex = 0;
 			this._sessionsListPanel.Text = "Sessions";
 			// 
 			// _componentsSplitter

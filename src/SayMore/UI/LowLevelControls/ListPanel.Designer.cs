@@ -93,6 +93,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonsFlowLayoutPanel.Padding = new System.Windows.Forms.Padding(2);
 			this._buttonsFlowLayoutPanel.Size = new System.Drawing.Size(168, 36);
 			this._buttonsFlowLayoutPanel.TabIndex = 3;
+			this._buttonsFlowLayoutPanel.TabStop = true;
 			this._buttonsFlowLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleButtonPanelPaint);
 			// 
 			// _newButton

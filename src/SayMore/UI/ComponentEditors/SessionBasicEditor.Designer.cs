@@ -185,6 +185,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.Size = new System.Drawing.Size(394, 299);
 			this._tableLayout.TabIndex = 0;
+			this._tableLayout.TabStop = true;
 			// 
 			// _access
 			// 

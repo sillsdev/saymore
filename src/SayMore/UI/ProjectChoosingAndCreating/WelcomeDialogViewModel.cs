@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Palaso.Reporting;
 using SayMore.Model;
 using SilUtils;
 
@@ -72,8 +71,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			// The build number is just the number of days since 01/01/2000
 			DateTime bldDate = new DateTime(2000, 1, 1).AddDays(ver.Build);
 
-			return string.Format(fmt, ver.Major, ver.Minor, ver.Revision,
-								 bldDate.ToString("dd-MMM-yyyy"));
+			return string.Format(fmt, ver.Major, ver.Minor,
+				ver.Revision, bldDate.ToString("dd-MMM-yyyy"));
 		}
 
 		public void SetRequestedPath(string parentFolderPath, string newProjectName)

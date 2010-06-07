@@ -199,13 +199,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap kimidSpongeText {
-            get {
-                object obj = ResourceManager.GetObject("kimidSpongeText", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap kimidWarning {
             get {
                 object obj = ResourceManager.GetObject("kimidWarning", resourceCulture);
@@ -237,6 +230,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap PlayTabImage {
             get {
                 object obj = ResourceManager.GetObject("PlayTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SayMoreText {
+            get {
+                object obj = ResourceManager.GetObject("SayMoreText", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

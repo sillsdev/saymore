@@ -41,7 +41,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 
 			return new StatisticsViewModel(people, sessions,
 				new[]{nullRole},
-				new BackgroundStatisticsManager(_folder.Path));
+				new AudioVideoDataGatherer(_folder.Path, new[]{new AudioFileType()}));
 		}
 
 		[Test]

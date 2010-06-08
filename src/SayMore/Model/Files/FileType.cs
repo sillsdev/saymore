@@ -64,6 +64,11 @@ namespace SayMore.Model.Files
 			}
 		}
 
+		public virtual bool IsAudioOrVideo
+		{
+			get { return false; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
@@ -170,6 +175,11 @@ namespace SayMore.Model.Files
 		{
 		}
 
+
+		public override bool IsAudioOrVideo
+		{
+			get { return true; }
+		}
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
@@ -202,6 +212,11 @@ namespace SayMore.Model.Files
 		public VideoFileType() : base("Video",
 				p => Settings.Default.VideoFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
 		{
+		}
+
+		public override bool IsAudioOrVideo
+		{
+			get { return true; }
 		}
 
 		/// ------------------------------------------------------------------------------------

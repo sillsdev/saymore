@@ -106,7 +106,7 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private static void SetUpErrorHandling()
 		{
-			Palaso.Reporting.ErrorReport.AddProperty("EmailAddress", "david_olson@sil.org");//hahah
+			Palaso.Reporting.ErrorReport.AddProperty("EmailAddress", "sponge@palaso.org");
 			Palaso.Reporting.ErrorReport.AddStandardProperties();
 			Palaso.Reporting.ExceptionHandler.Init();
 		}

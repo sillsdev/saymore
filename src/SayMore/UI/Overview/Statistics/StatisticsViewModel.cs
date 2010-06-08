@@ -13,12 +13,12 @@ namespace SayMore.UI.Overview.Statistics
 		private readonly ElementRepository<Person> _people;
 		private readonly ElementRepository<Session> _sessions;
 		private readonly IEnumerable<ComponentRole> _componentRoles;
-		private BackgroundStatisticsManager _backgroundStatisticsGather;
+		private AudioVideoDataGatherer _backgroundStatisticsGather;
 
 		public StatisticsViewModel(ElementRepository<Person> people,
 									ElementRepository<Session> sessions,
 									IEnumerable<ComponentRole> componentRoles,
-									BackgroundStatisticsManager backgroundStatisticsMananager)
+									AudioVideoDataGatherer backgroundStatisticsMananager)
 		{
 			_people = people;
 			_sessions = sessions;
@@ -71,7 +71,7 @@ namespace SayMore.UI.Overview.Statistics
 		private int GetMegabytes(ComponentRole role)
 		{
 			long bytes=0;
-			foreach(FileStatistics stat in _backgroundStatisticsGather.GetAllStatistics())
+			foreach(AudioVideoFileStatistics stat in _backgroundStatisticsGather.GetAllStatistics())
 			{
 				if(role.IsMatch(stat.Path))
 				{
@@ -84,7 +84,7 @@ namespace SayMore.UI.Overview.Statistics
 		public TimeSpan GetRecordingDurations(ComponentRole role)
 		{
 			var total = new TimeSpan(0);
-			foreach (FileStatistics stat in _backgroundStatisticsGather.GetAllStatistics())
+			foreach (AudioVideoFileStatistics stat in _backgroundStatisticsGather.GetAllStatistics())
 			{
 				if (role.IsMatch(stat.Path))
 				{

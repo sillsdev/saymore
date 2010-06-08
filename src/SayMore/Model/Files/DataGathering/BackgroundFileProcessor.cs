@@ -18,14 +18,21 @@ namespace SayMore.Model.Files.DataGathering
 	{
 		private Thread _workerThread;
 		private string _rootDirectoryPath;
+		private readonly IEnumerable<FileType> _fileTypes;
 		private readonly Func<string, T> _fileDataFactory;
 		private bool _restartRequested = true;
 		protected Dictionary<string, T> _fileToDataDictionary = new Dictionary<string, T>();
 
-		public BackgroundFileProcessor(string rootDirectoryPath, Func<string, T> fileDataFactory)
+		public BackgroundFileProcessor(string rootDirectoryPath, IEnumerable<FileType> fileTypes, Func<string, T> fileDataFactory)
 		{
 			_rootDirectoryPath = rootDirectoryPath;
+			_fileTypes = fileTypes;
 			_fileDataFactory = fileDataFactory;
+		}
+
+		protected virtual bool GetDoIncludeFile(string path)
+		{
+			return _fileTypes.Any(t => t.IsMatch(path));
 		}
 
 		public void Start()
@@ -73,6 +80,10 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			try
 			{
+				if (!GetDoIncludeFile(path))
+				{
+					return;
+				}
 				Debug.WriteLine("processing " + path);
 				if (!ShouldStop)
 				{
@@ -142,8 +153,10 @@ namespace SayMore.Model.Files.DataGathering
 			}
 		}
 
+
 		public string Status
 		{
+			//enhance: provide an enumeration for the use of tests (at least)
 			get;
 			private set;
 		}

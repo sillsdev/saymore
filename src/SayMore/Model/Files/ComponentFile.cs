@@ -48,7 +48,7 @@ namespace SayMore.Model.Files
 		public string PathToAnnotatedFile { get; protected set; }
 		protected IEnumerable<ComponentRole> _componentRoles;
 		protected FileSerializer _fileSerializer;
-		private readonly IProvideFileStatistics _statisticsProvider;
+		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
 		protected string _rootElementName;
 
 		public List<FieldValue> MetaDataFieldValues { get; set; }
@@ -65,7 +65,7 @@ namespace SayMore.Model.Files
 		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
 							IEnumerable<ComponentRole> componentRoles,
 							FileSerializer fileSerializer,
-							IProvideFileStatistics statisticsProvider)
+							IProvideAudioVideoFileStatistics statisticsProvider)
 		{
 			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;

@@ -8,12 +8,12 @@ namespace SayMore.Model.Files.DataGathering
 	/// A FileStatistics is created for a single file.  It then provides information
 	/// about the file, such as the duration, if it is a media file.
 	/// </summary>
-	public class FileStatistics
+	public class AudioVideoFileStatistics
 	{
 		public long LengthInBytes;
 		public TimeSpan Duration;
 
-		public FileStatistics(string path)
+		public AudioVideoFileStatistics(string path)
 		{
 			Path = path;
 			LengthInBytes = new FileInfo(path).Length;

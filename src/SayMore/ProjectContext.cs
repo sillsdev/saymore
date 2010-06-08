@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Autofac;
 using SayMore.Model;
+using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.ProjectWindow;
@@ -28,35 +30,63 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public ProjectContext(string projectSettingsPath, IContainer parentContainer)
 		{
+//			_scope = parentContainer.BeginLifetimeScope(builder =>
+//        	{
+//			var rootDirectoryPath = Path.GetDirectoryName(projectSettingsPath);
+//				builder.RegisterType<ElementRepository<Session>>().InstancePerLifetimeScope();
+//				builder.RegisterType<ElementRepository<Person>>().InstancePerLifetimeScope();
+//				builder.RegisterType<ElementListViewModel<Session>>().InstancePerLifetimeScope();
+//				builder.RegisterType<ElementListViewModel<Person>>().InstancePerLifetimeScope();
+//				builder.RegisterType<AudioVideoDataGatherer>().InstancePerLifetimeScope();
+//
+				//there's maybe something I'm doing wrong that requires me to register this twice like this...
+//				var audioVideoDataGatherer = new AudioVideoDataGatherer(
+//					rootDirectoryPath,
+//					parentContainer.Resolve<IEnumerable<FileType>>());//enhance... use a factory to make this
+//        		builder.RegisterInstance(audioVideoDataGatherer).As<IProvideAudioVideoFileStatistics>();
+//				builder.RegisterInstance(audioVideoDataGatherer).As<AudioVideoDataGatherer>();
+//
+				//create a single PresetGatherer and stick in the container
+				//builder.RegisterInstance(parentContainer.Resolve<PresetGatherer.Factory>(rootDirectoryPath));
+//        	});
+			var rootDirectoryPath = Path.GetDirectoryName(projectSettingsPath);
+			BuildSubContainerForThisProject(rootDirectoryPath, parentContainer);
+
+			Project = _scope.Resolve<Func<string, Project>>()(projectSettingsPath);
+
+			var sessionRepoFactory = _scope.Resolve<ElementRepository<Session>.Factory>();
+			sessionRepoFactory(rootDirectoryPath, "Sessions");
+
+			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
+			peopleRepoFactory(rootDirectoryPath, "People");
+
+			//Start up the background operations
+			((AudioVideoDataGatherer)_scope.Resolve<IProvideAudioVideoFileStatistics>()).Start();
+			_scope.Resolve<PresetGatherer>().Start();
+
+			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
+		}
+
+		protected void BuildSubContainerForThisProject(string rootDirectoryPath, IContainer parentContainer)
+		{
 			_scope = parentContainer.BeginLifetimeScope(builder =>
 			{
 				builder.RegisterType<ElementRepository<Session>>().InstancePerLifetimeScope();
 				builder.RegisterType<ElementRepository<Person>>().InstancePerLifetimeScope();
 				builder.RegisterType<ElementListViewModel<Session>>().InstancePerLifetimeScope();
 				builder.RegisterType<ElementListViewModel<Person>>().InstancePerLifetimeScope();
-				builder.RegisterType<BackgroundStatisticsManager>().InstancePerLifetimeScope();
+				builder.RegisterType<AudioVideoDataGatherer>().InstancePerLifetimeScope();
 
 				//there's maybe something I'm doing wrong that requires me to register this twice like this...
-				var backgroundStatisticsManager = new BackgroundStatisticsManager(Path.GetDirectoryName(projectSettingsPath));
-				builder.RegisterInstance(backgroundStatisticsManager).As<IProvideFileStatistics>();
-				builder.RegisterInstance(backgroundStatisticsManager).As<BackgroundStatisticsManager>();
+				var audioVideoDataGatherer = new AudioVideoDataGatherer(
+					rootDirectoryPath,
+					parentContainer.Resolve<IEnumerable<FileType>>());//enhance... use a factory to make this
+				builder.RegisterInstance(audioVideoDataGatherer).As<IProvideAudioVideoFileStatistics>();
+				builder.RegisterInstance(audioVideoDataGatherer).As<AudioVideoDataGatherer>();
 
+				//create a single PresetGatherer and stick it in the container
+				builder.RegisterInstance(parentContainer.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
 			});
-
-			Project = _scope.Resolve<Func<string, Project>>()(projectSettingsPath);
-
-			var sessionRepoFactory = _scope.Resolve<ElementRepository<Session>.Factory>();
-			sessionRepoFactory(Path.GetDirectoryName(projectSettingsPath), "Sessions");
-
-			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
-			peopleRepoFactory(Path.GetDirectoryName(projectSettingsPath), "People");
-
-			((BackgroundStatisticsManager)_scope.Resolve<IProvideFileStatistics>()).Start();
-
-			var factory = _scope.Resolve<ProjectWindow.Factory>();
-			ProjectWindow = factory(projectSettingsPath);
-
-
 		}
 
 		/// ------------------------------------------------------------------------------------

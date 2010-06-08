@@ -4,6 +4,10 @@ using System.Threading;
 
 namespace SayMore.Model.Files.DataGathering
 {
+	/// <summary>
+	/// A FileStatistics is created for a single file.  It then provides information
+	/// about the file, such as the duration, if it is a media file.
+	/// </summary>
 	public class FileStatistics
 	{
 		public long LengthInBytes;

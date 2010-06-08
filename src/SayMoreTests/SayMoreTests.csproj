@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="model\Files\DataGathering\PresetDataTests.cs" />
     <Compile Include="Statistics\FileStatisticsTests.cs" />
     <Compile Include="ExportTests.cs" />
     <Compile Include="model\Files\ComponentFileTests.cs" />

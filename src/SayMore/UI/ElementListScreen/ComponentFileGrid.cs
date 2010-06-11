@@ -90,6 +90,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool AddButtonEnabled
+		{
+			get { return _buttonAdd.Enabled; }
+			set { _buttonAdd.Enabled = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		public DataGridView Grid
 		{

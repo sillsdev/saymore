@@ -185,13 +185,18 @@ namespace SayMore.UI.ElementListScreen
 			_componentEditorsTabControl.Selecting -= HandleSelectedComponentEditorTabSelecting;
 
 			if (_model.SelectedElement == null)
+			{
 				_componentEditorsTabControl.TabPages.Clear();
+				_componentFilesControl.AddButtonEnabled = false;
+			}
 			else
 			{
 				// Remove all but one tab page because removing all of them
 				// will steal the focus from the active control. Go figure.
 				for (int i = _componentEditorsTabControl.TabCount - 1; i > 0; i--)
 					_componentEditorsTabControl.TabPages.RemoveAt(i);
+
+				_componentFilesControl.AddButtonEnabled = true;
 			}
 
 			int providerCount = 0;

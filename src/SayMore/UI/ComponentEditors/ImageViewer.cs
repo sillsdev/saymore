@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
@@ -13,7 +14,7 @@ namespace SayMore.UI.ComponentEditors
 	public partial class ImageViewer : EditorBase
 	{
 		private readonly int[] _clickZoomPercentages;
-		private readonly Bitmap _image;
+		private readonly Image _image;
 		private readonly SilPanel _panelImage;
 		private bool _firstTimePaint = true;
 
@@ -25,7 +26,12 @@ namespace SayMore.UI.ComponentEditors
 
 			_labelZoom.Font = SystemFonts.IconTitleFont;
 
-			_image = new Bitmap(file.PathToAnnotatedFile);
+			// Do this instead of using the Load method because Load keeps a lock on the file.
+			using (var fs = new FileStream(file.PathToAnnotatedFile, FileMode.Open, FileAccess.Read))
+			{
+				_image = Image.FromStream(fs);
+				fs.Close();
+			}
 
 			_panelImage = new SilPanel();
 			_panelImage.Dock = DockStyle.Fill;

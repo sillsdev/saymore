@@ -1,11 +1,7 @@
 using System;
-using System.IO;
-using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Files;
-using SayMore.Properties;
-using SilUtils;
 using SilUtils.Controls;
 
 namespace SayMore.UI.ComponentEditors
@@ -13,25 +9,19 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class ImageViewer : EditorBase
 	{
-		private readonly int[] _clickZoomPercentages;
-		private readonly Image _image;
 		private readonly SilPanel _panelImage;
 		private bool _firstTimePaint = true;
+		private readonly ImageViewerViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
 		public ImageViewer(ComponentFile file)
 		{
+			_model = new ImageViewerViewModel(file.PathToAnnotatedFile);
+
 			InitializeComponent();
 			Name = "ImageViewer";
 
 			_labelZoom.Font = SystemFonts.IconTitleFont;
-
-			// Do this instead of using the Load method because Load keeps a lock on the file.
-			using (var fs = new FileStream(file.PathToAnnotatedFile, FileMode.Open, FileAccess.Read))
-			{
-				_image = Image.FromStream(fs);
-				fs.Close();
-			}
 
 			_panelImage = new SilPanel();
 			_panelImage.Dock = DockStyle.Fill;
@@ -43,25 +33,6 @@ namespace SayMore.UI.ComponentEditors
 			_panelImage.Scroll += HandleImagePanelScroll;
 			_panelImage.MouseClick += HandleImagePanelMouseClick;
 			_panelImage.MouseDoubleClick += HandleImagePanelMouseClick;
-
-			_clickZoomPercentages = PortableSettingsProvider.GetIntArrayFromString(
-				Settings.Default.ImageViewerClickImageZoomPercentages);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void FitImageInAvailableSpace()
-		{
-			for (int pct = _zoomTrackBar.Maximum; pct >= _zoomTrackBar.Minimum; pct -= _zoomTrackBar.SmallChange)
-			{
-				var sz = GetScaledSize(pct);
-				if (sz.Width <= _panelImage.ClientSize.Width && sz.Height <= _panelImage.ClientSize.Height)
-				{
-					_zoomTrackBar.Value = pct;
-					return;
-				}
-			}
-
-			_zoomTrackBar.Value = _zoomTrackBar.Minimum;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -70,14 +41,7 @@ namespace SayMore.UI.ComponentEditors
 			if (e.Button != MouseButtons.Left)
 				return;
 
-			var pct = _zoomTrackBar.Value;
-
-			if (pct >= _clickZoomPercentages.Max())
-				pct = _clickZoomPercentages.Min();
-			else
-				pct = _clickZoomPercentages.First(x => x > pct);
-
-			_zoomTrackBar.Value = pct;
+			_zoomTrackBar.Value = _model.GetNextClickPercent(_zoomTrackBar.Value);
 
 			if (!_zoomTrackBar.Focused)
 				_zoomTrackBar.Focus();
@@ -95,7 +59,8 @@ namespace SayMore.UI.ComponentEditors
 			if (_firstTimePaint)
 			{
 				_firstTimePaint = false;
-				FitImageInAvailableSpace();
+				_zoomTrackBar.Value = _model.GetPercentOfImageSizeToFitSize(100, _zoomTrackBar.Minimum,
+					_zoomTrackBar.SmallChange, _panelImage.ClientSize);
 				return;
 			}
 
@@ -109,7 +74,7 @@ namespace SayMore.UI.ComponentEditors
 
 			var rc = new Rectangle(new Point(dx, dy), sz);
 
-			e.Graphics.DrawImage(_image, rc);
+			e.Graphics.DrawImage(_model.Image, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -119,15 +84,8 @@ namespace SayMore.UI.ComponentEditors
 			//var fmt = LocalizationManager.LocalizeString("ImageViewer.ZoomValueFormat", "{0}%");
 			//_labelZoomPercent.Text = string.Format(fmt, _zoomTrackBar.Value);
 
-			_panelImage.AutoScrollMinSize = GetScaledSize(_zoomTrackBar.Value);
+			_panelImage.AutoScrollMinSize = _model.GetScaledSize(_zoomTrackBar.Value);
 			_panelImage.Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private Size GetScaledSize(int percent)
-		{
-			var scaleFactor = percent / 100f;
-			return new Size((int)(_image.Width * scaleFactor), (int)(_image.Height * scaleFactor));
 		}
 	}
 }

@@ -147,6 +147,7 @@
     <Compile Include="UI\ComponentEditors\ImageViewer.designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ComponentEditors\ImageViewerViewModel.cs" />
     <Compile Include="UI\ComponentEditors\NotesEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

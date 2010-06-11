@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading;
+using Microsoft.DirectX;
 
 namespace SayMore.Model.Files.DataGathering
 {
@@ -30,27 +31,32 @@ namespace SayMore.Model.Files.DataGathering
 				{
 					using (var audio = new Microsoft.DirectX.AudioVideoPlayback.Audio(Path))
 					{
-						return TimeSpan.FromSeconds((int) audio.Duration);
+						return TimeSpan.FromSeconds((int)audio.Duration);
 					}
 				}
-				else if (ComponentRole.GetIsVideo(Path))
+
+				if (ComponentRole.GetIsVideo(Path))
 				{
 					using (var video = new Microsoft.DirectX.AudioVideoPlayback.Video(Path))
 					{
-						return TimeSpan.FromSeconds((int) video.Duration);
+						return TimeSpan.FromSeconds((int)video.Duration);
 					}
 
 				}
 			}
-			catch(ThreadAbortException)
+			catch (ThreadAbortException)
 			{
 				//fine, just return
 			}
-			catch(Exception e)
+			catch (DirectXException e)
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e,"Could not get duration of "+Path);
+				if (e.ErrorString != "VFW_E_UNSUPPORTED_STREAM")
+					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Could not get duration of " + Path);
 			}
-
+			catch (Exception e)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Could not get duration of " + Path);
+			}
 
 			return new TimeSpan();
 		}

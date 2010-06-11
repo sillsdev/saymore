@@ -30,17 +30,15 @@ namespace SayMoreTests.UI.Overview.Statistics
 			_folder.Dispose();
 		}
 
-
 		private StatisticsViewModel CreateModel()
 		{
 			var nullRole = new ComponentRole(typeof(Session), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
 							 p => p.EndsWith("txt"), "$ElementId$_someRole");
 
-			var people = new ElementRepository<Person>(_folder.Combine("people"),"People", null);
+			var people = new ElementRepository<Person>(_folder.Combine("people"), "People", null);
 			var sessions = new ElementRepository<Session>(_folder.Combine("sessions"),"Sessions", null);
 
-			return new StatisticsViewModel(people, sessions,
-				new[]{nullRole},
+			return new StatisticsViewModel(people, sessions, new[] {nullRole},
 				new AudioVideoDataGatherer(_folder.Path, new[]{new AudioFileType()}));
 		}
 

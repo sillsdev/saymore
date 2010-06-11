@@ -14,7 +14,7 @@ namespace SayMore.Model.Files.DataGathering
 		public AudioVideoDataGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes) :
 			base(rootDirectoryPath,
 				from t in allFileTypes where t.IsAudioOrVideo select t,
-				path=>new AudioVideoFileStatistics(path))
+				path => new AudioVideoFileStatistics(path))
 		{
 		}
 	}

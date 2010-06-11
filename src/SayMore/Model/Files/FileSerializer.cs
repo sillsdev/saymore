@@ -20,6 +20,7 @@ namespace SayMore.Model.Files
 				element.Add(new XAttribute("type", v.Type));
 				child.Add(element);
 			}
+
 			child.Save(path);
 		}
 

@@ -82,9 +82,9 @@ namespace SayMore
 					return;
 				}
 
-				MruFiles.AddNewPath(dlg.Model.ProjectSettingsFilePath);
 				OpenProjectWindow(dlg.Model.ProjectSettingsFilePath);
-			}
+				MruFiles.AddNewPath(dlg.Model.ProjectSettingsFilePath);
+		   }
 		}
 
 		/// ------------------------------------------------------------------------------------

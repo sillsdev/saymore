@@ -48,7 +48,7 @@ namespace SayMore.Model
 			RequireThat.Directory(parentElementFolder).Exists();
 
 			ParentFolderPath = parentElementFolder;
-			_id = id;
+			_id = id ?? GetNewDefaultElementName();
 
 			MetaDataFile = new ProjectElementComponentFile(this, fileType,
 				_fileSerializer, RootElementName);
@@ -192,6 +192,18 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected virtual string NoIdSaveFailureMessage
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string AlreadyExistsSaveFailureMessage
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The reason this is separate from the Id property is: 1) You're not supposed to do
 		/// anything non-trivial in property accessors (like renaming folders) and 2) It may
@@ -208,14 +220,13 @@ namespace SayMore.Model
 			failureMessage = null;
 			Save();
 			newId = newId.Trim();
+
 			if (_id == newId)
-			{
 				return true;
-			}
 
 			if (newId == string.Empty)
 			{
-				failureMessage = "You must specify a session id.";
+				failureMessage = NoIdSaveFailureMessage;
 				return false;
 			}
 
@@ -223,9 +234,7 @@ namespace SayMore.Model
 			string newFolderPath = Path.Combine(parent, newId);
 			if (Directory.Exists(newFolderPath))
 			{
-				failureMessage = string.Format(
-					"Could not rename from {0} to {1} because there is already a session by that name.", Id, newId);
-
+				failureMessage = string.Format(AlreadyExistsSaveFailureMessage, Id, newId);
 				return false;
 			}
 

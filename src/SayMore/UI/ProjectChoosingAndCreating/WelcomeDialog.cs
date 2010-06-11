@@ -183,38 +183,17 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		private void HandleCreateProjectClick(object sender, EventArgs e)
 		{
-//			using (var dlg = new FolderBrowserDialog())
-//			{
-//				dlg.Description = LocalizationManager.LocalizeString(
-//					"WelcomeDialog.CreateProjectFolderBrowserMsg",
-//					"Choose the folder in which to create a project.",
-//					locExtender.LocalizationGroup);
-//
-//				dlg.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-//
-//				if (DialogResult.Cancel == dlg.ShowDialog())
-//					return;
-//
-//				if (Model.CreateNewProject(dlg.SelectedPath))
-//				{
-//					DialogResult = DialogResult.OK;
-//					Close();
-//				}
-//			}
-				var viewModel = new NewProjectDlgViewModel();
+			var viewModel = new NewProjectDlgViewModel();
 
-				using (var dlg = new NewProjectDlg(viewModel))
+			using (var dlg = new NewProjectDlg(viewModel))
+			{
+				if (dlg.ShowDialog() == DialogResult.OK)
 				{
-					if (dlg.ShowDialog() == DialogResult.OK)
-					{
-//						if (Model.CreateNewProject(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName))
-//						{
-						Model.SetRequestedPath(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName);
-						DialogResult = DialogResult.OK;
-						Close();
-//						}
-					}
+					Model.SetRequestedPath(viewModel.ParentFolderPathForNewProject, viewModel.NewProjectName);
+					DialogResult = DialogResult.OK;
+					Close();
 				}
+			}
 
 		}
 

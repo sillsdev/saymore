@@ -54,6 +54,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 				newName, newProjectPathLabel, validPathMsg, invalidPathMsg, _tooltip);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		protected string DefaultProjectsFolder
 		{
 			get
@@ -63,6 +64,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public string ParentFolderPathForNewProject
 		{
 			get { return DefaultProjectsFolder; }

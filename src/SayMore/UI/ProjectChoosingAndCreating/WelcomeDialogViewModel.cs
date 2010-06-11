@@ -75,6 +75,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				ver.Revision, bldDate.ToString("dd-MMM-yyyy"));
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public void SetRequestedPath(string parentFolderPath, string newProjectName)
 		{
 //			try

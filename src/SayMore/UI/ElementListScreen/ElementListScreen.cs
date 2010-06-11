@@ -184,10 +184,15 @@ namespace SayMore.UI.ElementListScreen
 
 			_componentEditorsTabControl.Selecting -= HandleSelectedComponentEditorTabSelecting;
 
-			// Remove all but one tab page because removing all of them will
-			// steal the focus from the active control. Go figure.
-			for (int i = _componentEditorsTabControl.TabCount - 1; i > 0; i--)
-				_componentEditorsTabControl.TabPages.RemoveAt(i);
+			if (_model.SelectedElement == null)
+				_componentEditorsTabControl.TabPages.Clear();
+			else
+			{
+				// Remove all but one tab page because removing all of them
+				// will steal the focus from the active control. Go figure.
+				for (int i = _componentEditorsTabControl.TabCount - 1; i > 0; i--)
+					_componentEditorsTabControl.TabPages.RemoveAt(i);
+			}
 
 			int providerCount = 0;
 
@@ -233,7 +238,13 @@ namespace SayMore.UI.ElementListScreen
 			foreach (var item in itemsToDelete)
 				_model.Remove(item as T);
 
-			LoadElementList(_elementsListPanel.CurrentItem.ToString());
+			if (_elementsListPanel.CurrentItem != null)
+				LoadElementList(_elementsListPanel.CurrentItem.ToString());
+			else
+			{
+				_model.SetSelectedElement(null);
+				UpdateComponentList();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

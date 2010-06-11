@@ -35,5 +35,17 @@ namespace SayMore.Model
 					"PersonView.NewPersonNamePrefix", "New Person");
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override string NoIdSaveFailureMessage
+		{
+			get { return "You must specify a name."; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override string AlreadyExistsSaveFailureMessage
+		{
+			get { return "Could not rename from {0} to {1} because there is already a person by that name."; }
+		}
 	}
 }

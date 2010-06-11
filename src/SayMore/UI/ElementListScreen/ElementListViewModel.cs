@@ -59,6 +59,12 @@ namespace SayMore.UI.ElementListScreen
 		//review do (jh): why bother with all these indexes? Why not just pass the object itself?
 		public bool SetSelectedComponentFile(int index)
 		{
+			if (SelectedElement == null)
+			{
+				SelectedComponentFile = null;
+				return false;
+			}
+
 			var componentFiles = SelectedElement.GetComponentFiles().ToArray();
 
 			if (index < 0 || index >= componentFiles.Length)
@@ -83,7 +89,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public T CreateNewElement()
 		{
-			return _repository.CreateNew(SelectedElement.GetNewDefaultElementName());
+			return _repository.CreateNew(null);
 		}
 
 		/// ------------------------------------------------------------------------------------

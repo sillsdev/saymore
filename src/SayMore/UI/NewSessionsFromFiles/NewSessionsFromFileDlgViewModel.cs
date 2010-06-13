@@ -16,6 +16,10 @@ namespace SayMore.UI.NewSessionsFromFiles
 	/// ----------------------------------------------------------------------------------------
 	public class NewSessionsFromFileDlgViewModel : IDisposable
 	{
+		private readonly NewComponentFile.NewComponentFileFactory _newComponentFileFactory;
+
+		public delegate NewSessionsFromFileDlgViewModel Factory(ElementListViewModel<Session> sessionPresentationModel);
+
 		public bool WaitForAsyncFileLoadingToFinish { get; set; }
 
 		protected ElementListViewModel<Session> SessionPresentationModel { get; private set; }
@@ -27,8 +31,10 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 		#region Construction, initialization and disposal.
 		/// ------------------------------------------------------------------------------------
-		public NewSessionsFromFileDlgViewModel(ElementListViewModel<Session> sessionPresentationModel)
+		public NewSessionsFromFileDlgViewModel(ElementListViewModel<Session> sessionPresentationModel,
+			NewComponentFile.NewComponentFileFactory newComponentFileFactory)
 		{
+			_newComponentFileFactory = newComponentFileFactory;
 			SessionPresentationModel = sessionPresentationModel;
 
 			_fileWatcher = new FileSystemWatcher();
@@ -220,7 +226,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			if (!File.Exists(path) || Files.Any(x => x.PathToAnnotatedFile == path))
 				return;
 
-			Files.Add(new NewComponentFile(path));
+			Files.Add(_newComponentFileFactory(path));
 			Files.Sort((x, y) => x.FileName.CompareTo(y.FileName));
 
 			if (_dlg != null)
@@ -402,7 +408,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 				{
 					if (validExtensions.Contains(Path.GetExtension(file).ToLower()))
 					{
-						var sessionFile = new NewComponentFile(file);
+						var sessionFile =_newComponentFileFactory(file);
 						sessionFile.Selected = (new FileInfo(file).Attributes & FileAttributes.Archive) > 0;
 						Files.Add(sessionFile);
 					}

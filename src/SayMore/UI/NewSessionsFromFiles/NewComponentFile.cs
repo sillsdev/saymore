@@ -14,7 +14,9 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System.Collections.Generic;
 using SayMore.Model.Files;
+using SayMore.Model.Files.DataGathering;
 
 namespace SayMore.UI.NewSessionsFromFiles
 {
@@ -25,12 +27,21 @@ namespace SayMore.UI.NewSessionsFromFiles
 	/// ----------------------------------------------------------------------------------------
 	public class NewComponentFile : ComponentFile
 	{
+		public delegate NewComponentFile NewComponentFileFactory(string pathToAnnotatedFile);
+
+		private readonly IEnumerable<FileType> _fileTypes;
 		public bool Selected { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public NewComponentFile(string filePath) :
-			base(filePath, ApplicationContainer.FilesTypes, null, null, null)
+//		public NewComponentFile(string filePath) :
+//			base(filePath, ApplicationContainer.FilesTypes, null, null, null)
+		public NewComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
+							IEnumerable<ComponentRole> componentRoles,
+							FileSerializer fileSerializer,
+							IProvideAudioVideoFileStatistics statisticsProvider)
+			:base(pathToAnnotatedFile,fileTypes,componentRoles,fileSerializer,statisticsProvider)
 		{
+			_fileTypes = fileTypes;
 			Selected = true;
 		}
 
@@ -48,7 +59,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		public void Rename(string newPath)
 		{
 			PathToAnnotatedFile = newPath;
-			DetermineFileType(newPath, ApplicationContainer.FilesTypes);
+			DetermineFileType(newPath, _fileTypes);
 			InitializeFileTypeInfo(newPath);
 		}
 	}

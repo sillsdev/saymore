@@ -14,7 +14,7 @@ namespace SayMoreTests.model.Files.DataGathering
 	public class PresetGathererTests
 	{
 		[Test]
-		public void GetPresets_NoFiles_EmptyList()
+		public void GetPresets_NoFiles_GetNoPresetsMessageOnly()
 		{
 			using (var f = new TemporaryFolder("testPresetGathererFolder"))
 			{
@@ -26,7 +26,7 @@ namespace SayMoreTests.model.Files.DataGathering
 					{
 						Thread.Sleep(1000);
 					}
-					Assert.AreEqual(0,gatherer.GetSuggestions().Count());
+					Assert.AreEqual(1,gatherer.GetSuggestions().Count());
 				}
 			}
 		}
@@ -37,7 +37,7 @@ namespace SayMoreTests.model.Files.DataGathering
 			using (var f = new TemporaryFolder("testPresetGathererFolder"))
 			{
 				File.WriteAllText(f.Combine("test.wav"), @"blah blah");
-				using (var gatherer = new PresetGatherer(f.Path, new FileType[] { new AudioFileType() },
+				using (var gatherer = new PresetGatherer(f.Path, new FileType[] { new AudioFileType(null) },
 					path => new PresetData(path, p =>
 					{
 						var dict =new Dictionary<string, string>();

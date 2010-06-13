@@ -10,10 +10,13 @@ namespace SayMore.UI.ElementListScreen
 	/// ----------------------------------------------------------------------------------------
 	public partial class SessionScreen : ConcreteSessionScreen, ISayMoreView
 	{
+		private readonly NewSessionsFromFileDlgViewModel.Factory _newSessionsFromFileDlgViewModel;
+
 		/// ------------------------------------------------------------------------------------
-		public SessionScreen(ElementListViewModel<Session> presentationModel)
+		public SessionScreen(ElementListViewModel<Session> presentationModel, NewSessionsFromFileDlgViewModel.Factory newSessionsFromFileDlgViewModel)
 			: base(presentationModel)
 		{
+			_newSessionsFromFileDlgViewModel = newSessionsFromFileDlgViewModel;
 			InitializeComponent();
 
 			if (DesignMode)
@@ -51,7 +54,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonNewFromFilesClick(object sender, EventArgs e)
 		{
-			using (var viewModel = new NewSessionsFromFileDlgViewModel(_model))
+			using (var viewModel = _newSessionsFromFileDlgViewModel(_model))
 			using (var dlg = new NewSessionsFromFilesDlg(viewModel))
 			{
 				viewModel.Dialog = dlg;

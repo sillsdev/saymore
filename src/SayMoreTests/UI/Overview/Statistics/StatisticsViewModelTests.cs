@@ -39,7 +39,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 			var sessions = new ElementRepository<Session>(_folder.Combine("sessions"),"Sessions", null);
 
 			return new StatisticsViewModel(people, sessions, new[] {nullRole},
-				new AudioVideoDataGatherer(_folder.Path, new[]{new AudioFileType()}));
+				new AudioVideoDataGatherer(_folder.Path, new[]{new AudioFileType(null)}));
 		}
 
 		[Test]

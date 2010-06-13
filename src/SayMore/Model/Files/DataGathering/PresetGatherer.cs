@@ -25,7 +25,18 @@ namespace SayMore.Model.Files.DataGathering
 			var suggestor = new UniqueCombinationsFinder(
 				from d in _fileToDataDictionary.Values
 				select d.Dictionary);
-			return suggestor.GetSuggestions();
+			var suggestions= suggestor.GetSuggestions();
+			if(suggestions.Count()==0)
+			{
+				yield return new KeyValuePair<string, Dictionary<string, string>>("No presets yet",new Dictionary<string, string>());
+			}
+			else
+			{
+				foreach (var keyValuePair in suggestions)
+				{
+					yield return keyValuePair;
+				}
+			}
 		}
 	}
 

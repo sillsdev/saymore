@@ -30,25 +30,6 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public ProjectContext(string projectSettingsPath, IContainer parentContainer)
 		{
-//			_scope = parentContainer.BeginLifetimeScope(builder =>
-//        	{
-//			var rootDirectoryPath = Path.GetDirectoryName(projectSettingsPath);
-//				builder.RegisterType<ElementRepository<Session>>().InstancePerLifetimeScope();
-//				builder.RegisterType<ElementRepository<Person>>().InstancePerLifetimeScope();
-//				builder.RegisterType<ElementListViewModel<Session>>().InstancePerLifetimeScope();
-//				builder.RegisterType<ElementListViewModel<Person>>().InstancePerLifetimeScope();
-//				builder.RegisterType<AudioVideoDataGatherer>().InstancePerLifetimeScope();
-//
-				//there's maybe something I'm doing wrong that requires me to register this twice like this...
-//				var audioVideoDataGatherer = new AudioVideoDataGatherer(
-//					rootDirectoryPath,
-//					parentContainer.Resolve<IEnumerable<FileType>>());//enhance... use a factory to make this
-//        		builder.RegisterInstance(audioVideoDataGatherer).As<IProvideAudioVideoFileStatistics>();
-//				builder.RegisterInstance(audioVideoDataGatherer).As<AudioVideoDataGatherer>();
-//
-				//create a single PresetGatherer and stick in the container
-				//builder.RegisterInstance(parentContainer.Resolve<PresetGatherer.Factory>(rootDirectoryPath));
-//        	});
 			var rootDirectoryPath = Path.GetDirectoryName(projectSettingsPath);
 			BuildSubContainerForThisProject(rootDirectoryPath, parentContainer);
 
@@ -61,7 +42,7 @@ namespace SayMore
 			peopleRepoFactory(rootDirectoryPath, "People");
 
 			//Start up the background operations
-			((AudioVideoDataGatherer)_scope.Resolve<IProvideAudioVideoFileStatistics>()).Start();
+			_scope.Resolve<AudioVideoDataGatherer>().Start();
 			_scope.Resolve<PresetGatherer>().Start();
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
@@ -76,20 +57,42 @@ namespace SayMore
 				builder.RegisterType<ElementListViewModel<Session>>().InstancePerLifetimeScope();
 				builder.RegisterType<ElementListViewModel<Person>>().InstancePerLifetimeScope();
 				builder.RegisterType<AudioVideoDataGatherer>().InstancePerLifetimeScope();
+				builder.RegisterType<IEnumerable<FileType>>().InstancePerLifetimeScope();
 
+				//when something needs the list of filetypes, get them from this method
+				builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c)).InstancePerLifetimeScope();
+
+				//these needed to be done later (as delegates) because of the FileTypes dependency
 				//there's maybe something I'm doing wrong that requires me to register this twice like this...
-				var audioVideoDataGatherer = new AudioVideoDataGatherer(
-					rootDirectoryPath,
-					parentContainer.Resolve<IEnumerable<FileType>>());//enhance... use a factory to make this
-				builder.RegisterInstance(audioVideoDataGatherer).As<IProvideAudioVideoFileStatistics>();
-				builder.RegisterInstance(audioVideoDataGatherer).As<AudioVideoDataGatherer>();
-
+				builder.Register<IProvideAudioVideoFileStatistics>(c => new AudioVideoDataGatherer(rootDirectoryPath,
+																								   c.Resolve<IEnumerable<FileType>>()))
+					.InstancePerLifetimeScope();
+					;
+				//.As<IProvideAudioVideoFileStatistics>().As<AudioVideoDataGatherer>();
+				builder.Register<AudioVideoDataGatherer>(c => c.Resolve(typeof (IProvideAudioVideoFileStatistics))
+																		as AudioVideoDataGatherer).InstancePerLifetimeScope();
+				;
 				//create a single PresetGatherer and stick it in the container
-				builder.RegisterInstance(parentContainer.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
+				//builder.RegisterInstance(parentContainer.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
+
+				//using the factory gave stack overflow: builder.Register<PresetGatherer>(c => c.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
+				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(), c.Resolve<PresetData.Factory>()));
 			});
+
+			//test
+			var test = _scope.Resolve<AudioFileType>();
 		}
 
 
+		public IEnumerable<FileType> GetFilesTypes(IComponentContext context)
+		{
+			yield return new SessionFileType();
+			yield return new PersonFileType();
+			yield return context.Resolve<AudioFileType>();
+			yield return new VideoFileType();
+			yield return new ImageFileType();
+
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()

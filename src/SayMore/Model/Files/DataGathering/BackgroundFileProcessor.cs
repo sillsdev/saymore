@@ -28,6 +28,7 @@ namespace SayMore.Model.Files.DataGathering
 			_rootDirectoryPath = rootDirectoryPath;
 			_fileTypes = fileTypes;
 			_fileDataFactory = fileDataFactory;
+			Status = "Not yet started";
 		}
 
 		protected virtual bool GetDoIncludeFile(string path)
@@ -102,6 +103,9 @@ namespace SayMore.Model.Files.DataGathering
 			catch (Exception e)
 			{
 				Debug.WriteLine(e.Message);
+#if  DEBUG
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
+#endif
 				//nothing here is worth crashing over
 			}
 			InvokeNewDataAvailable();

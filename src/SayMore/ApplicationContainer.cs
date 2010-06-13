@@ -33,21 +33,12 @@ namespace SayMore
 //			builder.RegisterInstance(filesTypes).As(typeof(IEnumerable<FileType>));
 
 			//when something needs the list of filetypes, get them from this method
-			builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c));
+//			builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c));
 			builder.RegisterInstance(ComponentRoles).As(typeof(IEnumerable<ComponentRole>));
 
 			_container = builder.Build();
 		}
 
-		public IEnumerable<FileType> GetFilesTypes(IComponentContext context)
-		{
-			yield return new SessionFileType();
-			yield return new PersonFileType();
-			yield return context.Resolve<AudioFileType>();
-			yield return new VideoFileType();
-			yield return new ImageFileType();
-
-		}
 
 		/// <summary>
 		/// Someday, we may put this under user control. For now, they are hard-coded.

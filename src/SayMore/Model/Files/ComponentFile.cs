@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Palaso.Code;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
@@ -49,6 +50,7 @@ namespace SayMore.Model.Files
 		protected IEnumerable<ComponentRole> _componentRoles;
 		protected FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
+		private readonly PresetGatherer _presetProvider;
 		protected string _rootElementName;
 
 		public List<FieldValue> MetaDataFieldValues { get; set; }
@@ -65,12 +67,14 @@ namespace SayMore.Model.Files
 		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
 							IEnumerable<ComponentRole> componentRoles,
 							FileSerializer fileSerializer,
-							IProvideAudioVideoFileStatistics statisticsProvider)
+							IProvideAudioVideoFileStatistics statisticsProvider,
+							PresetGatherer presetProvider)
 		{
 			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;
 			_fileSerializer = fileSerializer;
 			_statisticsProvider = statisticsProvider;
+			_presetProvider = presetProvider;
 
 			// we musn't do anything to remove the existing extension, as that is needed
 			// to keep, say, foo.wav and foo.txt separate. Instead, we just append ".meta"
@@ -259,7 +263,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
 		{
-			return new ComponentFile(path, new FileType[] {}, new ComponentRole[]{}, new FileSerializer(), null);
+			return new ComponentFile(path, new FileType[] {}, new ComponentRole[]{}, new FileSerializer(), null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -420,6 +424,12 @@ namespace SayMore.Model.Files
 			smallIcon = bmSmall;
 			// TODO: Figure out how to get FileType in Mono.
 #endif
+		}
+
+		public IEnumerable<KeyValuePair<string, Dictionary<string, string>>> GetPresetChoices()
+		{
+			Guard.AgainstNull(_presetProvider, "PresetProvider");
+			return _presetProvider.GetSuggestions();
 		}
 	}
 }

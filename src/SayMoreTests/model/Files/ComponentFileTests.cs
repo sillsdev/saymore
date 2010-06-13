@@ -50,6 +50,7 @@ namespace SayMoreTests.Model.Files
 				new FileType[]{FileType.Create("Text", ".txt"), },
 				new ComponentRole[]{},
 				new FileSerializer(),
+				null,
 				null);
 
 			cf.Save();//creates the meta file path
@@ -101,7 +102,7 @@ namespace SayMoreTests.Model.Files
 			return new ComponentFile(path,
 				new FileType[] { FileType.Create("Text", ".txt"), },
 				componentRoles,
-				new FileSerializer(), null);
+				new FileSerializer(), null,null);
 		}
 
 

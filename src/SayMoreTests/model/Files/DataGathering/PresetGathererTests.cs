@@ -37,7 +37,7 @@ namespace SayMoreTests.model.Files.DataGathering
 			using (var f = new TemporaryFolder("testPresetGathererFolder"))
 			{
 				File.WriteAllText(f.Combine("test.wav"), @"blah blah");
-				using (var gatherer = new PresetGatherer(f.Path, new FileType[] { new AudioFileType(null) },
+				using (var gatherer = new PresetGatherer(f.Path, new FileType[] { new AudioFileType() },
 					path => new PresetData(path, p =>
 					{
 						var dict =new Dictionary<string, string>();

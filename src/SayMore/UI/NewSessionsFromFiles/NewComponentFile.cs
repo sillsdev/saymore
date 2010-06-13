@@ -38,8 +38,9 @@ namespace SayMore.UI.NewSessionsFromFiles
 		public NewComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
 							IEnumerable<ComponentRole> componentRoles,
 							FileSerializer fileSerializer,
-							IProvideAudioVideoFileStatistics statisticsProvider)
-			:base(pathToAnnotatedFile,fileTypes,componentRoles,fileSerializer,statisticsProvider)
+							IProvideAudioVideoFileStatistics statisticsProvider,
+							PresetGatherer presetProvider)
+			:base(pathToAnnotatedFile,fileTypes,componentRoles,fileSerializer,statisticsProvider,presetProvider)
 		{
 			_fileTypes = fileTypes;
 			Selected = true;

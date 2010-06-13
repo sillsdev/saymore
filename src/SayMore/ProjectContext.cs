@@ -5,6 +5,7 @@ using Autofac;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.UI.ComponentEditors;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.ProjectWindow;
 
@@ -45,6 +46,9 @@ namespace SayMore
 			_scope.Resolve<AudioVideoDataGatherer>().Start();
 			_scope.Resolve<PresetGatherer>().Start();
 
+//			var test = _scope.Resolve<AudioFileType>();
+//			var test2 = _scope.Resolve<AudioComponentEditor.Factory>();
+//			test2(new ComponentFile("x", null, null, null));
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
 		}
 
@@ -76,11 +80,10 @@ namespace SayMore
 				//builder.RegisterInstance(parentContainer.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
 
 				//using the factory gave stack overflow: builder.Register<PresetGatherer>(c => c.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
-				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(), c.Resolve<PresetData.Factory>()));
+				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(), c.Resolve<PresetData.Factory>())).InstancePerLifetimeScope();
 			});
 
-			//test
-			var test = _scope.Resolve<AudioFileType>();
+
 		}
 
 

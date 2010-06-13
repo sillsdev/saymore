@@ -169,13 +169,10 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class AudioFileType : FileType
 	{
-		private readonly AudioComponentEditor.Factory _audioEditorFactory;
-
 		/// ------------------------------------------------------------------------------------
-		public AudioFileType(AudioComponentEditor.Factory audioEditorFactory) : base("Audio",
+		public AudioFileType() : base("Audio",
 			p => Settings.Default.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
 		{
-			_audioEditorFactory = audioEditorFactory;
 		}
 
 
@@ -188,7 +185,7 @@ namespace SayMore.Model.Files
 		{
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(_audioEditorFactory(file), "Technical", "Technical"));
+				_providers.Add(new EditorProvider(new AudioComponentEditor(file), "Technical", "Technical"));
 				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
 				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
 				_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play", "Play"));

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,52 +10,62 @@ using SayMore.Model.Files.DataGathering;
 
 namespace SayMoreTests.model.Files.DataGathering
 {
-	//TODO: I (jh) didn't do a very good job on these
-
+	[TestFixture]
+	[Timeout(5000)]//each gets no more than 5 seconds
 	public class PresetGathererTests
 	{
+		private TemporaryFolder _folder;
+
+		[SetUp]
+		public void Setup()
+		{
+			var r = new Random();
+			_folder = new TemporaryFolder("testPresetGathererFolder"+r.Next());
+		}
+		[TearDown]
+		public void TearDown()
+		{
+			_folder.Dispose();
+		}
+
 		[Test]
 		public void GetPresets_NoFiles_GetNoPresetsMessageOnly()
 		{
-			using (var f = new TemporaryFolder("testPresetGathererFolder"))
+			using (var gatherer = CreatePresetGatherer())
 			{
-				using (var gatherer = new PresetGatherer(f.Path, new FileType[] { },
-					path => new PresetData(path, p => new Dictionary<string, string>())))
-				{
-					gatherer.Start();
-//					while(gatherer.Status=="Working")
-					{
-						Thread.Sleep(1000);
-					}
-					Assert.AreEqual(1,gatherer.GetSuggestions().Count());
-				}
+				gatherer.Start();
+				WaitUntilNotBusy(gatherer);
+				Assert.AreEqual(1,gatherer.GetPresets().Count());
 			}
 		}
 
-		[Test]
-		public void GetPresets_SomeFiles_NonEmptyList()
+		private PresetGatherer CreatePresetGatherer()
 		{
-			using (var f = new TemporaryFolder("testPresetGathererFolder"))
-			{
-				File.WriteAllText(f.Combine("test.wav"), @"blah blah");
-				using (var gatherer = new PresetGatherer(f.Path, new FileType[] { new AudioFileType() },
-					path => new PresetData(path, p =>
-					{
-						var dict =new Dictionary<string, string>();
-						dict.Add("one","1");
-						return dict;
-					})))
+			return new PresetGatherer(_folder.Path, new FileType[] { new AudioFileType() },
+									  MakePresetFromContentsOfFile);
+		}
 
-				{
-					gatherer.Start();
-					//while(gatherer.Status=="Working")
-					{
-						Thread.Sleep(1000);
-					}
-					Assert.AreEqual(1, gatherer.GetSuggestions().Count());
-				}
+		private void WaitUntilNotBusy(PresetGatherer gatherer)
+		{
+			while(gatherer.Busy)
+			{
+				Thread.Sleep(100);
 			}
 		}
 
+		private PresetData MakePresetFromContentsOfFile(string path)
+		{
+			return new PresetData(path, p =>
+									{
+										var dict = new Dictionary<string, string>();
+										//here, the preset value is always just simply the contents of the file
+										//Of course, the real PresetData (which isn't the clas under test)
+										//uses the sidecar file, not the media file itself.
+
+										dict.Add("contents", File.ReadAllText(p));
+
+										return dict;
+									});
+		}
 	}
 }

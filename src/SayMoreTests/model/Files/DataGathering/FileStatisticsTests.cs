@@ -3,10 +3,9 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using SayMore;
 using SayMore.Model.Files.DataGathering;
 
-namespace SayMoreTests.Statistics
+namespace SayMoreTests.model.Files.DataGathering
 {
 	[TestFixture]
 	public class FileStatisticsTests

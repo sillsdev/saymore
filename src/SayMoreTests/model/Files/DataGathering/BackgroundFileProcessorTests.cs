@@ -11,7 +11,7 @@ using SayMore.Model.Files.DataGathering;
 namespace SayMoreTests.model.Files.DataGathering
 {
 	[TestFixture]
-	[Timeout(5000)]//each gets no more than 5 seconds
+	//[Timeout(5000)]//each gets no more than 5 seconds
 	public class BackgroundFileProcessorTests
 	{
 		private TemporaryFolder _folder;
@@ -30,7 +30,7 @@ namespace SayMoreTests.model.Files.DataGathering
 		}
 
 		[Test]
-		public void GetPresets_SomeFiles_NonEmptyList()
+		public void GetAllFileData_SomeFiles_NonEmptyList()
 		{
 				WriteTestWav(@"blah blah");
 				using (var processor = CreateProcessor())
@@ -74,7 +74,7 @@ namespace SayMoreTests.model.Files.DataGathering
 		}
 
 		[Test]
-		public void GetPresets_FileModified_FiresNewDataAvailableEvent()
+		public void Background_FileOverwritten_FiresNewDataAvailableEvent()
 		{
 			WriteTestWav(@"first");
 			using (var processor = CreateProcessor())
@@ -166,11 +166,13 @@ namespace SayMoreTests.model.Files.DataGathering
 			: base(rootDirectoryPath, typesOfFilesToProcess, fileDataFactory)
 		{
 		}
-		public ExpectedEvent ExpectNewDataAvailable()
+		public  ExpectedEvent ExpectNewDataAvailable()
 		{
 			var x = new ExpectedEvent();
 			NewDataAvailable += x.Event;
 			return x;
 		}
 	}
+
+
 }

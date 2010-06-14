@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SayMore.Model.Files.DataGathering
@@ -19,6 +20,28 @@ namespace SayMore.Model.Files.DataGathering
 		{
 		}
 
+		protected override bool GetDoIncludeFile(string path)
+		{
+			if (_typesOfFilesToProcess.Any(t => t.IsMatch(path))
+				|| _typesOfFilesToProcess.Any(t => t.IsMatch(path.Replace(".meta", ""))))
+			{
+				var p = GetActualPath(path);
+				return File.Exists(p);
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// subclass can override this to, for example, use the path of a sidecar file
+		/// </summary>
+		protected override string GetActualPath(string path)
+		{
+			if(!path.Contains(".meta"))
+			{
+				return path + ".meta";
+			}
+			return path;
+		}
 
 
 		public IEnumerable<KeyValuePair<string, Dictionary<string, string>>> GetPresets()
@@ -56,10 +79,16 @@ namespace SayMore.Model.Files.DataGathering
 		/// </summary>
 		public PresetData(string path, ComponentFile.Factory componentFileFactory)
 		{
-			var f = componentFileFactory(path);
+			//this is feeling a bit hacky... but sometimes we are called with the path to the
+			//media file, and sometimes with the metadata file itself (i.e., when it is modified)
+			//so for now we just always get to the path of the media file
+			var pathToAnnotatedFile = path.Replace(".meta","");
+
+			var f = componentFileFactory(pathToAnnotatedFile);
 			Dictionary =  f.MetaDataFieldValues.ToDictionary(field => field.FieldDefinitionKey,
 															field => field.Value);
 		}
+
 
 		/// <summary>
 		/// for test only... probably was a waste of time

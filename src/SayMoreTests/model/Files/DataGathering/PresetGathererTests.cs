@@ -39,6 +39,28 @@ namespace SayMoreTests.model.Files.DataGathering
 			}
 		}
 
+
+		[Test]
+		public void Background_SidecarDataChanged_PresetChanged()
+		{
+			WriteTestWavWithSidecar(@"original");
+			using (var processor = CreateProcessor())
+			{
+				using (processor.ExpectNewDataAvailable())
+				{
+					processor.Start();
+					WaitUntilNotBusy(processor);
+				}
+				Assert.AreEqual("original", processor.FirstValueOfFirstPreset());
+				using (processor.ExpectNewDataAvailable())
+				{
+					WriteOnlySidecar(@"changed");
+				}
+				Assert.AreEqual(1, processor.GetPresets().Count());
+				Assert.AreEqual("changed", processor.FirstValueOfFirstPreset());
+			}
+		}
+
 		private PresetGatherer CreatePresetGatherer()
 		{
 			return new PresetGatherer(_folder.Path, new FileType[] { new AudioFileType() },
@@ -66,6 +88,40 @@ namespace SayMoreTests.model.Files.DataGathering
 
 										return dict;
 									});
+		}
+
+		private string WriteTestWavWithSidecar(string contents)
+		{
+			var path = _folder.Combine("test.wav");
+			File.WriteAllText(path, contents);
+			File.WriteAllText(path+".meta", contents);
+			return path;
+		}
+
+		private void WriteOnlySidecar(string contents)
+		{
+			File.WriteAllText(_folder.Combine("test.wav.meta"), contents);
+		}
+
+		private PresetGatherer CreateProcessor()
+		{
+			return new PresetGatherer(_folder.Path, new FileType[] { new AudioFileType() },
+									  MakePresetFromContentsOfFile);
+		}
+	}
+
+	public static class PresetGathererExtensionsForTesting
+	{
+		public static ExpectedEvent ExpectNewDataAvailable(this PresetGatherer gatherer)
+		{
+			var x = new ExpectedEvent();
+			gatherer.NewDataAvailable += x.Event;
+			return x;
+		}
+
+		public static string FirstValueOfFirstPreset(this PresetGatherer gatherer)
+		{
+			return gatherer.GetPresets().First().Value.Values.First();
 		}
 	}
 }

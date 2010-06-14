@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Windows.Forms;
 using ThreadState = System.Threading.ThreadState;
 
 namespace SayMore.Model.Files.DataGathering
@@ -18,7 +19,7 @@ namespace SayMore.Model.Files.DataGathering
 	{
 		private Thread _workerThread;
 		private string _rootDirectoryPath;
-		private readonly IEnumerable<FileType> _typesOfFilesToProcess;
+		protected readonly IEnumerable<FileType> _typesOfFilesToProcess;
 		private readonly Func<string, T> _fileDataFactory;
 		private bool _restartRequested = true;
 		protected Dictionary<string, T> _fileToDataDictionary = new Dictionary<string, T>();
@@ -48,43 +49,58 @@ namespace SayMore.Model.Files.DataGathering
 
 		private void StartWorking()
 		{
-			Status = "Working";//NB: this helps simplify unit tests, if go to the busy state before returning
-
-			using (var watcher = new FileSystemWatcher(_rootDirectoryPath))
+			try
 			{
-				watcher.Created += new FileSystemEventHandler(QueueFileEvent);
+				Status = "Working"; //NB: this helps simplify unit tests, if go to the busy state before returning
 
-				watcher.Renamed += new RenamedEventHandler(QueueFileEvent);
-				watcher.Changed += new FileSystemEventHandler(QueueFileEvent);
-
-				watcher.EnableRaisingEvents = true;
-				//now just wait for file events that we should handle (on a different thread, in response to events)
-
-				while (!ShouldStop)
+				using (var watcher = new FileSystemWatcher(_rootDirectoryPath))
 				{
-					if (_restartRequested)
+					watcher.Created += new FileSystemEventHandler(QueueFileEvent);
+
+					watcher.Renamed += new RenamedEventHandler(QueueFileEvent);
+					watcher.Changed += new FileSystemEventHandler(QueueFileEvent);
+					watcher.IncludeSubdirectories = true;
+
+					watcher.EnableRaisingEvents = true;
+					//now just wait for file events that we should handle (on a different thread, in response to events)
+
+					while (!ShouldStop)
 					{
-						_restartRequested = false;
-						ProcessAllFiles();
-					}
-					lock (_pendingFileEvents)
-					{
-						if (_pendingFileEvents.Count > 0)
+						if (_restartRequested)
 						{
-							ProcessFileEvent(_pendingFileEvents.Dequeue());
-							break;
+							_restartRequested = false;
+							ProcessAllFiles();
 						}
+						lock (_pendingFileEvents)
+						{
+							if (_pendingFileEvents.Count > 0)
+							{
+								ProcessFileEvent(_pendingFileEvents.Dequeue());
+							}
+						}
+						if (!ShouldStop)
+							Thread.Sleep(100);
 					}
-					if (!ShouldStop)
-						Thread.Sleep(100);
 				}
+
+			}
+			catch (ThreadAbortException)
+			{
+				//this is fine, it happens when we quit
+			}
+			catch (Exception error)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, "Background file watching failed.");
 			}
 		}
 
 		private void QueueFileEvent(object sender, FileSystemEventArgs e)
 		{
+
 			lock(_pendingFileEvents)
 			{
+
+				Debug.WriteLine(GetType().Name+": "+e.ChangeType+": "+e.Name);
 				_pendingFileEvents.Enqueue(e);
 			}
 		}
@@ -98,15 +114,16 @@ namespace SayMore.Model.Files.DataGathering
 					var e = fileEvent as RenamedEventArgs;
 					lock (((ICollection) _fileToDataDictionary).SyncRoot)
 					{
-						if (_fileToDataDictionary.ContainsKey(e.OldFullPath.ToLower()))
+						if (_fileToDataDictionary.ContainsKey(e.OldFullPath))
 						{
-							_fileToDataDictionary.Add(e.FullPath.ToLower(), _fileToDataDictionary[e.OldFullPath.ToLower()]);
-							_fileToDataDictionary.Remove(e.OldFullPath.ToLower());
+							_fileToDataDictionary.Add(e.FullPath, _fileToDataDictionary[e.OldFullPath]);
+							_fileToDataDictionary.Remove(e.OldFullPath);
 						}
 					}
 				}
 				else
 				{
+					Debug.WriteLine(GetType().Name + " Collecting " + fileEvent.ChangeType + ": " + fileEvent.Name);
 					Status = "Working";
 					CollectDataForFile(fileEvent.FullPath);
 					Status = "Up to date";
@@ -127,7 +144,7 @@ namespace SayMore.Model.Files.DataGathering
 			T stats;
 			lock (((ICollection)_fileToDataDictionary).SyncRoot)
 			{
-				if (_fileToDataDictionary.TryGetValue(filePath.ToLower(), out stats))
+				if (_fileToDataDictionary.TryGetValue(filePath, out stats))
 					return stats;
 				return null;
 			}
@@ -142,17 +159,18 @@ namespace SayMore.Model.Files.DataGathering
 					return;
 				}
 				Debug.WriteLine("processing " + path);
+				var actualPath = GetActualPath(path);
 				if (!ShouldStop)
 				{
-					var fileData = _fileDataFactory(path);
+					var fileData = _fileDataFactory(actualPath);
 
 					lock (((ICollection)_fileToDataDictionary).SyncRoot)
 					{
-						if (_fileToDataDictionary.ContainsKey(path.ToLower()))
+						if (_fileToDataDictionary.ContainsKey(actualPath))
 						{
-							_fileToDataDictionary.Remove(path.ToLower());
+							_fileToDataDictionary.Remove(actualPath);
 						}
-						_fileToDataDictionary.Add(path.ToLower(), fileData);
+						_fileToDataDictionary.Add(actualPath, fileData);
 					}
 				}
 			}
@@ -165,6 +183,14 @@ namespace SayMore.Model.Files.DataGathering
 				//nothing here is worth crashing over
 			}
 			InvokeNewDataAvailable();
+		}
+
+		/// <summary>
+		/// subclass can override this to, for example, use the path of a sidecar file
+		/// </summary>
+		protected virtual string GetActualPath(string path)
+		{
+			return path;
 		}
 
 		public IEnumerable<T> GetAllFileData()
@@ -242,7 +268,10 @@ namespace SayMore.Model.Files.DataGathering
 		protected void InvokeNewDataAvailable()
 		{
 			EventHandler handler = NewDataAvailable;
-			if (handler != null) handler(this, null);
+			if (handler != null)
+			{
+				handler(this, null);
+			}
 		}
 	}
 

@@ -46,9 +46,6 @@ namespace SayMore
 			_scope.Resolve<AudioVideoDataGatherer>().Start();
 			_scope.Resolve<PresetGatherer>().Start();
 
-//			var test = _scope.Resolve<AudioFileType>();
-//			var test2 = _scope.Resolve<AudioComponentEditor.Factory>();
-//			test2(new ComponentFile("x", null, null, null));
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
 		}
 

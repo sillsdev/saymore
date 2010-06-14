@@ -429,7 +429,23 @@ namespace SayMore.Model.Files
 		public IEnumerable<KeyValuePair<string, Dictionary<string, string>>> GetPresetChoices()
 		{
 			Guard.AgainstNull(_presetProvider, "PresetProvider");
-			return _presetProvider.GetSuggestions();
+			return _presetProvider.GetPresets();
+		}
+
+		/// <summary>
+		/// Set our values to those of the preset
+		/// </summary>
+		public void UsePreset(IDictionary<string, string> preset)
+		{
+			foreach (KeyValuePair<string, string> pair in preset)
+			{
+				string failureStringMessage;
+				SetValue(pair.Key, pair.Value, out failureStringMessage);
+				if(!string.IsNullOrEmpty(failureStringMessage))
+				{
+					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureStringMessage);
+				}
+			}
 		}
 	}
 }

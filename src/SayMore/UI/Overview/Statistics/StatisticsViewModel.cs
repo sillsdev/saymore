@@ -71,7 +71,7 @@ namespace SayMore.UI.Overview.Statistics
 		private int GetMegabytes(ComponentRole role)
 		{
 			long bytes=0;
-			foreach(AudioVideoFileStatistics stat in _backgroundStatisticsGather.GetAllStatistics())
+			foreach(AudioVideoFileStatistics stat in _backgroundStatisticsGather.GetAllFileData())
 			{
 				if(role.IsMatch(stat.Path))
 				{
@@ -84,7 +84,7 @@ namespace SayMore.UI.Overview.Statistics
 		public TimeSpan GetRecordingDurations(ComponentRole role)
 		{
 			var total = new TimeSpan(0);
-			foreach (AudioVideoFileStatistics stat in _backgroundStatisticsGather.GetAllStatistics())
+			foreach (AudioVideoFileStatistics stat in _backgroundStatisticsGather.GetAllFileData())
 			{
 				if (role.IsMatch(stat.Path))
 				{

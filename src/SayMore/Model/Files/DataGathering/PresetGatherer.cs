@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,12 +14,14 @@ namespace SayMore.Model.Files.DataGathering
 
 		public PresetGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,  PresetData.Factory presetFactory)
 			:	base(rootDirectoryPath,
-							from t in allFileTypes where t.IsAudioOrVideo select t,
-				path=>presetFactory(path))
+					allFileTypes.Where(t=>t.IsAudioOrVideo),
+					path=>presetFactory(path))
 		{
 		}
 
-		public IEnumerable<KeyValuePair<string, Dictionary<string, string>>> GetSuggestions()
+
+
+		public IEnumerable<KeyValuePair<string, Dictionary<string, string>>> GetPresets()
 		{
 			var suggestor = new UniqueCombinationsFinder(
 				from d in _fileToDataDictionary.Values

@@ -103,13 +103,30 @@ namespace SayMore.UI.ComponentEditors
 			}
 		}
 
+		/// <summary>
+		/// Called when something happens (like chosing a preset) which modifies the values of the file
+		/// directly, and we need to update the UI
+		/// </summary>
+		public void UpdateFieldsFromFile()
+		{
+			foreach (var kvp in _extendedControls)
+			{
+				if (kvp.Value)
+					UpdateControlValueFromField(kvp.Key);
+			}
+		}
 		/// ------------------------------------------------------------------------------------
 		public void BindControl(Control ctrl)
 		{
-			var key = ctrl.Name.TrimStart('_');
-			ctrl.Text = _file.GetStringValue(key, string.Empty);
+			UpdateControlValueFromField(ctrl);
 			ctrl.Validating += HandleValidatingControl;
 			ctrl.HandleDestroyed += HandleHandleDestroyed;
+		}
+
+		private void UpdateControlValueFromField(Control ctrl)
+		{
+			var key = ctrl.Name.TrimStart('_');
+			ctrl.Text = _file.GetStringValue(key, string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

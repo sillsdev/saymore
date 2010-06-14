@@ -40,7 +40,8 @@ namespace SayMore.UI.ComponentEditors
 
 		private void UsePreset(IDictionary<string, string> preset)
 		{
-			//todo: add something to the binder, probably, to make use of this preset
+			_file.UsePreset(preset);
+			_binder.UpdateFieldsFromFile();
 		}
 	}
 }

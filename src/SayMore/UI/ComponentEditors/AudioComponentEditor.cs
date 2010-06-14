@@ -30,6 +30,7 @@ namespace SayMore.UI.ComponentEditors
 			_presetMenu.Items.Clear();
 			foreach (KeyValuePair<string, Dictionary<string, string>> pair in _file.GetPresetChoices())
 			{
+				//copy to avoid the dreadd "access to modified closure"
 				KeyValuePair<string, Dictionary<string, string>> valuePair = pair;
 				_presetMenu.Items.Add(pair.Key, null, (obj, send) => UsePreset(valuePair.Value));
 			}

@@ -33,9 +33,12 @@ namespace SayMore.Model.Files.DataGathering
 			string label = "";
 			foreach (var value in dictionary.Values)
 			{
-				label += value + ", ";
+				if(!string.IsNullOrEmpty(value))
+				{
+					label += value + ", ";
+				}
 			}
-			return label.Trim(new char[] { ',' });
+			return label.Trim(new char[] {' ', ',' });
 		}
 
 		class SetComparer : IEqualityComparer<Dictionary<string, string>>

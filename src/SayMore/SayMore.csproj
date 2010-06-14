@@ -432,6 +432,10 @@
     <EmbeddedResource Include="UI\Overview\Statistics\StatisticsView.resx">
       <DependentUpon>StatisticsView.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Resources\Overview3.png" />
+    <None Include="Resources\People3.png" />
+    <None Include="Resources\SendReceive3.png" />
+    <None Include="Resources\Sessions3.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

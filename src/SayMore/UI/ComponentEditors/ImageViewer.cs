@@ -2,6 +2,8 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Files;
+using SayMore.Properties;
+using SilUtils;
 using SilUtils.Controls;
 
 namespace SayMore.UI.ComponentEditors
@@ -16,7 +18,10 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public ImageViewer(ComponentFile file)
 		{
-			_model = new ImageViewerViewModel(file.PathToAnnotatedFile);
+			var clickZoomPercentages = PortableSettingsProvider.GetIntArrayFromString(
+				Settings.Default.ImageViewerClickImageZoomPercentages);
+
+			_model = new ImageViewerViewModel(file.PathToAnnotatedFile, clickZoomPercentages);
 
 			InitializeComponent();
 			Name = "ImageViewer";
@@ -59,8 +64,8 @@ namespace SayMore.UI.ComponentEditors
 			if (_firstTimePaint)
 			{
 				_firstTimePaint = false;
-				_zoomTrackBar.Value = _model.GetPercentOfImageSizeToFitSize(100, _zoomTrackBar.Minimum,
-					_zoomTrackBar.SmallChange, _panelImage.ClientSize);
+				_zoomTrackBar.Value = _model.GetPercentOfImageSizeToFitSize(100,
+					_zoomTrackBar.Minimum, _panelImage.ClientSize);
 				return;
 			}
 

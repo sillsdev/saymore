@@ -220,6 +220,20 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Overview {
+            get {
+                object obj = ResourceManager.GetObject("Overview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap People {
+            get {
+                object obj = ResourceManager.GetObject("People", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap PersonComponentFileImage {
             get {
                 object obj = ResourceManager.GetObject("PersonComponentFileImage", resourceCulture);
@@ -241,9 +255,23 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap SendReceive {
+            get {
+                object obj = ResourceManager.GetObject("SendReceive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap SessionComponentFileImage {
             get {
                 object obj = ResourceManager.GetObject("SessionComponentFileImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Sessions {
+            get {
+                object obj = ResourceManager.GetObject("Sessions", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

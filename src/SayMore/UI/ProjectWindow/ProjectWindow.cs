@@ -24,7 +24,6 @@ namespace SayMore.UI.ProjectWindow
 		private readonly string _projectName;
 		private readonly IEnumerable<ICommand> _commands;
 
-		public static bool Resizing { get; private set; }
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -60,33 +59,6 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Remove and dispose of existing view controls.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-//		private void CleanOutViews()
-//		{
-//			Controls.Clear();
-//			//the lifetime management of the controls is handles by the DI container
-//		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void Dispose(bool disposing)
-		{
-//			if (disposing && (components != null))
-//			{
-//				CleanOutViews();
-//				components.Dispose();
-//			}
-
-			base.Dispose(disposing);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Sets the localized window title texts.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -113,31 +85,6 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnResizeBegin(System.EventArgs e)
-		{
-//			if (!Settings.Default.RedrawAsMainWindowResizes)
-//				Utils.SetWindowRedraw(this, false);
-//			else
-//				Resizing = true;
-
-			base.OnResizeBegin(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnResizeEnd(EventArgs e)
-		{
-//			if (!Settings.Default.RedrawAsMainWindowResizes)
-//				Utils.SetWindowRedraw(this, true);
-//			else
-			{
-				Resizing = false;
-				Invalidate(true);
-			}
-
-			base.OnResizeEnd(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Show the welcome dialog to allow the user to choose another project.
 		/// </summary>
@@ -148,6 +95,14 @@ namespace SayMore.UI.ProjectWindow
 			Close();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private void HandleExitClick(object sender, EventArgs e)
+		{
+			UserWantsToOpenADifferentProject = false;
+			Close();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void OnCommandMenuItem_Click(object sender, EventArgs e)
 		{
 			var handler = _commands.First(c => c.Id == (string) ((ToolStripMenuItem) sender).Tag);

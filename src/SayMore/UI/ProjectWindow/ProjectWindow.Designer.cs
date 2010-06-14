@@ -21,6 +21,10 @@ namespace SayMore.UI.ProjectWindow
 			this.components = new System.ComponentModel.Container();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this._mainToolStrip = new SayMore.UI.LowLevelControls.ElementBar();
+			this._toolStripButtonOverview = new System.Windows.Forms.ToolStripButton();
+			this._toolStripButtonSessions = new System.Windows.Forms.ToolStripButton();
+			this._toolStripButtonPeople = new System.Windows.Forms.ToolStripButton();
+			this._toolStripButtonSendReceive = new System.Windows.Forms.ToolStripButton();
 			this._toolStripButtonOpenProject = new System.Windows.Forms.ToolStripButton();
 			this._mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._menuFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -30,10 +34,6 @@ namespace SayMore.UI.ProjectWindow
 			this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this._toolStripButtonOverview = new System.Windows.Forms.ToolStripButton();
-			this._toolStripButtonSessions = new System.Windows.Forms.ToolStripButton();
-			this._toolStripButtonPeople = new System.Windows.Forms.ToolStripButton();
-			this._toolStripButtonSendReceive = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._mainToolStrip.SuspendLayout();
 			this._mainMenuStrip.SuspendLayout();
@@ -62,6 +62,70 @@ namespace SayMore.UI.ProjectWindow
 			this._mainToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this._mainToolStrip.Size = new System.Drawing.Size(697, 38);
 			this._mainToolStrip.TabIndex = 0;
+			// 
+			// _toolStripButtonOverview
+			// 
+			this._toolStripButtonOverview.AutoSize = false;
+			this._toolStripButtonOverview.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this._toolStripButtonOverview.Image = global::SayMore.Properties.Resources.Overview;
+			this._toolStripButtonOverview.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this._toolStripButtonOverview.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._toolStripButtonOverview, "Project Overview");
+			this.locExtender.SetLocalizationComment(this._toolStripButtonOverview, null);
+			this.locExtender.SetLocalizingId(this._toolStripButtonOverview, "MainWnd.tsbOverview");
+			this._toolStripButtonOverview.Margin = new System.Windows.Forms.Padding(10, 4, 0, 4);
+			this._toolStripButtonOverview.Name = "_toolStripButtonOverview";
+			this._toolStripButtonOverview.Size = new System.Drawing.Size(40, 30);
+			this._toolStripButtonOverview.Text = "Overview";
+			this._toolStripButtonOverview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			// 
+			// _toolStripButtonSessions
+			// 
+			this._toolStripButtonSessions.AutoSize = false;
+			this._toolStripButtonSessions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this._toolStripButtonSessions.Image = global::SayMore.Properties.Resources.Sessions;
+			this._toolStripButtonSessions.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this._toolStripButtonSessions.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._toolStripButtonSessions, "Manage Sessions");
+			this.locExtender.SetLocalizationComment(this._toolStripButtonSessions, null);
+			this.locExtender.SetLocalizingId(this._toolStripButtonSessions, "MainWnd.tsbSessions");
+			this._toolStripButtonSessions.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
+			this._toolStripButtonSessions.Name = "_toolStripButtonSessions";
+			this._toolStripButtonSessions.Size = new System.Drawing.Size(40, 30);
+			this._toolStripButtonSessions.Text = "Sessions";
+			this._toolStripButtonSessions.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			// 
+			// _toolStripButtonPeople
+			// 
+			this._toolStripButtonPeople.AutoSize = false;
+			this._toolStripButtonPeople.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this._toolStripButtonPeople.Image = global::SayMore.Properties.Resources.People;
+			this._toolStripButtonPeople.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this._toolStripButtonPeople.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._toolStripButtonPeople, "Manage List of People");
+			this.locExtender.SetLocalizationComment(this._toolStripButtonPeople, null);
+			this.locExtender.SetLocalizingId(this._toolStripButtonPeople, "MainWnd.tsbPeople");
+			this._toolStripButtonPeople.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
+			this._toolStripButtonPeople.Name = "_toolStripButtonPeople";
+			this._toolStripButtonPeople.Size = new System.Drawing.Size(40, 30);
+			this._toolStripButtonPeople.Text = "People";
+			this._toolStripButtonPeople.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			// 
+			// _toolStripButtonSendReceive
+			// 
+			this._toolStripButtonSendReceive.AutoSize = false;
+			this._toolStripButtonSendReceive.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this._toolStripButtonSendReceive.Image = global::SayMore.Properties.Resources.SendReceive;
+			this._toolStripButtonSendReceive.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this._toolStripButtonSendReceive.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._toolStripButtonSendReceive, "Send/Receive");
+			this.locExtender.SetLocalizationComment(this._toolStripButtonSendReceive, null);
+			this.locExtender.SetLocalizingId(this._toolStripButtonSendReceive, "MainWnd.tsbSendReceive");
+			this._toolStripButtonSendReceive.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
+			this._toolStripButtonSendReceive.Name = "_toolStripButtonSendReceive";
+			this._toolStripButtonSendReceive.Size = new System.Drawing.Size(40, 30);
+			this._toolStripButtonSendReceive.Text = "Send/Receive";
+			this._toolStripButtonSendReceive.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
 			// _toolStripButtonOpenProject
 			// 
@@ -149,6 +213,7 @@ namespace SayMore.UI.ProjectWindow
 			this._menuExit.Name = "_menuExit";
 			this._menuExit.Size = new System.Drawing.Size(163, 22);
 			this._menuExit.Text = "E&xit";
+			this._menuExit.Click += new System.EventHandler(this.HandleExitClick);
 			// 
 			// fileToolStripMenuItem
 			// 
@@ -158,70 +223,6 @@ namespace SayMore.UI.ProjectWindow
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "&File";
-			// 
-			// _toolStripButtonOverview
-			// 
-			this._toolStripButtonOverview.AutoSize = false;
-			this._toolStripButtonOverview.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this._toolStripButtonOverview.Image = global::SayMore.Properties.Resources.Overview;
-			this._toolStripButtonOverview.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this._toolStripButtonOverview.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._toolStripButtonOverview, "Project Overview");
-			this.locExtender.SetLocalizationComment(this._toolStripButtonOverview, null);
-			this.locExtender.SetLocalizingId(this._toolStripButtonOverview, "MainWnd.tsbOverview");
-			this._toolStripButtonOverview.Margin = new System.Windows.Forms.Padding(10, 4, 0, 4);
-			this._toolStripButtonOverview.Name = "_toolStripButtonOverview";
-			this._toolStripButtonOverview.Size = new System.Drawing.Size(40, 30);
-			this._toolStripButtonOverview.Text = "Overview";
-			this._toolStripButtonOverview.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			// 
-			// _toolStripButtonSessions
-			// 
-			this._toolStripButtonSessions.AutoSize = false;
-			this._toolStripButtonSessions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this._toolStripButtonSessions.Image = global::SayMore.Properties.Resources.Sessions;
-			this._toolStripButtonSessions.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this._toolStripButtonSessions.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._toolStripButtonSessions, "Manage Sessions");
-			this.locExtender.SetLocalizationComment(this._toolStripButtonSessions, null);
-			this.locExtender.SetLocalizingId(this._toolStripButtonSessions, "MainWnd.tsbSessions");
-			this._toolStripButtonSessions.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this._toolStripButtonSessions.Name = "_toolStripButtonSessions";
-			this._toolStripButtonSessions.Size = new System.Drawing.Size(40, 30);
-			this._toolStripButtonSessions.Text = "Sessions";
-			this._toolStripButtonSessions.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			// 
-			// _toolStripButtonPeople
-			// 
-			this._toolStripButtonPeople.AutoSize = false;
-			this._toolStripButtonPeople.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this._toolStripButtonPeople.Image = global::SayMore.Properties.Resources.People;
-			this._toolStripButtonPeople.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this._toolStripButtonPeople.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._toolStripButtonPeople, "Manage List of People");
-			this.locExtender.SetLocalizationComment(this._toolStripButtonPeople, null);
-			this.locExtender.SetLocalizingId(this._toolStripButtonPeople, "MainWnd.tsbPeople");
-			this._toolStripButtonPeople.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this._toolStripButtonPeople.Name = "_toolStripButtonPeople";
-			this._toolStripButtonPeople.Size = new System.Drawing.Size(40, 30);
-			this._toolStripButtonPeople.Text = "People";
-			this._toolStripButtonPeople.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			// 
-			// _toolStripButtonSendReceive
-			// 
-			this._toolStripButtonSendReceive.AutoSize = false;
-			this._toolStripButtonSendReceive.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this._toolStripButtonSendReceive.Image = global::SayMore.Properties.Resources.SendReceive;
-			this._toolStripButtonSendReceive.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this._toolStripButtonSendReceive.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._toolStripButtonSendReceive, "Send/Receive");
-			this.locExtender.SetLocalizationComment(this._toolStripButtonSendReceive, null);
-			this.locExtender.SetLocalizingId(this._toolStripButtonSendReceive, "MainWnd.tsbSendReceive");
-			this._toolStripButtonSendReceive.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this._toolStripButtonSendReceive.Name = "_toolStripButtonSendReceive";
-			this._toolStripButtonSendReceive.Size = new System.Drawing.Size(40, 30);
-			this._toolStripButtonSendReceive.Text = "Send/Receive";
-			this._toolStripButtonSendReceive.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			// 
 			// ProjectWindow
 			// 

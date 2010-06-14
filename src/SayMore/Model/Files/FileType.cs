@@ -93,7 +93,7 @@ namespace SayMore.Model.Files
 
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new PersonBasicEditor(file), "Technical", "Technical"));
+				_providers.Add(new EditorProvider(new PersonBasicEditor(file), "Person", "Person"));
 				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
 				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
 			}
@@ -138,7 +138,7 @@ namespace SayMore.Model.Files
 
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new SessionBasicEditor(file), "Technical", "Technical"));
+				_providers.Add(new EditorProvider(new SessionBasicEditor(file), "Session", "Session"));
 				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
 				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
 			}

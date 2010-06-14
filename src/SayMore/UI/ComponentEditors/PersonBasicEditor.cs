@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
+using SIL.Localization;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -13,6 +17,8 @@ namespace SayMore.UI.ComponentEditors
 	{
 		private readonly List<ParentButton> _fatherButtons = new List<ParentButton>();
 		private readonly List<ParentButton> _motherButtons = new List<ParentButton>();
+		private readonly string _personFolder;
+		private string _photoFileWithoutExt;
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file)
@@ -39,6 +45,11 @@ namespace SayMore.UI.ComponentEditors
 			_pbOtherLangMother3.Tag = _otherLanguage3;
 
 			GetParentLanguages();
+
+			_personFolder = Path.GetDirectoryName(file.PathToAnnotatedFile);
+			var filename = Path.GetFileNameWithoutExtension(file.PathToAnnotatedFile);
+			_photoFileWithoutExt = filename + "_Photo";
+			LoadPersonsPhoto();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -46,7 +57,7 @@ namespace SayMore.UI.ComponentEditors
 		/// Set values for unbound controls that need special handling.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleDestroyed(System.EventArgs e)
+		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			SetParentLanguages();
 			base.OnHandleDestroyed(e);
@@ -111,11 +122,50 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandlePersonPictureMouseClick(object sender, MouseEventArgs e)
 		{
-			// TODO: Shoe open file dialog to let user pick photo.
+			using (var dlg = new OpenFileDialog())
+			{
+				var caption = LocalizationManager.LocalizeString(
+					"PeopleView.ChangePictureDlgCaption", "Change Picture", "Views");
+
+				dlg.Title = caption;
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
+				dlg.Multiselect = false;
+				dlg.Filter = "JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|" +
+					"TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|" +
+					"Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*";
+
+				if (dlg.ShowDialog(this) == DialogResult.OK)
+				{
+					var dest = _photoFileWithoutExt + Path.GetExtension(dlg.FileName);
+					dest = Path.Combine(_personFolder, dest);
+
+					// TODO: Add error handling
+					File.Copy(dlg.FileName, dest);
+					LoadPersonsPhoto();
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandlePersonPictureMouseEnterLeave(object sender, System.EventArgs e)
+		private void LoadPersonsPhoto()
+		{
+			// TODO: Add error handling
+
+			var photoFiles = Directory.GetFiles(_personFolder, _photoFileWithoutExt + ".*");
+			if (photoFiles.Length > 0)
+			{
+				// Do this instead of using the Load method because Load keeps a lock on the file.
+				using (var fs = new FileStream(photoFiles[0], FileMode.Open, FileAccess.Read))
+				{
+					_picture.Image = Image.FromStream(fs);
+					fs.Close();
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePersonPictureMouseEnterLeave(object sender, EventArgs e)
 		{
 			_picture.Invalidate();
 		}

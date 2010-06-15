@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using SayMore.UI.SendReceive;
 using SIL.Localization;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
@@ -48,10 +49,15 @@ namespace SayMore.UI.ProjectWindow
 
 			_projectName = projectName;
 			_commands = commands;
-			var views = new Control[] { overviewScreen, sessionsScreen, personsScreen };
 
-			Controls.AddRange(views);
-			_viewManger = new ViewButtonManager(_mainToolStrip, views);
+			//var views = new Control[] { overviewScreen, sessionsScreen, personsScreen };
+			//Controls.AddRange(views);
+			//_viewManger = new ViewButtonManager(_mainToolStrip, views);
+
+			_viewTabGroup.AddTab("Sessions", sessionsScreen);
+			_viewTabGroup.AddTab("People", personsScreen);
+			_viewTabGroup.AddTab("Progress", overviewScreen);
+			_viewTabGroup.AddTab("Send/Receive", new SendReceiveScreen());
 
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
@@ -74,7 +80,8 @@ namespace SayMore.UI.ProjectWindow
 			Settings.Default.ProjectWindow.InitializeForm(this);
 			base.OnLoad(e);
 
-			_viewManger.SetView(_toolStripButtonSessions);
+			//_viewManger.SetView(_toolStripButtonSessions);
+			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
 		}
 
 		/// ------------------------------------------------------------------------------------

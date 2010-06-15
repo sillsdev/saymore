@@ -44,6 +44,19 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override string Text
+		{
+			get { return "Sessions"; }
+			set { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public System.Drawing.Image Image
+		{
+			get { return Resources.Sessions; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			Settings.Default.SessionScreenElementsListSplitterPos = _elementListSplitter.SplitterDistance;

@@ -1,3 +1,4 @@
+using System.Drawing;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
@@ -7,6 +8,7 @@ namespace SayMore.UI.ElementListScreen
 	/// ----------------------------------------------------------------------------------------
 	public partial class PersonListScreen : ConcretePersonListScreen, ISayMoreView
 	{
+		/// ------------------------------------------------------------------------------------
 		public PersonListScreen(ElementListViewModel<Person> presentationModel)
 			: base(presentationModel)
 		{
@@ -17,6 +19,19 @@ namespace SayMore.UI.ElementListScreen
 
 			Initialize(_tabComponentEditors, _componentFileGrid, _peopleListPanel);
 			_componentFileGrid.InitializeGrid("PersonScreen");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string Text
+		{
+			get { return "People"; }
+			set { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Image Image
+		{
+			get { return Resources.People; }
 		}
 
 		/// ------------------------------------------------------------------------------------

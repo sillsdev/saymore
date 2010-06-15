@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SilUtils;
@@ -18,6 +19,7 @@ namespace SayMore.UI.ProjectWindow
 		void ViewDeactivated();
 		//bool IsViewActive { get; }
 		bool IsOKToLeaveView(bool showMsgWhenNotOK);
+		Image Image { get; }
 	}
 
 	/// ----------------------------------------------------------------------------------------

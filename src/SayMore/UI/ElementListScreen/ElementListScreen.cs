@@ -55,8 +55,8 @@ namespace SayMore.UI.ElementListScreen
 			//imgList.Images.Add("Contributors", Resources.ContributorsTabImage);
 			imgList.Images.Add("Notes", Resources.NotesTabImage);
 			imgList.Images.Add("Play", Resources.PlayTabImage);
-			imgList.Images.Add("Person", Resources.PersonComponentFileImage);
-			imgList.Images.Add("Session", Resources.SessionComponentFileImage);
+			imgList.Images.Add("Person", Resources.PersonFileImage);
+			imgList.Images.Add("Session", Resources.SessionFileImage);
 			imgList.Images.Add("Technical", Resources.TechnicalTabImage);
 			imgList.Images.Add("View", Resources.ViewTabImage);
 			_componentEditorsTabControl.ImageList = imgList;

@@ -124,12 +124,6 @@
   <data name="kimidFemale_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Female_Selected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidChangeProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FolderOpen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="kimidSetup" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Setup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="kimidWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -154,14 +148,8 @@
   <data name="kimidNoPhoto" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NoPhotoSilhouette.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidOverview" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Overview.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="kimidSendReceive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SendReceive.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="kimidSessions" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sessions.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="wmpOcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -176,9 +164,6 @@
   </data>
   <data name="kimidMoreAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\More_Action.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="kimidPeople" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\People.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidNewProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NewProject.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -198,38 +183,14 @@
   <data name="ViewTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ViewTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SmallOverviewImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Overview2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SmallPeopleImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\People2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SmallSendReceiveImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SendReceive2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SmallSessionsImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sessions2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SmallSetupImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Setup2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SmallOpenProjectImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OpenProject2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="AudioComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AudioComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ImageComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ImageComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="VideoComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\VideoComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="PersonComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PersonComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SessionComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SessionComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LargeSayMoreLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SayMoreLogo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -243,13 +204,31 @@
   <data name="Overview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Overview3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="People" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\People3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SendReceive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SendReceive3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="AudioFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AudioFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="People" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\People4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PersonFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PersonFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Progress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Progress.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SessionFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SessionFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Sessions" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sessions3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Sessions4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VideoFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VideoFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -14,7 +14,7 @@
    height="1052.3622047"
    id="svg2819"
    version="1.1"
-   inkscape:version="0.47pre3 "
+   inkscape:version="0.47 r22583"
    sodipodi:docname="iconIdeas.svg">
   <defs
      id="defs2821">
@@ -1660,6 +1660,13 @@
          stdDeviation="0.68008488"
          id="feGaussianBlur3864" />
     </filter>
+    <inkscape:perspective
+       id="perspective3624"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -1668,14 +1675,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="827.62712"
-     inkscape:cy="608.62997"
+     inkscape:zoom="0.86184506"
+     inkscape:cx="329.15617"
+     inkscape:cy="493.09917"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1574"
-     inkscape:window-height="1028"
+     inkscape:window-width="1440"
+     inkscape:window-height="838"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
@@ -1687,7 +1694,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1728,24 +1735,30 @@
        width="24.428574"
        id="rect4636"
        style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    <rect
-       style="fill:#496a99;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="rect1971"
-       width="24.428574"
-       height="19.857143"
-       x="99.921249"
-       y="398.00137"
-       ry="2.2888284" />
-    <path
-       style="fill:#496a99;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       d="m 122.92125,404.2871 8,-6 6,0 0,19 -6,0 -8,-6"
-       id="path1973"
-       sodipodi:nodetypes="cccccc" />
-    <path
-       style="fill:none;stroke:#496a99;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 105.45142,392.2871 12.40444,0 0.0654,8"
-       id="path1975"
-       sodipodi:nodetypes="ccc" />
+    <g
+       id="g3227"
+       inkscape:export-filename="C:\Users\Olson\Desktop\VideoFileImage.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         ry="2.2888284"
+         y="398.00137"
+         x="99.921249"
+         height="19.857143"
+         width="24.428574"
+         id="rect1971"
+         style="fill:#496a99;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+      <path
+         sodipodi:nodetypes="cccccc"
+         id="path1973"
+         d="m 122.92125,404.2871 8,-6 6,0 0,19 -6,0 -8,-6"
+         style="fill:#496a99;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+      <path
+         sodipodi:nodetypes="ccc"
+         id="path1975"
+         d="m 105.45142,392.2871 12.40444,0 0.0654,8"
+         style="fill:none;stroke:#496a99;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
     <g
        transform="matrix(0.830277,0,0,0.886989,965.99179,569.05244)"
        id="g18949"
@@ -2300,5 +2313,53 @@
        style="fill:none;stroke:#917a7a;stroke-width:1.31825852;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m 151.79053,316.50025 0.18681,235.52484"
        id="path5249" />
+    <g
+       id="g4023">
+      <path
+         id="rect2383"
+         d="m 165.34269,647.25393 c -22.356,0 -40.5,5.824 -40.5,13 0,0.36284 0.0653,0.70715 0.15625,1.0625 l -7.78126,0 c -9.58443,0 -17.281246,7.72806 -17.281246,17.3125 l 0,136.21875 c 0,9.58444 7.696816,17.3125 17.281246,17.3125 l 252.25001,0 c 9.58444,0 17.28123,-7.72806 17.28125,-17.3125 l 0,-136.21875 c 0,-9.58444 -7.69681,-17.3125 -17.28125,-17.3125 l -163.78125,0 c 0.091,-0.35535 0.15625,-0.69966 0.15625,-1.0625 0,-7.176 -18.144,-13 -40.5,-13 z"
+         style="fill:#c04200;fill-opacity:1;stroke:none" />
+      <path
+         transform="matrix(1.1067616,0,0,1.1067616,-88.346173,552.93967)"
+         d="m 313,174.36218 c 0,28.71881 -23.28119,52 -52,52 -28.71881,0 -52,-23.28119 -52,-52 0,-28.7188 23.28119,-52 52,-52 28.71881,0 52,23.2812 52,52 z"
+         sodipodi:ry="52"
+         sodipodi:rx="52"
+         sodipodi:cy="174.36218"
+         sodipodi:cx="261"
+         id="path3155"
+         style="fill:#ffffff;fill-opacity:1;stroke:none"
+         sodipodi:type="arc" />
+      <rect
+         ry="15.5"
+         y="676.24109"
+         x="290.84268"
+         height="31"
+         width="80"
+         id="rect3157"
+         style="fill:#ffffff;fill-opacity:1;stroke:none" />
+      <path
+         transform="matrix(0.85831808,0,0,0.85831808,21.130125,592.82555)"
+         d="m 253,178.36218 c 0,24.30053 -19.69947,44 -44,44 -24.30053,0 -44,-19.69947 -44,-44 0,-24.30053 19.69947,-44 44,-44 24.30053,0 44,19.69947 44,44 z"
+         sodipodi:ry="44"
+         sodipodi:rx="44"
+         sodipodi:cy="178.36218"
+         sodipodi:cx="209"
+         id="path3164"
+         style="fill:#c04200;fill-opacity:1;stroke:none"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:nodetypes="csssc"
+         id="path3371"
+         d="m 204.72654,658.1894 c 0.092,5.67307 1.82703,4.65826 -35.15261,4.73298 -42.97573,0.0868 -43.41824,0.60568 -43.49535,-4.14723 -0.092,-5.67308 18.87725,-12.31519 38.34196,-12.35451 19.46477,-0.0393 40.21394,6.0957 40.306,11.76876 z"
+         style="fill:#c04200;fill-opacity:1;stroke:none" />
+      <rect
+         ry="0"
+         y="631.24109"
+         x="79.842682"
+         height="218"
+         width="323"
+         id="rect2410"
+         style="opacity:0;fill:#000000;fill-opacity:0.1709402;stroke:none" />
+    </g>
   </g>
 </svg>

@@ -1,12 +1,12 @@
 using System.Windows.Forms;
+using SayMore.Properties;
 using SayMore.UI.Overview.Statistics;
-
+using SayMore.UI.ProjectWindow;
 
 namespace SayMore.UI.Overview
 {
-	public partial class OverviewScreen : UserControl
+	public partial class OverviewScreen : UserControl, ISayMoreView
 	{
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OverviewScreen"/> class.
@@ -17,8 +17,7 @@ namespace SayMore.UI.Overview
 			InitializeComponent();
 			var statisticsView = new StatisticsView(statisticsModel);
 			statisticsView.Dock = DockStyle.Fill;
-			this.Controls.Add(statisticsView);
-
+			Controls.Add(statisticsView);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -29,11 +28,41 @@ namespace SayMore.UI.Overview
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && (components != null))
-			{
 				components.Dispose();
-			}
 
 			base.Dispose(disposing);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string Text
+		{
+			get { return "Progress"; }
+			set { }
+		}
+
+		#region ISayMoreView Members
+		/// ------------------------------------------------------------------------------------
+		public void ViewActivated(bool firstTime)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ViewDeactivated()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsOKToLeaveView(bool showMsgWhenNotOK)
+		{
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public System.Drawing.Image Image
+		{
+			get { return Resources.Progress; }
+		}
+
+		#endregion
 	}
 }

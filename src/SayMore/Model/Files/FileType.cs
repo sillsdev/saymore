@@ -184,7 +184,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.SessionComponentFileImage; }
+			get { return Resources.SessionFileImage; }
 		}
 	}
 
@@ -219,11 +219,10 @@ namespace SayMore.Model.Files
 			return _providers;
 		}
 
-
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get {return Resources.AudioComponentFileImage;}
+			get {return Resources.AudioFileImage;}
 		}
 	}
 
@@ -261,7 +260,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.VideoComponentFileImage; }
+			get { return Resources.VideoFileImage; }
 		}
 	}
 
@@ -293,7 +292,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.ImageComponentFileImage; }
+			get { return Resources.ImageFileImage; }
 		}
 	}
 

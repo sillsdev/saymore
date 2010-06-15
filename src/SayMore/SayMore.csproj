@@ -112,6 +112,7 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Session.cs" />
+    <None Include="Resources\ViewTab.cs" />
     <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -408,6 +409,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UI\ProjectWindow\ViewTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ProjectWindow\ViewTabGroup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\SendReceive\SendReceiveScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\Utilities\IconHelper.cs" />
     <Compile Include="UI\Utilities\AppColors.cs" />
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
@@ -443,6 +453,14 @@
     <None Include="Resources\People3.png" />
     <None Include="Resources\SendReceive3.png" />
     <None Include="Resources\Sessions3.png" />
+    <None Include="Resources\AudioFileImage.png" />
+    <None Include="Resources\ImageFileImage.png" />
+    <None Include="Resources\People4.png" />
+    <None Include="Resources\PersonFileImage.png" />
+    <None Include="Resources\Progress.png" />
+    <None Include="Resources\SessionFileImage.png" />
+    <None Include="Resources\Sessions4.png" />
+    <None Include="Resources\VideoFileImage.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using SayMore.Model.Fields;
@@ -14,7 +15,8 @@ namespace SayMore.Model.Files.DataGathering
 	{
 		public delegate LanguageNameGatherer Factory(string rootDirectoryPath);
 
-		public LanguageNameGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,ComponentFile.Factory componentFileFactory)
+		public LanguageNameGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,
+			ComponentFile.Factory componentFileFactory)
 			:	base(rootDirectoryPath,
 					allFileTypes.Where(t => t.GetType() == typeof(PersonFileType)),
 					path => ExtractLanguages(path, componentFileFactory))
@@ -27,9 +29,15 @@ namespace SayMore.Model.Files.DataGathering
 			var langs = new List<string>();
 			foreach (FieldValue field in f.MetaDataFieldValues)
 			{
-				if (field.FieldDefinitionKey.Contains("lang"))
+				if (field.FieldDefinitionKey.ToLower().Contains("lang")
+					&& !field.FieldDefinitionKey.ToLower().Contains("learned")
+					&& !string.IsNullOrEmpty(field.Value))
 				{
-					langs.AddRange(field.Value.Split(new char[] {',', ';'}));
+					var langsInField = from l in field.Value.Split(new char[] {',', ';'})
+									 where l.Trim().Length > 0
+									 select l.Trim();
+					Debug.WriteLine("LanguageNameGather: " + field.FieldDefinitionKey + ": " + langsInField.Aggregate((a, b) => a + ", " + b));
+					langs.AddRange(langsInField);
 				}
 			}
 			return langs;

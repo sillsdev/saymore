@@ -31,9 +31,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public Control GetEditor(ComponentFile file)
 		{
-			//NB: in the future, we can do more complicated things like reusing controls,
-			//constructing controls using the DI container, etc.
-			//This will be invisible to the client.
+			//NB: notice that this reuses the same control for every item
 			return Control;
 		}
 	}

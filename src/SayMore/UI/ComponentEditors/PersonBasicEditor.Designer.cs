@@ -1,3 +1,5 @@
+using SayMore.UI.LowLevelControls;
+
 namespace SayMore.UI.ComponentEditors
 {
 	partial class PersonBasicEditor
@@ -41,12 +43,12 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother2 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._pbOtherLangMother1 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._pbOtherLangFather1 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._otherLanguage3 = new System.Windows.Forms.TextBox();
-			this._otherLanguage0 = new System.Windows.Forms.TextBox();
+			this._otherLanguage3 = new AutoCompleteTextBox();
+			this._otherLanguage0 = new AutoCompleteTextBox();
 			this._pbOtherLangFather0 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._otherLanguage1 = new System.Windows.Forms.TextBox();
+			this._otherLanguage1 = new AutoCompleteTextBox();
 			this._pbOtherLangMother0 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._otherLanguage2 = new System.Windows.Forms.TextBox();
+			this._otherLanguage2 = new AutoCompleteTextBox();
 			this._pbOtherLangFather2 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._pbOtherLangFather3 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._gender = new System.Windows.Forms.ComboBox();
@@ -55,7 +57,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangMother = new SayMore.UI.LowLevelControls.ParentButton();
 			this._pbPrimaryLangFather = new SayMore.UI.LowLevelControls.ParentButton();
 			this._labelPrimaryLanguageLearnedIn = new System.Windows.Forms.Label();
-			this._primaryLanguage = new System.Windows.Forms.TextBox();
+			this._primaryLanguage = new AutoCompleteTextBox();
 			this._primaryLanguageLearnedIn = new System.Windows.Forms.TextBox();
 			this._labelgender = new System.Windows.Forms.Label();
 			this._labelEducation = new System.Windows.Forms.Label();
@@ -281,6 +283,8 @@ namespace SayMore.UI.ComponentEditors
 			// _otherLanguage3
 			// 
 			this._otherLanguage3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._otherLanguage3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this._otherLanguage3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._otherLanguage3, true);
 			this._otherLanguage3.Location = new System.Drawing.Point(0, 96);
 			this._otherLanguage3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -315,6 +319,8 @@ namespace SayMore.UI.ComponentEditors
 			// _otherLanguage1
 			// 
 			this._otherLanguage1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._otherLanguage1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this._otherLanguage1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._otherLanguage1, true);
 			this._otherLanguage1.Location = new System.Drawing.Point(0, 36);
 			this._otherLanguage1.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -337,6 +343,8 @@ namespace SayMore.UI.ComponentEditors
 			// _otherLanguage2
 			// 
 			this._otherLanguage2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._otherLanguage2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this._otherLanguage2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._otherLanguage2, true);
 			this._otherLanguage2.Location = new System.Drawing.Point(0, 66);
 			this._otherLanguage2.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
@@ -596,7 +604,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TextBox _birthYear;
 		private System.Windows.Forms.TableLayoutPanel _tblLayoutOuter;
 		private SayMore.UI.LowLevelControls.UnderlinedHdgBox _pnlPrimaryLanguage;
-		private System.Windows.Forms.TextBox _primaryLanguage;
+		private AutoCompleteTextBox _primaryLanguage;
 		private System.Windows.Forms.Label _labelPrimaryLanguageLearnedIn;
 		private System.Windows.Forms.TextBox _primaryLanguageLearnedIn;
 		private System.Windows.Forms.TableLayoutPanel _tblLayoutPrimaryLanguage;
@@ -609,10 +617,10 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TableLayoutPanel _tblLayoutOtherLanguages;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother0;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather0;
-		private System.Windows.Forms.TextBox _otherLanguage0;
-		private System.Windows.Forms.TextBox _otherLanguage1;
-		private System.Windows.Forms.TextBox _otherLanguage2;
-		private System.Windows.Forms.TextBox _otherLanguage3;
+		private AutoCompleteTextBox _otherLanguage0;
+		private AutoCompleteTextBox _otherLanguage1;
+		private AutoCompleteTextBox _otherLanguage2;
+		private AutoCompleteTextBox _otherLanguage3;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother3;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother2;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother1;

@@ -39,7 +39,7 @@ namespace SayMoreTests.Model
 
 		private Person CreatePerson()
 		{
-			return new Person(_parentFolder.Path, "xyz", MakeComponent, new FileSerializer());
+			return new Person(_parentFolder.Path, "xyz", MakeComponent, new FileSerializer(), new PersonFileType(()=>null));
 		}
 
 		public string SetValue(Person person, string key, string value)

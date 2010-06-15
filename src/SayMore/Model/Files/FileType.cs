@@ -74,16 +74,35 @@ namespace SayMore.Model.Files
 		{
 			return Name;
 		}
+
+		public virtual string GetMetaFilePath(string pathToAnnotatedFile)
+		{
+			return pathToAnnotatedFile + Settings.Default.MetadataFileExtension;
+		}
 	}
 
 	#region PersonFileType class
 	/// ----------------------------------------------------------------------------------------
 	public class PersonFileType : FileType
 	{
-		/// ------------------------------------------------------------------------------------
-		public PersonFileType() : base("Person", p => p.EndsWith(".person"))
+		private readonly Func<PersonBasicEditor.Factory> _personBasicEditorFactoryLazy;
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="personBasicEditorFactoryLazy">This is to get us around a circular dependency
+		/// error in autofac.  NB: when we move to .net 4, this can be replaced by Lazy<Func<PersonBasicEditor.Factory></param>
+		public PersonFileType(Func<PersonBasicEditor.Factory> personBasicEditorFactoryLazy)
+			: base("Person", p => p.EndsWith(".person"))
 		{
+			_personBasicEditorFactoryLazy = personBasicEditorFactoryLazy;
 		}
+
+		public override string GetMetaFilePath(string pathToAnnotatedFile)
+		{
+			return pathToAnnotatedFile; //we are our own metadata file, there is no sidecar
+		}
+
 
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
@@ -93,7 +112,7 @@ namespace SayMore.Model.Files
 
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new PersonBasicEditor(file), "Person", "Person"));
+				_providers.Add(new EditorProvider(_personBasicEditorFactoryLazy()(file), "Person", "Person"));
 				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
 				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
 			}
@@ -145,6 +164,12 @@ namespace SayMore.Model.Files
 
 			return _providers;
 		}
+
+		public override string GetMetaFilePath(string pathToAnnotatedFile)
+		{
+			return pathToAnnotatedFile; //we are our own metadata file, there is no sidecar
+		}
+
 
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> Commands

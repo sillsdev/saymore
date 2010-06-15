@@ -76,15 +76,18 @@ namespace SayMore.Model.Files
 			_statisticsProvider = statisticsProvider;
 			_presetProvider = presetProvider;
 
+			DetermineFileType(pathToAnnotatedFile, fileTypes);
+
 			// we musn't do anything to remove the existing extension, as that is needed
 			// to keep, say, foo.wav and foo.txt separate. Instead, we just append ".meta"
-			_metaDataPath = ComputeMetaDataPath(pathToAnnotatedFile);
-
-			_rootElementName = "MetaData";
+			//_metaDataPath = ComputeMetaDataPath(pathToAnnotatedFile);
 
 			MetaDataFieldValues = new List<FieldValue>();
 
-			DetermineFileType(pathToAnnotatedFile, fileTypes);
+			_metaDataPath = this.FileType.GetMetaFilePath(pathToAnnotatedFile);
+
+			_rootElementName = "MetaData";
+
 
 			if (File.Exists(_metaDataPath))
 				Load();
@@ -111,11 +114,7 @@ namespace SayMore.Model.Files
 				}
 			}
 		}
-		/// ------------------------------------------------------------------------------------
-		private static string ComputeMetaDataPath(string pathToAnnotatedFile)
-		{
-			return pathToAnnotatedFile + Settings.Default.MetadataFileExtension;
-		}
+
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -322,10 +321,11 @@ namespace SayMore.Model.Files
 			try
 			{
 				File.Move(PathToAnnotatedFile, newPath);
-				var newMetaPath = ComputeMetaDataPath(newPath);
+				var newMetaPath = this.FileType.GetMetaFilePath(newPath);
 				//enhance: if somethine goes wrong from here down,
 				//this would leave us with one file renamed, but not the other.
-				if (File.Exists(_metaDataPath))
+				if (newMetaPath != newPath //some types don't have a separate sidecar file (e.g. Person, Session)
+					&& File.Exists(_metaDataPath))
 				{
 					File.Move(_metaDataPath, newMetaPath);
 				}

@@ -129,12 +129,17 @@ namespace SayMore.Model.Files.DataGathering
 					Status = "Up to date";
 				}
 			}
-			catch (Exception)
+			catch (ThreadAbortException)
 			{
-#if DEBUG
-				//nothing here is worth crashing over in release build
-				throw;
+				//this is fine, it happens when we quit
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.Message);
+#if  DEBUG
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Error gathering data");
 #endif
+				//nothing here is worth crashing over
 			}
 		}
 
@@ -173,6 +178,10 @@ namespace SayMore.Model.Files.DataGathering
 						_fileToDataDictionary.Add(actualPath, fileData);
 					}
 				}
+			}
+			catch (ThreadAbortException)
+			{
+				//this is fine, it happens when we quit
 			}
 			catch (Exception e)
 			{

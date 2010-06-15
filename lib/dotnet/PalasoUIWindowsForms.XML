@@ -1361,5 +1361,17 @@
 			Given some existing writiting system definitions for a language, what other ones might they want ot add?
 			</summary>
 		</member>
+		<member name="T:Palaso.UI.WindowsForms.ControlExtensions">
+			<summary>
+			Convenience extensions for controls
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ControlExtensions.InvokeIfRequired(System.Windows.Forms.Control,System.Action)">
+			<summary>
+			If the method might be in a different thread, this will do an invoke,
+			otherwise it just invokes the action
+			</summary>
+			<example>InvokeIfRequired(BackgroundColor=Color.Blue);</example>
+		</member>
 	</members>
 </doc>

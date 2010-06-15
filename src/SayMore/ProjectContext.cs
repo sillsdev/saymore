@@ -24,6 +24,7 @@ namespace SayMore
 		/// and disposed of along with this ProjectContext class
 		/// </summary>
 		private ILifetimeScope _scope;
+		//private IEnumerable<FileType> _fileTypes = null;
 
 		public Project Project { get; private set; }
 		public ProjectWindow ProjectWindow { get; private set; }
@@ -45,6 +46,7 @@ namespace SayMore
 			//Start up the background operations
 			_scope.Resolve<AudioVideoDataGatherer>().Start();
 			_scope.Resolve<PresetGatherer>().Start();
+			_scope.Resolve<LanguageNameGatherer>().Start();
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
 		}
@@ -62,14 +64,23 @@ namespace SayMore
 
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c)).InstancePerLifetimeScope();
+//				builder.Register<IEnumerable<FileType>>(c =>
+//				                                        	{
+//				                                        		if (_fileTypes == null)
+//				                                        		{
+//				                                        			_fileTypes = GetFilesTypes(c);
+//				                                        		}
+//				                                        		return _fileTypes;
+//				                                        	});
+//
 
 				//these needed to be done later (as delegates) because of the FileTypes dependency
 				//there's maybe something I'm doing wrong that requires me to register this twice like this...
-				builder.Register<IProvideAudioVideoFileStatistics>(c => new AudioVideoDataGatherer(rootDirectoryPath,
-																								   c.Resolve<IEnumerable<FileType>>()))
-					.InstancePerLifetimeScope();
-					;
-				//.As<IProvideAudioVideoFileStatistics>().As<AudioVideoDataGatherer>();
+				builder.Register<IProvideAudioVideoFileStatistics>(
+					c => new AudioVideoDataGatherer(rootDirectoryPath,
+													c.Resolve<IEnumerable<FileType>>()))
+												.InstancePerLifetimeScope();
+
 				builder.Register<AudioVideoDataGatherer>(c => c.Resolve(typeof (IProvideAudioVideoFileStatistics))
 																		as AudioVideoDataGatherer).InstancePerLifetimeScope();
 				;
@@ -78,20 +89,36 @@ namespace SayMore
 
 				//using the factory gave stack overflow: builder.Register<PresetGatherer>(c => c.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
 				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(), c.Resolve<PresetData.Factory>())).InstancePerLifetimeScope();
+
+				builder.Register<LanguageNameGatherer>(
+					c => new LanguageNameGatherer(rootDirectoryPath,
+							c.Resolve<IEnumerable<FileType>>(),
+							c.Resolve<ComponentFile.Factory>())).InstancePerLifetimeScope();
+
+				//make a lazy factory-getter to get around a mysterious circular dependency problem
+				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor
+				builder.Register<Func<PersonBasicEditor.Factory>>(c=>()=>c.Resolve<PersonBasicEditor.Factory>());
 			});
 
 
 		}
 
 
-		public IEnumerable<FileType> GetFilesTypes(IComponentContext context)
+		private IEnumerable<FileType> GetFilesTypes(IComponentContext context)
 		{
-			yield return new SessionFileType();
-			yield return new PersonFileType();
-			yield return context.Resolve<AudioFileType>();
-			yield return new VideoFileType();
-			yield return new ImageFileType();
+//			yield return new SessionFileType();
+//			yield return context.Resolve<PersonFileType>();
+//			yield return context.Resolve<AudioFileType>();
+//			yield return new VideoFileType();
+//			yield return new ImageFileType();
 
+			return new List<FileType>(new FileType[]{
+									new SessionFileType(),
+									context.Resolve<PersonFileType>(),
+									context.Resolve<AudioFileType>(),
+									new VideoFileType(),
+									new ImageFileType()
+									});
 		}
 
 		/// ------------------------------------------------------------------------------------

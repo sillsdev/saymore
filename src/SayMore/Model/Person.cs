@@ -9,8 +9,9 @@ namespace SayMore.Model
 	{
 		/// ------------------------------------------------------------------------------------
 		public Person(string parentElementFolder, string id,
-			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer)
-			:base(parentElementFolder,id, componentFileFactory, fileSerializer, new PersonFileType())
+			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
+			PersonFileType personFileType)
+			:base(parentElementFolder,id, componentFileFactory, fileSerializer, personFileType)
 		{
 		}
 

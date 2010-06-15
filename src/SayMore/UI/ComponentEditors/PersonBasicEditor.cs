@@ -6,6 +6,7 @@ using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
 using SayMore.Model.Files;
+using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
 using SIL.Localization;
@@ -15,14 +16,19 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class PersonBasicEditor : EditorBase
 	{
+		private readonly LanguageNameGatherer _languageNameGatherer;
+
+		public delegate PersonBasicEditor Factory(ComponentFile file);
+
 		private readonly List<ParentButton> _fatherButtons = new List<ParentButton>();
 		private readonly List<ParentButton> _motherButtons = new List<ParentButton>();
 		private readonly string _personFolder;
 		private string _photoFileWithoutExt;
 
 		/// ------------------------------------------------------------------------------------
-		public PersonBasicEditor(ComponentFile file)
+		public PersonBasicEditor(ComponentFile file, LanguageNameGatherer languageNameGatherer)
 		{
+			_languageNameGatherer = languageNameGatherer;
 			InitializeComponent();
 			Name = "Basic";
 			_binder.SetComponentFile(file);
@@ -181,5 +187,18 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			_primaryLanguage.SetChoiceProvider(_languageNameGatherer);
+			_otherLanguage0.SetChoiceProvider(_languageNameGatherer);
+			_otherLanguage1.SetChoiceProvider(_languageNameGatherer);
+			_otherLanguage2.SetChoiceProvider(_languageNameGatherer);
+			_otherLanguage3.SetChoiceProvider(_languageNameGatherer);
+
+			base.OnLoad(e);
+		}
+
 	}
 }

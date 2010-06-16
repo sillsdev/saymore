@@ -231,4 +231,7 @@
   <data name="VideoFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VideoFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="DropDownArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DropDownArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

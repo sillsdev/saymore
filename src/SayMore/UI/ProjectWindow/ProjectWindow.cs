@@ -21,7 +21,6 @@ namespace SayMore.UI.ProjectWindow
 	{
 		public delegate ProjectWindow Factory(string projectName); //autofac uses this
 
-		private readonly ViewButtonManager _viewManger;
 		private readonly string _projectName;
 		private readonly IEnumerable<ICommand> _commands;
 
@@ -35,8 +34,8 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectWindow(string projectName, SessionScreen sessionsScreen,
-			PersonListScreen personsScreen, Overview.OverviewScreen  overviewScreen, IEnumerable<ICommand> commands)
-			: this()
+			PersonListScreen personsScreen, Overview.OverviewScreen  overviewScreen,
+			IEnumerable<ICommand> commands) : this()
 		{
 			if (Settings.Default.ProjectWindow == null)
 			{
@@ -49,10 +48,6 @@ namespace SayMore.UI.ProjectWindow
 
 			_projectName = projectName;
 			_commands = commands;
-
-			//var views = new Control[] { overviewScreen, sessionsScreen, personsScreen };
-			//Controls.AddRange(views);
-			//_viewManger = new ViewButtonManager(_mainToolStrip, views);
 
 			_viewTabGroup.AddTab("Sessions", sessionsScreen);
 			_viewTabGroup.AddTab("People", personsScreen);
@@ -80,7 +75,6 @@ namespace SayMore.UI.ProjectWindow
 			Settings.Default.ProjectWindow.InitializeForm(this);
 			base.OnLoad(e);
 
-			//_viewManger.SetView(_toolStripButtonSessions);
 			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
 		}
 
@@ -115,6 +109,21 @@ namespace SayMore.UI.ProjectWindow
 			var handler = _commands.First(c => c.Id == (string) ((ToolStripMenuItem) sender).Tag);
 			handler.Execute();
 		}
-	}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Draw a subtle line between at the bottom of the main menu to visually separate
+		/// the main tabs from the main menu.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleMainMenuPaint(object sender, PaintEventArgs e)
+		{
+			var clr = Color.FromArgb(30, Color.Black);
+			using (var pen = new Pen(clr))
+			{
+				var rc = _mainMenuStrip.ClientRectangle;
+				e.Graphics.DrawLine(pen, 0, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
+			}
+		}
+	}
 }

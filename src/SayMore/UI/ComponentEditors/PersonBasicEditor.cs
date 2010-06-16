@@ -32,6 +32,7 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "Basic";
 			_binder.SetComponentFile(file);
+			_languageAutoCompleteHelper.SetDataGatherer(languageNameGatherer);
 
 			_fatherButtons.AddRange(new[] {_pbPrimaryLangFather, _pbOtherLangFather0,
 				_pbOtherLangFather1, _pbOtherLangFather2, _pbOtherLangFather3 });
@@ -126,7 +127,7 @@ namespace SayMore.UI.ComponentEditors
 
 		#region Methods for handling the person's picture
 		/// ------------------------------------------------------------------------------------
-		private void HandlePersonPictureMouseClick(object sender, MouseEventArgs e)
+		private void HandlePersonPictureMouseClick(object sender, MouseEventArgs args)
 		{
 			using (var dlg = new OpenFileDialog())
 			{
@@ -146,9 +147,19 @@ namespace SayMore.UI.ComponentEditors
 					var dest = _photoFileWithoutExt + Path.GetExtension(dlg.FileName);
 					dest = Path.Combine(_personFolder, dest);
 
-					// TODO: Add error handling
-					File.Copy(dlg.FileName, dest);
-					LoadPersonsPhoto();
+					try
+					{
+						File.Copy(dlg.FileName, dest);
+						LoadPersonsPhoto();
+					}
+					catch (Exception e)
+					{
+						var msg = LocalizationManager.LocalizeString(
+							"PersonView.ErrorChangingPersonsPhotoMsg",
+							"There was an error changing the person's photo.");
+
+						Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
+					}
 				}
 			}
 		}
@@ -156,17 +167,25 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void LoadPersonsPhoto()
 		{
-			// TODO: Add error handling
-
-			var photoFiles = Directory.GetFiles(_personFolder, _photoFileWithoutExt + ".*");
-			if (photoFiles.Length > 0)
+			try
 			{
-				// Do this instead of using the Load method because Load keeps a lock on the file.
-				using (var fs = new FileStream(photoFiles[0], FileMode.Open, FileAccess.Read))
+				var photoFiles = Directory.GetFiles(_personFolder, _photoFileWithoutExt + ".*");
+				if (photoFiles.Length > 0)
 				{
-					_picture.Image = Image.FromStream(fs);
-					fs.Close();
+					// Do this instead of using the Load method because Load keeps a lock on the file.
+					using (var fs = new FileStream(photoFiles[0], FileMode.Open, FileAccess.Read))
+					{
+						_picture.Image = Image.FromStream(fs);
+						fs.Close();
+					}
 				}
+			}
+			catch (Exception e)
+			{
+				var msg = LocalizationManager.LocalizeString("PersonView.ErrorLoadingPersonsPhotoMsg",
+					"There was an error loading the person's photo.");
+
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 		}
 
@@ -187,18 +206,5 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnLoad(EventArgs e)
-		{
-			_primaryLanguage.SetChoiceProvider(_languageNameGatherer);
-			_otherLanguage0.SetChoiceProvider(_languageNameGatherer);
-			_otherLanguage1.SetChoiceProvider(_languageNameGatherer);
-			_otherLanguage2.SetChoiceProvider(_languageNameGatherer);
-			_otherLanguage3.SetChoiceProvider(_languageNameGatherer);
-
-			base.OnLoad(e);
-		}
-
 	}
 }

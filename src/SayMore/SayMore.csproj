@@ -125,6 +125,9 @@
     <Compile Include="UI\ComponentEditors\AudioVideoPlayer.designer.cs">
       <DependentUpon>AudioVideoPlayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ComponentEditors\AutoCompleteHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\ComponentEditors\BindingHelper.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -461,6 +464,7 @@
     <None Include="Resources\SessionFileImage.png" />
     <None Include="Resources\Sessions4.png" />
     <None Include="Resources\VideoFileImage.png" />
+    <None Include="Resources\DropDownArrow.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

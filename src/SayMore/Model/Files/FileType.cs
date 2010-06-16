@@ -87,22 +87,24 @@ namespace SayMore.Model.Files
 	{
 		private readonly Func<PersonBasicEditor.Factory> _personBasicEditorFactoryLazy;
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		///
 		/// </summary>
 		/// <param name="personBasicEditorFactoryLazy">This is to get us around a circular dependency
 		/// error in autofac.  NB: when we move to .net 4, this can be replaced by Lazy<Func<PersonBasicEditor.Factory></param>
+		/// ------------------------------------------------------------------------------------
 		public PersonFileType(Func<PersonBasicEditor.Factory> personBasicEditorFactoryLazy)
 			: base("Person", p => p.EndsWith(".person"))
 		{
 			_personBasicEditorFactoryLazy = personBasicEditorFactoryLazy;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public override string GetMetaFilePath(string pathToAnnotatedFile)
 		{
 			return pathToAnnotatedFile; //we are our own metadata file, there is no sidecar
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
@@ -133,7 +135,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.PersonComponentFileImage; }
+			get { return Resources.PersonFileImage; }
 		}
 	}
 

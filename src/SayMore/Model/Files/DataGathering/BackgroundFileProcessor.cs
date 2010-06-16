@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -10,12 +11,21 @@ using ThreadState = System.Threading.ThreadState;
 
 namespace SayMore.Model.Files.DataGathering
 {
+	/// ----------------------------------------------------------------------------------------
+	public interface IDataGatherer
+	{
+		event EventHandler NewDataAvailable;
+		IEnumerable<string> GetValues();
+	}
+
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// This is the base class for processes which live in the background,
 	/// gathering data about the files in the collection so that this data
 	/// is quickly accesible when needed.
 	/// </summary>
-	public abstract class BackgroundFileProcessor<T>: IDisposable where T: class
+	/// ----------------------------------------------------------------------------------------
+	public abstract class BackgroundFileProcessor<T> : IDisposable where T : class
 	{
 		private Thread _workerThread;
 		private string _rootDirectoryPath;
@@ -25,7 +35,14 @@ namespace SayMore.Model.Files.DataGathering
 		protected Dictionary<string, T> _fileToDataDictionary = new Dictionary<string, T>();
 		private Queue<FileSystemEventArgs> _pendingFileEvents;
 
-		public BackgroundFileProcessor(string rootDirectoryPath, IEnumerable<FileType> typesOfFilesToProcess, Func<string, T> fileDataFactory)
+		public event EventHandler NewDataAvailable;
+
+
+		private BackgroundWorker _worker;
+
+		/// ------------------------------------------------------------------------------------
+		public BackgroundFileProcessor(string rootDirectoryPath,
+			IEnumerable<FileType> typesOfFilesToProcess, Func<string, T> fileDataFactory)
 		{
 			_rootDirectoryPath = rootDirectoryPath;
 			_typesOfFilesToProcess = typesOfFilesToProcess;
@@ -34,19 +51,57 @@ namespace SayMore.Model.Files.DataGathering
 			_pendingFileEvents = new Queue<FileSystemEventArgs>();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			if (_workerThread != null)
+			{
+				_workerThread.Abort(); //will eventually lead to it stopping
+			}
+			_workerThread = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected virtual bool GetDoIncludeFile(string path)
 		{
 			return _typesOfFilesToProcess.Any(t => t.IsMatch(path));
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public void Start()
 		{
-			_workerThread = new Thread(StartWorking);
-			_workerThread.Name = GetType().Name;
-			_workerThread.Priority = ThreadPriority.Lowest;
-			_workerThread.Start();
+			//_workerThread = new Thread(StartWorking);
+			//_workerThread.Name = GetType().Name;
+			//_workerThread.Priority = ThreadPriority.Lowest;
+			//_workerThread.Start();
+
+			_worker = new BackgroundWorker();
+			_worker.WorkerReportsProgress = true;
+			_worker.DoWork += BackgroundThreadDoWork;
+			_worker.ProgressChanged += BackgroundThreadProgressChanged;
+			_worker.RunWorkerAsync();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		void BackgroundThreadDoWork(object sender, DoWorkEventArgs e)
+		{
+			StartWorking();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void BackgroundThreadProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			OnNewDataAvailable();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void OnNewDataAvailable()
+		{
+			if (NewDataAvailable != null)
+				NewDataAvailable(this, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void StartWorking()
 		{
 			try
@@ -55,10 +110,9 @@ namespace SayMore.Model.Files.DataGathering
 
 				using (var watcher = new FileSystemWatcher(_rootDirectoryPath))
 				{
-					watcher.Created += new FileSystemEventHandler(QueueFileEvent);
-
-					watcher.Renamed += new RenamedEventHandler(QueueFileEvent);
-					watcher.Changed += new FileSystemEventHandler(QueueFileEvent);
+					watcher.Created += QueueFileEvent;
+					watcher.Renamed += QueueFileEvent;
+					watcher.Changed += QueueFileEvent;
 					watcher.IncludeSubdirectories = true;
 
 					watcher.EnableRaisingEvents = true;
@@ -94,17 +148,18 @@ namespace SayMore.Model.Files.DataGathering
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void QueueFileEvent(object sender, FileSystemEventArgs e)
 		{
-
-			lock(_pendingFileEvents)
+			lock (_pendingFileEvents)
 			{
 
-				Debug.WriteLine(GetType().Name+": "+e.ChangeType+": "+e.Name);
+				Debug.WriteLine(GetType().Name + ": " + e.ChangeType + ": " + e.Name);
 				_pendingFileEvents.Enqueue(e);
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ProcessFileEvent(FileSystemEventArgs fileEvent)
 		{
 			try
@@ -112,7 +167,7 @@ namespace SayMore.Model.Files.DataGathering
 				if (fileEvent is RenamedEventArgs)
 				{
 					var e = fileEvent as RenamedEventArgs;
-					lock (((ICollection) _fileToDataDictionary).SyncRoot)
+					lock (((ICollection)_fileToDataDictionary).SyncRoot)
 					{
 						if (_fileToDataDictionary.ContainsKey(e.OldFullPath))
 						{
@@ -143,18 +198,17 @@ namespace SayMore.Model.Files.DataGathering
 			}
 		}
 
-
+		/// ------------------------------------------------------------------------------------
 		public T GetFileData(string filePath)
 		{
-			T stats;
 			lock (((ICollection)_fileToDataDictionary).SyncRoot)
 			{
-				if (_fileToDataDictionary.TryGetValue(filePath, out stats))
-					return stats;
-				return null;
+				T stats;
+				return (_fileToDataDictionary.TryGetValue(filePath, out stats) ? stats : null);
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void CollectDataForFile(string path)
 		{
 			try
@@ -163,6 +217,7 @@ namespace SayMore.Model.Files.DataGathering
 				{
 					return;
 				}
+
 				Debug.WriteLine("processing " + path);
 				var actualPath = GetActualPath(path);
 				if (!ShouldStop)
@@ -191,17 +246,22 @@ namespace SayMore.Model.Files.DataGathering
 #endif
 				//nothing here is worth crashing over
 			}
-			InvokeNewDataAvailable();
+
+			_worker.ReportProgress(0);
+			//OnNewDataAvailable();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// subclass can override this to, for example, use the path of a sidecar file
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected virtual string GetActualPath(string path)
 		{
 			return path;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public IEnumerable<T> GetAllFileData()
 		{
 			lock (((ICollection)_fileToDataDictionary).SyncRoot)
@@ -212,6 +272,7 @@ namespace SayMore.Model.Files.DataGathering
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public void ProcessAllFiles()
 		{
 			Status = "Working";
@@ -233,55 +294,40 @@ namespace SayMore.Model.Files.DataGathering
 					break;
 				CollectDataForFile(paths[i]);
 			}
+
 			Status = "Up to date";
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public void Restart()
 		{
 			_restartRequested = true;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		protected bool ShouldStop
 		{
 			get
 			{
-				return (Thread.CurrentThread.ThreadState &
-						(ThreadState.StopRequested | ThreadState.AbortRequested | ThreadState.Stopped | ThreadState.Aborted)) > 0;
+				const ThreadState stopStates = ThreadState.StopRequested |
+					ThreadState.AbortRequested | ThreadState.Stopped | ThreadState.Aborted;
+
+				return ((Thread.CurrentThread.ThreadState & stopStates) > 0);
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public bool Busy
 		{
 			get { return Status == "Working"; }
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public string Status
 		{
 			//enhance: provide an enumeration for the use of tests (at least)
 			get;
 			private set;
 		}
-
-		public void Dispose()
-		{
-			if (_workerThread != null)
-			{
-				_workerThread.Abort();//will eventually lead to it stopping
-			}
-			_workerThread = null;
-		}
-
-
-		public event EventHandler NewDataAvailable;
-
-		protected void InvokeNewDataAvailable()
-		{
-			EventHandler handler = NewDataAvailable;
-			if (handler != null)
-			{
-				handler(this, null);
-			}
-		}
 	}
-
 }

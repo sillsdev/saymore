@@ -24,16 +24,18 @@ namespace SayMore.UI.LowLevelControls
 
 		public AutoCompleteTextBox()
 		{
+			AutoCompleteCustomSource = new AutoCompleteStringCollection();
 			InitializeComponent();
-			Disposed += new EventHandler(AutoCompleteTextBox_Disposed);
+			Disposed += AutoCompleteTextBox_Disposed;
 		}
 
 		void AutoCompleteTextBox_Disposed(object sender, EventArgs e)
 		{
-			if(_provider!=null)
+			if (_provider!=null)
 			{
 				_provider.NewDataAvailable -= _provider_NewDataAvailable;
 			}
+
 			_provider = null;
 
 		}
@@ -41,26 +43,33 @@ namespace SayMore.UI.LowLevelControls
 		public AutoCompleteTextBox(IContainer container)
 		{
 			container.Add(this);
-
 			InitializeComponent();
+		}
+
+		protected override void OnEnter(EventArgs e)
+		{
+			base.OnEnter(e);
+
+			AutoCompleteCustomSource.Clear();
+			AutoCompleteCustomSource.AddRange(_provider.GetValues().ToArray());
 		}
 
 		public void SetChoiceProvider(LanguageNameGatherer provider)
 		{
 			_provider = provider;
 
-			_provider.NewDataAvailable += new EventHandler(_provider_NewDataAvailable);
+			_provider.NewDataAvailable += _provider_NewDataAvailable;
 		}
 
 		void _provider_NewDataAvailable(object sender, EventArgs e)
 		{
-			ReloadChoices();
+			//ReloadChoices();
 		}
 
 		private void ReloadChoices()
 		{
 			var languages = new AutoCompleteStringCollection();
-			languages.AddRange(_provider.GetLanguages().ToArray());
+			languages.AddRange(_provider.GetValues().ToArray());
 
 			this.InvokeIfRequired(() => AutoCompleteCustomSource = languages);
 		}

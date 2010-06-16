@@ -103,10 +103,12 @@ namespace SayMore.UI.ComponentEditors
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Called when something happens (like chosing a preset) which modifies the values of the file
-		/// directly, and we need to update the UI
+		/// Called when something happens (like chosing a preset) which modifies the values
+		/// of the file directly, and we need to update the UI
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void UpdateFieldsFromFile()
 		{
 			foreach (var kvp in _extendedControls)
@@ -115,14 +117,16 @@ namespace SayMore.UI.ComponentEditors
 					UpdateControlValueFromField(kvp.Key);
 			}
 		}
+
 		/// ------------------------------------------------------------------------------------
 		public void BindControl(Control ctrl)
 		{
 			UpdateControlValueFromField(ctrl);
 			ctrl.Validating += HandleValidatingControl;
-			ctrl.HandleDestroyed += HandleHandleDestroyed;
+			ctrl.Disposed += HandleDisposed;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void UpdateControlValueFromField(Control ctrl)
 		{
 			var key = ctrl.Name.TrimStart('_');
@@ -133,7 +137,7 @@ namespace SayMore.UI.ComponentEditors
 		public void UnBindControl(Control ctrl)
 		{
 			ctrl.Validating -= HandleValidatingControl;
-			ctrl.HandleDestroyed -= HandleHandleDestroyed;
+			ctrl.Disposed -= HandleDisposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -184,7 +188,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleHandleDestroyed(object sender, System.EventArgs e)
+		private void HandleDisposed(object sender, System.EventArgs e)
 		{
 			UnBindControl(sender as Control);
 		}

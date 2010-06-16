@@ -43,12 +43,12 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother2 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._pbOtherLangMother1 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._pbOtherLangFather1 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._otherLanguage3 = new AutoCompleteTextBox();
-			this._otherLanguage0 = new AutoCompleteTextBox();
+			this._otherLanguage3 = new System.Windows.Forms.TextBox();
+			this._otherLanguage0 = new System.Windows.Forms.TextBox();
 			this._pbOtherLangFather0 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._otherLanguage1 = new AutoCompleteTextBox();
+			this._otherLanguage1 = new System.Windows.Forms.TextBox();
 			this._pbOtherLangMother0 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._otherLanguage2 = new AutoCompleteTextBox();
+			this._otherLanguage2 = new System.Windows.Forms.TextBox();
 			this._pbOtherLangFather2 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._pbOtherLangFather3 = new SayMore.UI.LowLevelControls.ParentButton();
 			this._gender = new System.Windows.Forms.ComboBox();
@@ -57,7 +57,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangMother = new SayMore.UI.LowLevelControls.ParentButton();
 			this._pbPrimaryLangFather = new SayMore.UI.LowLevelControls.ParentButton();
 			this._labelPrimaryLanguageLearnedIn = new System.Windows.Forms.Label();
-			this._primaryLanguage = new AutoCompleteTextBox();
+			this._primaryLanguage = new System.Windows.Forms.TextBox();
 			this._primaryLanguageLearnedIn = new System.Windows.Forms.TextBox();
 			this._labelgender = new System.Windows.Forms.Label();
 			this._labelEducation = new System.Windows.Forms.Label();
@@ -67,6 +67,7 @@ namespace SayMore.UI.ComponentEditors
 			this._howToContact = new System.Windows.Forms.TextBox();
 			this._labelHowToContact = new System.Windows.Forms.Label();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
+			this._languageAutoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this._tblLayoutOuter.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._picture)).BeginInit();
 			this._pnlOtherLanguages.SuspendLayout();
@@ -77,6 +78,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _labelFullName
 			// 
+			this._labelFullName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelFullName.AutoSize = true;
 			this._labelFullName.Location = new System.Drawing.Point(0, 0);
 			this._labelFullName.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
@@ -89,15 +91,20 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._id.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this._id.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._id.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._id, true);
 			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._id.Name = "_id";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._id, false);
 			this._id.Size = new System.Drawing.Size(355, 20);
 			this._id.TabIndex = 1;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._id, false);
 			// 
 			// _labelBirthYear
 			// 
+			this._labelBirthYear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelBirthYear.AutoSize = true;
 			this._labelBirthYear.Location = new System.Drawing.Point(365, 0);
 			this._labelBirthYear.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
@@ -110,12 +117,16 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._birthYear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this._birthYear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._birthYear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._birthYear, true);
 			this._birthYear.Location = new System.Drawing.Point(365, 16);
 			this._birthYear.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
 			this._birthYear.Name = "_birthYear";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._birthYear, false);
 			this._birthYear.Size = new System.Drawing.Size(91, 20);
 			this._birthYear.TabIndex = 5;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._birthYear, false);
 			// 
 			// _tblLayoutOuter
 			// 
@@ -289,8 +300,10 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage3.Location = new System.Drawing.Point(0, 96);
 			this._otherLanguage3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage3.Name = "_otherLanguage3";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._otherLanguage3, true);
 			this._otherLanguage3.Size = new System.Drawing.Size(304, 23);
 			this._otherLanguage3.TabIndex = 9;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._otherLanguage3, false);
 			// 
 			// _otherLanguage0
 			// 
@@ -301,8 +314,10 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage0.Location = new System.Drawing.Point(0, 7);
 			this._otherLanguage0.Margin = new System.Windows.Forms.Padding(0, 7, 3, 3);
 			this._otherLanguage0.Name = "_otherLanguage0";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._otherLanguage0, true);
 			this._otherLanguage0.Size = new System.Drawing.Size(304, 23);
 			this._otherLanguage0.TabIndex = 0;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._otherLanguage0, false);
 			// 
 			// _pbOtherLangFather0
 			// 
@@ -325,8 +340,10 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage1.Location = new System.Drawing.Point(0, 36);
 			this._otherLanguage1.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage1.Name = "_otherLanguage1";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._otherLanguage1, true);
 			this._otherLanguage1.Size = new System.Drawing.Size(304, 23);
 			this._otherLanguage1.TabIndex = 3;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._otherLanguage1, false);
 			// 
 			// _pbOtherLangMother0
 			// 
@@ -349,8 +366,10 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage2.Location = new System.Drawing.Point(0, 66);
 			this._otherLanguage2.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage2.Name = "_otherLanguage2";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._otherLanguage2, true);
 			this._otherLanguage2.Size = new System.Drawing.Size(304, 23);
 			this._otherLanguage2.TabIndex = 6;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._otherLanguage2, false);
 			// 
 			// _pbOtherLangFather2
 			// 
@@ -476,19 +495,25 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryLanguage.Location = new System.Drawing.Point(0, 7);
 			this._primaryLanguage.Margin = new System.Windows.Forms.Padding(0, 7, 3, 3);
 			this._primaryLanguage.Name = "_primaryLanguage";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._primaryLanguage, true);
 			this._primaryLanguage.Size = new System.Drawing.Size(304, 23);
 			this._primaryLanguage.TabIndex = 0;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._primaryLanguage, false);
 			// 
 			// _primaryLanguageLearnedIn
 			// 
+			this._primaryLanguageLearnedIn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._primaryLanguageLearnedIn.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutPrimaryLanguage.SetColumnSpan(this._primaryLanguageLearnedIn, 3);
 			this._primaryLanguageLearnedIn.Dock = System.Windows.Forms.DockStyle.Top;
 			this._binder.SetIsBound(this._primaryLanguageLearnedIn, true);
 			this._primaryLanguageLearnedIn.Location = new System.Drawing.Point(68, 36);
 			this._primaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
 			this._primaryLanguageLearnedIn.Name = "_primaryLanguageLearnedIn";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._primaryLanguageLearnedIn, false);
 			this._primaryLanguageLearnedIn.Size = new System.Drawing.Size(284, 23);
 			this._primaryLanguageLearnedIn.TabIndex = 4;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._primaryLanguageLearnedIn, false);
 			// 
 			// _labelgender
 			// 
@@ -504,6 +529,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _labelEducation
 			// 
+			this._labelEducation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelEducation.AutoSize = true;
 			this._tblLayoutOuter.SetColumnSpan(this._labelEducation, 2);
 			this._labelEducation.Location = new System.Drawing.Point(365, 135);
@@ -517,16 +543,21 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._education.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this._education.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._education.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutOuter.SetColumnSpan(this._education, 2);
 			this._binder.SetIsBound(this._education, true);
 			this._education.Location = new System.Drawing.Point(365, 151);
 			this._education.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
 			this._education.Name = "_education";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._education, false);
 			this._education.Size = new System.Drawing.Size(225, 20);
 			this._education.TabIndex = 9;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._education, false);
 			// 
 			// _labelPrimaryOccupation
 			// 
+			this._labelPrimaryOccupation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelPrimaryOccupation.AutoSize = true;
 			this._tblLayoutOuter.SetColumnSpan(this._labelPrimaryOccupation, 2);
 			this._labelPrimaryOccupation.Location = new System.Drawing.Point(365, 176);
@@ -540,30 +571,39 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._primaryOccupation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this._primaryOccupation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._primaryOccupation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutOuter.SetColumnSpan(this._primaryOccupation, 2);
 			this._binder.SetIsBound(this._primaryOccupation, true);
 			this._primaryOccupation.Location = new System.Drawing.Point(365, 192);
 			this._primaryOccupation.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
 			this._primaryOccupation.Name = "_primaryOccupation";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._primaryOccupation, false);
 			this._primaryOccupation.Size = new System.Drawing.Size(225, 20);
 			this._primaryOccupation.TabIndex = 11;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._primaryOccupation, false);
 			// 
 			// _howToContact
 			// 
 			this._howToContact.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this._howToContact.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._howToContact.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutOuter.SetColumnSpan(this._howToContact, 2);
 			this._binder.SetIsBound(this._howToContact, true);
 			this._howToContact.Location = new System.Drawing.Point(365, 233);
 			this._howToContact.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
 			this._howToContact.Multiline = true;
 			this._howToContact.Name = "_howToContact";
+			this._languageAutoCompleteHelper.SetProvideAutoCompleteSupport(this._howToContact, false);
 			this._howToContact.Size = new System.Drawing.Size(228, 76);
 			this._howToContact.TabIndex = 13;
+			this._languageAutoCompleteHelper.SetUpdateGatherer(this._howToContact, false);
 			// 
 			// _labelHowToContact
 			// 
+			this._labelHowToContact.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelHowToContact.AutoSize = true;
 			this._tblLayoutOuter.SetColumnSpan(this._labelHowToContact, 2);
 			this._labelHowToContact.Location = new System.Drawing.Point(365, 217);
@@ -604,7 +644,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TextBox _birthYear;
 		private System.Windows.Forms.TableLayoutPanel _tblLayoutOuter;
 		private SayMore.UI.LowLevelControls.UnderlinedHdgBox _pnlPrimaryLanguage;
-		private AutoCompleteTextBox _primaryLanguage;
+		private System.Windows.Forms.TextBox _primaryLanguage;
 		private System.Windows.Forms.Label _labelPrimaryLanguageLearnedIn;
 		private System.Windows.Forms.TextBox _primaryLanguageLearnedIn;
 		private System.Windows.Forms.TableLayoutPanel _tblLayoutPrimaryLanguage;
@@ -617,10 +657,10 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TableLayoutPanel _tblLayoutOtherLanguages;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother0;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather0;
-		private AutoCompleteTextBox _otherLanguage0;
-		private AutoCompleteTextBox _otherLanguage1;
-		private AutoCompleteTextBox _otherLanguage2;
-		private AutoCompleteTextBox _otherLanguage3;
+		private System.Windows.Forms.TextBox _otherLanguage0;
+		private System.Windows.Forms.TextBox _otherLanguage1;
+		private System.Windows.Forms.TextBox _otherLanguage2;
+		private System.Windows.Forms.TextBox _otherLanguage3;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother3;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother2;
 		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother1;
@@ -634,5 +674,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TextBox _education;
 		private System.Windows.Forms.TextBox _primaryOccupation;
 		private System.Windows.Forms.TextBox _howToContact;
+		private AutoCompleteHelper _languageAutoCompleteHelper;
 	}
 }

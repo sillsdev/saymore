@@ -46,14 +46,15 @@ namespace SayMore.UI.ComponentEditors
 			this._digitalGain = new System.Windows.Forms.TextBox();
 			this._labelChannel = new System.Windows.Forms.Label();
 			this._channel = new System.Windows.Forms.TextBox();
-			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._presetMenuButton = new System.Windows.Forms.Button();
+			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._presetMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _labelRecordist
 			// 
+			this._labelRecordist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelRecordist.AutoSize = true;
 			this._labelRecordist.BackColor = System.Drawing.Color.Transparent;
 			this._labelRecordist.Location = new System.Drawing.Point(0, 30);
@@ -115,6 +116,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _labelDevice
 			// 
+			this._labelDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelDevice.AutoSize = true;
 			this._labelDevice.BackColor = System.Drawing.Color.Transparent;
 			this._labelDevice.Location = new System.Drawing.Point(0, 76);
@@ -138,6 +140,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _labelMicrophone
 			// 
+			this._labelMicrophone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelMicrophone.AutoSize = true;
 			this._labelMicrophone.BackColor = System.Drawing.Color.Transparent;
 			this._labelMicrophone.Location = new System.Drawing.Point(0, 122);
@@ -161,6 +164,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _labelSampleRate
 			// 
+			this._labelSampleRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelSampleRate.AutoSize = true;
 			this._labelSampleRate.BackColor = System.Drawing.Color.Transparent;
 			this._labelSampleRate.Location = new System.Drawing.Point(205, 30);
@@ -172,6 +176,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _labelBitDepth
 			// 
+			this._labelBitDepth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelBitDepth.AutoSize = true;
 			this._labelBitDepth.BackColor = System.Drawing.Color.Transparent;
 			this._labelBitDepth.Location = new System.Drawing.Point(322, 30);
@@ -207,6 +212,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _labelAnalogGain
 			// 
+			this._labelAnalogGain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelAnalogGain.AutoSize = true;
 			this._labelAnalogGain.BackColor = System.Drawing.Color.Transparent;
 			this._labelAnalogGain.Location = new System.Drawing.Point(205, 76);
@@ -218,6 +224,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _labelDigitalGain
 			// 
+			this._labelDigitalGain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelDigitalGain.AutoSize = true;
 			this._labelDigitalGain.BackColor = System.Drawing.Color.Transparent;
 			this._labelDigitalGain.Location = new System.Drawing.Point(322, 76);
@@ -253,6 +260,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _labelChannel
 			// 
+			this._labelChannel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelChannel.AutoSize = true;
 			this._labelChannel.BackColor = System.Drawing.Color.Transparent;
 			this._labelChannel.Location = new System.Drawing.Point(205, 122);
@@ -276,13 +284,18 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _presetMenuButton
 			// 
-			this._presetMenuButton.Location = new System.Drawing.Point(3, 3);
+			this._presetMenuButton.AutoSize = true;
+			this._presetMenuButton.Image = global::SayMore.Properties.Resources.DropDownArrow;
+			this._presetMenuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this._presetMenuButton.Location = new System.Drawing.Point(0, 0);
+			this._presetMenuButton.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
+			this._presetMenuButton.MinimumSize = new System.Drawing.Size(73, 23);
 			this._presetMenuButton.Name = "_presetMenuButton";
-			this._presetMenuButton.Size = new System.Drawing.Size(18, 23);
+			this._presetMenuButton.Size = new System.Drawing.Size(73, 23);
 			this._presetMenuButton.TabIndex = 16;
-			this._presetMenuButton.Text = ">";
+			this._presetMenuButton.Text = "Presets";
 			this._presetMenuButton.UseVisualStyleBackColor = true;
-			this._presetMenuButton.Click += new System.EventHandler(this._presetMenuButton_Click);
+			this._presetMenuButton.Click += new System.EventHandler(this.HandlePresetMenuButtonClick);
 			// 
 			// _presetMenu
 			// 

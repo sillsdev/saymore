@@ -81,6 +81,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap DropDownArrow {
+            get {
+                object obj = ResourceManager.GetObject("DropDownArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream Finished {
             get {
                 return ResourceManager.GetStream("Finished", resourceCulture);

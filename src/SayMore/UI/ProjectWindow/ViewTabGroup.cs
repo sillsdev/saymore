@@ -110,7 +110,7 @@ namespace SIL.Pa.UI.Controls
 			using (Graphics g = CreateGraphics())
 			{
 				_panelHdrBand.Height = TextRenderer.MeasureText(g, "X",
-					TabFont, Size.Empty, kTxtFmtFlags).Height + 24;
+					TabFont, Size.Empty, kTxtFmtFlags).Height + 27;
 			}
 
 			Controls.Add(_panelHdrBand);

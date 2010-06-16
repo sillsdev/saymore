@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using SayMore.Model.Fields;
 
@@ -11,7 +9,7 @@ namespace SayMore.Model.Files.DataGathering
 	/// Gets all the languages mentioned in the whole project,
 	/// for the purpose of type-ahead
 	/// </summary>
-	public class LanguageNameGatherer : BackgroundFileProcessor<List<string> /* a list of the languages mentioned in this file*/>
+	public class LanguageNameGatherer : BackgroundFileProcessor<List<string> /* a list of the languages mentioned in this file*/>, IDataGatherer
 	{
 		public delegate LanguageNameGatherer Factory(string rootDirectoryPath);
 
@@ -33,20 +31,22 @@ namespace SayMore.Model.Files.DataGathering
 					&& !field.FieldDefinitionKey.ToLower().Contains("learned")
 					&& !string.IsNullOrEmpty(field.Value))
 				{
-					var langsInField = from l in field.Value.Split(new char[] {',', ';'})
+					var langsInField = from l in field.Value.Split(',', ';')
 									 where l.Trim().Length > 0
 									 select l.Trim();
+
 					Debug.WriteLine("LanguageNameGather: " + field.FieldDefinitionKey + ": " + langsInField.Aggregate((a, b) => a + ", " + b));
 					langs.AddRange(langsInField);
 				}
 			}
+
 			return langs;
 		}
 
-
-		public  IEnumerable<string> GetLanguages()
+		public IEnumerable<string> GetValues()
 		{
-			var uniqueOnes=new List<string>();
+			var uniqueOnes = new List<string>();
+
 			foreach (List<string> languages in _fileToDataDictionary.Values)
 			{
 				foreach (string language in languages)
@@ -57,8 +57,8 @@ namespace SayMore.Model.Files.DataGathering
 					}
 				}
 			}
+
 			return uniqueOnes;
 		}
 	}
-
 }

@@ -1,12 +1,9 @@
 using System.Collections.Generic;
 using System.Drawing;
-using Palaso.Code;
 using SayMore.Model.Files;
-using SayMore.Model.Files.DataGathering;
 
 namespace SayMore.UI.ComponentEditors
 {
-
 	/// ----------------------------------------------------------------------------------------
 	public partial class AudioComponentEditor : EditorBase
 	{
@@ -21,11 +18,10 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "Audio File Information";
 			_binder.SetComponentFile(file);
-
 		}
 
-
-		private void _presetMenuButton_Click(object sender, System.EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		private void HandlePresetMenuButtonClick(object sender, System.EventArgs e)
 		{
 			_presetMenu.Items.Clear();
 			foreach (KeyValuePair<string, Dictionary<string, string>> pair in _file.GetPresetChoices())
@@ -34,11 +30,12 @@ namespace SayMore.UI.ComponentEditors
 				KeyValuePair<string, Dictionary<string, string>> valuePair = pair;
 				_presetMenu.Items.Add(pair.Key, null, (obj, send) => UsePreset(valuePair.Value));
 			}
+
 			var pt = _presetMenuButton.PointToScreen(new Point(0, _presetMenuButton.Height));
 			_presetMenu.Show(pt);
 		}
 
-
+		/// ------------------------------------------------------------------------------------
 		private void UsePreset(IDictionary<string, string> preset)
 		{
 			_file.UsePreset(preset);

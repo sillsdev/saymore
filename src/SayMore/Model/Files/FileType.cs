@@ -7,11 +7,13 @@ using SayMore.UI.ComponentEditors;
 
 namespace SayMore.Model.Files
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Each file corresponds to a single kind of fileType.  The FileType then tells
 	/// us what controls are available for marking up, editing, or viewing that file.
 	/// It also tells us which commands to offer in, for example, a context menu.
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class FileType
 	{
 		private readonly Func<string, bool> _isMatchPredicate;
@@ -64,6 +66,7 @@ namespace SayMore.Model.Files
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public virtual bool IsAudioOrVideo
 		{
 			get { return false; }
@@ -75,6 +78,7 @@ namespace SayMore.Model.Files
 			return Name;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public virtual string GetMetaFilePath(string pathToAnnotatedFile)
 		{
 			return pathToAnnotatedFile + Settings.Default.MetadataFileExtension;
@@ -202,21 +206,31 @@ namespace SayMore.Model.Files
 		{
 		}
 
-
+		/// ------------------------------------------------------------------------------------
 		public override bool IsAudioOrVideo
 		{
 			get { return true; }
 		}
+
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new AudioComponentEditor(file), "Technical", "Technical"));
+				_providers.Add(new EditorProvider(new AudioComponentEditor(file), "Technical", "Audio"));
 				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
 				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
-				_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play", "Play"));
 			}
+			else
+			{
+				var avProvider = _providers.FirstOrDefault(x => x.Control is AudioVideoPlayer);
+				if (avProvider != null)
+					_providers.Remove(avProvider);
+			}
+
+			// Always deliver a new AudioVideoPlayer because they tend to latch
+			// onto files and folders, not letting go until they're disposed.
+			_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play", "Play"));
 
 			return _providers;
 		}
@@ -240,6 +254,7 @@ namespace SayMore.Model.Files
 		{
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public override bool IsAudioOrVideo
 		{
 			get { return true; }
@@ -250,12 +265,20 @@ namespace SayMore.Model.Files
 		{
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new VideoComponentEditor(file), "Technical", "Technical"));
+				_providers.Add(new EditorProvider(new VideoComponentEditor(file), "Technical", "Video"));
 				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
 				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
-				_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play", "Play"));
+			}
+			else
+			{
+				var avProvider = _providers.FirstOrDefault(x => x.Control is AudioVideoPlayer);
+				if (avProvider != null)
+					_providers.Remove(avProvider);
 			}
 
+			// Always deliver a new AudioVideoPlayer because they tend to latch
+			// onto files and folders, not letting go until they're disposed.
+			_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play", "Play"));
 			return _providers;
 		}
 
@@ -283,7 +306,7 @@ namespace SayMore.Model.Files
 		{
 			if (_providers.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new ImageViewer(file), "View", "View"));
+				_providers.Add(new EditorProvider(new ImageViewer(file), "View", "Image"));
 				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
 				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
 			}

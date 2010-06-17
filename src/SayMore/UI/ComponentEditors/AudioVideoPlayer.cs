@@ -9,8 +9,9 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class AudioVideoPlayer : EditorBase
 	{
-		AxWindowsMediaPlayer _wmpPlayer;
-		TabPage _owningTab;
+		private AxWindowsMediaPlayer _wmpPlayer;
+		private TabPage _owningTab;
+		private int _defaultPlayerVolume;
 
 		/// ------------------------------------------------------------------------------------
 		public AudioVideoPlayer(ComponentFile file)
@@ -28,7 +29,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
+			if (disposing)
 			{
 				if (_wmpPlayer != null)
 				{
@@ -42,7 +43,8 @@ namespace SayMore.UI.ComponentEditors
 					_owningTab.Leave -= HandleOwningTabPageLeave;
 				}
 
-				components.Dispose();
+				if (components != null)
+					components.Dispose();
 			}
 
 			base.Dispose(disposing);
@@ -54,10 +56,30 @@ namespace SayMore.UI.ComponentEditors
 			_wmpPlayer = new AxWindowsMediaPlayer();
 			((ISupportInitialize)(_wmpPlayer)).BeginInit();
 			_wmpPlayer.Dock = DockStyle.Fill;
+			_wmpPlayer.HandleDestroyed += HandlePlayerHandleDestroyed;
+			_wmpPlayer.MediaError += HandleMediaError;
 			Controls.Add(_wmpPlayer);
 			((ISupportInitialize)(_wmpPlayer)).EndInit();
+
+			_defaultPlayerVolume = _wmpPlayer.settings.volume;
 			_wmpPlayer.settings.autoStart = false;
 			_wmpPlayer.URL = fileName;
+
+			if (Settings.Default.AudioVideoPlayerVolume >= 0)
+				_wmpPlayer.settings.volume = Settings.Default.AudioVideoPlayerVolume;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandlePlayerHandleDestroyed(object sender, System.EventArgs e)
+		{
+			if (_wmpPlayer.settings.volume != _defaultPlayerVolume)
+				Settings.Default.AudioVideoPlayerVolume = _wmpPlayer.settings.volume;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleMediaError(object sender, _WMPOCXEvents_MediaErrorEvent e)
+		{
+			Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Media error: " + e.pMediaObject);
 		}
 
 		/// ------------------------------------------------------------------------------------

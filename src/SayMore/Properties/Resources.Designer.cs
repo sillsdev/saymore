@@ -81,6 +81,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap DeleteMessageBoxImage {
+            get {
+                object obj = ResourceManager.GetObject("DeleteMessageBoxImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DropDownArrow {
             get {
                 object obj = ResourceManager.GetObject("DropDownArrow", resourceCulture);

@@ -235,6 +235,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			// 
 			// _gridFiles
 			// 
+			this._gridFiles.AddButtonEnabled = false;
 			this._gridFiles.AddButtonVisible = false;
 			this._gridFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
@@ -243,6 +244,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._gridFiles.Location = new System.Drawing.Point(0, 61);
 			this._gridFiles.Margin = new System.Windows.Forms.Padding(0);
 			this._gridFiles.Name = "_gridFiles";
+			this._gridFiles.ShowContextMenu = false;
 			this._gridFiles.Size = new System.Drawing.Size(394, 200);
 			this._gridFiles.TabIndex = 0;
 			// 

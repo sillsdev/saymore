@@ -462,5 +462,18 @@ namespace SayMore.Properties {
                 this["LastFolderForComponentFileAdd"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int AudioVideoPlayerVolume {
+            get {
+                return ((int)(this["AudioVideoPlayerVolume"]));
+            }
+            set {
+                this["AudioVideoPlayerVolume"] = value;
+            }
+        }
     }
 }

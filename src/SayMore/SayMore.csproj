@@ -210,6 +210,12 @@
     <Compile Include="UI\LowLevelControls\AutoCompleteTextBox.Designer.cs">
       <DependentUpon>AutoCompleteTextBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\LowLevelControls\DeleteMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\DeleteMessageBox.Designer.cs">
+      <DependentUpon>DeleteMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\LowLevelControls\ParentButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -446,6 +452,9 @@
     <None Include="Resources\SayMoreLogo 16x16.png" />
     <None Include="Resources\SayMoreLogo.png" />
     <EmbeddedResource Include="SayMore.ico" />
+    <EmbeddedResource Include="UI\LowLevelControls\DeleteMessageBox.resx">
+      <DependentUpon>DeleteMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\OverviewScreen.resx">
       <DependentUpon>OverviewScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -465,6 +474,7 @@
     <None Include="Resources\Sessions4.png" />
     <None Include="Resources\VideoFileImage.png" />
     <None Include="Resources\DropDownArrow.png" />
+    <None Include="Resources\DeleteMessageBoxImage.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

@@ -151,5 +151,8 @@
     <Setting Name="LastFolderForComponentFileAdd" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="AudioVideoPlayerVolume" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

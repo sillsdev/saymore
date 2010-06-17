@@ -30,9 +30,13 @@ namespace SayMore.UI.ElementListScreen
 		public Func<string[], bool> FilesDroppedOnGrid;
 		public Func<string[], bool> FilesAdded;
 
+		public bool ShowContextMenu { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		public ComponentFileGrid()
 		{
+			ShowContextMenu = true;
+
 			InitializeComponent();
 
 			try
@@ -106,7 +110,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Right)
+			if (e.Button == MouseButtons.Right && ShowContextMenu)
 			{
 				_grid.CurrentCell = _grid[e.ColumnIndex, e.RowIndex];
 

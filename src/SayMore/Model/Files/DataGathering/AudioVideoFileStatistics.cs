@@ -5,15 +5,19 @@ using Microsoft.DirectX;
 
 namespace SayMore.Model.Files.DataGathering
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// A FileStatistics is created for a single file.  It then provides information
 	/// about the file, such as the duration, if it is a media file.
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class AudioVideoFileStatistics
 	{
-		public long LengthInBytes;
-		public TimeSpan Duration;
+		public string Path { get; private set; }
+		public long LengthInBytes { get; private set; }
+		public TimeSpan Duration { get; private set; }
 
+		/// ------------------------------------------------------------------------------------
 		public AudioVideoFileStatistics(string path)
 		{
 			Path = path;
@@ -21,6 +25,7 @@ namespace SayMore.Model.Files.DataGathering
 			Duration = GetDuration();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private TimeSpan GetDuration()
 		{
 			// TODO: What should we do if DirectX throws an exception (e.g. the path is really
@@ -59,12 +64,6 @@ namespace SayMore.Model.Files.DataGathering
 			}
 
 			return new TimeSpan();
-		}
-
-		public string Path
-		{
-			get ;
-			set;
 		}
 	}
 }

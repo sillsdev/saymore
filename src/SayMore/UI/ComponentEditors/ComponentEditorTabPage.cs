@@ -100,5 +100,18 @@ namespace SayMore.UI.ComponentEditors
 			IsEditorControlLoaded = true;
 			return true;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Disposes of the EditorProvider contained on the tab page if it's for an audio
+		/// or video player. The Windows media player tends to hold onto files and folders
+		/// otherwise. (cf. SP-60).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void DestroyAudioVideoProvider()
+		{
+			if (Controls.Count > 0 && Controls[0] is AudioVideoPlayer)
+				Controls[0].Dispose();
+		}
 	}
 }

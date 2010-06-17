@@ -57,7 +57,9 @@ namespace SayMore.UI.ElementListScreen
 			imgList.Images.Add("Play", Resources.PlayTabImage);
 			imgList.Images.Add("Person", Resources.PersonFileImage);
 			imgList.Images.Add("Session", Resources.SessionFileImage);
-			imgList.Images.Add("Technical", Resources.TechnicalTabImage);
+			imgList.Images.Add("Image", Resources.ImageFileImage);
+			imgList.Images.Add("Video", Resources.VideoFileImage);
+			imgList.Images.Add("Audio", Resources.AudioFileImage);
 			imgList.Images.Add("View", Resources.ViewTabImage);
 			_componentEditorsTabControl.ImageList = imgList;
 
@@ -195,8 +197,12 @@ namespace SayMore.UI.ElementListScreen
 			{
 				// Remove all but one tab page because removing all of them
 				// will steal the focus from the active control. Go figure.
-				for (int i = _componentEditorsTabControl.TabCount - 1; i > 0; i--)
-					_componentEditorsTabControl.TabPages.RemoveAt(i);
+				for (int i = _componentEditorsTabControl.TabCount - 1; i >= 0; i--)
+				{
+					((ComponentEditorTabPage)_componentEditorsTabControl.TabPages[i]).DestroyAudioVideoProvider();
+					if (i > 0)
+						_componentEditorsTabControl.TabPages.RemoveAt(i);
+				}
 
 				_componentFilesControl.AddButtonEnabled = true;
 			}
@@ -232,11 +238,11 @@ namespace SayMore.UI.ElementListScreen
 			int itemCount = itemsToDelete.Count();
 
 			var msg = (itemCount == 1 ?
-				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "Are you sure you would like to delete 1 item?") :
-				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "Are you sure you would like to delete {0} items?"));
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "This will permanently remove 1 item?") :
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "This will permanently remove {0} items?"));
 
 			msg = string.Format(msg, itemCount);
-			return (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes);
+			return (DeleteMessageBox.Show(this, msg) == DialogResult.OK);
 		}
 
 		/// ------------------------------------------------------------------------------------

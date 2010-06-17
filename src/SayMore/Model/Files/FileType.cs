@@ -171,11 +171,11 @@ namespace SayMore.Model.Files
 			return _providers;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public override string GetMetaFilePath(string pathToAnnotatedFile)
 		{
 			return pathToAnnotatedFile; //we are our own metadata file, there is no sidecar
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> Commands

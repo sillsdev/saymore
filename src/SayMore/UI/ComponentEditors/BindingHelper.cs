@@ -171,17 +171,19 @@ namespace SayMore.UI.ComponentEditors
 			var gotNewValueFromDelegate = (GetBoundControlValue != null &&
 				!GetBoundControlValue(this, control, out newValue));
 
-			string failureMessage;
+			// Don't bother doing anything if the old value is the same as the new value.
+			var oldValue = _file.GetStringValue(key, null);
+			if (oldValue != null && oldValue == control.Text.Trim())
+				return;
 
+			string failureMessage;
 			newValue = _file.SetValue(key, (newValue ?? control.Text.Trim()), out failureMessage);
 
 			if (!gotNewValueFromDelegate)
 				control.Text = newValue;
 
 			if (failureMessage != null)
-			{
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
-			}
 
 			//enchance: don't save so often, leave it to some higher level
 			_file.Save();

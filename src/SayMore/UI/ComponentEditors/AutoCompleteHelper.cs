@@ -2,9 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
-using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
 namespace SayMore.UI.ComponentEditors
@@ -23,8 +21,9 @@ namespace SayMore.UI.ComponentEditors
 
 		private Container components;
 		private readonly Dictionary<TextBox, bool> _extendedTextBoxes = new Dictionary<TextBox, bool>();
+		private List<TextBox> _textBoxesNeedingNewList;
 		private IDataGatherer _provider;
-		private AutoCompleteStringCollection _autoCompleteValues;
+		private string[] _autoCompleteValues;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -55,7 +54,7 @@ namespace SayMore.UI.ComponentEditors
 				return false;
 
 			if (!_extendedTextBoxes.ContainsKey(ctrl))
-				_extendedTextBoxes[ctrl] = true;
+				_extendedTextBoxes[ctrl] = false;
 
 			return true;
 		}
@@ -114,7 +113,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			_provider = provider;
 			_provider.NewDataAvailable += HandleNewDataAvailable;
-			_autoCompleteValues = new AutoCompleteStringCollection();
 
 			foreach (var textbox in _extendedTextBoxes.Where(x => x.Value).Select(x => x.Key))
 				AddSupport(textbox);
@@ -124,6 +122,7 @@ namespace SayMore.UI.ComponentEditors
 		public void AddSupport(TextBox textbox)
 		{
 			textbox.Validated += HandleTextBoxValidated;
+			textbox.Enter += HandleTextBoxEnter;
 			textbox.Disposed += HandleDisposed;
 			textbox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 			textbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
@@ -135,17 +134,33 @@ namespace SayMore.UI.ComponentEditors
 			textbox.AutoCompleteMode = default(AutoCompleteMode);
 			textbox.AutoCompleteSource = AutoCompleteSource.None;
 			textbox.Validating -= HandleTextBoxValidated;
+			textbox.Enter -= HandleTextBoxEnter;
 			textbox.Disposed -= HandleDisposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleNewDataAvailable(object sender, EventArgs e)
 		{
-			_autoCompleteValues.Clear();
-			_autoCompleteValues.AddRange(_provider.GetValues().ToArray());
+			_autoCompleteValues = _provider.GetValues().ToArray();
+			_textBoxesNeedingNewList = _extendedTextBoxes.Where(x => x.Value).Select(x => x.Key).ToList();
+		}
 
-			foreach (var textbox in _extendedTextBoxes.Where(x => x.Value).Select(x => x.Key))
-				textbox.AutoCompleteCustomSource = _autoCompleteValues;
+		/// ------------------------------------------------------------------------------------
+		void HandleTextBoxEnter(object sender, EventArgs e)
+		{
+			var textbox = sender as TextBox;
+			if (textbox == null)
+				return;
+
+			if (_textBoxesNeedingNewList.Contains(textbox))
+			{
+				_textBoxesNeedingNewList.Remove(textbox);
+				var newValues = new AutoCompleteStringCollection();
+				newValues.AddRange(_autoCompleteValues);
+				textbox.AutoCompleteCustomSource = newValues;
+			}
+
+			textbox.SelectAll();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,12 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
 using ThreadState = System.Threading.ThreadState;
 
 namespace SayMore.Model.Files.DataGathering
@@ -36,9 +34,6 @@ namespace SayMore.Model.Files.DataGathering
 		private Queue<FileSystemEventArgs> _pendingFileEvents;
 
 		public event EventHandler NewDataAvailable;
-
-
-		private BackgroundWorker _worker;
 
 		/// ------------------------------------------------------------------------------------
 		public BackgroundFileProcessor(string rootDirectoryPath,
@@ -70,28 +65,10 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public void Start()
 		{
-			//_workerThread = new Thread(StartWorking);
-			//_workerThread.Name = GetType().Name;
-			//_workerThread.Priority = ThreadPriority.Lowest;
-			//_workerThread.Start();
-
-			_worker = new BackgroundWorker();
-			_worker.WorkerReportsProgress = true;
-			_worker.DoWork += BackgroundThreadDoWork;
-			_worker.ProgressChanged += BackgroundThreadProgressChanged;
-			_worker.RunWorkerAsync();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void BackgroundThreadDoWork(object sender, DoWorkEventArgs e)
-		{
-			StartWorking();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void BackgroundThreadProgressChanged(object sender, ProgressChangedEventArgs e)
-		{
-			OnNewDataAvailable();
+			_workerThread = new Thread(StartWorking);
+			_workerThread.Name = GetType().Name;
+			_workerThread.Priority = ThreadPriority.Lowest;
+			_workerThread.Start();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -247,8 +224,7 @@ namespace SayMore.Model.Files.DataGathering
 				//nothing here is worth crashing over
 			}
 
-			_worker.ReportProgress(0);
-			//OnNewDataAvailable();
+			OnNewDataAvailable();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -71,6 +71,7 @@ namespace SayMore.UI.ComponentEditors
 			this._id.Dock = System.Windows.Forms.DockStyle.Top;
 			this._id.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._id, true);
+			this._binder.SetIsComponentFileId(this._id, true);
 			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._id.Name = "_id";
@@ -94,6 +95,7 @@ namespace SayMore.UI.ComponentEditors
 			this._title.Dock = System.Windows.Forms.DockStyle.Top;
 			this._title.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._title, true);
+			this._binder.SetIsComponentFileId(this._title, false);
 			this._title.Location = new System.Drawing.Point(0, 62);
 			this._title.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._title.Name = "_title";
@@ -107,6 +109,7 @@ namespace SayMore.UI.ComponentEditors
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._situation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._situation, true);
+			this._binder.SetIsComponentFileId(this._situation, false);
 			this._situation.Location = new System.Drawing.Point(0, 200);
 			this._situation.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._situation.Multiline = true;
@@ -134,6 +137,7 @@ namespace SayMore.UI.ComponentEditors
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._synopsis.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._synopsis, true);
+			this._binder.SetIsComponentFileId(this._synopsis, false);
 			this._synopsis.Location = new System.Drawing.Point(202, 200);
 			this._synopsis.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._synopsis.Multiline = true;
@@ -192,6 +196,7 @@ namespace SayMore.UI.ComponentEditors
 			this._access.Dock = System.Windows.Forms.DockStyle.Top;
 			this._access.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._access, true);
+			this._binder.SetIsComponentFileId(this._access, false);
 			this._access.Location = new System.Drawing.Point(202, 154);
 			this._access.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._access.Name = "_access";
@@ -217,6 +222,7 @@ namespace SayMore.UI.ComponentEditors
 			this._eventType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._eventType.FormattingEnabled = true;
 			this._binder.SetIsBound(this._eventType, true);
+			this._binder.SetIsComponentFileId(this._eventType, false);
 			this._eventType.Location = new System.Drawing.Point(0, 154);
 			this._eventType.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._eventType.Name = "_eventType";
@@ -240,6 +246,7 @@ namespace SayMore.UI.ComponentEditors
 			this._location.Dock = System.Windows.Forms.DockStyle.Top;
 			this._location.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._location, true);
+			this._binder.SetIsComponentFileId(this._location, false);
 			this._location.Location = new System.Drawing.Point(202, 108);
 			this._location.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._location.Name = "_location";
@@ -263,6 +270,7 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.Dock = System.Windows.Forms.DockStyle.Top;
 			this._participants.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._participants, true);
+			this._binder.SetIsComponentFileId(this._participants, false);
 			this._participants.Location = new System.Drawing.Point(0, 108);
 			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._participants.Name = "_participants";
@@ -288,6 +296,7 @@ namespace SayMore.UI.ComponentEditors
 			this._date.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this._binder.SetIsBound(this._date, true);
+			this._binder.SetIsComponentFileId(this._date, false);
 			this._date.Location = new System.Drawing.Point(202, 16);
 			this._date.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._date.MinDate = new System.DateTime(1960, 1, 1, 0, 0, 0, 0);
@@ -324,6 +333,7 @@ namespace SayMore.UI.ComponentEditors
 			this._setting.Dock = System.Windows.Forms.DockStyle.Top;
 			this._setting.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._setting, true);
+			this._binder.SetIsComponentFileId(this._setting, false);
 			this._setting.Location = new System.Drawing.Point(202, 62);
 			this._setting.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._setting.Name = "_setting";

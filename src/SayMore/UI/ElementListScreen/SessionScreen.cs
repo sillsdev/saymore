@@ -13,7 +13,8 @@ namespace SayMore.UI.ElementListScreen
 		private readonly NewSessionsFromFileDlgViewModel.Factory _newSessionsFromFileDlgViewModel;
 
 		/// ------------------------------------------------------------------------------------
-		public SessionScreen(ElementListViewModel<Session> presentationModel, NewSessionsFromFileDlgViewModel.Factory newSessionsFromFileDlgViewModel)
+		public SessionScreen(ElementListViewModel<Session> presentationModel,
+			NewSessionsFromFileDlgViewModel.Factory newSessionsFromFileDlgViewModel)
 			: base(presentationModel)
 		{
 			_newSessionsFromFileDlgViewModel = newSessionsFromFileDlgViewModel;

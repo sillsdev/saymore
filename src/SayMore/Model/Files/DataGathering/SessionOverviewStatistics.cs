@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using SayMore.Properties;
 
 namespace SayMore.Model.Files.DataGathering
@@ -69,7 +68,5 @@ namespace SayMore.Model.Files.DataGathering
 
 			return (filename != null);
 		}
-
-
 	}
 }

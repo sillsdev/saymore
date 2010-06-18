@@ -12,6 +12,7 @@ namespace SayMore.UI.ComponentEditors
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[ProvideProperty("IsBound", typeof(IComponent))]
+	[ProvideProperty("IsComponentFileId", typeof(IComponent))]
 	public class BindingHelper : Component, IExtenderProvider
 	{
 		public delegate bool GetBoundControlValueHandler(BindingHelper helper,
@@ -22,6 +23,7 @@ namespace SayMore.UI.ComponentEditors
 		private Container components;
 		private readonly Dictionary<Control, bool> _extendedControls = new Dictionary<Control, bool>();
 		private ComponentFile _file;
+		private Control _componentFileIdControl;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -85,6 +87,21 @@ namespace SayMore.UI.ComponentEditors
 			// components method and after the component file has been set.
 			if (!bind)
 				UnBindControl(ctrl);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Localizable(false)]
+		[Category("BindingHelper Properties")]
+		public bool GetIsComponentFileId(object obj)
+		{
+			return (_componentFileIdControl == obj);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetIsComponentFileId(object obj, bool isFileId)
+		{
+			if (obj is Control && isFileId)
+				_componentFileIdControl = (Control)obj;
 		}
 
 		#endregion
@@ -177,7 +194,10 @@ namespace SayMore.UI.ComponentEditors
 				return;
 
 			string failureMessage;
-			newValue = _file.SetValue(key, (newValue ?? control.Text.Trim()), out failureMessage);
+
+			newValue = (_componentFileIdControl == control ?
+				_file.ChangeId(control.Text.Trim(), out failureMessage) :
+				_file.SetValue(key, (newValue ?? control.Text.Trim()), out failureMessage));
 
 			if (!gotNewValueFromDelegate)
 				control.Text = newValue;
@@ -186,7 +206,8 @@ namespace SayMore.UI.ComponentEditors
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 
 			//enchance: don't save so often, leave it to some higher level
-			_file.Save();
+			if (_componentFileIdControl != control)
+				_file.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------

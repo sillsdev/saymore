@@ -238,10 +238,8 @@ namespace SayMore.Model
 				return false;
 			}
 
-			//var previousFileWatchingStatus = Project.EnableFileWatching;
 			try
 			{
-				//Project.EnableFileWatching = false;
 				//todo... need a way to make this all one big all or nothing transaction.  As it is, some things can be
 				//renamed and then we run into a snag, and we're left in a bad, inconsistent state.
 
@@ -269,7 +267,6 @@ namespace SayMore.Model
 					}
 				}
 
-				//Project.EnableFileWatching = previousFileWatchingStatus;
 				Directory.Move(FolderPath, newFolderPath);
 			}
 			catch (Exception e)
@@ -277,10 +274,6 @@ namespace SayMore.Model
 				failureMessage = ExceptionHelper.GetAllExceptionMessages(e);
 				return false;
 			}
-			//finally
-			//{
-			//    Project.EnableFileWatching = previousFileWatchingStatus;
-			//}
 
 			_id = newId;
 			Save();

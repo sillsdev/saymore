@@ -21,7 +21,7 @@ namespace SayMore.UI.ComponentEditors
 
 		private Container components;
 		private readonly Dictionary<TextBox, bool> _extendedTextBoxes = new Dictionary<TextBox, bool>();
-		private List<TextBox> _textBoxesNeedingNewList;
+		private List<TextBox> _textBoxesNeedingNewList = new List<TextBox>(0);
 		private IDataGatherer _provider;
 		private string[] _autoCompleteValues;
 

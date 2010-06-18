@@ -91,9 +91,10 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._id.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._id.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._id.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._id.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._id, true);
+			this._binder.SetIsComponentFileId(this._id, true);
 			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._id.Name = "_id";
@@ -117,9 +118,10 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._birthYear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._birthYear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._birthYear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._birthYear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._birthYear, true);
+			this._binder.SetIsComponentFileId(this._birthYear, false);
 			this._birthYear.Location = new System.Drawing.Point(365, 16);
 			this._birthYear.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
 			this._birthYear.Name = "_birthYear";
@@ -297,6 +299,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._otherLanguage3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._otherLanguage3, true);
+			this._binder.SetIsComponentFileId(this._otherLanguage3, false);
 			this._otherLanguage3.Location = new System.Drawing.Point(0, 96);
 			this._otherLanguage3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage3.Name = "_otherLanguage3";
@@ -311,6 +314,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage0.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._otherLanguage0.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._otherLanguage0, true);
+			this._binder.SetIsComponentFileId(this._otherLanguage0, false);
 			this._otherLanguage0.Location = new System.Drawing.Point(0, 7);
 			this._otherLanguage0.Margin = new System.Windows.Forms.Padding(0, 7, 3, 3);
 			this._otherLanguage0.Name = "_otherLanguage0";
@@ -337,6 +341,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._otherLanguage1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._otherLanguage1, true);
+			this._binder.SetIsComponentFileId(this._otherLanguage1, false);
 			this._otherLanguage1.Location = new System.Drawing.Point(0, 36);
 			this._otherLanguage1.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage1.Name = "_otherLanguage1";
@@ -363,6 +368,7 @@ namespace SayMore.UI.ComponentEditors
 			this._otherLanguage2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._otherLanguage2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._otherLanguage2, true);
+			this._binder.SetIsComponentFileId(this._otherLanguage2, false);
 			this._otherLanguage2.Location = new System.Drawing.Point(0, 66);
 			this._otherLanguage2.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage2.Name = "_otherLanguage2";
@@ -401,6 +407,7 @@ namespace SayMore.UI.ComponentEditors
 			this._gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._gender.FormattingEnabled = true;
 			this._binder.SetIsBound(this._gender, true);
+			this._binder.SetIsComponentFileId(this._gender, false);
 			this._gender.Items.AddRange(new object[] {
             "Male",
             "Female"});
@@ -492,6 +499,7 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryLanguage.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutPrimaryLanguage.SetColumnSpan(this._primaryLanguage, 2);
 			this._binder.SetIsBound(this._primaryLanguage, true);
+			this._binder.SetIsComponentFileId(this._primaryLanguage, false);
 			this._primaryLanguage.Location = new System.Drawing.Point(0, 7);
 			this._primaryLanguage.Margin = new System.Windows.Forms.Padding(0, 7, 3, 3);
 			this._primaryLanguage.Name = "_primaryLanguage";
@@ -502,11 +510,12 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _primaryLanguageLearnedIn
 			// 
-			this._primaryLanguageLearnedIn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._primaryLanguageLearnedIn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._primaryLanguageLearnedIn.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutPrimaryLanguage.SetColumnSpan(this._primaryLanguageLearnedIn, 3);
 			this._primaryLanguageLearnedIn.Dock = System.Windows.Forms.DockStyle.Top;
 			this._binder.SetIsBound(this._primaryLanguageLearnedIn, true);
+			this._binder.SetIsComponentFileId(this._primaryLanguageLearnedIn, false);
 			this._primaryLanguageLearnedIn.Location = new System.Drawing.Point(68, 36);
 			this._primaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
 			this._primaryLanguageLearnedIn.Name = "_primaryLanguageLearnedIn";
@@ -543,10 +552,11 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._education.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._education.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._education.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._education.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutOuter.SetColumnSpan(this._education, 2);
 			this._binder.SetIsBound(this._education, true);
+			this._binder.SetIsComponentFileId(this._education, false);
 			this._education.Location = new System.Drawing.Point(365, 151);
 			this._education.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
 			this._education.Name = "_education";
@@ -571,10 +581,11 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._primaryOccupation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._primaryOccupation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._primaryOccupation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._primaryOccupation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutOuter.SetColumnSpan(this._primaryOccupation, 2);
 			this._binder.SetIsBound(this._primaryOccupation, true);
+			this._binder.SetIsComponentFileId(this._primaryOccupation, false);
 			this._primaryOccupation.Location = new System.Drawing.Point(365, 192);
 			this._primaryOccupation.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
 			this._primaryOccupation.Name = "_primaryOccupation";
@@ -588,10 +599,11 @@ namespace SayMore.UI.ComponentEditors
 			this._howToContact.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._howToContact.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this._howToContact.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._howToContact.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutOuter.SetColumnSpan(this._howToContact, 2);
 			this._binder.SetIsBound(this._howToContact, true);
+			this._binder.SetIsComponentFileId(this._howToContact, false);
 			this._howToContact.Location = new System.Drawing.Point(365, 233);
 			this._howToContact.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
 			this._howToContact.Multiline = true;

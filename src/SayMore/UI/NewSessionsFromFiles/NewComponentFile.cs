@@ -61,7 +61,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		{
 			PathToAnnotatedFile = newPath;
 			DetermineFileType(newPath, _fileTypes);
-			InitializeFileTypeInfo(newPath);
+			InitializeFileInfo();
 		}
 	}
 }

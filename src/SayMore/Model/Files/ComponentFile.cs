@@ -41,10 +41,9 @@ namespace SayMore.Model.Files
 		//autofac uses this, so that callers only need to know the path, not all the dependencies
 		public delegate ComponentFile Factory(string pathToAnnotatedFile);
 
-		/// <summary>
-		/// Things like list views should hook into this event
-		/// </summary>
-		public event EventHandler UiShouldRefresh;
+		public delegate void ValueChangedHandler(ComponentFile file, string oldValue, string newValue);
+		public event ValueChangedHandler IdChanged;
+		public event ValueChangedHandler MetadataValueChanged;
 
 		public string PathToAnnotatedFile { get; protected set; }
 		protected IEnumerable<ComponentRole> _componentRoles;
@@ -84,37 +83,29 @@ namespace SayMore.Model.Files
 
 			MetaDataFieldValues = new List<FieldValue>();
 
-			_metaDataPath = this.FileType.GetMetaFilePath(pathToAnnotatedFile);
+			_metaDataPath = FileType.GetMetaFilePath(pathToAnnotatedFile);
 
 			_rootElementName = "MetaData";
-
 
 			if (File.Exists(_metaDataPath))
 				Load();
 
-			InitializeFileTypeInfo(pathToAnnotatedFile);
+			InitializeFileInfo();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public string DurationString
 		{
 			get
 			{
-				if(_statisticsProvider==null)
-				{
+				if (_statisticsProvider == null)
 					return string.Empty;
-				}
+
 				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
-				if (stats == null || stats.Duration==default(TimeSpan))
-				{
-					return string.Empty;
-				}
-				else
-				{
-					return stats.Duration.ToString();
-				}
+				return (stats == null || stats.Duration == default(TimeSpan) ?
+					string.Empty : stats.Duration.ToString());
 			}
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -129,8 +120,8 @@ namespace SayMore.Model.Files
 			_metaDataPath = filePath;
 			MetaDataFieldValues = new List<FieldValue>();
 			_rootElementName = rootElementName;
-			_componentRoles = new ComponentRole[] {};//no roles for person or session
-			InitializeFileTypeInfo(filePath);
+			_componentRoles = new ComponentRole[] {}; //no roles for person or session
+			InitializeFileInfo();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -141,19 +132,28 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void InitializeFileTypeInfo(string path)
+		protected void InitializeFileInfo()
 		{
-			// Initialize file's display size. File should only not exist during tests.
-			var fi = new FileInfo(path);
-			FileSize = (fi.Exists ? GetDisplayableFileSize(fi.Length) : "0 KB");
-			DateModified = (fi.Exists ? fi.LastWriteTime.ToString() : string.Empty);
+			if (PathToAnnotatedFile == null)
+				return;
+
+			LoadFileSizeAndDateModified();
 
 			// Initialize file's icon and description.
 			Bitmap icon;
 			string fileDesc;
-			GetSmallIconAndFileType(path, out icon, out fileDesc);
+			GetSmallIconAndFileType(PathToAnnotatedFile, out icon, out fileDesc);
 			SmallIcon = FileType.SmallIcon ?? icon;
 			FileTypeDescription = (FileType is UnknownFileType ? fileDesc : FileType.Name);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void LoadFileSizeAndDateModified()
+		{
+			// Initialize file's display size. File should only not exist during tests.
+			var fi = new FileInfo(PathToAnnotatedFile);
+			FileSize = (fi.Exists ? GetDisplayableFileSize(fi.Length) : "0 KB");
+			DateModified = (fi.Exists ? fi.LastWriteTime.ToString() : string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -168,20 +168,27 @@ namespace SayMore.Model.Files
 		/// Sets the value for persisting, and returns the same value, potentially modified
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual string SetValue(string key, string value, out string failureMessage)
+		public virtual string SetValue(string key, string newValue, out string failureMessage)
 		{
 			failureMessage = null;
+			string oldValue = null;
+			newValue = (newValue == null ? string.Empty : newValue.Trim());
+
 			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldDefinitionKey == key);
+			if (field != null && field.Value == newValue)
+				return newValue;
+
 			if (field == null)
-			{
-				MetaDataFieldValues.Add(new FieldValue(key, "string", value.Trim()));
-			}
+				MetaDataFieldValues.Add(new FieldValue(key, "string", newValue));
 			else
 			{
-				field.Value = value;
+				oldValue = field.Value;
+				field.Value = newValue;
 			}
 
-			return value; //overrides may do more
+			LoadFileSizeAndDateModified();
+			InvokeMetadataValueChanged(oldValue, newValue);
+			return newValue; //overrides may do more
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,10 +212,23 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void InvokeUiShouldRefresh()
+		public virtual string ChangeId(string newId, out string failureMessage)
 		{
-			if (UiShouldRefresh != null)
-				UiShouldRefresh(this, null);
+			throw new NotImplementedException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void InvokeIdChanged(string oldId, string newId)
+		{
+			if (IdChanged != null)
+				IdChanged(this, oldId, newId);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void InvokeMetadataValueChanged(string oldValue, string newValue)
+		{
+			if (MetadataValueChanged != null)
+				MetadataValueChanged(this, oldValue, newValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -321,7 +341,8 @@ namespace SayMore.Model.Files
 			try
 			{
 				File.Move(PathToAnnotatedFile, newPath);
-				var newMetaPath = this.FileType.GetMetaFilePath(newPath);
+				var newMetaPath = FileType.GetMetaFilePath(newPath);
+
 				//enhance: if somethine goes wrong from here down,
 				//this would leave us with one file renamed, but not the other.
 				if (newMetaPath != newPath //some types don't have a separate sidecar file (e.g. Person, Session)
@@ -389,10 +410,6 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the small icon.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private static void GetSmallIconAndFileType(string fullFilePath, out Bitmap smallIcon,
 			out string fileType)
 		{
@@ -426,25 +443,27 @@ namespace SayMore.Model.Files
 #endif
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, Dictionary<string, string>>> GetPresetChoices()
 		{
 			Guard.AgainstNull(_presetProvider, "PresetProvider");
 			return _presetProvider.GetPresets();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Set our values to those of the preset
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void UsePreset(IDictionary<string, string> preset)
 		{
 			foreach (KeyValuePair<string, string> pair in preset)
 			{
 				string failureStringMessage;
 				SetValue(pair.Key, pair.Value, out failureStringMessage);
-				if(!string.IsNullOrEmpty(failureStringMessage))
-				{
-					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureStringMessage);
-				}
+
+				if (!string.IsNullOrEmpty(failureStringMessage))
+					ErrorReport.NotifyUserOfProblem(failureStringMessage);
 			}
 		}
 	}

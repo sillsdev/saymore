@@ -91,6 +91,7 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this._grid.ShowWaterMarkWhenDirty = false;
 			this._grid.Size = new System.Drawing.Size(468, 221);
+			this._grid.StandardTab = true;
 			this._grid.TabIndex = 1;
 			this._grid.VirtualMode = true;
 			this._grid.WaterMark = "!";

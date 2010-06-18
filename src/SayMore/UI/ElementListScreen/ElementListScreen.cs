@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
+using SayMore.Model.Files;
 using SayMore.Properties;
 using SIL.Localization;
 using SilUtils;
@@ -34,7 +35,7 @@ namespace SayMore.UI.ElementListScreen
 
 		protected TabControl _componentEditorsTabControl;
 		protected ListPanel _elementsListPanel;
-		private ComponentFileGrid _componentFilesControl;
+		protected ComponentFileGrid _componentFilesControl;
 
 		/// ------------------------------------------------------------------------------------
 		public ElementListScreen(ElementListViewModel<T> presentationModel)
@@ -155,8 +156,14 @@ namespace SayMore.UI.ElementListScreen
 
 			foreach (var componentFile in componentsOfSelectedElement)
 			{
-				componentFile.UiShouldRefresh -= HandleUiShouldRefresh;
-				componentFile.UiShouldRefresh += HandleUiShouldRefresh;
+				componentFile.IdChanged -= HandleComponentFileIdChanged;
+				componentFile.IdChanged += HandleComponentFileIdChanged;
+
+				componentFile.MetadataValueChanged -= HandleComponentFileMetadataValueChanged;
+				componentFile.MetadataValueChanged += HandleComponentFileMetadataValueChanged;
+
+				//componentFile.UiShouldRefresh -= HandleUiShouldRefresh;
+				//componentFile.UiShouldRefresh += HandleUiShouldRefresh;
 				//review: and later, are we wired longer than we want to be?
 			}
 
@@ -167,18 +174,21 @@ namespace SayMore.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// At the moment, this doesn't distinguish between events which would cause
-		/// the element list to need updating (e.g., person name column or file duration
-		/// column or some such) vs. things that just require that the component list update.
-		///
 		/// This is called when the Component File raises this event, in response to the user
-		/// doing something like changing a person's name, or a session's id
+		/// changing a person's name, or a session's id
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void HandleUiShouldRefresh(object sender, EventArgs e)
+		private void HandleComponentFileIdChanged(ComponentFile file, string oldId, string newId)
 		{
 			_elementsListPanel.RefreshTextOfCurrentItem(true);
-			UpdateComponentList();
+			_componentFilesControl.Refresh();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleComponentFileMetadataValueChanged(ComponentFile file,
+			string oldValue, string newValue)
+		{
+			_componentFilesControl.Refresh();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -265,6 +275,14 @@ namespace SayMore.UI.ElementListScreen
 		{
 			_model.SetSelectedElement(_model.CreateNewElement());
 			_elementsListPanel.AddItem(_model.SelectedElement, true, true);
+
+			// After a new element is added, then give focus to the editor of the first
+			// editor provider. This will assume the first field in the editor is the
+			// desired one to give focus.
+			var providers = _model.GetComponentEditorProviders().ToArray();
+			if (providers.Length > 0)
+				providers[0].Control.Focus();
+
 			return null;
 		}
 

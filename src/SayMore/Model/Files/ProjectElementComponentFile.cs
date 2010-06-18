@@ -19,6 +19,7 @@ namespace SayMore.Model.Files
 		{
 			_parentElement = parentElement;
 			PathToAnnotatedFile = parentElement.SettingsFilePath;//same thing, there isn't a pair of files for session/person
+			InitializeFileInfo();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -28,26 +29,29 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string SetValue(string key, string value, out string failureMessage)
+		public override string ChangeId(string newId, out string failureMessage)
 		{
-			if (key != "id")
+			failureMessage = null;
+
+			if (_parentElement.Id != newId)
 			{
-				return base.SetValue(key, value, out failureMessage);
+				var oldId = _parentElement.Id;
+				if (_parentElement.TryChangeIdAndSave(newId, out failureMessage))
+				{
+					LoadFileSizeAndDateModified();
+					InvokeIdChanged(oldId, newId);
+				}
 			}
 
-			if (_parentElement.TryChangeIdAndSave(value, out failureMessage))
-			{
-				InvokeUiShouldRefresh();
-			}
-
-			//send back whatever is now, changed or not, if the renaming failed
+			// Send back whatever the id is now, whether or not renaming failed.
 			return _parentElement.Id;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string FileName
+		public override void Save(string path)
 		{
-			get { return Path.GetFileName(_parentElement.SettingsFilePath); }
+			base.Save(path);
+			PathToAnnotatedFile = _parentElement.SettingsFilePath;
 		}
 
 		/// ------------------------------------------------------------------------------------

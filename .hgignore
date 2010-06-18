@@ -11,3 +11,4 @@ glob:src/Sponge/bin/*
 glob:src/Sponge2/Sponge2.csproj.John
 glob:src/SayMore/bin/*
 glob:src/SayMore/Sponge2.csproj.John
+glob:src/Installer/bin/Release/SayMoreInstaller.wixpdb

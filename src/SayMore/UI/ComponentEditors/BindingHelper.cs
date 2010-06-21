@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -22,6 +25,7 @@ namespace SayMore.UI.ComponentEditors
 
 		private Container components;
 		private readonly Dictionary<Control, bool> _extendedControls = new Dictionary<Control, bool>();
+		private List<Control> _boundControls;
 		private ComponentFile _file;
 		private Control _componentFileIdControl;
 
@@ -109,14 +113,18 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void SetComponentFile(ComponentFile file)
 		{
+			if (DesignMode)
+				return;
+
 			_file = file;
 
-			foreach (var kvp in _extendedControls)
-			{
-				kvp.Key.Font = SystemFonts.IconTitleFont;
+			// First, collect only the extended controls that are not bound.
+			_boundControls = _extendedControls.Where(x => x.Value).Select(x => x.Key).ToList();
 
-				if (kvp.Value)
-					BindControl(kvp.Key);
+			foreach (var ctrl in _boundControls)
+			{
+				ctrl.Font = SystemFonts.IconTitleFont;
+				BindControl(ctrl);
 			}
 		}
 
@@ -128,11 +136,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void UpdateFieldsFromFile()
 		{
-			foreach (var kvp in _extendedControls)
-			{
-				if (kvp.Value)
-					UpdateControlValueFromField(kvp.Key);
-			}
+			foreach (var ctrl in _boundControls)
+				UpdateControlValueFromField(ctrl);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -179,6 +184,23 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void ResetBoundControlsToDefaultValues()
+		{
+			foreach (var ctrl in _boundControls)
+			{
+				if (ctrl is TextBox)
+					ctrl.Text = string.Empty;
+				else if (ctrl is DateTimePicker)
+				{
+					((DateTimePicker)ctrl).Value = _file != null && File.Exists(_file.PathToAnnotatedFile) ?
+						File.GetLastWriteTime(_file.PathToAnnotatedFile) : DateTime.Now;
+				}
+				else if (ctrl is ComboBox)
+					((ComboBox)ctrl).SelectedIndex = (((ComboBox)ctrl).Items.Count > 0 ? 0 : -1);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleValidatingControl(object sender, CancelEventArgs e)
 		{
 			var control = (Control)sender;
@@ -211,7 +233,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleDisposed(object sender, System.EventArgs e)
+		private void HandleDisposed(object sender, EventArgs e)
 		{
 			UnBindControl(sender as Control);
 		}

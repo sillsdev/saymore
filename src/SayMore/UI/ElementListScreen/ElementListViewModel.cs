@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMore.UI.ComponentEditors;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -13,7 +13,7 @@ namespace SayMore.UI.ElementListScreen
 	public class ElementListViewModel<T> where T: ProjectElement
 	{
 		private readonly ElementRepository<T> _repository;
-		private IEnumerable<EditorProvider> _currentEditorProviders;
+		private IEnumerable<IEditorProvider> _currentEditorProviders;
 
 		public T SelectedElement { get; private set; }
 		public ComponentFile SelectedComponentFile { get; private set; }
@@ -71,7 +71,6 @@ namespace SayMore.UI.ElementListScreen
 				return false;
 
 			SelectedComponentFile = componentFiles[index];
-
 			_currentEditorProviders = SelectedComponentFile.FileType.GetEditorProviders(SelectedComponentFile);
 
 			return true;
@@ -84,6 +83,16 @@ namespace SayMore.UI.ElementListScreen
 			// many times as the grid in the UI is being displayed.
 			var componentFiles = SelectedElement.GetComponentFiles().ToArray();
 			return componentFiles[index];
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void MakeComponentEditorsGoDormant()
+		{
+			if (_currentEditorProviders != null)
+			{
+				foreach (var editor in _currentEditorProviders)
+					editor.GoDormant();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,10 +124,10 @@ namespace SayMore.UI.ElementListScreen
 		/// For each component, we provide 1 or more viewers/editors base on its file type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<EditorProvider> GetComponentEditorProviders()
+		public IEnumerable<IEditorProvider> GetComponentEditorProviders()
 		{
 			return (SelectedComponentFile == null || _currentEditorProviders == null ?
-				new EditorProvider[] { } : _currentEditorProviders);
+				new IEditorProvider[] { } : _currentEditorProviders);
 		}
 	}
 }

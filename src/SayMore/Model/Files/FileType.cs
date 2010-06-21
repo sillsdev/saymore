@@ -18,7 +18,7 @@ namespace SayMore.Model.Files
 	{
 		private readonly Func<string, bool> _isMatchPredicate;
 
-		protected readonly List<EditorProvider> _providers = new List<EditorProvider>();
+		protected readonly List<IEditorProvider> _editors = new List<IEditorProvider>();
 
 		public string Name { get; private set; }
 		public virtual string TypeDescription { get; protected set; }
@@ -51,9 +51,14 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		public virtual IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			yield return new EditorProvider(new DiagnosticsFileInfoControl(file), "Info");
+			if (_editors.Count == 0)
+				_editors.Add(new DiagnosticsFileInfoControl(file));
+			else
+				_editors[0].SetComponentFile(file);
+
+			return _editors;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,19 +116,24 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			// review: this will create a new editor provider and basic editor for each
 			// person. That seems a bit resource intensive. It would be nice to reuse the editor.
 
-			if (_providers.Count == 0)
+			if (_editors.Count == 0)
 			{
-				_providers.Add(new EditorProvider(_personBasicEditorFactoryLazy()(file), "Person", "Person"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
+				_editors.Add(_personBasicEditorFactoryLazy()(file, "Person", "Person"));
+				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
+				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
+			}
+			else
+			{
+				foreach (var editor in _editors)
+					editor.SetComponentFile(file);
 			}
 
-			return _providers;
+			return _editors;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -155,20 +165,25 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			// review: this will create a new editor provider and basic editor for each
 			// session. That seems a bit resource intensive when the user has a lot of
 			// sessions. It would be nice to reuse the editor.
 
-			if (_providers.Count == 0)
+			if (_editors.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new SessionBasicEditor(file), "Session", "Session"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
+				_editors.Add(new SessionBasicEditor(file, "Session", "Session"));
+				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
+				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
+			}
+			else
+			{
+				foreach (var editor in _editors)
+					editor.SetComponentFile(file);
 			}
 
-			return _providers;
+			return _editors;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -213,26 +228,22 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			if (_providers.Count == 0)
+			if (_editors.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new AudioComponentEditor(file), "Technical", "Audio"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
+				_editors.Add(new AudioComponentEditor(file, "Technical", "Audio"));
+				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
+				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
+				_editors.Add(new AudioVideoPlayer(file, "Play", "Play"));
 			}
 			else
 			{
-				var avProvider = _providers.FirstOrDefault(x => x.Control is AudioVideoPlayer);
-				if (avProvider != null)
-					_providers.Remove(avProvider);
+				foreach (var editor in _editors)
+					editor.SetComponentFile(file);
 			}
 
-			// Always deliver a new AudioVideoPlayer because they tend to latch
-			// onto files and folders, not letting go until they're disposed.
-			_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play", "Play"));
-
-			return _providers;
+			return _editors;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -261,25 +272,21 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			if (_providers.Count == 0)
+			if (_editors.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new VideoComponentEditor(file), "Technical", "Video"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
+				_editors.Add(new VideoComponentEditor(file, "Technical", "Video"));
+				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
+				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 			}
 			else
 			{
-				var avProvider = _providers.FirstOrDefault(x => x.Control is AudioVideoPlayer);
-				if (avProvider != null)
-					_providers.Remove(avProvider);
+				foreach (var editor in _editors)
+					editor.SetComponentFile(file);
 			}
 
-			// Always deliver a new AudioVideoPlayer because they tend to latch
-			// onto files and folders, not letting go until they're disposed.
-			_providers.Add(new EditorProvider(new AudioVideoPlayer(file), "Play", "Play"));
-			return _providers;
+			return _editors;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -302,16 +309,21 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			if (_providers.Count == 0)
+			if (_editors.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new ImageViewer(file), "View", "Image"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
+				_editors.Add(new ImageViewer(file, "View", "Image"));
+				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
+				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
+			}
+			else
+			{
+				foreach (var editor in _editors)
+					editor.SetComponentFile(file);
 			}
 
-			return _providers;
+			return _editors;
 		}
 
 		/// ------------------------------------------------------------------------------------

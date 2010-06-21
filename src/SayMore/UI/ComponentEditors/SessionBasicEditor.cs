@@ -9,11 +9,12 @@ namespace SayMore.UI.ComponentEditors
 	public partial class SessionBasicEditor : EditorBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public SessionBasicEditor(ComponentFile file)
+		public SessionBasicEditor(ComponentFile file, string tabText, string imageKey)
+			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
 			Name = "Basic";
-			_binder.SetComponentFile(file);
+			SetBindingHelper(_binder);
 
 			if (DiscourseType.AllTypes == null)
 				return;

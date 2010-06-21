@@ -1,4 +1,3 @@
-using System.IO;
 
 namespace SayMore.Model.Files
 {

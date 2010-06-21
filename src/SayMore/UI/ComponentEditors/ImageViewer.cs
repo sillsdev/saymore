@@ -12,18 +12,14 @@ namespace SayMore.UI.ComponentEditors
 	public partial class ImageViewer : EditorBase
 	{
 		private readonly SilPanel _panelImage;
-		private bool _firstTimePaint = true;
-		private readonly ImageViewerViewModel _model;
+		private ImageViewerViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public ImageViewer(ComponentFile file)
+		public ImageViewer(ComponentFile file, string tabText, string imageKey)
+			: base(file, tabText, imageKey)
 		{
-			var clickZoomPercentages = PortableSettingsProvider.GetIntArrayFromString(
-				Settings.Default.ImageViewerClickImageZoomPercentages);
-
-			_model = new ImageViewerViewModel(file.PathToAnnotatedFile, clickZoomPercentages);
-
 			InitializeComponent();
+			SetComponentFile(file);
 			Name = "ImageViewer";
 
 			_labelZoom.Font = SystemFonts.IconTitleFont;
@@ -38,6 +34,28 @@ namespace SayMore.UI.ComponentEditors
 			_panelImage.Scroll += HandleImagePanelScroll;
 			_panelImage.MouseClick += HandleImagePanelMouseClick;
 			_panelImage.MouseDoubleClick += HandleImagePanelMouseClick;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void Initialize(string imageFileName)
+		{
+			var clickZoomPercentages = PortableSettingsProvider.GetIntArrayFromString(
+				Settings.Default.ImageViewerClickImageZoomPercentages);
+
+			_model = new ImageViewerViewModel(imageFileName, clickZoomPercentages);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void SetComponentFile(ComponentFile file)
+		{
+			if (_zoomTrackBar != null)
+			{
+				_zoomTrackBar.Value = _model.GetPercentOfImageSizeToFitSize(100,
+					_zoomTrackBar.Minimum, _panelImage.ClientSize);
+			}
+
+			base.SetComponentFile(file);
+			Initialize(file.PathToAnnotatedFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,14 +79,6 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		void HandleImagePanelPaint(object sender, PaintEventArgs e)
 		{
-			if (_firstTimePaint)
-			{
-				_firstTimePaint = false;
-				_zoomTrackBar.Value = _model.GetPercentOfImageSizeToFitSize(100,
-					_zoomTrackBar.Minimum, _panelImage.ClientSize);
-				return;
-			}
-
 			var sz = _panelImage.AutoScrollMinSize;
 
 			var dx = (sz.Width > _panelImage.ClientSize.Width ?

@@ -18,7 +18,7 @@ namespace SayMore.UI.ComponentEditors
 	{
 		private readonly LanguageNameGatherer _languageNameGatherer;
 
-		public delegate PersonBasicEditor Factory(ComponentFile file);
+		public delegate PersonBasicEditor Factory(ComponentFile file, string tabText, string imageKey);
 
 		private readonly List<ParentButton> _fatherButtons = new List<ParentButton>();
 		private readonly List<ParentButton> _motherButtons = new List<ParentButton>();
@@ -26,7 +26,8 @@ namespace SayMore.UI.ComponentEditors
 		private string _photoFileWithoutExt;
 
 		/// ------------------------------------------------------------------------------------
-		public PersonBasicEditor(ComponentFile file, LanguageNameGatherer languageNameGatherer)
+		public PersonBasicEditor(ComponentFile file, string tabText, string imageKey,
+			LanguageNameGatherer languageNameGatherer) : base(file, tabText, imageKey)
 		{
 			_languageNameGatherer = languageNameGatherer;
 			InitializeComponent();

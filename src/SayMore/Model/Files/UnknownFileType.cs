@@ -14,16 +14,21 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<EditorProvider> GetEditorProviders(ComponentFile file)
+		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			if (_providers.Count == 0)
+			if (_editors.Count == 0)
 			{
-				_providers.Add(new EditorProvider(new BrowserEditor(file), "View"));
-				_providers.Add(new EditorProvider(new NotesEditor(file), "Notes", "Notes"));
-				_providers.Add(new EditorProvider(new ContributorsEditor(file), "Contributors", "Contributors"));
+				_editors.Add(new BrowserEditor(file, "View", null));
+				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
+				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
+			}
+			else
+			{
+				foreach (var editor in _editors)
+					editor.SetComponentFile(file);
 			}
 
-			return _providers;
+			return _editors;
 		}
 	}
 }

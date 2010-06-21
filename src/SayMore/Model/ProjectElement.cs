@@ -253,7 +253,6 @@ namespace SayMore.Model
 				catch
 				{
 					failureMessage = "Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.";
-					return false;
 				}
 
 				foreach (var file in Directory.GetFiles(FolderPath))

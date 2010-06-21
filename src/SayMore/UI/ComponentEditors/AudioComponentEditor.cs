@@ -7,17 +7,15 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class AudioComponentEditor : EditorBase
 	{
-		private readonly ComponentFile _file;
-
 	//	public delegate AudioComponentEditor Factory(ComponentFile file);
 
 		/// ------------------------------------------------------------------------------------
-		public AudioComponentEditor(ComponentFile file)
+		public AudioComponentEditor(ComponentFile file, string tabText, string imageKey)
+			: base(file, tabText, imageKey)
 		{
-			_file = file;
 			InitializeComponent();
 			Name = "Audio File Information";
-			_binder.SetComponentFile(file);
+			SetBindingHelper(_binder);
 		}
 
 		/// ------------------------------------------------------------------------------------

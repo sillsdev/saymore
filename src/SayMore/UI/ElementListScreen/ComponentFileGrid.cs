@@ -138,7 +138,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
-			if (null != ComponentSelectedCallback)
+			if (!Disposing && null != ComponentSelectedCallback)
 				ComponentSelectedCallback(_grid.CurrentCellAddress.Y);
 		}
 

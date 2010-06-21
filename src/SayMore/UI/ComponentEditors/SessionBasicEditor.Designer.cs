@@ -50,7 +50,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSetting = new System.Windows.Forms.Label();
 			this._setting = new System.Windows.Forms.TextBox();
 			this._labelSituation = new System.Windows.Forms.Label();
-			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
+			this._binder = new BindingHelper();
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -386,7 +386,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TextBox _participants;
 		private System.Windows.Forms.Label _labelSituation;
 		private System.Windows.Forms.Label _labelSetting;
-		private BindingHelper _binder;
 		private System.Windows.Forms.TextBox _setting;
 		private System.Windows.Forms.Label _labelLocation;
 		private System.Windows.Forms.TextBox _location;
@@ -394,5 +393,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.ComboBox _eventType;
 		private System.Windows.Forms.TextBox _access;
 		private System.Windows.Forms.Label _labelAccess;
+		private BindingHelper _binder;
 	}
 }

@@ -17,17 +17,36 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using SayMore.Model.Files;
 using SayMore.UI.Utilities;
 
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
+	public interface IEditorProvider
+	{
+		Control Control { get; }
+		string TabText { get; }
+		string ImageKey { get; }
+		void Initialize(string tabText, string imageKey);
+		void SetComponentFile(ComponentFile file);
+//		void ResetControlsToDefaultValues();
+		void GoDormant();
+	}
+
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	///
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class EditorBase : UserControl
+	public class EditorBase : UserControl, IEditorProvider
 	{
+		private BindingHelper _binder;
+		protected ComponentFile _file;
+
+		public string TabText { get; protected set; }
+		public string ImageKey { get; protected set; }
+
 		/// ------------------------------------------------------------------------------------
 		public EditorBase()
 		{
@@ -35,6 +54,54 @@ namespace SayMore.UI.ComponentEditors
 			BackColor = AppColors.DataEntryPanelBegin;
 			Padding = new Padding(7);
 			AutoScroll = true;
+			Name = "EditorBase";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public EditorBase(ComponentFile file, string tabText, string imageKey) : this()
+		{
+			SetComponentFile(file);
+			Initialize(tabText, imageKey);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Initialize(string tabText, string imageKey)
+		{
+			TabText = tabText;
+			ImageKey = imageKey;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void SetComponentFile(ComponentFile file)
+		{
+			_file = file;
+
+			if (_binder != null)
+				_binder.SetComponentFile(file);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Ideally, this classes binding helper should be exposed to subclasses, but I found
+		/// that when made protected or public, it still didn't show up in the forms designer,
+		/// which means individual controls on subclasses couldn't be bound in the designer.
+		/// Therefore, each subclass has to have its own binding helper dropped on the form
+		/// in the designer. Argh! This method is provided so subclasses can make available
+		/// its binding helper.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected void SetBindingHelper(BindingHelper binder)
+		{
+			_binder = binder;
+
+			if (_binder != null && _file != null)
+				_binder.SetComponentFile(_file);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Control Control
+		{
+			get { return this; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,5 +122,20 @@ namespace SayMore.UI.ComponentEditors
 					SetLabelFonts(ctrl, fnt);
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void GoDormant()
+		{
+			// Allows subclasses to do whatever they need to when a control gets taken out
+			// of use. This is not to be confused with being disposed, the difference being
+			// the editor will probably be used again. This could probably use a better name.
+		}
+
+		///// ------------------------------------------------------------------------------------
+		//public virtual void ResetControlsToDefaultValues()
+		//{
+		//    if (_binder != null)
+		//        _binder.ResetBoundControlsToDefaultValues();
+		//}
 	}
 }

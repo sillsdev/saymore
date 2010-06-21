@@ -97,6 +97,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleComponentSelectedCallback(int index)
 		{
+			_model.MakeComponentEditorsGoDormant();
 			_model.SetSelectedComponentFile(index);
 			UpdateComponentEditors();
 		}
@@ -207,12 +208,8 @@ namespace SayMore.UI.ElementListScreen
 			{
 				// Remove all but one tab page because removing all of them
 				// will steal the focus from the active control. Go figure.
-				for (int i = _componentEditorsTabControl.TabCount - 1; i >= 0; i--)
-				{
-					((ComponentEditorTabPage)_componentEditorsTabControl.TabPages[i]).DestroyAudioVideoProvider();
-					if (i > 0)
-						_componentEditorsTabControl.TabPages.RemoveAt(i);
-				}
+				for (int i = _componentEditorsTabControl.TabCount - 1; i > 0; i--)
+					_componentEditorsTabControl.TabPages.RemoveAt(i);
 
 				_componentFilesControl.AddButtonEnabled = true;
 			}

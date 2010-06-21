@@ -14,16 +14,12 @@ namespace SayMore.UI.ComponentEditors
 		private int _defaultPlayerVolume;
 
 		/// ------------------------------------------------------------------------------------
-		public AudioVideoPlayer(ComponentFile file)
+		public AudioVideoPlayer(ComponentFile file, string tabText, string imageKey)
+			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
 			Name = "AudioVideoPlayer";
-
-#if !MONO
-			InitializeWindowsMediaPlayer(file.PathToAnnotatedFile);
-#else
-			// Figure out how to host a media player in mono.
-#endif
+			SetComponentFile(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -31,11 +27,8 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (disposing)
 			{
-				if (_wmpPlayer != null)
-				{
-					_wmpPlayer.Ctlcontrols.stop();
+				if (_wmpPlayer != null && !_wmpPlayer.IsDisposed)
 					_wmpPlayer.Dispose();
-				}
 
 				if (_owningTab != null)
 				{
@@ -51,8 +44,10 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeWindowsMediaPlayer(string fileName)
+		private void InitializeWindowsMediaPlayer(string mediaFile)
 		{
+			DisposeOfExistingPlayer();
+
 			_wmpPlayer = new AxWindowsMediaPlayer();
 			((ISupportInitialize)(_wmpPlayer)).BeginInit();
 			_wmpPlayer.Dock = DockStyle.Fill;
@@ -63,10 +58,47 @@ namespace SayMore.UI.ComponentEditors
 
 			_defaultPlayerVolume = _wmpPlayer.settings.volume;
 			_wmpPlayer.settings.autoStart = false;
-			_wmpPlayer.URL = fileName;
+			_wmpPlayer.URL = mediaFile;
 
 			if (Settings.Default.AudioVideoPlayerVolume >= 0)
 				_wmpPlayer.settings.volume = Settings.Default.AudioVideoPlayerVolume;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void SetComponentFile(ComponentFile file)
+		{
+			base.SetComponentFile(file);
+
+#if !MONO
+			InitializeWindowsMediaPlayer(file.PathToAnnotatedFile);
+#else
+			// Figure out how to host a media player in mono.
+#endif
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void GoDormant()
+		{
+			DisposeOfExistingPlayer();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DisposeOfExistingPlayer()
+		{
+			if (_wmpPlayer != null)
+			{
+				_wmpPlayer.Ctlcontrols.stop();
+
+				// Using the player's close method is supposed to release all the resources
+				// used by the player for the current media file it has open, but I found
+				// that there is a sufficient lag between a close and when all the resources
+				// are finally released. E.g. after playing and closing, the folder that
+				// contains the media file still has a lock on it several seconds later and
+				// if the user tries to rename his session (which renames the folder)
+				// during that time, an exception is thrown. Disposing works better.
+				_wmpPlayer.Dispose();
+				_wmpPlayer = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

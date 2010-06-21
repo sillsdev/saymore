@@ -6,7 +6,8 @@ namespace SayMore.UI.ComponentEditors
 	public partial class NotesEditor : EditorBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public NotesEditor(ComponentFile file)
+		public NotesEditor(ComponentFile file, string tabText, string imageKey)
+			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
 			Name = "Notes";

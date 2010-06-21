@@ -17,7 +17,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.Utilities;
 
@@ -26,11 +25,11 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public class ComponentEditorTabPage : TabPage
 	{
-		public EditorProvider EditorProvider { get; private set; }
+		public IEditorProvider EditorProvider { get; private set; }
 		public bool IsEditorControlLoaded { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentEditorTabPage(EditorProvider provider)
+		public ComponentEditorTabPage(IEditorProvider provider)
 		{
 			DoubleBuffered = true;
 			SetProvider(provider);
@@ -79,7 +78,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetProvider(EditorProvider provider)
+		public void SetProvider(IEditorProvider provider)
 		{
 			EditorProvider = provider;
 			Text = provider.TabText;
@@ -93,7 +92,7 @@ namespace SayMore.UI.ComponentEditors
 			if (IsEditorControlLoaded)
 				return false;
 
-			var control = EditorProvider.GetEditor(file);
+			var control = EditorProvider.Control;
 			control.Dock = DockStyle.Fill;
 			Controls.Add(control);
 			ImageKey = EditorProvider.ImageKey;

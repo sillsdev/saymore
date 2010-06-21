@@ -61,6 +61,7 @@ namespace SayMore
 				builder.RegisterType<ElementListViewModel<Person>>().InstancePerLifetimeScope();
 				builder.RegisterType<AudioVideoDataGatherer>().InstancePerLifetimeScope();
 				builder.RegisterType<IEnumerable<FileType>>().InstancePerLifetimeScope();
+				builder.RegisterType<UnknownFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c)).InstancePerLifetimeScope();
@@ -97,7 +98,7 @@ namespace SayMore
 
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor
-				builder.Register<Func<PersonBasicEditor.Factory>>(c=>()=>c.Resolve<PersonBasicEditor.Factory>());
+				builder.Register<Func<PersonBasicEditor.Factory>>(c => () => c.Resolve<PersonBasicEditor.Factory>());
 			});
 
 
@@ -106,19 +107,19 @@ namespace SayMore
 
 		private IEnumerable<FileType> GetFilesTypes(IComponentContext context)
 		{
-			yield return new SessionFileType();
-			yield return context.Resolve<PersonFileType>();
-			yield return context.Resolve<AudioFileType>();
-			yield return new VideoFileType();
-			yield return new ImageFileType();
+			//yield return new SessionFileType();
+			//yield return context.Resolve<PersonFileType>();
+			//yield return context.Resolve<AudioFileType>();
+			//yield return new VideoFileType();
+			//yield return new ImageFileType();
 
-			//return new List<FileType>(new FileType[]{
-			//                        new SessionFileType(),
-			//                        context.Resolve<PersonFileType>(),
-			//                        context.Resolve<AudioFileType>(),
-			//                        new VideoFileType(),
-			//                        new ImageFileType()
-			//                        });
+			return new List<FileType>(new FileType[]{
+									new SessionFileType(),
+									context.Resolve<PersonFileType>(),
+									context.Resolve<AudioFileType>(),
+									new VideoFileType(),
+									new ImageFileType()
+									});
 		}
 
 		/// ------------------------------------------------------------------------------------

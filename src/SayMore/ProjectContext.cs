@@ -106,19 +106,19 @@ namespace SayMore
 
 		private IEnumerable<FileType> GetFilesTypes(IComponentContext context)
 		{
-//			yield return new SessionFileType();
-//			yield return context.Resolve<PersonFileType>();
-//			yield return context.Resolve<AudioFileType>();
-//			yield return new VideoFileType();
-//			yield return new ImageFileType();
+			yield return new SessionFileType();
+			yield return context.Resolve<PersonFileType>();
+			yield return context.Resolve<AudioFileType>();
+			yield return new VideoFileType();
+			yield return new ImageFileType();
 
-			return new List<FileType>(new FileType[]{
-									new SessionFileType(),
-									context.Resolve<PersonFileType>(),
-									context.Resolve<AudioFileType>(),
-									new VideoFileType(),
-									new ImageFileType()
-									});
+			//return new List<FileType>(new FileType[]{
+			//                        new SessionFileType(),
+			//                        context.Resolve<PersonFileType>(),
+			//                        context.Resolve<AudioFileType>(),
+			//                        new VideoFileType(),
+			//                        new ImageFileType()
+			//                        });
 		}
 
 		/// ------------------------------------------------------------------------------------

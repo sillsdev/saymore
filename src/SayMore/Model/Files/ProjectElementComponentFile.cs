@@ -29,7 +29,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string ChangeId(string newId, out string failureMessage)
+		public override string TryChangeChangeId(string newId, out string failureMessage)
 		{
 			failureMessage = null;
 
@@ -43,7 +43,7 @@ namespace SayMore.Model.Files
 				}
 			}
 
-			// Send back whatever the id is now, whether or not renaming failed.
+			// Send back whatever the id is now, whether or not renaming succeeded.
 			return _parentElement.Id;
 		}
 

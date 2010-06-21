@@ -196,7 +196,7 @@ namespace SayMore.UI.ComponentEditors
 			string failureMessage;
 
 			newValue = (_componentFileIdControl == control ?
-				_file.ChangeId(control.Text.Trim(), out failureMessage) :
+				_file.TryChangeChangeId(control.Text.Trim(), out failureMessage) :
 				_file.SetValue(key, (newValue ?? control.Text.Trim()), out failureMessage));
 
 			if (!gotNewValueFromDelegate)

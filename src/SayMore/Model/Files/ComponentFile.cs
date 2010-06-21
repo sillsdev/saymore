@@ -212,7 +212,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string ChangeId(string newId, out string failureMessage)
+		public virtual string TryChangeChangeId(string newId, out string failureMessage)
 		{
 			throw new NotImplementedException();
 		}

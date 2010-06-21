@@ -9,8 +9,14 @@ namespace SayMore.Model.Files
 	public class UnknownFileType : FileType
 	{
 		/// ------------------------------------------------------------------------------------
-		public UnknownFileType() : base("Unknown", path => true)
+		public UnknownFileType() : base("Unknown", path => false)
 		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool IsForUnknownFileTypes
+		{
+			get { return true; }
 		}
 
 		/// ------------------------------------------------------------------------------------

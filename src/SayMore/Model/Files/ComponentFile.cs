@@ -61,11 +61,9 @@ namespace SayMore.Model.Files
 		public string DateModified { get; private set; }
 
 		protected string _metaDataPath;
-		protected UnknownFileType _unknownFileType;
 
 		/// ------------------------------------------------------------------------------------
 		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
-			UnknownFileType unknownFileType,
 			IEnumerable<ComponentRole> componentRoles,
 			FileSerializer fileSerializer,
 			IProvideAudioVideoFileStatistics statisticsProvider,
@@ -76,7 +74,6 @@ namespace SayMore.Model.Files
 			_fileSerializer = fileSerializer;
 			_statisticsProvider = statisticsProvider;
 			_presetProvider = presetProvider;
-			_unknownFileType = unknownFileType;
 
 			DetermineFileType(pathToAnnotatedFile, fileTypes);
 
@@ -131,7 +128,7 @@ namespace SayMore.Model.Files
 		protected void DetermineFileType(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes)
 		{
 			FileType = (fileTypes.FirstOrDefault(t => t.IsMatch(pathToAnnotatedFile)) ??
-				_unknownFileType);
+				fileTypes.FirstOrDefault(t => t.IsForUnknownFileTypes));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -285,7 +282,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
 		{
-			return new ComponentFile(path, new FileType[] {}, new UnknownFileType(),
+			return new ComponentFile(path, new FileType[] { new UnknownFileType() },
 				new ComponentRole[]{}, new FileSerializer(), null, null);
 		}
 

@@ -30,7 +30,6 @@ namespace SayMore.UI.ComponentEditors
 		string ImageKey { get; }
 		void Initialize(string tabText, string imageKey);
 		void SetComponentFile(ComponentFile file);
-//		void ResetControlsToDefaultValues();
 		void GoDormant();
 	}
 
@@ -82,12 +81,13 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Ideally, this classes binding helper should be exposed to subclasses, but I found
-		/// that when made protected or public, it still didn't show up in the forms designer,
-		/// which means individual controls on subclasses couldn't be bound in the designer.
-		/// Therefore, each subclass has to have its own binding helper dropped on the form
-		/// in the designer. Argh! This method is provided so subclasses can make available
-		/// its binding helper.
+		/// Ideally, the binding helper should be declared in this class and marked protected,
+		/// for exposure to subclasses, but I found that when made protected or public, it
+		/// still didn't show up in the forms designer, which means individual controls on
+		/// a subclassed editor couldn't be bound in the designer. Therefore, each subclass
+		/// has to have its own binding helper dropped on the form in the designer. Argh!
+		/// This method is provided so subclasses can give the base class a reference to
+		/// their binding helper.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected void SetBindingHelper(BindingHelper binder)

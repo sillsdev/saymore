@@ -64,7 +64,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SilUtils, Version=1.5.3821.32701, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SilUtils.dll</HintPath>
     </Reference>
@@ -94,7 +94,6 @@
     <Compile Include="Model\Files\ExportCommand.cs" />
     <Compile Include="Model\Files\DataGathering\AudioVideoFileStatistics.cs" />
     <Compile Include="Model\Fields\DiscourseType.cs" />
-    <Compile Include="Model\EditorProvider.cs" />
     <Compile Include="Model\ElementRepository.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs" />
     <Compile Include="ApplicationContainer.cs" />

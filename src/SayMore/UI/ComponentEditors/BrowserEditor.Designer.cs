@@ -40,12 +40,12 @@ namespace SayMore.UI.ComponentEditors
 			this._browser.Size = new System.Drawing.Size(435, 265);
 			this._browser.TabIndex = 18;
 			// 
-			// NotesEditor
+			// BrowserEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._browser);
-			this.Name = "NotesEditor";
+			this.Name = "BrowserEditor";
 			this.Size = new System.Drawing.Size(449, 279);
 			this.ResumeLayout(false);
 

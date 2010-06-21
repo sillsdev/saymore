@@ -19,7 +19,6 @@ namespace SayMore.UI.ComponentEditors
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
-			SetComponentFile(file);
 			Name = "ImageViewer";
 
 			_labelZoom.Font = SystemFonts.IconTitleFont;
@@ -34,6 +33,8 @@ namespace SayMore.UI.ComponentEditors
 			_panelImage.Scroll += HandleImagePanelScroll;
 			_panelImage.MouseClick += HandleImagePanelMouseClick;
 			_panelImage.MouseDoubleClick += HandleImagePanelMouseClick;
+
+			SetComponentFile(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -48,14 +49,14 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
-			if (_zoomTrackBar != null)
+			base.SetComponentFile(file);
+			Initialize(file.PathToAnnotatedFile);
+
+			if (_zoomTrackBar != null && _panelImage != null)
 			{
 				_zoomTrackBar.Value = _model.GetPercentOfImageSizeToFitSize(100,
 					_zoomTrackBar.Minimum, _panelImage.ClientSize);
 			}
-
-			base.SetComponentFile(file);
-			Initialize(file.PathToAnnotatedFile);
 		}
 
 		/// ------------------------------------------------------------------------------------

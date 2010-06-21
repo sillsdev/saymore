@@ -61,7 +61,6 @@ namespace SayMore
 				builder.RegisterType<ElementListViewModel<Person>>().InstancePerLifetimeScope();
 				builder.RegisterType<AudioVideoDataGatherer>().InstancePerLifetimeScope();
 				builder.RegisterType<IEnumerable<FileType>>().InstancePerLifetimeScope();
-				builder.RegisterType<UnknownFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c)).InstancePerLifetimeScope();
@@ -118,7 +117,8 @@ namespace SayMore
 									context.Resolve<PersonFileType>(),
 									context.Resolve<AudioFileType>(),
 									new VideoFileType(),
-									new ImageFileType()
+									new ImageFileType(),
+									new UnknownFileType(),
 									});
 		}
 

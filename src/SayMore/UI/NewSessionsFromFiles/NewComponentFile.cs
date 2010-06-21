@@ -36,12 +36,11 @@ namespace SayMore.UI.NewSessionsFromFiles
 //		public NewComponentFile(string filePath) :
 //			base(filePath, ApplicationContainer.FilesTypes, null, null, null)
 		public NewComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
-			UnknownFileType unknownFileType,
 			IEnumerable<ComponentRole> componentRoles,
 			FileSerializer fileSerializer,
 			IProvideAudioVideoFileStatistics statisticsProvider,
 			PresetGatherer presetProvider)
-			: base(pathToAnnotatedFile, fileTypes, unknownFileType, componentRoles,
+			: base(pathToAnnotatedFile, fileTypes, componentRoles,
 				fileSerializer, statisticsProvider, presetProvider)
 		{
 			_fileTypes = fileTypes;

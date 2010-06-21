@@ -51,6 +51,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual bool IsForUnknownFileTypes
+		{
+			get { return false; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			if (_editors.Count == 0)

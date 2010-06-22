@@ -52,7 +52,7 @@ namespace SayMore.UI.ProjectWindow
 			_viewTabGroup.AddTab("Sessions", sessionsScreen);
 			_viewTabGroup.AddTab("People", personsScreen);
 			_viewTabGroup.AddTab("Progress", overviewScreen);
-			_viewTabGroup.AddTab("Send/Receive", new SendReceiveScreen());
+			//_viewTabGroup.AddTab("Send/Receive", new SendReceiveScreen());
 
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized += SetWindowText;

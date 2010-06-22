@@ -16,7 +16,7 @@ namespace SayMore.Model.Files
 			var child = new XElement(rootElementName);//todo could use actual name
 			foreach (var v in fields)
 			{
-				var element = new XElement(v.FieldDefinitionKey, v.Value);
+				var element = new XElement(v.FieldKey, v.Value);
 				element.Add(new XAttribute("type", v.Type));
 				child.Add(element);
 			}

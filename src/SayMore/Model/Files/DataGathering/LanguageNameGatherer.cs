@@ -27,15 +27,15 @@ namespace SayMore.Model.Files.DataGathering
 			var langs = new List<string>();
 			foreach (FieldValue field in f.MetaDataFieldValues)
 			{
-				if (field.FieldDefinitionKey.ToLower().Contains("lang")
-					&& !field.FieldDefinitionKey.ToLower().Contains("learned")
+				if (field.FieldKey.ToLower().Contains("lang")
+					&& !field.FieldKey.ToLower().Contains("learned")
 					&& !string.IsNullOrEmpty(field.Value))
 				{
 					var langsInField = from l in field.Value.Split(',', ';')
 									 where l.Trim().Length > 0
 									 select l.Trim();
 
-					Debug.WriteLine("LanguageNameGather: " + field.FieldDefinitionKey + ": " + langsInField.Aggregate((a, b) => a + ", " + b));
+					Debug.WriteLine("LanguageNameGather: " + field.FieldKey + ": " + langsInField.Aggregate((a, b) => a + ", " + b));
 					langs.AddRange(langsInField);
 				}
 			}

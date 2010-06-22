@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
+using SIL.Localization;
 
 namespace SayMore.Model.Files
 {
@@ -16,7 +17,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class FileType
 	{
-		private readonly Func<string, bool> _isMatchPredicate;
+		protected Func<string, bool> _isMatchPredicate;
 
 		protected readonly List<IEditorProvider> _editors = new List<IEditorProvider>();
 
@@ -45,7 +46,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool IsMatch(string path)
+		public virtual bool IsMatch(string path)
 		{
 			return _isMatchPredicate(path);
 		}
@@ -124,19 +125,20 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			// review: this will create a new editor provider and basic editor for each
-			// person. That seems a bit resource intensive. It would be nice to reuse the editor.
-
-			if (_editors.Count == 0)
-			{
-				_editors.Add(_personBasicEditorFactoryLazy()(file, "Person", "Person"));
-				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
-				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-			}
-			else
+			if (_editors.Count > 0)
 			{
 				foreach (var editor in _editors)
 					editor.SetComponentFile(file);
+			}
+			else
+			{
+				var text = LocalizationManager.LocalizeString("PersonInfoEditor.PersonTabText", "Person");
+				_editors.Add(_personBasicEditorFactoryLazy()(file, text, "Person"));
+
+				text = LocalizationManager.LocalizeString("PersonInfoEditor.NotesTabText", "Notes");
+				_editors.Add(new NotesEditor(file, text, "Notes"));
+
+				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 			}
 
 			return _editors;
@@ -173,20 +175,20 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			// review: this will create a new editor provider and basic editor for each
-			// session. That seems a bit resource intensive when the user has a lot of
-			// sessions. It would be nice to reuse the editor.
-
-			if (_editors.Count == 0)
-			{
-				_editors.Add(new SessionBasicEditor(file, "Session", "Session"));
-				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
-				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-			}
-			else
+			if (_editors.Count > 0)
 			{
 				foreach (var editor in _editors)
 					editor.SetComponentFile(file);
+			}
+			else
+			{
+				var text = LocalizationManager.LocalizeString("SessionInfoEditor.SessionTabText", "Session");
+				_editors.Add(new SessionBasicEditor(file, text, "Session"));
+
+				text = LocalizationManager.LocalizeString("SessionInfoEditor.NotesTabText", "Notes");
+				_editors.Add(new NotesEditor(file, text, "Notes"));
+
+				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 			}
 
 			return _editors;
@@ -236,17 +238,23 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			if (_editors.Count == 0)
-			{
-				_editors.Add(new AudioComponentEditor(file, "Technical", "Audio"));
-				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
-				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-				_editors.Add(new AudioVideoPlayer(file, "Play", "Play"));
-			}
-			else
+			if (_editors.Count > 0)
 			{
 				foreach (var editor in _editors)
 					editor.SetComponentFile(file);
+			}
+			else
+			{
+				var text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PlaybackTabText", "Audio");
+				_editors.Add(new AudioVideoPlayer(file, text, "Audio"));
+
+				text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
+				_editors.Add(new AudioComponentEditor(file, text, null));
+
+				text = LocalizationManager.LocalizeString("AudioFileInfoEditor.NotesTabText", "Notes");
+				_editors.Add(new NotesEditor(file, text, "Notes"));
+
+				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 			}
 
 			return _editors;
@@ -280,16 +288,23 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			if (_editors.Count == 0)
-			{
-				_editors.Add(new VideoComponentEditor(file, "Technical", "Video"));
-				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
-				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-			}
-			else
+			if (_editors.Count > 0)
 			{
 				foreach (var editor in _editors)
 					editor.SetComponentFile(file);
+			}
+			else
+			{
+				var text = LocalizationManager.LocalizeString("VideoFileInfoEditor.PlaybackTabText", "Video");
+				_editors.Add(new AudioVideoPlayer(file, text, "Video"));
+
+				text = LocalizationManager.LocalizeString("VideoFileInfoEditor.PropertiesTabText", "Properties");
+				_editors.Add(new VideoComponentEditor(file, text, null));
+
+				text = LocalizationManager.LocalizeString("VideoFileInfoEditor.NotesTabText", "Notes");
+				_editors.Add(new NotesEditor(file, text, "Notes"));
+
+				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 			}
 
 			return _editors;
@@ -317,16 +332,20 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			if (_editors.Count == 0)
-			{
-				_editors.Add(new ImageViewer(file, "View", "Image"));
-				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
-				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-			}
-			else
+			if (_editors.Count > 0)
 			{
 				foreach (var editor in _editors)
 					editor.SetComponentFile(file);
+			}
+			else
+			{
+				var text = LocalizationManager.LocalizeString("ImageFileInfoEditor.ViewTabText", "Image");
+				_editors.Add(new ImageViewer(file, text, "Image"));
+
+				text = LocalizationManager.LocalizeString("ImageFileInfoEditor.NotesTabText", "Notes");
+				_editors.Add(new NotesEditor(file, text, "Notes"));
+
+				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 			}
 
 			return _editors;

@@ -64,36 +64,35 @@ namespace SayMore
 
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c)).InstancePerLifetimeScope();
-//				builder.Register<IEnumerable<FileType>>(c =>
-//				                                        	{
-//				                                        		if (_fileTypes == null)
-//				                                        		{
-//				                                        			_fileTypes = GetFilesTypes(c);
-//				                                        		}
-//				                                        		return _fileTypes;
-//				                                        	});
-//
+				//				builder.Register<IEnumerable<FileType>>(c =>
+				//				                                        	{
+				//				                                        		if (_fileTypes == null)
+				//				                                        		{
+				//				                                        			_fileTypes = GetFilesTypes(c);
+				//				                                        		}
+				//				                                        		return _fileTypes;
+				//				                                        	});
+				//
 
 				//these needed to be done later (as delegates) because of the FileTypes dependency
 				//there's maybe something I'm doing wrong that requires me to register this twice like this...
 				builder.Register<IProvideAudioVideoFileStatistics>(
 					c => new AudioVideoDataGatherer(rootDirectoryPath,
-													c.Resolve<IEnumerable<FileType>>()))
-												.InstancePerLifetimeScope();
+						c.Resolve<IEnumerable<FileType>>())).InstancePerLifetimeScope();
 
-				builder.Register<AudioVideoDataGatherer>(c => c.Resolve(typeof (IProvideAudioVideoFileStatistics))
-																		as AudioVideoDataGatherer).InstancePerLifetimeScope();
+				builder.Register<AudioVideoDataGatherer>(c => c.Resolve(typeof(IProvideAudioVideoFileStatistics))
+						as AudioVideoDataGatherer).InstancePerLifetimeScope();
 				;
 				//create a single PresetGatherer and stick it in the container
 				//builder.RegisterInstance(parentContainer.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
 
 				//using the factory gave stack overflow: builder.Register<PresetGatherer>(c => c.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
-				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(), c.Resolve<PresetData.Factory>())).InstancePerLifetimeScope();
+				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath,
+					c.Resolve<IEnumerable<FileType>>(), c.Resolve<PresetData.Factory>())).InstancePerLifetimeScope();
 
 				builder.Register<LanguageNameGatherer>(
-					c => new LanguageNameGatherer(rootDirectoryPath,
-							c.Resolve<IEnumerable<FileType>>(),
-							c.Resolve<ComponentFile.Factory>())).InstancePerLifetimeScope();
+					c => new LanguageNameGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
+						c.Resolve<ComponentFile.Factory>())).InstancePerLifetimeScope();
 
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor

@@ -85,7 +85,7 @@ namespace SayMore.Model.Files.DataGathering
 			var pathToAnnotatedFile = path.Replace(".meta","");
 
 			var f = componentFileFactory(pathToAnnotatedFile);
-			Dictionary =  f.MetaDataFieldValues.ToDictionary(field => field.FieldDefinitionKey,
+			Dictionary =  f.MetaDataFieldValues.ToDictionary(field => field.FieldKey,
 															field => field.Value);
 		}
 

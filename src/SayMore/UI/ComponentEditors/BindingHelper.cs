@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +17,9 @@ namespace SayMore.UI.ComponentEditors
 	[ProvideProperty("IsComponentFileId", typeof(IComponent))]
 	public class BindingHelper : Component, IExtenderProvider
 	{
+		private readonly Func<string, string> MakeKeyFromText = (x => x.TrimStart('_'));
+		private readonly Func<Control, string> MakeKeyFromControl = (x => x.Name.TrimStart('_'));
+
 		public delegate bool GetBoundControlValueHandler(BindingHelper helper,
 			Control boundControl, out string newValue);
 
@@ -61,7 +63,8 @@ namespace SayMore.UI.ComponentEditors
 			if (ctrl == null)
 				return false;
 
-			var extend = (ctrl is TextBox || ctrl is DateTimePicker || ctrl is ComboBox);
+			var extend = (ctrl is TextBox || ctrl is DateTimePicker ||
+				ctrl is ComboBox || ctrl is CustomFieldsGrid);
 
 			if (extend && !_extendedControls.ContainsKey(ctrl))
 				_extendedControls[ctrl] = true;
@@ -118,7 +121,7 @@ namespace SayMore.UI.ComponentEditors
 
 			_file = file;
 
-			// First, collect only the extended controls that are not bound.
+			// First, collect only the extended controls that are bound.
 			_boundControls = _extendedControls.Where(x => x.Value).Select(x => x.Key).ToList();
 
 			foreach (var ctrl in _boundControls)
@@ -126,6 +129,47 @@ namespace SayMore.UI.ComponentEditors
 				ctrl.Font = SystemFonts.IconTitleFont;
 				BindControl(ctrl);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void BindControl(Control ctrl)
+		{
+			if (!_boundControls.Contains(ctrl))
+				_boundControls.Add(ctrl);
+
+			if (ctrl is CustomFieldsGrid)
+			{
+				var grid = ctrl as CustomFieldsGrid;
+				UpdateCustomFieldsGridFromFile(grid);
+				grid.RowValidated += HandleCustomFieldsGridRowValidated;
+			}
+			else
+			{
+				UpdateControlValueFromField(ctrl);
+				ctrl.Validating += HandleValidatingControl;
+			}
+
+			ctrl.Disposed += HandleDisposed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void UnBindControl(Control ctrl)
+		{
+			ctrl.Disposed -= HandleDisposed;
+
+			if (ctrl is CustomFieldsGrid)
+				((CustomFieldsGrid)ctrl).RowValidated -= HandleCustomFieldsGridRowValidated;
+			else
+				ctrl.Validating -= HandleValidatingControl;
+
+			if (_boundControls.Contains(ctrl))
+				_boundControls.Remove(ctrl);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleDisposed(object sender, EventArgs e)
+		{
+			UnBindControl(sender as Control);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -137,29 +181,35 @@ namespace SayMore.UI.ComponentEditors
 		public void UpdateFieldsFromFile()
 		{
 			foreach (var ctrl in _boundControls)
-				UpdateControlValueFromField(ctrl);
+			{
+				if (ctrl is CustomFieldsGrid)
+					UpdateCustomFieldsGridFromFile(ctrl as CustomFieldsGrid);
+				else
+					UpdateControlValueFromField(ctrl);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void BindControl(Control ctrl)
+		private void UpdateCustomFieldsGridFromFile(CustomFieldsGrid grid)
 		{
-			UpdateControlValueFromField(ctrl);
-			ctrl.Validating += HandleValidatingControl;
-			ctrl.Disposed += HandleDisposed;
+			// Get all the keys for bound controls (except the bound custom fields grid).
+			var nonCustomKeys = from ctrl in _boundControls
+								where ctrl.GetType() != typeof(CustomFieldsGrid)
+								select MakeKeyFromControl(ctrl);
+
+			// Get all the keys from the meta data that are not in the non custom keys list.
+			// Those keys are considered to be custom keys.
+			var customKeys = _file.MetaDataFieldValues.Select(x => x.FieldKey).Except(nonCustomKeys);
+
+			grid.SetFieldsAndValues(from x in customKeys
+									select _file.MetaDataFieldValues.First(y => y.FieldKey == x));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void UpdateControlValueFromField(Control ctrl)
 		{
-			var key = ctrl.Name.TrimStart('_');
+			var key = MakeKeyFromControl(ctrl);
 			ctrl.Text = _file.GetStringValue(key, string.Empty);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void UnBindControl(Control ctrl)
-		{
-			ctrl.Validating -= HandleValidatingControl;
-			ctrl.Disposed -= HandleDisposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -183,59 +233,78 @@ namespace SayMore.UI.ComponentEditors
 			return modifiedValue;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public void ResetBoundControlsToDefaultValues()
-		{
-			foreach (var ctrl in _boundControls)
-			{
-				if (ctrl is TextBox)
-					ctrl.Text = string.Empty;
-				else if (ctrl is DateTimePicker)
-				{
-					((DateTimePicker)ctrl).Value = _file != null && File.Exists(_file.PathToAnnotatedFile) ?
-						File.GetLastWriteTime(_file.PathToAnnotatedFile) : DateTime.Now;
-				}
-				else if (ctrl is ComboBox)
-					((ComboBox)ctrl).SelectedIndex = (((ComboBox)ctrl).Items.Count > 0 ? 0 : -1);
-			}
-		}
+		///// ------------------------------------------------------------------------------------
+		//public void ResetBoundControlsToDefaultValues()
+		//{
+		//    foreach (var ctrl in _boundControls)
+		//    {
+		//        if (ctrl is TextBox)
+		//            ctrl.Text = string.Empty;
+		//        else if (ctrl is DateTimePicker)
+		//        {
+		//            ((DateTimePicker)ctrl).Value = _file != null && File.Exists(_file.PathToAnnotatedFile) ?
+		//                File.GetLastWriteTime(_file.PathToAnnotatedFile) : DateTime.Now;
+		//        }
+		//        else if (ctrl is ComboBox)
+		//            ((ComboBox)ctrl).SelectedIndex = (((ComboBox)ctrl).Items.Count > 0 ? 0 : -1);
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleValidatingControl(object sender, CancelEventArgs e)
 		{
-			var control = (Control)sender;
-			var key = control.Name.TrimStart('_');
+			var ctrl = (Control)sender;
+			var key = MakeKeyFromControl(ctrl);
 
 			string newValue = null;
 			var gotNewValueFromDelegate = (GetBoundControlValue != null &&
-				!GetBoundControlValue(this, control, out newValue));
+				!GetBoundControlValue(this, ctrl, out newValue));
 
 			// Don't bother doing anything if the old value is the same as the new value.
 			var oldValue = _file.GetStringValue(key, null);
-			if (oldValue != null && oldValue == control.Text.Trim())
+			if (oldValue != null && oldValue == ctrl.Text.Trim())
 				return;
 
 			string failureMessage;
 
-			newValue = (_componentFileIdControl == control ?
-				_file.TryChangeChangeId(control.Text.Trim(), out failureMessage) :
-				_file.SetValue(key, (newValue ?? control.Text.Trim()), out failureMessage));
+			newValue = (_componentFileIdControl == ctrl ?
+				_file.TryChangeChangeId(ctrl.Text.Trim(), out failureMessage) :
+				_file.SetValue(key, (newValue ?? ctrl.Text.Trim()), out failureMessage));
 
 			if (!gotNewValueFromDelegate)
-				control.Text = newValue;
+				ctrl.Text = newValue;
 
 			if (failureMessage != null)
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 
 			//enchance: don't save so often, leave it to some higher level
-			if (_componentFileIdControl != control)
+			if (_componentFileIdControl != ctrl)
 				_file.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleDisposed(object sender, EventArgs e)
+		private void HandleCustomFieldsGridRowValidated(object sender, DataGridViewCellEventArgs e)
 		{
-			UnBindControl(sender as Control);
+			if (((CustomFieldsGrid)sender).NewRowIndex == e.RowIndex)
+				return;
+
+			var fieldValue = ((CustomFieldsGrid)sender).GetFieldValueForIndex(e.RowIndex);
+			var key = MakeKeyFromText(fieldValue.FieldKey);
+			var newValue = fieldValue.Value.Trim();
+
+			// Don't bother doing anything if the old value is the same as the new value.
+			var oldValue = _file.GetStringValue(key, null);
+			if (oldValue != null && oldValue == newValue)
+				return;
+
+			string failureMessage;
+			_file.SetValue(key, newValue, out failureMessage);
+
+			if (failureMessage != null)
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+
+			//enchance: don't save so often, leave it to some higher level
+			_file.Save();
 		}
 	}
 }

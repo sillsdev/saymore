@@ -57,7 +57,7 @@ namespace SayMore.UI.ComponentEditors
 			((ISupportInitialize)(_wmpPlayer)).EndInit();
 
 			_defaultPlayerVolume = _wmpPlayer.settings.volume;
-			_wmpPlayer.settings.autoStart = false;
+			_wmpPlayer.settings.autoStart = Settings.Default.AutoPlayMediaPlayerWhenSelectingMediaFile;
 			_wmpPlayer.URL = mediaFile;
 
 			if (Settings.Default.AudioVideoPlayerVolume >= 0)
@@ -137,7 +137,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		void HandleOwningTabPageEnter(object sender, System.EventArgs e)
 		{
-			if (!Settings.Default.PauseMediaPlayerWhenTabLoosesFocus)
+			if (!Settings.Default.PauseMediaPlayerWhenTabLoosesFocus || _wmpPlayer == null)
 				return;
 
 			if ((_wmpPlayer.Tag as string) == "PausedWhenLostFocus")

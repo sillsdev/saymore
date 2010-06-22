@@ -103,7 +103,7 @@ namespace SayMore.Model
 		{
 			get
 			{
-				yield return new FieldValue("id", "string", Id);
+				yield return new FieldValue("id", Id);
 				foreach (var field in MetaDataFile.MetaDataFieldValues)
 				{
 					yield return field;

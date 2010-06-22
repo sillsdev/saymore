@@ -8,12 +8,15 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class SessionBasicEditor : EditorBase
 	{
+		CustomFieldsGrid _gridCustomFields;
+
 		/// ------------------------------------------------------------------------------------
 		public SessionBasicEditor(ComponentFile file, string tabText, string imageKey)
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
-			Name = "Basic";
+			InitializeCustomFieldsGrid();
+			Name = "SessionBasicEditor";
 			SetBindingHelper(_binder);
 
 			if (DiscourseType.AllTypes == null)
@@ -24,6 +27,15 @@ namespace SayMore.UI.ComponentEditors
 
 			var currType = discourseTypes.FirstOrDefault(x => x.Id == _binder.GetValue("eventType"));
 			_eventType.SelectedItem = (currType ?? DiscourseType.UnknownType);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeCustomFieldsGrid()
+		{
+			_gridCustomFields = new CustomFieldsGrid();
+			_tableLayout.Controls.Add(_gridCustomFields, 0, 11);
+			_tableLayout.SetColumnSpan(_gridCustomFields, 2);
+			_binder.SetIsBound(_gridCustomFields, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

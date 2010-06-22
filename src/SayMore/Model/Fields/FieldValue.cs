@@ -2,20 +2,27 @@ using System;
 
 namespace SayMore.Model.Fields
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// A FieldValue is a conceptually a key-value pair.  We add other properties as necessary,
 	/// but that's the simple idea.
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class FieldValue : IEquatable<FieldValue>
 	{
-		public string FieldDefinitionKey { get; set; }
+		public string FieldKey { get; set; }
 		public string Type { get; set; }
 		public string Value { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		public FieldValue(string id, string value) : this(id, "string", value)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public FieldValue(string id, string type, string value)
 		{
-			FieldDefinitionKey = id;
+			FieldKey = id;
 			Type = type;
 			Value = value;
 		}
@@ -23,10 +30,16 @@ namespace SayMore.Model.Fields
 		/// ------------------------------------------------------------------------------------
 		public override bool Equals(object obj)
 		{
-			if (ReferenceEquals(null, obj)) return false;
-			if (ReferenceEquals(this, obj)) return true;
-			if (obj.GetType() != typeof (FieldValue)) return false;
-			return Equals((FieldValue) obj);
+			if (ReferenceEquals(null, obj))
+				return false;
+
+			if (ReferenceEquals(this, obj))
+				return true;
+
+			if (obj.GetType() != typeof(FieldValue))
+				return false;
+
+			return Equals((FieldValue)obj);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -41,9 +54,14 @@ namespace SayMore.Model.Fields
 		/// ------------------------------------------------------------------------------------
 		public bool Equals(FieldValue other)
 		{
-			if (ReferenceEquals(null, other)) return false;
-			if (ReferenceEquals(this, other)) return true;
-			return Equals(other.FieldDefinitionKey, FieldDefinitionKey) && Equals(other.Type, Type) && Equals(other.Value, Value);
+			if (ReferenceEquals(null, other))
+				return false;
+
+			if (ReferenceEquals(this, other))
+				return true;
+
+			return Equals(other.FieldKey, FieldKey) &&
+				Equals(other.Type, Type) && Equals(other.Value, Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -59,7 +77,7 @@ namespace SayMore.Model.Fields
 		{
 			unchecked
 			{
-				int result = (FieldDefinitionKey != null ? FieldDefinitionKey.GetHashCode() : 0);
+				int result = (FieldKey != null ? FieldKey.GetHashCode() : 0);
 				result = (result * 397) ^ (Type != null ? Type.GetHashCode() : 0);
 				result = (result * 397) ^ (Value != null ? Value.GetHashCode() : 0);
 				return result;
@@ -81,7 +99,7 @@ namespace SayMore.Model.Fields
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return string.Format("{0}='{1}'", FieldDefinitionKey, Value);
+			return string.Format("{0}='{1}'", FieldKey, Value);
 		}
 	}
 }

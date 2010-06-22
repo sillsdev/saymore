@@ -45,20 +45,19 @@ namespace SayMore.Model.Files
 		public event ValueChangedHandler IdChanged;
 		public event ValueChangedHandler MetadataValueChanged;
 
-		public string PathToAnnotatedFile { get; protected set; }
 		protected IEnumerable<ComponentRole> _componentRoles;
 		protected FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
 		private readonly PresetGatherer _presetProvider;
 		protected string _rootElementName;
 
-		public List<FieldValue> MetaDataFieldValues { get; set; }
-		public List<FieldValue> Fields { get; private set; }
-		public FileType FileType { get; private set; }
-		public string FileTypeDescription { get; private set; }
-		public string FileSize { get; private set; }
-		public Image SmallIcon { get; private set; }
-		public string DateModified { get; private set; }
+		public string PathToAnnotatedFile { get; protected set; }
+		public List<FieldValue> MetaDataFieldValues { get; protected set; }
+		public FileType FileType { get; protected set; }
+		public string FileTypeDescription { get; protected set; }
+		public string FileSize { get; protected set; }
+		public Image SmallIcon { get; protected set; }
+		public string DateModified { get; protected set; }
 
 		protected string _metaDataPath;
 
@@ -159,7 +158,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetStringValue(string key, string defaultValue)
 		{
-			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldDefinitionKey == key);
+			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldKey == key);
 			return (field == null ? defaultValue : field.Value);
 		}
 
@@ -174,12 +173,12 @@ namespace SayMore.Model.Files
 			string oldValue = null;
 			newValue = (newValue == null ? string.Empty : newValue.Trim());
 
-			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldDefinitionKey == key);
+			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldKey == key);
 			if (field != null && field.Value == newValue)
 				return newValue;
 
 			if (field == null)
-				MetaDataFieldValues.Add(new FieldValue(key, "string", newValue));
+				MetaDataFieldValues.Add(new FieldValue(key, newValue));
 			else
 			{
 				oldValue = field.Value;

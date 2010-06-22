@@ -41,12 +41,13 @@ namespace SayMore.UI.ElementListScreen
 
 			try
 			{
-				// Sigh. Setting AllowDrop when tests are running throws an exception and
+				// Setting AllowDrop when tests are running throws an exception and
 				// I'm not quite sure why, even after using reflector to look at the
 				// code behind setting the property. Nonetheless, I've seen this before
 				// so I'm just going to ignore any exception thrown when enabling drag
-				// and drop. The worst that could happen is that the end user will not
-				// have that feature.
+				// and drop. The worst that could happen by ignorning an exception
+				// when the user runs the program (which should never happen), is that
+				// they won't have the drag/drop feature.
 				_grid.AllowDrop = true;
 			}
 			catch { }

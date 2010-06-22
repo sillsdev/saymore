@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using SayMore.UI.ComponentEditors;
+using SIL.Localization;
 
 namespace SayMore.Model.Files
 {
@@ -22,16 +23,20 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
-			if (_editors.Count == 0)
-			{
-				_editors.Add(new BrowserEditor(file, "View", null));
-				_editors.Add(new NotesEditor(file, "Notes", "Notes"));
-				_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-			}
-			else
+			if (_editors.Count > 0)
 			{
 				foreach (var editor in _editors)
 					editor.SetComponentFile(file);
+			}
+			else
+			{
+				var text = LocalizationManager.LocalizeString("MiscFileInfoEditor.ViewTabText", "View");
+				_editors.Add(new BrowserEditor(file, text, null));
+
+				text = LocalizationManager.LocalizeString("MiscFileInfoEditor.NotesTabText", "Notes");
+				_editors.Add(new NotesEditor(file, text, "Notes"));
+
+				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 			}
 
 			return _editors;

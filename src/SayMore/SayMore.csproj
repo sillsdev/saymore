@@ -206,12 +206,6 @@
     <Compile Include="UI\ElementListScreen\ElementListScreen.Designer.cs">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\LowLevelControls\AutoCompleteTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\LowLevelControls\AutoCompleteTextBox.Designer.cs">
-      <DependentUpon>AutoCompleteTextBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\LowLevelControls\DeleteMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Files\DataGathering\BackgroundFileProcessor.cs" />
-    <Compile Include="Model\Files\DataGathering\LanguageNameGatherer.cs" />
+    <Compile Include="Model\Files\DataGathering\AutoCompleteValueGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\PresetGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\AudioVideoDataGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\SessionOverviewStatistics.cs" />

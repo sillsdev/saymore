@@ -510,7 +510,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _primaryLanguageLearnedIn
 			// 
-			this._languageAutoCompleteHelper.SetAutoCompleteKey(this._primaryLanguageLearnedIn, "languageLearnedIn");
+			this._languageAutoCompleteHelper.SetAutoCompleteKey(this._primaryLanguageLearnedIn, "primaryLanguageLearnedIn");
 			this._primaryLanguageLearnedIn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._primaryLanguageLearnedIn.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutPrimaryLanguage.SetColumnSpan(this._primaryLanguageLearnedIn, 3);
@@ -581,7 +581,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._primaryOccupation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._languageAutoCompleteHelper.SetAutoCompleteKey(this._primaryOccupation, "occupation");
+			this._languageAutoCompleteHelper.SetAutoCompleteKey(this._primaryOccupation, "primaryOccupation");
 			this._primaryOccupation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._primaryOccupation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tblLayoutOuter.SetColumnSpan(this._primaryOccupation, 2);

@@ -46,7 +46,7 @@ namespace SayMore
 			//Start up the background operations
 			_scope.Resolve<AudioVideoDataGatherer>().Start();
 			_scope.Resolve<PresetGatherer>().Start();
-			_scope.Resolve<LanguageNameGatherer>().Start();
+			_scope.Resolve<AutoCompleteValueGatherer>().Start();
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
 		}
@@ -90,8 +90,8 @@ namespace SayMore
 				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath,
 					c.Resolve<IEnumerable<FileType>>(), c.Resolve<PresetData.Factory>())).InstancePerLifetimeScope();
 
-				builder.Register<LanguageNameGatherer>(
-					c => new LanguageNameGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
+				builder.Register<AutoCompleteValueGatherer>(
+					c => new AutoCompleteValueGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
 						c.Resolve<ComponentFile.Factory>())).InstancePerLifetimeScope();
 
 				//make a lazy factory-getter to get around a mysterious circular dependency problem

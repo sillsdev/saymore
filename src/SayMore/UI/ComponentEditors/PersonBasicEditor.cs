@@ -16,7 +16,7 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class PersonBasicEditor : EditorBase
 	{
-		private readonly LanguageNameGatherer _autoCompleteProvider;
+		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
 
 		public delegate PersonBasicEditor Factory(ComponentFile file, string tabText, string imageKey);
 
@@ -27,7 +27,7 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string tabText, string imageKey,
-			LanguageNameGatherer autoCompleteProvider) : base(file, tabText, imageKey)
+			AutoCompleteValueGatherer autoCompleteProvider) : base(file, tabText, imageKey)
 		{
 			_autoCompleteProvider = autoCompleteProvider;
 			InitializeComponent();

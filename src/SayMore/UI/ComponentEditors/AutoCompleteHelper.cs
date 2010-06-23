@@ -165,7 +165,7 @@ namespace SayMore.UI.ComponentEditors
 				_textBoxesNeedingNewList.Remove(textbox);
 				var newValues = new AutoCompleteStringCollection();
 				IEnumerable<string> values;
-				if (_autoCompleteLists.TryGetValue("language", out values))
+				if (_autoCompleteLists.TryGetValue(_keysForTextBoxes[textbox], out values))
 				{
 					newValues.AddRange(values.ToArray());
 				}

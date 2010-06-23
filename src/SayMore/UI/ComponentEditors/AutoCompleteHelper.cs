@@ -12,7 +12,7 @@ namespace SayMore.UI.ComponentEditors
 	/// This is kind of an experiment at the moment...
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[ProvideProperty("ProvideAutoCompleteSupport", typeof(IComponent))]
+	[ProvideProperty("AutoCompleteKey", typeof(IComponent))]
 	[ProvideProperty("UpdateGatherer", typeof(IComponent))]
 	public class AutoCompleteHelper : Component, IExtenderProvider
 	{
@@ -20,10 +20,14 @@ namespace SayMore.UI.ComponentEditors
 			Control boundControl, out string newValue);
 
 		private Container components;
-		private readonly Dictionary<TextBox, bool> _extendedTextBoxes = new Dictionary<TextBox, bool>();
+		private readonly Dictionary<TextBox, string> _keysForTextBoxes = new Dictionary<TextBox, string>();
 		private List<TextBox> _textBoxesNeedingNewList = new List<TextBox>(0);
-		private IDataGatherer _provider;
-		private string[] _autoCompleteValues;
+		private IMultiListDataProvider _provider;
+
+		/// <summary>
+		/// Given a key, get a list of strings for autocomplete
+		/// </summary>
+		private Dictionary<string, IEnumerable<string>> _autoCompleteLists;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -53,8 +57,8 @@ namespace SayMore.UI.ComponentEditors
 			if (ctrl == null)
 				return false;
 
-			if (!_extendedTextBoxes.ContainsKey(ctrl))
-				_extendedTextBoxes[ctrl] = false;
+			if (!_keysForTextBoxes.ContainsKey(ctrl))
+				_keysForTextBoxes[ctrl] = string.Empty;//default to no autocomplete
 
 			return true;
 		}
@@ -83,38 +87,42 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		[Localizable(false)]
 		[Category("AutoCompleteHelper Properties")]
-		public bool GetProvideAutoCompleteSupport(object obj)
+		public string GetAutoCompleteKey(object obj)
 		{
-			bool isSupportedProvided;
-			return (_extendedTextBoxes.TryGetValue(obj as TextBox, out isSupportedProvided) ?
-				isSupportedProvided : false);
+
+			string key;
+			if(_keysForTextBoxes.TryGetValue(obj as TextBox, out key))
+			{
+				return key;
+			}
+			return string.Empty;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetProvideAutoCompleteSupport(object obj, bool provideSupport)
+		public void SetAutoCompleteKey(object obj, string key)
 		{
 			var textbox = obj as TextBox;
 
 			if (textbox == null)
 				return;
 
-			_extendedTextBoxes[textbox] = provideSupport;
+			_keysForTextBoxes[textbox] = key;
 
 			// Do this just in case this is being called from outside the initialize
 			// components method and after the component file has been set.
-			if (!provideSupport)
+			if (!string.IsNullOrEmpty(key)) //review (jh) doesn't know why we do this just when its empty
 				AddSupport(textbox);
 		}
 
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		public void SetDataGatherer(IDataGatherer provider)
+		public void SetAutoCompleteProvider(IMultiListDataProvider provider)
 		{
 			_provider = provider;
 			_provider.NewDataAvailable += HandleNewDataAvailable;
 
-			foreach (var textbox in _extendedTextBoxes.Where(x => x.Value).Select(x => x.Key))
+			foreach (var textbox in _keysForTextBoxes.Where(x => !string.IsNullOrEmpty(x.Value)).Select(x => x.Key))
 				AddSupport(textbox);
 		}
 
@@ -141,8 +149,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		void HandleNewDataAvailable(object sender, EventArgs e)
 		{
-			_autoCompleteValues = _provider.GetValues().ToArray();
-			_textBoxesNeedingNewList = _extendedTextBoxes.Where(x => x.Value).Select(x => x.Key).ToList();
+			_autoCompleteLists = _provider.GetValueLists();
+			_textBoxesNeedingNewList = _keysForTextBoxes.Where(x => !string.IsNullOrEmpty(x.Value)).Select(x => x.Key).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -156,7 +164,11 @@ namespace SayMore.UI.ComponentEditors
 			{
 				_textBoxesNeedingNewList.Remove(textbox);
 				var newValues = new AutoCompleteStringCollection();
-				newValues.AddRange(_autoCompleteValues);
+				IEnumerable<string> values;
+				if (_autoCompleteLists.TryGetValue("language", out values))
+				{
+					newValues.AddRange(values.ToArray());
+				}
 				textbox.AutoCompleteCustomSource = newValues;
 			}
 

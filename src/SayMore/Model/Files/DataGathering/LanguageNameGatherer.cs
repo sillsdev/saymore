@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace SayMore.Model.Files.DataGathering
 	/// Gets all the languages mentioned in the whole project,
 	/// for the purpose of type-ahead
 	/// </summary>
-	public class LanguageNameGatherer : BackgroundFileProcessor<List<string> /* a list of the languages mentioned in this file*/>, IDataGatherer
+	public class LanguageNameGatherer : BackgroundFileProcessor<List<string> /* a list of the languages mentioned in this file*/>, IMultiListDataProvider
 	{
 		public delegate LanguageNameGatherer Factory(string rootDirectoryPath);
 
@@ -59,6 +60,13 @@ namespace SayMore.Model.Files.DataGathering
 			}
 
 			return uniqueOnes;
+		}
+
+		public Dictionary<string, IEnumerable<string>> GetValueLists()
+		{
+			var d = new Dictionary<string, IEnumerable<string>>();
+			d.Add("language", GetValues());
+			return d;
 		}
 	}
 }

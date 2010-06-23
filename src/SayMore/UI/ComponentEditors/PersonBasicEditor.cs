@@ -16,7 +16,7 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class PersonBasicEditor : EditorBase
 	{
-		private readonly LanguageNameGatherer _languageNameGatherer;
+		private readonly LanguageNameGatherer _autoCompleteProvider;
 
 		public delegate PersonBasicEditor Factory(ComponentFile file, string tabText, string imageKey);
 
@@ -27,13 +27,13 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string tabText, string imageKey,
-			LanguageNameGatherer languageNameGatherer) : base(file, tabText, imageKey)
+			LanguageNameGatherer autoCompleteProvider) : base(file, tabText, imageKey)
 		{
-			_languageNameGatherer = languageNameGatherer;
+			_autoCompleteProvider = autoCompleteProvider;
 			InitializeComponent();
 			Name = "Basic";
 			_binder.SetComponentFile(file);
-			_languageAutoCompleteHelper.SetDataGatherer(languageNameGatherer);
+			_languageAutoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 
 			_fatherButtons.AddRange(new[] {_pbPrimaryLangFather, _pbOtherLangFather0,
 				_pbOtherLangFather1, _pbOtherLangFather2, _pbOtherLangFather3 });

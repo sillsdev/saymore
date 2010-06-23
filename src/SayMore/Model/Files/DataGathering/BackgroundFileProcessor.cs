@@ -10,10 +10,19 @@ using ThreadState = System.Threading.ThreadState;
 namespace SayMore.Model.Files.DataGathering
 {
 	/// ----------------------------------------------------------------------------------------
-	public interface IDataGatherer
+	public interface ISingleListDataGatherer
 	{
 		event EventHandler NewDataAvailable;
 		IEnumerable<string> GetValues();
+	}
+
+	/// <summary>
+	/// Gives lists of data, indexed by a key into a dictionary
+	/// </summary>
+	public interface IMultiListDataProvider
+	{
+		event EventHandler NewDataAvailable;
+		Dictionary<string, IEnumerable<string>> GetValueLists();
 	}
 
 	/// ----------------------------------------------------------------------------------------

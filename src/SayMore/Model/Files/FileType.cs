@@ -167,9 +167,19 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class SessionFileType : FileType
 	{
+		private readonly Func<SessionBasicEditor.Factory> _sessionBasicEditorFactoryLazy;
+
 		/// ------------------------------------------------------------------------------------
-		public SessionFileType() : base("Session", p => p.EndsWith(".session"))
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="sessionBasicEditorFactoryLazy">This is to get us around a circular dependency
+		/// error in autofac.  NB: when we move to .net 4, this can be replaced by Lazy<Func<SessionBasicEditor.Factory></param>
+		/// ------------------------------------------------------------------------------------
+		public SessionFileType(Func<SessionBasicEditor.Factory> sessionBasicEditorFactoryLazy)
+			: base("Session", p => p.EndsWith(".session"))
 		{
+			_sessionBasicEditorFactoryLazy = sessionBasicEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -183,7 +193,7 @@ namespace SayMore.Model.Files
 			else
 			{
 				var text = LocalizationManager.LocalizeString("SessionInfoEditor.SessionTabText", "Session");
-				_editors.Add(new SessionBasicEditor(file, text, "Session"));
+				_editors.Add(_sessionBasicEditorFactoryLazy()(file, text, "Session"));
 
 				text = LocalizationManager.LocalizeString("SessionInfoEditor.NotesTabText", "Notes");
 				_editors.Add(new NotesEditor(file, text, "Notes"));

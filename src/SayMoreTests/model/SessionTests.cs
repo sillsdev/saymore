@@ -28,7 +28,7 @@ namespace SayMoreTests.Model
 		private Session CreateSession(string id)
 		{
 			return new Session(_parentFolder.Path, id, ComponentFile.CreateMinimalComponentFileForTests,
-				new FileSerializer());
+				new FileSerializer(), new SessionFileType(() => null));
 		}
 
 		/*  THIS IS EMPTY BECAUSE MOST OF THE BEHAVIOR THUS FAR IS IN THE BASE CLASS, AND TESTED

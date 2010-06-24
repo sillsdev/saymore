@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files.DataGathering
 {
@@ -17,26 +15,33 @@ namespace SayMore.Model.Files.DataGathering
 	/// </summary>
 	public class AutoCompleteValueGatherer : BackgroundFileProcessor<Dictionary<string,string>> /* a list of the languages mentioned in this file*/, IMultiListDataProvider
 	{
-		private Dictionary<string, string> _mapping;
+		private Dictionary<string, string> _mappingOfFieldsToAutoCompleteKey;
+		private List<string> _multiValueFields;
 
 		public delegate AutoCompleteValueGatherer Factory(string rootDirectoryPath);
 
 		public AutoCompleteValueGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,
 			ComponentFile.Factory componentFileFactory)
 			:	base(rootDirectoryPath,
-					allFileTypes.Where(t => t.GetType() == typeof(PersonFileType)),
+					allFileTypes.Where(t => t.GetType() == typeof(PersonFileType)
+											|| t.GetType() == typeof(SessionFileType)),
 					path => ExtractValues(path, componentFileFactory))
 		{
-			_mapping = new Dictionary<string, string>();
-			_mapping.Add("primaryLanguage", "language");
-			_mapping.Add("fathersLanguage", "language");
-			_mapping.Add("mothersLanguage", "language");
-			_mapping.Add("otherLanguage0", "language");
-			_mapping.Add("otherLanguage1", "language");
-			_mapping.Add("otherLanguage2", "language");
-			_mapping.Add("otherLanguage3", "language");
-			_mapping.Add("fullName", "person");
+			//NB: this stuff would move to field definitions, if/when we implement them
 
+			_mappingOfFieldsToAutoCompleteKey = new Dictionary<string, string>();
+			_mappingOfFieldsToAutoCompleteKey.Add("primaryLanguage", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("fathersLanguage", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("mothersLanguage", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage0", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage1", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage2", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage3", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("fullName", "person");
+			_mappingOfFieldsToAutoCompleteKey.Add("participants", "person");
+			_mappingOfFieldsToAutoCompleteKey.Add("recordist", "person");
+
+			_multiValueFields = new List<string>(new string[]{"participants", "education"});
 		}
 
 		/// <summary>
@@ -44,30 +49,20 @@ namespace SayMore.Model.Files.DataGathering
 		/// </summary>
 		private static Dictionary<string,string> ExtractValues(string path, ComponentFile.Factory componentFileFactory)
 		{
-			var f = componentFileFactory(path);
+			var file = componentFileFactory(path);
 
-			return f.MetaDataFieldValues.ToDictionary(field => field.FieldKey,
+
+			var dictionary= file.MetaDataFieldValues.ToDictionary(field => field.FieldKey,
 														   field => field.Value);
-			//TODO: split on commas and ;
 
-/*			var langs = new List<string>();
-			foreach (FieldValue field in f.MetaDataFieldValues)
+			//something of a hack... the name of the file is the only place we currently keep
+			//the person's name
+			if (file.FileType.GetType() == typeof(PersonFileType))
 			{
-				if (field.FieldKey.ToLower().Contains("lang")
-					&& !field.FieldKey.ToLower().Contains("learned")
-					&& !string.IsNullOrEmpty(field.Value))
-				{
-					var langsInField = from l in field.Value.Split(',', ';')
-									 where l.Trim().Length > 0
-									 select l.Trim();
-
-					Debug.WriteLine("AutoCompleteValueGatherer: " + field.FieldKey + ": " + langsInField.Aggregate((a, b) => a + ", " + b));
-					langs.AddRange(langsInField);
-				}
+				dictionary.Add("person", Path.GetFileNameWithoutExtension(path));
 			}
-
-			return langs;
-*/		}
+			return dictionary;
+	}
 
 		/// <summary>
 		/// Gives [key, (list of unique values)]
@@ -85,13 +80,34 @@ namespace SayMore.Model.Files.DataGathering
 					{
 						d.Add(key, new List<string>());
 					}
-					if(!d[key].Contains(field.Value))
+					foreach (var value in GetIndividualValues(field))
 					{
-						((List<string>)d[key]).Add(field.Value);
+						if (!d[key].Contains(value))
+						{
+							((List<string>)d[key]).Add(value);
+						}
 					}
 				}
 			}
 			return d;
+		}
+
+		/// <summary>
+		/// Split list of values into individual components
+		/// </summary>
+		private IEnumerable<string> GetIndividualValues(KeyValuePair<string, string> field)
+		{
+			if (_multiValueFields.Contains(field.Key))
+			{
+				foreach(var v in from l in field.Value.Split(',', ';')
+							 where l.Trim().Length > 0
+							 select l.Trim())
+				{
+					yield return v;
+				}
+
+			}
+			yield return field.Value;
 		}
 
 		/// <summary>
@@ -101,7 +117,7 @@ namespace SayMore.Model.Files.DataGathering
 		private string GetKeyFromFieldName(string fieldKey)
 		{
 			string key;
-			if(_mapping.TryGetValue(fieldKey, out key))
+			if(_mappingOfFieldsToAutoCompleteKey.TryGetValue(fieldKey, out key))
 			{
 				return key;
 			}

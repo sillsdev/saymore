@@ -31,7 +31,8 @@ namespace SayMoreTests.Model
 
 		private Session CreateSession()
 		{
-			return new Session(_parentFolder.Path, "xyz", MakeComponent, new FileSerializer());
+			return new Session(_parentFolder.Path, "xyz", MakeComponent, new FileSerializer(),
+				new SessionFileType(() => null));
 		}
 
 		private ComponentFile MakeComponent(string pathtoannotatedfile)

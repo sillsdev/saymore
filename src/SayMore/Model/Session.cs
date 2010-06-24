@@ -19,8 +19,9 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		public Session(string parentElementFolder, string id,
-			ComponentFile.Factory componentFileFactory,  FileSerializer fileSerializer)
-			: base(parentElementFolder,id, componentFileFactory, fileSerializer, new SessionFileType())
+			ComponentFile.Factory componentFileFactory,  FileSerializer fileSerializer,
+			SessionFileType sessionFileType)
+			: base(parentElementFolder,id, componentFileFactory, fileSerializer, sessionFileType)
 		{
 		}
 

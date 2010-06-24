@@ -97,6 +97,7 @@ namespace SayMore
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor
 				builder.Register<Func<PersonBasicEditor.Factory>>(c => () => c.Resolve<PersonBasicEditor.Factory>());
+				builder.Register<Func<SessionBasicEditor.Factory>>(c => () => c.Resolve<SessionBasicEditor.Factory>());
 			});
 
 
@@ -112,7 +113,7 @@ namespace SayMore
 			//yield return new ImageFileType();
 
 			return new List<FileType>(new FileType[]{
-									new SessionFileType(),
+									context.Resolve<SessionFileType>(),
 									context.Resolve<PersonFileType>(),
 									context.Resolve<AudioFileType>(),
 									new VideoFileType(),

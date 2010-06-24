@@ -29,7 +29,6 @@ namespace SayMore.UI.ComponentEditors
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this._labelId = new System.Windows.Forms.Label();
 			this._id = new System.Windows.Forms.TextBox();
 			this._labelTitle = new System.Windows.Forms.Label();
@@ -53,6 +52,7 @@ namespace SayMore.UI.ComponentEditors
 			this._setting = new System.Windows.Forms.TextBox();
 			this._labelSituation = new System.Windows.Forms.Label();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
+			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -70,6 +70,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _id
 			// 
+			this._autoCompleteHelper.SetAutoCompleteKey(this._id, "");
 			this._id.Dock = System.Windows.Forms.DockStyle.Top;
 			this._id.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._id, true);
@@ -79,6 +80,7 @@ namespace SayMore.UI.ComponentEditors
 			this._id.Name = "_id";
 			this._id.Size = new System.Drawing.Size(183, 22);
 			this._id.TabIndex = 1;
+			this._autoCompleteHelper.SetUpdateGatherer(this._id, false);
 			// 
 			// _labelTitle
 			// 
@@ -94,6 +96,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _title
 			// 
+			this._autoCompleteHelper.SetAutoCompleteKey(this._title, "");
 			this._title.Dock = System.Windows.Forms.DockStyle.Top;
 			this._title.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._title, true);
@@ -103,12 +106,14 @@ namespace SayMore.UI.ComponentEditors
 			this._title.Name = "_title";
 			this._title.Size = new System.Drawing.Size(183, 22);
 			this._title.TabIndex = 3;
+			this._autoCompleteHelper.SetUpdateGatherer(this._title, false);
 			// 
 			// _situation
 			// 
 			this._situation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this._autoCompleteHelper.SetAutoCompleteKey(this._situation, "");
 			this._situation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._situation, true);
 			this._binder.SetIsComponentFileId(this._situation, false);
@@ -119,6 +124,7 @@ namespace SayMore.UI.ComponentEditors
 			this._situation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this._situation.Size = new System.Drawing.Size(183, 96);
 			this._situation.TabIndex = 9;
+			this._autoCompleteHelper.SetUpdateGatherer(this._situation, false);
 			// 
 			// _labelSynopsis
 			// 
@@ -137,6 +143,7 @@ namespace SayMore.UI.ComponentEditors
 			this._synopsis.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this._autoCompleteHelper.SetAutoCompleteKey(this._synopsis, "");
 			this._synopsis.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._synopsis, true);
 			this._binder.SetIsComponentFileId(this._synopsis, false);
@@ -147,6 +154,7 @@ namespace SayMore.UI.ComponentEditors
 			this._synopsis.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this._synopsis.Size = new System.Drawing.Size(184, 96);
 			this._synopsis.TabIndex = 19;
+			this._autoCompleteHelper.SetUpdateGatherer(this._synopsis, false);
 			// 
 			// _tableLayout
 			// 
@@ -192,7 +200,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(377, 431);
+			this._tableLayout.Size = new System.Drawing.Size(377, 317);
 			this._tableLayout.TabIndex = 0;
 			this._tableLayout.TabStop = true;
 			// 
@@ -210,6 +218,9 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _access
 			// 
+			this._autoCompleteHelper.SetAutoCompleteKey(this._access, "access");
+			this._access.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this._access.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._access.Dock = System.Windows.Forms.DockStyle.Top;
 			this._access.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._access, true);
@@ -219,6 +230,7 @@ namespace SayMore.UI.ComponentEditors
 			this._access.Name = "_access";
 			this._access.Size = new System.Drawing.Size(184, 22);
 			this._access.TabIndex = 17;
+			this._autoCompleteHelper.SetUpdateGatherer(this._access, false);
 			// 
 			// _labelAccess
 			// 
@@ -260,6 +272,9 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _location
 			// 
+			this._autoCompleteHelper.SetAutoCompleteKey(this._location, "location");
+			this._location.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this._location.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._location.Dock = System.Windows.Forms.DockStyle.Top;
 			this._location.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._location, true);
@@ -269,6 +284,7 @@ namespace SayMore.UI.ComponentEditors
 			this._location.Name = "_location";
 			this._location.Size = new System.Drawing.Size(184, 22);
 			this._location.TabIndex = 15;
+			this._autoCompleteHelper.SetUpdateGatherer(this._location, false);
 			// 
 			// _labelLocation
 			// 
@@ -284,6 +300,9 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _participants
 			// 
+			this._autoCompleteHelper.SetAutoCompleteKey(this._participants, "person");
+			this._participants.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this._participants.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._participants.Dock = System.Windows.Forms.DockStyle.Top;
 			this._participants.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._participants, true);
@@ -293,6 +312,7 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.Name = "_participants";
 			this._participants.Size = new System.Drawing.Size(183, 22);
 			this._participants.TabIndex = 5;
+			this._autoCompleteHelper.SetUpdateGatherer(this._participants, false);
 			// 
 			// _labelParticipants
 			// 
@@ -347,6 +367,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _setting
 			// 
+			this._autoCompleteHelper.SetAutoCompleteKey(this._setting, "");
 			this._setting.Dock = System.Windows.Forms.DockStyle.Top;
 			this._setting.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._setting, true);
@@ -356,6 +377,7 @@ namespace SayMore.UI.ComponentEditors
 			this._setting.Name = "_setting";
 			this._setting.Size = new System.Drawing.Size(184, 22);
 			this._setting.TabIndex = 13;
+			this._autoCompleteHelper.SetUpdateGatherer(this._setting, false);
 			// 
 			// _labelSituation
 			// 
@@ -412,5 +434,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelAccess;
 		private BindingHelper _binder;
 		private System.Windows.Forms.Label _labelCustomFields;
+		private AutoCompleteHelper _autoCompleteHelper;
 	}
 }

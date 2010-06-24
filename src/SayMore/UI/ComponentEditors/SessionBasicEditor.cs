@@ -9,7 +9,7 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class SessionBasicEditor : EditorBase
 	{
-		CustomFieldsGrid _gridCustomFields;
+		FieldsValuesGrid _gridCustomFields;
 		public delegate SessionBasicEditor Factory(ComponentFile file, string tabText, string imageKey);
 
 		/// ------------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ namespace SayMore.UI.ComponentEditors
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
-			InitializeCustomFieldsGrid();
+			InitializeFieldsValuesGrid();
 			Name = "SessionBasicEditor";
 			SetBindingHelper(_binder);
 
@@ -36,9 +36,9 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeCustomFieldsGrid()
+		private void InitializeFieldsValuesGrid()
 		{
-			_gridCustomFields = new CustomFieldsGrid();
+			_gridCustomFields = new FieldsValuesGrid();
 			_tableLayout.Controls.Add(_gridCustomFields, 0, 11);
 			_tableLayout.SetColumnSpan(_gridCustomFields, 2);
 			_binder.SetIsBound(_gridCustomFields, true);

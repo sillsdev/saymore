@@ -99,6 +99,7 @@
     <Compile Include="ApplicationContainer.cs" />
     <Compile Include="Model\Fields\FieldTemplate.cs" />
     <Compile Include="Model\Fields\FieldValue.cs" />
+    <Compile Include="Model\Files\FieldUpdater.cs" />
     <Compile Include="Model\Files\FileCommand.cs" />
     <Compile Include="Model\Files\UnknownFileType.cs" />
     <Compile Include="Model\Files\FileSerializer.cs" />
@@ -142,11 +143,11 @@
     <Compile Include="UI\ComponentEditors\ContributorsEditor.designer.cs">
       <DependentUpon>ContributorsEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ComponentEditors\CustomFieldsGrid.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UI\ComponentEditors\EditorBase.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\FieldsValuesGrid.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ComponentEditors\ImageViewer.cs">
       <SubType>UserControl</SubType>

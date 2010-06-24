@@ -191,7 +191,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			_boundGrids[grid] = (factoryFieldsToShowInGrid ?? new List<FieldValue>(0));
 
-			grid.RowValidated += HandleCustomFieldsGridRowValidated;
+			grid.RowValidated += HandleFieldsValuesGridRowValidated;
 			grid.Disposed += HandleDisposed;
 		}
 
@@ -201,7 +201,7 @@ namespace SayMore.UI.ComponentEditors
 			if (_boundGrids.ContainsKey(grid))
 				_boundGrids.Remove(grid);
 
-			grid.RowValidated -= HandleCustomFieldsGridRowValidated;
+			grid.RowValidated -= HandleFieldsValuesGridRowValidated;
 			grid.Disposed -= HandleDisposed;
 		}
 
@@ -229,9 +229,9 @@ namespace SayMore.UI.ComponentEditors
 			var fieldsToShowInGrid = GetFactoryFieldsToShowInGrid(grid);
 			fieldsToShowInGrid.AddRange(GetCustomFieldsToShowInGrid());
 
-			grid.RowValidated -= HandleCustomFieldsGridRowValidated;
+			grid.RowValidated -= HandleFieldsValuesGridRowValidated;
 			grid.SetFieldsAndValues(fieldsToShowInGrid);
-			grid.RowValidated += HandleCustomFieldsGridRowValidated;
+			grid.RowValidated += HandleFieldsValuesGridRowValidated;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -344,7 +344,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleCustomFieldsGridRowValidated(object sender, DataGridViewCellEventArgs e)
+		private void HandleFieldsValuesGridRowValidated(object sender, DataGridViewCellEventArgs e)
 		{
 			if (((FieldsValuesGrid)sender).NewRowIndex == e.RowIndex)
 				return;

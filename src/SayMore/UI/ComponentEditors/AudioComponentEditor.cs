@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
-using SayMore.Model.Files.DataGathering;
 using SilUtils;
 
 namespace SayMore.UI.ComponentEditors

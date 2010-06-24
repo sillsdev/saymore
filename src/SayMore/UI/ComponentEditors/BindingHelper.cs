@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 
 namespace SayMore.UI.ComponentEditors
@@ -26,7 +27,13 @@ namespace SayMore.UI.ComponentEditors
 		public event GetBoundControlValueHandler GetBoundControlValue;
 
 		private Container components;
-		private readonly Dictionary<Control, bool> _extendedControls = new Dictionary<Control, bool>();
+
+		private readonly Dictionary<Control, bool> _extendedControls =
+			new Dictionary<Control, bool>();
+
+		private readonly Dictionary<FieldsValuesGrid, IEnumerable<FieldValue>> _boundGrids =
+			new Dictionary<FieldsValuesGrid, IEnumerable<FieldValue>>();
+
 		private List<Control> _boundControls;
 		private ComponentFile _file;
 		private Control _componentFileIdControl;
@@ -63,8 +70,7 @@ namespace SayMore.UI.ComponentEditors
 			if (ctrl == null)
 				return false;
 
-			var extend = (ctrl is TextBox || ctrl is DateTimePicker ||
-				ctrl is ComboBox || ctrl is CustomFieldsGrid);
+			var extend = (ctrl is TextBox || ctrl is DateTimePicker || ctrl is ComboBox);
 
 			if (extend && !_extendedControls.ContainsKey(ctrl))
 				_extendedControls[ctrl] = true;
@@ -80,6 +86,9 @@ namespace SayMore.UI.ComponentEditors
 		[Category("BindingHelper Properties")]
 		public bool GetIsBound(object obj)
 		{
+			if (obj is FieldsValuesGrid)
+				return _boundGrids.ContainsKey((FieldsValuesGrid)obj);
+
 			bool isBound;
 			return (_extendedControls.TryGetValue(obj as Control, out isBound) ? isBound : false);
 		}
@@ -87,13 +96,23 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void SetIsBound(object obj, bool bind)
 		{
-			var ctrl = obj as Control;
-			_extendedControls[ctrl] = bind;
+			if (obj is FieldsValuesGrid)
+			{
+				if (bind)
+					BindFieldsValuesGrid((FieldsValuesGrid)obj, null);
+				else if (_boundGrids.ContainsKey((FieldsValuesGrid)obj))
+					UnbindFieldsValuesGrid((FieldsValuesGrid)obj);
+			}
+			else
+			{
+				var ctrl = obj as Control;
+				_extendedControls[ctrl] = bind;
 
-			// Do this just in case this is being called from outside the initialize
-			// components method and after the component file has been set.
-			if (!bind)
-				UnBindControl(ctrl);
+				// Do this just in case this is being called from outside the initialize
+				// components method and after the component file has been set.
+				if (!bind)
+					UnBindControl(ctrl);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,41 +148,61 @@ namespace SayMore.UI.ComponentEditors
 				ctrl.Font = SystemFonts.IconTitleFont;
 				BindControl(ctrl);
 			}
+
+			foreach (var grid in _boundGrids.Keys)
+				UpdateFieldsValuesGridFromFile(grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void BindControl(Control ctrl)
+		private void BindControl(Control ctrl)
 		{
 			if (!_boundControls.Contains(ctrl))
 				_boundControls.Add(ctrl);
 
-			if (ctrl is CustomFieldsGrid)
-			{
-				var grid = ctrl as CustomFieldsGrid;
-				UpdateCustomFieldsGridFromFile(grid);
-				grid.RowValidated += HandleCustomFieldsGridRowValidated;
-			}
-			else
-			{
-				UpdateControlValueFromField(ctrl);
-				ctrl.Validating += HandleValidatingControl;
-			}
-
+			UpdateControlValueFromField(ctrl);
+			ctrl.Validating += HandleValidatingControl;
 			ctrl.Disposed += HandleDisposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void UnBindControl(Control ctrl)
+		private void UnBindControl(Control ctrl)
 		{
+			if (ctrl is FieldsValuesGrid)
+			{
+				UnbindFieldsValuesGrid((FieldsValuesGrid)ctrl);
+				return;
+			}
+
 			ctrl.Disposed -= HandleDisposed;
+			ctrl.Validating -= HandleValidatingControl;
 
-			if (ctrl is CustomFieldsGrid)
-				((CustomFieldsGrid)ctrl).RowValidated -= HandleCustomFieldsGridRowValidated;
-			else
-				ctrl.Validating -= HandleValidatingControl;
-
-			if (_boundControls.Contains(ctrl))
+			if (_boundControls != null && _boundControls.Contains(ctrl))
 				_boundControls.Remove(ctrl);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Binds a field/value grid. If factoryFieldsToShowInGrid is null, it is assumed that
+		/// the grid is only for custom fields.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void BindFieldsValuesGrid(FieldsValuesGrid grid,
+			IEnumerable<FieldValue> factoryFieldsToShowInGrid)
+		{
+			_boundGrids[grid] = (factoryFieldsToShowInGrid ?? new List<FieldValue>(0));
+
+			grid.RowValidated += HandleCustomFieldsGridRowValidated;
+			grid.Disposed += HandleDisposed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void UnbindFieldsValuesGrid(FieldsValuesGrid grid)
+		{
+			if (_boundGrids.ContainsKey(grid))
+				_boundGrids.Remove(grid);
+
+			grid.RowValidated -= HandleCustomFieldsGridRowValidated;
+			grid.Disposed -= HandleDisposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -181,28 +220,50 @@ namespace SayMore.UI.ComponentEditors
 		public void UpdateFieldsFromFile()
 		{
 			foreach (var ctrl in _boundControls)
-			{
-				if (ctrl is CustomFieldsGrid)
-					UpdateCustomFieldsGridFromFile(ctrl as CustomFieldsGrid);
-				else
-					UpdateControlValueFromField(ctrl);
-			}
+				UpdateControlValueFromField(ctrl);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateCustomFieldsGridFromFile(CustomFieldsGrid grid)
+		private void UpdateFieldsValuesGridFromFile(FieldsValuesGrid grid)
 		{
-			// Get all the keys for bound controls (except the bound custom fields grid).
-			var nonCustomKeys = from ctrl in _boundControls
-								where ctrl.GetType() != typeof(CustomFieldsGrid)
-								select MakeKeyFromControl(ctrl);
+			var fieldsToShowInGrid = GetFactoryFieldsToShowInGrid(grid);
+			fieldsToShowInGrid.AddRange(GetCustomFieldsToShowInGrid());
 
-			// Get all the keys from the meta data that are not in the non custom keys list.
-			// Those keys are considered to be custom keys.
-			var customKeys = _file.MetaDataFieldValues.Select(x => x.FieldKey).Except(nonCustomKeys);
+			grid.RowValidated -= HandleCustomFieldsGridRowValidated;
+			grid.SetFieldsAndValues(fieldsToShowInGrid);
+			grid.RowValidated += HandleCustomFieldsGridRowValidated;
+		}
 
-			grid.SetFieldsAndValues(from x in customKeys
-									select _file.MetaDataFieldValues.First(y => y.FieldKey == x));
+		/// ------------------------------------------------------------------------------------
+		private List<FieldValue> GetFactoryFieldsToShowInGrid(FieldsValuesGrid grid)
+		{
+			IEnumerable<FieldValue> defaultFieldList;
+			if (!_boundGrids.TryGetValue(grid, out defaultFieldList))
+				return 	new List<FieldValue>();
+
+			var returnFields = new List<FieldValue>();
+
+			foreach (var defaultfld in defaultFieldList)
+			{
+				var field = _file.MetaDataFieldValues.FirstOrDefault(x => x.FieldKey == defaultfld.FieldKey);
+				if (field == null)
+					returnFields.Add(defaultfld);
+				else
+				{
+					field.DisplayName = defaultfld.DisplayName;
+					returnFields.Add(field);
+				}
+			}
+
+			return returnFields;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private List<FieldValue> GetCustomFieldsToShowInGrid()
+		{
+			return (from x in _file.MetaDataFieldValues
+					where x.IsCustomField
+					select x).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -285,20 +346,22 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandleCustomFieldsGridRowValidated(object sender, DataGridViewCellEventArgs e)
 		{
-			if (((CustomFieldsGrid)sender).NewRowIndex == e.RowIndex)
+			if (((FieldsValuesGrid)sender).NewRowIndex == e.RowIndex)
 				return;
 
-			var fieldValue = ((CustomFieldsGrid)sender).GetFieldValueForIndex(e.RowIndex);
-			var key = MakeKeyFromText(fieldValue.FieldKey);
-			var newValue = fieldValue.Value.Trim();
+			FieldValue oldFieldValue;
+			FieldValue newFieldValue;
+			((FieldsValuesGrid)sender).GetFieldValueForIndex(e.RowIndex,
+				out oldFieldValue, out newFieldValue);
 
 			// Don't bother doing anything if the old value is the same as the new value.
-			var oldValue = _file.GetStringValue(key, null);
-			if (oldValue != null && oldValue == newValue)
+			if (oldFieldValue == newFieldValue)
 				return;
 
+			// TODO: handle case where new display name is different.
+
 			string failureMessage;
-			_file.SetValue(key, newValue, out failureMessage);
+			_file.SetValue(newFieldValue, out failureMessage);
 
 			if (failureMessage != null)
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);

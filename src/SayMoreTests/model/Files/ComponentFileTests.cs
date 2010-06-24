@@ -93,11 +93,11 @@ namespace SayMoreTests.Model.Files
 		private ComponentFile CreateComponentFileWithRoleChoices(string path)
 		{
 			var componentRoles = new []
-									{
-										new ComponentRole(typeof(Session),"translation", "translation", ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"), "$ElementId$_Original"),
-										new ComponentRole(typeof(Session),"transcriptionN", "Written Translation", ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N"),
-										new ComponentRole(typeof(Session),"original", "Original Recording", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original")
-									};
+			{
+				new ComponentRole(typeof(Session),"translation", "translation", ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"), "$ElementId$_Original"),
+				new ComponentRole(typeof(Session),"transcriptionN", "Written Translation", ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N"),
+				new ComponentRole(typeof(Session),"original", "Original Recording", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original")
+			};
 
 			return new ComponentFile(path,
 				new FileType[] { FileType.Create("Text", ".txt"), },

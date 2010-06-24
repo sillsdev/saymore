@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Fields;
@@ -9,10 +8,13 @@ using SilUtils;
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public class CustomFieldsGrid : SilGrid
+	public class FieldsValuesGrid : SilGrid
 	{
+		private readonly Dictionary<DataGridViewRow, FieldValue> _rowFieldValues =
+			new Dictionary<DataGridViewRow, FieldValue>();
+
 		/// ------------------------------------------------------------------------------------
-		public CustomFieldsGrid()
+		public FieldsValuesGrid()
 		{
 			Font = SystemFonts.IconTitleFont;
 			AllowUserToAddRows = true;
@@ -37,13 +39,13 @@ namespace SayMore.UI.ComponentEditors
 			col.Width = 150;
 			Columns.Add(col);
 			LocalizationManager.LocalizeObject(Columns["Field"],
-				"CustomFieldsGrid.FieldColumnHdg", "Field", "Dialog Boxes");
+				"FieldsAndValuesGrid.FieldColumnHdg", "Field", "Views");
 
 			col = CreateTextBoxColumn("Value");
 			col.Width = 175;
 			Columns.Add(col);
 			LocalizationManager.LocalizeObject(Columns["Value"],
-				"CustomFieldsGrid.ValueColumnHdg", "Value", "Dialog Boxes");
+				"FieldsAndValuesGrid.ValueColumnHdg", "Value", "Views");
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -56,22 +58,38 @@ namespace SayMore.UI.ComponentEditors
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldValue GetFieldValueForIndex(int index)
+		public void GetFieldValueForIndex(int index,
+			out FieldValue oldFieldValue, out FieldValue newFieldValue)
 		{
-			return new FieldValue(this["Field", index].Value as string,
-				this["Value", index].Value as string ?? string.Empty);
+			_rowFieldValues.TryGetValue(Rows[index], out oldFieldValue);
+			var newDisplayName = this["Field", index].Value as string;
+
+			var newId = (oldFieldValue != null ?
+				oldFieldValue.FieldKey : FieldValue.MakeIdFromDisplayName(newDisplayName));
+
+			var newType = (oldFieldValue != null ? oldFieldValue.Type : "string");
+			var newValue = (this["Value", index].Value as string ?? string.Empty);
+			newFieldValue = new FieldValue(newId, newType, newDisplayName, newValue.Trim());
+			newFieldValue.IsCustomField = (oldFieldValue != null ? oldFieldValue.IsCustomField : true);
+
+			if (oldFieldValue == null)
+				_rowFieldValues[Rows[index]] = newFieldValue;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetFieldsAndValues(IEnumerable<FieldValue> fieldsAndValues)
 		{
 			Rows.Clear();
+			_rowFieldValues.Clear();
 
 			if (fieldsAndValues == null)
 				return;
 
 			foreach (var fav in fieldsAndValues)
-				Rows.Add(fav.FieldKey, fav.Value);
+			{
+				int index = Rows.Add(fav.DisplayName, fav.Value);
+				_rowFieldValues[Rows[index]] = fav;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,6 +116,7 @@ namespace SayMore.UI.ComponentEditors
 			AdjustHeight();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		protected override void OnRowValidating(DataGridViewCellCancelEventArgs e)
 		{
 			// TODO: verify the user has entered a field name.

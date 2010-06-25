@@ -29,4 +29,39 @@
 	<NUnitTeamCity Assemblies="@(TestAssemblies)" ExcludeCategory="SkipOnTeamCity" />
   </Target>
 
+
+  <target name="Upload" depends="Installer" >
+	<exec program="c:\program files\cwRsync\bin\rsync.exe">
+	  <!-- notice, for now we're using wesay's space -->
+	  <arg line='-vz -p --chmod=ug+rw -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreInstaller.${version}.msi" bob@wesay.org:/var/www/downloads/SayMoreInstaller.${version}.msi' />
+	</exec>
+  </target>
+
+  <Target Name="Installer">
+	<Split Input="$(BUILD_NUMBER)" Delimiter="-" OutputSubString="0">
+	  <Output TaskParameter="ReturnValue" PropertyName="Revision" />
+	</Split>
+	<CreateProperty Value="$(Major).$(Minor).$(Revision)">
+	  <Output PropertyName="Version" TaskParameter="Value"/>
+	</CreateProperty>
+	<Message Text="Version: $(Version)" />
+
+	<!-- set the version number in the installer configuration program.  I'm sure there's a way to just send in the variables rather than this brute-force
+		changing of the script, but I haven't figured that out. -->
+	<FileUpdate Files="$(BaseDirectory)\src\Installer\Installer.wxs" Regex="Property_ProductVersion = \&quot;.*\&quot;"
+				ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
+
+
+	<Message Text="Making Installer Version: $(Version)"/>
+
+	<MSBuild Projects="$(BaseDirectory)\src\Installer\Installer.wixproj"/>
+
+	<!-- remove an existing one with the same name, if necessary -->
+	<Delete Files="$(BaseDirectory)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
+
+	<Move SourceFiles="$(BaseDirectory)\output\installer\SayMoreInstaller.msi"
+			DestinationFiles="$(BaseDirectory)\output\installer\SayMoreInstaller.$(Version).msi"/>
+  </Target>
+
+
 </Project>

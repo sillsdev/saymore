@@ -105,7 +105,7 @@ namespace SayMoreTests.model.Files.DataGathering
 
 		private TestProcessor CreateProcessor()
 		{
-			return new TestProcessor(_folder.Path, new FileType[] { new AudioFileType(() => null) },
+			return new TestProcessor(_folder.Path, new FileType[] { new AudioFileType() },
 									  MakeDictionaryFromFile);
 		}
 

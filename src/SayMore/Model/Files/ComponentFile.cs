@@ -49,8 +49,8 @@ namespace SayMore.Model.Files
 		protected FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
 		private readonly PresetGatherer _presetProvider;
+		protected string _rootElementName;
 
-		public string RootElementName { get; protected set; }
 		public string PathToAnnotatedFile { get; protected set; }
 		public List<FieldValue> MetaDataFieldValues { get; protected set; }
 		public FileType FileType { get; protected set; }
@@ -84,7 +84,7 @@ namespace SayMore.Model.Files
 
 			_metaDataPath = FileType.GetMetaFilePath(pathToAnnotatedFile);
 
-			RootElementName = "MetaData";
+			_rootElementName = "MetaData";
 
 			if (File.Exists(_metaDataPath))
 				Load();
@@ -118,7 +118,7 @@ namespace SayMore.Model.Files
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
 			MetaDataFieldValues = new List<FieldValue>();
-			RootElementName = rootElementName;
+			_rootElementName = rootElementName;
 			_componentRoles = new ComponentRole[] {}; //no roles for person or session
 			InitializeFileInfo();
 		}
@@ -169,39 +169,25 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string SetValue(string key, string newValue, out string failureMessage)
 		{
-			return SetValue(new FieldValue(key, newValue), out failureMessage);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets the value for persisting, and returns the same value, potentially modified
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public virtual string SetValue(FieldValue newFieldValue, out string failureMessage)
-		{
 			failureMessage = null;
-
-			newFieldValue.Value = (newFieldValue.Value ?? string.Empty).Trim();
-
-			var oldFieldValue =
-				MetaDataFieldValues.FirstOrDefault(v => v.FieldKey == newFieldValue.FieldKey);
-
-			if (oldFieldValue == newFieldValue)
-				return newFieldValue.Value;
-
 			string oldValue = null;
+			newValue = (newValue == null ? string.Empty : newValue.Trim());
 
-			if (oldFieldValue == null)
-				MetaDataFieldValues.Add(newFieldValue);
+			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldKey == key);
+			if (field != null && field.Value == newValue)
+				return newValue;
+
+			if (field == null)
+				MetaDataFieldValues.Add(new FieldValue(key, newValue));
 			else
 			{
-				oldValue = oldFieldValue.Value;
-				oldFieldValue.Copy(newFieldValue);
+				oldValue = field.Value;
+				field.Value = newValue;
 			}
 
 			LoadFileSizeAndDateModified();
-			InvokeMetadataValueChanged(oldValue, newFieldValue.Value);
-			return newFieldValue.Value; //overrides may do more
+			InvokeMetadataValueChanged(oldValue, newValue);
+			return newValue; //overrides may do more
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -214,14 +200,14 @@ namespace SayMore.Model.Files
 		public virtual void Save(string path)
 		{
 			_metaDataPath = path;
-			_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
+			_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, _rootElementName);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void Load()
 		{
-			_fileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
-			_fileSerializer.Load(MetaDataFieldValues, _metaDataPath, RootElementName);
+			_fileSerializer.CreateIfMissing(_metaDataPath, _rootElementName);
+			_fileSerializer.Load(MetaDataFieldValues, _metaDataPath, _rootElementName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -297,13 +283,6 @@ namespace SayMore.Model.Files
 		{
 			return new ComponentFile(path, new FileType[] { new UnknownFileType() },
 				new ComponentRole[]{}, new FileSerializer(), null, null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static ComponentFile CreateMinimalComponentFileForTests(string path, FileType fileType)
-		{
-			return new ComponentFile(path, new[] { fileType },
-				new ComponentRole[] { }, new FileSerializer(), null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------

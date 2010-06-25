@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model.Fields;
@@ -24,7 +25,6 @@ namespace SayMore.UI.ComponentEditors
 
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 
-
 			if (DiscourseType.AllTypes == null)
 				return;
 
@@ -38,10 +38,24 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFieldsValuesGrid()
 		{
-			_gridCustomFields = new FieldsValuesGrid();
+			var model = new FieldsValuesGridViewModel(_file, GetCustomFieldIdsToDisplayInGrid());
+			_gridCustomFields = new FieldsValuesGrid(model);
 			_tableLayout.Controls.Add(_gridCustomFields, 0, 11);
-			_tableLayout.SetColumnSpan(_gridCustomFields, 2);
-			_binder.SetIsBound(_gridCustomFields, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override IEnumerable<string> GetAllDefaultFieldIds()
+		{
+			yield return "date";
+			yield return "synopsis";
+			yield return "access";
+			yield return "location";
+			yield return "setting";
+			yield return "situation";
+			yield return "eventType";
+			yield return "participants";
+			yield return "title";
+			yield return "notes";
 		}
 
 		/// ------------------------------------------------------------------------------------

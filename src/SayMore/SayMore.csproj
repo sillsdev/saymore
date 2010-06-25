@@ -149,6 +149,7 @@
     <Compile Include="UI\ComponentEditors\FieldsValuesGrid.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ComponentEditors\FieldsValuesGridViewModel.cs" />
     <Compile Include="UI\ComponentEditors\ImageViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>

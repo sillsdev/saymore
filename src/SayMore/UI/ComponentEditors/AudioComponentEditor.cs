@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -32,18 +33,35 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void InitializeGrid()
 		{
-			_grid = new FieldsValuesGrid();
+			var model = new FieldsValuesGridViewModel(_file,
+				GetDefaultFieldIdsToDisplayInGrid(), GetCustomFieldIdsToDisplayInGrid());
+
+			_grid = new FieldsValuesGrid(model);
 			_grid.Dock = DockStyle.Top;
 			_tableLayout.Controls.Add(_grid, 0, 1);
 			_grid.BringToFront();
+		}
 
-			// Get factory default fields for audio files.
-			var path = Path.GetDirectoryName(Application.ExecutablePath);
-			path = Path.Combine(path, "DefaultAudioFileMetadataFields.xml");
-			var defaultFields =
-				XmlSerializationHelper.DeserializeFromFile<DefaultFieldList>(path, "defaultAudioFileFields");
+		/// ------------------------------------------------------------------------------------
+		protected override IEnumerable<string> GetAllDefaultFieldIds()
+		{
+			yield return "Recordist";
+			yield return "Device";
+			yield return "Microphone";
+			yield return "Channel";
+			yield return "Bit_Depth";
+			yield return "Sample_Rate";
+			yield return "Analog_Gain";
+			yield return "notes";
+		}
 
-			_binder.BindFieldsValuesGrid(_grid, defaultFields);
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<string> GetDefaultFieldIdsToDisplayInGrid()
+		{
+			// Show all but the notes field in the grid.
+			return from id in GetAllDefaultFieldIds()
+				   where id != "notes"
+				   select id;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,5 +85,7 @@ namespace SayMore.UI.ComponentEditors
 			_file.UsePreset(preset);
 			_binder.UpdateFieldsFromFile();
 		}
+
+		//private
 	}
 }

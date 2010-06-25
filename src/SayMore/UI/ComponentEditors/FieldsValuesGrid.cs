@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using System.Drawing;
+using System.Media;
 using System.Windows.Forms;
-using SayMore.Model.Fields;
 using SIL.Localization;
 using SilUtils;
 
@@ -10,13 +9,15 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public class FieldsValuesGrid : SilGrid
 	{
-		private readonly Dictionary<DataGridViewRow, FieldValue> _rowFieldValues =
-			new Dictionary<DataGridViewRow, FieldValue>();
+		private readonly FieldsValuesGridViewModel _model;
+		private readonly Font _defaultFieldFont;
 
 		/// ------------------------------------------------------------------------------------
-		public FieldsValuesGrid()
+		public FieldsValuesGrid(FieldsValuesGridViewModel model)
 		{
+			VirtualMode = true;
 			Font = SystemFonts.IconTitleFont;
+			_defaultFieldFont = new Font(Font, FontStyle.Bold);
 			AllowUserToAddRows = true;
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
@@ -28,6 +29,12 @@ namespace SayMore.UI.ComponentEditors
 				 DefaultCellStyle.SelectionBackColor, 140);
 
 			AddColumns();
+
+			_model = model;
+
+			// Add one for new row.
+			RowCount = _model.RowData.Count + 1;
+
 			AutoResizeRows();
 			AdjustHeight();
 		}
@@ -48,50 +55,6 @@ namespace SayMore.UI.ComponentEditors
 				"FieldsAndValuesGrid.ValueColumnHdg", "Value", "Views");
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public IEnumerable<FieldValue> GetFieldsAndValues()
-		//{
-		//    return from row in Rows.Cast<DataGridViewRow>()
-		//        where row.Index != NewRowIndex
-		//           select new FieldValue(row.Cells["Field"].Value as string,
-		//               row.Cells["Value"].Value as string);
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		public void GetFieldValueForIndex(int index,
-			out FieldValue oldFieldValue, out FieldValue newFieldValue)
-		{
-			_rowFieldValues.TryGetValue(Rows[index], out oldFieldValue);
-			var newDisplayName = this["Field", index].Value as string;
-
-			var newId = (oldFieldValue != null ?
-				oldFieldValue.FieldKey : FieldValue.MakeIdFromDisplayName(newDisplayName));
-
-			var newType = (oldFieldValue != null ? oldFieldValue.Type : "string");
-			var newValue = (this["Value", index].Value as string ?? string.Empty);
-			newFieldValue = new FieldValue(newId, newType, newDisplayName, newValue.Trim());
-			newFieldValue.IsCustomField = (oldFieldValue != null ? oldFieldValue.IsCustomField : true);
-
-			if (oldFieldValue == null)
-				_rowFieldValues[Rows[index]] = newFieldValue;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetFieldsAndValues(IEnumerable<FieldValue> fieldsAndValues)
-		{
-			Rows.Clear();
-			_rowFieldValues.Clear();
-
-			if (fieldsAndValues == null)
-				return;
-
-			foreach (var fav in fieldsAndValues)
-			{
-				int index = Rows.Add(fav.DisplayName, fav.Value);
-				_rowFieldValues[Rows[index]] = fav;
-			}
-		}
-
 		/// ------------------------------------------------------------------------------------
 		private void AdjustHeight()
 		{
@@ -100,6 +63,68 @@ namespace SayMore.UI.ComponentEditors
 				Height = ColumnHeadersHeight + (RowCount * Rows[0].Height) + 2 +
 					(HorizontalScrollBar.Visible ? HorizontalScrollBar.Height : 0);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLayout(LayoutEventArgs e)
+		{
+			base.OnLayout(e);
+			AdjustHeight();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
+		{
+			if (e.RowIndex < NewRowIndex && e.ColumnIndex == 0 && !_model.IsIndexForCustomField(e.RowIndex))
+			{
+				e.CellStyle.Font = _defaultFieldFont;
+				this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+			}
+
+			base.OnCellFormatting(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnEditingControlShowing(DataGridViewEditingControlShowingEventArgs e)
+		{
+			base.OnEditingControlShowing(e);
+
+			if (CurrentCellAddress.X == 1)
+			{
+				var txtBox = e.Control as TextBox;
+
+				// TODO: Hook up real lists.
+				txtBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+				txtBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+				var list = new AutoCompleteStringCollection();
+				list.AddRange(new[] { "Dingos", "Parrots", "Dogs", "Pigs", "Poultry", "Ducks" });
+				txtBox.AutoCompleteCustomSource = list;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellValueNeeded(DataGridViewCellValueEventArgs e)
+		{
+			e.Value = null;
+
+			if (e.RowIndex != NewRowIndex && e.RowIndex < _model.RowData.Count)
+			{
+				e.Value = e.ColumnIndex == 0 ?
+					_model.GetIdForIndex(e.RowIndex) : _model.GetValueForIndex(e.RowIndex);
+			}
+
+			base.OnCellValueNeeded(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellValuePushed(DataGridViewCellValueEventArgs e)
+		{
+			if (e.ColumnIndex == 0)
+				_model.SetIdForIndex(e.Value as string, e.RowIndex);
+			else
+				_model.SetValueForIndex(e.Value as string, e.RowIndex);
+
+			base.OnCellValuePushed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -117,9 +142,22 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnRowValidated(DataGridViewCellEventArgs e)
+		{
+			base.OnRowValidated(e);
+
+			if (NewRowIndex != e.RowIndex)
+				_model.SaveFieldForIndex(e.RowIndex);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnRowValidating(DataGridViewCellCancelEventArgs e)
 		{
-			// TODO: verify the user has entered a field name.
+			if (e.RowIndex < NewRowIndex && string.IsNullOrEmpty(_model.GetIdForIndex(e.RowIndex)))
+			{
+				Utils.MsgBox("You must enter a field name.");
+				e.Cancel = true;
+			}
 
 			base.OnRowValidating(e);
 		}
@@ -127,9 +165,15 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnUserDeletingRow(DataGridViewRowCancelEventArgs e)
 		{
-			base.OnUserDeletingRow(e);
+			if (_model.IsIndexForCustomField(e.Row.Index))
+				_model.RemoveFieldForIndex(e.Row.Index);
+			else
+			{
+				e.Cancel = true;
+				SystemSounds.Beep.Play();
+			}
 
-			// TODO: verify the user really wants to do this.
+			base.OnUserDeletingRow(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

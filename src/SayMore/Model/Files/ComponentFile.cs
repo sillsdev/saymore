@@ -158,7 +158,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetStringValue(string key, string defaultValue)
 		{
-			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldKey == key);
+			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
 			return (field == null ? defaultValue : field.Value);
 		}
 
@@ -184,7 +184,7 @@ namespace SayMore.Model.Files
 			newFieldValue.Value = (newFieldValue.Value ?? string.Empty).Trim();
 
 			var oldFieldValue =
-				MetaDataFieldValues.FirstOrDefault(v => v.FieldKey == newFieldValue.FieldKey);
+				MetaDataFieldValues.FirstOrDefault(v => v.FieldId == newFieldValue.FieldId);
 
 			if (oldFieldValue == newFieldValue)
 				return newFieldValue.Value;

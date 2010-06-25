@@ -52,7 +52,7 @@ namespace SayMore.Model.Files.DataGathering
 			var file = componentFileFactory(path);
 
 
-			var dictionary= file.MetaDataFieldValues.ToDictionary(field => field.FieldKey,
+			var dictionary= file.MetaDataFieldValues.ToDictionary(field => field.FieldId,
 														   field => field.Value);
 
 			//something of a hack... the name of the file is the only place we currently keep

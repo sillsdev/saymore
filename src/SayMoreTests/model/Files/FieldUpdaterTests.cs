@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model.Fields;
@@ -51,15 +49,13 @@ namespace SayMoreTests.model.Files
 			File.CreateText(annotatedFilePath).Close();
 
 			file.MetaDataFieldValues.Clear();
-			file.MetaDataFieldValues.Add(new FieldValue("firstName", "string", "First Name", first));
-			file.MetaDataFieldValues.Add(new FieldValue("lastName", "string", "Last Name", last));
+			file.MetaDataFieldValues.Add(new FieldValue("firstName", "string", first));
+			file.MetaDataFieldValues.Add(new FieldValue("lastName", "string", last));
 
-			var fav = new FieldValue("born", "string", "Brought Forth", birth);
-			fav.IsCustomField = true;
+			var fav = new FieldValue("born", "string", birth);
 			file.MetaDataFieldValues.Add(fav);
 
-			fav = new FieldValue("died", "string", "Kicked Bucket", death);
-			fav.IsCustomField = true;
+			fav = new FieldValue("died", "string", death);
 			file.MetaDataFieldValues.Insert(0, fav);
 
 			file.Save();
@@ -81,23 +77,23 @@ namespace SayMoreTests.model.Files
 		{
 			var list = new List<KeyValuePair<string, string>>();
 
-			list.Add(new KeyValuePair<string, string>("born", "Was Birthed"));
-			list.Add(new KeyValuePair<string, string>("died", "Passed On"));
+			list.Add(new KeyValuePair<string, string>("born", "WasBirthed"));
+			list.Add(new KeyValuePair<string, string>("died", "PassedOn"));
 
 			var updater = new FieldUpdater(_rootFolder.Path);
 			updater.RenameFields(_audioFile1, list);
 
 			_imgFile1.Load();
-			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldKey == "born"), Is.Not.Null);
-			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldKey == "died"), Is.Not.Null);
-			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldKey == "Was_Birthed"), Is.Null);
-			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldKey == "Passed_On"), Is.Null);
+			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldId == "born"), Is.Not.Null);
+			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldId == "died"), Is.Not.Null);
+			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldId == "WasBirthed"), Is.Null);
+			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldId == "PassedOn"), Is.Null);
 
 			_imgFile2.Load();
-			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldKey == "born"), Is.Not.Null);
-			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldKey == "died"), Is.Not.Null);
-			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldKey == "Was_Birthed"), Is.Null);
-			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldKey == "Passed_On"), Is.Null);
+			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldId == "born"), Is.Not.Null);
+			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldId == "died"), Is.Not.Null);
+			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldId == "WasBirthed"), Is.Null);
+			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldId == "PassedOn"), Is.Null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,17 +107,17 @@ namespace SayMoreTests.model.Files
 		{
 			var list = new List<KeyValuePair<string, string>>();
 
-			list.Add(new KeyValuePair<string, string>("born", "Was Birthed"));
-			list.Add(new KeyValuePair<string, string>("died", "Passed On"));
+			list.Add(new KeyValuePair<string, string>("born", "WasBirthed"));
+			list.Add(new KeyValuePair<string, string>("died", "PassedOn"));
 
 			var updater = new FieldUpdater(_rootFolder.Path);
 			updater.RenameFields(_audioFile1, list);
 
 			_audioFile1.Load();
-			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldKey == "born"), Is.Not.Null);
-			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldKey == "died"), Is.Not.Null);
-			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldKey == "Was_Birthed"), Is.Null);
-			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldKey == "Passed_On"), Is.Null);
+			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldId == "born"), Is.Not.Null);
+			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldId == "died"), Is.Not.Null);
+			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldId == "WasBirthed"), Is.Null);
+			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldId == "PassedOn"), Is.Null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -130,8 +126,8 @@ namespace SayMoreTests.model.Files
 		{
 			var list = new List<KeyValuePair<string, string>>();
 
-			list.Add(new KeyValuePair<string, string>("born", "Was Birthed"));
-			list.Add(new KeyValuePair<string, string>("died", "Passed On"));
+			list.Add(new KeyValuePair<string, string>("born", "WasBirthed"));
+			list.Add(new KeyValuePair<string, string>("died", "PassedOn"));
 
 			var updater = new FieldUpdater(_rootFolder.Path);
 			updater.RenameFields(_audioFile1, list);
@@ -139,31 +135,10 @@ namespace SayMoreTests.model.Files
 			// See RenameFields_DoesNotUpdateSelf for why _file2 isn't checked.
 
 			_audioFile2.Load();
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "born"), Is.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "died"), Is.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "Was_Birthed"), Is.Not.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "Passed_On"), Is.Not.Null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void RenameFields_DoesNotRenameNonCustomFields()
-		{
-			var list = new List<KeyValuePair<string, string>>();
-
-			list.Add(new KeyValuePair<string, string>("firstName", "Given Name"));
-			list.Add(new KeyValuePair<string, string>("lastName", "Surname"));
-
-			var updater = new FieldUpdater(_rootFolder.Path);
-			updater.RenameFields(_audioFile1, list);
-
-			// See RenameFields_DoesNotUpdateSelf for why _file2 isn't checked.
-
-			_audioFile2.Load();
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Given")), Is.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Surname")), Is.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "firstName"), Is.Not.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "lastName"), Is.Not.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId == "born"), Is.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId == "died"), Is.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId == "WasBirthed"), Is.Not.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId == "PassedOn"), Is.Not.Null);
 		}
 
 		#endregion
@@ -178,12 +153,12 @@ namespace SayMoreTests.model.Files
 			updater.DeleteFields(_audioFile1, list);
 
 			_imgFile1.Load();
-			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldKey == "born"), Is.Not.Null);
-			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldKey == "died"), Is.Not.Null);
+			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldId == "born"), Is.Not.Null);
+			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldId == "died"), Is.Not.Null);
 
 			_imgFile2.Load();
-			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldKey == "born"), Is.Not.Null);
-			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldKey == "died"), Is.Not.Null);
+			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldId == "born"), Is.Not.Null);
+			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldId == "died"), Is.Not.Null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -200,8 +175,8 @@ namespace SayMoreTests.model.Files
 			updater.DeleteFields(_audioFile1, list);
 
 			_audioFile1.Load();
-			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldKey == "born"), Is.Not.Null);
-			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldKey == "died"), Is.Not.Null);
+			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldId == "born"), Is.Not.Null);
+			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldId == "died"), Is.Not.Null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -214,26 +189,11 @@ namespace SayMoreTests.model.Files
 
 			// See DeleteFields_DoesNotUpdateSelf for why _file2 isn't checked.
 
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "born"), Is.Not.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "died"), Is.Not.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId == "born"), Is.Not.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId == "died"), Is.Not.Null);
 			_audioFile2.Load();
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "born"), Is.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "died"), Is.Null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void DeleteFields_DoesNotDeleteNonCustomFields()
-		{
-			var list = new List<string> { "firstName", "lastName" };
-			var updater = new FieldUpdater(_rootFolder.Path);
-			updater.DeleteFields(_audioFile1, list);
-
-			// See DeleteFields_DoesNotUpdateSelf for why _file2 isn't checked.
-
-			_audioFile2.Load();
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "firstName"), Is.Not.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey == "lastName"), Is.Not.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId == "born"), Is.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId == "died"), Is.Null);
 		}
 
 		#endregion
@@ -243,17 +203,17 @@ namespace SayMoreTests.model.Files
 		[Test]
 		public void AddFields_DoesNotUpdateOtherFileTypes()
 		{
-			var list = new List<string> { "Shoe Size", "Height" };
+			var list = new List<string> { "ShoeSize", "Height" };
 			var updater = new FieldUpdater(_rootFolder.Path);
 			updater.AddFields(_audioFile1, list);
 
 			_imgFile1.Load();
-			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Shoe")), Is.Null);
-			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Height")), Is.Null);
+			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldId.StartsWith("Shoe")), Is.Null);
+			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldId.StartsWith("Height")), Is.Null);
 
 			_imgFile2.Load();
-			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Shoe")), Is.Null);
-			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Height")), Is.Null);
+			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldId.StartsWith("Shoe")), Is.Null);
+			Assert.That(_imgFile2.MetaDataFieldValues.Find(x => x.FieldId.StartsWith("Height")), Is.Null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -265,30 +225,30 @@ namespace SayMoreTests.model.Files
 		[Test]
 		public void AddFields_DoesNotUpdateSelf()
 		{
-			var list = new List<string> { "Shoe Size", "Height" };
+			var list = new List<string> { "ShoeSize", "Height" };
 			var updater = new FieldUpdater(_rootFolder.Path);
 			updater.AddFields(_audioFile1, list);
 
 			_audioFile1.Load();
-			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Shoe")), Is.Null);
-			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Height")), Is.Null);
+			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldId.StartsWith("Shoe")), Is.Null);
+			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldId.StartsWith("Height")), Is.Null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void AddFields_DoesUpdates()
 		{
-			var list = new List<string> { "Shoe Size", "Height" };
+			var list = new List<string> { "ShoeSize", "Height" };
 			var updater = new FieldUpdater(_rootFolder.Path);
 			updater.AddFields(_audioFile1, list);
 
 			// See AddFields_DoesNotUpdateSelf for why _file2 isn't checked.
 
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Shoe")), Is.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Height")), Is.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId.StartsWith("Shoe")), Is.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId.StartsWith("Height")), Is.Null);
 			_audioFile2.Load();
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Shoe")), Is.Not.Null);
-			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldKey.StartsWith("Height")), Is.Not.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId.StartsWith("Shoe")), Is.Not.Null);
+			Assert.That(_audioFile2.MetaDataFieldValues.Find(x => x.FieldId.StartsWith("Height")), Is.Not.Null);
 		}
 
 		#endregion

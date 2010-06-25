@@ -88,7 +88,7 @@ namespace SayMore.Model.Files
 		private IEnumerable<string> GetKeys(IEnumerable<IEnumerable<FieldValue>> setsOfFields)
 		{
 			var lists = from e in setsOfFields
-						select e.Select(z=> z.FieldKey);
+						select e.Select(z=> z.FieldId);
 
 			var allKeys = new List<string>();
 			foreach (var list in lists)
@@ -115,7 +115,7 @@ namespace SayMore.Model.Files
 
 			foreach(string key in keys)
 			{
-				var f= fields.FirstOrDefault(x=> x.FieldKey == key);
+				var f= fields.FirstOrDefault(x=> x.FieldId == key);
 				if (f == null)
 				{
 					builder.Append(string.Empty + _delimeter);

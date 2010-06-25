@@ -28,8 +28,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Receives a list of key/value pairs where the key represents the name of the field
-		/// (i.e. FieldKey) that needs to change and the value is the new display text.
-		/// Note: this will onl update custom fields.
+		/// that needs to change and the value is the new field name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void RenameFields(ComponentFile file, IEnumerable<KeyValuePair<string, string>> fromToPairs)
@@ -38,12 +37,9 @@ namespace SayMore.Model.Files
 			{
 				foreach (var kvp in fromToPairs)
 				{
-					var field = metaDataFields.Find(x => x.FieldKey == kvp.Key);
-					if (field != null && field.IsCustomField)
-					{
-						field.FieldKey = FieldValue.MakeIdFromDisplayName(kvp.Value);
-						field.DisplayName = kvp.Value;
-					}
+					var field = metaDataFields.Find(x => x.FieldId == kvp.Key);
+					if (field != null)
+						field.FieldId = kvp.Value;
 				}
 			});
 		}
@@ -53,10 +49,10 @@ namespace SayMore.Model.Files
 		{
 			FindAndUpdateFiles(file, metaDataFields =>
 			{
-				foreach (var key in fieldsToDelete)
+				foreach (var id in fieldsToDelete)
 				{
-					var field = metaDataFields.Find(x => x.FieldKey == key);
-					if (field != null && field.IsCustomField)
+					var field = metaDataFields.Find(x => x.FieldId == id);
+					if (field != null)
 						metaDataFields.Remove(field);
 				}
 			});
@@ -67,17 +63,11 @@ namespace SayMore.Model.Files
 		{
 			FindAndUpdateFiles(file, metaDataFields =>
 			{
-				foreach (var newDisplayName in fieldsToAdd)
+				foreach (var newId in fieldsToAdd)
 				{
-					var newKey = FieldValue.MakeIdFromDisplayName(newDisplayName);
-					var field = metaDataFields.Find(x => x.FieldKey == newKey);
+					var field = metaDataFields.Find(x => x.FieldId == newId);
 					if (field == null)
-					{
-						var newFieldValue = new FieldValue(newKey, string.Empty);
-						newFieldValue.DisplayName = newDisplayName;
-						newFieldValue.IsCustomField = true;
-						metaDataFields.Add(newFieldValue);
-					}
+						metaDataFields.Add(new FieldValue(newId, string.Empty));
 				}
 			});
 		}

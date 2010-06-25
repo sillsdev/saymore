@@ -233,10 +233,14 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class AudioFileType : FileType
 	{
+		private readonly Func<AudioComponentEditor.Factory> _audioComponentEditorFactoryLazy;
+
 		/// ------------------------------------------------------------------------------------
-		public AudioFileType() : base("Audio",
+		public AudioFileType(Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy)
+			: base("Audio",
 			p => Settings.Default.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
 		{
+			_audioComponentEditorFactoryLazy = audioComponentEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -259,7 +263,9 @@ namespace SayMore.Model.Files
 				_editors.Add(new AudioVideoPlayer(file, text, "Audio"));
 
 				text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
-				_editors.Add(new AudioComponentEditor(file, text, null));
+				_editors.Add(_audioComponentEditorFactoryLazy()(file, text, null));
+
+				//_editors.Add(new AudioComponentEditor(file, text, null));
 
 				text = LocalizationManager.LocalizeString("AudioFileInfoEditor.NotesTabText", "Notes");
 				_editors.Add(new NotesEditor(file, text, "Notes"));

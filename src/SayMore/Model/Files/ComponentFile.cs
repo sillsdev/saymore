@@ -184,7 +184,7 @@ namespace SayMore.Model.Files
 			newFieldValue.Value = (newFieldValue.Value ?? string.Empty).Trim();
 
 			var oldFieldValue =
-				MetaDataFieldValues.FirstOrDefault(v => v.FieldId == newFieldValue.FieldId);
+				MetaDataFieldValues.Find(v => v.FieldId == newFieldValue.FieldId);
 
 			if (oldFieldValue == newFieldValue)
 				return newFieldValue.Value;

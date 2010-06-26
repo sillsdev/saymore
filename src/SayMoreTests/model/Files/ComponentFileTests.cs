@@ -37,6 +37,7 @@ namespace SayMoreTests.Model.Files
 
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetFileType_IsText_GivesTextFileType()
 		{
 			ComponentFile f = CreateComponentFile("abc.txt");
@@ -58,6 +59,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetFileType_UnknownType_UnknownFileType()
 		{
 			ComponentFile f = CreateComponentFile("abc.zzz");
@@ -65,6 +67,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetStringValue_FieldMissing_ReturnsSpecifiedDefault()
 		{
 			ComponentFile f = CreateComponentFile("abc.zzz");
@@ -73,6 +76,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetStringValue_FieldIsThere_ReturnsCorrectValue()
 		{
 			ComponentFile f = CreateComponentFile("abc.zzz");
@@ -81,6 +85,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void SetValue_ChangingValue_NewValueOverwritesOld()
 		{
 			ComponentFile f = CreateComponentFile("abc.zzz");
@@ -107,6 +112,7 @@ namespace SayMoreTests.Model.Files
 
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetAssignedRoles_NoRoles_ReturnsEmptyEnumerator()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc.txt");
@@ -114,6 +120,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetAssignedRoles_HasTwoRoles_ReturnsThem()
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc.txt");
@@ -121,6 +128,7 @@ namespace SayMoreTests.Model.Files
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void IdentifyAsRole_FileRenamed()
 		{
 			ComponentFile f = CreateComponentFile("abc.txt");

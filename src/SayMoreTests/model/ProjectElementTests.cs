@@ -28,7 +28,8 @@ namespace SayMoreTests.Model
 			_parentFolder = null;
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
+		[Category("SkipOnTeamCity")]
 		public void Save_NewlyCreated_CreatesMetaDataFile()
 		{
 			Person person = CreatePerson();
@@ -54,7 +55,7 @@ namespace SayMoreTests.Model
 			return suceeded;
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void Load_AfterSave_PreservesId()
 		{
 			Person person = CreatePerson();
@@ -66,7 +67,7 @@ namespace SayMoreTests.Model
 			Assert.AreEqual(1, Directory.GetFiles(_parentFolder.Combine("xyz")).Length);
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void GetComponentFiles_AfterCreation_GivesASingleFile()
 		{
 			var person = CreatePerson();
@@ -75,7 +76,7 @@ namespace SayMoreTests.Model
 			Assert.AreEqual("xyz.person", componentFiles.First().FileName);
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void GetComponentFiles_SomeFiles_GivesThem()
 		{
 			var person = CreatePerson();
@@ -83,7 +84,7 @@ namespace SayMoreTests.Model
 			Assert.AreEqual(2, person.GetComponentFiles().Count());
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_AllValid_RemovesNone()
 		{
 			using (var fileToAdd1 = new TempFile())
@@ -101,7 +102,7 @@ namespace SayMoreTests.Model
 			}
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_NullInput_ReturnsEmptyList()
 		{
 			var person = CreatePerson();
@@ -109,7 +110,7 @@ namespace SayMoreTests.Model
 			Assert.That(list.Count(), Is.EqualTo(0));
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_EmptyListInput_ReturnsEmptyList()
 		{
 			var person = CreatePerson();
@@ -117,7 +118,7 @@ namespace SayMoreTests.Model
 			Assert.That(list.Count(), Is.EqualTo(0));
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void RemoveInvalidFilesFromProspectiveFilesToAdd_SomeInvalid_RemovesThoseSome()
 		{
 			var invalidEndings = new StringCollection();
@@ -138,7 +139,7 @@ namespace SayMoreTests.Model
 			}
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void AddComponentFile_SomeFile_AddsIt()
 		{
 			var person = CreatePerson();
@@ -153,7 +154,7 @@ namespace SayMoreTests.Model
 			}
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void AddComponentFiles_SomeFiles_AddsThem()
 		{
 			var person = CreatePerson();
@@ -170,7 +171,7 @@ namespace SayMoreTests.Model
 			}
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void AddComponentFile_FileAlreadyExistsInDest_DoesNotAdd()
 		{
 			var person = CreatePerson();
@@ -186,7 +187,7 @@ namespace SayMoreTests.Model
 			}
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void AddComponentFiles_AtLeastOneFileAlreadyExistsInDest_AddsOneNotOther()
 		{
 			var person = CreatePerson();
@@ -208,7 +209,7 @@ namespace SayMoreTests.Model
 			}
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void GetNewDefaultElementName_NoClashOnFirstTry_GivesName()
 		{
 			var person = CreatePerson();
@@ -217,7 +218,7 @@ namespace SayMoreTests.Model
 			Assert.That(person.GetNewDefaultElementName(), Is.EqualTo(expected));
 		}
 
-		[Test]
+	[Test][Category("SkipOnTeamCity")]
 		public void GetNewDefaultElementName_FindsClash_GivesName()
 		{
 			var person = CreatePerson();

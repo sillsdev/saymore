@@ -33,7 +33,7 @@ namespace SayMoreTests
 		/// <summary>
 		/// This is mostly a "smoke test" for the Dependency Injection System
 		/// </summary>
-		[Test]
+		[Test][Category("SkipOnTeamCity")]
 		public void CreateWelcomeDialog_NotNull()
 		{
 			using(var appContext = new ApplicationContainer())
@@ -45,7 +45,7 @@ namespace SayMoreTests
 			}
 		}
 
-		[Test]
+		[Test][Category("SkipOnTeamCity")]
 		public void CreateWelcomeDialog_CanCreateOnAfterAnother()
 		{
 			using (var appContext = new ApplicationContainer())
@@ -58,7 +58,7 @@ namespace SayMoreTests
 		/// <summary>
 		/// This is mostly a "smoke test" for the Dependency Injection System
 		/// </summary>
-		[Test]
+		[Test][Category("SkipOnTeamCity")]
 		public void CreateProjectContext_ProjectWindowIsNotNull()
 		{
 			using (var appContext = new ApplicationContainer())
@@ -76,7 +76,7 @@ namespace SayMoreTests
 		}
 
 
-		[Test]
+		[Test][Category("SkipOnTeamCity")]
 		public void CreateProjectContext_CanCreateTwoProjectsConsecutively()
 		{
 			using (var appContext = new ApplicationContainer())
@@ -94,7 +94,7 @@ namespace SayMoreTests
 			}
 		}
 
-		[Test]
+		[Test][Category("SkipOnTeamCity")]
 		public void ContainerSanityCheck_CanGet_ComponentFile_Factory()
 		{
 			using (var appContext = new ApplicationContainer())

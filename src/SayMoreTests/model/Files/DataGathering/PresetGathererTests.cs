@@ -29,6 +29,7 @@ namespace SayMoreTests.model.Files.DataGathering
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetPresets_NoFiles_GetNoPresetsMessageOnly()
 		{
 			using (var gatherer = CreatePresetGatherer())
@@ -41,6 +42,7 @@ namespace SayMoreTests.model.Files.DataGathering
 
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void Background_SidecarDataChanged_PresetChanged()
 		{
 			WriteTestWavWithSidecar(@"original");

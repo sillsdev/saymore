@@ -30,6 +30,7 @@ namespace SayMoreTests.model.Files.DataGathering
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetAllFileData_SomeFiles_NonEmptyList()
 		{
 				WriteTestWav(@"blah blah");
@@ -42,6 +43,7 @@ namespace SayMoreTests.model.Files.DataGathering
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void GetData_FileRenamed_RemovesOldGivesNew()
 		{
 			var original = WriteTestWav(@"first");
@@ -61,6 +63,7 @@ namespace SayMoreTests.model.Files.DataGathering
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void Start_OneRelevantFileExists_FiresNewDataAvailableEvent()
 		{
 			WriteTestWav(@"first");
@@ -74,6 +77,7 @@ namespace SayMoreTests.model.Files.DataGathering
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void Background_FileOverwritten_FiresNewDataAvailableEvent()
 		{
 			WriteTestWav(@"first");

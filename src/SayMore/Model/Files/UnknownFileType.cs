@@ -33,6 +33,9 @@ namespace SayMore.Model.Files
 				var text = LocalizationManager.LocalizeString("MiscFileInfoEditor.ViewTabText", "View");
 				_editors.Add(new BrowserEditor(file, text, null));
 
+				text = LocalizationManager.LocalizeString("MiscFileInfoEditor.PropertiesTabText", "Properties");
+				_editors.Add(new BasicFieldGridEditor(file, text, null));
+
 				text = LocalizationManager.LocalizeString("MiscFileInfoEditor.NotesTabText", "Notes");
 				_editors.Add(new NotesEditor(file, text, "Notes"));
 

@@ -152,6 +152,7 @@ namespace SayMore.UI.ElementListScreen
 		protected void UpdateComponentList()
 		{
 			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement();
+			_componentFilesControl.ComponentSelectedCallback = null;
 			_componentFilesControl.UpdateComponentList(componentsOfSelectedElement);
 			_model.SetSelectedComponentFile(0);
 
@@ -169,6 +170,12 @@ namespace SayMore.UI.ElementListScreen
 			}
 
 			_model.SetSelectedComponentFile(0);
+
+			// Setting the selected component to nothing now will make sure that
+			// setting it to zero below will cause a row changed event, thus causing
+			// the ComponentSelectedCallback event.
+			_componentFilesControl.SelectComponent(-1);
+			_componentFilesControl.ComponentSelectedCallback = HandleComponentSelectedCallback;
 			_componentFilesControl.SelectComponent(0);
 			UpdateComponentEditors();
 		}

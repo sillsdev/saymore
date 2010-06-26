@@ -10,8 +10,10 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class SessionBasicEditor : EditorBase
 	{
-		FieldsValuesGrid _gridCustomFields;
 		public delegate SessionBasicEditor Factory(ComponentFile file, string tabText, string imageKey);
+
+		private FieldsValuesGrid _gridCustomFields;
+		private FieldsValuesGridViewModel _gridViewModel;
 
 		/// ------------------------------------------------------------------------------------
 		public SessionBasicEditor(ComponentFile file, string tabText, string imageKey,
@@ -38,9 +40,19 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFieldsValuesGrid()
 		{
-			var model = new FieldsValuesGridViewModel(_file, GetCustomFieldIdsToDisplayInGrid());
-			_gridCustomFields = new FieldsValuesGrid(model);
+			_gridViewModel = new FieldsValuesGridViewModel(_file, GetCustomFieldIdsToDisplayInGrid());
+			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
+			_gridCustomFields.Margin = _situation.Margin;
 			_tableLayout.Controls.Add(_gridCustomFields, 0, 11);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void SetComponentFile(ComponentFile file)
+		{
+			base.SetComponentFile(file);
+
+			if (_gridViewModel != null)
+				_gridViewModel.SetComponentFile(file, GetCustomFieldIdsToDisplayInGrid());
 		}
 
 		/// ------------------------------------------------------------------------------------

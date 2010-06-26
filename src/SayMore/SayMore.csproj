@@ -128,6 +128,12 @@
     <Compile Include="UI\ComponentEditors\AutoCompleteHelper.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ComponentEditors\BasicFieldGridEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\BasicFieldGridEditor.Designer.cs">
+      <DependentUpon>BasicFieldGridEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ComponentEditors\BindingHelper.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -450,6 +456,9 @@
     <None Include="Resources\SayMoreLogo 16x16.png" />
     <None Include="Resources\SayMoreLogo.png" />
     <EmbeddedResource Include="SayMore.ico" />
+    <EmbeddedResource Include="UI\ComponentEditors\BasicFieldGridEditor.resx">
+      <DependentUpon>BasicFieldGridEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\EditorBase.resx">
       <DependentUpon>EditorBase.cs</DependentUpon>
     </EmbeddedResource>

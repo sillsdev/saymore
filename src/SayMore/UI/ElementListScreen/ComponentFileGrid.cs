@@ -161,7 +161,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public void SelectComponent(int index)
 		{
-			if (index >= 0 && index < _files.Count())
+			if (index < 0)
+				_grid.CurrentCell = null;
+			else if (index >= 0 && index < _files.Count())
 				_grid.CurrentCell = _grid[0, index];
 		}
 

@@ -16,6 +16,7 @@ namespace SayMore.UI.ComponentEditors
 		public delegate AudioComponentEditor Factory(ComponentFile file, string tabText, string imageKey);
 
 		private FieldsValuesGrid _grid;
+		private FieldsValuesGridViewModel _gridViewModel;
 		private FieldUpdater _customFieldUpdater;
 
 		/// ------------------------------------------------------------------------------------
@@ -33,13 +34,25 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void InitializeGrid()
 		{
-			var model = new FieldsValuesGridViewModel(_file,
+			_gridViewModel = new FieldsValuesGridViewModel(_file,
 				GetDefaultFieldIdsToDisplayInGrid(), GetCustomFieldIdsToDisplayInGrid());
 
-			_grid = new FieldsValuesGrid(model);
+			_grid = new FieldsValuesGrid(_gridViewModel);
 			_grid.Dock = DockStyle.Top;
 			_tableLayout.Controls.Add(_grid, 0, 1);
 			_grid.BringToFront();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void SetComponentFile(ComponentFile file)
+		{
+			base.SetComponentFile(file);
+
+			if (_gridViewModel != null)
+			{
+				_gridViewModel.SetComponentFile(file,
+					GetDefaultFieldIdsToDisplayInGrid(), GetCustomFieldIdsToDisplayInGrid());
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

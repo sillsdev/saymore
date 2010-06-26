@@ -16,8 +16,6 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 
@@ -30,8 +28,9 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public class FieldsValuesGridViewModel
 	{
-		private readonly ComponentFile _file;
+		private ComponentFile _file;
 
+		public Action ComponentFileChanged;
 		public List<KeyValuePair<FieldValue, bool>> RowData { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -44,11 +43,27 @@ namespace SayMore.UI.ComponentEditors
 		public FieldsValuesGridViewModel(ComponentFile file,
 			IEnumerable<string> defaultFieldIdsToDisplay, IEnumerable<string> customFieldIdsToDisplay)
 		{
+			SetComponentFile(file, defaultFieldIdsToDisplay, customFieldIdsToDisplay);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetComponentFile(ComponentFile file, IEnumerable<string> customFieldIdsToDisplay)
+		{
+			SetComponentFile(file, new List<string>(0), customFieldIdsToDisplay);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetComponentFile(ComponentFile file,
+			IEnumerable<string> defaultFieldIdsToDisplay, IEnumerable<string> customFieldIdsToDisplay)
+		{
 			_file = file;
 
 			RowData = new List<KeyValuePair<FieldValue, bool>>();
 			LoadFields(defaultFieldIdsToDisplay, false);
 			LoadFields(customFieldIdsToDisplay, true);
+
+			if (ComponentFileChanged != null)
+				ComponentFileChanged();
 		}
 
 		/// ------------------------------------------------------------------------------------

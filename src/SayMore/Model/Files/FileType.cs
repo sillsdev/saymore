@@ -358,6 +358,9 @@ namespace SayMore.Model.Files
 				var text = LocalizationManager.LocalizeString("ImageFileInfoEditor.ViewTabText", "Image");
 				_editors.Add(new ImageViewer(file, text, "Image"));
 
+				text = LocalizationManager.LocalizeString("ImageFileInfoEditor.PropertiesTabText", "Properties");
+				_editors.Add(new BasicFieldGridEditor(file, text, null));
+
 				text = LocalizationManager.LocalizeString("ImageFileInfoEditor.NotesTabText", "Notes");
 				_editors.Add(new NotesEditor(file, text, "Notes"));
 

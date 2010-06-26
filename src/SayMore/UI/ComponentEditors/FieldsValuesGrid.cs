@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
@@ -37,6 +38,13 @@ namespace SayMore.UI.ComponentEditors
 
 			AutoResizeRows();
 			AdjustHeight();
+
+			_model.ComponentFileChanged = new Action(() =>
+			{
+				RowCount = _model.RowData.Count + 1;
+				Invalidate();
+				CurrentCell = this[0, 0];
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------

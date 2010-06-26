@@ -1,5 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask TaskName="StampAssemblies" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
+  <UsingTask TaskName="Split" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
+  <UsingTask TaskName="FileUpdate" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
   <UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(teamcity_dotnet_nunitlauncher_msbuild_task)"/>
 
   <Target Name="Build">
@@ -30,37 +32,37 @@
   </Target>
 
 
-  <target name="Upload" depends="Installer" >
-	<exec program="c:\program files\cwRsync\bin\rsync.exe">
-	  <!-- notice, for now we're using wesay's space -->
-	  <arg line='-vz -p --chmod=ug+rw -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreInstaller.${version}.msi" bob@wesay.org:/var/www/downloads/SayMoreInstaller.${version}.msi' />
-	</exec>
-  </target>
+  <Target Name="Upload" DependsOnTargets="Installer" >
+	<Exec Command ='c:\program files\cwRsync\bin\rsync.exe -vz -p --chmod=ug+rw -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreInstaller.${version}.msi" bob@wesay.org:/var/www/downloads/SayMoreInstaller.${version}.msi' />
 
-  <Target Name="Installer">
+  </Target>
+
+  <Target Name="Installer" DependsOnTargets="Build">
 	<Split Input="$(BUILD_NUMBER)" Delimiter="-" OutputSubString="0">
 	  <Output TaskParameter="ReturnValue" PropertyName="Revision" />
 	</Split>
 	<CreateProperty Value="$(Major).$(Minor).$(Revision)">
 	  <Output PropertyName="Version" TaskParameter="Value"/>
 	</CreateProperty>
-	<Message Text="Version: $(Version)" />
+	<Message Text="Version: $(Version)" Importance="high"/>
 
 	<!-- set the version number in the installer configuration program.  I'm sure there's a way to just send in the variables rather than this brute-force
 		changing of the script, but I haven't figured that out. -->
-	<FileUpdate Files="$(BaseDirectory)\src\Installer\Installer.wxs" Regex="Property_ProductVersion = \&quot;.*\&quot;"
+
+	<FileUpdate File="$(teamcity_build_checkoutDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*";'
 				ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
 
 
-	<Message Text="Making Installer Version: $(Version)"/>
+	<Message Text="Making Installer Version: $(Version)" Importance="high"  />
 
-	<MSBuild Projects="$(BaseDirectory)\src\Installer\Installer.wixproj"/>
+	<MSBuild Projects="$(teamcity_build_checkoutDir)\src\Installer\Installer.wixproj"/>
 
 	<!-- remove an existing one with the same name, if necessary -->
-	<Delete Files="$(BaseDirectory)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
+	<Delete Files="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
 
-	<Move SourceFiles="$(BaseDirectory)\output\installer\SayMoreInstaller.msi"
-			DestinationFiles="$(BaseDirectory)\output\installer\SayMoreInstaller.$(Version).msi"/>
+	<Copy SourceFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"
+		  DestinationFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi"
+		  />
   </Target>
 
 

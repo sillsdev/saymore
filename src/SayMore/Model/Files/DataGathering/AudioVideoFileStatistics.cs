@@ -53,12 +53,14 @@ namespace SayMore.Model.Files.DataGathering
 			{
 				//fine, just return
 			}
+/*	remove temporarily so we can build on TeamCity... then find out if the SDK is needed or replace
+			with ffmpeg
 			catch (DirectXException e)
 			{
 				if (e.ErrorString != "VFW_E_UNSUPPORTED_STREAM")
 					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Could not get duration of " + Path);
 			}
-			catch (Exception e)
+*/			catch (Exception e)
 			{
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Could not get duration of " + Path);
 			}

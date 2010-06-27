@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
 <!-- will be used later on in this file.                                                                 -->
-<?define Property_ProductVersion = "0.1.0" ?>
+<?define Property_ProductVersion = "BUILD_SCRIPT_MUST_REPLACE_AT_RUNTIME" ?>
 <!--this is replaced at build time by the msbuild 'package' target -->
 <?define Property_ProductCode = "*" ?>
 <!-- auto-generate a new guid each time -->
@@ -80,7 +80,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<File Id="autofac.dll" Name="autofac.dll" KeyPath="yes" Source="..\..\output\release\autofac.dll" />
 		  </Component>
 		  <Component Id="AxInterop.WMPLib.dll" Guid="{A488F3D2-BC40-40f8-8EE2-757418E458C5}">
-			<File Id="AxInterop.WMPLib.dll" Name="AxInterop.WMPLib.dll.dll" KeyPath="yes" Source="..\..\output\release\AxInterop.WMPLib.dll" />
+			<File Id="AxInterop.WMPLib.dll" Name="AxInterop.WMPLib.dll" KeyPath="yes" Source="..\..\output\release\AxInterop.WMPLib.dll" />
 		  </Component>
 		  <Component Id="Interop.WMPLib.dll" Guid="{A8AAC2E5-7C33-4a1c-AA2E-4091DBC0EE92}">
 			<File Id="Interop.WMPLib.dll" Name="Interop.WMPLib.dll" KeyPath="yes" Source="..\..\output\release\Interop.WMPLib.dll" />

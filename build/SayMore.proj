@@ -4,20 +4,42 @@
   <UsingTask TaskName="FileUpdate" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
   <UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(teamcity_dotnet_nunitlauncher_msbuild_task)"/>
 
+
+  <Target Name="VersionNumbers">
+	<Message Text="BUILD_NUMBER: $(BUILD_NUMBER)" Importance="high"/>
+
+	<Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="2">
+	  <Output TaskParameter="ReturnValue" PropertyName="BuildCounter" />
+	</Split>
+
+	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
+
+	<!-- TODO: should we move the version number somewhere else, like to TeamCity config?
+		TODO: have one place to set it which will also stamp the assembly properly
+	 -->
+	<CreateProperty Value="0.1.$(BuildCounter)">
+	  <Output PropertyName="Version" TaskParameter="Value"/>
+	</CreateProperty>
+
+	<Message Text="Version: $(Version)" Importance="high"/>
+  </Target>
+
+
+
   <Target Name="Build">
 	<CallTarget Targets="Compile"/>
 	<Message Text="Build Complete"/>
   </Target>
 
 
-  <Target Name="SetVersion">
+  <Target Name="SetAssemblyVersion">
 	  <ItemGroup>
 		<AssemblyInfoFiles Include="$(teamcity_build_checkoutDir)/src/**/assemblyinfo.cs"/>
 	  </ItemGroup>
 	  <StampAssemblies Version="$(BUILD_NUMBER)" InputAssemblyPaths="@(AssemblyInfoFiles)" />
 	</Target>
 
-  <Target Name="Compile" DependsOnTargets="SetVersion">
+  <Target Name="Compile" DependsOnTargets="SetAssemblyVersion">
 	<MSBuild Projects="$(teamcity_build_checkoutDir)/SayMore.sln"
 			 Targets="Rebuild"
 			 Properties="Configuration=Release" />
@@ -32,28 +54,14 @@
   </Target>
 
 
-  <Target Name="Upload" DependsOnTargets="Installer" >
-	<Exec Command ='c:\program files\cwRsync\bin\rsync.exe -vz -p --chmod=ug+rw -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreInstaller.${Version}.msi" bob@wesay.org:/var/www/downloads/SayMoreInstaller.${Version}.msi' />
+  <Target Name="Upload" DependsOnTargets="VersionNumbers; Installer" >
+	<Message Text="Attempting rsync of SayMoreInstaller.$(Version).msi" Importance="high"/>
+	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vz -p --chmod=ug+rw -e"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreInstaller.$(Version).msi" bob@wesay.org:/var/www/downloads/SayMoreInstaller.$(Version).msi' />
 
   </Target>
 
-  <Target Name="Installer" DependsOnTargets="Build">
-	<Message Text="BUILD_NUBMER: $(BUILD_NUMBER)" Importance="high"/>
 
-	<Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="2">
-	  <Output TaskParameter="ReturnValue" PropertyName="BuildCounter" />
-	</Split>
-
-	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
-
-
-	<!-- TODO: should we move the version number somewhere else, like to TeamCity config?
-		TODO: have one place to set it which will also stamp the assembly properly
-	 -->
-	<CreateProperty Value="0.1.$(BuildCounter)">
-	  <Output PropertyName="Version" TaskParameter="Value"/>
-	</CreateProperty>
-	<Message Text="Version: $(Version)" Importance="high"/>
+  <Target Name="Installer" DependsOnTargets="VersionNumbers; Build">
 
 	<!-- set the version number in the installer configuration program.  I'm sure there's a way to just send in the variables rather than this brute-force
 		changing of the script, but I haven't figured that out. -->

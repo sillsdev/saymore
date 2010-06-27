@@ -24,5 +24,5 @@ using System.Runtime.InteropServices;
 
 //thsese are marked with 9's to flag that if a version gets out with these,
 // then it wasn't built by our build system so we don't really know what version it is
-[assembly: AssemblyVersion("6.7.8.9")]
-[assembly: AssemblyFileVersion("6.7.8.9")]
+[assembly: AssemblyVersion("6.7.6.789")]
+[assembly: AssemblyFileVersion("6.7.6.789")]

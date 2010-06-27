@@ -1371,7 +1371,8 @@
 			If the method might be in a different thread, this will do an invoke,
 			otherwise it just invokes the action
 			</summary>
-			<example>InvokeIfRequired(BackgroundColor=Color.Blue);</example>
+			<example>InvokeIfRequired(()=>BackgroundColor=Color.Blue);</example>
+			<example>((Control)this).InvokeIfRequired(()=>SetChoices(languages));</example>
 		</member>
 	</members>
 </doc>

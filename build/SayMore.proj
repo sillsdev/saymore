@@ -63,10 +63,10 @@
 
   <Target Name="Installer" DependsOnTargets="VersionNumbers; Build">
 
-	<!-- set the version number in the installer configuration program.  I'm sure there's a way to just send in the variables rather than this brute-force
+	<!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force
 		changing of the script, but I haven't figured that out. -->
 
-	<FileUpdate File="$(teamcity_build_checkoutDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*";'
+	<FileUpdate File="$(teamcity_build_checkoutDir)\src\Installer\Installer.wxs" Regex='Property_ProductVersion = ".*"'
 				ReplacementText ="Property_ProductVersion = &quot;$(Version)&quot;" />
 
 

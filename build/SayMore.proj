@@ -38,10 +38,19 @@
   </Target>
 
   <Target Name="Installer" DependsOnTargets="Build">
-	<Split Input="$(BUILD_NUMBER)" Delimiter="-" OutputSubString="0">
-	  <Output TaskParameter="ReturnValue" PropertyName="Revision" />
+	<Message Text="BUILD_NUBMER: $(BUILD_NUMBER)" Importance="high"/>
+
+	<Split Input="$(BUILD_NUMBER)" Delimiter="." OutputSubString="2">
+	  <Output TaskParameter="ReturnValue" PropertyName="BuildCounter" />
 	</Split>
-	<CreateProperty Value="$(Major).$(Minor).$(Revision)">
+
+	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
+
+
+	<!-- TODO: should we move the version number somewhere else, like to TeamCity config?
+		TODO: have one place to set it which will also stamp the assembly properly
+	 -->
+	<CreateProperty Value="0.1.$(BuildCounter)">
 	  <Output PropertyName="Version" TaskParameter="Value"/>
 	</CreateProperty>
 	<Message Text="Version: $(Version)" Importance="high"/>

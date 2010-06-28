@@ -133,8 +133,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	<CustomAction Id="LaunchSayMore"
 				  FileKey="SayMore.exe"
 				  ExeCommand=""
-				  Return="asyncNoWait"
-				  Execute="commit"/>
+				  Return="asyncNoWait"/>
 
 	<InstallExecuteSequence>
 	  <RemoveExistingProducts After="InstallInitialize" />

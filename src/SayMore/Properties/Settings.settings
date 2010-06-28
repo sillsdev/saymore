@@ -157,5 +157,23 @@
     <Setting Name="AutoPlayMediaPlayerWhenSelectingMediaFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="CustomSessionFileFields" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CustomPersonFileFields" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CustomImageFileFields" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CustomAudioFileFields" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CustomVideoFileFields" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CustomUnknownFileFields" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

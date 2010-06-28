@@ -484,5 +484,77 @@ namespace SayMore.Properties {
                 return ((bool)(this["AutoPlayMediaPlayerWhenSelectingMediaFile"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection CustomSessionFileFields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomSessionFileFields"]));
+            }
+            set {
+                this["CustomSessionFileFields"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection CustomPersonFileFields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomPersonFileFields"]));
+            }
+            set {
+                this["CustomPersonFileFields"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection CustomImageFileFields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomImageFileFields"]));
+            }
+            set {
+                this["CustomImageFileFields"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection CustomAudioFileFields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomAudioFileFields"]));
+            }
+            set {
+                this["CustomAudioFileFields"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection CustomVideoFileFields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomVideoFileFields"]));
+            }
+            set {
+                this["CustomVideoFileFields"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection CustomUnknownFileFields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomUnknownFileFields"]));
+            }
+            set {
+                this["CustomUnknownFileFields"] = value;
+            }
+        }
     }
 }

@@ -42,14 +42,14 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.ColumnCount = 1;
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayout.Controls.Add(this._presetMenuButton, 0, 0);
-			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
+			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
 			this._tableLayout.Name = "_tableLayout";
 			this._tableLayout.RowCount = 2;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayout.Size = new System.Drawing.Size(435, 26);
+			this._tableLayout.Size = new System.Drawing.Size(435, 194);
 			this._tableLayout.TabIndex = 0;
 			// 
 			// _presetMenuButton

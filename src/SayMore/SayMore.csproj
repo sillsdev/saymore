@@ -91,6 +91,7 @@
     <Compile Include="Model\Files\DataGathering\PresetGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\AudioVideoDataGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\SessionOverviewStatistics.cs" />
+    <Compile Include="Model\Files\DataGathering\SessionPersonAutoCompleteValueGatherer.cs" />
     <Compile Include="Model\Files\ExportCommand.cs" />
     <Compile Include="Model\Files\DataGathering\AudioVideoFileStatistics.cs" />
     <Compile Include="Model\Fields\DiscourseType.cs" />

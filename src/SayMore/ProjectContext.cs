@@ -46,7 +46,7 @@ namespace SayMore
 			//Start up the background operations
 			_scope.Resolve<AudioVideoDataGatherer>().Start();
 			_scope.Resolve<PresetGatherer>().Start();
-			_scope.Resolve<AutoCompleteValueGatherer>().Start();
+			_scope.Resolve<SessionPersonAutoCompleteValueGatherer>().Start();
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
 		}
@@ -90,8 +90,8 @@ namespace SayMore
 				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath,
 					c.Resolve<IEnumerable<FileType>>(), c.Resolve<PresetData.Factory>())).InstancePerLifetimeScope();
 
-				builder.Register<AutoCompleteValueGatherer>(
-					c => new AutoCompleteValueGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
+				builder.Register<SessionPersonAutoCompleteValueGatherer>(
+					c => new SessionPersonAutoCompleteValueGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
 						c.Resolve<ComponentFile.Factory>())).InstancePerLifetimeScope();
 
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
@@ -99,8 +99,7 @@ namespace SayMore
 				builder.Register<Func<PersonBasicEditor.Factory>>(c => () => c.Resolve<PersonBasicEditor.Factory>());
 				builder.Register<Func<SessionBasicEditor.Factory>>(c => () => c.Resolve<SessionBasicEditor.Factory>());
 
-				var fieldUpdater = new FieldUpdater(rootDirectoryPath);
-				builder.Register<FieldUpdater>(c => fieldUpdater);
+				builder.Register<FieldUpdater>(c => new FieldUpdater(rootDirectoryPath)).InstancePerLifetimeScope();
 			});
 		}
 

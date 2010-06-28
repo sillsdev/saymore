@@ -27,7 +27,7 @@ namespace SayMore.UI.ComponentEditors
 				GetDefaultFieldIdsToDisplayInGrid(), GetCustomFieldIdsToDisplayInGrid());
 
 			_grid = new FieldsValuesGrid(_gridViewModel);
-			_grid.Dock = DockStyle.Top;
+			_grid.Dock = DockStyle.Fill;
 			Controls.Add(_grid);
 		}
 

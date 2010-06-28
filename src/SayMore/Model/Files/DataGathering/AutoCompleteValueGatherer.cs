@@ -13,62 +13,49 @@ namespace SayMore.Model.Files.DataGathering
 	/// Then when the data is needed for autocomplete, GetValueLists() distills it down to
 	/// {fieldKey, (list of unique values)}
 	/// </summary>
-	public class AutoCompleteValueGatherer : BackgroundFileProcessor<Dictionary<string,string>> /* a list of the languages mentioned in this file*/, IMultiListDataProvider
+	public abstract class AutoCompleteValueGatherer : BackgroundFileProcessor<Dictionary<string,string>> /* a list of the languages mentioned in this file*/, IMultiListDataProvider
 	{
-		private Dictionary<string, string> _mappingOfFieldsToAutoCompleteKey;
-		private List<string> _multiValueFields;
+		protected Dictionary<string, string> _mappingOfFieldsToAutoCompleteKey = new Dictionary<string,string>();
+		protected List<string> _multiValueFields;
 
 		public delegate AutoCompleteValueGatherer Factory(string rootDirectoryPath);
 
-		public AutoCompleteValueGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,
+		/// ------------------------------------------------------------------------------------
+		protected AutoCompleteValueGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,
 			ComponentFile.Factory componentFileFactory)
-			:	base(rootDirectoryPath,
-					allFileTypes.Where(t => t.GetType() == typeof(PersonFileType)
-											|| t.GetType() == typeof(SessionFileType)),
-					path => ExtractValues(path, componentFileFactory))
+			:	base(rootDirectoryPath, allFileTypes, path => ExtractValues(path, componentFileFactory))
 		{
-			//NB: this stuff would move to field definitions, if/when we implement them
-
-			_mappingOfFieldsToAutoCompleteKey = new Dictionary<string, string>();
-			_mappingOfFieldsToAutoCompleteKey.Add("primaryLanguage", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("fathersLanguage", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("mothersLanguage", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage0", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage1", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage2", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage3", "language");
-			_mappingOfFieldsToAutoCompleteKey.Add("fullName", "person");
-			_mappingOfFieldsToAutoCompleteKey.Add("participants", "person");
-			_mappingOfFieldsToAutoCompleteKey.Add("recordist", "person");
-
-			_multiValueFields = new List<string>(new string[]{"participants", "education"});
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Given a data file, make a dictionary of the values
 		/// </summary>
-		private static Dictionary<string,string> ExtractValues(string path, ComponentFile.Factory componentFileFactory)
+		/// ------------------------------------------------------------------------------------
+		protected static Dictionary<string, string> ExtractValues(string path,
+			ComponentFile.Factory componentFileFactory)
 		{
 			var file = componentFileFactory(path);
 
+			var dictionary = file.MetaDataFieldValues.ToDictionary(
+				field => field.FieldId, field => field.Value);
 
-			var dictionary= file.MetaDataFieldValues.ToDictionary(field => field.FieldId,
-														   field => field.Value);
-
-			//something of a hack... the name of the file is the only place we currently keep
-			//the person's name
+			// something of a hack... the name of the file is the only place we currently keep
+			// the person's name
 			if (file.FileType.GetType() == typeof(PersonFileType))
 			{
 				dictionary.Add("person", Path.GetFileNameWithoutExtension(path));
 			}
-			return dictionary;
-	}
 
+			return dictionary;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gives [key, (list of unique values)]
 		/// </summary>
-		/// <returns></returns>
-		public Dictionary<string, IEnumerable<string>> GetValueLists()
+		/// ------------------------------------------------------------------------------------
+		public virtual Dictionary<string, IEnumerable<string>> GetValueLists()
 		{
 			var d = new Dictionary<string, IEnumerable<string>>();
 			foreach (KeyValuePair<string, Dictionary<string, string>> fieldsOfFile in _fileToDataDictionary)
@@ -76,10 +63,11 @@ namespace SayMore.Model.Files.DataGathering
 				foreach (var field in fieldsOfFile.Value)
 				{
 					var key = GetKeyFromFieldName(field.Key);
-					if(!d.ContainsKey(key))
+					if (!d.ContainsKey(key))
 					{
 						d.Add(key, new List<string>());
 					}
+
 					foreach (var value in GetIndividualValues(field))
 					{
 						if (!d[key].Contains(value))
@@ -89,39 +77,46 @@ namespace SayMore.Model.Files.DataGathering
 					}
 				}
 			}
+
 			return d;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Split list of values into individual components
+		/// Split list of values into individual components. Some fields in the UI can contain
+		/// multiple items separated by a comma or semi colon (e.g. participants could contain
+		/// several people "Fred; Barney; Wilma; Betty"). When that is true, then each value
+		/// in a multivalue field is a separate value in the auto-complete list.
 		/// </summary>
-		private IEnumerable<string> GetIndividualValues(KeyValuePair<string, string> field)
+		/// ------------------------------------------------------------------------------------
+		protected virtual IEnumerable<string> GetIndividualValues(KeyValuePair<string, string> field)
 		{
 			if (_multiValueFields.Contains(field.Key))
 			{
-				foreach(var v in from l in field.Value.Split(',', ';')
-							 where l.Trim().Length > 0
-							 select l.Trim())
+				foreach (var v in from l in field.Value.Split(',', ';')
+								  where l.Trim().Length > 0
+								  select l.Trim())
 				{
 					yield return v;
 				}
 
 			}
+
 			yield return field.Value;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Collapses various field names, e.g. various language fields,
-		/// into a single key, e.g. "language"
+		/// Collapses various field names, e.g. various language fields, into a single key,
+		/// e.g. "language"
 		/// </summary>
-		private string GetKeyFromFieldName(string fieldKey)
+		/// ------------------------------------------------------------------------------------
+		protected virtual string GetKeyFromFieldName(string fieldKey)
 		{
 			string key;
-			if(_mappingOfFieldsToAutoCompleteKey.TryGetValue(fieldKey, out key))
-			{
-				return key;
-			}
-			return fieldKey;
+
+			return (_mappingOfFieldsToAutoCompleteKey.TryGetValue(fieldKey, out key) ?
+				key : fieldKey);
 		}
 	}
 }

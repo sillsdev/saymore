@@ -22,8 +22,6 @@ namespace SayMore.UI.ComponentEditors
 			AllowUserToAddRows = true;
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
-			Height = 100;
-			Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
 			Margin = new Padding(0, Margin.Top, 0, Margin.Bottom);
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 			DefaultCellStyle.SelectionBackColor = ColorHelper.CalculateColor(Color.White,
@@ -37,7 +35,6 @@ namespace SayMore.UI.ComponentEditors
 			RowCount = _model.RowData.Count + 1;
 
 			AutoResizeRows();
-			AdjustHeight();
 
 			_model.ComponentFileChanged = new Action(() =>
 			{
@@ -66,7 +63,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void AdjustHeight()
 		{
-			if (IsHandleCreated && !Disposing && RowCount > 0)
+			if (Dock != DockStyle.Fill && Dock != DockStyle.None && IsHandleCreated &&
+				!Disposing && RowCount > 0)
 			{
 				Height = ColumnHeadersHeight + (RowCount * Rows[0].Height) + 2 +
 					(HorizontalScrollBar.Visible ? HorizontalScrollBar.Height : 0);
@@ -83,10 +81,16 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
-			if (e.RowIndex < NewRowIndex && e.ColumnIndex == 0 && !_model.IsIndexForCustomField(e.RowIndex))
+			if (e.RowIndex < NewRowIndex && e.ColumnIndex == 0)
 			{
-				e.CellStyle.Font = _defaultFieldFont;
-				this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+				var val = _model.GetIdForIndex(e.RowIndex);
+				e.Value = val.Replace('_', ' ');
+
+				if (!_model.IsIndexForCustomField(e.RowIndex))
+				{
+					e.CellStyle.Font = _defaultFieldFont;
+					this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+				}
 			}
 
 			base.OnCellFormatting(e);
@@ -97,10 +101,15 @@ namespace SayMore.UI.ComponentEditors
 		{
 			base.OnEditingControlShowing(e);
 
-			if (CurrentCellAddress.X == 1)
-			{
-				var txtBox = e.Control as TextBox;
+			var txtBox = e.Control as TextBox;
 
+			if (CurrentCellAddress.X == 0)
+			{
+				txtBox.KeyPress += HandleCellEditBoxKeyPress;
+				txtBox.HandleDestroyed += HandleCellEditBoxHandleDestroyed;
+			}
+			else
+			{
 				// TODO: Hook up real lists.
 				txtBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 				txtBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
@@ -108,6 +117,44 @@ namespace SayMore.UI.ComponentEditors
 				list.AddRange(new[] { "Dingos", "Parrots", "Dogs", "Pigs", "Poultry", "Ducks" });
 				txtBox.AutoCompleteCustomSource = list;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void HandleCellEditBoxKeyPress(object sender, KeyPressEventArgs e)
+		{
+			// Prevent characters that are invalid as xml tags. There's probably more,
+			// but this will do for now.
+			if ("<>{}()[]/'\"\\.,;:?|!@#$%^&*=+`~".IndexOf(e.KeyChar) >= 0)
+			{
+				e.KeyChar = (char)0;
+				e.Handled = true;
+				SystemSounds.Beep.Play();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This gets rid of the annoying beep caused by pressing ESC when a cell is in
+		/// the edit mode. It rightly takes the user out of edit mode, but without this code,
+		/// it beeps too.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape && IsCurrentCellInEditMode)
+			{
+				EndEdit();
+				return true;
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void HandleCellEditBoxHandleDestroyed(object sender, EventArgs e)
+		{
+			((TextBox)sender).KeyPress -= HandleCellEditBoxKeyPress;
+			((TextBox)sender).HandleDestroyed -= HandleCellEditBoxHandleDestroyed;
 		}
 
 		/// ------------------------------------------------------------------------------------

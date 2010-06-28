@@ -114,7 +114,7 @@ namespace SayMore.UI.ComponentEditors
 		public void SetIdForIndex(string id, int index)
 		{
 			var fieldValue = (index == RowData.Count ? AddEmptyField() : RowData[index].Key);
-			fieldValue.FieldId = (id != null ? id.Trim() : string.Empty);
+			fieldValue.FieldId = (id != null ? id.Trim() : string.Empty).Replace(' ', '_');
 		}
 
 		/// ------------------------------------------------------------------------------------

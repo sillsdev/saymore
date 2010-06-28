@@ -16,7 +16,6 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class PersonBasicEditor : EditorBase
 	{
-
 		public delegate PersonBasicEditor Factory(ComponentFile file, string tabText, string imageKey);
 
 		private readonly List<ParentButton> _fatherButtons = new List<ParentButton>();
@@ -26,7 +25,7 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string tabText, string imageKey,
-			AutoCompleteValueGatherer autoCompleteProvider) : base(file, tabText, imageKey)
+			SessionPersonAutoCompleteValueGatherer autoCompleteProvider) : base(file, tabText, imageKey)
 		{
 			InitializeComponent();
 			Name = "Basic";

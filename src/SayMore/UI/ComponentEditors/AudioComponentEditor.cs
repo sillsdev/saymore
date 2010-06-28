@@ -2,11 +2,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
-using SayMore.Model.Fields;
 using SayMore.Model.Files;
-using SilUtils;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -38,7 +35,9 @@ namespace SayMore.UI.ComponentEditors
 				GetDefaultFieldIdsToDisplayInGrid(), GetCustomFieldIdsToDisplayInGrid());
 
 			_grid = new FieldsValuesGrid(_gridViewModel);
-			_grid.Dock = DockStyle.Top;
+			_grid.Dock = DockStyle.Fill;
+
+			//_grid.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			_tableLayout.Controls.Add(_grid, 0, 1);
 			_grid.BringToFront();
 		}

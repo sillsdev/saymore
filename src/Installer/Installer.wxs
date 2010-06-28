@@ -128,17 +128,19 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	<Property Id="ARPPRODUCTICON" Value="SayMore.exe" />
 	<!-- what you see in add/remove programs control panel -->
 
+
+
+	<CustomAction Id="LaunchSayMore"
+				  FileKey="SayMore.exe"
+				  ExeCommand=""
+				  Return="asyncNoWait"
+				  Execute="commit"/>
+
 	<InstallExecuteSequence>
 	  <RemoveExistingProducts After="InstallInitialize" />
 
 	  <!--We need the condition here so that we only launch the executable when we make an installation but not when we remove the product-->
-	  <!--    <Custom Action='LaunchWelcomePage' After='InstallFinalize'>NOT Installed</Custom>-->
-	</InstallExecuteSequence>
-
-
-	<!--    <CustomAction Id="LaunchWelcomePage" BinaryKey="WixCA" DllEntry="WixShellExec" Execute="immediate" Return="check" Impersonate="yes" />
-			<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Open readme" />
-			<Property Id="WixShellExecTarget" Value="[!Welcome.htm]" />
-			-->
+		  <Custom Action='LaunchSayMore' After="InstallFinalize">NOT Installed</Custom>
+		</InstallExecuteSequence>
   </Product>
 </Wix>

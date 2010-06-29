@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using SIL.Localization;
@@ -65,8 +63,9 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void AdjustHeight()
 		{
-			if (Dock != DockStyle.Fill && Dock != DockStyle.None && IsHandleCreated &&
-				!Disposing && RowCount > 0)
+			if (Dock != DockStyle.Fill && Dock != DockStyle.None &&
+				Anchor != (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom) &&
+				IsHandleCreated && !Disposing && RowCount > 0)
 			{
 				Height = ColumnHeadersHeight + (RowCount * Rows[0].Height) + 2 +
 					(HorizontalScrollBar.Visible ? HorizontalScrollBar.Height : 0);

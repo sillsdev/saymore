@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SayMore.Model.Files.DataGathering
@@ -16,32 +17,27 @@ namespace SayMore.Model.Files.DataGathering
 
 		/// ------------------------------------------------------------------------------------
 		public FieldGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,
-			ComponentFile.Factory componentFileFactory)
-			: base(rootDirectoryPath, allFileTypes, path => ExtractFields(path, componentFileFactory))
+			FileTypeFields.Factory fileTypeFieldsFactory)
+			: base(rootDirectoryPath, allFileTypes, path => fileTypeFieldsFactory(path))
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns an object containing the FileType of the specified file and a
-		/// list of all the fields contained in the file's associated sidecar file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected static FileTypeFields ExtractFields(string path,
-			ComponentFile.Factory componentFileFactory)
+		protected override bool GetDoIncludeFile(string path)
 		{
-			return new FileTypeFields(componentFileFactory(path));
+			if (_typesOfFilesToProcess.Any(t => t.IsMatch(path.Replace(".meta", string.Empty))))
+			{
+				var p = GetActualPath(path);
+				return File.Exists(p);
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnNewDataAvailable(FileTypeFields fileTypeFields)
+		protected override string GetActualPath(string path)
 		{
-			// Remove the list of fields already cached for the specified file type.
-			// This will force the list to be rebuilt the next time it's requested.
-			if (_fieldsByFileType.ContainsKey(fileTypeFields.FileType))
-				_fieldsByFileType.Remove(fileTypeFields.FileType);
-
-			base.OnNewDataAvailable(fileTypeFields);
+			return path + (!path.Contains(".meta") ? ".meta" : string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -49,10 +45,6 @@ namespace SayMore.Model.Files.DataGathering
 			IEnumerable<string> exclude)
 		{
 			var type = fileType.GetType();
-
-			IEnumerable<string> fields;
-			if (_fieldsByFileType.TryGetValue(type, out fields))
-				return fields;
 
 			var fieldsForType = new List<string>();
 
@@ -69,7 +61,6 @@ namespace SayMore.Model.Files.DataGathering
 				}
 			}
 
-			_fieldsByFileType[type] = fieldsForType;
 			return fieldsForType;
 		}
 	}
@@ -77,11 +68,16 @@ namespace SayMore.Model.Files.DataGathering
 	/// ----------------------------------------------------------------------------------------
 	public class FileTypeFields
 	{
+		public delegate FileTypeFields Factory(string path);
+
 		public Type FileType { get; private set; }
 		public IEnumerable<string> Fields { get; private set; }
 
-		public FileTypeFields(ComponentFile file)
+		/// ------------------------------------------------------------------------------------
+		public FileTypeFields(string path, ComponentFile.Factory componentFileFactory)
 		{
+			// As JohnH said in PresetData, this is "hacky" and he's right.
+			var file = componentFileFactory(path.Replace(".meta", string.Empty));
 			FileType = file.FileType.GetType();
 			Fields = file.MetaDataFieldValues.Select(field => field.FieldId);
 		}

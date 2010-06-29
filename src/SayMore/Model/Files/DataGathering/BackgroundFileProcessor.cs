@@ -198,6 +198,8 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		private void CollectDataForFile(string path)
 		{
+			T fileData = null;
+
 			try
 			{
 				if (!GetDoIncludeFile(path))
@@ -207,7 +209,6 @@ namespace SayMore.Model.Files.DataGathering
 
 				Debug.WriteLine("processing " + path);
 				var actualPath = GetActualPath(path);
-				T fileData = null;
 
 				if (!ShouldStop)
 				{
@@ -223,7 +224,6 @@ namespace SayMore.Model.Files.DataGathering
 					}
 				}
 
-				OnNewDataAvailable(fileData);
 			}
 			catch (ThreadAbortException)
 			{
@@ -238,6 +238,7 @@ namespace SayMore.Model.Files.DataGathering
 				//nothing here is worth crashing over
 			}
 
+			OnNewDataAvailable(fileData);
 		}
 
 		/// ------------------------------------------------------------------------------------

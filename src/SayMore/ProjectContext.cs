@@ -43,9 +43,9 @@ namespace SayMore
 			peopleRepoFactory(rootDirectoryPath, "People");
 
 			//Start up the background operations
-			_scope.Resolve<AudioVideoDataGatherer>().Start();
-			_scope.Resolve<PresetGatherer>().Start();
-			_scope.Resolve<AutoCompleteValueGatherer>().Start();
+			//_scope.Resolve<AudioVideoDataGatherer>().Start();
+			//_scope.Resolve<PresetGatherer>().Start();
+			//_scope.Resolve<AutoCompleteValueGatherer>().Start();
 			_scope.Resolve<FieldGatherer>().Start();
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
@@ -88,7 +88,7 @@ namespace SayMore
 
 				builder.Register<FieldGatherer>(
 					c => new FieldGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
-						c.Resolve<ComponentFile.Factory>())).InstancePerLifetimeScope();
+						c.Resolve<FileTypeFields.Factory>())).InstancePerLifetimeScope();
 
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor

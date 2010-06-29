@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Person>
+  <primaryLanguage type="string">Edolo</primaryLanguage>
+  <primaryLanguageLearnedIn type="string">Aiya</primaryLanguageLearnedIn>
+  <otherLanguage0 type="string">Toli Pisin</otherLanguage0>
+  <fathersLanguage type="string">Edolo</fathersLanguage>
+  <mothersLanguage type="string">Edolo</mothersLanguage>
+  <otherLanguage1 type="string">Huli</otherLanguage1>
+  <otherLanguage2 type="string"></otherLanguage2>
+  <otherLanguage3 type="string"></otherLanguage3>
+  <birthYear type="string">55/5</birthYear>
+  <gender type="string">Male</gender>
+  <education type="string">Some bible school, some literacy training</education>
+  <primaryOccupation type="string">Subsistence Farmer</primaryOccupation>
+  <howToContact type="string"></howToContact>
+</Person>

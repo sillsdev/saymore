@@ -48,7 +48,7 @@ namespace SayMoreTests.Model.Files
 		{
 			File.WriteAllText(_parentFolder.Combine(fileName), @"hello");
 			var cf= new ComponentFile(_parentFolder.Combine(fileName),
-				new[] {FileType.Create("Text", ".txt"), new UnknownFileType() },
+				new[] {FileType.Create("Text", ".txt"), new UnknownFileType(null) },
 				new ComponentRole[]{},
 				new FileSerializer(),
 				null,

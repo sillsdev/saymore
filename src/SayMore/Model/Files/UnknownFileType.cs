@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SayMore.UI.ComponentEditors;
 using SIL.Localization;
@@ -10,8 +11,10 @@ namespace SayMore.Model.Files
 	public class UnknownFileType : FileType
 	{
 		/// ------------------------------------------------------------------------------------
-		public UnknownFileType() : base("Unknown", path => false)
+		public UnknownFileType(Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy)
+			: base("Unknown", path => false)
 		{
+			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -34,7 +37,7 @@ namespace SayMore.Model.Files
 				_editors.Add(new BrowserEditor(file, text, null));
 
 				text = LocalizationManager.LocalizeString("MiscFileInfoEditor.PropertiesTabText", "Properties");
-				_editors.Add(new BasicFieldGridEditor(file, text, null));
+				_editors.Add(_basicFieldGridEditorFactoryLazy()(file, text, null));
 
 				text = LocalizationManager.LocalizeString("MiscFileInfoEditor.NotesTabText", "Notes");
 				_editors.Add(new NotesEditor(file, text, "Notes"));

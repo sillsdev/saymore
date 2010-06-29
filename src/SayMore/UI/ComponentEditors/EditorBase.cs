@@ -17,9 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.UI.Utilities;
 
@@ -134,41 +132,10 @@ namespace SayMore.UI.ComponentEditors
 			// the editor will probably be used again. This could probably use a better name.
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//protected virtual IEnumerable<string> GetDefaultFieldIdsToDisplayInGrid()
-		//{
-		//    return new List<string>(0);
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		protected virtual IEnumerable<string> GetAllDefaultFieldIds()
 		{
 			return new List<string>(0);
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//protected virtual IEnumerable<FieldValue> GetDefaultFieldsToDisplayInGrid()
-		//{
-		//    foreach (var id in GetDefaultFieldIdsToDisplayInGrid())
-		//    {
-		//        yield return (_file.MetaDataFieldValues.Find(x => x.FieldId == id) ??
-		//            new FieldValue(id, string.Empty));
-		//    }
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual IEnumerable<string> GetCustomFieldIdsToDisplayInGrid()
-		{
-			return from x in _file.MetaDataFieldValues
-				   where !GetAllDefaultFieldIds().Contains(x.FieldId)
-				   select x.FieldId;
-		}
-
-		///// ------------------------------------------------------------------------------------
-		//public virtual void ResetControlsToDefaultValues()
-		//{
-		//    if (_binder != null)
-		//        _binder.ResetBoundControlsToDefaultValues();
-		//}
 	}
 }

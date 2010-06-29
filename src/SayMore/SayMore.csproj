@@ -91,7 +91,6 @@
     <Compile Include="Model\Files\DataGathering\PresetGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\AudioVideoDataGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\SessionOverviewStatistics.cs" />
-    <Compile Include="Model\Files\DataGathering\SessionPersonAutoCompleteValueGatherer.cs" />
     <Compile Include="Model\Files\ExportCommand.cs" />
     <Compile Include="Model\Files\DataGathering\AudioVideoFileStatistics.cs" />
     <Compile Include="Model\Fields\DiscourseType.cs" />
@@ -100,7 +99,7 @@
     <Compile Include="ApplicationContainer.cs" />
     <Compile Include="Model\Fields\FieldTemplate.cs" />
     <Compile Include="Model\Fields\FieldValue.cs" />
-    <Compile Include="Model\Files\FieldUpdater.cs" />
+    <Compile Include="Model\Files\DataGathering\FieldGatherer.cs" />
     <Compile Include="Model\Files\FileCommand.cs" />
     <Compile Include="Model\Files\UnknownFileType.cs" />
     <Compile Include="Model\Files\FileSerializer.cs" />

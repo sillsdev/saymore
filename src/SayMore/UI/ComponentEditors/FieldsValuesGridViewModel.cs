@@ -16,8 +16,11 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
+using SayMore.Model.Files.DataGathering;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -33,16 +36,28 @@ namespace SayMore.UI.ComponentEditors
 		public Action ComponentFileChanged;
 		public List<KeyValuePair<FieldValue, bool>> RowData { get; private set; }
 
+		private Dictionary<string, IEnumerable<string>> _autoCompleteLists = new Dictionary<string,IEnumerable<string>>();
+		private readonly IMultiListDataProvider _autoCompleteProvider;
+
 		/// ------------------------------------------------------------------------------------
-		public FieldsValuesGridViewModel(ComponentFile file, IEnumerable<string> customFieldIdsToDisplay)
-			: this(file, new List<string>(0), customFieldIdsToDisplay)
+		public FieldsValuesGridViewModel(ComponentFile file,
+			IEnumerable<string> customFieldIdsToDisplay)
+			: this(file, new List<string>(0), customFieldIdsToDisplay, null)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGridViewModel(ComponentFile file,
-			IEnumerable<string> defaultFieldIdsToDisplay, IEnumerable<string> customFieldIdsToDisplay)
+			IEnumerable<string> defaultFieldIdsToDisplay, IEnumerable<string> customFieldIdsToDisplay,
+			IMultiListDataProvider autoCompleteProvider)
 		{
+			if (autoCompleteProvider != null)
+			{
+				_autoCompleteProvider = autoCompleteProvider;
+				_autoCompleteProvider.NewDataAvailable += HandleNewAutoCompleteDataAvailable;
+				_autoCompleteLists = _autoCompleteProvider.GetValueLists();
+			}
+
 			SetComponentFile(file, defaultFieldIdsToDisplay, customFieldIdsToDisplay);
 		}
 
@@ -82,6 +97,25 @@ namespace SayMore.UI.ComponentEditors
 				// and the value is a boolean indicating whether or not the field is custom.
 				RowData.Add(new KeyValuePair<FieldValue, bool>(fieldValue.CreateCopy(), areCustom));
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleNewAutoCompleteDataAvailable(object sender, EventArgs e)
+		{
+			_autoCompleteLists = _autoCompleteProvider.GetValueLists();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public AutoCompleteStringCollection GetAutoCompleteListForIndex(int index)
+		{
+			var fieldId = GetIdForIndex(index);
+			var autoCompleteValues = new AutoCompleteStringCollection();
+
+			IEnumerable<string> values;
+			if (_autoCompleteLists.TryGetValue(fieldId, out values))
+				autoCompleteValues.AddRange(values.ToArray());
+
+			return autoCompleteValues;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -14,33 +15,38 @@ namespace SayMore.UI.ComponentEditors
 
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
+		private IEnumerable<string> _customFieldIds;
 
 		/// ------------------------------------------------------------------------------------
 		public SessionBasicEditor(ComponentFile file, string tabText, string imageKey,
-			SessionPersonAutoCompleteValueGatherer autoCompleteProvider)
+			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
-			InitializeFieldsValuesGrid();
 			Name = "SessionBasicEditor";
+
+			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, GetAllDefaultFieldIds());
+			InitializeGrid(autoCompleteProvider);
 			SetBindingHelper(_binder);
-
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
+			fieldGatherer.NewDataAvailable += HandleNewDataFieldsAvailable;
 
-			if (DiscourseType.AllTypes == null)
-				return;
+			if (DiscourseType.AllTypes != null)
+			{
+				var discourseTypes = DiscourseType.AllTypes.ToArray();
+				_eventType.Items.AddRange(discourseTypes);
 
-			var discourseTypes = DiscourseType.AllTypes.ToArray();
-			_eventType.Items.AddRange(discourseTypes);
-
-			var currType = discourseTypes.FirstOrDefault(x => x.Id == _binder.GetValue("eventType"));
-			_eventType.SelectedItem = (currType ?? DiscourseType.UnknownType);
+				var currType = discourseTypes.FirstOrDefault(x => x.Id == _binder.GetValue("eventType"));
+				_eventType.SelectedItem = (currType ?? DiscourseType.UnknownType);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeFieldsValuesGrid()
+		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider)
 		{
-			_gridViewModel = new FieldsValuesGridViewModel(_file, GetCustomFieldIdsToDisplayInGrid());
+			_gridViewModel = new FieldsValuesGridViewModel(_file, new List<string>(0),
+				_customFieldIds, autoCompleteProvider);
+
 			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
 			_gridCustomFields.Margin = _situation.Margin;
 			_tableLayout.Controls.Add(_gridCustomFields, 0, 11);
@@ -52,7 +58,7 @@ namespace SayMore.UI.ComponentEditors
 			base.SetComponentFile(file);
 
 			if (_gridViewModel != null)
-				_gridViewModel.SetComponentFile(file, GetCustomFieldIdsToDisplayInGrid());
+				_gridViewModel.SetComponentFile(file, _customFieldIds);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -68,6 +74,13 @@ namespace SayMore.UI.ComponentEditors
 			yield return "participants";
 			yield return "title";
 			yield return "notes";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
+		{
+			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
+				GetAllDefaultFieldIds());
 		}
 
 		/// ------------------------------------------------------------------------------------

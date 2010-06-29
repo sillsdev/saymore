@@ -24,7 +24,6 @@ namespace SayMore
 		/// and disposed of along with this ProjectContext class
 		/// </summary>
 		private ILifetimeScope _scope;
-		//private IEnumerable<FileType> _fileTypes = null;
 
 		public Project Project { get; private set; }
 		public ProjectWindow ProjectWindow { get; private set; }
@@ -46,11 +45,13 @@ namespace SayMore
 			//Start up the background operations
 			_scope.Resolve<AudioVideoDataGatherer>().Start();
 			_scope.Resolve<PresetGatherer>().Start();
-			_scope.Resolve<SessionPersonAutoCompleteValueGatherer>().Start();
+			_scope.Resolve<AutoCompleteValueGatherer>().Start();
+			_scope.Resolve<FieldGatherer>().Start();
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		protected void BuildSubContainerForThisProject(string rootDirectoryPath, IContainer parentContainer)
 		{
 			_scope = parentContainer.BeginLifetimeScope(builder =>
@@ -64,15 +65,6 @@ namespace SayMore
 
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c)).InstancePerLifetimeScope();
-				//				builder.Register<IEnumerable<FileType>>(c =>
-				//				                                        	{
-				//				                                        		if (_fileTypes == null)
-				//				                                        		{
-				//				                                        			_fileTypes = GetFilesTypes(c);
-				//				                                        		}
-				//				                                        		return _fileTypes;
-				//				                                        	});
-				//
 
 				//these needed to be done later (as delegates) because of the FileTypes dependency
 				//there's maybe something I'm doing wrong that requires me to register this twice like this...
@@ -90,34 +82,31 @@ namespace SayMore
 				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath,
 					c.Resolve<IEnumerable<FileType>>(), c.Resolve<PresetData.Factory>())).InstancePerLifetimeScope();
 
-				builder.Register<SessionPersonAutoCompleteValueGatherer>(
-					c => new SessionPersonAutoCompleteValueGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
+				builder.Register<AutoCompleteValueGatherer>(
+					c => new AutoCompleteValueGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
+						c.Resolve<ComponentFile.Factory>())).InstancePerLifetimeScope();
+
+				builder.Register<FieldGatherer>(
+					c => new FieldGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
 						c.Resolve<ComponentFile.Factory>())).InstancePerLifetimeScope();
 
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor
 				builder.Register<Func<PersonBasicEditor.Factory>>(c => () => c.Resolve<PersonBasicEditor.Factory>());
 				builder.Register<Func<SessionBasicEditor.Factory>>(c => () => c.Resolve<SessionBasicEditor.Factory>());
-
-				builder.Register<FieldUpdater>(c => new FieldUpdater(rootDirectoryPath)).InstancePerLifetimeScope();
 			});
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private IEnumerable<FileType> GetFilesTypes(IComponentContext context)
 		{
-			//yield return new SessionFileType();
-			//yield return context.Resolve<PersonFileType>();
-			//yield return context.Resolve<AudioFileType>();
-			//yield return new VideoFileType();
-			//yield return new ImageFileType();
-
-			return new List<FileType>(new FileType[]{
+			return new List<FileType>(new FileType[] {
 									context.Resolve<SessionFileType>(),
 									context.Resolve<PersonFileType>(),
 									context.Resolve<AudioFileType>(),
-									new VideoFileType(),
-									new ImageFileType(),
-									new UnknownFileType(),
+									context.Resolve<VideoFileType>(),
+									context.Resolve<ImageFileType>(),
+									context.Resolve<UnknownFileType>(),
 									});
 		}
 

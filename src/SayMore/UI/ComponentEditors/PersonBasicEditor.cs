@@ -25,7 +25,7 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string tabText, string imageKey,
-			SessionPersonAutoCompleteValueGatherer autoCompleteProvider) : base(file, tabText, imageKey)
+			AutoCompleteValueGatherer autoCompleteProvider) : base(file, tabText, imageKey)
 		{
 			InitializeComponent();
 			Name = "Basic";

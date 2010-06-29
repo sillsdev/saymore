@@ -17,6 +17,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class FileType
 	{
+		protected Func<BasicFieldGridEditor.Factory> _basicFieldGridEditorFactoryLazy;
 		protected Func<string, bool> _isMatchPredicate;
 
 		protected readonly List<IEditorProvider> _editors = new List<IEditorProvider>();
@@ -52,12 +53,6 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool IsForUnknownFileTypes
-		{
-			get { return false; }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			if (_editors.Count == 0)
@@ -76,6 +71,12 @@ namespace SayMore.Model.Files
 				yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click);
 				yield return new FileCommand("Open in Program Associated with this File ...", FileCommand.HandleOpenInApp_Click);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool IsForUnknownFileTypes
+		{
+			get { return false; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -289,10 +290,14 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class VideoFileType : FileType
 	{
+		private readonly Func<VideoComponentEditor.Factory> _videoComponentEditorFactoryLazy;
+
 		/// ------------------------------------------------------------------------------------
-		public VideoFileType() : base("Video",
+		public VideoFileType(Func<VideoComponentEditor.Factory> videoComponentEditorFactoryLazy)
+			: base("Video",
 				p => Settings.Default.VideoFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
 		{
+			_videoComponentEditorFactoryLazy = videoComponentEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -315,7 +320,7 @@ namespace SayMore.Model.Files
 				_editors.Add(new AudioVideoPlayer(file, text, "Video"));
 
 				text = LocalizationManager.LocalizeString("VideoFileInfoEditor.PropertiesTabText", "Properties");
-				_editors.Add(new VideoComponentEditor(file, text, null));
+				_editors.Add(_videoComponentEditorFactoryLazy()(file, text, null));
 
 				text = LocalizationManager.LocalizeString("VideoFileInfoEditor.NotesTabText", "Notes");
 				_editors.Add(new NotesEditor(file, text, "Notes"));
@@ -340,9 +345,11 @@ namespace SayMore.Model.Files
 	public class ImageFileType : FileType
 	{
 		/// ------------------------------------------------------------------------------------
-		public ImageFileType() : base("Image",
+		public ImageFileType(Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy)
+			: base("Image",
 			p => Settings.Default.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
 		{
+			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -359,7 +366,7 @@ namespace SayMore.Model.Files
 				_editors.Add(new ImageViewer(file, text, "Image"));
 
 				text = LocalizationManager.LocalizeString("ImageFileInfoEditor.PropertiesTabText", "Properties");
-				_editors.Add(new BasicFieldGridEditor(file, text, null));
+				_editors.Add(_basicFieldGridEditorFactoryLazy()(file, text, null));
 
 				text = LocalizationManager.LocalizeString("ImageFileInfoEditor.NotesTabText", "Notes");
 				_editors.Add(new NotesEditor(file, text, "Notes"));

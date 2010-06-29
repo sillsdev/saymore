@@ -13,18 +13,31 @@ namespace SayMore.Model.Files.DataGathering
 	/// Then when the data is needed for autocomplete, GetValueLists() distills it down to
 	/// {fieldKey, (list of unique values)}
 	/// </summary>
-	public abstract class AutoCompleteValueGatherer : BackgroundFileProcessor<Dictionary<string,string>> /* a list of the languages mentioned in this file*/, IMultiListDataProvider
+	public class AutoCompleteValueGatherer : BackgroundFileProcessor<Dictionary<string,string>> /* a list of the languages mentioned in this file*/, IMultiListDataProvider
 	{
 		protected Dictionary<string, string> _mappingOfFieldsToAutoCompleteKey = new Dictionary<string,string>();
-		protected List<string> _multiValueFields;
+		protected List<string> _multiValueFields = new List<string>();
 
 		public delegate AutoCompleteValueGatherer Factory(string rootDirectoryPath);
 
 		/// ------------------------------------------------------------------------------------
-		protected AutoCompleteValueGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,
+		public AutoCompleteValueGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,
 			ComponentFile.Factory componentFileFactory)
 			:	base(rootDirectoryPath, allFileTypes, path => ExtractValues(path, componentFileFactory))
 		{
+			_mappingOfFieldsToAutoCompleteKey.Add("primaryLanguage", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("fathersLanguage", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("mothersLanguage", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage0", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage1", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage2", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("otherLanguage3", "language");
+			_mappingOfFieldsToAutoCompleteKey.Add("fullName", "person");
+			_mappingOfFieldsToAutoCompleteKey.Add("participants", "person");
+			_mappingOfFieldsToAutoCompleteKey.Add("recordist", "person");
+			_mappingOfFieldsToAutoCompleteKey.Add("education", "education");
+
+			_multiValueFields = new List<string>(new[] { "participants", "education" });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,7 +98,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// <summary>
 		/// Split list of values into individual components. Some fields in the UI can contain
 		/// multiple items separated by a comma or semi colon (e.g. participants could contain
-		/// several people "Fred; Barney; Wilma; Betty"). When that is true, then each value
+		/// several people, "Fred; Barney; Wilma; Betty"). When that is true, then each value
 		/// in a multivalue field is a separate value in the auto-complete list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

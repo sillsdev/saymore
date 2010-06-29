@@ -31,7 +31,6 @@ namespace SayMore.UI.ComponentEditors
 			this.components = new System.ComponentModel.Container();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._presetMenuButton = new System.Windows.Forms.Button();
-			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._presetMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
@@ -89,7 +88,6 @@ namespace SayMore.UI.ComponentEditors
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private BindingHelper _binder;
 		private System.Windows.Forms.Button _presetMenuButton;
 		private System.Windows.Forms.ContextMenuStrip _presetMenu;
 	}

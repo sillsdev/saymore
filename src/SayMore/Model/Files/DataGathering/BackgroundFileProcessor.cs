@@ -16,9 +16,11 @@ namespace SayMore.Model.Files.DataGathering
 		IEnumerable<string> GetValues();
 	}
 
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Gives lists of data, indexed by a key into a dictionary
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public interface IMultiListDataProvider
 	{
 		event EventHandler NewDataAvailable;
@@ -81,10 +83,10 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OnNewDataAvailable()
+		protected virtual void OnNewDataAvailable(T fileData)
 		{
 			if (NewDataAvailable != null)
-				NewDataAvailable(this, null);
+				NewDataAvailable(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -139,7 +141,6 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			lock (_pendingFileEvents)
 			{
-
 				Debug.WriteLine(GetType().Name + ": " + e.ChangeType + ": " + e.Name);
 				_pendingFileEvents.Enqueue(e);
 			}
@@ -206,9 +207,11 @@ namespace SayMore.Model.Files.DataGathering
 
 				Debug.WriteLine("processing " + path);
 				var actualPath = GetActualPath(path);
+				T fileData = null;
+
 				if (!ShouldStop)
 				{
-					var fileData = _fileDataFactory(actualPath);
+					fileData = _fileDataFactory(actualPath);
 
 					lock (((ICollection)_fileToDataDictionary).SyncRoot)
 					{
@@ -219,6 +222,8 @@ namespace SayMore.Model.Files.DataGathering
 						_fileToDataDictionary.Add(actualPath, fileData);
 					}
 				}
+
+				OnNewDataAvailable(fileData);
 			}
 			catch (ThreadAbortException)
 			{
@@ -233,7 +238,6 @@ namespace SayMore.Model.Files.DataGathering
 				//nothing here is worth crashing over
 			}
 
-			OnNewDataAvailable();
 		}
 
 		/// ------------------------------------------------------------------------------------

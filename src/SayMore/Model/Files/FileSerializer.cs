@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
@@ -14,7 +15,7 @@ namespace SayMore.Model.Files
 		public void Save(IEnumerable<FieldValue> fields, string path, string rootElementName)
 		{
 			var child = new XElement(rootElementName);//todo could use actual name
-			foreach (var v in fields)
+			foreach (var v in fields.Where(f => f.Value.Trim() != string.Empty))
 			{
 				var element = new XElement(v.FieldId, v.Value);
 				element.Add(new XAttribute("type", v.Type));

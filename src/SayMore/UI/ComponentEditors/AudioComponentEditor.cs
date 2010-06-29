@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Files;
+using SayMore.Model.Files.DataGathering;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -14,30 +15,30 @@ namespace SayMore.UI.ComponentEditors
 
 		private FieldsValuesGrid _grid;
 		private FieldsValuesGridViewModel _gridViewModel;
-		private FieldUpdater _customFieldUpdater;
+		private IEnumerable<string> _customFieldIds;
 
 		/// ------------------------------------------------------------------------------------
 		public AudioComponentEditor(ComponentFile file, string tabText, string imageKey,
-			FieldUpdater customFieldUpdater) : base(file, tabText, imageKey)
+			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
+			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
-			InitializeGrid();
 			Name = "Audio File Information";
-			SetBindingHelper(_binder);
 
-			_customFieldUpdater = customFieldUpdater;
+			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, GetAllDefaultFieldIds());
+			InitializeGrid(autoCompleteProvider);
+
+			fieldGatherer.NewDataAvailable += HandleNewDataFieldsAvailable;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeGrid()
+		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider)
 		{
 			_gridViewModel = new FieldsValuesGridViewModel(_file,
-				GetDefaultFieldIdsToDisplayInGrid(), GetCustomFieldIdsToDisplayInGrid());
+				GetDefaultFieldIdsToDisplayInGrid(), _customFieldIds, autoCompleteProvider);
 
 			_grid = new FieldsValuesGrid(_gridViewModel);
 			_grid.Dock = DockStyle.Fill;
-
-			//_grid.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			_tableLayout.Controls.Add(_grid, 0, 1);
 			_grid.BringToFront();
 		}
@@ -50,7 +51,7 @@ namespace SayMore.UI.ComponentEditors
 			if (_gridViewModel != null)
 			{
 				_gridViewModel.SetComponentFile(file,
-					GetDefaultFieldIdsToDisplayInGrid(), GetCustomFieldIdsToDisplayInGrid());
+					GetDefaultFieldIdsToDisplayInGrid(), _customFieldIds);
 			}
 		}
 
@@ -77,6 +78,13 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
+		{
+			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
+				GetAllDefaultFieldIds());
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandlePresetMenuButtonClick(object sender, EventArgs e)
 		{
 			_presetMenu.Items.Clear();
@@ -95,7 +103,9 @@ namespace SayMore.UI.ComponentEditors
 		private void UsePreset(IDictionary<string, string> preset)
 		{
 			_file.UsePreset(preset);
-			_binder.UpdateFieldsFromFile();
+
+			// TODO: update the fields in the grid.
+			//_binder.UpdateFieldsFromFile();
 		}
 
 		//private

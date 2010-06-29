@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using SIL.Localization;
@@ -110,12 +112,9 @@ namespace SayMore.UI.ComponentEditors
 			}
 			else
 			{
-				// TODO: Hook up real lists.
 				txtBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 				txtBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-				var list = new AutoCompleteStringCollection();
-				list.AddRange(new[] { "Dingos", "Parrots", "Dogs", "Pigs", "Poultry", "Ducks" });
-				txtBox.AutoCompleteCustomSource = list;
+				txtBox.AutoCompleteCustomSource = _model.GetAutoCompleteListForIndex(CurrentCellAddress.Y);
 			}
 		}
 

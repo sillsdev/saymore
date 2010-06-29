@@ -351,7 +351,7 @@ namespace SIL.Sponge.Dialogs
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "New Sessions From Files";
+			this.Text = "New Sessions From Device";
 			this._filesPanel.ResumeLayout(false);
 			this._filesPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this._filesGrid)).EndInit();

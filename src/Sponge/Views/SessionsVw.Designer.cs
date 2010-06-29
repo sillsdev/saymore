@@ -762,14 +762,14 @@ namespace SIL.Sponge.Views
 			// btnNewFromFiles
 			// 
 			this.btnNewFromFiles.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.locExtender.SetLocalizableToolTip(this.btnNewFromFiles, "Create New Sessions from Files");
+			this.locExtender.SetLocalizableToolTip(this.btnNewFromFiles, "Create New Sessions from files on a device or other folder");
 			this.locExtender.SetLocalizationComment(this.btnNewFromFiles, null);
 			this.locExtender.SetLocalizingId(this.btnNewFromFiles, "SessionsVw.btnNewFromFiles");
 			this.btnNewFromFiles.Location = new System.Drawing.Point(43, 350);
 			this.btnNewFromFiles.Name = "btnNewFromFiles";
 			this.btnNewFromFiles.Size = new System.Drawing.Size(117, 24);
 			this.btnNewFromFiles.TabIndex = 1;
-			this.btnNewFromFiles.Text = "New From Files...";
+			this.btnNewFromFiles.Text = "New From Device...";
 			this.btnNewFromFiles.UseVisualStyleBackColor = true;
 			this.btnNewFromFiles.Click += new System.EventHandler(this.btnNewFromFiles_Click);
 			// 

@@ -112,9 +112,11 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private bool HandleFilesAddedToComponentGrid(string[] files)
 		{
-			if (_model.SelectedElement.AddComponentFiles(files))
+			if (_model.AddComponentFiles(files))
 			{
 				UpdateComponentList();
+				_componentFilesControl.TrySetComponent(files[0]);
+
 				return true;
 			}
 
@@ -189,7 +191,8 @@ namespace SayMore.UI.ElementListScreen
 		private void HandleComponentFileIdChanged(ComponentFile file, string oldId, string newId)
 		{
 			_elementsListPanel.RefreshTextOfCurrentItem(true);
-			_componentFilesControl.Refresh();
+			_model.RefreshAfterIdChanged();
+			UpdateComponentList();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -20,8 +20,6 @@ namespace SayMore.UI.ComponentEditors
 
 		private readonly List<ParentButton> _fatherButtons = new List<ParentButton>();
 		private readonly List<ParentButton> _motherButtons = new List<ParentButton>();
-		private readonly string _personFolder;
-		private string _photoFileWithoutExt;
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string tabText, string imageKey,
@@ -51,10 +49,19 @@ namespace SayMore.UI.ComponentEditors
 
 			GetParentLanguages();
 
-			_personFolder = Path.GetDirectoryName(file.PathToAnnotatedFile);
-			var filename = Path.GetFileNameWithoutExtension(file.PathToAnnotatedFile);
-			_photoFileWithoutExt = filename + "_Photo";
 			LoadPersonsPhoto();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string PersonFolder
+		{
+			get { return Path.GetDirectoryName(_file.PathToAnnotatedFile); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string PhotoFileWithoutExt
+		{
+			get { return Path.GetFileNameWithoutExtension(_file.PathToAnnotatedFile) + "_Photo"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -142,12 +149,12 @@ namespace SayMore.UI.ComponentEditors
 
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
-					var dest = _photoFileWithoutExt + Path.GetExtension(dlg.FileName);
-					dest = Path.Combine(_personFolder, dest);
+					var dest = PhotoFileWithoutExt + Path.GetExtension(dlg.FileName);
+					dest = Path.Combine(PersonFolder, dest);
 
 					try
 					{
-						File.Copy(dlg.FileName, dest);
+						File.Copy(dlg.FileName, dest, true);
 						LoadPersonsPhoto();
 					}
 					catch (Exception e)
@@ -167,7 +174,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			try
 			{
-				var photoFiles = Directory.GetFiles(_personFolder, _photoFileWithoutExt + ".*");
+				var photoFiles = Directory.GetFiles(PersonFolder, PhotoFileWithoutExt + ".*");
 				if (photoFiles.Length > 0)
 				{
 					// Do this instead of using the Load method because Load keeps a lock on the file.

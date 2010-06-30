@@ -168,6 +168,23 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void TrySetComponent(string file)
+		{
+			file = Path.GetFileName(file);
+			int i = 0;
+			foreach (var f in _files)
+			{
+				if (Path.GetFileName(f.PathToAnnotatedFile) == file)
+				{
+					SelectComponent(i);
+					return;
+				}
+
+				i++;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void UpdateComponentList(IEnumerable<ComponentFile> componentFiles)
 		{
 			var currFile = (_grid.CurrentCellAddress.Y >= 0 && _files.Count() > 0 ?

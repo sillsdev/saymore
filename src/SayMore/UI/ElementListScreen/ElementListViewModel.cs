@@ -14,6 +14,7 @@ namespace SayMore.UI.ElementListScreen
 	{
 		private readonly ElementRepository<T> _repository;
 		private IEnumerable<IEditorProvider> _currentEditorProviders;
+		private ComponentFile[] _componentFiles;
 
 		public T SelectedElement { get; private set; }
 		public ComponentFile SelectedComponentFile { get; private set; }
@@ -33,8 +34,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentFile> GetComponentsOfSelectedElement()
 		{
-			return (SelectedElement == null ?
-				new ComponentFile[] { } : SelectedElement.GetComponentFiles().ToArray());
+			return (SelectedElement == null ? new ComponentFile[] { } : _componentFiles);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -50,6 +50,7 @@ namespace SayMore.UI.ElementListScreen
 				return false;
 
 			SelectedElement = element;
+			_componentFiles = element.GetComponentFiles().ToArray();
 			SetSelectedComponentFile(0);
 			return true;
 		}
@@ -65,24 +66,37 @@ namespace SayMore.UI.ElementListScreen
 				return false;
 			}
 
-			var componentFiles = SelectedElement.GetComponentFiles().ToArray();
-
-			if (index < 0 || index >= componentFiles.Length)
+			if (index < 0 || index >= _componentFiles.Length)
 				return false;
 
-			SelectedComponentFile = componentFiles[index];
+			SelectedComponentFile = _componentFiles[index];
 			_currentEditorProviders = SelectedComponentFile.FileType.GetEditorProviders(SelectedComponentFile);
 
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool AddComponentFiles(string[] files)
+		{
+			if (SelectedElement.AddComponentFiles(files))
+			{
+				_componentFiles = SelectedElement.GetComponentFiles().ToArray();
+				return true;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void RefreshAfterIdChanged()
+		{
+			_componentFiles = SelectedElement.GetComponentFiles().ToArray();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public ComponentFile GetComponentFile(int index)
 		{
-			// We probably don't want to do this everytime because this method will be called
-			// many times as the grid in the UI is being displayed.
-			var componentFiles = SelectedElement.GetComponentFiles().ToArray();
-			return componentFiles[index];
+			return _componentFiles[index];
 		}
 
 		/// ------------------------------------------------------------------------------------

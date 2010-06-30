@@ -91,7 +91,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelTitle.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelTitle.Name = "_labelTitle";
 			this._labelTitle.Size = new System.Drawing.Size(28, 13);
-			this._labelTitle.TabIndex = 2;
+			this._labelTitle.TabIndex = 4;
 			this._labelTitle.Text = "Title";
 			// 
 			// _title
@@ -105,7 +105,7 @@ namespace SayMore.UI.ComponentEditors
 			this._title.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._title.Name = "_title";
 			this._title.Size = new System.Drawing.Size(183, 22);
-			this._title.TabIndex = 3;
+			this._title.TabIndex = 5;
 			this._autoCompleteHelper.SetUpdateGatherer(this._title, false);
 			// 
 			// _situation
@@ -123,7 +123,7 @@ namespace SayMore.UI.ComponentEditors
 			this._situation.Name = "_situation";
 			this._situation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this._situation.Size = new System.Drawing.Size(183, 96);
-			this._situation.TabIndex = 9;
+			this._situation.TabIndex = 17;
 			this._autoCompleteHelper.SetUpdateGatherer(this._situation, false);
 			// 
 			// _labelSynopsis
@@ -229,7 +229,7 @@ namespace SayMore.UI.ComponentEditors
 			this._access.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._access.Name = "_access";
 			this._access.Size = new System.Drawing.Size(184, 22);
-			this._access.TabIndex = 17;
+			this._access.TabIndex = 15;
 			this._autoCompleteHelper.SetUpdateGatherer(this._access, false);
 			// 
 			// _labelAccess
@@ -241,7 +241,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelAccess.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelAccess.Name = "_labelAccess";
 			this._labelAccess.Size = new System.Drawing.Size(40, 13);
-			this._labelAccess.TabIndex = 16;
+			this._labelAccess.TabIndex = 14;
 			this._labelAccess.Text = "Access";
 			// 
 			// _eventType
@@ -256,7 +256,7 @@ namespace SayMore.UI.ComponentEditors
 			this._eventType.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._eventType.Name = "_eventType";
 			this._eventType.Size = new System.Drawing.Size(183, 21);
-			this._eventType.TabIndex = 7;
+			this._eventType.TabIndex = 13;
 			// 
 			// _labelEventType
 			// 
@@ -267,7 +267,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelEventType.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelEventType.Name = "_labelEventType";
 			this._labelEventType.Size = new System.Drawing.Size(61, 13);
-			this._labelEventType.TabIndex = 6;
+			this._labelEventType.TabIndex = 12;
 			this._labelEventType.Text = "Event Type";
 			// 
 			// _location
@@ -283,7 +283,7 @@ namespace SayMore.UI.ComponentEditors
 			this._location.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._location.Name = "_location";
 			this._location.Size = new System.Drawing.Size(184, 22);
-			this._location.TabIndex = 15;
+			this._location.TabIndex = 11;
 			this._autoCompleteHelper.SetUpdateGatherer(this._location, false);
 			// 
 			// _labelLocation
@@ -295,7 +295,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelLocation.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelLocation.Name = "_labelLocation";
 			this._labelLocation.Size = new System.Drawing.Size(51, 13);
-			this._labelLocation.TabIndex = 14;
+			this._labelLocation.TabIndex = 10;
 			this._labelLocation.Text = "Location";
 			// 
 			// _participants
@@ -311,7 +311,7 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._participants.Name = "_participants";
 			this._participants.Size = new System.Drawing.Size(183, 22);
-			this._participants.TabIndex = 5;
+			this._participants.TabIndex = 9;
 			this._autoCompleteHelper.SetUpdateGatherer(this._participants, false);
 			// 
 			// _labelParticipants
@@ -323,7 +323,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelParticipants.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelParticipants.Name = "_labelParticipants";
 			this._labelParticipants.Size = new System.Drawing.Size(67, 13);
-			this._labelParticipants.TabIndex = 4;
+			this._labelParticipants.TabIndex = 8;
 			this._labelParticipants.Text = "Participants";
 			// 
 			// _date
@@ -339,7 +339,7 @@ namespace SayMore.UI.ComponentEditors
 			this._date.MinDate = new System.DateTime(1960, 1, 1, 0, 0, 0, 0);
 			this._date.Name = "_date";
 			this._date.Size = new System.Drawing.Size(184, 22);
-			this._date.TabIndex = 11;
+			this._date.TabIndex = 3;
 			// 
 			// _labelDate
 			// 
@@ -350,7 +350,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelDate.Margin = new System.Windows.Forms.Padding(5, 0, 3, 0);
 			this._labelDate.Name = "_labelDate";
 			this._labelDate.Size = new System.Drawing.Size(31, 13);
-			this._labelDate.TabIndex = 10;
+			this._labelDate.TabIndex = 2;
 			this._labelDate.Text = "Date";
 			// 
 			// _labelSetting
@@ -362,7 +362,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSetting.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelSetting.Name = "_labelSetting";
 			this._labelSetting.Size = new System.Drawing.Size(44, 13);
-			this._labelSetting.TabIndex = 12;
+			this._labelSetting.TabIndex = 6;
 			this._labelSetting.Text = "Setting";
 			// 
 			// _setting
@@ -376,7 +376,7 @@ namespace SayMore.UI.ComponentEditors
 			this._setting.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._setting.Name = "_setting";
 			this._setting.Size = new System.Drawing.Size(184, 22);
-			this._setting.TabIndex = 13;
+			this._setting.TabIndex = 7;
 			this._autoCompleteHelper.SetUpdateGatherer(this._setting, false);
 			// 
 			// _labelSituation
@@ -388,7 +388,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSituation.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelSituation.Name = "_labelSituation";
 			this._labelSituation.Size = new System.Drawing.Size(54, 13);
-			this._labelSituation.TabIndex = 8;
+			this._labelSituation.TabIndex = 16;
 			this._labelSituation.Text = "Situation";
 			// 
 			// _binder

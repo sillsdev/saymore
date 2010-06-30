@@ -56,6 +56,8 @@ namespace SayMore.UI.ComponentEditors
 			{
 				_zoomTrackBar.Value = _model.GetPercentOfImageSizeToFitSize(100,
 					_zoomTrackBar.Minimum, _panelImage.ClientSize);
+
+				_panelImage.AutoScrollMinSize = _model.GetScaledSize(_zoomTrackBar.Value);
 			}
 		}
 

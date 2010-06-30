@@ -111,7 +111,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelBirthYear.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
 			this._labelBirthYear.Name = "_labelBirthYear";
 			this._labelBirthYear.Size = new System.Drawing.Size(53, 13);
-			this._labelBirthYear.TabIndex = 4;
+			this._labelBirthYear.TabIndex = 2;
 			this._labelBirthYear.Text = "&Birth Year";
 			// 
 			// _birthYear
@@ -127,7 +127,7 @@ namespace SayMore.UI.ComponentEditors
 			this._birthYear.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
 			this._birthYear.Name = "_birthYear";
 			this._birthYear.Size = new System.Drawing.Size(91, 20);
-			this._birthYear.TabIndex = 5;
+			this._birthYear.TabIndex = 3;
 			this._autoCompleteHelper.SetUpdateGatherer(this._birthYear, false);
 			// 
 			// _tblLayoutOuter
@@ -209,7 +209,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pnlOtherLanguages.Name = "_pnlOtherLanguages";
 			this._tblLayoutOuter.SetRowSpan(this._pnlOtherLanguages, 6);
 			this._pnlOtherLanguages.Size = new System.Drawing.Size(355, 138);
-			this._pnlOtherLanguages.TabIndex = 3;
+			this._pnlOtherLanguages.TabIndex = 7;
 			this._pnlOtherLanguages.Text = "Other Languages";
 			// 
 			// _tblLayoutOtherLanguages
@@ -415,7 +415,7 @@ namespace SayMore.UI.ComponentEditors
 			this._gender.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
 			this._gender.Name = "_gender";
 			this._gender.Size = new System.Drawing.Size(91, 21);
-			this._gender.TabIndex = 7;
+			this._gender.TabIndex = 6;
 			// 
 			// _pnlPrimaryLanguage
 			// 
@@ -431,7 +431,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pnlPrimaryLanguage.Name = "_pnlPrimaryLanguage";
 			this._tblLayoutOuter.SetRowSpan(this._pnlPrimaryLanguage, 2);
 			this._pnlPrimaryLanguage.Size = new System.Drawing.Size(355, 81);
-			this._pnlPrimaryLanguage.TabIndex = 2;
+			this._pnlPrimaryLanguage.TabIndex = 4;
 			this._pnlPrimaryLanguage.Text = "Primary Language";
 			// 
 			// _tblLayoutPrimaryLanguage
@@ -533,7 +533,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelgender.MinimumSize = new System.Drawing.Size(42, 0);
 			this._labelgender.Name = "_labelgender";
 			this._labelgender.Size = new System.Drawing.Size(42, 13);
-			this._labelgender.TabIndex = 6;
+			this._labelgender.TabIndex = 5;
 			this._labelgender.Text = "Gender";
 			// 
 			// _labelEducation

@@ -53,6 +53,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _tableLayoutZoom
 			// 
+			this._tableLayoutZoom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(240)))), ((int)(((byte)(159)))));
 			this._tableLayoutZoom.ColumnCount = 1;
 			this._tableLayoutZoom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutZoom.Controls.Add(this._labelZoom, 0, 0);

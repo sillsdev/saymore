@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
+using SayMore.Properties;
 using SIL.Localization;
 using SilUtils;
 
@@ -42,13 +43,19 @@ namespace SayMore.UI.ComponentEditors
 				Invalidate();
 				CurrentCell = this[0, 0];
 			});
+
+			if (!string.IsNullOrEmpty(_model.GridSettingsName))
+			{
+				if (Settings.Default[_model.GridSettingsName] != null)
+					((GridSettings)Settings.Default[_model.GridSettingsName]).InitializeGrid(this);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void AddColumns()
 		{
 			var col = CreateTextBoxColumn("Field");
-			col.Width = 150;
+			col.Width = 125;
 			Columns.Add(col);
 			LocalizationManager.LocalizeObject(Columns["Field"],
 				"FieldsAndValuesGrid.FieldColumnHdg", "Field", "Views");
@@ -128,6 +135,15 @@ namespace SayMore.UI.ComponentEditors
 				e.Handled = true;
 				SystemSounds.Beep.Play();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
+		{
+			base.OnColumnWidthChanged(e);
+
+			if (!string.IsNullOrEmpty(_model.GridSettingsName))
+				Settings.Default[_model.GridSettingsName] = GridSettings.Create(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -227,15 +243,6 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			base.OnUserDeletingRow(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnCellEndEdit(DataGridViewCellEventArgs e)
-		{
-			base.OnCellEndEdit(e);
-
-			// TODO: Handle case when user edits a Field cell so there's nothing left in
-			// the cell and verify the user really wants to do this.
 		}
 	}
 }

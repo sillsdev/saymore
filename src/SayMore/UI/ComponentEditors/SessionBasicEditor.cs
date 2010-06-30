@@ -48,6 +48,7 @@ namespace SayMore.UI.ComponentEditors
 				_customFieldIds, autoCompleteProvider);
 
 			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
+			_gridCustomFields.Dock = DockStyle.Top;
 			_gridCustomFields.Margin = _situation.Margin;
 			_tableLayout.Controls.Add(_gridCustomFields, 0, 11);
 		}

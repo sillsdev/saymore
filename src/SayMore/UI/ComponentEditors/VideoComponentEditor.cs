@@ -33,7 +33,6 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider)
 		{
-
 			_gridViewModel = new FieldsValuesGridViewModel(_file,
 				GetDefaultFieldIdsToDisplayInGrid(), _customFieldIds, autoCompleteProvider);
 

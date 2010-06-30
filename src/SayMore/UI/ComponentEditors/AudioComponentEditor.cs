@@ -38,7 +38,7 @@ namespace SayMore.UI.ComponentEditors
 				GetDefaultFieldIdsToDisplayInGrid(), _customFieldIds, autoCompleteProvider);
 
 			_grid = new FieldsValuesGrid(_gridViewModel);
-			_grid.Anchor = (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom);
+			_grid.Dock = DockStyle.Fill;
 			_tableLayout.Controls.Add(_grid, 0, 1);
 			_grid.BringToFront();
 		}

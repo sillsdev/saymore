@@ -53,6 +53,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual string FieldsGridSettingsName
+		{
+			get { return "UnknownFileFieldsGrid"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			if (_editors.Count == 0)
@@ -124,6 +130,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override string FieldsGridSettingsName
+		{
+			get { return "PersonCustomFieldsGrid"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			if (_editors.Count > 0)
@@ -181,6 +193,12 @@ namespace SayMore.Model.Files
 			: base("Session", p => p.EndsWith(".session"))
 		{
 			_sessionBasicEditorFactoryLazy = sessionBasicEditorFactoryLazy;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string FieldsGridSettingsName
+		{
+			get { return "SessionCustomFieldsGrid"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -251,6 +269,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override string FieldsGridSettingsName
+		{
+			get { return "AudioFileFieldsGrid"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			if (_editors.Count > 0)
@@ -307,6 +331,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override string FieldsGridSettingsName
+		{
+			get { return "VideoFileFieldsGrid"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
 		{
 			if (_editors.Count > 0)
@@ -350,6 +380,12 @@ namespace SayMore.Model.Files
 			p => Settings.Default.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string FieldsGridSettingsName
+		{
+			get { return "ImageFileFieldsGrid"; }
 		}
 
 		/// ------------------------------------------------------------------------------------

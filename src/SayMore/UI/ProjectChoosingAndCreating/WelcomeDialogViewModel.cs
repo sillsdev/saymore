@@ -15,10 +15,10 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 	{
 		//private readonly Project.Factory _projectFactory;
 
-		public WelcomeDialogViewModel()//Project.Factory projectFactory)
-		{
-			//_projectFactory = projectFactory;
-		}
+		//public WelcomeDialogViewModel()//Project.Factory projectFactory)
+		//{
+		//	//_projectFactory = projectFactory;
+		//}
 
 		public string ProjectSettingsFilePath { get; set; }
 

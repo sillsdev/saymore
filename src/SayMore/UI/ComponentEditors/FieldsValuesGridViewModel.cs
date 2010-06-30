@@ -100,6 +100,12 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public string GridSettingsName
+		{
+			get { return _file.FileType.FieldsGridSettingsName; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		void HandleNewAutoCompleteDataAvailable(object sender, EventArgs e)
 		{
 			_autoCompleteLists = _autoCompleteProvider.GetValueLists();

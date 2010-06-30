@@ -46,8 +46,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Name = "_tableLayout";
 			this._tableLayout.RowCount = 2;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayout.Size = new System.Drawing.Size(435, 194);
 			this._tableLayout.TabIndex = 0;
 			// 

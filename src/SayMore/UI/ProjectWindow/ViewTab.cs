@@ -75,7 +75,7 @@ namespace SIL.Pa.UI.Controls
 			_viewControl.BringToFront();
 
 			if (_viewControl is ISayMoreView)
-				((ISayMoreView)_viewControl).ViewActivated(_hasBeenActivated);
+				((ISayMoreView)_viewControl).ViewActivated(!_hasBeenActivated);
 
 			_hasBeenActivated = true;
 			Invalidate();

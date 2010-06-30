@@ -556,5 +556,77 @@ namespace SayMore.Properties {
                 this["CustomUnknownFileFields"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings SessionCustomFieldsGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["SessionCustomFieldsGrid"]));
+            }
+            set {
+                this["SessionCustomFieldsGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings PersonCustomFieldsGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["PersonCustomFieldsGrid"]));
+            }
+            set {
+                this["PersonCustomFieldsGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings AudioFileFieldsGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["AudioFileFieldsGrid"]));
+            }
+            set {
+                this["AudioFileFieldsGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings VideoFileFieldsGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["VideoFileFieldsGrid"]));
+            }
+            set {
+                this["VideoFileFieldsGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings ImageFileFieldsGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["ImageFileFieldsGrid"]));
+            }
+            set {
+                this["ImageFileFieldsGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings UnknownFileFieldsGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["UnknownFileFieldsGrid"]));
+            }
+            set {
+                this["UnknownFileFieldsGrid"] = value;
+            }
+        }
     }
 }

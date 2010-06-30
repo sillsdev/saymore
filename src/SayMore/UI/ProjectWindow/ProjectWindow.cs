@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using SayMore.UI.ProjectChoosingAndCreating;
 using SayMore.UI.SendReceive;
 using SIL.Localization;
 using SayMore.Properties;
@@ -46,7 +48,7 @@ namespace SayMore.UI.ProjectWindow
 			var asm = Assembly.GetExecutingAssembly();
 			Icon = new Icon (asm.GetManifestResourceStream ("SayMore.SayMore.ico"));
 
-			_projectName = projectName;
+			_projectName = Path.GetFileNameWithoutExtension(projectName);
 			_commands = commands;
 
 			_viewTabGroup.AddTab("Sessions", sessionsScreen);
@@ -65,8 +67,9 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void SetWindowText()
 		{
+			var ver = Assembly.GetExecutingAssembly().GetName().Version;
 			var fmt = LocalizationManager.GetString(this);
-			Text = string.Format(fmt, _projectName);
+			Text = string.Format(fmt, _projectName, ver.Major, ver.Minor);
 		}
 
 		/// ------------------------------------------------------------------------------------

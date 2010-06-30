@@ -98,7 +98,9 @@ namespace SayMore.Model
 
 			try
 			{
-				Directory.Delete(item.FolderPath, true);
+				Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(item.FolderPath,
+					Microsoft.VisualBasic.FileIO.UIOption.AllDialogs,
+					Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
 			}
 			catch (Exception e)
 			{

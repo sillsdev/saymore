@@ -70,7 +70,6 @@ namespace SayMore.UI.ComponentEditors
 
 			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
 			_gridCustomFields.Dock = DockStyle.Top;
-			_gridCustomFields.EditMode = DataGridViewEditMode.EditOnEnter;
 			_panelGrid.AutoSize = true;
 			_panelGrid.Controls.Add(_gridCustomFields);
 		}
@@ -279,5 +278,12 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleIdEnter(object sender, EventArgs e)
+		{
+			// Makes sure the id's label is also visible when the id field gains focus.
+			ScrollControlIntoView(_labelFullName);
+		}
 	}
 }

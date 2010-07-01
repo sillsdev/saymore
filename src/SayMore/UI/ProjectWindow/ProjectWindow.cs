@@ -105,6 +105,13 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleHelpAboutClick(object sender, EventArgs e)
+		{
+			using (var dlg = new AboutDialog())
+				dlg.ShowDialog();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void OnCommandMenuItem_Click(object sender, EventArgs e)
 		{
 			var handler = _commands.First(c => c.Id == (string) ((ToolStripMenuItem) sender).Tag);

@@ -104,6 +104,7 @@ namespace SayMore.UI.ComponentEditors
 			this._id.Size = new System.Drawing.Size(342, 20);
 			this._id.TabIndex = 1;
 			this._autoCompleteHelper.SetUpdateGatherer(this._id, false);
+			this._id.Enter += new System.EventHandler(this.HandleIdEnter);
 			// 
 			// _labelBirthYear
 			// 

@@ -11,6 +11,8 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.Utilities;
+using SIL.Localization;
+using SilUtils;
 
 namespace SayMore.Model.Files
 {
@@ -361,16 +363,31 @@ namespace SayMore.Model.Files
 		{
 			try
 			{
-				File.Move(PathToAnnotatedFile, newPath);
+				// some types don't have a separate sidecar file (e.g. Person, Session)
 				var newMetaPath = FileType.GetMetaFilePath(newPath);
+				var renameMetaFile = (newMetaPath != newPath && File.Exists(_metaDataPath));
 
-				//enhance: if somethine goes wrong from here down,
-				//this would leave us with one file renamed, but not the other.
-				if (newMetaPath != newPath //some types don't have a separate sidecar file (e.g. Person, Session)
-					&& File.Exists(_metaDataPath))
+				if (File.Exists(newPath))
 				{
-					File.Move(_metaDataPath, newMetaPath);
+					var msg = LocalizationManager.LocalizeString("ComponentFile.CannotRenameMsg",
+						"{0} could not rename the file to '{1}' because there is already a file with that name.");
+
+					Utils.MsgBox(string.Format(msg, Application.ProductName, newPath));
+					return;
 				}
+
+				if (renameMetaFile && File.Exists(newMetaPath))
+				{
+					var msg = LocalizationManager.LocalizeString("ComponentFile.CannotRenameMetadataFileMsg",
+						"{0} could not rename the metadata file to '{1}' because there is already a file with that name.");
+
+					Utils.MsgBox(string.Format(msg, Application.ProductName, newMetaPath));
+					return;
+				}
+
+				File.Move(PathToAnnotatedFile, newPath);
+				if (renameMetaFile)
+					File.Move(_metaDataPath, newMetaPath);
 
 				PathToAnnotatedFile = newPath;
 			}

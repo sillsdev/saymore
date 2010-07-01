@@ -49,8 +49,8 @@ namespace SayMore.UI.ComponentEditors
 
 			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
 			_gridCustomFields.Dock = DockStyle.Top;
-			_gridCustomFields.Margin = _situation.Margin;
-			_tableLayout.Controls.Add(_gridCustomFields, 0, 11);
+			_panelGrid.AutoSize = true;
+			_panelGrid.Controls.Add(_gridCustomFields);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,6 +98,13 @@ namespace SayMore.UI.ComponentEditors
 
 			newValue = ((DiscourseType)_eventType.SelectedItem).Id;
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleIdEnter(object sender, EventArgs e)
+		{
+			// Makes sure the id's label is also visible when the id field gains focus.
+			ScrollControlIntoView(_labelId);
 		}
 	}
 }

@@ -130,7 +130,14 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public bool IsIndexForCustomField(int index)
 		{
-			return RowData[index].Value;
+			return (index < RowData.Count ? RowData[index].Value : true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool CanDeleteRow(int index, out int indexToDelete)
+		{
+			indexToDelete = (index < RowData.Count ? index : -1);
+			return IsIndexForCustomField(index);
 		}
 
 		/// ------------------------------------------------------------------------------------

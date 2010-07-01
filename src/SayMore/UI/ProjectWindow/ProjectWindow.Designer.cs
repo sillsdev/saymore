@@ -29,6 +29,8 @@ namespace SayMore.UI.ProjectWindow
 			this._menuExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._viewTabGroup = new SIL.Pa.UI.Controls.ViewTabGroup();
+			this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
+			this._menuAbout = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._mainMenuStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -40,7 +42,8 @@ namespace SayMore.UI.ProjectWindow
 			// _mainMenuStrip
 			// 
 			this._mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._menuFile});
+            this._menuFile,
+            this._menuHelp});
 			this.locExtender.SetLocalizableToolTip(this._mainMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._mainMenuStrip, null);
 			this.locExtender.SetLocalizingId(this._mainMenuStrip, "menuStrip1.menuStrip1");
@@ -128,6 +131,27 @@ namespace SayMore.UI.ProjectWindow
 			this._viewTabGroup.Size = new System.Drawing.Size(697, 445);
 			this._viewTabGroup.TabIndex = 2;
 			// 
+			// _menuHelp
+			// 
+			this._menuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._menuAbout});
+			this.locExtender.SetLocalizableToolTip(this._menuHelp, null);
+			this.locExtender.SetLocalizationComment(this._menuHelp, null);
+			this.locExtender.SetLocalizingId(this._menuHelp, "ProjectWindow.helpToolStripMenuItem");
+			this._menuHelp.Name = "_menuHelp";
+			this._menuHelp.Size = new System.Drawing.Size(44, 20);
+			this._menuHelp.Text = "&Help";
+			// 
+			// _menuAbout
+			// 
+			this.locExtender.SetLocalizableToolTip(this._menuAbout, null);
+			this.locExtender.SetLocalizationComment(this._menuAbout, null);
+			this.locExtender.SetLocalizingId(this._menuAbout, ".aboutToolStripMenuItem");
+			this._menuAbout.Name = "_menuAbout";
+			this._menuAbout.Size = new System.Drawing.Size(152, 22);
+			this._menuAbout.Text = "&About...";
+			this._menuAbout.Click += new System.EventHandler(this.HandleHelpAboutClick);
+			// 
 			// ProjectWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -162,6 +186,8 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.ToolStripMenuItem _exportSessionsMenuItem;
 		private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
 		private SIL.Pa.UI.Controls.ViewTabGroup _viewTabGroup;
+		private System.Windows.Forms.ToolStripMenuItem _menuHelp;
+		private System.Windows.Forms.ToolStripMenuItem _menuAbout;
 	}
 }
 

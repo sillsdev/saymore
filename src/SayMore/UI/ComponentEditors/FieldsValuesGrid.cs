@@ -23,6 +23,7 @@ namespace SayMore.UI.ComponentEditors
 			AllowUserToAddRows = true;
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
+			EditMode = DataGridViewEditMode.EditOnEnter;
 			Margin = new Padding(0, Margin.Top, 0, Margin.Bottom);
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 			DefaultCellStyle.SelectionBackColor = ColorHelper.CalculateColor(Color.White,
@@ -149,18 +150,37 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This gets rid of the annoying beep caused by pressing ESC when a cell is in
-		/// the edit mode. It rightly takes the user out of edit mode, but without this code,
-		/// it beeps too.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
+			// Gets rid of the annoying beep caused by pressing ESC when a cell is in
+			// the edit mode. It also takes the user out of edit mode.
 			if (keyData == Keys.Escape && IsCurrentCellInEditMode)
 			{
-				EndEdit();
+				CancelEdit();
 				return true;
+			}
+
+			// Cause tab and shift+tab to move from value to value,
+			// rather than passing through the Field cells.
+			if (CurrentCellAddress.X == 1 && msg.WParam.ToInt32() == (int)Keys.Tab)
+			{
+				if ((keyData & Keys.Shift) == 0 && CurrentCellAddress.Y < NewRowIndex)
+				{
+					if (IsCurrentCellInEditMode)
+						EndEdit();
+
+					CurrentCell = this[1, CurrentCellAddress.Y + 1];
+					return true;
+				}
+
+				if ((keyData & Keys.Shift) > 0 && CurrentCellAddress.Y > 0)
+				{
+					if (IsCurrentCellInEditMode)
+						EndEdit();
+
+					CurrentCell = this[1, CurrentCellAddress.Y - 1];
+					return true;
+				}
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);
@@ -236,8 +256,13 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnUserDeletingRow(DataGridViewRowCancelEventArgs e)
 		{
-			if (_model.IsIndexForCustomField(e.Row.Index))
-				_model.RemoveFieldForIndex(e.Row.Index);
+			int indexOfRowToDelete;
+
+			if (_model.CanDeleteRow(e.Row.Index, out indexOfRowToDelete))
+			{
+				if (indexOfRowToDelete >= 0)
+					_model.RemoveFieldForIndex(indexOfRowToDelete);
+			}
 			else
 			{
 				e.Cancel = true;

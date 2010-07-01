@@ -53,6 +53,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSituation = new System.Windows.Forms.Label();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
+			this._panelGrid = new System.Windows.Forms.Panel();
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -81,6 +82,7 @@ namespace SayMore.UI.ComponentEditors
 			this._id.Size = new System.Drawing.Size(183, 22);
 			this._id.TabIndex = 1;
 			this._autoCompleteHelper.SetUpdateGatherer(this._id, false);
+			this._id.Enter += new System.EventHandler(this.HandleIdEnter);
 			// 
 			// _labelTitle
 			// 
@@ -163,6 +165,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.ColumnCount = 2;
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this._tableLayout.Controls.Add(this._panelGrid, 0, 11);
 			this._tableLayout.Controls.Add(this._labelCustomFields, 0, 10);
 			this._tableLayout.Controls.Add(this._access, 1, 7);
 			this._tableLayout.Controls.Add(this._synopsis, 1, 9);
@@ -200,7 +203,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(377, 317);
+			this._tableLayout.Size = new System.Drawing.Size(377, 383);
 			this._tableLayout.TabIndex = 0;
 			this._tableLayout.TabStop = true;
 			// 
@@ -395,13 +398,23 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._binder.GetBoundControlValue += new SayMore.UI.ComponentEditors.BindingHelper.GetBoundControlValueHandler(this.HandleGetBoundControlValue);
 			// 
+			// _panelGrid
+			// 
+			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._panelGrid.Location = new System.Drawing.Point(0, 320);
+			this._panelGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
+			this._panelGrid.Name = "_panelGrid";
+			this._panelGrid.Size = new System.Drawing.Size(183, 60);
+			this._panelGrid.TabIndex = 1;
+			// 
 			// SessionBasicEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayout);
 			this.Name = "SessionBasicEditor";
-			this.Size = new System.Drawing.Size(391, 376);
+			this.Size = new System.Drawing.Size(391, 400);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			this.ResumeLayout(false);
@@ -435,5 +448,6 @@ namespace SayMore.UI.ComponentEditors
 		private BindingHelper _binder;
 		private System.Windows.Forms.Label _labelCustomFields;
 		private AutoCompleteHelper _autoCompleteHelper;
+		private System.Windows.Forms.Panel _panelGrid;
 	}
 }

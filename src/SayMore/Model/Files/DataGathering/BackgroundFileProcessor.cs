@@ -37,10 +37,10 @@ namespace SayMore.Model.Files.DataGathering
 	public abstract class BackgroundFileProcessor<T> : IDisposable where T : class
 	{
 		private Thread _workerThread;
-		private string _rootDirectoryPath;
+		protected string _rootDirectoryPath;
 		protected readonly IEnumerable<FileType> _typesOfFilesToProcess;
-		private readonly Func<string, T> _fileDataFactory;
-		private bool _restartRequested = true;
+		protected readonly Func<string, T> _fileDataFactory;
+		protected bool _restartRequested = true;
 		protected Dictionary<string, T> _fileToDataDictionary = new Dictionary<string, T>();
 		private Queue<FileSystemEventArgs> _pendingFileEvents;
 
@@ -74,7 +74,7 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Start()
+		public virtual void Start()
 		{
 			_workerThread = new Thread(StartWorking);
 			_workerThread.Name = GetType().Name;

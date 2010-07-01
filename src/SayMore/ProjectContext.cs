@@ -43,9 +43,9 @@ namespace SayMore
 			peopleRepoFactory(rootDirectoryPath, "People");
 
 			//Start up the background operations
-			//_scope.Resolve<AudioVideoDataGatherer>().Start();
-			//_scope.Resolve<PresetGatherer>().Start();
-			//_scope.Resolve<AutoCompleteValueGatherer>().Start();
+			_scope.Resolve<AudioVideoDataGatherer>().Start();
+			_scope.Resolve<PresetGatherer>().Start();
+			_scope.Resolve<AutoCompleteValueGatherer>().Start();
 			_scope.Resolve<FieldGatherer>().Start();
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);

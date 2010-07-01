@@ -39,9 +39,11 @@ namespace SayMore.UI.ComponentEditors
 
 			_model.ComponentFileChanged = new Action(() =>
 			{
+				// Setting the row count to 1 first, fixes a painting glitch. argh!
+				RowCount = 1;
 				RowCount = _model.RowData.Count + 1;
-				Invalidate();
 				CurrentCell = this[0, 0];
+				Invalidate();
 			});
 
 			if (!string.IsNullOrEmpty(_model.GridSettingsName))

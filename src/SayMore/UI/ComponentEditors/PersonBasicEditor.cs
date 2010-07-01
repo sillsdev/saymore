@@ -21,14 +21,24 @@ namespace SayMore.UI.ComponentEditors
 		private readonly List<ParentButton> _fatherButtons = new List<ParentButton>();
 		private readonly List<ParentButton> _motherButtons = new List<ParentButton>();
 
+		private FieldsValuesGrid _gridCustomFields;
+		private FieldsValuesGridViewModel _gridViewModel;
+		private IEnumerable<string> _customFieldIds;
+
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string tabText, string imageKey,
-			AutoCompleteValueGatherer autoCompleteProvider) : base(file, tabText, imageKey)
+			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
+			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
 			Name = "Basic";
 			_binder.SetComponentFile(file);
+
+			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, GetAllDefaultFieldIds());
+			InitializeGrid(autoCompleteProvider);
+			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
+			fieldGatherer.NewDataAvailable += HandleNewDataFieldsAvailable;
 
 			_fatherButtons.AddRange(new[] {_pbPrimaryLangFather, _pbOtherLangFather0,
 				_pbOtherLangFather1, _pbOtherLangFather2, _pbOtherLangFather3 });
@@ -50,6 +60,63 @@ namespace SayMore.UI.ComponentEditors
 			GetParentLanguages();
 
 			LoadPersonsPhoto();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider)
+		{
+			_gridViewModel = new FieldsValuesGridViewModel(_file, new List<string>(0),
+				_customFieldIds, autoCompleteProvider);
+
+			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
+			_gridCustomFields.Dock = DockStyle.Top;
+			_panelGrid.AutoSize = true;
+			_panelGrid.Controls.Add(_gridCustomFields);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void SetComponentFile(ComponentFile file)
+		{
+			base.SetComponentFile(file);
+
+			if (_gridViewModel != null)
+				_gridViewModel.SetComponentFile(file, _customFieldIds);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override IEnumerable<string> GetAllDefaultFieldIds()
+		{
+			yield return "id";
+			yield return "primaryLanguage";
+			yield return "primaryLanguageLearnedIn";
+			yield return "otherLanguage0";
+			yield return "otherLanguage1";
+			yield return "otherLanguage2";
+			yield return "otherLanguage3";
+			yield return "fathersLanguage";
+			yield return "mothersLanguage";
+			yield return "pbOtherLangFather0";
+			yield return "pbOtherLangFather1";
+			yield return "pbOtherLangFather2";
+			yield return "pbOtherLangFather3";
+			yield return "pbOtherLangMother0";
+			yield return "pbOtherLangMother3";
+			yield return "pbOtherLangMother2";
+			yield return "pbOtherLangMother1";
+			yield return "birthYear";
+			yield return "gender";
+			yield return "howToContact";
+			yield return "education";
+			yield return "primaryOccupation";
+			yield return "picture";
+			yield return "notes";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
+		{
+			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
+				GetAllDefaultFieldIds());
 		}
 
 		/// ------------------------------------------------------------------------------------

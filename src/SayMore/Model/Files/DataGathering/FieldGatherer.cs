@@ -23,6 +23,17 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override void Start()
+		{
+			// This will force the gathering of fields to be done at least once, before
+			// the program is fully up and running. That way fields are available to views
+			// right away.
+			ProcessAllFiles();
+			_restartRequested = false;
+			base.Start();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override bool GetDoIncludeFile(string path)
 		{
 			if (_typesOfFilesToProcess.Any(t => t.IsMatch(path.Replace(".meta", string.Empty))))
@@ -37,6 +48,9 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected override string GetActualPath(string path)
 		{
+			if (".session .person".Contains(Path.GetExtension(path)))
+				return path;
+
 			return path + (!path.Contains(".meta") ? ".meta" : string.Empty);
 		}
 

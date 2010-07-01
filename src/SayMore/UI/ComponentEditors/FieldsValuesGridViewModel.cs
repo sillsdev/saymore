@@ -117,9 +117,12 @@ namespace SayMore.UI.ComponentEditors
 			var fieldId = GetIdForIndex(index);
 			var autoCompleteValues = new AutoCompleteStringCollection();
 
-			IEnumerable<string> values;
-			if (_autoCompleteLists.TryGetValue(fieldId, out values))
-				autoCompleteValues.AddRange(values.ToArray());
+			if (!string.IsNullOrEmpty(fieldId))
+			{
+				IEnumerable<string> values;
+				if (_autoCompleteLists.TryGetValue(fieldId, out values))
+					autoCompleteValues.AddRange(values.ToArray());
+			}
 
 			return autoCompleteValues;
 		}
@@ -141,13 +144,13 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public string GetIdForIndex(int index)
 		{
-			return RowData[index].Key.FieldId;
+			return (index < RowData.Count ? RowData[index].Key.FieldId : null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string GetValueForIndex(int index)
 		{
-			return RowData[index].Key.Value;
+			return (index < RowData.Count ? RowData[index].Key.Value : null);
 		}
 
 		/// ------------------------------------------------------------------------------------

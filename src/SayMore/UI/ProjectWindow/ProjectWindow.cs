@@ -5,8 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using SayMore.UI.ProjectChoosingAndCreating;
-using SayMore.UI.SendReceive;
 using SIL.Localization;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;

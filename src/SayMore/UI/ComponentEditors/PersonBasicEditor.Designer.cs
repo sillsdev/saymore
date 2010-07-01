@@ -65,11 +65,11 @@ namespace SayMore.UI.ComponentEditors
 			this._labelHowToContact = new System.Windows.Forms.Label();
 			this._labelEducation = new System.Windows.Forms.Label();
 			this._education = new System.Windows.Forms.TextBox();
+			this._panelGrid = new System.Windows.Forms.Panel();
 			this._labelPrimaryOccupation = new System.Windows.Forms.Label();
 			this._primaryOccupation = new System.Windows.Forms.TextBox();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
-			this._panelGrid = new System.Windows.Forms.Panel();
 			this._tblLayoutOuter.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._picture)).BeginInit();
 			this._pnlOtherLanguages.SuspendLayout();
@@ -474,7 +474,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangMother.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
 			this._pbPrimaryLangMother.Selected = false;
 			this._pbPrimaryLangMother.Size = new System.Drawing.Size(24, 24);
-			this._pbPrimaryLangMother.TabIndex = 2;
+			this._pbPrimaryLangMother.TabIndex = 3;
 			this._pbPrimaryLangMother.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
 			// 
 			// _pbPrimaryLangFather
@@ -496,7 +496,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelPrimaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 7, 3, 0);
 			this._labelPrimaryLanguageLearnedIn.Name = "_labelPrimaryLanguageLearnedIn";
 			this._labelPrimaryLanguageLearnedIn.Size = new System.Drawing.Size(65, 15);
-			this._labelPrimaryLanguageLearnedIn.TabIndex = 3;
+			this._labelPrimaryLanguageLearnedIn.TabIndex = 4;
 			this._labelPrimaryLanguageLearnedIn.Text = "&Learned In:";
 			// 
 			// _primaryLanguage
@@ -528,7 +528,7 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
 			this._primaryLanguageLearnedIn.Name = "_primaryLanguageLearnedIn";
 			this._primaryLanguageLearnedIn.Size = new System.Drawing.Size(271, 23);
-			this._primaryLanguageLearnedIn.TabIndex = 4;
+			this._primaryLanguageLearnedIn.TabIndex = 0;
 			this._autoCompleteHelper.SetUpdateGatherer(this._primaryLanguageLearnedIn, false);
 			// 
 			// _labelgender
@@ -592,7 +592,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelEducation.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelEducation.Name = "_labelEducation";
 			this._labelEducation.Size = new System.Drawing.Size(55, 13);
-			this._labelEducation.TabIndex = 1;
+			this._labelEducation.TabIndex = 12;
 			this._labelEducation.Text = "Education";
 			// 
 			// _education
@@ -606,8 +606,20 @@ namespace SayMore.UI.ComponentEditors
 			this._education.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._education.Name = "_education";
 			this._education.Size = new System.Drawing.Size(342, 20);
-			this._education.TabIndex = 14;
+			this._education.TabIndex = 13;
 			this._autoCompleteHelper.SetUpdateGatherer(this._education, false);
+			// 
+			// _panelGrid
+			// 
+			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._tblLayoutOuter.SetColumnSpan(this._panelGrid, 2);
+			this._panelGrid.Location = new System.Drawing.Point(352, 251);
+			this._panelGrid.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
+			this._panelGrid.Name = "_panelGrid";
+			this._tblLayoutOuter.SetRowSpan(this._panelGrid, 5);
+			this._panelGrid.Size = new System.Drawing.Size(224, 108);
+			this._panelGrid.TabIndex = 11;
 			// 
 			// _labelPrimaryOccupation
 			// 
@@ -616,7 +628,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelPrimaryOccupation.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelPrimaryOccupation.Name = "_labelPrimaryOccupation";
 			this._labelPrimaryOccupation.Size = new System.Drawing.Size(99, 13);
-			this._labelPrimaryOccupation.TabIndex = 15;
+			this._labelPrimaryOccupation.TabIndex = 14;
 			this._labelPrimaryOccupation.Text = "Primary Occupation";
 			// 
 			// _primaryOccupation
@@ -630,20 +642,8 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryOccupation.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._primaryOccupation.Name = "_primaryOccupation";
 			this._primaryOccupation.Size = new System.Drawing.Size(342, 20);
-			this._primaryOccupation.TabIndex = 16;
+			this._primaryOccupation.TabIndex = 15;
 			this._autoCompleteHelper.SetUpdateGatherer(this._primaryOccupation, false);
-			// 
-			// _panelGrid
-			// 
-			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._tblLayoutOuter.SetColumnSpan(this._panelGrid, 2);
-			this._panelGrid.Location = new System.Drawing.Point(352, 251);
-			this._panelGrid.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
-			this._panelGrid.Name = "_panelGrid";
-			this._tblLayoutOuter.SetRowSpan(this._panelGrid, 5);
-			this._panelGrid.Size = new System.Drawing.Size(224, 108);
-			this._panelGrid.TabIndex = 17;
 			// 
 			// PersonBasicEditor
 			// 

@@ -7,5 +7,5 @@
   <Sample_Rate type="string">96khz</Sample_Rate>
   <Bit_Depth type="string">24</Bit_Depth>
   <Speaker type="string">Awi Heole</Speaker>
-  <notes type="string">This is squeezed down to low bit-rate mp3 so that the SayMore Installer doesn't get large.</notes>
+  <notes type="string">This was downgraded to low bit-rate mp3 to keep the SayMore installer from getting huge.</notes>
 </MetaData>

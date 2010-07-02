@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
+<InstallerMetadata>
+  <File Id="EdoloSample.sprj" Guid="303b1041-5240-499c-8826-10f78ca9f84f" />
+</InstallerMetadata>

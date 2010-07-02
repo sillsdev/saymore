@@ -290,8 +290,6 @@ namespace SayMore.Model.Files
 				text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
 				_editors.Add(_audioComponentEditorFactoryLazy()(file, text, null));
 
-				//_editors.Add(new AudioComponentEditor(file, text, null));
-
 				text = LocalizationManager.LocalizeString("AudioFileInfoEditor.NotesTabText", "Notes");
 				_editors.Add(new NotesEditor(file, text, "Notes"));
 

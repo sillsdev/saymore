@@ -63,6 +63,9 @@ namespace SayMore
 				builder.RegisterType<AudioVideoDataGatherer>().InstancePerLifetimeScope();
 				builder.RegisterType<IEnumerable<FileType>>().InstancePerLifetimeScope();
 
+				builder.RegisterType<SessionFileType>().InstancePerLifetimeScope();
+				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
+
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c)).InstancePerLifetimeScope();
 

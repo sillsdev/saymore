@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SIL.Localization;
-using SilUtils;
 using SayMore.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.LowLevelControls;
@@ -33,9 +30,14 @@ namespace SayMore.UI.ElementListScreen
 	{
 		protected readonly ElementListViewModel<T> _model;
 
-		protected TabControl _componentEditorsTabControl;
+		protected TabControl _selectedEditorsTabControl;
 		protected ListPanel _elementsListPanel;
 		protected ComponentFileGrid _componentFilesControl;
+		protected Control _tabControlHostControl;
+		protected ImageList _tabControlImages;
+
+		protected Dictionary<string, ComponentEditorsTabControl> _tabControls =
+			new Dictionary<string, ComponentEditorsTabControl>();
 
 		/// ------------------------------------------------------------------------------------
 		public ElementListScreen(ElementListViewModel<T> presentationModel)
@@ -44,25 +46,23 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void Initialize(TabControl componentEditorsTabControl,
+		protected void Initialize(Control tabControlHostControl,
 			ComponentFileGrid componentGrid, ListPanel elementsListPanel)
 		{
-			_componentEditorsTabControl = componentEditorsTabControl;
-			_componentEditorsTabControl.TabPages.Clear();
+			_tabControlHostControl = tabControlHostControl;
 
-			var imgList = new ImageList();
-			imgList.ColorDepth = ColorDepth.Depth32Bit;
-			imgList.ImageSize = Resources.PlayTabImage.Size;
+			_tabControlImages = new ImageList();
+			_tabControlImages.ColorDepth = ColorDepth.Depth32Bit;
+			_tabControlImages.ImageSize = Resources.PlayTabImage.Size;
 			//imgList.Images.Add("Contributors", Resources.ContributorsTabImage);
-			imgList.Images.Add("Notes", Resources.NotesTabImage);
-			imgList.Images.Add("Play", Resources.PlayTabImage);
-			imgList.Images.Add("Person", Resources.PersonFileImage);
-			imgList.Images.Add("Session", Resources.SessionFileImage);
-			imgList.Images.Add("Image", Resources.ImageFileImage);
-			imgList.Images.Add("Video", Resources.VideoFileImage);
-			imgList.Images.Add("Audio", Resources.AudioFileImage);
-			imgList.Images.Add("View", Resources.ViewTabImage);
-			_componentEditorsTabControl.ImageList = imgList;
+			_tabControlImages.Images.Add("Notes", Resources.NotesTabImage);
+			_tabControlImages.Images.Add("Play", Resources.PlayTabImage);
+			_tabControlImages.Images.Add("Person", Resources.PersonFileImage);
+			_tabControlImages.Images.Add("Session", Resources.SessionFileImage);
+			_tabControlImages.Images.Add("Image", Resources.ImageFileImage);
+			_tabControlImages.Images.Add("Video", Resources.VideoFileImage);
+			_tabControlImages.Images.Add("Audio", Resources.AudioFileImage);
+			_tabControlImages.Images.Add("View", Resources.ViewTabImage);
 
 			_elementsListPanel = elementsListPanel;
 			_elementsListPanel.ReSortWhenItemTextChanges = true;
@@ -78,9 +78,6 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.AfterItemsDeleted += HandleElementsDeleted;
 			_elementsListPanel.SelectedItemChanged += HandleSelectedElementChanged;
 
-			_componentEditorsTabControl.Selecting += HandleSelectedComponentEditorTabSelecting;
-
-			_componentEditorsTabControl.Font = SystemFonts.IconTitleFont;
 			LoadElementList();
 		}
 
@@ -99,7 +96,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			_model.MakeComponentEditorsGoDormant();
 			_model.SetSelectedComponentFile(index);
-			UpdateComponentEditors();
+			ShowSelectedComponentFileEditors();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -179,7 +176,7 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl.SelectComponent(-1);
 			_componentFilesControl.ComponentSelectedCallback = HandleComponentSelectedCallback;
 			_componentFilesControl.SelectComponent(0);
-			UpdateComponentEditors();
+			ShowSelectedComponentFileEditors();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -203,50 +200,43 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void UpdateComponentEditors()
+		/// <summary>
+		/// Each set of editors (i.e. a set being the editors associated with a single
+		/// component file type) has its own tab control with a tab page for each editor.
+		/// The tab controls are cached in a dictionary whose key is the file type name.
+		/// The process of showing the editors for a component file is just a matter of
+		/// hiding the tab control containing the previously selected file's editors and
+		/// unhiding the tab control containing the selected file's editors.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected void ShowSelectedComponentFileEditors()
 		{
-			Utils.SetWindowRedraw(_componentEditorsTabControl, false);
+			var currProviderKey = _model.GetSelectedProviderKey();
 
-			_componentEditorsTabControl.Selecting -= HandleSelectedComponentEditorTabSelecting;
-
-			if (_model.SelectedElement == null)
+			ComponentEditorsTabControl tabCtrl;
+			if (!_tabControls.TryGetValue(currProviderKey, out tabCtrl))
 			{
-				_componentEditorsTabControl.TabPages.Clear();
-				_componentFilesControl.AddButtonEnabled = false;
-			}
-			else
-			{
-				// Remove all but one tab page because removing all of them
-				// will steal the focus from the active control. Go figure.
-				for (int i = _componentEditorsTabControl.TabCount - 1; i > 0; i--)
-					_componentEditorsTabControl.TabPages.RemoveAt(i);
+				tabCtrl = new ComponentEditorsTabControl(currProviderKey,
+					_tabControlImages, _model.GetComponentEditorProviders());
 
-				_componentFilesControl.AddButtonEnabled = true;
+				tabCtrl.Selecting += HandleSelectedComponentEditorTabSelecting;
+				_tabControls[currProviderKey] = tabCtrl;
+				_tabControlHostControl.Controls.Add(tabCtrl);
 			}
 
-			int providerCount = 0;
-
-			// At this point, just make tabs and name them. A tab's editor
-			// controls will be built only when the user selects the tab.
-			foreach (var provider in _model.GetComponentEditorProviders())
+			// Don't do anything if the selected tab control hasn't changed.
+			if (_selectedEditorsTabControl != tabCtrl)
 			{
-				ComponentEditorTabPage page;
-
-				if (providerCount++ == 0 && _componentEditorsTabControl.TabCount > 0)
+				if (_selectedEditorsTabControl != null)
 				{
-					page = _componentEditorsTabControl.TabPages[0] as ComponentEditorTabPage;
-					page.SetProvider(provider);
-					page.LoadEditorControl(_model.SelectedComponentFile);
-				}
-				else
-				{
-					page = new ComponentEditorTabPage(provider);
-					_componentEditorsTabControl.TabPages.Add(page);
-				}
-			}
 
-			_componentEditorsTabControl.Selecting += HandleSelectedComponentEditorTabSelecting;
-			Utils.SetWindowRedraw(_componentEditorsTabControl, true);
+					_selectedEditorsTabControl.Visible = false;
+				}
+
+				tabCtrl.SelectedIndex = 0;
+				tabCtrl.Visible = true;
+				_selectedEditorsTabControl = tabCtrl;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -301,13 +291,11 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void HandleSelectedComponentEditorTabSelecting(object sender, TabControlCancelEventArgs e)
+		protected void HandleSelectedComponentEditorTabSelecting(object sender,
+			TabControlCancelEventArgs e)
 		{
 			if (e.Action == TabControlAction.Selecting)
-			{
-				((ComponentEditorTabPage)e.TabPage).LoadEditorControl(_model.SelectedComponentFile);
 				((ComponentEditorTabPage)e.TabPage).EditorProvider.Control.Focus();
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

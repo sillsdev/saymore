@@ -59,7 +59,6 @@ namespace SayMore.UI.ComponentEditors
 
 			GetParentLanguages();
 
-			LoadPersonsPhoto();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -81,6 +80,8 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file, _customFieldIds);
+
+			LoadPersonsPhoto();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -239,10 +240,16 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void LoadPersonsPhoto()
 		{
+			if (_picture == null)
+				return;
+
 			try
 			{
 				var photoFiles = Directory.GetFiles(PersonFolder, PhotoFileWithoutExt + ".*");
-				if (photoFiles.Length > 0)
+
+				if (photoFiles.Length == 0)
+					_picture.Image = Resources.kimidNoPhoto;
+				else
 				{
 					// Do this instead of using the Load method because Load keeps a lock on the file.
 					using (var fs = new FileStream(photoFiles[0], FileMode.Open, FileAccess.Read))

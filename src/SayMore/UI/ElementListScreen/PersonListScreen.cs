@@ -17,7 +17,7 @@ namespace SayMore.UI.ElementListScreen
 			if (DesignMode)
 				return;
 
-			Initialize(_tabComponentEditors, _componentFileGrid, _peopleListPanel);
+			Initialize(_componentsSplitter.Panel2, _componentFileGrid, _peopleListPanel);
 			_componentFileGrid.InitializeGrid("PersonScreen");
 		}
 

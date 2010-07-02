@@ -31,41 +31,17 @@ namespace SayMore.UI.ElementListScreen
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this._tabComponentEditors = new System.Windows.Forms.TabControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this._elementListSplitter = new System.Windows.Forms.SplitContainer();
 			this._buttonNewFromFiles = new System.Windows.Forms.Button();
 			this._sessionsListPanel = new SayMore.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
 			this._componentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
-			this._tabComponentEditors.SuspendLayout();
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
 			this._elementListSplitter.SuspendLayout();
 			this._componentsSplitter.Panel1.SuspendLayout();
-			this._componentsSplitter.Panel2.SuspendLayout();
 			this._componentsSplitter.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// _tabComponentEditors
-			// 
-			this._tabComponentEditors.Controls.Add(this.tabPage1);
-			this._tabComponentEditors.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._tabComponentEditors.Location = new System.Drawing.Point(0, 0);
-			this._tabComponentEditors.Name = "_tabComponentEditors";
-			this._tabComponentEditors.SelectedIndex = 0;
-			this._tabComponentEditors.Size = new System.Drawing.Size(315, 197);
-			this._tabComponentEditors.TabIndex = 7;
-			// 
-			// tabPage1
-			// 
-			this.tabPage1.Location = new System.Drawing.Point(4, 22);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(307, 171);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "tabPage1";
-			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
 			// _elementListSplitter
 			// 
@@ -140,10 +116,6 @@ namespace SayMore.UI.ElementListScreen
 			// _componentsSplitter.Panel1
 			// 
 			this._componentsSplitter.Panel1.Controls.Add(this._componentFileGrid);
-			// 
-			// _componentsSplitter.Panel2
-			// 
-			this._componentsSplitter.Panel2.Controls.Add(this._tabComponentEditors);
 			this._componentsSplitter.Size = new System.Drawing.Size(315, 350);
 			this._componentsSplitter.SplitterDistance = 147;
 			this._componentsSplitter.SplitterWidth = 6;
@@ -152,10 +124,12 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _componentFileGrid
 			// 
+			this._componentFileGrid.AddButtonEnabled = false;
 			this._componentFileGrid.AddButtonVisible = true;
 			this._componentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._componentFileGrid.Location = new System.Drawing.Point(0, 0);
 			this._componentFileGrid.Name = "_componentFileGrid";
+			this._componentFileGrid.ShowContextMenu = true;
 			this._componentFileGrid.Size = new System.Drawing.Size(315, 147);
 			this._componentFileGrid.TabIndex = 0;
 			// 
@@ -166,13 +140,11 @@ namespace SayMore.UI.ElementListScreen
 			this.Controls.Add(this._elementListSplitter);
 			this.Name = "SessionScreen";
 			this.Size = new System.Drawing.Size(503, 350);
-			this._tabComponentEditors.ResumeLayout(false);
 			this._elementListSplitter.Panel1.ResumeLayout(false);
 			this._elementListSplitter.Panel1.PerformLayout();
 			this._elementListSplitter.Panel2.ResumeLayout(false);
 			this._elementListSplitter.ResumeLayout(false);
 			this._componentsSplitter.Panel1.ResumeLayout(false);
-			this._componentsSplitter.Panel2.ResumeLayout(false);
 			this._componentsSplitter.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -180,8 +152,6 @@ namespace SayMore.UI.ElementListScreen
 
 		#endregion
 
-		private System.Windows.Forms.TabControl _tabComponentEditors;
-		private System.Windows.Forms.TabPage tabPage1;
 		private ListPanel _sessionsListPanel;
 		private System.Windows.Forms.SplitContainer _elementListSplitter;
 		private System.Windows.Forms.SplitContainer _componentsSplitter;

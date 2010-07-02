@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Forms;
 using AxWMPLib;
 using SayMore.Model.Files;
@@ -68,6 +69,7 @@ namespace SayMore.UI.ComponentEditors
 		public override void SetComponentFile(ComponentFile file)
 		{
 			base.SetComponentFile(file);
+			Name = "AudioVideoPlayer:" + Path.GetFileName(file.PathToAnnotatedFile);
 
 #if !MONO
 			InitializeWindowsMediaPlayer(file.PathToAnnotatedFile);
@@ -96,6 +98,7 @@ namespace SayMore.UI.ComponentEditors
 				// contains the media file still has a lock on it several seconds later and
 				// if the user tries to rename his session (which renames the folder)
 				// during that time, an exception is thrown. Disposing works better.
+				_wmpPlayer.close();
 				_wmpPlayer.Dispose();
 				_wmpPlayer = null;
 			}

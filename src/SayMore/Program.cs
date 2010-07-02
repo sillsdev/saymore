@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -37,6 +38,15 @@ namespace SayMore
 			LocalizationManager.Initialize();
 
 			SetUpErrorHandling();
+
+			var args = Environment.GetCommandLineArgs();
+			var firstTimeArg = args.FirstOrDefault(x => x.ToLower().StartsWith("-f:"));
+			if (firstTimeArg != null)
+			{
+				using (var dlg = new FirstTimeRunDialog(firstTimeArg.Substring(3)))
+					dlg.ShowDialog();
+			}
+
 			StartUpShellBasedOnMostRecentUsedIfPossible();
 
 			Application.Run();

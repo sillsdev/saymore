@@ -14,10 +14,10 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SayMore.Model.Files;
 using SayMore.UI.Utilities;
 
 namespace SayMore.UI.ComponentEditors
@@ -41,7 +41,7 @@ namespace SayMore.UI.ComponentEditors
 		/// This is to fix a .Net painting bug for tab controls.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnResize(System.EventArgs eventargs)
+		protected override void OnResize(EventArgs eventargs)
 		{
 			base.OnResize(eventargs);
 			Invalidate();
@@ -61,7 +61,7 @@ namespace SayMore.UI.ComponentEditors
 			if (Controls.Count > 0)
 			{
 				var rc = Controls[0].Bounds;
-				rc.Inflate(1,1);
+				rc.Inflate(1, 1);
 				rc.Width--;
 				rc.Height--;
 
@@ -71,7 +71,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnParentChanged(System.EventArgs e)
+		protected override void OnParentChanged(EventArgs e)
 		{
 			base.OnParentChanged(e);
 			ImageKey = EditorProvider.ImageKey;
@@ -82,35 +82,24 @@ namespace SayMore.UI.ComponentEditors
 		{
 			EditorProvider = provider;
 			Text = provider.TabText;
-			IsEditorControlLoaded = false;
-			Controls.Clear();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool LoadEditorControl(ComponentFile file)
-		{
-			if (IsEditorControlLoaded)
-				return false;
 
 			var control = EditorProvider.Control;
 			control.Dock = DockStyle.Fill;
 			Controls.Add(control);
 			ImageKey = EditorProvider.ImageKey;
-			IsEditorControlLoaded = true;
-			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Disposes of the EditorProvider contained on the tab page if it's for an audio
-		/// or video player. The Windows media player tends to hold onto files and folders
-		/// otherwise. (cf. SP-60).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void DestroyAudioVideoProvider()
-		{
-			if (Controls.Count > 0 && Controls[0] is AudioVideoPlayer)
-				Controls[0].Dispose();
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Disposes of the EditorProvider contained on the tab page if it's for an audio
+		///// or video player. The Windows media player tends to hold onto files and folders
+		///// otherwise. (cf. SP-60).
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public void DestroyAudioVideoProvider()
+		//{
+		//    if (Controls.Count > 0 && Controls[0] is AudioVideoPlayer)
+		//        Controls[0].Dispose();
+		//}
 	}
 }

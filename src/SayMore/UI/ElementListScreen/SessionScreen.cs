@@ -23,7 +23,7 @@ namespace SayMore.UI.ElementListScreen
 			if (DesignMode)
 				return;
 
-			Initialize(_tabComponentEditors, _componentFileGrid, _sessionsListPanel);
+			Initialize(_componentsSplitter.Panel2, _componentFileGrid, _sessionsListPanel);
 			_componentFileGrid.InitializeGrid("SessionScreen");
 
 			_sessionsListPanel.InsertButton(1, _buttonNewFromFiles);

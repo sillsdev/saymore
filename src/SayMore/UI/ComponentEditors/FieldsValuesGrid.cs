@@ -13,6 +13,7 @@ namespace SayMore.UI.ComponentEditors
 	{
 		private readonly FieldsValuesGridViewModel _model;
 		private readonly Font _defaultFieldFont;
+		private bool _adjustHeightToFitRows = true;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGrid(FieldsValuesGridViewModel model)
@@ -38,20 +39,33 @@ namespace SayMore.UI.ComponentEditors
 
 			AutoResizeRows();
 
-			_model.ComponentFileChanged = new Action(() =>
-			{
-				// Setting the row count to 1 first, fixes a painting glitch. argh!
-				RowCount = 1;
-				RowCount = _model.RowData.Count + 1;
-				CurrentCell = this[0, 0];
-				Invalidate();
-			});
+			_model.ComponentFileChanged = HandleComponentFileChanged;
 
 			if (!string.IsNullOrEmpty(_model.GridSettingsName))
 			{
 				if (Settings.Default[_model.GridSettingsName] != null)
 					((GridSettings)Settings.Default[_model.GridSettingsName]).InitializeGrid(this);
 			}
+		}
+
+		private void HandleComponentFileChanged()
+		{
+			// Setting the row count to 1 first, fixes a painting glitch. argh!
+			//Utils.SetWindowRedraw(this, false);
+			//RowCount = 1;
+
+			var saveAdjustHeightToFitRows = _adjustHeightToFitRows;
+			_adjustHeightToFitRows = false;
+			RowCount = _model.RowData.Count + 1;
+			CurrentCell = this[0, 0];
+			//Utils.SetWindowRedraw(this, true);
+			//Invalidate();
+			_adjustHeightToFitRows = saveAdjustHeightToFitRows;
+
+			if (_adjustHeightToFitRows)
+				AdjustHeight();
+			else
+				Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,10 +85,16 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnDockChanged(EventArgs e)
+		{
+			base.OnDockChanged(e);
+			_adjustHeightToFitRows = (Dock != DockStyle.Fill && Dock != DockStyle.None);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void AdjustHeight()
 		{
-			if (Dock != DockStyle.Fill && Dock != DockStyle.None &&
-				Anchor != (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom) &&
+			if (_adjustHeightToFitRows && (Anchor & AnchorStyles.Bottom) != AnchorStyles.Bottom &&
 				IsHandleCreated && !Disposing && RowCount > 0)
 			{
 				Height = ColumnHeadersHeight + (RowCount * Rows[0].Height) + 2 +

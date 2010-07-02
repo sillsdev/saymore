@@ -134,6 +134,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public string GetSelectedProviderKey()
+		{
+			return (SelectedComponentFile != null ?
+				SelectedComponentFile.FileType.GetType().Name : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// For each component, we provide 1 or more viewers/editors base on its file type.
 		/// </summary>

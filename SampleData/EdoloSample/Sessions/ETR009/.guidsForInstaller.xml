@@ -11,4 +11,7 @@
   <File Id="SceneAroundCamera.JPG" Guid="f35bebdc-3898-4967-9610-0fc4a6cf46bb" />
   <File Id="SceneAroundCamera.JPG.meta" Guid="cbb80fc4-87c3-4462-9820-dfd4af791e32" />
   <File Id="SceneHouse.JPG" Guid="a1061653-3486-4759-82ed-b2345987a91b" />
+  <File Id="ETR009_Careful.mp3" Guid="c78a1086-9bbb-4d01-836e-b81706632eed" />
+  <File Id="ETR009_Careful.mp3.meta" Guid="2b137ebd-3ddc-4e8a-9d5e-e40b73e36027" />
+  <File Id="SceneHouse.JPG.meta" Guid="55bbd030-833b-40b0-8dce-b718b148e8cc" />
 </InstallerMetadata>

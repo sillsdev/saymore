@@ -63,6 +63,7 @@
   <ItemGroup>
 	<Compile Include="Installer.wxs" />
 	<Compile Include="DistFiles.wxs" />
+	<Compile Include="GeneratedSampleDataFiles.wxs" />
   </ItemGroup>
   <ItemGroup>
 	<WixExtension Include="WixUtilExtension">

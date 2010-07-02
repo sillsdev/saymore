@@ -1,8 +1,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask TaskName="StampAssemblies" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
+  <UsingTask TaskName="MakeWixForDirTree" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
   <UsingTask TaskName="Split" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
   <UsingTask TaskName="FileUpdate" AssemblyFile="$(teamcity_build_checkoutDir)/build/Palaso.BuildTasks.dll" />
   <UsingTask TaskName="NUnitTeamCity" AssemblyFile="$(teamcity_dotnet_nunitlauncher_msbuild_task)"/>
+
 
 
   <Target Name="VersionNumbers">
@@ -86,5 +88,17 @@
 
   </Target>
 
+  <Target Name="MakeWixForSampleData">
+	<MakeWixForDirTree
+				DirectoryReferenceId="SampleDataDir"
+				ComponentGroupId="SampleData"
+				RootDirectory="$(teamcity_build_checkoutDir)\SampleData"
+				OutputFilePath="$(teamcity_build_checkoutDir)\src\Installer\GeneratedSampleDataFiles.wxs"
+				MatchRegExPattern=".*"
+				>
+	  <!--what does this do?-->
+	  <Output TaskParameter="OutputFilePath" ItemName="Compile" />
+	</MakeWixForDirTree>
+  </Target>
 
 </Project>

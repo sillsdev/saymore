@@ -67,7 +67,7 @@ namespace SayMore.UI.ProjectWindow
 		{
 			var ver = Assembly.GetExecutingAssembly().GetName().Version;
 			var fmt = LocalizationManager.GetString(this);
-			Text = string.Format(fmt, _projectName, ver.Major, ver.Minor, ver.Revision);
+			Text = string.Format(fmt, _projectName, ver.Major, ver.Minor, ver.Build);
 		}
 
 		/// ------------------------------------------------------------------------------------

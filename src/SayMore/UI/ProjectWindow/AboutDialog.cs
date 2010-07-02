@@ -82,7 +82,7 @@ namespace SayMore.UI.ProjectWindow
 			DateTime bldDate = new DateTime(2000, 1, 1).AddDays(ver.Build);
 
 			return string.Format(fmt, ver.Major, ver.Minor,
-				ver.Revision, bldDate.ToString("dd-MMM-yyyy"));
+				ver.Build, bldDate.ToString("dd-MMM-yyyy"));
 		}
 
 		/// ------------------------------------------------------------------------------------

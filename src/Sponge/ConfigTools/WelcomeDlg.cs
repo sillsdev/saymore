@@ -43,7 +43,7 @@ namespace SIL.Sponge.ConfigTools
 			// The build number is just the number of days since 01/01/2000
 			DateTime bldDate = new DateTime(2000, 1, 1).AddDays(ver.Build);
 			lblVersionInfo.Text = string.Format(lblVersionInfo.Text, ver.Major,
-				ver.Minor, ver.Revision, bldDate.ToString("dd-MMM-yyyy"));
+				ver.Minor, ver.Build, bldDate.ToString("dd-MMM-yyyy"));
 
 			LoadMRUButtons();
 			SetupLinkLabel();

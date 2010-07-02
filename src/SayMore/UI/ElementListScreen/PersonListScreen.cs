@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
@@ -19,6 +20,30 @@ namespace SayMore.UI.ElementListScreen
 
 			Initialize(_componentsSplitter.Panel2, _componentFileGrid, _peopleListPanel);
 			_componentFileGrid.InitializeGrid("PersonScreen");
+
+			if (_componentsSplitter.Panel2.Controls.Count > 1)
+				_labelHelp.Visible = false;
+			else
+				_componentsSplitter.Panel2.ControlAdded += HandleFirstSetOfComponentEditorsAdded;
+
+			_componentsSplitter.Panel2.ControlRemoved += HandleLastSetOfComponentEditorsRemoved;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleFirstSetOfComponentEditorsAdded(object sender, ControlEventArgs e)
+		{
+			_componentsSplitter.Panel2.ControlAdded -= HandleFirstSetOfComponentEditorsAdded;
+			_labelHelp.Visible = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleLastSetOfComponentEditorsRemoved(object sender, ControlEventArgs e)
+		{
+			if (_componentsSplitter.Panel2.Controls.Count == 1)
+			{
+				_labelHelp.Visible = true;
+				_componentsSplitter.Panel2.ControlAdded += HandleFirstSetOfComponentEditorsAdded;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -32,6 +57,18 @@ namespace SayMore.UI.ElementListScreen
 		public Image Image
 		{
 			get { return Resources.People; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override Color ComponentEditorBackgroundColor
+		{
+			get { return Settings.Default.PersonEditorsBackgroundColor; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override Color ComponentEditorBorderColor
+		{
+			get { return Settings.Default.PersonEditorsBorderColor; }
 		}
 
 		/// ------------------------------------------------------------------------------------

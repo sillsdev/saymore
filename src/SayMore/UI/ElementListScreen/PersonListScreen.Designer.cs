@@ -35,10 +35,12 @@ namespace SayMore.UI.ElementListScreen
 			this._peopleListPanel = new SayMore.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
 			this._componentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
+			this._labelHelp = new System.Windows.Forms.Label();
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
 			this._elementListSplitter.SuspendLayout();
 			this._componentsSplitter.Panel1.SuspendLayout();
+			this._componentsSplitter.Panel2.SuspendLayout();
 			this._componentsSplitter.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -100,6 +102,10 @@ namespace SayMore.UI.ElementListScreen
 			// _componentsSplitter.Panel1
 			// 
 			this._componentsSplitter.Panel1.Controls.Add(this._componentFileGrid);
+			// 
+			// _componentsSplitter.Panel2
+			// 
+			this._componentsSplitter.Panel2.Controls.Add(this._labelHelp);
 			this._componentsSplitter.Size = new System.Drawing.Size(315, 350);
 			this._componentsSplitter.SplitterDistance = 147;
 			this._componentsSplitter.SplitterWidth = 6;
@@ -118,6 +124,17 @@ namespace SayMore.UI.ElementListScreen
 			this._componentFileGrid.Size = new System.Drawing.Size(315, 147);
 			this._componentFileGrid.TabIndex = 1;
 			// 
+			// _labelHelp
+			// 
+			this._labelHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._labelHelp.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelHelp.Location = new System.Drawing.Point(0, 0);
+			this._labelHelp.Name = "_labelHelp";
+			this._labelHelp.Size = new System.Drawing.Size(315, 197);
+			this._labelHelp.TabIndex = 1;
+			this._labelHelp.Text = "Click \'New\' to add a new person.";
+			this._labelHelp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// PersonListScreen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -129,6 +146,7 @@ namespace SayMore.UI.ElementListScreen
 			this._elementListSplitter.Panel2.ResumeLayout(false);
 			this._elementListSplitter.ResumeLayout(false);
 			this._componentsSplitter.Panel1.ResumeLayout(false);
+			this._componentsSplitter.Panel2.ResumeLayout(false);
 			this._componentsSplitter.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -140,5 +158,6 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.SplitContainer _elementListSplitter;
 		private System.Windows.Forms.SplitContainer _componentsSplitter;
 		private ComponentFileGrid _componentFileGrid;
+		private System.Windows.Forms.Label _labelHelp;
 	}
 }

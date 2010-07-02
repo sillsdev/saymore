@@ -58,7 +58,6 @@ namespace SayMore.UI.ComponentEditors
 			_pbOtherLangMother3.Tag = _otherLanguage3;
 
 			GetParentLanguages();
-
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -139,7 +138,10 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			SetParentLanguages();
+			// Check that the person still exists.
+			if (Directory.Exists(Path.GetDirectoryName(_file.PathToAnnotatedFile)))
+				SetParentLanguages();
+
 			base.OnHandleDestroyed(e);
 		}
 

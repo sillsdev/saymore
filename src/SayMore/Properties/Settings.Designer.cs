@@ -628,5 +628,41 @@ namespace SayMore.Properties {
                 this["UnknownFileFieldsGrid"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("207, 240, 159")]
+        public global::System.Drawing.Color SessionEditorsBackgroundColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SessionEditorsBackgroundColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
+        public global::System.Drawing.Color SessionEditorsBorderColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SessionEditorsBorderColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("199, 207, 219")]
+        public global::System.Drawing.Color PersonEditorsBackgroundColor {
+            get {
+                return ((global::System.Drawing.Color)(this["PersonEditorsBackgroundColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("112, 146, 190")]
+        public global::System.Drawing.Color PersonEditorsBorderColor {
+            get {
+                return ((global::System.Drawing.Color)(this["PersonEditorsBorderColor"]));
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model.Files;
@@ -213,11 +214,16 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var currProviderKey = _model.GetSelectedProviderKey();
 
+			_componentFilesControl.AddButtonEnabled = (currProviderKey != null);
+			if (currProviderKey == null)
+				return;
+
 			ComponentEditorsTabControl tabCtrl;
 			if (!_tabControls.TryGetValue(currProviderKey, out tabCtrl))
 			{
 				tabCtrl = new ComponentEditorsTabControl(currProviderKey,
-					_tabControlImages, _model.GetComponentEditorProviders());
+					_tabControlImages, _model.GetComponentEditorProviders(),
+					ComponentEditorBackgroundColor, ComponentEditorBorderColor);
 
 				tabCtrl.Selecting += HandleSelectedComponentEditorTabSelecting;
 				_tabControls[currProviderKey] = tabCtrl;
@@ -228,15 +234,24 @@ namespace SayMore.UI.ElementListScreen
 			if (_selectedEditorsTabControl != tabCtrl)
 			{
 				if (_selectedEditorsTabControl != null)
-				{
-
 					_selectedEditorsTabControl.Visible = false;
-				}
 
 				tabCtrl.SelectedIndex = 0;
 				tabCtrl.Visible = true;
 				_selectedEditorsTabControl = tabCtrl;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual Color ComponentEditorBackgroundColor
+		{
+			get { return SystemColors.Control; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual Color ComponentEditorBorderColor
+		{
+			get { return SystemColors.ControlDark; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -263,6 +278,18 @@ namespace SayMore.UI.ElementListScreen
 			else
 			{
 				_model.SetSelectedElement(null);
+
+				if (_model.Elements.Count() == 0)
+				{
+					foreach (var tabCtrl in _tabControls.Values)
+					{
+						_tabControlHostControl.Controls.Remove(tabCtrl);
+						tabCtrl.Dispose();
+					}
+
+					_tabControls.Clear();
+				}
+
 				UpdateComponentList();
 			}
 		}

@@ -9,15 +9,17 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public class ComponentEditorTabPage : TabPage
 	{
+		private readonly Color _borderColor;
 		public IEditorProvider EditorProvider { get; private set; }
 		public bool IsEditorControlLoaded { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentEditorTabPage(IEditorProvider provider)
+		public ComponentEditorTabPage(IEditorProvider provider, Color borderColor)
 		{
 			DoubleBuffered = true;
 			SetProvider(provider);
 			Padding = new Padding(3, 5, 5, 4);
+			_borderColor = borderColor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -49,7 +51,7 @@ namespace SayMore.UI.ComponentEditors
 				rc.Width--;
 				rc.Height--;
 
-				using (var pen = new Pen(AppColors.DataEntryPanelBorder))
+				using (var pen = new Pen(_borderColor))
 					e.Graphics.DrawRectangle(pen, rc);
 			}
 		}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SayMore.Model;
@@ -50,7 +51,7 @@ namespace SayMore.UI.ElementListScreen
 				return false;
 
 			SelectedElement = element;
-			_componentFiles = element.GetComponentFiles().ToArray();
+			_componentFiles = (element != null ? element.GetComponentFiles().ToArray() : null);
 			SetSelectedComponentFile(0);
 			return true;
 		}
@@ -70,7 +71,9 @@ namespace SayMore.UI.ElementListScreen
 				return false;
 
 			SelectedComponentFile = _componentFiles[index];
-			_currentEditorProviders = SelectedComponentFile.FileType.GetEditorProviders(SelectedComponentFile);
+
+			_currentEditorProviders =
+				SelectedComponentFile.FileType.GetEditorProviders(GetHashCode(), SelectedComponentFile);
 
 			return true;
 		}

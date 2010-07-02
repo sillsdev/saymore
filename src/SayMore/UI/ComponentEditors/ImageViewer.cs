@@ -38,6 +38,15 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnBackColorChanged(EventArgs e)
+		{
+			base.OnBackColorChanged(e);
+
+			if (_zoomTrackBar != null)
+				_zoomTrackBar.BackColor = BackColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void Initialize(string imageFileName)
 		{
 			var clickZoomPercentages = PortableSettingsProvider.GetIntArrayFromString(

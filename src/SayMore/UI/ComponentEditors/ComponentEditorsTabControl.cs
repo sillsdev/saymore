@@ -15,7 +15,8 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		public ComponentEditorsTabControl(string providerKey, ImageList imgList,
-			IEnumerable<IEditorProvider> editorProviders)
+			IEnumerable<IEditorProvider> editorProviders, Color componentEditorBackColor,
+			Color componentEditorBorderColor)
 		{
 			ImageList = imgList;
 			Font = SystemFonts.IconTitleFont;
@@ -24,7 +25,10 @@ namespace SayMore.UI.ComponentEditors
 			ProviderKey = providerKey;
 
 			foreach (var editor in editorProviders)
-				TabPages.Add(new ComponentEditorTabPage(editor));
+			{
+				TabPages.Add(new ComponentEditorTabPage(editor, componentEditorBorderColor));
+				editor.Control.BackColor = componentEditorBackColor;
+			}
 		}
 	}
 }

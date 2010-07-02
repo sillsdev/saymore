@@ -20,7 +20,8 @@ namespace SayMore.Model.Files
 		protected Func<BasicFieldGridEditor.Factory> _basicFieldGridEditorFactoryLazy;
 		protected Func<string, bool> _isMatchPredicate;
 
-		protected readonly List<IEditorProvider> _editors = new List<IEditorProvider>();
+		protected readonly Dictionary<int, IEnumerable<IEditorProvider>> _editors =
+			new Dictionary<int, IEnumerable<IEditorProvider>>();
 
 		public string Name { get; private set; }
 		public virtual string TypeDescription { get; protected set; }
@@ -59,14 +60,27 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
+		public virtual IEnumerable<IEditorProvider> GetEditorProviders(int hashCode, ComponentFile file)
 		{
-			if (_editors.Count == 0)
-				_editors.Add(new DiagnosticsFileInfoControl(file));
+			IEnumerable<IEditorProvider> editorList;
+			if (!_editors.TryGetValue(hashCode, out editorList))
+			{
+				editorList = new List<IEditorProvider>(GetNewSetOfEditorProviders(file));
+				_editors[hashCode] = editorList;
+			}
 			else
-				_editors[0].SetComponentFile(file);
+			{
+				foreach (var editor in editorList)
+					editor.SetComponentFile(file);
+			}
 
-			return _editors;
+			return editorList;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
+		{
+			yield return new DiagnosticsFileInfoControl(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -136,25 +150,15 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
+		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			if (_editors.Count > 0)
-			{
-				foreach (var editor in _editors)
-					editor.SetComponentFile(file);
-			}
-			else
-			{
-				var text = LocalizationManager.LocalizeString("PersonInfoEditor.PersonTabText", "Person");
-				_editors.Add(_personBasicEditorFactoryLazy()(file, text, "Person"));
+			var text = LocalizationManager.LocalizeString("PersonInfoEditor.PersonTabText", "Person");
+			yield return _personBasicEditorFactoryLazy()(file, text, "Person");
 
-				text = LocalizationManager.LocalizeString("PersonInfoEditor.NotesTabText", "Notes");
-				_editors.Add(new NotesEditor(file, text, "Notes"));
+			text = LocalizationManager.LocalizeString("PersonInfoEditor.NotesTabText", "Notes");
+			yield return new NotesEditor(file, text, "Notes");
 
-				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-			}
-
-			return _editors;
+			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -202,25 +206,15 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
+		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			if (_editors.Count > 0)
-			{
-				foreach (var editor in _editors)
-					editor.SetComponentFile(file);
-			}
-			else
-			{
-				var text = LocalizationManager.LocalizeString("SessionInfoEditor.SessionTabText", "Session");
-				_editors.Add(_sessionBasicEditorFactoryLazy()(file, text, "Session"));
+			var text = LocalizationManager.LocalizeString("SessionInfoEditor.SessionTabText", "Session");
+			yield return _sessionBasicEditorFactoryLazy()(file, text, "Session");
 
-				text = LocalizationManager.LocalizeString("SessionInfoEditor.NotesTabText", "Notes");
-				_editors.Add(new NotesEditor(file, text, "Notes"));
+			text = LocalizationManager.LocalizeString("SessionInfoEditor.NotesTabText", "Notes");
+			yield return new NotesEditor(file, text, "Notes");
 
-				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-			}
-
-			return _editors;
+			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -275,28 +269,18 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
+		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			if (_editors.Count > 0)
-			{
-				foreach (var editor in _editors)
-					editor.SetComponentFile(file);
-			}
-			else
-			{
-				var text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PlaybackTabText", "Audio");
-				_editors.Add(new AudioVideoPlayer(file, text, "Audio"));
+			var text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PlaybackTabText", "Audio");
+			yield return new AudioVideoPlayer(file, text, "Audio");
 
-				text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
-				_editors.Add(_audioComponentEditorFactoryLazy()(file, text, null));
+			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
+			yield return _audioComponentEditorFactoryLazy()(file, text, null);
 
-				text = LocalizationManager.LocalizeString("AudioFileInfoEditor.NotesTabText", "Notes");
-				_editors.Add(new NotesEditor(file, text, "Notes"));
+			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.NotesTabText", "Notes");
+			yield return new NotesEditor(file, text, "Notes");
 
-				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-			}
-
-			return _editors;
+			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -335,28 +319,19 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
+		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			if (_editors.Count > 0)
-			{
-				foreach (var editor in _editors)
-					editor.SetComponentFile(file);
-			}
-			else
-			{
-				var text = LocalizationManager.LocalizeString("VideoFileInfoEditor.PlaybackTabText", "Video");
-				_editors.Add(new AudioVideoPlayer(file, text, "Video"));
+			var text = LocalizationManager.LocalizeString("VideoFileInfoEditor.PlaybackTabText", "Video");
+			yield return new AudioVideoPlayer(file, text, "Video");
 
-				text = LocalizationManager.LocalizeString("VideoFileInfoEditor.PropertiesTabText", "Properties");
-				_editors.Add(_videoComponentEditorFactoryLazy()(file, text, null));
+			text = LocalizationManager.LocalizeString("VideoFileInfoEditor.PropertiesTabText", "Properties");
+			yield return _videoComponentEditorFactoryLazy()(file, text, null);
 
-				text = LocalizationManager.LocalizeString("VideoFileInfoEditor.NotesTabText", "Notes");
-				_editors.Add(new NotesEditor(file, text, "Notes"));
+			text = LocalizationManager.LocalizeString("VideoFileInfoEditor.NotesTabText", "Notes");
+			yield return new NotesEditor(file, text, "Notes");
 
-				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-			}
+			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 
-			return _editors;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -387,28 +362,18 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
+		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			if (_editors.Count > 0)
-			{
-				foreach (var editor in _editors)
-					editor.SetComponentFile(file);
-			}
-			else
-			{
-				var text = LocalizationManager.LocalizeString("ImageFileInfoEditor.ViewTabText", "Image");
-				_editors.Add(new ImageViewer(file, text, "Image"));
+			var text = LocalizationManager.LocalizeString("ImageFileInfoEditor.ViewTabText", "Image");
+			yield return new ImageViewer(file, text, "Image");
 
-				text = LocalizationManager.LocalizeString("ImageFileInfoEditor.PropertiesTabText", "Properties");
-				_editors.Add(_basicFieldGridEditorFactoryLazy()(file, text, null));
+			text = LocalizationManager.LocalizeString("ImageFileInfoEditor.PropertiesTabText", "Properties");
+			yield return _basicFieldGridEditorFactoryLazy()(file, text, null);
 
-				text = LocalizationManager.LocalizeString("ImageFileInfoEditor.NotesTabText", "Notes");
-				_editors.Add(new NotesEditor(file, text, "Notes"));
+			text = LocalizationManager.LocalizeString("ImageFileInfoEditor.NotesTabText", "Notes");
+			yield return new NotesEditor(file, text, "Notes");
 
-				//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-			}
-
-			return _editors;
+			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 		}
 
 		/// ------------------------------------------------------------------------------------

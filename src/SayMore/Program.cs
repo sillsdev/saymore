@@ -40,10 +40,10 @@ namespace SayMore
 			SetUpErrorHandling();
 
 			var args = Environment.GetCommandLineArgs();
-			var firstTimeArg = args.FirstOrDefault(x => x.ToLower().StartsWith("-f:"));
+			var firstTimeArg = args.FirstOrDefault(x => x.ToLower().StartsWith("-i"));
 			if (firstTimeArg != null)
 			{
-				using (var dlg = new FirstTimeRunDialog(firstTimeArg.Substring(3)))
+				using (var dlg = new FirstTimeRunDialog("put filename here"))
 					dlg.ShowDialog();
 			}
 

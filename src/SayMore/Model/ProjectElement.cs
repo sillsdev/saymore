@@ -245,14 +245,10 @@ namespace SayMore.Model
 
 				// for now, at least check for the very common situation where the rename of the
 				// directory itself will fail, and find that out *before* we do the file renamings
-				try
-				{
-					Directory.Move(FolderPath, FolderPath + "Renaming");
-					Directory.Move(FolderPath + "Renaming", FolderPath);
-				}
-				catch
+				if (!CanPerformRename())
 				{
 					failureMessage = "Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.";
+					return false;
 				}
 
 				foreach (var file in Directory.GetFiles(FolderPath))
@@ -278,6 +274,40 @@ namespace SayMore.Model
 			Save();
 
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Spends no more than 5 seconds waiting to see if an Id can safely be renamed. The
+		/// purpose of waiting 5 seconds is because after a user has played a media file,
+		/// there is a lag between when playing stops and when the player releases all the
+		/// resources. That may leave a lock on the folder containing the media file.
+		/// Therefore, if the user tries to rename their session or person right after
+		/// playing a media file, there's a risk that it will fail due to the lock not
+		/// yet having been released. (I know, it's a bit of a kludge, but my thought is
+		/// that the scenario is not very common.)
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool CanPerformRename()
+		{
+			var timeoutTime = DateTime.Now.AddSeconds(5.0);
+
+			while (DateTime.Now < timeoutTime)
+			{
+				try
+				{
+					// for now, at least check for the very common situation where the rename of the
+					// directory itself will fail, and find that out *before* we do the file renamings
+
+					// TODO: The background processes should be suspended for this rename test.
+					Directory.Move(FolderPath, FolderPath + "Renaming");
+					Directory.Move(FolderPath + "Renaming", FolderPath);
+					return true;
+				}
+				catch { }
+			}
+
+			return false;
 		}
 	}
 }

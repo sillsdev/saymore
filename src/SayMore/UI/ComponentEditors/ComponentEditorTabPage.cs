@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.
-//
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright>
-#endregion
-//
-// File: ComponentEditorTabPage.cs
-// Responsibility: D. Olson
-//
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -88,18 +72,5 @@ namespace SayMore.UI.ComponentEditors
 			Controls.Add(control);
 			ImageKey = EditorProvider.ImageKey;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Disposes of the EditorProvider contained on the tab page if it's for an audio
-		///// or video player. The Windows media player tends to hold onto files and folders
-		///// otherwise. (cf. SP-60).
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public void DestroyAudioVideoProvider()
-		//{
-		//    if (Controls.Count > 0 && Controls[0] is AudioVideoPlayer)
-		//        Controls[0].Dispose();
-		//}
 	}
 }

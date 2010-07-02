@@ -48,18 +48,13 @@ namespace SayMore.UI.ComponentEditors
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void HandleComponentFileChanged()
 		{
-			// Setting the row count to 1 first, fixes a painting glitch. argh!
-			//Utils.SetWindowRedraw(this, false);
-			//RowCount = 1;
-
 			var saveAdjustHeightToFitRows = _adjustHeightToFitRows;
 			_adjustHeightToFitRows = false;
 			RowCount = _model.RowData.Count + 1;
 			CurrentCell = this[0, 0];
-			//Utils.SetWindowRedraw(this, true);
-			//Invalidate();
 			_adjustHeightToFitRows = saveAdjustHeightToFitRows;
 
 			if (_adjustHeightToFitRows)

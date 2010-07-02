@@ -138,6 +138,8 @@ namespace SayMore.UI.ComponentEditors
 			if (!_boundControls.Contains(ctrl))
 				_boundControls.Add(ctrl);
 
+			ctrl.Disposed -= HandleDisposed;
+			ctrl.Validating -= HandleValidatingControl;
 			UpdateControlValueFromField(ctrl);
 			ctrl.Validating += HandleValidatingControl;
 			ctrl.Disposed += HandleDisposed;
@@ -224,18 +226,21 @@ namespace SayMore.UI.ComponentEditors
 
 			string newValue = null;
 			var gotNewValueFromDelegate = (GetBoundControlValue != null &&
-				!GetBoundControlValue(this, ctrl, out newValue));
+				GetBoundControlValue(this, ctrl, out newValue));
+
+			if (!gotNewValueFromDelegate)
+				newValue = ctrl.Text.Trim();
 
 			// Don't bother doing anything if the old value is the same as the new value.
 			var oldValue = _file.GetStringValue(key, null);
-			if (oldValue != null && oldValue == ctrl.Text.Trim())
+			if (oldValue != null && oldValue == newValue)
 				return;
 
 			string failureMessage;
 
 			newValue = (_componentFileIdControl == ctrl ?
-				_file.TryChangeChangeId(ctrl.Text.Trim(), out failureMessage) :
-				_file.SetValue(key, (newValue ?? ctrl.Text.Trim()), out failureMessage));
+				_file.TryChangeChangeId(newValue, out failureMessage) :
+				_file.SetValue(key, newValue, out failureMessage));
 
 			if (!gotNewValueFromDelegate)
 				ctrl.Text = newValue;

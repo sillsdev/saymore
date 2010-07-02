@@ -61,10 +61,9 @@ namespace SayMore.UI.ComponentEditors
 			yield return "Recordist";
 			yield return "Device";
 			yield return "Microphone";
-			yield return "Channel";
+			yield return "Channels";
 			yield return "Bit_Depth";
 			yield return "Sample_Rate";
-			yield return "Analog_Gain";
 			yield return "notes";
 		}
 

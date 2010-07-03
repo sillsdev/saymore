@@ -227,6 +227,9 @@
     <Compile Include="UI\LowLevelControls\ParentButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\LowLevelControls\UnderlinedHdgBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\LowLevelControls\VisuallyDynamicTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -343,9 +346,6 @@
     </Compile>
     <Compile Include="UI\LowLevelControls\ElementBar.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\LowLevelControls\UnderlinedHdgBox.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

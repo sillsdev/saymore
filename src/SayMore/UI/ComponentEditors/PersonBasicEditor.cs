@@ -292,7 +292,38 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleIdEnter(object sender, EventArgs e)
 		{
 			// Makes sure the id's label is also visible when the id field gains focus.
-			ScrollControlIntoView(_labelFullName);
+			AutoScrollPosition = new Point(0, 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void _tblLayoutOuter_Paint(object sender, PaintEventArgs e)
+		{
+			DrawUnderlineBelowLabel(e.Graphics, _labelPrimaryLanguage);
+			DrawUnderlineBelowLabel(e.Graphics, _labelOtherLanguages);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawUnderlineBelowLabel(Graphics g, Control lbl)
+		{
+			var col = _tblLayoutOuter.GetColumn(lbl);
+			var span = _tblLayoutOuter.GetColumnSpan(lbl);
+
+			var widths = _tblLayoutOuter.GetColumnWidths();
+
+			var lineWidth = 0;
+			for (int i = col; i < col + span; i++)
+				lineWidth += widths[i];
+
+			lineWidth -= lbl.Margin.Right;
+			lineWidth -= _pbPrimaryLangMother.Margin.Right;
+
+			using (Pen pen = new Pen(SystemColors.ControlDark, 1))
+			{
+				pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
+				var pt1 = new Point(lbl.Left, lbl.Bottom + 1);
+				var pt2 = new Point(lbl.Left + lineWidth, lbl.Bottom + 1);
+				g.DrawLine(pen, pt1, pt2);
+			}
 		}
 	}
 }

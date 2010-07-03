@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model.Fields;
@@ -104,7 +105,7 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleIdEnter(object sender, EventArgs e)
 		{
 			// Makes sure the id's label is also visible when the id field gains focus.
-			ScrollControlIntoView(_labelId);
+			AutoScrollPosition = new Point(0, 0);
 		}
 	}
 }

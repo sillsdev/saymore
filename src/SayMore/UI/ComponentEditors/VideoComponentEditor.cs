@@ -54,22 +54,6 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override IEnumerable<string> AllDefaultFieldIds
-		{
-			get
-			{
-				yield return "Recordist";
-				yield return "Device";
-				yield return "Microphone";
-				yield return "Channels";
-				yield return "Bit_Depth";
-				yield return "Sample_Rate";
-				yield return "Resolution";
-				yield return "notes";
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private IEnumerable<string> GetDefaultFieldIdsToDisplayInGrid()
 		{
 			// Show all but the notes field in the grid.

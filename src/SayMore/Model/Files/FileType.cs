@@ -105,6 +105,11 @@ namespace SayMore.Model.Files
 			get { return false; }
 		}
 
+		public virtual IEnumerable<string> DefaultFields
+		{
+			get { return new List<string>(); }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
@@ -141,6 +146,40 @@ namespace SayMore.Model.Files
 		public override string GetMetaFilePath(string pathToAnnotatedFile)
 		{
 			return pathToAnnotatedFile; //we are our own metadata file, there is no sidecar
+		}
+
+		/// <summary>
+		/// These are fields which are always available for files of this type
+		/// </summary>
+		public override IEnumerable<string> DefaultFields
+		{
+			get
+			{
+				yield return "id";
+				yield return "primaryLanguage";
+				yield return "primaryLanguageLearnedIn";
+				yield return "otherLanguage0";
+				yield return "otherLanguage1";
+				yield return "otherLanguage2";
+				yield return "otherLanguage3";
+				yield return "fathersLanguage";
+				yield return "mothersLanguage";
+				yield return "pbOtherLangFather0";
+				yield return "pbOtherLangFather1";
+				yield return "pbOtherLangFather2";
+				yield return "pbOtherLangFather3";
+				yield return "pbOtherLangMother0";
+				yield return "pbOtherLangMother3";
+				yield return "pbOtherLangMother2";
+				yield return "pbOtherLangMother1";
+				yield return "birthYear";
+				yield return "gender";
+				yield return "howToContact";
+				yield return "education";
+				yield return "primaryOccupation";
+				yield return "picture";
+				yield return "notes";
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,6 +244,26 @@ namespace SayMore.Model.Files
 			get { return "SessionCustomFieldsGrid"; }
 		}
 
+		/// <summary>
+		/// These are fields which are always available for files of this type
+		/// </summary>
+		public override IEnumerable<string> DefaultFields
+		{
+			get
+			{
+				yield return "date";
+				yield return "synopsis";
+				yield return "access";
+				yield return "location";
+				yield return "setting";
+				yield return "situation";
+				yield return "eventType";
+				yield return "participants";
+				yield return "title";
+				yield return "notes";
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
@@ -262,6 +321,24 @@ namespace SayMore.Model.Files
 			get { return true; }
 		}
 
+		/// <summary>
+		/// These are fields which are always available for files of this type
+		/// </summary>
+		public override IEnumerable<string> DefaultFields
+		{
+			get
+			{
+				yield return "Recordist";
+				yield return "Device";
+				yield return "Microphone";
+				yield return "Duration";
+				yield return "Channels";
+				yield return "Bit_Depth";
+				yield return "Sample_Rate";
+				yield return "notes";
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public override string FieldsGridSettingsName
 		{
@@ -310,6 +387,26 @@ namespace SayMore.Model.Files
 		public override bool IsAudioOrVideo
 		{
 			get { return true; }
+		}
+
+		/// <summary>
+		/// These are fields which are always available for files of this type
+		/// </summary>
+		public override IEnumerable<string> DefaultFields
+		{
+			get
+			{
+				yield return "Recordist";
+				yield return "Device";
+				yield return "Microphone";
+				yield return "Duration";
+				yield return "Channels";
+				yield return "Bit_Depth";
+				yield return "Sample_Rate";
+				yield return "Resolution";
+				yield return "Frame_Rate";
+				yield return "notes";
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

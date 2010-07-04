@@ -62,25 +62,6 @@ namespace SayMore.UI.ComponentEditors
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file, _customFieldIds);
 		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override IEnumerable<string> AllDefaultFieldIds
-		{
-			get
-			{
-				yield return "date";
-				yield return "synopsis";
-				yield return "access";
-				yield return "location";
-				yield return "setting";
-				yield return "situation";
-				yield return "eventType";
-				yield return "participants";
-				yield return "title";
-				yield return "notes";
-			}
-		}
-
 		/// ------------------------------------------------------------------------------------
 		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
 		{

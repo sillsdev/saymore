@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Palaso.Code;
+using Palaso.Media;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
@@ -167,8 +168,60 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetStringValue(string key, string defaultValue)
 		{
+			switch(key)
+			{
+				case "Duration":
+					return GetStat(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).Duration, "");
+				case "Sample_Rate":
+					return GetStat(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).SamplesPerSecond, "Hz");
+				case "Bit_Depth":
+					return GetStat(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).BitDepth, "bits");
+				case "Channels":
+					var channels = GetIntStat(info => info.Audio, audio => ((MediaInfo.AudioInfo) audio).ChannelCount, -1);
+					switch (channels)
+					{
+						case -1: return string.Empty;
+						case 0: return string.Empty;
+						case 1: return "mono";
+						case 2: return "stereo";
+						default:
+							return channels.ToString();
+					}
+				case "Resolution":
+					return GetStat(info=>info.Video, video=>((MediaInfo.VideoInfo)video).Resolution, "");
+				case "Frame_Rate":
+					return GetStat(info=>info.Video, video=>((MediaInfo.VideoInfo)video).FramesPerSecond, "frames/second");
+				default:
+					break;
+			}
 			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
 			return (field == null ? defaultValue : field.Value);
+		}
+
+		private string GetStat(Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser, string suffix)
+		{
+				if (_statisticsProvider == null)
+					return string.Empty;
+
+				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
+				if (stats == null || stats.MediaInfo == null || dataSetChooser(stats.MediaInfo) == null )
+				{
+					return string.Empty;
+				}
+			return dataItemChooser(dataSetChooser(stats.MediaInfo)) + " " + suffix;
+		}
+
+		private int GetIntStat(Func<MediaInfo, object> dataSetChooser, Func<object, int> dataItemChooser, int defaultValue)
+		{
+			if (_statisticsProvider == null)
+				return defaultValue;
+
+			var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
+			if (stats == null || stats.MediaInfo == null || dataSetChooser(stats.MediaInfo) == null)
+			{
+				return defaultValue;
+			}
+			return dataItemChooser(dataSetChooser(stats.MediaInfo));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -71,6 +71,13 @@ namespace SayMore.UI.ComponentEditors
 			ImageKey = imageKey;
 		}
 
+		protected virtual IEnumerable<string> AllDefaultFieldIds
+		{
+			get
+			{
+				return _file.FileType.DefaultFields;
+			}
+		}
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetComponentFile(ComponentFile file)
 		{
@@ -132,10 +139,5 @@ namespace SayMore.UI.ComponentEditors
 			// the editor will probably be used again. This could probably use a better name.
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected virtual IEnumerable<string> AllDefaultFieldIds
-		{
-			get { return new List<string>(0); }
-		}
 	}
 }

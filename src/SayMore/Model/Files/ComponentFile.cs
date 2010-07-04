@@ -103,8 +103,15 @@ namespace SayMore.Model.Files
 					return string.Empty;
 
 				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
-				return (stats == null || stats.Duration == default(TimeSpan) ?
-					string.Empty : stats.Duration.ToString());
+				if (stats == null || stats.Duration == default(TimeSpan) )
+				{
+					return string.Empty;
+				}
+
+				//trim off the milliseconds so it doesn't get too geeky
+				return new TimeSpan(stats.Duration.Hours,
+					stats.Duration.Minutes,
+					stats.Duration.Seconds).ToString();
 			}
 		}
 

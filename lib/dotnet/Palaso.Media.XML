@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<doc>
+	<assembly>
+		<name>Palaso.Media</name>
+	</assembly>
+	<members>
+		<member name="F:Palaso.Media.SoundFieldControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.Media.SoundFieldControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.Media.SoundFieldControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.Media.ShortSoundFieldControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.Media.ShortSoundFieldControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.Media.ShortSoundFieldControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.Media.Properties.Resources">
+			<summary>
+			  A strongly-typed resource class, for looking up localized strings, etc.
+			</summary>
+		</member>
+		<member name="P:Palaso.Media.Properties.Resources.ResourceManager">
+			<summary>
+			  Returns the cached ResourceManager instance used by this class.
+			</summary>
+		</member>
+		<member name="P:Palaso.Media.Properties.Resources.Culture">
+			<summary>
+			  Overrides the current thread's CurrentUICulture property for all
+			  resource lookups using this strongly typed resource class.
+			</summary>
+		</member>
+		<member name="M:Palaso.Media.AudioIrrKlangSession.MakeTempCopyIfNeededBecauseOfUnicode(System.String,System.String@)">
+			<summary>
+			this version of irrklang can't play if there's non-latin in there
+			see http://www.ambiera.com/forum.php?t=601
+			</summary>
+			<returns>true if you need to use the provided temp file</returns>
+		</member>
+		<member name="T:Palaso.Media.MediaInfo">
+			<summary>
+			This class uses ffmpeg to gather information about media streams
+			</summary>
+		</member>
+		<member name="M:Palaso.Media.MediaInfo.GetDuration(System.String)">
+			<summary>
+			used by both audio and video, so it lives up here
+			</summary>
+		</member>
+		<member name="P:Palaso.Media.MediaInfo.HaveNecessaryComponents">
+			<summary>
+			 Returns false if it can't find ffmpeg
+			</summary>
+		</member>
+	</members>
+</doc>

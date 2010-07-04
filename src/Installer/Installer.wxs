@@ -106,6 +106,9 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 		  <Component Id="PalasoUIWindowsForms.dll" Guid="{47046B6E-668C-4a4d-A866-719922C142B5}">
 			<File Id="PalasoUIWindowsForms.dll" Name="PalasoUIWindowsForms.dll" KeyPath="yes" Source="..\..\output\release\PalasoUIWindowsForms.dll" />
 		  </Component>
+		  <Component Id="Palaso.Media.dll" Guid="{742F2F76-3978-4d83-BC98-C7585B6F69D8}">
+			<File Id="Palaso.Media.dll" Name="Palaso.Media.dll" KeyPath="yes" Source="..\..\output\release\Palaso.Media.dll" />
+		  </Component>
 		  <Component Id="SayMore.exe.config" Guid="{ECCD0940-AC00-4f18-91DD-5223878373BB}">
 					<File Id="SayMore.exe.config" Name="SayMore.exe.config" KeyPath="yes" Source="..\..\output\release\SayMore.exe.config" />
 		  </Component>
@@ -125,6 +128,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 	  <ComponentRef Id="Interop.WMPLib.dll"/>
 	  <ComponentRef Id="Palaso.dll"/>
 	  <ComponentRef Id="PalasoUIWindowsForms.dll" />
+	  <ComponentRef Id="Palaso.Media.dll" />
 	  <ComponentRef Id="SayMore.exe" />
 	  <ComponentRef Id="SayMore.exe.config" />
 

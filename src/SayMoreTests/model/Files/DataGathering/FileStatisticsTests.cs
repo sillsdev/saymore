@@ -24,7 +24,7 @@ namespace SayMoreTests.model.Files.DataGathering
 			{
 				var recording = CreateRecording(folder.Path);
 				var stats = new AudioVideoFileStatistics(recording);
-				Assert.AreEqual(new TimeSpan(0,0,0,1), stats.Duration);
+				Assert.AreEqual(1450, stats.Duration.TotalMilliseconds);
 			}
 		}
 

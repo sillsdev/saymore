@@ -20,6 +20,26 @@
 			Create a TempFile based on a pre-existing file, which will be deleted when this is disposed.
 			</summary>
 		</member>
+		<member name="M:Palaso.TestUtilities.TempFile.WithExtension(System.String)">
+			<summary>
+			Use this one when it's important to have a certain file extension
+			</summary>
+			<param name="extension">with or with out '.', will work the same</param>
+		</member>
+		<member name="M:Palaso.TestUtilities.TempFile.FromResource(System.IO.Stream,System.String)">
+			<summary>
+			Used to make a real file out of a resource for the purpose of testing
+			</summary>
+			<param name="resource">e.g., an audio resource</param>
+			<param name="extension">with or with out '.', will work the same</param>
+		</member>
+		<member name="M:Palaso.TestUtilities.TempFile.FromResource(System.Byte[],System.String)">
+			<summary>
+			Used to make a real file out of a resource for the purpose of testing
+			</summary>
+			<param name="resource">e.g., a video resource</param>
+			<param name="extension">with or with out '.', will work the same</param>
+		</member>
 		<member name="M:Palaso.TestUtilities.TempLiftFile.TrackExisting(System.String)">
 			<summary>
 			Create a TempLiftFile based on a pre-existing file, which will be deleted when this is disposed.

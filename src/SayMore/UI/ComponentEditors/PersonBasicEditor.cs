@@ -34,7 +34,7 @@ namespace SayMore.UI.ComponentEditors
 			Name = "Basic";
 			_binder.SetComponentFile(file);
 
-			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, GetAllDefaultFieldIds());
+			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, AllDefaultFieldIds);
 			InitializeGrid(autoCompleteProvider);
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
@@ -84,39 +84,42 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override IEnumerable<string> GetAllDefaultFieldIds()
+		protected override IEnumerable<string> AllDefaultFieldIds
 		{
-			yield return "id";
-			yield return "primaryLanguage";
-			yield return "primaryLanguageLearnedIn";
-			yield return "otherLanguage0";
-			yield return "otherLanguage1";
-			yield return "otherLanguage2";
-			yield return "otherLanguage3";
-			yield return "fathersLanguage";
-			yield return "mothersLanguage";
-			yield return "pbOtherLangFather0";
-			yield return "pbOtherLangFather1";
-			yield return "pbOtherLangFather2";
-			yield return "pbOtherLangFather3";
-			yield return "pbOtherLangMother0";
-			yield return "pbOtherLangMother3";
-			yield return "pbOtherLangMother2";
-			yield return "pbOtherLangMother1";
-			yield return "birthYear";
-			yield return "gender";
-			yield return "howToContact";
-			yield return "education";
-			yield return "primaryOccupation";
-			yield return "picture";
-			yield return "notes";
+			get
+			{
+				yield return "id";
+				yield return "primaryLanguage";
+				yield return "primaryLanguageLearnedIn";
+				yield return "otherLanguage0";
+				yield return "otherLanguage1";
+				yield return "otherLanguage2";
+				yield return "otherLanguage3";
+				yield return "fathersLanguage";
+				yield return "mothersLanguage";
+				yield return "pbOtherLangFather0";
+				yield return "pbOtherLangFather1";
+				yield return "pbOtherLangFather2";
+				yield return "pbOtherLangFather3";
+				yield return "pbOtherLangMother0";
+				yield return "pbOtherLangMother3";
+				yield return "pbOtherLangMother2";
+				yield return "pbOtherLangMother1";
+				yield return "birthYear";
+				yield return "gender";
+				yield return "howToContact";
+				yield return "education";
+				yield return "primaryOccupation";
+				yield return "picture";
+				yield return "notes";
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
 		{
 			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
-				GetAllDefaultFieldIds());
+				AllDefaultFieldIds);
 		}
 
 		/// ------------------------------------------------------------------------------------

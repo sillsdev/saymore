@@ -24,7 +24,7 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "BasicFieldGridEditor";
 
-			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, GetAllDefaultFieldIds());
+			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, AllDefaultFieldIds);
 			InitializeGrid(autoCompleteProvider);
 
 			fieldGatherer.NewDataAvailable += HandleNewDataFieldsAvailable;
@@ -54,16 +54,16 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override IEnumerable<string> GetAllDefaultFieldIds()
+		protected override IEnumerable<string> AllDefaultFieldIds
 		{
-			yield return "notes";
+			get { yield return "notes"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<string> GetDefaultFieldIdsToDisplayInGrid()
 		{
 			// Show all but the notes field in the grid.
-			return from id in GetAllDefaultFieldIds()
+			return from id in AllDefaultFieldIds
 				   where id != "notes"
 				   select id;
 		}
@@ -72,7 +72,7 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
 		{
 			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
-				GetAllDefaultFieldIds());
+				AllDefaultFieldIds);
 		}
 	}
 }

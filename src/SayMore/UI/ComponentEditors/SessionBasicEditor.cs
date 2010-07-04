@@ -26,7 +26,7 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "SessionBasicEditor";
 
-			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, GetAllDefaultFieldIds());
+			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, AllDefaultFieldIds);
 			InitializeGrid(autoCompleteProvider);
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
@@ -64,25 +64,28 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override IEnumerable<string> GetAllDefaultFieldIds()
+		protected override IEnumerable<string> AllDefaultFieldIds
 		{
-			yield return "date";
-			yield return "synopsis";
-			yield return "access";
-			yield return "location";
-			yield return "setting";
-			yield return "situation";
-			yield return "eventType";
-			yield return "participants";
-			yield return "title";
-			yield return "notes";
+			get
+			{
+				yield return "date";
+				yield return "synopsis";
+				yield return "access";
+				yield return "location";
+				yield return "setting";
+				yield return "situation";
+				yield return "eventType";
+				yield return "participants";
+				yield return "title";
+				yield return "notes";
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
 		{
 			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
-				GetAllDefaultFieldIds());
+				AllDefaultFieldIds);
 		}
 
 		/// ------------------------------------------------------------------------------------

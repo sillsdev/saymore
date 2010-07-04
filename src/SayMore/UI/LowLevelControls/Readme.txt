@@ -1,1 +1,1 @@
-Things in the namespace should have no depenencies in the rest of sponge.
+Things in the namespace should have no depenencies in the rest of SayMore.

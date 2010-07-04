@@ -133,9 +133,9 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual IEnumerable<string> GetAllDefaultFieldIds()
+		protected virtual IEnumerable<string> AllDefaultFieldIds
 		{
-			return new List<string>(0);
+			get { return new List<string>(0); }
 		}
 	}
 }

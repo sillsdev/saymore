@@ -66,6 +66,11 @@
 			This class uses ffmpeg to gather information about media streams
 			</summary>
 		</member>
+		<member name="F:Palaso.Media.MediaInfo.RawData">
+			<summary>
+			The actual ffmpeg output
+			</summary>
+		</member>
 		<member name="M:Palaso.Media.MediaInfo.GetDuration(System.String)">
 			<summary>
 			used by both audio and video, so it lives up here

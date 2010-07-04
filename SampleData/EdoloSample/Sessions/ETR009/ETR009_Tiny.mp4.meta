@@ -3,10 +3,6 @@
   <Recordist type="string">Hatton</Recordist>
   <Device type="string">Zoom Q3</Device>
   <Microphone type="string">Built-in</Microphone>
-  <Channels type="string">2</Channels>
-  <Bit_Depth type="string">16</Bit_Depth>
-  <Resolution type="string">176x144</Resolution>
-  <Sample_Rate type="string">44.1khz</Sample_Rate>
   <fps type="string">30</fps>
   <notes type="string">This was downgraded to small picture and low bit-rate mp3 to keep the SayMore installer from getting huge.</notes>
 </MetaData>

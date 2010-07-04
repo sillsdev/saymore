@@ -74,9 +74,9 @@ namespace SayMore.UI.ComponentEditors
 		{
 			foreach (var id in fieldIdsToDisplay)
 			{
-				var fieldValue = (_file.MetaDataFieldValues.Find(x => x.FieldId == id) ??
-					new FieldValue(id, string.Empty));
-
+//				var fieldValue = (_file.MetaDataFieldValues.Find(x => x.FieldId == id) ??
+//					new FieldValue(id, string.Empty));
+				var fieldValue = new FieldValue(id, _file.GetStringValue(id, string.Empty));
 				// Each row in the cache is a key/value pair. The key is the FieldValue object
 				// and the value is a boolean indicating whether or not the field is custom.
 				RowData.Add(new KeyValuePair<FieldValue, bool>(fieldValue.CreateCopy(), areCustom));

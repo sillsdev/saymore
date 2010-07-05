@@ -435,12 +435,7 @@ namespace SayMore.Model.Fields
 		/// </summary>
 		public bool IsCustom { get; set; }
 
-		public bool ShowInPropertiesGrid {
-			get
-			{
-				return Key != "notes";
-			}
-		}
+
 
 		#endregion
 

@@ -16,7 +16,6 @@ namespace SayMore.UI.ComponentEditors
 
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
-		private IEnumerable<string> _customFieldIds;
 
 		/// ------------------------------------------------------------------------------------
 		public SessionBasicEditor(ComponentFile file, string tabText, string imageKey,
@@ -26,11 +25,9 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "SessionBasicEditor";
 
-			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, AllFactoryFieldIds);
-			InitializeGrid(autoCompleteProvider);
+			InitializeGrid(autoCompleteProvider,fieldGatherer);
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
-			fieldGatherer.NewDataAvailable += HandleNewDataFieldsAvailable;
 
 			if (DiscourseType.AllTypes != null)
 			{
@@ -43,11 +40,12 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider)
+		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider, FieldGatherer fieldGatherer)
 		{
-			_gridViewModel = new FieldsValuesGridViewModel(_file, new List<FieldDefinition>(0),
-				_customFieldIds, autoCompleteProvider);
-
+			_gridViewModel = new FieldsValuesGridViewModel(_file, autoCompleteProvider,fieldGatherer )
+								{
+									FieldFilterFunction = key => _file.FileType.GetIsCustomFieldId(key)
+								};
 			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
 			_gridCustomFields.Dock = DockStyle.Top;
 			_panelGrid.AutoSize = true;
@@ -60,14 +58,9 @@ namespace SayMore.UI.ComponentEditors
 			base.SetComponentFile(file);
 
 			if (_gridViewModel != null)
-				_gridViewModel.SetComponentFile(file, _customFieldIds);
+				_gridViewModel.SetComponentFile(file);
 		}
-		/// ------------------------------------------------------------------------------------
-		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
-		{
-			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
-				AllFactoryFieldIds);
-		}
+
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

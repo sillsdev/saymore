@@ -1,9 +1,7 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
@@ -16,7 +14,6 @@ namespace SayMore.UI.ComponentEditors
 
 		private FieldsValuesGrid _grid;
 		private FieldsValuesGridViewModel _gridViewModel;
-		private IEnumerable<string> _customFieldIds;
 
 		/// ------------------------------------------------------------------------------------
 		public AudioComponentEditor(ComponentFile file, string tabText, string imageKey,
@@ -25,19 +22,13 @@ namespace SayMore.UI.ComponentEditors
 		{
 			InitializeComponent();
 			Name = "Audio File Information";
-
-			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, AllFactoryFieldIds);
-			InitializeGrid(autoCompleteProvider);
-
-			fieldGatherer.NewDataAvailable += HandleNewDataFieldsAvailable;
+			InitializeGrid(autoCompleteProvider, fieldGatherer);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider)
+		private void InitializeGrid(AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
 		{
-			_gridViewModel = new FieldsValuesGridViewModel(_file,
-				AllFactoryFields, _customFieldIds, autoCompleteProvider);
-
+			_gridViewModel = new FieldsValuesGridViewModel(_file, autoCompleteProvider, fieldGatherer);
 			_grid = new FieldsValuesGrid(_gridViewModel);
 			_grid.Dock = DockStyle.Fill;
 			_tableLayout.Controls.Add(_grid, 0, 1);
@@ -48,20 +39,7 @@ namespace SayMore.UI.ComponentEditors
 		public override void SetComponentFile(ComponentFile file)
 		{
 			base.SetComponentFile(file);
-
-			if (_gridViewModel != null)
-			{
-				_gridViewModel.SetComponentFile(file,
-					AllFactoryFields, _customFieldIds);
-			}
-		}
-
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
-		{
-			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
-				AllFactoryFieldIds);
+			_gridViewModel.SetComponentFile(file);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -62,7 +62,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public EditorBase(ComponentFile file, string tabText, string imageKey) : this()
 		{
-			SetComponentFile(file);
+			_file = file;
+			//dangerous SetComponentFile(file);
 			Initialize(tabText, imageKey);
 		}
 
@@ -73,20 +74,6 @@ namespace SayMore.UI.ComponentEditors
 			ImageKey = imageKey;
 		}
 
-		protected virtual IEnumerable<FieldDefinition> AllFactoryFields
-		{
-			get
-			{
-				return _file.FileType.FactoryFields;
-			}
-		}
-		protected  IEnumerable<string>AllFactoryFieldIds
-		{
-			get
-			{
-				return from field in _file.FileType.FactoryFields select field.Key;
-			}
-		}
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetComponentFile(ComponentFile file)
 		{

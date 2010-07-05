@@ -15,7 +15,6 @@ namespace SayMore.UI.ComponentEditors
 
 		private FieldsValuesGrid _grid;
 		private FieldsValuesGridViewModel _gridViewModel;
-		private IEnumerable<string> _customFieldIds;
 
 		/// ------------------------------------------------------------------------------------
 		public BasicFieldGridEditor(ComponentFile file, string tabText, string imageKey,
@@ -24,18 +23,13 @@ namespace SayMore.UI.ComponentEditors
 		{
 			InitializeComponent();
 			Name = "BasicFieldGridEditor";
-
-			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, AllFactoryFieldIds);
-			InitializeGrid(autoCompleteProvider);
-
-			fieldGatherer.NewDataAvailable += HandleNewDataFieldsAvailable;
+			InitializeGrid(autoCompleteProvider,fieldGatherer);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider)
+		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider, FieldGatherer fieldGatherer)
 		{
-			_gridViewModel = new FieldsValuesGridViewModel(_file,
-				AllFactoryFields, _customFieldIds, autoCompleteProvider);
+			_gridViewModel = new FieldsValuesGridViewModel(_file,autoCompleteProvider,fieldGatherer);
 
 			_grid = new FieldsValuesGrid(_gridViewModel);
 			_grid.Dock = DockStyle.Fill;
@@ -49,23 +43,8 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_gridViewModel != null)
 			{
-				_gridViewModel.SetComponentFile(file,
-					AllFactoryFields, _customFieldIds);
+				_gridViewModel.SetComponentFile(file);
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override IEnumerable<FieldDefinition> AllFactoryFields
-		{
-			get { yield break; }
-		}
-
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
-		{
-			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
-				AllFactoryFieldIds);
 		}
 	}
 }

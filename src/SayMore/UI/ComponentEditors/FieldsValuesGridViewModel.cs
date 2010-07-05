@@ -15,6 +15,7 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public class FieldsValuesGridViewModel
 	{
+		private readonly FieldGatherer _fieldGatherer;
 		private ComponentFile _file;
 
 		public Action ComponentFileChanged;
@@ -23,44 +24,30 @@ namespace SayMore.UI.ComponentEditors
 		private Dictionary<string, IEnumerable<string>> _autoCompleteLists = new Dictionary<string,IEnumerable<string>>();
 		private readonly IMultiListDataProvider _autoCompleteProvider;
 
-		/// ------------------------------------------------------------------------------------
-		public FieldsValuesGridViewModel(ComponentFile file,
-			IEnumerable<string> customFieldIdsToDisplay)
-			: this(file, new List<FieldDefinition>(0), customFieldIdsToDisplay, null)
-		{
-		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldsValuesGridViewModel(ComponentFile file,
-			IEnumerable<FieldDefinition> defaultFieldIdsToDisplay, IEnumerable<string> customFieldIdsToDisplay,
-			IMultiListDataProvider autoCompleteProvider)
+		public FieldsValuesGridViewModel(ComponentFile file,IMultiListDataProvider autoCompleteProvider,
+			FieldGatherer fieldGatherer)
 		{
+			_fieldGatherer = fieldGatherer;
+
 			if (autoCompleteProvider != null)
 			{
 				_autoCompleteProvider = autoCompleteProvider;
 				_autoCompleteProvider.NewDataAvailable += HandleNewAutoCompleteDataAvailable;
 				_autoCompleteLists = _autoCompleteProvider.GetValueLists();
 			}
-
-			SetComponentFile(file, defaultFieldIdsToDisplay, customFieldIdsToDisplay);
+			SetComponentFile(file);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public void SetComponentFile(ComponentFile file, IEnumerable<string> customFieldIdsToDisplay)
-		{
-			SetComponentFile(file, new List<FieldDefinition>(0), customFieldIdsToDisplay);
-		}
+		public Func<string, bool> FieldFilterFunction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public void SetComponentFile(ComponentFile file,
-			IEnumerable<FieldDefinition> defaultFieldIdsToDisplay, IEnumerable<string> customFieldIdsToDisplay)
+		public void SetComponentFile(ComponentFile file)
 		{
 			_file = file;
-
 			RowData = new List<KeyValuePair<FieldValue, bool>>();
-			LoadFields(defaultFieldIdsToDisplay);
-			//todo: this separate call could go away once we just have one list (with the elements describing themselves via FieldDefintion)
-			LoadFields(customFieldIdsToDisplay.Select(x=>new FieldDefinition(x,"string",new string[]{}){IsCustom=true}));
+			LoadFields();
 
 			if (ComponentFileChanged != null)
 				ComponentFileChanged();
@@ -71,11 +58,16 @@ namespace SayMore.UI.ComponentEditors
 		/// Load the field values into the model's data cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void LoadFields(IEnumerable<FieldDefinition> fieldsToDisplay)
+		public void LoadFields()
 		{
-			foreach (var field in fieldsToDisplay)
+			var factoryFields = _file.FileType.FactoryFields;
+			var fields = factoryFields.Union(_fieldGatherer.GetAllFieldsForFileType(_file.FileType).Where(f => !factoryFields.Any(e => e.Key == f.Key)));
+			foreach (var field in fields)
 			{
-				if(!field.ShowInPropertiesGrid )
+				if (FieldFilterFunction!=null && !FieldFilterFunction(field.Key))
+					continue;
+
+				if (field.Key == "notes")
 					continue;
 
 				var fieldValue = new FieldValue(field.Key, _file.GetStringValue(field.Key, string.Empty));

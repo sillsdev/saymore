@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files.DataGathering
 {
@@ -55,23 +56,43 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<string> GetFieldsForType(FileType fileType,
-			IEnumerable<string> exclude)
+//		public virtual IEnumerable<FieldDefinition> GetCustomFieldsForFileType(FileType fileType)
+//		{
+//			var type = fileType.GetType();
+//
+//			var fieldsForType = new List<FieldDefinition>();
+//
+			// Go through all the lists of fields found for the specified file type
+			// and create a single list of unique field names for that file type.
+//			foreach (var listofKeys in from fileTypeFields in _fileToDataDictionary.Values
+//										where fileTypeFields.FileType == type
+//										select fileTypeFields.FieldKeys)
+//			{
+//				foreach (var key in listofKeys.Where(x=>fileType.GetIsCustomFieldId(x)))
+//				{
+//					if (!fieldsForType.Any(f=>f.Key==key))
+//						fieldsForType.Add(new FieldDefinition(key,"string",new string[]{}){IsCustom =true});
+//				}
+//			}
+//
+//			return fieldsForType;
+//		}
+		public virtual IEnumerable<FieldDefinition> GetAllFieldsForFileType(FileType fileType)
 		{
 			var type = fileType.GetType();
 
-			var fieldsForType = new List<string>();
+			var fieldsForType = new List<FieldDefinition>();
 
 			// Go through all the lists of fields found for the specified file type
 			// and create a single list of unique field names for that file type.
-			foreach (var listOfLists in from fileTypeFields in _fileToDataDictionary.Values
-										where fileTypeFields.FileType == type
-										select fileTypeFields.Fields)
+			foreach (var listofKeys in from fileTypeFields in _fileToDataDictionary.Values
+									   where fileTypeFields.FileType == type
+									   select fileTypeFields.FieldKeys)
 			{
-				foreach (var field in listOfLists.Except(exclude))
+				foreach (var key in listofKeys)
 				{
-					if (!fieldsForType.Contains(field))
-						fieldsForType.Add(field);
+					if (!fieldsForType.Any(f => f.Key == key))
+						fieldsForType.Add(new FieldDefinition(key, "string", new string[] { }) { IsCustom = fileType.GetIsCustomFieldId(key) });
 				}
 			}
 
@@ -85,7 +106,7 @@ namespace SayMore.Model.Files.DataGathering
 		public delegate FileTypeFields Factory(string path);
 
 		public Type FileType { get; private set; }
-		public IEnumerable<string> Fields { get; private set; }
+		public IEnumerable<string> FieldKeys { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public FileTypeFields(string path, ComponentFile.Factory componentFileFactory)
@@ -93,7 +114,7 @@ namespace SayMore.Model.Files.DataGathering
 			// As JohnH said in PresetData, this is "hacky" and he's right.
 			var file = componentFileFactory(path.Replace(".meta", string.Empty));
 			FileType = file.FileType.GetType();
-			Fields = file.MetaDataFieldValues.Select(field => field.FieldId);
+			FieldKeys = file.MetaDataFieldValues.Select(field => field.FieldId);
 		}
 	}
 }

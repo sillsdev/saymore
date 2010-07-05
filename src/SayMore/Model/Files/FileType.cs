@@ -122,6 +122,11 @@ namespace SayMore.Model.Files
 		{
 			return pathToAnnotatedFile + Settings.Default.MetadataFileExtension;
 		}
+
+		public bool GetIsCustomFieldId(string key)
+		{
+			return !FactoryFields.Any(f => f.Key == key);
+		}
 	}
 
 	#region PersonFileType class

@@ -430,6 +430,18 @@ namespace SayMore.Model.Fields
 		/// </summary>
 		public bool ReadOnly { get; set; }
 
+		/// <summary>
+		/// Is this a factory field or a custom one?
+		/// </summary>
+		public bool IsCustom { get; set; }
+
+		public bool ShowInPropertiesGrid {
+			get
+			{
+				return Key != "notes";
+			}
+		}
+
 		#endregion
 
 		#region Misc. methods

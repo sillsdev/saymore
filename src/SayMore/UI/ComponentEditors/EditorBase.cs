@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.UI.Utilities;
 
@@ -72,11 +73,18 @@ namespace SayMore.UI.ComponentEditors
 			ImageKey = imageKey;
 		}
 
-		protected virtual IEnumerable<string> AllDefaultFieldIds
+		protected virtual IEnumerable<FieldDefinition> AllFactoryFields
 		{
 			get
 			{
-				return from field in _file.FileType.DefaultFields select field.Key;
+				return _file.FileType.FactoryFields;
+			}
+		}
+		protected  IEnumerable<string>AllFactoryFieldIds
+		{
+			get
+			{
+				return from field in _file.FileType.FactoryFields select field.Key;
 			}
 		}
 		/// ------------------------------------------------------------------------------------

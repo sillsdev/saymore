@@ -26,13 +26,13 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGridViewModel(ComponentFile file,
 			IEnumerable<string> customFieldIdsToDisplay)
-			: this(file, new List<string>(0), customFieldIdsToDisplay, null)
+			: this(file, new List<FieldDefinition>(0), customFieldIdsToDisplay, null)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGridViewModel(ComponentFile file,
-			IEnumerable<string> defaultFieldIdsToDisplay, IEnumerable<string> customFieldIdsToDisplay,
+			IEnumerable<FieldDefinition> defaultFieldIdsToDisplay, IEnumerable<string> customFieldIdsToDisplay,
 			IMultiListDataProvider autoCompleteProvider)
 		{
 			if (autoCompleteProvider != null)
@@ -48,18 +48,19 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void SetComponentFile(ComponentFile file, IEnumerable<string> customFieldIdsToDisplay)
 		{
-			SetComponentFile(file, new List<string>(0), customFieldIdsToDisplay);
+			SetComponentFile(file, new List<FieldDefinition>(0), customFieldIdsToDisplay);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetComponentFile(ComponentFile file,
-			IEnumerable<string> defaultFieldIdsToDisplay, IEnumerable<string> customFieldIdsToDisplay)
+			IEnumerable<FieldDefinition> defaultFieldIdsToDisplay, IEnumerable<string> customFieldIdsToDisplay)
 		{
 			_file = file;
 
 			RowData = new List<KeyValuePair<FieldValue, bool>>();
-			LoadFields(defaultFieldIdsToDisplay, false);
-			LoadFields(customFieldIdsToDisplay, true);
+			LoadFields(defaultFieldIdsToDisplay);
+			//todo: this separate call could go away once we just have one list (with the elements describing themselves via FieldDefintion)
+			LoadFields(customFieldIdsToDisplay.Select(x=>new FieldDefinition(x,"string",new string[]{}){IsCustom=true}));
 
 			if (ComponentFileChanged != null)
 				ComponentFileChanged();
@@ -70,16 +71,20 @@ namespace SayMore.UI.ComponentEditors
 		/// Load the field values into the model's data cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void LoadFields(IEnumerable<string> fieldIdsToDisplay, bool areCustom)
+		public void LoadFields(IEnumerable<FieldDefinition> fieldsToDisplay)
 		{
-			foreach (var id in fieldIdsToDisplay)
+			foreach (var field in fieldsToDisplay)
 			{
-//				var fieldValue = (_file.MetaDataFieldValues.Find(x => x.FieldId == id) ??
-//					new FieldValue(id, string.Empty));
-				var fieldValue = new FieldValue(id, _file.GetStringValue(id, string.Empty));
+				if(!field.ShowInPropertiesGrid )
+					continue;
+
+				var fieldValue = new FieldValue(field.Key, _file.GetStringValue(field.Key, string.Empty));
+
+				//TODO: make use of field.ReadOnly
+
 				// Each row in the cache is a key/value pair. The key is the FieldValue object
 				// and the value is a boolean indicating whether or not the field is custom.
-				RowData.Add(new KeyValuePair<FieldValue, bool>(fieldValue.CreateCopy(), areCustom));
+				RowData.Add(new KeyValuePair<FieldValue, bool>(fieldValue.CreateCopy(), field.IsCustom));
 			}
 		}
 

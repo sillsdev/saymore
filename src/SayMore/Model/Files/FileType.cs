@@ -106,7 +106,7 @@ namespace SayMore.Model.Files
 			get { return false; }
 		}
 
-		public virtual IEnumerable<FieldDefinition> DefaultFields
+		public virtual IEnumerable<FieldDefinition> FactoryFields
 		{
 			get { return new List<FieldDefinition>(); }
 		}
@@ -152,7 +152,7 @@ namespace SayMore.Model.Files
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
-		public override IEnumerable<FieldDefinition> DefaultFields
+		public override IEnumerable<FieldDefinition> FactoryFields
 		{
 			get
 			{
@@ -253,7 +253,7 @@ namespace SayMore.Model.Files
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
-		public override IEnumerable<FieldDefinition> DefaultFields
+		public override IEnumerable<FieldDefinition> FactoryFields
 		{
 			get
 			{
@@ -334,7 +334,7 @@ namespace SayMore.Model.Files
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
-		public override IEnumerable<FieldDefinition> DefaultFields
+		public override IEnumerable<FieldDefinition> FactoryFields
 		{
 			get {return AudioFields;}
 		}
@@ -414,7 +414,7 @@ namespace SayMore.Model.Files
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
-		public override IEnumerable<FieldDefinition> DefaultFields
+		public override IEnumerable<FieldDefinition> FactoryFields
 		{
 			get
 			{

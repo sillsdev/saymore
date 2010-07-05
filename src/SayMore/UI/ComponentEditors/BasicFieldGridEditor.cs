@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
@@ -24,7 +25,7 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "BasicFieldGridEditor";
 
-			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, AllDefaultFieldIds);
+			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, AllFactoryFieldIds);
 			InitializeGrid(autoCompleteProvider);
 
 			fieldGatherer.NewDataAvailable += HandleNewDataFieldsAvailable;
@@ -34,7 +35,7 @@ namespace SayMore.UI.ComponentEditors
 		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider)
 		{
 			_gridViewModel = new FieldsValuesGridViewModel(_file,
-				GetDefaultFieldIdsToDisplayInGrid(), _customFieldIds, autoCompleteProvider);
+				AllFactoryFields, _customFieldIds, autoCompleteProvider);
 
 			_grid = new FieldsValuesGrid(_gridViewModel);
 			_grid.Dock = DockStyle.Fill;
@@ -49,30 +50,22 @@ namespace SayMore.UI.ComponentEditors
 			if (_gridViewModel != null)
 			{
 				_gridViewModel.SetComponentFile(file,
-					GetDefaultFieldIdsToDisplayInGrid(), _customFieldIds);
+					AllFactoryFields, _customFieldIds);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override IEnumerable<string> AllDefaultFieldIds
+		protected override IEnumerable<FieldDefinition> AllFactoryFields
 		{
-			get { yield return "notes"; }
+			get { yield break; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private IEnumerable<string> GetDefaultFieldIdsToDisplayInGrid()
-		{
-			// Show all but the notes field in the grid.
-			return from id in AllDefaultFieldIds
-				   where id != "notes"
-				   select id;
-		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
 		{
 			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
-				AllDefaultFieldIds);
+				AllFactoryFieldIds);
 		}
 	}
 }

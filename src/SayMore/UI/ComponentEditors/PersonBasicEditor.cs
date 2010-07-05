@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -34,7 +35,7 @@ namespace SayMore.UI.ComponentEditors
 			Name = "Basic";
 			_binder.SetComponentFile(file);
 
-			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, AllDefaultFieldIds);
+			_customFieldIds = fieldGatherer.GetFieldsForType(_file.FileType, AllFactoryFieldIds);
 			InitializeGrid(autoCompleteProvider);
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
@@ -63,7 +64,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider)
 		{
-			_gridViewModel = new FieldsValuesGridViewModel(_file, new List<string>(0),
+			_gridViewModel = new FieldsValuesGridViewModel(_file, new List<FieldDefinition>(0),
 				_customFieldIds, autoCompleteProvider);
 
 			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
@@ -89,7 +90,7 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleNewDataFieldsAvailable(object sender, EventArgs e)
 		{
 			_customFieldIds = ((FieldGatherer)sender).GetFieldsForType(_file.FileType,
-				AllDefaultFieldIds);
+				AllFactoryFieldIds);
 		}
 
 		/// ------------------------------------------------------------------------------------

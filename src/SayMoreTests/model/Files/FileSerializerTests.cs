@@ -12,7 +12,7 @@ namespace SayMoreTests.Model.Files
 	public class FileSerializerTests
 	{
 		private TemporaryFolder _parentFolder;
-		private List<FieldValue> _fields;
+		private List<FieldInstance> _fields;
 		private FileSerializer _serializer;
 
 		[SetUp]
@@ -20,7 +20,7 @@ namespace SayMoreTests.Model.Files
 		{
 			_serializer = new FileSerializer();
 			_parentFolder = new TemporaryFolder("fileTypeTest");
-			_fields = new List<FieldValue>();
+			_fields = new List<FieldInstance>();
 
 		}
 
@@ -57,9 +57,9 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void SaveThenLoad_TwoStrings_RoundTripped()
 		{
-			var valueA = new FieldValue("a", "string", "aaa");
+			var valueA = new FieldInstance("a", "string", "aaa");
 			_fields.Add(valueA);
-			var valueB = new FieldValue("b", "string", "bbb");
+			var valueB = new FieldInstance("b", "string", "bbb");
 			_fields.Add(valueB);
 
 			DoRoundTrip();
@@ -72,7 +72,7 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void SaveThenLoad_StringsWithNewLines_RoundTripped()
 		{
-			var valueA = new FieldValue("a", "string", "aaa" + Environment.NewLine + "second line");
+			var valueA = new FieldInstance("a", "string", "aaa" + Environment.NewLine + "second line");
 			_fields.Add(valueA);
 
 			DoRoundTrip();
@@ -83,7 +83,7 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void Load_LoadingMultipleTimes_DoesNotIntroduceDuplicates()
 		{
-			_fields.Add(new FieldValue("a", "string", "aaa"));
+			_fields.Add(new FieldInstance("a", "string", "aaa"));
 
 			SaveToStandardPlace();
 			LoadFromStandardPlace();
@@ -96,7 +96,7 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void SaveThenLoad_StringWithXmlSymbols_RoundTripped()
 		{
-			_fields.Add(new FieldValue("a", "string", "<mess me up"));
+			_fields.Add(new FieldInstance("a", "string", "<mess me up"));
 			DoRoundTrip();
 			Assert.AreEqual("<mess me up", _fields.First().Value);
 		}

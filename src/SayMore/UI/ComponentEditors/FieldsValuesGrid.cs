@@ -12,7 +12,7 @@ namespace SayMore.UI.ComponentEditors
 	public class FieldsValuesGrid : SilGrid
 	{
 		private readonly FieldsValuesGridViewModel _model;
-		private readonly Font _defaultFieldFont;
+		private readonly Font _factoryFieldFont;
 		private bool _adjustHeightToFitRows = true;
 
 		/// ------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			VirtualMode = true;
 			Font = SystemFonts.IconTitleFont;
-			_defaultFieldFont = new Font(Font, FontStyle.Bold);
+			_factoryFieldFont = new Font(Font, FontStyle.Bold);
 			AllowUserToAddRows = true;
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
@@ -114,7 +114,12 @@ namespace SayMore.UI.ComponentEditors
 
 				if (!_model.IsIndexForCustomField(e.RowIndex))
 				{
-					e.CellStyle.Font = _defaultFieldFont;
+					e.CellStyle.Font = _factoryFieldFont;
+					if (_model.IsIndexForReadOnlyField(e.RowIndex))
+					{
+						this[1, e.RowIndex].ReadOnly = true;
+						this[1, e.RowIndex].Style.ForeColor = Color.Gray;
+					}
 					this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
 				}
 			}

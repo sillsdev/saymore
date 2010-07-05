@@ -68,10 +68,10 @@ namespace SayMore.Model.Files
 		{
 			return GetFileString(
 				elements.Select(element => element.ExportFields)
-					.Cast<IEnumerable<FieldValue>>().ToList());
+					.Cast<IEnumerable<FieldInstance>>().ToList());
 		}
 
-		public string GetFileString(IEnumerable<IEnumerable<FieldValue>> setsOfFields)
+		public string GetFileString(IEnumerable<IEnumerable<FieldInstance>> setsOfFields)
 		{
 			var builder = new StringBuilder();
 			IEnumerable<string> keys = GetKeys(setsOfFields);
@@ -85,7 +85,7 @@ namespace SayMore.Model.Files
 		}
 
 		/* This is really embarrasing. Someone with linq skills should rewrite it */
-		private IEnumerable<string> GetKeys(IEnumerable<IEnumerable<FieldValue>> setsOfFields)
+		private IEnumerable<string> GetKeys(IEnumerable<IEnumerable<FieldInstance>> setsOfFields)
 		{
 			var lists = from e in setsOfFields
 						select e.Select(z=> z.FieldId);
@@ -109,7 +109,7 @@ namespace SayMore.Model.Files
 			return builder.ToString().TrimEnd(_delimeter);
 		}
 
-		private string GetValueLine(IEnumerable<string> keys, IEnumerable<FieldValue> fields)
+		private string GetValueLine(IEnumerable<string> keys, IEnumerable<FieldInstance> fields)
 		{
 			var builder = new StringBuilder();
 

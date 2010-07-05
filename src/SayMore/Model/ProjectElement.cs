@@ -99,11 +99,11 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<FieldValue> ExportFields
+		public IEnumerable<FieldInstance> ExportFields
 		{
 			get
 			{
-				yield return new FieldValue("id", Id);
+				yield return new FieldInstance("id", Id);
 				foreach (var field in MetaDataFile.MetaDataFieldValues)
 				{
 					yield return field;

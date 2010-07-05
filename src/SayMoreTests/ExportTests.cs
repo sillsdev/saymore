@@ -23,13 +23,13 @@ namespace Sponge2Tests
 		public void GetFileString_TwoItemsWithDifferentFields_HeaderCombinesFields()
 		{
 			var exporter = new ExportCommand();
-			var s1 = new List<FieldValue>(new[]{
-				new FieldValue("one","string","uno"),
-				new FieldValue("two", "string", "dos")});
-			var s2 = new List<FieldValue>(new[]
+			var s1 = new List<FieldInstance>(new[]{
+				new FieldInstance("one","string","uno"),
+				new FieldInstance("two", "string", "dos")});
+			var s2 = new List<FieldInstance>(new[]
 											{
-												new FieldValue("two", "string", "dos"),
-												new FieldValue("three", "string", "tres")
+												new FieldInstance("two", "string", "dos"),
+												new FieldInstance("three", "string", "tres")
 											});
 			var result = exporter.GetFileString(new[] { s1, s2 });
 			Assert.AreEqual("one,two,three", result.Split('\n').First().TrimEnd());
@@ -39,13 +39,13 @@ namespace Sponge2Tests
 		public void GetFileString_TwoItemsWithDifferentFields_CorrectValueLines()
 		{
 			var exporter = new ExportCommand();
-			var s1 = new List<FieldValue>(new[]{
-				new FieldValue("one","string","uno"),
-				new FieldValue("two", "string", "dos")});
-			var s2 = new List<FieldValue>(new[]
+			var s1 = new List<FieldInstance>(new[]{
+				new FieldInstance("one","string","uno"),
+				new FieldInstance("two", "string", "dos")});
+			var s2 = new List<FieldInstance>(new[]
 											{
-												new FieldValue("two", "string", "dos"),
-												new FieldValue("three", "string", "tres")
+												new FieldInstance("two", "string", "dos"),
+												new FieldInstance("three", "string", "tres")
 											});
 			var result = exporter.GetFileString(new[] { s1, s2 });
 			var lines = result.Split('\n').Select(l=>l.TrimEnd()).ToArray();
@@ -57,8 +57,8 @@ namespace Sponge2Tests
 		public void GetFileString_KeysAndFieldsHaveCommas_ProperlyQuoted()
 		{
 			var exporter = new ExportCommand();
-			var s1 = new List<FieldValue>(new[]{
-				new FieldValue("a,b","string","1,2")});
+			var s1 = new List<FieldInstance>(new[]{
+				new FieldInstance("a,b","string","1,2")});
 			var result = exporter.GetFileString(new[] { s1});
 			var lines = result.Split('\n').Select(l => l.TrimEnd()).ToArray();
 			Assert.AreEqual("\"a,b\"", lines[0]);

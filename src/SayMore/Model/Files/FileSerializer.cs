@@ -12,7 +12,7 @@ namespace SayMore.Model.Files
 	/// </summary>
 	public class FileSerializer
 	{
-		public void Save(IEnumerable<FieldValue> fields, string path, string rootElementName)
+		public void Save(IEnumerable<FieldInstance> fields, string path, string rootElementName)
 		{
 			var child = new XElement(rootElementName);//todo could use actual name
 			foreach (var v in fields.Where(f => f.Value.Trim() != string.Empty))
@@ -33,11 +33,11 @@ namespace SayMore.Model.Files
 		{
 			if(File.Exists(path))
 				return false;
-			Save(new FieldValue[]{}, path, rootElementName);
+			Save(new FieldInstance[]{}, path, rootElementName);
 			return true;
 		}
 
-		public void Load(List<FieldValue> fields, string path, string rootElementName)
+		public void Load(List<FieldInstance> fields, string path, string rootElementName)
 		{
 			fields.Clear();
 			var child = XElement.Load(path);
@@ -54,7 +54,7 @@ namespace SayMore.Model.Files
 				//defined on this computer.
 				//2)someday we may want to check the type, too
 				//Enhance: someday we may have other types
-				fields.Add(new FieldValue(element.Name.LocalName, type, s));
+				fields.Add(new FieldInstance(element.Name.LocalName, type, s));
 			}
 		}
 	}

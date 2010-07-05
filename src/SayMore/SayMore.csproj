@@ -103,7 +103,7 @@
     <Compile Include="Model\Fields\FieldDefinition.cs" />
     <Compile Include="ApplicationContainer.cs" />
     <Compile Include="Model\Fields\FieldTemplate.cs" />
-    <Compile Include="Model\Fields\FieldValue.cs" />
+    <Compile Include="Model\Fields\FieldInstance.cs" />
     <Compile Include="Model\Files\DataGathering\FieldGatherer.cs" />
     <Compile Include="Model\Files\FileCommand.cs" />
     <Compile Include="Model\Files\UnknownFileType.cs" />

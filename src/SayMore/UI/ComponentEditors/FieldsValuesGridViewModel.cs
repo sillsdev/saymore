@@ -19,7 +19,7 @@ namespace SayMore.UI.ComponentEditors
 		private ComponentFile _file;
 
 		public Action ComponentFileChanged;
-		public List<KeyValuePair<FieldValue, bool>> RowData { get; private set; }
+		public List<KeyValuePair<FieldInstance, FieldDefinition>> RowData { get; private set; }
 
 		private Dictionary<string, IEnumerable<string>> _autoCompleteLists = new Dictionary<string,IEnumerable<string>>();
 		private readonly IMultiListDataProvider _autoCompleteProvider;
@@ -46,7 +46,7 @@ namespace SayMore.UI.ComponentEditors
 		public void SetComponentFile(ComponentFile file)
 		{
 			_file = file;
-			RowData = new List<KeyValuePair<FieldValue, bool>>();
+			RowData = new List<KeyValuePair<FieldInstance, FieldDefinition>>();
 			LoadFields();
 
 			if (ComponentFileChanged != null)
@@ -70,13 +70,13 @@ namespace SayMore.UI.ComponentEditors
 				if (field.Key == "notes")
 					continue;
 
-				var fieldValue = new FieldValue(field.Key, _file.GetStringValue(field.Key, string.Empty));
+				var fieldValue = new FieldInstance(field.Key, _file.GetStringValue(field.Key, string.Empty));
 
 				//TODO: make use of field.ReadOnly
 
 				// Each row in the cache is a key/value pair. The key is the FieldValue object
 				// and the value is a boolean indicating whether or not the field is custom.
-				RowData.Add(new KeyValuePair<FieldValue, bool>(fieldValue.CreateCopy(), field.IsCustom));
+				RowData.Add(new KeyValuePair<FieldInstance, FieldDefinition>(fieldValue.CreateCopy(), field));
 			}
 		}
 
@@ -111,7 +111,18 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public bool IsIndexForCustomField(int index)
 		{
-			return (index < RowData.Count ? RowData[index].Value : true);
+			if (index < RowData.Count
+				&& RowData[index].Value!=null) //review caused by the "empty" thing (new field?)
+			{
+				return RowData[index].Value.IsCustom;
+			}
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsIndexForReadOnlyField(int index)
+		{
+			return (index < RowData.Count ? RowData[index].Value.ReadOnly : false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,10 +133,12 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldValue AddEmptyField()
+		public FieldInstance AddEmptyField()
 		{
-			var fieldValue = new FieldValue(string.Empty, string.Empty);
-			RowData.Add(new KeyValuePair<FieldValue, bool>(fieldValue, true));
+
+			var fieldValue = new FieldInstance(string.Empty, string.Empty);
+			//Review do (jh): I think this is just for new fields, so this null might not be right
+			RowData.Add(new KeyValuePair<FieldInstance, FieldDefinition>(fieldValue, null));
 			return fieldValue;
 		}
 

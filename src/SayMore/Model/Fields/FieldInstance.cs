@@ -4,18 +4,18 @@ namespace SayMore.Model.Fields
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// A FieldValue is a conceptually a key-value pair.  We add other properties as necessary,
+	/// A FieldInstance is a conceptually a key-value pair.  We add other properties as necessary,
 	/// but that's the simple idea.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class FieldValue : IEquatable<FieldValue>
+	public class FieldInstance : IEquatable<FieldInstance>
 	{
 		public string FieldId { get; set; }
 		public string Type { get; set; }
 		public string Value { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public FieldValue(string id, string type, string value)
+		public FieldInstance(string id, string type, string value)
 		{
 			FieldId = id;
 			Type = type;
@@ -23,18 +23,18 @@ namespace SayMore.Model.Fields
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldValue(string id, string value) : this(id, "string", value)
+		public FieldInstance(string id, string value) : this(id, "string", value)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldValue CreateCopy()
+		public FieldInstance CreateCopy()
 		{
-			return new FieldValue(FieldId, Type, Value);
+			return new FieldInstance(FieldId, Type, Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Copy(FieldValue source)
+		public void Copy(FieldInstance source)
 		{
 			FieldId = source.FieldId;
 			Type = source.Type;
@@ -50,10 +50,10 @@ namespace SayMore.Model.Fields
 			if (ReferenceEquals(this, obj))
 				return true;
 
-			if (obj.GetType() != typeof(FieldValue))
+			if (obj.GetType() != typeof(FieldInstance))
 				return false;
 
-			return Equals((FieldValue)obj);
+			return Equals((FieldInstance)obj);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ namespace SayMore.Model.Fields
 		/// </returns>
 		/// <param name="other">An object to compare with this object.</param>
 		/// ------------------------------------------------------------------------------------
-		public bool Equals(FieldValue other)
+		public bool Equals(FieldInstance other)
 		{
 			if (ReferenceEquals(null, other))
 				return false;
@@ -99,13 +99,13 @@ namespace SayMore.Model.Fields
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static bool operator ==(FieldValue left, FieldValue right)
+		public static bool operator ==(FieldInstance left, FieldInstance right)
 		{
 			return Equals(left, right);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static bool operator !=(FieldValue left, FieldValue right)
+		public static bool operator !=(FieldInstance left, FieldInstance right)
 		{
 			return !Equals(left, right);
 		}

@@ -55,7 +55,7 @@ namespace SayMore.Model.Files
 
 		public string RootElementName { get; protected set; }
 		public string PathToAnnotatedFile { get; protected set; }
-		public List<FieldValue> MetaDataFieldValues { get; protected set; }
+		public List<FieldInstance> MetaDataFieldValues { get; protected set; }
 		public FileType FileType { get; protected set; }
 		public string FileTypeDescription { get; protected set; }
 		public string FileSize { get; protected set; }
@@ -83,7 +83,7 @@ namespace SayMore.Model.Files
 			// to keep, say, foo.wav and foo.txt separate. Instead, we just append ".meta"
 			//_metaDataPath = ComputeMetaDataPath(pathToAnnotatedFile);
 
-			MetaDataFieldValues = new List<FieldValue>();
+			MetaDataFieldValues = new List<FieldInstance>();
 
 			_metaDataPath = FileType.GetMetaFilePath(pathToAnnotatedFile);
 
@@ -127,7 +127,7 @@ namespace SayMore.Model.Files
 			FileType = fileType;
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
-			MetaDataFieldValues = new List<FieldValue>();
+			MetaDataFieldValues = new List<FieldInstance>();
 			RootElementName = rootElementName;
 			_componentRoles = new ComponentRole[] {}; //no roles for person or session
 			InitializeFileInfo();
@@ -231,7 +231,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string SetValue(string key, string newValue, out string failureMessage)
 		{
-			return SetValue(new FieldValue(key, newValue), out failureMessage);
+			return SetValue(new FieldInstance(key, newValue), out failureMessage);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -239,31 +239,31 @@ namespace SayMore.Model.Files
 		/// Sets the value for persisting, and returns the same value, potentially modified
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual string SetValue(FieldValue newFieldValue, out string failureMessage)
+		public virtual string SetValue(FieldInstance newFieldInstance, out string failureMessage)
 		{
 			failureMessage = null;
 
-			newFieldValue.Value = (newFieldValue.Value ?? string.Empty).Trim();
+			newFieldInstance.Value = (newFieldInstance.Value ?? string.Empty).Trim();
 
 			var oldFieldValue =
-				MetaDataFieldValues.Find(v => v.FieldId == newFieldValue.FieldId);
+				MetaDataFieldValues.Find(v => v.FieldId == newFieldInstance.FieldId);
 
-			if (oldFieldValue == newFieldValue)
-				return newFieldValue.Value;
+			if (oldFieldValue == newFieldInstance)
+				return newFieldInstance.Value;
 
 			string oldValue = null;
 
 			if (oldFieldValue == null)
-				MetaDataFieldValues.Add(newFieldValue);
+				MetaDataFieldValues.Add(newFieldInstance);
 			else
 			{
 				oldValue = oldFieldValue.Value;
-				oldFieldValue.Copy(newFieldValue);
+				oldFieldValue.Copy(newFieldInstance);
 			}
 
 			LoadFileSizeAndDateModified();
-			InvokeMetadataValueChanged(oldValue, newFieldValue.Value);
-			return newFieldValue.Value; //overrides may do more
+			InvokeMetadataValueChanged(oldValue, newFieldInstance.Value);
+			return newFieldInstance.Value; //overrides may do more
 		}
 
 		/// ------------------------------------------------------------------------------------

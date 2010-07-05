@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.UI.Utilities;
@@ -75,7 +76,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			get
 			{
-				return _file.FileType.DefaultFields;
+				return from field in _file.FileType.DefaultFields select field.Key;
 			}
 		}
 		/// ------------------------------------------------------------------------------------

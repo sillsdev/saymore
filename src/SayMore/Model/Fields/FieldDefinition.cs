@@ -425,6 +425,11 @@ namespace SayMore.Model.Fields
 			set { _isMultiParagraph = value; }
 		}
 
+		/// <summary>
+		/// Set to false for fields which are computed (e.g., Duration, Frame Rate, etc.)
+		/// </summary>
+		public bool ReadOnly { get; set; }
+
 		#endregion
 
 		#region Misc. methods

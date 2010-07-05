@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using SayMore.Model.Fields;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SIL.Localization;
@@ -105,9 +106,9 @@ namespace SayMore.Model.Files
 			get { return false; }
 		}
 
-		public virtual IEnumerable<string> DefaultFields
+		public virtual IEnumerable<FieldDefinition> DefaultFields
 		{
-			get { return new List<string>(); }
+			get { return new List<FieldDefinition>(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -151,34 +152,39 @@ namespace SayMore.Model.Files
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
-		public override IEnumerable<string> DefaultFields
+		public override IEnumerable<FieldDefinition> DefaultFields
 		{
 			get
 			{
-				yield return "id";
-				yield return "primaryLanguage";
-				yield return "primaryLanguageLearnedIn";
-				yield return "otherLanguage0";
-				yield return "otherLanguage1";
-				yield return "otherLanguage2";
-				yield return "otherLanguage3";
-				yield return "fathersLanguage";
-				yield return "mothersLanguage";
-				yield return "pbOtherLangFather0";
-				yield return "pbOtherLangFather1";
-				yield return "pbOtherLangFather2";
-				yield return "pbOtherLangFather3";
-				yield return "pbOtherLangMother0";
-				yield return "pbOtherLangMother3";
-				yield return "pbOtherLangMother2";
-				yield return "pbOtherLangMother1";
-				yield return "birthYear";
-				yield return "gender";
-				yield return "howToContact";
-				yield return "education";
-				yield return "primaryOccupation";
-				yield return "picture";
-				yield return "notes";
+				return from key in
+					new []{
+							"id",
+							"primaryLanguage",
+							"primaryLanguageLearnedIn",
+							"otherLanguage0",
+							"otherLanguage1",
+							"otherLanguage2",
+							"otherLanguage3",
+							"fathersLanguage",
+							"mothersLanguage",
+							"pbOtherLangFather0",
+							"pbOtherLangFather1",
+							"pbOtherLangFather2",
+							"pbOtherLangFather3",
+							"pbOtherLangMother0",
+							"pbOtherLangMother3",
+							"pbOtherLangMother2",
+							"pbOtherLangMother1",
+							"birthYear",
+							"gender",
+							"howToContact",
+							"education",
+							"primaryOccupation",
+							"picture",
+							"notes"
+						}
+				select new FieldDefinition(key, "string", new string[0]);
+
 			}
 		}
 
@@ -247,20 +253,24 @@ namespace SayMore.Model.Files
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
-		public override IEnumerable<string> DefaultFields
+		public override IEnumerable<FieldDefinition> DefaultFields
 		{
 			get
 			{
-				yield return "date";
-				yield return "synopsis";
-				yield return "access";
-				yield return "location";
-				yield return "setting";
-				yield return "situation";
-				yield return "eventType";
-				yield return "participants";
-				yield return "title";
-				yield return "notes";
+				return from key in
+						   new[]{
+								 "date",
+								 "synopsis",
+								 "access",
+								 "location",
+								 "setting",
+								 "situation",
+								 "eventType",
+								 "participants",
+								 "title",
+								 "notes"
+						}
+					   select new FieldDefinition(key, "string", new string[0]);
 			}
 		}
 
@@ -324,18 +334,30 @@ namespace SayMore.Model.Files
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
-		public override IEnumerable<string> DefaultFields
+		public override IEnumerable<FieldDefinition> DefaultFields
+		{
+			get {return AudioFields;}
+		}
+
+		/// <summary>
+		/// This is separated out so that video can reuse it.
+		/// </summary>
+		internal static IEnumerable<FieldDefinition> AudioFields
 		{
 			get
 			{
-				yield return "Recordist";
-				yield return "Device";
-				yield return "Microphone";
-				yield return "Duration";
-				yield return "Channels";
-				yield return "Bit_Depth";
-				yield return "Sample_Rate";
-				yield return "notes";
+				foreach (var key in new[] {"Recordist", "Device", "Microphone",})
+				{
+					yield return new FieldDefinition(key, "string", new string[0]);
+				}
+
+				foreach (var key in new[] {"Duration", "Channels", "Bit_Depth", "Sample_Rate"})
+				{
+					yield return new FieldDefinition(key, "string", new string[0])
+									{
+										ReadOnly = true
+									};
+				}
 			}
 		}
 
@@ -392,20 +414,23 @@ namespace SayMore.Model.Files
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
-		public override IEnumerable<string> DefaultFields
+		public override IEnumerable<FieldDefinition> DefaultFields
 		{
 			get
 			{
-				yield return "Recordist";
-				yield return "Device";
-				yield return "Microphone";
-				yield return "Duration";
-				yield return "Channels";
-				yield return "Bit_Depth";
-				yield return "Sample_Rate";
-				yield return "Resolution";
-				yield return "Frame_Rate";
-				yield return "notes";
+				foreach (var field in AudioFileType.AudioFields)
+				{
+					yield return field;
+				}
+
+				//add video only fields
+				foreach (var key in new[] { "Resolution","Frame_Rate"})
+				{
+					yield return new FieldDefinition(key, "string", new string[0])
+					{
+						ReadOnly = true
+					};
+				}
 			}
 		}
 

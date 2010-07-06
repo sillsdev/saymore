@@ -59,8 +59,8 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_adjustHeightToFitRows)
 				AdjustHeight();
-			else
-				Invalidate();
+
+			Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -32,11 +32,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			InitializeComponent();
 			Name = "Basic";
-			_binder.SetComponentFile(file);
-
-			InitializeGrid(autoCompleteProvider, fieldGatherer);
-			SetBindingHelper(_binder);
-			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 
 			_fatherButtons.AddRange(new[] {_pbPrimaryLangFather, _pbOtherLangFather0,
 				_pbOtherLangFather1, _pbOtherLangFather2, _pbOtherLangFather3 });
@@ -55,7 +50,10 @@ namespace SayMore.UI.ComponentEditors
 			_pbOtherLangFather3.Tag = _otherLanguage3;
 			_pbOtherLangMother3.Tag = _otherLanguage3;
 
-			GetParentLanguages();
+			_binder.SetComponentFile(file);
+			InitializeGrid(autoCompleteProvider, fieldGatherer);
+			SetBindingHelper(_binder);
+			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -75,12 +73,19 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
+			if (_file != null && File.Exists(_file.PathToAnnotatedFile) &&
+				file.PathToAnnotatedFile != _file.PathToAnnotatedFile)
+			{
+				SaveParentLanguages();
+			}
+
 			base.SetComponentFile(file);
 
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file);
 
 			LoadPersonsPhoto();
+			LoadParentLanguages();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -104,28 +109,28 @@ namespace SayMore.UI.ComponentEditors
 		{
 			// Check that the person still exists.
 			if (Directory.Exists(Path.GetDirectoryName(_file.PathToAnnotatedFile)))
-				SetParentLanguages();
+				SaveParentLanguages();
 
 			base.OnHandleDestroyed(e);
 		}
 
 		#region Methods for handling parents' language
 		/// ------------------------------------------------------------------------------------
-		private void GetParentLanguages()
+		private void LoadParentLanguages()
 		{
 			var fathersLanguage = _binder.GetValue("fathersLanguage");
-			var pb = _fatherButtons.FirstOrDefault(x => ((TextBox)x.Tag).Text.Trim() == fathersLanguage);
+			var pb = _fatherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == fathersLanguage);
 			if (pb != null)
 				pb.Selected = true;
 
 			var mothersLanguage = _binder.GetValue("mothersLanguage");
-			pb = _motherButtons.FirstOrDefault(x => ((TextBox)x.Tag).Text.Trim() == mothersLanguage);
+			pb = _motherButtons.Find(x => ((TextBox)x.Tag).Text.Trim() == mothersLanguage);
 			if (pb != null)
 				pb.Selected = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SetParentLanguages()
+		private void SaveParentLanguages()
 		{
 			var pb = _fatherButtons.SingleOrDefault(x => x.Selected);
 			if (pb != null)
@@ -139,26 +144,45 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandleFathersLanguageChanging(object sender, CancelEventArgs e)
 		{
-			var selectedButton = sender as ParentButton;
-
-			foreach (var pb in _fatherButtons.Where(x => x != selectedButton))
-			{
-				pb.SelectedChanging -= HandleFathersLanguageChanging;
-				pb.Selected = false;
-				pb.SelectedChanging += HandleFathersLanguageChanging;
-			}
+			HandleParentLanguageChange(_fatherButtons, sender as ParentButton,
+				HandleFathersLanguageChanging);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleMothersLanguageChanging(object sender, CancelEventArgs e)
 		{
-			var selectedButton = sender as ParentButton;
+			HandleParentLanguageChange(_motherButtons, sender as ParentButton,
+				HandleMothersLanguageChanging);
+		}
 
-			foreach (var pb in _motherButtons.Where(x => x != selectedButton))
+		/// ------------------------------------------------------------------------------------
+		private static void HandleParentLanguageChange(IEnumerable<ParentButton> buttons,
+			ParentButton selectedButton, CancelEventHandler changeHandler)
+		{
+			foreach (var pb in buttons.Where(x => x != selectedButton))
 			{
-				pb.SelectedChanging -= HandleMothersLanguageChanging;
+				pb.SelectedChanging -= changeHandler;
 				pb.Selected = false;
-				pb.SelectedChanging += HandleMothersLanguageChanging;
+				pb.SelectedChanging += changeHandler;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleParentLanguageButtonMouseEnter(object sender, EventArgs e)
+		{
+			var pb = sender as ParentButton;
+
+			if (pb.ParentType == ParentType.Father)
+			{
+				_tooltip.SetToolTip(pb, pb.Selected ?
+					"Indicates this is the father's primary language" :
+					"Click to indicate this is the father's primary language");
+			}
+			else
+			{
+				_tooltip.SetToolTip(pb, pb.Selected ?
+					"Indicates this is the mother's primary language" :
+					"Click to indicate this is the mother's primary language");
 			}
 		}
 

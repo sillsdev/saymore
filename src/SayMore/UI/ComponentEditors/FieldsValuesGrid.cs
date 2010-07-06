@@ -107,20 +107,31 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
-			if (e.RowIndex < NewRowIndex && e.ColumnIndex == 0)
+			if (_model != null)
 			{
-				var val = _model.GetIdForIndex(e.RowIndex);
-				e.Value = val.Replace('_', ' ');
+				var fieldId = _model.GetIdForIndex(e.RowIndex);
 
-				if (!_model.IsIndexForCustomField(e.RowIndex))
+				if (string.IsNullOrEmpty(fieldId))
+					this[1, e.RowIndex].ReadOnly = true;
+				else if (e.RowIndex < NewRowIndex && e.ColumnIndex == 0)
 				{
-					e.CellStyle.Font = _factoryFieldFont;
-					if (_model.IsIndexForReadOnlyField(e.RowIndex))
+					this[1, e.RowIndex].ReadOnly = false;
+					e.Value = fieldId.Replace('_', ' ');
+
+					if (_model.IsIndexForCustomField(e.RowIndex))
+						this[0, e.RowIndex].ReadOnly = false;
+					else
 					{
-						this[1, e.RowIndex].ReadOnly = true;
-						this[1, e.RowIndex].Style.ForeColor = Color.Gray;
+						e.CellStyle.Font = _factoryFieldFont;
+						this[0, e.RowIndex].ReadOnly = true;
+
+						if (_model.IsIndexForReadOnlyField(e.RowIndex))
+						{
+							this[1, e.RowIndex].ReadOnly = true;
+							this[1, e.RowIndex].Style.ForeColor = Color.Gray;
+						}
+
 					}
-					this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
 				}
 			}
 
@@ -180,25 +191,33 @@ namespace SayMore.UI.ComponentEditors
 				return true;
 			}
 
-			// Cause tab and shift+tab to move from value to value,
-			// rather than passing through the Field cells.
+			// When the field name is not blank, cause tab and shift+tab to move
+			// from value to value, rather than passing through the field name cells.
 			if (CurrentCellAddress.X == 1 && msg.WParam.ToInt32() == (int)Keys.Tab)
 			{
+				var newRowIndex = -1;
+				var skipFieldName = true;
+
 				if ((keyData & Keys.Shift) == 0 && CurrentCellAddress.Y < NewRowIndex)
 				{
 					if (IsCurrentCellInEditMode)
 						EndEdit();
 
-					CurrentCell = this[1, CurrentCellAddress.Y + 1];
-					return true;
+					newRowIndex = CurrentCellAddress.Y + 1;
+					skipFieldName = !string.IsNullOrEmpty(this[0, newRowIndex].Value as string);
 				}
-
-				if ((keyData & Keys.Shift) > 0 && CurrentCellAddress.Y > 0)
+				else if ((keyData & Keys.Shift) > 0 && CurrentCellAddress.Y > 0)
 				{
 					if (IsCurrentCellInEditMode)
 						EndEdit();
 
-					CurrentCell = this[1, CurrentCellAddress.Y - 1];
+					newRowIndex = CurrentCellAddress.Y - 1;
+					skipFieldName = !string.IsNullOrEmpty(this[0, CurrentCellAddress.Y].Value as string);
+				}
+
+				if (newRowIndex >= 0 && skipFieldName)
+				{
+					CurrentCell = this[1, newRowIndex];
 					return true;
 				}
 			}
@@ -253,24 +272,40 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnRowValidated(DataGridViewCellEventArgs e)
-		{
-			base.OnRowValidated(e);
-
-			if (NewRowIndex != e.RowIndex)
-				_model.SaveFieldForIndex(e.RowIndex);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override void OnRowValidating(DataGridViewCellCancelEventArgs e)
 		{
-			if (e.RowIndex < NewRowIndex && string.IsNullOrEmpty(_model.GetIdForIndex(e.RowIndex)))
+			var fieldId = _model.GetIdForIndex(e.RowIndex);
+			var fieldValue = _model.GetValueForIndex(e.RowIndex);
+
+			if (e.RowIndex < NewRowIndex && string.IsNullOrEmpty(fieldId) && !string.IsNullOrEmpty(fieldValue))
 			{
 				Utils.MsgBox("You must enter a field name.");
 				e.Cancel = true;
 			}
 
 			base.OnRowValidating(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnRowValidated(DataGridViewCellEventArgs e)
+		{
+			base.OnRowValidated(e);
+
+			var fieldId = _model.GetIdForIndex(e.RowIndex);
+			var fieldValue = _model.GetValueForIndex(e.RowIndex);
+
+			if (NewRowIndex == e.RowIndex)
+				return;
+
+			// If the user edited the row and left nothing for field or
+			// value, then remove the row. Otherwise save the value.
+			if (string.IsNullOrEmpty(fieldId) && string.IsNullOrEmpty(fieldValue))
+			{
+				_model.RemoveFieldForIndex(e.RowIndex);
+				Rows.RemoveAt(e.RowIndex);
+			}
+			else
+				_model.SaveFieldForIndex(e.RowIndex);
 		}
 
 		/// ------------------------------------------------------------------------------------

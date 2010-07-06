@@ -171,7 +171,9 @@ namespace SayMore.Model.Files
 			switch(key)
 			{
 				case "Duration":
-					return GetStat(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).Duration, "");
+					var duration = GetStat(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).Duration, "");
+					int i = duration.LastIndexOf('.');
+					return (i < 0 ? duration : duration.Substring(0, i));
 				case "Sample_Rate":
 					return GetStat(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).SamplesPerSecond, "Hz");
 				case "Bit_Depth":
@@ -198,19 +200,22 @@ namespace SayMore.Model.Files
 			return (field == null ? defaultValue : field.Value);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private string GetStat(Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser, string suffix)
 		{
-				if (_statisticsProvider == null)
-					return string.Empty;
+			if (_statisticsProvider == null)
+				return string.Empty;
 
-				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
-				if (stats == null || stats.MediaInfo == null || dataSetChooser(stats.MediaInfo) == null )
-				{
-					return string.Empty;
-				}
+			var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
+			if (stats == null || stats.MediaInfo == null || dataSetChooser(stats.MediaInfo) == null)
+			{
+				return string.Empty;
+			}
+
 			return dataItemChooser(dataSetChooser(stats.MediaInfo)) + " " + suffix;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private int GetIntStat(Func<MediaInfo, object> dataSetChooser, Func<object, int> dataItemChooser, int defaultValue)
 		{
 			if (_statisticsProvider == null)
@@ -221,6 +226,7 @@ namespace SayMore.Model.Files
 			{
 				return defaultValue;
 			}
+
 			return dataItemChooser(dataSetChooser(stats.MediaInfo));
 		}
 

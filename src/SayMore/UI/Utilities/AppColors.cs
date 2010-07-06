@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SayMore.Properties;
+using SilUtils;
 
 namespace SayMore.UI.Utilities
 {
@@ -51,14 +52,21 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		public static void PaintDataEntryBackground(Graphics g, Rectangle rc, BorderSides sides)
 		{
-//TODO: can this be done without a static?
-			//if (MainWnd.Resizing)
-//				return;
+			//using (var br = new LinearGradientBrush(rc, DataEntryPanelBegin, DataEntryPanelEnd, 45f))
+			//    g.FillRectangle(br, rc);
 
-			using (var br = new LinearGradientBrush(rc, DataEntryPanelBegin, DataEntryPanelEnd, 45f))
+			var clrDark = ColorHelper.CalculateColor(Settings.Default.PersonEditorsBorderColor, Color.White, 150);
+
+
+			using (var br = new LinearGradientBrush(rc,
+				Settings.Default.PersonEditorsBackgroundColor,
+				clrDark, 135f))
+			{
 				g.FillRectangle(br, rc);
+			}
 
-			PaintDataEntryBorder(g, rc, sides);
+			PaintBorder(g, Settings.Default.PersonEditorsBorderColor, rc, sides);
+			//			PaintDataEntryBorder(g, rc, sides);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -90,9 +98,7 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		public static void PaintBorder(Graphics g, Color clr, Rectangle rc, BorderSides sides)
 		{
-			if (sides == BorderSides.None /*|| TODO: can this be done without a static?
-					MainWnd.Resizing*/
-									  )
+			if (sides == BorderSides.None)
 				return;
 
 			using (var pen = new Pen(clr))

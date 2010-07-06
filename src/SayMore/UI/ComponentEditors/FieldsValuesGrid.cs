@@ -24,7 +24,6 @@ namespace SayMore.UI.ComponentEditors
 			AllowUserToAddRows = true;
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
-			EditMode = DataGridViewEditMode.EditOnEnter;
 			Margin = new Padding(0, Margin.Top, 0, Margin.Bottom);
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 			DefaultCellStyle.SelectionBackColor = ColorHelper.CalculateColor(Color.White,
@@ -46,6 +45,22 @@ namespace SayMore.UI.ComponentEditors
 				if (Settings.Default[_model.GridSettingsName] != null)
 					((GridSettings)Settings.Default[_model.GridSettingsName]).InitializeGrid(this);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnEnter(EventArgs e)
+		{
+			base.OnEnter(e);
+
+			// This prevents the grid stealing focus at startup when it shouldn't. The problem arises in the
+			// following way: The OnCellFormatting gets called, even when the grid does not have focus. In
+			// the CellFormatting event, cells are made readonly or not. When the edit mode is EditOnEnter,
+			// setting a cell's readonly property to false (I think) will cause the cell to go into edit
+			// mode. When it goes into edit mode, the cell editor gets displayed and if the  grid does not
+			// have focus, it thinks it should, because the editor just got shown. Therefore, the grid will
+			// steal the focus from another control at startup.
+			if (EditMode != DataGridViewEditMode.EditOnEnter)
+				EditMode = DataGridViewEditMode.EditOnEnter;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -107,6 +122,9 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
+			// REVIEW: For some reason, when the grid does not have focus, sometimes
+			// setting a cell's readonly property to true gives the grid focus.
+
 			if (_model != null)
 			{
 				var fieldId = _model.GetIdForIndex(e.RowIndex);

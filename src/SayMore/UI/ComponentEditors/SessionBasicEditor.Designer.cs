@@ -37,6 +37,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis = new System.Windows.Forms.Label();
 			this._synopsis = new System.Windows.Forms.TextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
+			this._panelGrid = new System.Windows.Forms.Panel();
 			this._labelCustomFields = new System.Windows.Forms.Label();
 			this._access = new System.Windows.Forms.TextBox();
 			this._labelAccess = new System.Windows.Forms.Label();
@@ -53,7 +54,6 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSituation = new System.Windows.Forms.Label();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
-			this._panelGrid = new System.Windows.Forms.Panel();
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -206,6 +206,16 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Size = new System.Drawing.Size(377, 383);
 			this._tableLayout.TabIndex = 0;
 			this._tableLayout.TabStop = true;
+			// 
+			// _panelGrid
+			// 
+			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._panelGrid.Location = new System.Drawing.Point(0, 320);
+			this._panelGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
+			this._panelGrid.Name = "_panelGrid";
+			this._panelGrid.Size = new System.Drawing.Size(183, 60);
+			this._panelGrid.TabIndex = 21;
 			// 
 			// _labelCustomFields
 			// 
@@ -397,16 +407,6 @@ namespace SayMore.UI.ComponentEditors
 			// _binder
 			// 
 			this._binder.GetBoundControlValue += new SayMore.UI.ComponentEditors.BindingHelper.GetBoundControlValueHandler(this.HandleGetBoundControlValue);
-			// 
-			// _panelGrid
-			// 
-			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._panelGrid.Location = new System.Drawing.Point(0, 320);
-			this._panelGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
-			this._panelGrid.Name = "_panelGrid";
-			this._panelGrid.Size = new System.Drawing.Size(183, 60);
-			this._panelGrid.TabIndex = 1;
 			// 
 			// SessionBasicEditor
 			// 

@@ -77,12 +77,18 @@ namespace SayMore.UI.ProjectWindow
 			Settings.Default.ProjectWindow.InitializeForm(this);
 			base.OnLoad(e);
 
-			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
+//			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
 
 			if (!MediaInfo.HaveNecessaryComponents)
 			{
 				new MissingFFmpegPopup().Show();
 			}
+		}
+
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
 		}
 
 		/// ------------------------------------------------------------------------------------

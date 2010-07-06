@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Palaso.Media;
 using SIL.Localization;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
@@ -77,6 +78,11 @@ namespace SayMore.UI.ProjectWindow
 			base.OnLoad(e);
 
 			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
+
+			if (!MediaInfo.HaveNecessaryComponents)
+			{
+				new MissingFFmpegPopup().Show();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

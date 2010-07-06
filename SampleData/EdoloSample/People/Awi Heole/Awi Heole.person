@@ -10,4 +10,5 @@
   <gender type="string">Male</gender>
   <education type="string">Grade 2</education>
   <primaryOccupation type="string">Subsistence Farmer</primaryOccupation>
+  <Current_Village type="string">Huya</Current_Village>
 </Person>

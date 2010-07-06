@@ -2707,6 +2707,12 @@
 			Action handler delegate
 			</summary>
 		</member>
+		<member name="M:Palaso.Extensions.StringExtensions.CombineForPath(System.String,System.String[])">
+			<summary>
+			Similar to Path.Combine, but it combines as may parts as you have into a single, platform-appropriate path.
+			</summary>
+			<example> string path = "my".Combine("stuff", "toys", "ball.txt")</example>
+		</member>
 		<member name="T:Palaso.Progress.BackgroundWorkerState">
 			<summary>
 			Long-running tasks can be written to take one of these as an argument, and use it to notify others of their progress

@@ -21,6 +21,43 @@
 			the contents of this method with the code editor.
 			</summary>
 		</member>
+		<member name="T:Palaso.Media.MediaInfo">
+			<summary>
+			This class uses ffmpeg to gather information about media streams
+			</summary>
+		</member>
+		<member name="F:Palaso.Media.MediaInfo.RawData">
+			<summary>
+			The actual ffmpeg output
+			</summary>
+		</member>
+		<member name="M:Palaso.Media.MediaInfo.LocateAndRememberFFmpeg">
+			<summary>
+			Find the path to ffmpeg, and remember it (some apps (like SayMore) call ffmpeg a lot)
+			</summary>
+			<returns></returns>
+		</member>
+		<member name="M:Palaso.Media.MediaInfo.LocateFFmpeg">
+			<summary>
+			ffmpeg is more of a "compile it yourself" thing, and yet
+			SIL doesn't necessarily want to be redistributing something
+			which may violate software patents (e.g. mp3) in certain countries, so
+			we ask users to get it themselves.
+			See: http://www.ffmpeg.org/legal.html
+			This tries to find where they put it.
+			</summary>
+			<returns>the path, if found, else null</returns>
+		</member>
+		<member name="M:Palaso.Media.MediaInfo.GetDuration(System.String)">
+			<summary>
+			used by both audio and video, so it lives up here
+			</summary>
+		</member>
+		<member name="P:Palaso.Media.MediaInfo.HaveNecessaryComponents">
+			<summary>
+			 Returns false if it can't find ffmpeg
+			</summary>
+		</member>
 		<member name="F:Palaso.Media.ShortSoundFieldControl.components">
 			<summary>
 			Required designer variable.
@@ -60,26 +97,6 @@
 			see http://www.ambiera.com/forum.php?t=601
 			</summary>
 			<returns>true if you need to use the provided temp file</returns>
-		</member>
-		<member name="T:Palaso.Media.MediaInfo">
-			<summary>
-			This class uses ffmpeg to gather information about media streams
-			</summary>
-		</member>
-		<member name="F:Palaso.Media.MediaInfo.RawData">
-			<summary>
-			The actual ffmpeg output
-			</summary>
-		</member>
-		<member name="M:Palaso.Media.MediaInfo.GetDuration(System.String)">
-			<summary>
-			used by both audio and video, so it lives up here
-			</summary>
-		</member>
-		<member name="P:Palaso.Media.MediaInfo.HaveNecessaryComponents">
-			<summary>
-			 Returns false if it can't find ffmpeg
-			</summary>
 		</member>
 	</members>
 </doc>

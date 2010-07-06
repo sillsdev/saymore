@@ -27,10 +27,10 @@ namespace SayMore.UI.ProjectWindow
 			this._exportSessionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuExit = new System.Windows.Forms.ToolStripMenuItem();
-			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this._viewTabGroup = new SIL.Pa.UI.Controls.ViewTabGroup();
 			this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuAbout = new System.Windows.Forms.ToolStripMenuItem();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._viewTabGroup = new SIL.Pa.UI.Controls.ViewTabGroup();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._mainMenuStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -110,6 +110,27 @@ namespace SayMore.UI.ProjectWindow
 			this._menuExit.Text = "E&xit";
 			this._menuExit.Click += new System.EventHandler(this.HandleExitClick);
 			// 
+			// _menuHelp
+			// 
+			this._menuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._menuAbout});
+			this.locExtender.SetLocalizableToolTip(this._menuHelp, null);
+			this.locExtender.SetLocalizationComment(this._menuHelp, null);
+			this.locExtender.SetLocalizingId(this._menuHelp, "ProjectWindow.helpToolStripMenuItem");
+			this._menuHelp.Name = "_menuHelp";
+			this._menuHelp.Size = new System.Drawing.Size(44, 20);
+			this._menuHelp.Text = "&Help";
+			// 
+			// _menuAbout
+			// 
+			this.locExtender.SetLocalizableToolTip(this._menuAbout, null);
+			this.locExtender.SetLocalizationComment(this._menuAbout, null);
+			this.locExtender.SetLocalizingId(this._menuAbout, ".aboutToolStripMenuItem");
+			this._menuAbout.Name = "_menuAbout";
+			this._menuAbout.Size = new System.Drawing.Size(116, 22);
+			this._menuAbout.Text = "&About...";
+			this._menuAbout.Click += new System.EventHandler(this.HandleHelpAboutClick);
+			// 
 			// fileToolStripMenuItem
 			// 
 			this.locExtender.SetLocalizableToolTip(this.fileToolStripMenuItem, null);
@@ -130,27 +151,6 @@ namespace SayMore.UI.ProjectWindow
 			this._viewTabGroup.Name = "_viewTabGroup";
 			this._viewTabGroup.Size = new System.Drawing.Size(697, 445);
 			this._viewTabGroup.TabIndex = 2;
-			// 
-			// _menuHelp
-			// 
-			this._menuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._menuAbout});
-			this.locExtender.SetLocalizableToolTip(this._menuHelp, null);
-			this.locExtender.SetLocalizationComment(this._menuHelp, null);
-			this.locExtender.SetLocalizingId(this._menuHelp, "ProjectWindow.helpToolStripMenuItem");
-			this._menuHelp.Name = "_menuHelp";
-			this._menuHelp.Size = new System.Drawing.Size(44, 20);
-			this._menuHelp.Text = "&Help";
-			// 
-			// _menuAbout
-			// 
-			this.locExtender.SetLocalizableToolTip(this._menuAbout, null);
-			this.locExtender.SetLocalizationComment(this._menuAbout, null);
-			this.locExtender.SetLocalizingId(this._menuAbout, ".aboutToolStripMenuItem");
-			this._menuAbout.Name = "_menuAbout";
-			this._menuAbout.Size = new System.Drawing.Size(152, 22);
-			this._menuAbout.Text = "&About...";
-			this._menuAbout.Click += new System.EventHandler(this.HandleHelpAboutClick);
 			// 
 			// ProjectWindow
 			// 

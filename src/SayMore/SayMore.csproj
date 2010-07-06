@@ -313,6 +313,12 @@
     <Compile Include="UI\ProjectWindow\FirstTimeRunDialog.Designer.cs">
       <DependentUpon>FirstTimeRunDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ProjectWindow\MissingFFmpegPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ProjectWindow\MissingFFmpegPopup.Designer.cs">
+      <DependentUpon>MissingFFmpegPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProjectWindow\ProjectWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -496,6 +502,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\FirstTimeRunDialog.resx">
       <DependentUpon>FirstTimeRunDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProjectWindow\MissingFFmpegPopup.resx">
+      <DependentUpon>MissingFFmpegPopup.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Resources\Overview3.png" />
     <None Include="Resources\People3.png" />

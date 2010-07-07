@@ -68,6 +68,13 @@ namespace SayMore.UI.ComponentEditors
 		{
 			base.OnGotFocus(e);
 
+			// In addition to getting this event when coming from a control outside of the
+			// grid, we'll also get this event when a cell goes out of the editing mode and
+			// it's editing control loses focus to the grid itself. So if we're here because
+			// one of the cell's is coming out of edit mode, then we don't need to do anything.
+			if (EditingControl != null)
+				return;
+
 			SetSelectionColors(true);
 			CurrentCell = (_model.GetIdForIndex(0) == null ? this[0, 0] : this[1, 0]);
 

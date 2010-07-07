@@ -14,6 +14,7 @@ namespace SayMore.UI.ComponentEditors
 		private readonly FieldsValuesGridViewModel _model;
 		private readonly Font _factoryFieldFont;
 		private bool _adjustHeightToFitRows = true;
+		private Color _focusedSelectionBackColor;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGrid(FieldsValuesGridViewModel model)
@@ -25,9 +26,14 @@ namespace SayMore.UI.ComponentEditors
 			AllowUserToDeleteRows = true;
 			MultiSelect = false;
 			Margin = new Padding(0, Margin.Top, 0, Margin.Bottom);
+			RowHeadersVisible = false;
+			SelectionMode = DataGridViewSelectionMode.CellSelect;
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
-			DefaultCellStyle.SelectionBackColor = ColorHelper.CalculateColor(Color.White,
-				 DefaultCellStyle.SelectionBackColor, 140);
+
+			_focusedSelectionBackColor = ColorHelper.CalculateColor(Color.White,
+					 DefaultCellStyle.SelectionBackColor, 140);
+
+			SetSelectionColors(false);
 
 			AddColumns();
 
@@ -48,9 +54,22 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnEnter(EventArgs e)
+		private void SetSelectionColors(bool hasFocus)
 		{
-			base.OnEnter(e);
+			// The reason the Focused property is not used is because when this method is
+			// called in the Validated event (which is also true of the Leave and LostFocus
+			// events) the Focused property is still true. Argh!
+			DefaultCellStyle.SelectionBackColor = (Focused ?
+				_focusedSelectionBackColor : BackgroundColor);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnGotFocus(EventArgs e)
+		{
+			base.OnGotFocus(e);
+
+			SetSelectionColors(true);
+			CurrentCell = (_model.GetIdForIndex(0) == null ? this[0, 0] : this[1, 0]);
 
 			// This prevents the grid stealing focus at startup when it shouldn't. The problem arises in the
 			// following way: The OnCellFormatting gets called, even when the grid does not have focus. In
@@ -61,6 +80,13 @@ namespace SayMore.UI.ComponentEditors
 			// steal the focus from another control at startup.
 			if (EditMode != DataGridViewEditMode.EditOnEnter)
 				EditMode = DataGridViewEditMode.EditOnEnter;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnValidated(EventArgs e)
+		{
+			base.OnValidated(e);
+			SetSelectionColors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

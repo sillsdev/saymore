@@ -22,6 +22,7 @@ namespace SayMore.UI.ComponentEditors
 			Name = "ImageViewer";
 
 			_labelZoom.Font = SystemFonts.IconTitleFont;
+			_zoomTrackBar.BackColor = BackColor;
 
 			_panelImage = new SilPanel();
 			_panelImage.Dock = DockStyle.Fill;
@@ -67,6 +68,7 @@ namespace SayMore.UI.ComponentEditors
 					_zoomTrackBar.Minimum, _panelImage.ClientSize);
 
 				_panelImage.AutoScrollMinSize = _model.GetScaledSize(_zoomTrackBar.Value);
+				_panelImage.Invalidate();
 			}
 		}
 

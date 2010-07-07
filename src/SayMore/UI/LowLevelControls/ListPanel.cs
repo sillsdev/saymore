@@ -1,4 +1,5 @@
 using System;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,6 +42,10 @@ namespace SayMore.UI.LowLevelControls
 		private ListViewItem _prevFocusedItem;
 		private readonly List<Button> _buttons = new List<Button>();
 
+		public Color ButtonPanelBackColor1 { get; set; }
+		public Color ButtonPanelBackColor2 { get; set; }
+		public Color ButtonPanelTopBorderColor { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ListPanel"/> class.
@@ -48,6 +53,10 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		public ListPanel()
 		{
+			ButtonPanelBackColor1 = SystemColors.Control;
+			ButtonPanelBackColor2 = SystemColors.Control;
+			ButtonPanelTopBorderColor = SystemColors.ControlDark;
+
 			ReSortWhenItemTextChanges = false;
 
 			InitializeComponent();
@@ -565,8 +574,15 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonPanelPaint(object sender, PaintEventArgs e)
 		{
-			AppColors.PaintDataEntryBackground(e.Graphics,
-				_buttonsFlowLayoutPanel.ClientRectangle, BorderSides.Top);
+			var rc = _buttonsFlowLayoutPanel.ClientRectangle;
+
+			using (var br = new LinearGradientBrush(rc, ButtonPanelBackColor1,
+				ButtonPanelBackColor2, 135))
+			{
+				e.Graphics.FillRectangle(br, rc);
+			}
+
+			AppColors.PaintBorder(e.Graphics, ButtonPanelTopBorderColor, rc, BorderSides.Top);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -27,6 +27,10 @@ namespace SayMore.UI.ElementListScreen
 				_componentsSplitter.Panel2.ControlAdded += HandleFirstSetOfComponentEditorsAdded;
 
 			_componentsSplitter.Panel2.ControlRemoved += HandleLastSetOfComponentEditorsRemoved;
+
+			_elementsListPanel.ButtonPanelBackColor1 = Settings.Default.PersonEditorsButtonBackgroundColor1;
+			_elementsListPanel.ButtonPanelBackColor2 = Settings.Default.PersonEditorsButtonBackgroundColor2;
+			_elementsListPanel.ButtonPanelTopBorderColor = Settings.Default.PersonEditorsBorderColor;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -32,42 +32,42 @@ namespace SayMore.UI.Utilities
 		public static Color DataEntryPanelEnd = Settings.Default.DataEntryPanelColorEnd;
 		public static Color DataEntryPanelBorder = Settings.Default.DataEntryPanelColorBorder;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paints the background of the specified control using the data entry background
-		/// color scheme.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void PaintDataEntryBackground(object sender, PaintEventArgs e)
-		{
-			Rectangle rc = ((Control)sender).ClientRectangle;
-			PaintDataEntryBackground(e.Graphics, rc, BorderSides.All);
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Paints the background of the specified control using the data entry background
+		///// color scheme.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static void PaintDataEntryBackground(object sender, PaintEventArgs e)
+		//{
+		//    Rectangle rc = ((Control)sender).ClientRectangle;
+		//    PaintDataEntryBackground(e.Graphics, rc, BorderSides.All);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paints the background of the specified control using the data entry background
-		/// color scheme.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void PaintDataEntryBackground(Graphics g, Rectangle rc, BorderSides sides)
-		{
-			//using (var br = new LinearGradientBrush(rc, DataEntryPanelBegin, DataEntryPanelEnd, 45f))
-			//    g.FillRectangle(br, rc);
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Paints the background of the specified control using the data entry background
+		///// color scheme.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static void PaintDataEntryBackground(Graphics g, Rectangle rc, BorderSides sides)
+		//{
+		//    //using (var br = new LinearGradientBrush(rc, DataEntryPanelBegin, DataEntryPanelEnd, 45f))
+		//    //    g.FillRectangle(br, rc);
 
-			var clrDark = ColorHelper.CalculateColor(Settings.Default.PersonEditorsBorderColor, Color.White, 150);
+		//    var clrDark = ColorHelper.CalculateColor(Settings.Default.PersonEditorsBorderColor, Color.White, 150);
 
 
-			using (var br = new LinearGradientBrush(rc,
-				Settings.Default.PersonEditorsBackgroundColor,
-				clrDark, 135f))
-			{
-				g.FillRectangle(br, rc);
-			}
+		//    using (var br = new LinearGradientBrush(rc,
+		//        Settings.Default.PersonEditorsBackgroundColor,
+		//        clrDark, 135f))
+		//    {
+		//        g.FillRectangle(br, rc);
+		//    }
 
-			PaintBorder(g, Settings.Default.PersonEditorsBorderColor, rc, sides);
-			//			PaintDataEntryBorder(g, rc, sides);
-		}
+		//    PaintBorder(g, Settings.Default.PersonEditorsBorderColor, rc, sides);
+		//    //			PaintDataEntryBorder(g, rc, sides);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

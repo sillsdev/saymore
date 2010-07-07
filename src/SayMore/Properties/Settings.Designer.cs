@@ -646,6 +646,28 @@ namespace SayMore.Properties {
                 return ((global::System.Drawing.Color)(this["SessionEditorsBorderColor"]));
             }
         }
+
+		[global::System.Configuration.ApplicationScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("207, 240, 159")]
+		public global::System.Drawing.Color SessionEditorsButtonBackgroundColor1
+		{
+			get
+			{
+				return ((global::System.Drawing.Color)(this["SessionEditorsButtonBackgroundColor1"]));
+			}
+		}
+
+		[global::System.Configuration.ApplicationScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("169, 219, 168")]
+		public global::System.Drawing.Color SessionEditorsButtonBackgroundColor2
+		{
+			get
+			{
+				return ((global::System.Drawing.Color)(this["SessionEditorsButtonBackgroundColor2"]));
+			}
+		}
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -662,6 +684,24 @@ namespace SayMore.Properties {
         public global::System.Drawing.Color PersonEditorsBorderColor {
             get {
                 return ((global::System.Drawing.Color)(this["PersonEditorsBorderColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("199, 207, 219")]
+        public global::System.Drawing.Color PersonEditorsButtonBackgroundColor1 {
+            get {
+                return ((global::System.Drawing.Color)(this["PersonEditorsButtonBackgroundColor1"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("156, 180, 210")]
+        public global::System.Drawing.Color PersonEditorsButtonBackgroundColor2 {
+            get {
+                return ((global::System.Drawing.Color)(this["PersonEditorsButtonBackgroundColor2"]));
             }
         }
     }

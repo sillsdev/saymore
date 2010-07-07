@@ -35,6 +35,10 @@ namespace SayMore.UI.ElementListScreen
 				_componentsSplitter.Panel2.ControlAdded += HandleFirstSetOfComponentEditorsAdded;
 
 			_componentsSplitter.Panel2.ControlRemoved += HandleLastSetOfComponentEditorsRemoved;
+
+			_elementsListPanel.ButtonPanelBackColor1 = Settings.Default.SessionEditorsButtonBackgroundColor1;
+			_elementsListPanel.ButtonPanelBackColor2 = Settings.Default.SessionEditorsButtonBackgroundColor2;
+			_elementsListPanel.ButtonPanelTopBorderColor = Settings.Default.SessionEditorsBorderColor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,7 +81,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public System.Drawing.Image Image
+		public Image Image
 		{
 			get { return Resources.Sessions; }
 		}

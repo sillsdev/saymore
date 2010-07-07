@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 using SayMore.Model;
+using SayMore.Properties;
 using SilUtils;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
@@ -45,6 +47,28 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 //			ProjectSettingsFilePath = null;
 //			return false;
 //		}
+
+		/// ------------------------------------------------------------------------------------
+		public WelcomeDialogViewModel()
+		{
+			if (Settings.Default.FirstTimeRun)
+			{
+				// If this is the first time the program has been run, then stuff
+				// the sample project(s) into the MRU list.
+				var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+				path = Path.Combine(path, Application.ProductName);
+				path = Path.Combine(path, "Samples");
+
+				if (Directory.Exists(path))
+				{
+					foreach (var sampleProjectFile in Directory.GetFiles(path, "*.sprj", SearchOption.AllDirectories))
+						MruFiles.AddNewPath(sampleProjectFile);
+
+					Settings.Default.FirstTimeRun = false;
+				}
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns a list of recently used projects where each items key is the full path

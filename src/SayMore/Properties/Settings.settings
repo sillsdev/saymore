@@ -217,5 +217,8 @@
     <Setting Name="PersonEditorsButtonBackgroundColor2" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">156, 180, 210</Value>
     </Setting>
+    <Setting Name="FirstTimeRun" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

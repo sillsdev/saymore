@@ -26,7 +26,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public int GetPercentOfImageSizeToFitSize(int maxPercent, int minPercent, Size areaToFit)
 		{
-			for (int pct = maxPercent; pct >= minPercent; pct -= 1)
+			for (int pct = maxPercent; pct >= minPercent; pct--)
 			{
 				var sz = GetScaledSize(pct);
 				if (sz.Width <= areaToFit.Width && sz.Height <= areaToFit.Height)

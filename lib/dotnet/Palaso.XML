@@ -3047,5 +3047,34 @@
 			</summary>
 			<param name="item"></param>
 		</member>
+		<member name="T:Palaso.CommandLineProcessing.CommandLineRunner">
+			<summary>
+
+			</summary>
+		</member>
+		<member name="T:Palaso.CommandLineProcessing.ProcessStream">
+			<summary>
+			This is class originally from  SeemabK (seemabk@yahoo.com).  It has been enhanced for chorus.
+			</summary>
+		</member>
+		<member name="M:Palaso.CommandLineProcessing.ProcessOutputReader.Read(System.Diagnostics.Process@,System.Int32,Palaso.CommandLineProcessing.IProgress)">
+			<summary>
+			Safely read the streams of the process
+			</summary>
+			<param name="process"></param>
+			<param name="secondsBeforeTimeOut"></param>
+			<returns>true if the process completed before the timeout or cancellation</returns>
+		</member>
+		<member name="M:Palaso.CommandLineProcessing.ConsoleProgress.Dispose">
+			<summary>
+			Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+			</summary>
+			<filterpriority>2</filterpriority>
+		</member>
+		<member name="T:Palaso.CommandLineProcessing.LabelStatus">
+			<summary>
+			Just conveys status, not all messages
+			</summary>
+		</member>
 	</members>
 </doc>

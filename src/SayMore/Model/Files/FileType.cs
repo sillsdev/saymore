@@ -1,7 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
+using Palaso.CommandLineProcessing;
+using Palaso.Media;
 using SayMore.Model.Fields;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
@@ -85,13 +90,11 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<FileCommand> Commands
+		/// <param name="filePath"></param>
+		public virtual IEnumerable<FileCommand> GetCommands(string filePath)
 		{
-			get
-			{
-				yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click);
-				yield return new FileCommand("Open in Program Associated with this File ...", FileCommand.HandleOpenInApp_Click);
-			}
+			yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click);
+			yield return new FileCommand("Open in Program Associated with this File ...", FileCommand.HandleOpenInApp_Click);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -212,13 +215,11 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<FileCommand> Commands
+		/// <param name="filePath"></param>
+		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
-			get
-			{
-				yield return new FileCommand("Show in File Explorer...",
-					FileCommand.HandleOpenInFileManager_Click);
-			}
+			yield return new FileCommand("Show in File Explorer...",
+										 FileCommand.HandleOpenInFileManager_Click);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -298,13 +299,11 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<FileCommand> Commands
+		/// <param name="filePath"></param>
+		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
-			get
-			{
-				yield return new FileCommand("Show in File Explorer...",
-					FileCommand.HandleOpenInFileManager_Click);
-			}
+			yield return new FileCommand("Show in File Explorer...",
+										 FileCommand.HandleOpenInFileManager_Click);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -443,6 +442,51 @@ namespace SayMore.Model.Files
 		public override string FieldsGridSettingsName
 		{
 			get { return "VideoFileFieldsGrid"; }
+		}
+
+
+		public override IEnumerable<FileCommand> GetCommands(string filePath)
+		{
+			foreach (var fileCommand in base.GetCommands(filePath))
+			{
+				yield return fileCommand;
+			}
+
+			yield return null; // menu separator
+
+			if (!File.Exists(filePath.Replace(Path.GetExtension(filePath), ".mp3")))
+			{
+				yield return new FileCommand("Extract audio to mp3 file", ExtractMp3Audio);
+			}
+		}
+
+		private void ExtractMp3Audio(string path)
+		{
+			if(!Palaso.Media.MediaInfo.HaveNecessaryComponents)
+			{
+				MessageBox.Show("SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
+			}
+			var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
+
+			if(File.Exists(outputPath))
+			{
+				//todo ask the user (or don't off this in the first place)
+				//File.Delete(outputPath);
+
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Sorry, the file "+Path.GetFileName(outputPath)+" already exists.");
+				return;
+			}
+
+			Cursor.Current = Cursors.WaitCursor;
+			//TODO...provide some progress
+			var results = FFmpegRunner.ExtractMp3Audio(path, outputPath, new NullProgress());
+			Cursor.Current = Cursors.Default;
+			if(results.ExitCode !=0)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Something didn't work out. FFmpeg said (start reading from the end):" + Environment.NewLine + Environment.NewLine + results.StandardError);
+				return;
+			}
+
 		}
 
 		/// ------------------------------------------------------------------------------------

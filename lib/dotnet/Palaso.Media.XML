@@ -31,23 +31,6 @@
 			The actual ffmpeg output
 			</summary>
 		</member>
-		<member name="M:Palaso.Media.MediaInfo.LocateAndRememberFFmpeg">
-			<summary>
-			Find the path to ffmpeg, and remember it (some apps (like SayMore) call ffmpeg a lot)
-			</summary>
-			<returns></returns>
-		</member>
-		<member name="M:Palaso.Media.MediaInfo.LocateFFmpeg">
-			<summary>
-			ffmpeg is more of a "compile it yourself" thing, and yet
-			SIL doesn't necessarily want to be redistributing something
-			which may violate software patents (e.g. mp3) in certain countries, so
-			we ask users to get it themselves.
-			See: http://www.ffmpeg.org/legal.html
-			This tries to find where they put it.
-			</summary>
-			<returns>the path, if found, else null</returns>
-		</member>
 		<member name="M:Palaso.Media.MediaInfo.GetDuration(System.String)">
 			<summary>
 			used by both audio and video, so it lives up here
@@ -97,6 +80,43 @@
 			see http://www.ambiera.com/forum.php?t=601
 			</summary>
 			<returns>true if you need to use the provided temp file</returns>
+		</member>
+		<member name="T:Palaso.Media.FFmpegRunner">
+			<summary>
+			 FFmpeg is an open source media processing commandline library
+			</summary>
+		</member>
+		<member name="M:Palaso.Media.FFmpegRunner.LocateAndRememberFFmpeg">
+			<summary>
+			Find the path to ffmpeg, and remember it (some apps (like SayMore) call ffmpeg a lot)
+			</summary>
+			<returns></returns>
+		</member>
+		<member name="M:Palaso.Media.FFmpegRunner.LocateFFmpeg">
+			<summary>
+			ffmpeg is more of a "compile it yourself" thing, and yet
+			SIL doesn't necessarily want to be redistributing something
+			which may violate software patents (e.g. mp3) in certain countries, so
+			we ask users to get it themselves.
+			See: http://www.ffmpeg.org/legal.html
+			This tries to find where they put it.
+			</summary>
+			<returns>the path, if found, else null</returns>
+		</member>
+		<member name="M:Palaso.Media.FFmpegRunner.ExtractMp3Audio(System.String,System.String,Palaso.CommandLineProcessing.IProgress)">
+			<summary>
+			Extracts the audio from a video. Note, it will fail if the file exists, so the client
+			is resonsible for verifying with the user and deleting the file before calling this.
+			</summary>
+			<param name="inputPath"></param>
+			<param name="outputPath"></param>
+			<param name="progress"></param>
+			<returns>log of the run</returns>
+		</member>
+		<member name="P:Palaso.Media.FFmpegRunner.HaveNecessaryComponents">
+			<summary>
+			 Returns false if it can't find ffmpeg
+			</summary>
 		</member>
 	</members>
 </doc>

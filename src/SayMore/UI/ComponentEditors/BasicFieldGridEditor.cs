@@ -42,9 +42,7 @@ namespace SayMore.UI.ComponentEditors
 			base.SetComponentFile(file);
 
 			if (_gridViewModel != null)
-			{
 				_gridViewModel.SetComponentFile(file);
-			}
 		}
 	}
 }

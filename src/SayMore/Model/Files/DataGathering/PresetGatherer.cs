@@ -18,7 +18,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public PresetGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,
 			PresetData.Factory presetFactory)
-			: base(rootDirectoryPath, allFileTypes.Where(t=>t.IsAudioOrVideo),
+			: base(rootDirectoryPath, allFileTypes.Where(t => t.IsAudioOrVideo),
 				path=>presetFactory(path))
 		{
 		}

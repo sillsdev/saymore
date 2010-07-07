@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace SayMore.Model.Files.DataGathering
 {
@@ -30,15 +31,16 @@ namespace SayMore.Model.Files.DataGathering
 
 		private static string GetLabelForSet(Dictionary<string, string> dictionary)
 		{
-			string label = "";
+			var bldr = new StringBuilder();
+
 			foreach (var value in dictionary.Values)
 			{
-				if(!string.IsNullOrEmpty(value))
-				{
-					label += value + ", ";
-				}
+				if (!string.IsNullOrEmpty(value))
+					bldr.AppendFormat("{0}, ", value);
 			}
-			return label.Trim(new char[] {' ', ',' });
+
+			bldr.Length -= 2;
+			return bldr.ToString();
 		}
 
 		class SetComparer : IEqualityComparer<Dictionary<string, string>>

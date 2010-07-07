@@ -12,6 +12,7 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "Notes";
 			_binder.SetComponentFile(file);
+			SetBindingHelper(_binder);
 		}
 	}
 }

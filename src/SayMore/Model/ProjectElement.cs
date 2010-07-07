@@ -76,7 +76,8 @@ namespace SayMore.Model
 							 where (
 								 !x.EndsWith("." + ExtensionWithoutPeriod) &&
 								 !x.EndsWith(Settings.Default.MetadataFileExtension) &&
-								 !x.ToLower().EndsWith("thumbs.db"))
+								 !x.ToLower().EndsWith("thumbs.db") &&
+								 !Path.GetFileName(x).StartsWith("."))//these are normally hidden
 							 orderby x
 							 select _componentFileFactory(x);
 

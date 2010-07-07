@@ -171,15 +171,15 @@ namespace SayMore.Model.Files
 			switch(key)
 			{
 				case "Duration":
-					var duration = GetStat(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).Duration, "");
+					var duration = GetStringStatistic(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).Duration, "");
 					int i = duration.LastIndexOf('.');
 					return (i < 0 ? duration : duration.Substring(0, i));
 				case "Sample_Rate":
-					return GetStat(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).SamplesPerSecond, "Hz");
+					return GetStringStatistic(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).SamplesPerSecond, "Hz");
 				case "Bit_Depth":
-					return GetStat(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).BitDepth, "bits");
+					return GetStringStatistic(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).BitDepth, "bits");
 				case "Channels":
-					var channels = GetIntStat(info => info.Audio, audio => ((MediaInfo.AudioInfo) audio).ChannelCount, -1);
+					var channels = GetIntegerStatistic(info => info.Audio, audio => ((MediaInfo.AudioInfo) audio).ChannelCount, -1);
 					switch (channels)
 					{
 						case -1: return string.Empty;
@@ -190,9 +190,9 @@ namespace SayMore.Model.Files
 							return channels.ToString();
 					}
 				case "Resolution":
-					return GetStat(info=>info.Video, video=>((MediaInfo.VideoInfo)video).Resolution, "");
+					return GetStringStatistic(info=>info.Video, video=>((MediaInfo.VideoInfo)video).Resolution, "");
 				case "Frame_Rate":
-					return GetStat(info=>info.Video, video=>((MediaInfo.VideoInfo)video).FramesPerSecond, "frames/second");
+					return GetStringStatistic(info=>info.Video, video=>((MediaInfo.VideoInfo)video).FramesPerSecond, "frames/second");
 				default:
 					break;
 			}
@@ -201,7 +201,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetStat(Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser, string suffix)
+		private string GetStringStatistic(Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser, string suffix)
 		{
 			if (_statisticsProvider == null)
 				return string.Empty;
@@ -216,7 +216,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private int GetIntStat(Func<MediaInfo, object> dataSetChooser, Func<object, int> dataItemChooser, int defaultValue)
+		private int GetIntegerStatistic(Func<MediaInfo, object> dataSetChooser, Func<object, int> dataItemChooser, int defaultValue)
 		{
 			if (_statisticsProvider == null)
 				return defaultValue;
@@ -377,10 +377,13 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ToolStripItem> GetContextMenuItems(Action refreshAction)
 		{
-			foreach (FileCommand cmd in FileType.Commands)
+			foreach (FileCommand cmd in FileType.GetCommands(PathToAnnotatedFile))
 			{
 				FileCommand cmd1 = cmd;// needed to avoid "access to modified closure". I.e., avoid executing the wrong command.
-				yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) => cmd1.Action(PathToAnnotatedFile));
+				if(cmd1==null)
+					yield return new ToolStripSeparator();
+				else
+					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) => cmd1.Action(PathToAnnotatedFile));
 			}
 
 			bool needSeparator = true;

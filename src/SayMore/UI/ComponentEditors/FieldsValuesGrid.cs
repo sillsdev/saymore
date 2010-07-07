@@ -59,7 +59,7 @@ namespace SayMore.UI.ComponentEditors
 			// The reason the Focused property is not used is because when this method is
 			// called in the Validated event (which is also true of the Leave and LostFocus
 			// events) the Focused property is still true. Argh!
-			DefaultCellStyle.SelectionBackColor = (Focused ?
+			DefaultCellStyle.SelectionBackColor = (hasFocus ?
 				_focusedSelectionBackColor : BackgroundColor);
 		}
 

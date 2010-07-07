@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Drawing;
@@ -40,7 +41,8 @@ namespace SayMore.UI.ComponentEditors
 		public Size GetScaledSize(int percent)
 		{
 			var scaleFactor = percent / 100f;
-			return new Size((int)(Image.Width * scaleFactor), (int)(Image.Height * scaleFactor));
+			return new Size((int)Math.Ceiling(Image.Width * scaleFactor),
+				(int)Math.Ceiling(Image.Height * scaleFactor));
 		}
 
 		/// ------------------------------------------------------------------------------------

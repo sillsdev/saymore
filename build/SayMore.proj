@@ -91,7 +91,7 @@
   </Target>
 
 
-  <Target Name="Installer" DependsOnTargets="VersionNumbers; MakeWixForSampleData; Build ">
+  <Target Name="Installer" DependsOnTargets="VersionNumbers; MakeWixForSampleData; MakeWixForDistFiles; Build ">
 
 	<!-- set the version number in the installer configuration program.  Perhaps there's a way to just send in the variables rather than this brute-force
 		changing of the script, but I haven't figured that out. -->
@@ -122,7 +122,7 @@
 				GiveAllPermissions="true"
 				ComponentGroupId="SampleData"
 				RootDirectory="$(teamcity_build_checkoutDir)\SampleData"
-				OutputFilePath="$(teamcity_build_checkoutDir)\src\Installer\GeneratedSampleDataFiles.wxs"
+				OutputFilePath="$(teamcity_build_checkoutDir)\output\Installer\GeneratedSampleDataFiles.wxs"
 				MatchRegExPattern=".*"
 				>
 	  <!--what does this do?-->
@@ -130,4 +130,16 @@
 	</MakeWixForDirTree>
   </Target>
 
+  <Target Name="MakeWixForDistFiles">
+	<MakeWixForDirTree
+				DirectoryReferenceId="ProgramDir"
+					ComponentGroupId="DistFiles"
+						RootDirectory="$(teamcity_build_checkoutDir)\DistFiles"
+				OutputFilePath="$(teamcity_build_checkoutDir)\output\Installer\GeneratedDistFiles.wxs"
+				MatchRegExPattern=".*"
+				>
+	  <!--what does this do?-->
+	  <Output TaskParameter="OutputFilePath" ItemName="Compile" />
+	</MakeWixForDirTree>
+  </Target>
 </Project>

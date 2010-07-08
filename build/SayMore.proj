@@ -69,11 +69,7 @@
 	<!-- push up to the web so that on our downloads page, we can give a link to the latest version -->
 
 	<Message Text="Attempting rsync of SayMoreDownloadPointers.htm" Importance="high"/>
-<!-- For saymore.palaso.org: (remove the REEEMOOVE when you remove the comment marks) -->
-	<!-- <Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vz -p -REEEEEEEEEEMMMMOOOVE-chmod=ug+rw -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreDownloadPointers.htm" bob@saymore.palaso.org:/var/www/virtual/palaso.org/saymore/htdocs/downloads/SayMoreDownloadPointers.htm' /> -->
-
-	<!-- Until the saymore upload is working, upload to wesay.org -->
-	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vz -p --chmod=ug+rw -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreDownloadPointers.htm" bob@wesay.org:/var/www/downloads/SayMoreDownloadPointers.htm' />
+	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vz -p --chmod=ug+rw -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreDownloadPointers.htm" bob@saymore.palaso.org:/var/www/virtual/palaso.org/saymore/htdocs/downloads/SayMoreDownloadPointers.htm' /> -->
   </Target>
 
 
@@ -81,13 +77,9 @@
   <Target Name="Upload" DependsOnTargets="VersionNumbers; Installer" >
 	<Message Text="Attempting rsync of SayMoreInstaller.$(Version).msi" Importance="high"/>
 
-	<!-- Until the saymore upload is working, first upload to wesay.org -->
-	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vz -p --chmod=ug+rw -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreInstaller.$(Version).msi" bob@wesay.org:/var/www/downloads/SayMoreInstaller.$(Version).msi' />
+	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vz -p --chmod=ug+rw -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreInstaller.$(Version).msi" bob@saymore.palaso.org:/var/www/virtual/palaso.org/saymore/htdocs/downloads/SayMoreInstaller.$(Version).msi' />
 
 	<CallTarget Targets ='MakeDownloadPointers'/>
-
-	<!-- Now try the saymore upload -->
-	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vz -p --chmod=ug+rw -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreInstaller.$(Version).msi" bob@saymore.palaso.org:/var/www/virtual/palaso.org/saymore/htdocs/downloads/SayMoreInstaller.$(Version).msi' />
   </Target>
 
 

@@ -3,4 +3,5 @@
 <InstallerMetadata>
   <File Id="Igali_Sagali__Joseph_.person" Guid="d407356a-6af6-4f10-bcb2-be2f332dcb04" />
   <File Id="Igali_Sagali__Joseph__Photo.JPG" Guid="fd6ca5dc-55a5-461d-8407-22167a402e95" />
+  <File Id="SampleDataDir.EdoloSample.People.Igali_Sagali__Joseph_" Guid="c0a94336-e399-4a01-be54-19ba6acf73e8" />
 </InstallerMetadata>

@@ -14,4 +14,5 @@
   <File Id="ETR009_Careful.mp3" Guid="c78a1086-9bbb-4d01-836e-b81706632eed" />
   <File Id="ETR009_Careful.mp3.meta" Guid="2b137ebd-3ddc-4e8a-9d5e-e40b73e36027" />
   <File Id="SceneHouse.JPG.meta" Guid="55bbd030-833b-40b0-8dce-b718b148e8cc" />
+   <File Id="SampleDataDir.EdoloSample.Sessions.ETR009" Guid="d1753742-81e7-4e35-92d0-c61043bbecad" />
 </InstallerMetadata>

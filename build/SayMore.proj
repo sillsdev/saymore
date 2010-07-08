@@ -119,6 +119,7 @@
   <Target Name="MakeWixForSampleData">
 	<MakeWixForDirTree
 				DirectoryReferenceId="SampleDataDir"
+				GiveAllPermissions="true"
 				ComponentGroupId="SampleData"
 				RootDirectory="$(teamcity_build_checkoutDir)\SampleData"
 				OutputFilePath="$(teamcity_build_checkoutDir)\src\Installer\GeneratedSampleDataFiles.wxs"

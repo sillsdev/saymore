@@ -37,7 +37,8 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected override bool GetDoIncludeFile(string path)
 		{
-			if (_typesOfFilesToProcess.Any(t => t.IsMatch(path.Replace(".meta", string.Empty))))
+			if (_typesOfFilesToProcess.Any(t => t.IsMatch(path)) ||
+				_typesOfFilesToProcess.Any(t => t.IsMatch(path.Replace(".meta", string.Empty))))
 			{
 				var p = GetActualPath(path);
 				return File.Exists(p);
@@ -47,36 +48,16 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Subclass can override this to, for example, use the path of a sidecar file
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override string GetActualPath(string path)
 		{
-			if (".session .person".Contains(Path.GetExtension(path)))
-				return path;
-
-			return path + (!path.Contains(".meta") ? ".meta" : string.Empty);
+			return (path.EndsWith(".meta") ? path.Substring(0, path.Length - 5) : path);
 		}
 
-		/// ------------------------------------------------------------------------------------
-//		public virtual IEnumerable<FieldDefinition> GetCustomFieldsForFileType(FileType fileType)
-//		{
-//			var type = fileType.GetType();
-//
-//			var fieldsForType = new List<FieldDefinition>();
-//
-			// Go through all the lists of fields found for the specified file type
-			// and create a single list of unique field names for that file type.
-//			foreach (var listofKeys in from fileTypeFields in _fileToDataDictionary.Values
-//										where fileTypeFields.FileType == type
-//										select fileTypeFields.FieldKeys)
-//			{
-//				foreach (var key in listofKeys.Where(x=>fileType.GetIsCustomFieldId(x)))
-//				{
-//					if (!fieldsForType.Any(f=>f.Key==key))
-//						fieldsForType.Add(new FieldDefinition(key,"string",new string[]{}){IsCustom =true});
-//				}
-//			}
-//
-//			return fieldsForType;
-//		}
+		/// ----------------------------------------------------------------------------------------
 		public virtual IEnumerable<FieldDefinition> GetAllFieldsForFileType(FileType fileType)
 		{
 			var type = fileType.GetType();
@@ -92,7 +73,7 @@ namespace SayMore.Model.Files.DataGathering
 				foreach (var key in listofKeys)
 				{
 					if (!fieldsForType.Any(f => f.Key == key))
-						fieldsForType.Add(new FieldDefinition(key, "string", new string[] { }) { IsCustom = fileType.GetIsCustomFieldId(key) });
+						fieldsForType.Add(new FieldDefinition(key) { IsCustom = fileType.GetIsCustomFieldId(key) });
 				}
 			}
 
@@ -100,6 +81,7 @@ namespace SayMore.Model.Files.DataGathering
 		}
 	}
 
+	#region FileTypeFields class
 	/// ----------------------------------------------------------------------------------------
 	public class FileTypeFields
 	{
@@ -111,10 +93,11 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public FileTypeFields(string path, ComponentFile.Factory componentFileFactory)
 		{
-			// As JohnH said in PresetData, this is "hacky" and he's right.
-			var file = componentFileFactory(path.Replace(".meta", string.Empty));
+			var file = componentFileFactory(path);
 			FileType = file.FileType.GetType();
 			FieldKeys = file.MetaDataFieldValues.Select(field => field.FieldId);
 		}
 	}
+
+	#endregion
 }

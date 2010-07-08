@@ -19,7 +19,7 @@ namespace SayMore.Model.Files.DataGathering
 		public PresetGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,
 			PresetData.Factory presetFactory)
 			: base(rootDirectoryPath, allFileTypes.Where(t => t.IsAudioOrVideo),
-				path=>presetFactory(path))
+				path => presetFactory(path))
 		{
 		}
 
@@ -43,7 +43,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected override string GetActualPath(string path)
 		{
-			return path + (!path.Contains(".meta") ? ".meta" : string.Empty);
+			return (path.EndsWith(".meta") ? path.Substring(0, path.Length - 5) : path);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,13 +60,19 @@ namespace SayMore.Model.Files.DataGathering
 			else
 			{
 				foreach (var keyValuePair in suggestions)
-				{
 					yield return keyValuePair;
-				}
 			}
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//public IEnumerable<Dictionary<string, string>> GetPresets()
+		//{
+		//    var suggestor = new UniqueCombinationsFinder(_fileToDataDictionary.Values.Select(d => d.Dictionary));
+		//    return suggestor.GetSuggestions();
+		//}
 	}
 
+	#region PresetData class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// The preset which would be derived from this file
@@ -76,6 +82,7 @@ namespace SayMore.Model.Files.DataGathering
 	{
 		public delegate PresetData FactoryForTest(string path, Func<string, Dictionary<string, string>> pathToDictionaryFunction);
 		public delegate PresetData Factory(string path);
+
 		public Dictionary<string, string> Dictionary { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -86,14 +93,13 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public PresetData(string path, ComponentFile.Factory componentFileFactory)
 		{
-			//this is feeling a bit hacky... but sometimes we are called with the path to the
-			//media file, and sometimes with the metadata file itself (i.e., when it is modified)
-			//so for now we just always get to the path of the media file
-			var pathToAnnotatedFile = path.Replace(".meta", string.Empty);
+			var file = componentFileFactory(path);
 
-			var f = componentFileFactory(pathToAnnotatedFile);
-			Dictionary = f.MetaDataFieldValues.ToDictionary(field => field.FieldId,
-															field => field.Value);
+			var writableFields = from field in file.MetaDataFieldValues
+								 where !file.FileType.GetIsReadonly(field.FieldId)
+								 select field;
+
+			Dictionary = writableFields.ToDictionary(field => field.FieldId, field => field.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -106,4 +112,6 @@ namespace SayMore.Model.Files.DataGathering
 			Dictionary = pathToDictionaryFunction(path);
 		}
 	}
+
+	#endregion
 }

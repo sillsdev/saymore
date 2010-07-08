@@ -24,9 +24,10 @@ namespace SayMore.UI.ComponentEditors
 		private Dictionary<string, IEnumerable<string>> _autoCompleteLists = new Dictionary<string,IEnumerable<string>>();
 		private readonly IMultiListDataProvider _autoCompleteProvider;
 
+		public Func<string, bool> FieldFilterFunction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public FieldsValuesGridViewModel(ComponentFile file,IMultiListDataProvider autoCompleteProvider,
+		public FieldsValuesGridViewModel(ComponentFile file, IMultiListDataProvider autoCompleteProvider,
 			FieldGatherer fieldGatherer)
 		{
 			_fieldGatherer = fieldGatherer;
@@ -37,10 +38,9 @@ namespace SayMore.UI.ComponentEditors
 				_autoCompleteProvider.NewDataAvailable += HandleNewAutoCompleteDataAvailable;
 				_autoCompleteLists = _autoCompleteProvider.GetValueLists();
 			}
+
 			SetComponentFile(file);
 		}
-
-		public Func<string, bool> FieldFilterFunction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public void SetComponentFile(ComponentFile file)
@@ -111,11 +111,11 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public bool IsIndexForCustomField(int index)
 		{
-			if (index < RowData.Count
-				&& RowData[index].Value!=null) //review caused by the "empty" thing (new field?)
+			if (index < RowData.Count && RowData[index].Value != null) //review caused by the "empty" thing (new field?)
 			{
 				return RowData[index].Value.IsCustom;
 			}
+
 			return true;
 		}
 
@@ -162,10 +162,11 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetValueForIndex(string value, int index)
+		public void SaveValueForIndex(string value, int index)
 		{
 			var fieldValue = (index == RowData.Count ? AddEmptyField() : RowData[index].Key);
 			fieldValue.Value = (value != null ? value.Trim() : string.Empty);
+			_file.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------

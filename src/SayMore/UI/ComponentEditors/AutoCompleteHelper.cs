@@ -150,7 +150,10 @@ namespace SayMore.UI.ComponentEditors
 		void HandleNewDataAvailable(object sender, EventArgs e)
 		{
 			_autoCompleteLists = _provider.GetValueLists();
-			_textBoxesNeedingNewList = _keysForTextBoxes.Where(x => !string.IsNullOrEmpty(x.Value)).Select(x => x.Key).ToList();
+
+			_textBoxesNeedingNewList = (from kvp in _keysForTextBoxes
+										where !string.IsNullOrEmpty(kvp.Value)
+										select kvp.Key).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------

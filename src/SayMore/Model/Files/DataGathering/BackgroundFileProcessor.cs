@@ -70,7 +70,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool GetDoIncludeFile(string path)
 		{
-			return _typesOfFilesToProcess.Any(t => t.IsMatch(path));
+			return (_typesOfFilesToProcess.Any(t => t.IsMatch(path)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -216,11 +216,7 @@ namespace SayMore.Model.Files.DataGathering
 
 					lock (((ICollection)_fileToDataDictionary).SyncRoot)
 					{
-						if (_fileToDataDictionary.ContainsKey(actualPath))
-						{
-							_fileToDataDictionary.Remove(actualPath);
-						}
-						_fileToDataDictionary.Add(actualPath, fileData);
+						_fileToDataDictionary[actualPath] = fileData;
 					}
 				}
 

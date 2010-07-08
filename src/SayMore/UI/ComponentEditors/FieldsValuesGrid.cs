@@ -200,6 +200,7 @@ namespace SayMore.UI.ComponentEditors
 			{
 				txtBox.KeyPress += HandleCellEditBoxKeyPress;
 				txtBox.HandleDestroyed += HandleCellEditBoxHandleDestroyed;
+				txtBox.AutoCompleteMode = AutoCompleteMode.None;
 			}
 			else
 			{
@@ -303,7 +304,7 @@ namespace SayMore.UI.ComponentEditors
 			if (e.ColumnIndex == 0)
 				_model.SetIdForIndex(e.Value as string, e.RowIndex);
 			else
-				_model.SetValueForIndex(e.Value as string, e.RowIndex);
+				_model.SaveValueForIndex(e.Value as string, e.RowIndex);
 
 			base.OnCellValuePushed(e);
 		}

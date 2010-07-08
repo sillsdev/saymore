@@ -13,7 +13,7 @@ namespace SayMore.Model.Files.DataGathering
 	/// Then when the data is needed for autocomplete, GetValueLists() distills it down to
 	/// {fieldKey, (list of unique values)}
 	/// </summary>
-	public class AutoCompleteValueGatherer : BackgroundFileProcessor<Dictionary<string,string>> /* a list of the languages mentioned in this file*/, IMultiListDataProvider
+	public class AutoCompleteValueGatherer : BackgroundFileProcessor<Dictionary<string, string>> /* a list of the languages mentioned in this file*/, IMultiListDataProvider
 	{
 		protected Dictionary<string, string> _mappingOfFieldsToAutoCompleteKey = new Dictionary<string,string>();
 		protected List<string> _multiValueFields = new List<string>();
@@ -38,6 +38,29 @@ namespace SayMore.Model.Files.DataGathering
 			_mappingOfFieldsToAutoCompleteKey.Add("education", "education");
 
 			_multiValueFields = new List<string>(new[] { "participants", "education" });
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool GetDoIncludeFile(string path)
+		{
+			if (_typesOfFilesToProcess.Any(t => t.IsMatch(path)) ||
+				_typesOfFilesToProcess.Any(t => t.IsMatch(path.Replace(".meta", string.Empty))))
+			{
+				var p = GetActualPath(path);
+				return File.Exists(p);
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Subclass can override this to, for example, use the path of a sidecar file
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string GetActualPath(string path)
+		{
+			return (path.EndsWith(".meta") ? path.Substring(0, path.Length - 5) : path);
 		}
 
 		/// ------------------------------------------------------------------------------------

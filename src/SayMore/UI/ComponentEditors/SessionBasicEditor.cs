@@ -44,7 +44,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			_gridViewModel = new FieldsValuesGridViewModel(_file, autoCompleteProvider, fieldGatherer)
 			{
-				FieldFilterFunction = key => _file.FileType.GetIsCustomFieldId(key)
+				FieldFilterFunction = (key => _file.FileType.GetIsCustomFieldId(key))
 			};
 
 			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);

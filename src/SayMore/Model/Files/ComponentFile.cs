@@ -558,6 +558,13 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		//public IEnumerable<Dictionary<string, string>> GetPresetChoices()
+		//{
+		//    Guard.AgainstNull(_presetProvider, "PresetProvider");
+		//    return _presetProvider.GetPresets();
+		//}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Set our values to those of the preset
 		/// </summary>
@@ -572,6 +579,8 @@ namespace SayMore.Model.Files
 				if (!string.IsNullOrEmpty(failureStringMessage))
 					ErrorReport.NotifyUserOfProblem(failureStringMessage);
 			}
+
+			Save();
 		}
 	}
 }

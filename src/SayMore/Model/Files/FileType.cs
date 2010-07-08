@@ -16,7 +16,7 @@ namespace SayMore.Model.Files
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Each file corresponds to a single kind of fileType.  The FileType then tells
+	/// Each file corresponds to a single kind of fileType. The FileType then tells
 	/// us what controls are available for marking up, editing, or viewing that file.
 	/// It also tells us which commands to offer in, for example, a context menu.
 	/// </summary>
@@ -109,9 +109,10 @@ namespace SayMore.Model.Files
 			get { return false; }
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<FieldDefinition> FactoryFields
 		{
-			get { return new List<FieldDefinition>(); }
+			get { return new List<FieldDefinition>(0); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,9 +127,17 @@ namespace SayMore.Model.Files
 			return pathToAnnotatedFile + Settings.Default.MetadataFileExtension;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public bool GetIsCustomFieldId(string key)
 		{
 			return !FactoryFields.Any(f => f.Key == key);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsReadonly(string key)
+		{
+			var field = FactoryFields.FirstOrDefault(f => f.Key == key);
+			return (field != null && field.ReadOnly);
 		}
 	}
 
@@ -157,9 +166,11 @@ namespace SayMore.Model.Files
 			return pathToAnnotatedFile; //we are our own metadata file, there is no sidecar
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FieldDefinition> FactoryFields
 		{
 			get
@@ -191,7 +202,7 @@ namespace SayMore.Model.Files
 							"picture",
 							"notes"
 						}
-				select new FieldDefinition(key, "string", new string[0]);
+				select new FieldDefinition(key);
 
 			}
 		}
@@ -276,7 +287,7 @@ namespace SayMore.Model.Files
 								 "title",
 								 "notes"
 						}
-					   select new FieldDefinition(key, "string", new string[0]);
+					   select new FieldDefinition(key);
 			}
 		}
 
@@ -351,17 +362,10 @@ namespace SayMore.Model.Files
 			get
 			{
 				foreach (var key in new[] {"Recordist", "Device", "Microphone",})
-				{
-					yield return new FieldDefinition(key, "string", new string[0]);
-				}
+					yield return new FieldDefinition(key);
 
 				foreach (var key in new[] {"Duration", "Channels", "Bit_Depth", "Sample_Rate"})
-				{
-					yield return new FieldDefinition(key, "string", new string[0])
-									{
-										ReadOnly = true
-									};
-				}
+					yield return new FieldDefinition(key) { ReadOnly = true };
 			}
 		}
 
@@ -415,26 +419,21 @@ namespace SayMore.Model.Files
 			get { return true; }
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FieldDefinition> FactoryFields
 		{
 			get
 			{
 				foreach (var field in AudioFileType.AudioFields)
-				{
 					yield return field;
-				}
 
-				//add video only fields
-				foreach (var key in new[] { "Resolution","Frame_Rate"})
-				{
-					yield return new FieldDefinition(key, "string", new string[0])
-					{
-						ReadOnly = true
-					};
-				}
+				// Add video only fields
+				foreach (var key in new[] { "Resolution", "Frame_Rate" })
+					yield return new FieldDefinition(key) { ReadOnly = true };
 			}
 		}
 

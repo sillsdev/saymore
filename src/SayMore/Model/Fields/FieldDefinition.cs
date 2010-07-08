@@ -58,29 +58,27 @@ namespace SayMore.Model.Fields
 		private string _fieldName;
 		private string _displayName = string.Empty;
 		private List<string> _writingSystemIds;
-		private bool _isSpellCheckingEnabled;
 		private string _optionsListFile;
-		private bool _isMultiParagraph;
-		private MultiplicityType _multiplicity = MultiplicityType.ZeroOr1;
-		private VisibilitySetting _visibility = VisibilitySetting.Visible;
 		// private string _className = string.Empty;
 		// private bool _enabled;
 		// private bool _enabledNotSet = true;
 
 		#region Construction and Initialization
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FieldDefinition"/> class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public FieldDefinition()
 		{
-			Initialize("unknown", "MultiText", MultiplicityType.ZeroOr1, new List<string>());
+			Visibility = VisibilitySetting.Visible;
+			Multiplicity = MultiplicityType.ZeroOr1;
+			Initialize("unknown", "MultiText", MultiplicityType.ZeroOr1, new string[] { });
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FieldDefinition(string fieldName) : this(fieldName, "string", new string[] { })
+		{
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="FieldDefinition"/> class.
 		/// REVIEW: Don't know what to do with the className. Do we need it?
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -91,13 +89,14 @@ namespace SayMore.Model.Fields
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="FieldDefinition"/> class.
 		/// REVIEW: Don't know what to do with the parentClassName. Do we need it?
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public FieldDefinition(string fieldName, string parentClassName,
 			IEnumerable<string> writingSystemIds, MultiplicityType multiplicity, string dataTypeName)
 		{
+			Visibility = VisibilitySetting.Visible;
+			Multiplicity = MultiplicityType.ZeroOr1;
 			if (writingSystemIds == null)
 				throw new ArgumentNullException();
 
@@ -114,7 +113,7 @@ namespace SayMore.Model.Fields
 		{
 			FieldName = fieldName;
 			WritingSystemIds = new List<string>(writingSystemIds);
-			_multiplicity = multiplicity;
+			Multiplicity = multiplicity;
 			DataTypeName = dataTypeName;
 		}
 
@@ -325,13 +324,8 @@ namespace SayMore.Model.Fields
 		/// Gets or sets the visibility.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[XmlElement("visibility")]
-		public VisibilitySetting Visibility
-		{
-			get { return _visibility; }
-			set { _visibility = value; }
-		}
+		[Browsable(false), XmlElement("visibility")]
+		public VisibilitySetting Visibility { get; set; }
 
 		//            public bool Enabled
 		//            {
@@ -392,26 +386,16 @@ namespace SayMore.Model.Fields
 		/// Gets or sets the multiplicity.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlElement("multiplicity")]
-		[Browsable(false)]
-		public MultiplicityType Multiplicity
-		{
-			get { return _multiplicity; }
-			set { _multiplicity = value; }
-		}
+		[XmlElement("multiplicity"), Browsable(false)]
+		public MultiplicityType Multiplicity { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is spell checking enabled.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlElement("isSpellCheckingEnabled")]
-		[Description("Do you want words in this field to be spell checked?")]
-		public bool IsSpellCheckingEnabled
-		{
-			get { return _isSpellCheckingEnabled; }
-			set { _isSpellCheckingEnabled = value; }
-		}
+		[XmlElement("isSpellCheckingEnabled"), Description("Do you want words in this field to be spell checked?")]
+		public bool IsSpellCheckingEnabled { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -419,14 +403,10 @@ namespace SayMore.Model.Fields
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("isMultiParagraph")]
-		public bool IsMultiParagraph
-		{
-			get { return _isMultiParagraph; }
-			set { _isMultiParagraph = value; }
-		}
+		public bool IsMultiParagraph { get; set; }
 
 		/// <summary>
-		/// Set to false for fields which are computed (e.g., Duration, Frame Rate, etc.)
+		/// Set to true for fields which are computed (e.g., Duration, Frame Rate, etc.)
 		/// </summary>
 		public bool ReadOnly { get; set; }
 
@@ -434,8 +414,6 @@ namespace SayMore.Model.Fields
 		/// Is this a factory field or a custom one?
 		/// </summary>
 		public bool IsCustom { get; set; }
-
-
 
 		#endregion
 

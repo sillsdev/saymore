@@ -15,11 +15,8 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.UI.Utilities;
 

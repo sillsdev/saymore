@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
-using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;

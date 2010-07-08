@@ -171,6 +171,12 @@
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ComponentEditors\ImageViewerViewModel.cs" />
+    <Compile Include="UI\ComponentEditors\MediaComponentEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\MediaComponentEditor.designer.cs">
+      <DependentUpon>MediaComponentEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ComponentEditors\NotesEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -487,6 +493,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\EditorBase.resx">
       <DependentUpon>EditorBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\MediaComponentEditor.resx">
+      <DependentUpon>MediaComponentEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LowLevelControls\DeleteMessageBox.resx">
       <DependentUpon>DeleteMessageBox.cs</DependentUpon>

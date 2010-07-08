@@ -1,6 +1,6 @@
 namespace SayMore.UI.ComponentEditors
 {
-	partial class VideoComponentEditor
+	partial class MediaComponentEditor
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -47,8 +47,8 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.RowCount = 2;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayout.Size = new System.Drawing.Size(435, 179);
-			this._tableLayout.TabIndex = 1;
+			this._tableLayout.Size = new System.Drawing.Size(435, 194);
+			this._tableLayout.TabIndex = 0;
 			// 
 			// _presetMenuButton
 			// 
@@ -70,13 +70,13 @@ namespace SayMore.UI.ComponentEditors
 			this._presetMenu.Name = "_presetMenu";
 			this._presetMenu.Size = new System.Drawing.Size(61, 4);
 			// 
-			// VideoComponentEditor
+			// AudioComponentEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayout);
-			this.Name = "VideoComponentEditor";
-			this.Size = new System.Drawing.Size(449, 193);
+			this.Name = "AudioComponentEditor";
+			this.Size = new System.Drawing.Size(449, 208);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			this.ResumeLayout(false);
@@ -89,6 +89,5 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private System.Windows.Forms.Button _presetMenuButton;
 		private System.Windows.Forms.ContextMenuStrip _presetMenu;
-
 	}
 }

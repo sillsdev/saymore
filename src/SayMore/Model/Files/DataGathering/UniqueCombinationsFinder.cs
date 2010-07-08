@@ -4,31 +4,42 @@ using System.Text;
 
 namespace SayMore.Model.Files.DataGathering
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Its job is simply to provide 0 or more suggestions for collections of values to assign
-	/// to media files.  It does that by looking at the values which have been used so far,
-	/// and (eventually) sorting them by frequency.
+	/// to media files. It does that by looking at the values which have been used so far,
+	/// and sorting them by frequency.
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class UniqueCombinationsFinder
 	{
 		private readonly IEnumerable<Dictionary<string, string>> _existingInstances;
 
+		/// ------------------------------------------------------------------------------------
 		public UniqueCombinationsFinder(IEnumerable<Dictionary<string, string>> existingInstances)
 		{
 			_existingInstances = existingInstances;
 		}
 
+		//public IEnumerable<Dictionary<string, string>> GetSuggestions()
+		//{
+		//    return from fieldGroup in _existingInstances.Distinct(new SetComparer())
+		//           where fieldGroup.Count > 0
+		//           select fieldGroup;
+
+		//    //enhance: sort by frequency
+		//}
+
+		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, Dictionary<string, string>>> GetSuggestions()
 		{
-			return from set in
-					(
-						from x in _existingInstances
-						select x).Distinct(new SetComparer())
+			return from set in _existingInstances.Distinct(new SetComparer())
+				   where set.Count > 0
+				   orderby set.Count descending
 				   select new KeyValuePair<string, Dictionary<string, string>>(GetLabelForSet(set), set);
-
-			//enhance: sort by frequency
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private static string GetLabelForSet(Dictionary<string, string> dictionary)
 		{
 			var bldr = new StringBuilder();
@@ -39,10 +50,14 @@ namespace SayMore.Model.Files.DataGathering
 					bldr.AppendFormat("{0}, ", value);
 			}
 
-			bldr.Length -= 2;
+			if (bldr.Length > 0)
+				bldr.Length -= 2;
+
 			return bldr.ToString();
 		}
 
+		#region SetComparer class
+		/// ------------------------------------------------------------------------------------
 		class SetComparer : IEqualityComparer<Dictionary<string, string>>
 		{
 			public bool Equals(Dictionary<string, string> x, Dictionary<string, string> y)
@@ -55,6 +70,7 @@ namespace SayMore.Model.Files.DataGathering
 					if (!y.ContainsKey(pair.Key) || y[pair.Key] != pair.Value)
 						return false;
 				}
+
 				return true;
 			}
 
@@ -64,6 +80,6 @@ namespace SayMore.Model.Files.DataGathering
 			}
 		}
 
-
+		#endregion
 	}
 }

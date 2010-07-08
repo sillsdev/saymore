@@ -79,6 +79,7 @@ namespace SayMoreTests.model.Files.DataGathering
 
 		private PresetData MakePresetFromContentsOfFile(string path)
 		{
+			path += (!path.EndsWith(".meta") ? ".meta" : string.Empty);
 			return new PresetData(path, p =>
 									{
 										var dict = new Dictionary<string, string>();

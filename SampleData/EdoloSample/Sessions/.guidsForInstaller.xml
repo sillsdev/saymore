@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
+<InstallerMetadata>
+  <File Id="SampleDataDir.EdoloSample.Sessions.Sessions" Guid="bf14bd0d-2e4a-4350-9152-9d5b544503e1" />
+  <File Id="SampleDataDir.EdoloSample.Sessions" Guid="39867196-3897-44b0-8492-6ef5996c448d" />
+</InstallerMetadata>

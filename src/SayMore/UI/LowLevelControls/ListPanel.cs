@@ -457,7 +457,17 @@ namespace SayMore.UI.LowLevelControls
 				_itemsListView.Items[currIndex].Selected = true;
 
 			if (AfterItemsDeleted != null)
-				AfterItemsDeleted(this, itemsToDelete);
+			{
+				try
+				{
+					AfterItemsDeleted(this, itemsToDelete);
+				}
+				catch(Exception error)
+				{
+					Palaso.Reporting.ErrorReport.ReportNonFatalException(error);
+					//TODO: I need a way now to say "refresh"
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

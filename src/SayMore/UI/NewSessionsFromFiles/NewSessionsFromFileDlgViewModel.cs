@@ -474,7 +474,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, string>> GetSourceAndDestinationPairs()
 		{
-			var sessionsPath = SessionPresentationModel.SelectedElement.ParentFolderPath;
+			var sessionsPath = SessionPresentationModel.PathToSessionsFolder;
 
 			return Files.Where(source => source.Selected).Select(source =>
 			{

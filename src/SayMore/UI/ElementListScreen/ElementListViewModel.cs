@@ -32,6 +32,8 @@ namespace SayMore.UI.ElementListScreen
 			get { return _repository.AllItems; }
 		}
 
+
+
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentFile> GetComponentsOfSelectedElement()
 		{
@@ -122,6 +124,12 @@ namespace SayMore.UI.ElementListScreen
 		public T CreateNewElementWithId(string id)
 		{
 			return _repository.CreateNew(id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string PathToSessionsFolder
+		{
+			get { return _repository.PathToFolder; }
 		}
 
 		/// ------------------------------------------------------------------------------------

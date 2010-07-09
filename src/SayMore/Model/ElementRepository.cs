@@ -75,6 +75,11 @@ namespace SayMore.Model
 			get {return _items;}
 		}
 
+		public string PathToFolder
+		{
+			get { return _rootFolder; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public T CreateNew(string id)
 		{

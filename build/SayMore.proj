@@ -109,6 +109,8 @@
   </Target>
 
   <Target Name="MakeWixForSampleData">
+	<MakeDir ContinueOnError ="true" Directories ="$(teamcity_build_checkoutDir)\output\Installer\"/>
+
 	<MakeWixForDirTree
 				DirectoryReferenceId="SampleDataDir"
 				GiveAllPermissions="true"

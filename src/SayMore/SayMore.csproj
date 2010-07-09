@@ -237,15 +237,6 @@
     <Compile Include="UI\LowLevelControls\ParentButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\LowLevelControls\UnderlinedHdgBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\LowLevelControls\VisuallyDynamicTextBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\LowLevelControls\VisuallyDynamicTextBox.designer.cs">
-      <DependentUpon>VisuallyDynamicTextBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -338,22 +329,7 @@
     <Compile Include="UI\ProjectChoosingAndCreating\WelcomeDialog.Designer.cs">
       <DependentUpon>WelcomeDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\LowLevelControls\GridPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\LowLevelControls\HoverCueTextBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\LowLevelControls\HoverCueTextBox.Designer.cs">
-      <DependentUpon>HoverCueTextBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\LowLevelControls\IInfoPanelField.cs" />
-    <Compile Include="UI\LowLevelControls\LabeledTextBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\LowLevelControls\LabeledTextBox.Designer.cs">
-      <DependentUpon>LabeledTextBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\LowLevelControls\ListPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -404,9 +380,6 @@
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\LowLevelControls\VisuallyDynamicTextBox.resx">
-      <DependentUpon>VisuallyDynamicTextBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesControl.resx">
       <DependentUpon>CopyFilesControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -435,12 +408,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectChoosingAndCreating\WelcomeDialog.resx">
       <DependentUpon>WelcomeDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\LowLevelControls\HoverCueTextBox.resx">
-      <DependentUpon>HoverCueTextBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\LowLevelControls\LabeledTextBox.resx">
-      <DependentUpon>LabeledTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LowLevelControls\ListPanel.resx">
       <DependentUpon>ListPanel.cs</DependentUpon>

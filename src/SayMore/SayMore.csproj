@@ -228,6 +228,7 @@
     <Compile Include="UI\ElementListScreen\ElementListScreen.Designer.cs">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ProjectWindow\ReleaseNotesCommand.cs" />
     <Compile Include="UI\LowLevelControls\DeleteMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -454,6 +455,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UI\ProjectWindow\ShowHtmlDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ProjectWindow\ShowHtmlDialog.Designer.cs">
+      <DependentUpon>ShowHtmlDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProjectWindow\ViewTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -514,6 +521,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\MissingFFmpegPopup.resx">
       <DependentUpon>MissingFFmpegPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProjectWindow\ShowHtmlDialog.resx">
+      <DependentUpon>ShowHtmlDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Resources\Overview3.png" />
     <None Include="Resources\People3.png" />

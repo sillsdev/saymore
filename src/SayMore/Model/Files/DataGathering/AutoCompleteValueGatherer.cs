@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -71,19 +72,34 @@ namespace SayMore.Model.Files.DataGathering
 		protected static Dictionary<string, string> ExtractValues(string path,
 			ComponentFile.Factory componentFileFactory)
 		{
-			var file = componentFileFactory(path);
-
-			var dictionary = file.MetaDataFieldValues.ToDictionary(
-				field => field.FieldId, field => field.Value);
-
-			// something of a hack... the name of the file is the only place we currently keep
-			// the person's name
-			if (file.FileType.GetType() == typeof(PersonFileType))
+			try
 			{
-				dictionary.Add("person", Path.GetFileNameWithoutExtension(path));
-			}
+				var file = componentFileFactory(path);
 
-			return dictionary;
+
+				//TODO there is an occasional problem here we need to track down, which
+				//may be a case of the same key appearing twice. For now, added try catch
+				//so we don't let that close down the whole gatherer for the life of the app
+
+				var dictionary = file.MetaDataFieldValues.ToDictionary(
+					field => field.FieldId, field => field.Value);
+
+				// something of a hack... the name of the file is the only place we currently keep
+				// the person's name
+				if (file.FileType.GetType() == typeof (PersonFileType))
+				{
+					dictionary.Add("person", Path.GetFileNameWithoutExtension(path));
+				}
+
+				return dictionary;
+			}
+			catch(Exception err)
+			{
+#if DEBUG
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(err, "Only seeing because you're in debug mode.");
+#endif
+				return new Dictionary<string, string>();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,6 +110,7 @@ namespace SayMore.Model.Files.DataGathering
 		public virtual Dictionary<string, IEnumerable<string>> GetValueLists()
 		{
 			var d = new Dictionary<string, IEnumerable<string>>();
+			d.Add("eventType", new List<string>(){"aaaaa","bbbbb"});
 			foreach (KeyValuePair<string, Dictionary<string, string>> fieldsOfFile in _fileToDataDictionary)
 			{
 				foreach (var field in fieldsOfFile.Value)

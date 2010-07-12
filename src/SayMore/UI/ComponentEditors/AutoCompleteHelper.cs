@@ -20,8 +20,8 @@ namespace SayMore.UI.ComponentEditors
 			Control boundControl, out string newValue);
 
 		private Container components;
-		private readonly Dictionary<TextBox, string> _keysForTextBoxes = new Dictionary<TextBox, string>();
-		private List<TextBox> _textBoxesNeedingNewList = new List<TextBox>(0);
+		private readonly Dictionary<Control, string> _keysForControls = new Dictionary<Control, string>();
+		private List<Control> _controlsNeedingNewList = new List<Control>(0);
 		private IMultiListDataProvider _provider;
 
 		/// <summary>
@@ -53,12 +53,11 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public bool CanExtend(object extendee)
 		{
-			var ctrl = extendee as TextBox;
-			if (ctrl == null)
+			if (!(extendee is TextBox || extendee is ComboBox))
 				return false;
-
-			if (!_keysForTextBoxes.ContainsKey(ctrl))
-				_keysForTextBoxes[ctrl] = string.Empty;//default to no autocomplete
+			var control = extendee as Control;
+			if (!_keysForControls.ContainsKey(control))
+				_keysForControls[control] = string.Empty;//default to no autocomplete
 
 			return true;
 		}
@@ -91,7 +90,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 
 			string key;
-			if(_keysForTextBoxes.TryGetValue(obj as TextBox, out key))
+			if(_keysForControls.TryGetValue(obj as Control, out key))
 			{
 				return key;
 			}
@@ -101,17 +100,17 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void SetAutoCompleteKey(object obj, string key)
 		{
-			var textbox = obj as TextBox;
+			var control = obj as Control;
 
-			if (textbox == null)
+			if (control == null)
 				return;
 
-			_keysForTextBoxes[textbox] = key;
+			_keysForControls[control] = key;
 
 			// Do this just in case this is being called from outside the initialize
 			// components method and after the component file has been set.
 			if (!string.IsNullOrEmpty(key)) //review (jh) doesn't know why we do this just when its empty
-				AddSupport(textbox);
+				AddSupport(control);
 		}
 
 		#endregion
@@ -122,64 +121,95 @@ namespace SayMore.UI.ComponentEditors
 			_provider = provider;
 			_provider.NewDataAvailable += HandleNewDataAvailable;
 
-			foreach (var textbox in _keysForTextBoxes.Where(x => !string.IsNullOrEmpty(x.Value)).Select(x => x.Key))
-				AddSupport(textbox);
+			foreach (var control in _keysForControls.Where(x => !string.IsNullOrEmpty(x.Value)).Select(x => x.Key))
+				AddSupport(control);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void AddSupport(TextBox textbox)
+		public void AddSupport(Control control)
 		{
-			textbox.Validated += HandleTextBoxValidated;
-			textbox.Enter += HandleTextBoxEnter;
-			textbox.Disposed += HandleDisposed;
-			textbox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-			textbox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+			control.Validated += HandleControlValidated;
+			control.Enter += HandleControlEnter;
+			control.Disposed += HandleDisposed;
+			if (control is TextBox)
+			{
+				((TextBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+				((TextBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
+			}
+			if (control is ComboBox)
+			{
+				((ComboBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+				((ComboBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
+			}
 		}
 
+
 		/// ------------------------------------------------------------------------------------
-		public void RemoveSupport(TextBox textbox)
+		public void RemoveSupport(Control control)
 		{
-			textbox.AutoCompleteMode = default(AutoCompleteMode);
-			textbox.AutoCompleteSource = AutoCompleteSource.None;
-			textbox.Validating -= HandleTextBoxValidated;
-			textbox.Enter -= HandleTextBoxEnter;
-			textbox.Disposed -= HandleDisposed;
+			if (control is TextBox)
+			{
+				((TextBox)control).AutoCompleteMode = default(AutoCompleteMode);
+				((TextBox)control).AutoCompleteSource = AutoCompleteSource.None;
+			}
+			if (control is ComboBox)
+			{
+				((ComboBox)control).AutoCompleteMode = default(AutoCompleteMode);
+				((ComboBox)control).AutoCompleteSource = AutoCompleteSource.None;
+			}
+			control.Validating -= HandleControlValidated;
+			control.Enter -= HandleControlEnter;
+			control.Disposed -= HandleDisposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleNewDataAvailable(object sender, EventArgs e)
 		{
-			_autoCompleteLists = _provider.GetValueLists();
+			_autoCompleteLists = _provider.GetValueLists(true);
 
-			_textBoxesNeedingNewList = (from kvp in _keysForTextBoxes
+			_controlsNeedingNewList = (from kvp in _keysForControls
 										where !string.IsNullOrEmpty(kvp.Value)
 										select kvp.Key).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleTextBoxEnter(object sender, EventArgs e)
+		void HandleControlEnter(object sender, EventArgs e)
 		{
-			var textbox = sender as TextBox;
-			if (textbox == null)
+			var control = sender as Control;
+			if (control == null)
 				return;
 
-			if (_textBoxesNeedingNewList.Contains(textbox))
+			if (_controlsNeedingNewList.Contains(control))
 			{
-				_textBoxesNeedingNewList.Remove(textbox);
+				_controlsNeedingNewList.Remove(control);
 				var newValues = new AutoCompleteStringCollection();
 
 				IEnumerable<string> values;
-				if (_autoCompleteLists.TryGetValue(_keysForTextBoxes[textbox], out values))
+				if (_autoCompleteLists.TryGetValue(_keysForControls[control], out values))
 					newValues.AddRange(values.ToArray());
 
-				textbox.AutoCompleteCustomSource = newValues;
+				if (control is TextBox)
+				{
+					((TextBox)control).AutoCompleteCustomSource = newValues;
+				}
+				else
+				{
+					((ComboBox)control).AutoCompleteCustomSource = newValues;
+				}
 			}
 
-			textbox.SelectAll();
+			if (control is TextBox)
+			{
+				((TextBox)control).SelectAll();
+			}
+			else
+			{
+				((ComboBox)control).SelectAll();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleTextBoxValidated(object sender, EventArgs e)
+		private void HandleControlValidated(object sender, EventArgs e)
 		{
 			// TODO: When support for UpdateGatherer property.
 		}
@@ -187,7 +217,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandleDisposed(object sender, EventArgs e)
 		{
-			RemoveSupport(sender as TextBox);
+			RemoveSupport(sender as Control);
 		}
 	}
 }

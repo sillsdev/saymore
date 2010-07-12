@@ -432,6 +432,24 @@
 			See if the object has been disposed.
 			</summary>
 		</member>
+		<member name="T:Palaso.CommandLineProcessing.CommandLineRunner">
+			<summary>
+
+			</summary>
+		</member>
+		<member name="T:Palaso.CommandLineProcessing.ProcessStream">
+			<summary>
+			This is class originally from  SeemabK (seemabk@yahoo.com).  It has been enhanced for chorus.
+			</summary>
+		</member>
+		<member name="M:Palaso.CommandLineProcessing.ProcessOutputReader.Read(System.Diagnostics.Process@,System.Int32,Palaso.CommandLineProcessing.IProgress)">
+			<summary>
+			Safely read the streams of the process
+			</summary>
+			<param name="process"></param>
+			<param name="secondsBeforeTimeOut"></param>
+			<returns>true if the process completed before the timeout or cancellation</returns>
+		</member>
 		<member name="M:Palaso.Text.MultiTextBase.ContainsAlternative(System.String)">
 			<summary>
 			Throws exception if alternative does not exist.
@@ -1790,6 +1808,17 @@
 			Gets the exception that occurred, or null if there was an unspecified error
 			</summary>
 		</member>
+		<member name="M:Palaso.CommandLineProcessing.ConsoleProgress.Dispose">
+			<summary>
+			Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+			</summary>
+			<filterpriority>2</filterpriority>
+		</member>
+		<member name="T:Palaso.CommandLineProcessing.LabelStatus">
+			<summary>
+			Just conveys status, not all messages
+			</summary>
+		</member>
 		<member name="T:Palaso.WritingSystems.WritingSystemDefinition">
 			<summary>
 			This class stores the information used to define various writing system properties.
@@ -2296,6 +2325,15 @@
 			<summary>
 			this is for interacting with test code which doesn't want to allow an actual UI
 			</summary>
+		</member>
+		<member name="M:Palaso.IO.FileLocator.GetFileDistributedWithApplication(System.String,System.String)">
+			<summary>
+			Find a file which, on a development machine, lives in [solution]/[distFileFolderName]/[subPath],
+			and when installed, lives in
+			[applicationFolder]/[distFileFolderName]/[subPath]  or
+			[applicationFolder]/[subPath]
+			</summary>
+			<example>GetFileDistributedWithApplication("DistFiles", "realeaseNotes.htm");</example>
 		</member>
 		<member name="P:Palaso.IO.FileLocator.DirectoryOfApplicationOrSolution">
 			<summary>
@@ -3046,35 +3084,6 @@
 			Call this method every time a cached item changes. This method verifies that the item you are trying to update exists int he repository.
 			</summary>
 			<param name="item"></param>
-		</member>
-		<member name="T:Palaso.CommandLineProcessing.CommandLineRunner">
-			<summary>
-
-			</summary>
-		</member>
-		<member name="T:Palaso.CommandLineProcessing.ProcessStream">
-			<summary>
-			This is class originally from  SeemabK (seemabk@yahoo.com).  It has been enhanced for chorus.
-			</summary>
-		</member>
-		<member name="M:Palaso.CommandLineProcessing.ProcessOutputReader.Read(System.Diagnostics.Process@,System.Int32,Palaso.CommandLineProcessing.IProgress)">
-			<summary>
-			Safely read the streams of the process
-			</summary>
-			<param name="process"></param>
-			<param name="secondsBeforeTimeOut"></param>
-			<returns>true if the process completed before the timeout or cancellation</returns>
-		</member>
-		<member name="M:Palaso.CommandLineProcessing.ConsoleProgress.Dispose">
-			<summary>
-			Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-			</summary>
-			<filterpriority>2</filterpriority>
-		</member>
-		<member name="T:Palaso.CommandLineProcessing.LabelStatus">
-			<summary>
-			Just conveys status, not all messages
-			</summary>
 		</member>
 	</members>
 </doc>

@@ -39,7 +39,7 @@ namespace SayMore.UI.ComponentEditors
 			{
 				_autoCompleteProvider = autoCompleteProvider;
 				_autoCompleteProvider.NewDataAvailable += HandleNewAutoCompleteDataAvailable;
-				_autoCompleteLists = _autoCompleteProvider.GetValueLists();
+				_autoCompleteLists = _autoCompleteProvider.GetValueLists(true);
 			}
 
 			SetComponentFile(file);
@@ -87,7 +87,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		void HandleNewAutoCompleteDataAvailable(object sender, EventArgs e)
 		{
-			_autoCompleteLists = _autoCompleteProvider.GetValueLists();
+			_autoCompleteLists = _autoCompleteProvider.GetValueLists(true);
 		}
 
 		/// ------------------------------------------------------------------------------------

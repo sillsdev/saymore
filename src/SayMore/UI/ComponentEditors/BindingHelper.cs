@@ -22,7 +22,7 @@ namespace SayMore.UI.ComponentEditors
 		public delegate bool GetBoundControlValueHandler(BindingHelper helper,
 			Control boundControl, out string newValue);
 
-		public event GetBoundControlValueHandler GetBoundControlValue;
+		//public event GetBoundControlValueHandler GetBoundControlValue;
 
 		private Container components;
 
@@ -225,10 +225,12 @@ namespace SayMore.UI.ComponentEditors
 			var key = MakeIdFromControl(ctrl);
 
 			string newValue = null;
-			var gotNewValueFromDelegate = (GetBoundControlValue != null &&
-				GetBoundControlValue(this, ctrl, out newValue));
+			//this was used for comboboxes when they were special,
+			//we may eventually have restricted choices again, but not for now
+//			var gotNewValueFromDelegate = (GetBoundControlValue != null &&
+//				GetBoundControlValue(this, ctrl, out newValue));
 
-			if (!gotNewValueFromDelegate)
+//			if (!gotNewValueFromDelegate)
 				newValue = ctrl.Text.Trim();
 
 			// Don't bother doing anything if the old value is the same as the new value.
@@ -242,7 +244,7 @@ namespace SayMore.UI.ComponentEditors
 				_file.TryChangeChangeId(newValue, out failureMessage) :
 				_file.SetValue(key, newValue, out failureMessage));
 
-			if (!gotNewValueFromDelegate)
+			//if (!gotNewValueFromDelegate)
 				ctrl.Text = newValue;
 
 			if (failureMessage != null)

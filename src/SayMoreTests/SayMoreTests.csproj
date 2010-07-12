@@ -44,6 +44,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="NUnitForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\common\NUnitForms.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
@@ -96,6 +100,7 @@
     <Compile Include="UI\ComponentEditors\ImageViewerViewModelTests.cs" />
     <Compile Include="UI\LowLevelControls\ListPanelTests.cs" />
     <Compile Include="UI\Overview\Statistics\StatisticsViewModelTests.cs" />
+    <Compile Include="UI\ProjectWindow\ReleaseNotesCommandTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SayMore\SayMore.csproj">
@@ -104,6 +109,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Resources\shortSound.wav" />
   </ItemGroup>
   <ItemGroup>

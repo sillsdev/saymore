@@ -24,7 +24,7 @@ namespace SayMore.Model.Files.DataGathering
 	public interface IMultiListDataProvider
 	{
 		event EventHandler NewDataAvailable;
-		Dictionary<string, IEnumerable<string>> GetValueLists();
+		Dictionary<string, IEnumerable<string>> GetValueLists(bool includeUnattestedFactoryChoices);
 	}
 
 	/// ----------------------------------------------------------------------------------------

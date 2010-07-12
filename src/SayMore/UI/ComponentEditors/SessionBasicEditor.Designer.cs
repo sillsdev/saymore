@@ -41,8 +41,8 @@ namespace SayMore.UI.ComponentEditors
 			this._labelCustomFields = new System.Windows.Forms.Label();
 			this._access = new System.Windows.Forms.TextBox();
 			this._labelAccess = new System.Windows.Forms.Label();
-			this._eventType = new System.Windows.Forms.ComboBox();
-			this._labelEventType = new System.Windows.Forms.Label();
+			this._genre = new System.Windows.Forms.ComboBox();
+			this._labelGenre = new System.Windows.Forms.Label();
 			this._location = new System.Windows.Forms.TextBox();
 			this._labelLocation = new System.Windows.Forms.Label();
 			this._participants = new System.Windows.Forms.TextBox();
@@ -172,8 +172,8 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Controls.Add(this._labelSynopsis, 1, 8);
 			this._tableLayout.Controls.Add(this._situation, 0, 9);
 			this._tableLayout.Controls.Add(this._labelAccess, 1, 6);
-			this._tableLayout.Controls.Add(this._eventType, 0, 7);
-			this._tableLayout.Controls.Add(this._labelEventType, 0, 6);
+			this._tableLayout.Controls.Add(this._genre, 0, 7);
+			this._tableLayout.Controls.Add(this._labelGenre, 0, 6);
 			this._tableLayout.Controls.Add(this._location, 1, 5);
 			this._tableLayout.Controls.Add(this._labelLocation, 1, 4);
 			this._tableLayout.Controls.Add(this._participants, 0, 5);
@@ -257,31 +257,34 @@ namespace SayMore.UI.ComponentEditors
 			this._labelAccess.TabIndex = 14;
 			this._labelAccess.Text = "Access";
 			// 
-			// _eventType
+			// _genre
 			// 
-			this._eventType.Dock = System.Windows.Forms.DockStyle.Top;
-			this._eventType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this._eventType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._eventType.FormattingEnabled = true;
-			this._binder.SetIsBound(this._eventType, true);
-			this._binder.SetIsComponentFileId(this._eventType, false);
-			this._eventType.Location = new System.Drawing.Point(0, 154);
-			this._eventType.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
-			this._eventType.Name = "_eventType";
-			this._eventType.Size = new System.Drawing.Size(183, 21);
-			this._eventType.TabIndex = 13;
+			this._autoCompleteHelper.SetAutoCompleteKey(this._genre, "genre");
+			this._genre.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this._genre.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+			this._genre.Dock = System.Windows.Forms.DockStyle.Top;
+			this._genre.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._genre.FormattingEnabled = true;
+			this._binder.SetIsBound(this._genre, true);
+			this._binder.SetIsComponentFileId(this._genre, false);
+			this._genre.Location = new System.Drawing.Point(0, 154);
+			this._genre.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
+			this._genre.Name = "_genre";
+			this._genre.Size = new System.Drawing.Size(183, 21);
+			this._genre.TabIndex = 13;
+			this._autoCompleteHelper.SetUpdateGatherer(this._genre, false);          
 			// 
-			// _labelEventType
+			// _labelGenre
 			// 
-			this._labelEventType.AutoSize = true;
-			this._labelEventType.BackColor = System.Drawing.Color.Transparent;
-			this._labelEventType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelEventType.Location = new System.Drawing.Point(0, 138);
-			this._labelEventType.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
-			this._labelEventType.Name = "_labelEventType";
-			this._labelEventType.Size = new System.Drawing.Size(61, 13);
-			this._labelEventType.TabIndex = 12;
-			this._labelEventType.Text = "Event Type";
+			this._labelGenre.AutoSize = true;
+			this._labelGenre.BackColor = System.Drawing.Color.Transparent;
+			this._labelGenre.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelGenre.Location = new System.Drawing.Point(0, 138);
+			this._labelGenre.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
+			this._labelGenre.Name = "_labelGenre";
+			this._labelGenre.Size = new System.Drawing.Size(61, 13);
+			this._labelGenre.TabIndex = 12;
+			this._labelGenre.Text = "Genre";
 			// 
 			// _location
 			// 
@@ -406,7 +409,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _binder
 			// 
-			this._binder.GetBoundControlValue += new SayMore.UI.ComponentEditors.BindingHelper.GetBoundControlValueHandler(this.HandleGetBoundControlValue);
+			//this._binder.GetBoundControlValue += new SayMore.UI.ComponentEditors.BindingHelper.GetBoundControlValueHandler();
 			// 
 			// SessionBasicEditor
 			// 
@@ -441,8 +444,8 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TextBox _setting;
 		private System.Windows.Forms.Label _labelLocation;
 		private System.Windows.Forms.TextBox _location;
-		private System.Windows.Forms.Label _labelEventType;
-		private System.Windows.Forms.ComboBox _eventType;
+		private System.Windows.Forms.Label _labelGenre;
+		private System.Windows.Forms.ComboBox _genre;
 		private System.Windows.Forms.TextBox _access;
 		private System.Windows.Forms.Label _labelAccess;
 		private BindingHelper _binder;

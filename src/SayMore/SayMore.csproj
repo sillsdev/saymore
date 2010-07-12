@@ -101,7 +101,7 @@
     <Compile Include="Model\Files\DataGathering\SessionOverviewStatistics.cs" />
     <Compile Include="Model\Files\ExportCommand.cs" />
     <Compile Include="Model\Files\DataGathering\AudioVideoFileStatistics.cs" />
-    <Compile Include="Model\Fields\DiscourseType.cs" />
+    <Compile Include="Model\Fields\GenreDefinition.cs" />
     <Compile Include="Model\ElementRepository.cs" />
     <Compile Include="ApplicationContainer.cs" />
     <Compile Include="Model\Fields\FieldTemplate.cs" />
@@ -230,6 +230,7 @@
     <Compile Include="UI\ElementListScreen\ElementListScreen.Designer.cs">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ProjectWindow\ReleaseNotesCommand.cs" />
     <Compile Include="UI\LowLevelControls\DeleteMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -423,6 +424,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UI\ProjectWindow\ShowHtmlDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ProjectWindow\ShowHtmlDialog.Designer.cs">
+      <DependentUpon>ShowHtmlDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProjectWindow\ViewTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -484,6 +491,9 @@
     <EmbeddedResource Include="UI\ProjectWindow\MissingFFmpegPopup.resx">
       <DependentUpon>MissingFFmpegPopup.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProjectWindow\ShowHtmlDialog.resx">
+      <DependentUpon>ShowHtmlDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Resources\Overview3.png" />
     <None Include="Resources\People3.png" />
     <None Include="Resources\SendReceive3.png" />
@@ -530,7 +540,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\DiscourseTypes.xml" "$(OutDir)"
+    <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\Genres.xml" "$(OutDir)"
 </PreBuildEvent>
   </PropertyGroup>
 </Project>

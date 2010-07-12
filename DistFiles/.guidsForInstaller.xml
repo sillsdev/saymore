@@ -5,4 +5,5 @@
   <File Id="DiscourseTypes.xml" Guid="8cc156cb-e24e-4858-aa15-19ae231fd7bb" />
   <File Id="SessionFileInfoTemplates.xml" Guid="79c9620d-5ae8-4fbb-bdcf-3a88a57c9ae0" />
   <File Id="Sponge.exe.config" Guid="8ce714ee-790b-4f15-872c-ed5e2fb8a9e2" />
+  <File Id="releaseNotes.htm" Guid="7faa5799-f47a-4fb8-aebf-c7baae6aceb5" />
 </InstallerMetadata>

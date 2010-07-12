@@ -29,8 +29,10 @@ namespace SayMore.UI.ProjectWindow
 			this._menuExit = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuAbout = new System.Windows.Forms.ToolStripMenuItem();
+			this.releaseNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._viewTabGroup = new SIL.Pa.UI.Controls.ViewTabGroup();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._mainMenuStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -113,6 +115,8 @@ namespace SayMore.UI.ProjectWindow
 			// _menuHelp
 			// 
 			this._menuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.releaseNotesToolStripMenuItem,
+            this.toolStripSeparator1,
             this._menuAbout});
 			this.locExtender.SetLocalizableToolTip(this._menuHelp, null);
 			this.locExtender.SetLocalizationComment(this._menuHelp, null);
@@ -127,9 +131,20 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuAbout, null);
 			this.locExtender.SetLocalizingId(this._menuAbout, ".aboutToolStripMenuItem");
 			this._menuAbout.Name = "_menuAbout";
-			this._menuAbout.Size = new System.Drawing.Size(116, 22);
+			this._menuAbout.Size = new System.Drawing.Size(156, 22);
 			this._menuAbout.Text = "&About...";
 			this._menuAbout.Click += new System.EventHandler(this.HandleHelpAboutClick);
+			// 
+			// releaseNotesToolStripMenuItem
+			// 
+			this.locExtender.SetLocalizableToolTip(this.releaseNotesToolStripMenuItem, null);
+			this.locExtender.SetLocalizationComment(this.releaseNotesToolStripMenuItem, null);
+			this.locExtender.SetLocalizingId(this.releaseNotesToolStripMenuItem, "ProjectWindow.releaseNotesToolStripMenuItem");
+			this.releaseNotesToolStripMenuItem.Name = "releaseNotesToolStripMenuItem";
+			this.releaseNotesToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+			this.releaseNotesToolStripMenuItem.Tag = "releaseNotes";
+			this.releaseNotesToolStripMenuItem.Text = "Release Notes...";
+			this.releaseNotesToolStripMenuItem.Click += new System.EventHandler(this.OnCommandMenuItem_Click);
 			// 
 			// fileToolStripMenuItem
 			// 
@@ -151,6 +166,11 @@ namespace SayMore.UI.ProjectWindow
 			this._viewTabGroup.Name = "_viewTabGroup";
 			this._viewTabGroup.Size = new System.Drawing.Size(697, 445);
 			this._viewTabGroup.TabIndex = 2;
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(153, 6);
 			// 
 			// ProjectWindow
 			// 
@@ -188,6 +208,8 @@ namespace SayMore.UI.ProjectWindow
 		private SIL.Pa.UI.Controls.ViewTabGroup _viewTabGroup;
 		private System.Windows.Forms.ToolStripMenuItem _menuHelp;
 		private System.Windows.Forms.ToolStripMenuItem _menuAbout;
+		private System.Windows.Forms.ToolStripMenuItem releaseNotesToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 	}
 }
 

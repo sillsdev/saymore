@@ -282,7 +282,7 @@ namespace SayMore.Model.Files
 								 "location",
 								 "setting",
 								 "situation",
-								 "eventType",
+								 "genre",
 								 "participants",
 								 "title",
 								 "notes"

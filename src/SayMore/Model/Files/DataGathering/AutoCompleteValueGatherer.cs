@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files.DataGathering
 {
@@ -78,11 +80,24 @@ namespace SayMore.Model.Files.DataGathering
 
 
 				//TODO there is an occasional problem here we need to track down, which
-				//may be a case of the same key appearing twice. For now, added try catch
-				//so we don't let that close down the whole gatherer for the life of the app
+				//may be a case of the same key appearing twice. Why?
 
-				var dictionary = file.MetaDataFieldValues.ToDictionary(
-					field => field.FieldId, field => field.Value);
+//				var dictionary = file.MetaDataFieldValues.ToDictionary(
+//					field => field.FieldId, field => field.Value);
+
+				//for now, do it the long way:
+				var dictionary = new Dictionary<string, string>();
+				foreach (var fieldInstance in file.MetaDataFieldValues)
+				{
+					if(!dictionary.ContainsKey(fieldInstance.FieldId))
+					{
+						dictionary.Add(fieldInstance.FieldId, fieldInstance.Value);
+					}
+					else
+					{
+						Debug.WriteLine(fieldInstance+" appears more than once in the file "+path);
+					}
+				}
 
 				// something of a hack... the name of the file is the only place we currently keep
 				// the person's name
@@ -106,32 +121,43 @@ namespace SayMore.Model.Files.DataGathering
 		/// <summary>
 		/// Gives [key, (list of unique values)]
 		/// </summary>
+		/// <param name="includeUnattestedFactoryChoices"></param>
 		/// ------------------------------------------------------------------------------------
-		public virtual Dictionary<string, IEnumerable<string>> GetValueLists()
+		public virtual Dictionary<string, IEnumerable<string>> GetValueLists(bool includeUnattestedFactoryChoices)
 		{
-			var d = new Dictionary<string, IEnumerable<string>>();
-			d.Add("eventType", new List<string>(){"aaaaa","bbbbb"});
+			var keyToValuesDictionary = new Dictionary<string, IEnumerable<string>>();
+
+			if(includeUnattestedFactoryChoices)
+			{
+				AddFactoryChoices(keyToValuesDictionary);
+			}
+
 			foreach (KeyValuePair<string, Dictionary<string, string>> fieldsOfFile in _fileToDataDictionary)
 			{
 				foreach (var field in fieldsOfFile.Value)
 				{
 					var key = GetKeyFromFieldName(field.Key);
-					if (!d.ContainsKey(key))
+					if (!keyToValuesDictionary.ContainsKey(key))
 					{
-						d.Add(key, new List<string>());
+						keyToValuesDictionary.Add(key, new List<string>());
 					}
 
 					foreach (var value in GetIndividualValues(field))
 					{
-						if (!d[key].Contains(value))
+						if (!keyToValuesDictionary[key].Contains(value))
 						{
-							((List<string>)d[key]).Add(value);
+							((List<string>)keyToValuesDictionary[key]).Add(value);
 						}
 					}
 				}
 			}
 
-			return d;
+			return keyToValuesDictionary;
+		}
+
+		private void AddFactoryChoices(Dictionary<string, IEnumerable<string>> keyToValuesDictionary)
+		{
+			keyToValuesDictionary.Add("genre", GenreDefinition.FactoryGenreDefinitions.Select(d => d.Name).ToList());
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -29,13 +29,17 @@ namespace SayMore.UI.ComponentEditors
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 
-			if (DiscourseType.AllTypes != null)
+			if (GenreDefinition.FactoryGenreDefinitions != null)
 			{
-				var discourseTypes = DiscourseType.AllTypes.ToArray();
-				_eventType.Items.AddRange(discourseTypes);
+				//add the ones in use, factory or otherwise
+				_genre.Items.AddRange(autoCompleteProvider.GetValueLists(false)["genre"].ToArray());
+				_genre.Items.Add("-----");
+				//add the rest of the factory defaults
+				_genre.Items.AddRange(GenreDefinition.FactoryGenreDefinitions.ToArray());
 
-				var currType = discourseTypes.FirstOrDefault(x => x.Id == _binder.GetValue("eventType"));
-				_eventType.SelectedItem = (currType ?? DiscourseType.UnknownType);
+				var genre = GenreDefinition.FactoryGenreDefinitions.ToArray().FirstOrDefault(x => x.Id == _binder.GetValue("genre"));
+				_genre.SelectedItem = (genre ?? GenreDefinition.UnknownType);
+
 			}
 		}
 
@@ -67,16 +71,17 @@ namespace SayMore.UI.ComponentEditors
 		/// Provide special handling for persisting the value of the event type combo.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool HandleGetBoundControlValue(BindingHelper helper, Control boundControl, out string newValue)
-		{
-			newValue = null;
-
-			if (boundControl != _eventType)
-				return false;
-
-			newValue = ((DiscourseType)_eventType.SelectedItem).Id;
-			return true;
-		}
+//		private bool GetComboBoxValue(BindingHelper helper, Control boundControl, out string newValue)
+//		{
+//			newValue = null;
+//
+//			if (boundControl != _genre)
+//				return false;
+//
+			//newValue = ((DiscourseType)_genre.SelectedItem).Id;
+//			newValue = _genre.Text;
+//			return true;
+//		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleIdEnter(object sender, EventArgs e)
@@ -84,5 +89,6 @@ namespace SayMore.UI.ComponentEditors
 			// Makes sure the id's label is also visible when the id field gains focus.
 			AutoScrollPosition = new Point(0, 0);
 		}
+
 	}
 }

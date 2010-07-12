@@ -40,12 +40,11 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider, FieldGatherer fieldGatherer)
+		private void InitializeGrid(IMultiListDataProvider autoCompleteProvider,
+			FieldGatherer fieldGatherer)
 		{
-			_gridViewModel = new FieldsValuesGridViewModel(_file, autoCompleteProvider, fieldGatherer)
-			{
-				FieldFilterFunction = (key => _file.FileType.GetIsCustomFieldId(key))
-			};
+			_gridViewModel = new FieldsValuesGridViewModel(_file, autoCompleteProvider,
+				fieldGatherer, key => _file.FileType.GetIsCustomFieldId(key));
 
 			_gridCustomFields = new FieldsValuesGrid(_gridViewModel);
 			_gridCustomFields.Dock = DockStyle.Top;

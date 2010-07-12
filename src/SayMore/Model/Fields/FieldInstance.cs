@@ -28,6 +28,11 @@ namespace SayMore.Model.Fields
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public FieldInstance(string id) : this(id, string.Empty)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public FieldInstance CreateCopy()
 		{
 			return new FieldInstance(FieldId, Type, Value);

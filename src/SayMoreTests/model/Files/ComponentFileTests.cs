@@ -86,6 +86,90 @@ namespace SayMoreTests.Model.Files
 
 		[Test]
 		[Category("SkipOnTeamCity")]
+		public void RenameId_FieldIsThere_ReturnsTrue()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+			SetValue(f, "height", "25");
+			SetValue(f, "width", "50");
+
+			Assert.IsTrue(f.RenameId("width", "girth"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void RenameId_FieldIsThere_OldIdReturnsNothing()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+			SetValue(f, "height", "25");
+			SetValue(f, "width", "50");
+
+			f.RenameId("width", "girth");
+			Assert.IsNull(f.GetStringValue("width", null));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void RenameId_FieldIsThere_NewIdReturnsOldValue()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+			SetValue(f, "height", "25");
+			SetValue(f, "width", "50");
+
+			f.RenameId("width", "girth");
+			Assert.AreEqual("50", f.GetStringValue("girth", null));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void RenameId_FieldMissing_ReturnsFalse()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+			SetValue(f, "height", "25");
+			Assert.IsFalse(f.RenameId("width", "girth"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void RenameId_FieldMissing_NewIdReturnsNothing()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+			SetValue(f, "height", "25");
+			f.RenameId("width", "girth");
+			Assert.IsNull(f.GetStringValue("width", null));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void RemoveField_FieldIsThere_ReturnsTrue()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+			SetValue(f, "height", "25");
+			SetValue(f, "width", "50");
+			Assert.IsTrue(f.RemoveField("width"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void RemoveField_FieldIsThere_OldIdReturnsNothing()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+			SetValue(f, "height", "25");
+			SetValue(f, "width", "50");
+			f.RemoveField("width");
+			Assert.IsNull(f.GetStringValue("width", null));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void RemoveField_FieldMissing_ReturnsFalse()
+		{
+			ComponentFile f = CreateComponentFile("abc.zzz");
+			SetValue(f, "height", "25");
+			Assert.IsFalse(f.RemoveField("width"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
 		public void SetValue_ChangingValue_NewValueOverwritesOld()
 		{
 			ComponentFile f = CreateComponentFile("abc.zzz");
@@ -94,15 +178,14 @@ namespace SayMoreTests.Model.Files
 			Assert.AreEqual("green", f.GetStringValue("color", "blue"));
 		}
 
-
 		private ComponentFile CreateComponentFileWithRoleChoices(string path)
 		{
 			var componentRoles = new []
-									{
-										new ComponentRole(typeof(Session),"translation", "translation", ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"), "$ElementId$_Original"),
-										new ComponentRole(typeof(Session),"transcriptionN", "Written Translation", ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N"),
-										new ComponentRole(typeof(Session),"original", "Original Recording", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original")
-									};
+			{
+				new ComponentRole(typeof(Session),"translation", "translation", ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"), "$ElementId$_Original"),
+				new ComponentRole(typeof(Session),"transcriptionN", "Written Translation", ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N"),
+				new ComponentRole(typeof(Session),"original", "Original Recording", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original")
+			};
 
 			return new ComponentFile(path,
 				new FileType[] { FileType.Create("Text", ".txt"), },

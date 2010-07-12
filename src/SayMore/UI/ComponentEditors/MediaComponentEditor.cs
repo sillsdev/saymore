@@ -23,9 +23,12 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void InitializeGrid(AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
+		protected virtual void InitializeGrid(AutoCompleteValueGatherer autoCompleteProvider,
+			FieldGatherer fieldGatherer)
 		{
-			_gridViewModel = new FieldsValuesGridViewModel(_file, autoCompleteProvider, fieldGatherer);
+			_gridViewModel = new FieldsValuesGridViewModel(_file, autoCompleteProvider,
+				fieldGatherer, key => key != "notes");
+
 			_grid = new FieldsValuesGrid(_gridViewModel);
 			_grid.Dock = DockStyle.Fill;
 			_tableLayout.Controls.Add(_grid, 0, 1);

@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Palaso.CommandLineProcessing;
 using Palaso.Media;
+using Palaso.Reporting;
 using SayMore.Model.Fields;
+using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SIL.Localization;
 
 namespace SayMore.Model.Files
 {
+	#region FileType class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Each file corresponds to a single kind of fileType. The FileType then tells
@@ -128,18 +130,32 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsCustomFieldId(string key)
+		public virtual bool GetIsCustomFieldId(string key)
 		{
 			return !FactoryFields.Any(f => f.Key == key);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsReadonly(string key)
+		public virtual bool GetIsReadonly(string key)
 		{
 			var field = FactoryFields.FirstOrDefault(f => f.Key == key);
 			return (field != null && field.ReadOnly);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool GetShowInPresetOptions(string key)
+		{
+			return (!GetIsCustomFieldId(key) && !GetIsReadonly(key));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ComputedFieldInfo> GetComputedFields()
+		{
+			return new List<ComputedFieldInfo>(0);
+		}
 	}
+
+	#endregion
 
 	#region PersonFileType class
 	/// ----------------------------------------------------------------------------------------
@@ -226,7 +242,6 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <param name="filePath"></param>
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
 			yield return new FileCommand("Show in File Explorer...",
@@ -267,9 +282,11 @@ namespace SayMore.Model.Files
 			get { return "SessionCustomFieldsGrid"; }
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FieldDefinition> FactoryFields
 		{
 			get
@@ -310,7 +327,6 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <param name="filePath"></param>
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
 			yield return new FileCommand("Show in File Explorer...",
@@ -326,9 +342,118 @@ namespace SayMore.Model.Files
 
 	#endregion
 
+	#region AudioVideoFileTypeBase class
+	/// ----------------------------------------------------------------------------------------
+	public abstract class AudioVideoFileTypeBase : FileType
+	{
+		/// ------------------------------------------------------------------------------------
+		protected AudioVideoFileTypeBase(string name, Func<string, bool> isMatchPredicate)
+			: base(name, isMatchPredicate)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<ComputedFieldInfo> GetComputedFields()
+		{
+			yield return new ComputedFieldInfo
+			{
+				Key = "Duration",
+				DataSetChooser = (info => info.Audio),
+				DataItemChooser = (audio => ((MediaInfo.AudioInfo)audio).Duration),
+				GetFormatedStatProvider = GetDurationStatistic
+			};
+
+			yield return new ComputedFieldInfo
+			{
+				Key = "Sample_Rate",
+				Suffix = "Hz",
+				DataSetChooser = (info => info.Audio),
+				DataItemChooser = (audio => ((MediaInfo.AudioInfo)audio).SamplesPerSecond),
+				GetFormatedStatProvider = GetStringStatistic
+			};
+
+			yield return new ComputedFieldInfo
+			{
+				Key = "Bit_Depth",
+				Suffix = "bits",
+				DataSetChooser = (info => info.Audio),
+				DataItemChooser = (audio => ((MediaInfo.AudioInfo)audio).BitDepth),
+				GetFormatedStatProvider = GetStringStatistic
+			};
+
+			yield return new ComputedFieldInfo
+			{
+				Key = "Channels",
+				DataSetChooser = (info => info.Audio),
+				DataItemChooser = (audio => ((MediaInfo.AudioInfo)audio).ChannelCount.ToString()),
+				GetFormatedStatProvider = GetChannelsStatistic,
+			};
+
+			yield return new ComputedFieldInfo
+			{
+				Key = "Resolution",
+				DataSetChooser = (info => info.Video),
+				DataItemChooser = (video => ((MediaInfo.VideoInfo)video).Resolution),
+				GetFormatedStatProvider = GetStringStatistic
+			};
+
+			yield return new ComputedFieldInfo
+			{
+				Key = "Frame_Rate",
+				Suffix = "frames/second",
+				DataSetChooser = (info => info.Video),
+				DataItemChooser = (video => ((MediaInfo.VideoInfo)video).FramesPerSecond),
+				GetFormatedStatProvider = GetStringStatistic
+			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetStringStatistic(AudioVideoFileStatistics stats,
+			Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser,
+			string suffix)
+		{
+			if (stats == null || stats.MediaInfo == null || dataSetChooser(stats.MediaInfo) == null)
+				return string.Empty;
+
+			return string.Format("{0} {1}", dataItemChooser(dataSetChooser(stats.MediaInfo)), suffix).Trim();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetChannelsStatistic(AudioVideoFileStatistics stats,
+			Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser,
+			string suffix)
+		{
+			var channels = GetStringStatistic(stats, dataSetChooser, dataItemChooser, string.Empty);
+
+			switch (channels)
+			{
+				case "-1": return string.Empty;
+				case "0": return string.Empty;
+				case "1": return "mono";
+				case "2": return "stereo";
+			}
+
+			return channels;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetDurationStatistic(AudioVideoFileStatistics stats,
+			Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser,
+			string suffix)
+		{
+			var duration = GetStringStatistic(stats, dataSetChooser, dataItemChooser, string.Empty);
+
+			// Strip off milliseconds.
+			int i = duration.LastIndexOf('.');
+			return (i < 0 ? duration : duration.Substring(0, i));
+		}
+	}
+
+	#endregion
+
 	#region AudioFileType class
 	/// ----------------------------------------------------------------------------------------
-	public class AudioFileType : FileType
+	public class AudioFileType : AudioVideoFileTypeBase
 	{
 		private readonly Func<AudioComponentEditor.Factory> _audioComponentEditorFactoryLazy;
 
@@ -346,27 +471,37 @@ namespace SayMore.Model.Files
 			get { return true; }
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// These are fields which are always available for files of this type
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FieldDefinition> FactoryFields
 		{
 			get {return AudioFields;}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This is separated out so that video can reuse it.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		internal static IEnumerable<FieldDefinition> AudioFields
 		{
 			get
 			{
-				foreach (var key in new[] {"Recordist", "Device", "Microphone",})
+				foreach (var key in new[] { "Recordist", "Device", "Microphone" })
 					yield return new FieldDefinition(key);
 
-				foreach (var key in new[] {"Duration", "Channels", "Bit_Depth", "Sample_Rate"})
+				foreach (var key in new[] { "Duration", "Channels", "Bit_Depth", "Sample_Rate" })
 					yield return new FieldDefinition(key) { ReadOnly = true };
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool GetShowInPresetOptions(string key)
+		{
+			return (base.GetShowInPresetOptions(key) && key != "notes");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -401,7 +536,7 @@ namespace SayMore.Model.Files
 
 	#region VideoFileType class
 	/// ----------------------------------------------------------------------------------------
-	public class VideoFileType : FileType
+	public class VideoFileType : AudioVideoFileTypeBase
 	{
 		private readonly Func<VideoComponentEditor.Factory> _videoComponentEditorFactoryLazy;
 
@@ -443,7 +578,13 @@ namespace SayMore.Model.Files
 			get { return "VideoFileFieldsGrid"; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public override bool GetShowInPresetOptions(string key)
+		{
+			return (base.GetShowInPresetOptions(key) && key != "notes");
+		}
 
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
 			foreach (var fileCommand in base.GetCommands(filePath))
@@ -459,20 +600,24 @@ namespace SayMore.Model.Files
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ExtractMp3Audio(string path)
 		{
-			if(!Palaso.Media.MediaInfo.HaveNecessaryComponents)
+			if (!MediaInfo.HaveNecessaryComponents)
 			{
 				MessageBox.Show("SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
 			}
+
 			var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
 
-			if(File.Exists(outputPath))
+			if (File.Exists(outputPath))
 			{
 				//todo ask the user (or don't off this in the first place)
 				//File.Delete(outputPath);
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Sorry, the file "+Path.GetFileName(outputPath)+" already exists.");
+				ErrorReport.NotifyUserOfProblem(
+					string.Format("Sorry, the file '{0}' already exists.", Path.GetFileName(outputPath)));
+
 				return;
 			}
 
@@ -480,12 +625,15 @@ namespace SayMore.Model.Files
 			//TODO...provide some progress
 			var results = FFmpegRunner.ExtractMp3Audio(path, outputPath, new NullProgress());
 			Cursor.Current = Cursors.Default;
-			if(results.ExitCode !=0)
+
+			if (results.ExitCode != 0)
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Something didn't work out. FFmpeg said (start reading from the end):" + Environment.NewLine + Environment.NewLine + results.StandardError);
+				ErrorReport.NotifyUserOfProblem(
+						string.Format("Something didn't work out. FFmpeg said (start reading from the end): {0}{1}{2}",
+							Environment.NewLine, Environment.NewLine, results.StandardError));
+
 				return;
 			}
-
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -550,6 +698,27 @@ namespace SayMore.Model.Files
 		public override Image SmallIcon
 		{
 			get { return Resources.ImageFileImage; }
+		}
+	}
+
+	#endregion
+
+	#region ComputedFieldInfo class
+	/// ----------------------------------------------------------------------------------------
+	public class ComputedFieldInfo
+	{
+		public string Key { get; set; }
+		public string Suffix { get; set; }
+		public Func<MediaInfo, object> DataSetChooser;
+		public Func<object, object> DataItemChooser;
+
+		public Func<AudioVideoFileStatistics, Func<MediaInfo, object>,
+			Func<object, object>, string, string> GetFormatedStatProvider { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public ComputedFieldInfo()
+		{
+			Suffix = string.Empty;
 		}
 	}
 

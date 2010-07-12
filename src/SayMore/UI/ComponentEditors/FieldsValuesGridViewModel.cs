@@ -19,18 +19,21 @@ namespace SayMore.UI.ComponentEditors
 		private ComponentFile _file;
 
 		public Action ComponentFileChanged;
-		public List<KeyValuePair<FieldInstance, FieldDefinition>> RowData { get; private set; }
+		//public List<KeyValuePair<FieldDefinition, FieldInstance>> RowData { get; private set; }
+		public List<FieldInstance> RowData { get; private set; }
 
 		private Dictionary<string, IEnumerable<string>> _autoCompleteLists = new Dictionary<string,IEnumerable<string>>();
 		private readonly IMultiListDataProvider _autoCompleteProvider;
+		private IEnumerable<FieldDefinition> _fieldDefsForFile;
 
-		public Func<string, bool> FieldFilterFunction { get; set; }
+		public Func<string, bool> _includedFieldFilterFunction;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGridViewModel(ComponentFile file, IMultiListDataProvider autoCompleteProvider,
-			FieldGatherer fieldGatherer)
+			FieldGatherer fieldGatherer, Func<string, bool> includedFieldFilterFunction)
 		{
 			_fieldGatherer = fieldGatherer;
+			_includedFieldFilterFunction = includedFieldFilterFunction;
 
 			if (autoCompleteProvider != null)
 			{
@@ -46,7 +49,7 @@ namespace SayMore.UI.ComponentEditors
 		public void SetComponentFile(ComponentFile file)
 		{
 			_file = file;
-			RowData = new List<KeyValuePair<FieldInstance, FieldDefinition>>();
+			RowData = new List<FieldInstance>();
 			LoadFields();
 
 			if (ComponentFileChanged != null)
@@ -61,22 +64,17 @@ namespace SayMore.UI.ComponentEditors
 		public void LoadFields()
 		{
 			var factoryFields = _file.FileType.FactoryFields;
-			var fields = factoryFields.Union(_fieldGatherer.GetAllFieldsForFileType(_file.FileType).Where(f => !factoryFields.Any(e => e.Key == f.Key)));
-			foreach (var field in fields)
+			_fieldDefsForFile = factoryFields.Union(_fieldGatherer.GetAllFieldsForFileType(_file.FileType).Where(f => !factoryFields.Any(e => e.Key == f.Key)));
+
+			foreach (var field in _fieldDefsForFile)
 			{
-				if (FieldFilterFunction!=null && !FieldFilterFunction(field.Key))
+				if (_includedFieldFilterFunction != null && !_includedFieldFilterFunction(field.Key))
 					continue;
-
-				if (field.Key == "notes")
-					continue;
-
-				var fieldValue = new FieldInstance(field.Key, _file.GetStringValue(field.Key, string.Empty));
 
 				//TODO: make use of field.ReadOnly
 
-				// Each row in the cache is a key/value pair. The key is the FieldValue object
-				// and the value is a boolean indicating whether or not the field is custom.
-				RowData.Add(new KeyValuePair<FieldInstance, FieldDefinition>(fieldValue.CreateCopy(), field));
+				var fieldValue = new FieldInstance(field.Key, _file.GetStringValue(field.Key, string.Empty));
+				RowData.Add(fieldValue);
 			}
 		}
 
@@ -109,20 +107,24 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private FieldDefinition GetFieldDefinitionForIndex(int index)
+		{
+			return (index >= RowData.Count ? null :
+				_fieldDefsForFile.FirstOrDefault(def => def.FieldName == RowData[index].FieldId));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool IsIndexForCustomField(int index)
 		{
-			if (index < RowData.Count && RowData[index].Value != null) //review caused by the "empty" thing (new field?)
-			{
-				return RowData[index].Value.IsCustom;
-			}
-
-			return true;
+			var fieldDef = GetFieldDefinitionForIndex(index);
+			return (fieldDef == null || fieldDef.IsCustom);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool IsIndexForReadOnlyField(int index)
 		{
-			return (index < RowData.Count ? RowData[index].Value.ReadOnly : false);
+			var fieldDef = GetFieldDefinitionForIndex(index);
+			return (fieldDef != null && fieldDef.ReadOnly);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,74 +135,81 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldInstance AddEmptyField()
-		{
-
-			var fieldValue = new FieldInstance(string.Empty, string.Empty);
-			//Review do (jh): I think this is just for new fields, so this null might not be right
-			RowData.Add(new KeyValuePair<FieldInstance, FieldDefinition>(fieldValue, null));
-			return fieldValue;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public string GetIdForIndex(int index)
 		{
-			return (index < RowData.Count ? RowData[index].Key.FieldId : null);
+			return (index < RowData.Count ? RowData[index].FieldId : null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string GetValueForIndex(int index)
 		{
-			return (index < RowData.Count ? RowData[index].Key.Value : null);
+			return (index < RowData.Count ? RowData[index].Value : null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIdForIndex(string id, int index)
+		public void SaveIdForIndex(string id, int index)
 		{
-			var fieldValue = (index == RowData.Count ? AddEmptyField() : RowData[index].Key);
-			fieldValue.FieldId = (id != null ? id.Trim() : string.Empty).Replace(' ', '_');
+			id = id.Trim().Replace(' ', '_');
+
+			if (index == RowData.Count)
+				RowData.Add(new FieldInstance(id));
+			else if (RowData[index].FieldId != id && _file.RenameId(RowData[index].FieldId, id))
+			{
+				RowData[index].FieldId = id;
+				_file.Save();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SaveValueForIndex(string value, int index)
 		{
-			var fieldValue = (index == RowData.Count ? AddEmptyField() : RowData[index].Key);
-			fieldValue.Value = (value != null ? value.Trim() : string.Empty);
+			value = (value != null ? value.Trim() : string.Empty);
+
+			if (value == RowData[index].Value)
+				return;
+
+			string failureMessage;
+			value = _file.SetValue(RowData[index].FieldId, value, out failureMessage);
+			if (failureMessage != null)
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+			else
+				RowData[index].Value = value;
+
 			_file.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void RemoveFieldForIndex(int index)
 		{
-			var field = RowData[index].Key;
-
-			var origField = _file.MetaDataFieldValues.Find(x => x.FieldId == field.FieldId);
-			if (origField != null)
-				_file.MetaDataFieldValues.Remove(origField);
-
-			_file.Save();
-			RowData.RemoveAt(index);
+			if (_file.RemoveField(RowData[index].FieldId))
+			{
+				RowData.RemoveAt(index);
+				_file.Save();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SaveFieldForIndex(int index)
 		{
-			var newField = RowData[index].Key;
-			var oldField = _file.MetaDataFieldValues.Find(x => x.FieldId == newField.FieldId);
+			//// Don't bother doing anything if the old value is the same as the new value.
+			//if (RowData[index].Value.FieldId == RowData[index].Key.FieldName)
+			//    return;
 
-			// Don't bother doing anything if the old value is the same as the new value.
-			if (oldField == newField)
-				return;
+			//var oldFieldValue = _file.MetaDataFieldValues.Find(x => x.FieldId == RowData[index].Key.FieldName);
+			//if (oldFieldValue != null)
+			//    _file.MetaDataFieldValues.Remove(oldFieldValue);
 
-			// TODO: handle case where new name is different.
+			//string failureMessage;
 
-			string failureMessage;
-			_file.SetValue(newField, out failureMessage);
+			//var newFieldValue = RowData[index].Value;
+			//_file.SetValue(newFieldValue, out failureMessage);
 
-			if (failureMessage != null)
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+			//if (failureMessage != null)
+			//    Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+			//else
+			//    RowData[index].Key.FieldName = newFieldValue.FieldId;
 
-			_file.Save();
+			//_file.Save();
 		}
 	}
 }

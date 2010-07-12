@@ -13,8 +13,8 @@ namespace SayMore.UI.ComponentEditors
 	{
 		private readonly FieldsValuesGridViewModel _model;
 		private readonly Font _factoryFieldFont;
+		private readonly Color _focusedSelectionBackColor;
 		private bool _adjustHeightToFitRows = true;
-		private Color _focusedSelectionBackColor;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGrid(FieldsValuesGridViewModel model)
@@ -158,31 +158,32 @@ namespace SayMore.UI.ComponentEditors
 			// REVIEW: For some reason, when the grid does not have focus, sometimes
 			// setting a cell's readonly property to true gives the grid focus.
 
-			if (_model != null)
+			if (_model == null)
 			{
-				var fieldId = _model.GetIdForIndex(e.RowIndex);
+				base.OnCellFormatting(e);
+				return;
+			}
 
-				if (string.IsNullOrEmpty(fieldId))
-					this[1, e.RowIndex].ReadOnly = true;
-				else if (e.RowIndex < NewRowIndex && e.ColumnIndex == 0)
+			var fieldId = _model.GetIdForIndex(e.RowIndex);
+			var isReadOnly = _model.IsIndexForReadOnlyField(e.RowIndex);
+			var isCustom = _model.IsIndexForCustomField(e.RowIndex);
+
+			if (string.IsNullOrEmpty(fieldId))
+				this[1, e.RowIndex].ReadOnly = true;
+			else if (e.RowIndex < NewRowIndex)
+			{
+				if (e.ColumnIndex == 0)
 				{
-					this[1, e.RowIndex].ReadOnly = false;
 					e.Value = fieldId.Replace('_', ' ');
-
-					if (_model.IsIndexForCustomField(e.RowIndex))
-						this[0, e.RowIndex].ReadOnly = false;
-					else
-					{
+					this[0, e.RowIndex].ReadOnly = !isCustom;
+					if (!isCustom)
 						e.CellStyle.Font = _factoryFieldFont;
-						this[0, e.RowIndex].ReadOnly = true;
-
-						if (_model.IsIndexForReadOnlyField(e.RowIndex))
-						{
-							this[1, e.RowIndex].ReadOnly = true;
-							this[1, e.RowIndex].Style.ForeColor = Color.Gray;
-						}
-
-					}
+				}
+				else
+				{
+					this[1, e.RowIndex].ReadOnly = isReadOnly;
+					if (isReadOnly)
+						this[1, e.RowIndex].Style.ForeColor = Color.Gray;
 				}
 			}
 
@@ -302,7 +303,7 @@ namespace SayMore.UI.ComponentEditors
 		protected override void OnCellValuePushed(DataGridViewCellValueEventArgs e)
 		{
 			if (e.ColumnIndex == 0)
-				_model.SetIdForIndex(e.Value as string, e.RowIndex);
+				_model.SaveIdForIndex(e.Value as string, e.RowIndex);
 			else
 				_model.SaveValueForIndex(e.Value as string, e.RowIndex);
 

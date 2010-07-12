@@ -168,66 +168,22 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetStringValue(string key, string defaultValue)
 		{
-			switch(key)
+			var computedFieldInfo =
+				FileType.GetComputedFields().FirstOrDefault(computedField => computedField.Key == key);
+
+			if (computedFieldInfo != null && _statisticsProvider != null)
 			{
-				case "Duration":
-					var duration = GetStringStatistic(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).Duration, "");
-					int i = duration.LastIndexOf('.');
-					return (i < 0 ? duration : duration.Substring(0, i));
-				case "Sample_Rate":
-					return GetStringStatistic(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).SamplesPerSecond, "Hz");
-				case "Bit_Depth":
-					return GetStringStatistic(info=>info.Audio, audio=>((MediaInfo.AudioInfo)audio).BitDepth, "bits");
-				case "Channels":
-					var channels = GetIntegerStatistic(info => info.Audio, audio => ((MediaInfo.AudioInfo) audio).ChannelCount, -1);
-					switch (channels)
-					{
-						case -1: return string.Empty;
-						case 0: return string.Empty;
-						case 1: return "mono";
-						case 2: return "stereo";
-						default:
-							return channels.ToString();
-					}
-				case "Resolution":
-					return GetStringStatistic(info=>info.Video, video=>((MediaInfo.VideoInfo)video).Resolution, "");
-				case "Frame_Rate":
-					return GetStringStatistic(info=>info.Video, video=>((MediaInfo.VideoInfo)video).FramesPerSecond, "frames/second");
-				default:
-					break;
+				var value = computedFieldInfo.GetFormatedStatProvider(
+					_statisticsProvider.GetFileData(PathToAnnotatedFile),
+					computedFieldInfo.DataSetChooser, computedFieldInfo.DataItemChooser,
+					computedFieldInfo.Suffix);
+
+				if (!string.IsNullOrEmpty(value))
+					return value;
 			}
-			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
+
+			var	field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
 			return (field == null ? defaultValue : field.Value);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string GetStringStatistic(Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser, string suffix)
-		{
-			if (_statisticsProvider == null)
-				return string.Empty;
-
-			var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
-			if (stats == null || stats.MediaInfo == null || dataSetChooser(stats.MediaInfo) == null)
-			{
-				return string.Empty;
-			}
-
-			return dataItemChooser(dataSetChooser(stats.MediaInfo)) + " " + suffix;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private int GetIntegerStatistic(Func<MediaInfo, object> dataSetChooser, Func<object, int> dataItemChooser, int defaultValue)
-		{
-			if (_statisticsProvider == null)
-				return defaultValue;
-
-			var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
-			if (stats == null || stats.MediaInfo == null || dataSetChooser(stats.MediaInfo) == null)
-			{
-				return defaultValue;
-			}
-
-			return dataItemChooser(dataSetChooser(stats.MediaInfo));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -270,6 +226,28 @@ namespace SayMore.Model.Files
 			LoadFileSizeAndDateModified();
 			InvokeMetadataValueChanged(oldValue, newFieldInstance.Value);
 			return newFieldInstance.Value; //overrides may do more
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool RenameId(string oldId, string newId)
+		{
+			var fieldValue = MetaDataFieldValues.Find(v => v.FieldId == oldId);
+			if (fieldValue == null)
+				return false;
+
+			fieldValue.FieldId = newId;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool RemoveField(string idToRemove)
+		{
+			var existingValue = MetaDataFieldValues.Find(f => f.FieldId == idToRemove);
+			if (existingValue == null)
+				return false;
+
+			MetaDataFieldValues.Remove(existingValue);
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -380,7 +358,7 @@ namespace SayMore.Model.Files
 			foreach (FileCommand cmd in FileType.GetCommands(PathToAnnotatedFile))
 			{
 				FileCommand cmd1 = cmd;// needed to avoid "access to modified closure". I.e., avoid executing the wrong command.
-				if(cmd1==null)
+				if(cmd1 == null)
 					yield return new ToolStripSeparator();
 				else
 					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) => cmd1.Action(PathToAnnotatedFile));

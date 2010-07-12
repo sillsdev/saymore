@@ -91,6 +91,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Fields\FieldDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Model\Files\DataGathering\BackgroundFileProcessor.cs" />
     <Compile Include="Model\Files\DataGathering\AutoCompleteValueGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\PresetGatherer.cs" />
@@ -100,7 +103,6 @@
     <Compile Include="Model\Files\DataGathering\AudioVideoFileStatistics.cs" />
     <Compile Include="Model\Fields\DiscourseType.cs" />
     <Compile Include="Model\ElementRepository.cs" />
-    <Compile Include="Model\Fields\FieldDefinition.cs" />
     <Compile Include="ApplicationContainer.cs" />
     <Compile Include="Model\Fields\FieldTemplate.cs" />
     <Compile Include="Model\Fields\FieldInstance.cs" />

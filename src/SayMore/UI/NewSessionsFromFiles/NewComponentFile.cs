@@ -39,9 +39,9 @@ namespace SayMore.UI.NewSessionsFromFiles
 			IEnumerable<ComponentRole> componentRoles,
 			FileSerializer fileSerializer,
 			IProvideAudioVideoFileStatistics statisticsProvider,
-			PresetGatherer presetProvider)
+			PresetGatherer presetProvider, FieldUpdater fieldUpdater)
 			: base(pathToAnnotatedFile, fileTypes, componentRoles,
-				fileSerializer, statisticsProvider, presetProvider)
+				fileSerializer, statisticsProvider, presetProvider, fieldUpdater)
 		{
 			_fileTypes = fileTypes;
 			Selected = true;

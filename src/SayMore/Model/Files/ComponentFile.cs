@@ -52,6 +52,7 @@ namespace SayMore.Model.Files
 		protected FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
 		private readonly PresetGatherer _presetProvider;
+		private readonly FieldUpdater _fieldUpdater;
 
 		public string RootElementName { get; protected set; }
 		public string PathToAnnotatedFile { get; protected set; }
@@ -69,13 +70,14 @@ namespace SayMore.Model.Files
 			IEnumerable<ComponentRole> componentRoles,
 			FileSerializer fileSerializer,
 			IProvideAudioVideoFileStatistics statisticsProvider,
-			PresetGatherer presetProvider)
+			PresetGatherer presetProvider, FieldUpdater fieldUpdater)
 		{
 			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;
 			_fileSerializer = fileSerializer;
 			_statisticsProvider = statisticsProvider;
 			_presetProvider = presetProvider;
+			_fieldUpdater = fieldUpdater;
 
 			DetermineFileType(pathToAnnotatedFile, fileTypes);
 
@@ -236,6 +238,10 @@ namespace SayMore.Model.Files
 				return false;
 
 			fieldValue.FieldId = newId;
+
+			if (_fieldUpdater != null)
+				_fieldUpdater.RenameField(this, oldId, newId);
+
 			return true;
 		}
 
@@ -342,14 +348,14 @@ namespace SayMore.Model.Files
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
 		{
 			return new ComponentFile(path, new FileType[] { new UnknownFileType(null) },
-				new ComponentRole[]{}, new FileSerializer(), null, null);
+				new ComponentRole[]{}, new FileSerializer(), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path, FileType fileType)
 		{
 			return new ComponentFile(path, new[] { fileType },
-				new ComponentRole[] { }, new FileSerializer(), null, null);
+				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------

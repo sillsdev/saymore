@@ -47,14 +47,12 @@ namespace SayMoreTests.Model.Files
 		private ComponentFile CreateComponentFile(string fileName)
 		{
 			File.WriteAllText(_parentFolder.Combine(fileName), @"hello");
+
 			var cf= new ComponentFile(_parentFolder.Combine(fileName),
 				new[] {FileType.Create("Text", ".txt"), new UnknownFileType(null) },
-				new ComponentRole[]{},
-				new FileSerializer(),
-				null,
-				null);
+				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 
-			cf.Save();//creates the meta file path
+			cf.Save(); //creates the meta file path
 			return cf;
 		}
 
@@ -180,19 +178,25 @@ namespace SayMoreTests.Model.Files
 
 		private ComponentFile CreateComponentFileWithRoleChoices(string path)
 		{
-			var componentRoles = new []
+			var componentRoles = new[]
 			{
-				new ComponentRole(typeof(Session),"translation", "translation", ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"), "$ElementId$_Original"),
-				new ComponentRole(typeof(Session),"transcriptionN", "Written Translation", ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N"),
-				new ComponentRole(typeof(Session),"original", "Original Recording", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original")
+				new ComponentRole(typeof(Session),"translation", "translation",
+					ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"),
+					"$ElementId$_Original"),
+
+				new ComponentRole(typeof(Session),"transcriptionN", "Written Translation",
+					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
+					"$ElementId$_Translation-N"),
+
+				new ComponentRole(typeof(Session),"original", "Original Recording",
+					ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo,
+					"$ElementId$_Original")
 			};
 
 			return new ComponentFile(path,
-				new FileType[] { FileType.Create("Text", ".txt"), },
-				componentRoles,
-				new FileSerializer(), null,null);
+				new[] { FileType.Create("Text", ".txt"), },
+				componentRoles, new FileSerializer(), null, null, null);
 		}
-
 
 		[Test]
 		[Category("SkipOnTeamCity")]

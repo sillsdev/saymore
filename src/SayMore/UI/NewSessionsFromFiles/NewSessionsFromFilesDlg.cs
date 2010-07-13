@@ -294,6 +294,13 @@ namespace SayMore.UI.NewSessionsFromFiles
 		{
 			Hide();
 
+			if (_winMediaPlayer != null)
+			{
+				_winMediaPlayer.Ctlcontrols.stop();
+				_winMediaPlayer.close();
+				_winMediaPlayer.Dispose();
+			}
+
 			using (var dlg = new MakeSessionsFromFileProgressDialog(
 				_viewModel.GetSourceAndDestinationPairs(), _viewModel.CreateSingleSession))
 			{

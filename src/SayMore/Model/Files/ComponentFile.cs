@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Palaso.Code;
-using Palaso.Media;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
@@ -364,10 +363,16 @@ namespace SayMore.Model.Files
 			foreach (FileCommand cmd in FileType.GetCommands(PathToAnnotatedFile))
 			{
 				FileCommand cmd1 = cmd;// needed to avoid "access to modified closure". I.e., avoid executing the wrong command.
-				if(cmd1 == null)
+				if (cmd1 == null)
 					yield return new ToolStripSeparator();
 				else
-					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) => cmd1.Action(PathToAnnotatedFile));
+				{
+					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) =>
+					{
+						cmd1.Action(PathToAnnotatedFile);
+						refreshAction();
+					});
+				}
 			}
 
 			bool needSeparator = true;

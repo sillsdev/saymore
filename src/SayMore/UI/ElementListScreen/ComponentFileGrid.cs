@@ -22,9 +22,9 @@ namespace SayMore.UI.ElementListScreen
 		/// <summary>
 		/// When the user selects a different component, this is called
 		/// </summary>
-		/// John: this is really just an event. Is there any reason not to name it like
-		/// that? i.e. Does "Callback" make it more understandable? It's not very .Net-like.
-		public Action<int> ComponentSelectedCallback;
+		public Action<int> AfterComponentSelected;
+
+		public Action AfterContextMenuItemChosen;
 
 		public Func<string[], DragDropEffects> FilesBeingDraggedOverGrid;
 		public Func<string[], bool> FilesDroppedOnGrid;
@@ -118,9 +118,18 @@ namespace SayMore.UI.ElementListScreen
 				Point pt = _grid.PointToClient(MousePosition);
 				var file = _files.ElementAt(e.RowIndex);
 				_contextMenuStrip.Items.Clear();
-				_contextMenuStrip.Items.AddRange(file.GetContextMenuItems(_grid.Invalidate).ToArray());
+				_contextMenuStrip.Items.AddRange(file.GetContextMenuItems(UpdateGridAfterContextMenuCommand).ToArray());
 				_contextMenuStrip.Show(_grid, pt);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateGridAfterContextMenuCommand()
+		{
+			if (AfterContextMenuItemChosen != null)
+				AfterContextMenuItemChosen();
+
+			_grid.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -139,8 +148,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
-			if (!Disposing && null != ComponentSelectedCallback)
-				ComponentSelectedCallback(_grid.CurrentCellAddress.Y);
+			if (!Disposing && null != AfterComponentSelected)
+				AfterComponentSelected(_grid.CurrentCellAddress.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,7 +194,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void UpdateComponentList(IEnumerable<ComponentFile> componentFiles)
+		public void UpdateComponentFileList(IEnumerable<ComponentFile> componentFiles)
 		{
 			var currFile = (_grid.CurrentCellAddress.Y >= 0 && _files.Count() > 0 ?
 				_files.ElementAt(_grid.CurrentCellAddress.Y).PathToAnnotatedFile : null);

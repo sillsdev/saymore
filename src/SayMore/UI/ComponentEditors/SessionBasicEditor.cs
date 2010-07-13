@@ -32,8 +32,13 @@ namespace SayMore.UI.ComponentEditors
 			if (GenreDefinition.FactoryGenreDefinitions != null)
 			{
 				//add the ones in use, factory or otherwise
-				_genre.Items.AddRange(autoCompleteProvider.GetValueLists(false)["genre"].ToArray());
-				_genre.Items.Add("-----");
+				var valueLists = autoCompleteProvider.GetValueLists(false);
+				IEnumerable<string> list;
+				if (valueLists.TryGetValue("genre", out list))
+				{
+					_genre.Items.AddRange(list.ToArray());
+					_genre.Items.Add("-----");
+				}
 				//add the rest of the factory defaults
 				_genre.Items.AddRange(GenreDefinition.FactoryGenreDefinitions.ToArray());
 

@@ -6,8 +6,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Palaso.Media;
-using SayMore.Model;
-using SayMore.Model.Files;
 using SIL.Localization;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
@@ -26,7 +24,6 @@ namespace SayMore.UI.ProjectWindow
 
 		private readonly string _projectName;
 		private readonly IEnumerable<ICommand> _commands;
-		private ComponentFile _selectedFile;
 
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
@@ -61,9 +58,6 @@ namespace SayMore.UI.ProjectWindow
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
 
-			//_sessionsScreen = sessionsScreen;
-			//_personsScreen = personsScreen;
-			sessionsScreen.AfterComponentFileSelected = HandleUpdateComponentFileMenu;
 			HandleFileMenuDropDownClosed(null, null);
 		}
 
@@ -147,27 +141,26 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleUpdateComponentFileMenu(ComponentFile file)
-		{
-			_selectedFile = file;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void HandleFileMenuDropDownOpening(object sender, EventArgs e)
 		{
-			if (_selectedFile == null)
-				return;
-
 			var tab = _viewTabGroup.GetSelectedTab();
 			if (tab == null)
 				return;
 
-			var view = _viewTabGroup.GetSelectedTab().View;
-			if (view.GetType() != typeof(SessionScreen) && view.GetType() != typeof(PersonListScreen))
-				return;
+			ToolStripItem[] menuItems = null;
 
-			_menuFile.DropDownItems.Clear();
-			_menuFile.DropDownItems.AddRange(_selectedFile.GetMenuCommands(null).ToArray());
+			var view = _viewTabGroup.GetSelectedTab().View;
+
+			if (view.GetType() == typeof(SessionScreen))
+				menuItems = ((SessionScreen)view).GetSelectedComponentFileMenuCommands();
+			else if (view.GetType() != typeof(PersonListScreen))
+				menuItems = ((PersonListScreen)view).GetSelectedComponentFileMenuCommands();
+
+			if (menuItems != null)
+			{
+				_menuFile.DropDownItems.Clear();
+				_menuFile.DropDownItems.AddRange(menuItems);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

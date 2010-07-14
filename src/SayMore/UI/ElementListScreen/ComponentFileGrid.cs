@@ -24,7 +24,10 @@ namespace SayMore.UI.ElementListScreen
 		/// </summary>
 		public Action<int> AfterComponentSelected;
 
-		public Action AfterContextMenuItemChosen;
+		public Action ShowContextMenuForComponentFile;
+
+		//public Action AfterContextMenuItemChosen;
+
 
 		public Func<string[], DragDropEffects> FilesBeingDraggedOverGrid;
 		public Func<string[], bool> FilesDroppedOnGrid;
@@ -54,7 +57,7 @@ namespace SayMore.UI.ElementListScreen
 
 			_grid.DragEnter += HandleFileGridDragEnter;
 			_grid.DragDrop += HandleFileGridDragDrop;
-			_grid.CellMouseClick += HandleMouseClick;
+			_grid.CellMouseClick += HandleFileGridCellMouseClick;
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
 			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
@@ -146,27 +149,16 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		private void HandleFileGridCellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right && ShowContextMenu)
 			{
-				_grid.CurrentCell = _grid[e.ColumnIndex, e.RowIndex];
+				if (e.RowIndex != _grid.CurrentCellAddress.Y)
+					SelectComponent(e.RowIndex);
 
-				Point pt = _grid.PointToClient(MousePosition);
-				var file = _files.ElementAt(e.RowIndex);
-				_contextMenuStrip.Items.Clear();
-				_contextMenuStrip.Items.AddRange(file.GetMenuCommands(UpdateGridAfterContextMenuCommand).ToArray());
-				_contextMenuStrip.Show(_grid, pt);
+				if (ShowContextMenuForComponentFile != null)
+					ShowContextMenuForComponentFile();
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void UpdateGridAfterContextMenuCommand()
-		{
-			if (AfterContextMenuItemChosen != null)
-				AfterContextMenuItemChosen();
-
-			_grid.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -592,10 +592,9 @@ namespace SayMore.Model.Files
 				yield return fileCommand;
 			}
 
-			yield return null; // menu separator
-
 			if (!File.Exists(filePath.Replace(Path.GetExtension(filePath), ".mp3")))
 			{
+				yield return null; // menu separator
 				yield return new FileCommand("Extract audio to mp3 file", ExtractMp3Audio);
 			}
 		}

@@ -371,7 +371,8 @@ namespace SayMore.Model.Files
 					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) =>
 					{
 						cmd1.Action(PathToAnnotatedFile);
-						refreshAction();
+						if (refreshAction != null)
+							refreshAction();
 					});
 				}
 			}
@@ -394,7 +395,8 @@ namespace SayMore.Model.Files
 					yield return new ToolStripMenuItem(label, null, (sender, args) =>
 					{
 						AssignRole(role1);
-						refreshAction();
+						if (refreshAction != null)
+							refreshAction();
 					});
 				}
 		   }

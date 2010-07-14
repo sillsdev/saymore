@@ -73,7 +73,17 @@ namespace SayMore.UI.ElementListScreen
 
 			_componentFilesControl = componentGrid;
 			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
-			_componentFilesControl.AfterContextMenuItemChosen = HandleComponentFileContextMenuItemChosen;
+
+			_componentFilesControl.ShowContextMenuForComponentFile = (() =>
+			{
+				if (_model.SelectedComponentFile != null)
+				{
+					var menu = new ContextMenuStrip();
+					menu.Items.AddRange(GetSelectedComponentFileMenuCommands());
+					menu.Show(MousePosition);
+				}
+			});
+
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
@@ -108,12 +118,17 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleComponentFileContextMenuItemChosen()
+		public ToolStripItem[] GetSelectedComponentFileMenuCommands()
 		{
-			var currFile = _model.SelectedComponentFile.PathToAnnotatedFile;
-			_model.RefreshSelectedElementComponentFileList();
-			UpdateComponentFileList();
-			_componentFilesControl.TrySetComponent(currFile);
+			return _model.SelectedComponentFile.GetMenuCommands(() =>
+			{
+				var currFile = _model.SelectedComponentFile.PathToAnnotatedFile;
+				_model.RefreshSelectedElementComponentFileList();
+				UpdateComponentFileList();
+				_componentFilesControl.TrySetComponent(currFile);
+				_componentFilesControl.Invalidate();
+
+			}).ToArray();
 		}
 
 		/// ------------------------------------------------------------------------------------

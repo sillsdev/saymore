@@ -177,7 +177,17 @@ namespace SayMore.UI.ComponentEditors
 		private void UpdateControlValueFromField(Control ctrl)
 		{
 			var key = MakeIdFromControl(ctrl);
-			ctrl.Text = _file.GetStringValue(key, string.Empty);
+			var stringValue = _file.GetStringValue(key, string.Empty);
+			try
+			{
+				ctrl.Text = stringValue;
+			}
+			catch (Exception error)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(new Palaso.Reporting.ShowOncePerSessionBasedOnExactMessagePolicy(), error,
+																 "SayMore had a problem displaying the {0}, which had a value of {1}.  You should report this problem to the developers by clicking 'Details' below.",
+																 key,stringValue);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -74,13 +74,6 @@
 			  resource lookups using this strongly typed resource class.
 			</summary>
 		</member>
-		<member name="M:Palaso.Media.AudioIrrKlangSession.MakeTempCopyIfNeededBecauseOfUnicode(System.String,System.String@)">
-			<summary>
-			this version of irrklang can't play if there's non-latin in there
-			see http://www.ambiera.com/forum.php?t=601
-			</summary>
-			<returns>true if you need to use the provided temp file</returns>
-		</member>
 		<member name="T:Palaso.Media.FFmpegRunner">
 			<summary>
 			 FFmpeg is an open source media processing commandline library
@@ -117,6 +110,13 @@
 			<summary>
 			 Returns false if it can't find ffmpeg
 			</summary>
+		</member>
+		<member name="M:Palaso.Media.AudioIrrKlangSession.MakeTempCopyIfNeededBecauseOfUnicode(System.String,System.String@)">
+			<summary>
+			this version of irrklang can't play if there's non-latin in there
+			see http://www.ambiera.com/forum.php?t=601
+			</summary>
+			<returns>true if you need to use the provided temp file</returns>
 		</member>
 	</members>
 </doc>

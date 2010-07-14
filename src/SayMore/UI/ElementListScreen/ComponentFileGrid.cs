@@ -58,6 +58,8 @@ namespace SayMore.UI.ElementListScreen
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
 			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
+			_grid.Paint += HandleFileGridPaint;
+			_grid.ClientSizeChanged += HandleFileGridClientSizeChanged;
 			_grid.Font = SystemFonts.IconTitleFont;
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 
@@ -106,6 +108,41 @@ namespace SayMore.UI.ElementListScreen
 		public DataGridView Grid
 		{
 			get { return _grid; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleFileGridClientSizeChanged(object sender, EventArgs e)
+		{
+			// This will recenter the grid's hint message.
+			if (_grid.RowCount == 1)
+				_grid.Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleFileGridPaint(object sender, PaintEventArgs e)
+		{
+			if (_grid.RowCount != 1)
+				return;
+
+			var rcRow = _grid.GetRowDisplayRectangle(0, false);
+			var rc = _grid.ClientRectangle;
+			rc.Height -= (rcRow.Height + _grid.ColumnHeadersHeight);
+			rc.Y += rcRow.Bottom;
+
+			// Strangely, the grid's client size doesn't change when the scroll bars
+			// are visible. Therefore, we have to explicitly allow for them.
+			var hscroll = _grid.HScrollBar;
+			if (hscroll != null && hscroll.Visible)
+				rc.Height -= hscroll.Height;
+
+			var hint = "Add additional files related to this session by\n" +
+				"dragging them here or clicking the 'Add' button.";
+
+			const TextFormatFlags flags =
+				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
+
+			using (var fnt = new Font(_grid.Font.FontFamily, 12, FontStyle.Regular))
+				TextRenderer.DrawText(e.Graphics, hint, fnt, rc, SystemColors.GrayText, flags);
 		}
 
 		/// ------------------------------------------------------------------------------------

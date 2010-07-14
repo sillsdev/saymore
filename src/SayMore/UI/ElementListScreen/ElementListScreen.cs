@@ -246,7 +246,6 @@ namespace SayMore.UI.ElementListScreen
 				if (_selectedEditorsTabControl != null)
 					_selectedEditorsTabControl.Visible = false;
 
-				tabCtrl.SelectedIndex = 0;
 				tabCtrl.Visible = true;
 				_selectedEditorsTabControl = tabCtrl;
 			}

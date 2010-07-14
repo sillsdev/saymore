@@ -45,7 +45,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(selectedCol);
 
 			_gridFiles.InitializeGrid("NewSessionsFromFilesDlg");
-			_gridFiles.ComponentSelectedCallback = HandleComponentFileSelected;
+			_gridFiles.AfterComponentSelected = HandleComponentFileSelected;
 
 			Controls.Add(_panelProgress);
 
@@ -151,7 +151,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 
 			if (_gridFiles.Grid.RowCount != fileCount)
 			{
-				_gridFiles.UpdateComponentList(_viewModel.Files.Cast<ComponentFile>());
+				_gridFiles.UpdateComponentFileList(_viewModel.Files.Cast<ComponentFile>());
 
 				if (fileCount == 0)
 				{

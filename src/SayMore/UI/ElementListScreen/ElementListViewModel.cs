@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SayMore.Model;
@@ -47,13 +46,19 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void RefreshSelectedElementComponentFileList()
+		{
+			_componentFiles = (SelectedElement != null ? SelectedElement.GetComponentFiles().ToArray() : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool SetSelectedElement(T element)
 		{
 			if (SelectedElement == element)
 				return false;
 
 			SelectedElement = element;
-			_componentFiles = (element != null ? element.GetComponentFiles().ToArray() : null);
+			RefreshSelectedElementComponentFileList();
 			SetSelectedComponentFile(0);
 			return true;
 		}

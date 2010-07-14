@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Palaso.Code;
-using Palaso.Media;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
@@ -52,6 +51,7 @@ namespace SayMore.Model.Files
 		protected FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
 		private readonly PresetGatherer _presetProvider;
+		private readonly FieldUpdater _fieldUpdater;
 
 		public string RootElementName { get; protected set; }
 		public string PathToAnnotatedFile { get; protected set; }
@@ -69,13 +69,14 @@ namespace SayMore.Model.Files
 			IEnumerable<ComponentRole> componentRoles,
 			FileSerializer fileSerializer,
 			IProvideAudioVideoFileStatistics statisticsProvider,
-			PresetGatherer presetProvider)
+			PresetGatherer presetProvider, FieldUpdater fieldUpdater)
 		{
 			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;
 			_fileSerializer = fileSerializer;
 			_statisticsProvider = statisticsProvider;
 			_presetProvider = presetProvider;
+			_fieldUpdater = fieldUpdater;
 
 			DetermineFileType(pathToAnnotatedFile, fileTypes);
 
@@ -236,6 +237,10 @@ namespace SayMore.Model.Files
 				return false;
 
 			fieldValue.FieldId = newId;
+
+			if (_fieldUpdater != null)
+				_fieldUpdater.RenameField(this, oldId, newId);
+
 			return true;
 		}
 
@@ -342,14 +347,14 @@ namespace SayMore.Model.Files
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
 		{
 			return new ComponentFile(path, new FileType[] { new UnknownFileType(null) },
-				new ComponentRole[]{}, new FileSerializer(), null, null);
+				new ComponentRole[]{}, new FileSerializer(), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path, FileType fileType)
 		{
 			return new ComponentFile(path, new[] { fileType },
-				new ComponentRole[] { }, new FileSerializer(), null, null);
+				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -358,10 +363,16 @@ namespace SayMore.Model.Files
 			foreach (FileCommand cmd in FileType.GetCommands(PathToAnnotatedFile))
 			{
 				FileCommand cmd1 = cmd;// needed to avoid "access to modified closure". I.e., avoid executing the wrong command.
-				if(cmd1 == null)
+				if (cmd1 == null)
 					yield return new ToolStripSeparator();
 				else
-					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) => cmd1.Action(PathToAnnotatedFile));
+				{
+					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) =>
+					{
+						cmd1.Action(PathToAnnotatedFile);
+						refreshAction();
+					});
+				}
 			}
 
 			bool needSeparator = true;

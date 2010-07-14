@@ -612,7 +612,7 @@ namespace SayMore.Model.Files
 
 			if (File.Exists(outputPath))
 			{
-				//todo ask the user (or don't off this in the first place)
+				//todo ask the user (or don't offer this in the first place)
 				//File.Delete(outputPath);
 
 				ErrorReport.NotifyUserOfProblem(

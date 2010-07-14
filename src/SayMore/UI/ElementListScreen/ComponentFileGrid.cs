@@ -155,7 +155,7 @@ namespace SayMore.UI.ElementListScreen
 				Point pt = _grid.PointToClient(MousePosition);
 				var file = _files.ElementAt(e.RowIndex);
 				_contextMenuStrip.Items.Clear();
-				_contextMenuStrip.Items.AddRange(file.GetContextMenuItems(UpdateGridAfterContextMenuCommand).ToArray());
+				_contextMenuStrip.Items.AddRange(file.GetMenuCommands(UpdateGridAfterContextMenuCommand).ToArray());
 				_contextMenuStrip.Show(_grid, pt);
 			}
 		}

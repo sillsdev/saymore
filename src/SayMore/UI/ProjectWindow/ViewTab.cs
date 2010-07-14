@@ -18,10 +18,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SayMore.UI.ProjectWindow;
 using SilUtils;
 
-namespace SIL.Pa.UI.Controls
+namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

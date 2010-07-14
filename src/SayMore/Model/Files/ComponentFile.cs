@@ -357,8 +357,9 @@ namespace SayMore.Model.Files
 				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 		}
 
+
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ToolStripItem> GetContextMenuItems(Action refreshAction)
+		public IEnumerable<ToolStripItem> GetMenuCommands(Action refreshAction)
 		{
 			foreach (FileCommand cmd in FileType.GetCommands(PathToAnnotatedFile))
 			{

@@ -57,13 +57,10 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
-		static void StartUpShellBasedOnMostRecentUsedIfPossible()
+		private static void StartUpShellBasedOnMostRecentUsedIfPossible()
 		{
-			if (MruFiles.Latest != null && File.Exists(MruFiles.Latest))
-			{
-				OpenProjectWindow(MruFiles.Latest);
-			}
-			else
+			if (MruFiles.Latest == null || !File.Exists(MruFiles.Latest) ||
+				!OpenProjectWindow(MruFiles.Latest))
 			{
 				//since the message pump hasn't started yet, show the UI for choosing when it is
 				Application.Idle += ChooseAnotherProject;
@@ -71,12 +68,44 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void OpenProjectWindow(string projectPath)
+		private static bool OpenProjectWindow(string projectPath)
 		{
 			Debug.Assert(_projectContext == null);
-			_projectContext = _applicationContainer.CreateProjectContext(projectPath);
-			_projectContext.ProjectWindow.Closed += HandleProjectWindowClosed;
-			_projectContext.ProjectWindow.Show();
+
+			try
+			{
+				_projectContext = _applicationContainer.CreateProjectContext(projectPath);
+				_projectContext.ProjectWindow.Closed += HandleProjectWindowClosed;
+				_projectContext.ProjectWindow.Show();
+				return true;
+			}
+			catch (Exception e)
+			{
+				HandleErrorOpeningProjectWindow(e, projectPath);
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void HandleErrorOpeningProjectWindow(Exception error, string projectPath)
+		{
+			if (_projectContext.ProjectWindow != null)
+			{
+				_projectContext.ProjectWindow.Closed -= HandleProjectWindowClosed;
+				_projectContext.ProjectWindow.Close();
+			}
+
+			_projectContext.Dispose();
+			_projectContext = null;
+
+			Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
+				new Palaso.Reporting.ShowAlwaysPolicy(), error,
+				"{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.",
+				Application.ProductName, Path.GetFileNameWithoutExtension(projectPath));
+
+			Settings.Default.MRUList.Remove(projectPath);
+			MruFiles.Initialize(Settings.Default.MRUList);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -84,17 +113,23 @@ namespace SayMore
 		{
 			Application.Idle -= ChooseAnotherProject;
 
-			using (var dlg = _applicationContainer.CreateWelcomeDialog())
+			while (true)
 			{
-				if (dlg.ShowDialog() != DialogResult.OK)
+				using (var dlg = _applicationContainer.CreateWelcomeDialog())
 				{
-					Application.Exit();
-					return;
-				}
+					if (dlg.ShowDialog() != DialogResult.OK)
+					{
+						Application.Exit();
+						return;
+					}
 
-				OpenProjectWindow(dlg.Model.ProjectSettingsFilePath);
-				MruFiles.AddNewPath(dlg.Model.ProjectSettingsFilePath);
-		   }
+					if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
+					{
+						MruFiles.AddNewPath(dlg.Model.ProjectSettingsFilePath);
+						return;
+					}
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

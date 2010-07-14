@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SayMore.UI.ProjectWindow;
 using SIL.Localization;
 using SilUtils;
 using SilUtils.Controls;
 
-namespace SIL.Pa.UI.Controls
+namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

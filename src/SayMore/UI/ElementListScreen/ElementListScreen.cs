@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -29,6 +30,8 @@ namespace SayMore.UI.ElementListScreen
 	/// ----------------------------------------------------------------------------------------
 	public partial class ElementListScreen<T> : UserControl where T : ProjectElement
 	{
+		public Action<ComponentFile> AfterComponentFileSelected;
+
 		protected readonly ElementListViewModel<T> _model;
 
 		protected TabControl _selectedEditorsTabControl;
@@ -69,7 +72,7 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.ReSortWhenItemTextChanges = true;
 
 			_componentFilesControl = componentGrid;
-			_componentFilesControl.AfterComponentSelected = HandleAfterComponentSelected;
+			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
 			_componentFilesControl.AfterContextMenuItemChosen = HandleComponentFileContextMenuItemChosen;
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
@@ -94,11 +97,14 @@ namespace SayMore.UI.ElementListScreen
 		/// The grid (i.e. the only object calling this delegate so far) does not keep a
 		/// reference to each component files that it can pass to this delegate.
 		/// ------------------------------------------------------------------------------------
-		private void HandleAfterComponentSelected(int index)
+		private void HandleAfterComponentFileSelected(int index)
 		{
 			_model.MakeComponentEditorsGoDormant();
 			_model.SetSelectedComponentFile(index);
 			ShowSelectedComponentFileEditors();
+
+			if (AfterComponentFileSelected != null)
+				AfterComponentFileSelected(_model.SelectedComponentFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,7 +191,7 @@ namespace SayMore.UI.ElementListScreen
 			// setting it to zero below will cause a row changed event, thus causing
 			// the ComponentSelectedCallback event.
 			_componentFilesControl.SelectComponent(-1);
-			_componentFilesControl.AfterComponentSelected = HandleAfterComponentSelected;
+			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
 			_componentFilesControl.SelectComponent(0);
 			ShowSelectedComponentFileEditors();
 		}

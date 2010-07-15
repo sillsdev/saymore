@@ -9,12 +9,15 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class ProjectElementComponentFile : ComponentFile
 	{
+		public new delegate ProjectElementComponentFile Factory(ProjectElement parentElement,
+			FileType fileType, FileSerializer fileSerializer, string rootElementName);
+
 		private readonly ProjectElement _parentElement;
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectElementComponentFile(ProjectElement parentElement,
-			FileType fileType, FileSerializer fileSerializer, string rootElementName)
-			: base(parentElement.SettingsFilePath, fileType, fileSerializer, rootElementName)
+			FileType fileType, FileSerializer fileSerializer, string rootElementName, FieldUpdater fieldUpdater)
+			: base(parentElement.SettingsFilePath, fileType, rootElementName, fileSerializer, fieldUpdater)
 		{
 			_parentElement = parentElement;
 			PathToAnnotatedFile = parentElement.SettingsFilePath;//same thing, there isn't a pair of files for session/person

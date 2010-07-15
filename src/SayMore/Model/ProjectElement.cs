@@ -20,7 +20,6 @@ namespace SayMore.Model
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
 		private readonly ComponentFile.Factory _componentFileFactory;
-		private readonly FileSerializer _fileSerializer;
 		private string _id;
 
 		public string Id { get { return _id; } }
@@ -38,20 +37,18 @@ namespace SayMore.Model
 		/// <param name="componentFileFactory"></param>
 		/// <param name="fileSerializer">used to load/save</param>
 		/// <param name="fileType"></param>
+		/// <param name="prjElementComponentFileFactory"></param>
 		/// ------------------------------------------------------------------------------------
-		protected ProjectElement(string parentElementFolder, string id,
+		protected ProjectElement(string parentElementFolder, string id, FileType fileType,
 			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
-			FileType fileType)
+			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 		{
 			_componentFileFactory = componentFileFactory;
-			_fileSerializer = fileSerializer;
 			RequireThat.Directory(parentElementFolder).Exists();
 
 			ParentFolderPath = parentElementFolder;
 			_id = id ?? GetNewDefaultElementName();
-
-			MetaDataFile = new ProjectElementComponentFile(this, fileType,
-				_fileSerializer, RootElementName);
+			MetaDataFile = prjElementComponentFileFactory(this, fileType, fileSerializer, RootElementName);
 
 			if (File.Exists(SettingsFilePath))
 				Load();

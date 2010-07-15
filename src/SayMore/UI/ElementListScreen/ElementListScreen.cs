@@ -185,7 +185,7 @@ namespace SayMore.UI.ElementListScreen
 			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement();
 			_componentFilesControl.AfterComponentSelected = null;
 			_componentFilesControl.UpdateComponentFileList(componentsOfSelectedElement);
-			_model.SetSelectedComponentFile(0);
+			//_model.SetSelectedComponentFile(0);
 
 			foreach (var componentFile in componentsOfSelectedElement)
 			{
@@ -200,7 +200,7 @@ namespace SayMore.UI.ElementListScreen
 				//review: and later, are we wired longer than we want to be?
 			}
 
-			_model.SetSelectedComponentFile(0);
+			//_model.SetSelectedComponentFile(0);
 
 			// Setting the selected component to nothing now will make sure that
 			// setting it to zero below will cause a row changed event, thus causing

@@ -1,5 +1,3 @@
-using System.IO;
-using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
@@ -27,8 +25,8 @@ namespace SayMoreTests.Model
 
 		private Session CreateSession(string id)
 		{
-			return new Session(_parentFolder.Path, id, ComponentFile.CreateMinimalComponentFileForTests,
-				new FileSerializer(), new SessionFileType(() => null));
+			return new Session(_parentFolder.Path, id, new SessionFileType(() => null),
+				ComponentFile.CreateMinimalComponentFileForTests, new FileSerializer(), null);
 		}
 
 		/*  THIS IS EMPTY BECAUSE MOST OF THE BEHAVIOR THUS FAR IS IN THE BASE CLASS, AND TESTED

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Windows.Forms;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -49,6 +50,7 @@ namespace SayMore.UI.ComponentEditors
 		public void SetComponentFile(ComponentFile file)
 		{
 			_file = file;
+			_file.Load();
 			RowData = new List<FieldInstance>();
 			LoadFields();
 
@@ -149,14 +151,28 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void SaveIdForIndex(string id, int index)
 		{
+			if (id == null || id.Trim() == string.Empty)
+			{
+				SystemSounds.Beep.Play();
+				return;
+			}
+
 			id = id.Trim().Replace(' ', '_');
 
 			if (index == RowData.Count)
 				RowData.Add(new FieldInstance(id));
-			else if (RowData[index].FieldId != id && _file.RenameId(RowData[index].FieldId, id))
+			else if (RowData[index].FieldId != id)
 			{
-				RowData[index].FieldId = id;
-				_file.Save();
+				_fieldGatherer.SuspendProcessing();
+
+				if (_file.RenameId(RowData[index].FieldId, id))
+				{
+					RowData[index].FieldId = id;
+					_file.Save();
+				}
+
+				_fieldGatherer.GatherFieldsForFile(_file.PathToAnnotatedFile);
+				_fieldGatherer.ResumeProcessing(true);
 			}
 		}
 

@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files.DataGathering
@@ -21,6 +23,23 @@ namespace SayMore.Model.Files.DataGathering
 			FileTypeFields.Factory fileTypeFieldsFactory)
 			: base(rootDirectoryPath, allFileTypes, path => fileTypeFieldsFactory(path))
 		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override ThreadPriority ThreadPriority
+		{
+			get { return ThreadPriority.AboveNormal; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void GatherFieldsForFile(string path)
+		{
+			// REVIEW: I'm not sure this lock is necessary, but just to make sure...
+			var lockObj = new object();
+			lock (lockObj)
+			{
+				CollectDataForFile(path);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -64,16 +83,19 @@ namespace SayMore.Model.Files.DataGathering
 
 			var fieldsForType = new List<FieldDefinition>();
 
-			// Go through all the lists of fields found for the specified file type
-			// and create a single list of unique field names for that file type.
-			foreach (var listofKeys in from fileTypeFields in _fileToDataDictionary.Values
-									   where fileTypeFields.FileType == type
-									   select fileTypeFields.FieldKeys)
+			lock (((ICollection)_fileToDataDictionary).SyncRoot)
 			{
-				foreach (var key in listofKeys)
+				// Go through all the lists of fields found for the specified file type
+				// and create a single list of unique field names for that file type.
+				foreach (var listofKeys in from fileTypeFields in _fileToDataDictionary.Values
+										   where fileTypeFields.FileType == type
+										   select fileTypeFields.FieldKeys)
 				{
-					if (!fieldsForType.Any(f => f.Key == key))
-						fieldsForType.Add(new FieldDefinition(key) { IsCustom = fileType.GetIsCustomFieldId(key) });
+					foreach (var key in listofKeys)
+					{
+						if (!fieldsForType.Any(f => f.Key == key))
+							fieldsForType.Add(new FieldDefinition(key) { IsCustom = fileType.GetIsCustomFieldId(key) });
+					}
 				}
 			}
 

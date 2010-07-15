@@ -59,7 +59,7 @@ namespace SayMore.UI.ElementListScreen
 
 			SelectedElement = element;
 			RefreshSelectedElementComponentFileList();
-			SetSelectedComponentFile(0);
+			//SetSelectedComponentFile(0);
 			return true;
 		}
 

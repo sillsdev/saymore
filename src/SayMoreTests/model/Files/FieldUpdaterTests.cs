@@ -15,6 +15,7 @@ namespace SayMoreTests.model.Files
 		private ComponentFile _imgFile2;
 		private ComponentFile _audioFile1;
 		private ComponentFile _audioFile2;
+		private FieldUpdater _updater;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
@@ -38,6 +39,8 @@ namespace SayMoreTests.model.Files
 
 			path = Path.Combine(italiansFolder, "TheLastSupper.mp3");
 			_audioFile2 = SetupData(path, audioFileType, "Leonardo", "da Vinci", "1452", "1519");
+
+			_updater = FieldUpdater.CreateMinimalFieldUpdaterForTests(_rootFolder.Path);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -74,8 +77,7 @@ namespace SayMoreTests.model.Files
 		[Test]
 		public void RenameField_InvokeForAudioFiles_DoesNotUpdateOtherFileTypes()
 		{
-			var updater = new FieldUpdater(_rootFolder.Path);
-			updater.RenameField(_audioFile1, "born", "WasBirthed");
+			_updater.RenameField(_audioFile1, "born", "WasBirthed");
 
 			_imgFile1.Load();
 			Assert.That(_imgFile1.MetaDataFieldValues.Find(x => x.FieldId == "born"), Is.Not.Null);
@@ -95,8 +97,7 @@ namespace SayMoreTests.model.Files
 		[Test]
 		public void RenameField_InvokedOnFile1_UpdatesFile2ButNotFile1()
 		{
-			var updater = new FieldUpdater(_rootFolder.Path);
-			updater.RenameField(_audioFile1, "died", "PassedOn");
+			_updater.RenameField(_audioFile1, "died", "PassedOn");
 
 			_audioFile1.Load();
 			Assert.That(_audioFile1.MetaDataFieldValues.Find(x => x.FieldId == "died"), Is.Not.Null);
@@ -107,8 +108,7 @@ namespace SayMoreTests.model.Files
 		[Test]
 		public void RenameField_Invoked_DoesUpdates()
 		{
-			var updater = new FieldUpdater(_rootFolder.Path);
-			updater.RenameField(_audioFile1, "born", "WasBirthed");
+			_updater.RenameField(_audioFile1, "born", "WasBirthed");
 
 			// See RenameField_InvokedOnFile1_UpdatesFile2ButNotFile1 for why _file2 isn't checked.
 

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -21,11 +19,9 @@ namespace SayMoreTests.Model.Files
 			_parentFolder = new TemporaryFolder("fileTypeTest");
 		}
 
-		private string ParentFolderName {
-			get
-			{
-				return Path.GetFileName(_parentFolder.Path);
-			}
+		private string ParentFolderName
+		{
+			get { return Path.GetFileName(_parentFolder.Path); }
 		}
 
 		[TearDown]
@@ -35,20 +31,19 @@ namespace SayMoreTests.Model.Files
 			_parentFolder = null;
 		}
 
-
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetFileType_IsText_GivesTextFileType()
 		{
-			ComponentFile f = CreateComponentFile("abc.txt");
-			Assert.AreEqual("Text",f.FileType.Name);
+			var f = CreateComponentFile("abc.txt");
+			Assert.AreEqual("Text", f.FileType.Name);
 		}
 
 		private ComponentFile CreateComponentFile(string fileName)
 		{
 			File.WriteAllText(_parentFolder.Combine(fileName), @"hello");
 
-			var cf= new ComponentFile(_parentFolder.Combine(fileName),
+			var cf = new ComponentFile(_parentFolder.Combine(fileName),
 				new[] {FileType.Create("Text", ".txt"), new UnknownFileType(null) },
 				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 
@@ -60,7 +55,7 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void GetFileType_UnknownType_UnknownFileType()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			Assert.AreEqual("Unknown", f.FileType.Name);
 		}
 
@@ -68,8 +63,7 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void GetStringValue_FieldMissing_ReturnsSpecifiedDefault()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
-
+			var f = CreateComponentFile("abc.zzz");
 			Assert.AreEqual("hello", f.GetStringValue("notThere", "hello"));
 		}
 
@@ -77,27 +71,30 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void GetStringValue_FieldIsThere_ReturnsCorrectValue()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "color", "red");
 			Assert.AreEqual("red", f.GetStringValue("color", "blue"));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void RenameId_FieldIsThere_ReturnsTrue()
+		public void RenameId_FieldIsThere_Succeeds()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "height", "25");
 			SetValue(f, "width", "50");
 
-			Assert.IsTrue(f.RenameId("width", "girth"));
+			f.RenameId("width", "girth");
+			Assert.IsNull(f.GetStringValue("width", null));
+			Assert.AreEqual("50", f.GetStringValue("girth", null));
+			Assert.AreEqual("25", f.GetStringValue("height", null));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void RenameId_FieldIsThere_OldIdReturnsNothing()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "height", "25");
 			SetValue(f, "width", "50");
 
@@ -109,7 +106,7 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void RenameId_FieldIsThere_NewIdReturnsOldValue()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "height", "25");
 			SetValue(f, "width", "50");
 
@@ -121,16 +118,20 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void RenameId_FieldMissing_ReturnsFalse()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "height", "25");
-			Assert.IsFalse(f.RenameId("width", "girth"));
+
+			f.RenameId("width", "girth");
+			Assert.IsNull(f.GetStringValue("width", null));
+			Assert.IsNull(f.GetStringValue("girth", null));
+			Assert.AreEqual("25", f.GetStringValue("height", null));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void RenameId_FieldMissing_NewIdReturnsNothing()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "height", "25");
 			f.RenameId("width", "girth");
 			Assert.IsNull(f.GetStringValue("width", null));
@@ -140,7 +141,7 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void RemoveField_FieldIsThere_ReturnsTrue()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "height", "25");
 			SetValue(f, "width", "50");
 			Assert.IsTrue(f.RemoveField("width"));
@@ -150,7 +151,7 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void RemoveField_FieldIsThere_OldIdReturnsNothing()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "height", "25");
 			SetValue(f, "width", "50");
 			f.RemoveField("width");
@@ -161,7 +162,7 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void RemoveField_FieldMissing_ReturnsFalse()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "height", "25");
 			Assert.IsFalse(f.RemoveField("width"));
 		}
@@ -170,7 +171,7 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void SetValue_ChangingValue_NewValueOverwritesOld()
 		{
-			ComponentFile f = CreateComponentFile("abc.zzz");
+			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "color", "red");
 			SetValue(f, "color", "green");
 			Assert.AreEqual("green", f.GetStringValue("color", "blue"));

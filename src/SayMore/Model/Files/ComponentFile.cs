@@ -97,37 +97,17 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string DurationString
-		{
-			get
-			{
-				if (_statisticsProvider == null)
-					return string.Empty;
-
-				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
-				if (stats == null || stats.Duration == default(TimeSpan) )
-				{
-					return string.Empty;
-				}
-
-				//trim off the milliseconds so it doesn't get too geeky
-				return new TimeSpan(stats.Duration.Hours,
-					stats.Duration.Minutes,
-					stats.Duration.Seconds).ToString();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// used only by ProjectElementComponentFile
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected ComponentFile(string filePath, FileType fileType,
-			FileSerializer fileSerializer, string rootElementName)
+		protected ComponentFile(string filePath, FileType fileType, string rootElementName,
+			FileSerializer fileSerializer, FieldUpdater fieldUpdater)
 		{
 			FileType = fileType;
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
+			_fieldUpdater = fieldUpdater;
 			MetaDataFieldValues = new List<FieldInstance>();
 			RootElementName = rootElementName;
 			_componentRoles = new ComponentRole[] {}; //no roles for person or session
@@ -155,6 +135,27 @@ namespace SayMore.Model.Files
 			GetSmallIconAndFileType(PathToAnnotatedFile, out icon, out fileDesc);
 			SmallIcon = FileType.SmallIcon ?? icon;
 			FileTypeDescription = (FileType is UnknownFileType ? fileDesc : FileType.Name);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string DurationString
+		{
+			get
+			{
+				if (_statisticsProvider == null)
+					return string.Empty;
+
+				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
+				if (stats == null || stats.Duration == default(TimeSpan))
+				{
+					return string.Empty;
+				}
+
+				//trim off the milliseconds so it doesn't get too geeky
+				return new TimeSpan(stats.Duration.Hours,
+					stats.Duration.Minutes,
+					stats.Duration.Seconds).ToString();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -233,10 +234,8 @@ namespace SayMore.Model.Files
 		public virtual bool RenameId(string oldId, string newId)
 		{
 			var fieldValue = MetaDataFieldValues.Find(v => v.FieldId == oldId);
-			if (fieldValue == null)
-				return false;
-
-			fieldValue.FieldId = newId;
+			if (fieldValue != null)
+				fieldValue.FieldId = newId;
 
 			if (_fieldUpdater != null)
 				_fieldUpdater.RenameField(this, oldId, newId);
@@ -347,7 +346,7 @@ namespace SayMore.Model.Files
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
 		{
 			return new ComponentFile(path, new FileType[] { new UnknownFileType(null) },
-				new ComponentRole[]{}, new FileSerializer(), null, null, null);
+				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -356,7 +355,6 @@ namespace SayMore.Model.Files
 			return new ComponentFile(path, new[] { fileType },
 				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ToolStripItem> GetMenuCommands(Action refreshAction)

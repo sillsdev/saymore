@@ -69,8 +69,6 @@ namespace SayMore
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c)).InstancePerLifetimeScope();
 
-				builder.Register<FieldUpdater>(c => new FieldUpdater(rootDirectoryPath)).InstancePerLifetimeScope();
-
 				//these needed to be done later (as delegates) because of the FileTypes dependency
 				//there's maybe something I'm doing wrong that requires me to register this twice like this...
 				builder.Register<IProvideAudioVideoFileStatistics>(
@@ -94,6 +92,8 @@ namespace SayMore
 				builder.Register<FieldGatherer>(
 					c => new FieldGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
 						c.Resolve<FileTypeFields.Factory>())).InstancePerLifetimeScope();
+
+				builder.Register<FieldUpdater>(c => new FieldUpdater(c.Resolve<FieldGatherer>())).InstancePerLifetimeScope();
 
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor

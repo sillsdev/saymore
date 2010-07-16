@@ -66,13 +66,23 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void SetProvider(IEditorProvider provider)
 		{
+			if (EditorProvider != null)
+				EditorProvider.TabTextChanged -= HandleEditorTextChanged;
+
 			EditorProvider = provider;
 			Text = provider.TabText;
+			provider.TabTextChanged += HandleEditorTextChanged;
 
 			var control = EditorProvider.Control;
 			control.Dock = DockStyle.Fill;
 			Controls.Add(control);
 			ImageKey = EditorProvider.ImageKey;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleEditorTextChanged(string text)
+		{
+			Text = text;
 		}
 	}
 }

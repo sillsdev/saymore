@@ -31,6 +31,7 @@ namespace SayMore.UI.ComponentEditors
 		void Initialize(string tabText, string imageKey);
 		void SetComponentFile(ComponentFile file);
 		void GoDormant();
+		event Action<string> TabTextChanged;
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -42,8 +43,9 @@ namespace SayMore.UI.ComponentEditors
 	{
 		private BindingHelper _binder;
 		protected ComponentFile _file;
+		protected string _tabText;
 
-		public string TabText { get; protected set; }
+		public event Action<string> TabTextChanged;
 		public string ImageKey { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -103,6 +105,21 @@ namespace SayMore.UI.ComponentEditors
 		public Control Control
 		{
 			get { return this; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string TabText
+		{
+			get { return _tabText; }
+			protected set
+			{
+				if (_tabText != value)
+				{
+					_tabText = value;
+					if (TabTextChanged != null)
+						TabTextChanged(_tabText);
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -90,14 +90,17 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private static void HandleErrorOpeningProjectWindow(Exception error, string projectPath)
 		{
-			if (_projectContext.ProjectWindow != null)
+			if (_projectContext != null)
 			{
-				_projectContext.ProjectWindow.Closed -= HandleProjectWindowClosed;
-				_projectContext.ProjectWindow.Close();
-			}
+				if (_projectContext.ProjectWindow != null)
+				{
+					_projectContext.ProjectWindow.Closed -= HandleProjectWindowClosed;
+					_projectContext.ProjectWindow.Close();
+				}
 
-			_projectContext.Dispose();
-			_projectContext = null;
+				_projectContext.Dispose();
+				_projectContext = null;
+			}
 
 			Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
 				new Palaso.Reporting.ShowAlwaysPolicy(), error,

@@ -27,7 +27,6 @@ namespace SayMore.UI.ProjectWindow
 			this._exportSessionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuExit = new System.Windows.Forms.ToolStripMenuItem();
-			this._menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.releaseNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -46,7 +45,6 @@ namespace SayMore.UI.ProjectWindow
 			// 
 			this._mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._menuProject,
-            this._menuFile,
             this._menuHelp});
 			this.locExtender.SetLocalizableToolTip(this._mainMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._mainMenuStrip, null);
@@ -113,17 +111,6 @@ namespace SayMore.UI.ProjectWindow
 			this._menuExit.Size = new System.Drawing.Size(163, 22);
 			this._menuExit.Text = "E&xit";
 			this._menuExit.Click += new System.EventHandler(this.HandleExitClick);
-			// 
-			// _menuFile
-			// 
-			this.locExtender.SetLocalizableToolTip(this._menuFile, null);
-			this.locExtender.SetLocalizationComment(this._menuFile, null);
-			this.locExtender.SetLocalizingId(this._menuFile, "ProjectWindow._menuFile");
-			this._menuFile.Name = "_menuFile";
-			this._menuFile.Size = new System.Drawing.Size(37, 20);
-			this._menuFile.Text = "&File";
-			this._menuFile.DropDownOpening += new System.EventHandler(this.HandleFileMenuDropDownOpening);
-			this._menuFile.DropDownClosed += new System.EventHandler(this.HandleFileMenuDropDownClosed);
 			// 
 			// _menuHelp
 			// 
@@ -223,7 +210,6 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.ToolStripMenuItem _menuAbout;
 		private System.Windows.Forms.ToolStripMenuItem releaseNotesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripMenuItem _menuFile;
 	}
 }
 

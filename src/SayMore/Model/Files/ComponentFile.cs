@@ -371,7 +371,7 @@ namespace SayMore.Model.Files
 						cmd1.Action(PathToAnnotatedFile);
 						if (refreshAction != null)
 							refreshAction();
-					});
+					}) { Tag = cmd1.MenuId };
 				}
 			}
 
@@ -395,7 +395,7 @@ namespace SayMore.Model.Files
 						AssignRole(role1);
 						if (refreshAction != null)
 							refreshAction();
-					});
+					}) { Tag = "rename" };
 				}
 		   }
 		}

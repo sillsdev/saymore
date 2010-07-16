@@ -73,20 +73,10 @@ namespace SayMore.UI.ElementListScreen
 
 			_componentFilesControl = componentGrid;
 			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
-
-			_componentFilesControl.ShowContextMenuForComponentFile = (() =>
-			{
-				if (_model.SelectedComponentFile != null)
-				{
-					var menu = new ContextMenuStrip();
-					menu.Items.AddRange(GetSelectedComponentFileMenuCommands());
-					menu.Show(MousePosition);
-				}
-			});
-
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
+			_componentFilesControl.PostMenuCommandRefreshAction = HandlePostMenuCommandRefresh;
 
 			_elementsListPanel.NewButtonClicked += HandleNewElementButtonClicked;
 			_elementsListPanel.BeforeItemsDeleted += HandleBeforeElementsDeleted;
@@ -118,17 +108,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ToolStripItem[] GetSelectedComponentFileMenuCommands()
+		public void HandlePostMenuCommandRefresh()
 		{
-			return _model.SelectedComponentFile.GetMenuCommands(() =>
-			{
-				var currFile = _model.SelectedComponentFile.PathToAnnotatedFile;
-				_model.RefreshSelectedElementComponentFileList();
-				UpdateComponentFileList();
-				_componentFilesControl.TrySetComponent(currFile);
-				_componentFilesControl.Invalidate();
-
-			}).ToArray();
+			var currFile = _model.SelectedComponentFile.PathToAnnotatedFile;
+			_model.RefreshSelectedElementComponentFileList();
+			UpdateComponentFileList();
+			_componentFilesControl.TrySetComponent(currFile);
+			_componentFilesControl.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,30 +171,30 @@ namespace SayMore.UI.ElementListScreen
 			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement();
 			_componentFilesControl.AfterComponentSelected = null;
 			_componentFilesControl.UpdateComponentFileList(componentsOfSelectedElement);
-			//_model.SetSelectedComponentFile(0);
 
 			foreach (var componentFile in componentsOfSelectedElement)
 			{
 				componentFile.IdChanged -= HandleComponentFileIdChanged;
 				componentFile.IdChanged += HandleComponentFileIdChanged;
-
 				componentFile.MetadataValueChanged -= HandleComponentFileMetadataValueChanged;
 				componentFile.MetadataValueChanged += HandleComponentFileMetadataValueChanged;
-
-				//componentFile.UiShouldRefresh -= HandleUiShouldRefresh;
-				//componentFile.UiShouldRefresh += HandleUiShouldRefresh;
-				//review: and later, are we wired longer than we want to be?
 			}
 
-			//_model.SetSelectedComponentFile(0);
-
-			// Setting the selected component to nothing now will make sure that
-			// setting it to zero below will cause a row changed event, thus causing
-			// the ComponentSelectedCallback event.
-			_componentFilesControl.SelectComponent(-1);
-			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
-			_componentFilesControl.SelectComponent(0);
-			ShowSelectedComponentFileEditors();
+			if (componentsOfSelectedElement.Count() == 0)
+			{
+				_selectedEditorsTabControl = null;
+				_componentFilesControl.AddButtonEnabled = false;
+			}
+			else
+			{
+				// Setting the selected component to nothing now will make sure that
+				// setting it to zero below will cause a row changed event, thus causing
+				// the ComponentSelectedCallback event.
+				_componentFilesControl.SelectComponent(-1);
+				_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
+				_componentFilesControl.SelectComponent(0);
+				ShowSelectedComponentFileEditors();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -314,6 +300,8 @@ namespace SayMore.UI.ElementListScreen
 					foreach (var tabCtrl in _tabControls.Values)
 					{
 						_tabControlHostControl.Controls.Remove(tabCtrl);
+						tabCtrl.Selecting -= HandleSelectedComponentEditorTabSelecting;
+						tabCtrl.Controls.Clear();
 						tabCtrl.Dispose();
 					}
 

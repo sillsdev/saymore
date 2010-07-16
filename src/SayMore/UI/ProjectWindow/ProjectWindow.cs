@@ -45,7 +45,7 @@ namespace SayMore.UI.ProjectWindow
 			}
 
 			var asm = Assembly.GetExecutingAssembly();
-			Icon = new Icon (asm.GetManifestResourceStream ("SayMore.SayMore.ico"));
+			Icon = new Icon (asm.GetManifestResourceStream("SayMore.SayMore.ico"));
 
 			_projectName = Path.GetFileNameWithoutExtension(projectName);
 			_commands = commands;
@@ -57,8 +57,6 @@ namespace SayMore.UI.ProjectWindow
 
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
-
-			HandleFileMenuDropDownClosed(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -139,36 +137,5 @@ namespace SayMore.UI.ProjectWindow
 				e.Graphics.DrawLine(pen, 0, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
 			}
 		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleFileMenuDropDownOpening(object sender, EventArgs e)
-		{
-			var tab = _viewTabGroup.GetSelectedTab();
-			if (tab == null)
-				return;
-
-			ToolStripItem[] menuItems = null;
-
-			var view = _viewTabGroup.GetSelectedTab().View;
-
-			if (view.GetType() == typeof(SessionScreen))
-				menuItems = ((SessionScreen)view).GetSelectedComponentFileMenuCommands();
-			else if (view.GetType() != typeof(PersonListScreen))
-				menuItems = ((PersonListScreen)view).GetSelectedComponentFileMenuCommands();
-
-			if (menuItems != null)
-			{
-				_menuFile.DropDownItems.Clear();
-				_menuFile.DropDownItems.AddRange(menuItems);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleFileMenuDropDownClosed(object sender, EventArgs e)
-		{
-			_menuFile.DropDownItems.Clear();
-			_menuFile.DropDownItems.Add(new ToolStripMenuItem("No File Selected") { Enabled = false });
-		}
-
 	}
 }

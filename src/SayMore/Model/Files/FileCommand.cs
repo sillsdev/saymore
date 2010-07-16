@@ -13,14 +13,15 @@ namespace SayMore.Model.Files
 	public class FileCommand
 	{
 		/// ------------------------------------------------------------------------------------
-		public FileCommand(string englishLabel, Action<string> action)
+		public FileCommand(string englishLabel, Action<string> action, string menuId)
 		{
 			EnglishLabel = englishLabel;
 			Action = action;
+			MenuId = menuId;
 		}
 
 		public Action<string> Action { get; private set; }
-
+		public string MenuId { get; private set; }
 		public string EnglishLabel { get; private set; }
 
 		/// ------------------------------------------------------------------------------------

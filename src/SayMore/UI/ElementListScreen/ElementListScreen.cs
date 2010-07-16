@@ -318,12 +318,11 @@ namespace SayMore.UI.ElementListScreen
 			_model.SetSelectedElement(_model.CreateNewElement());
 			_elementsListPanel.AddItem(_model.SelectedElement, true, true);
 
-			// After a new element is added, then give focus to the editor of the first
-			// editor provider. This will assume the first field in the editor is the
-			// desired one to give focus.
-			var providers = _model.GetComponentEditorProviders().ToArray();
-			if (providers.Length > 0)
-				providers[0].Control.Focus();
+			// After a new element is added, then give focus to the first editor. This will
+			// assume the first field in the editor is the desired one to give focus.
+			var firstEditor = _model.GetComponentEditorProviders().ElementAtOrDefault(0);
+			if (firstEditor != null)
+				firstEditor.Control.Focus();
 
 			return null;
 		}

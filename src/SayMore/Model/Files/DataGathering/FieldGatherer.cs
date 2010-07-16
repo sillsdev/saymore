@@ -32,7 +32,7 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void GatherFieldsForFile(string path)
+		public void GatherFieldsForFileNow(string path)
 		{
 			// REVIEW: I'm not sure this lock is necessary, but just to make sure...
 			var lockObj = new object();

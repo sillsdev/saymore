@@ -231,7 +231,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool RenameId(string oldId, string newId)
+		public virtual void RenameId(string oldId, string newId)
 		{
 			var fieldValue = MetaDataFieldValues.Find(v => v.FieldId == oldId);
 			if (fieldValue != null)
@@ -239,19 +239,17 @@ namespace SayMore.Model.Files
 
 			if (_fieldUpdater != null)
 				_fieldUpdater.RenameField(this, oldId, newId);
-
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool RemoveField(string idToRemove)
+		public virtual void RemoveField(string idToRemove)
 		{
 			var existingValue = MetaDataFieldValues.Find(f => f.FieldId == idToRemove);
-			if (existingValue == null)
-				return false;
+			if (existingValue != null)
+				MetaDataFieldValues.Remove(existingValue);
 
-			MetaDataFieldValues.Remove(existingValue);
-			return true;
+			if (_fieldUpdater != null)
+				_fieldUpdater.DeleteField(this, idToRemove);
 		}
 
 		/// ------------------------------------------------------------------------------------

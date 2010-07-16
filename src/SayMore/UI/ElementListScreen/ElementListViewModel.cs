@@ -26,12 +26,10 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<T> Elements
+		public IEnumerable<ProjectElement> Elements
 		{
-			get { return _repository.AllItems; }
+			get { return _repository.AllItems.Cast<ProjectElement>(); }
 		}
-
-
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentFile> GetComponentsOfSelectedElement()
@@ -59,13 +57,10 @@ namespace SayMore.UI.ElementListScreen
 
 			SelectedElement = element;
 			RefreshSelectedElementComponentFileList();
-			//SetSelectedComponentFile(0);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-
-		//review do (jh): why bother with all these indexes? Why not just pass the object itself?
 		public bool SetSelectedComponentFile(int index)
 		{
 			if (SelectedElement == null)

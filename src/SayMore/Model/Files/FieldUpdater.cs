@@ -37,34 +37,17 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void RenameField(ComponentFile file, string oldName, string newName)
+		public void RenameField(ComponentFile file, string oldId, string newId)
 		{
-			FindAndUpdateFiles(file, metaDataFields =>
-			{
-				var field = metaDataFields.Find(x => x.FieldId == oldName);
-				if (field != null)
-				{
-					field.FieldId = newName;
-					return true;
-				}
-
-				return false;
-			});
+			FindAndUpdateFiles(file, oldId, (metaDataFields, field) => field.FieldId = newId);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public void DeleteFields(ComponentFile file, IEnumerable<string> fieldsToDelete)
-		//{
-		//    FindAndUpdateFiles(file, metaDataFields =>
-		//    {
-		//        foreach (var key in fieldsToDelete)
-		//        {
-		//            var field = metaDataFields.Find(x => x.FieldKey == key);
-		//            if (field != null && field.IsCustomField)
-		//                metaDataFields.Remove(field);
-		//        }
-		//    });
-		//}
+		/// ------------------------------------------------------------------------------------
+		public void DeleteField(ComponentFile file, string idOfFieldToDelete)
+		{
+			FindAndUpdateFiles(file, idOfFieldToDelete,
+				(metaDataFields, field) => metaDataFields.Remove(field));
+		}
 
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<string> GetMatchingFiles(FileType fileType)
@@ -75,7 +58,8 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void FindAndUpdateFiles(ComponentFile file, Func<List<FieldInstance>, bool> updatePredicate)
+		private void FindAndUpdateFiles(ComponentFile file, string idOfFieldToFind,
+			Action<List<FieldInstance>, FieldInstance> updateAction)
 		{
 			var matchingFiles = GetMatchingFiles(file.FileType);
 
@@ -91,14 +75,16 @@ namespace SayMore.Model.Files
 				if (!File.Exists(sidecarFilePath))
 					continue;
 
-				var metaDataFieldValues = new List<FieldInstance>();
-				_fileSerializer.Load(metaDataFieldValues, sidecarFilePath, file.RootElementName);
+				var metaDataFields = new List<FieldInstance>();
+				_fileSerializer.Load(metaDataFields, sidecarFilePath, file.RootElementName);
 
-				if (updatePredicate(metaDataFieldValues))
+				var field = metaDataFields.Find(x => x.FieldId == idOfFieldToFind);
+				if (field != null)
 				{
-					_fileSerializer.Save(metaDataFieldValues, sidecarFilePath, file.RootElementName);
+					updateAction(metaDataFields, field);
+					_fileSerializer.Save(metaDataFields, sidecarFilePath, file.RootElementName);
 					if (_fieldGatherer != null)
-						_fieldGatherer.GatherFieldsForFile(sidecarFilePath);
+						_fieldGatherer.GatherFieldsForFileNow(sidecarFilePath);
 				}
 			}
 

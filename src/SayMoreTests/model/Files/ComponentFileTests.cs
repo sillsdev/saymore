@@ -139,12 +139,14 @@ namespace SayMoreTests.Model.Files
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void RemoveField_FieldIsThere_ReturnsTrue()
+		public void RemoveField_FieldIsThere_RemovesIt()
 		{
 			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "height", "25");
 			SetValue(f, "width", "50");
-			Assert.IsTrue(f.RemoveField("width"));
+			f.RemoveField("width");
+			Assert.AreEqual("25", f.GetStringValue("height", null));
+			Assert.IsNull(f.GetStringValue("width", null));
 		}
 
 		[Test]
@@ -160,11 +162,13 @@ namespace SayMoreTests.Model.Files
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void RemoveField_FieldMissing_ReturnsFalse()
+		public void RemoveField_FieldMissing_DoesNothing()
 		{
 			var f = CreateComponentFile("abc.zzz");
 			SetValue(f, "height", "25");
-			Assert.IsFalse(f.RemoveField("width"));
+			f.RemoveField("width");
+			Assert.AreEqual("25", f.GetStringValue("height", null));
+			Assert.IsNull(f.GetStringValue("width", null));
 		}
 
 		[Test]

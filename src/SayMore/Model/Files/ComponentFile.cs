@@ -170,22 +170,44 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetStringValue(string key, string defaultValue)
 		{
+			string computedValue = null;
+
 			var computedFieldInfo =
 				FileType.GetComputedFields().FirstOrDefault(computedField => computedField.Key == key);
 
 			if (computedFieldInfo != null && _statisticsProvider != null)
 			{
-				var value = computedFieldInfo.GetFormatedStatProvider(
+				// Get the computed value (if there is one).
+				computedValue = computedFieldInfo.GetFormatedStatProvider(
 					_statisticsProvider.GetFileData(PathToAnnotatedFile),
 					computedFieldInfo.DataSetChooser, computedFieldInfo.DataItemChooser,
 					computedFieldInfo.Suffix);
-
-				if (!string.IsNullOrEmpty(value))
-					return value;
 			}
 
+			// Get the value from the metadata file.
 			var	field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
-			return (field == null ? defaultValue : field.Value);
+			var savedValue = (field == null ? defaultValue : field.Value);
+
+			if (!string.IsNullOrEmpty(computedValue))
+			{
+				// If the computed value is different from the value found in the metadata
+				// file, then save the computed value to the metadata file.
+				if (computedValue != savedValue)
+				{
+					// REVIEW: We probably don't want to save the formatted value to the
+					// metadata file, which is what we're doing here. In the future we'll
+					// probably want to change things to save the raw computed value.
+					string failureMessage;
+					SetValue(key, computedValue, out failureMessage);
+					if (failureMessage != null)
+						ErrorReport.NotifyUserOfProblem(failureMessage);
+
+					Save();
+					return computedValue;
+				}
+			}
+
+			return savedValue;
 		}
 
 		/// ------------------------------------------------------------------------------------

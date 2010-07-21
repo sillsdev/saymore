@@ -48,8 +48,9 @@ namespace SayMore.UI.ProjectWindow
 			base.DoubleBuffered = true;
 			base.AutoSize = false;
 			base.Font = owningTabControl.TabFont;
-			base.Text = Utils.RemoveAcceleratorPrefix(viewControl.Text);
 			base.Dock = DockStyle.Left;
+			base.Text = Utils.RemoveAcceleratorPrefix(viewControl.Text);
+			Name = base.Text.Replace(" ", string.Empty) + "ViewTab";
 
 			OwningTabGroup = owningTabControl;
 

@@ -30,7 +30,7 @@ namespace SayMore.UI.ComponentEditors
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
-			Name = "Basic";
+			Name = "PersonEditor";
 
 			_fatherButtons.AddRange(new[] {_pbPrimaryLangFather, _pbOtherLangFather0,
 				_pbOtherLangFather1, _pbOtherLangFather2, _pbOtherLangFather3 });
@@ -290,10 +290,10 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void DrawUnderlineBelowLabel(Graphics g, Control lbl)
 		{
-			var col = _tblLayoutOuter.GetColumn(lbl);
-			var span = _tblLayoutOuter.GetColumnSpan(lbl);
+			var col = _tableLayout.GetColumn(lbl);
+			var span = _tableLayout.GetColumnSpan(lbl);
 
-			var widths = _tblLayoutOuter.GetColumnWidths();
+			var widths = _tableLayout.GetColumnWidths();
 
 			var lineWidth = 0;
 			for (int i = col; i < col + span; i++)

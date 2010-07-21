@@ -259,6 +259,12 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public ComponentEditorsTabControl SelectedComponentEditorsTabControl
+		{
+			get { return _selectedEditorsTabControl as ComponentEditorsTabControl; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected virtual Color ComponentEditorBackgroundColor
 		{
 			get { return SystemColors.Control; }

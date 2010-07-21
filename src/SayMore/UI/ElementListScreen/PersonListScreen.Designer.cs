@@ -34,7 +34,7 @@ namespace SayMore.UI.ElementListScreen
 			this._elementListSplitter = new System.Windows.Forms.SplitContainer();
 			this._peopleListPanel = new SayMore.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
-			this._componentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
+			this._personComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelHelp = new System.Windows.Forms.Label();
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
@@ -65,6 +65,9 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _peopleListPanel
 			// 
+			this._peopleListPanel.ButtonPanelBackColor1 = System.Drawing.SystemColors.Control;
+			this._peopleListPanel.ButtonPanelBackColor2 = System.Drawing.SystemColors.Control;
+			this._peopleListPanel.ButtonPanelTopBorderColor = System.Drawing.SystemColors.ControlDark;
 			this._peopleListPanel.CurrentItem = null;
 			this._peopleListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._peopleListPanel.Items = new object[0];
@@ -79,7 +82,7 @@ namespace SayMore.UI.ElementListScreen
 			this._peopleListPanel.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this._peopleListPanel.ListView.HideSelection = false;
 			this._peopleListPanel.ListView.Location = new System.Drawing.Point(0, 30);
-			this._peopleListPanel.ListView.Name = "lvItems";
+			this._peopleListPanel.ListView.Name = "ListPanel._itemsListView";
 			this._peopleListPanel.ListView.Size = new System.Drawing.Size(180, 282);
 			this._peopleListPanel.ListView.TabIndex = 0;
 			this._peopleListPanel.ListView.UseCompatibleStateImageBehavior = false;
@@ -101,7 +104,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _componentsSplitter.Panel1
 			// 
-			this._componentsSplitter.Panel1.Controls.Add(this._componentFileGrid);
+			this._componentsSplitter.Panel1.Controls.Add(this._personComponentFileGrid);
 			// 
 			// _componentsSplitter.Panel2
 			// 
@@ -112,17 +115,17 @@ namespace SayMore.UI.ElementListScreen
 			this._componentsSplitter.TabIndex = 0;
 			this._componentsSplitter.TabStop = false;
 			// 
-			// _componentFileGrid
+			// _personComponentFileGrid
 			// 
-			this._componentFileGrid.AddButtonEnabled = false;
-			this._componentFileGrid.AddButtonVisible = true;
-			this._componentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._componentFileGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this._componentFileGrid.Location = new System.Drawing.Point(0, 0);
-			this._componentFileGrid.Name = "_componentFileGrid";
-			this._componentFileGrid.ShowContextMenu = true;
-			this._componentFileGrid.Size = new System.Drawing.Size(315, 147);
-			this._componentFileGrid.TabIndex = 1;
+			this._personComponentFileGrid.AddButtonEnabled = false;
+			this._personComponentFileGrid.AddButtonVisible = true;
+			this._personComponentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._personComponentFileGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this._personComponentFileGrid.Location = new System.Drawing.Point(0, 0);
+			this._personComponentFileGrid.Name = "_personComponentFileGrid";
+			this._personComponentFileGrid.ShowContextMenu = true;
+			this._personComponentFileGrid.Size = new System.Drawing.Size(315, 147);
+			this._personComponentFileGrid.TabIndex = 1;
 			// 
 			// _labelHelp
 			// 
@@ -157,7 +160,7 @@ namespace SayMore.UI.ElementListScreen
 		private ListPanel _peopleListPanel;
 		private System.Windows.Forms.SplitContainer _elementListSplitter;
 		private System.Windows.Forms.SplitContainer _componentsSplitter;
-		private ComponentFileGrid _componentFileGrid;
+		private ComponentFileGrid _personComponentFileGrid;
 		private System.Windows.Forms.Label _labelHelp;
 	}
 }

@@ -23,7 +23,7 @@ namespace SayMore.UI.ComponentEditors
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
-			Name = "SessionBasicEditor";
+			Name = "SessionEditor";
 
 			InitializeGrid(autoCompleteProvider,fieldGatherer);
 			SetBindingHelper(_binder);

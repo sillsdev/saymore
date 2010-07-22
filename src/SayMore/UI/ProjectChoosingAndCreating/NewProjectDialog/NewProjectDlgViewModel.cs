@@ -17,6 +17,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using SayMore.Properties;
 using SIL.Localization;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
@@ -59,8 +60,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		{
 			get
 			{
-				return Path.Combine(
-					Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore");
+				return (Settings.Default.DefaultFolderForNewProjects ??
+					Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore"));
 			}
 		}
 

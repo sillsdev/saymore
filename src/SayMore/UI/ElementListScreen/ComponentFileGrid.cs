@@ -83,8 +83,17 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			Settings.Default[_gridColSettingPrefix + "ComponentGrid"] = GridSettings.Create(_grid);
+			if (!DesignMode)
+				Settings.Default[_gridColSettingPrefix + "ComponentGrid"] = GridSettings.Create(_grid);
+
 			base.OnHandleDestroyed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool AddButtonEnabled
+		{
+			get { return _buttonAddFiles.Enabled; }
+			set { _buttonAddFiles.Enabled = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -99,10 +108,25 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool AddButtonEnabled
+		public bool RenameButtonVisible
 		{
-			get { return _buttonAddFiles.Enabled; }
-			set { _buttonAddFiles.Enabled = value; }
+			get { return _buttonRename.Visible; }
+			set
+			{
+				if (_buttonRename.Visible != value)
+					_buttonRename.Visible = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool ConvertButtonVisible
+		{
+			get { return _buttonConvert.Visible; }
+			set
+			{
+				if (_buttonConvert.Visible != value)
+					_buttonConvert.Visible = value;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,6 +134,13 @@ namespace SayMore.UI.ElementListScreen
 		public DataGridView Grid
 		{
 			get { return _grid; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		public ToolStripButton AddButton
+		{
+			get { return _buttonAddFiles; }
 		}
 
 		/// ------------------------------------------------------------------------------------

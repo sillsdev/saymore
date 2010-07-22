@@ -83,8 +83,6 @@ namespace SayMore
 			return _container.Resolve<WelcomeDialog>();
 		}
 
-
-
 		public void Dispose()
 		{
 			_container.Dispose();

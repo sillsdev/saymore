@@ -37,11 +37,11 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.tsOptions = new SayMore.UI.LowLevelControls.ElementBar();
 			this.tslblOpen = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbMru0 = new System.Windows.Forms.ToolStripButton();
-			this.tsbBrowse = new System.Windows.Forms.ToolStripButton();
+			this._buttonMru0 = new System.Windows.Forms.ToolStripButton();
+			this._buttonBrowse = new System.Windows.Forms.ToolStripButton();
 			this.tslblCreate = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbCreate = new System.Windows.Forms.ToolStripButton();
+			this._buttonCreate = new System.Windows.Forms.ToolStripButton();
 			this.lnkWebSites = new System.Windows.Forms.LinkLabel();
 			this.lblVersionInfo = new System.Windows.Forms.Label();
 			this.lblSubTitle = new System.Windows.Forms.Label();
@@ -67,11 +67,11 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.tsOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tslblOpen,
             this.toolStripSeparator1,
-            this.tsbMru0,
-            this.tsbBrowse,
+            this._buttonMru0,
+            this._buttonBrowse,
             this.tslblCreate,
             this.toolStripSeparator2,
-            this.tsbCreate});
+            this._buttonCreate});
 			this.tsOptions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.locExtender.SetLocalizableToolTip(this.tsOptions, null);
 			this.locExtender.SetLocalizationComment(this.tsOptions, null);
@@ -93,28 +93,28 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			// 
-			// tsbMru0
+			// _buttonMru0
 			// 
-			resources.ApplyResources(this.tsbMru0, "tsbMru0");
-			this.tsbMru0.Image = global::SayMore.Properties.Resources.SmallSayMoreLogo;
-			this.locExtender.SetLocalizableToolTip(this.tsbMru0, null);
-			this.locExtender.SetLocalizationComment(this.tsbMru0, null);
-			this.locExtender.SetLocalizationPriority(this.tsbMru0, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.tsbMru0, "WelcomeDlg.tsbMru0");
-			this.tsbMru0.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
-			this.tsbMru0.Name = "tsbMru0";
-			this.tsbMru0.Click += new System.EventHandler(this.HandleMruClick);
+			resources.ApplyResources(this._buttonMru0, "_buttonMru0");
+			this._buttonMru0.Image = global::SayMore.Properties.Resources.SmallSayMoreLogo;
+			this.locExtender.SetLocalizableToolTip(this._buttonMru0, null);
+			this.locExtender.SetLocalizationComment(this._buttonMru0, null);
+			this.locExtender.SetLocalizationPriority(this._buttonMru0, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._buttonMru0, "WelcomeDlg.tsbMru0");
+			this._buttonMru0.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
+			this._buttonMru0.Name = "_buttonMru0";
+			this._buttonMru0.Click += new System.EventHandler(this.HandleMruClick);
 			// 
-			// tsbBrowse
+			// _buttonBrowse
 			// 
-			resources.ApplyResources(this.tsbBrowse, "tsbBrowse");
-			this.tsbBrowse.Image = global::SayMore.Properties.Resources.kimidBrowseForProject;
-			this.locExtender.SetLocalizableToolTip(this.tsbBrowse, null);
-			this.locExtender.SetLocalizationComment(this.tsbBrowse, null);
-			this.locExtender.SetLocalizingId(this.tsbBrowse, "WelcomeDlg.tsbBrowse");
-			this.tsbBrowse.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
-			this.tsbBrowse.Name = "tsbBrowse";
-			this.tsbBrowse.Click += new System.EventHandler(this.HandleBrowseForExistingProjectClick);
+			resources.ApplyResources(this._buttonBrowse, "_buttonBrowse");
+			this._buttonBrowse.Image = global::SayMore.Properties.Resources.kimidBrowseForProject;
+			this.locExtender.SetLocalizableToolTip(this._buttonBrowse, null);
+			this.locExtender.SetLocalizationComment(this._buttonBrowse, null);
+			this.locExtender.SetLocalizingId(this._buttonBrowse, "WelcomeDialog._buttonBrowse");
+			this._buttonBrowse.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
+			this._buttonBrowse.Name = "_buttonBrowse";
+			this._buttonBrowse.Click += new System.EventHandler(this.HandleBrowseForExistingProjectClick);
 			// 
 			// tslblCreate
 			// 
@@ -130,16 +130,16 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
 			// 
-			// tsbCreate
+			// _buttonCreate
 			// 
-			resources.ApplyResources(this.tsbCreate, "tsbCreate");
-			this.tsbCreate.Image = global::SayMore.Properties.Resources.kimidNewProject;
-			this.locExtender.SetLocalizableToolTip(this.tsbCreate, null);
-			this.locExtender.SetLocalizationComment(this.tsbCreate, null);
-			this.locExtender.SetLocalizingId(this.tsbCreate, "WelcomeDlg.tsbCreate");
-			this.tsbCreate.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
-			this.tsbCreate.Name = "tsbCreate";
-			this.tsbCreate.Click += new System.EventHandler(this.HandleCreateProjectClick);
+			resources.ApplyResources(this._buttonCreate, "_buttonCreate");
+			this._buttonCreate.Image = global::SayMore.Properties.Resources.kimidNewProject;
+			this.locExtender.SetLocalizableToolTip(this._buttonCreate, null);
+			this.locExtender.SetLocalizationComment(this._buttonCreate, null);
+			this.locExtender.SetLocalizingId(this._buttonCreate, "WelcomeDialog._buttonCreate");
+			this._buttonCreate.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
+			this._buttonCreate.Name = "_buttonCreate";
+			this._buttonCreate.Click += new System.EventHandler(this.HandleCreateProjectClick);
 			// 
 			// lnkWebSites
 			// 
@@ -205,11 +205,11 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		private ElementBar tsOptions;
 		private System.Windows.Forms.ToolStripLabel tslblCreate;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripButton tsbCreate;
+		private System.Windows.Forms.ToolStripButton _buttonCreate;
 		private System.Windows.Forms.ToolStripLabel tslblOpen;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		private System.Windows.Forms.ToolStripButton tsbMru0;
-		private System.Windows.Forms.ToolStripButton tsbBrowse;
+		private System.Windows.Forms.ToolStripButton _buttonMru0;
+		private System.Windows.Forms.ToolStripButton _buttonBrowse;
 		private System.Windows.Forms.LinkLabel lnkWebSites;
 		private System.Windows.Forms.Label lblVersionInfo;
 		private System.Windows.Forms.Label lblSubTitle;

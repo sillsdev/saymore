@@ -713,5 +713,17 @@ namespace SayMore.Properties {
                 this["FirstTimeRun"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string DefaultFolderForNewProjects {
+            get {
+                return ((string)(this["DefaultFolderForNewProjects"]));
+            }
+            set {
+                this["DefaultFolderForNewProjects"] = value;
+            }
+        }
     }
 }

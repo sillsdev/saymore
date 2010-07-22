@@ -8,7 +8,7 @@ using Palaso.TestUtilities;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
-namespace SayMoreTests.model.Files.DataGathering
+namespace SayMoreTests.Model.Files.DataGathering
 {
 	[TestFixture]
 	//[Timeout(5000)]//each gets no more than 5 seconds

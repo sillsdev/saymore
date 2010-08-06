@@ -8,10 +8,10 @@ namespace SayMore.Model
 	public class Person : ProjectElement
 	{
 		/// ------------------------------------------------------------------------------------
-		public Person(string parentElementFolder, string id,
+		public Person(string parentElementFolder, string id, PersonFileType personFileType,
 			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
-			PersonFileType personFileType)
-			:base(parentElementFolder,id, componentFileFactory, fileSerializer, personFileType)
+			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
+			: base(parentElementFolder, id, personFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
 		}
 

@@ -37,12 +37,13 @@ namespace SayMore.Model.Files.DataGathering
 	public abstract class BackgroundFileProcessor<T> : IDisposable where T : class
 	{
 		private Thread _workerThread;
-		protected string _rootDirectoryPath;
+		public string RootDirectoryPath { get; protected set; }
 		protected readonly IEnumerable<FileType> _typesOfFilesToProcess;
 		protected readonly Func<string, T> _fileDataFactory;
 		protected bool _restartRequested = true;
 		protected Dictionary<string, T> _fileToDataDictionary = new Dictionary<string, T>();
 		private Queue<FileSystemEventArgs> _pendingFileEvents;
+		private volatile bool _suspendEventProcessing;
 
 		public event EventHandler NewDataAvailable;
 
@@ -50,7 +51,7 @@ namespace SayMore.Model.Files.DataGathering
 		public BackgroundFileProcessor(string rootDirectoryPath,
 			IEnumerable<FileType> typesOfFilesToProcess, Func<string, T> fileDataFactory)
 		{
-			_rootDirectoryPath = rootDirectoryPath;
+			RootDirectoryPath = rootDirectoryPath;
 			_typesOfFilesToProcess = typesOfFilesToProcess;
 			_fileDataFactory = fileDataFactory;
 			Status = "Not yet started";
@@ -68,9 +69,49 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Provides a means for threads outside the background processing thread to suspend
+		/// the background process while still allowing it to enqueue events to be processed
+		/// when ResumeProcessing is called.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual void SuspendProcessing()
+		{
+			_suspendEventProcessing = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Provides a means for threads outside the background processing thread to resume
+		/// the background process after SuspendProcessing has been called.
+		/// If processAllPendingEventsNow is true, then all pending events are forced to be
+		/// processed without delay.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual void ResumeProcessing(bool processAllPendingEventsNow)
+		{
+			if (processAllPendingEventsNow)
+			{
+				lock (_pendingFileEvents)
+				{
+					while (_pendingFileEvents.Count > 0)
+						ProcessFileEvent(_pendingFileEvents.Dequeue());
+				}
+			}
+
+			_suspendEventProcessing = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected virtual bool GetDoIncludeFile(string path)
 		{
 			return (_typesOfFilesToProcess.Any(t => t.IsMatch(path)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual ThreadPriority ThreadPriority
+		{
+			get { return ThreadPriority.Lowest; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -78,7 +119,7 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			_workerThread = new Thread(StartWorking);
 			_workerThread.Name = GetType().Name;
-			_workerThread.Priority = ThreadPriority.Lowest;
+			_workerThread.Priority = ThreadPriority;
 			_workerThread.Start();
 		}
 
@@ -96,14 +137,14 @@ namespace SayMore.Model.Files.DataGathering
 			{
 				Status = "Working"; //NB: this helps simplify unit tests, if go to the busy state before returning
 
-				using (var watcher = new FileSystemWatcher(_rootDirectoryPath))
+				using (var watcher = new FileSystemWatcher(RootDirectoryPath))
 				{
 					watcher.Created += QueueFileEvent;
 					watcher.Renamed += QueueFileEvent;
 					watcher.Changed += QueueFileEvent;
 					watcher.IncludeSubdirectories = true;
-
 					watcher.EnableRaisingEvents = true;
+
 					//now just wait for file events that we should handle (on a different thread, in response to events)
 
 					while (!ShouldStop)
@@ -115,7 +156,7 @@ namespace SayMore.Model.Files.DataGathering
 						}
 						lock (_pendingFileEvents)
 						{
-							if (_pendingFileEvents.Count > 0)
+							if (_pendingFileEvents.Count > 0 && !_suspendEventProcessing)
 							{
 								ProcessFileEvent(_pendingFileEvents.Dequeue());
 							}
@@ -142,6 +183,9 @@ namespace SayMore.Model.Files.DataGathering
 			lock (_pendingFileEvents)
 			{
 				Debug.WriteLine(GetType().Name + ": " + e.ChangeType + ": " + e.Name);
+
+				// REVIEW: Except for possibly rename events, could we ignore adding events
+				// to the queue if the file for the event already has a pending event?
 				_pendingFileEvents.Enqueue(e);
 			}
 		}
@@ -166,9 +210,7 @@ namespace SayMore.Model.Files.DataGathering
 				else
 				{
 					Debug.WriteLine(GetType().Name + " Collecting " + fileEvent.ChangeType + ": " + fileEvent.Name);
-					Status = "Working";
 					CollectDataForFile(fileEvent.FullPath);
-					Status = "Up to date";
 				}
 			}
 			catch (ThreadAbortException)
@@ -196,9 +238,11 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CollectDataForFile(string path)
+		protected void CollectDataForFile(string path)
 		{
 			T fileData = null;
+
+			Status = "Working";
 
 			try
 			{
@@ -235,6 +279,7 @@ namespace SayMore.Model.Files.DataGathering
 			}
 
 			OnNewDataAvailable(fileData);
+			Status = "Up to date";
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -269,7 +314,7 @@ namespace SayMore.Model.Files.DataGathering
 				_fileToDataDictionary.Clear();
 			}
 			var paths = new List<string>();
-			paths.AddRange(Directory.GetFiles(_rootDirectoryPath, "*.*", SearchOption.AllDirectories));
+			paths.AddRange(Directory.GetFiles(RootDirectoryPath, "*.*", SearchOption.AllDirectories));
 
 			for (int i = 0; i < paths.Count; i++)
 			{

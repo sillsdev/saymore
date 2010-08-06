@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Palaso.Code;
-using Palaso.Media;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
@@ -52,6 +51,7 @@ namespace SayMore.Model.Files
 		protected FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
 		private readonly PresetGatherer _presetProvider;
+		private readonly FieldUpdater _fieldUpdater;
 
 		public string RootElementName { get; protected set; }
 		public string PathToAnnotatedFile { get; protected set; }
@@ -69,13 +69,14 @@ namespace SayMore.Model.Files
 			IEnumerable<ComponentRole> componentRoles,
 			FileSerializer fileSerializer,
 			IProvideAudioVideoFileStatistics statisticsProvider,
-			PresetGatherer presetProvider)
+			PresetGatherer presetProvider, FieldUpdater fieldUpdater)
 		{
 			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;
 			_fileSerializer = fileSerializer;
 			_statisticsProvider = statisticsProvider;
 			_presetProvider = presetProvider;
+			_fieldUpdater = fieldUpdater;
 
 			DetermineFileType(pathToAnnotatedFile, fileTypes);
 
@@ -96,37 +97,17 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string DurationString
-		{
-			get
-			{
-				if (_statisticsProvider == null)
-					return string.Empty;
-
-				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
-				if (stats == null || stats.Duration == default(TimeSpan) )
-				{
-					return string.Empty;
-				}
-
-				//trim off the milliseconds so it doesn't get too geeky
-				return new TimeSpan(stats.Duration.Hours,
-					stats.Duration.Minutes,
-					stats.Duration.Seconds).ToString();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// used only by ProjectElementComponentFile
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected ComponentFile(string filePath, FileType fileType,
-			FileSerializer fileSerializer, string rootElementName)
+		protected ComponentFile(string filePath, FileType fileType, string rootElementName,
+			FileSerializer fileSerializer, FieldUpdater fieldUpdater)
 		{
 			FileType = fileType;
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
+			_fieldUpdater = fieldUpdater;
 			MetaDataFieldValues = new List<FieldInstance>();
 			RootElementName = rootElementName;
 			_componentRoles = new ComponentRole[] {}; //no roles for person or session
@@ -157,6 +138,27 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public string DurationString
+		{
+			get
+			{
+				if (_statisticsProvider == null)
+					return string.Empty;
+
+				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
+				if (stats == null || stats.Duration == default(TimeSpan))
+				{
+					return string.Empty;
+				}
+
+				//trim off the milliseconds so it doesn't get too geeky
+				return new TimeSpan(stats.Duration.Hours,
+					stats.Duration.Minutes,
+					stats.Duration.Seconds).ToString();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected void LoadFileSizeAndDateModified()
 		{
 			// Initialize file's display size. File should only not exist during tests.
@@ -168,22 +170,44 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetStringValue(string key, string defaultValue)
 		{
+			string computedValue = null;
+
 			var computedFieldInfo =
 				FileType.GetComputedFields().FirstOrDefault(computedField => computedField.Key == key);
 
 			if (computedFieldInfo != null && _statisticsProvider != null)
 			{
-				var value = computedFieldInfo.GetFormatedStatProvider(
+				// Get the computed value (if there is one).
+				computedValue = computedFieldInfo.GetFormatedStatProvider(
 					_statisticsProvider.GetFileData(PathToAnnotatedFile),
 					computedFieldInfo.DataSetChooser, computedFieldInfo.DataItemChooser,
 					computedFieldInfo.Suffix);
-
-				if (!string.IsNullOrEmpty(value))
-					return value;
 			}
 
+			// Get the value from the metadata file.
 			var	field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
-			return (field == null ? defaultValue : field.Value);
+			var savedValue = (field == null ? defaultValue : field.Value);
+
+			if (!string.IsNullOrEmpty(computedValue))
+			{
+				// If the computed value is different from the value found in the metadata
+				// file, then save the computed value to the metadata file.
+				if (computedValue != savedValue)
+				{
+					// REVIEW: We probably don't want to save the formatted value to the
+					// metadata file, which is what we're doing here. In the future we'll
+					// probably want to change things to save the raw computed value.
+					string failureMessage;
+					SetValue(key, computedValue, out failureMessage);
+					if (failureMessage != null)
+						ErrorReport.NotifyUserOfProblem(failureMessage);
+
+					Save();
+					return computedValue;
+				}
+			}
+
+			return savedValue;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -229,25 +253,25 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool RenameId(string oldId, string newId)
+		public virtual void RenameId(string oldId, string newId)
 		{
 			var fieldValue = MetaDataFieldValues.Find(v => v.FieldId == oldId);
-			if (fieldValue == null)
-				return false;
+			if (fieldValue != null)
+				fieldValue.FieldId = newId;
 
-			fieldValue.FieldId = newId;
-			return true;
+			if (_fieldUpdater != null)
+				_fieldUpdater.RenameField(this, oldId, newId);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool RemoveField(string idToRemove)
+		public virtual void RemoveField(string idToRemove)
 		{
 			var existingValue = MetaDataFieldValues.Find(f => f.FieldId == idToRemove);
-			if (existingValue == null)
-				return false;
+			if (existingValue != null)
+				MetaDataFieldValues.Remove(existingValue);
 
-			MetaDataFieldValues.Remove(existingValue);
-			return true;
+			if (_fieldUpdater != null)
+				_fieldUpdater.DeleteField(this, idToRemove);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -342,26 +366,33 @@ namespace SayMore.Model.Files
 		public static ComponentFile CreateMinimalComponentFileForTests(string path)
 		{
 			return new ComponentFile(path, new FileType[] { new UnknownFileType(null) },
-				new ComponentRole[]{}, new FileSerializer(), null, null);
+				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path, FileType fileType)
 		{
 			return new ComponentFile(path, new[] { fileType },
-				new ComponentRole[] { }, new FileSerializer(), null, null);
+				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ToolStripItem> GetContextMenuItems(Action refreshAction)
+		public IEnumerable<ToolStripItem> GetMenuCommands(Action refreshAction)
 		{
 			foreach (FileCommand cmd in FileType.GetCommands(PathToAnnotatedFile))
 			{
 				FileCommand cmd1 = cmd;// needed to avoid "access to modified closure". I.e., avoid executing the wrong command.
-				if(cmd1 == null)
+				if (cmd1 == null)
 					yield return new ToolStripSeparator();
 				else
-					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) => cmd1.Action(PathToAnnotatedFile));
+				{
+					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) =>
+					{
+						cmd1.Action(PathToAnnotatedFile);
+						if (refreshAction != null)
+							refreshAction();
+					}) { Tag = cmd1.MenuId };
+				}
 			}
 
 			bool needSeparator = true;
@@ -382,8 +413,9 @@ namespace SayMore.Model.Files
 					yield return new ToolStripMenuItem(label, null, (sender, args) =>
 					{
 						AssignRole(role1);
-						refreshAction();
-					});
+						if (refreshAction != null)
+							refreshAction();
+					}) { Tag = "rename" };
 				}
 		   }
 		}

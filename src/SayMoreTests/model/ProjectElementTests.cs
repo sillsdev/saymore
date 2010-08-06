@@ -28,7 +28,7 @@ namespace SayMoreTests.Model
 			_parentFolder = null;
 		}
 
-	[Test][Category("SkipOnTeamCity")]
+		[Test]
 		[Category("SkipOnTeamCity")]
 		public void Save_NewlyCreated_CreatesMetaDataFile()
 		{
@@ -40,7 +40,18 @@ namespace SayMoreTests.Model
 
 		private Person CreatePerson()
 		{
-			return new Person(_parentFolder.Path, "xyz", MakeComponent, new FileSerializer(), new PersonFileType(()=>null));
+			return new Person(_parentFolder.Path, "xyz", new PersonFileType(() => null),
+				MakeComponent, new FileSerializer(), (w, x, y, z) =>
+				{
+					return new ProjectElementComponentFile(w, x, y, z,
+						FieldUpdater.CreateMinimalFieldUpdaterForTests(null));
+
+				});
+		}
+
+		private ComponentFile MakeComponent(string pathtoannotatedfile)
+		{
+			return ComponentFile.CreateMinimalComponentFileForTests(pathtoannotatedfile);
 		}
 
 		public string SetValue(Person person, string key, string value)
@@ -228,11 +239,6 @@ namespace SayMoreTests.Model
 
 			var expected = person.DefaultElementNamePrefix + " 03";
 			Assert.That(person.GetNewDefaultElementName(), Is.EqualTo(expected));
-		}
-
-		private ComponentFile MakeComponent(string pathtoannotatedfile)
-		{
-			return ComponentFile.CreateMinimalComponentFileForTests(pathtoannotatedfile);
 		}
 	}
 }

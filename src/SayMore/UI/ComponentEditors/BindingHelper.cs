@@ -184,9 +184,10 @@ namespace SayMore.UI.ComponentEditors
 			}
 			catch (Exception error)
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(new Palaso.Reporting.ShowOncePerSessionBasedOnExactMessagePolicy(), error,
-																 "SayMore had a problem displaying the {0}, which had a value of {1}.  You should report this problem to the developers by clicking 'Details' below.",
-																 key,stringValue);
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
+					new Palaso.Reporting.ShowOncePerSessionBasedOnExactMessagePolicy(), error,
+					"SayMore had a problem displaying the {0}, which had a value of {1}. You should report this problem to the developers by clicking 'Details' below.",
+					key, stringValue);
 			}
 		}
 

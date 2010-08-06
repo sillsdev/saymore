@@ -43,7 +43,7 @@ namespace SayMore.Model.Fields
 				{
 					var path = Application.ExecutablePath;
 					path = Path.Combine(Path.GetDirectoryName(path), "Genres.xml");
-					s_allTypes = Load(path);
+					s_allTypes = Load(path) ?? new List<GenreDefinition>();
 
 					UnknownType = new GenreDefinition();
 					UnknownType.Id = "unknown";

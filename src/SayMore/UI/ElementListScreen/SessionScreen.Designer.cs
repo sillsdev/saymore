@@ -35,7 +35,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles = new System.Windows.Forms.Button();
 			this._sessionsListPanel = new SayMore.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
-			this._componentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
+			this._sessionComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelHelp = new System.Windows.Forms.Label();
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
@@ -70,7 +70,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonNewFromFiles.AutoSize = true;
 			this._buttonNewFromFiles.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._buttonNewFromFiles.Location = new System.Drawing.Point(33, 163);
+			this._buttonNewFromFiles.Location = new System.Drawing.Point(33, 161);
 			this._buttonNewFromFiles.MinimumSize = new System.Drawing.Size(117, 26);
 			this._buttonNewFromFiles.Name = "_buttonNewFromFiles";
 			this._buttonNewFromFiles.Size = new System.Drawing.Size(117, 26);
@@ -81,6 +81,9 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _sessionsListPanel
 			// 
+			this._sessionsListPanel.ButtonPanelBackColor1 = System.Drawing.SystemColors.Control;
+			this._sessionsListPanel.ButtonPanelBackColor2 = System.Drawing.SystemColors.Control;
+			this._sessionsListPanel.ButtonPanelTopBorderColor = System.Drawing.SystemColors.ControlDark;
 			this._sessionsListPanel.CurrentItem = null;
 			this._sessionsListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._sessionsListPanel.Items = new object[0];
@@ -95,7 +98,7 @@ namespace SayMore.UI.ElementListScreen
 			this._sessionsListPanel.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this._sessionsListPanel.ListView.HideSelection = false;
 			this._sessionsListPanel.ListView.Location = new System.Drawing.Point(0, 30);
-			this._sessionsListPanel.ListView.Name = "lvItems";
+			this._sessionsListPanel.ListView.Name = "_itemsListView";
 			this._sessionsListPanel.ListView.Size = new System.Drawing.Size(180, 282);
 			this._sessionsListPanel.ListView.TabIndex = 0;
 			this._sessionsListPanel.ListView.UseCompatibleStateImageBehavior = false;
@@ -117,7 +120,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _componentsSplitter.Panel1
 			// 
-			this._componentsSplitter.Panel1.Controls.Add(this._componentFileGrid);
+			this._componentsSplitter.Panel1.Controls.Add(this._sessionComponentFileGrid);
 			// 
 			// _componentsSplitter.Panel2
 			// 
@@ -128,16 +131,16 @@ namespace SayMore.UI.ElementListScreen
 			this._componentsSplitter.TabIndex = 0;
 			this._componentsSplitter.TabStop = false;
 			// 
-			// _componentFileGrid
+			// _sessionComponentFileGrid
 			// 
-			this._componentFileGrid.AddButtonEnabled = false;
-			this._componentFileGrid.AddButtonVisible = true;
-			this._componentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._componentFileGrid.Location = new System.Drawing.Point(0, 0);
-			this._componentFileGrid.Name = "_componentFileGrid";
-			this._componentFileGrid.ShowContextMenu = true;
-			this._componentFileGrid.Size = new System.Drawing.Size(315, 147);
-			this._componentFileGrid.TabIndex = 0;
+			this._sessionComponentFileGrid.AddButtonEnabled = false;
+			this._sessionComponentFileGrid.AddButtonVisible = true;
+			this._sessionComponentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._sessionComponentFileGrid.Location = new System.Drawing.Point(0, 0);
+			this._sessionComponentFileGrid.Name = "_sessionComponentFileGrid";
+			this._sessionComponentFileGrid.ShowContextMenu = true;
+			this._sessionComponentFileGrid.Size = new System.Drawing.Size(315, 147);
+			this._sessionComponentFileGrid.TabIndex = 0;
 			// 
 			// _labelHelp
 			// 
@@ -173,7 +176,7 @@ namespace SayMore.UI.ElementListScreen
 		private ListPanel _sessionsListPanel;
 		private System.Windows.Forms.SplitContainer _elementListSplitter;
 		private System.Windows.Forms.SplitContainer _componentsSplitter;
-		private ComponentFileGrid _componentFileGrid;
+		private ComponentFileGrid _sessionComponentFileGrid;
 		private System.Windows.Forms.Button _buttonNewFromFiles;
 		private System.Windows.Forms.Label _labelHelp;
 	}

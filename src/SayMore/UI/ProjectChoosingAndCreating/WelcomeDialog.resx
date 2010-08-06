@@ -150,40 +150,40 @@
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>416, 6</value>
   </data>
-  <data name="tsbMru0.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="_buttonMru0.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9.75pt</value>
   </data>
-  <data name="tsbMru0.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="_buttonMru0.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="tsbMru0.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+  <data name="_buttonMru0.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="tsbMru0.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="_buttonMru0.Size" type="System.Drawing.Size, System.Drawing">
     <value>408, 21</value>
   </data>
-  <data name="tsbMru0.Text" xml:space="preserve">
+  <data name="_buttonMru0.Text" xml:space="preserve">
     <value>#</value>
   </data>
-  <data name="tsbMru0.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="_buttonMru0.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="tsbBrowse.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="_buttonBrowse.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9.75pt</value>
   </data>
-  <data name="tsbBrowse.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="_buttonBrowse.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="tsbBrowse.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+  <data name="_buttonBrowse.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="tsbBrowse.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="_buttonBrowse.Size" type="System.Drawing.Size, System.Drawing">
     <value>408, 21</value>
   </data>
-  <data name="tsbBrowse.Text" xml:space="preserve">
+  <data name="_buttonBrowse.Text" xml:space="preserve">
     <value>Browse for project...</value>
   </data>
-  <data name="tsbBrowse.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="_buttonBrowse.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
   <data name="tslblCreate.Font" type="System.Drawing.Font, System.Drawing">
@@ -201,22 +201,22 @@
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>416, 6</value>
   </data>
-  <data name="tsbCreate.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="_buttonCreate.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9.75pt</value>
   </data>
-  <data name="tsbCreate.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="_buttonCreate.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="tsbCreate.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+  <data name="_buttonCreate.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="tsbCreate.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="_buttonCreate.Size" type="System.Drawing.Size, System.Drawing">
     <value>408, 21</value>
   </data>
-  <data name="tsbCreate.Text" xml:space="preserve">
+  <data name="_buttonCreate.Text" xml:space="preserve">
     <value>Create new, blank project...</value>
   </data>
-  <data name="tsbCreate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="_buttonCreate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
   <data name="tsOptions.Location" type="System.Drawing.Point, System.Drawing">
@@ -232,7 +232,7 @@
     <value>tsOptions</value>
   </data>
   <data name="&gt;&gt;tsOptions.Type" xml:space="preserve">
-    <value>SayMore.UI.LowLevelControls.ElementBar, SayMore, Version=0.1.9999.9999, Culture=neutral, PublicKeyToken=null</value>
+    <value>SayMore.UI.LowLevelControls.ElementBar, SayMore, Version=0.1.6.789, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tsOptions.Parent" xml:space="preserve">
     <value>pnlOptions</value>
@@ -402,16 +402,16 @@
   <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tsbMru0.Name" xml:space="preserve">
-    <value>tsbMru0</value>
+  <data name="&gt;&gt;_buttonMru0.Name" xml:space="preserve">
+    <value>_buttonMru0</value>
   </data>
-  <data name="&gt;&gt;tsbMru0.Type" xml:space="preserve">
+  <data name="&gt;&gt;_buttonMru0.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tsbBrowse.Name" xml:space="preserve">
-    <value>tsbBrowse</value>
+  <data name="&gt;&gt;_buttonBrowse.Name" xml:space="preserve">
+    <value>_buttonBrowse</value>
   </data>
-  <data name="&gt;&gt;tsbBrowse.Type" xml:space="preserve">
+  <data name="&gt;&gt;_buttonBrowse.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tslblCreate.Name" xml:space="preserve">
@@ -426,10 +426,10 @@
   <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tsbCreate.Name" xml:space="preserve">
-    <value>tsbCreate</value>
+  <data name="&gt;&gt;_buttonCreate.Name" xml:space="preserve">
+    <value>_buttonCreate</value>
   </data>
-  <data name="&gt;&gt;tsbCreate.Type" xml:space="preserve">
+  <data name="&gt;&gt;_buttonCreate.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;locExtender.Name" xml:space="preserve">

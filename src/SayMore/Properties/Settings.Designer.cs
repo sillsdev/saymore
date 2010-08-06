@@ -713,5 +713,34 @@ namespace SayMore.Properties {
                 this["FirstTimeRun"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string DefaultFolderForNewProjects {
+            get {
+                return ((string)(this["DefaultFolderForNewProjects"]));
+            }
+            set {
+                this["DefaultFolderForNewProjects"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// This is used for tests and prevents the display of the confirmation dialog box when moving deleted session and persons to the recycle bin.
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsDescriptionAttribute("This is used for tests and prevents the display of the confirmation dialog box wh" +
+            "en moving deleted session and persons to the recycle bin.")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool PreventDeleteElementSystemConfirmationMessage {
+            get {
+                return ((bool)(this["PreventDeleteElementSystemConfirmationMessage"]));
+            }
+            set {
+                this["PreventDeleteElementSystemConfirmationMessage"] = value;
+            }
+        }
     }
 }

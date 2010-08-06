@@ -241,9 +241,11 @@ namespace SayMore.UI.NewSessionsFromFiles
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._outerTableLayout.SetColumnSpan(this._gridFiles, 2);
+			this._gridFiles.ConvertButtonVisible = false;
 			this._gridFiles.Location = new System.Drawing.Point(0, 61);
 			this._gridFiles.Margin = new System.Windows.Forms.Padding(0);
 			this._gridFiles.Name = "_gridFiles";
+			this._gridFiles.RenameButtonVisible = false;
 			this._gridFiles.ShowContextMenu = false;
 			this._gridFiles.Size = new System.Drawing.Size(394, 200);
 			this._gridFiles.TabIndex = 0;

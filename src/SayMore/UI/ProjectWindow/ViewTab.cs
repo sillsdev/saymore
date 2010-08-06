@@ -18,10 +18,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SayMore.UI.ProjectWindow;
 using SilUtils;
 
-namespace SIL.Pa.UI.Controls
+namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -49,8 +48,9 @@ namespace SIL.Pa.UI.Controls
 			base.DoubleBuffered = true;
 			base.AutoSize = false;
 			base.Font = owningTabControl.TabFont;
-			base.Text = Utils.RemoveAcceleratorPrefix(viewControl.Text);
 			base.Dock = DockStyle.Left;
+			base.Text = Utils.RemoveAcceleratorPrefix(viewControl.Text);
+			Name = base.Text.Replace(" ", string.Empty) + "ViewTab";
 
 			OwningTabGroup = owningTabControl;
 

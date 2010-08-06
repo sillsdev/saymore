@@ -18,10 +18,10 @@ namespace SayMore.Model
 		public delegate Session Factory(string parentElementFolder, string id);
 
 		/// ------------------------------------------------------------------------------------
-		public Session(string parentElementFolder, string id,
+		public Session(string parentElementFolder, string id, SessionFileType sessionFileType,
 			ComponentFile.Factory componentFileFactory,  FileSerializer fileSerializer,
-			SessionFileType sessionFileType)
-			: base(parentElementFolder,id, componentFileFactory, fileSerializer, sessionFileType)
+			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
+			: base(parentElementFolder, id, sessionFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
 		}
 

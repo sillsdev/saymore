@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SayMore.Model;
@@ -27,12 +26,10 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<T> Elements
+		public IEnumerable<ProjectElement> Elements
 		{
-			get { return _repository.AllItems; }
+			get { return _repository.AllItems.Cast<ProjectElement>(); }
 		}
-
-
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentFile> GetComponentsOfSelectedElement()
@@ -47,20 +44,23 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void RefreshSelectedElementComponentFileList()
+		{
+			_componentFiles = (SelectedElement != null ? SelectedElement.GetComponentFiles().ToArray() : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool SetSelectedElement(T element)
 		{
 			if (SelectedElement == element)
 				return false;
 
 			SelectedElement = element;
-			_componentFiles = (element != null ? element.GetComponentFiles().ToArray() : null);
-			SetSelectedComponentFile(0);
+			RefreshSelectedElementComponentFileList();
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-
-		//review do (jh): why bother with all these indexes? Why not just pass the object itself?
 		public bool SetSelectedComponentFile(int index)
 		{
 			if (SelectedElement == null)

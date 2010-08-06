@@ -92,11 +92,13 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <param name="filePath"></param>
 		public virtual IEnumerable<FileCommand> GetCommands(string filePath)
 		{
-			yield return new FileCommand("Show in File Explorer...", FileCommand.HandleOpenInFileManager_Click);
-			yield return new FileCommand("Open in Program Associated with this File ...", FileCommand.HandleOpenInApp_Click);
+			yield return new FileCommand("Show in File Explorer...",
+				FileCommand.HandleOpenInFileManager_Click, "open");
+
+			yield return new FileCommand("Open in Program Associated with this File ...",
+				FileCommand.HandleOpenInApp_Click, "open");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -245,7 +247,7 @@ namespace SayMore.Model.Files
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
 			yield return new FileCommand("Show in File Explorer...",
-										 FileCommand.HandleOpenInFileManager_Click);
+				FileCommand.HandleOpenInFileManager_Click, "open");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -330,7 +332,7 @@ namespace SayMore.Model.Files
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
 			yield return new FileCommand("Show in File Explorer...",
-										 FileCommand.HandleOpenInFileManager_Click);
+				FileCommand.HandleOpenInFileManager_Click, "open");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -587,17 +589,15 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
-			foreach (var fileCommand in base.GetCommands(filePath))
-			{
-				yield return fileCommand;
-			}
-
-			yield return null; // menu separator
+			var commands = base.GetCommands(filePath).ToList();
 
 			if (!File.Exists(filePath.Replace(Path.GetExtension(filePath), ".mp3")))
 			{
-				yield return new FileCommand("Extract audio to mp3 file", ExtractMp3Audio);
+				commands.Add(null); // Separator
+				commands.Add(new FileCommand("Extract Audio to MP3 File", ExtractMp3Audio, "convert"));
 			}
+
+			return commands;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -612,7 +612,7 @@ namespace SayMore.Model.Files
 
 			if (File.Exists(outputPath))
 			{
-				//todo ask the user (or don't off this in the first place)
+				//todo ask the user (or don't offer this in the first place)
 				//File.Delete(outputPath);
 
 				ErrorReport.NotifyUserOfProblem(

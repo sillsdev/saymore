@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SayMore.UI.ProjectWindow;
 using SIL.Localization;
 using SilUtils;
 using SilUtils.Controls;
 
-namespace SIL.Pa.UI.Controls
+namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -225,7 +224,7 @@ namespace SIL.Pa.UI.Controls
 				_panelTabs.Left = 0;
 
 			var tab = new ViewTab(this, view);
-			tab.Click += tab_Click;
+			tab.Click += HandleTabClick;
 
 			// Get the text's width.
 			using (Graphics g = CreateGraphics())
@@ -355,7 +354,7 @@ namespace SIL.Pa.UI.Controls
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tab_Click(object sender, EventArgs e)
+		private void HandleTabClick(object sender, EventArgs e)
 		{
 			SetActiveView(sender as ViewTab);
 		}

@@ -29,11 +29,11 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewProjectDlg));
 			this._messageLabel = new System.Windows.Forms.Label();
-			this._OKButton = new System.Windows.Forms.Button();
-			this._cancelButton = new System.Windows.Forms.Button();
-			this._newNameTextBox = new System.Windows.Forms.TextBox();
+			this._buttonOK = new System.Windows.Forms.Button();
+			this._buttonCancel = new System.Windows.Forms.Button();
+			this._nameTextBox = new System.Windows.Forms.TextBox();
 			this._newProjectPathLabel = new System.Windows.Forms.Label();
-			this.locExtender = new LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -45,35 +45,35 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this.locExtender.SetLocalizingId(this._messageLabel, "NewProjectDlg._messageLabel");
 			this._messageLabel.Name = "_messageLabel";
 			// 
-			// _OKButton
+			// _buttonOK
 			// 
-			resources.ApplyResources(this._OKButton, "_OKButton");
-			this._OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.locExtender.SetLocalizableToolTip(this._OKButton, null);
-			this.locExtender.SetLocalizationComment(this._OKButton, null);
-			this.locExtender.SetLocalizingId(this._OKButton, "NewProjectDlg._OKButton");
-			this._OKButton.Name = "_OKButton";
-			this._OKButton.UseVisualStyleBackColor = true;
+			resources.ApplyResources(this._buttonOK, "_buttonOK");
+			this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
+			this.locExtender.SetLocalizationComment(this._buttonOK, null);
+			this.locExtender.SetLocalizingId(this._buttonOK, "NewProjectDlg._buttonOK");
+			this._buttonOK.Name = "_buttonOK";
+			this._buttonOK.UseVisualStyleBackColor = true;
 			// 
-			// _cancelButton
+			// _buttonCancel
 			// 
-			resources.ApplyResources(this._cancelButton, "_cancelButton");
-			this._cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.locExtender.SetLocalizableToolTip(this._cancelButton, null);
-			this.locExtender.SetLocalizationComment(this._cancelButton, null);
-			this.locExtender.SetLocalizingId(this._cancelButton, "NewProjectDlg._cancelButton");
-			this._cancelButton.Name = "_cancelButton";
-			this._cancelButton.UseVisualStyleBackColor = true;
+			resources.ApplyResources(this._buttonCancel, "_buttonCancel");
+			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
+			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
+			this.locExtender.SetLocalizingId(this._buttonCancel, "NewProjectDlg._buttonCancel");
+			this._buttonCancel.Name = "_buttonCancel";
+			this._buttonCancel.UseVisualStyleBackColor = true;
 			// 
-			// _newNameTextBox
+			// _nameTextBox
 			// 
-			resources.ApplyResources(this._newNameTextBox, "_newNameTextBox");
-			this.locExtender.SetLocalizableToolTip(this._newNameTextBox, null);
-			this.locExtender.SetLocalizationComment(this._newNameTextBox, null);
-			this.locExtender.SetLocalizationPriority(this._newNameTextBox, LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._newNameTextBox, "NewProjectDlg._newNameTextBox");
-			this._newNameTextBox.Name = "_newNameTextBox";
-			this._newNameTextBox.TextChanged += new System.EventHandler(this.txtName_TextChanged);
+			resources.ApplyResources(this._nameTextBox, "_nameTextBox");
+			this.locExtender.SetLocalizableToolTip(this._nameTextBox, null);
+			this.locExtender.SetLocalizationComment(this._nameTextBox, null);
+			this.locExtender.SetLocalizationPriority(this._nameTextBox, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._nameTextBox, "NewProjectDlg._newNameTextBox");
+			this._nameTextBox.Name = "_nameTextBox";
+			this._nameTextBox.TextChanged += new System.EventHandler(this.txtName_TextChanged);
 			// 
 			// _newProjectPathLabel
 			// 
@@ -82,7 +82,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this._newProjectPathLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.locExtender.SetLocalizableToolTip(this._newProjectPathLabel, null);
 			this.locExtender.SetLocalizationComment(this._newProjectPathLabel, "This text is displayed under the project name and includes where it will be creat" +
-			                                                                   "ed.");
+					"ed.");
 			this.locExtender.SetLocalizingId(this._newProjectPathLabel, "NewProjectDlg._newProjectPathLabel");
 			this._newProjectPathLabel.Name = "_newProjectPathLabel";
 			// 
@@ -92,14 +92,14 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			// 
 			// NewProjectDlg
 			// 
-			this.AcceptButton = this._OKButton;
+			this.AcceptButton = this._buttonOK;
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.CancelButton = this._cancelButton;
+			this.CancelButton = this._buttonCancel;
 			this.Controls.Add(this._newProjectPathLabel);
-			this.Controls.Add(this._newNameTextBox);
-			this.Controls.Add(this._cancelButton);
-			this.Controls.Add(this._OKButton);
+			this.Controls.Add(this._nameTextBox);
+			this.Controls.Add(this._buttonCancel);
+			this.Controls.Add(this._buttonOK);
 			this.Controls.Add(this._messageLabel);
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -120,9 +120,9 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		#endregion
 
 		protected System.Windows.Forms.Label _messageLabel;
-		protected System.Windows.Forms.Button _OKButton;
-		protected System.Windows.Forms.Button _cancelButton;
-		protected System.Windows.Forms.TextBox _newNameTextBox;
+		protected System.Windows.Forms.Button _buttonOK;
+		protected System.Windows.Forms.Button _buttonCancel;
+		protected System.Windows.Forms.TextBox _nameTextBox;
 		protected System.Windows.Forms.Label _newProjectPathLabel;
 		private LocalizationExtender locExtender;
 		private System.ComponentModel.IContainer components;

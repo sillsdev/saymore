@@ -88,6 +88,32 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public new string Name
+		{
+			get { return base.Name; }
+			set
+			{
+				var prevName = base.Name;
+				base.Name = value;
+
+				if (!string.IsNullOrEmpty(prevName))
+				{
+					_buttonDelete.Name = _buttonDelete.Name.Replace(prevName + "_", string.Empty);
+					_buttonNew.Name = _buttonNew.Name.Replace(prevName + "_", string.Empty);
+					_itemsListView.Name = _itemsListView.Name.Replace(prevName + "_", string.Empty);
+				}
+
+				if (!string.IsNullOrEmpty(value))
+				{
+					// Setting these names are for the sake of testing.
+					_buttonDelete.Name = string.Format("{0}_{1}", value, _buttonDelete.Name);
+					_buttonNew.Name = string.Format("{0}_{1}", value, _buttonNew.Name);
+					_itemsListView.Name = string.Format("{0}_{1}", value, _itemsListView.Name);
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the heading text above the list.
 		/// </summary>
@@ -112,10 +138,25 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Button NewButton
+		{
+			get { return _buttonNew; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Button DeleteButton
+		{
+			get { return _buttonDelete; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the list of items.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public object[] Items
 		{
 			get
@@ -328,7 +369,7 @@ namespace SayMore.UI.LowLevelControls
 		/// Recreate the font for duplicated items.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lvItems_FontChanged(object sender, EventArgs e)
+		private void HandleItemsListViewFontChanged(object sender, EventArgs e)
 		{
 			if (_fntDupItem != null)
 			{
@@ -549,9 +590,9 @@ namespace SayMore.UI.LowLevelControls
 				if (_monitorSelectedIndexChanges != value)
 				{
 					if (value)
-						_itemsListView.SelectedIndexChanged += HandleSelectedIndexChanged;
+						_itemsListView.SelectedIndexChanged += HandleItemsListViewSelectedIndexChanged;
 					else
-						_itemsListView.SelectedIndexChanged -= HandleSelectedIndexChanged;
+						_itemsListView.SelectedIndexChanged -= HandleItemsListViewSelectedIndexChanged;
 
 					_monitorSelectedIndexChanges = value;
 				}
@@ -560,10 +601,10 @@ namespace SayMore.UI.LowLevelControls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Handles the SelectedIndexChanged event of the lvItems control.
+		/// Handles the SelectedIndexChanged event of the list view control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleSelectedIndexChanged(object sender, EventArgs e)
+		private void HandleItemsListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (_itemsListView.SelectedIndices.Count == 0)
 				return;
@@ -606,12 +647,12 @@ namespace SayMore.UI.LowLevelControls
 		{
 			if (_buttons.Count == 0)
 			{
-				_buttons.Add(_newButton);
-				_buttons.Add(_deleteButton);
+				_buttons.Add(_buttonNew);
+				_buttons.Add(_buttonDelete);
 			}
 
-			btn.Height = _newButton.Height;
-			btn.Margin = _newButton.Margin;
+			btn.Height = _buttonNew.Height;
+			btn.Margin = _buttonNew.Margin;
 
 			if (index < 0)
 				_buttons.Insert(0, btn);

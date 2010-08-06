@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -22,9 +21,12 @@ namespace SayMore.UI.ElementListScreen
 		/// <summary>
 		/// When the user selects a different component, this is called
 		/// </summary>
-		/// John: this is really just an event. Is there any reason not to name it like
-		/// that? i.e. Does "Callback" make it more understandable? It's not very .Net-like.
-		public Action<int> ComponentSelectedCallback;
+		public Action<int> AfterComponentSelected;
+
+		/// <summary>
+		/// When the user chooses a menu command, this is called after the command is issued.
+		/// </summary>
+		public Action PostMenuCommandRefreshAction;
 
 		public Func<string[], DragDropEffects> FilesBeingDraggedOverGrid;
 		public Func<string[], bool> FilesDroppedOnGrid;
@@ -54,10 +56,12 @@ namespace SayMore.UI.ElementListScreen
 
 			_grid.DragEnter += HandleFileGridDragEnter;
 			_grid.DragDrop += HandleFileGridDragDrop;
-			_grid.CellMouseClick += HandleMouseClick;
+			_grid.CellMouseClick += HandleFileGridCellMouseClick;
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
 			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
+			_grid.Paint += HandleFileGridPaint;
+			_grid.ClientSizeChanged += HandleFileGridClientSizeChanged;
 			_grid.Font = SystemFonts.IconTitleFont;
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 
@@ -79,26 +83,50 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			Settings.Default[_gridColSettingPrefix + "ComponentGrid"] = GridSettings.Create(_grid);
-			base.OnHandleDestroyed(e);
-		}
+			if (!DesignMode)
+				Settings.Default[_gridColSettingPrefix + "ComponentGrid"] = GridSettings.Create(_grid);
 
-		/// ------------------------------------------------------------------------------------
-		public bool AddButtonVisible
-		{
-			get { return _buttonAdd.Visible; }
-			set
-			{
-				if (_buttonAdd.Visible != value)
-					_buttonAdd.Visible = value;
-			}
+			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool AddButtonEnabled
 		{
-			get { return _buttonAdd.Enabled; }
-			set { _buttonAdd.Enabled = value; }
+			get { return _buttonAddFiles.Enabled; }
+			set { _buttonAddFiles.Enabled = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool AddButtonVisible
+		{
+			get { return _buttonAddFiles.Visible; }
+			set
+			{
+				if (_buttonAddFiles.Visible != value)
+					_buttonAddFiles.Visible = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool RenameButtonVisible
+		{
+			get { return _buttonRename.Visible; }
+			set
+			{
+				if (_buttonRename.Visible != value)
+					_buttonRename.Visible = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool ConvertButtonVisible
+		{
+			get { return _buttonConvert.Visible; }
+			set
+			{
+				if (_buttonConvert.Visible != value)
+					_buttonConvert.Visible = value;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,17 +137,62 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		[Browsable(false)]
+		public ToolStripButton AddButton
 		{
-			if (e.Button == MouseButtons.Right && ShowContextMenu)
-			{
-				_grid.CurrentCell = _grid[e.ColumnIndex, e.RowIndex];
+			get { return _buttonAddFiles; }
+		}
 
-				Point pt = _grid.PointToClient(MousePosition);
-				var file = _files.ElementAt(e.RowIndex);
-				_contextMenuStrip.Items.Clear();
-				_contextMenuStrip.Items.AddRange(file.GetContextMenuItems(_grid.Invalidate).ToArray());
-				_contextMenuStrip.Show(_grid, pt);
+		/// ------------------------------------------------------------------------------------
+		void HandleFileGridClientSizeChanged(object sender, EventArgs e)
+		{
+			// This will recenter the grid's hint message.
+			if (_grid.RowCount == 1)
+				_grid.Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleFileGridPaint(object sender, PaintEventArgs e)
+		{
+			if (_grid.RowCount != 1)
+				return;
+
+			var rcRow = _grid.GetRowDisplayRectangle(0, false);
+			var rc = _grid.ClientRectangle;
+			rc.Height -= (rcRow.Height + _grid.ColumnHeadersHeight);
+			rc.Y += rcRow.Bottom;
+
+			// Strangely, the grid's client size doesn't change when the scroll bars
+			// are visible. Therefore, we have to explicitly allow for them.
+			var hscroll = _grid.HScrollBar;
+			if (hscroll != null && hscroll.Visible)
+				rc.Height -= hscroll.Height;
+
+			var hint = "Add additional files related to this session by\n" +
+				"dragging them here or clicking the 'Add' button.";
+
+			const TextFormatFlags flags =
+				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
+
+			using (var fnt = new Font(_grid.Font.FontFamily, 12, FontStyle.Regular))
+				TextRenderer.DrawText(e.Graphics, hint, fnt, rc, SystemColors.GrayText, flags);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFileGridCellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				if (e.RowIndex != _grid.CurrentCellAddress.Y)
+					SelectComponent(e.RowIndex);
+
+				if (ShowContextMenu)
+				{
+					var file = _files.ElementAt(e.RowIndex);
+					_contextMenuStrip.Items.Clear();
+					_contextMenuStrip.Items.AddRange(file.GetMenuCommands(PostMenuCommandRefreshAction).ToArray());
+					_contextMenuStrip.Show(MousePosition);
+				}
 			}
 		}
 
@@ -139,8 +212,13 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
-			if (!Disposing && null != ComponentSelectedCallback)
-				ComponentSelectedCallback(_grid.CurrentCellAddress.Y);
+			if (Disposing)
+				return;
+
+			BuildMenuCommands(_grid.CurrentCellAddress.Y);
+
+			if (null != AfterComponentSelected)
+				AfterComponentSelected(_grid.CurrentCellAddress.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -161,10 +239,35 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public void SelectComponent(int index)
 		{
-			if (index < 0)
-				_grid.CurrentCell = null;
-			else if (index >= 0 && index < _files.Count())
-				_grid.CurrentCell = _grid[0, index];
+			_grid.CurrentCell = (index >= 0 && index < _files.Count() ? _grid[0, index] : null);
+			BuildMenuCommands(index);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void BuildMenuCommands(int index)
+		{
+			_buttonOpen.DropDown.Items.Clear();
+			_buttonConvert.DropDown.Items.Clear();
+			_buttonRename.DropDown.Items.Clear();
+
+			var file = (index >= 0 && index < _files.Count() ? _files.ElementAt(index) : null);
+
+			if (file != null)
+			{
+				foreach (var item in file.GetMenuCommands(PostMenuCommandRefreshAction))
+				{
+					switch (item.Tag as string)
+					{
+						case "open": _buttonOpen.DropDown.Items.Add(item); break;
+						case "rename": _buttonRename.DropDown.Items.Add(item); break;
+						case "convert": _buttonConvert.DropDown.Items.Add(item); break;
+					}
+				}
+			}
+
+			_buttonOpen.Enabled = (_buttonOpen.DropDown.Items.Count > 0);
+			_buttonConvert.Enabled = (_buttonConvert.DropDown.Items.Count > 0);
+			_buttonRename.Enabled = (_buttonRename.DropDown.Items.Count > 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,7 +288,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void UpdateComponentList(IEnumerable<ComponentFile> componentFiles)
+		public void UpdateComponentFileList(IEnumerable<ComponentFile> componentFiles)
 		{
 			var currFile = (_grid.CurrentCellAddress.Y >= 0 && _files.Count() > 0 ?
 				_files.ElementAt(_grid.CurrentCellAddress.Y).PathToAnnotatedFile : null);
@@ -264,28 +367,15 @@ namespace SayMore.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Draw a line between the add button and the grid. Use the same color as the grid
-		/// lines. Then fill the area below that line with a gradient fill.
+		/// Draw a line between the buttons and the grid.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandlePaintingGridButtonSeparatorLine(object sender, PaintEventArgs e)
+		private void _toolStripActions_Paint(object sender, PaintEventArgs e)
 		{
-			if (!_buttonAdd.Visible)
-				return;
-
-			// Get the Y coordinate of the bottom of the grid, relative to the outer panel.
-			var pt = _tableLayout.PointToScreen(new Point(0, _grid.Bottom));
-			var dy = _panelOuter.PointToClient(pt).Y;
+			var dy = _toolStripActions.ClientSize.Height - _toolStripActions.Padding.Bottom - 1;
 
 			using (var pen = new Pen(_panelOuter.BorderColor))
-				e.Graphics.DrawLine(pen, 0, dy, _panelOuter.Width, dy);
-
-			var rc = new Rectangle(0, dy + 1, _panelOuter.Width, _panelOuter.ClientSize.Height - dy - 1);
-			var clr1 = Color.FromArgb(95, _panelOuter.BorderColor);
-			var clr2 = Color.FromArgb(40, _panelOuter.BorderColor);
-
-			using (var br = new LinearGradientBrush(rc, clr1, clr2, LinearGradientMode.Horizontal))
-				e.Graphics.FillRectangle(br, rc);
+				e.Graphics.DrawLine(pen, 0, dy, _toolStripActions.ClientSize.Width, dy);
 		}
 	}
 }

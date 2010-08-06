@@ -49,7 +49,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		private void LoadMRUButtons()
 		{
-			tsbMru0.Visible = false;
+			_buttonMru0.Visible = false;
 
 			int i = 0;
 			foreach (var recentProjectInfo in Model.RecentlyUsedProjects)
@@ -57,18 +57,18 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				ToolStripButton tsb;
 
 				if (i++ == 0)
-					tsb = tsbMru0;
+					tsb = _buttonMru0;
 				else
 				{
-					tsb = new ToolStripButton(tsbMru0.Image);
+					tsb = new ToolStripButton(_buttonMru0.Image);
 					//tsb.Name = "tsbMru" + i;
 					tsb.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-					tsb.ImageAlign = tsbMru0.ImageAlign;
-					tsb.TextAlign = tsbMru0.TextAlign;
-					tsb.Font = tsbMru0.Font;
-					tsb.Margin = tsbMru0.Margin;
+					tsb.ImageAlign = _buttonMru0.ImageAlign;
+					tsb.TextAlign = _buttonMru0.TextAlign;
+					tsb.Font = _buttonMru0.Font;
+					tsb.Margin = _buttonMru0.Margin;
 					tsb.Click += HandleMruClick;
-					int index = tsOptions.Items.IndexOf(tsbBrowse);
+					int index = tsOptions.Items.IndexOf(_buttonBrowse);
 					tsOptions.Items.Insert(index, tsb);
 				}
 
@@ -194,7 +194,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 					Close();
 				}
 			}
-
 		}
 
 		/// ------------------------------------------------------------------------------------

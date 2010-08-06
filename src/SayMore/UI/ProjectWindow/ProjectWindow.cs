@@ -45,7 +45,7 @@ namespace SayMore.UI.ProjectWindow
 			}
 
 			var asm = Assembly.GetExecutingAssembly();
-			Icon = new Icon (asm.GetManifestResourceStream ("SayMore.SayMore.ico"));
+			Icon = new Icon (asm.GetManifestResourceStream("SayMore.SayMore.ico"));
 
 			_projectName = Path.GetFileNameWithoutExtension(projectName);
 			_commands = commands;
@@ -80,9 +80,7 @@ namespace SayMore.UI.ProjectWindow
 			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
 
 			if (!MediaInfo.HaveNecessaryComponents)
-			{
 				new MissingFFmpegPopup().Show();
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -120,7 +118,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void OnCommandMenuItem_Click(object sender, EventArgs e)
 		{
-			var handler = _commands.First(c => c.Id == (string) ((ToolStripMenuItem) sender).Tag);
+			var handler = _commands.First(c => c.Id == (string)((ToolStripMenuItem)sender).Tag);
 			handler.Execute();
 		}
 

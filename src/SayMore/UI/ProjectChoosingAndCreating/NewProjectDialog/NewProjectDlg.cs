@@ -20,7 +20,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		public NewProjectDlg()
 		{
 			InitializeComponent();
-			_OKButton.Enabled = false;
+			_buttonOK.Enabled = false;
 			_newProjectPathLabel.Text = string.Empty;
 		}
 
@@ -55,8 +55,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		/// ------------------------------------------------------------------------------------
 		protected void txtName_TextChanged(object sender, EventArgs e)
 		{
-			_OKButton.Enabled = _viewModel.IsNewProjectNameValid(
-				_newNameTextBox.Text.Trim(), _newProjectPathLabel);
+			_buttonOK.Enabled = _viewModel.IsNewProjectNameValid(
+				_nameTextBox.Text.Trim(), _newProjectPathLabel);
 		}
 	}
 }

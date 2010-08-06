@@ -93,6 +93,8 @@ namespace SayMore
 					c => new FieldGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
 						c.Resolve<FileTypeFields.Factory>())).InstancePerLifetimeScope();
 
+				builder.Register<FieldUpdater>(c => new FieldUpdater(c.Resolve<FieldGatherer>())).InstancePerLifetimeScope();
+
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor
 				builder.Register<Func<PersonBasicEditor.Factory>>(c => () => c.Resolve<PersonBasicEditor.Factory>());

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Windows.Forms;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -19,14 +20,12 @@ namespace SayMore.UI.ComponentEditors
 		private ComponentFile _file;
 
 		public Action ComponentFileChanged;
-		//public List<KeyValuePair<FieldDefinition, FieldInstance>> RowData { get; private set; }
 		public List<FieldInstance> RowData { get; private set; }
 
 		private Dictionary<string, IEnumerable<string>> _autoCompleteLists = new Dictionary<string,IEnumerable<string>>();
 		private readonly IMultiListDataProvider _autoCompleteProvider;
+		private readonly Func<string, bool> _includedFieldFilterFunction;
 		private IEnumerable<FieldDefinition> _fieldDefsForFile;
-
-		public Func<string, bool> _includedFieldFilterFunction;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGridViewModel(ComponentFile file, IMultiListDataProvider autoCompleteProvider,
@@ -49,6 +48,7 @@ namespace SayMore.UI.ComponentEditors
 		public void SetComponentFile(ComponentFile file)
 		{
 			_file = file;
+			_file.Load();
 			RowData = new List<FieldInstance>();
 			LoadFields();
 
@@ -147,21 +147,35 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SaveIdForIndex(string id, int index)
+		public bool GetShouldAskToRemoveFieldEverywhere(int index, string newId, out string oldId)
 		{
-			id = id.Trim().Replace(' ', '_');
+			oldId = (index < 0 || index >= RowData.Count ? null : RowData[index].FieldId);
+			return ((newId == null || newId.Trim() == string.Empty) && oldId != null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SaveIdForIndex(int index, string newId)
+		{
+			if (newId == null || newId.Trim() == string.Empty)
+				return;
+
+			newId = newId.Trim().Replace(' ', '_');
 
 			if (index == RowData.Count)
-				RowData.Add(new FieldInstance(id));
-			else if (RowData[index].FieldId != id && _file.RenameId(RowData[index].FieldId, id))
+				RowData.Add(new FieldInstance(newId));
+			else if (RowData[index].FieldId != newId)
 			{
-				RowData[index].FieldId = id;
+				_fieldGatherer.SuspendProcessing();
+				_file.RenameId(RowData[index].FieldId, newId);
+				RowData[index].FieldId = newId;
 				_file.Save();
+				_fieldGatherer.GatherFieldsForFileNow(_file.PathToAnnotatedFile);
+				_fieldGatherer.ResumeProcessing(true);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SaveValueForIndex(string value, int index)
+		public void SaveValueForIndex(int index, string value)
 		{
 			value = (value != null ? value.Trim() : string.Empty);
 
@@ -175,41 +189,21 @@ namespace SayMore.UI.ComponentEditors
 			else
 				RowData[index].Value = value;
 
+			_fieldGatherer.SuspendProcessing();
 			_file.Save();
+			_fieldGatherer.GatherFieldsForFileNow(_file.PathToAnnotatedFile);
+			_fieldGatherer.ResumeProcessing(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void RemoveFieldForIndex(int index)
+		public void RemoveFieldFromEntireProject(int index)
 		{
-			if (_file.RemoveField(RowData[index].FieldId))
-			{
-				RowData.RemoveAt(index);
-				_file.Save();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SaveFieldForIndex(int index)
-		{
-			//// Don't bother doing anything if the old value is the same as the new value.
-			//if (RowData[index].Value.FieldId == RowData[index].Key.FieldName)
-			//    return;
-
-			//var oldFieldValue = _file.MetaDataFieldValues.Find(x => x.FieldId == RowData[index].Key.FieldName);
-			//if (oldFieldValue != null)
-			//    _file.MetaDataFieldValues.Remove(oldFieldValue);
-
-			//string failureMessage;
-
-			//var newFieldValue = RowData[index].Value;
-			//_file.SetValue(newFieldValue, out failureMessage);
-
-			//if (failureMessage != null)
-			//    Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
-			//else
-			//    RowData[index].Key.FieldName = newFieldValue.FieldId;
-
-			//_file.Save();
+			_fieldGatherer.SuspendProcessing();
+			_file.RemoveField(RowData[index].FieldId);
+			RowData.RemoveAt(index);
+			_file.Save();
+			_fieldGatherer.GatherFieldsForFileNow(_file.PathToAnnotatedFile);
+			_fieldGatherer.ResumeProcessing(true);
 		}
 	}
 }

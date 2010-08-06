@@ -18,8 +18,8 @@ namespace SayMore.UI.ElementListScreen
 			if (DesignMode)
 				return;
 
-			Initialize(_componentsSplitter.Panel2, _componentFileGrid, _peopleListPanel);
-			_componentFileGrid.InitializeGrid("PersonScreen");
+			Initialize(_componentsSplitter.Panel2, _personComponentFileGrid, _peopleListPanel);
+			_personComponentFileGrid.InitializeGrid("PersonScreen");
 
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
 				_labelHelp.Visible = false;

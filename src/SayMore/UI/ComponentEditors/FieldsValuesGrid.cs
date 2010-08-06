@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using SayMore.Properties;
+using SayMore.UI.LowLevelControls;
 using SIL.Localization;
 using SilUtils;
 
@@ -302,10 +303,23 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellValuePushed(DataGridViewCellValueEventArgs e)
 		{
-			if (e.ColumnIndex == 0)
-				_model.SaveIdForIndex(e.Value as string, e.RowIndex);
+			if (e.ColumnIndex == 1)
+				_model.SaveValueForIndex(e.RowIndex, e.Value as string);
 			else
-				_model.SaveValueForIndex(e.Value as string, e.RowIndex);
+			{
+				string oldId;
+				if (!_model.GetShouldAskToRemoveFieldEverywhere(e.RowIndex, e.Value as string, out oldId))
+					_model.SaveIdForIndex(e.RowIndex, e.Value as string);
+				else
+				{
+					if (AskUserToVerifyRemovingFieldEverywhere(oldId))
+					{
+						_model.RemoveFieldFromEntireProject(e.RowIndex);
+						RowCount--;
+						Invalidate();
+					}
+				}
+			}
 
 			base.OnCellValuePushed(e);
 		}
@@ -324,60 +338,55 @@ namespace SayMore.UI.ComponentEditors
 			AdjustHeight();
 		}
 
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnRowValidating(DataGridViewCellCancelEventArgs e)
+		//{
+		//    var fieldId = _model.GetIdForIndex(e.RowIndex);
+		//    var fieldValue = _model.GetValueForIndex(e.RowIndex);
+
+		//    if (e.RowIndex < NewRowIndex && string.IsNullOrEmpty(fieldId) && !string.IsNullOrEmpty(fieldValue))
+		//    {
+		//        Utils.MsgBox("You must enter a field name.");
+		//        e.Cancel = true;
+		//    }
+
+		//    base.OnRowValidating(e);
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnUserDeletingRow(DataGridViewRowCancelEventArgs e)
+		//{
+		//    int indexOfRowToDelete;
+
+		//    if (_model.CanDeleteRow(e.Row.Index, out indexOfRowToDelete))
+		//    {
+		//        if (indexOfRowToDelete >= 0)
+		//        {
+		//            var idToDelete = e.Row.Cells[0].Value as string;
+		//            if (AskUserToVerifyRemovingFieldEverywhere(idToDelete))
+		//                _model.RemoveFieldFromEntireProject(indexOfRowToDelete);
+		//            else
+		//            {
+		//                e.Cancel = true;
+		//                SystemSounds.Beep.Play();
+		//            }
+		//        }
+		//    }
+		//    else
+		//    {
+		//        e.Cancel = true;
+		//        SystemSounds.Beep.Play();
+		//    }
+
+		//    base.OnUserDeletingRow(e);
+		//}
+
 		/// ------------------------------------------------------------------------------------
-		protected override void OnRowValidating(DataGridViewCellCancelEventArgs e)
+		private static bool AskUserToVerifyRemovingFieldEverywhere(string id)
 		{
-			var fieldId = _model.GetIdForIndex(e.RowIndex);
-			var fieldValue = _model.GetValueForIndex(e.RowIndex);
-
-			if (e.RowIndex < NewRowIndex && string.IsNullOrEmpty(fieldId) && !string.IsNullOrEmpty(fieldValue))
-			{
-				Utils.MsgBox("You must enter a field name.");
-				e.Cancel = true;
-			}
-
-			base.OnRowValidating(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnRowValidated(DataGridViewCellEventArgs e)
-		{
-			base.OnRowValidated(e);
-
-			var fieldId = _model.GetIdForIndex(e.RowIndex);
-			var fieldValue = _model.GetValueForIndex(e.RowIndex);
-
-			if (NewRowIndex == e.RowIndex)
-				return;
-
-			// If the user edited the row and left nothing for field or
-			// value, then remove the row. Otherwise save the value.
-			if (string.IsNullOrEmpty(fieldId) && string.IsNullOrEmpty(fieldValue))
-			{
-				_model.RemoveFieldForIndex(e.RowIndex);
-				Rows.RemoveAt(e.RowIndex);
-			}
-			else
-				_model.SaveFieldForIndex(e.RowIndex);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnUserDeletingRow(DataGridViewRowCancelEventArgs e)
-		{
-			int indexOfRowToDelete;
-
-			if (_model.CanDeleteRow(e.Row.Index, out indexOfRowToDelete))
-			{
-				if (indexOfRowToDelete >= 0)
-					_model.RemoveFieldForIndex(indexOfRowToDelete);
-			}
-			else
-			{
-				e.Cancel = true;
-				SystemSounds.Beep.Play();
-			}
-
-			base.OnUserDeletingRow(e);
+			var msg = string.Format("Do you want to delete the field '{0}' and its contents from the entire project?", id);
+			using (var dlg = new DeleteMessageBox(msg))
+				return (dlg.ShowDialog() == DialogResult.OK);
 		}
 	}
 }

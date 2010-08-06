@@ -24,10 +24,10 @@ namespace SayMore.UI.ElementListScreen
 			if (DesignMode)
 				return;
 
-			Initialize(_componentsSplitter.Panel2, _componentFileGrid, _sessionsListPanel);
-			_componentFileGrid.InitializeGrid("SessionScreen");
+			Initialize(_componentsSplitter.Panel2, _sessionComponentFileGrid, _sessionsListPanel);
+			_sessionComponentFileGrid.InitializeGrid("SessionScreen");
 
-			_sessionsListPanel.InsertButton(1, _buttonNewFromFiles);
+			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
 				_labelHelp.Visible = false;

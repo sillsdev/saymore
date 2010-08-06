@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.VisualBasic.FileIO;
 using Palaso.Code;
+using SayMore.Properties;
 
 namespace SayMore.Model
 {
@@ -75,6 +77,7 @@ namespace SayMore.Model
 			get {return _items;}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public string PathToFolder
 		{
 			get { return _rootFolder; }
@@ -103,9 +106,14 @@ namespace SayMore.Model
 
 			try
 			{
-				Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(item.FolderPath,
-					Microsoft.VisualBasic.FileIO.UIOption.AllDialogs,
-					Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+#if !MONO
+				FileSystem.DeleteDirectory(item.FolderPath,
+					(Settings.Default.PreventDeleteElementSystemConfirmationMessage ?
+					UIOption.OnlyErrorDialogs : UIOption.AllDialogs), RecycleOption.SendToRecycleBin);
+#else
+				// TODO: Find a way in Mono to send something to the recycle bin.
+				Directory.Delete(item.FolderPath);
+#endif
 			}
 			catch (Exception e)
 			{

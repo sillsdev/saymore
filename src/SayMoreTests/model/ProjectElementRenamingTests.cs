@@ -31,13 +31,13 @@ namespace SayMoreTests.Model
 
 		private Session CreateSession()
 		{
-			return new Session(_parentFolder.Path, "xyz", MakeComponent, new FileSerializer(),
-				new SessionFileType(() => null));
-		}
+			return new Session(_parentFolder.Path, "xyz", new SessionFileType(() => null),
+				path => null, new FileSerializer(), (w, x, y, z) =>
+			{
+				return new ProjectElementComponentFile(w, x, y, z,
+					FieldUpdater.CreateMinimalFieldUpdaterForTests(null));
 
-		private ComponentFile MakeComponent(string pathtoannotatedfile)
-		{
-			return null;
+			});
 		}
 
 		private void SaveAndChangeIdShouldSucceed(Session session)

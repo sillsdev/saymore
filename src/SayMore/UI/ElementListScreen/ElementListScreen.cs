@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -29,6 +30,8 @@ namespace SayMore.UI.ElementListScreen
 	/// ----------------------------------------------------------------------------------------
 	public partial class ElementListScreen<T> : UserControl where T : ProjectElement
 	{
+		public Action<ComponentFile> AfterComponentFileSelected;
+
 		protected readonly ElementListViewModel<T> _model;
 
 		protected TabControl _selectedEditorsTabControl;
@@ -69,10 +72,11 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.ReSortWhenItemTextChanges = true;
 
 			_componentFilesControl = componentGrid;
-			_componentFilesControl.ComponentSelectedCallback = HandleComponentSelectedCallback;
+			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
+			_componentFilesControl.PostMenuCommandRefreshAction = HandlePostMenuCommandRefresh;
 
 			_elementsListPanel.NewButtonClicked += HandleNewElementButtonClicked;
 			_elementsListPanel.BeforeItemsDeleted += HandleBeforeElementsDeleted;
@@ -86,18 +90,31 @@ namespace SayMore.UI.ElementListScreen
 		/// <summary>
 		/// Called by the component file grid when the user chooses a different file
 		/// </summary>
-		//review: why use index, why not the object?
-		// Answser: If the object is used, the caller of this delegate would have to get the object
-		// this way: _model.GetComponentFile(index). Using the index here is really just
-		// passing off to the model the inevitable job of indexing into the component file list.
-		// The grid (i.e. the only object calling this delegate so far) does not keep a
-		// reference to each component files that it can pass to this delegate.
+		/// review: why use index, why not the object?
+		/// Answser: If the object is used, the caller of this delegate would have to get the object
+		/// this way: _model.GetComponentFile(index). Using the index here is really just
+		/// passing off to the model the inevitable job of indexing into the component file list.
+		/// The grid (i.e. the only object calling this delegate so far) does not keep a
+		/// reference to each component files that it can pass to this delegate.
 		/// ------------------------------------------------------------------------------------
-		private void HandleComponentSelectedCallback(int index)
+		private void HandleAfterComponentFileSelected(int index)
 		{
 			_model.MakeComponentEditorsGoDormant();
 			_model.SetSelectedComponentFile(index);
 			ShowSelectedComponentFileEditors();
+
+			if (AfterComponentFileSelected != null)
+				AfterComponentFileSelected(_model.SelectedComponentFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void HandlePostMenuCommandRefresh()
+		{
+			var currFile = _model.SelectedComponentFile.PathToAnnotatedFile;
+			_model.RefreshSelectedElementComponentFileList();
+			UpdateComponentFileList();
+			_componentFilesControl.TrySetComponent(currFile);
+			_componentFilesControl.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -112,7 +129,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (_model.AddComponentFiles(files))
 			{
-				UpdateComponentList();
+				UpdateComponentFileList();
 				_componentFilesControl.TrySetComponent(files[0]);
 
 				return true;
@@ -149,35 +166,35 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void UpdateComponentList()
+		protected void UpdateComponentFileList()
 		{
 			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement();
-			_componentFilesControl.ComponentSelectedCallback = null;
-			_componentFilesControl.UpdateComponentList(componentsOfSelectedElement);
-			_model.SetSelectedComponentFile(0);
+			_componentFilesControl.AfterComponentSelected = null;
+			_componentFilesControl.UpdateComponentFileList(componentsOfSelectedElement);
 
 			foreach (var componentFile in componentsOfSelectedElement)
 			{
 				componentFile.IdChanged -= HandleComponentFileIdChanged;
 				componentFile.IdChanged += HandleComponentFileIdChanged;
-
 				componentFile.MetadataValueChanged -= HandleComponentFileMetadataValueChanged;
 				componentFile.MetadataValueChanged += HandleComponentFileMetadataValueChanged;
-
-				//componentFile.UiShouldRefresh -= HandleUiShouldRefresh;
-				//componentFile.UiShouldRefresh += HandleUiShouldRefresh;
-				//review: and later, are we wired longer than we want to be?
 			}
 
-			_model.SetSelectedComponentFile(0);
-
-			// Setting the selected component to nothing now will make sure that
-			// setting it to zero below will cause a row changed event, thus causing
-			// the ComponentSelectedCallback event.
-			_componentFilesControl.SelectComponent(-1);
-			_componentFilesControl.ComponentSelectedCallback = HandleComponentSelectedCallback;
-			_componentFilesControl.SelectComponent(0);
-			ShowSelectedComponentFileEditors();
+			if (componentsOfSelectedElement.Count() == 0)
+			{
+				_selectedEditorsTabControl = null;
+				_componentFilesControl.AddButtonEnabled = false;
+			}
+			else
+			{
+				// Setting the selected component to nothing now will make sure that
+				// setting it to zero below will cause a row changed event, thus causing
+				// the ComponentSelectedCallback event.
+				_componentFilesControl.SelectComponent(-1);
+				_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
+				_componentFilesControl.SelectComponent(0);
+				ShowSelectedComponentFileEditors();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -190,7 +207,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			_elementsListPanel.RefreshTextOfCurrentItem(true);
 			_model.RefreshAfterIdChanged();
-			UpdateComponentList();
+			UpdateComponentFileList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -236,10 +253,15 @@ namespace SayMore.UI.ElementListScreen
 				if (_selectedEditorsTabControl != null)
 					_selectedEditorsTabControl.Visible = false;
 
-				tabCtrl.SelectedIndex = 0;
 				tabCtrl.Visible = true;
 				_selectedEditorsTabControl = tabCtrl;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public ComponentEditorsTabControl SelectedComponentEditorsTabControl
+		{
+			get { return _selectedEditorsTabControl as ComponentEditorsTabControl; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -284,13 +306,15 @@ namespace SayMore.UI.ElementListScreen
 					foreach (var tabCtrl in _tabControls.Values)
 					{
 						_tabControlHostControl.Controls.Remove(tabCtrl);
+						tabCtrl.Selecting -= HandleSelectedComponentEditorTabSelecting;
+						tabCtrl.Controls.Clear();
 						tabCtrl.Dispose();
 					}
 
 					_tabControls.Clear();
 				}
 
-				UpdateComponentList();
+				UpdateComponentFileList();
 			}
 		}
 
@@ -300,12 +324,11 @@ namespace SayMore.UI.ElementListScreen
 			_model.SetSelectedElement(_model.CreateNewElement());
 			_elementsListPanel.AddItem(_model.SelectedElement, true, true);
 
-			// After a new element is added, then give focus to the editor of the first
-			// editor provider. This will assume the first field in the editor is the
-			// desired one to give focus.
-			var providers = _model.GetComponentEditorProviders().ToArray();
-			if (providers.Length > 0)
-				providers[0].Control.Focus();
+			// After a new element is added, then give focus to the first editor. This will
+			// assume the first field in the editor is the desired one to give focus.
+			var firstEditor = _model.GetComponentEditorProviders().ElementAtOrDefault(0);
+			if (firstEditor != null)
+				firstEditor.Control.Focus();
 
 			return null;
 		}
@@ -314,7 +337,7 @@ namespace SayMore.UI.ElementListScreen
 		protected virtual void HandleSelectedElementChanged(object sender, object newItem)
 		{
 			_model.SetSelectedElement(newItem as T);
-			UpdateComponentList();
+			UpdateComponentFileList();
 		}
 
 		/// ------------------------------------------------------------------------------------

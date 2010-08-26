@@ -60,8 +60,15 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		{
 			get
 			{
-				return (Settings.Default.DefaultFolderForNewProjects ??
-					Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore"));
+				if(string.IsNullOrEmpty(Settings.Default.DefaultFolderForNewProjects)
+					|| !Directory.Exists(Settings.Default.DefaultFolderForNewProjects))
+				{
+					return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore");
+				}
+				else
+				{
+					return Settings.Default.DefaultFolderForNewProjects;
+				}
 			}
 		}
 

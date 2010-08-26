@@ -2,9 +2,9 @@ using System;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
-using SIL.Localization;
 using SilUtils;
 
 namespace SayMore.UI.ComponentEditors

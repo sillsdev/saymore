@@ -3,7 +3,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
+using Localization.UI;
 using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SayMore.UI.Utilities;
@@ -91,7 +92,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 			LocalizationManager.LocalizeObject(lnkWebSites, "WelcomeDialog.lnkWebSites",
 			   "SayMore is brought to you by SIL International.  Visit the SayMore web site.",
-			   locExtender.LocalizationGroup);
+				locExtender.LocalizationGroup);
 
 			var entireLink = LocalizationManager.GetString(lnkWebSites);
 

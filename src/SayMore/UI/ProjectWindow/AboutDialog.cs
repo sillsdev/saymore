@@ -3,7 +3,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
+using Localization.UI;
 using SayMore.Properties;
 using SayMore.UI.Utilities;
 

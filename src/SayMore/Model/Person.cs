@@ -1,6 +1,6 @@
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SIL.Localization;
 
 namespace SayMore.Model
 {

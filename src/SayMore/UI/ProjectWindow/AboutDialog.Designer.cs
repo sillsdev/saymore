@@ -1,5 +1,4 @@
-using SIL.Localization;
-using SayMore.UI.LowLevelControls;
+using Localization.UI;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -36,7 +35,7 @@ namespace SayMore.UI.ProjectWindow
 			this._linkSayMoreWebSite = new System.Windows.Forms.LinkLabel();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
 			this.lblSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._linkSiLWebSite = new System.Windows.Forms.LinkLabel();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -49,7 +48,7 @@ namespace SayMore.UI.ProjectWindow
 			resources.ApplyResources(this._linkSayMoreWebSite, "_linkSayMoreWebSite");
 			this.locExtender.SetLocalizableToolTip(this._linkSayMoreWebSite, null);
 			this.locExtender.SetLocalizationComment(this._linkSayMoreWebSite, null);
-			this.locExtender.SetLocalizationPriority(this._linkSayMoreWebSite, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._linkSayMoreWebSite, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._linkSayMoreWebSite, "AboutDialog.lnkWebSites");
 			this._linkSayMoreWebSite.Name = "_linkSayMoreWebSite";
 			this._linkSayMoreWebSite.UseCompatibleTextRendering = true;
@@ -60,7 +59,7 @@ namespace SayMore.UI.ProjectWindow
 			resources.ApplyResources(this._labelVersionInfo, "_labelVersionInfo");
 			this.locExtender.SetLocalizableToolTip(this._labelVersionInfo, null);
 			this.locExtender.SetLocalizationComment(this._labelVersionInfo, null);
-			this.locExtender.SetLocalizationPriority(this._labelVersionInfo, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelVersionInfo, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelVersionInfo, "AboutDialog.lblVersionInfo");
 			this._labelVersionInfo.Name = "_labelVersionInfo";
 			// 
@@ -70,7 +69,7 @@ namespace SayMore.UI.ProjectWindow
 			this.lblSubTitle.AutoEllipsis = true;
 			this.locExtender.SetLocalizableToolTip(this.lblSubTitle, null);
 			this.locExtender.SetLocalizationComment(this.lblSubTitle, null);
-			this.locExtender.SetLocalizationPriority(this.lblSubTitle, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblSubTitle, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblSubTitle, "AboutDialog.lblSubTitle");
 			this.lblSubTitle.Name = "lblSubTitle";
 			// 
@@ -95,7 +94,7 @@ namespace SayMore.UI.ProjectWindow
 			resources.ApplyResources(this._linkSiLWebSite, "_linkSiLWebSite");
 			this.locExtender.SetLocalizableToolTip(this._linkSiLWebSite, null);
 			this.locExtender.SetLocalizationComment(this._linkSiLWebSite, null);
-			this.locExtender.SetLocalizationPriority(this._linkSiLWebSite, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._linkSiLWebSite, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._linkSiLWebSite, "AboutDialog.lnkWebSites");
 			this._linkSiLWebSite.Name = "_linkSiLWebSite";
 			this._linkSiLWebSite.UseCompatibleTextRendering = true;
@@ -116,7 +115,7 @@ namespace SayMore.UI.ProjectWindow
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "AboutDialog.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

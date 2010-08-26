@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SIL.Localization;
+using Localization;
 using SilUtils;
 
 namespace SayMore.Model.Fields

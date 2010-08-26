@@ -17,8 +17,8 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Properties;
-using SIL.Localization;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {

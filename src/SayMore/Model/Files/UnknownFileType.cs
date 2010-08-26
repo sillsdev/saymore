@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Localization;
 using SayMore.UI.ComponentEditors;
-using SIL.Localization;
 
 namespace SayMore.Model.Files
 {

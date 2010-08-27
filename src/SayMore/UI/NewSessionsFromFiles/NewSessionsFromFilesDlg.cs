@@ -5,9 +5,9 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using AxWMPLib;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SIL.Localization;
 using SilUtils;
 
 namespace SayMore.UI.NewSessionsFromFiles

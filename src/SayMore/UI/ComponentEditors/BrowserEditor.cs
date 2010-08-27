@@ -1,7 +1,7 @@
 using System.IO;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
-using SIL.Localization;
 
 namespace SayMore.UI.ComponentEditors
 {

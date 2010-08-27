@@ -1,4 +1,5 @@
-using SIL.Localization;
+using Localization;
+using Localization.UI;
 using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
@@ -45,7 +46,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.lnkWebSites = new System.Windows.Forms.LinkLabel();
 			this.lblVersionInfo = new System.Windows.Forms.Label();
 			this.lblSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			this.pnlOptions.SuspendLayout();
 			this.tsOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -99,7 +100,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._buttonMru0.Image = global::SayMore.Properties.Resources.SmallSayMoreLogo;
 			this.locExtender.SetLocalizableToolTip(this._buttonMru0, null);
 			this.locExtender.SetLocalizationComment(this._buttonMru0, null);
-			this.locExtender.SetLocalizationPriority(this._buttonMru0, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._buttonMru0, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonMru0, "WelcomeDlg.tsbMru0");
 			this._buttonMru0.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
 			this._buttonMru0.Name = "_buttonMru0";

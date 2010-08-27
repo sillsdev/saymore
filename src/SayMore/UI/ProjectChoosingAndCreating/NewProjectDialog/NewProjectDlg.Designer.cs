@@ -1,4 +1,4 @@
-using SIL.Localization;
+using Localization.UI;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
@@ -33,7 +33,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._nameTextBox = new System.Windows.Forms.TextBox();
 			this._newProjectPathLabel = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -70,7 +70,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			resources.ApplyResources(this._nameTextBox, "_nameTextBox");
 			this.locExtender.SetLocalizableToolTip(this._nameTextBox, null);
 			this.locExtender.SetLocalizationComment(this._nameTextBox, null);
-			this.locExtender.SetLocalizationPriority(this._nameTextBox, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._nameTextBox, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._nameTextBox, "NewProjectDlg._newNameTextBox");
 			this._nameTextBox.Name = "_nameTextBox";
 			this._nameTextBox.TextChanged += new System.EventHandler(this.txtName_TextChanged);

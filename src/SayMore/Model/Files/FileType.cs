@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Palaso.CommandLineProcessing;
 using Palaso.Media;
 using Palaso.Reporting;
@@ -11,7 +12,6 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
-using SIL.Localization;
 
 namespace SayMore.Model.Files
 {

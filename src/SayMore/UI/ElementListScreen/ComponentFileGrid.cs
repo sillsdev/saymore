@@ -5,7 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
 using SilUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;

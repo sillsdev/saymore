@@ -55,9 +55,10 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (!(extendee is TextBox || extendee is ComboBox))
 				return false;
+
 			var control = extendee as Control;
 			if (!_keysForControls.ContainsKey(control))
-				_keysForControls[control] = string.Empty;//default to no autocomplete
+				_keysForControls[control] = string.Empty; //default to no autocomplete
 
 			return true;
 		}
@@ -88,12 +89,13 @@ namespace SayMore.UI.ComponentEditors
 		[Category("AutoCompleteHelper Properties")]
 		public string GetAutoCompleteKey(object obj)
 		{
-
 			string key;
-			if(_keysForControls.TryGetValue(obj as Control, out key))
+
+			if (_keysForControls.TryGetValue(obj as Control, out key))
 			{
 				return key;
 			}
+
 			return string.Empty;
 		}
 
@@ -107,10 +109,15 @@ namespace SayMore.UI.ComponentEditors
 
 			_keysForControls[control] = key;
 
+			if (!string.IsNullOrEmpty(key))
+				AddSupport(control);
+			else
+				RemoveSupport(control);
+
 			// Do this just in case this is being called from outside the initialize
 			// components method and after the component file has been set.
-			if (!string.IsNullOrEmpty(key)) //review (jh) doesn't know why we do this just when its empty
-				AddSupport(control);
+			//if (!string.IsNullOrEmpty(key)) //review (jh) doesn't know why we do this just when its empty
+				//AddSupport(control);
 		}
 
 		#endregion
@@ -131,6 +138,7 @@ namespace SayMore.UI.ComponentEditors
 			control.Validated += HandleControlValidated;
 			control.Enter += HandleControlEnter;
 			control.Disposed += HandleDisposed;
+
 			if (control is TextBox)
 			{
 				((TextBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
@@ -142,7 +150,6 @@ namespace SayMore.UI.ComponentEditors
 				((ComboBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
 			}
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		public void RemoveSupport(Control control)
@@ -157,6 +164,7 @@ namespace SayMore.UI.ComponentEditors
 				((ComboBox)control).AutoCompleteMode = default(AutoCompleteMode);
 				((ComboBox)control).AutoCompleteSource = AutoCompleteSource.None;
 			}
+
 			control.Validating -= HandleControlValidated;
 			control.Enter -= HandleControlEnter;
 			control.Disposed -= HandleDisposed;

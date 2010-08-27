@@ -5,11 +5,11 @@ using System.IO;
 using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
-using SIL.Localization;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -53,6 +53,9 @@ namespace SayMore.UI.ComponentEditors
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
+
+			LoadPersonsPhoto();
+			LoadParentLanguages();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -266,8 +269,21 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (_picture.ClientRectangle.Contains(_picture.PointToClient(MousePosition)))
 			{
-				e.Graphics.DrawImageUnscaledAndClipped(Resources.kimidChangePicture,
-					_picture.ClientRectangle);
+				var img = Resources.kimidChangePicture;
+				var rc = _picture.ClientRectangle;
+
+				if (rc.Width > rc.Height)
+				{
+					rc.Width = rc.Height;
+					rc.X = (_picture.ClientRectangle.Width - rc.Width) / 2;
+				}
+				else if (rc.Height > rc.Width)
+				{
+					rc.Height = rc.Width;
+					rc.Y = (_picture.ClientRectangle.Height - rc.Height) / 2;
+				}
+
+				e.Graphics.DrawImage(img, rc);
 			}
 		}
 

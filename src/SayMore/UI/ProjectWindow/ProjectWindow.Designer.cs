@@ -1,5 +1,4 @@
-using SIL.Localization;
-using SayMore.UI.LowLevelControls;
+using Localization.UI;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -19,7 +18,7 @@ namespace SayMore.UI.ProjectWindow
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			this._mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this._menuProject = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuOpenProject = new System.Windows.Forms.ToolStripMenuItem();

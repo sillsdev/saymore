@@ -1,4 +1,5 @@
-using SIL.Localization;
+using Localization;
+using Localization.UI;
 using SilUtils.Controls;
 
 namespace SayMore.UI.LowLevelControls
@@ -26,7 +27,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonNew = new System.Windows.Forms.Button();
 			this._buttonDelete = new System.Windows.Forms.Button();
 			this._headerLabel = new SilUtils.Controls.HeaderLabel();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new LocalizationExtender(this.components);
 			this._outerPanel.SuspendLayout();
 			this._buttonsFlowLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -47,7 +48,7 @@ namespace SayMore.UI.LowLevelControls
 			this._outerPanel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.locExtender.SetLocalizableToolTip(this._outerPanel, null);
 			this.locExtender.SetLocalizationComment(this._outerPanel, null);
-			this.locExtender.SetLocalizationPriority(this._outerPanel, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._outerPanel, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._outerPanel, "ListPanel._outerPanel");
 			this._outerPanel.Location = new System.Drawing.Point(0, 0);
 			this._outerPanel.MnemonicGeneratesClick = false;
@@ -136,7 +137,7 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.locExtender.SetLocalizableToolTip(this._headerLabel, null);
 			this.locExtender.SetLocalizationComment(this._headerLabel, "Localized in controls that host this one.");
-			this.locExtender.SetLocalizationPriority(this._headerLabel, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._headerLabel, LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._headerLabel, "ListPanel._headerLabel");
 			this._headerLabel.Location = new System.Drawing.Point(0, 0);
 			this._headerLabel.MinimumSize = new System.Drawing.Size(165, 0);

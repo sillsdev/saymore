@@ -4,10 +4,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
-using SIL.Localization;
 using SilUtils;
 
 namespace SayMore.UI.NewSessionsFromFiles

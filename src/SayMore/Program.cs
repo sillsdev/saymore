@@ -3,7 +3,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
 using SilUtils;

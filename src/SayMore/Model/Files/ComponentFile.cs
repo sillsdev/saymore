@@ -5,13 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.Utilities;
-using SIL.Localization;
 using SilUtils;
 
 namespace SayMore.Model.Files

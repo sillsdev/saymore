@@ -16,9 +16,7 @@
 
 	<Message Text="BuildCounter: $(BuildCounter)" Importance="high"/>
 
-	<!-- TODO: should we move the version number somewhere else, like to TeamCity config?
-		TODO: have one place to set it which will also stamp the assembly properly
-	 -->
+	<!-- Note, after some thought, we've decided this is the best place to keep the version number (not on TeamCity, not in the assemblies).     -->
 	<CreateProperty Value="0.3.$(BuildCounter)">
 	  <Output PropertyName="Version" TaskParameter="Value"/>
 	</CreateProperty>

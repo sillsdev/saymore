@@ -255,18 +255,18 @@
       <DependentUpon>MakeSessionsFromFileProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\NewSessionsFromFiles\NewComponentFile.cs" />
-    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFileDlgViewModel.cs" />
-    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlg.cs">
+    <Compile Include="UI\NewSessionsFromFiles\NewEventsFromFileDlgViewModel.cs" />
+    <Compile Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlg.designer.cs">
-      <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
+    <Compile Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlg.designer.cs">
+      <DependentUpon>NewEventsFromFilesDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.cs">
+    <Compile Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.designer.cs">
-      <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
+    <Compile Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.designer.cs">
+      <DependentUpon>NewEventsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Overview\OverviewScreen.cs">
       <SubType>UserControl</SubType>
@@ -390,11 +390,11 @@
     <EmbeddedResource Include="UI\NewSessionsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.resx">
       <DependentUpon>MakeSessionsFromFileProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlg.resx">
-      <DependentUpon>NewSessionsFromFilesDlg.cs</DependentUpon>
+    <EmbeddedResource Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlg.resx">
+      <DependentUpon>NewEventsFromFilesDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewSessionsFromFiles\NewSessionsFromFilesDlgFolderNotFoundMsg.resx">
-      <DependentUpon>NewSessionsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
+    <EmbeddedResource Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.resx">
+      <DependentUpon>NewEventsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.resx">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>

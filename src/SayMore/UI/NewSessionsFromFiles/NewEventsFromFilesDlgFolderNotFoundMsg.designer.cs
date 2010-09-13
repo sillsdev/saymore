@@ -2,12 +2,12 @@ namespace SayMore.UI.NewEventsFromFiles
 {
 	partial class NewEventsFromFilesDlgFolderNotFoundMsg
 	{
-		/// <summary> 
+		/// <summary>
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary> 
+		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -22,8 +22,8 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		#region Component Designer generated code
 
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
+		/// <summary>
+		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent()
@@ -36,9 +36,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._possibleProblemsMsg2Label = new SilUtils.Controls.AutoHeightLabel();
 			this._tableLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
-			// 
+			//
 			// _problemOverviewMsgLabel
-			// 
+			//
 			this._problemOverviewMsgLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._problemOverviewMsgLabel.AutoEllipsis = true;
@@ -53,9 +53,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._problemOverviewMsgLabel.TabIndex = 1;
 			this._problemOverviewMsgLabel.Text = "{0} cannot reach the folder where your files were last time. One of the following" +
 				" may be true:";
-			// 
+			//
 			// _possibleProblemsMsg1Label
-			// 
+			//
 			this._possibleProblemsMsg1Label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._possibleProblemsMsg1Label.AutoEllipsis = true;
@@ -67,9 +67,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._possibleProblemsMsg1Label.Size = new System.Drawing.Size(390, 15);
 			this._possibleProblemsMsg1Label.TabIndex = 2;
 			this._possibleProblemsMsg1Label.Text = "1) The device is not yet plugged in.";
-			// 
+			//
 			// _driveLetterHintMsgLabel
-			// 
+			//
 			this._driveLetterHintMsgLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._driveLetterHintMsgLabel.AutoEllipsis = true;
@@ -82,9 +82,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._driveLetterHintMsgLabel.TabIndex = 4;
 			this._driveLetterHintMsgLabel.Text = "In Windows, if you assign the device to a letter closer to \'z\', it is more likely" +
 				" to use that letter each time.";
-			// 
+			//
 			// _tableLayoutPanel
-			// 
+			//
 			this._tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
@@ -107,9 +107,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.Size = new System.Drawing.Size(390, 200);
 			this._tableLayoutPanel.TabIndex = 6;
-			// 
+			//
 			// _possibleProblemsMsg3Label
-			// 
+			//
 			this._possibleProblemsMsg3Label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._possibleProblemsMsg3Label.AutoEllipsis = true;
@@ -121,9 +121,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._possibleProblemsMsg3Label.Size = new System.Drawing.Size(390, 30);
 			this._possibleProblemsMsg3Label.TabIndex = 5;
 			this._possibleProblemsMsg3Label.Text = "3) Some part of the above path has  changed (e.g. a folder name).";
-			// 
+			//
 			// _possibleProblemsMsg2Label
-			// 
+			//
 			this._possibleProblemsMsg2Label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._possibleProblemsMsg2Label.AutoEllipsis = true;
@@ -136,9 +136,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._possibleProblemsMsg2Label.TabIndex = 7;
 			this._possibleProblemsMsg2Label.Text = "2) The device is plugged in, but is currently assigned a different drive letter f" +
 				"rom \'{0}\'.";
-			// 
+			//
 			// NewEventsFromFilesDlgFolderNotFoundMsg
-			// 
+			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayoutPanel);

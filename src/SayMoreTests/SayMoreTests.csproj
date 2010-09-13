@@ -93,7 +93,7 @@
     <Compile Include="model\ProjectElementTests.cs" />
     <Compile Include="model\Files\FileTypeTests.cs" />
     <Compile Include="model\Files\ComponentRoleTests.cs" />
-    <Compile Include="model\SessionTests.cs" />
+    <Compile Include="model\EventTests.cs" />
     <Compile Include="model\ProjectTests.cs" />
     <Compile Include="model\Files\FileSerializerTests.cs" />
     <Compile Include="ProjectChosingAndCreating\WelcomeDialogTests.cs" />

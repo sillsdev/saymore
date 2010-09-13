@@ -50,9 +50,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._outerTableLayout.SuspendLayout();
 			this._tableLayoutButtons.SuspendLayout();
 			this.SuspendLayout();
-			// 
+			//
 			// _linkFindFiles
-			// 
+			//
 			this._linkFindFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._linkFindFiles.AutoSize = true;
@@ -65,9 +65,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._linkFindFiles.TabStop = true;
 			this._linkFindFiles.Text = "Find Files on Recorder/Card...";
 			this._linkFindFiles.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleFindFilesLinkClicked);
-			// 
+			//
 			// _createEventsButton
-			// 
+			//
 			this._createEventsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._createEventsButton.AutoSize = true;
 			this._createEventsButton.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -80,9 +80,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._createEventsButton.Text = "Create {0} Events";
 			this._createEventsButton.UseVisualStyleBackColor = true;
 			this._createEventsButton.Click += new System.EventHandler(this.HandleCreateEventsButtonClick);
-			// 
+			//
 			// _cancelButton
-			// 
+			//
 			this._cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this._cancelButton.Location = new System.Drawing.Point(148, 0);
@@ -92,9 +92,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._cancelButton.TabIndex = 4;
 			this._cancelButton.Text = "Cancel";
 			this._cancelButton.UseVisualStyleBackColor = true;
-			// 
+			//
 			// _labelSourceFolder
-			// 
+			//
 			this._labelSourceFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelSourceFolder.AutoSize = true;
@@ -106,9 +106,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelSourceFolder.Size = new System.Drawing.Size(477, 13);
 			this._labelSourceFolder.TabIndex = 1;
 			this._labelSourceFolder.Text = "#";
-			// 
+			//
 			// _labelIncomingFiles
-			// 
+			//
 			this._labelIncomingFiles.AutoSize = true;
 			this._labelIncomingFiles.BackColor = System.Drawing.Color.Transparent;
 			this._outerTableLayout.SetColumnSpan(this._labelIncomingFiles, 2);
@@ -118,9 +118,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelIncomingFiles.Size = new System.Drawing.Size(74, 13);
 			this._labelIncomingFiles.TabIndex = 0;
 			this._labelIncomingFiles.Text = "Incoming &Files";
-			// 
+			//
 			// _labelInstructions
-			// 
+			//
 			this._labelInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelInstructions.AutoEllipsis = true;
@@ -134,9 +134,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelInstructions.TabIndex = 2;
 			this._labelInstructions.Text = "Mark each file which represents an original recording of an event. For each one, " +
 				"{0} will create a new event and copy the file into it.";
-			// 
+			//
 			// _mediaPlayerPanel
-			// 
+			//
 			this._mediaPlayerPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._mediaPlayerPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this._mediaPlayerPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -152,9 +152,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._mediaPlayerPanel.PaintExplorerBarBackground = false;
 			this._mediaPlayerPanel.Size = new System.Drawing.Size(228, 198);
 			this._mediaPlayerPanel.TabIndex = 6;
-			// 
+			//
 			// _panelProgress
-			// 
+			//
 			this._panelProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._panelProgress.BackColor = System.Drawing.Color.Transparent;
@@ -164,9 +164,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._panelProgress.Name = "_panelProgress";
 			this._panelProgress.Size = new System.Drawing.Size(198, 41);
 			this._panelProgress.TabIndex = 7;
-			// 
+			//
 			// _progressLabel
-			// 
+			//
 			this._progressLabel.AutoEllipsis = true;
 			this._progressLabel.BackColor = System.Drawing.Color.Transparent;
 			this._progressLabel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -177,9 +177,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._progressLabel.TabIndex = 0;
 			this._progressLabel.Text = "Reading Files...";
 			this._progressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// _progressBar
-			// 
+			//
 			this._progressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this._progressBar.Location = new System.Drawing.Point(0, 21);
 			this._progressBar.Name = "_progressBar";
@@ -187,9 +187,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._progressBar.Step = 1;
 			this._progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this._progressBar.TabIndex = 1;
-			// 
+			//
 			// _outerTableLayout
-			// 
+			//
 			this._outerTableLayout.ColumnCount = 3;
 			this._outerTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._outerTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -214,9 +214,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._outerTableLayout.Size = new System.Drawing.Size(642, 382);
 			this._outerTableLayout.TabIndex = 8;
 			this._outerTableLayout.SizeChanged += new System.EventHandler(this.HandleOuterTableLayoutSizeChanged);
-			// 
+			//
 			// _tableLayoutButtons
-			// 
+			//
 			this._tableLayoutButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutButtons.AutoSize = true;
 			this._tableLayoutButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -232,9 +232,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutButtons.Size = new System.Drawing.Size(228, 26);
 			this._tableLayoutButtons.TabIndex = 9;
-			// 
+			//
 			// _gridFiles
-			// 
+			//
 			this._gridFiles.AddButtonEnabled = false;
 			this._gridFiles.AddButtonVisible = false;
 			this._gridFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -249,18 +249,18 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._gridFiles.ShowContextMenu = false;
 			this._gridFiles.Size = new System.Drawing.Size(394, 200);
 			this._gridFiles.TabIndex = 0;
-			// 
+			//
 			// _metadataPanel
-			// 
+			//
 			this._outerTableLayout.SetColumnSpan(this._metadataPanel, 2);
 			this._metadataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._metadataPanel.Location = new System.Drawing.Point(3, 298);
 			this._metadataPanel.Name = "_metadataPanel";
 			this._metadataPanel.Size = new System.Drawing.Size(388, 81);
 			this._metadataPanel.TabIndex = 3;
-			// 
+			//
 			// NewEventsFromFilesDlg
-			// 
+			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(672, 412);

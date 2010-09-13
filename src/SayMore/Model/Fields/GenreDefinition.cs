@@ -48,7 +48,7 @@ namespace SayMore.Model.Fields
 					UnknownType = new GenreDefinition();
 					UnknownType.Id = "unknown";
 					UnknownType.Name = LocalizationManager.LocalizeString(
-						"UnknownSessionEventType", "<Unknown>",
+						"UnknownEventType", "<Unknown>",
 						"Unknown genre displayed in the genre drop-down list.",
 						"Misc. Strings");
 

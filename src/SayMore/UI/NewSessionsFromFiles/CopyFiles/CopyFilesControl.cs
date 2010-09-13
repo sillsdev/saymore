@@ -4,7 +4,7 @@ using System.Media;
 using System.Windows.Forms;
 using SayMore.Properties;
 
-namespace SayMore.UI.NewSessionsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class CopyFilesControl : UserControl

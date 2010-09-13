@@ -3,7 +3,7 @@ using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ElementListScreen
 {
-	partial class SessionScreen
+	partial class EventScreen
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -33,9 +33,9 @@ namespace SayMore.UI.ElementListScreen
 		{
 			this._elementListSplitter = new System.Windows.Forms.SplitContainer();
 			this._buttonNewFromFiles = new System.Windows.Forms.Button();
-			this._sessionsListPanel = new SayMore.UI.LowLevelControls.ListPanel();
+			this._eventsListPanel = new SayMore.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
-			this._sessionComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
+			this._eventComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelHelp = new System.Windows.Forms.Label();
 			this._elementListSplitter.Panel1.SuspendLayout();
 			this._elementListSplitter.Panel2.SuspendLayout();
@@ -54,7 +54,7 @@ namespace SayMore.UI.ElementListScreen
 			// _elementListSplitter.Panel1
 			// 
 			this._elementListSplitter.Panel1.Controls.Add(this._buttonNewFromFiles);
-			this._elementListSplitter.Panel1.Controls.Add(this._sessionsListPanel);
+			this._elementListSplitter.Panel1.Controls.Add(this._eventsListPanel);
 			// 
 			// _elementListSplitter.Panel2
 			// 
@@ -79,37 +79,37 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles.UseVisualStyleBackColor = true;
 			this._buttonNewFromFiles.Click += new System.EventHandler(this.HandleButtonNewFromFilesClick);
 			// 
-			// _sessionsListPanel
+			// _eventsListPanel
 			// 
-			this._sessionsListPanel.ButtonPanelBackColor1 = System.Drawing.SystemColors.Control;
-			this._sessionsListPanel.ButtonPanelBackColor2 = System.Drawing.SystemColors.Control;
-			this._sessionsListPanel.ButtonPanelTopBorderColor = System.Drawing.SystemColors.ControlDark;
-			this._sessionsListPanel.CurrentItem = null;
-			this._sessionsListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._sessionsListPanel.Items = new object[0];
+			this._eventsListPanel.ButtonPanelBackColor1 = System.Drawing.SystemColors.Control;
+			this._eventsListPanel.ButtonPanelBackColor2 = System.Drawing.SystemColors.Control;
+			this._eventsListPanel.ButtonPanelTopBorderColor = System.Drawing.SystemColors.ControlDark;
+			this._eventsListPanel.CurrentItem = null;
+			this._eventsListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._eventsListPanel.Items = new object[0];
 			// 
 			// 
 			// 
-			this._sessionsListPanel.ListView.BackColor = System.Drawing.SystemColors.Window;
-			this._sessionsListPanel.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._sessionsListPanel.ListView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._sessionsListPanel.ListView.Font = new System.Drawing.Font("Segoe UI", 9F);
-			this._sessionsListPanel.ListView.FullRowSelect = true;
-			this._sessionsListPanel.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-			this._sessionsListPanel.ListView.HideSelection = false;
-			this._sessionsListPanel.ListView.Location = new System.Drawing.Point(0, 30);
-			this._sessionsListPanel.ListView.Name = "_itemsListView";
-			this._sessionsListPanel.ListView.Size = new System.Drawing.Size(180, 282);
-			this._sessionsListPanel.ListView.TabIndex = 0;
-			this._sessionsListPanel.ListView.UseCompatibleStateImageBehavior = false;
-			this._sessionsListPanel.ListView.View = System.Windows.Forms.View.Details;
-			this._sessionsListPanel.Location = new System.Drawing.Point(0, 0);
-			this._sessionsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
-			this._sessionsListPanel.Name = "_sessionsListPanel";
-			this._sessionsListPanel.ReSortWhenItemTextChanges = false;
-			this._sessionsListPanel.Size = new System.Drawing.Size(182, 350);
-			this._sessionsListPanel.TabIndex = 0;
-			this._sessionsListPanel.Text = "Sessions";
+			this._eventsListPanel.ListView.BackColor = System.Drawing.SystemColors.Window;
+			this._eventsListPanel.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._eventsListPanel.ListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._eventsListPanel.ListView.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._eventsListPanel.ListView.FullRowSelect = true;
+			this._eventsListPanel.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			this._eventsListPanel.ListView.HideSelection = false;
+			this._eventsListPanel.ListView.Location = new System.Drawing.Point(0, 30);
+			this._eventsListPanel.ListView.Name = "_itemsListView";
+			this._eventsListPanel.ListView.Size = new System.Drawing.Size(180, 282);
+			this._eventsListPanel.ListView.TabIndex = 0;
+			this._eventsListPanel.ListView.UseCompatibleStateImageBehavior = false;
+			this._eventsListPanel.ListView.View = System.Windows.Forms.View.Details;
+			this._eventsListPanel.Location = new System.Drawing.Point(0, 0);
+			this._eventsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
+			this._eventsListPanel.Name = "_eventsListPanel";
+			this._eventsListPanel.ReSortWhenItemTextChanges = false;
+			this._eventsListPanel.Size = new System.Drawing.Size(182, 350);
+			this._eventsListPanel.TabIndex = 0;
+			this._eventsListPanel.Text = "Events";
 			// 
 			// _componentsSplitter
 			// 
@@ -120,7 +120,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _componentsSplitter.Panel1
 			// 
-			this._componentsSplitter.Panel1.Controls.Add(this._sessionComponentFileGrid);
+			this._componentsSplitter.Panel1.Controls.Add(this._eventComponentFileGrid);
 			// 
 			// _componentsSplitter.Panel2
 			// 
@@ -131,16 +131,16 @@ namespace SayMore.UI.ElementListScreen
 			this._componentsSplitter.TabIndex = 0;
 			this._componentsSplitter.TabStop = false;
 			// 
-			// _sessionComponentFileGrid
+			// _eventComponentFileGrid
 			// 
-			this._sessionComponentFileGrid.AddButtonEnabled = false;
-			this._sessionComponentFileGrid.AddButtonVisible = true;
-			this._sessionComponentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._sessionComponentFileGrid.Location = new System.Drawing.Point(0, 0);
-			this._sessionComponentFileGrid.Name = "_sessionComponentFileGrid";
-			this._sessionComponentFileGrid.ShowContextMenu = true;
-			this._sessionComponentFileGrid.Size = new System.Drawing.Size(315, 147);
-			this._sessionComponentFileGrid.TabIndex = 0;
+			this._eventComponentFileGrid.AddButtonEnabled = false;
+			this._eventComponentFileGrid.AddButtonVisible = true;
+			this._eventComponentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._eventComponentFileGrid.Location = new System.Drawing.Point(0, 0);
+			this._eventComponentFileGrid.Name = "_eventComponentFileGrid";
+			this._eventComponentFileGrid.ShowContextMenu = true;
+			this._eventComponentFileGrid.Size = new System.Drawing.Size(315, 147);
+			this._eventComponentFileGrid.TabIndex = 0;
 			// 
 			// _labelHelp
 			// 
@@ -150,15 +150,15 @@ namespace SayMore.UI.ElementListScreen
 			this._labelHelp.Name = "_labelHelp";
 			this._labelHelp.Size = new System.Drawing.Size(315, 197);
 			this._labelHelp.TabIndex = 0;
-			this._labelHelp.Text = "Click \'New\' to add a new session.";
+			this._labelHelp.Text = "Click \'New\' to add a new event.";
 			this._labelHelp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// SessionScreen
+			// EventScreen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._elementListSplitter);
-			this.Name = "SessionScreen";
+			this.Name = "EventScreen";
 			this.Size = new System.Drawing.Size(503, 350);
 			this._elementListSplitter.Panel1.ResumeLayout(false);
 			this._elementListSplitter.Panel1.PerformLayout();
@@ -173,10 +173,10 @@ namespace SayMore.UI.ElementListScreen
 
 		#endregion
 
-		private ListPanel _sessionsListPanel;
+		private ListPanel _eventsListPanel;
 		private System.Windows.Forms.SplitContainer _elementListSplitter;
 		private System.Windows.Forms.SplitContainer _componentsSplitter;
-		private ComponentFileGrid _sessionComponentFileGrid;
+		private ComponentFileGrid _eventComponentFileGrid;
 		private System.Windows.Forms.Button _buttonNewFromFiles;
 		private System.Windows.Forms.Label _labelHelp;
 	}

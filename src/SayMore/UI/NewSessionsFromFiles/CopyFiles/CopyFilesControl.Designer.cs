@@ -1,6 +1,6 @@
 using Palaso.UI.WindowsForms.Widgets;
 
-namespace SayMore.UI.NewSessionsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	partial class CopyFilesControl
 	{

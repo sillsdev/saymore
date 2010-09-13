@@ -259,29 +259,30 @@ namespace SayMore.Model.Files
 
 	#endregion
 
-	#region SessionFileType class
+	#region EventFileType class
 	/// ----------------------------------------------------------------------------------------
-	public class SessionFileType : FileType
+	public class EventFileType : FileType
 	{
-		private readonly Func<SessionBasicEditor.Factory> _sessionBasicEditorFactoryLazy;
+		private readonly Func<EventBasicEditor.Factory> _eventBasicEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		///
 		/// </summary>
-		/// <param name="sessionBasicEditorFactoryLazy">This is to get us around a circular dependency
-		/// error in autofac.  NB: when we move to .net 4, this can be replaced by Lazy<Func<SessionBasicEditor.Factory></param>
+		/// <param name="eventBasicEditorFactoryLazy">This is to get us around a circular dependency
+		/// error in autofac.  NB: when we move to .net 4, this can be replaced by
+		/// Lazy<Func<EventBasicEditor.Factory></param>
 		/// ------------------------------------------------------------------------------------
-		public SessionFileType(Func<SessionBasicEditor.Factory> sessionBasicEditorFactoryLazy)
-			: base("Session", p => p.EndsWith(".session"))
+		public EventFileType(Func<EventBasicEditor.Factory> eventBasicEditorFactoryLazy)
+			: base("Event", p => p.EndsWith(Settings.Default.EventFileExtension))
 		{
-			_sessionBasicEditorFactoryLazy = sessionBasicEditorFactoryLazy;
+			_eventBasicEditorFactoryLazy = eventBasicEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override string FieldsGridSettingsName
 		{
-			get { return "SessionCustomFieldsGrid"; }
+			get { return "EventCustomFieldsGrid"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -313,10 +314,10 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = LocalizationManager.LocalizeString("SessionInfoEditor.SessionTabText", "Session");
-			yield return _sessionBasicEditorFactoryLazy()(file, text, "Session");
+			var text = LocalizationManager.LocalizeString("EventInfoEditor.EventTabText", "Event");
+			yield return _eventBasicEditorFactoryLazy()(file, text, "Event");
 
-			text = LocalizationManager.LocalizeString("SessionInfoEditor.NotesTabText", "Notes");
+			text = LocalizationManager.LocalizeString("EventInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
 
 			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
@@ -338,7 +339,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override Image SmallIcon
 		{
-			get { return Resources.SessionFileImage; }
+			get { return Resources.EventFileImage; }
 		}
 	}
 

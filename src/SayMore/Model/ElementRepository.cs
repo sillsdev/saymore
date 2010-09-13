@@ -11,7 +11,7 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// This is reposible for finding, creating, and removing items of the given type T
-	/// (i.e. Sessions or People)
+	/// (i.e. Events or People)
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class ElementRepository<T> where T : ProjectElement
@@ -49,8 +49,8 @@ namespace SayMore.Model
 		{
 			var folders = new HashSet<string>(Directory.GetDirectories(_rootFolder));
 
-			// Go through the existing sessions we have and remove
-			// any that no longer have a sessions folder.
+			// Go through the existing events we have and remove
+			// any that no longer have a events folder.
 			for (int i = _items.Count() - 1; i >= 0; i--)
 			{
 				if (!folders.Contains(_items[i].FolderPath))

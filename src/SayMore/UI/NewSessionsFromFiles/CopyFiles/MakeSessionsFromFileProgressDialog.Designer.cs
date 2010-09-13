@@ -1,6 +1,6 @@
-namespace SayMore.UI.NewSessionsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
-	partial class MakeSessionsFromFileProgressDialog
+	partial class MakeEventsFromFileProgressDialog
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -70,7 +70,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._tableLayout.Size = new System.Drawing.Size(449, 164);
 			this._tableLayout.TabIndex = 1;
 			// 
-			// MakeSessionsFromFileProgressDialog
+			// MakeEventsFromFileProgressDialog
 			// 
 			this.AcceptButton = this._buttonOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -78,12 +78,12 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this.ClientSize = new System.Drawing.Size(479, 199);
 			this.ControlBox = false;
 			this.Controls.Add(this._tableLayout);
-			this.Name = "MakeSessionsFromFileProgressDialog";
+			this.Name = "MakeEventsFromFileProgressDialog";
 			this.Padding = new System.Windows.Forms.Padding(15, 20, 15, 15);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Making Sessions...";
+			this.Text = "Making Events...";
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			this.ResumeLayout(false);

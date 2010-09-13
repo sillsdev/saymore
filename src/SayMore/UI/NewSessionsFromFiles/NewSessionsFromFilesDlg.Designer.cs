@@ -1,9 +1,9 @@
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SayMore.UI.NewSessionsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
-	partial class NewSessionsFromFilesDlg
+	partial class NewEventsFromFilesDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -32,7 +32,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		private void InitializeComponent()
 		{
 			this._linkFindFiles = new System.Windows.Forms.LinkLabel();
-			this._createSessionsButton = new System.Windows.Forms.Button();
+			this._createEventsButton = new System.Windows.Forms.Button();
 			this._cancelButton = new System.Windows.Forms.Button();
 			this._labelSourceFolder = new System.Windows.Forms.Label();
 			this._labelIncomingFiles = new System.Windows.Forms.Label();
@@ -66,20 +66,20 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._linkFindFiles.Text = "Find Files on Recorder/Card...";
 			this._linkFindFiles.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleFindFilesLinkClicked);
 			// 
-			// _createSessionsButton
+			// _createEventsButton
 			// 
-			this._createSessionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this._createSessionsButton.AutoSize = true;
-			this._createSessionsButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this._createSessionsButton.Location = new System.Drawing.Point(0, 0);
-			this._createSessionsButton.Margin = new System.Windows.Forms.Padding(0);
-			this._createSessionsButton.MinimumSize = new System.Drawing.Size(130, 26);
-			this._createSessionsButton.Name = "_createSessionsButton";
-			this._createSessionsButton.Size = new System.Drawing.Size(142, 26);
-			this._createSessionsButton.TabIndex = 3;
-			this._createSessionsButton.Text = "Create {0} Sessions";
-			this._createSessionsButton.UseVisualStyleBackColor = true;
-			this._createSessionsButton.Click += new System.EventHandler(this.HandleCreateSessionsButtonClick);
+			this._createEventsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._createEventsButton.AutoSize = true;
+			this._createEventsButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this._createEventsButton.Location = new System.Drawing.Point(0, 0);
+			this._createEventsButton.Margin = new System.Windows.Forms.Padding(0);
+			this._createEventsButton.MinimumSize = new System.Drawing.Size(130, 26);
+			this._createEventsButton.Name = "_createEventsButton";
+			this._createEventsButton.Size = new System.Drawing.Size(142, 26);
+			this._createEventsButton.TabIndex = 3;
+			this._createEventsButton.Text = "Create {0} Events";
+			this._createEventsButton.UseVisualStyleBackColor = true;
+			this._createEventsButton.Click += new System.EventHandler(this.HandleCreateEventsButtonClick);
 			// 
 			// _cancelButton
 			// 
@@ -133,7 +133,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._labelInstructions.Size = new System.Drawing.Size(388, 26);
 			this._labelInstructions.TabIndex = 2;
 			this._labelInstructions.Text = "Mark each file which represents an original recording of an event. For each one, " +
-				"{0} will create a new session and copy the file into it.";
+				"{0} will create a new event and copy the file into it.";
 			// 
 			// _mediaPlayerPanel
 			// 
@@ -223,7 +223,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._tableLayoutButtons.ColumnCount = 2;
 			this._tableLayoutButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutButtons.Controls.Add(this._createSessionsButton, 0, 0);
+			this._tableLayoutButtons.Controls.Add(this._createEventsButton, 0, 0);
 			this._tableLayoutButtons.Controls.Add(this._cancelButton, 1, 0);
 			this._tableLayoutButtons.Location = new System.Drawing.Point(414, 356);
 			this._tableLayoutButtons.Margin = new System.Windows.Forms.Padding(5, 5, 0, 0);
@@ -259,7 +259,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._metadataPanel.Size = new System.Drawing.Size(388, 81);
 			this._metadataPanel.TabIndex = 3;
 			// 
-			// NewSessionsFromFilesDlg
+			// NewEventsFromFilesDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -268,12 +268,12 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(650, 380);
-			this.Name = "NewSessionsFromFilesDlg";
+			this.Name = "NewEventsFromFilesDlg";
 			this.Padding = new System.Windows.Forms.Padding(15);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "New Sessions From Device";
+			this.Text = "New Events From Device";
 			this._mediaPlayerPanel.ResumeLayout(false);
 			this._panelProgress.ResumeLayout(false);
 			this._outerTableLayout.ResumeLayout(false);
@@ -287,7 +287,7 @@ namespace SayMore.UI.NewSessionsFromFiles
 		#endregion
 
 		private System.Windows.Forms.LinkLabel _linkFindFiles;
-		private System.Windows.Forms.Button _createSessionsButton;
+		private System.Windows.Forms.Button _createEventsButton;
 		private System.Windows.Forms.Button _cancelButton;
 		private System.Windows.Forms.Label _labelSourceFolder;
 		private System.Windows.Forms.Label _labelIncomingFiles;

@@ -48,27 +48,27 @@ namespace SayMore
 			get
 			{
 				yield return new
-					ComponentRole(typeof (Session), "original", "Original Recording",
+					ComponentRole(typeof(Event), "original", "Original Recording",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Original");
 
 				yield return
-					new ComponentRole(typeof (Session), "carefulSpeech", "Careful Speech",
+					new ComponentRole(typeof(Event), "carefulSpeech", "Careful Speech",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful");
 
 				yield return
-					new ComponentRole(typeof (Session), "oralTranslation", "Oral Translation",
+					new ComponentRole(typeof(Event), "oralTranslation", "Oral Translation",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation");
 
 				yield return
-					new ComponentRole(typeof (Session), "transcription", "Transcription",
+					new ComponentRole(typeof(Event), "transcription", "Transcription",
 						ComponentRole.MeasurementTypes.Words,
 						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Transcription");
 
 				yield return
-					new ComponentRole(typeof (Session), "transcriptionN", "Written Translation",
+					new ComponentRole(typeof (Event), "transcriptionN", "Written Translation",
 						ComponentRole.MeasurementTypes.Words,
 						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N");
 

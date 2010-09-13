@@ -98,7 +98,7 @@ namespace SayMore.UI.ComponentEditors
 				// that there is a sufficient lag between a close and when all the resources
 				// are finally released. E.g. after playing and closing, the folder that
 				// contains the media file still has a lock on it several seconds later and
-				// if the user tries to rename his session (which renames the folder)
+				// if the user tries to rename his event (which renames the folder)
 				// during that time, an exception is thrown. Disposing works better.
 				_wmpPlayer.Dispose();
 				_wmpPlayer = null;

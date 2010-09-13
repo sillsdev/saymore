@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using Palaso.Code;
 
-namespace SayMore.UI.NewSessionsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

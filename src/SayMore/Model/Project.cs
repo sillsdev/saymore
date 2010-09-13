@@ -12,18 +12,18 @@ namespace SayMore.Model
 	/// <summary>
 	/// A project corresponds to a single folder (with subfolders) on the disk.
 	/// In that folder is a file which persists the settings, then a folder of
-	/// people, and another of sessions.
+	/// people, and another of events.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class Project
 	{
-		private const string SessionFolderName = "sessions";
+		private const string EventFolderName = "events";
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 		//public delegate Project FactoryForNew(string parentDirectory, int x, string projectName);
 
-		public Session.Factory SessionFactory { get; set; }
-		public Func<Session, Session> SessionPropertyInjectionMethod { get; set; }
+		public Event.Factory EventFactory { get; set; }
+		public Func<Event, Event> EventPropertyInjectionMethod { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -65,26 +65,26 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes the sessions for the project.
+		/// Initializes the events for the project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void InitializeSessions()
+		public void InitializeEvents()
 		{
-			if (!Directory.Exists(SessionsFolder))
-				Directory.CreateDirectory(SessionsFolder);
+			if (!Directory.Exists(EventsFolder))
+				Directory.CreateDirectory(EventsFolder);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the list of sorted session folders (including their full path) in the project.
+		/// Gets the list of sorted event folders (including their full path) in the project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string[] SessionNames
+		public string[] EventNames
 		{
 			get
 			{
-				return (from x in Directory.GetDirectories(SessionsFolder)
+				return (from x in Directory.GetDirectories(EventsFolder)
 						orderby x
 						select x).ToArray();
 			}
@@ -92,13 +92,13 @@ namespace SayMore.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the full path to the folder in which the project's session folders are stored.
+		/// Gets the full path to the folder in which the project's event folders are stored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string SessionsFolder
+		public string EventsFolder
 		{
-			get { return Path.Combine(ProjectFolder, SessionFolderName); }
+			get { return Path.Combine(ProjectFolder, EventFolderName); }
 		}
 
 		/// ------------------------------------------------------------------------------------

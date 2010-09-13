@@ -36,8 +36,8 @@ namespace SayMore
 
 			Project = _scope.Resolve<Func<string, Project>>()(projectSettingsPath);
 
-			var sessionRepoFactory = _scope.Resolve<ElementRepository<Session>.Factory>();
-			sessionRepoFactory(rootDirectoryPath, "Sessions");
+			var eventRepoFactory = _scope.Resolve<ElementRepository<Event>.Factory>();
+			eventRepoFactory(rootDirectoryPath, "Events");
 
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
 			peopleRepoFactory(rootDirectoryPath, "People");
@@ -56,14 +56,14 @@ namespace SayMore
 		{
 			_scope = parentContainer.BeginLifetimeScope(builder =>
 			{
-				builder.RegisterType<ElementRepository<Session>>().InstancePerLifetimeScope();
+				builder.RegisterType<ElementRepository<Event>>().InstancePerLifetimeScope();
 				builder.RegisterType<ElementRepository<Person>>().InstancePerLifetimeScope();
-				builder.RegisterType<ElementListViewModel<Session>>().InstancePerLifetimeScope();
+				builder.RegisterType<ElementListViewModel<Event>>().InstancePerLifetimeScope();
 				builder.RegisterType<ElementListViewModel<Person>>().InstancePerLifetimeScope();
 				builder.RegisterType<AudioVideoDataGatherer>().InstancePerLifetimeScope();
 				builder.RegisterType<IEnumerable<FileType>>().InstancePerLifetimeScope();
 
-				builder.RegisterType<SessionFileType>().InstancePerLifetimeScope();
+				builder.RegisterType<EventFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
@@ -98,7 +98,7 @@ namespace SayMore
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor
 				builder.Register<Func<PersonBasicEditor.Factory>>(c => () => c.Resolve<PersonBasicEditor.Factory>());
-				builder.Register<Func<SessionBasicEditor.Factory>>(c => () => c.Resolve<SessionBasicEditor.Factory>());
+				builder.Register<Func<EventBasicEditor.Factory>>(c => () => c.Resolve<EventBasicEditor.Factory>());
 			});
 		}
 
@@ -106,7 +106,7 @@ namespace SayMore
 		private IEnumerable<FileType> GetFilesTypes(IComponentContext context)
 		{
 			return new List<FileType>(new FileType[] {
-									context.Resolve<SessionFileType>(),
+									context.Resolve<EventFileType>(),
 									context.Resolve<PersonFileType>(),
 									context.Resolve<AudioFileType>(),
 									context.Resolve<VideoFileType>(),

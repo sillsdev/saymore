@@ -10,20 +10,20 @@ using SayMore.Model.Files.DataGathering;
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class SessionBasicEditor : EditorBase
+	public partial class EventBasicEditor : EditorBase
 	{
-		public delegate SessionBasicEditor Factory(ComponentFile file, string tabText, string imageKey);
+		public delegate EventBasicEditor Factory(ComponentFile file, string tabText, string imageKey);
 
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
 
 		/// ------------------------------------------------------------------------------------
-		public SessionBasicEditor(ComponentFile file, string tabText, string imageKey,
+		public EventBasicEditor(ComponentFile file, string tabText, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
-			Name = "SessionEditor";
+			Name = "EventEditor";
 
 			InitializeGrid(autoCompleteProvider,fieldGatherer);
 			SetBindingHelper(_binder);

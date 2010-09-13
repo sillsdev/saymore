@@ -185,15 +185,15 @@ namespace SayMoreTests.Model.Files
 		{
 			var componentRoles = new[]
 			{
-				new ComponentRole(typeof(Session),"translation", "translation",
+				new ComponentRole(typeof(Event),"translation", "translation",
 					ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"),
 					"$ElementId$_Original"),
 
-				new ComponentRole(typeof(Session),"transcriptionN", "Written Translation",
+				new ComponentRole(typeof(Event),"transcriptionN", "Written Translation",
 					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
 					"$ElementId$_Translation-N"),
 
-				new ComponentRole(typeof(Session),"original", "Original Recording",
+				new ComponentRole(typeof(Event),"original", "Original Recording",
 					ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo,
 					"$ElementId$_Original")
 			};
@@ -224,7 +224,7 @@ namespace SayMoreTests.Model.Files
 		public void IdentifyAsRole_FileRenamed()
 		{
 			ComponentFile f = CreateComponentFile("abc.txt");
-			var role = new ComponentRole(typeof (Session), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
+			var role = new ComponentRole(typeof (Event), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
 										 p => p.EndsWith("txt"), "$ElementId$_someRole");
 			f.AssignRole(role);
 			Assert.AreEqual(ParentFolderName + "_someRole.txt", Path.GetFileName(f.PathToAnnotatedFile));

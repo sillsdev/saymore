@@ -14,12 +14,12 @@ namespace SayMore.Model.Files
 	public class ExportCommand :Command
 	{
 		private readonly IEnumerable<ProjectElement> _elements;
-		private char _delimeter=',';
+		private char _delimeter = ',';
 
-		public ExportCommand(ElementRepository<Session> sessions)
+		public ExportCommand(ElementRepository<Event> events)
 			: base("export")
 		{
-			_elements = sessions.AllItems.ToArray();
+			_elements = events.AllItems.ToArray();
 		}
 
 		/// <summary>
@@ -40,15 +40,12 @@ namespace SayMore.Model.Files
 			using(var dlg = new SaveFileDialog())
 			{
 				dlg.RestoreDirectory = true;
-				dlg.Title = "Export Session Data";
+				dlg.Title = "Export Event Data";
 				dlg.AddExtension = true;
 				dlg.AutoUpgradeEnabled = true;
 				dlg.Filter = "CSV (Comma delimited) (*.csv)|*.csv";
-				if(DialogResult.OK!= dlg.ShowDialog())
-				{
-					return;
-				}
-				DoExport(elements, dlg.FileName);
+				if (DialogResult.OK == dlg.ShowDialog())
+					DoExport(elements, dlg.FileName);
 			}
 		}
 

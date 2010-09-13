@@ -18,8 +18,8 @@ namespace SayMore.Model.Files
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Both sessions and people are made up of a number of files: an xml file we help them
-	/// edit (i.e. .session or .person), plus any number of other files (videos, texts, images,
+	/// Both events and people are made up of a number of files: an xml file we help them
+	/// edit (i.e. .event or .person), plus any number of other files (videos, texts, images,
 	/// etc.). Each of these is represented by an object of this class.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ namespace SayMore.Model.Files
 			_fieldUpdater = fieldUpdater;
 			MetaDataFieldValues = new List<FieldInstance>();
 			RootElementName = rootElementName;
-			_componentRoles = new ComponentRole[] {}; //no roles for person or session
+			_componentRoles = new ComponentRole[] {}; //no roles for person or event
 			InitializeFileInfo();
 		}
 
@@ -316,7 +316,7 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// What part(s) does this file play in the workflow of the session/person?
+		/// What part(s) does this file play in the workflow of the event/person?
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentRole> GetAssignedRoles()
@@ -329,7 +329,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Judging by the path (and maybe contents of the file itself), what
-		/// parts might this file conceivably play in the workflow of the session/person?
+		/// parts might this file conceivably play in the workflow of the event/person?
 		/// This is used to offer the user choices of assigning roles.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -442,7 +442,7 @@ namespace SayMore.Model.Files
 		{
 			try
 			{
-				// some types don't have a separate sidecar file (e.g. Person, Session)
+				// some types don't have a separate sidecar file (e.g. Person, Event)
 				var newMetaPath = FileType.GetMetaFilePath(newPath);
 				var renameMetaFile = (newMetaPath != newPath && File.Exists(_metaDataPath));
 
@@ -498,7 +498,7 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Sets the size of the session file in a displayable form.
+		/// Sets the size of the event file in a displayable form.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static string GetDisplayableFileSize(long fileSize)

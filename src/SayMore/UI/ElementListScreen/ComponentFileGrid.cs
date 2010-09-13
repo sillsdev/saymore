@@ -168,7 +168,7 @@ namespace SayMore.UI.ElementListScreen
 			if (hscroll != null && hscroll.Visible)
 				rc.Height -= hscroll.Height;
 
-			var hint = "Add additional files related to this session by\n" +
+			var hint = "Add additional files related to this event by\n" +
 				"dragging them here or clicking the 'Add' button.";
 
 			const TextFormatFlags flags =

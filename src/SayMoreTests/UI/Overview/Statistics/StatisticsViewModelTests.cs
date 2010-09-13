@@ -20,7 +20,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 		{
 			_folder = new TemporaryFolder("StatisticsViewModelTests");
 			Directory.CreateDirectory(_folder.Combine("people"));
-			Directory.CreateDirectory(_folder.Combine("sessions"));
+			Directory.CreateDirectory(_folder.Combine("events"));
 			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 		}
 
@@ -32,13 +32,13 @@ namespace SayMoreTests.UI.Overview.Statistics
 
 		private StatisticsViewModel CreateModel()
 		{
-			var nullRole = new ComponentRole(typeof(Session), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
+			var nullRole = new ComponentRole(typeof(Event), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
 							 p => p.EndsWith("txt"), "$ElementId$_someRole");
 
 			var people = new ElementRepository<Person>(_folder.Combine("people"), "People", null);
-			var sessions = new ElementRepository<Session>(_folder.Combine("sessions"),"Sessions", null);
+			var events = new ElementRepository<Event>(_folder.Combine("events"),"Events", null);
 
-			return new StatisticsViewModel(people, sessions, new[] {nullRole},
+			return new StatisticsViewModel(people, events, new[] { nullRole },
 				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(() => null) }));
 		}
 
@@ -47,7 +47,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 		{
 			//Mock<ComponentRole> role = new Mock<ComponentRole>();
 			//role.Setup(x => x.IsMatch("zzzz")).Returns(false);
-			var role = new ComponentRole(typeof (Session), "blah", "blah", ComponentRole.MeasurementTypes.Time,
+			var role = new ComponentRole(typeof (Event), "blah", "blah", ComponentRole.MeasurementTypes.Time,
 										 ComponentRole.GetIsAudioVideo, "CantMatchThis");
 			Assert.AreEqual(new TimeSpan(0),
 							   CreateModel().GetRecordingDurations(role));
@@ -103,10 +103,10 @@ namespace SayMoreTests.UI.Overview.Statistics
 		}
 	*/
 
-		private  void CreateCanonciallyNamedRecordingInSession(ComponentRole roleDefinition, string sessionId)
+		private void CreateCanonciallyNamedRecordingInEvent(ComponentRole roleDefinition, string eventId)
 		{
 			var path = CreateRecording(_folder.Path);
-			File.Move(path, roleDefinition.GetCanoncialName(sessionId, path));
+			File.Move(path, roleDefinition.GetCanoncialName(eventId, path));
 		}
 
 		private static string CreateRecording(string folder)
@@ -121,6 +121,4 @@ namespace SayMoreTests.UI.Overview.Statistics
 			return wavPath;
 		}
 	}
-
-
 }

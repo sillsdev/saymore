@@ -235,7 +235,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonAddFiles.Name = "_buttonAddFiles";
 			this._buttonAddFiles.Size = new System.Drawing.Size(68, 20);
 			this._buttonAddFiles.Text = "Add Files...";
-			this._buttonAddFiles.ToolTipText = "Add Files to the Session";
+			this._buttonAddFiles.ToolTipText = "Add Files to the event";
 			this._buttonAddFiles.Click += new System.EventHandler(this.HandleAddButtonClick);
 			// 
 			// ComponentFileGrid

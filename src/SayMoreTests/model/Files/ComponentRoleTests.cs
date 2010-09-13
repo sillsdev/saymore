@@ -1,4 +1,3 @@
-using System.Linq;
 using NUnit.Framework;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -29,49 +28,50 @@ namespace SayMoreTests.Model.Files
 
 		private static ComponentRole GetRoleForOriginalRecording()
 		{
-			return new ComponentRole(typeof(Session),"original", "Original Recording", ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original");
+			return new ComponentRole(typeof(Event), "original", "Original Recording",
+				ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original");
 		}
 
 		[Test]
 		public void GetCanonicalName_NoDirectoryInPath_ChangesName()
 		{
 			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.AreEqual("mySession_Original.wav", role.GetCanoncialName("mySession", "fub.wav"));
+			Assert.AreEqual("myEvent_Original.wav", role.GetCanoncialName("myEvent", "fub.wav"));
 		}
 
 		[Test]
 		public void GetCanonicalName_HasDirectoryInPath_ChangesName()
 		{
 			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.AreEqual(@"c:\foo\mySession_Original.wav", role.GetCanoncialName("mySession", @"c:\foo\fub.wav"));
+			Assert.AreEqual(@"c:\foo\myEvent_Original.wav", role.GetCanoncialName("myEvent", @"c:\foo\fub.wav"));
 		}
 
 		[Test]
 		public void AtLeastOneFileHasThisRole_HaveOneMatching_True()
 		{
 			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.IsTrue(role.AtLeastOneFileHasThisRole("mySession", new string[] { "x.txt", @"c:\foo\mySession_Original.wav", "z.doc" }));
+			Assert.IsTrue(role.AtLeastOneFileHasThisRole("myEvent", new string[] { "x.txt", @"c:\foo\myEvent_Original.wav", "z.doc" }));
 		}
 
 		[Test]
-		public void AtLeastOneFileHasThisRole_NonMatchingSession_False()
+		public void AtLeastOneFileHasThisRole_NonMatchingEvent_False()
 		{
 			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.IsFalse(role.AtLeastOneFileHasThisRole("mySession", new string[] { @"c:\foo\XSession_Original.wav" }));
+			Assert.IsFalse(role.AtLeastOneFileHasThisRole("myEvent", new string[] { @"c:\foo\XEvent_Original.wav" }));
 		}
 
 		[Test]
 		public void AtLeastOneFileHasThisRole_NonMatchingExtension_False()
 		{
 			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.IsFalse(role.AtLeastOneFileHasThisRole("mySession", new string[] { @"c:\foo\mySession_Original.txt" }));
+			Assert.IsFalse(role.AtLeastOneFileHasThisRole("myEvent", new string[] { @"c:\foo\myEvent_Original.txt" }));
 		}
 
 		[Test]
 		public void AtLeastOneFileHasThisRole_NonMatchingTemplate_False()
 		{
 			ComponentRole role = GetRoleForOriginalRecording();
-			Assert.IsFalse(role.AtLeastOneFileHasThisRole("mySession", new string[] { @"c:\foo\mySession_BLAH.wav" }));
+			Assert.IsFalse(role.AtLeastOneFileHasThisRole("myEvent", new string[] { @"c:\foo\myEvent_BLAH.wav" }));
 		}
 	}
 }

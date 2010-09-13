@@ -14,7 +14,7 @@ namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This is the base class for both People and Session screens.
+	/// This is the base class for both People and Event screens.
 	///
 	/// Review for later: Some alternate ways to approach this:
 	///
@@ -62,7 +62,7 @@ namespace SayMore.UI.ElementListScreen
 			_tabControlImages.Images.Add("Notes", Resources.NotesTabImage);
 			_tabControlImages.Images.Add("Play", Resources.PlayTabImage);
 			_tabControlImages.Images.Add("Person", Resources.PersonFileImage);
-			_tabControlImages.Images.Add("Session", Resources.SessionFileImage);
+			_tabControlImages.Images.Add("Event", Resources.EventFileImage);
 			_tabControlImages.Images.Add("Image", Resources.ImageFileImage);
 			_tabControlImages.Images.Add("Video", Resources.VideoFileImage);
 			_tabControlImages.Images.Add("Audio", Resources.AudioFileImage);
@@ -200,7 +200,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This is called when the Component File raises this event, in response to the user
-		/// changing a person's name, or a session's id
+		/// changing a person's name, or a event's id
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleComponentFileIdChanged(ComponentFile file, string oldId, string newId)

@@ -1,6 +1,6 @@
 namespace SayMore.UI.ComponentEditors
 {
-	partial class SessionBasicEditor
+	partial class EventBasicEditor
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -411,12 +411,12 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			//this._binder.GetBoundControlValue += new SayMore.UI.ComponentEditors.BindingHelper.GetBoundControlValueHandler();
 			// 
-			// SessionBasicEditor
+			// EventBasicEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayout);
-			this.Name = "SessionBasicEditor";
+			this.Name = "EventBasicEditor";
 			this.Size = new System.Drawing.Size(391, 400);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();

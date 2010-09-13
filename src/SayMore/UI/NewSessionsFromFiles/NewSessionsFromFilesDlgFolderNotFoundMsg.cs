@@ -1,21 +1,21 @@
 using System.IO;
 using System.Windows.Forms;
 
-namespace SayMore.UI.NewSessionsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This control contains the text of the message displayed in the NewSessionsFromFilesDlg
+	/// This control contains the text of the message displayed in the NewEventsFromFilesDlg
 	/// when that dialog box is unable to find the location where files were found the last
-	/// time the user created sessions from files.
+	/// time the user created events from files.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class NewSessionsFromFilesDlgFolderNotFoundMsg : UserControl
+	public partial class NewEventsFromFilesDlgFolderNotFoundMsg : UserControl
 	{
 		private readonly string _msg2TextForFormat;
 
 		/// ------------------------------------------------------------------------------------
-		public NewSessionsFromFilesDlgFolderNotFoundMsg()
+		public NewEventsFromFilesDlgFolderNotFoundMsg()
 		{
 			InitializeComponent();
 			Dock = DockStyle.Fill;

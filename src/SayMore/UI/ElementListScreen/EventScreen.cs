@@ -3,29 +3,29 @@ using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Properties;
-using SayMore.UI.NewSessionsFromFiles;
+using SayMore.UI.NewEventsFromFiles;
 using SayMore.UI.ProjectWindow;
 
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class SessionScreen : ConcreteSessionScreen, ISayMoreView
+	public partial class EventScreen : ConcreteEventScreen, ISayMoreView
 	{
-		private readonly NewSessionsFromFileDlgViewModel.Factory _newSessionsFromFileDlgViewModel;
+		private readonly NewEventsFromFileDlgViewModel.Factory _newEventsFromFileDlgViewModel;
 
 		/// ------------------------------------------------------------------------------------
-		public SessionScreen(ElementListViewModel<Session> presentationModel,
-			NewSessionsFromFileDlgViewModel.Factory newSessionsFromFileDlgViewModel)
+		public EventScreen(ElementListViewModel<Event> presentationModel,
+			NewEventsFromFileDlgViewModel.Factory newEventsFromFileDlgViewModel)
 			: base(presentationModel)
 		{
-			_newSessionsFromFileDlgViewModel = newSessionsFromFileDlgViewModel;
+			_newEventsFromFileDlgViewModel = newEventsFromFileDlgViewModel;
 			InitializeComponent();
 
 			if (DesignMode)
 				return;
 
-			Initialize(_componentsSplitter.Panel2, _sessionComponentFileGrid, _sessionsListPanel);
-			_sessionComponentFileGrid.InitializeGrid("SessionScreen");
+			Initialize(_componentsSplitter.Panel2, _eventComponentFileGrid, _eventsListPanel);
+			_eventComponentFileGrid.InitializeGrid("EventScreen");
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 
@@ -36,9 +36,9 @@ namespace SayMore.UI.ElementListScreen
 
 			_componentsSplitter.Panel2.ControlRemoved += HandleLastSetOfComponentEditorsRemoved;
 
-			_elementsListPanel.ButtonPanelBackColor1 = Settings.Default.SessionEditorsButtonBackgroundColor1;
-			_elementsListPanel.ButtonPanelBackColor2 = Settings.Default.SessionEditorsButtonBackgroundColor2;
-			_elementsListPanel.ButtonPanelTopBorderColor = Settings.Default.SessionEditorsBorderColor;
+			_elementsListPanel.ButtonPanelBackColor1 = Settings.Default.EventEditorsButtonBackgroundColor1;
+			_elementsListPanel.ButtonPanelBackColor2 = Settings.Default.EventEditorsButtonBackgroundColor2;
+			_elementsListPanel.ButtonPanelTopBorderColor = Settings.Default.EventEditorsBorderColor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,57 +65,57 @@ namespace SayMore.UI.ElementListScreen
 
 			if (firstTime)
 			{
-				if (Settings.Default.SessionScreenElementsListSplitterPos > 0)
-					_elementListSplitter.SplitterDistance = Settings.Default.SessionScreenElementsListSplitterPos;
+				if (Settings.Default.EventScreenElementsListSplitterPos > 0)
+					_elementListSplitter.SplitterDistance = Settings.Default.EventScreenElementsListSplitterPos;
 
-				if (Settings.Default.SessionScreenComponentsSplitterPos > 0)
-					_componentsSplitter.SplitterDistance = Settings.Default.SessionScreenComponentsSplitterPos;
+				if (Settings.Default.EventScreenComponentsSplitterPos > 0)
+					_componentsSplitter.SplitterDistance = Settings.Default.EventScreenComponentsSplitterPos;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return "Sessions"; }
+			get { return "Events"; }
 			set { }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public Image Image
 		{
-			get { return Resources.Sessions; }
+			get { return Resources.Events; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override Color ComponentEditorBackgroundColor
 		{
-			get { return Settings.Default.SessionEditorsBackgroundColor; }
+			get { return Settings.Default.EventEditorsBackgroundColor; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override Color ComponentEditorBorderColor
 		{
-			get { return Settings.Default.SessionEditorsBorderColor; }
+			get { return Settings.Default.EventEditorsBorderColor; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			Settings.Default.SessionScreenElementsListSplitterPos = _elementListSplitter.SplitterDistance;
-			Settings.Default.SessionScreenComponentsSplitterPos = _componentsSplitter.SplitterDistance;
+			Settings.Default.EventScreenElementsListSplitterPos = _elementListSplitter.SplitterDistance;
+			Settings.Default.EventScreenComponentsSplitterPos = _componentsSplitter.SplitterDistance;
 			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonNewFromFilesClick(object sender, EventArgs e)
 		{
-			using (var viewModel = _newSessionsFromFileDlgViewModel(_model))
-			using (var dlg = new NewSessionsFromFilesDlg(viewModel))
+			using (var viewModel = _newEventsFromFileDlgViewModel(_model))
+			using (var dlg = new NewEventsFromFilesDlg(viewModel))
 			{
 				viewModel.Dialog = dlg;
 
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
-					LoadElementList(viewModel.FirstNewSessionAdded);
+					LoadElementList(viewModel.FirstNewEventAdded);
 
 				FindForm().Focus();
 			}
@@ -129,14 +129,14 @@ namespace SayMore.UI.ElementListScreen
 	/// directly inhertis from a generic class! So we have this intermediate class.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class ConcreteSessionScreen : ElementListScreen<Session>
+	public class ConcreteEventScreen : ElementListScreen<Event>
 	{
 		//design time only
-		private ConcreteSessionScreen()
+		private ConcreteEventScreen()
 			: base(null)
 		{}
 
-		public ConcreteSessionScreen(ElementListViewModel<Session> presentationModel)
+		public ConcreteEventScreen(ElementListViewModel<Event> presentationModel)
 			: base(presentationModel)
 		{}
 	}

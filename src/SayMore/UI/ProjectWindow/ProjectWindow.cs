@@ -35,7 +35,7 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ProjectWindow(string projectName, SessionScreen sessionsScreen,
+		public ProjectWindow(string projectName, EventScreen eventsScreen,
 			PersonListScreen personsScreen, Overview.OverviewScreen  overviewScreen,
 			IEnumerable<ICommand> commands) : this()
 		{
@@ -51,7 +51,7 @@ namespace SayMore.UI.ProjectWindow
 			_projectName = Path.GetFileNameWithoutExtension(projectName);
 			_commands = commands;
 
-			_viewTabGroup.AddTab("Sessions", sessionsScreen);
+			_viewTabGroup.AddTab("Events", eventsScreen);
 			_viewTabGroup.AddTab("People", personsScreen);
 			_viewTabGroup.AddTab("Progress", overviewScreen);
 			//_viewTabGroup.AddTab("Send/Receive", new SendReceiveScreen());

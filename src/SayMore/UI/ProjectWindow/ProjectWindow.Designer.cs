@@ -23,7 +23,7 @@ namespace SayMore.UI.ProjectWindow
 			this._menuProject = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuOpenProject = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripSeparator0 = new System.Windows.Forms.ToolStripSeparator();
-			this._exportSessionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this._exportEventsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuExit = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,7 +60,7 @@ namespace SayMore.UI.ProjectWindow
 			this._menuProject.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._menuOpenProject,
             this._toolStripSeparator0,
-            this._exportSessionsMenuItem,
+            this._exportEventsMenuItem,
             this._toolStripSeparator1,
             this._menuExit});
 			this.locExtender.SetLocalizableToolTip(this._menuProject, null);
@@ -85,16 +85,16 @@ namespace SayMore.UI.ProjectWindow
 			this._toolStripSeparator0.Name = "_toolStripSeparator0";
 			this._toolStripSeparator0.Size = new System.Drawing.Size(160, 6);
 			// 
-			// _exportSessionsMenuItem
+			// _exportEventsMenuItem
 			// 
-			this.locExtender.SetLocalizableToolTip(this._exportSessionsMenuItem, null);
-			this.locExtender.SetLocalizationComment(this._exportSessionsMenuItem, null);
-			this.locExtender.SetLocalizingId(this._exportSessionsMenuItem, "ProjectWindow.exportSessionsToolStripMenuItem");
-			this._exportSessionsMenuItem.Name = "_exportSessionsMenuItem";
-			this._exportSessionsMenuItem.Size = new System.Drawing.Size(163, 22);
-			this._exportSessionsMenuItem.Tag = "export";
-			this._exportSessionsMenuItem.Text = "Export Sessions...";
-			this._exportSessionsMenuItem.Click += new System.EventHandler(this.OnCommandMenuItem_Click);
+			this.locExtender.SetLocalizableToolTip(this._exportEventsMenuItem, null);
+			this.locExtender.SetLocalizationComment(this._exportEventsMenuItem, null);
+			this.locExtender.SetLocalizingId(this._exportEventsMenuItem, "ProjectWindow.exportEventsToolStripMenuItem");
+			this._exportEventsMenuItem.Name = "_exportEventsMenuItem";
+			this._exportEventsMenuItem.Size = new System.Drawing.Size(163, 22);
+			this._exportEventsMenuItem.Tag = "export";
+			this._exportEventsMenuItem.Text = "Export Events...";
+			this._exportEventsMenuItem.Click += new System.EventHandler(this.OnCommandMenuItem_Click);
 			// 
 			// _toolStripSeparator1
 			// 
@@ -202,7 +202,7 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.ToolStripMenuItem _menuOpenProject;
 		private System.Windows.Forms.ToolStripSeparator _toolStripSeparator0;
 		private System.Windows.Forms.ToolStripMenuItem _menuExit;
-		private System.Windows.Forms.ToolStripMenuItem _exportSessionsMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem _exportEventsMenuItem;
 		private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
 		private ViewTabGroup _viewTabGroup;
 		private System.Windows.Forms.ToolStripMenuItem _menuHelp;

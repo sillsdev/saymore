@@ -7,7 +7,7 @@ using SayMore.UI.ComponentEditors;
 namespace SayMore.UI.ElementListScreen
 {
 	/// <summary>
-	/// This is the logic behind the screen which shows the list of sessions, and also the
+	/// This is the logic behind the screen which shows the list of events, and also the
 	/// screen swhich shows the list of persons
 	/// </summary>
 	public class ElementListViewModel<T> where T: ProjectElement
@@ -127,7 +127,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string PathToSessionsFolder
+		public string PathToEventsFolder
 		{
 			get { return _repository.PathToFolder; }
 		}

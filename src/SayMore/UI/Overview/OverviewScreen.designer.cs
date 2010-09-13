@@ -67,7 +67,7 @@ namespace SayMore.UI.Overview
 			this.tsbTasks.Margin = new System.Windows.Forms.Padding(10, 2, 10, 2);
 			this.tsbTasks.Name = "tsbTasks";
 			this.tsbTasks.Size = new System.Drawing.Size(100, 24);
-			this.tsbTasks.Text = "Session Tasks";
+			this.tsbTasks.Text = "Event Tasks";
 			this.tsbTasks.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			//
 			// OverviewScreen

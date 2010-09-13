@@ -11,20 +11,20 @@ namespace SayMore.UI.Overview.Statistics
 	public class StatisticsViewModel :IDisposable
 	{
 		private readonly ElementRepository<Person> _people;
-		private readonly ElementRepository<Session> _sessions;
+		private readonly ElementRepository<Event> _events;
 		private readonly IEnumerable<ComponentRole> _componentRoles;
 		private AudioVideoDataGatherer _backgroundStatisticsGather;
 
 		public StatisticsViewModel(ElementRepository<Person> people,
-									ElementRepository<Session> sessions,
+									ElementRepository<Event> events,
 									IEnumerable<ComponentRole> componentRoles,
 									AudioVideoDataGatherer backgroundStatisticsMananager)
 		{
 			_people = people;
-			_sessions = sessions;
+			_events = events;
 			_componentRoles = componentRoles;
 			_backgroundStatisticsGather = backgroundStatisticsMananager;
-			_backgroundStatisticsGather.NewDataAvailable += new EventHandler(OnNewStatistics);
+			_backgroundStatisticsGather.NewDataAvailable += OnNewStatistics;
 
 		}
 
@@ -37,7 +37,7 @@ namespace SayMore.UI.Overview.Statistics
 
 		public IEnumerable<KeyValuePair<string,string>> GetStatisticPairs()
 		{
-			yield return new KeyValuePair<string, string>("Sessions", _sessions.AllItems.Count().ToString());
+			yield return new KeyValuePair<string, string>("Events", _events.AllItems.Count().ToString());
 			yield return new KeyValuePair<string, string>("People", _people.AllItems.Count().ToString());
 			yield return new KeyValuePair<string, string>("", "");
 
@@ -51,34 +51,34 @@ namespace SayMore.UI.Overview.Statistics
 			{
 				int megabytes = GetMegabytes(role);
 				string value;
-				if(megabytes> 1000)//review: is a gigabyte 1000, or 1024 megabytes?
+				if (megabytes > 1000) //review: is a gigabyte 1000, or 1024 megabytes?
 				{
-					value = ((double)megabytes/1000.0).ToString("N",CultureInfo.InvariantCulture)+ " Gigabytes";
+					value = (megabytes / 1000.0).ToString("N", CultureInfo.InvariantCulture) + " Gigabytes";
 				}
-				else if(megabytes == 0)
+				else if (megabytes == 0)
 				{
 					value = "---";
 				}
 				else
 				{
-					value = megabytes.ToString("###",CultureInfo.InvariantCulture)+ " Megabytes";
+					value = megabytes.ToString("###", CultureInfo.InvariantCulture) + " Megabytes";
 				}
-				yield return new KeyValuePair<string, string>(role.Name, value);
 
+				yield return new KeyValuePair<string, string>(role.Name, value);
 			}
 		}
 
 		private int GetMegabytes(ComponentRole role)
 		{
-			long bytes=0;
+			long bytes = 0;
 			foreach(AudioVideoFileStatistics stat in _backgroundStatisticsGather.GetAllFileData())
 			{
-				if(role.IsMatch(stat.Path))
+				if (role.IsMatch(stat.Path))
 				{
 					bytes += stat.LengthInBytes;
 				}
 			}
-			return (int)((float) bytes/(float) (1024*1024));
+			return (int)((float)bytes / (1024 * 1024));
 		}
 
 		public TimeSpan GetRecordingDurations(ComponentRole role)
@@ -102,7 +102,7 @@ namespace SayMore.UI.Overview.Statistics
 
 		public void Dispose()
 		{
-			_backgroundStatisticsGather.NewDataAvailable -= new EventHandler(OnNewStatistics);
+			_backgroundStatisticsGather.NewDataAvailable -= OnNewStatistics;
 		}
 
 		void OnNewStatistics(object sender, EventArgs e)

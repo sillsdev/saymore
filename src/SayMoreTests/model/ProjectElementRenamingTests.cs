@@ -8,7 +8,7 @@ using SayMore.Model.Files;
 namespace SayMoreTests.Model
 {
 	/// <summary>
-	/// Notice, we're using Sessions as the concrete class here, but all the functionality
+	/// Notice, we're using Events as the concrete class here, but all the functionality
 	/// is on its superclass, ProjectElement, so we're effectively testing renaming People, too.
 	/// </summary>
 	[TestFixture]
@@ -29,9 +29,9 @@ namespace SayMoreTests.Model
 			_parentFolder = null;
 		}
 
-		private Session CreateSession()
+		private Event CreateEvent()
 		{
-			return new Session(_parentFolder.Path, "xyz", new SessionFileType(() => null),
+			return new Event(_parentFolder.Path, "xyz", new EventFileType(() => null),
 				path => null, new FileSerializer(), (w, x, y, z) =>
 			{
 				return new ProjectElementComponentFile(w, x, y, z,
@@ -40,19 +40,19 @@ namespace SayMoreTests.Model
 			});
 		}
 
-		private void SaveAndChangeIdShouldSucceed(Session session)
+		private void SaveAndChangeIdShouldSucceed(Event evnt)
 		{
-			session.Save();
+			evnt.Save();
 			string failureMessage;
-			Assert.IsTrue(session.TryChangeIdAndSave("newId", out failureMessage));
-			session.Save();
+			Assert.IsTrue(evnt.TryChangeIdAndSave("newId", out failureMessage));
+			evnt.Save();
 		}
 
-		private string SaveAndChangeIdShouldFail(Session session, string newId)
+		private string SaveAndChangeIdShouldFail(Event evnt, string newId)
 		{
-			session.Save();
+			evnt.Save();
 			string failureMessage;
-			Assert.IsFalse(session.TryChangeIdAndSave(newId, out failureMessage));
+			Assert.IsFalse(evnt.TryChangeIdAndSave(newId, out failureMessage));
 			return failureMessage;
 		}
 
@@ -60,26 +60,26 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_FolderPathUpdated()
 		{
-			var session = CreateSession();
-			SaveAndChangeIdShouldSucceed(session);
-			Assert.AreEqual("newId", Path.GetFileNameWithoutExtension(session.FolderPath));
+			var newEvent = CreateEvent();
+			SaveAndChangeIdShouldSucceed(newEvent);
+			Assert.AreEqual("newId", Path.GetFileNameWithoutExtension(newEvent.FolderPath));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_SettingsFilePathUpdated()
 		{
-			var session = CreateSession();
-			SaveAndChangeIdShouldSucceed(session);
-			Assert.AreEqual("newId", Path.GetFileNameWithoutExtension(session.SettingsFilePath));
+			var newEvent = CreateEvent();
+			SaveAndChangeIdShouldSucceed(newEvent);
+			Assert.AreEqual("newId", Path.GetFileNameWithoutExtension(newEvent.SettingsFilePath));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_FolderRenamed()
 		{
-			var session = CreateSession();
-			SaveAndChangeIdShouldSucceed(session);
+			var newEvent = CreateEvent();
+			SaveAndChangeIdShouldSucceed(newEvent);
 			Assert.IsTrue(Directory.Exists(_parentFolder.Combine("newId")));
 			Assert.IsFalse(Directory.Exists(_parentFolder.Combine("xyz")));
 		}
@@ -88,37 +88,37 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_ElementMetaDataFileRenamed()
 		{
-			var session = CreateSession();
-			SaveAndChangeIdShouldSucceed(session);
-			Assert.IsTrue(File.Exists(session.SettingsFilePath));
-			Assert.AreEqual(1, Directory.GetFiles(session.FolderPath).Count(), "was an old file left behind instead of renamed?");
+			var newEvent = CreateEvent();
+			SaveAndChangeIdShouldSucceed(newEvent);
+			Assert.IsTrue(File.Exists(newEvent.SettingsFilePath));
+			Assert.AreEqual(1, Directory.GetFiles(newEvent.FolderPath).Count(), "was an old file left behind instead of renamed?");
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_HasFilesWithOldName_RenamesFiles()
 		{
-			var session = CreateSession();
-			File.CreateText(Path.Combine(session.FolderPath, "xyz_original.wav")).Close();
-			SaveAndChangeIdShouldSucceed(session);
-			Assert.IsTrue(File.Exists(Path.Combine(session.FolderPath, "newId_original.wav")));
-			Assert.IsFalse(File.Exists(Path.Combine(session.FolderPath, "xyz_original.wav")));
+			var newEvent = CreateEvent();
+			File.CreateText(Path.Combine(newEvent.FolderPath, "xyz_original.wav")).Close();
+			SaveAndChangeIdShouldSucceed(newEvent);
+			Assert.IsTrue(File.Exists(Path.Combine(newEvent.FolderPath, "newId_original.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(newEvent.FolderPath, "xyz_original.wav")));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_NewIdIsEmptyString_ReturnsFalse()
 		{
-			var session = CreateSession();
-			SaveAndChangeIdShouldFail(session, "");
+			var newEvent = CreateEvent();
+			SaveAndChangeIdShouldFail(newEvent, "");
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_NewIdIsInvalidFolderName_ReturnsFalse()
 		{
-			var session = CreateSession();
-			SaveAndChangeIdShouldFail(session, "chan*ge");
+			var newEvent = CreateEvent();
+			SaveAndChangeIdShouldFail(newEvent, "chan*ge");
 		}
 
 
@@ -126,9 +126,9 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void TryChangeIdAndSave_NewIdAlreadyInUse_ReturnsFalse()
 		{
-			var session = CreateSession();
+			var newEvent = CreateEvent();
 			Directory.CreateDirectory(_parentFolder.Combine("red"));
-			SaveAndChangeIdShouldFail(session, "red");
+			SaveAndChangeIdShouldFail(newEvent, "red");
 		}
 	}
 }

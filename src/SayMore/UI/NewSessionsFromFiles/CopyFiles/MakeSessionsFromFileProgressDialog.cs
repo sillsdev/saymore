@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace SayMore.UI.NewSessionsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class MakeSessionsFromFileProgressDialog : Form
+	public partial class MakeEventsFromFileProgressDialog : Form
 	{
 		private readonly CopyFilesViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public MakeSessionsFromFileProgressDialog(
+		public MakeEventsFromFileProgressDialog(
 			IEnumerable<KeyValuePair<string, string>> sourceDestinationPathPairs,
-			Action<string> sessionCreatingMethod)
+			Action<string> eventCreatingMethod)
 		{
 			InitializeComponent();
 			_model = new CopyFilesViewModel(sourceDestinationPathPairs);
-			_model.BeforeCopyingFileRaised = sessionCreatingMethod;
+			_model.BeforeCopyingFileRaised = eventCreatingMethod;
 			var copyControl = new CopyFilesControl(_model);
 			copyControl.Dock = DockStyle.Fill;
 			_tableLayout.Controls.Add(copyControl, 0, 0);

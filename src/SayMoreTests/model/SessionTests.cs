@@ -6,14 +6,14 @@ using SayMore.Model.Files;
 namespace SayMoreTests.Model
 {
 	[TestFixture]
-	public class SessionTests
+	public class EventTests
 	{
 		private TemporaryFolder _parentFolder;
 
 		[SetUp]
 		public void Setup()
 		{
-			_parentFolder = new TemporaryFolder("sessionTest");
+			_parentFolder = new TemporaryFolder("eventTest");
 		}
 
 		[TearDown]
@@ -23,9 +23,9 @@ namespace SayMoreTests.Model
 			_parentFolder = null;
 		}
 
-		private Session CreateSession(string id)
+		private Event CreateEvent(string id)
 		{
-			return new Session(_parentFolder.Path, id, new SessionFileType(() => null),
+			return new Event(_parentFolder.Path, id, new EventFileType(() => null),
 				ComponentFile.CreateMinimalComponentFileForTests, new FileSerializer(), null);
 		}
 

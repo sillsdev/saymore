@@ -11,7 +11,7 @@ using SayMore.Properties;
 namespace SayMore.Model
 {
 	/// <summary>
-	/// A project is made of sessions and people, each of which subclass from this simple class.
+	/// A project is made of events and people, each of which subclass from this simple class.
 	/// Here, we call those things "ProjectElemements"
 	/// </summary>
 	public abstract class ProjectElement
@@ -32,7 +32,7 @@ namespace SayMore.Model
 		/// <summary>
 		/// Use this for creating new or existing elements
 		/// </summary>
-		/// <param name="parentElementFolder">E.g. "c:/MyProject/Sessions"</param>
+		/// <param name="parentElementFolder">E.g. "c:/MyProject/Events"</param>
 		/// <param name="id">e.g. "ETR007"</param>
 		/// <param name="componentFileFactory"></param>
 		/// <param name="fileSerializer">used to load/save</param>
@@ -65,7 +65,7 @@ namespace SayMore.Model
 			// John: Should we cache this?
 			// Ansr: if it proves slow, but then we have to complicate things to keep it up to date.
 
-			//this is the actual person or session data
+			//this is the actual person or event data
 			yield return MetaDataFile;
 
 			//these are the other files we find in the folder
@@ -74,7 +74,7 @@ namespace SayMore.Model
 								 !x.EndsWith("." + ExtensionWithoutPeriod) &&
 								 !x.EndsWith(Settings.Default.MetadataFileExtension) &&
 								 !x.ToLower().EndsWith("thumbs.db") &&
-								 !Path.GetFileName(x).StartsWith("."))//these are normally hidden
+								 !Path.GetFileName(x).StartsWith(".")) //these are normally hidden
 							 orderby x
 							 select _componentFileFactory(x);
 
@@ -280,7 +280,7 @@ namespace SayMore.Model
 		/// purpose of waiting 5 seconds is because after a user has played a media file,
 		/// there is a lag between when playing stops and when the player releases all the
 		/// resources. That may leave a lock on the folder containing the media file.
-		/// Therefore, if the user tries to rename their session or person right after
+		/// Therefore, if the user tries to rename their event or person right after
 		/// playing a media file, there's a risk that it will fail due to the lock not
 		/// yet having been released. (I know, it's a bit of a kludge, but my thought is
 		/// that the scenario is not very common.)

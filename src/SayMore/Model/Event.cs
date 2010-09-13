@@ -6,22 +6,22 @@ namespace SayMore.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// A session is an event which is recorded, documented, transcribed, etc.
-	/// Each sesssion is represented on disk as a single folder, with 1 or more files
+	/// An event is recorded, documented, transcribed, etc.
+	/// Each event is represented on disk as a single folder, with 1 or more files
 	/// related to that even.  The one file it will always have is some meta data about
 	/// the event.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class Session : ProjectElement
+	public class Event : ProjectElement
 	{
 		//autofac uses this
-		public delegate Session Factory(string parentElementFolder, string id);
+		public delegate Event Factory(string parentElementFolder, string id);
 
 		/// ------------------------------------------------------------------------------------
-		public Session(string parentElementFolder, string id, SessionFileType sessionFileType,
+		public Event(string parentElementFolder, string id, EventFileType eventFileType,
 			ComponentFile.Factory componentFileFactory,  FileSerializer fileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
-			: base(parentElementFolder, id, sessionFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
+			: base(parentElementFolder, id, eventFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
 		}
 
@@ -34,13 +34,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string RootElementName
 		{
-			get { return "Session"; }
+			get { return "Event"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected static string ExtensionWithoutPeriodStatic
 		{
-			get { return Settings.Default.SessionFileExtension.TrimStart('.'); }
+			get { return Settings.Default.EventFileExtension.TrimStart('.'); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -49,20 +49,20 @@ namespace SayMore.Model
 			get
 			{
 				return LocalizationManager.LocalizeString(
-					"SessionsView.NewSessionNamePrefix", "New Session");
+					"EventsView.NewEventNamePrefix", "New Event");
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string NoIdSaveFailureMessage
 		{
-			get { return "You must specify a session id."; }
+			get { return "You must specify a event id."; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string AlreadyExistsSaveFailureMessage
 		{
-			get { return "Could not rename from {0} to {1} because there is already a session by that name."; }
+			get { return "Could not rename from {0} to {1} because there is already a event by that name."; }
 		}
 	}
 }

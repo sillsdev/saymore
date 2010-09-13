@@ -1,6 +1,6 @@
-namespace SayMore.UI.NewSessionsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
-	partial class NewSessionsFromFilesDlgFolderNotFoundMsg
+	partial class NewEventsFromFilesDlgFolderNotFoundMsg
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -137,12 +137,12 @@ namespace SayMore.UI.NewSessionsFromFiles
 			this._possibleProblemsMsg2Label.Text = "2) The device is plugged in, but is currently assigned a different drive letter f" +
 				"rom \'{0}\'.";
 			// 
-			// NewSessionsFromFilesDlgFolderNotFoundMsg
+			// NewEventsFromFilesDlgFolderNotFoundMsg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayoutPanel);
-			this.Name = "NewSessionsFromFilesDlgFolderNotFoundMsg";
+			this.Name = "NewEventsFromFilesDlgFolderNotFoundMsg";
 			this.Size = new System.Drawing.Size(390, 200);
 			this._tableLayoutPanel.ResumeLayout(false);
 			this.ResumeLayout(false);

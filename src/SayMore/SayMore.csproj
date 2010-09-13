@@ -120,7 +120,7 @@
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
-    <Compile Include="Model\Session.cs" />
+    <Compile Include="Model\Event.cs" />
     <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -198,11 +198,11 @@
     <Compile Include="UI\ComponentEditors\DiagnosticsFileInfoControl.Designer.cs">
       <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ComponentEditors\SessionBasicEditor.cs">
+    <Compile Include="UI\ComponentEditors\EventBasicEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\ComponentEditors\SessionBasicEditor.Designer.cs">
-      <DependentUpon>SessionBasicEditor.cs</DependentUpon>
+    <Compile Include="UI\ComponentEditors\EventBasicEditor.Designer.cs">
+      <DependentUpon>EventBasicEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ComponentEditors\ComponentEditorTabPage.cs">
       <SubType>Component</SubType>
@@ -295,11 +295,11 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="UI\ElementListScreen\ElementListViewModel.cs" />
-    <Compile Include="UI\ElementListScreen\SessionScreen.cs">
+    <Compile Include="UI\ElementListScreen\EventScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\ElementListScreen\SessionScreen.Designer.cs">
-      <DependentUpon>SessionScreen.cs</DependentUpon>
+    <Compile Include="UI\ElementListScreen\EventScreen.Designer.cs">
+      <DependentUpon>EventScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Command.cs" />
     <Compile Include="UI\ProjectWindow\AboutDialog.cs">
@@ -369,8 +369,8 @@
     <EmbeddedResource Include="UI\ComponentEditors\DiagnosticsFileInfoControl.resx">
       <DependentUpon>DiagnosticsFileInfoControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ComponentEditors\SessionBasicEditor.resx">
-      <DependentUpon>SessionBasicEditor.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ComponentEditors\EventBasicEditor.resx">
+      <DependentUpon>EventBasicEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\VideoComponentEditor.resx">
       <DependentUpon>VideoComponentEditor.cs</DependentUpon>
@@ -404,8 +404,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ElementListScreen\SessionScreen.resx">
-      <DependentUpon>SessionScreen.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ElementListScreen\EventScreen.resx">
+      <DependentUpon>EventScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\ProjectWindow.resx">
       <DependentUpon>ProjectWindow.cs</DependentUpon>

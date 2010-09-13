@@ -7,15 +7,15 @@ using SayMore.Properties;
 namespace SayMore.Model.Files
 {
 	/// <summary>
-	/// A session or person folder contains multiple files, each of which is there because
+	/// An event or person folder contains multiple files, each of which is there because
 	/// it plays some role in our workflow.  This class is used to define those roles, so
 	/// that when a file is identified with 1 or more roles, we can do things like name it
 	/// appropriately, know what work remains to be done, and collect statistics on what has
 	/// allready been done.
 	///	An object of this class
 	/// can tell if a given file is elligble for being the one which fullfills that role,
-	/// can tell if the session has that role filled already, and
-	/// can rename a file to fit the template for this role.
+	/// can tell if the event has that role filled already, and can rename a file to fit the
+	/// template for this role.
 	/// </summary>
 	public class ComponentRole
 	{
@@ -94,12 +94,12 @@ namespace SayMore.Model.Files
 		}
 
 
-		public string GetCanoncialName(string sessionId, string path)
+		public string GetCanoncialName(string eventId, string path)
 		{
 			var dir = Path.GetDirectoryName(path);
 			//var fileName = Path.GetFileNameWithoutExtension(path);
 			var name = _renamingTemplate + Path.GetExtension(path);
-			name = name.Replace("$ElementId$", sessionId);
+			name = name.Replace("$ElementId$", eventId);
 			if (string.IsNullOrEmpty(dir))
 			{
 				return name;
@@ -108,15 +108,14 @@ namespace SayMore.Model.Files
 			return Path.Combine(dir, name);
 		}
 
-		public bool AtLeastOneFileHasThisRole(string sessionId, string[] paths)
+		public bool AtLeastOneFileHasThisRole(string eventId, string[] paths)
 		{
 			return paths.Any(p =>
 			{
 				var name = Path.GetFileNameWithoutExtension(p);
 				return ElligibilityFilter(Path.GetExtension(p))
-					&& name.ToLower() == _renamingTemplate.Replace("$ElementId$", sessionId).ToLower();
-			}
-				);
+					&& name.ToLower() == _renamingTemplate.Replace("$ElementId$", eventId).ToLower();
+			});
 		}
 	}
 }

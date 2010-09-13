@@ -241,31 +241,31 @@
     <Compile Include="UI\LowLevelControls\ParentButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesControl.cs">
+    <Compile Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesControl.Designer.cs">
+    <Compile Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesControl.Designer.cs">
       <DependentUpon>CopyFilesControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesViewModel.cs" />
-    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.cs">
+    <Compile Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesViewModel.cs" />
+    <Compile Include="UI\NewEventsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.Designer.cs">
+    <Compile Include="UI\NewEventsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.Designer.cs">
       <DependentUpon>MakeSessionsFromFileProgressDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\NewComponentFile.cs" />
-    <Compile Include="UI\NewSessionsFromFiles\NewEventsFromFileDlgViewModel.cs" />
-    <Compile Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlg.cs">
+    <Compile Include="UI\NewEventsFromFiles\NewComponentFile.cs" />
+    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFileDlgViewModel.cs" />
+    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFilesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlg.designer.cs">
+    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFilesDlg.designer.cs">
       <DependentUpon>NewEventsFromFilesDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.cs">
+    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.designer.cs">
+    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.designer.cs">
       <DependentUpon>NewEventsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Overview\OverviewScreen.cs">
@@ -384,16 +384,16 @@
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewSessionsFromFiles\CopyFiles\CopyFilesControl.resx">
+    <EmbeddedResource Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesControl.resx">
       <DependentUpon>CopyFilesControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewSessionsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.resx">
+    <EmbeddedResource Include="UI\NewEventsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.resx">
       <DependentUpon>MakeSessionsFromFileProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlg.resx">
+    <EmbeddedResource Include="UI\NewEventsFromFiles\NewEventsFromFilesDlg.resx">
       <DependentUpon>NewEventsFromFilesDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewSessionsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.resx">
+    <EmbeddedResource Include="UI\NewEventsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.resx">
       <DependentUpon>NewEventsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.resx">

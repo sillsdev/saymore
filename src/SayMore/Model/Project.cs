@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using Palaso.Code;
 using SayMore.Properties;
 
 namespace SayMore.Model
@@ -17,7 +16,7 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Project
 	{
-		private const string EventFolderName = "events";
+		private const string EventFolderName = "Events";
 
 		public delegate Project Factory(string desiredOrExistingFilePath);
 		//public delegate Project FactoryForNew(string parentDirectory, int x, string projectName);
@@ -37,7 +36,10 @@ namespace SayMore.Model
 			var parentDirectoryPath = Path.GetDirectoryName(projectDirectory);
 
 			if (File.Exists(desiredOrExistingSettingsFilePath))
+			{
+				RenameSessionsToEvents(projectDirectory);
 				Load();
+			}
 			else
 			{
 				if (!Directory.Exists(parentDirectoryPath))
@@ -62,6 +64,57 @@ namespace SayMore.Model
 //			RequireThat.File(SettingsFilePath).DoesNotExist();
 //			Save();
 //		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Renames the project's Sessions folder to Events; rename's all its session files
+		/// to have "event" extensions rather than "session" extensions; renames the Session
+		/// tags in those files to "Event".
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RenameSessionsToEvents(string projectDirectory)
+		{
+			var sessionFolder = Directory.GetDirectories(projectDirectory,
+				"Sessions", SearchOption.TopDirectoryOnly).FirstOrDefault();
+
+			if (string.IsNullOrEmpty(sessionFolder))
+				return;
+
+			var oldFolder = Path.Combine(projectDirectory, "Sessions");
+			var newFolder = Path.Combine(projectDirectory, "Events");
+
+			try
+			{
+				Directory.Move(oldFolder, newFolder);
+			}
+			catch (Exception e)
+			{
+				// TODO: should probably be more informative and give the user
+				// a chance to "unlock" the folder and retry.
+				Palaso.Reporting.ErrorReport.ReportFatalException(e);
+			}
+
+			var sessionFiles = Directory.GetFiles(newFolder, "*.session", SearchOption.AllDirectories);
+			foreach (var file in sessionFiles)
+				RenameSessionFileToEventFile(file);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Renames a single project's session file to an event file, including modifying the
+		/// Session tags inside the file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void RenameSessionFileToEventFile(string oldFile)
+		{
+			// TODO: Should probably put some error checking in here. Although,
+			// I'm not sure what I would do with a failure along the way.
+			var session = XElement.Load(oldFile);
+			var evnt = new XElement("Event", session.Nodes());
+			var newFile = Path.ChangeExtension(oldFile, "event");
+			evnt.Save(newFile);
+			File.Delete(oldFile);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

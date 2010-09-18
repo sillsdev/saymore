@@ -164,6 +164,9 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				// from anywhere because this is the second place it's used. I'm hesitant to use
 				// a static, because I don't understand the DI, app. container and project
 				// context stuff well enough.
+
+				//JH says: The di approach is to inject, not reach out.  I.e., it should be a parameter to the
+				//contructor of this class.
 				var projPath = Path.Combine(
 					Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore");
 

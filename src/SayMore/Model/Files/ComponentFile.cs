@@ -180,8 +180,7 @@ namespace SayMore.Model.Files
 				// Get the computed value (if there is one).
 				computedValue = computedFieldInfo.GetFormatedStatProvider(
 					_statisticsProvider.GetFileData(PathToAnnotatedFile),
-					computedFieldInfo.DataSetChooser, computedFieldInfo.DataItemChooser,
-					computedFieldInfo.Suffix);
+					computedFieldInfo.DataItemChooser, computedFieldInfo.Suffix);
 			}
 
 			// Get the value from the metadata file.

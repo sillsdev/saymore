@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using AxWMPLib;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.UI.MediaPlayer;
 using SilUtils;
 
 namespace SayMore.UI.NewEventsFromFiles
@@ -20,10 +19,12 @@ namespace SayMore.UI.NewEventsFromFiles
 	/// ----------------------------------------------------------------------------------------
 	public partial class NewEventsFromFilesDlg : Form
 	{
-		private readonly AxWindowsMediaPlayer _winMediaPlayer;
+		//private readonly AxWindowsMediaPlayer _winMediaPlayer;
 		private readonly NewEventsFromFileDlgViewModel _viewModel;
 		private readonly NewEventsFromFilesDlgFolderNotFoundMsg _folderMissingMsgCtrl;
 		private readonly CheckBoxColumnHeaderHandler _chkBoxColHdrHandler;
+		private readonly MediaPlayerViewModel _mediaPlayerViewModel;
+		private readonly MediaPlayer.MediaPlayer _mediaPlayer;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -69,24 +70,17 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			_mediaPlayerPanel.BorderStyle = BorderStyle.None;
 
-#if !MONO
-			_winMediaPlayer = new AxWindowsMediaPlayer();
-			((ISupportInitialize)(_winMediaPlayer)).BeginInit();
-			_winMediaPlayer.Dock = DockStyle.Fill;
-			_winMediaPlayer.Name = "_winMediaPlayer";
-			_mediaPlayerPanel.Controls.Add(_winMediaPlayer);
-			((ISupportInitialize)(_winMediaPlayer)).EndInit();
-			_winMediaPlayer.settings.autoStart = false;
-#endif
+			_mediaPlayerViewModel = new MediaPlayerViewModel();
+			_mediaPlayerViewModel.SetVolume(Settings.Default.MediaPlayerVolume);
+			_mediaPlayerViewModel.VolumeChanged += HandleMediaPlayerVolumeChanged;
+			_mediaPlayer = new MediaPlayer.MediaPlayer(_mediaPlayerViewModel);
+			_mediaPlayer.Dock = DockStyle.Fill;
+			_mediaPlayerPanel.Controls.Add(_mediaPlayer);
 
 			DialogResult = DialogResult.Cancel;
 			_viewModel = viewModel;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
@@ -110,10 +104,6 @@ namespace SayMore.UI.NewEventsFromFiles
 			base.OnFormClosing(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool IsMissingFolderMessageVisible
 		{
@@ -211,19 +201,9 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void QueueMediaFile(int rowIndex)
 		{
-#if !MONO
-			if (rowIndex >= 0)
-			{
-				_winMediaPlayer.Ctlcontrols.stop();
-				_winMediaPlayer.URL = _viewModel.GetFullFilePath(rowIndex);
-			}
-#endif
+			_mediaPlayerViewModel.LoadFile(_viewModel.GetFullFilePath(rowIndex));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -241,10 +221,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void InitializeProgressIndicatorForFileLoading(int fileCount)
 		{
 			_progressBar.Maximum = fileCount;
@@ -257,19 +233,11 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void UpdateFileLoadingProgress()
 		{
 			_progressBar.Increment(1);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void FileLoadingProgressComplele()
 		{
@@ -286,6 +254,12 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		#region Event handlers
 		/// ------------------------------------------------------------------------------------
+		void HandleMediaPlayerVolumeChanged(object sender, EventArgs e)
+		{
+			Settings.Default.MediaPlayerVolume = _mediaPlayerViewModel.Volume;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Handles creating new events from the selected files.
 		/// </summary>
@@ -294,12 +268,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		{
 			Hide();
 
-			if (_winMediaPlayer != null)
-			{
-				_winMediaPlayer.Ctlcontrols.stop();
-				_winMediaPlayer.close();
-				_winMediaPlayer.Dispose();
-			}
+			_mediaPlayerViewModel.Stop();
 
 			using (var dlg = new MakeEventsFromFileProgressDialog(
 				_viewModel.GetSourceAndDestinationPairs(), _viewModel.CreateSingleEvent))
@@ -334,10 +303,6 @@ namespace SayMore.UI.NewEventsFromFiles
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleOuterTableLayoutSizeChanged(object sender, EventArgs e)
 		{

@@ -151,7 +151,7 @@
     <Setting Name="LastFolderForComponentFileAdd" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AudioVideoPlayerVolume" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="User">
+    <Setting Name="MediaPlayerVolume" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
       <Value Profile="(Default)">-1</Value>
     </Setting>
     <Setting Name="AutoPlayMediaPlayerWhenSelectingMediaFile" Type="System.Boolean" Scope="Application">

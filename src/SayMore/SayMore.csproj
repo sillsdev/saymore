@@ -38,23 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="AxInterop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\AxInterop.WMPLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\Interop.WMPLib.dll</HintPath>
-    </Reference>
     <Reference Include="LocalizationManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
-    <Reference Include="Microsoft.DirectX.AudioVideoPlayback, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\Microsoft.DirectX.AudioVideoPlayback.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -100,7 +86,6 @@
     <Compile Include="Model\Files\DataGathering\AudioVideoDataGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\SessionOverviewStatistics.cs" />
     <Compile Include="Model\Files\ExportCommand.cs" />
-    <Compile Include="Model\Files\DataGathering\AudioVideoFileStatistics.cs" />
     <Compile Include="Model\Fields\GenreDefinition.cs" />
     <Compile Include="Model\ElementRepository.cs" />
     <Compile Include="ApplicationContainer.cs" />
@@ -231,6 +216,22 @@
     <Compile Include="UI\ElementListScreen\ElementListScreen.Designer.cs">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\LowLevelControls\Slider.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\VolumePopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\VolumePopup.designer.cs">
+      <DependentUpon>VolumePopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MediaPlayer\MediaPlayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\MediaPlayer\MediaPlayer.designer.cs">
+      <DependentUpon>MediaPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MediaPlayer\MediaPlayerViewModel.cs" />
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommand.cs" />
     <Compile Include="UI\LowLevelControls\DeleteMessageBox.cs">
       <SubType>Form</SubType>
@@ -445,6 +446,9 @@
     <Compile Include="UI\Utilities\AppColors.cs" />
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
     <Compile Include="Model\Files\DataGathering\UniqueCombinationsFinder.cs" />
+    <Compile Include="UI\Utilities\MPlayerHelper.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ContributorsTab.png" />
@@ -478,6 +482,12 @@
     <EmbeddedResource Include="UI\LowLevelControls\DeleteMessageBox.resx">
       <DependentUpon>DeleteMessageBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\VolumePopup.resx">
+      <DependentUpon>VolumePopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MediaPlayer\MediaPlayer.resx">
+      <DependentUpon>MediaPlayer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\OverviewScreen.resx">
       <DependentUpon>OverviewScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -510,6 +520,17 @@
     <None Include="Resources\VideoFileImage.png" />
     <None Include="Resources\DropDownArrow.png" />
     <None Include="Resources\DeleteMessageBoxImage.png" />
+    <None Include="Resources\HSliderThumb.png" />
+    <None Include="Resources\HSliderThumbDisabled.png" />
+    <None Include="Resources\HSliderThumbMousePressed.png" />
+    <None Include="Resources\MuteVolume.png" />
+    <None Include="Resources\Pause.png" />
+    <None Include="Resources\Play.png" />
+    <None Include="Resources\Volume.png" />
+    <None Include="Resources\VSliderThumb.png" />
+    <None Include="Resources\VSliderThumbDisabled.png" />
+    <None Include="Resources\VSliderThumbPressed.png" />
+    <None Include="Resources\Stop.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />
@@ -542,7 +563,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\Genres.xml" "$(OutDir)"
-</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)..\..\DistFiles\Genres.xml" "$(OutDir)"
+rd /S /Q "$(OutDir)mplayer"
+xcopy "$(ProjectDir)..\..\DistFiles\mplayer" "$(OutDir)mplayer" /E /I /Y /F /R</PostBuildEvent>
   </PropertyGroup>
 </Project>

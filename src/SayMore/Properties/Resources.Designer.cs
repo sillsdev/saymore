@@ -115,6 +115,27 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap HSliderThumb {
+            get {
+                object obj = ResourceManager.GetObject("HSliderThumb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap HSliderThumbDisabled {
+            get {
+                object obj = ResourceManager.GetObject("HSliderThumbDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap HSliderThumbMousePressed {
+            get {
+                object obj = ResourceManager.GetObject("HSliderThumbMousePressed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ImageComponentFileImage {
             get {
                 object obj = ResourceManager.GetObject("ImageComponentFileImage", resourceCulture);
@@ -220,6 +241,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap MuteVolume {
+            get {
+                object obj = ResourceManager.GetObject("MuteVolume", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap NotesTabImage {
             get {
                 object obj = ResourceManager.GetObject("NotesTabImage", resourceCulture);
@@ -230,6 +258,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap Overview {
             get {
                 object obj = ResourceManager.GetObject("Overview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Pause {
+            get {
+                object obj = ResourceManager.GetObject("Pause", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -251,6 +286,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap PersonFileImage {
             get {
                 object obj = ResourceManager.GetObject("PersonFileImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Play {
+            get {
+                object obj = ResourceManager.GetObject("Play", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -290,6 +332,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Stop {
+            get {
+                object obj = ResourceManager.GetObject("Stop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap TechnicalTabImage {
             get {
                 object obj = ResourceManager.GetObject("TechnicalTabImage", resourceCulture);
@@ -307,6 +356,34 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap ViewTabImage {
             get {
                 object obj = ResourceManager.GetObject("ViewTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Volume {
+            get {
+                object obj = ResourceManager.GetObject("Volume", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap VSliderThumb {
+            get {
+                object obj = ResourceManager.GetObject("VSliderThumb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap VSliderThumbDisabled {
+            get {
+                object obj = ResourceManager.GetObject("VSliderThumbDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap VSliderThumbPressed {
+            get {
+                object obj = ResourceManager.GetObject("VSliderThumbPressed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

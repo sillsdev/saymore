@@ -467,12 +467,12 @@ namespace SayMore.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-1")]
-        public int AudioVideoPlayerVolume {
+        public float MediaPlayerVolume {
             get {
-                return ((int)(this["AudioVideoPlayerVolume"]));
+                return ((float)(this["MediaPlayerVolume"]));
             }
             set {
-                this["AudioVideoPlayerVolume"] = value;
+                this["MediaPlayerVolume"] = value;
             }
         }
         
@@ -727,12 +727,12 @@ namespace SayMore.Properties {
         }
         
         /// <summary>
-        /// This is used for tests and prevents the display of the confirmation dialog box when moving deleted events and persons to the recycle bin.
+        /// This is used for tests and prevents the display of the confirmation dialog box when moving deleted session and persons to the recycle bin.
         /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("This is used for tests and prevents the display of the confirmation dialog box wh" +
-            "en moving deleted event and persons to the recycle bin.")]
+            "en moving deleted session and persons to the recycle bin.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool PreventDeleteElementSystemConfirmationMessage {
             get {

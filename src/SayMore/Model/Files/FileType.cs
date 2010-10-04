@@ -9,9 +9,9 @@ using Palaso.CommandLineProcessing;
 using Palaso.Media;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
-using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Model.Files
 {
@@ -361,17 +361,31 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Duration",
-				DataSetChooser = (info => info.Audio),
-				DataItemChooser = (audio => ((MediaInfo.AudioInfo)audio).Duration),
+				DataItemChooser = (info => info.Duration),
 				GetFormatedStatProvider = GetDurationStatistic
+			};
+
+			yield return new ComputedFieldInfo
+			{
+				Key = "Audio_Bit_Rate",
+				Suffix = "kbps",
+				DataItemChooser = (info => info.AudioBitRate / 1000),
+				GetFormatedStatProvider = GetStringStatistic
+			};
+
+			yield return new ComputedFieldInfo
+			{
+				Key = "Video_Bit_Rate",
+				Suffix = "kbps",
+				DataItemChooser = (info => info.VideoBitRate / 1000),
+				GetFormatedStatProvider = GetStringStatistic
 			};
 
 			yield return new ComputedFieldInfo
 			{
 				Key = "Sample_Rate",
 				Suffix = "Hz",
-				DataSetChooser = (info => info.Audio),
-				DataItemChooser = (audio => ((MediaInfo.AudioInfo)audio).SamplesPerSecond),
+				DataItemChooser = (info => info.SamplesPerSecond),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 
@@ -379,24 +393,21 @@ namespace SayMore.Model.Files
 			{
 				Key = "Bit_Depth",
 				Suffix = "bits",
-				DataSetChooser = (info => info.Audio),
-				DataItemChooser = (audio => ((MediaInfo.AudioInfo)audio).BitDepth),
+				DataItemChooser = (info => info.BitDepth == 0 ? null : info.BitDepth.ToString()),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 
 			yield return new ComputedFieldInfo
 			{
 				Key = "Channels",
-				DataSetChooser = (info => info.Audio),
-				DataItemChooser = (audio => ((MediaInfo.AudioInfo)audio).ChannelCount.ToString()),
+				DataItemChooser = (info => info.Channels.ToString()),
 				GetFormatedStatProvider = GetChannelsStatistic,
 			};
 
 			yield return new ComputedFieldInfo
 			{
 				Key = "Resolution",
-				DataSetChooser = (info => info.Video),
-				DataItemChooser = (video => ((MediaInfo.VideoInfo)video).Resolution),
+				DataItemChooser = (info => info.Resolution),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 
@@ -404,29 +415,30 @@ namespace SayMore.Model.Files
 			{
 				Key = "Frame_Rate",
 				Suffix = "frames/second",
-				DataSetChooser = (info => info.Video),
-				DataItemChooser = (video => ((MediaInfo.VideoInfo)video).FramesPerSecond),
+				DataItemChooser = (info => info.FramesPerSecond),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetStringStatistic(AudioVideoFileStatistics stats,
-			Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser,
-			string suffix)
+		public string GetStringStatistic(MediaFileInfo info,
+			Func<MediaFileInfo, object> dataItemChooser, string suffix)
 		{
-			if (stats == null || stats.MediaInfo == null || dataSetChooser(stats.MediaInfo) == null)
+			if (info == null)
 				return string.Empty;
 
-			return string.Format("{0} {1}", dataItemChooser(dataSetChooser(stats.MediaInfo)), suffix).Trim();
+			var dataVal = dataItemChooser(info);
+			if (dataVal == null)
+				return string.Empty;
+
+			return string.Format("{0} {1}", dataVal, suffix).Trim();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetChannelsStatistic(AudioVideoFileStatistics stats,
-			Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser,
-			string suffix)
+		public string GetChannelsStatistic(MediaFileInfo info,
+			Func<MediaFileInfo, object> dataItemChooser, string suffix)
 		{
-			var channels = GetStringStatistic(stats, dataSetChooser, dataItemChooser, string.Empty);
+			var channels = GetStringStatistic(info, dataItemChooser, string.Empty);
 
 			switch (channels)
 			{
@@ -440,11 +452,10 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetDurationStatistic(AudioVideoFileStatistics stats,
-			Func<MediaInfo, object> dataSetChooser, Func<object, object> dataItemChooser,
-			string suffix)
+		public string GetDurationStatistic(MediaFileInfo info,
+			Func<MediaFileInfo, object> dataItemChooser, string suffix)
 		{
-			var duration = GetStringStatistic(stats, dataSetChooser, dataItemChooser, string.Empty);
+			var duration = GetStringStatistic(info, dataItemChooser, string.Empty);
 
 			// Strip off milliseconds.
 			int i = duration.LastIndexOf('.');
@@ -496,7 +507,7 @@ namespace SayMore.Model.Files
 				foreach (var key in new[] { "Recordist", "Device", "Microphone" })
 					yield return new FieldDefinition(key);
 
-				foreach (var key in new[] { "Duration", "Channels", "Bit_Depth", "Sample_Rate" })
+				foreach (var key in new[] { "Duration", "Channels", "Bit_Depth", "Sample_Rate", "Audio_Bit_Rate"})
 					yield return new FieldDefinition(key) { ReadOnly = true };
 			}
 		}
@@ -570,7 +581,7 @@ namespace SayMore.Model.Files
 					yield return field;
 
 				// Add video only fields
-				foreach (var key in new[] { "Resolution", "Frame_Rate" })
+				foreach (var key in new[] { "Video_Bit_Rate", "Resolution", "Frame_Rate" })
 					yield return new FieldDefinition(key) { ReadOnly = true };
 			}
 		}
@@ -609,7 +620,8 @@ namespace SayMore.Model.Files
 				MessageBox.Show("SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
 			}
 
-			var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
+			var outputPath = path.Replace(Path.GetExtension(path), ".wav");
+			//var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
 
 			if (File.Exists(outputPath))
 			{
@@ -624,6 +636,8 @@ namespace SayMore.Model.Files
 
 			Cursor.Current = Cursors.WaitCursor;
 			//TODO...provide some progress
+
+			// REVIEW: At some point, we should probably switch to using MPlayer/MEncoder to do this.
 			var results = FFmpegRunner.ExtractMp3Audio(path, outputPath, new NullProgress());
 			Cursor.Current = Cursors.Default;
 
@@ -632,8 +646,6 @@ namespace SayMore.Model.Files
 				ErrorReport.NotifyUserOfProblem(
 						string.Format("Something didn't work out. FFmpeg said (start reading from the end): {0}{1}{2}",
 							Environment.NewLine, Environment.NewLine, results.StandardError));
-
-				return;
 			}
 		}
 
@@ -650,7 +662,6 @@ namespace SayMore.Model.Files
 			yield return new NotesEditor(file, text, "Notes");
 
 			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -710,11 +721,10 @@ namespace SayMore.Model.Files
 	{
 		public string Key { get; set; }
 		public string Suffix { get; set; }
-		public Func<MediaInfo, object> DataSetChooser;
-		public Func<object, object> DataItemChooser;
+		public Func<MediaFileInfo, object> DataItemChooser;
 
-		public Func<AudioVideoFileStatistics, Func<MediaInfo, object>,
-			Func<object, object>, string, string> GetFormatedStatProvider { get; set; }
+		public Func<MediaFileInfo, Func<MediaFileInfo, object>,
+			string, string> GetFormatedStatProvider { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public ComputedFieldInfo()

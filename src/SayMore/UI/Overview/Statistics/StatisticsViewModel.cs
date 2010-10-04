@@ -5,6 +5,7 @@ using System.Globalization;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.UI.Utilities;
 
 namespace SayMore.UI.Overview.Statistics
 {
@@ -71,12 +72,10 @@ namespace SayMore.UI.Overview.Statistics
 		private int GetMegabytes(ComponentRole role)
 		{
 			long bytes = 0;
-			foreach(AudioVideoFileStatistics stat in _backgroundStatisticsGather.GetAllFileData())
+			foreach (MediaFileInfo info in _backgroundStatisticsGather.GetAllFileData())
 			{
-				if (role.IsMatch(stat.Path))
-				{
-					bytes += stat.LengthInBytes;
-				}
+				if (role.IsMatch(info.MediaFilePath))
+					bytes += info.LengthInBytes;
 			}
 			return (int)((float)bytes / (1024 * 1024));
 		}
@@ -84,12 +83,10 @@ namespace SayMore.UI.Overview.Statistics
 		public TimeSpan GetRecordingDurations(ComponentRole role)
 		{
 			var total = new TimeSpan(0);
-			foreach (AudioVideoFileStatistics stat in _backgroundStatisticsGather.GetAllFileData())
+			foreach (MediaFileInfo info in _backgroundStatisticsGather.GetAllFileData())
 			{
-				if (role.IsMatch(stat.Path))
-				{
-					total += stat.Duration;
-				}
+				if (role.IsMatch(info.MediaFilePath))
+					total += info.Duration;
 			}
 
 			return total;

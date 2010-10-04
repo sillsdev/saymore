@@ -125,7 +125,7 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Draw a subtle line between at the bottom of the main menu to visually separate
+		/// Draw a subtle line at the bottom of the main menu to visually separate
 		/// the main tabs from the main menu.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

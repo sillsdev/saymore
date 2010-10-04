@@ -20,7 +20,7 @@ namespace SayMore.UI.MediaPlayer
 		public event EventHandler VolumeChanged;
 
 		private const string kFmtTimeDisplay = "{0} / {1}";
-		private const string kFmtTime = "{0:00}:{1:00}.{2:0}";
+		private const string kFmtTime = "{0}.{1:0}";
 
 		private readonly StringBuilder _outputLog = new StringBuilder();
 		private Process _mplayer;
@@ -45,6 +45,17 @@ namespace SayMore.UI.MediaPlayer
 		public MediaPlayerViewModel()
 		{
 			VideoPictureSize = Size.Empty;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Call this only from tests to initialize the standard input stream.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetStdInForTest(StreamWriter stdIn)
+		{
+			_stdIn = stdIn;
+			_stdIn.AutoFlush = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,6 +120,10 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public void LoadFile(string filename, bool playImmediately)
 		{
+			// REVIEW: Should something be reported to user if filename is not valid?
+			if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
+				return;
+
 			_filename = filename.Replace('\\', '/');
 			_stdIn.WriteLine(string.Format("loadfile \"{0}\" ", _filename));
 			_stdIn.WriteLine("volume 0 ");
@@ -122,6 +137,28 @@ namespace SayMore.UI.MediaPlayer
 			}
 		}
 
+		#region Button state properties
+		/// ------------------------------------------------------------------------------------
+		public bool IsPlayButtonVisible
+		{
+			get { return (_paused || _playbackEnded); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsPauseButtonVisible
+		{
+			get { return (!_paused && !_playbackEnded); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsStopEnabled
+		{
+			get { return IsPauseButtonVisible; }
+		}
+
+		#endregion
+
+		#region Misc. Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns a string containing all the output from the MPlayer process.
@@ -130,30 +167,8 @@ namespace SayMore.UI.MediaPlayer
 		public string OutputLog
 		{
 			get { return _outputLog.ToString(); }
+
 		}
-
-		#region Button state methods
-		/// ------------------------------------------------------------------------------------
-		public bool GetIsPlayButtonVisible()
-		{
-			return (_paused || _playbackEnded);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool GetIsPauseButtonVisible()
-		{
-			return (!_paused && !_playbackEnded);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool GetIsStopEnabled()
-		{
-			return GetIsPauseButtonVisible();
-		}
-
-		#endregion
-
-		#region Misc. Properties
 		/// ------------------------------------------------------------------------------------
 		public bool IsPaused
 		{
@@ -244,6 +259,11 @@ namespace SayMore.UI.MediaPlayer
 
 		#region Time display methods
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Combines two results of MakeTimeString into a display of a the time represented
+		/// by position next to the total time (which is the duration of the media file).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public string GetTimeDisplay(float position)
 		{
 			if (position > MediaFileLength)
@@ -254,13 +274,17 @@ namespace SayMore.UI.MediaPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static string MakeTimeString(float position)
+		public static string MakeTimeString(float position)
 		{
-			int seconds = (int)position;
-			int minutes = seconds / 60;
+			int seconds = (int)Math.Floor(position);
 			int tenths = (int)Math.Round(((position - seconds) * 10));
-			seconds -= (minutes * 60);
-			return string.Format(kFmtTime, minutes, seconds, tenths);
+			var span = TimeSpan.FromSeconds(seconds);
+
+			var str = span.ToString();
+			while (str.StartsWith("00:"))
+				str = str.Substring(3);
+
+			return string.Format(kFmtTime, str, tenths);
 		}
 
 		#endregion
@@ -321,13 +345,11 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		private void CheckIfAllMediaQueuedInfoFound()
 		{
-			if (MediaQueued == null || MediaFileLength == 0f || (IsForVideo &&
-				(VideoPictureSize.Width == 0 || VideoPictureSize.Height == 0)))
+			if (MediaQueued != null && MediaFileLength > 0f && (!IsForVideo ||
+				(VideoPictureSize.Width > 0 && VideoPictureSize.Height > 0)))
 			{
-				return;
+				MediaQueued(this, EventArgs.Empty);
 			}
-
-			MediaQueued(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

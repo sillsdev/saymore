@@ -119,9 +119,9 @@ namespace SayMore.UI.MediaPlayer
 			if (DesignMode)
 				return;
 
-			_buttonPause.Visible = _viewModel.GetIsPauseButtonVisible();
-			_buttonPlay.Visible = _viewModel.GetIsPlayButtonVisible();
-			_buttonStop.Enabled = _viewModel.GetIsStopEnabled();
+			_buttonPause.Visible = _viewModel.IsPauseButtonVisible;
+			_buttonPlay.Visible = _viewModel.IsPlayButtonVisible;
+			_buttonStop.Enabled = _viewModel.IsStopEnabled;
 			_buttonVolume.Image = (_viewModel.IsVolumeMuted ?
 				Properties.Resources.MuteVolume : Properties.Resources.Volume);
 		}

@@ -31,7 +31,7 @@ rest of the app the first time the icon is run.  If this is not behavior you
 are trying to support, you're better off using non-advertised shortcuts. "-->
 
 	<PropertyRef Id="NETFRAMEWORK35" />
-	<Condition Message="Before SayMore can install, you need to install Microsoft's free .NET Framework 3.5.  A full discussion of SayMore's requirements can be found at SayMore.org/wiki/Prerequisites.">
+	<Condition Message="Before SayMore can install, you need to install Microsoft's free .NET Framework 3.5.  A full discussion of SayMore's requirements can be found at SayMore.palaso.org.">
 	  Installed OR NETFRAMEWORK35
 	</Condition>
 

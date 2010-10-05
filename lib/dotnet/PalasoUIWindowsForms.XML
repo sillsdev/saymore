@@ -499,6 +499,57 @@
 			<p>In C#, this property is the indexer of the PropertyTable class.</p>
 			</summary>
 		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.BeginInit">
+			<summary>
+			Signals the object that initialization is starting.
+			</summary>
+
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.EndInit">
+			<summary>
+			Signals the object that initialization is complete.
+			</summary>
+
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.CanExtend(System.Object)">
+			<summary>
+			Specifies whether this object can provide its extender properties to the specified object.
+			</summary>
+
+			<returns>
+			true if this object can provide extender properties to the specified object; otherwise, false.
+			</returns>
+
+			<param name="extendee">The <see cref="T:System.Object"></see> to receive the extender properties. </param>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.i18n.LocalizationHelper.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.i18n.LocalizationHelperDesigner">
+			<summary>
+			  Designer object used to set the Parent property.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelperDesigner.OnSetComponentDefaults">
+			  <summary>
+			  Sets the Parent property to "this" -
+			  the Form/UserControl where the component is being dropped.
+			  </summary>
+		</member>
 		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSFontControl.components">
 			<summary>
 			Required designer variable.
@@ -548,6 +599,11 @@
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.i18n.ILocalizableControl">
+			<summary>
+			A control can implement this to override some default localization behavior
 			</summary>
 		</member>
 		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeView.components">
@@ -1227,57 +1283,6 @@
 			which are use to suggest new writing systems based on already in-use languages
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelper.BeginInit">
-			<summary>
-			Signals the object that initialization is starting.
-			</summary>
-
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelper.EndInit">
-			<summary>
-			Signals the object that initialization is complete.
-			</summary>
-
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelper.CanExtend(System.Object)">
-			<summary>
-			Specifies whether this object can provide its extender properties to the specified object.
-			</summary>
-
-			<returns>
-			true if this object can provide extender properties to the specified object; otherwise, false.
-			</returns>
-
-			<param name="extendee">The <see cref="T:System.Object"></see> to receive the extender properties. </param>
-		</member>
-		<member name="F:Palaso.UI.WindowsForms.i8n.LocalizationHelper.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelper.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelper.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="T:Palaso.UI.WindowsForms.i8n.LocalizationHelperDesigner">
-			<summary>
-			  Designer object used to set the Parent property.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.i8n.LocalizationHelperDesigner.OnSetComponentDefaults">
-			  <summary>
-			  Sets the Parent property to "this" -
-			  the Form/UserControl where the component is being dropped.
-			  </summary>
-		</member>
 		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingListView.components">
 			<summary>
 			Required designer variable.
@@ -1295,14 +1300,14 @@
 			the contents of this method with the code editor.
 			</summary>
 		</member>
-		<member name="T:Palaso.UI.WindowsForms.i8n.ILocalizableControl">
-			<summary>
-			A control can implement this to override some default localization behavior
-			</summary>
-		</member>
 		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemFromWindowsLocaleProvider.TrimOffCountryNameOfMajorLanguage(System.Windows.Forms.InputLanguage)">
 			<summary>
 			It's confusing for people to be presented with "English (UnitedStates)" or Icelandic (Iceland)
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.WritingSystems.LookupIsoCodeModel">
+			<summary>
+			 Basically just handles selecting from likely options, based on what you type
 			</summary>
 		</member>
 		<member name="F:Palaso.UI.Widgets.ControlListBox.components">
@@ -1328,6 +1333,12 @@
 			</summary>
 			<param name="control"></param>
 			<param name="insertAtRow"></param>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.WritingSystems.GroupTreeItem">
+			<summary>
+			this is used when it would be confusing to make one of the WS's primary above the others.
+			related to http://projects.palaso.org/issues/show/482
+			</summary>
 		</member>
 		<member name="T:Palaso.UI.WindowsForms.Properties.Resources">
 			<summary>

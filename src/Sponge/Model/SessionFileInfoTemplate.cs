@@ -66,8 +66,7 @@ namespace SIL.Sponge.Model
 		{
 			if (s_list == null)
 			{
-				var distFilesDirectory = Path.Combine(Palaso.IO.FileLocator.DirectoryOfApplicationOrSolution, "DistFiles");
-				string path = Path.Combine(distFilesDirectory, "SessionFileInfoTemplates.xml");
+				string path = FileLocator.GetFileDistributedWithApplication( "SessionFileInfoTemplates.xml");
 
 				// TODO: Do something when there's an exception returned.
 				Exception e;

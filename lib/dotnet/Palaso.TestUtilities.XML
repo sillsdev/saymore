@@ -40,6 +40,13 @@
 			<param name="resource">e.g., a video resource</param>
 			<param name="extension">with or with out '.', will work the same</param>
 		</member>
+		<member name="M:Palaso.TestUtilities.TempFile.MoveTo(System.String)">
+			<summary>
+			Used to move a file to a new path
+			</summary>
+			<param name="resource">e.g., a video resource</param>
+			<param name="extension">with or with out '.', will work the same</param>
+		</member>
 		<member name="M:Palaso.TestUtilities.TempLiftFile.TrackExisting(System.String)">
 			<summary>
 			Create a TempLiftFile based on a pre-existing file, which will be deleted when this is disposed.
@@ -65,6 +72,27 @@
 		<member name="P:Palaso.TestUtilities.TemporaryFolder.Path">
 			<summary>
 			Same as FolderPath, but I repent of that poor name
+			</summary>
+		</member>
+		<member name="T:Palaso.TestUtilities.ConstrainStringByLine">
+			<summary>
+			 Matches the text under test with the given text to match. Evaluating it line by line (including
+			 regular expressions).
+			</summary>
+		</member>
+		<member name="M:Palaso.TestUtilities.ConstrainStringByLine.Matches(System.String)">
+			<summary>
+			</summary>
+			<param name="expectedString"></param>
+		</member>
+		<member name="M:Palaso.TestUtilities.AssertXmlCommands.HasAtLeastOneMatchForXpath(System.String)">
+			<summary>
+			Will honor default namespace
+			</summary>
+		</member>
+		<member name="M:Palaso.TestUtilities.AssertXmlCommands.HasSpecifiedNumberOfMatchesForXpath(System.String,System.Int32)">
+			<summary>
+			Will honor default namespace
 			</summary>
 		</member>
 	</members>

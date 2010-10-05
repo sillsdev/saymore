@@ -24,7 +24,7 @@ namespace SayMore.UI.ProjectWindow
 			using (var dlg = new ShowHtmlDialog())
 			{
 				dlg.Text = "Release Notes...";
-				dlg.Path = FileLocator.GetFileDistributedWithApplication("DistFiles", "releaseNotes.htm");
+				dlg.Path = FileLocator.GetFileDistributedWithApplication("releaseNotes.htm");
 				dlg.ShowDialog();
 			}
 		}

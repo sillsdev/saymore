@@ -57,8 +57,7 @@ namespace SayMore.Model.Fields
 		{
 			if (s_list == null)
 			{
-				var distFilesDirectory = Path.Combine(FileLocator.DirectoryOfApplicationOrSolution, "DistFiles");
-				string path = Path.Combine(distFilesDirectory, "FieldTemplatesTemplates.xml");
+				string path = FileLocator.GetFileDistributedWithApplication("FieldTemplatesTemplates.xml");
 
 				// TODO: Do something when there's an exception returned.
 				Exception e;

@@ -111,6 +111,11 @@
 			 Returns false if it can't find ffmpeg
 			</summary>
 		</member>
+		<member name="P:Palaso.Media.FFmpegRunner.HaveValidFFMpegOnPath">
+			<summary>
+			 Returns false if it can't find ffmpeg
+			</summary>
+		</member>
 		<member name="M:Palaso.Media.AudioIrrKlangSession.MakeTempCopyIfNeededBecauseOfUnicode(System.String,System.String@)">
 			<summary>
 			this version of irrklang can't play if there's non-latin in there

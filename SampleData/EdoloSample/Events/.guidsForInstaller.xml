@@ -3,4 +3,5 @@
 <InstallerMetadata>
   <File Id="SampleDataDir.EdoloSample.Sessions.Sessions" Guid="bf14bd0d-2e4a-4350-9152-9d5b544503e1" />
   <File Id="SampleDataDir.EdoloSample.Sessions" Guid="39867196-3897-44b0-8492-6ef5996c448d" />
+  <File Id="SampleDataDir.EdoloSample.Events" Guid="65a84bc2-9f3d-4f04-bf0a-1abe733c0d19" />
 </InstallerMetadata>

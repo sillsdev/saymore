@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
+<InstallerMetadata>
+  <File Id="fonts.conf" Guid="8c27877b-e65b-4a72-a0fa-c41397ca62a2" />
+  <File Id="fonts.dtd" Guid="69924463-03ad-4638-8b49-286ab6901cff" />
+</InstallerMetadata>

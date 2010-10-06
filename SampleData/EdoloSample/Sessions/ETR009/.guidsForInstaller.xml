@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
+<InstallerMetadata>
+  <File Id="SampleDataDir.EdoloSample.Sessions.ETR009" Guid="83472cfa-9c99-45ef-9f8f-da7a973aa565" />
+  <File Id="ETR009Snippet_Careful.mp3.meta" Guid="ac8471f3-0803-4d7a-bf9f-dee03c4bf3d1" />
+</InstallerMetadata>

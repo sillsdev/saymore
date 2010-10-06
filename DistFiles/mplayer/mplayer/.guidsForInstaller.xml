@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
+<InstallerMetadata>
+  <File Id="config" Guid="b5a18b59-3a36-4527-881e-2f702f9e5804" />
+  <File Id="input.conf" Guid="63367c0d-0af7-4781-ab43-3b91640bc272" />
+</InstallerMetadata>

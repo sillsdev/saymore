@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
+<InstallerMetadata>
+  <File Id="LICENSE.txt" Guid="356af0cc-80e9-4bb6-a0fb-56548984fd39" />
+  <File Id="mplayer.exe" Guid="3f6f85b8-99b4-4d53-bd91-745a64e66af3" />
+</InstallerMetadata>

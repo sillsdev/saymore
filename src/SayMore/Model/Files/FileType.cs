@@ -294,20 +294,22 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				return from key in
-						   new[]{
-								 "date",
-								 "synopsis",
-								 "access",
-								 "location",
-								 "setting",
-								 "situation",
-								 "genre",
-								 "participants",
-								 "title",
-								 "notes"
-						}
-					   select new FieldDefinition(key);
+				return from key in new[]
+				{
+					"status",
+					"stage",
+					"date",
+					"synopsis",
+					"access",
+					"location",
+					"setting",
+					"situation",
+					"genre",
+					"participants",
+					"title",
+					"notes"
+				}
+				select new FieldDefinition(key);
 			}
 		}
 

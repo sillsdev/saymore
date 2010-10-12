@@ -131,8 +131,8 @@ namespace SayMore.UI.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Extracts the audio stream from the specified video file and writes it to a wave
-		/// (i.e. raw PCM) format file.
+		/// Extracts the audio stream from the specified video file and writes it to a wav
+		/// file (i.e. raw PCM).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void ExtractAudioToWave(string videoPath, string audioOutPath)
@@ -263,6 +263,8 @@ namespace SayMore.UI.Utilities
 			}
 			else if (data.StartsWith("Channels: "))
 			{
+				// This is more accurate than ID_AUDIO_NCH but only get's
+				// output from mplayer when the output is pretty verbose.
 				Channels = int.Parse(data.Substring(10, 1));
 			}
 			//else if (data.StartsWith("ID_AUDIO_NCH="))

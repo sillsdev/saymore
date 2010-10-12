@@ -87,7 +87,7 @@ namespace SayMore.Model
 			{
 				Directory.Move(oldFolder, newFolder);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				// TODO: should probably be more informative and give the user
 				// a chance to "unlock" the folder and retry.

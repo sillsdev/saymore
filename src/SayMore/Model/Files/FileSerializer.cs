@@ -55,10 +55,11 @@ namespace SayMore.Model.Files
 				//2)someday we may want to check the type, too
 				//Enhance: someday we may have other types
 				var localName = element.Name.LocalName;
-				if(localName=="eventType")
+				if (localName == "eventType")
 				{
 					localName = "genre";
 				}
+
 				fields.Add(new FieldInstance(localName, type, s));
 			}
 		}

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -39,13 +40,24 @@ namespace SayMore.UI.ComponentEditors
 					_genre.Items.AddRange(list.ToArray());
 					_genre.Items.Add("-----");
 				}
-				//add the rest of the factory defaults
+
+				// Add the rest of the factory defaults
 				_genre.Items.AddRange(GenreDefinition.FactoryGenreDefinitions.ToArray());
 
 				var genre = GenreDefinition.FactoryGenreDefinitions.ToArray().FirstOrDefault(x => x.Id == _binder.GetValue("genre"));
 				_genre.SelectedItem = (genre ?? GenreDefinition.UnknownType);
-
 			}
+
+
+			var lst = from genre in GenreDefinition.FactoryGenreDefinitions
+					   select new PickerPopupItem
+					   {
+						   Text = genre.Name,
+						   ToolTipText = genre.Definition,
+						   Tag = genre
+					   };
+
+			multiValueComboBox1.Popup.AddRange(lst);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,6 +105,5 @@ namespace SayMore.UI.ComponentEditors
 			// Makes sure the id's label is also visible when the id field gains focus.
 			AutoScrollPosition = new Point(0, 0);
 		}
-
 	}
 }

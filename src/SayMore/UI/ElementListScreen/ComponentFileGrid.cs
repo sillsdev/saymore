@@ -63,12 +63,13 @@ namespace SayMore.UI.ElementListScreen
 			_grid.Paint += HandleFileGridPaint;
 			_grid.ClientSizeChanged += HandleFileGridClientSizeChanged;
 			_grid.Font = SystemFonts.IconTitleFont;
-			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 
 			var clr = ColorHelper.CalculateColor(Color.White,
 				 _grid.DefaultCellStyle.SelectionBackColor, 140);
 
+			_grid.FullRowFocusRectangleColor = _grid.DefaultCellStyle.SelectionBackColor;
 			_grid.DefaultCellStyle.SelectionBackColor = clr;
+			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -144,7 +145,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleFileGridClientSizeChanged(object sender, EventArgs e)
+		private void HandleFileGridClientSizeChanged(object sender, EventArgs e)
 		{
 			// This will recenter the grid's hint message.
 			if (_grid.RowCount == 1)
@@ -152,7 +153,11 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleFileGridPaint(object sender, PaintEventArgs e)
+		/// <summary>
+		/// Paints a message on the files grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleFileGridPaint(object sender, PaintEventArgs e)
 		{
 			if (_grid.RowCount != 1)
 				return;
@@ -168,7 +173,7 @@ namespace SayMore.UI.ElementListScreen
 			if (hscroll != null && hscroll.Visible)
 				rc.Height -= hscroll.Height;
 
-			var hint = "Add additional files related to this event by\n" +
+			const string hint = "Add additional files related to this event by\n" +
 				"dragging them here or clicking the 'Add' button.";
 
 			const TextFormatFlags flags =

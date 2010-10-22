@@ -220,6 +220,27 @@
     <Compile Include="UI\ElementListScreen\ElementListScreen.Designer.cs">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ElementListScreen\ElementGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\MultiValueComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\MultiValueComboBox.Designer.cs">
+      <DependentUpon>MultiValueComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\MultiValuePickerPopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\MultiValuePickerPopup.Designer.cs">
+      <DependentUpon>MultiValuePickerPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\PickerPopupItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\PromptTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\LowLevelControls\Slider.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -485,6 +506,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LowLevelControls\DeleteMessageBox.resx">
       <DependentUpon>DeleteMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\MultiValueComboBox.resx">
+      <DependentUpon>MultiValueComboBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\MultiValuePickerPopup.resx">
+      <DependentUpon>MultiValuePickerPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LowLevelControls\VolumePopup.resx">
       <DependentUpon>VolumePopup.cs</DependentUpon>

@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="model\Fields\FieldInstanceTests.cs" />
     <Compile Include="model\Files\DataGathering\BackgroundFileProcessorTests.cs" />
     <Compile Include="model\Files\DataGathering\PresetDataTests.cs" />
     <Compile Include="model\Files\DataGathering\PresetGathererTests.cs" />
@@ -108,7 +109,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="UI\ComponentEditors\ImageViewerViewModelTests.cs" />
+    <Compile Include="UI\ElementListScreen\ElementGridTests.cs" />
     <Compile Include="UI\LowLevelControls\ListPanelTests.cs" />
+    <Compile Include="UI\LowLevelControls\MultiValuePickerPopupTests.cs" />
     <Compile Include="UI\MediaPlayer\MediaPlayerViewModelTests.cs" />
     <Compile Include="UI\Overview\Statistics\StatisticsViewModelTests.cs" />
     <Compile Include="UI\ProjectWindow\AppSmokeTests.cs" />

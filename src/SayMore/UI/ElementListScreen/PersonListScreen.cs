@@ -13,6 +13,7 @@ namespace SayMore.UI.ElementListScreen
 		public PersonListScreen(ElementListViewModel<Person> presentationModel)
 			: base(presentationModel)
 		{
+			_elementsGrid.Name = "PersonGrid";
 			InitializeComponent();
 
 			if (DesignMode)
@@ -31,6 +32,10 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.ButtonPanelBackColor1 = Settings.Default.PersonEditorsButtonBackgroundColor1;
 			_elementsListPanel.ButtonPanelBackColor2 = Settings.Default.PersonEditorsButtonBackgroundColor2;
 			_elementsListPanel.ButtonPanelTopBorderColor = Settings.Default.PersonEditorsBorderColor;
+
+			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.PersonEditorsButtonBackgroundColor1;
+			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.PersonEditorsButtonBackgroundColor2;
+			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.PersonEditorsBorderColor;
 		}
 
 		/// ------------------------------------------------------------------------------------

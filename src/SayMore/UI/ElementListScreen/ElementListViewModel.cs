@@ -26,6 +26,12 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public FileType ElementFileType
+		{
+			get { return _repository.ElementFileType; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ProjectElement> Elements
 		{
 			get { return _repository.AllItems.Cast<ProjectElement>(); }
@@ -47,6 +53,21 @@ namespace SayMore.UI.ElementListScreen
 		public void RefreshSelectedElementComponentFileList()
 		{
 			_componentFiles = (SelectedElement != null ? SelectedElement.GetComponentFiles().ToArray() : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int GetIndexOfSelectedElement()
+		{
+			int index = 0;
+			foreach (var element in Elements)
+			{
+				if (SelectedElement == element)
+					return index;
+
+				index++;
+			}
+
+			return -1;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -135,12 +156,19 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public bool Remove(string id)
 		{
-			return _repository.Remove(id);
+			var retVal = _repository.Remove(id);
+			if (retVal && SelectedElement.Id == id)
+				SelectedElement = null;
+
+			return retVal;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool Remove(T item)
 		{
+			if (SelectedElement == item)
+				SelectedElement = null;
+
 			return _repository.Remove(item);
 		}
 

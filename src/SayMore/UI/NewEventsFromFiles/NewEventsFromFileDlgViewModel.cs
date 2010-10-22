@@ -487,9 +487,9 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a event which will "receive" the specified file. New
-		///	event names are the name of the file without the extension. The Date of the
-		/// event is the file's DateModified date.
+		/// Creates an event which will "receive" the specified file. New event names are
+		/// the name of the file without the extension. The Date of the event is the file's
+		/// DateModified date.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void CreateSingleEvent(string sourcePath)
@@ -500,6 +500,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			string msg;
 			var date = File.GetLastWriteTime(sourcePath);
 			newEvent.MetaDataFile.SetValue("date", date.ToString(), out msg);
+			newEvent.MetaDataFile.SetValue("status", Event.Status.Incoming.ToString(), out msg);
 			newEvent.MetaDataFile.Save();
 
 			if (FirstNewEventAdded == null)

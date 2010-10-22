@@ -1,3 +1,8 @@
+using System;
+using System.Drawing;
+using System.Linq;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -14,6 +19,14 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Event : ProjectElement
 	{
+		public enum Status
+		{
+			Incoming = 0,
+			Active,
+			Finished,
+			Skipped
+		}
+
 		//autofac uses this
 		public delegate Event Factory(string parentElementFolder, string id);
 
@@ -23,6 +36,13 @@ namespace SayMore.Model
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 			: base(parentElementFolder, id, eventFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
+			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue("status", null)))
+			{
+				// REVIEW: Should we report anything if there's an error message returned?
+				string errMsg;
+				MetaDataFile.SetValue("status", Status.Incoming.ToString(), out errMsg);
+				Save();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

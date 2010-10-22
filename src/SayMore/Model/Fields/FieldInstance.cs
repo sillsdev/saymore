@@ -1,15 +1,20 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace SayMore.Model.Fields
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// A FieldInstance is a conceptually a key-value pair.  We add other properties as necessary,
+	/// A FieldInstance is conceptually a key-value pair.  We add other properties as necessary,
 	/// but that's the simple idea.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class FieldInstance : IEquatable<FieldInstance>
 	{
+		public const char kDefaultMultiValueDelimiter = ';';
+
 		public string FieldId { get; set; }
 		public string Type { get; set; }
 		public string Value { get; set; }
@@ -23,12 +28,14 @@ namespace SayMore.Model.Fields
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldInstance(string id, string value) : this(id, "string", value)
+		public FieldInstance(string id, string value)
+			: this(id, "string", value)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldInstance(string id) : this(id, string.Empty)
+		public FieldInstance(string id)
+			: this(id, string.Empty)
 		{
 		}
 
@@ -121,16 +128,36 @@ namespace SayMore.Model.Fields
 			return string.Format("{0}='{1}'", FieldId, Value);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public static string MakeIdFromDisplayName(string displayName)
-		//{
-		//    // REVIEW: I'm sure this doesn't cover every invalid character that XML rejects
-		//    // for tag names. I can't find a .Net method to give me invalid tag characters,
-		//    // so this will have to do for now. Could possibly use the Unicode category.
-		//    var id = from c in displayName.ToCharArray()
-		//             select (" <>{}()[]/'\"\\.,;:?!@#$%^&*=+`~".IndexOf(c) >= 0 ? '_' : c);
+		/// ------------------------------------------------------------------------------------
+		public bool GetHasMultipleValues()
+		{
+			return (string.IsNullOrEmpty(Value) ? false : (GetValues().Count() > 1));
+		}
 
-		//    return new string(id.ToArray());
-		//}
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetValues()
+		{
+			return GetValuesFromText(Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Splits the specified string using a delimiter and returns the resulting list of
+		/// values. Values are trimmed and any resulting in empty values are not included in
+		/// the returned list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<string> GetValuesFromText(string text)
+		{
+			if (text == null)
+				text = string.Empty;
+
+			var list = text.Split(new[] { kDefaultMultiValueDelimiter },
+				StringSplitOptions.RemoveEmptyEntries);
+
+			return (from val in list
+					where val.Trim() != string.Empty
+					select val.Trim());
+		}
 	}
 }

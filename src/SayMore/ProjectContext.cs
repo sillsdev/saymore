@@ -37,10 +37,10 @@ namespace SayMore
 			Project = _scope.Resolve<Func<string, Project>>()(projectSettingsPath);
 
 			var eventRepoFactory = _scope.Resolve<ElementRepository<Event>.Factory>();
-			eventRepoFactory(rootDirectoryPath, "Events");
+			eventRepoFactory(rootDirectoryPath, "Events", _scope.Resolve<EventFileType>());
 
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
-			peopleRepoFactory(rootDirectoryPath, "People");
+			peopleRepoFactory(rootDirectoryPath, "People", _scope.Resolve<PersonFileType>());
 
 			//Start up the background operations
 			_scope.Resolve<AudioVideoDataGatherer>().Start();

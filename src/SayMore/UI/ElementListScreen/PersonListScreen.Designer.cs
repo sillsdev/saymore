@@ -68,29 +68,13 @@ namespace SayMore.UI.ElementListScreen
 			this._peopleListPanel.ButtonPanelBackColor1 = System.Drawing.SystemColors.Control;
 			this._peopleListPanel.ButtonPanelBackColor2 = System.Drawing.SystemColors.Control;
 			this._peopleListPanel.ButtonPanelTopBorderColor = System.Drawing.SystemColors.ControlDark;
-			this._peopleListPanel.CurrentItem = null;
 			this._peopleListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._peopleListPanel.Items = new object[0];
 			// 
 			// 
 			// 
-			this._peopleListPanel.ListView.BackColor = System.Drawing.SystemColors.Window;
-			this._peopleListPanel.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._peopleListPanel.ListView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._peopleListPanel.ListView.Font = new System.Drawing.Font("Segoe UI", 9F);
-			this._peopleListPanel.ListView.FullRowSelect = true;
-			this._peopleListPanel.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-			this._peopleListPanel.ListView.HideSelection = false;
-			this._peopleListPanel.ListView.Location = new System.Drawing.Point(0, 30);
-			this._peopleListPanel.ListView.Name = "ListPanel._itemsListView";
-			this._peopleListPanel.ListView.Size = new System.Drawing.Size(180, 282);
-			this._peopleListPanel.ListView.TabIndex = 0;
-			this._peopleListPanel.ListView.UseCompatibleStateImageBehavior = false;
-			this._peopleListPanel.ListView.View = System.Windows.Forms.View.Details;
 			this._peopleListPanel.Location = new System.Drawing.Point(0, 0);
 			this._peopleListPanel.MinimumSize = new System.Drawing.Size(165, 0);
 			this._peopleListPanel.Name = "_peopleListPanel";
-			this._peopleListPanel.ReSortWhenItemTextChanges = false;
 			this._peopleListPanel.Size = new System.Drawing.Size(182, 350);
 			this._peopleListPanel.TabIndex = 8;
 			this._peopleListPanel.Text = "People";

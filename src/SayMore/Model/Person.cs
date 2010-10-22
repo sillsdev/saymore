@@ -7,12 +7,25 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class Person : ProjectElement
 	{
+		public enum Status
+		{
+			Incoming = 0,
+			Finished,
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public Person(string parentElementFolder, string id, PersonFileType personFileType,
 			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 			: base(parentElementFolder, id, personFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
+			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue("status", null)))
+			{
+				// REVIEW: Should we report anything if there's an error message returned?
+				string errMsg;
+				MetaDataFile.SetValue("status", Status.Incoming.ToString(), out errMsg);
+				Save();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

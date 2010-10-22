@@ -31,10 +31,16 @@ namespace SayMore.UI.ElementListScreen
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
 			this._grid = new SilUtils.SilGrid();
+			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
+			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._panelOuter = new SilUtils.Controls.SilPanel();
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
@@ -42,12 +48,6 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonConvert = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
-			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
-			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this._panelOuter.SuspendLayout();
 			this._toolStripActions.SuspendLayout();
@@ -82,6 +82,7 @@ namespace SayMore.UI.ElementListScreen
             this.colSize,
             this.colDuration});
 			this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._grid.PaintFullRowFocusRectangle = true;
 			this._grid.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this._grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(219)))), ((int)(((byte)(180)))));
 			this._grid.IsDirty = false;
@@ -100,6 +101,57 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.TabIndex = 1;
 			this._grid.VirtualMode = true;
 			this._grid.WaterMark = "!";
+			// 
+			// colIcon
+			// 
+			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.colIcon.DataPropertyName = "SmallIcon";
+			this.colIcon.HeaderText = "";
+			this.colIcon.Name = "colIcon";
+			this.colIcon.ReadOnly = true;
+			this.colIcon.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.colIcon.Width = 5;
+			// 
+			// colName
+			// 
+			this.colName.DataPropertyName = "FileName";
+			this.colName.HeaderText = "Name";
+			this.colName.Name = "colName";
+			this.colName.ReadOnly = true;
+			// 
+			// colType
+			// 
+			this.colType.DataPropertyName = "FileTypeDescription";
+			this.colType.HeaderText = "Type";
+			this.colType.Name = "colType";
+			this.colType.ReadOnly = true;
+			// 
+			// colDataModified
+			// 
+			this.colDataModified.DataPropertyName = "DateModified";
+			this.colDataModified.HeaderText = "Date Modified";
+			this.colDataModified.Name = "colDataModified";
+			this.colDataModified.ReadOnly = true;
+			this.colDataModified.Width = 107;
+			// 
+			// colSize
+			// 
+			this.colSize.DataPropertyName = "FileSize";
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
+			this.colSize.HeaderText = "Size";
+			this.colSize.Name = "colSize";
+			this.colSize.ReadOnly = true;
+			this.colSize.Width = 52;
+			// 
+			// colDuration
+			// 
+			this.colDuration.DataPropertyName = "DurationString";
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colDuration.DefaultCellStyle = dataGridViewCellStyle4;
+			this.colDuration.HeaderText = "Duration";
+			this.colDuration.Name = "colDuration";
+			this.colDuration.ReadOnly = true;
 			// 
 			// _contextMenuStrip
 			// 
@@ -189,57 +241,6 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonAddFiles.Text = "Add Files...";
 			this._buttonAddFiles.ToolTipText = "Add Files to the event";
 			this._buttonAddFiles.Click += new System.EventHandler(this.HandleAddButtonClick);
-			// 
-			// colIcon
-			// 
-			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.colIcon.DataPropertyName = "SmallIcon";
-			this.colIcon.HeaderText = "";
-			this.colIcon.Name = "colIcon";
-			this.colIcon.ReadOnly = true;
-			this.colIcon.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.colIcon.Width = 5;
-			// 
-			// colName
-			// 
-			this.colName.DataPropertyName = "FileName";
-			this.colName.HeaderText = "Name";
-			this.colName.Name = "colName";
-			this.colName.ReadOnly = true;
-			// 
-			// colType
-			// 
-			this.colType.DataPropertyName = "FileTypeDescription";
-			this.colType.HeaderText = "Type";
-			this.colType.Name = "colType";
-			this.colType.ReadOnly = true;
-			// 
-			// colDataModified
-			// 
-			this.colDataModified.DataPropertyName = "DateModified";
-			this.colDataModified.HeaderText = "Date Modified";
-			this.colDataModified.Name = "colDataModified";
-			this.colDataModified.ReadOnly = true;
-			this.colDataModified.Width = 107;
-			// 
-			// colSize
-			// 
-			this.colSize.DataPropertyName = "FileSize";
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
-			this.colSize.HeaderText = "Size";
-			this.colSize.Name = "colSize";
-			this.colSize.ReadOnly = true;
-			this.colSize.Width = 52;
-			// 
-			// colDuration
-			// 
-			this.colDuration.DataPropertyName = "DurationString";
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colDuration.DefaultCellStyle = dataGridViewCellStyle4;
-			this.colDuration.HeaderText = "Duration";
-			this.colDuration.Name = "colDuration";
-			this.colDuration.ReadOnly = true;
 			// 
 			// ComponentFileGrid
 			// 

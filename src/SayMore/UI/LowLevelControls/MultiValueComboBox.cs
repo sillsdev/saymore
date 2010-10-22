@@ -183,18 +183,17 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private VisualStyleElement GetVisualStyleComboButton()
 		{
-			var element = VisualStyleElement.ComboBox.DropDownButton.Normal;
-
 			if (!Enabled)
-				element = VisualStyleElement.ComboBox.DropDownButton.Disabled;
-			else if (_panelButton.ClientRectangle.Contains(_panelButton.PointToClient(MousePosition)))
+				return VisualStyleElement.ComboBox.DropDownButton.Disabled;
+
+			if (_panelButton.ClientRectangle.Contains(_panelButton.PointToClient(MousePosition)))
 			{
-				element = (MouseButtons == MouseButtons.Left ?
+				return (MouseButtons == MouseButtons.Left ?
 					VisualStyleElement.ComboBox.DropDownButton.Pressed :
 					VisualStyleElement.ComboBox.DropDownButton.Hot);
 			}
 
-			return element;
+			return VisualStyleElement.ComboBox.DropDownButton.Normal;
 		}
 
 		#endregion

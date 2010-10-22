@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using SayMore.Model.Files;
 using SayMore.Properties;
 using SilUtils;
 using SayMore.UI.Utilities;
@@ -19,32 +20,20 @@ namespace SayMore.UI.LowLevelControls
 	/// ----------------------------------------------------------------------------------------
 	public partial class ListPanel : UserControl
 	{
-		public delegate void SelectedItemChangedHandler(object sender, object newItem);
-		public event SelectedItemChangedHandler SelectedItemChanged;
+		public event EventHandler NewButtonClicked;
+		public event EventHandler DeleteButtonClicked;
 
-		public delegate bool BeforeItemsDeletedHandler(object sender, IEnumerable<object> itemsToDelete);
-		public event BeforeItemsDeletedHandler BeforeItemsDeleted;
-
-		public delegate void AfterItemsDeletedHandler(object sender, IEnumerable<object> itemsToDelete);
-		public event AfterItemsDeletedHandler AfterItemsDeleted;
-
-		public delegate object NewButtonClickedHandler(object sender);
-		public event NewButtonClickedHandler NewButtonClicked;
-
-		public delegate void ItemAddedHandler(object sender, object itemBeingAdded);
-		public event ItemAddedHandler BeforeItemAdded;
-		public event ItemAddedHandler AfterItemAdded;
-
-		// This font is used to indicate the text of the current item is a duplicate.
-		private Font _fntDupItem;
-
-		private bool _monitorSelectedIndexChanges;
-		private ListViewItem _prevFocusedItem;
 		private readonly List<Button> _buttons = new List<Button>();
 
 		public Color ButtonPanelBackColor1 { get; set; }
 		public Color ButtonPanelBackColor2 { get; set; }
 		public Color ButtonPanelTopBorderColor { get; set; }
+
+		public Color HeaderPanelBackColor1 { get; set; }
+		public Color HeaderPanelBackColor2 { get; set; }
+		public Color HeaderPanelBottomBorderColor { get; set; }
+
+		public Control _listControl;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -57,18 +46,19 @@ namespace SayMore.UI.LowLevelControls
 			ButtonPanelBackColor2 = SystemColors.Control;
 			ButtonPanelTopBorderColor = SystemColors.ControlDark;
 
-			ReSortWhenItemTextChanges = false;
+			HeaderPanelBackColor1 = SystemColors.Control;
+			HeaderPanelBackColor2 = SystemColors.Control;
+			HeaderPanelBottomBorderColor = SystemColors.ControlDark;
 
 			InitializeComponent();
 
 			if (DesignMode)
 				return;
 
-			_headerLabel.Font = SystemFonts.IconTitleFont;
-			_itemsListView.Font = SystemFonts.IconTitleFont;
-			_fntDupItem = new Font(_itemsListView.Font, FontStyle.Italic | FontStyle.Bold);
-			_itemsListView.ListViewItemSorter = new ListSorter();
-			MonitorSelectedIndexChanges = true;
+			if (SystemFonts.IconTitleFont.FontFamily.IsStyleAvailable(FontStyle.Bold))
+				_headerLabel.Font = new Font(SystemFonts.IconTitleFont, FontStyle.Bold);
+			else
+				_headerLabel.Font = SystemFonts.IconTitleFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,11 +70,28 @@ namespace SayMore.UI.LowLevelControls
 		{
 			if (disposing && (components != null))
 			{
-				_fntDupItem.Dispose();
 				components.Dispose();
 			}
 
 			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Control ListControl
+		{
+			get { return _listControl; }
+			set
+			{
+				if (_listControl != null)
+					_outerPanel.Controls.Remove(_listControl);
+
+				_listControl = value;
+				_listControl.Dock = DockStyle.Fill;
+				_outerPanel.Controls.Add(_listControl);
+				_listControl.BringToFront();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,7 +107,6 @@ namespace SayMore.UI.LowLevelControls
 				{
 					_buttonDelete.Name = _buttonDelete.Name.Replace(prevName + "_", string.Empty);
 					_buttonNew.Name = _buttonNew.Name.Replace(prevName + "_", string.Empty);
-					_itemsListView.Name = _itemsListView.Name.Replace(prevName + "_", string.Empty);
 				}
 
 				if (!string.IsNullOrEmpty(value))
@@ -108,7 +114,6 @@ namespace SayMore.UI.LowLevelControls
 					// Setting these names are for the sake of testing.
 					_buttonDelete.Name = string.Format("{0}_{1}", value, _buttonDelete.Name);
 					_buttonNew.Name = string.Format("{0}_{1}", value, _buttonNew.Name);
-					_itemsListView.Name = string.Format("{0}_{1}", value, _itemsListView.Name);
 				}
 			}
 		}
@@ -127,17 +132,6 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list view.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-		public ListView ListView
-		{
-			get { return _itemsListView; }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Button NewButton
 		{
@@ -153,362 +147,14 @@ namespace SayMore.UI.LowLevelControls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the list of items.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public object[] Items
-		{
-			get
-			{
-				if (_itemsListView.Items.Count == 0)
-					return new object[] { };
-
-				return _itemsListView.Items.Cast<ListViewItem>().Select(x => x.Tag).ToArray();
-			}
-			set
-			{
-				var currItem = CurrentItem;
-				_itemsListView.Items.Clear();
-
-				if (value != null && value.Length > 0)
-				{
-					var list = new List<object>(value);
-					list.Sort((x, y) => (x.ToString() ?? string.Empty).CompareTo(y.ToString() ?? string.Empty));
-					foreach (object obj in list)
-					{
-						var newLvItem = _itemsListView.Items.Add(obj.ToString());
-						newLvItem.Tag = obj;
-						newLvItem.Name = obj.ToString();
-						SetImage(newLvItem);
-					}
-
-					CurrentItem = (currItem ?? list[0]);
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets the image for the specified list view item based on the object in its Tag
-		/// property.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void SetImage(ListViewItem lvi)
-		{
-			if (lvi.Tag == null || lvi.Tag.GetType().GetProperty("ImageKey") == null)
-				return;
-
-			var imgKey = ReflectionHelper.GetProperty(lvi.Tag, "ImageKey") as string;
-			if (imgKey == null)
-			{
-				lvi.ImageKey = imgKey;
-				return;
-			}
-
-			var img = Resources.ResourceManager.GetObject(imgKey) as Bitmap;
-			if (img == null)
-				return;
-
-			if (lvi.ListView.SmallImageList == null)
-				lvi.ListView.SmallImageList = new ImageList();
-
-			var imgList = lvi.ListView.SmallImageList;
-			if (!imgList.Images.ContainsKey(imgKey))
-				imgList.Images.Add(imgKey, img);
-
-			lvi.ImageKey = imgKey;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the current item in the list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public object CurrentItem
-		{
-			get { return (_itemsListView.FocusedItem == null ? null : _itemsListView.FocusedItem.Tag); }
-			set { SelectItem(value, true); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not the list will be Re-sorted when
-		/// the UpdateItem is called and the text for the item being updated has changed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool ReSortWhenItemTextChanges { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Selects the item with the specified text.
-		/// </summary>
-		/// <param name="item">The item to be selected. This can be the text of the item,
-		/// the list view item, or the underlying object associated with a list view item.
-		/// </param>
-		/// <param name="generateSelChgEvent">if true, the SelectedItemChanged event is fired.
-		/// otherwise the event is not fired.</param>
-		/// ------------------------------------------------------------------------------------
-		public void SelectItem(object item, bool generateSelChgEvent)
-		{
-			if (item == null)
-				return;
-
-			MonitorSelectedIndexChanges = false;
-
-			if (item is string)
-				_itemsListView.FocusedItem = _itemsListView.FindItemWithText(item as string);
-			else if (item is ListViewItem)
-				_itemsListView.FocusedItem = (item as ListViewItem);
-			else
-				_itemsListView.FocusedItem = FindListViewItem(item);
-
-			_itemsListView.SelectedItems.Clear();
-
-			if (_itemsListView.FocusedItem != null)
-				_itemsListView.FocusedItem.Selected = true;
-
-			if (generateSelChgEvent && SelectedItemChanged != null)
-			{
-				SelectedItemChanged(this, _itemsListView.FocusedItem != null ?
-					_itemsListView.FocusedItem.Tag : null);
-			}
-
-			MonitorSelectedIndexChanges = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tries to find the list view item associated with the specified object.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private ListViewItem FindListViewItem(object item)
-		{
-			foreach (ListViewItem lvi in _itemsListView.Items)
-			{
-				if (lvi.Tag == item)
-					return lvi;
-			}
-
-			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gives focus to the list view portion of the list panel.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public new void Focus()
-		{
-			_itemsListView.Focus();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the displayed text for the specified item.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void UpdateItem(object itemToRefresh, string newText)
-		{
-			if (itemToRefresh == null)
-				return;
-
-			var lvi = FindListViewItem(itemToRefresh);
-			if (lvi == null)
-				return;
-
-			lvi.Text = (newText ?? itemToRefresh.ToString());
-			SetImage(lvi);
-
-			if (ReSortWhenItemTextChanges)
-			{
-				int index = InsertIndex(lvi.Text);
-				if (index - 1 != lvi.Index)
-					ReSort();
-			}
-
-			// Check if the item before or after the current item has the same text.
-			var i = lvi.Index;
-			if ((i > 0 && lvi.Text == _itemsListView.Items[i - 1].Text) ||
-				(i < _itemsListView.Items.Count - 1 && lvi.Text == _itemsListView.Items[i + 1].Text))
-			{
-				// Change the look of the current item if its text is duplicated.
-				lvi.ForeColor = Color.Red;
-				lvi.BackColor = Color.PapayaWhip;
-				lvi.Font = _fntDupItem;
-				_itemsListView.HideSelection = true;
-			}
-			else
-			{
-				// Restore the look of the current item to its default.
-				lvi.ForeColor = _itemsListView.ForeColor;
-				lvi.BackColor = _itemsListView.BackColor;
-				lvi.Font = _itemsListView.Font;
-				_itemsListView.HideSelection = false;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines the preferred index at which to insert the specified string.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private int InsertIndex(string text)
-		{
-			for (int i = 0; i < _itemsListView.Items.Count; i++)
-			{
-				if (_itemsListView.Items[i].Text.CompareTo(text) > 0)
-					return i;
-			}
-
-			return _itemsListView.Items.Count;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Recreate the font for duplicated items.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleItemsListViewFontChanged(object sender, EventArgs e)
-		{
-			if (_fntDupItem != null)
-			{
-				_fntDupItem.Dispose();
-				_fntDupItem = new Font(_itemsListView.Font, FontStyle.Italic | FontStyle.Bold);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Resorts the list and makes the item with the specified text the focused item.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ReSort()
-		{
-			MonitorSelectedIndexChanges = false;
-			var selectedItem = _itemsListView.FocusedItem;
-			_itemsListView.BeginUpdate();
-			_itemsListView.Sort();
-			_itemsListView.EndUpdate();
-			MonitorSelectedIndexChanges = true;
-			SelectItem(selectedItem, false);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void RefreshTextOfCurrentItem(bool resortAfterRefresh)
-		{
-			if (CurrentItem != null)
-			{
-				_itemsListView.FocusedItem.Text = _itemsListView.FocusedItem.Tag.ToString();
-
-				if (resortAfterRefresh)
-					ReSort();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void RefreshTextOfAllItems(bool resortAfterRefresh)
-		{
-			foreach (ListViewItem item in _itemsListView.Items)
-				item.Text = item.Tag.ToString();
-
-			if (resortAfterRefresh)
-				ReSort();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool IsItemInList(object item)
-		{
-			return (item == null ? false : IsItemStringInList(item.ToString()));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool IsItemStringInList(string item)
-		{
-			return (_itemsListView.Items.Find(item, true).Length > 0);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Deletes the focused item.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void DeleteCurrentItem()
-		{
-			if (_itemsListView.FocusedItem == null)
-				return;
-
-			var newIndex = _itemsListView.FocusedItem.Index;
-
-			MonitorSelectedIndexChanges = false;
-			_itemsListView.Items.RemoveAt(newIndex);
-			MonitorSelectedIndexChanges = true;
-
-			if (newIndex >= _itemsListView.Items.Count)
-				newIndex = _itemsListView.Items.Count - 1;
-
-			if (_itemsListView.Items.Count > 0)
-				CurrentItem = _itemsListView.Items[newIndex];
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Call delete handler delegates and remove the selected items if the delegate
 		/// returns true.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
-			if (_itemsListView.SelectedItems.Count == 0)
-				return;
-
-			var itemsToDelete = _itemsListView.SelectedItems.Cast<ListViewItem>().Select(x => x.Tag).ToList();
-
-			if (itemsToDelete.Count == 0)
-				return;
-
-			if (BeforeItemsDeleted != null && !BeforeItemsDeleted(this, itemsToDelete))
-				return;
-
-			var currText = _itemsListView.FocusedItem.Text;
-			var currIndex = _itemsListView.FocusedItem.Index;
-
-			MonitorSelectedIndexChanges = false;
-
-			// Remove the selected item. (Note: this list could have
-			// been modified by a BeforeItemsDeleted delegate.)
-			foreach (object obj in itemsToDelete)
-			{
-				var item = _itemsListView.FindItemWithText(obj.ToString());
-				if (item != null)
-					_itemsListView.Items.Remove(item);
-			}
-
-			MonitorSelectedIndexChanges = true;
-
-			SelectItem(currText, false);
-
-			// By now, we've failed to restore the focused item, so try to give focus
-			// to the item having the same index as that of the focused item before
-			// any items were removed from the list.
-			if (currIndex >= _itemsListView.Items.Count)
-				currIndex = _itemsListView.Items.Count - 1;
-
-			if (_itemsListView.Items.Count > 0)
-				_itemsListView.Items[currIndex].Selected = true;
-
-			if (AfterItemsDeleted != null)
-			{
-				try
-				{
-					AfterItemsDeleted(this, itemsToDelete);
-				}
-				catch(Exception error)
-				{
-					Palaso.Reporting.ErrorReport.ReportNonFatalException(error);
-					//TODO: I need a way now to say "refresh"
-				}
-			}
+			if (DeleteButtonClicked != null)
+				DeleteButtonClicked(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -519,103 +165,7 @@ namespace SayMore.UI.LowLevelControls
 		private void btnNew_Click(object sender, EventArgs e)
 		{
 			if (NewButtonClicked != null)
-				AddItem(NewButtonClicked(this), true, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void Clear()
-		{
-			_itemsListView.Items.Clear();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void AddRange(IEnumerable<object> items)
-		{
-			foreach (object item in items)
-				AddItem(item, false, false, false);
-
-			ReSort();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adds an item to the list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void AddItem(object item, bool selectAfterAdd, bool generateSelChgEvent)
-		{
-			AddItem(item, selectAfterAdd, generateSelChgEvent, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adds an item to the list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void AddItem(object item, bool selectAfterAdd, bool generateSelChgEvent,
-			bool reSortAfterAdd)
-		{
-			// REVIEW: Is it OK to do nothing if the item already exists
-			// or should we throw an error or something like that?
-			if (item != null && (item.ToString() == string.Empty || !IsItemInList(item)))
-			{
-				if (BeforeItemAdded != null)
-					BeforeItemAdded(this, item);
-
-				var newLvItem = _itemsListView.Items.Add(item.ToString());
-				newLvItem.Tag = item;
-
-				if (reSortAfterAdd)
-					ReSort();
-
-				if (selectAfterAdd)
-					SelectItem(item, generateSelChgEvent);
-
-				if (AfterItemAdded != null)
-					AfterItemAdded(this, item);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether the list view's SelectedIndexChanged
-		/// event should be subscribed to. The setter will make sure that the event is never
-		/// subscribed to more than once at a time.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool MonitorSelectedIndexChanges
-		{
-			set
-			{
-				if (_monitorSelectedIndexChanges != value)
-				{
-					if (value)
-						_itemsListView.SelectedIndexChanged += HandleItemsListViewSelectedIndexChanged;
-					else
-						_itemsListView.SelectedIndexChanged -= HandleItemsListViewSelectedIndexChanged;
-
-					_monitorSelectedIndexChanges = value;
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handles the SelectedIndexChanged event of the list view control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleItemsListViewSelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (_itemsListView.SelectedIndices.Count == 0)
-				return;
-
-			if (SelectedItemChanged != null && _prevFocusedItem != _itemsListView.FocusedItem)
-			{
-				SelectedItemChanged(this, _itemsListView.FocusedItem != null ?
-					_itemsListView.FocusedItem.Tag : null);
-			}
-
-			_prevFocusedItem = _itemsListView.FocusedItem;
+				NewButtonClicked(this, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -634,6 +184,20 @@ namespace SayMore.UI.LowLevelControls
 			}
 
 			AppColors.PaintBorder(e.Graphics, ButtonPanelTopBorderColor, rc, BorderSides.Top);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleHeaderPanelPaint(object sender, PaintEventArgs e)
+		{
+			var rc = _headerLabel.ClientRectangle;
+
+			using (var br = new LinearGradientBrush(rc, HeaderPanelBackColor1,
+				HeaderPanelBackColor2, 135))
+			{
+				e.Graphics.FillRectangle(br, rc);
+			}
+
+			AppColors.PaintBorder(e.Graphics, HeaderPanelBottomBorderColor, rc, BorderSides.Bottom);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -677,23 +241,7 @@ namespace SayMore.UI.LowLevelControls
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			hdrList.Width = _itemsListView.ClientSize.Width - 1;
+			hdrList.Width = _itemsList.ClientSize.Width - 1;
 		}
-
-		#region ListSorter class
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private class ListSorter : IComparer
-		{
-			public int Compare(object x, object y)
-			{
-				return string.Compare(((ListViewItem)x).Text, ((ListViewItem)y).Text);
-			}
-		}
-
-		#endregion
 	}
 }

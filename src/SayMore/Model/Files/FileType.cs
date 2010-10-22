@@ -12,6 +12,7 @@ using SayMore.Model.Fields;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.Utilities;
+using SilUtils;
 
 namespace SayMore.Model.Files
 {
@@ -155,6 +156,12 @@ namespace SayMore.Model.Files
 		{
 			return new List<ComputedFieldInfo>(0);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
+		{
+			return new List<DataGridViewColumn>(0);
+		}
 	}
 
 	#endregion
@@ -193,36 +200,50 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				return from key in
-					new []{
-							"id",
-							"primaryLanguage",
-							"primaryLanguageLearnedIn",
-							"otherLanguage0",
-							"otherLanguage1",
-							"otherLanguage2",
-							"otherLanguage3",
-							"fathersLanguage",
-							"mothersLanguage",
-							"pbOtherLangFather0",
-							"pbOtherLangFather1",
-							"pbOtherLangFather2",
-							"pbOtherLangFather3",
-							"pbOtherLangMother0",
-							"pbOtherLangMother3",
-							"pbOtherLangMother2",
-							"pbOtherLangMother1",
-							"birthYear",
-							"gender",
-							"howToContact",
-							"education",
-							"primaryOccupation",
-							"picture",
-							"notes"
-						}
+				return from key in new []
+				{
+					"id",
+					"status",
+					"primaryLanguage",
+					"primaryLanguageLearnedIn",
+					"otherLanguage0",
+					"otherLanguage1",
+					"otherLanguage2",
+					"otherLanguage3",
+					"fathersLanguage",
+					"mothersLanguage",
+					"pbOtherLangFather0",
+					"pbOtherLangFather1",
+					"pbOtherLangFather2",
+					"pbOtherLangFather3",
+					"pbOtherLangMother0",
+					"pbOtherLangMother3",
+					"pbOtherLangMother2",
+					"pbOtherLangMother1",
+					"birthYear",
+					"gender",
+					"howToContact",
+					"education",
+					"primaryOccupation",
+					"picture",
+					"notes"
+				}
 				select new FieldDefinition(key);
-
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
+		{
+			var col = SilGrid.CreateTextBoxColumn("Id");
+			col.DataPropertyName = "id";
+			col.ReadOnly = true;
+			col.Frozen = true;
+			yield return col;
+
+			col = SilGrid.CreateDropDownListComboBoxColumn("Status", Enum.GetNames(typeof(Person.Status)));
+			col.DataPropertyName = "status";
+			yield return col;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -311,6 +332,25 @@ namespace SayMore.Model.Files
 				}
 				select new FieldDefinition(key);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
+		{
+			var col = SilGrid.CreateTextBoxColumn("Id");
+			col.DataPropertyName = "id";
+			col.ReadOnly = true;
+			col.Frozen = true;
+			yield return col;
+
+			col = SilGrid.CreateTextBoxColumn("Stage");
+			col.DataPropertyName = "stage";
+			col.ReadOnly = true;
+			yield return col;
+
+			col = SilGrid.CreateDropDownListComboBoxColumn("Status", Enum.GetNames(typeof(Event.Status)));
+			col.DataPropertyName = "status";
+			yield return col;
 		}
 
 		/// ------------------------------------------------------------------------------------

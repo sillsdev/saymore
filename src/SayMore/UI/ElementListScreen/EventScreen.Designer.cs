@@ -84,29 +84,13 @@ namespace SayMore.UI.ElementListScreen
 			this._eventsListPanel.ButtonPanelBackColor1 = System.Drawing.SystemColors.Control;
 			this._eventsListPanel.ButtonPanelBackColor2 = System.Drawing.SystemColors.Control;
 			this._eventsListPanel.ButtonPanelTopBorderColor = System.Drawing.SystemColors.ControlDark;
-			this._eventsListPanel.CurrentItem = null;
 			this._eventsListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._eventsListPanel.Items = new object[0];
 			// 
 			// 
 			// 
-			this._eventsListPanel.ListView.BackColor = System.Drawing.SystemColors.Window;
-			this._eventsListPanel.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._eventsListPanel.ListView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._eventsListPanel.ListView.Font = new System.Drawing.Font("Segoe UI", 9F);
-			this._eventsListPanel.ListView.FullRowSelect = true;
-			this._eventsListPanel.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-			this._eventsListPanel.ListView.HideSelection = false;
-			this._eventsListPanel.ListView.Location = new System.Drawing.Point(0, 30);
-			this._eventsListPanel.ListView.Name = "_itemsListView";
-			this._eventsListPanel.ListView.Size = new System.Drawing.Size(180, 282);
-			this._eventsListPanel.ListView.TabIndex = 0;
-			this._eventsListPanel.ListView.UseCompatibleStateImageBehavior = false;
-			this._eventsListPanel.ListView.View = System.Windows.Forms.View.Details;
 			this._eventsListPanel.Location = new System.Drawing.Point(0, 0);
 			this._eventsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
 			this._eventsListPanel.Name = "_eventsListPanel";
-			this._eventsListPanel.ReSortWhenItemTextChanges = false;
 			this._eventsListPanel.Size = new System.Drawing.Size(182, 350);
 			this._eventsListPanel.TabIndex = 0;
 			this._eventsListPanel.Text = "Events";
@@ -135,9 +119,11 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._eventComponentFileGrid.AddButtonEnabled = false;
 			this._eventComponentFileGrid.AddButtonVisible = true;
+			this._eventComponentFileGrid.ConvertButtonVisible = true;
 			this._eventComponentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._eventComponentFileGrid.Location = new System.Drawing.Point(0, 0);
 			this._eventComponentFileGrid.Name = "_eventComponentFileGrid";
+			this._eventComponentFileGrid.RenameButtonVisible = true;
 			this._eventComponentFileGrid.ShowContextMenu = true;
 			this._eventComponentFileGrid.Size = new System.Drawing.Size(315, 147);
 			this._eventComponentFileGrid.TabIndex = 0;

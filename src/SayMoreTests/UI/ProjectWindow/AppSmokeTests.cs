@@ -134,14 +134,12 @@ namespace SayMoreTests.UI.ProjectWindow
 		{
 			var idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
 			var listPanel = _projectContext.ProjectWindow.Controls.Find(listPanelName, true)[0] as ListPanel;
-			var lvItems = listPanel.ListView;
+			var list = listPanel.ListControl as ElementGrid;
 
-			for (int i = 0; i < lvItems.Items.Count; i++)
+			for (int i = 0; i < list.RowCount; i++)
 			{
-				lvItems.SelectedItems.Clear();
-				lvItems.FocusedItem = lvItems.Items[i];
-				lvItems.Items[i].Selected = true;
-				Assert.AreEqual(lvItems.Items[i].Text, idTextBoxTester.Text);
+				list.SelectElement(i);
+				Assert.AreEqual(list.GetCurrentElement().Id, idTextBoxTester.Text);
 				WalkThroughComponentFiles(componentGridName, screenName);
 			}
 
@@ -186,18 +184,15 @@ namespace SayMoreTests.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private static void DeleteItems(ListPanel listPanel, string screenName)
 		{
-			var lvItems = listPanel.ListView;
-
 			using (var modalFormTester = new ModalFormTester())
 			{
+				var list = listPanel.ListControl as ElementGrid;
 				int maxDeleteAttempts = 100;
 				var delButtonTester = new ButtonTester("_buttonDelete");
 
-				while (lvItems.Items.Count > 0)
+				while (list.RowCount > 0)
 				{
-					lvItems.SelectedItems.Clear();
-					lvItems.FocusedItem = lvItems.Items[0];
-					lvItems.Items[0].Selected = true;
+					list.SelectElement(0);
 					modalFormTester.ExpectModal("DeleteMessageBox", delButtonTester.Click);
 					listPanel.DeleteButton.PerformClick();
 
@@ -230,17 +225,18 @@ namespace SayMoreTests.UI.ProjectWindow
 			Assert.AreEqual("dummyFile.png", componentGrid.Grid[1, 1].Value as string);
 
 			var listPanel = GetListPanelByName("_eventsListPanel");
+			var list = listPanel.ListControl as ElementGrid;
 
 			// Rename the event.
 			idTextBoxTester.Enter("RenamedEvent");
 			idTextBoxTester.FireEvent("Validating", new CancelEventArgs());
 			Assert.AreEqual("RenamedEvent", idTextBoxTester.Text);
-			Assert.AreEqual("RenamedEvent", listPanel.ListView.Items[0].Text);
+			Assert.AreEqual("RenamedEvent", list.GetCurrentElement().Id);
 			Assert.AreEqual("RenamedEvent.event", componentGrid.Grid[1, 0].Value as string);
 
 			// Delete the event.
 			DeleteItems(listPanel, "EventScreen");
-			Assert.AreEqual(0, listPanel.ListView.Items.Count);
+			Assert.AreEqual(0, list.RowCount);
 
 			// Open the dialog to add files from a device, then cancel it.
 			using (var modalFormTester = new ModalFormTester())
@@ -255,11 +251,12 @@ namespace SayMoreTests.UI.ProjectWindow
 
 			// Add a new person.
 			listPanel = GetListPanelByName("_peopleListPanel");
+			list = listPanel.ListControl as ElementGrid;
 			idTextBoxTester = AddItem("PersonEditor", "_peopleListPanel");
 
 			// Delete the person.
 			DeleteItems(listPanel, "PersonListScreen");
-			Assert.AreEqual(0, listPanel.ListView.Items.Count);
+			Assert.AreEqual(0, list.RowCount);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -288,16 +285,17 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Adds a event or a person.
+		/// Adds an event or a person.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private TextBoxTester AddItem(string editorName, string listPanelName)
 		{
 			var idTextBoxTester = new TextBoxTester(editorName + "._tableLayout._id", "ProjectWindow");
 			var listPanel = GetListPanelByName(listPanelName);
-			var origCount = listPanel.ListView.Items.Count;
+			var list = listPanel.ListControl as ElementGrid;
+			var origCount = list.RowCount;
 			listPanel.NewButton.PerformClick();
-			Assert.AreEqual(origCount + 1, listPanel.ListView.Items.Count);
+			Assert.AreEqual(origCount + 1, list.RowCount);
 			Assert.AreNotEqual(string.Empty, idTextBoxTester.Text);
 
 			return idTextBoxTester;

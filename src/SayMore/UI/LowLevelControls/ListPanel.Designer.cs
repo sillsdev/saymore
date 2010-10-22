@@ -21,13 +21,13 @@ namespace SayMore.UI.LowLevelControls
 		{
 			this.components = new System.ComponentModel.Container();
 			this._outerPanel = new SilUtils.Controls.SilPanel();
-			this._itemsListView = new System.Windows.Forms.ListView();
+			this._itemsList = new System.Windows.Forms.ListView();
 			this.hdrList = new System.Windows.Forms.ColumnHeader();
 			this._buttonsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonNew = new System.Windows.Forms.Button();
 			this._buttonDelete = new System.Windows.Forms.Button();
 			this._headerLabel = new SilUtils.Controls.HeaderLabel();
-			this.locExtender = new LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._outerPanel.SuspendLayout();
 			this._buttonsFlowLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -40,7 +40,7 @@ namespace SayMore.UI.LowLevelControls
 			this._outerPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._outerPanel.ClipTextForChildControls = true;
 			this._outerPanel.ControlReceivingFocusOnMnemonic = null;
-			this._outerPanel.Controls.Add(this._itemsListView);
+			this._outerPanel.Controls.Add(this._itemsList);
 			this._outerPanel.Controls.Add(this._buttonsFlowLayoutPanel);
 			this._outerPanel.Controls.Add(this._headerLabel);
 			this._outerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -57,23 +57,21 @@ namespace SayMore.UI.LowLevelControls
 			this._outerPanel.Size = new System.Drawing.Size(170, 277);
 			this._outerPanel.TabIndex = 1;
 			// 
-			// _itemsListView
+			// _itemsList
 			// 
-			this._itemsListView.BackColor = System.Drawing.SystemColors.Window;
-			this._itemsListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._itemsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this._itemsList.BackColor = System.Drawing.SystemColors.Window;
+			this._itemsList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._itemsList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.hdrList});
-			this._itemsListView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._itemsListView.FullRowSelect = true;
-			this._itemsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-			this._itemsListView.HideSelection = false;
-			this._itemsListView.Location = new System.Drawing.Point(0, 30);
-			this._itemsListView.Name = "_itemsListView";
-			this._itemsListView.Size = new System.Drawing.Size(168, 209);
-			this._itemsListView.TabIndex = 0;
-			this._itemsListView.UseCompatibleStateImageBehavior = false;
-			this._itemsListView.View = System.Windows.Forms.View.Details;
-			this._itemsListView.FontChanged += new System.EventHandler(this.HandleItemsListViewFontChanged);
+			this._itemsList.FullRowSelect = true;
+			this._itemsList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			this._itemsList.HideSelection = false;
+			this._itemsList.Location = new System.Drawing.Point(5, 158);
+			this._itemsList.Name = "_itemsList";
+			this._itemsList.Size = new System.Drawing.Size(156, 53);
+			this._itemsList.TabIndex = 0;
+			this._itemsList.UseCompatibleStateImageBehavior = false;
+			this._itemsList.View = System.Windows.Forms.View.Details;
 			// 
 			// hdrList
 			// 
@@ -134,19 +132,20 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.ClipTextForChildControls = true;
 			this._headerLabel.ControlReceivingFocusOnMnemonic = null;
 			this._headerLabel.Dock = System.Windows.Forms.DockStyle.Top;
-			this._headerLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this._headerLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.locExtender.SetLocalizableToolTip(this._headerLabel, null);
 			this.locExtender.SetLocalizationComment(this._headerLabel, "Localized in controls that host this one.");
-			this.locExtender.SetLocalizationPriority(this._headerLabel, LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._headerLabel, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._headerLabel, "ListPanel._headerLabel");
 			this._headerLabel.Location = new System.Drawing.Point(0, 0);
 			this._headerLabel.MinimumSize = new System.Drawing.Size(165, 0);
 			this._headerLabel.MnemonicGeneratesClick = false;
 			this._headerLabel.Name = "_headerLabel";
-			this._headerLabel.ShowWindowBackgroudOnTopAndRightEdge = true;
-			this._headerLabel.Size = new System.Drawing.Size(168, 30);
+			this._headerLabel.ShowWindowBackgroudOnTopAndRightEdge = false;
+			this._headerLabel.Size = new System.Drawing.Size(168, 23);
 			this._headerLabel.TabIndex = 0;
 			this._headerLabel.Text = "Items";
+			this._headerLabel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleHeaderPanelPaint);
 			// 
 			// locExtender
 			// 
@@ -176,7 +175,7 @@ namespace SayMore.UI.LowLevelControls
 		#endregion
 
 		private SilUtils.Controls.SilPanel _outerPanel;
-		private System.Windows.Forms.ListView _itemsListView;
+		private System.Windows.Forms.ListView _itemsList;
 		private System.Windows.Forms.ColumnHeader hdrList;
 		private HeaderLabel _headerLabel;
 		private LocalizationExtender locExtender;

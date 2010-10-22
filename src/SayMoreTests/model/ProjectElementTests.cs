@@ -28,8 +28,7 @@ namespace SayMoreTests.Model
 			_parentFolder = null;
 		}
 
-		[Test]
-		[Category("SkipOnTeamCity")]
+	[Test][Category("SkipOnTeamCity")]
 		public void Save_NewlyCreated_CreatesMetaDataFile()
 		{
 			Person person = CreatePerson();
@@ -40,7 +39,12 @@ namespace SayMoreTests.Model
 
 		private Person CreatePerson()
 		{
-			return new Person(_parentFolder.Path, "xyz", new PersonFileType(() => null),
+			return CreatePerson(_parentFolder.Path, "xyz");
+		}
+
+		public static Person CreatePerson(string parentFolderPath, string name)
+		{
+			return new Person(parentFolderPath, name, new PersonFileType(() => null),
 				MakeComponent, new FileSerializer(), (w, x, y, z) =>
 				{
 					return new ProjectElementComponentFile(w, x, y, z,
@@ -49,7 +53,7 @@ namespace SayMoreTests.Model
 				});
 		}
 
-		private ComponentFile MakeComponent(string pathtoannotatedfile)
+		private static ComponentFile MakeComponent(string pathtoannotatedfile)
 		{
 			return ComponentFile.CreateMinimalComponentFileForTests(pathtoannotatedfile);
 		}

@@ -33,7 +33,7 @@ namespace SayMore.UI.ElementListScreen
 		public Action<ComponentFile> AfterComponentFileSelected;
 
 		protected readonly ElementListViewModel<T> _model;
-
+		protected ElementGrid _elementsGrid = new ElementGrid();
 		protected TabControl _selectedEditorsTabControl;
 		protected ListPanel _elementsListPanel;
 		protected ComponentFileGrid _componentFilesControl;
@@ -68,8 +68,13 @@ namespace SayMore.UI.ElementListScreen
 			_tabControlImages.Images.Add("Audio", Resources.AudioFileImage);
 			_tabControlImages.Images.Add("View", Resources.ViewTabImage);
 
+			_elementsGrid.SelectedElementChanged += HandleSelectedElementChanged;
+			_elementsGrid.SetFileType(_model.ElementFileType);
+
 			_elementsListPanel = elementsListPanel;
-			_elementsListPanel.ReSortWhenItemTextChanges = true;
+			_elementsListPanel.NewButtonClicked += HandleAddingNewElement;
+			_elementsListPanel.DeleteButtonClicked += HandleDeletingSelectedElements;
+			_elementsListPanel.ListControl = _elementsGrid;
 
 			_componentFilesControl = componentGrid;
 			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
@@ -77,11 +82,6 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.PostMenuCommandRefreshAction = HandlePostMenuCommandRefresh;
-
-			_elementsListPanel.NewButtonClicked += HandleNewElementButtonClicked;
-			_elementsListPanel.BeforeItemsDeleted += HandleBeforeElementsDeleted;
-			_elementsListPanel.AfterItemsDeleted += HandleElementsDeleted;
-			_elementsListPanel.SelectedItemChanged += HandleSelectedElementChanged;
 
 			LoadElementList();
 		}
@@ -131,7 +131,6 @@ namespace SayMore.UI.ElementListScreen
 			{
 				UpdateComponentFileList();
 				_componentFilesControl.TrySetComponent(files[0]);
-
 				return true;
 			}
 
@@ -139,30 +138,27 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void LoadElementList()
+		protected virtual void LoadElementList()
 		{
 			LoadElementList(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void LoadElementList(string itemToSelectAfterLoad)
+		protected virtual void LoadElementList(object itemToSelectAfterLoad)
 		{
-			_elementsListPanel.Clear();
-			var elements = _model.Elements.Cast<object>().ToList();
-			_elementsListPanel.AddRange(elements);
+			_elementsGrid.Items = _model.Elements.OrderBy(x => x.Id);
 
-			if (elements.Count == 0)
-				return;
+			if (_model.Elements.Count() > 0)
+			{
+				if (itemToSelectAfterLoad == null)
+					_elementsGrid.SelectElement(0);
+				else if (itemToSelectAfterLoad is ProjectElement)
+					_elementsGrid.SelectElement((ProjectElement)itemToSelectAfterLoad);
+				else if (itemToSelectAfterLoad.GetType() == typeof(int))
+					_elementsGrid.SelectElement((int)itemToSelectAfterLoad);
+			}
 
-			if (itemToSelectAfterLoad == null)
-				_elementsListPanel.SelectItem(elements[0], true);
-			else
-				_elementsListPanel.SelectItem(itemToSelectAfterLoad, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected void UpdateDisplay()
-		{
+			_elementsGrid.AutoResizeColumns();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,7 +201,10 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleComponentFileIdChanged(ComponentFile file, string oldId, string newId)
 		{
-			_elementsListPanel.RefreshTextOfCurrentItem(true);
+			_elementsGrid.Refresh();
+			_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
+			_elementsGrid.SelectElement(_model.SelectedElement);
+			_elementsGrid.SelectedElementChanged += HandleSelectedElementChanged;
 			_model.RefreshAfterIdChanged();
 			UpdateComponentFileList();
 		}
@@ -277,9 +276,23 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual bool HandleBeforeElementsDeleted(object sender, IEnumerable<object> itemsToDelete)
+		protected virtual void HandleAddingNewElement(object sender, EventArgs e)
 		{
-			int itemCount = itemsToDelete.Count();
+			var newItem = _model.CreateNewElement();
+			_model.SetSelectedElement(newItem);
+			LoadElementList(newItem);
+
+			// After a new element is added, then give focus to the first editor. This will
+			// assume the first field in the editor is the desired one to give focus.
+			var firstEditor = _model.GetComponentEditorProviders().ElementAtOrDefault(0);
+			if (firstEditor != null)
+				firstEditor.Control.Focus();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool DoesUserConfirmDeletingSelectedElements()
+		{
+			int itemCount = _elementsGrid.SelectedRows.Count;
 
 			var msg = (itemCount == 1 ?
 				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "This will permanently remove 1 item?") :
@@ -290,58 +303,52 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleElementsDeleted(object sender, IEnumerable<object> itemsToDelete)
+		protected virtual void HandleDeletingSelectedElements(object sender, EventArgs e)
 		{
-			foreach (var item in itemsToDelete)
+			if (!DoesUserConfirmDeletingSelectedElements())
+				return;
+
+			var currElementIndex = _elementsGrid.CurrentCellAddress.Y;
+
+			foreach (var item in _elementsGrid.GetSelectedElements())
 				_model.Remove(item as T);
 
-			if (_elementsListPanel.CurrentItem != null)
-				LoadElementList(_elementsListPanel.CurrentItem.ToString());
-			else
+			int newElementCount = _model.Elements.Count();
+			while (currElementIndex >= newElementCount)
+				currElementIndex--;
+
+			if (currElementIndex >= 0)
 			{
-				_model.SetSelectedElement(null);
-
-				if (_model.Elements.Count() == 0)
-				{
-					foreach (var tabCtrl in _tabControls.Values)
-					{
-						_tabControlHostControl.Controls.Remove(tabCtrl);
-						tabCtrl.Selecting -= HandleSelectedComponentEditorTabSelecting;
-						tabCtrl.Controls.Clear();
-						tabCtrl.Dispose();
-					}
-
-					_tabControls.Clear();
-				}
-
+				LoadElementList(currElementIndex);
+				_model.SetSelectedElement(_elementsGrid.GetCurrentElement() as T);
 				UpdateComponentFileList();
+				return;
 			}
+
+			_model.SetSelectedElement(null);
+			LoadElementList();
+			foreach (var tabCtrl in _tabControls.Values)
+			{
+				_tabControlHostControl.Controls.Remove(tabCtrl);
+				tabCtrl.Selecting -= HandleSelectedComponentEditorTabSelecting;
+				tabCtrl.Controls.Clear();
+				tabCtrl.Dispose();
+			}
+
+			_tabControls.Clear();
+			UpdateComponentFileList();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual object HandleNewElementButtonClicked(object sender)
-		{
-			_model.SetSelectedElement(_model.CreateNewElement());
-			_elementsListPanel.AddItem(_model.SelectedElement, true, true);
-
-			// After a new element is added, then give focus to the first editor. This will
-			// assume the first field in the editor is the desired one to give focus.
-			var firstEditor = _model.GetComponentEditorProviders().ElementAtOrDefault(0);
-			if (firstEditor != null)
-				firstEditor.Control.Focus();
-
-			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleSelectedElementChanged(object sender, object newItem)
+		protected virtual void HandleSelectedElementChanged(object sender,
+			ProjectElement oldItem, ProjectElement newItem)
 		{
 			_model.SetSelectedElement(newItem as T);
 			UpdateComponentFileList();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void HandleSelectedComponentEditorTabSelecting(object sender,
+		protected virtual void HandleSelectedComponentEditorTabSelecting(object sender,
 			TabControlCancelEventArgs e)
 		{
 			if (e.Action == TabControlAction.Selecting)

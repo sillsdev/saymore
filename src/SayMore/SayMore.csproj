@@ -216,6 +216,9 @@
     <Compile Include="UI\ElementListScreen\ElementListScreen.Designer.cs">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ElementListScreen\ElementGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\LowLevelControls\MultiValueComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>

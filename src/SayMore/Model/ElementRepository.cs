@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualBasic.FileIO;
 using Palaso.Code;
+using SayMore.Model.Files;
 using SayMore.Properties;
 
 namespace SayMore.Model
@@ -16,7 +17,7 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class ElementRepository<T> where T : ProjectElement
 	{
-		public delegate ElementRepository<T> Factory(string projectDirectory, string elementGroupName);
+		public delegate ElementRepository<T> Factory(string projectDirectory, string elementGroupName, FileType type);
 
 		public delegate T ElementFactory<T>(string parentElementFolder, string id) where T : ProjectElement;
 
@@ -26,8 +27,10 @@ namespace SayMore.Model
 		private readonly string _rootFolder;
 
 		/// ------------------------------------------------------------------------------------
-		public ElementRepository(string projectDirectory, string elementGroupName, ElementFactory<T> elementFactory)
+		public ElementRepository(string projectDirectory, string elementGroupName,
+			FileType type, ElementFactory<T> elementFactory)
 		{
+			ElementFileType = type;
 			_elementFactory = elementFactory;
 			RequireThat.Directory(projectDirectory).Exists();
 
@@ -82,6 +85,9 @@ namespace SayMore.Model
 		{
 			get { return _rootFolder; }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public FileType ElementFileType { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public T CreateNew(string id)

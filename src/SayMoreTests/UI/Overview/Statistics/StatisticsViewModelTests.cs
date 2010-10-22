@@ -35,8 +35,8 @@ namespace SayMoreTests.UI.Overview.Statistics
 			var nullRole = new ComponentRole(typeof(Event), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
 							 p => p.EndsWith("txt"), "$ElementId$_someRole");
 
-			var people = new ElementRepository<Person>(_folder.Combine("people"), "People", null);
-			var events = new ElementRepository<Event>(_folder.Combine("events"),"Events", null);
+			var people = new ElementRepository<Person>(_folder.Combine("people"), "People", null, null);
+			var events = new ElementRepository<Event>(_folder.Combine("events"),"Events", null, null);
 
 			return new StatisticsViewModel(people, events, new[] { nullRole },
 				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(() => null) }));

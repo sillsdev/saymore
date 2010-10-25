@@ -1,9 +1,7 @@
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SayMore.Properties;
-using SilUtils;
 
 namespace SayMore.UI.Utilities
 {
@@ -31,6 +29,30 @@ namespace SayMore.UI.Utilities
 		public static Color DataEntryPanelBegin = Settings.Default.DataEntryPanelColorBegin;
 		public static Color DataEntryPanelEnd = Settings.Default.DataEntryPanelColorEnd;
 		public static Color DataEntryPanelBorder = Settings.Default.DataEntryPanelColorBorder;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Replaces one color with another in the specified image. This returns a new image
+		/// so it's up to the caller to dispose of the original as necessary.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Image ReplaceColor(Image bmpOrig, Color clrOld, Color clrNew)
+		{
+			// This is a pretty brute-force (and slow) way to do this.
+			// Perhaps there's a better way.
+			var bmp = new Bitmap(bmpOrig);
+			for (int y = 0; y < bmp.Height; y++)
+			{
+				for (int x = 0; x < bmp.Width; x++)
+				{
+					var clr = bmp.GetPixel(x, y);
+					if (clr == clrOld)
+						bmp.SetPixel(x, y, clrNew);
+				}
+			}
+
+			return bmp;
+		}
 
 		///// ------------------------------------------------------------------------------------
 		///// <summary>

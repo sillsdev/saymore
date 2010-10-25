@@ -9,18 +9,13 @@ using SayMore.Model.Fields;
 
 namespace SayMore.UI.LowLevelControls
 {
-	public partial class MultiValuePickerPopup : UserControl
+	public partial class MultiValuePickerPopup : PopupControl
 	{
 		public delegate void ItemCheckChangedHandler(object sender, PickerPopupItem item);
 		public event ItemCheckChangedHandler ItemCheckChanged;
 
-		public CancelEventHandler PopupOpening;
-		public ToolStripDropDownClosingEventHandler PopupClosing;
-
 		private readonly Timer _timer;
 		private readonly ToolTip _tooltip;
-		private ToolStripControlHost _controlHost;
-		private ToolStripDropDown _dropDown;
 		private bool _showPromptTextBox;
 		private readonly HashSet<PickerPopupItem> _items = new HashSet<PickerPopupItem>();
 
@@ -41,34 +36,10 @@ namespace SayMore.UI.LowLevelControls
 					e.Graphics.FillRectangle(br, rc);
 			});
 
-			SetupPopup();
-
 			_panelTextBox.Font = _toolStripItems.Font;
 			_timer = new Timer { Interval = 750 };
 			_timer.Tick += HandleTimerTick;
 			_tooltip = new ToolTip();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SetupPopup()
-		{
-			_controlHost = new ToolStripControlHost(this)
-			{
-				AutoSize = false,
-				Padding = Padding.Empty,
-				Margin = Padding.Empty
-			};
-
-			_dropDown = new ToolStripDropDown
-			{
-				AutoSize = false,
-				Padding = Padding.Empty,
-				LayoutStyle = ToolStripLayoutStyle.Table
-			};
-
-			_dropDown.Closing += HandlePopupClosing;
-			_dropDown.Opening += HandlePopupOpening;
-			_dropDown.Items.Add(_controlHost);
 		}
 
 		#region Properties
@@ -163,7 +134,7 @@ namespace SayMore.UI.LowLevelControls
 
 		#region Methods for showing, closing, loading and sizing popup
 		/// ------------------------------------------------------------------------------------
-		public void ShowPopup(Point pt)
+		public override void ShowPopup(Point pt)
 		{
 			ShowPopup(pt, _items);
 		}
@@ -173,14 +144,8 @@ namespace SayMore.UI.LowLevelControls
 		{
 			_panelTextBox.Visible = _showPromptTextBox;
 			LoadValues(pickerList);
-			_dropDown.Show(pt);
+			base.ShowPopup(pt);
 			_panelItems.Focus();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void ClosePopup()
-		{
-			_dropDown.Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -221,7 +186,7 @@ namespace SayMore.UI.LowLevelControls
 
 			sz.Height += _panelTextBox.Height;
 			sz.Width = Width;
-			Size = _controlHost.Size = _dropDown.Size = sz;
+			Size = sz;
 		}
 
 		#endregion
@@ -268,23 +233,6 @@ namespace SayMore.UI.LowLevelControls
 		#endregion
 
 		#region Event handlers
-		/// ------------------------------------------------------------------------------------
-		void HandlePopupOpening(object sender, CancelEventArgs e)
-		{
-			if (PopupOpening != null)
-				PopupOpening(this, e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandlePopupClosing(object sender, ToolStripDropDownClosingEventArgs e)
-		{
-			_timer.Stop();
-			_timer.Tag = null;
-
-			if (PopupClosing != null)
-				PopupClosing(this, e);
-		}
-
 		/// ------------------------------------------------------------------------------------
 		private void HandleItemDisposed(object sender, EventArgs e)
 		{

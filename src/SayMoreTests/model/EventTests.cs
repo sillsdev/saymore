@@ -29,8 +29,9 @@ namespace SayMoreTests.Model
 				ComponentFile.CreateMinimalComponentFileForTests, new FileSerializer(), null);
 		}
 
-		/*  THIS IS EMPTY BECAUSE MOST OF THE BEHAVIOR THUS FAR IS IN THE BASE CLASS, AND TESTED
-		 * THERE, INSTEAD
+		/*
+		 * THIS IS MOSTLY EMPTY BECAUSE MOST OF THE BEHAVIOR THUS FAR IS IN THE BASE CLASS,
+		 * AND TESTED THERE, INSTEAD
 		 */
 	}
 }

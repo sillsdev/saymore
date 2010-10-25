@@ -208,6 +208,15 @@
     <Compile Include="UI\ElementListScreen\ComponentFileGrid.Designer.cs">
       <DependentUpon>ComponentFileGrid.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ElementListScreen\EventComponentToolTip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\EventComponentToolTip.Designer.cs">
+      <DependentUpon>EventComponentToolTip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\EventsGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\ElementListScreen\PersonListScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -222,6 +231,12 @@
     </Compile>
     <Compile Include="UI\ElementListScreen\ElementGrid.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\PopupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\PopupControl.Designer.cs">
+      <DependentUpon>PopupControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\LowLevelControls\MultiValueComboBox.cs">
       <SubType>UserControl</SubType>
@@ -504,6 +519,12 @@
     <EmbeddedResource Include="UI\ComponentEditors\MediaComponentEditor.resx">
       <DependentUpon>MediaComponentEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ElementListScreen\EventComponentToolTip.resx">
+      <DependentUpon>EventComponentToolTip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LowLevelControls\PopupControl.resx">
+      <DependentUpon>PopupControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\LowLevelControls\DeleteMessageBox.resx">
       <DependentUpon>DeleteMessageBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -562,6 +583,7 @@
     <None Include="Resources\VSliderThumbDisabled.png" />
     <None Include="Resources\VSliderThumbPressed.png" />
     <None Include="Resources\Stop.png" />
+    <None Include="Resources\CompletedComponentTemplate.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

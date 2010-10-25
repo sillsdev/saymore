@@ -318,7 +318,7 @@ namespace SayMore.Model.Files
 				return from key in new[]
 				{
 					"status",
-					"stage",
+					"completed",
 					"date",
 					"synopsis",
 					"access",
@@ -343,8 +343,8 @@ namespace SayMore.Model.Files
 			col.Frozen = true;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn("Stage");
-			col.DataPropertyName = "stage";
+			col = SilGrid.CreateImageColumn("Completed");
+			col.DataPropertyName = "completed";
 			col.ReadOnly = true;
 			yield return col;
 

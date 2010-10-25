@@ -18,6 +18,7 @@ namespace SayMore.UI.ElementListScreen
 			NewEventsFromFileDlgViewModel.Factory newEventsFromFileDlgViewModel)
 			: base(presentationModel)
 		{
+			_elementsGrid = new EventsGrid();
 			_elementsGrid.Name = "EventsGrid";
 			_newEventsFromFileDlgViewModel = newEventsFromFileDlgViewModel;
 			InitializeComponent();

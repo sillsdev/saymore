@@ -151,12 +151,17 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (e.RowIndex >= 0 && e.RowIndex < _items.Count())
 			{
-				var item = _items.ElementAt(e.RowIndex);
-				var fieldName = Columns[e.ColumnIndex].DataPropertyName;
-				e.Value = item.MetaDataFile.GetStringValue(fieldName, string.Empty);
+				var element = _items.ElementAt(e.RowIndex);
+				e.Value = GetValueForField(element, Columns[e.ColumnIndex].DataPropertyName);
 			}
 
 			base.OnCellValueNeeded(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual object GetValueForField(ProjectElement element, string fieldName)
+		{
+			return element.MetaDataFile.GetStringValue(fieldName, string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

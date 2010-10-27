@@ -13,27 +13,29 @@ namespace SayMore.Model.Files
 	/// that when a file is identified with 1 or more roles, we can do things like name it
 	/// appropriately, know what work remains to be done, and collect statistics on what has
 	/// allready been done.
-	///	An object of this class
-	/// can tell if a given file is elligble for being the one which fullfills that role,
-	/// can tell if the event has that role filled already, and can rename a file to fit the
-	/// template for this role.
+	///	An object of this class can tell if a given file is elligble for being the one which
+	///	fullfills that role, can tell if the event has that role filled already, and can
+	///	rename a file to fit the template for this role.
 	/// </summary>
 	public class ComponentRole
 	{
-		public enum MeasurementTypes { None, Time, Words }
-
-		public string Id { get; set; }
 		private readonly Type _releventElementType;
 		private readonly string _englishLabel;
+		private readonly string _renamingTemplate;
+
+		public enum MeasurementTypes { None, Time, Words }
+
 		public MeasurementTypes MeasurementType { get; private set; }
+		public string Id { get; private set; }
+		public Color Color { get; private set; }
 		public Image Icon { get; set; }
 
 		//tells whether this file looks like it *might* be filling this role
 		public Func<string, bool> ElligibilityFilter { get; private set; }
 
-		private readonly string _renamingTemplate;
-
-		public ComponentRole(Type releventElementType, string id, string englishLabel, MeasurementTypes measurementType, Func<string, bool> elligibilityFilter, string renamingTemplate, Color color)
+		public ComponentRole(Type releventElementType, string id, string englishLabel,
+			MeasurementTypes measurementType, Func<string, bool> elligibilityFilter,
+			string renamingTemplate, Color color)
 		{
 			Id = id;
 			_releventElementType = releventElementType;
@@ -43,7 +45,6 @@ namespace SayMore.Model.Files
 			Color = color;
 			_renamingTemplate = renamingTemplate;
 		}
-
 
 		public string ConvertFileNameToMatchThisRole(string name)
 		{
@@ -56,8 +57,10 @@ namespace SayMore.Model.Files
 		public bool IsMatch(string path)
 		{
 			string partofRenamingTemplateWhichDoesNotDependOnId = _renamingTemplate.Replace("$ElementId$", "");
+
 			if (!Path.GetFileNameWithoutExtension(path).Contains(partofRenamingTemplateWhichDoesNotDependOnId))
 				return false;
+
 			return ElligibilityFilter(path);
 		}
 
@@ -69,14 +72,10 @@ namespace SayMore.Model.Files
 			return ElligibilityFilter(path);
 		}
 
-
 		public string Name
 		{
 			get { return _englishLabel; }
 		}
-
-		public Color Color{ get; set;}
-
 
 		public static bool GetIsAudioVideo(string path)
 		{
@@ -95,19 +94,14 @@ namespace SayMore.Model.Files
 			return extensions.Contains(Path.GetExtension(path).ToLower());
 		}
 
-
 		public string GetCanoncialName(string eventId, string path)
 		{
 			var dir = Path.GetDirectoryName(path);
 			//var fileName = Path.GetFileNameWithoutExtension(path);
 			var name = _renamingTemplate + Path.GetExtension(path);
 			name = name.Replace("$ElementId$", eventId);
-			if (string.IsNullOrEmpty(dir))
-			{
-				return name;
-			}
 
-			return Path.Combine(dir, name);
+			return (string.IsNullOrEmpty(dir) ? name : Path.Combine(dir, name));
 		}
 
 		public bool AtLeastOneFileHasThisRole(string eventId, string[] paths)
@@ -116,7 +110,7 @@ namespace SayMore.Model.Files
 			{
 				var name = Path.GetFileNameWithoutExtension(p);
 				return ElligibilityFilter(Path.GetExtension(p))
-					&& name.ToLower() == _renamingTemplate.Replace("$ElementId$", eventId).ToLower();
+				&& name.ToLower() == _renamingTemplate.Replace("$ElementId$", eventId).ToLower();
 			});
 		}
 

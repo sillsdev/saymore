@@ -318,7 +318,6 @@ namespace SayMore.Model
 		/// <summary>
 		/// What are the workflow stages which have been complete for this event/person?
 		/// </summary>
-		/// <returns></returns>
 		public IEnumerable<ComponentRole> GetCompletedStages()
 		{
 			//Todo: eventually, we need to differentiate between a file sitting there that is in progress,

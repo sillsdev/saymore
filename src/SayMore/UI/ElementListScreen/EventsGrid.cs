@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using SayMore.Model;
-using SayMore.Model.Files;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -13,6 +10,7 @@ namespace SayMore.UI.ElementListScreen
 		private readonly StagesImageMaker _stagesImageMaker;
 		private readonly StagesControlToolTip _tooltip;
 
+		/// ------------------------------------------------------------------------------------
 		public EventsGrid(StagesImageMaker stagesImageMaker, StagesControlToolTip toolTip)
 		{
 			_stagesImageMaker = stagesImageMaker;

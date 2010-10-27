@@ -27,7 +27,6 @@ namespace SayMore.Model
 			Skipped
 		}
 
-
 		[Flags]
 		public enum ComponentStage
 		{
@@ -49,12 +48,8 @@ namespace SayMore.Model
 			: base(parentElementFolder, id, eventFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
 		}
-		/// ------------------------------------------------------------------------------------
-		//public Event(string parentElementFolder, string id, EventFileType eventFileType,
-		//    ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
-		//    EventComponentFile.Factory prjElementComponentFileFactory)
-		//    : base(parentElementFolder, id, eventFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 
+		#region Properties
 		/// ------------------------------------------------------------------------------------
 		protected override string ExtensionWithoutPeriod
 		{
@@ -101,13 +96,14 @@ namespace SayMore.Model
 			get { return Status.Incoming.ToString(); }
 		}
 
+		#endregion
+
 		#region Static methods
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<string> GetStatusNames()
 		{
 			return Enum.GetNames(typeof(Status)).Select(x => x.ToString().Replace('_', ' '));
 		}
-
 
 		#endregion
 	}

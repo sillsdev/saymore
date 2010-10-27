@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -12,6 +13,10 @@ namespace SayMore.UI.ElementListScreen
 		private readonly IEnumerable<ComponentRole> _componentRoles;
 		private readonly StagesImageMaker _stagesImageMaker;
 
+		private readonly PictureBox _imageTemplate;
+		private readonly Label _nameTemplate;
+		private readonly Label _compltedTemplate;
+
 		/// ------------------------------------------------------------------------------------
 		public StagesControlToolTip(IEnumerable<ComponentRole> componentRoles, StagesImageMaker stagesImageMaker)
 		{
@@ -19,11 +24,9 @@ namespace SayMore.UI.ElementListScreen
 			_stagesImageMaker = stagesImageMaker;
 			InitializeComponent();
 
-			foreach (Control ctrl in _tableLayout.Controls)
-			{
-				if (ctrl.Name.StartsWith("_label"))
-					ctrl.Font = SystemFonts.IconTitleFont;
-			}
+			_imageTemplate = _picBoxTemplate;
+			_nameTemplate = _labelComponentTemplate;
+			_compltedTemplate = _labelCompleteTemplate;
 		}
 
 		/// --------------------------------------------------------------------------------
@@ -35,24 +38,52 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public void SetComponentStage(IEnumerable<ComponentRole> completedRoles)
 		{
-			int i = 0;
+			int row = 0;
+			_tableLayout.Controls.Clear();
+			_tableLayout.RowStyles.Clear();
+			_tableLayout.RowCount = _componentRoles.Count();
 
 			foreach (var role in _componentRoles)
 			{
-				//TODO: make the number of stage rows sensitive to the actual number of roles, not preset to 4
-				if (i > 4)
-					break;
-				_tableLayout.Controls["_labelComponent" + i].Text =
-					role.Name +":";
+				_tableLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+				_tableLayout.Controls.Add(GetNewRolePictureBox(role), 0, row);
 
-				((PictureBox)_tableLayout.Controls["_picBox" + i]).Image =
-					_stagesImageMaker.GetComponentStageColorBlock(role, completedRoles);
+				var text = role.Name + ":";
+				_tableLayout.Controls.Add(GetNewRoleLabel(_nameTemplate, text), 1, row);
 
-				_tableLayout.Controls["_labelComplete" + i].Text =
-					(role.IsContainedIn(completedRoles)? "Complete" : "Incomplete");
+				text = (role.IsContainedIn(completedRoles) ? "Complete" : "Incomplete");
+				_tableLayout.Controls.Add(GetNewRoleLabel(_compltedTemplate, text), 2, row);
 
-				i++;
+				row++;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private PictureBox GetNewRolePictureBox(ComponentRole role)
+		{
+			var pb = new PictureBox
+			{
+				Image = _stagesImageMaker.GetComponentStageColorBlock(role),
+				SizeMode = _imageTemplate.SizeMode,
+				Anchor = _imageTemplate.Anchor,
+				Margin = _imageTemplate.Margin,
+			};
+
+			return pb;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static Label GetNewRoleLabel(Label lblTemplate, string text)
+		{
+			var lbl = new Label
+			{
+				Font = SystemFonts.IconTitleFont,
+				Text = text,
+				Margin = lblTemplate.Margin,
+				AutoSize = true
+			};
+
+			return lbl;
 		}
 
 		/// ------------------------------------------------------------------------------------

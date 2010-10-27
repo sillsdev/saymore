@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -41,7 +40,6 @@ namespace SayMore
 			_container = builder.Build();
 		}
 
-
 		/// <summary>
 		/// Someday, we may put this under user control. For now, they are hard-coded.
 		/// </summary>
@@ -52,31 +50,37 @@ namespace SayMore
 				yield return new
 					ComponentRole(typeof(Event), "original", "Original Recording",
 						ComponentRole.MeasurementTypes.Time,
-						ComponentRole.GetIsAudioVideo, "$ElementId$_Original", Color.Magenta);//todo... but maybe we dont' show this as a stage?
+						ComponentRole.GetIsAudioVideo, "$ElementId$_Original",
+						Settings.Default.OriginalRecordingStageColor);//todo... but maybe we dont' show this as a stage?
 
 				yield return
 					new ComponentRole(typeof(Event), "carefulSpeech", "Careful Speech",
 						ComponentRole.MeasurementTypes.Time,
-						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful", Settings.Default.CarefulSpeechColor);
+						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful",
+						Settings.Default.CarefulSpeechStageColor);
 
 				yield return
 					new ComponentRole(typeof(Event), "oralTranslation", "Oral Translation",
 						ComponentRole.MeasurementTypes.Time,
-						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation", Settings.Default.TranslationSpeechColor);
+						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation",
+						Settings.Default.OralTranslationStageColor);
 
 				yield return
 					new ComponentRole(typeof(Event), "transcription", "Transcription",
 						ComponentRole.MeasurementTypes.Words,
-						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Transcription", Color.Magenta);//todo
+						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Transcription",
+						Settings.Default.TranscriptionStageColor);
 
 				yield return
-					new ComponentRole(typeof (Event), "transcriptionN", "Written Translation",
+					new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
 						ComponentRole.MeasurementTypes.Words,
-						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N", Settings.Default.WrittenTranslationColor);
+						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N",
+						Settings.Default.WrittenTranslationStageColor);
 
 				yield return
-					new ComponentRole(typeof (Person), "consent", "Informed Consent",
-						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent", Settings.Default.InformedConsentColor);
+					new ComponentRole(typeof(Person), "consent", "Informed Consent",
+						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
+						System.Drawing.Color.Magenta); //todo
 			}
 		}
 

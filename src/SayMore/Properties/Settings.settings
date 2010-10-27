@@ -226,22 +226,22 @@
     <Setting Name="PreventDeleteElementSystemConfirmationMessage" Description="This is used for tests and prevents the display of the confirmation dialog box when moving deleted session and persons to the recycle bin." Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="InformedConsentColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="OriginalRecordingStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">196, 209, 227</Value>
     </Setting>
-    <Setting Name="TranslationSpeechColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="CarefulSpeechStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">101, 104, 100</Value>
     </Setting>
-    <Setting Name="CarefulSpeechColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="OralTranslationStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">207, 240, 159</Value>
     </Setting>
-    <Setting Name="WrittenTranslationColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="TranscriptionStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">83, 110, 145</Value>
     </Setting>
-    <Setting Name="WrittenTranscriptionColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="WrittenTranslationStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">148, 195, 151</Value>
     </Setting>
-    <Setting Name="IncompleteEventComponentColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="IncompleteStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">Ivory</Value>
     </Setting>
   </Settings>

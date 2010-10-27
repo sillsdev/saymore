@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model;
-using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.NewEventsFromFiles;
 using SayMore.UI.ProjectWindow;
@@ -17,7 +16,8 @@ namespace SayMore.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		public EventScreen(ElementListViewModel<Event> presentationModel,
-			NewEventsFromFileDlgViewModel.Factory newEventsFromFileDlgViewModel, EventsGrid.Factory eventGridFactory)
+			NewEventsFromFileDlgViewModel.Factory newEventsFromFileDlgViewModel,
+			EventsGrid.Factory eventGridFactory)
 			: base(presentationModel)
 		{
 			_elementsGrid = eventGridFactory();

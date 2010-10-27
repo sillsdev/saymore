@@ -227,19 +227,19 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="InformedConsentColor" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">Lime</Value>
+      <Value Profile="(Default)">196, 209, 227</Value>
     </Setting>
     <Setting Name="TranslationSpeechColor" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">RoyalBlue</Value>
+      <Value Profile="(Default)">101, 104, 100</Value>
     </Setting>
     <Setting Name="CarefulSpeechColor" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">Orchid</Value>
+      <Value Profile="(Default)">207, 240, 159</Value>
     </Setting>
     <Setting Name="WrittenTranslationColor" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">Yellow</Value>
+      <Value Profile="(Default)">83, 110, 145</Value>
     </Setting>
     <Setting Name="WrittenTranscriptionColor" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">Orange</Value>
+      <Value Profile="(Default)">148, 195, 151</Value>
     </Setting>
     <Setting Name="IncompleteEventComponentColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">Ivory</Value>

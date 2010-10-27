@@ -74,9 +74,9 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap CompletedComponentTemplate {
+        internal static System.Drawing.Bitmap ComponentStageColorBlockTemplate {
             get {
-                object obj = ResourceManager.GetObject("CompletedComponentTemplate", resourceCulture);
+                object obj = ResourceManager.GetObject("ComponentStageColorBlockTemplate", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

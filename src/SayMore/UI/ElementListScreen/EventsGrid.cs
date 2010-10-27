@@ -11,7 +11,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override object GetValueForField(ProjectElement element, string fieldName)
 		{
-			if (fieldName != "completed")
+			if (fieldName != "stages")
 				return base.GetValueForField(element, fieldName);
 
 			var completedComponents = element.MetaDataFile.GetStringValue(fieldName, string.Empty);
@@ -24,10 +24,10 @@ namespace SayMore.UI.ElementListScreen
 			base.OnCellMouseEnter(e);
 
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
-				Columns[e.ColumnIndex].DataPropertyName == "completed")
+				Columns[e.ColumnIndex].DataPropertyName == "stages")
 			{
 				var element = _items.ElementAt(e.RowIndex);
-				var text = element.MetaDataFile.GetStringValue("completed", string.Empty);
+				var text = element.MetaDataFile.GetStringValue("stages", string.Empty);
 				var pt = MousePosition;
 				pt.Offset(5, 5);
 				_tooltip.Show(pt, GetComponentStageFromString(text));
@@ -39,7 +39,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			base.OnCellMouseLeave(e);
 
-			if (Columns[e.ColumnIndex].DataPropertyName == "completed")
+			if (Columns[e.ColumnIndex].DataPropertyName == "stages")
 				_tooltip.Hide();
 		}
 

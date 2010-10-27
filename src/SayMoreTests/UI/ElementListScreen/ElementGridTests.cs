@@ -44,7 +44,7 @@ namespace SayMoreTests.UI.ElementListScreen
 			Assert.AreEqual(3, _grid.ColumnCount);
 			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "id"));
 			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "status"));
-			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "completed"));
+			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "stages"));
 		}
 
 		/// ------------------------------------------------------------------------------------

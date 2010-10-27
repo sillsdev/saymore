@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -61,5 +64,20 @@ namespace SayMore.Model
 		{
 			get { return "Could not rename from {0} to {1} because there is already a person by that name."; }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string DefaultStatusValue
+		{
+			get { return Status.Incoming.ToString(); }
+		}
+
+		#region Static methods
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<string> GetStatusNames()
+		{
+			return Enum.GetNames(typeof(Status)).Select(x => x.ToString().Replace('_', ' '));
+		}
+
+		#endregion
 	}
 }

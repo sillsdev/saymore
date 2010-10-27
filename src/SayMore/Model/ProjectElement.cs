@@ -19,7 +19,7 @@ namespace SayMore.Model
 		/// <summary>
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
-		private readonly ComponentFile.Factory _componentFileFactory;
+		private ComponentFile.Factory _componentFileFactory;
 		private string _id;
 
 		public string Id { get { return _id; } }
@@ -48,6 +48,7 @@ namespace SayMore.Model
 
 			ParentFolderPath = parentElementFolder;
 			_id = id ?? GetNewDefaultElementName();
+
 			MetaDataFile = prjElementComponentFileFactory(this, fileType, fileSerializer, RootElementName);
 
 			if (File.Exists(SettingsFilePath))
@@ -127,6 +128,12 @@ namespace SayMore.Model
 		public virtual string DefaultElementNamePrefix
 		{
 			get { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual string DefaultStatusValue
+		{
+			get { return string.Empty; }
 		}
 
 		/// ------------------------------------------------------------------------------------

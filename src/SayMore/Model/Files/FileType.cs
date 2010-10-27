@@ -241,8 +241,9 @@ namespace SayMore.Model.Files
 			col.Frozen = true;
 			yield return col;
 
-			col = SilGrid.CreateDropDownListComboBoxColumn("Status", Enum.GetNames(typeof(Person.Status)));
+			col = SilGrid.CreateTextBoxColumn("Status");
 			col.DataPropertyName = "status";
+			col.ReadOnly = true;
 			yield return col;
 		}
 
@@ -318,7 +319,7 @@ namespace SayMore.Model.Files
 				return from key in new[]
 				{
 					"status",
-					"completed",
+					"stages",
 					"date",
 					"synopsis",
 					"access",
@@ -343,13 +344,14 @@ namespace SayMore.Model.Files
 			col.Frozen = true;
 			yield return col;
 
-			col = SilGrid.CreateImageColumn("Completed");
-			col.DataPropertyName = "completed";
+			col = SilGrid.CreateImageColumn("Stages");
+			col.DataPropertyName = "stages";
 			col.ReadOnly = true;
 			yield return col;
 
-			col = SilGrid.CreateDropDownListComboBoxColumn("Status", Enum.GetNames(typeof(Event.Status)));
+			col = SilGrid.CreateTextBoxColumn("Status");
 			col.DataPropertyName = "status";
+			col.ReadOnly = true;
 			yield return col;
 		}
 

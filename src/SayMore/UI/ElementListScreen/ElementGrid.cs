@@ -164,16 +164,16 @@ namespace SayMore.UI.ElementListScreen
 			return element.MetaDataFile.GetStringValue(fieldName, string.Empty);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected override void OnCellValuePushed(DataGridViewCellValueEventArgs e)
-		{
-			var item = _items.ElementAt(e.RowIndex);
-			var fieldName = Columns[e.ColumnIndex].DataPropertyName;
-			string errMsg;
-			item.MetaDataFile.SetValue(fieldName, e.Value as string, out errMsg);
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnCellValuePushed(DataGridViewCellValueEventArgs e)
+		//{
+		//    var item = _items.ElementAt(e.RowIndex);
+		//    var fieldName = Columns[e.ColumnIndex].DataPropertyName;
+		//    string errMsg;
+		//    item.MetaDataFile.SetValue(fieldName, e.Value as string, out errMsg);
 
-			base.OnCellValuePushed(e);
-			item.MetaDataFile.Save();
-		}
+		//    base.OnCellValuePushed(e);
+		//    item.MetaDataFile.Save();
+		//}
 	}
 }

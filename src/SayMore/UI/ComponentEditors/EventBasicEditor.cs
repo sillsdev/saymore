@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
@@ -27,6 +28,8 @@ namespace SayMore.UI.ComponentEditors
 			Name = "EventEditor";
 
 			InitializeGrid(autoCompleteProvider,fieldGatherer);
+			_status.Items.AddRange(Event.GetStatusNames().ToArray());
+
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 
@@ -48,14 +51,13 @@ namespace SayMore.UI.ComponentEditors
 				_genre.SelectedItem = (genre ?? GenreDefinition.UnknownType);
 			}
 
-
 			var lst = from genre in GenreDefinition.FactoryGenreDefinitions
-					   select new PickerPopupItem
-					   {
-						   Text = genre.Name,
-						   ToolTipText = genre.Definition,
-						   Tag = genre
-					   };
+					  select new PickerPopupItem
+					  {
+						  Text = genre.Name,
+						  ToolTipText = genre.Definition,
+						  Tag = genre
+					  };
 
 			multiValueComboBox1.Popup.AddRange(lst);
 		}
@@ -82,22 +84,21 @@ namespace SayMore.UI.ComponentEditors
 				_gridViewModel.SetComponentFile(file);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Provide special handling for persisting the value of the event type combo.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-//		private bool GetComboBoxValue(BindingHelper helper, Control boundControl, out string newValue)
-//		{
-//			newValue = null;
-//
-//			if (boundControl != _genre)
-//				return false;
-//
-			//newValue = ((DiscourseType)_genre.SelectedItem).Id;
-//			newValue = _genre.Text;
-//			return true;
-//		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Provide special handling for persisting the value of the event type combo.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private bool GetComboBoxValue(BindingHelper helper, Control boundControl, out string newValue)
+		//{
+		//    newValue = null;
+
+		//    if (boundControl != _status)
+		//        return false;
+
+		//    newValue = _status.Text.Replace(' ', '_');
+		//    return true;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleIdEnter(object sender, EventArgs e)

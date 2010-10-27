@@ -12,7 +12,7 @@ namespace SayMore.Model.Files
 		public new delegate ProjectElementComponentFile Factory(ProjectElement parentElement,
 			FileType fileType, FileSerializer fileSerializer, string rootElementName);
 
-		private readonly ProjectElement _parentElement;
+		protected readonly ProjectElement _parentElement;
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectElementComponentFile(ProjectElement parentElement,
@@ -27,7 +27,22 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override string GetStringValue(string key, string defaultValue)
 		{
+			if (key == "status")
+			{
+				var value = base.GetStringValue(key, _parentElement.DefaultStatusValue);
+				return value.Replace('_', ' ');
+			}
+
 			return (key != "id" ? base.GetStringValue(key, defaultValue) : _parentElement.Id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string SetValue(string key, string newValue, out string failureMessage)
+		{
+			if (key == "status")
+				newValue = newValue.Replace(' ', '_');
+
+			return base.SetValue(key, newValue, out failureMessage);
 		}
 
 		/// ------------------------------------------------------------------------------------

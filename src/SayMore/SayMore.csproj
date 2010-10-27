@@ -583,7 +583,7 @@
     <None Include="Resources\VSliderThumbDisabled.png" />
     <None Include="Resources\VSliderThumbPressed.png" />
     <None Include="Resources\Stop.png" />
-    <None Include="Resources\CompletedComponentTemplate.png" />
+    <None Include="Resources\ComponentStageColorBlockTemplate.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

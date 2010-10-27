@@ -1,7 +1,7 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -47,14 +47,12 @@ namespace SayMore.Model
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 			: base(parentElementFolder, id, eventFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
-			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue("status", null)))
-			{
-				// REVIEW: Should we report anything if there's an error message returned?
-				string errMsg;
-				MetaDataFile.SetValue("status", Status.Incoming.ToString(), out errMsg);
-				Save();
-			}
 		}
+		/// ------------------------------------------------------------------------------------
+		//public Event(string parentElementFolder, string id, EventFileType eventFileType,
+		//    ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
+		//    EventComponentFile.Factory prjElementComponentFileFactory)
+		//    : base(parentElementFolder, id, eventFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 
 		/// ------------------------------------------------------------------------------------
 		protected override string ExtensionWithoutPeriod
@@ -97,44 +95,66 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override string DefaultStatusValue
+		{
+			get { return Status.Incoming.ToString(); }
+		}
+
+		#region Static methods
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<string> GetStatusNames()
+		{
+			return Enum.GetNames(typeof(Status)).Select(x => x.ToString().Replace('_', ' '));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static string GetComponentStageText(ComponentStage stage)
 		{
 			return stage.ToString().Replace('_', ' ').Replace(',', ';');
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static Image GetImageForComponentStage(ComponentStage stage)
+		public static Image GetComponentStageColorBlock(ComponentStage stage)
 		{
-			Image img = new Bitmap(Resources.CompletedComponentTemplate);
+			var clrNew = GetComponentStageColor(stage);
 
-			foreach (var kvp in GetColorsToReplace())
-			{
-				var clrNew = GetComponentStageColor(stage & kvp.Key);
-				var tmpImg = AppColors.ReplaceColor(img, kvp.Value, clrNew);
-				img.Dispose();
-				img = tmpImg;
-			}
-
-			return img;
+			return AppColors.ReplaceColor(Resources.ComponentStageColorBlockTemplate,
+				Color.FromArgb(0xFF, Color.White), clrNew);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static IEnumerable<KeyValuePair<ComponentStage, Color>> GetColorsToReplace()
+		/// <summary>
+		/// Gets an image representing the specified stages. Colors representing the stages
+		/// not found in the specified stage are absent (i.e. filled with some whitish color).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Image GetImageForComponentStage(ComponentStage stage)
 		{
-			yield return new KeyValuePair<ComponentStage, Color>(
-				ComponentStage.Informed_Consent, Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+			var sz = Resources.ComponentStageColorBlockTemplate.Size;
+			var stages = Enum.GetValues(typeof(ComponentStage)) as ComponentStage[];
 
-			yield return new KeyValuePair<ComponentStage, Color>(
-				ComponentStage.Translation_Speech, Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFE));
+			// Subtract 1 from the number of stages so the value 'None' is not included.
+			var bmp = new Bitmap((sz.Width - 1) * (stages.Length - 1) + 1, sz.Height);
 
-			yield return new KeyValuePair<ComponentStage, Color>(
-				ComponentStage.Careful_Speech, Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFD));
+			// Now create a single image by combining the blocks for each stage
+			// that is not the 'None' stage.
+			using (var g = Graphics.FromImage(bmp))
+			{
+				int dx = 0;
 
-			yield return new KeyValuePair<ComponentStage, Color>(
-				ComponentStage.Written_Translation, Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFC));
+				foreach (var cs in stages)
+				{
+					if (cs != ComponentStage.None)
+					{
+						using (var block = GetComponentStageColorBlock(cs & stage))
+							g.DrawImageUnscaled(block, dx, 0);
 
-			yield return new KeyValuePair<ComponentStage, Color>(
-				ComponentStage.Written_Transcription, Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFB));
+						dx += (sz.Width - 1);
+					}
+				}
+			}
+
+			return bmp;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,5 +170,7 @@ namespace SayMore.Model
 				default: return Settings.Default.IncompleteEventComponentColor;
 			}
 		}
+
+		#endregion
 	}
 }

@@ -745,7 +745,7 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Lime")]
+        [global::System.Configuration.DefaultSettingValueAttribute("196, 209, 227")]
         public global::System.Drawing.Color InformedConsentColor {
             get {
                 return ((global::System.Drawing.Color)(this["InformedConsentColor"]));
@@ -754,7 +754,7 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("RoyalBlue")]
+        [global::System.Configuration.DefaultSettingValueAttribute("101, 104, 100")]
         public global::System.Drawing.Color TranslationSpeechColor {
             get {
                 return ((global::System.Drawing.Color)(this["TranslationSpeechColor"]));
@@ -763,7 +763,7 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Orchid")]
+        [global::System.Configuration.DefaultSettingValueAttribute("207, 240, 159")]
         public global::System.Drawing.Color CarefulSpeechColor {
             get {
                 return ((global::System.Drawing.Color)(this["CarefulSpeechColor"]));
@@ -772,7 +772,7 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
+        [global::System.Configuration.DefaultSettingValueAttribute("83, 110, 145")]
         public global::System.Drawing.Color WrittenTranslationColor {
             get {
                 return ((global::System.Drawing.Color)(this["WrittenTranslationColor"]));
@@ -781,7 +781,7 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Orange")]
+        [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
         public global::System.Drawing.Color WrittenTranscriptionColor {
             get {
                 return ((global::System.Drawing.Color)(this["WrittenTranscriptionColor"]));

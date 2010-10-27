@@ -34,16 +34,16 @@ namespace SayMore.UI.ElementListScreen
 			this._labelComplete3 = new System.Windows.Forms.Label();
 			this._labelComplete2 = new System.Windows.Forms.Label();
 			this._labelComponent2 = new System.Windows.Forms.Label();
-			this._picBox2 = new System.Windows.Forms.PictureBox();
-			this._picBox1 = new System.Windows.Forms.PictureBox();
 			this._labelComplete0 = new System.Windows.Forms.Label();
-			this._picBox0 = new System.Windows.Forms.PictureBox();
 			this._labelComponent1 = new System.Windows.Forms.Label();
 			this._labelComplete1 = new System.Windows.Forms.Label();
-			this._picBox3 = new System.Windows.Forms.PictureBox();
-			this._picBox4 = new System.Windows.Forms.PictureBox();
 			this._labelComponent3 = new System.Windows.Forms.Label();
 			this._labelComponent4 = new System.Windows.Forms.Label();
+			this._picBox2 = new System.Windows.Forms.PictureBox();
+			this._picBox1 = new System.Windows.Forms.PictureBox();
+			this._picBox0 = new System.Windows.Forms.PictureBox();
+			this._picBox3 = new System.Windows.Forms.PictureBox();
+			this._picBox4 = new System.Windows.Forms.PictureBox();
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._picBox2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._picBox1)).BeginInit();
@@ -76,7 +76,7 @@ namespace SayMore.UI.ElementListScreen
 			this._tableLayout.Controls.Add(this._picBox4, 0, 4);
 			this._tableLayout.Controls.Add(this._labelComponent3, 1, 3);
 			this._tableLayout.Controls.Add(this._labelComponent4, 1, 4);
-			this._tableLayout.Location = new System.Drawing.Point(1, 1);
+			this._tableLayout.Location = new System.Drawing.Point(8, 8);
 			this._tableLayout.Name = "_tableLayout";
 			this._tableLayout.RowCount = 5;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -84,14 +84,14 @@ namespace SayMore.UI.ElementListScreen
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(153, 99);
+			this._tableLayout.Size = new System.Drawing.Size(151, 95);
 			this._tableLayout.TabIndex = 1;
 			// 
 			// _labelComponent0
 			// 
 			this._labelComponent0.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelComponent0.AutoSize = true;
-			this._labelComponent0.Location = new System.Drawing.Point(25, 4);
+			this._labelComponent0.Location = new System.Drawing.Point(23, 3);
 			this._labelComponent0.Name = "_labelComponent0";
 			this._labelComponent0.Size = new System.Drawing.Size(93, 13);
 			this._labelComponent0.TabIndex = 0;
@@ -101,7 +101,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._labelComplete4.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelComplete4.AutoSize = true;
-			this._labelComplete4.Location = new System.Drawing.Point(136, 82);
+			this._labelComplete4.Location = new System.Drawing.Point(134, 79);
 			this._labelComplete4.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelComplete4.Name = "_labelComplete4";
 			this._labelComplete4.Size = new System.Drawing.Size(14, 13);
@@ -112,7 +112,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._labelComplete3.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelComplete3.AutoSize = true;
-			this._labelComplete3.Location = new System.Drawing.Point(136, 62);
+			this._labelComplete3.Location = new System.Drawing.Point(134, 60);
 			this._labelComplete3.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelComplete3.Name = "_labelComplete3";
 			this._labelComplete3.Size = new System.Drawing.Size(14, 13);
@@ -123,7 +123,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._labelComplete2.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelComplete2.AutoSize = true;
-			this._labelComplete2.Location = new System.Drawing.Point(136, 43);
+			this._labelComplete2.Location = new System.Drawing.Point(134, 41);
 			this._labelComplete2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelComplete2.Name = "_labelComplete2";
 			this._labelComplete2.Size = new System.Drawing.Size(14, 13);
@@ -134,55 +134,28 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._labelComponent2.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelComponent2.AutoSize = true;
-			this._labelComponent2.Location = new System.Drawing.Point(25, 43);
+			this._labelComponent2.Location = new System.Drawing.Point(23, 41);
 			this._labelComponent2.Name = "_labelComponent2";
 			this._labelComponent2.Size = new System.Drawing.Size(99, 13);
 			this._labelComponent2.TabIndex = 9;
 			this._labelComponent2.Text = "Written Translation:";
 			// 
-			// _picBox2
-			// 
-			this._picBox2.Location = new System.Drawing.Point(3, 41);
-			this._picBox2.Margin = new System.Windows.Forms.Padding(3, 1, 2, 1);
-			this._picBox2.Name = "_picBox2";
-			this._picBox2.Size = new System.Drawing.Size(17, 17);
-			this._picBox2.TabIndex = 6;
-			this._picBox2.TabStop = false;
-			// 
-			// _picBox1
-			// 
-			this._picBox1.Location = new System.Drawing.Point(3, 22);
-			this._picBox1.Margin = new System.Windows.Forms.Padding(3, 1, 2, 1);
-			this._picBox1.Name = "_picBox1";
-			this._picBox1.Size = new System.Drawing.Size(17, 17);
-			this._picBox1.TabIndex = 5;
-			this._picBox1.TabStop = false;
-			// 
 			// _labelComplete0
 			// 
 			this._labelComplete0.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelComplete0.AutoSize = true;
-			this._labelComplete0.Location = new System.Drawing.Point(136, 4);
+			this._labelComplete0.Location = new System.Drawing.Point(134, 3);
 			this._labelComplete0.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelComplete0.Name = "_labelComplete0";
 			this._labelComplete0.Size = new System.Drawing.Size(14, 13);
 			this._labelComplete0.TabIndex = 2;
 			this._labelComplete0.Text = "#";
 			// 
-			// _picBox0
-			// 
-			this._picBox0.Location = new System.Drawing.Point(3, 3);
-			this._picBox0.Margin = new System.Windows.Forms.Padding(3, 3, 2, 1);
-			this._picBox0.Name = "_picBox0";
-			this._picBox0.Size = new System.Drawing.Size(17, 17);
-			this._picBox0.TabIndex = 1;
-			this._picBox0.TabStop = false;
-			// 
 			// _labelComponent1
 			// 
 			this._labelComponent1.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelComponent1.AutoSize = true;
-			this._labelComponent1.Location = new System.Drawing.Point(25, 24);
+			this._labelComponent1.Location = new System.Drawing.Point(23, 22);
 			this._labelComponent1.Name = "_labelComponent1";
 			this._labelComponent1.Size = new System.Drawing.Size(102, 13);
 			this._labelComponent1.TabIndex = 3;
@@ -192,36 +165,18 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._labelComplete1.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelComplete1.AutoSize = true;
-			this._labelComplete1.Location = new System.Drawing.Point(136, 24);
+			this._labelComplete1.Location = new System.Drawing.Point(134, 22);
 			this._labelComplete1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelComplete1.Name = "_labelComplete1";
 			this._labelComplete1.Size = new System.Drawing.Size(14, 13);
 			this._labelComplete1.TabIndex = 4;
 			this._labelComplete1.Text = "#";
 			// 
-			// _picBox3
-			// 
-			this._picBox3.Location = new System.Drawing.Point(3, 60);
-			this._picBox3.Margin = new System.Windows.Forms.Padding(3, 1, 2, 1);
-			this._picBox3.Name = "_picBox3";
-			this._picBox3.Size = new System.Drawing.Size(17, 17);
-			this._picBox3.TabIndex = 7;
-			this._picBox3.TabStop = false;
-			// 
-			// _picBox4
-			// 
-			this._picBox4.Location = new System.Drawing.Point(3, 79);
-			this._picBox4.Margin = new System.Windows.Forms.Padding(3, 1, 2, 3);
-			this._picBox4.Name = "_picBox4";
-			this._picBox4.Size = new System.Drawing.Size(17, 17);
-			this._picBox4.TabIndex = 8;
-			this._picBox4.TabStop = false;
-			// 
 			// _labelComponent3
 			// 
 			this._labelComponent3.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelComponent3.AutoSize = true;
-			this._labelComponent3.Location = new System.Drawing.Point(25, 62);
+			this._labelComponent3.Location = new System.Drawing.Point(23, 60);
 			this._labelComponent3.Name = "_labelComponent3";
 			this._labelComponent3.Size = new System.Drawing.Size(83, 13);
 			this._labelComponent3.TabIndex = 10;
@@ -231,11 +186,61 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._labelComponent4.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelComponent4.AutoSize = true;
-			this._labelComponent4.Location = new System.Drawing.Point(25, 82);
+			this._labelComponent4.Location = new System.Drawing.Point(23, 79);
 			this._labelComponent4.Name = "_labelComponent4";
 			this._labelComponent4.Size = new System.Drawing.Size(108, 13);
 			this._labelComponent4.TabIndex = 11;
 			this._labelComponent4.Text = "Written Transcription:";
+			// 
+			// _picBox2
+			// 
+			this._picBox2.Location = new System.Drawing.Point(1, 39);
+			this._picBox2.Margin = new System.Windows.Forms.Padding(1, 1, 2, 1);
+			this._picBox2.Name = "_picBox2";
+			this._picBox2.Size = new System.Drawing.Size(17, 17);
+			this._picBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._picBox2.TabIndex = 6;
+			this._picBox2.TabStop = false;
+			// 
+			// _picBox1
+			// 
+			this._picBox1.Location = new System.Drawing.Point(1, 20);
+			this._picBox1.Margin = new System.Windows.Forms.Padding(1, 1, 2, 1);
+			this._picBox1.Name = "_picBox1";
+			this._picBox1.Size = new System.Drawing.Size(17, 17);
+			this._picBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._picBox1.TabIndex = 5;
+			this._picBox1.TabStop = false;
+			// 
+			// _picBox0
+			// 
+			this._picBox0.Location = new System.Drawing.Point(1, 1);
+			this._picBox0.Margin = new System.Windows.Forms.Padding(1, 1, 2, 1);
+			this._picBox0.Name = "_picBox0";
+			this._picBox0.Size = new System.Drawing.Size(17, 17);
+			this._picBox0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._picBox0.TabIndex = 1;
+			this._picBox0.TabStop = false;
+			// 
+			// _picBox3
+			// 
+			this._picBox3.Location = new System.Drawing.Point(1, 58);
+			this._picBox3.Margin = new System.Windows.Forms.Padding(1, 1, 2, 1);
+			this._picBox3.Name = "_picBox3";
+			this._picBox3.Size = new System.Drawing.Size(17, 17);
+			this._picBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._picBox3.TabIndex = 7;
+			this._picBox3.TabStop = false;
+			// 
+			// _picBox4
+			// 
+			this._picBox4.Location = new System.Drawing.Point(1, 77);
+			this._picBox4.Margin = new System.Windows.Forms.Padding(1, 1, 2, 1);
+			this._picBox4.Name = "_picBox4";
+			this._picBox4.Size = new System.Drawing.Size(17, 17);
+			this._picBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._picBox4.TabIndex = 8;
+			this._picBox4.TabStop = false;
 			// 
 			// EventComponentToolTip
 			// 

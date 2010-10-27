@@ -39,7 +39,7 @@ namespace SayMore.UI.ElementListScreen
 					Event.GetComponentStageText(cs) +":";
 
 				((PictureBox)_tableLayout.Controls["_picBox" + i]).Image =
-					Event.GetImageForComponentStage(cs);
+					Event.GetComponentStageColorBlock(cs);
 
 				_tableLayout.Controls["_labelComplete" + i].Text =
 					((componentStage & cs) == cs ? "Complete" : "Incomplete");
@@ -53,7 +53,9 @@ namespace SayMore.UI.ElementListScreen
 		{
 			SetComponentStage(componentStage);
 			Location = pt;
-			Size = new Size(_tableLayout.Width + 2, _tableLayout.Height + 2);
+			Size = new Size(_tableLayout.Width + (_tableLayout.Left * 2),
+				_tableLayout.Height + (_tableLayout.Top * 2));
+
 			Show();
 		}
 

@@ -1,12 +1,23 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using SayMore.Model;
+using SayMore.Model.Files;
 
 namespace SayMore.UI.ElementListScreen
 {
 	public class EventsGrid : ElementGrid
 	{
-		private readonly EventComponentToolTip _tooltip = new EventComponentToolTip();
+		public delegate EventsGrid Factory();  //autofac uses this
+
+		private readonly StagesImageMaker _stagesImageMaker;
+		private readonly StagesControlToolTip _tooltip;
+
+		public EventsGrid(StagesImageMaker stagesImageMaker, StagesControlToolTip toolTip)
+		{
+			_stagesImageMaker = stagesImageMaker;
+			_tooltip = toolTip;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override object GetValueForField(ProjectElement element, string fieldName)
@@ -14,8 +25,7 @@ namespace SayMore.UI.ElementListScreen
 			if (fieldName != "stages")
 				return base.GetValueForField(element, fieldName);
 
-			var completedComponents = element.MetaDataFile.GetStringValue(fieldName, string.Empty);
-			return Event.GetImageForComponentStage(GetComponentStageFromString(completedComponents));
+			return _stagesImageMaker.CreateImageForComponentStage(element.GetCompletedStages());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -27,10 +37,10 @@ namespace SayMore.UI.ElementListScreen
 				Columns[e.ColumnIndex].DataPropertyName == "stages")
 			{
 				var element = _items.ElementAt(e.RowIndex);
-				var text = element.MetaDataFile.GetStringValue("stages", string.Empty);
+				//var text = element.MetaDataFile.GetStringValue("stages", string.Empty);
 				var pt = MousePosition;
 				pt.Offset(5, 5);
-				_tooltip.Show(pt, GetComponentStageFromString(text));
+				_tooltip.Show(pt, element.GetCompletedStages());
 			}
 		}
 
@@ -41,13 +51,6 @@ namespace SayMore.UI.ElementListScreen
 
 			if (Columns[e.ColumnIndex].DataPropertyName == "stages")
 				_tooltip.Hide();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static Event.ComponentStage GetComponentStageFromString(string text)
-		{
-			return (string.IsNullOrEmpty(text) ? Event.ComponentStage.None :
-				(Event.ComponentStage)Enum.Parse(typeof(Event.ComponentStage), text));
 		}
 	}
 }

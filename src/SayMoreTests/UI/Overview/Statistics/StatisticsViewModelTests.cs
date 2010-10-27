@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using Moq;
@@ -33,7 +34,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 		private StatisticsViewModel CreateModel()
 		{
 			var nullRole = new ComponentRole(typeof(Event), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
-							 p => p.EndsWith("txt"), "$ElementId$_someRole");
+							 p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta);
 
 			var people = new ElementRepository<Person>(_folder.Combine("people"), "People", null, null);
 			var events = new ElementRepository<Event>(_folder.Combine("events"),"Events", null, null);
@@ -48,7 +49,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 			//Mock<ComponentRole> role = new Mock<ComponentRole>();
 			//role.Setup(x => x.IsMatch("zzzz")).Returns(false);
 			var role = new ComponentRole(typeof (Event), "blah", "blah", ComponentRole.MeasurementTypes.Time,
-										 ComponentRole.GetIsAudioVideo, "CantMatchThis");
+										 ComponentRole.GetIsAudioVideo, "CantMatchThis", Color.Magenta);
 			Assert.AreEqual(new TimeSpan(0),
 							   CreateModel().GetRecordingDurations(role));
 		}

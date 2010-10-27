@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model;
+using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.NewEventsFromFiles;
 using SayMore.UI.ProjectWindow;
@@ -15,10 +17,10 @@ namespace SayMore.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		public EventScreen(ElementListViewModel<Event> presentationModel,
-			NewEventsFromFileDlgViewModel.Factory newEventsFromFileDlgViewModel)
+			NewEventsFromFileDlgViewModel.Factory newEventsFromFileDlgViewModel, EventsGrid.Factory eventGridFactory)
 			: base(presentationModel)
 		{
-			_elementsGrid = new EventsGrid();
+			_elementsGrid = eventGridFactory();
 			_elementsGrid.Name = "EventsGrid";
 			_newEventsFromFileDlgViewModel = newEventsFromFileDlgViewModel;
 			InitializeComponent();
@@ -45,6 +47,8 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.EventEditorsButtonBackgroundColor1;
 			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.EventEditorsButtonBackgroundColor2;
 			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.EventEditorsBorderColor;
+
+
 		}
 
 		/// ------------------------------------------------------------------------------------

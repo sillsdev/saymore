@@ -1,15 +1,22 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model;
+using SayMore.Model.Files;
 
 namespace SayMore.UI.ElementListScreen
 {
-	public partial class EventComponentToolTip : Form
+	public partial class StagesControlToolTip : Form
 	{
+		private readonly IEnumerable<ComponentRole> _componentRoles;
+		private readonly StagesImageMaker _stagesImageMaker;
+
 		/// ------------------------------------------------------------------------------------
-		public EventComponentToolTip()
+		public StagesControlToolTip(IEnumerable<ComponentRole> componentRoles, StagesImageMaker stagesImageMaker)
 		{
+			_componentRoles = componentRoles;
+			_stagesImageMaker = stagesImageMaker;
 			InitializeComponent();
 
 			foreach (Control ctrl in _tableLayout.Controls)
@@ -26,32 +33,32 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetComponentStage(Event.ComponentStage componentStage)
+		public void SetComponentStage(IEnumerable<ComponentRole> completedRoles)
 		{
 			int i = 0;
 
-			foreach (Event.ComponentStage cs in Enum.GetValues(typeof(Event.ComponentStage)))
+			foreach (var role in _componentRoles)
 			{
-				if (cs == Event.ComponentStage.None)
-					continue;
-
+				//TODO: make the number of stage rows sensitive to the actual number of roles, not preset to 4
+				if (i > 4)
+					break;
 				_tableLayout.Controls["_labelComponent" + i].Text =
-					Event.GetComponentStageText(cs) +":";
+					role.Name +":";
 
 				((PictureBox)_tableLayout.Controls["_picBox" + i]).Image =
-					Event.GetComponentStageColorBlock(cs);
+					_stagesImageMaker.GetComponentStageColorBlock(role, completedRoles);
 
 				_tableLayout.Controls["_labelComplete" + i].Text =
-					((componentStage & cs) == cs ? "Complete" : "Incomplete");
+					(role.IsContainedIn(completedRoles)? "Complete" : "Incomplete");
 
 				i++;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Show(Point pt, Event.ComponentStage componentStage)
+		public void Show(Point pt, IEnumerable<ComponentRole> completedRoles)
 		{
-			SetComponentStage(componentStage);
+			SetComponentStage(completedRoles);
 			Location = pt;
 			Size = new Size(_tableLayout.Width + (_tableLayout.Left * 2),
 				_tableLayout.Height + (_tableLayout.Top * 2));

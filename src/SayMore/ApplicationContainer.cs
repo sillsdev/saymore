@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Autofac;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating;
 
 namespace SayMore
@@ -50,31 +52,31 @@ namespace SayMore
 				yield return new
 					ComponentRole(typeof(Event), "original", "Original Recording",
 						ComponentRole.MeasurementTypes.Time,
-						ComponentRole.GetIsAudioVideo, "$ElementId$_Original");
+						ComponentRole.GetIsAudioVideo, "$ElementId$_Original", Color.Magenta);//todo... but maybe we dont' show this as a stage?
 
 				yield return
 					new ComponentRole(typeof(Event), "carefulSpeech", "Careful Speech",
 						ComponentRole.MeasurementTypes.Time,
-						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful");
+						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful", Settings.Default.CarefulSpeechColor);
 
 				yield return
 					new ComponentRole(typeof(Event), "oralTranslation", "Oral Translation",
 						ComponentRole.MeasurementTypes.Time,
-						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation");
+						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation", Settings.Default.TranslationSpeechColor);
 
 				yield return
 					new ComponentRole(typeof(Event), "transcription", "Transcription",
 						ComponentRole.MeasurementTypes.Words,
-						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Transcription");
+						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Transcription", Color.Magenta);//todo
 
 				yield return
 					new ComponentRole(typeof (Event), "transcriptionN", "Written Translation",
 						ComponentRole.MeasurementTypes.Words,
-						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N");
+						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N", Settings.Default.WrittenTranslationColor);
 
 				yield return
 					new ComponentRole(typeof (Person), "consent", "Informed Consent",
-						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent");
+						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent", Settings.Default.InformedConsentColor);
 			}
 		}
 

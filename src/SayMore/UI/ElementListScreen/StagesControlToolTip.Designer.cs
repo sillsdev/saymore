@@ -1,6 +1,6 @@
 namespace SayMore.UI.ElementListScreen
 {
-	partial class EventComponentToolTip
+	partial class StagesControlToolTip
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -252,7 +252,7 @@ namespace SayMore.UI.ElementListScreen
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "EventComponentToolTip";
+			this.Name = "StagesControlToolTip";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

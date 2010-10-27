@@ -208,11 +208,11 @@
     <Compile Include="UI\ElementListScreen\ComponentFileGrid.Designer.cs">
       <DependentUpon>ComponentFileGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ElementListScreen\EventComponentToolTip.cs">
+    <Compile Include="UI\ElementListScreen\StagesControlToolTip.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\ElementListScreen\EventComponentToolTip.Designer.cs">
-      <DependentUpon>EventComponentToolTip.cs</DependentUpon>
+    <Compile Include="UI\ElementListScreen\StagesControlToolTip.Designer.cs">
+      <DependentUpon>StagesControlToolTip.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ElementListScreen\EventsGrid.cs">
       <SubType>Component</SubType>
@@ -232,6 +232,7 @@
     <Compile Include="UI\ElementListScreen\ElementGrid.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ElementListScreen\StagesImageMaker.cs" />
     <Compile Include="UI\LowLevelControls\PopupControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -519,8 +520,8 @@
     <EmbeddedResource Include="UI\ComponentEditors\MediaComponentEditor.resx">
       <DependentUpon>MediaComponentEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ElementListScreen\EventComponentToolTip.resx">
-      <DependentUpon>EventComponentToolTip.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ElementListScreen\StagesControlToolTip.resx">
+      <DependentUpon>StagesControlToolTip.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LowLevelControls\PopupControl.resx">
       <DependentUpon>PopupControl.cs</DependentUpon>

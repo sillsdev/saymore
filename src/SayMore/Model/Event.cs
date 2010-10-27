@@ -27,6 +27,7 @@ namespace SayMore.Model
 			Skipped
 		}
 
+
 		[Flags]
 		public enum ComponentStage
 		{
@@ -107,69 +108,6 @@ namespace SayMore.Model
 			return Enum.GetNames(typeof(Status)).Select(x => x.ToString().Replace('_', ' '));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public static string GetComponentStageText(ComponentStage stage)
-		{
-			return stage.ToString().Replace('_', ' ').Replace(',', ';');
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Image GetComponentStageColorBlock(ComponentStage stage)
-		{
-			var clrNew = GetComponentStageColor(stage);
-
-			return AppColors.ReplaceColor(Resources.ComponentStageColorBlockTemplate,
-				Color.FromArgb(0xFF, Color.White), clrNew);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets an image representing the specified stages. Colors representing the stages
-		/// not found in the specified stage are absent (i.e. filled with some whitish color).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Image GetImageForComponentStage(ComponentStage stage)
-		{
-			var sz = Resources.ComponentStageColorBlockTemplate.Size;
-			var stages = Enum.GetValues(typeof(ComponentStage)) as ComponentStage[];
-
-			// Subtract 1 from the number of stages so the value 'None' is not included.
-			var bmp = new Bitmap((sz.Width - 1) * (stages.Length - 1) + 1, sz.Height);
-
-			// Now create a single image by combining the blocks for each stage
-			// that is not the 'None' stage.
-			using (var g = Graphics.FromImage(bmp))
-			{
-				int dx = 0;
-
-				foreach (var cs in stages)
-				{
-					if (cs != ComponentStage.None)
-					{
-						using (var block = GetComponentStageColorBlock(cs & stage))
-							g.DrawImageUnscaled(block, dx, 0);
-
-						dx += (sz.Width - 1);
-					}
-				}
-			}
-
-			return bmp;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Color GetComponentStageColor(ComponentStage component)
-		{
-			switch (component)
-			{
-				case ComponentStage.Informed_Consent: return Settings.Default.InformedConsentColor;
-				case ComponentStage.Translation_Speech: return Settings.Default.TranslationSpeechColor;
-				case ComponentStage.Careful_Speech: return Settings.Default.CarefulSpeechColor;
-				case ComponentStage.Written_Translation: return Settings.Default.WrittenTranslationColor;
-				case ComponentStage.Written_Transcription: return Settings.Default.WrittenTranscriptionColor;
-				default: return Settings.Default.IncompleteEventComponentColor;
-			}
-		}
 
 		#endregion
 	}

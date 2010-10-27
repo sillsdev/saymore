@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -187,15 +188,15 @@ namespace SayMoreTests.Model.Files
 			{
 				new ComponentRole(typeof(Event),"translation", "translation",
 					ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"),
-					"$ElementId$_Original"),
+					"$ElementId$_Original", Color.Magenta),
 
 				new ComponentRole(typeof(Event),"transcriptionN", "Written Translation",
 					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
-					"$ElementId$_Translation-N"),
+					"$ElementId$_Translation-N", Color.Magenta),
 
 				new ComponentRole(typeof(Event),"original", "Original Recording",
 					ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo,
-					"$ElementId$_Original")
+					"$ElementId$_Original", Color.Magenta)
 			};
 
 			return new ComponentFile(path,
@@ -225,7 +226,7 @@ namespace SayMoreTests.Model.Files
 		{
 			ComponentFile f = CreateComponentFile("abc.txt");
 			var role = new ComponentRole(typeof (Event), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
-										 p => p.EndsWith("txt"), "$ElementId$_someRole");
+										 p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta);
 			f.AssignRole(role);
 			Assert.AreEqual(ParentFolderName + "_someRole.txt", Path.GetFileName(f.PathToAnnotatedFile));
 			Assert.IsTrue(File.Exists(f.PathToAnnotatedFile));

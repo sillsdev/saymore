@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -32,15 +33,14 @@ namespace SayMore.Model.Files
 
 		private readonly string _renamingTemplate;
 
-		public ComponentRole(Type releventElementType, string id, string englishLabel,
-			MeasurementTypes measurementType, Func<string, bool> elligibilityFilter,
-			string renamingTemplate)
+		public ComponentRole(Type releventElementType, string id, string englishLabel, MeasurementTypes measurementType, Func<string, bool> elligibilityFilter, string renamingTemplate, Color color)
 		{
 			Id = id;
 			_releventElementType = releventElementType;
 			_englishLabel = englishLabel;
 			MeasurementType = measurementType;
 			ElligibilityFilter = elligibilityFilter;
+			Color = color;
 			_renamingTemplate = renamingTemplate;
 		}
 
@@ -74,6 +74,8 @@ namespace SayMore.Model.Files
 		{
 			get { return _englishLabel; }
 		}
+
+		public Color Color{ get; set;}
 
 
 		public static bool GetIsAudioVideo(string path)
@@ -116,6 +118,13 @@ namespace SayMore.Model.Files
 				return ElligibilityFilter(Path.GetExtension(p))
 					&& name.ToLower() == _renamingTemplate.Replace("$ElementId$", eventId).ToLower();
 			});
+		}
+
+		public bool IsContainedIn(IEnumerable<ComponentRole> roleSet)
+		{
+			//todo (jh, jh): why didn't this work? Are there multiple instance being made somewhere?
+			//      if (roleSet.Contains(this))
+			return roleSet.Any(r => r.Name == Name);
 		}
 	}
 }

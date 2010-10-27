@@ -1,3 +1,4 @@
+using System.Drawing;
 using NUnit.Framework;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -29,7 +30,7 @@ namespace SayMoreTests.Model.Files
 		private static ComponentRole GetRoleForOriginalRecording()
 		{
 			return new ComponentRole(typeof(Event), "original", "Original Recording",
-				ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original");
+				ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original", Color.Magenta);
 		}
 
 		[Test]

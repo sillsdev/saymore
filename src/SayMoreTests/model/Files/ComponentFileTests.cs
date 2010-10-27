@@ -213,10 +213,10 @@ namespace SayMoreTests.Model.Files
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetAssignedRoles_HasTwoRoles_ReturnsThem()
+		public void GetAssignedRoles_HasOneRoles_ReturnsThem()
 		{
-			ComponentFile f = CreateComponentFileWithRoleChoices("abc.txt");
-			Assert.AreEqual(0, f.GetAssignedRoles().Count());
+			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Original.txt");
+			Assert.AreEqual(1, f.GetAssignedRoles().Count());
 		}
 
 		[Test]

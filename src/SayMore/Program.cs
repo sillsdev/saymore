@@ -157,6 +157,8 @@ namespace SayMore
 			Palaso.Reporting.ErrorReport.AddProperty("EmailAddress", "issues@saymore.palaso.org");
 			Palaso.Reporting.ErrorReport.AddStandardProperties();
 			Palaso.Reporting.ExceptionHandler.Init();
+
+			Palaso.Reporting.UsageReporter.ReportLaunchesAsync();
 		}
 	}
 }

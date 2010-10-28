@@ -53,6 +53,9 @@ namespace SayMore.UI.ComponentEditors
 			base.SetComponentFile(file);
 			Name = "AudioVideoPlayer:" + Path.GetFileName(file.PathToAnnotatedFile);
 
+			file.PreRenameAction = (() => _mediaPlayerViewModel.Reinitialize());
+			file.PostRenameAction = (() => _mediaPlayerViewModel.LoadFile(file.PathToAnnotatedFile));
+
 			_playerPausedWhenTabbedChanged = false;
 			_mediaPlayerViewModel.Reinitialize();
 			_mediaPlayerViewModel.LoadFile(file.PathToAnnotatedFile);

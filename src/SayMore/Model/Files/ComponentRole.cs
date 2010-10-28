@@ -19,12 +19,12 @@ namespace SayMore.Model.Files
 	/// </summary>
 	public class ComponentRole
 	{
-		private readonly Type _releventElementType;
 		private readonly string _englishLabel;
 		private readonly string _renamingTemplate;
 
 		public enum MeasurementTypes { None, Time, Words }
 
+		public Type RelevantElementType { get; private set;}
 		public MeasurementTypes MeasurementType { get; private set; }
 		public string Id { get; private set; }
 		public Color Color { get; private set; }
@@ -33,12 +33,12 @@ namespace SayMore.Model.Files
 		//tells whether this file looks like it *might* be filling this role
 		public Func<string, bool> ElligibilityFilter { get; private set; }
 
-		public ComponentRole(Type releventElementType, string id, string englishLabel,
+		public ComponentRole(Type relevantElementType, string id, string englishLabel,
 			MeasurementTypes measurementType, Func<string, bool> elligibilityFilter,
 			string renamingTemplate, Color color)
 		{
 			Id = id;
-			_releventElementType = releventElementType;
+			RelevantElementType = relevantElementType;
 			_englishLabel = englishLabel;
 			MeasurementType = measurementType;
 			ElligibilityFilter = elligibilityFilter;
@@ -119,6 +119,11 @@ namespace SayMore.Model.Files
 			//todo (jh, jh): why didn't this work? Are there multiple instance being made somewhere?
 			//      if (roleSet.Contains(this))
 			return roleSet.Any(r => r.Name == Name);
+		}
+
+		public override string ToString()
+		{
+			return Name + ", " + Id + ", Type: " + RelevantElementType;
 		}
 	}
 }

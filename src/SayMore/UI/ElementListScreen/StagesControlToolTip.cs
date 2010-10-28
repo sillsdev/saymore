@@ -20,7 +20,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public StagesControlToolTip(IEnumerable<ComponentRole> componentRoles, StagesImageMaker stagesImageMaker)
 		{
-			_componentRoles = componentRoles;
+			// For now, we only have stages for Events.
+			_componentRoles = componentRoles.Where(x => x.RelevantElementType == typeof(Event));
 			_stagesImageMaker = stagesImageMaker;
 			InitializeComponent();
 

@@ -61,6 +61,8 @@ namespace SayMore.Model.Files
 		public string FileSize { get; protected set; }
 		public Image SmallIcon { get; protected set; }
 		public string DateModified { get; protected set; }
+		public Action PreRenameAction;
+		public Action PostRenameAction;
 
 		protected string _metaDataPath;
 
@@ -390,6 +392,7 @@ namespace SayMore.Model.Files
 						cmd1.Action(PathToAnnotatedFile);
 						if (refreshAction != null)
 							refreshAction();
+
 					}) { Tag = cmd1.MenuId };
 				}
 			}
@@ -411,9 +414,17 @@ namespace SayMore.Model.Files
 					ComponentRole role1 = role;
 					yield return new ToolStripMenuItem(label, null, (sender, args) =>
 					{
+						if (PreRenameAction != null)
+							PreRenameAction();
+
 						AssignRole(role1);
+
 						if (refreshAction != null)
 							refreshAction();
+
+						if (PostRenameAction != null)
+							PostRenameAction();
+
 					}) { Tag = "rename" };
 				}
 		   }

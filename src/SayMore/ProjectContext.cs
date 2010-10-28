@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using Autofac;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -28,6 +29,12 @@ namespace SayMore
 		public Project Project { get; private set; }
 		public ProjectWindow ProjectWindow { get; private set; }
 
+		private AudioVideoDataGatherer _audioVideoDataGatherer;
+		private PresetGatherer _presetGatherer;
+		private AutoCompleteValueGatherer _autoCompleteValueGatherer;
+		private FieldGatherer _fieldGatherer;
+
+
 		/// ------------------------------------------------------------------------------------
 		public ProjectContext(string projectSettingsPath, IContainer parentContainer)
 		{
@@ -42,11 +49,18 @@ namespace SayMore
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
 			peopleRepoFactory(rootDirectoryPath, "People", _scope.Resolve<PersonFileType>());
 
-			//Start up the background operations
-			_scope.Resolve<AudioVideoDataGatherer>().Start();
-			_scope.Resolve<PresetGatherer>().Start();
-			_scope.Resolve<AutoCompleteValueGatherer>().Start();
-			_scope.Resolve<FieldGatherer>().Start();
+			//Start the background operations
+			_audioVideoDataGatherer = _scope.Resolve<AudioVideoDataGatherer>();
+			_audioVideoDataGatherer.Start();
+
+			_presetGatherer = _scope.Resolve<PresetGatherer>();
+			_presetGatherer.Start();
+
+			_autoCompleteValueGatherer = _scope.Resolve<AutoCompleteValueGatherer>();
+			_autoCompleteValueGatherer.Start();
+
+			_fieldGatherer = _scope.Resolve<FieldGatherer>();
+			_fieldGatherer.Start();
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
 		}
@@ -118,6 +132,10 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
+			_audioVideoDataGatherer.Dispose();
+			_presetGatherer.Dispose();
+			_autoCompleteValueGatherer.Dispose();
+			_fieldGatherer.Dispose();
 			_scope.Dispose();
 			_scope = null;
 		}

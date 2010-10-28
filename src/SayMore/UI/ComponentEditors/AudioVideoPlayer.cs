@@ -10,7 +10,7 @@ namespace SayMore.UI.ComponentEditors
 	public partial class AudioVideoPlayer : EditorBase
 	{
 		private TabPage _owningTab;
-		private bool _playerPausedWhenTabbedChanged;
+		private bool _playerPausedWhenTabChanged;
 		private readonly MediaPlayerViewModel _mediaPlayerViewModel;
 		private readonly MediaPlayer.MediaPlayer _mediaPlayer;
 
@@ -56,7 +56,7 @@ namespace SayMore.UI.ComponentEditors
 			file.PreRenameAction = (() => _mediaPlayerViewModel.Reinitialize());
 			file.PostRenameAction = (() => _mediaPlayerViewModel.LoadFile(file.PathToAnnotatedFile));
 
-			_playerPausedWhenTabbedChanged = false;
+			_playerPausedWhenTabChanged = false;
 			_mediaPlayerViewModel.Reinitialize();
 			_mediaPlayerViewModel.LoadFile(file.PathToAnnotatedFile);
 
@@ -108,10 +108,10 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		void HandleOwningTabPageEnter(object sender, System.EventArgs e)
 		{
-			if (Settings.Default.PauseMediaPlayerWhenTabLoosesFocus && _playerPausedWhenTabbedChanged)
+			if (Settings.Default.PauseMediaPlayerWhenTabLoosesFocus && _playerPausedWhenTabChanged)
 			{
 				_mediaPlayerViewModel.Play();
-				_playerPausedWhenTabbedChanged = false;
+				_playerPausedWhenTabChanged = false;
 			}
 		}
 
@@ -121,7 +121,7 @@ namespace SayMore.UI.ComponentEditors
 			if (Settings.Default.PauseMediaPlayerWhenTabLoosesFocus && !_mediaPlayerViewModel.IsPaused)
 			{
 				_mediaPlayerViewModel.Pause();
-				_playerPausedWhenTabbedChanged = true;
+				_playerPausedWhenTabChanged = true;
 			}
 		}
 	}

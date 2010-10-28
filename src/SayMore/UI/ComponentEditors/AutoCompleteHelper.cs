@@ -176,8 +176,8 @@ namespace SayMore.UI.ComponentEditors
 			_autoCompleteLists = _provider.GetValueLists(true);
 
 			_controlsNeedingNewList = (from kvp in _keysForControls
-										where !string.IsNullOrEmpty(kvp.Value)
-										select kvp.Key).ToList();
+									   where !string.IsNullOrEmpty(kvp.Value)
+									   select kvp.Key).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -62,9 +62,8 @@ namespace SayMore.Model.Files.DataGathering
 		public void Dispose()
 		{
 			if (_workerThread != null)
-			{
 				_workerThread.Abort(); //will eventually lead to it stopping
-			}
+
 			_workerThread = null;
 		}
 
@@ -130,6 +129,7 @@ namespace SayMore.Model.Files.DataGathering
 				NewDataAvailable(this, EventArgs.Empty);
 		}
 
+		public bool AllFilesProcessedAtLeastOnce { get; protected set; }
 		/// ------------------------------------------------------------------------------------
 		private void StartWorking()
 		{
@@ -153,6 +153,7 @@ namespace SayMore.Model.Files.DataGathering
 						{
 							_restartRequested = false;
 							ProcessAllFiles();
+							AllFilesProcessedAtLeastOnce = true;
 						}
 						lock (_pendingFileEvents)
 						{
@@ -161,6 +162,7 @@ namespace SayMore.Model.Files.DataGathering
 								ProcessFileEvent(_pendingFileEvents.Dequeue());
 							}
 						}
+
 						if (!ShouldStop)
 							Thread.Sleep(100);
 					}
@@ -304,25 +306,38 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void ProcessAllFiles()
+		public virtual void ProcessAllFilesInFolder(string folder)
 		{
-			Status = "Working";
+			ProcessAllFiles(folder, false);
+		}
 
+		/// ------------------------------------------------------------------------------------
+		public virtual void ProcessAllFiles()
+		{
 			//now that the watcher is up and running, gather up all existing files
 			lock (((ICollection)_fileToDataDictionary).SyncRoot)
 			{
 				_fileToDataDictionary.Clear();
 			}
+
+			ProcessAllFiles(RootDirectoryPath, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void ProcessAllFiles(string topLevelFolder, bool searchSubFolders)
+		{
+			Status = "Working";
+
 			var paths = new List<string>();
-			paths.AddRange(Directory.GetFiles(RootDirectoryPath, "*.*", SearchOption.AllDirectories));
+			paths.AddRange(Directory.GetFiles(topLevelFolder, "*.*",
+				searchSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly));
 
 			for (int i = 0; i < paths.Count; i++)
 			{
 				if (ShouldStop)
 					break;
+
 				Status = string.Format("Processing {0} of {1} files", 1 + i, paths.Count);
-				if (ShouldStop)
-					break;
 				CollectDataForFile(paths[i]);
 			}
 

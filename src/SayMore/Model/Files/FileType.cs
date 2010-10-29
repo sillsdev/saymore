@@ -413,7 +413,7 @@ namespace SayMore.Model.Files
 			{
 				Key = "Audio_Bit_Rate",
 				Suffix = "kbps",
-				DataItemChooser = (info => info.AudioBitRate / 1000),
+				DataItemChooser = (info => info.AudioBitRate),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 
@@ -421,7 +421,7 @@ namespace SayMore.Model.Files
 			{
 				Key = "Video_Bit_Rate",
 				Suffix = "kbps",
-				DataItemChooser = (info => info.VideoBitRate / 1000),
+				DataItemChooser = (info => info.VideoBitRate),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 

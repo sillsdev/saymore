@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model;
-using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.NewEventsFromFiles;
 using SayMore.UI.ProjectWindow;
@@ -13,16 +11,14 @@ namespace SayMore.UI.ElementListScreen
 	/// ----------------------------------------------------------------------------------------
 	public partial class EventScreen : ConcreteEventScreen, ISayMoreView
 	{
-		private AudioVideoDataGatherer _audioVideoDataGatherer;
 		private readonly NewEventsFromFileDlgViewModel.Factory _newEventsFromFileDlgViewModel;
 
 		/// ------------------------------------------------------------------------------------
 		public EventScreen(ElementListViewModel<Event> presentationModel,
 			NewEventsFromFileDlgViewModel.Factory newEventsFromFileDlgViewModel,
-			EventsGrid.Factory eventGridFactory, AudioVideoDataGatherer avGatherer)
+			EventsGrid.Factory eventGridFactory)
 			: base(presentationModel)
 		{
-			_audioVideoDataGatherer = avGatherer;
 			_elementsGrid = eventGridFactory();
 			_elementsGrid.Name = "EventsGrid";
 			_newEventsFromFileDlgViewModel = newEventsFromFileDlgViewModel;
@@ -81,16 +77,6 @@ namespace SayMore.UI.ElementListScreen
 
 				if (Settings.Default.EventScreenComponentsSplitterPos > 0)
 					_componentsSplitter.SplitterDistance = Settings.Default.EventScreenComponentsSplitterPos;
-
-				// This code makes sure that the file info. gathering is at least finished for
-				// the media files in the current event's folder so the grid has all the info.
-				// it needs right away.
-				_audioVideoDataGatherer.SuspendProcessing();
-
-				if (_model.SelectedElement != null)
-					_audioVideoDataGatherer.ProcessAllFilesInFolder(_model.SelectedElement.FolderPath);
-
-				_audioVideoDataGatherer.ResumeProcessing(true);
 			}
 		}
 

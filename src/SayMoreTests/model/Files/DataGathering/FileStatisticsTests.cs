@@ -1,10 +1,8 @@
-using System;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using SayMore.Model.Files.DataGathering;
-using SayMore.UI.Utilities;
+using SayMore.Model.Files;
 
 namespace SayMoreTests.Model.Files.DataGathering
 {
@@ -18,7 +16,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 		}
 
 		[Test]
-		[Ignore("MPLayer isn't quit precise enough for this kind of test.")]
+		//[Ignore("MPLayer isn't quit precise enough for this kind of test.")]
 		[Category("SkipOnTeamCity")]
 		public void Duration_Audio_Correct()
 		{

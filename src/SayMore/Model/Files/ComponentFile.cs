@@ -37,10 +37,14 @@ namespace SayMore.Model.Files
 		[DllImport("shell32.dll")]
 		public static extern IntPtr SHGetFileInfo(string pszPath, uint
 			dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
+
+		[DllImport("user32.dll", CharSet=CharSet.Auto)]
+		extern static bool DestroyIcon(IntPtr handle);
 #endif
 		#endregion
 
 		private static readonly Dictionary<string, string> s_fileTypes = new Dictionary<string, string>();
+		private static readonly Dictionary<string, Bitmap> s_smallFileIcons = new Dictionary<string, Bitmap>();
 
 		//autofac uses this, so that callers only need to know the path, not all the dependencies
 		public delegate ComponentFile Factory(string pathToAnnotatedFile);
@@ -548,29 +552,32 @@ namespace SayMore.Model.Files
 #if !MONO
 			var ext = Path.GetExtension(fullFilePath);
 			if (s_fileTypes.TryGetValue(ext, out fileType))
+			{
+				smallIcon = s_smallFileIcons[ext];
 				return;
+			}
 
 			SHFILEINFO shinfo = new SHFILEINFO();
 			try
 			{
-				SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo),
-					SHGFI_TYPENAME | SHGFI_DISPLAYNAME);
-				//SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
-				//        SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
+				SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
+						SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
 			}
 			catch (Exception)
 			{ }
 
-			// For now, we use our own filetype icons. If we ever use the one's returned by
-			// the OS, then we'll need to cache a copy for each file type so we don't create
-			// a new bitmap for each component file. Otherwise, GDI resources get sucked up
-			// very quickly and the program crashes.
-			//// This should only be zero during tests.
-			//smallIcon = (shinfo.hIcon == IntPtr.Zero ?
-			//    null : Icon.FromHandle(shinfo.hIcon).ToBitmap());
+			// This should only be zero during tests.
+			if (shinfo.hIcon != IntPtr.Zero)
+			{
+				var icon = Icon.FromHandle(shinfo.hIcon);
+				smallIcon = icon.ToBitmap();
+				DestroyIcon(shinfo.hIcon);
+			}
 
 			fileType = shinfo.szTypeName;
+
 			s_fileTypes[ext] = fileType;
+			s_smallFileIcons[ext] = smallIcon;
 #else
 			// REVIEW: Figure out a better way to get this in Mono.
 			Icon icon = Icon.ExtractAssociatedIcon(fullFilePath);

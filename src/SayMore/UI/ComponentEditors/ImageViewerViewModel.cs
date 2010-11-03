@@ -14,13 +14,22 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public ImageViewerViewModel(string pathToImage, int[] clickZoomPercentages)
 		{
-			// Do this instead of using the Load method because Load keeps a lock on the file.
-			using (var fs = new FileStream(pathToImage, FileMode.Open, FileAccess.Read))
+			try
 			{
-				Image = Image.FromStream(fs);
-				fs.Close();
-			}
 
+				// Do this instead of using the Load method because Load keeps a lock on the file.
+				using (var fs = new FileStream(pathToImage, FileMode.Open, FileAccess.Read))
+				{
+					Image = Image.FromStream(fs);
+					fs.Close();
+				}
+
+			}
+			catch (Exception error)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, "Could not open that picture");
+			   Image = new Bitmap(100, 100);
+			}
 			ClickZoomPercentages = clickZoomPercentages;
 		}
 

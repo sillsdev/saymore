@@ -175,7 +175,12 @@ namespace SayMore.Model
 		public void Load()
 		{
 			XElement project = XElement.Load(SettingsFilePath);
-			Iso639Code = project.Descendants("Iso639Code").First().Value;
+			var elements = project.Descendants("Iso639Code");
+			if(elements.Count()==0)
+			{
+				elements = project.Descendants("IsoCode"); //old value when we were called "Sponge"
+			}
+			Iso639Code = elements.First().Value;
 		}
 
 		/// ------------------------------------------------------------------------------------

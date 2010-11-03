@@ -541,10 +541,15 @@ namespace SayMore.Model.Files
 			out string fileType)
 		{
 #if !MONO
-			SHFILEINFO shinfo = new SHFILEINFO();
-			SHGetFileInfo(fullFilePath, 0, ref
-				shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
-				SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
+
+				SHFILEINFO shinfo = new SHFILEINFO();
+				try
+				{
+					SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
+							SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
+			}
+			catch (Exception)
+			{ }
 
 			// This should only be zero during tests.
 			smallIcon = (shinfo.hIcon == IntPtr.Zero ?

@@ -2,8 +2,11 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 using SayMore.Model.Fields;
+using Palaso.Xml;
 
 namespace SayMore.Model.Files
 {
@@ -40,13 +43,15 @@ namespace SayMore.Model.Files
 		public void Load(List<FieldInstance> fields, string path, string rootElementName)
 		{
 			fields.Clear();
-			var child = XElement.Load(path);
-			foreach (var element in child.Descendants())
+			var doc = new XmlDocument();
+			doc.Load(path);
+
+			foreach (XmlNode node in doc.ChildNodes[1].ChildNodes)
 			{
-				var type = element.Attribute("type").Value;
+				var type = node.GetOptionalStringAttribute("type", "string");//sponge-era files didn't have this
 
 				//without this, \r\n was getting changed to \n (mostly a problem for unit tests)
-				string s = element.Value.Replace("\n", Environment.NewLine);
+				string s = node.InnerText.Replace("\n", Environment.NewLine);
 				s = s.Replace("\r\n", Environment.NewLine);
 
 				//Enhance: think about checking with existing field definitions
@@ -54,11 +59,15 @@ namespace SayMore.Model.Files
 				//defined on this computer.
 				//2)someday we may want to check the type, too
 				//Enhance: someday we may have other types
-				var localName = element.Name.LocalName;
-				if (localName == "eventType")
-				{
-					localName = "genre";
-				}
+
+
+				var localName = node.Name;
+				localName = localName.Replace("eventType", "genre");//Sponge
+				localName = localName.Replace("Langauge", "Language");//Sponge
+				localName = localName.Replace("learnedLanguageIn", "primaryLanguageLearnedIn");//Sponge
+
+				if (localName == "fullName")
+					continue; //we don't store that separately from the file name, anymore
 
 				fields.Add(new FieldInstance(localName, type, s));
 			}

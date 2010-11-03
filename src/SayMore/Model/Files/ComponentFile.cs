@@ -40,6 +40,8 @@ namespace SayMore.Model.Files
 #endif
 		#endregion
 
+		private static readonly Dictionary<string, string> s_fileTypes = new Dictionary<string, string>();
+
 		//autofac uses this, so that callers only need to know the path, not all the dependencies
 		public delegate ComponentFile Factory(string pathToAnnotatedFile);
 
@@ -540,22 +542,35 @@ namespace SayMore.Model.Files
 		private static void GetSmallIconAndFileType(string fullFilePath, out Bitmap smallIcon,
 			out string fileType)
 		{
-#if !MONO
+			smallIcon = null;
+			fileType = null;
 
-				SHFILEINFO shinfo = new SHFILEINFO();
-				try
-				{
-					SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
-							SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
+#if !MONO
+			var ext = Path.GetExtension(fullFilePath);
+			if (s_fileTypes.TryGetValue(ext, out fileType))
+				return;
+
+			SHFILEINFO shinfo = new SHFILEINFO();
+			try
+			{
+				SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo),
+					SHGFI_TYPENAME | SHGFI_DISPLAYNAME);
+				//SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
+				//        SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
 			}
 			catch (Exception)
 			{ }
 
-			// This should only be zero during tests.
-			smallIcon = (shinfo.hIcon == IntPtr.Zero ?
-				null : Icon.FromHandle(shinfo.hIcon).ToBitmap());
+			// For now, we use our own filetype icons. If we ever use the one's returned by
+			// the OS, then we'll need to cache a copy for each file type so we don't create
+			// a new bitmap for each component file. Otherwise, GDI resources get sucked up
+			// very quickly and the program crashes.
+			//// This should only be zero during tests.
+			//smallIcon = (shinfo.hIcon == IntPtr.Zero ?
+			//    null : Icon.FromHandle(shinfo.hIcon).ToBitmap());
 
 			fileType = shinfo.szTypeName;
+			s_fileTypes[ext] = fileType;
 #else
 			// REVIEW: Figure out a better way to get this in Mono.
 			Icon icon = Icon.ExtractAssociatedIcon(fullFilePath);

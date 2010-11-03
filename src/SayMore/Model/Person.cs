@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Localization;
 using SayMore.Model.Files;
@@ -69,6 +70,50 @@ namespace SayMore.Model
 		public override string DefaultStatusValue
 		{
 			get { return Status.Incoming.ToString(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Image GetInformedConsentImage()
+		{
+			var componentFile = GetInformedConsentComponentFile();
+			if (componentFile == null)
+				return Resources.NoInformedConsent;
+
+			if (componentFile.FileType.IsAudio)
+				return Resources.AudioInformedConsent;
+
+			if (componentFile.FileType.IsVideo)
+				return Resources.VideoInformedConsent;
+
+			return Resources.WrittenInformedConsent;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetToolTipForInformedConsentType()
+		{
+			var componentFile = GetInformedConsentComponentFile();
+			if (componentFile == null)
+				return "No Informed Consent";
+
+			if (componentFile.FileType.IsAudio)
+				return "Informed Consent is Audio File";
+
+			if (componentFile.FileType.IsVideo)
+				return "Informed Consent is Video File";
+
+			return "Informed Consent is Written";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public ComponentFile GetInformedConsentComponentFile()
+		{
+			foreach (var component in GetComponentFiles())
+			{
+				if (component.GetAssignedRoles().FirstOrDefault(x => x.Id == "consent") != null)
+					return component;
+			}
+
+			return null;
 		}
 
 		#region Static methods

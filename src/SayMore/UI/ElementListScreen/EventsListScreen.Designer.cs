@@ -3,7 +3,7 @@ using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ElementListScreen
 {
-	partial class EventScreen
+	partial class EventsListScreen
 	{
 		/// <summary> 
 		/// Required designer variable.

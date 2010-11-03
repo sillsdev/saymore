@@ -10,9 +10,11 @@ namespace SayMore.UI.ElementListScreen
 	public partial class PersonListScreen : ConcretePersonListScreen, ISayMoreView
 	{
 		/// ------------------------------------------------------------------------------------
-		public PersonListScreen(ElementListViewModel<Person> presentationModel)
+		public PersonListScreen(ElementListViewModel<Person> presentationModel,
+			PersonGrid.Factory personGridFactory)
 			: base(presentationModel)
 		{
+			_elementsGrid = personGridFactory();
 			_elementsGrid.Name = "PersonGrid";
 			InitializeComponent();
 

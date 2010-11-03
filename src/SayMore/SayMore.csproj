@@ -209,6 +209,9 @@
     <Compile Include="UI\ElementListScreen\ComponentFileGrid.Designer.cs">
       <DependentUpon>ComponentFileGrid.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ElementListScreen\PersonGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\ElementListScreen\StagesControlToolTip.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -338,11 +341,11 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="UI\ElementListScreen\ElementListViewModel.cs" />
-    <Compile Include="UI\ElementListScreen\EventScreen.cs">
+    <Compile Include="UI\ElementListScreen\EventsListScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\ElementListScreen\EventScreen.Designer.cs">
-      <DependentUpon>EventScreen.cs</DependentUpon>
+    <Compile Include="UI\ElementListScreen\EventsListScreen.Designer.cs">
+      <DependentUpon>EventsListScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Command.cs" />
     <Compile Include="UI\ProjectWindow\AboutDialog.cs">
@@ -447,8 +450,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ElementListScreen\EventScreen.resx">
-      <DependentUpon>EventScreen.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ElementListScreen\EventsListScreen.resx">
+      <DependentUpon>EventsListScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\ProjectWindow.resx">
       <DependentUpon>ProjectWindow.cs</DependentUpon>
@@ -586,6 +589,10 @@
     <None Include="Resources\VSliderThumbPressed.png" />
     <None Include="Resources\Stop.png" />
     <None Include="Resources\ComponentStageColorBlockTemplate.png" />
+    <None Include="Resources\AudioInformedConsent.png" />
+    <None Include="Resources\NoInformedConsent.png" />
+    <None Include="Resources\VideoInformedConsent.png" />
+    <None Include="Resources\WrittenInformedConsent.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

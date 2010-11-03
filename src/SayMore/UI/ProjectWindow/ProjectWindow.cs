@@ -35,7 +35,7 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ProjectWindow(string projectName, EventScreen eventsScreen,
+		public ProjectWindow(string projectName, EventsListScreen eventsScreen,
 			PersonListScreen personsScreen, Overview.OverviewScreen  overviewScreen,
 			IEnumerable<ICommand> commands) : this()
 		{

@@ -35,7 +35,6 @@ namespace SayMore.UI.ElementListScreen
 				Columns[e.ColumnIndex].DataPropertyName == "stages")
 			{
 				var element = _items.ElementAt(e.RowIndex);
-				//var text = element.MetaDataFile.GetStringValue("stages", string.Empty);
 				var pt = MousePosition;
 				pt.Offset(5, 5);
 				_tooltip.Show(pt, element.GetCompletedStages());

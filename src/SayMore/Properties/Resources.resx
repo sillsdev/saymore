@@ -130,9 +130,6 @@
   <data name="kimidMale_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Male_Selected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidNoPermissionsWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NoPermissionsWarning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="kimidFemale_NotSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Female_NotSelected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -272,5 +269,17 @@
   </data>
   <data name="ComponentStageColorBlockTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ComponentStageColorBlockTemplate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AudioInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AudioInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NoInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NoInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VideoInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VideoInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WrittenInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WrittenInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

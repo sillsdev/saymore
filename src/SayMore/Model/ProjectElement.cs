@@ -330,7 +330,6 @@ namespace SayMore.Model
 					yield return role;  //review, could easily emit the same role multiple times
 				}
 			}
-
 		}
 	}
 }

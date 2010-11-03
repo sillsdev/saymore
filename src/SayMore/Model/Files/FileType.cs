@@ -111,6 +111,18 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual bool IsAudioOrVideo
 		{
+			get { return IsAudio || IsVideo; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool IsAudio
+		{
+			get { return false; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool IsVideo
+		{
 			get { return false; }
 		}
 
@@ -203,7 +215,6 @@ namespace SayMore.Model.Files
 				return from key in new []
 				{
 					"id",
-					"status",
 					"primaryLanguage",
 					"primaryLanguageLearnedIn",
 					"otherLanguage0",
@@ -241,9 +252,8 @@ namespace SayMore.Model.Files
 			col.Frozen = true;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn("Status");
-			col.DataPropertyName = "status";
-			col.ReadOnly = true;
+			col = SilGrid.CreateImageColumn("Consent");
+			col.DataPropertyName = "consent";
 			yield return col;
 		}
 
@@ -524,7 +534,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool IsAudioOrVideo
+		public override bool IsAudio
 		{
 			get { return true; }
 		}
@@ -607,7 +617,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool IsAudioOrVideo
+		public override bool IsVideo
 		{
 			get { return true; }
 		}

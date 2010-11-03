@@ -94,6 +94,7 @@
     <Compile Include="model\Files\ComponentFileTests.cs" />
     <Compile Include="ApplicationContextTests.cs" />
     <Compile Include="model\Files\FieldUpdaterTests.cs" />
+    <Compile Include="model\PersonTests.cs" />
     <Compile Include="model\ProjectElementRenamingTests.cs" />
     <Compile Include="model\ProjectElementTests.cs" />
     <Compile Include="model\Files\FileTypeTests.cs" />

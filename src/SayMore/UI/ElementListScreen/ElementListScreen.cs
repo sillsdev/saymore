@@ -33,7 +33,7 @@ namespace SayMore.UI.ElementListScreen
 		public Action<ComponentFile> AfterComponentFileSelected;
 
 		protected readonly ElementListViewModel<T> _model;
-		protected ElementGrid _elementsGrid = new ElementGrid();
+		protected ElementGrid _elementsGrid;
 		protected TabControl _selectedEditorsTabControl;
 		protected ListPanel _elementsListPanel;
 		protected ComponentFileGrid _componentFilesControl;
@@ -115,6 +115,7 @@ namespace SayMore.UI.ElementListScreen
 			UpdateComponentFileList();
 			_componentFilesControl.TrySetComponent(currFile);
 			_componentFilesControl.Invalidate();
+			_elementsGrid.Refresh();
 		}
 
 		/// ------------------------------------------------------------------------------------

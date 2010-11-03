@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Windows.Forms;
 using NUnit.Framework;
-using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.ElementListScreen;
 using Palaso.TestUtilities;
@@ -55,7 +52,7 @@ namespace SayMoreTests.UI.ElementListScreen
 
 			Assert.AreEqual(2, _grid.ColumnCount);
 			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "id"));
-			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "status"));
+			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "consent"));
 		}
 
 		/// ------------------------------------------------------------------------------------

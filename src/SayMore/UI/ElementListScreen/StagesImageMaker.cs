@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.Utilities;

@@ -9,12 +9,12 @@ using SayMore.UI.ProjectWindow;
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class EventScreen : ConcreteEventScreen, ISayMoreView
+	public partial class EventsListScreen : ConcreteEventScreen, ISayMoreView
 	{
 		private readonly NewEventsFromFileDlgViewModel.Factory _newEventsFromFileDlgViewModel;
 
 		/// ------------------------------------------------------------------------------------
-		public EventScreen(ElementListViewModel<Event> presentationModel,
+		public EventsListScreen(ElementListViewModel<Event> presentationModel,
 			NewEventsFromFileDlgViewModel.Factory newEventsFromFileDlgViewModel,
 			EventsGrid.Factory eventGridFactory)
 			: base(presentationModel)

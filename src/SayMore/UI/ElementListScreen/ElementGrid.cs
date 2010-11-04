@@ -46,6 +46,22 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual GridSettings GridSettings
+		{
+			get { throw new NotImplementedException(); }
+			set { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			if (!DesignMode)
+				GridSettings = GridSettings.Create(this);
+
+			base.OnHandleDestroyed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetFileType(FileType type)
 		{
 			Columns.Clear();
@@ -55,6 +71,9 @@ namespace SayMore.UI.ElementListScreen
 				col.HeaderText = col.Name;
 				Columns.Add(col);
 			}
+
+			if (!DesignMode && GridSettings != null)
+				GridSettings.InitializeGrid(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

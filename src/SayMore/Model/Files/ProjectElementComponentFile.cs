@@ -56,7 +56,7 @@ namespace SayMore.Model.Files
 				if (_parentElement.TryChangeIdAndSave(newId, out failureMessage))
 				{
 					LoadFileSizeAndDateModified();
-					InvokeIdChanged(oldId, newId);
+					OnIdChanged("id", oldId, newId);
 				}
 			}
 

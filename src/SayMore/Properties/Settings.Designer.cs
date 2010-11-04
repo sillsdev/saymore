@@ -796,5 +796,29 @@ namespace SayMore.Properties {
                 return ((global::System.Drawing.Color)(this["IncompleteStageColor"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings EventsListGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["EventsListGrid"]));
+            }
+            set {
+                this["EventsListGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings PersonListGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["PersonListGrid"]));
+            }
+            set {
+                this["PersonListGrid"] = value;
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -10,6 +11,10 @@ namespace SayMore.UI.ElementListScreen
 {
 	public partial class StagesControlToolTip : Form
 	{
+		[DllImport("user32.dll", EntryPoint = "SetWindowPos")]
+		public static extern IntPtr SetWindowPos(IntPtr hWnd,
+			int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
+
 		private readonly IEnumerable<ComponentRole> _componentRoles;
 		private readonly StagesImageMaker _stagesImageMaker;
 
@@ -96,6 +101,17 @@ namespace SayMore.UI.ElementListScreen
 				_tableLayout.Height + (_tableLayout.Top * 2));
 
 			Show();
+#if !MONO
+			// There are some cases when showing the window doesn't bring it to the
+			// front. e.g. after dropping down a menu, this tooltip form no longer
+			// get's displayed on top of the main window's form. Therefore, we need
+			// to force it without making the tooltip active. Perhaps, one day, I
+			// just need to put all this on an owner drawn tooltip instead of a
+			// form. (SWP_NOACTIVATE = 0x10, SWP_NOMOVE = 0x2,
+			// SWP_NOREPOSITION = 0x200, SWP_NOSIZE = 0x1.)
+			SetWindowPos(Handle, 0, 0, 0, 0, 0, 0x10 | 0x2 | 0x200 | 0x1);
+#else
+#endif
 		}
 
 		/// ------------------------------------------------------------------------------------

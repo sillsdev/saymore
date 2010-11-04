@@ -138,11 +138,25 @@ namespace SayMore.UI.ComponentEditors
 			if (!_boundControls.Contains(ctrl))
 				_boundControls.Add(ctrl);
 
+			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
+				((ComboBox)ctrl).SelectedValueChanged -= HandleBoundComboValueChanged;
+			else
+				ctrl.Validating -= HandleValidatingControl;
+
 			ctrl.Disposed -= HandleDisposed;
-			ctrl.Validating -= HandleValidatingControl;
 			UpdateControlValueFromField(ctrl);
-			ctrl.Validating += HandleValidatingControl;
 			ctrl.Disposed += HandleDisposed;
+
+			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
+				((ComboBox)ctrl).SelectedValueChanged += HandleBoundComboValueChanged;
+			else
+				ctrl.Validating += HandleValidatingControl;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleBoundComboValueChanged(object sender, EventArgs e)
+		{
+			HandleValidatingControl(sender, new CancelEventArgs());
 		}
 
 		/// ------------------------------------------------------------------------------------

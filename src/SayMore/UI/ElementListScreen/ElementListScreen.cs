@@ -159,7 +159,8 @@ namespace SayMore.UI.ElementListScreen
 					_elementsGrid.SelectElement((int)itemToSelectAfterLoad);
 			}
 
-			_elementsGrid.AutoResizeColumns();
+			if (_elementsGrid.GridSettings == null)
+				_elementsGrid.AutoResizeColumns();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -200,7 +201,8 @@ namespace SayMore.UI.ElementListScreen
 		/// changing a person's name, or a event's id
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleComponentFileIdChanged(ComponentFile file, string oldId, string newId)
+		protected virtual void HandleComponentFileIdChanged(ComponentFile file,
+			string fieldId, string oldId, string newId)
 		{
 			_elementsGrid.Refresh();
 			_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
@@ -211,8 +213,8 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleComponentFileMetadataValueChanged(ComponentFile file,
-			string oldValue, string newValue)
+		protected virtual void HandleComponentFileMetadataValueChanged(ComponentFile file,
+			string fieldId, string oldValue, string newValue)
 		{
 			_componentFilesControl.Refresh();
 		}

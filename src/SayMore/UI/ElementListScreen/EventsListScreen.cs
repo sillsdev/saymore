@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model;
+using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.NewEventsFromFiles;
 using SayMore.UI.ProjectWindow;
@@ -63,6 +64,16 @@ namespace SayMore.UI.ElementListScreen
 				_labelHelp.Visible = true;
 				_componentsSplitter.Panel2.ControlAdded += HandleFirstSetOfComponentEditorsAdded;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleComponentFileMetadataValueChanged(ComponentFile file,
+			string fieldId, string oldValue, string newValue)
+		{
+			base.HandleComponentFileMetadataValueChanged(file, fieldId, oldValue, newValue);
+
+			if (fieldId == "status")
+				_elementsGrid.Refresh();
 		}
 
 		/// ------------------------------------------------------------------------------------

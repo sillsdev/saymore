@@ -16,6 +16,9 @@ namespace SayMore.UI.ElementListScreen
 	/// ------------------------------------------------------------------------------------
 	public class StagesImageMaker
 	{
+		private readonly Dictionary<Color, Image> s_clrBlockCache = new Dictionary<Color, Image>();
+		private readonly Dictionary<long, Image> s_stagesImageCache = new Dictionary<long, Image>();
+
 		private readonly IEnumerable<ComponentRole> _componentRoles;
 
 		/// ------------------------------------------------------------------------------------
@@ -27,6 +30,11 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public Image CreateImageForComponentStage(IEnumerable<ComponentRole> completedRoles)
 		{
+			var completedRolesKey = GetCompletedRolesKey(completedRoles);
+			Image img;
+			if (s_stagesImageCache.TryGetValue(completedRolesKey, out img))
+				return img;
+
 			var sz = Resources.ComponentStageColorBlockTemplate.Size;
 
 			// Subtract 1 from the number of stages so the value 'None' is not included.
@@ -45,7 +53,18 @@ namespace SayMore.UI.ElementListScreen
 				}
 			}
 
+			s_stagesImageCache[completedRolesKey] = bmp;
 			return bmp;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static long GetCompletedRolesKey(IEnumerable<ComponentRole> completedRoles)
+		{
+			long key = 0;
+			foreach (var role in completedRoles)
+				key += role.Id.GetHashCode();
+
+			return key;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -57,11 +76,10 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public Image GetComponentStageColorBlock(ComponentRole role, IEnumerable<ComponentRole> completedRoles)
 		{
-			var color = (role.IsContainedIn(completedRoles) ?
+			var clr = (role.IsContainedIn(completedRoles) ?
 				role.Color : Settings.Default.IncompleteStageColor);
 
-			return AppColors.ReplaceColor(Resources.ComponentStageColorBlockTemplate,
-				Color.FromArgb(0xFF, Color.White), color);
+			return GetComponentStageColorBlock(clr);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,8 +89,21 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public Image GetComponentStageColorBlock(ComponentRole role)
 		{
-			return AppColors.ReplaceColor(Resources.ComponentStageColorBlockTemplate,
-				Color.FromArgb(0xFF, Color.White), role.Color);
+			return GetComponentStageColorBlock(role.Color);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Image GetComponentStageColorBlock(Color clr)
+		{
+			Image img;
+			if (s_clrBlockCache.TryGetValue(clr, out img))
+				return img;
+
+			img = AppColors.ReplaceColor(Resources.ComponentStageColorBlockTemplate,
+				Color.FromArgb(0xFF, Color.White), clr);
+
+			s_clrBlockCache[clr] = img;
+			return img;
 		}
 	}
 }

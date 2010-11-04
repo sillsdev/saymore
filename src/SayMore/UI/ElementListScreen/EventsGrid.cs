@@ -1,5 +1,8 @@
+using System;
 using System.Linq;
 using SayMore.Model;
+using SayMore.Properties;
+using SilUtils;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -15,6 +18,13 @@ namespace SayMore.UI.ElementListScreen
 		{
 			_stagesImageMaker = stagesImageMaker;
 			_tooltip = toolTip;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override GridSettings GridSettings
+		{
+			get { return Settings.Default.EventsListGrid; }
+			set { Settings.Default.EventsListGrid = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

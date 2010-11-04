@@ -49,7 +49,7 @@ namespace SayMore.Model.Files
 		//autofac uses this, so that callers only need to know the path, not all the dependencies
 		public delegate ComponentFile Factory(string pathToAnnotatedFile);
 
-		public delegate void ValueChangedHandler(ComponentFile file, string oldValue, string newValue);
+		public delegate void ValueChangedHandler(ComponentFile file, string fieldId, string oldValue, string newValue);
 		public event ValueChangedHandler IdChanged;
 		public event ValueChangedHandler MetadataValueChanged;
 
@@ -255,7 +255,7 @@ namespace SayMore.Model.Files
 			}
 
 			LoadFileSizeAndDateModified();
-			InvokeMetadataValueChanged(oldValue, newFieldInstance.Value);
+			OnMetadataValueChanged(newFieldInstance.FieldId, oldValue, newFieldInstance.Value);
 			return newFieldInstance.Value; //overrides may do more
 		}
 
@@ -308,17 +308,17 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void InvokeIdChanged(string oldId, string newId)
+		protected void OnIdChanged(string fieldId, string oldId, string newId)
 		{
 			if (IdChanged != null)
-				IdChanged(this, oldId, newId);
+				IdChanged(this, fieldId, oldId, newId);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void InvokeMetadataValueChanged(string oldValue, string newValue)
+		protected void OnMetadataValueChanged(string fieldId, string oldValue, string newValue)
 		{
 			if (MetadataValueChanged != null)
-				MetadataValueChanged(this, oldValue, newValue);
+				MetadataValueChanged(this, fieldId, oldValue, newValue);
 		}
 
 		/// ------------------------------------------------------------------------------------

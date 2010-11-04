@@ -148,6 +148,5 @@ namespace SayMore.UI.ComponentEditors
 			// of use. This is not to be confused with being disposed, the difference being
 			// the editor will probably be used again. This could probably use a better name.
 		}
-
 	}
 }

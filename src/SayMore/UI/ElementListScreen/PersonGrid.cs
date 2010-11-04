@@ -1,12 +1,21 @@
 using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model;
+using SayMore.Properties;
+using SilUtils;
 
 namespace SayMore.UI.ElementListScreen
 {
 	public class PersonGrid : ElementGrid
 	{
 		public delegate PersonGrid Factory();  //autofac uses this
+
+		/// ------------------------------------------------------------------------------------
+		public override GridSettings GridSettings
+		{
+			get { return Settings.Default.PersonListGrid; }
+			set { Settings.Default.PersonListGrid = value; }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override object GetValueForField(ProjectElement element, string fieldName)

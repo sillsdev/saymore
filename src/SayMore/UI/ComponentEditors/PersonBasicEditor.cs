@@ -50,8 +50,6 @@ namespace SayMore.UI.ComponentEditors
 			_pbOtherLangFather3.Tag = _otherLanguage3;
 			_pbOtherLangMother3.Tag = _otherLanguage3;
 
-			_status.Items.AddRange(Person.GetStatusNames().ToArray());
-
 			_binder.SetComponentFile(file);
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 			SetBindingHelper(_binder);

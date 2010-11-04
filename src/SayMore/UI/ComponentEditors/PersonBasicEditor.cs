@@ -6,7 +6,6 @@ using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
 using Localization;
-using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;

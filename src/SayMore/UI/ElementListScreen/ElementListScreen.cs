@@ -198,7 +198,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This is called when the Component File raises this event, in response to the user
-		/// changing a person's name, or a event's id
+		/// changing a person's name, or an event's id.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleComponentFileIdChanged(ComponentFile file,

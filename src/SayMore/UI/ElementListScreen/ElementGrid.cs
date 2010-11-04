@@ -48,8 +48,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual GridSettings GridSettings
 		{
-			get { throw new NotImplementedException(); }
-			set { throw new NotImplementedException(); }
+			get { return null; }
+			set {  }
 		}
 
 		/// ------------------------------------------------------------------------------------

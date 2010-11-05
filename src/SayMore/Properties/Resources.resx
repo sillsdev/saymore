@@ -118,35 +118,146 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="kimidBrowseForProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BrowseForProject.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="VideoFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VideoFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidFemale_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Female_Selected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="WrittenInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WrittenInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DropDownArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DropDownArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AudioInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AudioInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PlayTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PlayTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Overview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Overview3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LargeSayMoreLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SayMoreLogo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidMale_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Male_Selected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidFemale_NotSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Female_NotSelected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="kimidNewProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewProject.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Finished" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\finished.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="People" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\People4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidChangePicture" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ChangePicture.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ImageComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidMale_NotSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Male_NotSelected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PersonComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PersonComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VSliderThumbPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VSliderThumbPressed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VideoInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VideoInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SendReceive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SendReceive3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Stop.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TechnicalTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TechnicalTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidBrowseForProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BrowseForProject.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidNoPhoto" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NoPhotoSilhouette.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="HSliderThumbMousePressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HSliderThumbMousePressed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SmallSayMoreLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SayMoreLogo 16x16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NotesTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NotesTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Progress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Progress.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ViewTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ViewTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VSliderThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VSliderThumb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMale_NotSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Male_NotSelected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Play" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Play.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Finished" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\finished.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Volume" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Volume.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SayMoreText" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SayMoreText.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NoInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NoInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VSliderThumbDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VSliderThumbDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AudioComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AudioComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Events" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sessions4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ComponentStageColorBlockTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ComponentStageColorBlockTemplate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HSliderThumbDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HSliderThumbDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="kimidSendReceive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SendReceive.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidChangePicture" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ChangePicture.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PersonFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PersonFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidFemale_NotSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Female_NotSelected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ContributorsTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ContributorsTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MuteVolume" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MuteVolume.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMoreAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\More_Action.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidFemale_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Female_Selected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="wmpOcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -159,127 +270,16 @@
 			AAAL
 		</value>
   </data>
-  <data name="kimidMoreAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\More_Action.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="kimidNewProject" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NewProject.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ContributorsTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ContributorsTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NotesTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NotesTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PlayTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PlayTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TechnicalTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TechnicalTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ViewTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ViewTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AudioComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AudioComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ImageComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ImageComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PersonComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PersonComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LargeSayMoreLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SayMoreLogo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SmallSayMoreLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SayMoreLogo 16x16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SayMoreText" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SayMoreText.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Overview" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Overview3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SendReceive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SendReceive3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HSliderThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HSliderThumb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="AudioFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AudioFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ImageFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ImageFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="People" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\People4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PersonFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PersonFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Progress" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Progress.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="EventFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SessionFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Events" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sessions4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="VideoFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\VideoFileImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DropDownArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DropDownArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="DeleteMessageBoxImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DeleteMessageBoxImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HSliderThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HSliderThumb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HSliderThumbDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HSliderThumbDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HSliderThumbMousePressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HSliderThumbMousePressed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MuteVolume" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MuteVolume.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Play" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Play.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Volume" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Volume.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="VSliderThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\VSliderThumb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="VSliderThumbDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\VSliderThumbDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="VSliderThumbPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\VSliderThumbPressed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Stop.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ComponentStageColorBlockTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ComponentStageColorBlockTemplate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AudioInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AudioInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NoInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NoInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="VideoInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\VideoInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WrittenInformedConsent" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WrittenInformedConsent.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

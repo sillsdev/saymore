@@ -88,7 +88,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		private void LocalizationInitiated()
 		{
-			lblVersionInfo.Text = Model.GetVersionInfo(lblVersionInfo.Text);
+			lblVersionInfo.Text = ApplicationContainer.GetVersionInfo(lblVersionInfo.Text);
 
 			LocalizationManager.LocalizeObject(lnkWebSites, "WelcomeDialog.lnkWebSites",
 			   "SayMore is brought to you by SIL International.  Visit the SayMore web site.",

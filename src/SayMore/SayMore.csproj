@@ -487,6 +487,12 @@
     <Compile Include="UI\SendReceive\SendReceiveScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Utilities\IconHelper.cs" />
     <Compile Include="UI\Utilities\AppColors.cs" />
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
@@ -562,6 +568,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\ShowHtmlDialog.resx">
       <DependentUpon>ShowHtmlDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Resources\Overview3.png" />
     <None Include="Resources\People3.png" />

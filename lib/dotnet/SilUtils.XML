@@ -177,6 +177,9 @@
 			</summary>
 			------------------------------------------------------------------------------------
 		</member>
+		<member name="M:SilUtils.SplashScreen.GetSplashScreenForm">
+			------------------------------------------------------------------------------------
+		</member>
 		<member name="P:SilUtils.SplashScreen.SilUtils#ISplashScreen#StillAlive">
 			------------------------------------------------------------------------------------
 			<summary>
@@ -3872,7 +3875,7 @@
 			</summary>
 			------------------------------------------------------------------------------------
 		</member>
-		<member name="M:SilUtils.SplashScreenForm.m_panel_Paint(System.Object,System.Windows.Forms.PaintEventArgs)">
+		<member name="M:SilUtils.SplashScreenForm.HandleBackgroundPanelPaint(System.Object,System.Windows.Forms.PaintEventArgs)">
 			------------------------------------------------------------------------------------
 			<summary>
 
@@ -3902,6 +3905,9 @@
 			<summary>
 
 			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SplashScreenForm.ShowStandardSILContent">
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="T:SilUtils.CheckBoxColumnHeaderHandler">

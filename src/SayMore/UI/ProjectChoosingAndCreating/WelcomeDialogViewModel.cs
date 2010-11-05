@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Properties;
@@ -85,18 +84,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 						Path.GetFileNameWithoutExtension(prjPath));
 				}
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string GetVersionInfo(string fmt)
-		{
-			Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-
-			// The build number is just the number of days since 01/01/2000
-			DateTime bldDate = new DateTime(2000, 1, 1).AddDays(ver.Build);
-
-			return string.Format(fmt, ver.Major, ver.Minor,
-				ver.Revision, bldDate.ToString("dd-MMM-yyyy"));
 		}
 
 		/// ------------------------------------------------------------------------------------

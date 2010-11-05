@@ -32,7 +32,7 @@ namespace SayMore
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
-			_applicationContainer = new ApplicationContainer();
+			_applicationContainer = new ApplicationContainer(true);
 
 			LocalizationManager.Enabled = true;
 			LocalizationManager.Initialize();
@@ -74,8 +74,10 @@ namespace SayMore
 
 			try
 			{
+				_applicationContainer.SetProjectNameOnSplashScreen(projectPath);
 				_projectContext = _applicationContainer.CreateProjectContext(projectPath);
 				_projectContext.ProjectWindow.Closed += HandleProjectWindowClosed;
+				_projectContext.ProjectWindow.Activated += HandleProjectWindowActivated;
 				_projectContext.ProjectWindow.Show();
 				return true;
 			}
@@ -85,6 +87,13 @@ namespace SayMore
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void HandleProjectWindowActivated(object sender, EventArgs e)
+		{
+			_projectContext.ProjectWindow.Activated -= HandleProjectWindowActivated;
+			_applicationContainer.CloseSplashScreen();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -102,6 +111,8 @@ namespace SayMore
 				_projectContext = null;
 			}
 
+			_applicationContainer.CloseSplashScreen();
+
 			Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
 				new Palaso.Reporting.ShowAlwaysPolicy(), error,
 				"{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.",
@@ -115,6 +126,7 @@ namespace SayMore
 		static void ChooseAnotherProject(object sender, EventArgs e)
 		{
 			Application.Idle -= ChooseAnotherProject;
+			_applicationContainer.CloseSplashScreen();
 
 			while (true)
 			{
@@ -157,7 +169,6 @@ namespace SayMore
 			Palaso.Reporting.ErrorReport.AddProperty("EmailAddress", "issues@saymore.palaso.org");
 			Palaso.Reporting.ErrorReport.AddStandardProperties();
 			Palaso.Reporting.ExceptionHandler.Init();
-
 			Palaso.Reporting.UsageReporter.ReportLaunchesAsync();
 		}
 	}

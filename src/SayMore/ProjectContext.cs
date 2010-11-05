@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using Autofac;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -29,11 +28,10 @@ namespace SayMore
 		public Project Project { get; private set; }
 		public ProjectWindow ProjectWindow { get; private set; }
 
-		private AudioVideoDataGatherer _audioVideoDataGatherer;
-		private PresetGatherer _presetGatherer;
-		private AutoCompleteValueGatherer _autoCompleteValueGatherer;
-		private FieldGatherer _fieldGatherer;
-
+		private readonly AudioVideoDataGatherer _audioVideoDataGatherer;
+		private readonly PresetGatherer _presetGatherer;
+		private readonly AutoCompleteValueGatherer _autoCompleteValueGatherer;
+		private readonly FieldGatherer _fieldGatherer;
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectContext(string projectSettingsPath, IContainer parentContainer)
@@ -91,7 +89,7 @@ namespace SayMore
 
 				builder.Register<AudioVideoDataGatherer>(c => c.Resolve(typeof(IProvideAudioVideoFileStatistics))
 						as AudioVideoDataGatherer).InstancePerLifetimeScope();
-				;
+
 				//create a single PresetGatherer and stick it in the container
 				//builder.RegisterInstance(parentContainer.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
 

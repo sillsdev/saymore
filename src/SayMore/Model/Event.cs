@@ -31,15 +31,18 @@ namespace SayMore.Model
 		public delegate Event Factory(string parentElementFolder, string id);
 
 		private IEnumerable<ComponentRole> _componentRoles;
+		private readonly PersonInformant _personInformant;
 
 		/// ------------------------------------------------------------------------------------
 		public Event(string parentElementFolder, string id, EventFileType eventFileType,
 			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory,
-			IEnumerable<ComponentRole> componentRoles)
+			IEnumerable<ComponentRole> componentRoles,
+			PersonInformant personInformant)
 			: base(parentElementFolder, id, eventFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
 			_componentRoles = componentRoles;
+			_personInformant = personInformant;
 		}
 
 		#region Properties

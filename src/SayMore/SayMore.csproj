@@ -102,6 +102,7 @@
     <Compile Include="Model\Files\UnknownFileType.cs" />
     <Compile Include="Model\Files\FileSerializer.cs" />
     <Compile Include="Model\Files\ProjectElementComponentFile.cs" />
+    <Compile Include="Model\PersonInformant.cs" />
     <Compile Include="ProjectContext.cs" />
     <Compile Include="Model\Files\ComponentFile.cs" />
     <Compile Include="Model\Files\ComponentRole.cs" />

@@ -488,7 +488,7 @@ namespace SayMore.Model.Files
 			}
 			catch (Exception e)
 			{
-				ErrorReport.ReportNonFatalException(e);
+				ErrorReport.NotifyUserOfProblem(e,"Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it.  Please try again later.");
 			}
 		}
 

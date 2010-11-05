@@ -126,7 +126,7 @@ namespace SayMore
 				yield return
 					new ComponentRole(typeof(Person), "consent", "Informed Consent",
 						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
-						System.Drawing.Color.Magenta); //todo
+						Settings.Default.InformedConsentStage);
 			}
 		}
 

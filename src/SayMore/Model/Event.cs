@@ -3,9 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using Localization;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI.Utilities;
 
 namespace SayMore.Model
 {
@@ -27,26 +27,19 @@ namespace SayMore.Model
 			Skipped
 		}
 
-		[Flags]
-		public enum ComponentStage
-		{
-			None = 0,
-			Informed_Consent = 1,
-			Translation_Speech = 2,
-			Careful_Speech = 4,
-			Written_Translation = 8,
-			Written_Transcription = 16
-		}
-
 		//autofac uses this
 		public delegate Event Factory(string parentElementFolder, string id);
+
+		private IEnumerable<ComponentRole> _componentRoles;
 
 		/// ------------------------------------------------------------------------------------
 		public Event(string parentElementFolder, string id, EventFileType eventFileType,
 			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
-			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
+			ProjectElementComponentFile.Factory prjElementComponentFileFactory,
+			IEnumerable<ComponentRole> componentRoles)
 			: base(parentElementFolder, id, eventFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
+			_componentRoles = componentRoles;
 		}
 
 		#region Properties
@@ -97,6 +90,32 @@ namespace SayMore.Model
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<ComponentRole> GetCompletedStages()
+		{
+			bool allParticipantsHaveConsent = true;
+
+			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
+
+			foreach (var personName in FieldInstance.GetValuesFromText(allParticipants))
+			{
+				// Need person repository to get person object.
+				// Person person = ... what's best way to get the person?
+				//if (person.GetInformedConsentComponentFile() == null)
+				//{
+				//	allParticipantsHaveConsent = false;
+				//	break;
+				//}
+			}
+
+			if (allParticipantsHaveConsent)
+				yield return _componentRoles.First(r => r.Id == "consent");
+
+			foreach (var role in base.GetCompletedStages())
+				yield return role;
+		}
+
 
 		#region Static methods
 		/// ------------------------------------------------------------------------------------

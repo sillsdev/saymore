@@ -328,9 +328,19 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentRole> GetAssignedRoles()
 		{
+			return  GetAssignedRoles(null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// What part(s) does this file play in the workflow of the event/person?
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ComponentRole> GetAssignedRoles(Type elementType)
+		{
 			return from r in _componentRoles
-			   where r.IsMatch(PathToAnnotatedFile)
-			   select r;
+				   where r.IsMatch(PathToAnnotatedFile) && (elementType == null || elementType == r.RelevantElementType)
+				   select r;
 		}
 
 		/// ------------------------------------------------------------------------------------

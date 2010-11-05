@@ -186,17 +186,21 @@ namespace SayMoreTests.Model.Files
 		{
 			var componentRoles = new[]
 			{
-				new ComponentRole(typeof(Event),"translation", "translation",
+				new ComponentRole(typeof(Event), "translation", "translation",
 					ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"),
 					"$ElementId$_Original", Color.Magenta),
 
-				new ComponentRole(typeof(Event),"transcriptionN", "Written Translation",
+				new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
 					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
 					"$ElementId$_Translation-N", Color.Magenta),
 
-				new ComponentRole(typeof(Event),"original", "Original Recording",
+				new ComponentRole(typeof(Event), "original", "Original Recording",
 					ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo,
-					"$ElementId$_Original", Color.Magenta)
+					"$ElementId$_Original", Color.Magenta),
+
+				new ComponentRole(typeof(Person), "consent", "Informed Consent",
+					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Consent.")),
+					"$ElementId$_Consent", Color.Magenta)
 			};
 
 			return new ComponentFile(path,
@@ -218,6 +222,22 @@ namespace SayMoreTests.Model.Files
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Original.txt");
 			Assert.AreEqual(1, f.GetAssignedRoles().Count());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetAssignedRoles_ForConsentAndEventType_ReturnsEmptyEnumerator()
+		{
+			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Consent.txt");
+			Assert.AreEqual(0, f.GetAssignedRoles(typeof(Event)).Count());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetAssignedRoles_ForConsentAndPersonType_ReturnsThem()
+		{
+			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Consent.txt");
+			Assert.AreEqual(1, f.GetAssignedRoles(typeof(Person)).Count());
 		}
 
 		[Test]

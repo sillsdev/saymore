@@ -26,7 +26,7 @@ namespace SayMoreTests.Model
 		private Event CreateEvent(string id)
 		{
 			return new Event(_parentFolder.Path, id, new EventFileType(() => null),
-				ComponentFile.CreateMinimalComponentFileForTests, new FileSerializer(), null);
+				ComponentFile.CreateMinimalComponentFileForTests, new FileSerializer(), null, null);
 		}
 
 		/*

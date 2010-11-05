@@ -11,10 +11,11 @@ namespace SayMore.UI.ElementListScreen
 {
 	public partial class StagesControlToolTip : Form
 	{
+#if !MONO
 		[DllImport("user32.dll", EntryPoint = "SetWindowPos")]
 		public static extern IntPtr SetWindowPos(IntPtr hWnd,
 			int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
-
+#endif
 		private readonly IEnumerable<ComponentRole> _componentRoles;
 		private readonly StagesImageMaker _stagesImageMaker;
 
@@ -25,8 +26,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public StagesControlToolTip(IEnumerable<ComponentRole> componentRoles, StagesImageMaker stagesImageMaker)
 		{
-			// For now, we only have stages for Events.
-			_componentRoles = componentRoles.Where(x => x.RelevantElementType == typeof(Event));
+			_componentRoles = componentRoles;
 			_stagesImageMaker = stagesImageMaker;
 			InitializeComponent();
 

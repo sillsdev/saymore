@@ -51,15 +51,16 @@ namespace SayMore.UI.ComponentEditors
 				_genre.SelectedItem = (genre ?? GenreDefinition.UnknownType);
 			}
 
-			var lst = from genre in GenreDefinition.FactoryGenreDefinitions
-					  select new PickerPopupItem
-					  {
-						  Text = genre.Name,
-						  ToolTipText = genre.Definition,
-						  Tag = genre
-					  };
+			//var lst = from genre in GenreDefinition.FactoryGenreDefinitions
+			//          select new PickerPopupItem
+			//          {
+			//              Text = genre.Name,
+			//              ToolTipText = genre.Definition,
+			//              Tag = genre
+			//          };
 
-			multiValueComboBox1.Popup.AddRange(lst);
+			//multiValueComboBox1.Popup.AddRange(lst);
+			multiValueComboBox1.Visible = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

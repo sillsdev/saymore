@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using SayMore.Model;
 using SayMore.Properties;

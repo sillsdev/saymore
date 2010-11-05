@@ -318,14 +318,14 @@ namespace SayMore.Model
 		/// <summary>
 		/// What are the workflow stages which have been complete for this event/person?
 		/// </summary>
-		public IEnumerable<ComponentRole> GetCompletedStages()
+		public virtual IEnumerable<ComponentRole> GetCompletedStages()
 		{
 			//Todo: eventually, we need to differentiate between a file sitting there that is in progress,
 			//and one that is in fact marked as completed.  For now, just being there gets you the gold star.
 
 			foreach (var component in GetComponentFiles())
 			{
-				foreach(var role in component.GetAssignedRoles())
+				foreach(var role in component.GetAssignedRoles(GetType()))
 				{
 					yield return role;  //review, could easily emit the same role multiple times
 				}

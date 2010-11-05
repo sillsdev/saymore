@@ -781,10 +781,19 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
+        [global::System.Configuration.DefaultSettingValueAttribute("252, 235, 132")]
         public global::System.Drawing.Color WrittenTranslationStageColor {
             get {
                 return ((global::System.Drawing.Color)(this["WrittenTranslationStageColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
+        public global::System.Drawing.Color InformedConsentStage {
+            get {
+                return ((global::System.Drawing.Color)(this["InformedConsentStage"]));
             }
         }
         

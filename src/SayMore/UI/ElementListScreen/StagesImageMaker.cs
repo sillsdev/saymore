@@ -37,11 +37,9 @@ namespace SayMore.UI.ElementListScreen
 
 			var sz = Resources.ComponentStageColorBlockTemplate.Size;
 
-			// Subtract 1 from the number of stages so the value 'None' is not included.
-			var bmp = new Bitmap((sz.Width - 1) * (_componentRoles.Count() - 1) + 1, sz.Height);
+			var bmp = new Bitmap((sz.Width - 1) * _componentRoles.Count() + 1, sz.Height);
 
-			// Now create a single image by combining the blocks for each stage
-			// that is not the 'None' stage.
+			// Now create a single image by combining the blocks for each stage.
 			using (var g = Graphics.FromImage(bmp))
 			{
 				int dx = 0;

@@ -315,21 +315,28 @@ namespace SayMore.Model
 			return false;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// What are the workflow stages which have been complete for this event/person?
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentRole> GetCompletedStages()
 		{
-			//Todo: eventually, we need to differentiate between a file sitting there that is in progress,
-			//and one that is in fact marked as completed.  For now, just being there gets you the gold star.
+			//Todo: eventually, we need to differentiate between a file sitting there that
+			// is in progress, and one that is in fact marked as completed. For now, just
+			// being there gets you the gold star.
+
+			// Use a dictionary rather than yield so we don't emit more
+			// than one instance of each role.
+			var completedRoles = new Dictionary<string, ComponentRole>();
 
 			foreach (var component in GetComponentFiles())
 			{
 				foreach(var role in component.GetAssignedRoles(GetType()))
-				{
-					yield return role;  //review, could easily emit the same role multiple times
-				}
+					completedRoles[role.Id] =  role;
 			}
+
+			return completedRoles.Values;
 		}
 	}
 }

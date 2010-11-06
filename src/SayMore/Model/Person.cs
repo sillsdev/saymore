@@ -32,6 +32,9 @@ namespace SayMore.Model
 			}
 		}
 
+		[Obsolete("For Mocking Only")]
+		public Person(){}
+
 		/// ------------------------------------------------------------------------------------
 		public override string RootElementName
 		{
@@ -105,7 +108,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentFile GetInformedConsentComponentFile()
+		public virtual ComponentFile GetInformedConsentComponentFile()
 		{
 			foreach (var component in GetComponentFiles())
 			{

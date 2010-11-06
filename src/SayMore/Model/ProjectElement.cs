@@ -22,7 +22,7 @@ namespace SayMore.Model
 		private ComponentFile.Factory _componentFileFactory;
 		private string _id;
 
-		public string Id { get { return _id; } }
+		public virtual string Id { get { return _id; } }
 		public ProjectElementComponentFile MetaDataFile { get; private set; }
 		public abstract string RootElementName { get; }
 		protected internal string ParentFolderPath { get; set; }
@@ -59,6 +59,9 @@ namespace SayMore.Model
 				Save();
 			}
 		}
+
+		[Obsolete("For Mocking Only")]
+		public ProjectElement(){}
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ComponentFile> GetComponentFiles()

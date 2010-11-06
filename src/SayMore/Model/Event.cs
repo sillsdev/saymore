@@ -97,28 +97,28 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ComponentRole> GetCompletedStages()
 		{
-			bool allParticipantsHaveConsent = true;
-
-			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
-
-			foreach (var personName in FieldInstance.GetValuesFromText(allParticipants))
-			{
-				// Need person repository to get person object.
-				// Person person = ... what's best way to get the person?
-				//if (person.GetInformedConsentComponentFile() == null)
-				//{
-				//	allParticipantsHaveConsent = false;
-				//	break;
-				//}
-			}
-
-			if (allParticipantsHaveConsent)
-				yield return _componentRoles.First(r => r.Id == "consent");
+			if (GetShouldReportHaveConsent())
+			   yield return _componentRoles.First(r => r.Id == "consent");
 
 			foreach (var role in base.GetCompletedStages())
 				yield return role;
 		}
 
+		private bool GetShouldReportHaveConsent()
+		{
+			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
+			var personNames = FieldInstance.GetValuesFromText(allParticipants);
+			bool allParticipantsHaveConsent = personNames.Count() > 0;
+			foreach (var personName in personNames)
+			{
+				if (!_personInformant.GetHasInformedConsent(personName))
+				{
+					return false;
+				}
+			}
+
+			return allParticipantsHaveConsent;
+		}
 
 		#region Static methods
 		/// ------------------------------------------------------------------------------------

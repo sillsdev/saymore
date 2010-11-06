@@ -41,11 +41,11 @@ namespace SayMore
 
 			Project = _scope.Resolve<Func<string, Project>>()(projectSettingsPath);
 
-			var eventRepoFactory = _scope.Resolve<ElementRepository<Event>.Factory>();
-			eventRepoFactory(rootDirectoryPath, "Events", _scope.Resolve<EventFileType>());
-
 			var peopleRepoFactory = _scope.Resolve<ElementRepository<Person>.Factory>();
 			peopleRepoFactory(rootDirectoryPath, "People", _scope.Resolve<PersonFileType>());
+
+			var eventRepoFactory = _scope.Resolve<ElementRepository<Event>.Factory>();
+			eventRepoFactory(rootDirectoryPath, "Events", _scope.Resolve<EventFileType>());
 
 			//Start the background operations
 			_audioVideoDataGatherer = _scope.Resolve<AudioVideoDataGatherer>();

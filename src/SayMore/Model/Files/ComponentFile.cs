@@ -104,6 +104,9 @@ namespace SayMore.Model.Files
 			InitializeFileInfo();
 		}
 
+		[Obsolete("For Mocking Only")]
+		public ComponentFile(){}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// used only by ProjectElementComponentFile
@@ -282,7 +285,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Save()
+		public virtual void Save()
 		{
 			Save(_metaDataPath);
 		}

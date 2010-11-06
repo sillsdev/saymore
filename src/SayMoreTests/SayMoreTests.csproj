@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="model\ElementRepositoryTests.cs" />
     <Compile Include="model\Fields\FieldInstanceTests.cs" />
     <Compile Include="model\Files\DataGathering\BackgroundFileProcessorTests.cs" />
     <Compile Include="model\Files\DataGathering\PresetDataTests.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="model\Files\ComponentFileTests.cs" />
     <Compile Include="ApplicationContextTests.cs" />
     <Compile Include="model\Files\FieldUpdaterTests.cs" />
+    <Compile Include="model\PersonInformantTests.cs" />
     <Compile Include="model\PersonTests.cs" />
     <Compile Include="model\ProjectElementRenamingTests.cs" />
     <Compile Include="model\ProjectElementTests.cs" />

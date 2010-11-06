@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -16,6 +17,20 @@ namespace SayMore.Model
 		public PersonInformant(ElementRepository<Person> peopleRepository)
 		{
 			_peopleRepository = peopleRepository;
+		}
+
+		[Obsolete("FOr mocking only")]
+		public PersonInformant(){}
+
+		public virtual bool GetHasInformedConsent(string personName)
+		{
+			var person = _peopleRepository.GetById(personName);
+			//Review:  if we have this error at runtime, just say false
+			if(person==null)
+			{
+				return false;
+			}
+			return person.GetInformedConsentComponentFile() != null;
 		}
 	}
 }

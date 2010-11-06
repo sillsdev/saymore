@@ -1,4 +1,6 @@
 
+using System;
+
 namespace SayMore.Model.Files
 {
 	/// ----------------------------------------------------------------------------------------
@@ -23,6 +25,9 @@ namespace SayMore.Model.Files
 			PathToAnnotatedFile = parentElement.SettingsFilePath;//same thing, there isn't a pair of files for event/person
 			InitializeFileInfo();
 		}
+
+		[Obsolete("For Mocking Only")]
+		public ProjectElementComponentFile(){}
 
 		/// ------------------------------------------------------------------------------------
 		public override string GetStringValue(string key, string defaultValue)

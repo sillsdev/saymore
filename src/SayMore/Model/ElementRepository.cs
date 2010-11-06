@@ -42,6 +42,9 @@ namespace SayMore.Model
 			RefreshItemList();
 		}
 
+		[Obsolete("For Mocking Only")]
+		public ElementRepository(){}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Updates the list of items by looking in the file system for all the subfolders
@@ -129,6 +132,11 @@ namespace SayMore.Model
 
 			_items.Remove(item);
 			return true;
+		}
+
+		public virtual T GetById(string id)
+		{
+			return _items.FirstOrDefault(x => x.Id == id);
 		}
 	}
 }

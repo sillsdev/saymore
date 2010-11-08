@@ -80,7 +80,7 @@ namespace SayMore.Model
 								 !x.ToLower().EndsWith("thumbs.db") &&
 								 !Path.GetFileName(x).StartsWith(".")) //these are normally hidden
 							 orderby x
-							 select _componentFileFactory(x);
+							 select _componentFileFactory(this, x);
 
 			foreach (var file in otherFiles)
 			{

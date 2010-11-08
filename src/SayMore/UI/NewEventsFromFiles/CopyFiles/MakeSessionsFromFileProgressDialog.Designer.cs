@@ -41,7 +41,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._buttonOK.AutoSize = true;
 			this._buttonOK.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this._buttonOK.Location = new System.Drawing.Point(369, 138);
+			this._buttonOK.Location = new System.Drawing.Point(280, 82);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(80, 26);
 			this._buttonOK.Name = "_buttonOK";
@@ -67,7 +67,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._tableLayout.RowCount = 2;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(449, 164);
+			this._tableLayout.Size = new System.Drawing.Size(360, 108);
 			this._tableLayout.TabIndex = 1;
 			// 
 			// MakeEventsFromFileProgressDialog
@@ -75,7 +75,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this.AcceptButton = this._buttonOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(479, 199);
+			this.ClientSize = new System.Drawing.Size(390, 143);
 			this.ControlBox = false;
 			this.Controls.Add(this._tableLayout);
 			this.Name = "MakeEventsFromFileProgressDialog";

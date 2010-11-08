@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Moq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
-using SayMore.Model.Files;
 
 namespace SayMoreTests.model
 {
@@ -24,7 +19,7 @@ namespace SayMoreTests.model
 		{
 			var person = new Mock<ProjectElement>();
 			person.Setup(p => p.Id).Returns("joe");
-			using(var tempFolder =new TemporaryFolder())
+			using(var tempFolder = new TemporaryFolder("ElementRepoTestFolder"))
 			{
 				var repo = new ElementRepository<ProjectElement>(tempFolder.Path, "elementGroupName", null,
 																 (folder, id) => person.Object);
@@ -33,6 +28,5 @@ namespace SayMoreTests.model
 				Assert.AreEqual(person.Object, repo.GetById("joe"));
 			}
 		}
-
 	}
 }

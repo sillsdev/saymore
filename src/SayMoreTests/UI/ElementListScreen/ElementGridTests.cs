@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using NUnit.Framework;
+using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.ElementListScreen;
 using Palaso.TestUtilities;
@@ -89,7 +90,7 @@ namespace SayMoreTests.UI.ElementListScreen
 
 			_grid.SelectElement(1);
 			Assert.AreEqual("barney", _grid.GetCurrentElement().Id);
-			_grid.SelectElement(null);
+			_grid.SelectElement(null as ProjectElement);
 			Assert.AreEqual("barney", _grid.GetCurrentElement().Id);
 		}
 
@@ -143,6 +144,21 @@ namespace SayMoreTests.UI.ElementListScreen
 			_grid.SelectElement(p2);
 			Assert.AreEqual(p2, _grid.GetCurrentElement());
 			_grid.SelectElement(p1);
+			Assert.AreEqual(p1, _grid.GetCurrentElement());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SelectElement_SelectSomethingUsingId_CorrectlySelects()
+		{
+			var p1 = ProjectElementTests.CreatePerson(_tmpFolder.Path, "fred");
+			var p2 = ProjectElementTests.CreatePerson(_tmpFolder.Path, "barney");
+
+			_grid.Items = new[] { p1, p2 };
+
+			_grid.SelectElement("barney");
+			Assert.AreEqual(p2, _grid.GetCurrentElement());
+			_grid.SelectElement("fred");
 			Assert.AreEqual(p1, _grid.GetCurrentElement());
 		}
 

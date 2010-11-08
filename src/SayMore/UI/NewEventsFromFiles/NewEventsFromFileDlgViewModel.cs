@@ -55,10 +55,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
 			Application.Idle -= HandleApplicationIdle;
@@ -155,10 +151,6 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		#region Methods for watching the file system
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void EnableFileWatchingIfAble()
 		{
 			if (_dlg == null || !Directory.Exists(_selectedFolder))
@@ -189,10 +181,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandleFileWatcherDeleteOrCreatedEvent(object sender, FileSystemEventArgs e)
 		{
 			if (e.ChangeType == WatcherChangeTypes.Deleted)
@@ -201,10 +189,6 @@ namespace SayMore.UI.NewEventsFromFiles
 				AddFile(e.FullPath);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void RemoveFile(string path)
 		{
@@ -216,10 +200,6 @@ namespace SayMore.UI.NewEventsFromFiles
 				_dlg.UpdateDisplay();
 			}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void AddFile(string path)
 		{
@@ -289,10 +269,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void ToggleFilesSelectedState(int fileIndex)
 		{
 			if (fileIndex >= 0 && fileIndex < Files.Count)
@@ -314,10 +290,6 @@ namespace SayMore.UI.NewEventsFromFiles
 				file.Selected = select;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void LetUserChangeSelectedFolder()
 		{
@@ -378,10 +350,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void HandleFileLoaderDoWork(object sender, DoWorkEventArgs e)
 		{
 			var fileList = e.Argument as string[];
@@ -422,10 +390,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void HandleFileLoaderProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			if (_dlg != null)
@@ -433,20 +397,12 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void CancelLoad()
 		{
 			if (!_fileLoaderWorker.CancellationPending)
 				_fileLoaderWorker.CancelAsync();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void HandleFileLoaderComplete(object sender, RunWorkerCompletedEventArgs e)
 		{
@@ -467,10 +423,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		#endregion
 
 		#region Methods for creating events from selected files
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, string>> GetSourceAndDestinationPairs()
 		{

@@ -93,7 +93,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public PresetData(string path, ComponentFile.Factory componentFileFactory)
 		{
-			var file = componentFileFactory(path);
+			var file = componentFileFactory(null, path);
 
 			var writableFields = from field in file.MetaDataFieldValues
 								 where file.FileType.GetShowInPresetOptions(field.FieldId)

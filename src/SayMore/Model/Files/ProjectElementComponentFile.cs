@@ -14,14 +14,13 @@ namespace SayMore.Model.Files
 		public new delegate ProjectElementComponentFile Factory(ProjectElement parentElement,
 			FileType fileType, FileSerializer fileSerializer, string rootElementName);
 
-		protected readonly ProjectElement _parentElement;
+		//protected readonly ProjectElement _parentElement;
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectElementComponentFile(ProjectElement parentElement,
 			FileType fileType, FileSerializer fileSerializer, string rootElementName, FieldUpdater fieldUpdater)
-			: base(parentElement.SettingsFilePath, fileType, rootElementName, fileSerializer, fieldUpdater)
+			: base(parentElement, parentElement.SettingsFilePath, fileType, rootElementName, fileSerializer, fieldUpdater)
 		{
-			_parentElement = parentElement;
 			PathToAnnotatedFile = parentElement.SettingsFilePath;//same thing, there isn't a pair of files for event/person
 			InitializeFileInfo();
 		}

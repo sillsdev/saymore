@@ -133,6 +133,12 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void SelectElement(string elementId)
+		{
+			SelectElement(_items.FirstOrDefault(x => x.Id == elementId));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public ProjectElement GetCurrentElement()
 		{
 			int rowIndex = CurrentCellAddress.Y;

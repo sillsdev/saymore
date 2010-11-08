@@ -47,7 +47,7 @@ namespace SayMore.Model.Files
 		private static readonly Dictionary<string, Bitmap> s_smallFileIcons = new Dictionary<string, Bitmap>();
 
 		//autofac uses this, so that callers only need to know the path, not all the dependencies
-		public delegate ComponentFile Factory(string pathToAnnotatedFile);
+		public delegate ComponentFile Factory(ProjectElement parentElement, string pathToAnnotatedFile);
 
 		public delegate void ValueChangedHandler(ComponentFile file, string fieldId, string oldValue, string newValue);
 		public event ValueChangedHandler IdChanged;
@@ -71,14 +71,15 @@ namespace SayMore.Model.Files
 		public Action PostRenameAction;
 
 		protected string _metaDataPath;
+		protected ProjectElement _parentElement;
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
-			IEnumerable<ComponentRole> componentRoles,
-			FileSerializer fileSerializer,
-			IProvideAudioVideoFileStatistics statisticsProvider,
+		public ComponentFile(ProjectElement parentElement, string pathToAnnotatedFile,
+			IEnumerable<FileType> fileTypes, IEnumerable<ComponentRole> componentRoles,
+			FileSerializer fileSerializer, IProvideAudioVideoFileStatistics statisticsProvider,
 			PresetGatherer presetProvider, FieldUpdater fieldUpdater)
 		{
+			_parentElement = parentElement;
 			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;
 			_fileSerializer = fileSerializer;
@@ -112,9 +113,11 @@ namespace SayMore.Model.Files
 		/// used only by ProjectElementComponentFile
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected ComponentFile(string filePath, FileType fileType, string rootElementName,
+		protected ComponentFile(ProjectElement parentElement, string filePath,
+			FileType fileType, string rootElementName,
 			FileSerializer fileSerializer, FieldUpdater fieldUpdater)
 		{
+			_parentElement = parentElement;
 			FileType = fileType;
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
@@ -383,16 +386,16 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static ComponentFile CreateMinimalComponentFileForTests(string path)
+		public static ComponentFile CreateMinimalComponentFileForTests(ProjectElement parentElement, string path)
 		{
-			return new ComponentFile(path, new FileType[] { new UnknownFileType(null) },
+			return new ComponentFile(parentElement, path, new FileType[] { new UnknownFileType(null) },
 				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path, FileType fileType)
 		{
-			return new ComponentFile(path, new[] { fileType },
+			return new ComponentFile(null, path, new[] { fileType },
 				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 		}
 
@@ -419,7 +422,7 @@ namespace SayMore.Model.Files
 			bool needSeparator = true;
 
 			// commands which assign to roles
-			foreach (var role in _componentRoles)
+			foreach (var role in GetRelevantComponentRoles())
 			{
 				if (role.IsPotential(PathToAnnotatedFile))
 				{
@@ -446,7 +449,14 @@ namespace SayMore.Model.Files
 
 					}) { Tag = "rename" };
 				}
-		   }
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ComponentRole> GetRelevantComponentRoles()
+		{
+			return (_parentElement == null ? _componentRoles :
+				_componentRoles.Where(r => r.RelevantElementType == _parentElement.GetType()));
 		}
 
 		/// ------------------------------------------------------------------------------------

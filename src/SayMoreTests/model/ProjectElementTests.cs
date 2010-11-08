@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
+using SayMore;
 using SayMore.Model;
 using SayMore.Model.Files;
 
@@ -37,6 +38,14 @@ namespace SayMoreTests.Model
 			Assert.AreEqual(1, Directory.GetFiles(_parentFolder.Combine("xyz")).Length);
 		}
 
+		public static Event CreateEvent(string parentFolderPath, string name)
+		{
+			return new Event(parentFolderPath, name, new EventFileType(() => null),
+				MakeComponent, new FileSerializer(), (w, x, y, z) =>
+					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
+					ApplicationContainer.ComponentRoles, null);
+		}
+
 		private Person CreatePerson()
 		{
 			return CreatePerson(_parentFolder.Path, "xyz");
@@ -46,16 +55,12 @@ namespace SayMoreTests.Model
 		{
 			return new Person(parentFolderPath, name, new PersonFileType(() => null),
 				MakeComponent, new FileSerializer(), (w, x, y, z) =>
-				{
-					return new ProjectElementComponentFile(w, x, y, z,
-						FieldUpdater.CreateMinimalFieldUpdaterForTests(null));
-
-				});
+					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)));
 		}
 
-		private static ComponentFile MakeComponent(string pathtoannotatedfile)
+		private static ComponentFile MakeComponent(ProjectElement parentElement, string pathtoannotatedfile)
 		{
-			return ComponentFile.CreateMinimalComponentFileForTests(pathtoannotatedfile);
+			return ComponentFile.CreateMinimalComponentFileForTests(parentElement, pathtoannotatedfile);
 		}
 
 		public string SetValue(Person person, string key, string value)

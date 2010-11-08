@@ -40,7 +40,7 @@ namespace SayMoreTests.Model
 																  return file.Object;
 															  };
 
-			ComponentFile.Factory componentFactory = (path) =>
+			ComponentFile.Factory componentFactory = (parentElement, path) =>
 														 {
 															 var file = new Mock<ComponentFile>();
 															 //person.Setup(p => p.GetInformedConsentComponentFile()).Returns((ComponentFile)null);

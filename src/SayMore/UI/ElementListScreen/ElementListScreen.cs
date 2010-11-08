@@ -157,10 +157,14 @@ namespace SayMore.UI.ElementListScreen
 					_elementsGrid.SelectElement((ProjectElement)itemToSelectAfterLoad);
 				else if (itemToSelectAfterLoad.GetType() == typeof(int))
 					_elementsGrid.SelectElement((int)itemToSelectAfterLoad);
+				else if (itemToSelectAfterLoad == typeof(string))
+					_elementsGrid.SelectElement((string)itemToSelectAfterLoad);
 			}
 
 			if (_elementsGrid.GridSettings == null)
 				_elementsGrid.AutoResizeColumns();
+
+			_elementsGrid.Refresh();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -76,8 +76,7 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			try
 			{
-				var file = componentFileFactory(path);
-
+				var file = componentFileFactory(null, path);
 
 				//TODO there is an occasional problem here we need to track down, which
 				//may be a case of the same key appearing twice. Why?

@@ -40,11 +40,18 @@ namespace SayMoreTests.Model.Files
 			Assert.AreEqual("Text", f.FileType.Name);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private ComponentFile CreateComponentFile(string fileName)
+		{
+			return CreateComponentFile(null, fileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private ComponentFile CreateComponentFile(ProjectElement parentElement, string fileName)
 		{
 			File.WriteAllText(_parentFolder.Combine(fileName), @"hello");
 
-			var cf = new ComponentFile(_parentFolder.Combine(fileName),
+			var cf = new ComponentFile(parentElement, _parentFolder.Combine(fileName),
 				new[] {FileType.Create("Text", ".txt"), new UnknownFileType(null) },
 				new ComponentRole[] { }, new FileSerializer(), null, null, null);
 
@@ -52,6 +59,7 @@ namespace SayMoreTests.Model.Files
 			return cf;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetFileType_UnknownType_UnknownFileType()
@@ -182,7 +190,12 @@ namespace SayMoreTests.Model.Files
 			Assert.AreEqual("green", f.GetStringValue("color", "blue"));
 		}
 
-		private ComponentFile CreateComponentFileWithRoleChoices(string path)
+		private static ComponentFile CreateComponentFileWithRoleChoices(string path)
+		{
+			return CreateComponentFileWithRoleChoices(null, path);
+		}
+
+		private static ComponentFile CreateComponentFileWithRoleChoices(ProjectElement parentElement, string path)
 		{
 			var componentRoles = new[]
 			{
@@ -200,12 +213,41 @@ namespace SayMoreTests.Model.Files
 
 				new ComponentRole(typeof(Person), "consent", "Informed Consent",
 					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Consent.")),
+					"$ElementId$_Consent", Color.Magenta),
+
+				new ComponentRole(typeof(Person), "careful", "Careful Speech",
+					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Careful.")),
 					"$ElementId$_Consent", Color.Magenta)
 			};
 
-			return new ComponentFile(path,
-				new[] { FileType.Create("Text", ".txt"), },
+			return new ComponentFile(parentElement, path, new[] { FileType.Create("Text", ".txt"), },
 				componentRoles, new FileSerializer(), null, null, null);
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetRelevantComponentRoles_ForEvent_ReturnsOnlyEventRoles()
+		{
+			using (var eventFolder = new TemporaryFolder("TestGetRelevantComponentRoles"))
+			{
+				var evnt = ProjectElementTests.CreateEvent(eventFolder.Path, "stupidEvent");
+				var f = CreateComponentFileWithRoleChoices(evnt, "abc.txt");
+				foreach (var role in f.GetRelevantComponentRoles())
+					Assert.AreEqual(typeof(Event), role.RelevantElementType);
+			}
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetRelevantComponentRoles_ForPerson_ReturnsOnlyPersonRoles()
+		{
+			using (var eventFolder = new TemporaryFolder("TestGetRelevantComponentRoles"))
+			{
+				var evnt = ProjectElementTests.CreatePerson(eventFolder.Path, "stupidPerson");
+				var f = CreateComponentFileWithRoleChoices(evnt, "abc.txt");
+				foreach (var role in f.GetRelevantComponentRoles())
+					Assert.AreEqual(typeof(Person), role.RelevantElementType);
+			}
 		}
 
 		[Test]

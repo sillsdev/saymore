@@ -103,11 +103,9 @@ namespace SayMoreTests
 				{
 					var factory = projectContext.ResolveForTests<ComponentFile.Factory>();
 					//will throw if the container couldn't put all the pieces together
-					factory(_parentFolder.Combine("test.txt"));
+					factory(null, _parentFolder.Combine("test.txt"));
 				}
 			}
 		}
-
-
 	}
 }

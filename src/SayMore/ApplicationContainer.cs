@@ -89,7 +89,7 @@ namespace SayMore
 		/// Someday, we may put this under user control. For now, they are hard-coded.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected IEnumerable<ComponentRole> ComponentRoles
+		public static IEnumerable<ComponentRole> ComponentRoles
 		{
 			get
 			{

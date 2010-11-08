@@ -33,14 +33,11 @@ namespace SayMore.UI.NewEventsFromFiles
 		public bool Selected { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-//		public NewComponentFile(string filePath) :
-//			base(filePath, ApplicationContainer.FilesTypes, null, null, null)
 		public NewComponentFile(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes,
-			IEnumerable<ComponentRole> componentRoles,
-			FileSerializer fileSerializer,
-			IProvideAudioVideoFileStatistics statisticsProvider,
-			PresetGatherer presetProvider, FieldUpdater fieldUpdater)
-			: base(pathToAnnotatedFile, fileTypes, componentRoles,
+			IEnumerable<ComponentRole> componentRoles, FileSerializer fileSerializer,
+			IProvideAudioVideoFileStatistics statisticsProvider, PresetGatherer presetProvider,
+			FieldUpdater fieldUpdater)
+			: base(null, pathToAnnotatedFile, fileTypes, componentRoles,
 				fileSerializer, statisticsProvider, presetProvider, fieldUpdater)
 		{
 			_fileTypes = fileTypes;

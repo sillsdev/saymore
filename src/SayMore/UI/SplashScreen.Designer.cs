@@ -56,9 +56,10 @@ namespace SayMore.UI
 			this._labelVersionInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelVersionInfo.AutoSize = true;
 			this._labelVersionInfo.BackColor = System.Drawing.Color.Transparent;
+			this._labelVersionInfo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._labelVersionInfo.Location = new System.Drawing.Point(11, 168);
 			this._labelVersionInfo.Name = "_labelVersionInfo";
-			this._labelVersionInfo.Size = new System.Drawing.Size(157, 13);
+			this._labelVersionInfo.Size = new System.Drawing.Size(159, 13);
 			this._labelVersionInfo.TabIndex = 5;
 			this._labelVersionInfo.Text = "Version {0}.{1}.{2}    Built on {3}";
 			// 

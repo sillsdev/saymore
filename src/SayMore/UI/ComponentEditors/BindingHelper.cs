@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Files;
+using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -65,7 +66,13 @@ namespace SayMore.UI.ComponentEditors
 			if (ctrl == null)
 				return false;
 
-			var extend = (ctrl is TextBox || ctrl is DateTimePicker || ctrl is ComboBox);
+			var extend = (new[]
+			{
+				typeof(TextBox),
+				typeof(DateTimePicker),
+				typeof(ComboBox),
+				typeof(MultiValueComboBox)
+			}).Contains(ctrl.GetType());
 
 			if (extend && !_extendedControls.ContainsKey(ctrl))
 				_extendedControls[ctrl] = true;
@@ -140,6 +147,8 @@ namespace SayMore.UI.ComponentEditors
 
 			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
 				((ComboBox)ctrl).SelectedValueChanged -= HandleBoundComboValueChanged;
+			else if (ctrl is MultiValueComboBox)
+				((MultiValueComboBox)ctrl).ValueChanged -= HandleBoundMultiValueComboValueChanged;
 			else
 				ctrl.Validating -= HandleValidatingControl;
 
@@ -149,21 +158,23 @@ namespace SayMore.UI.ComponentEditors
 
 			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
 				((ComboBox)ctrl).SelectedValueChanged += HandleBoundComboValueChanged;
+			else if (ctrl is MultiValueComboBox)
+				((MultiValueComboBox)ctrl).ValueChanged += HandleBoundMultiValueComboValueChanged;
 			else
 				ctrl.Validating += HandleValidatingControl;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleBoundComboValueChanged(object sender, EventArgs e)
-		{
-			HandleValidatingControl(sender, new CancelEventArgs());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void UnBindControl(Control ctrl)
 		{
 			ctrl.Disposed -= HandleDisposed;
-			ctrl.Validating -= HandleValidatingControl;
+
+			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
+				((ComboBox)ctrl).SelectedValueChanged -= HandleBoundComboValueChanged;
+			else if (ctrl is MultiValueComboBox)
+				((MultiValueComboBox)ctrl).ValueChanged -= HandleBoundMultiValueComboValueChanged;
+			else
+				ctrl.Validating -= HandleValidatingControl;
 
 			if (_boundControls != null && _boundControls.Contains(ctrl))
 				_boundControls.Remove(ctrl);
@@ -242,6 +253,18 @@ namespace SayMore.UI.ComponentEditors
 		//            ((ComboBox)ctrl).SelectedIndex = (((ComboBox)ctrl).Items.Count > 0 ? 0 : -1);
 		//    }
 		//}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleBoundComboValueChanged(object sender, EventArgs e)
+		{
+			HandleValidatingControl(sender, new CancelEventArgs());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleBoundMultiValueComboValueChanged(object sender, EventArgs e)
+		{
+			HandleValidatingControl(sender, new CancelEventArgs());
+		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleValidatingControl(object sender, CancelEventArgs e)

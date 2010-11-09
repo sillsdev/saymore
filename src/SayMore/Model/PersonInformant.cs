@@ -14,23 +14,28 @@ namespace SayMore.Model
 	{
 		private readonly ElementRepository<Person> _peopleRepository;
 
+		[Obsolete("For mocking only")]
+		public PersonInformant(){}
+
+		/// ------------------------------------------------------------------------------------
 		public PersonInformant(ElementRepository<Person> peopleRepository)
 		{
 			_peopleRepository = peopleRepository;
 		}
 
-		[Obsolete("FOr mocking only")]
-		public PersonInformant(){}
-
+		/// ------------------------------------------------------------------------------------
 		public virtual bool GetHasInformedConsent(string personName)
 		{
 			var person = _peopleRepository.GetById(personName);
+
 			//Review:  if we have this error at runtime, just say false
-			if(person==null)
-			{
-				return false;
-			}
-			return person.GetInformedConsentComponentFile() != null;
+			return (person == null ? false : person.GetInformedConsentComponentFile() != null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<string> GetPeopleNames()
+		{
+			return _peopleRepository.AllItems.Select(x => x.Id);
 		}
 	}
 }

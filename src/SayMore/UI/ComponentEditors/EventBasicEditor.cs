@@ -18,16 +18,19 @@ namespace SayMore.UI.ComponentEditors
 
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
+		private PersonInformant _personInformant;
 
 		/// ------------------------------------------------------------------------------------
 		public EventBasicEditor(ComponentFile file, string tabText, string imageKey,
-			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
+			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
+			PersonInformant personInformant)
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
 			Name = "EventEditor";
 
-			InitializeGrid(autoCompleteProvider,fieldGatherer);
+			_personInformant = personInformant;
+			InitializeGrid(autoCompleteProvider, fieldGatherer);
 			_status.Items.AddRange(Event.GetStatusNames().ToArray());
 
 			SetBindingHelper(_binder);
@@ -51,16 +54,15 @@ namespace SayMore.UI.ComponentEditors
 				_genre.SelectedItem = (genre ?? GenreDefinition.UnknownType);
 			}
 
-			//var lst = from genre in GenreDefinition.FactoryGenreDefinitions
-			//          select new PickerPopupItem
-			//          {
-			//              Text = genre.Name,
-			//              ToolTipText = genre.Definition,
-			//              Tag = genre
-			//          };
+			_participants.JITListAcquisition += HandleParticipantJustInTimeListAcquisition;
+		}
 
-			//multiValueComboBox1.Popup.AddRange(lst);
-			multiValueComboBox1.Visible = false;
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<PickerPopupItem> HandleParticipantJustInTimeListAcquisition(object sender)
+		{
+			return from name in _personInformant.GetPeopleNames()
+				orderby name
+				select new PickerPopupItem { Text = name, ToolTipText = null };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -106,6 +108,11 @@ namespace SayMore.UI.ComponentEditors
 		{
 			// Makes sure the id's label is also visible when the id field gains focus.
 			AutoScrollPosition = new Point(0, 0);
+		}
+
+		private void HandleParticipantJustInTimeListAcquisition(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+
 		}
 	}
 }

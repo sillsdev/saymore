@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -9,9 +10,14 @@ namespace SayMore.UI.LowLevelControls
 {
 	public partial class MultiValueComboBox : UserControl
 	{
+		public delegate IEnumerable<PickerPopupItem> JITListAcquisitionHandler(object sender);
+		public event JITListAcquisitionHandler JITListAcquisition;
 		public event CancelEventHandler DropDownOpening;
+		public event EventHandler ValueChanged;
 
 		public MultiValuePickerPopup Popup { get; private set; }
+
+		private readonly int _borderWidth;
 
 		/// ------------------------------------------------------------------------------------
 		public MultiValueComboBox()
@@ -25,10 +31,12 @@ namespace SayMore.UI.LowLevelControls
 			InitializeComponent();
 			Font = base.Font;
 
-			var borderWidth = (_textBox.Size.Width - _textBox.ClientSize.Width) / 2;
+			_borderWidth = (_textBox.Size.Width - _textBox.ClientSize.Width) / 2;
 			var borderHeight = (_textBox.Size.Height - _textBox.ClientSize.Height) / 2;
 			_textBox.BorderStyle = BorderStyle.None;
-			Padding = new Padding(borderWidth, borderHeight, borderWidth, borderHeight);
+			_panelButton.Width = SystemInformation.VerticalScrollBarWidth;
+
+			Padding = new Padding(_borderWidth, borderHeight, _borderWidth, borderHeight);
 		}
 
 		#region Properties
@@ -196,13 +204,33 @@ namespace SayMore.UI.LowLevelControls
 			return VisualStyleElement.ComboBox.DropDownButton.Normal;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			base.OnSizeChanged(e);
+			HandleButtonSizeChanged(null, null);
+		}
+
 		#endregion
 
 		#region Event handlers
 		/// ------------------------------------------------------------------------------------
+		private void HandleButtonSizeChanged(object sender, EventArgs e)
+		{
+			_textBox.Width = ClientSize.Width - ((_borderWidth * 2) + _panelButton.Width + 3);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleTextBoxEnter(object sender, EventArgs e)
 		{
 			_textBox.SelectAll();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleTextBoxLeave(object sender, EventArgs e)
+		{
+			_textBox.SelectionStart = 0;
+			_textBox.SelectionLength = 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -220,6 +248,12 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void OnMouseClickOnDropDownButton(object sender, MouseEventArgs e)
 		{
+			if (JITListAcquisition != null)
+			{
+				Popup.Clear();
+				Popup.AddRange(JITListAcquisition(this));
+			}
+
 			if (!_textBox.Focused)
 				_textBox.Focus();
 
@@ -253,6 +287,13 @@ namespace SayMore.UI.LowLevelControls
 		{
 			Text = Popup.GetCheckedItemsString();
 			_textBox.SelectAll();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleTextBoxTextChanged(object sender, EventArgs e)
+		{
+			if (ValueChanged != null)
+				ValueChanged(this, EventArgs.Empty);
 		}
 
 		#endregion

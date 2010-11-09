@@ -109,6 +109,15 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void Clear()
+		{
+			for (int i = _items.Count - 1; i >= 0; i--)
+				_items.ElementAt(i).Dispose();
+
+			_items.Clear();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool IsItemChecked(string text)
 		{
 			return (_items.FirstOrDefault(x => x.Text == text && x.Checked) != null);
@@ -184,7 +193,10 @@ namespace SayMore.UI.LowLevelControls
 				sz.Height = Math.Min(sz.Height, MaxItemsDisplayed * itemHeight);
 			}
 
-			sz.Height += _panelTextBox.Height;
+			if (ShowPromptTextBox)
+				sz.Height += _panelTextBox.Height;
+
+			sz.Height += 4;			// account for borders.
 			sz.Width = Width;
 			Size = sz;
 		}

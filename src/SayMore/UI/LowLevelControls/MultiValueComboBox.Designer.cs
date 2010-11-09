@@ -41,21 +41,23 @@ namespace SayMore.UI.LowLevelControls
 			this._textBox.Name = "_textBox";
 			this._textBox.Size = new System.Drawing.Size(123, 20);
 			this._textBox.TabIndex = 0;
+			this._textBox.TextChanged += new System.EventHandler(this.HandleTextBoxTextChanged);
+			this._textBox.Leave += new System.EventHandler(this.HandleTextBoxLeave);
 			this._textBox.Enter += new System.EventHandler(this.HandleTextBoxEnter);
 			// 
 			// _panelButton
 			// 
 			this._panelButton.Dock = System.Windows.Forms.DockStyle.Right;
-			this._panelButton.Location = new System.Drawing.Point(129, 0);
-			this._panelButton.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+			this._panelButton.Location = new System.Drawing.Point(130, 0);
 			this._panelButton.Name = "_panelButton";
-			this._panelButton.Size = new System.Drawing.Size(19, 28);
+			this._panelButton.Size = new System.Drawing.Size(18, 28);
 			this._panelButton.TabIndex = 1;
 			this._panelButton.MouseLeave += new System.EventHandler(this.HandleButtonMouseEnterLeave);
 			this._panelButton.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleButtonPaint);
 			this._panelButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClickOnDropDownButton);
 			this._panelButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleButtonMouseDownUp);
 			this._panelButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HandleButtonMouseDownUp);
+			this._panelButton.SizeChanged += new System.EventHandler(this.HandleButtonSizeChanged);
 			this._panelButton.MouseEnter += new System.EventHandler(this.HandleButtonMouseEnterLeave);
 			// 
 			// MultiValueComboBox

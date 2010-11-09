@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using SayMore.Model.Files.DataGathering;
+using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -53,8 +54,11 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public bool CanExtend(object extendee)
 		{
-			if (!(extendee is TextBox || extendee is ComboBox))
+			if ((extendee is ComboBox && ((ComboBox)extendee).DropDownStyle != ComboBoxStyle.DropDown) ||
+				!(extendee is TextBox || extendee is MultiValueComboBox))
+			{
 				return false;
+			}
 
 			var control = extendee as Control;
 			if (!_keysForControls.ContainsKey(control))
@@ -68,8 +72,8 @@ namespace SayMore.UI.ComponentEditors
 		#region Properties provided by this extender
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whethere or not the data gatherer is updated after the
-		/// data in a supported text box is changed. TODO: Add support for this property.
+		/// Gets a value indicating whether or not the data gatherer is updated after the
+		/// data in a supported control is changed. TODO: Add support for this property.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Localizable(false)]
@@ -90,13 +94,7 @@ namespace SayMore.UI.ComponentEditors
 		public string GetAutoCompleteKey(object obj)
 		{
 			string key;
-
-			if (_keysForControls.TryGetValue(obj as Control, out key))
-			{
-				return key;
-			}
-
-			return string.Empty;
+			return (_keysForControls.TryGetValue(obj as Control, out key) ? key : string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -137,6 +135,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			control.Validated += HandleControlValidated;
 			control.Enter += HandleControlEnter;
+			control.KeyDown += HandleControlKeyDown;
 			control.Disposed += HandleDisposed;
 
 			if (control is TextBox)
@@ -144,10 +143,15 @@ namespace SayMore.UI.ComponentEditors
 				((TextBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 				((TextBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
 			}
-			if (control is ComboBox)
+			else if (control is ComboBox)
 			{
 				((ComboBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 				((ComboBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
+			}
+			else if (control is MultiValueComboBox)
+			{
+				((MultiValueComboBox)control).AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+				((MultiValueComboBox)control).AutoCompleteSource = AutoCompleteSource.CustomSource;
 			}
 		}
 
@@ -159,13 +163,19 @@ namespace SayMore.UI.ComponentEditors
 				((TextBox)control).AutoCompleteMode = default(AutoCompleteMode);
 				((TextBox)control).AutoCompleteSource = AutoCompleteSource.None;
 			}
-			if (control is ComboBox)
+			else if (control is ComboBox)
 			{
 				((ComboBox)control).AutoCompleteMode = default(AutoCompleteMode);
 				((ComboBox)control).AutoCompleteSource = AutoCompleteSource.None;
 			}
+			else if (control is MultiValueComboBox)
+			{
+				((MultiValueComboBox)control).AutoCompleteMode = default(AutoCompleteMode);
+				((MultiValueComboBox)control).AutoCompleteSource = AutoCompleteSource.None;
+			}
 
 			control.Validating -= HandleControlValidated;
+			control.KeyDown -= HandleControlKeyDown;
 			control.Enter -= HandleControlEnter;
 			control.Disposed -= HandleDisposed;
 		}
@@ -178,6 +188,19 @@ namespace SayMore.UI.ComponentEditors
 			_controlsNeedingNewList = (from kvp in _keysForControls
 									   where !string.IsNullOrEmpty(kvp.Value)
 									   select kvp.Key).ToList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		static void HandleControlKeyDown(object sender, KeyEventArgs e)
+		{
+			// .Net has, what I would consider, a bug when a control has an auto-complete
+			// list. It ignores Ctrl+A and sometimes doesn't ignore it, but clobbers all
+			// the text in the control. Grr! (SP-114)
+			if (e.Control && e.KeyCode == Keys.A)
+			{
+				SelectAllControlsText(sender as Control);
+				e.SuppressKeyPress = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -197,23 +220,14 @@ namespace SayMore.UI.ComponentEditors
 					newValues.AddRange(values.ToArray());
 
 				if (control is TextBox)
-				{
 					((TextBox)control).AutoCompleteCustomSource = newValues;
-				}
-				else
-				{
+				else if (control is ComboBox)
 					((ComboBox)control).AutoCompleteCustomSource = newValues;
-				}
+				else if (control is MultiValueComboBox)
+					((MultiValueComboBox)control).AutoCompleteCustomSource = newValues;
 			}
 
-			if (control is TextBox)
-			{
-				((TextBox)control).SelectAll();
-			}
-			else
-			{
-				((ComboBox)control).SelectAll();
-			}
+			SelectAllControlsText(control);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -226,6 +240,17 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleDisposed(object sender, EventArgs e)
 		{
 			RemoveSupport(sender as Control);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void SelectAllControlsText(Control control)
+		{
+			if (control is TextBox)
+				((TextBox)control).SelectAll();
+			else if (control is ComboBox)
+				((ComboBox)control).SelectAll();
+			else if (control is MultiValueComboBox)
+				((MultiValueComboBox)control).SelectAll();
 		}
 	}
 }

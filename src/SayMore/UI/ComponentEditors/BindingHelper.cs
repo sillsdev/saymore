@@ -147,8 +147,6 @@ namespace SayMore.UI.ComponentEditors
 
 			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
 				((ComboBox)ctrl).SelectedValueChanged -= HandleBoundComboValueChanged;
-			else if (ctrl is MultiValueComboBox)
-				((MultiValueComboBox)ctrl).ValueChanged -= HandleBoundMultiValueComboValueChanged;
 			else
 				ctrl.Validating -= HandleValidatingControl;
 
@@ -158,8 +156,6 @@ namespace SayMore.UI.ComponentEditors
 
 			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
 				((ComboBox)ctrl).SelectedValueChanged += HandleBoundComboValueChanged;
-			else if (ctrl is MultiValueComboBox)
-				((MultiValueComboBox)ctrl).ValueChanged += HandleBoundMultiValueComboValueChanged;
 			else
 				ctrl.Validating += HandleValidatingControl;
 		}
@@ -171,8 +167,6 @@ namespace SayMore.UI.ComponentEditors
 
 			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
 				((ComboBox)ctrl).SelectedValueChanged -= HandleBoundComboValueChanged;
-			else if (ctrl is MultiValueComboBox)
-				((MultiValueComboBox)ctrl).ValueChanged -= HandleBoundMultiValueComboValueChanged;
 			else
 				ctrl.Validating -= HandleValidatingControl;
 
@@ -256,12 +250,6 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleBoundComboValueChanged(object sender, EventArgs e)
-		{
-			HandleValidatingControl(sender, new CancelEventArgs());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleBoundMultiValueComboValueChanged(object sender, EventArgs e)
 		{
 			HandleValidatingControl(sender, new CancelEventArgs());
 		}

@@ -42,6 +42,7 @@ namespace SayMore.UI.LowLevelControls
 			this._textBox.Size = new System.Drawing.Size(123, 20);
 			this._textBox.TabIndex = 0;
 			this._textBox.TextChanged += new System.EventHandler(this.HandleTextBoxTextChanged);
+			this._textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
 			this._textBox.Leave += new System.EventHandler(this.HandleTextBoxLeave);
 			this._textBox.Enter += new System.EventHandler(this.HandleTextBoxEnter);
 			// 

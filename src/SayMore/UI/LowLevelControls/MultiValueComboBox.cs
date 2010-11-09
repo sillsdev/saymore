@@ -14,6 +14,7 @@ namespace SayMore.UI.LowLevelControls
 		public event JITListAcquisitionHandler JITListAcquisition;
 		public event CancelEventHandler DropDownOpening;
 		public event EventHandler ValueChanged;
+		public new event KeyEventHandler KeyDown;
 
 		public MultiValuePickerPopup Popup { get; private set; }
 
@@ -37,6 +38,7 @@ namespace SayMore.UI.LowLevelControls
 			_panelButton.Width = SystemInformation.VerticalScrollBarWidth;
 
 			Padding = new Padding(_borderWidth, borderHeight, _borderWidth, borderHeight);
+			CausesValidation = true;
 		}
 
 		#region Properties
@@ -89,7 +91,48 @@ namespace SayMore.UI.LowLevelControls
 			set { _textBox.ForeColor = value; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public AutoCompleteMode AutoCompleteMode
+		{
+			get { return _textBox.AutoCompleteMode; }
+			set { _textBox.AutoCompleteMode = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public AutoCompleteSource AutoCompleteSource
+		{
+			get { return _textBox.AutoCompleteSource; }
+			set { _textBox.AutoCompleteSource = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public AutoCompleteStringCollection AutoCompleteCustomSource
+		{
+			get { return _textBox.AutoCompleteCustomSource; }
+			set { _textBox.AutoCompleteCustomSource = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int SelectionStart
+		{
+			get { return _textBox.SelectionStart; }
+			set { _textBox.SelectionStart = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int SelectionLength
+		{
+			get { return _textBox.SelectionLength; }
+			set { _textBox.SelectionLength = value; }
+		}
+
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public void SelectAll()
+		{
+			_textBox.SelectAll();
+		}
 
 		#region Overrides and painting methods
 		/// ------------------------------------------------------------------------------------
@@ -294,6 +337,13 @@ namespace SayMore.UI.LowLevelControls
 		{
 			if (ValueChanged != null)
 				ValueChanged(this, EventArgs.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleTextBoxKeyDown(object sender, KeyEventArgs e)
+		{
+			if (KeyDown != null)
+				KeyDown(this, e);
 		}
 
 		#endregion

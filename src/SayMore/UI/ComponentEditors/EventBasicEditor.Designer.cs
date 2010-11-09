@@ -37,6 +37,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis = new System.Windows.Forms.Label();
 			this._synopsis = new System.Windows.Forms.TextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
+			this._participants = new SayMore.UI.LowLevelControls.MultiValueComboBox();
 			this._panelGrid = new System.Windows.Forms.Panel();
 			this._labelCustomFields = new System.Windows.Forms.Label();
 			this._access = new System.Windows.Forms.TextBox();
@@ -49,7 +50,6 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSetting = new System.Windows.Forms.Label();
 			this._setting = new System.Windows.Forms.TextBox();
 			this._labelSituation = new System.Windows.Forms.Label();
-			this._participants = new SayMore.UI.LowLevelControls.MultiValueComboBox();
 			this._labelDate = new System.Windows.Forms.Label();
 			this._labelStatus = new System.Windows.Forms.Label();
 			this._status = new System.Windows.Forms.ComboBox();
@@ -215,6 +215,25 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.TabIndex = 0;
 			this._tableLayout.TabStop = true;
 			// 
+			// _participants
+			// 
+			this._autoCompleteHelper.SetAutoCompleteKey(this._participants, "participants");
+			this._participants.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this._participants.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+			this._participants.Dock = System.Windows.Forms.DockStyle.Top;
+			this._participants.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._binder.SetIsBound(this._participants, true);
+			this._binder.SetIsComponentFileId(this._participants, false);
+			this._participants.Location = new System.Drawing.Point(0, 108);
+			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
+			this._participants.Name = "_participants";
+			this._participants.Padding = new System.Windows.Forms.Padding(2);
+			this._participants.SelectionLength = 0;
+			this._participants.SelectionStart = 0;
+			this._participants.Size = new System.Drawing.Size(211, 23);
+			this._participants.TabIndex = 23;
+			this._autoCompleteHelper.SetUpdateGatherer(this._participants, false);
+			// 
 			// _panelGrid
 			// 
 			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -377,19 +396,6 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSituation.Size = new System.Drawing.Size(54, 13);
 			this._labelSituation.TabIndex = 16;
 			this._labelSituation.Text = "Situation";
-			// 
-			// _participants
-			// 
-			this._participants.Dock = System.Windows.Forms.DockStyle.Top;
-			this._participants.Font = new System.Drawing.Font("Segoe UI", 9F);
-			this._binder.SetIsBound(this._participants, true);
-			this._binder.SetIsComponentFileId(this._participants, false);
-			this._participants.Location = new System.Drawing.Point(0, 108);
-			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
-			this._participants.Name = "_participants";
-			this._participants.Padding = new System.Windows.Forms.Padding(2);
-			this._participants.Size = new System.Drawing.Size(211, 23);
-			this._participants.TabIndex = 23;
 			// 
 			// _labelDate
 			// 

@@ -18,5 +18,16 @@ namespace SayMore.Model.Files.DataGathering
 				path => new MediaFileInfo(path))
 		{
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Start()
+		{
+			// This will force the gathering of A/V data to be done at least once, before
+			// the program is fully up and running. That way fields are available to views
+			// right away.
+			ProcessAllFiles();
+			_restartRequested = false;
+			base.Start();
+		}
 	}
 }

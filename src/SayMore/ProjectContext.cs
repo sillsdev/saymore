@@ -47,18 +47,18 @@ namespace SayMore
 			var eventRepoFactory = _scope.Resolve<ElementRepository<Event>.Factory>();
 			eventRepoFactory(rootDirectoryPath, "Events", _scope.Resolve<EventFileType>());
 
-			//Start the background operations
-			_audioVideoDataGatherer = _scope.Resolve<AudioVideoDataGatherer>();
-			_audioVideoDataGatherer.Start();
-
+			// Start the background operations
 			_presetGatherer = _scope.Resolve<PresetGatherer>();
-			_presetGatherer.Start();
+//			_presetGatherer.Start();
 
 			_autoCompleteValueGatherer = _scope.Resolve<AutoCompleteValueGatherer>();
-			_autoCompleteValueGatherer.Start();
+//			_autoCompleteValueGatherer.Start();
+
+			_audioVideoDataGatherer = _scope.Resolve<AudioVideoDataGatherer>();
+//			_audioVideoDataGatherer.Start();
 
 			_fieldGatherer = _scope.Resolve<FieldGatherer>();
-			_fieldGatherer.Start();
+//			_fieldGatherer.Start();
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
 		}
@@ -117,14 +117,24 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<FileType> GetFilesTypes(IComponentContext context)
 		{
-			return new List<FileType>(new FileType[] {
-									context.Resolve<EventFileType>(),
-									context.Resolve<PersonFileType>(),
-									context.Resolve<AudioFileType>(),
-									context.Resolve<VideoFileType>(),
-									context.Resolve<ImageFileType>(),
-									context.Resolve<UnknownFileType>(),
-									});
+			return new List<FileType>(new FileType[]
+			{
+				context.Resolve<EventFileType>(),
+				context.Resolve<PersonFileType>(),
+				context.Resolve<AudioFileType>(),
+				context.Resolve<VideoFileType>(),
+				context.Resolve<ImageFileType>(),
+				context.Resolve<UnknownFileType>(),
+			});
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void StartBackgroundProcesses()
+		{
+			_presetGatherer.Start();
+			_autoCompleteValueGatherer.Start();
+			_audioVideoDataGatherer.Start();
+			_fieldGatherer.Start();
 		}
 
 		/// ------------------------------------------------------------------------------------

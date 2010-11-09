@@ -88,13 +88,13 @@ namespace SayMore.Model.Files.DataGathering
 				var dictionary = new Dictionary<string, string>();
 				foreach (var fieldInstance in file.MetaDataFieldValues)
 				{
-					if(!dictionary.ContainsKey(fieldInstance.FieldId))
+					if (!dictionary.ContainsKey(fieldInstance.FieldId))
 					{
 						dictionary.Add(fieldInstance.FieldId, fieldInstance.Value);
 					}
 					else
 					{
-						Debug.WriteLine(fieldInstance+" appears more than once in the file "+path);
+						Debug.WriteLine(fieldInstance + " appears more than once in the file " + path);
 					}
 				}
 
@@ -154,7 +154,8 @@ namespace SayMore.Model.Files.DataGathering
 			return keyToValuesDictionary;
 		}
 
-		private void AddFactoryChoices(Dictionary<string, IEnumerable<string>> keyToValuesDictionary)
+		/// ------------------------------------------------------------------------------------
+		private static void AddFactoryChoices(Dictionary<string, IEnumerable<string>> keyToValuesDictionary)
 		{
 			keyToValuesDictionary.Add("genre", GenreDefinition.FactoryGenreDefinitions.Select(d => d.Name).ToList());
 		}

@@ -42,7 +42,7 @@ namespace SayMore.Model.Files.DataGathering
 		protected readonly Func<string, T> _fileDataFactory;
 		protected bool _restartRequested = true;
 		protected Dictionary<string, T> _fileToDataDictionary = new Dictionary<string, T>();
-		private Queue<FileSystemEventArgs> _pendingFileEvents;
+		private readonly Queue<FileSystemEventArgs> _pendingFileEvents;
 		private volatile bool _suspendEventProcessing;
 
 		public event EventHandler NewDataAvailable;
@@ -129,7 +129,6 @@ namespace SayMore.Model.Files.DataGathering
 				NewDataAvailable(this, EventArgs.Empty);
 		}
 
-		public bool AllFilesProcessedAtLeastOnce { get; protected set; }
 		/// ------------------------------------------------------------------------------------
 		private void StartWorking()
 		{
@@ -153,7 +152,6 @@ namespace SayMore.Model.Files.DataGathering
 						{
 							_restartRequested = false;
 							ProcessAllFiles();
-							AllFilesProcessedAtLeastOnce = true;
 						}
 						lock (_pendingFileEvents)
 						{

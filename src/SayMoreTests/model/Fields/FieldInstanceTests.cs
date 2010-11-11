@@ -68,21 +68,21 @@ namespace SayMoreTests.Model.Fields
 		[Test]
 		public void GetValuesFromText_WhenValueIsEmptyString_ReturnsEmptyList()
 		{
-			Assert.AreEqual(0, FieldInstance.GetValuesFromText(string.Empty).Count());
+			Assert.AreEqual(0, FieldInstance.GetMultipleValuesFromText(string.Empty).Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetValuesFromText_WhenValueIsNull_ReturnsEmptyList()
 		{
-			Assert.AreEqual(0, FieldInstance.GetValuesFromText(null).Count());
+			Assert.AreEqual(0, FieldInstance.GetMultipleValuesFromText(null).Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetValuesFromText_WhenSingleValue_ReturnsListOfOne()
 		{
-			var list = FieldInstance.GetValuesFromText("Ford");
+			var list = FieldInstance.GetMultipleValuesFromText("Ford");
 			Assert.AreEqual(1, list.Count());
 			Assert.IsTrue(list.Contains("Ford"));
 		}
@@ -91,7 +91,7 @@ namespace SayMoreTests.Model.Fields
 		[Test]
 		public void GetValuesFromText_WhenSingleValueIncludesDelimiters_ReturnsListOfOne()
 		{
-			var list = FieldInstance.GetValuesFromText(" ; ;Ford ; ;;");
+			var list = FieldInstance.GetMultipleValuesFromText(" ; ;Ford ; ;;");
 			Assert.AreEqual(1, list.Count());
 			Assert.IsTrue(list.Contains("Ford"));
 		}
@@ -100,7 +100,7 @@ namespace SayMoreTests.Model.Fields
 		[Test]
 		public void GetValuesFromText_WhenMultipleValues_ReturnsThem()
 		{
-			var list = FieldInstance.GetValuesFromText("Ford ; ;Chevy ; Pontiac;;");
+			var list = FieldInstance.GetMultipleValuesFromText("Ford ; ;Chevy ; Pontiac;;");
 			Assert.AreEqual(3, list.Count());
 			Assert.IsTrue(list.Contains("Ford"));
 			Assert.IsTrue(list.Contains("Chevy"));

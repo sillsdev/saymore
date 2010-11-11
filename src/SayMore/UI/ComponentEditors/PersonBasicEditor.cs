@@ -23,14 +23,18 @@ namespace SayMore.UI.ComponentEditors
 
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
+		private readonly ImageFileType _imgFileType;
 
 		/// ------------------------------------------------------------------------------------
 		public PersonBasicEditor(ComponentFile file, string tabText, string imageKey,
-			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
+			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
+			ImageFileType imgFileType)
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
 			Name = "PersonEditor";
+
+			_imgFileType = imgFileType;
 
 			_fatherButtons.AddRange(new[] {_pbPrimaryLangFather, _pbOtherLangFather0,
 				_pbOtherLangFather1, _pbOtherLangFather2, _pbOtherLangFather3 });
@@ -54,7 +58,7 @@ namespace SayMore.UI.ComponentEditors
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 
-			LoadPersonsPhoto();
+			LoadPersonsPicture();
 			LoadParentLanguages();
 		}
 
@@ -84,20 +88,44 @@ namespace SayMore.UI.ComponentEditors
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file);
 
-			LoadPersonsPhoto();
+			LoadPersonsPicture();
 			LoadParentLanguages();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string PersonFolder
+		public string PersonFolder
 		{
 			get { return Path.GetDirectoryName(_file.PathToAnnotatedFile); }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string PhotoFileWithoutExt
+		public string PictureFileWithoutExt
 		{
 			get { return Path.GetFileNameWithoutExtension(_file.PathToAnnotatedFile) + "_Photo"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path and file name for the person's picture file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetPictureFile()
+		{
+			var files = Directory.GetFiles(PersonFolder, PictureFileWithoutExt + ".*");
+			var picFiles = files.Where(x => _imgFileType.IsMatch(x));
+			return (picFiles.Count() == 0 ? null : picFiles.ElementAt(0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path and file name for the meta file associated with the person's
+		/// picture file (i.e. sidecar file).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetPictureMetaFile()
+		{
+			var picFile = GetPictureFile();
+			return (picFile == null ? null : _imgFileType.GetMetaFilePath(picFile));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -206,43 +234,92 @@ namespace SayMore.UI.ComponentEditors
 					"Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*";
 
 				if (dlg.ShowDialog(this) == DialogResult.OK)
-				{
-					var dest = PhotoFileWithoutExt + Path.GetExtension(dlg.FileName);
-					dest = Path.Combine(PersonFolder, dest);
-
-					try
-					{
-						File.Copy(dlg.FileName, dest, true);
-						LoadPersonsPhoto();
-					}
-					catch (Exception e)
-					{
-						var msg = LocalizationManager.LocalizeString(
-							"PersonView.ErrorChangingPersonsPhotoMsg",
-							"There was an error changing the person's photo.");
-
-						Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
-					}
-				}
+					ChangePersonsPicture(dlg.FileName);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void LoadPersonsPhoto()
+		private void ChangePersonsPicture(string fileName)
+		{
+			Exception error = null;
+
+			var oldPicMetaFile = GetPictureMetaFile();
+			var oldPicFile = GetPictureFile();
+			var newPicFile = PictureFileWithoutExt + Path.GetExtension(fileName);
+			newPicFile = Path.Combine(PersonFolder, newPicFile);
+
+			if (oldPicFile != null)
+			{
+				try
+				{
+					// Delete the old picture.
+					File.Delete(oldPicFile);
+				}
+				catch (Exception e)
+				{
+					error = e;
+				}
+			}
+
+			if (error == null && oldPicMetaFile != null)
+			{
+				try
+				{
+					// Rename the previous picture's meta file according to the new picture file name.
+					var newPicMetaFile = _imgFileType.GetMetaFilePath(newPicFile);
+					File.Move(oldPicMetaFile, newPicMetaFile);
+				}
+				catch (Exception e)
+				{
+					error = e;
+				}
+			}
+
+			if (error == null)
+			{
+				try
+				{
+					// Copy the new picture file to the person's folder.
+					File.Copy(fileName, newPicFile, true);
+					LoadPersonsPicture();
+				}
+				catch (Exception e)
+				{
+					error = e;
+				}
+			}
+
+			if (error == null)
+			{
+				if (_componentFileListRefreshAction != null)
+					_componentFileListRefreshAction();
+			}
+			else
+			{
+				var msg = LocalizationManager.LocalizeString(
+					"PersonView.ErrorChangingPersonsPhotoMsg",
+					"There was an error changing the person's photo.");
+
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadPersonsPicture()
 		{
 			if (_picture == null)
 				return;
 
 			try
 			{
-				var photoFiles = Directory.GetFiles(PersonFolder, PhotoFileWithoutExt + ".*");
+				var picFile = GetPictureFile();
 
-				if (photoFiles.Length == 0)
+				if (picFile == null)
 					_picture.Image = Resources.kimidNoPhoto;
 				else
 				{
 					// Do this instead of using the Load method because Load keeps a lock on the file.
-					using (var fs = new FileStream(photoFiles[0], FileMode.Open, FileAccess.Read))
+					using (var fs = new FileStream(picFile, FileMode.Open, FileAccess.Read))
 					{
 						_picture.Image = Image.FromStream(fs);
 						fs.Close();
@@ -267,24 +344,64 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandlePersonPicturePaint(object sender, PaintEventArgs e)
 		{
-			if (_picture.ClientRectangle.Contains(_picture.PointToClient(MousePosition)))
+			if (!_picture.ClientRectangle.Contains(_picture.PointToClient(MousePosition)))
+				return;
+
+			var img = Resources.kimidChangePicture;
+			var rc = _picture.ClientRectangle;
+
+			if (rc.Width > rc.Height)
 			{
-				var img = Resources.kimidChangePicture;
-				var rc = _picture.ClientRectangle;
-
-				if (rc.Width > rc.Height)
-				{
-					rc.Width = rc.Height;
-					rc.X = (_picture.ClientRectangle.Width - rc.Width) / 2;
-				}
-				else if (rc.Height > rc.Width)
-				{
-					rc.Height = rc.Width;
-					rc.Y = (_picture.ClientRectangle.Height - rc.Height) / 2;
-				}
-
-				e.Graphics.DrawImage(img, rc);
+				rc.Width = rc.Height;
+				rc.X = (_picture.ClientRectangle.Width - rc.Width) / 2;
 			}
+			else if (rc.Height > rc.Width)
+			{
+				rc.Height = rc.Width;
+				rc.Y = (_picture.ClientRectangle.Height - rc.Height) / 2;
+			}
+
+			e.Graphics.DrawImage(img, rc);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePictureDragEnter(object sender, DragEventArgs e)
+		{
+			e.Effect = DragDropEffects.None;
+
+			var picFile = GetPictureFileFromDragData(e.Data);
+			if (picFile != null)
+			{
+				e.Effect = DragDropEffects.Copy;
+				_picture.Invalidate();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePictureDragLeave(object sender, EventArgs e)
+		{
+			_picture.Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePictureDragDrop(object sender, DragEventArgs e)
+		{
+			var picFile = GetPictureFileFromDragData(e.Data);
+			if (picFile != null)
+				ChangePersonsPicture(picFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetPictureFileFromDragData(IDataObject data)
+		{
+			if (!data.GetFormats().Contains(DataFormats.FileDrop))
+				return null;
+
+			var list = data.GetData(DataFormats.FileDrop) as string[];
+			if (list == null || list.Length != 1)
+				return null;
+
+			return (_imgFileType.IsMatch(list[0]) ? list[0] : null);
 		}
 
 		#endregion

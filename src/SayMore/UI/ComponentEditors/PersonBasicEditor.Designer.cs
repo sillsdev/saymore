@@ -36,9 +36,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelBirthYear = new System.Windows.Forms.Label();
 			this._birthYear = new System.Windows.Forms.TextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._picture = new System.Windows.Forms.PictureBox();
 			this._pbOtherLangMother3 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._panelGrid = new System.Windows.Forms.Panel();
 			this._primaryLanguageLearnedIn = new System.Windows.Forms.TextBox();
 			this._labelPrimaryLanguageLearnedIn = new System.Windows.Forms.Label();
 			this._pbOtherLangMother1 = new SayMore.UI.LowLevelControls.ParentButton();
@@ -60,16 +58,20 @@ namespace SayMore.UI.ComponentEditors
 			this._labelEducation = new System.Windows.Forms.Label();
 			this._education = new System.Windows.Forms.TextBox();
 			this._labelPrimaryOccupation = new System.Windows.Forms.Label();
-			this._labelCustomFields = new System.Windows.Forms.Label();
 			this._primaryOccupation = new System.Windows.Forms.TextBox();
-			this._gender = new System.Windows.Forms.ComboBox();
 			this._labelgender = new System.Windows.Forms.Label();
+			this._gender = new System.Windows.Forms.ComboBox();
 			this._labelHowToContact = new System.Windows.Forms.Label();
 			this._howToContact = new System.Windows.Forms.TextBox();
+			this._labelCustomFields = new System.Windows.Forms.Label();
+			this._panelGrid = new System.Windows.Forms.Panel();
+			this._panelPicture = new System.Windows.Forms.Panel();
+			this._picture = new System.Windows.Forms.PictureBox();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this._tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this._tableLayout.SuspendLayout();
+			this._panelPicture.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._picture)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -127,6 +129,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _tableLayout
 			// 
+			this._tableLayout.AllowDrop = true;
 			this._tableLayout.AutoSize = true;
 			this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._tableLayout.BackColor = System.Drawing.Color.Transparent;
@@ -137,7 +140,6 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58F));
-			this._tableLayout.Controls.Add(this._picture, 5, 0);
 			this._tableLayout.Controls.Add(this._pbOtherLangMother3, 3, 9);
 			this._tableLayout.Controls.Add(this._primaryLanguageLearnedIn, 1, 4);
 			this._tableLayout.Controls.Add(this._labelPrimaryLanguageLearnedIn, 0, 4);
@@ -171,6 +173,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Controls.Add(this._howToContact, 4, 6);
 			this._tableLayout.Controls.Add(this._labelCustomFields, 4, 9);
 			this._tableLayout.Controls.Add(this._panelGrid, 4, 10);
+			this._tableLayout.Controls.Add(this._panelPicture, 5, 0);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
 			this._tableLayout.Name = "_tableLayout";
@@ -195,27 +198,6 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.TabStop = true;
 			this._tableLayout.Paint += new System.Windows.Forms.PaintEventHandler(this._tblLayoutOuter_Paint);
 			// 
-			// _picture
-			// 
-			this._picture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._picture.Cursor = System.Windows.Forms.Cursors.Hand;
-			this._picture.ErrorImage = null;
-			this._picture.Image = global::SayMore.Properties.Resources.kimidNoPhoto;
-			this._picture.InitialImage = null;
-			this._picture.Location = new System.Drawing.Point(350, 0);
-			this._picture.Margin = new System.Windows.Forms.Padding(14, 0, 0, 0);
-			this._picture.Name = "_picture";
-			this._tableLayout.SetRowSpan(this._picture, 6);
-			this._picture.Size = new System.Drawing.Size(152, 124);
-			this._picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this._picture.TabIndex = 9;
-			this._picture.TabStop = false;
-			this._picture.MouseLeave += new System.EventHandler(this.HandlePersonPictureMouseEnterLeave);
-			this._picture.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandlePersonPictureMouseClick);
-			this._picture.Paint += new System.Windows.Forms.PaintEventHandler(this.HandlePersonPicturePaint);
-			this._picture.MouseEnter += new System.EventHandler(this.HandlePersonPictureMouseEnterLeave);
-			// 
 			// _pbOtherLangMother3
 			// 
 			this._pbOtherLangMother3.BackColor = System.Drawing.Color.Transparent;
@@ -228,18 +210,6 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother3.TabIndex = 24;
 			this._pbOtherLangMother3.SelectedChanging += new System.ComponentModel.CancelEventHandler(this.HandleMothersLanguageChanging);
 			this._pbOtherLangMother3.MouseEnter += new System.EventHandler(this.HandleParentLanguageButtonMouseEnter);
-			// 
-			// _panelGrid
-			// 
-			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._tableLayout.SetColumnSpan(this._panelGrid, 2);
-			this._panelGrid.Location = new System.Drawing.Point(252, 239);
-			this._panelGrid.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
-			this._panelGrid.Name = "_panelGrid";
-			this._tableLayout.SetRowSpan(this._panelGrid, 4);
-			this._panelGrid.Size = new System.Drawing.Size(250, 82);
-			this._panelGrid.TabIndex = 30;
 			// 
 			// _primaryLanguageLearnedIn
 			// 
@@ -530,18 +500,6 @@ namespace SayMore.UI.ComponentEditors
 			this._labelPrimaryOccupation.TabIndex = 31;
 			this._labelPrimaryOccupation.Text = "Primary &Occupation";
 			// 
-			// _labelCustomFields
-			// 
-			this._labelCustomFields.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._labelCustomFields.AutoSize = true;
-			this._tableLayout.SetColumnSpan(this._labelCustomFields, 2);
-			this._labelCustomFields.Location = new System.Drawing.Point(252, 223);
-			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
-			this._labelCustomFields.Name = "_labelCustomFields";
-			this._labelCustomFields.Size = new System.Drawing.Size(72, 13);
-			this._labelCustomFields.TabIndex = 29;
-			this._labelCustomFields.Text = "&Custom Fields";
-			// 
 			// _primaryOccupation
 			// 
 			this._primaryOccupation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -557,23 +515,6 @@ namespace SayMore.UI.ComponentEditors
 			this._primaryOccupation.TabIndex = 32;
 			this._autoCompleteHelper.SetUpdateGatherer(this._primaryOccupation, false);
 			// 
-			// _gender
-			// 
-			this._autoCompleteHelper.SetAutoCompleteKey(this._gender, "");
-			this._gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this._gender.FormattingEnabled = true;
-			this._binder.SetIsBound(this._gender, true);
-			this._binder.SetIsComponentFileId(this._gender, false);
-			this._gender.Items.AddRange(new object[] {
-            "Male",
-            "Female"});
-			this._gender.Location = new System.Drawing.Point(252, 60);
-			this._gender.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
-			this._gender.Name = "_gender";
-			this._gender.Size = new System.Drawing.Size(76, 21);
-			this._gender.TabIndex = 11;
-			this._autoCompleteHelper.SetUpdateGatherer(this._gender, false);
-			// 
 			// _labelgender
 			// 
 			this._labelgender.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -586,6 +527,21 @@ namespace SayMore.UI.ComponentEditors
 			this._labelgender.Size = new System.Drawing.Size(42, 13);
 			this._labelgender.TabIndex = 10;
 			this._labelgender.Text = "&Gender";
+			// 
+			// _gender
+			// 
+			this._gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this._gender.FormattingEnabled = true;
+			this._binder.SetIsBound(this._gender, true);
+			this._binder.SetIsComponentFileId(this._gender, false);
+			this._gender.Items.AddRange(new object[] {
+            "Male",
+            "Female"});
+			this._gender.Location = new System.Drawing.Point(252, 60);
+			this._gender.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
+			this._gender.Name = "_gender";
+			this._gender.Size = new System.Drawing.Size(76, 21);
+			this._gender.TabIndex = 11;
 			// 
 			// _labelHowToContact
 			// 
@@ -614,6 +570,65 @@ namespace SayMore.UI.ComponentEditors
 			this._howToContact.TabIndex = 26;
 			this._autoCompleteHelper.SetUpdateGatherer(this._howToContact, false);
 			// 
+			// _labelCustomFields
+			// 
+			this._labelCustomFields.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._labelCustomFields.AutoSize = true;
+			this._tableLayout.SetColumnSpan(this._labelCustomFields, 2);
+			this._labelCustomFields.Location = new System.Drawing.Point(252, 223);
+			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
+			this._labelCustomFields.Name = "_labelCustomFields";
+			this._labelCustomFields.Size = new System.Drawing.Size(72, 13);
+			this._labelCustomFields.TabIndex = 29;
+			this._labelCustomFields.Text = "&Custom Fields";
+			// 
+			// _panelGrid
+			// 
+			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._tableLayout.SetColumnSpan(this._panelGrid, 2);
+			this._panelGrid.Location = new System.Drawing.Point(252, 239);
+			this._panelGrid.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
+			this._panelGrid.Name = "_panelGrid";
+			this._tableLayout.SetRowSpan(this._panelGrid, 4);
+			this._panelGrid.Size = new System.Drawing.Size(250, 82);
+			this._panelGrid.TabIndex = 30;
+			// 
+			// _panelPicture
+			// 
+			this._panelPicture.AllowDrop = true;
+			this._panelPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._panelPicture.Controls.Add(this._picture);
+			this._panelPicture.Location = new System.Drawing.Point(350, 0);
+			this._panelPicture.Margin = new System.Windows.Forms.Padding(14, 0, 0, 0);
+			this._panelPicture.Name = "_panelPicture";
+			this._tableLayout.SetRowSpan(this._panelPicture, 6);
+			this._panelPicture.Size = new System.Drawing.Size(152, 124);
+			this._panelPicture.TabIndex = 33;
+			this._panelPicture.DragDrop += new System.Windows.Forms.DragEventHandler(this.HandlePictureDragDrop);
+			this._panelPicture.DragLeave += new System.EventHandler(this.HandlePictureDragLeave);
+			this._panelPicture.DragEnter += new System.Windows.Forms.DragEventHandler(this.HandlePictureDragEnter);
+			// 
+			// _picture
+			// 
+			this._picture.Cursor = System.Windows.Forms.Cursors.Hand;
+			this._picture.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._picture.ErrorImage = null;
+			this._picture.Image = global::SayMore.Properties.Resources.kimidNoPhoto;
+			this._picture.InitialImage = null;
+			this._picture.Location = new System.Drawing.Point(0, 0);
+			this._picture.Margin = new System.Windows.Forms.Padding(14, 0, 0, 0);
+			this._picture.Name = "_picture";
+			this._picture.Size = new System.Drawing.Size(152, 124);
+			this._picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this._picture.TabIndex = 9;
+			this._picture.TabStop = false;
+			this._picture.MouseLeave += new System.EventHandler(this.HandlePersonPictureMouseEnterLeave);
+			this._picture.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandlePersonPictureMouseClick);
+			this._picture.Paint += new System.Windows.Forms.PaintEventHandler(this.HandlePersonPicturePaint);
+			this._picture.MouseEnter += new System.EventHandler(this.HandlePersonPictureMouseEnterLeave);
+			// 
 			// PersonBasicEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -621,9 +636,10 @@ namespace SayMore.UI.ComponentEditors
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(207)))), ((int)(((byte)(219)))));
 			this.Controls.Add(this._tableLayout);
 			this.Name = "PersonBasicEditor";
-			this.Size = new System.Drawing.Size(516, 350);
+			this.Size = new System.Drawing.Size(516, 347);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
+			this._panelPicture.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this._picture)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -670,5 +686,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelOtherLanguages;
 		private System.Windows.Forms.ToolTip _tooltip;
 		private System.Windows.Forms.PictureBox _picture;
+		private System.Windows.Forms.Panel _panelPicture;
 	}
 }

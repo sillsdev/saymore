@@ -47,18 +47,17 @@ namespace SayMore
 			var eventRepoFactory = _scope.Resolve<ElementRepository<Event>.Factory>();
 			eventRepoFactory(rootDirectoryPath, "Events", _scope.Resolve<EventFileType>());
 
-			// Start the background operations
+			// Create background operations
 			_presetGatherer = _scope.Resolve<PresetGatherer>();
-//			_presetGatherer.Start();
-
 			_autoCompleteValueGatherer = _scope.Resolve<AutoCompleteValueGatherer>();
-//			_autoCompleteValueGatherer.Start();
-
 			_audioVideoDataGatherer = _scope.Resolve<AudioVideoDataGatherer>();
-//			_audioVideoDataGatherer.Start();
-
 			_fieldGatherer = _scope.Resolve<FieldGatherer>();
-//			_fieldGatherer.Start();
+
+			// Start background operations
+			_presetGatherer.Start();
+			_autoCompleteValueGatherer.Start();
+			_audioVideoDataGatherer.Start();
+			_fieldGatherer.Start();
 
 			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
 		}
@@ -126,15 +125,6 @@ namespace SayMore
 				context.Resolve<ImageFileType>(),
 				context.Resolve<UnknownFileType>(),
 			});
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void StartBackgroundProcesses()
-		{
-			_presetGatherer.Start();
-			_autoCompleteValueGatherer.Start();
-			_audioVideoDataGatherer.Start();
-			_fieldGatherer.Start();
 		}
 
 		/// ------------------------------------------------------------------------------------

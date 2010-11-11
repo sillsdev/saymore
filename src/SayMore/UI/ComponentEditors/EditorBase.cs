@@ -30,6 +30,7 @@ namespace SayMore.UI.ComponentEditors
 		string ImageKey { get; }
 		void Initialize(string tabText, string imageKey);
 		void SetComponentFile(ComponentFile file);
+		Action ComponentFileListRefreshAction { set; }
 		void GoDormant();
 		event Action<string> TabTextChanged;
 	}
@@ -44,6 +45,7 @@ namespace SayMore.UI.ComponentEditors
 		private BindingHelper _binder;
 		protected ComponentFile _file;
 		protected string _tabText;
+		protected Action _componentFileListRefreshAction;
 
 		public event Action<string> TabTextChanged;
 		public string ImageKey { get; protected set; }
@@ -120,6 +122,12 @@ namespace SayMore.UI.ComponentEditors
 						TabTextChanged(_tabText);
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Action ComponentFileListRefreshAction
+		{
+			set { _componentFileListRefreshAction = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

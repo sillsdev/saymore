@@ -18,7 +18,8 @@ namespace SayMore.UI.ComponentEditors
 	[ProvideProperty("IsComponentFileId", typeof(IComponent))]
 	public class BindingHelper : Component, IExtenderProvider
 	{
-		private readonly Func<Control, string> MakeIdFromControl = (x => x.Name.TrimStart('_'));
+		private readonly Func<Control, string> MakeIdFromControlName = (ctrl => ctrl.Name.TrimStart('_'));
+		private readonly Func<string, string> MakeControlNameFromId = (id => "_" + id);
 
 		public delegate bool GetBoundControlValueHandler(BindingHelper helper,
 			Control boundControl, out string newValue);
@@ -26,10 +27,7 @@ namespace SayMore.UI.ComponentEditors
 		public event GetBoundControlValueHandler GetBoundControlValue;
 
 		private Container components;
-
-		private readonly Dictionary<Control, bool> _extendedControls =
-			new Dictionary<Control, bool>();
-
+		private readonly Dictionary<Control, bool> _extendedControls = new Dictionary<Control, bool>();
 		private List<Control> _boundControls;
 		private ComponentFile _file;
 		private Control _componentFileIdControl;
@@ -127,7 +125,11 @@ namespace SayMore.UI.ComponentEditors
 			if (DesignMode)
 				return;
 
+			if (_file != null)
+				_file.MetadataValueChanged -= HandleValueChangedOutsideBinder;
+
 			_file = file;
+			_file.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
 			// First, collect only the extended controls that are bound.
 			_boundControls = _extendedControls.Where(x => x.Value).Select(x => x.Key).ToList();
@@ -195,7 +197,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void UpdateControlValueFromField(Control ctrl)
 		{
-			var key = MakeIdFromControl(ctrl);
+			var key = MakeIdFromControlName(ctrl);
 			var stringValue = _file.GetStringValue(key, string.Empty);
 			try
 			{
@@ -211,6 +213,13 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private Control GetBoundControlFromKey(string key)
+		{
+			var ctrlName = MakeControlNameFromId(key);
+			return _boundControls.FirstOrDefault(c => c.Name == ctrlName);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string GetValue(string key)
 		{
 			return _file.GetStringValue(key, string.Empty);
@@ -220,7 +229,9 @@ namespace SayMore.UI.ComponentEditors
 		public string SetValue(string key, string value)
 		{
 			string failureMessage;
+			_file.MetadataValueChanged -= HandleValueChangedOutsideBinder;
 			var modifiedValue = _file.SetValue(key, value, out failureMessage);
+			_file.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
 			if (failureMessage != null)
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
@@ -230,23 +241,6 @@ namespace SayMore.UI.ComponentEditors
 
 			return modifiedValue;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//public void ResetBoundControlsToDefaultValues()
-		//{
-		//    foreach (var ctrl in _boundControls)
-		//    {
-		//        if (ctrl is TextBox)
-		//            ctrl.Text = string.Empty;
-		//        else if (ctrl is DateTimePicker)
-		//        {
-		//            ((DateTimePicker)ctrl).Value = _file != null && File.Exists(_file.PathToAnnotatedFile) ?
-		//                File.GetLastWriteTime(_file.PathToAnnotatedFile) : DateTime.Now;
-		//        }
-		//        else if (ctrl is ComboBox)
-		//            ((ComboBox)ctrl).SelectedIndex = (((ComboBox)ctrl).Items.Count > 0 ? 0 : -1);
-		//    }
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleBoundComboValueChanged(object sender, EventArgs e)
@@ -258,7 +252,7 @@ namespace SayMore.UI.ComponentEditors
 		private void HandleValidatingControl(object sender, CancelEventArgs e)
 		{
 			var ctrl = (Control)sender;
-			var key = MakeIdFromControl(ctrl);
+			var key = MakeIdFromControlName(ctrl);
 
 			string newValue = null;
 
@@ -275,9 +269,13 @@ namespace SayMore.UI.ComponentEditors
 
 			string failureMessage;
 
+			_file.MetadataValueChanged -= HandleValueChangedOutsideBinder;
+
 			newValue = (_componentFileIdControl == ctrl ?
 				_file.TryChangeChangeId(newValue, out failureMessage) :
 				_file.SetValue(key, newValue, out failureMessage));
+
+			_file.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
 			if (!gotNewValueFromDelegate)
 				ctrl.Text = newValue;
@@ -288,6 +286,20 @@ namespace SayMore.UI.ComponentEditors
 			//enchance: don't save so often, leave it to some higher level
 			if (_componentFileIdControl != ctrl)
 				_file.Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// We get this event when a meta data value changes from somewhere other than from in
+		/// this binding helper. When we get this message for bound fields, we need to make
+		/// sure the bound control associated with the field, gets updated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleValueChangedOutsideBinder(ComponentFile file, string fieldId, string oldValue, string newValue)
+		{
+			var ctrl = GetBoundControlFromKey(fieldId);
+			if (ctrl != null)
+				UpdateControlValueFromField(ctrl);
 		}
 	}
 }

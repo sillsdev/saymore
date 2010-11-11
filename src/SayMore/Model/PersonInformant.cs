@@ -12,6 +12,8 @@ namespace SayMore.Model
 	/// </summary>
 	public class PersonInformant
 	{
+		public event ElementRepository<Person>.ElementIdChangedHandler PersonNameChanged;
+
 		private readonly ElementRepository<Person> _peopleRepository;
 
 		[Obsolete("For mocking only")]
@@ -21,6 +23,14 @@ namespace SayMore.Model
 		public PersonInformant(ElementRepository<Person> peopleRepository)
 		{
 			_peopleRepository = peopleRepository;
+			_peopleRepository.ElementIdChanged += HandlePersonNameChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePersonNameChanged(ProjectElement element, string oldId, string newId)
+		{
+			if (PersonNameChanged != null)
+				PersonNameChanged(element, oldId, newId);
 		}
 
 		/// ------------------------------------------------------------------------------------

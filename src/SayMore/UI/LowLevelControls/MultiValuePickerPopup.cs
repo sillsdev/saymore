@@ -238,7 +238,7 @@ namespace SayMore.UI.LowLevelControls
 			foreach (var item in _items)
 				item.Checked = false;
 
-			foreach (var text in FieldInstance.GetValuesFromText(items))
+			foreach (var text in FieldInstance.GetMultipleValuesFromText(items))
 				CheckItem(text);
 		}
 

@@ -17,6 +17,9 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class ElementRepository<T> where T : ProjectElement
 	{
+		public delegate void ElementIdChangedHandler(ProjectElement element, string oldId, string newId);
+		public event ElementIdChangedHandler ElementIdChanged;
+
 		public delegate ElementRepository<T> Factory(string projectDirectory, string elementGroupName, FileType type);
 
 		public delegate T ElementFactory<T>(string parentElementFolder, string id) where T : ProjectElement;
@@ -72,6 +75,7 @@ namespace SayMore.Model
 					var element =_elementFactory(Path.GetDirectoryName(path),
 						Path.GetFileNameWithoutExtension(path));
 
+					element.IdChangedAction = OnElementIdChanged;
 					_items.Add(element);
 				}
 			}
@@ -96,6 +100,7 @@ namespace SayMore.Model
 		public T CreateNew(string id)
 		{
 			T element = _elementFactory(_rootFolder, id);
+			element.IdChangedAction = OnElementIdChanged;
 			_items.Add(element);
 			return element;
 		}
@@ -134,9 +139,17 @@ namespace SayMore.Model
 			return true;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public virtual T GetById(string id)
 		{
 			return _items.FirstOrDefault(x => x.Id == id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void OnElementIdChanged(ProjectElement element, string oldId, string newId)
+		{
+			if (ElementIdChanged != null)
+				ElementIdChanged(element, oldId, newId);
 		}
 	}
 }

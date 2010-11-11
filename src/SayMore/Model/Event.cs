@@ -43,6 +43,9 @@ namespace SayMore.Model
 		{
 			_componentRoles = componentRoles;
 			_personInformant = personInformant;
+
+			if (_personInformant != null)
+				_personInformant.PersonNameChanged += HandlePersonsNameChanged;
 		}
 
 		#region Properties
@@ -104,20 +107,42 @@ namespace SayMore.Model
 				yield return role;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private bool GetShouldReportHaveConsent()
 		{
 			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
-			var personNames = FieldInstance.GetValuesFromText(allParticipants);
+			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants);
 			bool allParticipantsHaveConsent = personNames.Count() > 0;
-			foreach (var personName in personNames)
+			foreach (var name in personNames)
 			{
-				if (!_personInformant.GetHasInformedConsent(personName))
-				{
+				if (!_personInformant.GetHasInformedConsent(name))
 					return false;
-				}
 			}
 
 			return allParticipantsHaveConsent;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// We get this message from the person informant when a person's name has changed.
+		/// When that happens, we need to make sure we update the participant field in case
+		/// it contains a name that changed.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandlePersonsNameChanged(ProjectElement element, string oldId, string newId)
+		{
+			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
+			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToList();
+
+			var newNames = from name in personNames
+						   select (name == oldId ? newId : name);
+
+			string failureMessage;
+			MetaDataFile.SetValue("participants",
+				FieldInstance.GetTextFromMultipleValues(newNames), out failureMessage);
+
+			if (failureMessage != null)
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 		}
 
 		#region Static methods

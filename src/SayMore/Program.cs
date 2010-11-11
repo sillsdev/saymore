@@ -93,7 +93,7 @@ namespace SayMore
 		private static void HandleProjectWindowActivated(object sender, EventArgs e)
 		{
 			_projectContext.ProjectWindow.Activated -= HandleProjectWindowActivated;
-			_projectContext.StartBackgroundProcesses();
+			//_projectContext.StartBackgroundProcesses();
 			_applicationContainer.CloseSplashScreen();
 
 			// Sometimes after closing the splash screen the project window

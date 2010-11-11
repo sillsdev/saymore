@@ -87,6 +87,24 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnParentChanged(EventArgs e)
+		{
+			base.OnParentChanged(e);
+
+			var frm = FindForm();
+			if (frm != null)
+				frm.Activated += HandleParentFormActivated;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleParentFormActivated(object sender, EventArgs e)
+		{
+			// Do this in case some of the meta data changed (e.g. audio file was edited)
+			// while the program was deactivated.
+			Refresh();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Called by the component file grid when the user chooses a different file
 		/// </summary>
@@ -241,16 +259,20 @@ namespace SayMore.UI.ElementListScreen
 			if (currProviderKey == null)
 				return;
 
+			var editorProviders = _model.GetComponentEditorProviders();
 			ComponentEditorsTabControl tabCtrl;
+
 			if (!_tabControls.TryGetValue(currProviderKey, out tabCtrl))
 			{
-				tabCtrl = new ComponentEditorsTabControl(currProviderKey,
-					_tabControlImages, _model.GetComponentEditorProviders(),
-					ComponentEditorBackgroundColor, ComponentEditorBorderColor);
+				tabCtrl = new ComponentEditorsTabControl(currProviderKey, _tabControlImages,
+					editorProviders, ComponentEditorBackgroundColor, ComponentEditorBorderColor);
 
 				tabCtrl.Selecting += HandleSelectedComponentEditorTabSelecting;
 				_tabControls[currProviderKey] = tabCtrl;
 				_tabControlHostControl.Controls.Add(tabCtrl);
+
+				foreach (var editor in editorProviders)
+					editor.ComponentFileListRefreshAction = (() => ComponentFileListRefreshFromEditor());
 			}
 
 			// Don't do anything if the selected tab control hasn't changed.
@@ -262,6 +284,13 @@ namespace SayMore.UI.ElementListScreen
 				tabCtrl.Visible = true;
 				_selectedEditorsTabControl = tabCtrl;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ComponentFileListRefreshFromEditor()
+		{
+			_model.RefreshSelectedElementComponentFileList();
+			UpdateComponentFileList();
 		}
 
 		/// ------------------------------------------------------------------------------------

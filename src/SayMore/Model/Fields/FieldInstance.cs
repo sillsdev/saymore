@@ -137,7 +137,7 @@ namespace SayMore.Model.Fields
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> GetValues()
 		{
-			return GetValuesFromText(Value);
+			return GetMultipleValuesFromText(Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,7 +147,7 @@ namespace SayMore.Model.Fields
 		/// the returned list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetValuesFromText(string text)
+		public static IEnumerable<string> GetMultipleValuesFromText(string text)
 		{
 			if (text == null)
 				text = string.Empty;
@@ -158,6 +158,20 @@ namespace SayMore.Model.Fields
 			return (from val in list
 					where val.Trim() != string.Empty
 					select val.Trim());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetTextFromMultipleValues(IEnumerable<string> values)
+		{
+			var bldr = new StringBuilder();
+			foreach (var val in values)
+				bldr.AppendFormat("{0}{1} ", val, kDefaultMultiValueDelimiter);
+
+			// Whack off the last space and delimiter.
+			if (bldr.Length > 1)
+				bldr.Length -= 2;
+
+			return bldr.ToString();
 		}
 	}
 }

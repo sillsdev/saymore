@@ -161,9 +161,7 @@ namespace SayMore.Model.Files
 
 				var stats = _statisticsProvider.GetFileData(PathToAnnotatedFile);
 				if (stats == null || stats.Duration == default(TimeSpan))
-				{
-					return string.Empty;
-				}
+					return GetStringValue("Duration", string.Empty);
 
 				//trim off the milliseconds so it doesn't get too geeky
 				return new TimeSpan(stats.Duration.Hours,

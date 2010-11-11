@@ -12,7 +12,7 @@ namespace SayMore.Model
 {
 	/// <summary>
 	/// A project is made of events and people, each of which subclass from this simple class.
-	/// Here, we call those things "ProjectElemements"
+	/// Here, we call those things "ProjectElements"
 	/// </summary>
 	public abstract class ProjectElement
 	{
@@ -27,6 +27,7 @@ namespace SayMore.Model
 		public abstract string RootElementName { get; }
 		protected internal string ParentFolderPath { get; set; }
 		protected abstract string ExtensionWithoutPeriod { get; }
+		public Action<ProjectElement, string, string> IdChangedAction { get;  set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -223,7 +224,7 @@ namespace SayMore.Model
 		/// </summary>
 		/// <returns>true if the change was possible and occurred</returns>
 		/// ------------------------------------------------------------------------------------
-		public bool TryChangeIdAndSave(string newId, out string failureMessage)
+		public virtual bool TryChangeIdAndSave(string newId, out string failureMessage)
 		{
 			failureMessage = null;
 			Save();
@@ -278,8 +279,12 @@ namespace SayMore.Model
 				return false;
 			}
 
+			var oldId = _id;
 			_id = newId;
 			Save();
+
+			if (IdChangedAction != null)
+				IdChangedAction(this, oldId, newId);
 
 			return true;
 		}

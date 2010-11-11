@@ -200,10 +200,11 @@ namespace SayMore.Model.Files.DataGathering
 					var e = fileEvent as RenamedEventArgs;
 					lock (((ICollection)_fileToDataDictionary).SyncRoot)
 					{
-						if (_fileToDataDictionary.ContainsKey(e.OldFullPath))
+						T value;
+						if (_fileToDataDictionary.TryGetValue(e.OldFullPath, out value))
 						{
-							_fileToDataDictionary.Add(e.FullPath, _fileToDataDictionary[e.OldFullPath]);
 							_fileToDataDictionary.Remove(e.OldFullPath);
+							_fileToDataDictionary[e.FullPath] = value;
 						}
 					}
 				}

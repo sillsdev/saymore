@@ -31,7 +31,7 @@ namespace SayMoreTests.Model
 
 		private Event CreateEvent()
 		{
-			return new Event(_parentFolder.Path, "xyz", new EventFileType(() => null),
+			return new Event(_parentFolder.Path, "xyz", null, new EventFileType(() => null),
 				(parentElement, path) => null, new FileSerializer(), (w, x, y, z) =>
 			{
 				return new ProjectElementComponentFile(w, x, y, z,

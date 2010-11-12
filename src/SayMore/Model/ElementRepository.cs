@@ -22,7 +22,8 @@ namespace SayMore.Model
 
 		public delegate ElementRepository<T> Factory(string projectDirectory, string elementGroupName, FileType type);
 
-		public delegate T ElementFactory<T>(string parentElementFolder, string id) where T : ProjectElement;
+		public delegate T ElementFactory<T>(string parentElementFolder, string id,
+			Action<ProjectElement, string, string> idChangedNotificationReceiver) where T : ProjectElement;
 
 		//private readonly  Func<string, string, T> _elementFactory;
 		private readonly ElementFactory<T> _elementFactory; //TODO: fix this. I'm struggling with autofac on this issue
@@ -73,9 +74,8 @@ namespace SayMore.Model
 				if (item == null)
 				{
 					var element =_elementFactory(Path.GetDirectoryName(path),
-						Path.GetFileNameWithoutExtension(path));
+						Path.GetFileNameWithoutExtension(path), OnElementIdChanged);
 
-					element.IdChangedAction = OnElementIdChanged;
 					_items.Add(element);
 				}
 			}
@@ -99,8 +99,7 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public T CreateNew(string id)
 		{
-			T element = _elementFactory(_rootFolder, id);
-			element.IdChangedAction = OnElementIdChanged;
+			T element = _elementFactory(_rootFolder, id, OnElementIdChanged);
 			_items.Add(element);
 			return element;
 		}
@@ -146,7 +145,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OnElementIdChanged(ProjectElement element, string oldId, string newId)
+		protected virtual void OnElementIdChanged(ProjectElement element, string oldId, string newId)
 		{
 			if (ElementIdChanged != null)
 				ElementIdChanged(element, oldId, newId);

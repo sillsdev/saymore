@@ -57,8 +57,8 @@ namespace SayMoreTests.Model
 			var componentRoles = new List<ComponentRole>();
 			componentRoles.Add(new ComponentRole(null, "consent", null, ComponentRole.MeasurementTypes.None, null, null, Color.Empty));
 
-			return new Event(_parentFolder.Path, "dummyId", new EventFileType(() => null),
-				componentFactory,
+			return new Event(_parentFolder.Path, "dummyId", null,
+				new EventFileType(() => null), componentFactory,
 				new FileSerializer(), factory, componentRoles, personInformant.Object);
 
 			//ComponentFile.CreateMinimalComponentFileForTests
@@ -79,19 +79,19 @@ namespace SayMoreTests.Model
 		[Test]
 		public void GetCompletedStages_ParticpantsListedButNotFound_NoConsent()
 		{
-			var stages = CreateEvent(new string[] {"you", "me" }).GetCompletedStages();
+			var stages = CreateEvent(new[] {"you", "me" }).GetCompletedStages();
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
 		[Test]
 		public void GetCompletedStages_TwoParticpantsFoundOneLacksConsent_NoConsent()
 		{
-			var stages = CreateEvent(new string[] { "oneWithConsent", "none" }).GetCompletedStages();
+			var stages = CreateEvent(new[] { "oneWithConsent", "none" }).GetCompletedStages();
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
 		[Test]
 		public void GetCompletedStages_TwoParticpantsFoundBothHaveConsent_ResultIncludesConsent()
 		{
-		  var stages = CreateEvent(new string[] {"oneWithConsent", "anotherWithConsent" }).GetCompletedStages();
+		  var stages = CreateEvent(new[] {"oneWithConsent", "anotherWithConsent" }).GetCompletedStages();
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
 

@@ -74,6 +74,10 @@ namespace SayMore
 
 			try
 			{
+				// Remove this call if we end only wanting to show the splash screen except
+				// at app. startup. Right now it's shown whenever a project is loaded.
+				_applicationContainer.ShowSplashScreen();
+
 				_applicationContainer.SetProjectNameOnSplashScreen(projectPath);
 				_projectContext = _applicationContainer.CreateProjectContext(projectPath);
 				_projectContext.ProjectWindow.Closed += HandleProjectWindowClosed;
@@ -93,7 +97,6 @@ namespace SayMore
 		private static void HandleProjectWindowActivated(object sender, EventArgs e)
 		{
 			_projectContext.ProjectWindow.Activated -= HandleProjectWindowActivated;
-			//_projectContext.StartBackgroundProcesses();
 			_applicationContainer.CloseSplashScreen();
 
 			// Sometimes after closing the splash screen the project window

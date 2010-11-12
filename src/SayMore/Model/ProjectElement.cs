@@ -19,15 +19,15 @@ namespace SayMore.Model
 		/// <summary>
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
-		private ComponentFile.Factory _componentFileFactory;
+		private readonly ComponentFile.Factory _componentFileFactory;
 		private string _id;
 
 		public virtual string Id { get { return _id; } }
+		public Action<ProjectElement, string, string> IdChangedNotificationReceiver { get; protected set; }
 		public ProjectElementComponentFile MetaDataFile { get; private set; }
 		public abstract string RootElementName { get; }
 		protected internal string ParentFolderPath { get; set; }
 		protected abstract string ExtensionWithoutPeriod { get; }
-		public Action<ProjectElement, string, string> IdChangedAction { get;  set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -35,12 +35,14 @@ namespace SayMore.Model
 		/// </summary>
 		/// <param name="parentElementFolder">E.g. "c:/MyProject/Events"</param>
 		/// <param name="id">e.g. "ETR007"</param>
+		/// <param name="idChangedNotificationReceiver"></param>
 		/// <param name="componentFileFactory"></param>
 		/// <param name="fileSerializer">used to load/save</param>
 		/// <param name="fileType"></param>
 		/// <param name="prjElementComponentFileFactory"></param>
 		/// ------------------------------------------------------------------------------------
-		protected ProjectElement(string parentElementFolder, string id, FileType fileType,
+		protected ProjectElement(string parentElementFolder, string id,
+			Action<ProjectElement, string, string> idChangedNotificationReceiver, FileType fileType,
 			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 		{
@@ -49,6 +51,7 @@ namespace SayMore.Model
 
 			ParentFolderPath = parentElementFolder;
 			_id = id ?? GetNewDefaultElementName();
+			IdChangedNotificationReceiver = idChangedNotificationReceiver;
 
 			MetaDataFile = prjElementComponentFileFactory(this, fileType, fileSerializer, RootElementName);
 
@@ -283,8 +286,8 @@ namespace SayMore.Model
 			_id = newId;
 			Save();
 
-			if (IdChangedAction != null)
-				IdChangedAction(this, oldId, newId);
+			if (IdChangedNotificationReceiver != null)
+				IdChangedNotificationReceiver(this, oldId, newId);
 
 			return true;
 		}

@@ -34,12 +34,14 @@ namespace SayMore.Model
 		private readonly PersonInformant _personInformant;
 
 		/// ------------------------------------------------------------------------------------
-		public Event(string parentElementFolder, string id, EventFileType eventFileType,
-			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
-			ProjectElementComponentFile.Factory prjElementComponentFileFactory,
+		public Event(string parentElementFolder, string id,
+			Action<ProjectElement, string, string> idChangedNotificationReceiver,
+			EventFileType eventFileType, ComponentFile.Factory componentFileFactory,
+			FileSerializer fileSerializer, ProjectElementComponentFile.Factory prjElementComponentFileFactory,
 			IEnumerable<ComponentRole> componentRoles,
 			PersonInformant personInformant)
-			: base(parentElementFolder, id, eventFileType, componentFileFactory, fileSerializer, prjElementComponentFileFactory)
+			: base(parentElementFolder, id, idChangedNotificationReceiver, eventFileType,
+				componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
 			_componentRoles = componentRoles;
 			_personInformant = personInformant;
@@ -100,11 +102,12 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ComponentRole> GetCompletedStages()
 		{
-			if (GetShouldReportHaveConsent())
-			   yield return _componentRoles.First(r => r.Id == "consent");
+			var list = base.GetCompletedStages().ToList();
 
-			foreach (var role in base.GetCompletedStages())
-				yield return role;
+			if (GetShouldReportHaveConsent())
+			   list.Insert(0, _componentRoles.First(r => r.Id == "consent"));
+
+			return list;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -164,7 +164,7 @@ namespace SayMore.Model.Fields
 		public static string GetTextFromMultipleValues(IEnumerable<string> values)
 		{
 			var bldr = new StringBuilder();
-			foreach (var val in values)
+			foreach (var val in values.Where(x => x != null && x.Trim().Length > 0))
 				bldr.AppendFormat("{0}{1} ", val, kDefaultMultiValueDelimiter);
 
 			// Whack off the last space and delimiter.

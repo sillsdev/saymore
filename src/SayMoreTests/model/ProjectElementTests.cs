@@ -40,7 +40,7 @@ namespace SayMoreTests.Model
 
 		public static Event CreateEvent(string parentFolderPath, string name)
 		{
-			return new Event(parentFolderPath, name, new EventFileType(() => null),
+			return new Event(parentFolderPath, name, null, new EventFileType(() => null),
 				MakeComponent, new FileSerializer(), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 					ApplicationContainer.ComponentRoles, null);
@@ -53,7 +53,7 @@ namespace SayMoreTests.Model
 
 		public static Person CreatePerson(string parentFolderPath, string name)
 		{
-			return new Person(parentFolderPath, name, new PersonFileType(() => null),
+			return new Person(parentFolderPath, name, null, new PersonFileType(() => null),
 				MakeComponent, new FileSerializer(), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)));
 		}

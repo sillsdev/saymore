@@ -1,14 +1,9 @@
 using System;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SayMore.Model.Files;
-using SayMore.Properties;
-using SilUtils;
 using SayMore.UI.Utilities;
 
 namespace SayMore.UI.LowLevelControls
@@ -91,6 +86,7 @@ namespace SayMore.UI.LowLevelControls
 				_listControl.Dock = DockStyle.Fill;
 				_outerPanel.Controls.Add(_listControl);
 				_listControl.BringToFront();
+				_listControl.TabIndex = 0;
 			}
 		}
 
@@ -229,19 +225,6 @@ namespace SayMore.UI.LowLevelControls
 
 			foreach (var b in _buttons)
 				_buttonsFlowLayoutPanel.Controls.Add(b);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the single list view column is a tiny bit narrower than the list view
-		/// control. This will prevent the list view's horizontal scrollbar from becoming
-		/// visible.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnResize(EventArgs e)
-		{
-			base.OnResize(e);
-			hdrList.Width = _itemsList.ClientSize.Width - 1;
 		}
 	}
 }

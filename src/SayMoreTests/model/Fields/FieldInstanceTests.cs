@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using SayMore.Model.Fields;
 
@@ -105,6 +102,39 @@ namespace SayMoreTests.Model.Fields
 			Assert.IsTrue(list.Contains("Ford"));
 			Assert.IsTrue(list.Contains("Chevy"));
 			Assert.IsTrue(list.Contains("Pontiac"));
+		}
+
+		[Test]
+		public void GetTextFromMultipleValues_EmptyList_ReturnsEmptyString()
+		{
+			Assert.AreEqual(string.Empty, FieldInstance.GetTextFromMultipleValues(new string[] { }));
+		}
+
+		[Test]
+		public void GetTextFromMultipleValues_ListOfOne_ReturnsWithoutDelimiter()
+		{
+			Assert.AreEqual("ferrari", FieldInstance.GetTextFromMultipleValues(new[] { "ferrari" }));
+		}
+
+		[Test]
+		public void GetTextFromMultipleValues_MultipleItems_ReturnsThemDelimited()
+		{
+			Assert.AreEqual("ferrari; Lotus; Jaguar",
+				FieldInstance.GetTextFromMultipleValues(new[] { "ferrari", "Lotus", "Jaguar" }));
+		}
+
+		[Test]
+		public void GetTextFromMultipleValues_ListIncludesEmptyItem_ReturnExcludesEmptyItem()
+		{
+			Assert.AreEqual("ferrari; Lotus",
+				FieldInstance.GetTextFromMultipleValues(new[] { "ferrari", "Lotus", "  " }));
+		}
+
+		[Test]
+		public void GetTextFromMultipleValues_ListIncludesNull_ReturnExcludesNull()
+		{
+			Assert.AreEqual("ferrari; Jaguar",
+				FieldInstance.GetTextFromMultipleValues(new[] { "ferrari", null, "Jaguar" }));
 		}
 	}
 }

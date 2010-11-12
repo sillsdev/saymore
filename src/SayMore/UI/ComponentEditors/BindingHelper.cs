@@ -295,7 +295,8 @@ namespace SayMore.UI.ComponentEditors
 		/// sure the bound control associated with the field, gets updated.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleValueChangedOutsideBinder(ComponentFile file, string fieldId, string oldValue, string newValue)
+		private void HandleValueChangedOutsideBinder(ComponentFile file, string fieldId,
+			string oldValue, string newValue)
 		{
 			var ctrl = GetBoundControlFromKey(fieldId);
 			if (ctrl != null)

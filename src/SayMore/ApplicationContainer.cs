@@ -31,10 +31,7 @@ namespace SayMore
 		public ApplicationContainer(bool showSplashScreen)
 		{
 			if (showSplashScreen)
-			{
-				_splashScreen = new SplashScreen();
-				_splashScreen.Show();
-			}
+				ShowSplashScreen();
 
 			var builder = new ContainerBuilder();
 			builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly());
@@ -69,10 +66,13 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetProjectNameOnSplashScreen(string projectPath)
+		public void ShowSplashScreen()
 		{
-			if (_splashScreen != null)
-				_splashScreen.Message = Path.GetFileNameWithoutExtension(projectPath);
+			if (_splashScreen == null)
+			{
+				_splashScreen = new SplashScreen();
+				_splashScreen.Show();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -82,6 +82,13 @@ namespace SayMore
 				_splashScreen.Close();
 
 			_splashScreen = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetProjectNameOnSplashScreen(string projectPath)
+		{
+			if (_splashScreen != null)
+				_splashScreen.Message = Path.GetFileNameWithoutExtension(projectPath);
 		}
 
 		/// ------------------------------------------------------------------------------------

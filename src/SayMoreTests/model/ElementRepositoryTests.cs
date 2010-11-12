@@ -22,7 +22,7 @@ namespace SayMoreTests.model
 			using(var tempFolder = new TemporaryFolder("ElementRepoTestFolder"))
 			{
 				var repo = new ElementRepository<ProjectElement>(tempFolder.Path, "elementGroupName", null,
-																 (folder, id) => person.Object);
+																 (folder, id, idChangedAction) => person.Object);
 
 				repo.CreateNew("joe");
 				Assert.AreEqual(person.Object, repo.GetById("joe"));

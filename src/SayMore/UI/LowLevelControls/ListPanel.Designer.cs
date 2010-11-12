@@ -21,8 +21,6 @@ namespace SayMore.UI.LowLevelControls
 		{
 			this.components = new System.ComponentModel.Container();
 			this._outerPanel = new SilUtils.Controls.SilPanel();
-			this._itemsList = new System.Windows.Forms.ListView();
-			this.hdrList = new System.Windows.Forms.ColumnHeader();
 			this._buttonsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonNew = new System.Windows.Forms.Button();
 			this._buttonDelete = new System.Windows.Forms.Button();
@@ -40,7 +38,6 @@ namespace SayMore.UI.LowLevelControls
 			this._outerPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._outerPanel.ClipTextForChildControls = true;
 			this._outerPanel.ControlReceivingFocusOnMnemonic = null;
-			this._outerPanel.Controls.Add(this._itemsList);
 			this._outerPanel.Controls.Add(this._buttonsFlowLayoutPanel);
 			this._outerPanel.Controls.Add(this._headerLabel);
 			this._outerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -56,29 +53,6 @@ namespace SayMore.UI.LowLevelControls
 			this._outerPanel.PaintExplorerBarBackground = false;
 			this._outerPanel.Size = new System.Drawing.Size(170, 277);
 			this._outerPanel.TabIndex = 1;
-			// 
-			// _itemsList
-			// 
-			this._itemsList.BackColor = System.Drawing.SystemColors.Window;
-			this._itemsList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._itemsList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.hdrList});
-			this._itemsList.FullRowSelect = true;
-			this._itemsList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-			this._itemsList.HideSelection = false;
-			this._itemsList.Location = new System.Drawing.Point(5, 158);
-			this._itemsList.Name = "_itemsList";
-			this._itemsList.Size = new System.Drawing.Size(156, 53);
-			this._itemsList.TabIndex = 0;
-			this._itemsList.UseCompatibleStateImageBehavior = false;
-			this._itemsList.View = System.Windows.Forms.View.Details;
-			// 
-			// hdrList
-			// 
-			this.locExtender.SetLocalizableToolTip(this.hdrList, null);
-			this.locExtender.SetLocalizationComment(this.hdrList, null);
-			this.locExtender.SetLocalizingId(this.hdrList, "ListPanel.lvItems");
-			this.hdrList.Text = "Events";
 			// 
 			// _buttonsFlowLayoutPanel
 			// 
@@ -175,8 +149,6 @@ namespace SayMore.UI.LowLevelControls
 		#endregion
 
 		private SilUtils.Controls.SilPanel _outerPanel;
-		private System.Windows.Forms.ListView _itemsList;
-		private System.Windows.Forms.ColumnHeader hdrList;
 		private HeaderLabel _headerLabel;
 		private LocalizationExtender locExtender;
 		public System.Windows.Forms.Button _buttonDelete;

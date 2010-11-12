@@ -18,7 +18,7 @@ namespace SayMore.UI.ComponentEditors
 
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
-		private PersonInformant _personInformant;
+		private readonly PersonInformant _personInformant;
 
 		/// ------------------------------------------------------------------------------------
 		public EventBasicEditor(ComponentFile file, string tabText, string imageKey,
@@ -33,9 +33,6 @@ namespace SayMore.UI.ComponentEditors
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 			_status.Items.AddRange(Event.GetStatusNames().ToArray());
 
-			SetBindingHelper(_binder);
-			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
-
 			if (GenreDefinition.FactoryGenreDefinitions != null)
 			{
 				//add the ones in use, factory or otherwise
@@ -49,11 +46,10 @@ namespace SayMore.UI.ComponentEditors
 
 				// Add the rest of the factory defaults
 				_genre.Items.AddRange(GenreDefinition.FactoryGenreDefinitions.ToArray());
-
-				var genre = GenreDefinition.FactoryGenreDefinitions.ToArray().FirstOrDefault(x => x.Id == _binder.GetValue("genre"));
-				_genre.SelectedItem = (genre ?? GenreDefinition.UnknownType);
 			}
 
+			SetBindingHelper(_binder);
+			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 			_participants.JITListAcquisition += HandleParticipantJustInTimeListAcquisition;
 		}
 
@@ -87,32 +83,11 @@ namespace SayMore.UI.ComponentEditors
 				_gridViewModel.SetComponentFile(file);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Provide special handling for persisting the value of the event type combo.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private bool GetComboBoxValue(BindingHelper helper, Control boundControl, out string newValue)
-		//{
-		//    newValue = null;
-
-		//    if (boundControl != _status)
-		//        return false;
-
-		//    newValue = _status.Text.Replace(' ', '_');
-		//    return true;
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		private void HandleIdEnter(object sender, EventArgs e)
 		{
 			// Makes sure the id's label is also visible when the id field gains focus.
 			AutoScrollPosition = new Point(0, 0);
-		}
-
-		private void HandleParticipantJustInTimeListAcquisition(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-
 		}
 	}
 }

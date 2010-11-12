@@ -44,8 +44,8 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.ButtonPanelBackColor2 = Settings.Default.EventEditorsButtonBackgroundColor2;
 			_elementsListPanel.ButtonPanelTopBorderColor = Settings.Default.EventEditorsBorderColor;
 
-			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.EventEditorsButtonBackgroundColor1;
-			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.EventEditorsButtonBackgroundColor2;
+			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.EventEditorsButtonBackgroundColor2;
+			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.EventEditorsButtonBackgroundColor1;
 			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.EventEditorsBorderColor;
 		}
 

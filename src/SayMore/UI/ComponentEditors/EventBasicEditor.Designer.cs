@@ -292,7 +292,6 @@ namespace SayMore.UI.ComponentEditors
 			this._genre.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._genre.Dock = System.Windows.Forms.DockStyle.Top;
 			this._genre.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._genre.FormattingEnabled = true;
 			this._binder.SetIsBound(this._genre, true);
 			this._binder.SetIsComponentFileId(this._genre, false);
 			this._genre.Location = new System.Drawing.Point(0, 155);

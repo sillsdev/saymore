@@ -1,7 +1,5 @@
-using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Reflection;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
@@ -39,7 +37,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private void LocalizationInitiated()
 		{
-			_labelVersionInfo.Text = GetVersionInfo(_labelVersionInfo.Text);
+			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
 
 			LocalizationManager.LocalizeObject(_linkSayMoreWebSite, "AboutDialog.lnkSayMoreWebSite",
 			   "Visit the SayMore web site.",
@@ -72,18 +70,6 @@ namespace SayMore.UI.ProjectWindow
 			i = entireSilLink.IndexOf(silWebSiteUnderlinedPortion);
 			if (i >= 0)
 				_linkSiLWebSite.Links.Add(i, silWebSiteUnderlinedPortion.Length, Settings.Default.SilWebSite);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string GetVersionInfo(string fmt)
-		{
-			Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-
-			// The build number is just the number of days since 01/01/2000
-			DateTime bldDate = new DateTime(2000, 1, 1).AddDays(ver.Build);
-
-			return string.Format(fmt, ver.Major, ver.Minor,
-				ver.Build, bldDate.ToString("dd-MMM-yyyy"));
 		}
 
 		/// ------------------------------------------------------------------------------------

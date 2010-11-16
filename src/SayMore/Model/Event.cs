@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Drawing;
 using Localization;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -30,8 +29,11 @@ namespace SayMore.Model
 		//autofac uses this
 		public delegate Event Factory(string parentElementFolder, string id);
 
-		private IEnumerable<ComponentRole> _componentRoles;
+		private readonly IEnumerable<ComponentRole> _componentRoles;
 		private readonly PersonInformant _personInformant;
+
+		[Obsolete("For Mocking Only")]
+		public Event() { }
 
 		/// ------------------------------------------------------------------------------------
 		public Event(string parentElementFolder, string id,
@@ -136,9 +138,7 @@ namespace SayMore.Model
 		{
 			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
 			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToList();
-
-			var newNames = from name in personNames
-						   select (name == oldId ? newId : name);
+			var newNames = personNames.Select(name => (name == oldId ? newId : name));
 
 			string failureMessage;
 			MetaDataFile.SetValue("participants",
@@ -146,6 +146,15 @@ namespace SayMore.Model
 
 			if (failureMessage != null)
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual Status GetStatus()
+		{
+			var statusString = MetaDataFile.GetStringValue("status", null);
+
+			return (statusString == null ?
+				default(Status) : (Status)Enum.Parse(typeof(Status), statusString));
 		}
 
 		#region Static methods

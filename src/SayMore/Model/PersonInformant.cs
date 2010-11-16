@@ -25,7 +25,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandlePersonNameChanged(ProjectElement element, string oldId, string newId)
+		protected void HandlePersonNameChanged(ProjectElement element, string oldId, string newId)
 		{
 			if (PersonNameChanged != null)
 				PersonNameChanged(element, oldId, newId);

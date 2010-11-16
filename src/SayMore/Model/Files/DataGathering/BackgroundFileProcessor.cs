@@ -208,7 +208,7 @@ namespace SayMore.Model.Files.DataGathering
 						}
 					}
 				}
-				else
+				else if (GetDoIncludeFile(fileEvent.FullPath))
 				{
 					Debug.WriteLine(GetType().Name + " Collecting " + fileEvent.ChangeType + ": " + fileEvent.Name);
 					CollectDataForFile(fileEvent.FullPath);
@@ -239,7 +239,7 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void CollectDataForFile(string path)
+		protected virtual void CollectDataForFile(string path)
 		{
 			T fileData = null;
 
@@ -247,10 +247,10 @@ namespace SayMore.Model.Files.DataGathering
 
 			try
 			{
-				if (!GetDoIncludeFile(path))
-				{
-					return;
-				}
+				//if (!GetDoIncludeFile(path))
+				//{
+				//    return;
+				//}
 
 				Debug.WriteLine("processing " + path);
 				var actualPath = GetActualPath(path);
@@ -336,8 +336,11 @@ namespace SayMore.Model.Files.DataGathering
 				if (ShouldStop)
 					break;
 
-				Status = string.Format("Processing {0} of {1} files", 1 + i, paths.Count);
-				CollectDataForFile(paths[i]);
+				if (GetDoIncludeFile(paths[i]))
+				{
+					Status = string.Format("Processing {0} of {1} files", 1 + i, paths.Count);
+					CollectDataForFile(paths[i]);
+				}
 			}
 
 			Status = "Up to date";

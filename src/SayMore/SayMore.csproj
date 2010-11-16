@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
       <SubType>Code</SubType>
     </Compile>

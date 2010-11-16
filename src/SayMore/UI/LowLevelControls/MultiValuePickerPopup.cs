@@ -154,7 +154,7 @@ namespace SayMore.UI.LowLevelControls
 			_panelTextBox.Visible = _showPromptTextBox;
 			LoadValues(pickerList);
 			base.ShowPopup(pt);
-			_panelItems.Focus();
+			_toolStripItems.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -254,12 +254,13 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleItemCheckedChanged(PickerPopupItem item, bool checkWasOnCheckBox)
+		private void HandleItemCheckedChanged(PickerPopupItem item,
+			PickerPopupItem.ItemSelectMode selectMode)
 		{
 			if (ItemCheckChanged != null)
 				ItemCheckChanged(this, item);
 
-			if (!checkWasOnCheckBox)
+			if (selectMode == PickerPopupItem.ItemSelectMode.Mouse)
 				ClosePopup();
 		}
 

@@ -22,17 +22,17 @@ namespace SayMore.Model
 
 		public delegate ElementRepository<T> Factory(string projectDirectory, string elementGroupName, FileType type);
 
-		public delegate T ElementFactory<T>(string parentElementFolder, string id,
-			Action<ProjectElement, string, string> idChangedNotificationReceiver) where T : ProjectElement;
+		public delegate T ElementFactory(string parentElementFolder, string id,
+			Action<ProjectElement, string, string> idChangedNotificationReceiver);
 
 		//private readonly  Func<string, string, T> _elementFactory;
-		private readonly ElementFactory<T> _elementFactory; //TODO: fix this. I'm struggling with autofac on this issue
+		private readonly ElementFactory _elementFactory; //TODO: fix this. I'm struggling with autofac on this issue
 		private readonly List<T> _items = new List<T>();
 		private readonly string _rootFolder;
 
 		/// ------------------------------------------------------------------------------------
 		public ElementRepository(string projectDirectory, string elementGroupName,
-			FileType type, ElementFactory<T> elementFactory)
+			FileType type, ElementFactory elementFactory)
 		{
 			ElementFileType = type;
 			_elementFactory = elementFactory;
@@ -82,9 +82,9 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<T> AllItems
+		public virtual IEnumerable<T> AllItems
 		{
-			get {return _items;}
+			get { return _items; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,8 +114,18 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public bool Remove(T item)
 		{
-			if (!_items.Contains(item))
+			if (!_items.Contains(item) || !RemoveItemFromFileSystem(item))
 				return false;
+
+			_items.Remove(item);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool RemoveItemFromFileSystem(T item)
+		{
+			if (item.FolderPath == "*mocked*")
+				return true;
 
 			try
 			{
@@ -134,7 +144,6 @@ namespace SayMore.Model
 				return false;
 			}
 
-			_items.Remove(item);
 			return true;
 		}
 

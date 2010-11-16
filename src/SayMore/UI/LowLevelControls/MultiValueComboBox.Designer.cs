@@ -55,7 +55,7 @@ namespace SayMore.UI.LowLevelControls
 			this._panelButton.TabIndex = 1;
 			this._panelButton.MouseLeave += new System.EventHandler(this.HandleButtonMouseEnterLeave);
 			this._panelButton.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleButtonPaint);
-			this._panelButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClickOnDropDownButton);
+			this._panelButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandleMouseClickOnDropDownButton);
 			this._panelButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleButtonMouseDownUp);
 			this._panelButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HandleButtonMouseDownUp);
 			this._panelButton.SizeChanged += new System.EventHandler(this.HandleButtonSizeChanged);

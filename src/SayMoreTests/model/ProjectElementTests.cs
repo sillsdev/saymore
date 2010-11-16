@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Moq;
 using Palaso.TestUtilities;
 using SayMore;
 using SayMore.Model;
@@ -249,5 +250,23 @@ namespace SayMoreTests.Model
 			var expected = person.DefaultElementNamePrefix + " 03";
 			Assert.That(person.GetNewDefaultElementName(), Is.EqualTo(expected));
 		}
+
+		//[Test]
+		//public void GetTotalMediaDuration_HasMediaFiles_ReturnsCorrectDuration()
+		//{
+		//    var file1 = new Mock<ComponentFile>();
+		//    file1.Setup(f => f.DurationString).Returns("00:03:22");
+
+		//    var file2 = new Mock<ComponentFile>();
+		//    file2.Setup(f => f.DurationString).Returns(null as string);
+
+		//    var file3 = new Mock<ComponentFile>();
+		//    file3.Setup(f => f.DurationString).Returns("00:04:14");
+
+		//    var evnt = new Mock<Event>();
+		//    evnt.Setup(e => e.GetComponentFiles()).Returns(new[] { file1.Object, file2.Object, file3.Object });
+
+		//    Assert.AreEqual(new TimeSpan(0, 7, 36), evnt.Object.GetTotalMediaDuration());
+		//}
 	}
 }

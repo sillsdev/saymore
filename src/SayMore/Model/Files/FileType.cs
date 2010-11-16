@@ -11,7 +11,6 @@ using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
-using SayMore.UI.Utilities;
 using SilUtils;
 
 namespace SayMore.Model.Files

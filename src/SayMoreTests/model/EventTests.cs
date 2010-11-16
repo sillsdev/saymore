@@ -30,23 +30,23 @@ namespace SayMoreTests.Model
 		private Event CreateEvent(IEnumerable<string>particpants)
 		{
 			ProjectElementComponentFile.Factory factory = (parentElement, fileType, fileSerializer, ootElementName) =>
-															  {
-																  var file = new Mock<ProjectElementComponentFile>();
-																  file.Setup(f => f.Save());
-																  file.Setup(
-																	  f => f.GetStringValue("participants", string.Empty)).
-																	  Returns(particpants.Count()>0? particpants.Aggregate((a,b)=>a+","+b):string.Empty
-																	  );
-																  return file.Object;
-															  };
+			{
+			  var file = new Mock<ProjectElementComponentFile>();
+			  file.Setup(f => f.Save());
+			  file.Setup(
+				  f => f.GetStringValue("participants", string.Empty)).
+				  Returns(particpants.Count()>0? particpants.Aggregate((a,b)=>a+","+b):string.Empty
+				  );
+			  return file.Object;
+			};
 
 			ComponentFile.Factory componentFactory = (parentElement, path) =>
-														 {
-															 var file = new Mock<ComponentFile>();
-															 //person.Setup(p => p.GetInformedConsentComponentFile()).Returns((ComponentFile)null);
-															 file.Setup(p => p.Save());
-															 return file.Object;
-														 };
+			{
+				var file = new Mock<ComponentFile>();
+				//person.Setup(p => p.GetInformedConsentComponentFile()).Returns((ComponentFile)null);
+				file.Setup(p => p.Save());
+				return file.Object;
+			};
 
 			var personInformant = new Mock<PersonInformant>();
 			foreach (var particpant in particpants)
@@ -94,7 +94,5 @@ namespace SayMoreTests.Model
 		  var stages = CreateEvent(new[] {"oneWithConsent", "anotherWithConsent" }).GetCompletedStages();
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
-
-
 	}
 }

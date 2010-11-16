@@ -24,7 +24,7 @@ namespace SayMore.Model
 
 		public virtual string Id { get { return _id; } }
 		public Action<ProjectElement, string, string> IdChangedNotificationReceiver { get; protected set; }
-		public ProjectElementComponentFile MetaDataFile { get; private set; }
+		public virtual ProjectElementComponentFile MetaDataFile { get; private set; }
 		public abstract string RootElementName { get; }
 		protected internal string ParentFolderPath { get; set; }
 		protected abstract string ExtensionWithoutPeriod { get; }
@@ -68,7 +68,7 @@ namespace SayMore.Model
 		public ProjectElement(){}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ComponentFile> GetComponentFiles()
+		public virtual IEnumerable<ComponentFile> GetComponentFiles()
 		{
 			// John: Should we cache this?
 			// Ansr: if it proves slow, but then we have to complicate things to keep it up to date.
@@ -93,7 +93,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string FolderPath
+		public virtual string FolderPath
 		{
 			get { return Path.Combine(ParentFolderPath, Id); }
 		}
@@ -324,6 +324,21 @@ namespace SayMore.Model
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns the sum of all media file durations in the project element.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual TimeSpan GetTotalMediaDuration()
+		{
+			var totalTime = new TimeSpan();
+
+			foreach (var file in GetComponentFiles().Where(f => !string.IsNullOrEmpty(f.DurationString)))
+				totalTime += TimeSpan.Parse(file.DurationString);
+
+			return totalTime;
 		}
 
 		/// ------------------------------------------------------------------------------------

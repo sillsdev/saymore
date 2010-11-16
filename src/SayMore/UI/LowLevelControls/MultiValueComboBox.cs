@@ -18,7 +18,13 @@ namespace SayMore.UI.LowLevelControls
 
 		public MultiValuePickerPopup Popup { get; private set; }
 
-		private readonly int _borderWidth;
+		protected readonly int _borderWidth;
+		//protected Color _backColor;
+		//protected Color _foreColor;
+		protected AutoCompleteMode _autoCompleteMode;
+		protected AutoCompleteSource _autoCompleteSource;
+		protected AutoCompleteStringCollection _autoCompleteCustomSource;
+		protected bool _readOnly;
 
 		/// ------------------------------------------------------------------------------------
 		public MultiValueComboBox()
@@ -80,36 +86,44 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		public override Color BackColor
 		{
-			get { return _textBox.BackColor; }
-			set { _textBox.BackColor = value; }
+			get { return base.BackColor; }
+			set { base.BackColor = _textBox.BackColor = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override Color ForeColor
 		{
-			get { return _textBox.ForeColor; }
-			set { _textBox.ForeColor = value; }
+			get { return base.ForeColor; }
+			set { base.ForeColor = _textBox.ForeColor = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public AutoCompleteMode AutoCompleteMode
 		{
 			get { return _textBox.AutoCompleteMode; }
-			set { _textBox.AutoCompleteMode = value; }
+			set { _autoCompleteMode = _textBox.AutoCompleteMode = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public AutoCompleteSource AutoCompleteSource
 		{
 			get { return _textBox.AutoCompleteSource; }
-			set { _textBox.AutoCompleteSource = value; }
+			set { _autoCompleteSource = _textBox.AutoCompleteSource = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public AutoCompleteStringCollection AutoCompleteCustomSource
 		{
 			get { return _textBox.AutoCompleteCustomSource; }
-			set { _textBox.AutoCompleteCustomSource = value; }
+			set { _autoCompleteCustomSource = _textBox.AutoCompleteCustomSource = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[DefaultValue(false)]
+		public bool ReadOnly
+		{
+			get { return _textBox.ReadOnly; }
+			set { _readOnly = _textBox.ReadOnly = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -289,7 +303,7 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void OnMouseClickOnDropDownButton(object sender, MouseEventArgs e)
+		private void HandleMouseClickOnDropDownButton(object sender, MouseEventArgs e)
 		{
 			if (JITListAcquisition != null)
 			{
@@ -344,6 +358,12 @@ namespace SayMore.UI.LowLevelControls
 		{
 			if (KeyDown != null)
 				KeyDown(this, e);
+
+			if (e.Handled)
+				return;
+
+			if (e.Alt && e.KeyCode == Keys.Down)
+				HandleMouseClickOnDropDownButton(null, null);
 		}
 
 		#endregion

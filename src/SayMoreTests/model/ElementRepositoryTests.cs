@@ -1,3 +1,4 @@
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
@@ -5,6 +6,7 @@ using SayMore.Model;
 
 namespace SayMoreTests.model
 {
+	[TestFixture]
 	public class ElementRepositoryTests
 	{
 		[Test]
@@ -21,11 +23,62 @@ namespace SayMoreTests.model
 			person.Setup(p => p.Id).Returns("joe");
 			using(var tempFolder = new TemporaryFolder("ElementRepoTestFolder"))
 			{
-				var repo = new ElementRepository<ProjectElement>(tempFolder.Path, "elementGroupName", null,
-																 (folder, id, idChangedAction) => person.Object);
+				var repo = new ElementRepository<ProjectElement>(tempFolder.Path,
+					"elementGroupName", null, (folder, id, idChangedAction) => person.Object);
 
 				repo.CreateNew("joe");
 				Assert.AreEqual(person.Object, repo.GetById("joe"));
+			}
+		}
+
+		[Test]
+		public void CreateNew_WithId_CreatesElement()
+		{
+			var person = new Mock<ProjectElement>();
+			person.Setup(p => p.Id).Returns("joe");
+			using (var tempFolder = new TemporaryFolder("ElementRepoTestFolder"))
+			{
+				var repo = new ElementRepository<ProjectElement>(tempFolder.Path,
+					"elementGroupName", null, (folder, id, idChangedAction) => person.Object);
+
+				repo.CreateNew("joe");
+				Assert.IsTrue(repo.AllItems.Contains(person.Object));
+			}
+		}
+
+		[Test]
+		public void Remove_ById_RemovesItem()
+		{
+			var person = new Mock<ProjectElement>();
+			person.Setup(p => p.Id).Returns("joe");
+			person.Setup(p => p.FolderPath).Returns("*mocked*");
+			using (var tempFolder = new TemporaryFolder("ElementRepoTestFolder"))
+			{
+				var repo = new ElementRepository<ProjectElement>(tempFolder.Path,
+					"elementGroupName", null, (folder, id, idChangedAction) => person.Object);
+
+				repo.CreateNew("joe");
+				Assert.IsTrue(repo.AllItems.Contains(person.Object));
+				repo.Remove("joe");
+				Assert.IsFalse(repo.AllItems.Contains(person.Object));
+			}
+		}
+
+		[Test]
+		public void Remove_ByItem_RemovesItem()
+		{
+			var person = new Mock<ProjectElement>();
+			person.Setup(p => p.Id).Returns("joe");
+			person.Setup(p => p.FolderPath).Returns("*mocked*");
+			using (var tempFolder = new TemporaryFolder("ElementRepoTestFolder"))
+			{
+				var repo = new ElementRepository<ProjectElement>(tempFolder.Path,
+					"elementGroupName", null, (folder, id, idChangedAction) => person.Object);
+
+				repo.CreateNew("joe");
+				Assert.IsTrue(repo.AllItems.Contains(person.Object));
+				repo.Remove(person.Object);
+				Assert.IsFalse(repo.AllItems.Contains(person.Object));
 			}
 		}
 	}

@@ -11,7 +11,16 @@ namespace SayMore.UI.LowLevelControls
 	/// ----------------------------------------------------------------------------------------
 	public class PickerPopupItem : ToolStripButton
 	{
-		public delegate void CheckChangedHandler(PickerPopupItem sender, bool checkWasOnCheckBox);
+		public enum ItemSelectMode
+		{
+			CheckBox,
+			Keyboard,
+			Mouse
+		}
+
+		private bool _mouseClickSelect;
+
+		public delegate void CheckChangedHandler(PickerPopupItem sender, ItemSelectMode selectMode);
 		public new event CheckChangedHandler CheckedChanged;
 
 		public CheckBox CheckBox { get; private set; }
@@ -40,7 +49,12 @@ namespace SayMore.UI.LowLevelControls
 		public new bool Checked
 		{
 			get { return CheckBox.Checked; }
-			set { CheckBox.Checked = value; }
+			set
+			{
+				CheckBox.CheckedChanged -= HandleCheckBoxCheckChanged;
+				CheckBox.Checked = value;
+				CheckBox.CheckedChanged += HandleCheckBoxCheckChanged;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -53,20 +67,39 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			_mouseClickSelect = (e.Button == MouseButtons.Left);
+			base.OnMouseDown(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnClick(EventArgs e)
 		{
 			base.OnClick(e);
 			Checked = !Checked;
-
-			if (CheckedChanged != null)
-				CheckedChanged(this, false);
+			OnCheckedChanged(_mouseClickSelect ? ItemSelectMode.Mouse : ItemSelectMode.Keyboard);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleCheckBoxCheckChanged(object sender, EventArgs e)
 		{
+			OnCheckedChanged(ItemSelectMode.CheckBox);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnCheckedChanged(ItemSelectMode selectMode)
+		{
+			_mouseClickSelect = false;
+
 			if (CheckedChanged != null)
-				CheckedChanged(this, true);
+				CheckedChanged(this, selectMode);
+
+			if (selectMode != ItemSelectMode.Mouse)
+			{
+				Parent.Focus();
+				Select();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

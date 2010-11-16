@@ -220,6 +220,7 @@ namespace SayMore.UI.ComponentEditors
 			this._autoCompleteHelper.SetAutoCompleteKey(this._participants, "person");
 			this._participants.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._participants.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+			this._participants.BackColor = System.Drawing.SystemColors.Window;
 			this._participants.Dock = System.Windows.Forms.DockStyle.Top;
 			this._participants.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this._binder.SetIsBound(this._participants, true);
@@ -228,6 +229,7 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._participants.Name = "_participants";
 			this._participants.Padding = new System.Windows.Forms.Padding(2);
+			this._participants.ReadOnly = true;
 			this._participants.SelectionLength = 0;
 			this._participants.SelectionStart = 0;
 			this._participants.Size = new System.Drawing.Size(211, 23);

@@ -152,7 +152,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string DurationString
+		public virtual string DurationString
 		{
 			get
 			{

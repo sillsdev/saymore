@@ -586,10 +586,16 @@ namespace SayMore.Model.Files
 			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
 			yield return _audioComponentEditorFactoryLazy()(file, text, null);
 
+#if DEBUG
+			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.Contributors", "Contributors");
+			yield return new ContributorsEditor(file, text, null/*"People"*/);
+#endif
+
 			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
 
 			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
+
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -713,8 +719,6 @@ namespace SayMore.Model.Files
 
 			text = LocalizationManager.LocalizeString("VideoFileInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
-
-			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 		}
 
 		/// ------------------------------------------------------------------------------------

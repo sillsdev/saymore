@@ -11,7 +11,8 @@ namespace SayMore.UI.ComponentEditors
 		{
 			InitializeComponent();
 			Name = "Contributors";
-			_binder.SetComponentFile(file);
+
+			//I don't know if _binder is going to make sense for this or not:  _binder.SetComponentFile(file);
 		}
 	}
 }

@@ -48,14 +48,14 @@ namespace SayMore.UI.Overview.Statistics
 			this._table.Name = "_table";
 			this._table.RowCount = 1;
 			this._table.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._table.Size = new System.Drawing.Size(326, 122);
+			this._table.Size = new System.Drawing.Size(498, 264);
 			this._table.TabIndex = 0;
 			// 
 			// _refreshButton
 			// 
 			this._refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._refreshButton.AutoSize = true;
-			this._refreshButton.Location = new System.Drawing.Point(299, 11);
+			this._refreshButton.Location = new System.Drawing.Point(471, 11);
 			this._refreshButton.Name = "_refreshButton";
 			this._refreshButton.Size = new System.Drawing.Size(44, 13);
 			this._refreshButton.TabIndex = 1;
@@ -67,7 +67,7 @@ namespace SayMore.UI.Overview.Statistics
 			// 
 			this._statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._statusLabel.AutoSize = true;
-			this._statusLabel.Location = new System.Drawing.Point(125, 11);
+			this._statusLabel.Location = new System.Drawing.Point(297, 11);
 			this._statusLabel.Name = "_statusLabel";
 			this._statusLabel.Size = new System.Drawing.Size(35, 13);
 			this._statusLabel.TabIndex = 2;
@@ -93,7 +93,7 @@ namespace SayMore.UI.Overview.Statistics
 			this.Controls.Add(this._refreshButton);
 			this.Controls.Add(this._table);
 			this.Name = "StatisticsView";
-			this.Size = new System.Drawing.Size(363, 171);
+			this.Size = new System.Drawing.Size(535, 310);
 			this.Load += new System.EventHandler(this.StatisticsView_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

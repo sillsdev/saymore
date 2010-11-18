@@ -81,6 +81,26 @@ namespace SayMore.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
+        ///&lt;html xml:lang=&quot;en&quot; lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///	&lt;head&gt;
+        ///		&lt;title&gt;$title$&lt;/title&gt;
+        ///		&lt;meta content=&quot;text/html; charset=utf-8&quot; http-equiv=&quot;Content-Type&quot;/&gt;
+        ///		&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+        ///		&lt;style type=&quot;text/css&quot;&gt;
+        ///			/* Reset default values of Web browsers. ------------------------------------ */
+        ///			* {
+        ///				font-size: 100%;
+        ///				margin: 0;
+        ///				bord [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ChartTemplate {
+            get {
+                return ResourceManager.GetString("ChartTemplate", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap ComponentStageColorBlockTemplate {
             get {
                 object obj = ResourceManager.GetObject("ComponentStageColorBlockTemplate", resourceCulture);

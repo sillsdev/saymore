@@ -16,6 +16,7 @@ namespace SayMore.Model.Fields
 	public class GenreDefinition
 	{
 		private static List<GenreDefinition> s_allTypes;
+		private static GenreDefinition s_unknownType;
 
 		[XmlAttribute("id")]
 		public string Id { get; set; }
@@ -32,7 +33,24 @@ namespace SayMore.Model.Fields
 		[XmlArray("examples"), XmlArrayItem("example")]
 		public List<string> Examples { get; set; }
 
-		public static GenreDefinition UnknownType { get; private set; }
+		/// ------------------------------------------------------------------------------------
+		public static GenreDefinition UnknownType
+		{
+			get
+			{
+				if (s_unknownType == null)
+				{
+					s_unknownType = new GenreDefinition();
+					s_unknownType.Id = "unknown";
+					s_unknownType.Name = LocalizationManager.LocalizeString(
+						"UnknownEventType", "<Unknown>",
+						"Unknown genre displayed in the genre drop-down list.",
+						"Misc. Strings");
+				}
+
+				return s_unknownType;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<GenreDefinition> FactoryGenreDefinitions
@@ -44,14 +62,6 @@ namespace SayMore.Model.Fields
 					var path = Application.ExecutablePath;
 					path = Path.Combine(Path.GetDirectoryName(path), "Genres.xml");
 					s_allTypes = Load(path) ?? new List<GenreDefinition>();
-
-					UnknownType = new GenreDefinition();
-					UnknownType.Id = "unknown";
-					UnknownType.Name = LocalizationManager.LocalizeString(
-						"UnknownEventType", "<Unknown>",
-						"Unknown genre displayed in the genre drop-down list.",
-						"Misc. Strings");
-
 					s_allTypes.Add(UnknownType);
 				}
 

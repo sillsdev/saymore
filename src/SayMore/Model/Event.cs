@@ -48,6 +48,14 @@ namespace SayMore.Model
 			_componentRoles = componentRoles;
 			_personInformant = personInformant;
 
+			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue("genre", null)))
+			{
+				string failureMsg;
+				MetaDataFile.SetValue("genre", GenreDefinition.UnknownType.Name, out failureMsg);
+				if (failureMsg == null)
+					MetaDataFile.Save();
+			}
+
 			if (_personInformant != null)
 				_personInformant.PersonNameChanged += HandlePersonsNameChanged;
 		}
@@ -154,7 +162,7 @@ namespace SayMore.Model
 			var statusString = MetaDataFile.GetStringValue("status", null);
 
 			return (statusString == null ?
-				default(Status) : (Status)Enum.Parse(typeof(Status), statusString));
+				default(Status) : (Status)Enum.Parse(typeof(Status), statusString.Replace(' ', '_')));
 		}
 
 		#region Static methods

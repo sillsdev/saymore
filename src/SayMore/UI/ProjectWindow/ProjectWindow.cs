@@ -10,6 +10,7 @@ using Localization.UI;
 using Palaso.Media;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
+using SayMore.UI.Overview;
 using SilUtils;
 
 namespace SayMore.UI.ProjectWindow
@@ -36,7 +37,7 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectWindow(string projectName, EventsListScreen eventsScreen,
-			PersonListScreen personsScreen, Overview.OverviewScreen  overviewScreen,
+			PersonListScreen personsScreen, OverviewScreen overviewScreen,
 			IEnumerable<ICommand> commands) : this()
 		{
 			if (Settings.Default.ProjectWindow == null)

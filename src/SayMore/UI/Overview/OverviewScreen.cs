@@ -1,5 +1,6 @@
 using System.Windows.Forms;
 using SayMore.Properties;
+using SayMore.UI.Charts;
 using SayMore.UI.Overview.Statistics;
 using SayMore.UI.ProjectWindow;
 
@@ -7,17 +8,17 @@ namespace SayMore.UI.Overview
 {
 	public partial class OverviewScreen : UserControl, ISayMoreView
 	{
+		protected HTMLChartBuilder _chartBuilder;
+
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="OverviewScreen"/> class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public OverviewScreen(StatisticsViewModel statisticsModel)
+		public OverviewScreen(StatisticsViewModel statisticsModel, HTMLChartBuilder chartBuilder)
 		{
 			InitializeComponent();
 			var statisticsView = new StatisticsView(statisticsModel);
 			statisticsView.Dock = DockStyle.Fill;
-			Controls.Add(statisticsView);
+			_tabPageOverview.Controls.Add(statisticsView);
+
+			_chartBuilder = chartBuilder;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -44,6 +45,7 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public void ViewActivated(bool firstTime)
 		{
+			_webBrowser.DocumentText = _chartBuilder.GetGenreChart();
 		}
 
 		/// ------------------------------------------------------------------------------------

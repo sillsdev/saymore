@@ -113,6 +113,7 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
+    <Compile Include="UI\Charts\HTMLChartBuilder.cs" />
     <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -605,6 +606,7 @@
     <None Include="Resources\NoInformedConsent.png" />
     <None Include="Resources\VideoInformedConsent.png" />
     <None Include="Resources\WrittenInformedConsent.png" />
+    <None Include="Resources\ChartTemplate.html" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

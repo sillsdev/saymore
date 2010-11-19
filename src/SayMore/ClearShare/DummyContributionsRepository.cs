@@ -1,4 +1,4 @@
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.ClearShare
 {
 	public class DummyContributionsRepository
 	{

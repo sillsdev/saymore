@@ -28,6 +28,11 @@ namespace SayMore.ClearShare
 		private void ContributorsListControl_Load(object sender, EventArgs e)
 		{
 			Guard.AgainstNull(Repository,"Repository");
+
+			foreach (Contribution contribution in Repository.AllItems)
+			{
+
+			}
 		}
 	}
 }

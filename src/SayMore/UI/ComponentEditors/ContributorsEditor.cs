@@ -1,3 +1,4 @@
+using SayMore.ClearShare;
 using SayMore.Model.Files;
 
 namespace SayMore.UI.ComponentEditors
@@ -13,6 +14,8 @@ namespace SayMore.UI.ComponentEditors
 			Name = "Contributors";
 
 			//I don't know if _binder is going to make sense for this or not:  _binder.SetComponentFile(file);
+
+			_contributorsControl.Repository = new DummyContributionsRepository();
 		}
 	}
 }

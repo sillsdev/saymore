@@ -29,6 +29,12 @@ namespace SayMore.UI.Overview.Statistics
 			_webBrowser.DocumentText = _model.HTMLString;
 		}
 
+		private void HandleCopyToClipboardClick(object sender, EventArgs e)
+		{
+			// This doesn't work. Figure out what to send to the clipboard
+			//Clipboard.SetData(DataFormats.Html, _webBrowser.Document);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void HandlePrintButtonClicked(object sender, EventArgs e)
 		{

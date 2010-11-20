@@ -35,11 +35,11 @@ namespace SayMore.UI.Overview.Statistics
 			this._webBrowser = new System.Windows.Forms.WebBrowser();
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
 			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._buttonPrint = new System.Windows.Forms.ToolStripButton();
 			this._buttonSaveToFile = new System.Windows.Forms.ToolStripButton();
 			this._labelStatus = new System.Windows.Forms.ToolStripLabel();
 			this._panelBrowser = new SilUtils.Controls.SilPanel();
+			this._buttonCopyToClipboard = new System.Windows.Forms.ToolStripButton();
 			this._toolStripActions.SuspendLayout();
 			this._panelBrowser.SuspendLayout();
 			this.SuspendLayout();
@@ -69,11 +69,11 @@ namespace SayMore.UI.Overview.Statistics
 			// 
 			this._toolStripActions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this._toolStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._labelStatus,
             this._buttonRefresh,
-            this.toolStripSeparator1,
-            this._buttonPrint,
+            this._buttonCopyToClipboard,
             this._buttonSaveToFile,
-            this._labelStatus});
+            this._buttonPrint});
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
 			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
@@ -94,15 +94,8 @@ namespace SayMore.UI.Overview.Statistics
 			this._buttonRefresh.ToolTipText = "Refresh View";
 			this._buttonRefresh.Click += new System.EventHandler(this.HandleRefreshButtonClicked);
 			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
-			// 
 			// _buttonPrint
 			// 
-			this._buttonPrint.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this._buttonPrint.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this._buttonPrint.Image = ((System.Drawing.Image)(resources.GetObject("_buttonPrint.Image")));
 			this._buttonPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -114,7 +107,6 @@ namespace SayMore.UI.Overview.Statistics
 			// 
 			// _buttonSaveToFile
 			// 
-			this._buttonSaveToFile.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this._buttonSaveToFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this._buttonSaveToFile.Image = ((System.Drawing.Image)(resources.GetObject("_buttonSaveToFile.Image")));
 			this._buttonSaveToFile.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -126,6 +118,8 @@ namespace SayMore.UI.Overview.Statistics
 			// 
 			// _labelStatus
 			// 
+			this._labelStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._labelStatus.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
 			this._labelStatus.Name = "_labelStatus";
 			this._labelStatus.Size = new System.Drawing.Size(39, 20);
 			this._labelStatus.Text = "Status";
@@ -147,6 +141,17 @@ namespace SayMore.UI.Overview.Statistics
 			this._panelBrowser.PaintExplorerBarBackground = false;
 			this._panelBrowser.Size = new System.Drawing.Size(535, 287);
 			this._panelBrowser.TabIndex = 6;
+			// 
+			// _buttonCopyToClipboard
+			// 
+			this._buttonCopyToClipboard.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this._buttonCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("_buttonCopyToClipboard.Image")));
+			this._buttonCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this._buttonCopyToClipboard.Name = "_buttonCopyToClipboard";
+			this._buttonCopyToClipboard.Size = new System.Drawing.Size(108, 20);
+			this._buttonCopyToClipboard.Text = "Copy to Clipboard";
+			this._buttonCopyToClipboard.ToolTipText = "Copies HTML to Clipboard";
+			this._buttonCopyToClipboard.Click += new System.EventHandler(this.HandleCopyToClipboardClick);
 			// 
 			// StatisticsView
 			// 
@@ -171,10 +176,10 @@ namespace SayMore.UI.Overview.Statistics
 		private System.Windows.Forms.WebBrowser _webBrowser;
 		private System.Windows.Forms.ToolStrip _toolStripActions;
 		private System.Windows.Forms.ToolStripButton _buttonRefresh;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton _buttonPrint;
 		private System.Windows.Forms.ToolStripButton _buttonSaveToFile;
 		private System.Windows.Forms.ToolStripLabel _labelStatus;
 		private SilUtils.Controls.SilPanel _panelBrowser;
+		private System.Windows.Forms.ToolStripButton _buttonCopyToClipboard;
     }
 }

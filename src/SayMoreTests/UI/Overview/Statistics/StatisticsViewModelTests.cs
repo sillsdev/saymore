@@ -36,10 +36,13 @@ namespace SayMoreTests.UI.Overview.Statistics
 			var nullRole = new ComponentRole(typeof(Event), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
 							 p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta);
 
-			var people = new ElementRepository<Person>(_folder.Combine("people"), "People", null, null);
-			var events = new ElementRepository<Event>(_folder.Combine("events"),"Events", null, null);
+			var personInformer = new PersonInformant(
+				new ElementRepository<Person>(_folder.Combine("people"), "People", null, null));
 
-			return new StatisticsViewModel(people, events, new[] { nullRole },
+			var eventInformer = new EventWorkflowInformant(
+				new ElementRepository<Event>(_folder.Combine("events"),"Events", null, null));
+
+			return new StatisticsViewModel(personInformer, eventInformer, new[] { nullRole },
 				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(() => null) }));
 		}
 
@@ -54,13 +57,11 @@ namespace SayMoreTests.UI.Overview.Statistics
 							   CreateModel().GetRecordingDurations(role));
 		}
 
-
-
 		[Test]
-		public void GetPairs_EmptyProject_GivesSomePairs()
+		public void GetElementStatisticsPairs_EmptyProject_GivesSomePairs()
 		{
-				var pairs = CreateModel().GetStatisticPairs();
-				Assert.Less(0, pairs.Count());
+			var pairs = CreateModel().GetElementStatisticsPairs();
+			Assert.Less(0, pairs.Count());
 		}
 	/*
 		 [Test]

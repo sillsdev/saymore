@@ -1,75 +1,74 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Globalization;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
-using SayMore.UI.Utilities;
+using SayMore.UI.Charts;
 
 namespace SayMore.UI.Overview.Statistics
 {
-	public class StatisticsViewModel :IDisposable
+	public class StatisticsViewModel : IDisposable
 	{
-		private readonly ElementRepository<Person> _people;
-		private readonly ElementRepository<Event> _events;
 		private readonly IEnumerable<ComponentRole> _componentRoles;
-		private AudioVideoDataGatherer _backgroundStatisticsGather;
+		private readonly AudioVideoDataGatherer _backgroundStatisticsGather;
+		protected HTMLChartBuilder _chartBuilder;
 
-		public StatisticsViewModel(ElementRepository<Person> people,
-									ElementRepository<Event> events,
-									IEnumerable<ComponentRole> componentRoles,
-									AudioVideoDataGatherer backgroundStatisticsMananager)
+		public PersonInformant PersonInformant { get; protected set; }
+		public EventWorkflowInformant EventInformant { get; protected set; }
+		public bool UIUpdateNeeded { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public StatisticsViewModel(PersonInformant personInformant,
+			EventWorkflowInformant eventInformant, IEnumerable<ComponentRole> componentRoles,
+			AudioVideoDataGatherer backgroundStatisticsMananager)
 		{
-			_people = people;
-			_events = events;
+			PersonInformant = personInformant;
+			EventInformant = eventInformant;
 			_componentRoles = componentRoles;
 			_backgroundStatisticsGather = backgroundStatisticsMananager;
 			_backgroundStatisticsGather.NewDataAvailable += OnNewStatistics;
-
+			_chartBuilder = new HTMLChartBuilder(this);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public string Status
 		{
-			get{ return _backgroundStatisticsGather.Status;}
+			get { return _backgroundStatisticsGather.Status; }
 		}
 
-		public bool UIUpdateNeeded { get; set; }
-
-		public IEnumerable<KeyValuePair<string,string>> GetStatisticPairs()
+		/// ------------------------------------------------------------------------------------
+		public string HTMLString
 		{
-			yield return new KeyValuePair<string, string>("Events", _events.AllItems.Count().ToString());
-			yield return new KeyValuePair<string, string>("People", _people.AllItems.Count().ToString());
-			yield return new KeyValuePair<string, string>("", "");
+			get { return _chartBuilder.GetChart(); }
+		}
 
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<KeyValuePair<string, string>> GetElementStatisticsPairs()
+		{
+			yield return new KeyValuePair<string, string>("Events:", EventInformant.NumberOfEvents.ToString());
+			yield return new KeyValuePair<string, string>("People:", PersonInformant.NumberOfPeople.ToString());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<ComponentRoleStatistics> GetComponentRoleStatisticsPairs()
+		{
 			foreach (var role in _componentRoles.Where(def => def.MeasurementType == ComponentRole.MeasurementTypes.Time))
 			{
-				 yield return new KeyValuePair<string, string>(role.Name,
-					 GetRecordingDurations(role).ToString());
-			}
+				long bytes = GetTotalComponentRoleFileSizes(role);
+				var size = (bytes == 0 ? "---" : ComponentFile.GetDisplayableFileSize(bytes));
 
-			foreach (var role in _componentRoles.Where(def => def.MeasurementType == ComponentRole.MeasurementTypes.Time))
-			{
-				int megabytes = GetMegabytes(role);
-				string value;
-				if (megabytes > 1000) //review: is a gigabyte 1000, or 1024 megabytes?
+				yield return new ComponentRoleStatistics
 				{
-					value = (megabytes / 1000.0).ToString("N", CultureInfo.InvariantCulture) + " Gigabytes";
-				}
-				else if (megabytes == 0)
-				{
-					value = "---";
-				}
-				else
-				{
-					value = megabytes.ToString("###", CultureInfo.InvariantCulture) + " Megabytes";
-				}
-
-				yield return new KeyValuePair<string, string>(role.Name, value);
+					Name = role.Name,
+					Length = GetRecordingDurations(role).ToString(),
+					Size = size
+				};
 			}
 		}
 
-		private int GetMegabytes(ComponentRole role)
+		/// ------------------------------------------------------------------------------------
+		private long GetTotalComponentRoleFileSizes(ComponentRole role)
 		{
 			long bytes = 0;
 			foreach (MediaFileInfo info in _backgroundStatisticsGather.GetAllFileData())
@@ -77,9 +76,11 @@ namespace SayMore.UI.Overview.Statistics
 				if (role.IsMatch(info.MediaFilePath))
 					bytes += info.LengthInBytes;
 			}
-			return (int)((float)bytes / (1024 * 1024));
+
+			return bytes;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetRecordingDurations(ComponentRole role)
 		{
 			var total = new TimeSpan(0);
@@ -89,22 +90,33 @@ namespace SayMore.UI.Overview.Statistics
 					total += info.Duration;
 			}
 
-			return total;
+			// Trim off the milliseconds so it doesn't get too geeky
+			return new TimeSpan(total.Hours, total.Minutes, total.Seconds);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public void Refresh()
 		{
 			_backgroundStatisticsGather.Restart();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
 			_backgroundStatisticsGather.NewDataAvailable -= OnNewStatistics;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		void OnNewStatistics(object sender, EventArgs e)
 		{
 			UIUpdateNeeded = true;
 		}
+	}
+
+	public class ComponentRoleStatistics
+	{
+		public string Name { get; set; }
+		public string Length { get; set; }
+		public string Size { get; set; }
 	}
 }

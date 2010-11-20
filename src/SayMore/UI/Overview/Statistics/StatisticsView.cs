@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -9,66 +8,57 @@ namespace SayMore.UI.Overview.Statistics
 	{
 		private readonly StatisticsViewModel _model;
 
-		Font _headerFont = new Font(SystemFonts.MessageBoxFont.FontFamily, 12, FontStyle.Bold);
-
-//		[Obsolete("Designer Only")]
-//    	public StatisticsView()
-//    	{
-//
-//    	}
+		/// ------------------------------------------------------------------------------------
 		public StatisticsView(StatisticsViewModel model)
 		{
 			_model = model;
 			InitializeComponent();
 		}
 
-		private void StatisticsView_Load(object sender, EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
 		{
+			base.OnLoad(e);
 			UpdateDisplay();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
-				_model.UIUpdateNeeded = false;
-				this.SuspendLayout();
-				_table.SuspendLayout();
-				_table.Controls.Clear();
-				_table.RowCount = 0;
-				_table.RowStyles.Clear();
-
-				foreach (KeyValuePair<string, string> pair in _model.GetStatisticPairs())
-				{
-					AddRow(pair.Key, pair.Value);
-				}
-				_table.ResumeLayout();
-				this.ResumeLayout();
+			_model.UIUpdateNeeded = false;
+			_webBrowser.DocumentText = _model.HTMLString;
 		}
 
-		private void AddRow(string label, string amount)
+		/// ------------------------------------------------------------------------------------
+		private void HandlePrintButtonClicked(object sender, EventArgs e)
 		{
-			_table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-			_table.RowCount++;
-			_table.Controls.Add(new Label() { Text = label, Font = _headerFont, Width = TextRenderer.MeasureText(label, _headerFont).Width+10 }, 0, _table.RowCount);
-			_table.Controls.Add(new Label() { Text = amount, Font = _headerFont, Width = TextRenderer.MeasureText(amount, _headerFont).Width+10 } , 1, _table.RowCount);
+			// Show print dialog
 		}
 
-		private void OnRefreshButtonClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		/// ------------------------------------------------------------------------------------
+		private void HandleSaveButtonClicked(object sender, EventArgs e)
+		{
+			// Show save file dialog
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleRefreshButtonClicked(object sender, EventArgs e)
 		{
 			_model.Refresh();
 			UpdateDisplay();
 		}
 
-		private void timer1_Tick(object sender, EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		private void HandleTimerTick(object sender, EventArgs e)
 		{
-			_statusLabel.Text = _model.Status;
+			_labelStatus.Text = _model.Status;
 		}
 
-		private void _refreshTimer_Tick(object sender, EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		private void HandleRefreshTimerTick(object sender, EventArgs e)
 		{
 			if (_model.UIUpdateNeeded)
-			{
 				UpdateDisplay();
-			}
 		}
 	}
 }

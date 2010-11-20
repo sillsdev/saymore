@@ -29,72 +29,136 @@ namespace SayMore.UI.Overview.Statistics
         private void InitializeComponent()
         {
 			this.components = new System.ComponentModel.Container();
-			this._table = new System.Windows.Forms.TableLayoutPanel();
-			this._refreshButton = new System.Windows.Forms.LinkLabel();
-			this._statusLabel = new System.Windows.Forms.Label();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatisticsView));
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this._refreshTimer = new System.Windows.Forms.Timer(this.components);
+			this._webBrowser = new System.Windows.Forms.WebBrowser();
+			this._toolStripActions = new System.Windows.Forms.ToolStrip();
+			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this._buttonPrint = new System.Windows.Forms.ToolStripButton();
+			this._buttonSaveToFile = new System.Windows.Forms.ToolStripButton();
+			this._labelStatus = new System.Windows.Forms.ToolStripLabel();
+			this._panelBrowser = new SilUtils.Controls.SilPanel();
+			this._toolStripActions.SuspendLayout();
+			this._panelBrowser.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// _table
-			// 
-			this._table.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._table.ColumnCount = 2;
-			this._table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._table.Location = new System.Drawing.Point(17, 27);
-			this._table.Name = "_table";
-			this._table.RowCount = 1;
-			this._table.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._table.Size = new System.Drawing.Size(498, 264);
-			this._table.TabIndex = 0;
-			// 
-			// _refreshButton
-			// 
-			this._refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this._refreshButton.AutoSize = true;
-			this._refreshButton.Location = new System.Drawing.Point(471, 11);
-			this._refreshButton.Name = "_refreshButton";
-			this._refreshButton.Size = new System.Drawing.Size(44, 13);
-			this._refreshButton.TabIndex = 1;
-			this._refreshButton.TabStop = true;
-			this._refreshButton.Text = "Refresh";
-			this._refreshButton.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnRefreshButtonClicked);
-			// 
-			// _statusLabel
-			// 
-			this._statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this._statusLabel.AutoSize = true;
-			this._statusLabel.Location = new System.Drawing.Point(297, 11);
-			this._statusLabel.Name = "_statusLabel";
-			this._statusLabel.Size = new System.Drawing.Size(35, 13);
-			this._statusLabel.TabIndex = 2;
-			this._statusLabel.Text = "status";
 			// 
 			// timer1
 			// 
 			this.timer1.Enabled = true;
 			this.timer1.Interval = 500;
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			this.timer1.Tick += new System.EventHandler(this.HandleTimerTick);
 			// 
 			// _refreshTimer
 			// 
 			this._refreshTimer.Enabled = true;
 			this._refreshTimer.Interval = 5000;
-			this._refreshTimer.Tick += new System.EventHandler(this._refreshTimer_Tick);
+			this._refreshTimer.Tick += new System.EventHandler(this.HandleRefreshTimerTick);
+			// 
+			// _webBrowser
+			// 
+			this._webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._webBrowser.Location = new System.Drawing.Point(0, 0);
+			this._webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+			this._webBrowser.Name = "_webBrowser";
+			this._webBrowser.Size = new System.Drawing.Size(533, 285);
+			this._webBrowser.TabIndex = 5;
+			// 
+			// _toolStripActions
+			// 
+			this._toolStripActions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this._toolStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._buttonRefresh,
+            this.toolStripSeparator1,
+            this._buttonPrint,
+            this._buttonSaveToFile,
+            this._labelStatus});
+			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
+			this._toolStripActions.Name = "_toolStripActions";
+			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
+			this._toolStripActions.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this._toolStripActions.Size = new System.Drawing.Size(535, 25);
+			this._toolStripActions.TabIndex = 8;
+			this._toolStripActions.Text = "toolStrip1";
+			// 
+			// _buttonRefresh
+			// 
+			this._buttonRefresh.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._buttonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this._buttonRefresh.Image = ((System.Drawing.Image)(resources.GetObject("_buttonRefresh.Image")));
+			this._buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this._buttonRefresh.Name = "_buttonRefresh";
+			this._buttonRefresh.Size = new System.Drawing.Size(50, 20);
+			this._buttonRefresh.Text = "Refresh";
+			this._buttonRefresh.ToolTipText = "Refresh View";
+			this._buttonRefresh.Click += new System.EventHandler(this.HandleRefreshButtonClicked);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+			// 
+			// _buttonPrint
+			// 
+			this._buttonPrint.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._buttonPrint.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this._buttonPrint.Image = ((System.Drawing.Image)(resources.GetObject("_buttonPrint.Image")));
+			this._buttonPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this._buttonPrint.Name = "_buttonPrint";
+			this._buttonPrint.Size = new System.Drawing.Size(45, 20);
+			this._buttonPrint.Text = "Print...";
+			this._buttonPrint.ToolTipText = "Print";
+			this._buttonPrint.Click += new System.EventHandler(this.HandlePrintButtonClicked);
+			// 
+			// _buttonSaveToFile
+			// 
+			this._buttonSaveToFile.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._buttonSaveToFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this._buttonSaveToFile.Image = ((System.Drawing.Image)(resources.GetObject("_buttonSaveToFile.Image")));
+			this._buttonSaveToFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this._buttonSaveToFile.Name = "_buttonSaveToFile";
+			this._buttonSaveToFile.Size = new System.Drawing.Size(79, 20);
+			this._buttonSaveToFile.Text = "Save to File...";
+			this._buttonSaveToFile.ToolTipText = "Save to HTML File";
+			this._buttonSaveToFile.Click += new System.EventHandler(this.HandleSaveButtonClicked);
+			// 
+			// _labelStatus
+			// 
+			this._labelStatus.Name = "_labelStatus";
+			this._labelStatus.Size = new System.Drawing.Size(39, 20);
+			this._labelStatus.Text = "Status";
+			// 
+			// _panelBrowser
+			// 
+			this._panelBrowser.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._panelBrowser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._panelBrowser.ClipTextForChildControls = true;
+			this._panelBrowser.ControlReceivingFocusOnMnemonic = null;
+			this._panelBrowser.Controls.Add(this._webBrowser);
+			this._panelBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._panelBrowser.DoubleBuffered = true;
+			this._panelBrowser.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this._panelBrowser.Location = new System.Drawing.Point(0, 25);
+			this._panelBrowser.Margin = new System.Windows.Forms.Padding(0);
+			this._panelBrowser.MnemonicGeneratesClick = false;
+			this._panelBrowser.Name = "_panelBrowser";
+			this._panelBrowser.PaintExplorerBarBackground = false;
+			this._panelBrowser.Size = new System.Drawing.Size(535, 287);
+			this._panelBrowser.TabIndex = 6;
 			// 
 			// StatisticsView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this._statusLabel);
-			this.Controls.Add(this._refreshButton);
-			this.Controls.Add(this._table);
+			this.Controls.Add(this._panelBrowser);
+			this.Controls.Add(this._toolStripActions);
 			this.Name = "StatisticsView";
-			this.Size = new System.Drawing.Size(535, 310);
-			this.Load += new System.EventHandler(this.StatisticsView_Load);
+			this.Size = new System.Drawing.Size(535, 312);
+			this._toolStripActions.ResumeLayout(false);
+			this._toolStripActions.PerformLayout();
+			this._panelBrowser.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -102,10 +166,15 @@ namespace SayMore.UI.Overview.Statistics
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel _table;
-        private System.Windows.Forms.LinkLabel _refreshButton;
-		private System.Windows.Forms.Label _statusLabel;
 		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.Timer _refreshTimer;
+		private System.Windows.Forms.WebBrowser _webBrowser;
+		private System.Windows.Forms.ToolStrip _toolStripActions;
+		private System.Windows.Forms.ToolStripButton _buttonRefresh;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton _buttonPrint;
+		private System.Windows.Forms.ToolStripButton _buttonSaveToFile;
+		private System.Windows.Forms.ToolStripLabel _labelStatus;
+		private SilUtils.Controls.SilPanel _panelBrowser;
     }
 }

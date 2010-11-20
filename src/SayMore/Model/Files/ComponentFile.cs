@@ -538,7 +538,7 @@ namespace SayMore.Model.Files
 		/// Sets the size of the event file in a displayable form.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string GetDisplayableFileSize(long fileSize)
+		public static string GetDisplayableFileSize(long fileSize)
 		{
 			if (fileSize < 1000)
 				return string.Format("{0} B", fileSize);

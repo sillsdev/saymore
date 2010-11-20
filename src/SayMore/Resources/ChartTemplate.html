@@ -5,7 +5,7 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <style type="text/css">
-      /* Reset default values of Web browsers. ------------------------------------ */
+      /* ---------- Reset default values of Web browsers. ---------- */
       * {
         font-size: 100%;
         margin: 0;
@@ -22,60 +22,55 @@
 
       table {	padding-top: 12px; }
 
-      body {
-        color: #000000;
-        background-color: #fffffc;
-        font-size: 12px;
-        font-weight: bold;
-        font-family: 'Segoe UI', 'Tahoma', 'Arial', 'Helvetica', sans-serif;
-        text-align: left;
-        text-indent: 0;
-        margin: 0;
-        padding: 0px;
-      }
+      /* ---------- End of resetting styles ---------- */
 
-      h2 {
-        padding-left: 5px;
-        padding-top: 5px;
-        font-size: 20px;
-      }
-
-      tbody tr:first-child th, tbody tr:first-child td {
-        padding-top: 8px;
-      }
+      body { margin: 0 0 0 15px; padding: 0px; }
+      h2 { margin-left: -10px; margin-top: 25px; }
+      h2:first-child { margin-top: 5px; }
+      tbody tr:first-child th, tbody tr:first-child td { padding-top: 8px; }
 
       tr.colorbar th {
-        padding-left: 5px;
-        padding-right: 5px;
-        border-right: rgb(112, 146, 190) 1px solid;
-        font-size: 14px;
-        text-align: right;
-        vertical-align: top;
+         padding-left: 5px;
+         padding-right: 5px;
+         padding-top: 2px; /* Remove this if larger row headings are desired */
       }
 
-      tr.colorbar div
-      {
-        float: left;
-        text-align: center;
-        padding-top: 2px;
-        padding-bottom: 2px;
+      tr.colorbar div { padding-top: 2px;	padding-bottom: 2px; float: left; }
+      tr.detail td { padding-left: 3px; padding-top: 3px;	padding-bottom: 12px; }
+      tfoot td { padding-top: 5px; padding-left: 3px;	}
+      table.overview th, table.overview td { padding-bottom: 5px; }
+      table.overview td { padding-left: 15px; }
+
+      /* ---------- Text alignment styles ---------- */
+      body { text-align: left; text-indent: 0; }
+      tr.detail td { text-align: left; }
+      tr.colorbar div { text-align: center; }
+      tr.colorbar th { text-align: right;	vertical-align: top; }
+      table.overview th { text-align: left; }
+      table.overview td { text-align: right; }
+      table.overview td.elementcount { text-align: left; }
+
+      /* ---------- Border line styles ---------- */
+      tr.colorbar th { border-right-width: 1px; border-right-style: solid; }
+      tfoot td { border-top-width: 1px; border-top-style: solid; }
+
+      /* ---------- Font styles ---------- */
+      body {
+        font-size: 12px;	/* This is roughly 9pt */
+        font-weight: bold;
+        font-family: 'Segoe UI', 'Tahoma', 'Arial', 'Helvetica', sans-serif;
       }
 
-      tr.detail td {
-        text-align: left;
-        padding-left: 3px;
-        padding-top: 3px;
-        padding-bottom: 12px;
-        font-weight: normal;
-      }
+      h2 { font-size: 18px; }
+      /* tr.colorbar th { font-size: 14px; }  Uncomment if larger row headings are desired */
+      tr.colorbar td { font-weight: normal; } /* Remove this if bold numbers in color bars are desired */
+      tr.detail td { font-weight: normal; }
+      tfoot td { font-weight: normal; }
 
-      tfoot td {
-        font-weight: normal;
-        border-top: rgb(112, 146, 190) 1px solid;
-        padding-top: 5px;
-        padding-left: 3px;
-      }
-
+      /* ---------- Color styles ---------- */
+      body { color: #000000;	background-color: #fffffc;	}
+      tr.colorbar th { border-right-color: rgb(112, 146, 190); }
+      tfoot td { border-top-color: rgb(112, 146, 190); }
       .barcolor0 { background-color: rgb(252, 235, 132); }
       .barcolor1 { background-color: rgb(124, 153, 193); }
       .barcolor2 { background-color: rgb(169, 219, 168); }
@@ -83,17 +78,15 @@
     </style>
   </head>
   <body>
-  <h2>$chartheading$</h2>
-  <table cellspacing="0" cellpadding="0">
-    <tfoot>
-      <tr>
-        <th></th>
-        <td>$legend$</td>
-      </tr>
-    </tfoot>
-    <tbody>
-      <!--$chartrows$-->
-    </tbody>
-  </table>
+    <h2>$overviewheading$</h2>
+    <table class="overview" cellspacing="0" cellpadding="0">
+      <thead>
+        <!-- $elementoverviewrows$ -->
+      </thead>
+      <tbody>
+        <!-- $componentroleoverviewrows$ -->
+      </tbody>
+    </table>
+    <!--$charttables$-->
   </body>
 </html>

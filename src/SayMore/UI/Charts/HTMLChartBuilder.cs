@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SayMore.Model;
+using SayMore.UI.Overview.Statistics;
 
 namespace SayMore.UI.Charts
 {
@@ -10,12 +12,31 @@ namespace SayMore.UI.Charts
 	public class HTMLChartBuilder
 	{
 		protected const int kPixelsPerMinute = 3;
-		protected const string kTitleToken = "$title$";
-		protected const string kChartHeadingToken = "$chartheading$";
-		protected const string kLegendToken = "$legend$";
-		protected const string kRowsToken = "<!--$chartrows$-->";
-
 		protected const string kNonBreakingSpace = "&nbsp;";
+
+		protected const string kTitleToken = "$title$";
+		protected const string kOverviewHeadingToken = "$overviewheading$";
+		protected const string kElementsOverviewRowsToken = "<!-- $elementoverviewrows$ -->";
+		protected const string kComponentRolesOverviewRowsToken = "<!-- $componentroleoverviewrows$ -->";
+		protected const string kChartTablesToken = "<!--$charttables$-->";
+
+		protected const string kElementRow =
+			"<tr><th scope=\"row\">{0}</th><td class=\"elementcount\">{1}</td></tr>";
+
+		protected const string kComponentRoleInfoRow =
+			"<tr><th scope=\"row\" class=\"componentrow\">{0}</th><td>{1}</td><td>{2}</td></tr>";
+
+		protected const string kChartTable =
+			"<h2>{0}</h2>" +									// Chart heading
+			"<table cellspacing=\"0\" cellpadding=\"0\">" +
+				"<tfoot>" +
+					"<tr>" +
+						"<th></th>" +
+						"<td>{1}</td>" +						// Legend
+					"</tr>" +
+				"</tfoot>" +
+				"<tbody>{2}</tbody>" +							// Chart rows.
+			"</table>";
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -39,7 +60,7 @@ namespace SayMore.UI.Charts
 		/// (e.g. 10 events, 33 minutes).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected const string kFullEntry =
+		protected const string kChartEntry =
 			"<tr class=\"colorbar\">" +
 				"<th scope=\"rowgroup\" rowspan=\"2\">{0}</th>" +
 				"<td>{1}</td>" +
@@ -48,57 +69,124 @@ namespace SayMore.UI.Charts
 				"<td>{2}</td>" +
 			"</tr>";
 
-		protected EventWorkflowInformant _informant;
-		protected string _htmlText;
+		protected readonly StatisticsViewModel _statisticsViewModel;
 
 		/// ------------------------------------------------------------------------------------
-		public HTMLChartBuilder(EventWorkflowInformant informant)
+		public HTMLChartBuilder(StatisticsViewModel statisticsModel)
 		{
-			_informant = informant;
-
-			_htmlText = Properties.Resources.ChartTemplate;
+			_statisticsViewModel = statisticsModel;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetGenreChart()
+		public string GetChart()
 		{
-			var html = _htmlText.Replace(kTitleToken, "Genre Chart");
-			html = html.Replace(kChartHeadingToken, "By Genre");
+			var html = new StringBuilder(Properties.Resources.ChartTemplate);
+			html = html.Replace(kTitleToken, "SayMore Statistics");
+			html = html.Replace(kOverviewHeadingToken, "Overview");
+			html = html.Replace(kElementsOverviewRowsToken, GetElementsOverviewSection());
+			html = html.Replace(kComponentRolesOverviewRowsToken, GetComponentRolesOverviewSection());
 
-			var eventGenreList = _informant.GetEventsForEachGenre();
+			var tables = new StringBuilder();
+			tables.Append(GetChartBy("By Genre", "genre", "status"));
+			tables.Append(GetChartBy("By Location", "location", "status"));
+
+			html = html.Replace(kChartTablesToken, tables.ToString());
+			return html.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected string GetElementsOverviewSection()
+		{
 			var rows = new StringBuilder();
 
-			// Loop through each genre.
-			foreach (var kvp in eventGenreList)
-			{
-				int totalMinutes;
-				var barSegments = GetBarSegments(kvp.Value, out totalMinutes);
-				var details = string.Format("{0} events totalling {1} minutes", kvp.Value.Count(), totalMinutes);
-				rows.AppendFormat(kFullEntry, kvp.Key.Trim('<', '>'), barSegments, details);
-			}
+			foreach (var kvp in _statisticsViewModel.GetElementStatisticsPairs())
+				rows.AppendFormat(kElementRow, kvp.Key, kvp.Value);
 
-			return html.Replace(kRowsToken, rows.ToString());
+			return rows.ToString();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected string GetBarSegments(IEnumerable<Event> eventList, out int totalMinutes)
+		protected string GetComponentRolesOverviewSection()
 		{
-			totalMinutes = 0;
-			var barSegments = new StringBuilder();
+			var rows = new StringBuilder();
 
-			foreach (var kvp in GetTimesForEachStatus(eventList))
+			foreach (var stats in _statisticsViewModel.GetComponentRoleStatisticsPairs())
+				rows.AppendFormat(kComponentRoleInfoRow, stats.Name, stats.Length, stats.Size);
+
+			return rows.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected string GetChartBy(string chartHeading, string primaryField, string secondaryField)
+		{
+			var eventGenreList =
+				_statisticsViewModel.EventInformant.GetCategorizedEventsFromDoubleKey(primaryField, secondaryField);
+
+			var rows = new StringBuilder();
+			var colorNumberGenerator = (secondaryField == "status" ?
+				TranslateEventStatusToBarColorNumber : (Func<string, int, int>)null);
+
+			// Loop through each primary field.
+			foreach (var kvp in eventGenreList.OrderBy(x => x.Key.Trim('<', '>')))
 			{
-				var minutes = kvp.Value.Minutes;
-				if (minutes == 0)
-					continue;
+				var eventsHavingPrimaryFieldValue = (secondaryField == "status" ?
+					kvp.Value.OrderBy(x => x.Key, new EventStatusComparer()) :
+					kvp.Value.OrderBy(x => x.Key.Trim('<', '>')));
 
-				totalMinutes += minutes;
-				var segmentWidth = minutes * kPixelsPerMinute;
-				var segmentText = (segmentWidth >= 9 ? minutes.ToString() : kNonBreakingSpace);
-				barSegments.AppendFormat(kBarSegment, (int)kvp.Key, segmentWidth, "tooltip", segmentText);
+				rows.Append(GetChartEntry(kvp.Key.Trim('<', '>'),
+					eventsHavingPrimaryFieldValue.ToDictionary(x => x.Key, x => x.Value),
+					colorNumberGenerator));
 			}
 
-			return barSegments.ToString();
+			return string.Format(kChartTable, chartHeading, "legend goes here", rows);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected string GetChartEntry(string primaryFieldValue,
+			IDictionary<string, IEnumerable<Event>> eventsHavingPrimaryFieldValue,
+			Func<string, int, int> colorNumberGenerator)
+		{
+			int totalEvents = 0;
+			int totalMinutes = 0;
+			int colorNumber = 0;
+			var barSegments = new StringBuilder();
+
+			foreach (var kvp in eventsHavingPrimaryFieldValue)
+			{
+				int minutesInSegment = 0;
+
+				foreach (var evnt in kvp.Value)
+				{
+					minutesInSegment += evnt.GetTotalMediaDuration().Minutes;
+					totalEvents++;
+				}
+
+				if (minutesInSegment > 0)
+				{
+					if (colorNumberGenerator != null)
+						colorNumber = colorNumberGenerator(kvp.Key, colorNumber);
+
+					barSegments.Append(GetBarSegment(kvp.Key, kvp.Value.Count(), minutesInSegment, colorNumber));
+					totalMinutes += minutesInSegment;
+				}
+
+				colorNumber++;
+			}
+
+			var details = string.Format("{0} events totalling {1} minutes", totalEvents, totalMinutes);
+			return string.Format(kChartEntry, primaryFieldValue, barSegments, details);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected string GetBarSegment(string fieldValue, int eventCount, int minutesInSegment, int colorNumber)
+		{
+			var segmentWidth = minutesInSegment * kPixelsPerMinute;
+			var segmentText = (segmentWidth >= 9 ? minutesInSegment.ToString() : kNonBreakingSpace);
+
+			var tooltipText = string.Format("{0}: {1} events totalling {2} minutes",
+				fieldValue, eventCount, minutesInSegment);
+
+			return string.Format(kBarSegment, colorNumber, segmentWidth, tooltipText, segmentText);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,6 +202,15 @@ namespace SayMore.UI.Charts
 
 			timesByStatus.Remove(Event.Status.Skipped);
 			return timesByStatus;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual int TranslateEventStatusToBarColorNumber(string status, int defaultValue)
+		{
+			status = status.Replace(' ', '_');
+
+			return (Enum.GetNames(typeof(Event.Status)).Contains(status) ?
+				(int)Enum.Parse(typeof(Event.Status), status) : defaultValue);
 		}
 	}
 }

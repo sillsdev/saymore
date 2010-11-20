@@ -25,6 +25,12 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public int NumberOfPeople
+		{
+			get { return _peopleRepository.AllItems.Count(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected void HandlePersonNameChanged(ProjectElement element, string oldId, string newId)
 		{
 			if (PersonNameChanged != null)

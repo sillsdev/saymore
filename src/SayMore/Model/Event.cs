@@ -174,4 +174,36 @@ namespace SayMore.Model
 
 		#endregion
 	}
+
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// Comparer class to compare two string representations of event status'.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class EventStatusComparer : IComparer<string>
+	{
+		public int Compare(string x, string y)
+		{
+			if (x == y)
+				return 0;
+
+			if (x == null)
+				return 1;
+
+			if (y == null)
+				return -1;
+
+			x = x.Replace(' ', '_');
+			y = y.Replace(' ', '_');
+
+			if (!Enum.GetNames(typeof(Event.Status)).Contains(x))
+				return 1;
+
+			if (!Enum.GetNames(typeof(Event.Status)).Contains(y))
+				return -1;
+
+			return (int)Enum.Parse(typeof(Event.Status), x) -
+				(int)Enum.Parse(typeof(Event.Status), y);
+		}
+	}
 }

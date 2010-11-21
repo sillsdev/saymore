@@ -81,6 +81,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap BusyWheel {
+            get {
+                object obj = ResourceManager.GetObject("BusyWheel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
         ///&lt;html xml:lang=&quot;en&quot; lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
@@ -89,11 +96,12 @@ namespace SayMore.Properties {
         ///		&lt;meta content=&quot;text/html; charset=utf-8&quot; http-equiv=&quot;Content-Type&quot;/&gt;
         ///		&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
         ///		&lt;style type=&quot;text/css&quot;&gt;
-        ///			/* Reset default values of Web browsers. ------------------------------------ */
+        ///			/* ---------- Reset default values of Web browsers. ---------- */
         ///			* {
         ///				font-size: 100%;
         ///				margin: 0;
-        ///				bord [rest of string was truncated]&quot;;.
+        ///				border: 0;
+        ///				pad [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ChartTemplate {
             get {
@@ -111,6 +119,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap ContributorsTabImage {
             get {
                 object obj = ResourceManager.GetObject("ContributorsTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Copy {
+            get {
+                object obj = ResourceManager.GetObject("Copy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -338,9 +353,30 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Print {
+            get {
+                object obj = ResourceManager.GetObject("Print", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Progress {
             get {
                 object obj = ResourceManager.GetObject("Progress", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Refresh {
+            get {
+                object obj = ResourceManager.GetObject("Refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Save {
+            get {
+                object obj = ResourceManager.GetObject("Save", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

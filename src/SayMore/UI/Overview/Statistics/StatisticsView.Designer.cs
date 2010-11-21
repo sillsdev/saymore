@@ -29,17 +29,17 @@ namespace SayMore.UI.Overview.Statistics
         private void InitializeComponent()
         {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatisticsView));
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this._refreshTimer = new System.Windows.Forms.Timer(this.components);
 			this._webBrowser = new System.Windows.Forms.WebBrowser();
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
-			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
-			this._buttonPrint = new System.Windows.Forms.ToolStripButton();
-			this._buttonSaveToFile = new System.Windows.Forms.ToolStripButton();
 			this._labelStatus = new System.Windows.Forms.ToolStripLabel();
-			this._panelBrowser = new SilUtils.Controls.SilPanel();
 			this._buttonCopyToClipboard = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this._buttonSaveToFile = new System.Windows.Forms.ToolStripButton();
+			this._buttonPrint = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
+			this._panelBrowser = new SilUtils.Controls.SilPanel();
 			this._toolStripActions.SuspendLayout();
 			this._panelBrowser.SuspendLayout();
 			this.SuspendLayout();
@@ -49,12 +49,6 @@ namespace SayMore.UI.Overview.Statistics
 			this.timer1.Enabled = true;
 			this.timer1.Interval = 500;
 			this.timer1.Tick += new System.EventHandler(this.HandleTimerTick);
-			// 
-			// _refreshTimer
-			// 
-			this._refreshTimer.Enabled = true;
-			this._refreshTimer.Interval = 5000;
-			this._refreshTimer.Tick += new System.EventHandler(this.HandleRefreshTimerTick);
 			// 
 			// _webBrowser
 			// 
@@ -67,13 +61,16 @@ namespace SayMore.UI.Overview.Statistics
 			// 
 			// _toolStripActions
 			// 
+			this._toolStripActions.BackColor = System.Drawing.SystemColors.Control;
 			this._toolStripActions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this._toolStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._labelStatus,
-            this._buttonRefresh,
             this._buttonCopyToClipboard,
+            this.toolStripSeparator1,
             this._buttonSaveToFile,
-            this._buttonPrint});
+            this._buttonPrint,
+            this.toolStripSeparator2,
+            this._buttonRefresh});
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
 			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
@@ -82,47 +79,65 @@ namespace SayMore.UI.Overview.Statistics
 			this._toolStripActions.TabIndex = 8;
 			this._toolStripActions.Text = "toolStrip1";
 			// 
-			// _buttonRefresh
+			// _labelStatus
 			// 
-			this._buttonRefresh.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._buttonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonRefresh.Image = ((System.Drawing.Image)(resources.GetObject("_buttonRefresh.Image")));
-			this._buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this._buttonRefresh.Name = "_buttonRefresh";
-			this._buttonRefresh.Size = new System.Drawing.Size(50, 20);
-			this._buttonRefresh.Text = "Refresh";
-			this._buttonRefresh.ToolTipText = "Refresh View";
-			this._buttonRefresh.Click += new System.EventHandler(this.HandleRefreshButtonClicked);
+			this._labelStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._labelStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelStatus.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this._labelStatus.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+			this._labelStatus.Name = "_labelStatus";
+			this._labelStatus.Size = new System.Drawing.Size(42, 20);
+			this._labelStatus.Text = "Status";
+			// 
+			// _buttonCopyToClipboard
+			// 
+			this._buttonCopyToClipboard.Image = global::SayMore.Properties.Resources.Copy;
+			this._buttonCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this._buttonCopyToClipboard.Name = "_buttonCopyToClipboard";
+			this._buttonCopyToClipboard.Size = new System.Drawing.Size(55, 20);
+			this._buttonCopyToClipboard.Text = "Copy";
+			this._buttonCopyToClipboard.ToolTipText = "Copies entire chart to clipboard";
+			this._buttonCopyToClipboard.Click += new System.EventHandler(this.HandleCopyToClipboardClick);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+			// 
+			// _buttonSaveToFile
+			// 
+			this._buttonSaveToFile.Image = global::SayMore.Properties.Resources.Save;
+			this._buttonSaveToFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this._buttonSaveToFile.Name = "_buttonSaveToFile";
+			this._buttonSaveToFile.Size = new System.Drawing.Size(60, 20);
+			this._buttonSaveToFile.Text = "Save...";
+			this._buttonSaveToFile.ToolTipText = "Save to file";
+			this._buttonSaveToFile.Click += new System.EventHandler(this.HandleSaveButtonClicked);
 			// 
 			// _buttonPrint
 			// 
-			this._buttonPrint.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonPrint.Image = ((System.Drawing.Image)(resources.GetObject("_buttonPrint.Image")));
+			this._buttonPrint.Image = global::SayMore.Properties.Resources.Print;
 			this._buttonPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this._buttonPrint.Name = "_buttonPrint";
-			this._buttonPrint.Size = new System.Drawing.Size(45, 20);
+			this._buttonPrint.Size = new System.Drawing.Size(61, 20);
 			this._buttonPrint.Text = "Print...";
 			this._buttonPrint.ToolTipText = "Print";
 			this._buttonPrint.Click += new System.EventHandler(this.HandlePrintButtonClicked);
 			// 
-			// _buttonSaveToFile
+			// toolStripSeparator2
 			// 
-			this._buttonSaveToFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonSaveToFile.Image = ((System.Drawing.Image)(resources.GetObject("_buttonSaveToFile.Image")));
-			this._buttonSaveToFile.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this._buttonSaveToFile.Name = "_buttonSaveToFile";
-			this._buttonSaveToFile.Size = new System.Drawing.Size(79, 20);
-			this._buttonSaveToFile.Text = "Save to File...";
-			this._buttonSaveToFile.ToolTipText = "Save to HTML File";
-			this._buttonSaveToFile.Click += new System.EventHandler(this.HandleSaveButtonClicked);
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
 			// 
-			// _labelStatus
+			// _buttonRefresh
 			// 
-			this._labelStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._labelStatus.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
-			this._labelStatus.Name = "_labelStatus";
-			this._labelStatus.Size = new System.Drawing.Size(39, 20);
-			this._labelStatus.Text = "Status";
+			this._buttonRefresh.Image = global::SayMore.Properties.Resources.Refresh;
+			this._buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this._buttonRefresh.Name = "_buttonRefresh";
+			this._buttonRefresh.Size = new System.Drawing.Size(66, 20);
+			this._buttonRefresh.Text = "Refresh";
+			this._buttonRefresh.ToolTipText = "Refresh View";
+			this._buttonRefresh.Click += new System.EventHandler(this.HandleRefreshButtonClicked);
 			// 
 			// _panelBrowser
 			// 
@@ -141,17 +156,6 @@ namespace SayMore.UI.Overview.Statistics
 			this._panelBrowser.PaintExplorerBarBackground = false;
 			this._panelBrowser.Size = new System.Drawing.Size(535, 287);
 			this._panelBrowser.TabIndex = 6;
-			// 
-			// _buttonCopyToClipboard
-			// 
-			this._buttonCopyToClipboard.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("_buttonCopyToClipboard.Image")));
-			this._buttonCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this._buttonCopyToClipboard.Name = "_buttonCopyToClipboard";
-			this._buttonCopyToClipboard.Size = new System.Drawing.Size(108, 20);
-			this._buttonCopyToClipboard.Text = "Copy to Clipboard";
-			this._buttonCopyToClipboard.ToolTipText = "Copies HTML to Clipboard";
-			this._buttonCopyToClipboard.Click += new System.EventHandler(this.HandleCopyToClipboardClick);
 			// 
 			// StatisticsView
 			// 
@@ -172,7 +176,6 @@ namespace SayMore.UI.Overview.Statistics
         #endregion
 
 		private System.Windows.Forms.Timer timer1;
-		private System.Windows.Forms.Timer _refreshTimer;
 		private System.Windows.Forms.WebBrowser _webBrowser;
 		private System.Windows.Forms.ToolStrip _toolStripActions;
 		private System.Windows.Forms.ToolStripButton _buttonRefresh;
@@ -181,5 +184,7 @@ namespace SayMore.UI.Overview.Statistics
 		private System.Windows.Forms.ToolStripLabel _labelStatus;
 		private SilUtils.Controls.SilPanel _panelBrowser;
 		private System.Windows.Forms.ToolStripButton _buttonCopyToClipboard;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

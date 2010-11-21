@@ -540,8 +540,23 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static string GetDisplayableFileSize(long fileSize)
 		{
+			return GetDisplayableFileSize(fileSize, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the size of the event file in a displayable form.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetDisplayableFileSize(long fileSize, bool abbreviateFileSizeUnits)
+		{
+			var fmtBytes = "{0} " + (abbreviateFileSizeUnits ? "B" : "Bytes");
+			var fmtKilobytes = "{0} " + (abbreviateFileSizeUnits ? "KB" : "Kilobytes");
+			var fmtMegabytes = "{0} " + (abbreviateFileSizeUnits ? "MB" : "Megabytes");
+			var fmtGigabytes = "{0} " + (abbreviateFileSizeUnits ? "GB" : "Gigabytes");
+
 			if (fileSize < 1000)
-				return string.Format("{0} B", fileSize);
+				return string.Format(fmtBytes, fileSize);
 
 			if (fileSize < Math.Pow(1024, 2))
 			{
@@ -549,18 +564,18 @@ namespace SayMore.Model.Files
 				if (size < 1)
 					size = 1;
 
-				return string.Format("{0} KB", size.ToString("###"));
+				return string.Format(fmtKilobytes, size.ToString("###"));
 			}
 
 			double dblSize;
 			if (fileSize < Math.Pow(1024, 3))
 			{
 				dblSize = Math.Round(fileSize / Math.Pow(1024, 2), 2, MidpointRounding.AwayFromZero);
-				return string.Format("{0} MB", dblSize.ToString("###.##"));
+				return string.Format(fmtMegabytes, dblSize.ToString("###.##"));
 			}
 
 			dblSize = Math.Round(fileSize / Math.Pow(1024, 3), 2, MidpointRounding.AwayFromZero);
-			return string.Format("{0} GB", dblSize.ToString("###,###.##"));
+			return string.Format(fmtGigabytes, dblSize.ToString("###,###.##"));
 		}
 
 		/// ------------------------------------------------------------------------------------

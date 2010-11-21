@@ -13,6 +13,7 @@ namespace SayMore.Model.Files.DataGathering
 	public interface ISingleListDataGatherer
 	{
 		event EventHandler NewDataAvailable;
+		event EventHandler FinishedProcessingAllFiles;
 		IEnumerable<string> GetValues();
 	}
 
@@ -24,6 +25,7 @@ namespace SayMore.Model.Files.DataGathering
 	public interface IMultiListDataProvider
 	{
 		event EventHandler NewDataAvailable;
+		event EventHandler FinishedProcessingAllFiles;
 		Dictionary<string, IEnumerable<string>> GetValueLists(bool includeUnattestedFactoryChoices);
 	}
 
@@ -36,6 +38,10 @@ namespace SayMore.Model.Files.DataGathering
 	/// ----------------------------------------------------------------------------------------
 	public abstract class BackgroundFileProcessor<T> : IDisposable where T : class
 	{
+		public const string kNotYetStartedStatus = "Not yet started";
+		public const string kWorkingStatus = "Working";
+		public const string kUpToDataStatus = "Up to date";
+
 		private Thread _workerThread;
 		public string RootDirectoryPath { get; protected set; }
 		protected readonly IEnumerable<FileType> _typesOfFilesToProcess;
@@ -46,6 +52,7 @@ namespace SayMore.Model.Files.DataGathering
 		private volatile bool _suspendEventProcessing;
 
 		public event EventHandler NewDataAvailable;
+		public event EventHandler FinishedProcessingAllFiles;
 
 		/// ------------------------------------------------------------------------------------
 		public BackgroundFileProcessor(string rootDirectoryPath,
@@ -54,7 +61,7 @@ namespace SayMore.Model.Files.DataGathering
 			RootDirectoryPath = rootDirectoryPath;
 			_typesOfFilesToProcess = typesOfFilesToProcess;
 			_fileDataFactory = fileDataFactory;
-			Status = "Not yet started";
+			Status = kNotYetStartedStatus;
 			_pendingFileEvents = new Queue<FileSystemEventArgs>();
 		}
 
@@ -134,7 +141,7 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			try
 			{
-				Status = "Working"; //NB: this helps simplify unit tests, if go to the busy state before returning
+				Status = kWorkingStatus; //NB: this helps simplify unit tests, if go to the busy state before returning
 
 				using (var watcher = new FileSystemWatcher(RootDirectoryPath))
 				{
@@ -243,7 +250,7 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			T fileData = null;
 
-			Status = "Working";
+			Status = kWorkingStatus;
 
 			try
 			{
@@ -280,7 +287,7 @@ namespace SayMore.Model.Files.DataGathering
 			}
 
 			OnNewDataAvailable(fileData);
-			Status = "Up to date";
+			Status = kUpToDataStatus;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -325,7 +332,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		protected virtual void ProcessAllFiles(string topLevelFolder, bool searchSubFolders)
 		{
-			Status = "Working";
+			Status = kWorkingStatus;
 
 			var paths = new List<string>();
 			paths.AddRange(Directory.GetFiles(topLevelFolder, "*.*",
@@ -338,12 +345,17 @@ namespace SayMore.Model.Files.DataGathering
 
 				if (GetDoIncludeFile(paths[i]))
 				{
-					Status = string.Format("Processing {0} of {1} files", 1 + i, paths.Count);
+					Status = string.Format("{0}: Processing {1} of {2} files",
+						kWorkingStatus, 1 + i, paths.Count);
+
 					CollectDataForFile(paths[i]);
 				}
 			}
 
-			Status = "Up to date";
+			Status = kUpToDataStatus;
+
+			if (FinishedProcessingAllFiles != null)
+				FinishedProcessingAllFiles(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -367,7 +379,13 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public bool Busy
 		{
-			get { return Status == "Working"; }
+			get { return Status.StartsWith(kWorkingStatus); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool DataUpToDate
+		{
+			get { return Status == kUpToDataStatus; }
 		}
 
 		/// ------------------------------------------------------------------------------------

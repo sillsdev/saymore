@@ -10,13 +10,15 @@ namespace SayMore.UI.Overview.Statistics
 {
 	public class StatisticsViewModel : IDisposable
 	{
+		public event EventHandler NewStatisticsAvailable;
+		public event EventHandler FinishedGatheringStatisticsForAllFiles;
+
 		private readonly IEnumerable<ComponentRole> _componentRoles;
 		private readonly AudioVideoDataGatherer _backgroundStatisticsGather;
 		protected HTMLChartBuilder _chartBuilder;
 
 		public PersonInformant PersonInformant { get; protected set; }
 		public EventWorkflowInformant EventInformant { get; protected set; }
-		public bool UIUpdateNeeded { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public StatisticsViewModel(PersonInformant personInformant,
@@ -27,14 +29,35 @@ namespace SayMore.UI.Overview.Statistics
 			EventInformant = eventInformant;
 			_componentRoles = componentRoles;
 			_backgroundStatisticsGather = backgroundStatisticsMananager;
-			_backgroundStatisticsGather.NewDataAvailable += OnNewStatistics;
+			_backgroundStatisticsGather.NewDataAvailable += HandleNewStatistics;
+			_backgroundStatisticsGather.FinishedProcessingAllFiles += HandleFinishedGatheringStatisticsForAllFiles;
+
 			_chartBuilder = new HTMLChartBuilder(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			_backgroundStatisticsGather.NewDataAvailable -= HandleNewStatistics;
+			_backgroundStatisticsGather.FinishedProcessingAllFiles -= HandleFinishedGatheringStatisticsForAllFiles;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string Status
 		{
 			get { return _backgroundStatisticsGather.Status; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsDataUpToDate
+		{
+			get { return _backgroundStatisticsGather.DataUpToDate; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsBusy
+		{
+			get { return _backgroundStatisticsGather.Busy; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,7 +79,7 @@ namespace SayMore.UI.Overview.Statistics
 			foreach (var role in _componentRoles.Where(def => def.MeasurementType == ComponentRole.MeasurementTypes.Time))
 			{
 				long bytes = GetTotalComponentRoleFileSizes(role);
-				var size = (bytes == 0 ? "---" : ComponentFile.GetDisplayableFileSize(bytes));
+				var size = (bytes == 0 ? "---" : ComponentFile.GetDisplayableFileSize(bytes, false));
 
 				yield return new ComponentRoleStatistics
 				{
@@ -101,15 +124,17 @@ namespace SayMore.UI.Overview.Statistics
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Dispose()
+		void HandleNewStatistics(object sender, EventArgs e)
 		{
-			_backgroundStatisticsGather.NewDataAvailable -= OnNewStatistics;
+			if (NewStatisticsAvailable != null)
+				NewStatisticsAvailable(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void OnNewStatistics(object sender, EventArgs e)
+		void HandleFinishedGatheringStatisticsForAllFiles(object sender, EventArgs e)
 		{
-			UIUpdateNeeded = true;
+			if (FinishedGatheringStatisticsForAllFiles != null)
+				FinishedGatheringStatisticsForAllFiles(this, EventArgs.Empty);
 		}
 	}
 

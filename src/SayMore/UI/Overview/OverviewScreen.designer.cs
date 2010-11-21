@@ -75,7 +75,7 @@ namespace SayMore.UI.Overview
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Name = "OverviewScreen";
-			this.Padding = new System.Windows.Forms.Padding(10);
+			this.Padding = new System.Windows.Forms.Padding(10, 5, 10, 10);
 			this.Size = new System.Drawing.Size(657, 351);
 			this.ResumeLayout(false);
 

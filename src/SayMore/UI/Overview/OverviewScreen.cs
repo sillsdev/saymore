@@ -7,13 +7,15 @@ namespace SayMore.UI.Overview
 {
 	public partial class OverviewScreen : UserControl, ISayMoreView
 	{
+		protected StatisticsView _statsView;
+
 		/// ------------------------------------------------------------------------------------
 		public OverviewScreen(StatisticsViewModel statisticsModel)
 		{
 			InitializeComponent();
-			var statisticsView = new StatisticsView(statisticsModel);
-			statisticsView.Dock = DockStyle.Fill;
-			Controls.Add(statisticsView);
+			_statsView = new StatisticsView(statisticsModel);
+			_statsView.Dock = DockStyle.Fill;
+			Controls.Add(_statsView);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -40,6 +42,8 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public void ViewActivated(bool firstTime)
 		{
+			if (firstTime)
+				_statsView.InitializeView();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -38,20 +38,13 @@ namespace SayMoreTests.ClearShare
 				dom.Load(f.Path);
 
 				var node = dom.SelectSingleNode("//metadata");
-				var work2 = system.LoadWorkFromXml(node.InnerXml);
+				Work work2 =new Work();
+				system.LoadWorkFromXml(work2, node.InnerXml);
 
 				Assert.AreEqual(2,work2.Contributions.Count());
 			}
 
 		}
 
-	}
-
-	public class ClearShareSystem
-	{
-		public ClearShareSystem(IArchivingMetaDataSystem metaDataSystem)
-		{
-
-		}
 	}
 }

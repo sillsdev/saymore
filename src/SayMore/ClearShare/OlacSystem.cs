@@ -9,13 +9,12 @@ namespace SayMore.ClearShare
 	/// <summary>
 	/// Serializes/Deserializes a work and all the information ClearShare has about it, as an OLAC record.
 	/// </summary>
-	public class OlacSystem : IArchivingMetaDataSystem
+	public class OlacSystem
 	{
-		public Work LoadWorkFromXml(string xml)
+		public void LoadWorkFromXml(Work work, string xml)
 		{
 			//TODO: parse the xml as olac. For a first pass, we can ignore anything we don't understand.
 			//Eventually, we'll want to round-trip things we don't understand.
-			return new Work();
 		}
 
 

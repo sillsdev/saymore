@@ -88,7 +88,6 @@
     <Compile Include="ClearShare\ContributorsListControl.Designer.cs">
       <DependentUpon>ContributorsListControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClearShare\IArchivingMetaDataSystem.cs" />
     <Compile Include="ClearShare\License.cs" />
     <Compile Include="ClearShare\OlacSystem.cs" />
     <Compile Include="ClearShare\Role.cs" />

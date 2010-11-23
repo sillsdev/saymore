@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
+using SayMore.ClearShare;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -99,6 +100,8 @@ namespace SayMore.Model.Files
 
 			RootElementName = "MetaData";
 
+			Work = new ClearShare.Work();
+
 			if (File.Exists(_metaDataPath))
 				Load();
 
@@ -125,6 +128,7 @@ namespace SayMore.Model.Files
 			MetaDataFieldValues = new List<FieldInstance>();
 			RootElementName = rootElementName;
 			_componentRoles = new ComponentRole[] {}; //no roles for person or event
+			Work = new ClearShare.Work();
 			InitializeFileInfo();
 		}
 
@@ -302,7 +306,7 @@ namespace SayMore.Model.Files
 		public virtual void Load()
 		{
 			_fileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
-			_fileSerializer.Load(MetaDataFieldValues, _metaDataPath, RootElementName);
+			_fileSerializer.Load(/*TODO this.Work, */ MetaDataFieldValues, _metaDataPath, RootElementName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -324,6 +328,13 @@ namespace SayMore.Model.Files
 			if (MetadataValueChanged != null)
 				MetadataValueChanged(this, fieldId, oldValue, newValue);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The metadata surrounding contributions, license, and info for finding in an archive
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Work Work{ get; private set;}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

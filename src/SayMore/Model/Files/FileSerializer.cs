@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using SayMore.ClearShare;
 using SayMore.Model.Fields;
 using Palaso.Xml;
 
@@ -39,14 +40,24 @@ namespace SayMore.Model.Files
 			return true;
 		}
 
-		public void Load(List<FieldInstance> fields, string path, string rootElementName)
+		public void Load(/*TODO: ClearShare.Work work,*/List<FieldInstance> fields, string path, string rootElementName)
 		{
 			fields.Clear();
 			var doc = new XmlDocument();
 			doc.Load(path);
 
+
+
 			foreach (XmlNode node in doc.ChildNodes[1].ChildNodes)
 			{
+				if(node.Name=="olac")//might not be quite right, it will be in a namespace
+				{
+					//TODO: load the clearshare work
+				   // var olac = new OlacSystem();
+				   // olac.LoadWorkFromXml(work, node.OuterXml);
+
+					continue;
+				}
 				var type = node.GetOptionalStringAttribute("type", "string");//sponge-era files didn't have this
 
 				//without this, \r\n was getting changed to \n (mostly a problem for unit tests)

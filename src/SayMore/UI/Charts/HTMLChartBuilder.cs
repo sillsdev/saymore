@@ -14,106 +14,6 @@ namespace SayMore.UI.Charts
 		protected const int kPixelsPerMinute = 3;
 		protected const string kNonBreakingSpace = "&nbsp;";
 
-		protected const string kTitleToken = "$title$";
-		protected const string kOverviewHeadingToken = "$overviewheading$";
-		protected const string kElementsOverviewRowsToken = "<!-- $elementoverviewrows$ -->";
-		protected const string kComponentRolesOverviewRowsToken = "<!-- $componentroleoverviewrows$ -->";
-		protected const string kChartTablesToken = "<!--$charttables$-->";
-
-		protected const string kHtmlToken =
-			"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" +
-			"<html xml:lang=\"en\" lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">" +
-				"<head>" +
-					"<title>{0}</title>" +
-					"<meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\"/>" +
-					"<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />" +
-					"<style type=\"text/css\">{1}</style>" +
-				"</head>" +
-				"<body>{2}{3}</body>" +
-			"</html>";
-
-
-
-		protected const string kOverviewTableToken =
-			"<h2>{0}</h2>" +
-			"<table class=\"overview\" cellspacing=\"0\" cellpadding=\"0\">" +
-				"<thead>{1}</thead>" +
-				"<tbody>{2}</tbody>" +
-			"</table>";
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Element row in overview section.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected const string kElementRow =
-			"<tr><th scope=\"row\">{0}</th><td class=\"elementcount\">{1}</td></tr>";
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Component role row in overview section.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected const string kComponentRoleInfoRow =
-			"<tr><th scope=\"row\" class=\"componentrow\">{0}</th><td>{1}</td><td>{2}</td></tr>";
-
-		protected const string kChartTable =
-			"<h2>{0}</h2>" +									// Chart heading
-			"<table cellspacing=\"0\" cellpadding=\"0\">" +
-				"<tfoot>" +
-					"<tr>" +
-						"<th></th>" +
-						"<td>{1}</td>" +						// Legend
-					"</tr>" +
-				"</tfoot>" +
-				"<tbody>{2}</tbody>" +							// Chart rows.
-			"</table>";
-
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is a blank row and acts like a shim between the chart and it's heading, while
-		/// still providing a Y axis border line. One of these is added at the beginning of
-		/// each chart table.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected const string kFirstChartRow =
-			"<tr>" +
-				"<td style=\"font-size: 7px\">&nbsp;</td>" +
-				"<td style=\"font-size: 7px; border-left: solid 1px rgb(112, 146, 190)\">&nbsp;</td>" +
-			"</tr>";
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Parameter 0 = the barcolor number that will match one of the barcolor styles.
-		/// When segments represent an enumerated value (e.g. event status), use the int
-		/// value of the enumeration. Parameter 1 = the width in pixels of the bar's segment;
-		/// parameter 2 = the text to show in a tooltip when the user hovers over the bar's
-		/// segment; parameter 3 = the number that goes in the bar segment that represents
-		/// how long the bar is. (If parameter 3 is small enough that displaying its text will
-		/// make the segment longer than what's specified in parameter 1, then do not show the
-		/// number, but insert a non-breaking space instead.)
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected const string kBarSegment =
-			"<div class=\"barcolor{0}\" style=\"width: {1}px\" title=\"{2}\">{3}</div>";
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Parameter 0 = label along y-axis (e.g. genre name); parameter 1 = a number of bar
-		/// segments (see kBarSegment above); parameter 2 = summary information for the entry
-		/// (e.g. 10 events, 33 minutes).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected const string kChartEntry =
-			"<tr class=\"colorbar\">" +
-				"<th scope=\"rowgroup\" rowspan=\"2\">{0}</th>" +
-				"<td>{1}</td>" +
-			"</tr>" +
-			"<tr class=\"detail\">" +
-				"<td>{2}</td>" +
-			"</tr>";
-
 		protected readonly StatisticsViewModel _statisticsViewModel;
 		protected StringBuilder _htmlText = new StringBuilder();
 
@@ -138,7 +38,7 @@ namespace SayMore.UI.Charts
 
 			var colors = GetStatusColors();
 			WriteChartBy("By Genre", "genre", "status", colors);
-			WriteChartBy("By Location", "location", "status", colors);
+			//WriteChartBy("By Location", "location", "status", colors);
 
 			CloseBody();
 			CloseHtml();
@@ -267,7 +167,7 @@ namespace SayMore.UI.Charts
 					WriteColoredBarSegment(kvp.Key, eventsInSegment, roundedMinutesInSegment, colors[kvp.Key]);
 			}
 
-			return string.Format("{0} events totalling {1} minutes", totalEvents, totalMinutes);
+			return string.Format("{0} events totaling {1} minutes", totalEvents, totalMinutes);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -276,7 +176,7 @@ namespace SayMore.UI.Charts
 		{
 			var segmentWidth = minutesInSegment * kPixelsPerMinute;
 			var segmentText = (segmentWidth >= 9 ? minutesInSegment.ToString() : kNonBreakingSpace);
-			var tooltipText = string.Format("{0}: {1} events totalling {2} minutes",
+			var tooltipText = string.Format("{0}: {1} events totaling {2} minutes",
 				fieldValue, eventsInSegment, minutesInSegment);
 
 			WriteTableCell(null, segmentWidth, clrSegment, tooltipText, segmentText);

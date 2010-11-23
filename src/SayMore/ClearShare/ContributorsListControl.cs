@@ -23,15 +23,15 @@ namespace SayMore.ClearShare
 			_grid.Columns.Add("Notes", "Notes");
 		}
 
-		public DummyContributionsRepository Repository { get; set; }
+		public List<Contribution> Contributions { get; set; }
 
 		private void ContributorsListControl_Load(object sender, EventArgs e)
 		{
-			Guard.AgainstNull(Repository,"Repository");
+			Guard.AgainstNull(Contributions, "Contributions");
 
-			foreach (Contribution contribution in Repository.AllItems)
+			foreach (var contribution in Contributions)
 			{
-
+				//add a row
 			}
 		}
 	}

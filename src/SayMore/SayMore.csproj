@@ -88,8 +88,10 @@
     <Compile Include="ClearShare\ContributorsListControl.Designer.cs">
       <DependentUpon>ContributorsListControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClearShare\IArchivingMetaDataSystem.cs" />
     <Compile Include="ClearShare\License.cs" />
-    <Compile Include="ClearShare\OlacWorkWriter.cs" />
+    <Compile Include="ClearShare\OlacSystem.cs" />
+    <Compile Include="ClearShare\Role.cs" />
     <Compile Include="ClearShare\Work.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
@@ -162,7 +164,6 @@
     <Compile Include="UI\ComponentEditors\ContributorsEditor.designer.cs">
       <DependentUpon>ContributorsEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClearShare\DummyContributionsRepository.cs" />
     <Compile Include="UI\ComponentEditors\EditorBase.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -9,15 +9,21 @@ namespace SayMore.ClearShare
 	/// </summary>
 	public class Work
 	{
+		public Work()
+		{
+			Contributions = new List<Contribution>();
+			Licenses = new List<License>();
+		}
+
 		/// <summary>
 		/// Most works will only have a single license, but some (e.g. software) may well be dual-licensed.
 		/// </summary>
-		public IEnumerable<License> Licenses { get; private set;}
+		public List<License> Licenses { get; private set;}
 
 		/// <summary>
 		/// Who did what, when?
 		/// </summary>
-		public IEnumerable<Contribution> Contributions { get; private set; }
+		public List<Contribution> Contributions { get; private set; }
 
 
 		//enhance: in one version of the design, a work had sub-works.

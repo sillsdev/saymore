@@ -37,9 +37,9 @@ namespace SayMore.UI.Overview.Statistics
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._buttonSaveToFile = new System.Windows.Forms.ToolStripButton();
 			this._buttonPrint = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
 			this._panelBrowser = new SilUtils.Controls.SilPanel();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this._toolStripActions.SuspendLayout();
 			this._panelBrowser.SuspendLayout();
 			this.SuspendLayout();
@@ -68,8 +68,8 @@ namespace SayMore.UI.Overview.Statistics
             this._buttonCopyToClipboard,
             this.toolStripSeparator1,
             this._buttonSaveToFile,
-            this._buttonPrint,
             this.toolStripSeparator2,
+            this._buttonPrint,
             this._buttonRefresh});
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
@@ -83,10 +83,10 @@ namespace SayMore.UI.Overview.Statistics
 			// 
 			this._labelStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this._labelStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelStatus.Image = global::SayMore.Properties.Resources.BusyWheel;
 			this._labelStatus.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this._labelStatus.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
 			this._labelStatus.Name = "_labelStatus";
-			this._labelStatus.Size = new System.Drawing.Size(42, 20);
+			this._labelStatus.Size = new System.Drawing.Size(58, 20);
 			this._labelStatus.Text = "Status";
 			// 
 			// _buttonCopyToClipboard
@@ -124,13 +124,9 @@ namespace SayMore.UI.Overview.Statistics
 			this._buttonPrint.ToolTipText = "Print";
 			this._buttonPrint.Click += new System.EventHandler(this.HandlePrintButtonClicked);
 			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
-			// 
 			// _buttonRefresh
 			// 
+			this._buttonRefresh.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this._buttonRefresh.Image = global::SayMore.Properties.Resources.Refresh;
 			this._buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this._buttonRefresh.Name = "_buttonRefresh";
@@ -156,6 +152,11 @@ namespace SayMore.UI.Overview.Statistics
 			this._panelBrowser.PaintExplorerBarBackground = false;
 			this._panelBrowser.Size = new System.Drawing.Size(535, 287);
 			this._panelBrowser.TabIndex = 6;
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
 			// 
 			// StatisticsView
 			// 

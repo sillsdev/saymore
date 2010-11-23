@@ -156,15 +156,6 @@ namespace SayMore.Model
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public virtual Status GetStatus()
-		{
-			var statusString = MetaDataFile.GetStringValue("status", null);
-
-			return (statusString == null ?
-				default(Status) : (Status)Enum.Parse(typeof(Status), statusString.Replace(' ', '_')));
-		}
-
 		#region Static methods
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<string> GetStatusNames()

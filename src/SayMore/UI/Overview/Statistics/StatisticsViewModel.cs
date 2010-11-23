@@ -19,12 +19,16 @@ namespace SayMore.UI.Overview.Statistics
 
 		public PersonInformant PersonInformant { get; protected set; }
 		public EventWorkflowInformant EventInformant { get; protected set; }
+		public string ProjectName { get; protected set; }
+		public string ProjectPath { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
-		public StatisticsViewModel(PersonInformant personInformant,
+		public StatisticsViewModel(Project project, PersonInformant personInformant,
 			EventWorkflowInformant eventInformant, IEnumerable<ComponentRole> componentRoles,
 			AudioVideoDataGatherer backgroundStatisticsMananager)
 		{
+			ProjectName = (project == null ? string.Empty : project.Name);
+			ProjectPath = (project == null ? string.Empty : project.FolderPath);
 			PersonInformant = personInformant;
 			EventInformant = eventInformant;
 			_componentRoles = componentRoles;
@@ -63,14 +67,17 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public string HTMLString
 		{
-			get { return _chartBuilder.GetChart(); }
+			get { return _chartBuilder.GetStatisticsCharts(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, string>> GetElementStatisticsPairs()
 		{
-			yield return new KeyValuePair<string, string>("Events:", EventInformant.NumberOfEvents.ToString());
-			yield return new KeyValuePair<string, string>("People:", PersonInformant.NumberOfPeople.ToString());
+			yield return new KeyValuePair<string, string>("Events:",
+				EventInformant.NumberOfEvents.ToString());
+
+			yield return new KeyValuePair<string, string>("People:",
+				PersonInformant.NumberOfPeople.ToString());
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -33,8 +33,9 @@ namespace SayMoreTests.UI.Overview.Statistics
 
 		private StatisticsViewModel CreateModel()
 		{
-			var nullRole = new ComponentRole(typeof(Event), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
-							 p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta);
+			var nullRole = new ComponentRole(typeof(Event), "someRole", "someRole",
+				ComponentRole.MeasurementTypes.None,
+				p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta);
 
 			var personInformer = new PersonInformant(
 				new ElementRepository<Person>(_folder.Combine("people"), "People", null, null));
@@ -42,7 +43,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 			var eventInformer = new EventWorkflowInformant(
 				new ElementRepository<Event>(_folder.Combine("events"),"Events", null, null));
 
-			return new StatisticsViewModel(personInformer, eventInformer, new[] { nullRole },
+			return new StatisticsViewModel(null, personInformer, eventInformer, new[] { nullRole },
 				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(() => null) }));
 		}
 

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace SayMore.UI.Overview.Statistics
 {
@@ -51,16 +52,16 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		private void UpdateStatusDisplay()
 		{
-			if (_model.IsDataUpToDate)
-			{
-				if (_labelStatus.Image != null)
-					_labelStatus.Image = null;
-			}
-			else if (_labelStatus.Image == null)
-				_labelStatus.Image = Properties.Resources.BusyWheel;
+			var showStatusLabel = !_model.IsDataUpToDate;
+			var showRefreshButton = !showStatusLabel;
 
-			if (_labelStatus.Text != _model.Status)
-				_labelStatus.Text = _model.Status;
+			_labelStatus.Text = _model.Status;
+
+			if (showStatusLabel != _labelStatus.Visible)
+				_labelStatus.Visible = showStatusLabel;
+
+			if (showRefreshButton != _buttonRefresh.Visible)
+				_buttonRefresh.Visible = showRefreshButton;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,7 +95,25 @@ namespace SayMore.UI.Overview.Statistics
 			if (_webBrowser.Document == null || _model.IsBusy)
 				return;
 
+#if !MONO
+			const string regKeyPath = @"Software\Microsoft\Internet Explorer\PageSetup";
+
+			var regKey = Registry.CurrentUser.OpenSubKey(regKeyPath, true);
+			var isIEPageSetupSetToPrintingBkgndColor =
+				((string)regKey.GetValue("Print_Background", "no")).ToLowerInvariant() == "yes";
+
+			if (!isIEPageSetupSetToPrintingBkgndColor)
+				regKey.SetValue("Print_Background", "yes", RegistryValueKind.String);
+#endif
+
 			_webBrowser.ShowPrintDialog();
+
+#if !MONO
+			if (!isIEPageSetupSetToPrintingBkgndColor)
+				regKey.SetValue("Print_Background", "no", RegistryValueKind.String);
+
+			regKey.Close();
+#endif
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,7 +122,17 @@ namespace SayMore.UI.Overview.Statistics
 			if (_webBrowser.Document == null || _model.IsBusy)
 				return;
 
-			_webBrowser.ShowSaveAsDialog();
+			// I could use the browser's ShowSaveAsDialog method, but that
+			// doesn't give me as much control over the dialog's settings.
+			using (var dlg = new SaveFileDialog())
+			{
+				dlg.DefaultExt = "html";
+				dlg.Filter = "HTML File (*.html)|*.html|All Files (*.*)|*.*";
+				dlg.FileName = Path.ChangeExtension(_webBrowser.DocumentTitle, "html");
+				dlg.OverwritePrompt = true;
+				if (dlg.ShowDialog() == DialogResult.OK)
+					File.WriteAllText(dlg.FileName, _webBrowser.DocumentText);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,7 +143,7 @@ namespace SayMore.UI.Overview.Statistics
 
 			_model.NewStatisticsAvailable -= HandleNewDataAvailable;
 			_model.Refresh();
-			_webBrowser.Navigate("about:blank");
+			_webBrowser.DocumentText = string.Empty;
 		}
 
 		/// ------------------------------------------------------------------------------------

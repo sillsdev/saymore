@@ -1,0 +1,88 @@
+/* ---------- Reset default values of Web browsers. ---------- */
+* {
+	font-size: 100%;
+	margin: 0;
+	border: 0;
+	padding: 0;
+}
+
+table {
+	border-spacing: 0; /* Internet Explorer 8 or later. */
+	/* For Internet Explorer 7 or earlier, table element has cellspacing attribute. */
+}
+
+body { line-height: 1; }
+
+/* ---------- End of resetting styles ---------- */
+
+body {
+	font-size: 12px;
+	font-family: 'Segoe UI', 'Tahoma', 'Arial', 'Helvetica', sans-serif;
+}
+
+h2 {
+	margin: 25px 0px 10px 5px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+h2:first-child {
+	 margin-top: 5px;
+}
+
+.rowheading {
+	padding: 0px 5px 0px 18px;
+	text-align: right;
+	font-weight: bold;
+}
+
+td.colorbar td {
+	height: 16px;
+	text-align: center;
+}
+
+td.colorbar td:first-child {
+	border-left: solid 1px rgb(112, 146, 190);
+}
+
+.entrysummary {
+	padding: 3px 0px 10px 3px;
+	border-left: solid 1px rgb(112, 146, 190);
+}
+
+.legend {
+	padding: 8px 0px 0px 8px;
+	border-top: solid 1px rgb(112, 146, 190);
+}
+
+.legendtext {
+	padding-left: 4px;
+	padding-right: 12px;
+}
+
+/* Left column of overview table */
+.overview th {
+	 text-align: left;
+	 padding: 0px 18px 3px 18px;
+}
+
+/* right two columns of overview table */
+.overview td {
+	 font-weight: bold;
+	 text-align: right;
+	 padding: 0px 0px 3px 12px;
+}
+
+/* aligns the event and people counts to the left */
+.overview td.elementcount {
+	text-align: left;
+}
+
+/* puts a gap between the event/people count and component role sections of the overview table */
+.overview tbody tr:first-child th,
+.overview tbody tr:first-child td {
+	padding-top: 8px;
+}
+
+.shimrow { font-size: 7px; }
+.shimrow-right-col { border-left: solid 1px rgb(112, 146, 190); }

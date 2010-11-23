@@ -23,6 +23,8 @@ namespace SayMore.Model
 
 		public Event.Factory EventFactory { get; set; }
 		public Func<Event, Event> EventPropertyInjectionMethod { get; set; }
+		/// ------------------------------------------------------------------------------------
+		public string Name { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -32,6 +34,7 @@ namespace SayMore.Model
 		public Project(string desiredOrExistingSettingsFilePath)
 		{
 			SettingsFilePath = desiredOrExistingSettingsFilePath;
+			Name = Path.GetFileNameWithoutExtension(desiredOrExistingSettingsFilePath);
 			var projectDirectory = Path.GetDirectoryName(desiredOrExistingSettingsFilePath);
 			var parentDirectoryPath = Path.GetDirectoryName(projectDirectory);
 

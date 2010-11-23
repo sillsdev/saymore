@@ -829,5 +829,32 @@ namespace SayMore.Properties {
                 this["PersonListGrid"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("252, 235, 132")]
+        public global::System.Drawing.Color IncomingStatusColor {
+            get {
+                return ((global::System.Drawing.Color)(this["IncomingStatusColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("124, 153, 193")]
+        public global::System.Drawing.Color In_ProgressStatusColor {
+            get {
+                return ((global::System.Drawing.Color)(this["In_ProgressStatusColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("169, 219, 168")]
+        public global::System.Drawing.Color FinishedStatusColor {
+            get {
+                return ((global::System.Drawing.Color)(this["FinishedStatusColor"]));
+            }
+        }
     }
 }

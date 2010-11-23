@@ -74,6 +74,8 @@ namespace SayMore
 				builder.RegisterType<AudioVideoDataGatherer>().InstancePerLifetimeScope();
 				builder.RegisterType<IEnumerable<FileType>>().InstancePerLifetimeScope();
 
+				builder.RegisterType<Project>().InstancePerLifetimeScope();
+
 				builder.RegisterType<EventFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
 

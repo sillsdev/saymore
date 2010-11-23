@@ -606,12 +606,12 @@
     <None Include="Resources\NoInformedConsent.png" />
     <None Include="Resources\VideoInformedConsent.png" />
     <None Include="Resources\WrittenInformedConsent.png" />
-    <None Include="Resources\ChartTemplate.html" />
     <None Include="Resources\Busy Wheel.gif" />
     <None Include="Resources\Copy.png" />
     <None Include="Resources\Print.png" />
     <None Include="Resources\Refresh.png" />
     <None Include="Resources\Save.png" />
+    <None Include="Resources\StatisticsViewStyles.css" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

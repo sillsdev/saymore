@@ -22,7 +22,7 @@ namespace SayMore.UI.ProjectWindow
 	/// ----------------------------------------------------------------------------------------
 	public partial class ProjectWindow : Form
 	{
-		public delegate ProjectWindow Factory(string projectName); //autofac uses this
+		public delegate ProjectWindow Factory(string projectPath); //autofac uses this
 
 		private readonly string _projectName;
 		private readonly IEnumerable<ICommand> _commands;
@@ -36,7 +36,7 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ProjectWindow(string projectName, EventsListScreen eventsScreen,
+		public ProjectWindow(string projectPath, EventsListScreen eventsScreen,
 			PersonListScreen personsScreen, OverviewScreen overviewScreen,
 			IEnumerable<ICommand> commands) : this()
 		{
@@ -49,7 +49,7 @@ namespace SayMore.UI.ProjectWindow
 			var asm = Assembly.GetExecutingAssembly();
 			Icon = new Icon (asm.GetManifestResourceStream("SayMore.SayMore.ico"));
 
-			_projectName = Path.GetFileNameWithoutExtension(projectName);
+			_projectName = Path.GetFileNameWithoutExtension(projectPath);
 			_commands = commands;
 
 			_viewTabGroup.AddTab("Events", eventsScreen);

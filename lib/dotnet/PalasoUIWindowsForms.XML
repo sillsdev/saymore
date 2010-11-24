@@ -942,6 +942,11 @@
 			to its events
 			</summary>
 		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.BarStyle">
+			<summary>
+			Gets or sets the manner in which progress should be indicated on the progress bar.
+			</summary>
+		</member>
 		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.ProgressState">
 			<summary>
 			Optional; one will be created (of some class or subclass) if you don't set it.

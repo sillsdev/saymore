@@ -106,6 +106,24 @@
 			<param name="progress"></param>
 			<returns>log of the run</returns>
 		</member>
+		<member name="M:Palaso.Media.FFmpegRunner.MakeLowQualityCompressedAudio(System.String,System.String,Palaso.CommandLineProcessing.IProgress)">
+			<summary>
+			Converts to low-quality, mono mp3
+			</summary>
+			<returns>log of the run</returns>
+		</member>
+		<member name="M:Palaso.Media.FFmpegRunner.MakeLowQualitySmallVideo(System.String,System.String,Palaso.CommandLineProcessing.IProgress)">
+			<summary>
+			Converts to low-quality, small video
+			</summary>
+			<returns>log of the run</returns>
+		</member>
+		<member name="M:Palaso.Media.FFmpegRunner.MakeLowQualitySmallPicture(System.String,System.String,Palaso.CommandLineProcessing.IProgress)">
+			<summary>
+			Converts to low-quality, small picture
+			</summary>
+			<returns>log of the run</returns>
+		</member>
 		<member name="P:Palaso.Media.FFmpegRunner.HaveNecessaryComponents">
 			<summary>
 			 Returns false if it can't find ffmpeg

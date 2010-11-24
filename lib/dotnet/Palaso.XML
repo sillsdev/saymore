@@ -752,6 +752,11 @@
 			The typed parse result
 			</summary>
 		</member>
+		<member name="T:Palaso.Migration.IMigrationStrategy">
+			<summary>
+			 Used by Migrator to migrate from one version to another.
+			</summary>
+		</member>
 		<member name="M:Palaso.Code.ReentryDetecter.AndThrow">
 			<example>
 			  using (Detect.Reentry(this, "OnPropertyValueChanged").AndThrow())
@@ -1020,6 +1025,12 @@
 			if you call this every time the application starts, it will send reports on those intervals
 			(e.g. {1, 10}) that are listed in the intervals parameter.  It will get version number and name out of the application.
 			</summary>
+		</member>
+		<member name="M:Palaso.Reporting.UsageReporter.GetAllApplicationValuesForThisUser">
+			<summary>
+			store and retrieve values which are the same for all apps using this usage libary
+			</summary>
+			<returns></returns>
 		</member>
 		<member name="P:Palaso.Reporting.UsageReporter.AppReportingSettings">
 			<summary>
@@ -1895,11 +1906,6 @@
 			Gets the exception that occurred, or null if there was an unspecified error
 			</summary>
 		</member>
-		<member name="T:Palaso.Migration.IMigrationStrategy">
-			<summary>
-			 Used by Migrator to migrate from one version to another.
-			</summary>
-		</member>
 		<member name="M:Palaso.CommandLineProcessing.ConsoleProgress.Dispose">
 			<summary>
 			Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -2154,18 +2160,6 @@
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
 			</summary>
-		</member>
-		<member name="T:Palaso.Migration.XmlReaderWriterMigrator">
-			<summary>
-			 Copies an xml file, giving an opportunity to inspect each node in the CopyNode method.
-			</summary>
-		</member>
-		<member name="M:Palaso.Migration.XmlReaderWriterMigrator.Migrate(System.String,System.String)">
-			<summary>
-			 Copies sourceFilePath to destinationFilePath calling CopyNode for each node read.
-			</summary>
-			<param name="source"></param>
-			<param name="destinationFilePath"></param>
 		</member>
 		<member name="M:Palaso.WritingSystems.LdmlInFolderWritingSystemStore.#ctor">
 			<summary>
@@ -3225,19 +3219,31 @@
 			a label which describes what we are busy doing
 			</summary>
 		</member>
-		<member name="T:Palaso.Migration.XslMigrator">
+		<member name="T:Palaso.Migration.XslMigrationStrategy">
 			<summary>
 			</summary>
 		</member>
-		<member name="M:Palaso.Migration.XslMigrator.#ctor(System.Int32,System.Int32,System.String)">
+		<member name="M:Palaso.Migration.XslMigrationStrategy.#ctor(System.Int32,System.Int32,System.String)">
 			<summary>
 			</summary>
 			<param name="fromVersion"></param>
 			<param name="toVersion"></param>
 			<param name="xslSource">A string reference to the source of the xslt</param>
 		</member>
-		<member name="M:Palaso.Migration.XslMigrator.Migrate(System.String,System.String)">
+		<member name="M:Palaso.Migration.XslMigrationStrategy.Migrate(System.String,System.String)">
 			<summary>
+			</summary>
+			<param name="source"></param>
+			<param name="destinationFilePath"></param>
+		</member>
+		<member name="T:Palaso.Migration.XmlReaderWriterMigrationStrategy">
+			<summary>
+			 Copies an xml file, giving an opportunity to inspect each node in the CopyNode method.
+			</summary>
+		</member>
+		<member name="M:Palaso.Migration.XmlReaderWriterMigrationStrategy.Migrate(System.String,System.String)">
+			<summary>
+			 Copies sourceFilePath to destinationFilePath calling CopyNode for each node read.
 			</summary>
 			<param name="source"></param>
 			<param name="destinationFilePath"></param>

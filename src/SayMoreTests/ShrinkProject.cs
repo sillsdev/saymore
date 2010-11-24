@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Palaso.Code;
 using Palaso.CommandLineProcessing;
 
 
@@ -29,70 +30,120 @@ namespace SayMoreTests
 		[Test]
 		public void ShrinkFolder()
 		{
-			foreach (var directory in Directory.GetDirectories(@"C:\Users\John\Documents\Language Data\edolo\SmallEdolo"))
+			var destinationFolder = @"C:\dev\temp\shrunkEdolo";
+			if(Directory.Exists(destinationFolder))
 			{
+				Directory.Delete(destinationFolder,true);
+			}
+
+			CloneAndShrinkProject( @"C:\Users\John\Documents\Language Data\edolo\SmallEdolo", destinationFolder);
+		}
+
+		public void CloneAndShrinkProject(string originalProjectFolder, string destinationFolder)
+		{
+			RequireThat.Directory(destinationFolder).DoesNotExist();
+			RequireThat.Directory(originalProjectFolder).Exists();
+
+			Directory.CreateDirectory(destinationFolder);
+			//we don't currently process anything at this level, just copy it
+			foreach (var original in Directory.GetFiles(originalProjectFolder))
+			{
+				File.Copy(original, Path.Combine(destinationFolder, Path.GetFileName(original)));
+			}
+
+			foreach (var directory in Directory.GetDirectories(originalProjectFolder))
+			{
+				var currentDestSubDirectory = Path.Combine(destinationFolder, Path.GetFileName(directory));
+				Directory.CreateDirectory(currentDestSubDirectory);
+
+				//we don't currently process anything at this level, just copy it
+				foreach (var original in Directory.GetFiles(directory))
+				{
+					File.Copy(original, Path.Combine(currentDestSubDirectory, Path.GetFileName(original)));
+				}
+
 				foreach (var sub in Directory.GetDirectories(directory))
 				{
-					foreach (var file in Directory.GetFiles(sub,("*.MOV")))
+					var currentDestSubSubDirectory = Path.Combine(currentDestSubDirectory, Path.GetFileName(sub));
+					Directory.CreateDirectory(currentDestSubSubDirectory);
+					foreach (var original in Directory.GetFiles(sub))
 					{
-					   //if(!file.Contains("-small"))
-						   // ShrinkVideo(file);
-					}
-					foreach (var file in Directory.GetFiles(sub, ("*.jpg")))
-					{
-//                        if(!file.Contains("-small"))
-//                            ShrinkPicture(file);
-					}
-					foreach (var file in Directory.GetFiles(sub, ("*.wav")))
-					{
-						if(!file.Contains("-small"))
-							ShrinkAudio(file);
+						if (original.Contains("-small"))
+							continue;
+						if (original.EndsWith(".meta"))
+							continue;
+						if (original.EndsWith(".smd"))//artifact of old version
+							continue;
+
+						var extension = Path.GetExtension(original).ToLower();
+						string newPath=string.Empty;
+						var newPathRoot =Path.Combine(currentDestSubSubDirectory, Path.GetFileNameWithoutExtension(original));
+						switch (extension)
+						{
+							default:
+								File.Copy(original, Path.Combine(currentDestSubSubDirectory, Path.GetFileName(original)));
+								break;
+							case ".mov":
+							case ".avi":
+								newPath = ShrinkVideo(original, newPathRoot);
+								break;
+							case ".jpg":
+								//newPath = ShrinkPicture(original, newPathRoot);
+								break;
+							case ".wav":
+							case ".mp3":
+							   // newPath = ShrinkAudio(original, newPathRoot);
+								break;
+							case ".meta":
+								break;
+
+						}
+						if (!string.IsNullOrEmpty(newPath) && File.Exists(newPath) && File.Exists(original + ".meta"))
+							File.Move(original + ".meta", newPath + ".meta");
 					}
 				}
 			}
 		}
 
-		private void ShrinkAudio(string file)
+		private string ShrinkAudio(string original, string newPathRoot)
 		{
-			Debug.WriteLine("ShrinkAudio " + file);
+			Debug.WriteLine("ShrinkAudio " + original);
 
-			var extension = Path.GetExtension(file);
-			var newPath = file.Replace(extension, "-small.mp3");
+			var extension = Path.GetExtension(original);
+			var newPath = newPathRoot+".mp3";
 			if(File.Exists(newPath))
 				File.Delete(newPath);
 
-			Palaso.Media.FFmpegRunner.MakeLowQualityCompressedAudio(file, newPath,
+			Palaso.Media.FFmpegRunner.MakeLowQualityCompressedAudio(original, newPath,
 																   _progress);
-			if(File.Exists(file+".meta"))
-				File.Move(file+".meta", newPath+".meta");
+			return newPath;
+
 		}
 
-		private void ShrinkPicture(string file)
+		private string ShrinkPicture(string original, string newPathRoot)
 		{
-			Debug.WriteLine("ShrinkPicture " + file);
-			var extension = Path.GetExtension(file);
-			var newPath = file.Replace(extension, "-small.jpg");
+			Debug.WriteLine("ShrinkPicture " + original);
+			var extension = Path.GetExtension(original);
+			var newPath = newPathRoot+".jpg";
 			if (File.Exists(newPath))
 				File.Delete(newPath);
-			Palaso.Media.FFmpegRunner.MakeLowQualitySmallPicture(file, newPath,
+			Palaso.Media.FFmpegRunner.MakeLowQualitySmallPicture(original, newPath,
 																   _progress);
-			if (File.Exists(file + ".meta"))
-				File.Move(file + ".meta", newPath + ".meta");
+			return newPath;
 		}
 
-		private void ShrinkVideo(string file)
+		private string ShrinkVideo(string original, string newPathRoot)
 		{
-			Debug.WriteLine("ShrinkVIdeo "+file);
+			Debug.WriteLine("ShrinkVIdeo "+original);
 
-			var extension = Path.GetExtension(file);
+			var extension = Path.GetExtension(original);
 
-			var newPath = file.Replace(extension, "-small.mp4");
+			var newPath = newPathRoot + ".mp4";
 			if (File.Exists(newPath))
 				File.Delete(newPath);
-			var result = Palaso.Media.FFmpegRunner.MakeLowQualitySmallVideo(file, newPath,
+			var result = Palaso.Media.FFmpegRunner.MakeLowQualitySmallVideo(original, newPath,
 																	_progress);
-			if (File.Exists(file + ".meta"))
-				File.Move(file + ".meta", newPath + ".meta");
+			return newPath;
 		}
 	}
 }

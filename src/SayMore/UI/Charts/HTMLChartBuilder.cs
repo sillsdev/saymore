@@ -164,13 +164,7 @@ namespace SayMore.UI.Charts
 				totalEvents += eventsInSegment;
 
 				if (roundedMinutesInSegment > 0)
-				{
-					Color clrSegment;
-					if (colors.TryGetValue(kvp.Key, out clrSegment)) // this is a hack, I dont know why sometimes the color is missing (nothing using that status?)
-					{
-						WriteColoredBarSegment(kvp.Key, eventsInSegment, roundedMinutesInSegment, clrSegment);
-					}
-				}
+					WriteColoredBarSegment(kvp.Key, eventsInSegment, roundedMinutesInSegment, colors[kvp.Key]);
 			}
 
 			return string.Format("{0} events totaling {1} minutes", totalEvents, totalMinutes);

@@ -11,8 +11,8 @@ namespace SayMore.UI.Charts
 	/// ----------------------------------------------------------------------------------------
 	public class HTMLChartBuilder
 	{
-		protected const int kPixelsPerMinute = 3;
 		protected const string kNonBreakingSpace = "&nbsp;";
+		protected const int kPixelsPerMinute = 3;
 
 		protected readonly StatisticsViewModel _statisticsViewModel;
 		protected StringBuilder _htmlText = new StringBuilder();
@@ -21,6 +21,16 @@ namespace SayMore.UI.Charts
 		public HTMLChartBuilder(StatisticsViewModel statisticsModel)
 		{
 			_statisticsViewModel = statisticsModel;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This is used mainly for tests.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string HtmlContent
+		{
+			get { return _htmlText.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -171,7 +181,7 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteColoredBarSegment(string fieldValue, int eventsInSegment,
+		public void WriteColoredBarSegment(string fieldValue, int eventsInSegment,
 			int minutesInSegment, Color clrSegment)
 		{
 			var segmentWidth = minutesInSegment * kPixelsPerMinute;
@@ -212,7 +222,7 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void CloseHtml()
+		public void CloseHtml()
 		{
 			_htmlText.Append("</html>");
 		}
@@ -230,137 +240,144 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenBody()
+		public void OpenBody()
 		{
 			_htmlText.Append("<body>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void CloseBody()
+		public void CloseBody()
 		{
 			_htmlText.Append("</body>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteHeading(string heading)
+		public void WriteHeading(string heading)
 		{
 			_htmlText.AppendFormat("<h2>{0}</h2>", heading);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenTable()
+		public void OpenTable()
 		{
 			OpenTable(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenTable(string className)
+		public void OpenTable(string className)
 		{
-			if (string.IsNullOrEmpty(className))
+			className = (className ?? string.Empty);
+
+			if (className.Trim() == string.Empty)
 				_htmlText.Append("<table cellspacing=\"0\" cellpadding=\"0\">");
 			else
 				_htmlText.AppendFormat("<table class=\"{0}\" cellspacing=\"0\" cellpadding=\"0\">", className);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void CloseTable()
+		public void CloseTable()
 		{
 			_htmlText.Append("</table>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenTableHead()
+		public void OpenTableHead()
 		{
 			_htmlText.Append("<thead>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void CloseTableHead()
+		public void CloseTableHead()
 		{
 			_htmlText.Append("</thead>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenTableRow()
+		public void OpenTableRow()
 		{
 			_htmlText.Append("<tr>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void CloseTableRow()
+		public void CloseTableRow()
 		{
 			_htmlText.Append("</tr>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteTableRowHead(string content)
+		public void WriteTableRowHead(string content)
 		{
-			_htmlText.AppendFormat("<th scope=\"row\">{0}</th>", content);
+			content = (content ?? string.Empty);
+			_htmlText.AppendFormat("<th scope=\"row\">{0}</th>", content.Trim());
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenTableBody()
+		public void OpenTableBody()
 		{
 			_htmlText.Append("<tbody>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void CloseTableBody()
+		public void CloseTableBody()
 		{
 			_htmlText.Append("</tbody>");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteTableCell(string content)
+		public void WriteTableCell(string content)
 		{
 			WriteTableCell(null, 0, Color.Empty, content);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteTableCell(string className, string content)
+		public void WriteTableCell(string className, string content)
 		{
 			WriteTableCell(className, 0, Color.Empty, content);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteTableCell(string className, int width, Color bkgndColor, string content)
+		public void WriteTableCell(string className, int width, Color bkgndColor, string content)
 		{
 			WriteTableCell(className, width, bkgndColor, null, content);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteTableCell(string className, int width, Color bkgndColor,
+		public void WriteTableCell(string className, int width, Color bkgndColor,
 			string tooltip, string content)
 		{
+			content = (content ?? string.Empty);
 			OpenTableCell(className, width, bkgndColor, tooltip);
-			_htmlText.Append(content);
+			_htmlText.Append(content.Trim());
 			CloseTableCell();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenTableCell()
+		public void OpenTableCell()
 		{
 			OpenTableCell(null, 0, Color.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenTableCell(string className)
+		public void OpenTableCell(string className)
 		{
 			OpenTableCell(className, 0, Color.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenTableCell(string className, int width, Color bkgndColor)
+		public void OpenTableCell(string className, int width, Color bkgndColor)
 		{
 			OpenTableCell(className, width, bkgndColor, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OpenTableCell(string className, int width, Color bkgndColor, string tooltip)
+		public void OpenTableCell(string className, int width, Color bkgndColor, string tooltip)
 		{
+			className = (className ?? string.Empty);
+			tooltip = (tooltip ?? string.Empty);
+
 			_htmlText.Append("<td");
 
-			if (!string.IsNullOrEmpty(className))
+			if (className.Trim() != string.Empty)
 				_htmlText.AppendFormat(" class=\"{0}\"", className);
 
 			if (width > 0 || bkgndColor != Color.Empty)
@@ -376,17 +393,17 @@ namespace SayMore.UI.Charts
 					styleInfo += string.Format("background-color: #{0}; ", color);
 				}
 
-				_htmlText.AppendFormat(" style=\"{0}\"", styleInfo);
+				_htmlText.AppendFormat(" style=\"{0}\"", styleInfo.Trim());
 			}
 
-			if (!string.IsNullOrEmpty(tooltip))
+			if (tooltip.Trim() != string.Empty)
 				_htmlText.AppendFormat(" title=\"{0}\"", tooltip);
 
 			_htmlText.AppendFormat(">");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void CloseTableCell()
+		public void CloseTableCell()
 		{
 			_htmlText.Append("</td>");
 		}

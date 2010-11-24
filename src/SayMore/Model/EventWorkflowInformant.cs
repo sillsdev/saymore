@@ -44,7 +44,7 @@ namespace SayMore.Model
 		/// specified field contains the specified field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected static IEnumerable<Event> GetEventsFromListHavingFieldValue(
+		public static IEnumerable<Event> GetEventsFromListHavingFieldValue(
 			IEnumerable<Event> eventList, string field, string value)
 		{
 			return from evnt in eventList
@@ -65,7 +65,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected static IDictionary<string, IEnumerable<Event>> GetCategorizedEventsFromListByField(
+		public static IDictionary<string, IEnumerable<Event>> GetCategorizedEventsFromListByField(
 			IEnumerable<Event> eventList, string field)
 		{
 			var list = new Dictionary<string, IEnumerable<Event>>();

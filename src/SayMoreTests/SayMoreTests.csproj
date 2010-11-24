@@ -60,6 +60,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
     </Reference>
+    <Reference Include="Palaso.Media, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\Palaso.Media.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso.TestUtilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.TestUtilities.dll</HintPath>
@@ -112,6 +116,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="ShrinkProject.cs" />
     <Compile Include="UI\ComponentEditors\ImageViewerViewModelTests.cs" />
     <Compile Include="UI\ElementListScreen\ElementGridTests.cs" />
     <Compile Include="UI\LowLevelControls\ListPanelTests.cs" />

@@ -129,7 +129,7 @@ namespace SayMore.UI.Charts
 			OpenTableRow();
 
 			var orderedList = (secondaryField == "status" ?
-				eventsKeyedBySecondaryField.OrderBy(x => x.Key, new EventStatusComparer()) :
+				eventsKeyedBySecondaryField.OrderBy(x => x.Key, new EventStatusComparer()).Where(x => x.Key != Event.Status.Skipped.ToString()) :
 				eventsKeyedBySecondaryField.OrderBy(x => x.Key.Trim('<', '>')));
 
 			var summaryText = WriteColoredBar(

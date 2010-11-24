@@ -28,6 +28,7 @@ namespace SayMoreTests
 		}
 
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void ShrinkFolder()
 		{
 			var destinationFolder = @"C:\dev\temp\shrunkEdolo";

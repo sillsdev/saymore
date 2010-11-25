@@ -112,10 +112,11 @@
 			</summary>
 			<returns>log of the run</returns>
 		</member>
-		<member name="M:Palaso.Media.FFmpegRunner.MakeLowQualitySmallVideo(System.String,System.String,Palaso.CommandLineProcessing.IProgress)">
+		<member name="M:Palaso.Media.FFmpegRunner.MakeLowQualitySmallVideo(System.String,System.String,System.Int32,Palaso.CommandLineProcessing.IProgress)">
 			<summary>
 			Converts to low-quality, small video
 			</summary>
+			<param name="maxSeconds">0 if you don't want to truncate at all</param>
 			<returns>log of the run</returns>
 		</member>
 		<member name="M:Palaso.Media.FFmpegRunner.MakeLowQualitySmallPicture(System.String,System.String,Palaso.CommandLineProcessing.IProgress)">

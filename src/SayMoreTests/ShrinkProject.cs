@@ -27,8 +27,7 @@ namespace SayMoreTests
 			_progress.ShowVerbose = true;
 		}
 
-		[Test]
-		[Category("SkipOnTeamCity")]
+		[Test, Ignore("By hand only")]
 		public void ShrinkFolder()
 		{
 			var destinationFolder = @"C:\dev\temp\shrunkEdolo";
@@ -69,6 +68,8 @@ namespace SayMoreTests
 					Directory.CreateDirectory(currentDestSubSubDirectory);
 					foreach (var original in Directory.GetFiles(sub))
 					{
+						Debug.WriteLine("File: " + original);
+
 						if (original.Contains("-small"))
 							continue;
 						if (original.EndsWith(".meta"))
@@ -89,18 +90,22 @@ namespace SayMoreTests
 								newPath = ShrinkVideo(original, newPathRoot);
 								break;
 							case ".jpg":
-								//newPath = ShrinkPicture(original, newPathRoot);
+								newPath = ShrinkPicture(original, newPathRoot);
 								break;
 							case ".wav":
 							case ".mp3":
-							   // newPath = ShrinkAudio(original, newPathRoot);
+							   newPath = ShrinkAudio(original, newPathRoot);
 								break;
 							case ".meta":
 								break;
 
 						}
 						if (!string.IsNullOrEmpty(newPath) && File.Exists(newPath) && File.Exists(original + ".meta"))
+						{
+							Debug.WriteLine("copying metadata");
 							File.Move(original + ".meta", newPath + ".meta");
+						}
+						Debug.WriteLine("");
 					}
 				}
 			}
@@ -115,7 +120,7 @@ namespace SayMoreTests
 			if(File.Exists(newPath))
 				File.Delete(newPath);
 
-			Palaso.Media.FFmpegRunner.MakeLowQualityCompressedAudio(original, newPath,
+			var result = Palaso.Media.FFmpegRunner.MakeLowQualityCompressedAudio(original, newPath,
 																   _progress);
 			return newPath;
 
@@ -142,7 +147,7 @@ namespace SayMoreTests
 			var newPath = newPathRoot + ".mp4";
 			if (File.Exists(newPath))
 				File.Delete(newPath);
-			var result = Palaso.Media.FFmpegRunner.MakeLowQualitySmallVideo(original, newPath,
+			var result = Palaso.Media.FFmpegRunner.MakeLowQualitySmallVideo(original, newPath,  0,
 																	_progress);
 			return newPath;
 		}

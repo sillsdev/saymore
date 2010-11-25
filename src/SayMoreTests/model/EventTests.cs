@@ -55,7 +55,8 @@ namespace SayMoreTests.Model
 			}
 
 			var componentRoles = new List<ComponentRole>();
-			componentRoles.Add(new ComponentRole(null, "consent", null, ComponentRole.MeasurementTypes.None, null, null, Color.Empty));
+			componentRoles.Add(new ComponentRole(null, "consent", null,
+				ComponentRole.MeasurementTypes.None, null, null, Color.Empty, Color.Empty));
 
 			return new Event(_parentFolder.Path, "dummyId", null,
 				new EventFileType(() => null), componentFactory,

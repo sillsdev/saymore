@@ -14,13 +14,13 @@ namespace SayMore.UI.Charts
 		protected const string kNonBreakingSpace = "&nbsp;";
 		protected const int kPixelsPerMinute = 3;
 
-		protected readonly StatisticsViewModel _statisticsViewModel;
+		protected readonly StatisticsViewModel _statsViewModel;
 		protected StringBuilder _htmlText = new StringBuilder();
 
 		/// ------------------------------------------------------------------------------------
-		public HTMLChartBuilder(StatisticsViewModel statisticsModel)
+		public HTMLChartBuilder(StatisticsViewModel statsViewModel)
 		{
-			_statisticsViewModel = statisticsModel;
+			_statsViewModel = statsViewModel;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -41,14 +41,15 @@ namespace SayMore.UI.Charts
 			OpenHtml();
 
 			WriteHtmlHead(string.Format("SayMore statistics for {0}",
-				_statisticsViewModel.ProjectName));
+				_statsViewModel.ProjectName));
 
 			OpenBody();
 			WriteOverviewSection();
+			WriteStageChart();
 
-			var colors = GetStatusColors();
-			WriteChartBy("By Genre", "genre", "status", colors);
-			//WriteChartBy("By Location", "location", "status", colors);
+			var backColors = GetStatusSegmentColors();
+			var textColors = backColors.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
+			WriteChartByFieldPair("By Genre", "genre", "status", backColors, textColors);
 
 			CloseBody();
 			CloseHtml();
@@ -57,7 +58,32 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected IDictionary<string, Color> GetStatusColors()
+		protected void WriteStageChart()
+		{
+			var eventsByStage = _statsViewModel.EventInformant.GetEventsCategorizedByStage();
+			var backColors = eventsByStage.Keys.ToDictionary(r => r.Name, r => r.Color);
+			var textColors = eventsByStage.Keys.ToDictionary(r => r.Name, r => r.TextColor);
+
+			// Put this list in a form the chart writing methods can handle.
+			var stagesList = eventsByStage.OrderBy(s => s.Key.Name).ToDictionary(
+					kvp => kvp.Key.Name,
+					kvp => (new[]
+					{
+						new ColorBarSegmentInfo
+						{
+							FieldName = "stage",
+							FieldValue = kvp.Key.Name,
+							Events = kvp.Value,
+							BackColor = backColors[kvp.Key.Name],
+							TextColor = textColors[kvp.Key.Name]
+						}
+					}) as IEnumerable<ColorBarSegmentInfo>);
+
+			WriteChartForList("By Stages", stagesList, null, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected IDictionary<string, Color> GetStatusSegmentColors()
 		{
 			var statusColors = new Dictionary<string, Color>();
 
@@ -77,7 +103,7 @@ namespace SayMore.UI.Charts
 			OpenTable("overview");
 			OpenTableHead();
 
-			foreach (var kvp in _statisticsViewModel.GetElementStatisticsPairs())
+			foreach (var kvp in _statsViewModel.GetElementStatisticsPairs())
 			{
 				OpenTableRow();
 				WriteTableRowHead(kvp.Key);
@@ -88,7 +114,7 @@ namespace SayMore.UI.Charts
 			CloseTableHead();
 			OpenTableBody();
 
-			foreach (var stats in _statisticsViewModel.GetComponentRoleStatisticsPairs())
+			foreach (var stats in _statsViewModel.GetComponentRoleStatisticsPairs())
 			{
 				OpenTableRow();
 				WriteTableRowHead(string.Format("{0}:", stats.Name));
@@ -102,8 +128,33 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void WriteChartBy(string chartHeading, string primaryField,
-			string secondaryField, IDictionary<string, Color> colors)
+		protected void WriteChartByFieldPair(string chartHeading, string primaryField,
+			string secondaryField, IDictionary<string, Color> colors, IDictionary<string, Color> textColors)
+		{
+			var outerList =
+				_statsViewModel.EventInformant.GetCategorizedEventsFromDoubleKey(primaryField, secondaryField);
+
+			var segmentList = (outerList.OrderBy(f => f.Key.Trim('<', '>'))).ToDictionary(
+				kvp => kvp.Key.Trim('<', '>'),
+				kvp => kvp.Value.Where(x => (secondaryField != "status" || x.Key != Event.Status.Skipped.ToString()))
+					.Select(x => new ColorBarSegmentInfo
+					{
+						FieldName = secondaryField,
+						FieldValue = x.Key.Trim('<', '>'),
+						Events = x.Value,
+						BackColor = colors[x.Key],
+						TextColor = textColors[x.Key]
+					})
+					.OrderBy(x => x) as IEnumerable<ColorBarSegmentInfo>
+				);
+
+			WriteChartForList(chartHeading, segmentList, colors, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void WriteChartForList(string chartHeading,
+			IDictionary<string, IEnumerable<ColorBarSegmentInfo>> outerList,
+			IDictionary<string, Color> legendColors, bool writeLegend)
 		{
 			WriteHeading(chartHeading);
 			OpenTable("chart");
@@ -114,14 +165,10 @@ namespace SayMore.UI.Charts
 			WriteTableCell("shimrow shimrow-right-col", kNonBreakingSpace);
 			CloseTableRow();
 
-			var eventList =
-				_statisticsViewModel.EventInformant.GetCategorizedEventsFromDoubleKey(primaryField, secondaryField);
+			foreach (var kvp in outerList)
+				WriteChartEntry(kvp.Key, kvp.Value);
 
-			// Loop through each primary field.
-			foreach (var kvp in eventList.OrderBy(x => x.Key.Trim('<', '>')))
-				WriteChartEntry(kvp.Key.Trim('<', '>'), kvp.Value, secondaryField, colors);
-
-			WriteLegend(colors);
+			WriteLegend(legendColors, writeLegend);
 
 			CloseTableBody();
 			CloseTable();
@@ -129,8 +176,7 @@ namespace SayMore.UI.Charts
 
 		/// ------------------------------------------------------------------------------------
 		protected void WriteChartEntry(string primaryFieldValue,
-			IDictionary<string, IEnumerable<Event>> eventsKeyedBySecondaryField,
-			string secondaryField, IDictionary<string, Color> colors)
+			IEnumerable<ColorBarSegmentInfo> barSegmentInfo)
 		{
 			OpenTableRow();
 			WriteTableCell("rowheading", primaryFieldValue);
@@ -138,12 +184,7 @@ namespace SayMore.UI.Charts
 			OpenTable();
 			OpenTableRow();
 
-			var orderedList = (secondaryField == "status" ?
-				eventsKeyedBySecondaryField.OrderBy(x => x.Key, new EventStatusComparer()).Where(x => x.Key != Event.Status.Skipped.ToString()) :
-				eventsKeyedBySecondaryField.OrderBy(x => x.Key.Trim('<', '>')));
-
-			var summaryText = WriteColoredBar(
-				orderedList.ToDictionary(pair => pair.Key, pair => pair.Value), colors);
+			var summaryText = WriteColoredBar(barSegmentInfo);
 
 			CloseTableRow();
 			CloseTable();
@@ -157,24 +198,25 @@ namespace SayMore.UI.Charts
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected string WriteColoredBar(
-			IDictionary<string, IEnumerable<Event>> eventsKeyedBySecondaryField,
-			IDictionary<string, Color> colors)
+		protected string WriteColoredBar(IEnumerable<ColorBarSegmentInfo> barSegmentInfo)
 		{
 			int totalEvents = 0;
 			int totalMinutes = 0;
 
-			foreach (var kvp in eventsKeyedBySecondaryField)
+			foreach (var seg in barSegmentInfo)
 			{
-				var eventsInSegment = kvp.Value.Count();
-				var minutesInSegment = kvp.Value.Sum(x => x.GetTotalMediaDuration().TotalMinutes);
+				var eventsInSegment = seg.Events.Count();
+				var minutesInSegment = seg.Events.Sum(x => x.GetTotalMediaDuration().TotalMinutes);
 
 				var roundedMinutesInSegment = (int)Math.Ceiling(minutesInSegment);
 				totalMinutes += roundedMinutesInSegment;
 				totalEvents += eventsInSegment;
 
 				if (roundedMinutesInSegment > 0)
-					WriteColoredBarSegment(kvp.Key, eventsInSegment, roundedMinutesInSegment, colors[kvp.Key]);
+				{
+					WriteColoredBarSegment(seg.FieldValue, eventsInSegment,
+						roundedMinutesInSegment, seg.BackColor, seg.TextColor);
+				}
 			}
 
 			return string.Format("{0} events totaling {1} minutes", totalEvents, totalMinutes);
@@ -182,33 +224,41 @@ namespace SayMore.UI.Charts
 
 		/// ------------------------------------------------------------------------------------
 		public void WriteColoredBarSegment(string fieldValue, int eventsInSegment,
-			int minutesInSegment, Color clrSegment)
+			int minutesInSegment, Color clrSegment, Color clrText)
 		{
 			var segmentWidth = minutesInSegment * kPixelsPerMinute;
 			var segmentText = (segmentWidth >= 9 ? minutesInSegment.ToString() : kNonBreakingSpace);
-			var tooltipText = string.Format("{0}: {1} events totaling {2} minutes",
-				fieldValue, eventsInSegment, minutesInSegment);
 
-			WriteTableCell(null, segmentWidth, clrSegment, tooltipText, segmentText);
+			var fmt = (string.IsNullOrEmpty(fieldValue) ?
+				"{0}{1} events totaling {2} minutes" : "{0}: {1} events totaling {2} minutes");
+
+			var tooltipText = string.Format(fmt, fieldValue, eventsInSegment, minutesInSegment);
+
+			WriteTableCell(null, segmentWidth, clrSegment, clrText, tooltipText, segmentText);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void WriteLegend(IDictionary<string, Color> colors)
+		private void WriteLegend(IDictionary<string, Color> colors, bool drawColorBlocks)
 		{
 			OpenTableRow();
 			WriteTableCell(string.Empty);
 			OpenTableCell("legend");
-			OpenTable();
-			OpenTableRow();
 
-			foreach (var kvp in colors)
+			if (drawColorBlocks)
 			{
-				WriteTableCell(null, 11, kvp.Value, null);
-				WriteTableCell("legendtext", kvp.Key.Replace('_', ' '));
+				OpenTable();
+				OpenTableRow();
+
+				foreach (var kvp in colors)
+				{
+					WriteTableCell(null, 11, kvp.Value, null);
+					WriteTableCell("legendtext", kvp.Key.Replace('_', ' '));
+				}
+
+				CloseTableRow();
+				CloseTable();
 			}
 
-			CloseTableRow();
-			CloseTable();
 			CloseTableCell();
 			CloseTableRow();
 		}
@@ -345,8 +395,15 @@ namespace SayMore.UI.Charts
 		public void WriteTableCell(string className, int width, Color bkgndColor,
 			string tooltip, string content)
 		{
+			WriteTableCell(className, width, bkgndColor, Color.Empty, tooltip, content);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void WriteTableCell(string className, int width, Color bkgndColor,
+			Color textColor, string tooltip, string content)
+		{
 			content = (content ?? string.Empty);
-			OpenTableCell(className, width, bkgndColor, tooltip);
+			OpenTableCell(className, width, bkgndColor, textColor, tooltip);
 			_htmlText.Append(content.Trim());
 			CloseTableCell();
 		}
@@ -372,6 +429,13 @@ namespace SayMore.UI.Charts
 		/// ------------------------------------------------------------------------------------
 		public void OpenTableCell(string className, int width, Color bkgndColor, string tooltip)
 		{
+			OpenTableCell(className, width, bkgndColor, Color.Empty, tooltip);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void OpenTableCell(string className, int width, Color bkgndColor,
+			Color textColor, string tooltip)
+		{
 			className = (className ?? string.Empty);
 			tooltip = (tooltip ?? string.Empty);
 
@@ -380,7 +444,7 @@ namespace SayMore.UI.Charts
 			if (className.Trim() != string.Empty)
 				_htmlText.AppendFormat(" class=\"{0}\"", className);
 
-			if (width > 0 || bkgndColor != Color.Empty)
+			if (width > 0 || bkgndColor != Color.Empty || textColor != Color.Empty)
 			{
 				var styleInfo = string.Empty;
 
@@ -391,6 +455,12 @@ namespace SayMore.UI.Charts
 				{
 					var color = (bkgndColor.ToArgb() & 0xFFFFFF).ToString("x6");
 					styleInfo += string.Format("background-color: #{0}; ", color);
+				}
+
+				if (textColor != Color.Empty)
+				{
+					var color = (textColor.ToArgb() & 0xFFFFFF).ToString("x6");
+					styleInfo += string.Format("color: #{0}; ", color);
 				}
 
 				_htmlText.AppendFormat(" style=\"{0}\"", styleInfo.Trim());
@@ -406,6 +476,42 @@ namespace SayMore.UI.Charts
 		public void CloseTableCell()
 		{
 			_htmlText.Append("</td>");
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	public class ColorBarSegmentInfo : IComparable<ColorBarSegmentInfo>
+	{
+		public string FieldName { get; set; }
+		public string FieldValue { get; set; }
+		public IEnumerable<Event> Events { get; set; }
+		public Color BackColor { get; set; }
+		public Color TextColor { get; set; }
+		public override string ToString() { return FieldValue; }
+
+		/// ------------------------------------------------------------------------------------
+		public int CompareTo(ColorBarSegmentInfo other)
+		{
+			if (FieldValue == null)
+				return -1;
+
+			if (other == null || other.FieldValue == null)
+				return 1;
+
+			if (FieldName != "status")
+				return FieldValue.CompareTo(other.FieldValue);
+
+			var sx = FieldValue.Replace(' ', '_');
+			var sy = other.FieldValue.Replace(' ', '_');
+
+			if (!Enum.GetNames(typeof(Event.Status)).Contains(sx))
+				return 1;
+
+			if (!Enum.GetNames(typeof(Event.Status)).Contains(sy))
+				return -1;
+
+			return (int)Enum.Parse(typeof(Event.Status), sx) -
+				(int)Enum.Parse(typeof(Event.Status), sy);
 		}
 	}
 }

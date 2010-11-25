@@ -226,6 +226,24 @@
     <Setting Name="PreventDeleteElementSystemConfirmationMessage" Description="This is used for tests and prevents the display of the confirmation dialog box when moving deleted session and persons to the recycle bin." Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="OriginalRecordingStageTextColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="CarefulSpeechStageTextColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="OralTranslationStageTextColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="TranscriptionStageTextColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="WrittenTranslationStageTextColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="InformedConsentStageTextColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
     <Setting Name="OriginalRecordingStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">196, 209, 227</Value>
     </Setting>
@@ -241,7 +259,7 @@
     <Setting Name="WrittenTranslationStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">252, 235, 132</Value>
     </Setting>
-    <Setting Name="InformedConsentStage" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="InformedConsentStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">148, 195, 151</Value>
     </Setting>
     <Setting Name="IncompleteStageColor" Type="System.Drawing.Color" Scope="Application">

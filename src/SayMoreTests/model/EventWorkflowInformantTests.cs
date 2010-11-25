@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
+using SayMore;
 using SayMore.Model;
 using SayMore.Model.Files;
 
@@ -12,13 +13,15 @@ namespace SayMoreTests.model
 	{
 		private ElementRepository<Event> _eventRepo;
 		private EventWorkflowInformant _informant;
+		private static IEnumerable<ComponentRole> s_componentRoles;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void TestSetup()
 		{
+			s_componentRoles = ApplicationContainer.ComponentRoles;
 			_eventRepo = GetMockedEventRepo();
-			_informant = new EventWorkflowInformant(_eventRepo);
+			_informant = new EventWorkflowInformant(_eventRepo, s_componentRoles);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -34,13 +37,15 @@ namespace SayMoreTests.model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static Event GetMockedEvent(IEnumerable<KeyValuePair<string, string>> metadataFieldsAndValues)
+		public static Event GetMockedEvent(
+			IEnumerable<KeyValuePair<string, string>> metadataFieldsValuesToReturn,
+			IEnumerable<ComponentRole> completedStagesToReturn)
 		{
 			var evnt = new Mock<Event>();
 			evnt.Setup(e => e.MetaDataFile).Returns(
-				GetMockedProjectElementComponentFile(metadataFieldsAndValues));
+				GetMockedProjectElementComponentFile(metadataFieldsValuesToReturn));
 
-			foreach (var kvp in metadataFieldsAndValues)
+			foreach (var kvp in metadataFieldsValuesToReturn)
 			{
 				if (kvp.Key == "id")
 				{
@@ -48,6 +53,8 @@ namespace SayMoreTests.model
 					break;
 				}
 			}
+
+			evnt.Setup(e => e.GetCompletedStages()).Returns(completedStagesToReturn);
 
 			return evnt.Object;
 		}
@@ -61,27 +68,38 @@ namespace SayMoreTests.model
 				GetMockedEvent(new[] {
 					new KeyValuePair<string, string>("id", "01"),
 					new KeyValuePair<string, string>("genre", "discourse"),
-					new KeyValuePair<string, string>("status", "Incoming") }),
+					new KeyValuePair<string, string>("status", "Incoming") },
+					new[] {
+						s_componentRoles.ElementAt(0),
+						s_componentRoles.ElementAt(1),
+					}),
 
 				GetMockedEvent(new[] {
 					new KeyValuePair<string, string>("id", "02"),
 					new KeyValuePair<string, string>("genre", "discourse"),
-					new KeyValuePair<string, string>("status", "Incoming") }),
+					new KeyValuePair<string, string>("status", "Incoming") },
+					new[] {
+						s_componentRoles.ElementAt(2),
+						s_componentRoles.ElementAt(3)
+					}),
 
 				GetMockedEvent(new[] {
 					new KeyValuePair<string, string>("id", "03"),
 					new KeyValuePair<string, string>("genre", "singing"),
-					new KeyValuePair<string, string>("status", "In Progress") }),
+					new KeyValuePair<string, string>("status", "In Progress") },
+					new[] { s_componentRoles.ElementAt(0) }),
 
 				GetMockedEvent(new[] {
 					new KeyValuePair<string, string>("id", "04"),
 					new KeyValuePair<string, string>("genre", "singing"),
-					new KeyValuePair<string, string>("status", "Incoming") }),
+					new KeyValuePair<string, string>("status", "Incoming") },
+					new[] { s_componentRoles.ElementAt(1) }),
 
 				GetMockedEvent(new[] {
 					new KeyValuePair<string, string>("id", "05"),
 					new KeyValuePair<string, string>("genre", "singing"),
-					new KeyValuePair<string, string>("status", "Finished") }),
+					new KeyValuePair<string, string>("status", "Finished") },
+					new[] { s_componentRoles.ElementAt(0) }),
 			});
 
 			return repo.Object;
@@ -149,6 +167,20 @@ namespace SayMoreTests.model
 			Assert.AreEqual(1, genrelist["singing"]["Incoming"].Count());
 			Assert.AreEqual(1, genrelist["singing"]["In Progress"].Count());
 			Assert.AreEqual(1, genrelist["singing"]["Finished"].Count());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetEventsCategorizedByStage_ReturnsCorrectDictionary()
+		{
+			var stagesList = _informant.GetEventsCategorizedByStage();
+
+			Assert.AreEqual(3, stagesList.ElementAt(0).Value.Count());
+			Assert.AreEqual(2, stagesList.ElementAt(1).Value.Count());
+			Assert.AreEqual(1, stagesList.ElementAt(2).Value.Count());
+			Assert.AreEqual(1, stagesList.ElementAt(3).Value.Count());
+			Assert.AreEqual(0, stagesList.ElementAt(4).Value.Count());
+			Assert.AreEqual(0, stagesList.ElementAt(5).Value.Count());
 		}
 	}
 }

@@ -30,7 +30,8 @@ namespace SayMoreTests.Model.Files
 		private static ComponentRole GetRoleForOriginalRecording()
 		{
 			return new ComponentRole(typeof(Event), "original", "Original Recording",
-				ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo, "$ElementId$_Original", Color.Magenta);
+				ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo,
+				"$ElementId$_Original", Color.Magenta, Color.Black);
 		}
 
 		[Test]

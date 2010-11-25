@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using SayMore.Model;
 using SayMore.Model.Files;
 
 namespace SayMore.UI.ElementListScreen

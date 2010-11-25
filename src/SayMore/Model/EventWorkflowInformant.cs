@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SayMore.Model.Files;
 
 namespace SayMore.Model
 {
@@ -12,14 +13,17 @@ namespace SayMore.Model
 	public class EventWorkflowInformant
 	{
 		private readonly ElementRepository<Event> _eventRepository;
+		private IEnumerable<ComponentRole> _componentRoles;
 
 		[Obsolete("For mocking only")]
 		public EventWorkflowInformant(){}
 
 		/// ------------------------------------------------------------------------------------
-		public EventWorkflowInformant(ElementRepository<Event> eventRepository)
+		public EventWorkflowInformant(ElementRepository<Event> eventRepository,
+			IEnumerable<ComponentRole> componentRoles)
 		{
 			_eventRepository = eventRepository;
+			_componentRoles = componentRoles;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -90,6 +94,15 @@ namespace SayMore.Model
 				outerList[kvp.Key] = GetCategorizedEventsFromListByField(kvp.Value, secondaryField);
 
 			return outerList;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IDictionary<ComponentRole, IEnumerable<Event>> GetEventsCategorizedByStage()
+		{
+			return _componentRoles.ToDictionary(role => role, role =>
+				from evnt in _eventRepository.AllItems
+				where evnt.GetCompletedStages().SingleOrDefault(r => r.Id == role.Id) != null
+				select evnt);
 		}
 	}
 }

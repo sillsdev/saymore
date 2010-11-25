@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Moq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
@@ -35,13 +34,14 @@ namespace SayMoreTests.UI.Overview.Statistics
 		{
 			var nullRole = new ComponentRole(typeof(Event), "someRole", "someRole",
 				ComponentRole.MeasurementTypes.None,
-				p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta);
+				p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta, Color.Black);
 
 			var personInformer = new PersonInformant(
 				new ElementRepository<Person>(_folder.Combine("people"), "People", null, null));
 
 			var eventInformer = new EventWorkflowInformant(
-				new ElementRepository<Event>(_folder.Combine("events"),"Events", null, null));
+				new ElementRepository<Event>(_folder.Combine("events"), "Events", null, null),
+				new[] { nullRole });
 
 			return new StatisticsViewModel(null, personInformer, eventInformer, new[] { nullRole },
 				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(() => null) }));
@@ -53,7 +53,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 			//Mock<ComponentRole> role = new Mock<ComponentRole>();
 			//role.Setup(x => x.IsMatch("zzzz")).Returns(false);
 			var role = new ComponentRole(typeof (Event), "blah", "blah", ComponentRole.MeasurementTypes.Time,
-										 ComponentRole.GetIsAudioVideo, "CantMatchThis", Color.Magenta);
+										 ComponentRole.GetIsAudioVideo, "CantMatchThis", Color.Magenta, Color.Black);
 			Assert.AreEqual(new TimeSpan(0),
 							   CreateModel().GetRecordingDurations(role));
 		}

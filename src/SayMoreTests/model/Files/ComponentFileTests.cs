@@ -201,23 +201,23 @@ namespace SayMoreTests.Model.Files
 			{
 				new ComponentRole(typeof(Event), "translation", "translation",
 					ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"),
-					"$ElementId$_Original", Color.Magenta),
+					"$ElementId$_Original", Color.Magenta, Color.Black),
 
 				new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
 					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
-					"$ElementId$_Translation-N", Color.Magenta),
+					"$ElementId$_Translation-N", Color.Magenta, Color.Black),
 
 				new ComponentRole(typeof(Event), "original", "Original Recording",
 					ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo,
-					"$ElementId$_Original", Color.Magenta),
+					"$ElementId$_Original", Color.Magenta, Color.Black),
 
 				new ComponentRole(typeof(Person), "consent", "Informed Consent",
 					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Consent.")),
-					"$ElementId$_Consent", Color.Magenta),
+					"$ElementId$_Consent", Color.Magenta, Color.Black),
 
 				new ComponentRole(typeof(Person), "careful", "Careful Speech",
 					ComponentRole.MeasurementTypes.None, (p => p.Contains("_Careful.")),
-					"$ElementId$_Consent", Color.Magenta)
+					"$ElementId$_Consent", Color.Magenta, Color.Black)
 			};
 
 			return new ComponentFile(parentElement, path, new[] { FileType.Create("Text", ".txt"), },
@@ -288,7 +288,7 @@ namespace SayMoreTests.Model.Files
 		{
 			ComponentFile f = CreateComponentFile("abc.txt");
 			var role = new ComponentRole(typeof (Event), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
-										 p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta);
+										 p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta, Color.Black);
 			f.AssignRole(role);
 			Assert.AreEqual(ParentFolderName + "_someRole.txt", Path.GetFileName(f.PathToAnnotatedFile));
 			Assert.IsTrue(File.Exists(f.PathToAnnotatedFile));

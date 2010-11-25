@@ -28,6 +28,7 @@ namespace SayMore.Model.Files
 		public MeasurementTypes MeasurementType { get; private set; }
 		public string Id { get; private set; }
 		public Color Color { get; private set; }
+		public Color TextColor { get; private set; }
 		public Image Icon { get; set; }
 
 		//tells whether this file looks like it *might* be filling this role
@@ -35,7 +36,7 @@ namespace SayMore.Model.Files
 
 		public ComponentRole(Type relevantElementType, string id, string englishLabel,
 			MeasurementTypes measurementType, Func<string, bool> elligibilityFilter,
-			string renamingTemplate, Color color)
+			string renamingTemplate, Color color, Color textColor)
 		{
 			Id = id;
 			RelevantElementType = relevantElementType;
@@ -43,6 +44,7 @@ namespace SayMore.Model.Files
 			MeasurementType = measurementType;
 			ElligibilityFilter = elligibilityFilter;
 			Color = color;
+			TextColor = textColor;
 			_renamingTemplate = renamingTemplate;
 		}
 

@@ -104,36 +104,42 @@ namespace SayMore
 					ComponentRole(typeof(Event), "original", "Original Recording",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Original",
-						Settings.Default.OriginalRecordingStageColor);//todo... but maybe we dont' show this as a stage?
+						Settings.Default.OriginalRecordingStageColor,
+						Settings.Default.OralTranslationStageTextColor);//todo... but maybe we dont' show this as a stage?
 
 				yield return
 					new ComponentRole(typeof(Event), "carefulSpeech", "Careful Speech",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful",
-						Settings.Default.CarefulSpeechStageColor);
+						Settings.Default.CarefulSpeechStageColor,
+						Settings.Default.CarefulSpeechStageTextColor);
 
 				yield return
 					new ComponentRole(typeof(Event), "oralTranslation", "Oral Translation",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation",
-						Settings.Default.OralTranslationStageColor);
+						Settings.Default.OralTranslationStageColor,
+						Settings.Default.OralTranslationStageTextColor);
 
 				yield return
 					new ComponentRole(typeof(Event), "transcription", "Transcription",
 						ComponentRole.MeasurementTypes.Words,
 						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Transcription",
-						Settings.Default.TranscriptionStageColor);
+						Settings.Default.TranscriptionStageColor,
+						Settings.Default.TranscriptionStageTextColor);
 
 				yield return
 					new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
 						ComponentRole.MeasurementTypes.Words,
 						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N",
-						Settings.Default.WrittenTranslationStageColor);
+						Settings.Default.WrittenTranslationStageColor,
+						Settings.Default.WrittenTranslationStageTextColor);
 
 				yield return
 					new ComponentRole(typeof(Person), "consent", "Informed Consent",
 						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
-						Settings.Default.InformedConsentStage);
+						Settings.Default.InformedConsentStageColor,
+						Settings.Default.InformedConsentStageTextColor);
 			}
 		}
 

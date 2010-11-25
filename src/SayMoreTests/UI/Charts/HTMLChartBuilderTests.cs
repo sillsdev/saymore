@@ -242,6 +242,22 @@ namespace SayMoreTests.UI.Charts
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void WriteTableCell_TextColorIsEmpty_DoesNotWriteTextColor()
+		{
+			_builder.WriteTableCell(null, 0, Color.Empty, Color.Empty, null, null);
+			Assert.AreEqual("<td></td>", _builder.HtmlContent);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void WriteTableCell_TextColorIsBlack_WritesTextColor()
+		{
+			_builder.WriteTableCell(null, 0, Color.Empty, Color.Black, null, null);
+			Assert.AreEqual("<td style=\"color: #000000;\"></td>", _builder.HtmlContent);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void WriteTableCell_TooltipIsNull_DoesNotWriteTooltip()
 		{
 			_builder.WriteTableCell(null, 0, Color.Empty, null, null);
@@ -268,9 +284,9 @@ namespace SayMoreTests.UI.Charts
 		[Test]
 		public void WriteTableCell_PassSomethingOfEverything_WritesThemAll()
 		{
-			_builder.WriteTableCell("classname", 47, Color.Black, "tooltip", "content");
+			_builder.WriteTableCell("classname", 47, Color.Black, Color.Black, "tooltip", "content");
 			Assert.AreEqual("<td class=\"classname\" style=\"width: 47px; " +
-				"background-color: #000000;\" title=\"tooltip\">content</td>", _builder.HtmlContent);
+				"background-color: #000000; color: #000000;\" title=\"tooltip\">content</td>", _builder.HtmlContent);
 		}
 
 		/// ------------------------------------------------------------------------------------

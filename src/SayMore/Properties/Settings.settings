@@ -280,5 +280,8 @@
     <Setting Name="FinishedStatusColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">169, 219, 168</Value>
     </Setting>
+    <Setting Name="AllowStatisticsChartLabelsToWrap" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

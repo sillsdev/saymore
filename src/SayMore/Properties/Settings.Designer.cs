@@ -910,5 +910,17 @@ namespace SayMore.Properties {
                 return ((global::System.Drawing.Color)(this["FinishedStatusColor"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool AllowStatisticsChartLabelsToWrap {
+            get {
+                return ((bool)(this["AllowStatisticsChartLabelsToWrap"]));
+            }
+            set {
+                this["AllowStatisticsChartLabelsToWrap"] = value;
+            }
+        }
     }
 }

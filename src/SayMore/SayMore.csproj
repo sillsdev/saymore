@@ -113,6 +113,7 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
+    <Compile Include="UI\Charts\ChartBarInfo.cs" />
     <Compile Include="UI\Charts\HTMLChartBuilder.cs" />
     <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
       <SubType>UserControl</SubType>
@@ -317,11 +318,11 @@
     <Compile Include="UI\NewEventsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.designer.cs">
       <DependentUpon>NewEventsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Overview\OverviewScreen.cs">
+    <Compile Include="UI\Overview\ProgressScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Overview\OverviewScreen.designer.cs">
-      <DependentUpon>OverviewScreen.cs</DependentUpon>
+    <Compile Include="UI\Overview\ProgressScreen.designer.cs">
+      <DependentUpon>ProgressScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Overview\Statistics\StatisticsView.cs">
       <SubType>UserControl</SubType>
@@ -555,8 +556,8 @@
     <EmbeddedResource Include="UI\MediaPlayer\MediaPlayer.resx">
       <DependentUpon>MediaPlayer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Overview\OverviewScreen.resx">
-      <DependentUpon>OverviewScreen.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Overview\ProgressScreen.resx">
+      <DependentUpon>ProgressScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\Statistics\StatisticsView.resx">
       <DependentUpon>StatisticsView.cs</DependentUpon>
@@ -612,6 +613,7 @@
     <None Include="Resources\Refresh.png" />
     <None Include="Resources\Save.png" />
     <None Include="Resources\StatisticsViewStyles.css" />
+    <None Include="Resources\Blue Wheel.gif" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

@@ -17,6 +17,10 @@ namespace SayMore.UI.ProjectWindow
 	/// ----------------------------------------------------------------------------------------
 	public class ViewTabGroup : Panel
 	{
+		public delegate void ViewTabChangedHandler(ViewTabGroup sender, ViewTab affectedTab);
+		public event ViewTabChangedHandler ViewActivated;
+		public event ViewTabChangedHandler ViewDeactivated;
+
 		private const TextFormatFlags kTxtFmtFlags = TextFormatFlags.VerticalCenter |
 			TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
@@ -390,14 +394,26 @@ namespace SayMore.UI.ProjectWindow
 
 			Utils.SetWindowRedraw(this, false);
 
-			if (currTab != null && !currTab.DeactivateView(true))
+			if (currTab != null)
 			{
-				Utils.SetWindowRedraw(this, true);
-				return;
+				if (currTab.DeactivateView(true))
+				{
+					if (ViewDeactivated != null)
+						ViewDeactivated(this, currTab);
+				}
+				else
+				{
+					Utils.SetWindowRedraw(this, true);
+					return;
+				}
 			}
 
 			EnsureTabVisible(tab);
 			tab.ActivateView();
+
+			if (ViewActivated != null)
+				ViewActivated(this, tab);
+
 			Utils.SetWindowRedraw(this, true);
 		}
 

@@ -282,7 +282,7 @@
   <data name="DeleteMessageBoxImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DeleteMessageBoxImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BusyWheel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="BusyWheelSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Busy Wheel.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -299,5 +299,8 @@
   </data>
   <data name="StatisticsViewStyles" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\StatisticsViewStyles.css;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="BusyWheelLarge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Blue Wheel.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -30,10 +30,18 @@ h2:first-child {
 	 margin-top: 5px;
 }
 
+table.chart {
+	padding-right: 10px;
+	width: 100%;
+}
+
 .rowheading {
 	padding: 0px 5px 0px 18px;
 	text-align: right;
 	font-weight: bold;
+	/*white-space: nowrap;*/
+	width: 1%;
+	border-right: solid 1px rgb(112, 146, 190);
 }
 
 td.colorbar td {
@@ -41,18 +49,21 @@ td.colorbar td {
 	text-align: center;
 }
 
-td.colorbar td:first-child {
-	border-left: solid 1px rgb(112, 146, 190);
+.entrysummaryrowheading {
+	border-right: solid 1px rgb(112, 146, 190);
 }
 
 .entrysummary {
 	padding: 3px 0px 10px 3px;
-	border-left: solid 1px rgb(112, 146, 190);
 }
 
 .legend {
 	padding: 8px 0px 0px 8px;
 	border-top: solid 1px rgb(112, 146, 190);
+}
+
+.legendblock {
+	width: 11px;
 }
 
 .legendtext {
@@ -84,5 +95,10 @@ td.colorbar td:first-child {
 	padding-top: 8px;
 }
 
-.shimrow { font-size: 7px; }
-.shimrow-right-col { border-left: solid 1px rgb(112, 146, 190); }
+.shimrow {
+	font-size: 7px;
+}
+
+.shimrow td:first-child {
+	border-right: solid 1px rgb(112, 146, 190);
+}

@@ -71,6 +71,12 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public ToolStripMenuItem MainMenuItem
+		{
+			get { return null; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override Color ComponentEditorBackgroundColor
 		{
 			get { return Settings.Default.PersonEditorsBackgroundColor; }

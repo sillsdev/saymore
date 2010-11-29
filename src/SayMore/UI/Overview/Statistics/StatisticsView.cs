@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using SayMore.Properties;
 
 namespace SayMore.UI.Overview.Statistics
 {
@@ -36,7 +37,7 @@ namespace SayMore.UI.Overview.Statistics
 		public void UpdateDisplay()
 		{
 			_updateDisplayNeeded = false;
-			_labelStatus.Image = Properties.Resources.BusyWheel;
+			_panelWorking.Visible = true;
 
 			if (_webBrowser.DocumentStream != null)
 				_webBrowser.DocumentStream.Dispose();
@@ -62,10 +63,13 @@ namespace SayMore.UI.Overview.Statistics
 
 			if (showRefreshButton != _buttonRefresh.Visible)
 				_buttonRefresh.Visible = showRefreshButton;
+
+			if (_panelWorking.Visible != showStatusLabel)
+				_panelWorking.Visible = showStatusLabel;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleCopyToClipboardClick(object sender, EventArgs e)
+		public void HandleCopyToClipboardClick(object sender, EventArgs e)
 		{
 			if (_webBrowser.Document == null || _model.IsBusy)
 				return;
@@ -90,7 +94,7 @@ namespace SayMore.UI.Overview.Statistics
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandlePrintButtonClicked(object sender, EventArgs e)
+		public void HandlePrintButtonClicked(object sender, EventArgs e)
 		{
 			if (_webBrowser.Document == null || _model.IsBusy)
 				return;
@@ -117,7 +121,7 @@ namespace SayMore.UI.Overview.Statistics
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleSaveButtonClicked(object sender, EventArgs e)
+		public void HandleSaveButtonClicked(object sender, EventArgs e)
 		{
 			if (_webBrowser.Document == null || _model.IsBusy)
 				return;
@@ -173,6 +177,13 @@ namespace SayMore.UI.Overview.Statistics
 			// background thread is a no-no. UpdateDisplay will be called when the timer
 			// tick fires.
 			_updateDisplayNeeded = true;
+		}
+
+		private void toolStripButton1_Click(object sender, EventArgs e)
+		{
+			toolStripButton1.Checked = !toolStripButton1.Checked;
+			Settings.Default.AllowStatisticsChartLabelsToWrap = toolStripButton1.Checked;
+			UpdateDisplay();
 		}
 	}
 }

@@ -81,9 +81,16 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap BusyWheel {
+        internal static System.Drawing.Bitmap BusyWheelLarge {
             get {
-                object obj = ResourceManager.GetObject("BusyWheel", resourceCulture);
+                object obj = ResourceManager.GetObject("BusyWheelLarge", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap BusyWheelSmall {
+            get {
+                object obj = ResourceManager.GetObject("BusyWheelSmall", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

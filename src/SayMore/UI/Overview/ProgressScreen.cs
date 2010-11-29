@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Properties;
 using SayMore.UI.Overview.Statistics;
@@ -5,17 +6,33 @@ using SayMore.UI.ProjectWindow;
 
 namespace SayMore.UI.Overview
 {
-	public partial class OverviewScreen : UserControl, ISayMoreView
+	public partial class ProgressScreen : UserControl, ISayMoreView
 	{
 		protected StatisticsView _statsView;
+		protected ToolStripMenuItem _mnuProgress;
 
 		/// ------------------------------------------------------------------------------------
-		public OverviewScreen(StatisticsViewModel statisticsModel)
+		public ProgressScreen(StatisticsViewModel statisticsModel)
 		{
 			InitializeComponent();
 			_statsView = new StatisticsView(statisticsModel);
 			_statsView.Dock = DockStyle.Fill;
 			Controls.Add(_statsView);
+
+			_mnuProgress = new ToolStripMenuItem("Pr&ogress");
+
+			var menu = new ToolStripMenuItem("&Copy", Resources.Copy,
+				_statsView.HandleCopyToClipboardClick);
+			menu.ToolTipText = "Copy entire view to clipboard";
+			_mnuProgress.DropDown.Items.Add(menu);
+
+			menu = new ToolStripMenuItem("&Save...", Resources.Save,
+				_statsView.HandleSaveButtonClicked);
+			menu.ToolTipText = "Save view to file";
+			_mnuProgress.DropDown.Items.Add(menu);
+
+			_mnuProgress.DropDown.Items.Add("&Print...", Resources.Print,
+				_statsView.HandlePrintButtonClicked);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -58,9 +75,15 @@ namespace SayMore.UI.Overview
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public System.Drawing.Image Image
+		public Image Image
 		{
 			get { return Resources.Progress; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public ToolStripMenuItem MainMenuItem
+		{
+			get { return _mnuProgress; }
 		}
 
 		#endregion

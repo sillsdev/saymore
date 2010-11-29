@@ -1,6 +1,6 @@
 namespace SayMore.UI.Overview
 {
-	partial class OverviewScreen
+	partial class ProgressScreen
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -15,7 +15,7 @@ namespace SayMore.UI.Overview
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OverviewScreen));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressScreen));
 			this.tsbStatistics = new System.Windows.Forms.ToolStripButton();
 			this.tsbGenre = new System.Windows.Forms.ToolStripButton();
 			this.tsbContributor = new System.Windows.Forms.ToolStripButton();

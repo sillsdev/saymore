@@ -37,7 +37,7 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectWindow(string projectPath, EventsListScreen eventsScreen,
-			PersonListScreen personsScreen, OverviewScreen overviewScreen,
+			PersonListScreen personsScreen, ProgressScreen overviewScreen,
 			IEnumerable<ICommand> commands) : this()
 		{
 			if (Settings.Default.ProjectWindow == null)
@@ -56,6 +56,24 @@ namespace SayMore.UI.ProjectWindow
 			_viewTabGroup.AddTab("People", personsScreen);
 			_viewTabGroup.AddTab("Progress", overviewScreen);
 			//_viewTabGroup.AddTab("Send/Receive", new SendReceiveScreen());
+
+			if (overviewScreen.MainMenuItem != null)
+			{
+				overviewScreen.MainMenuItem.Visible = false;
+				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), overviewScreen.MainMenuItem);
+			}
+
+			if (personsScreen.MainMenuItem != null)
+			{
+				personsScreen.MainMenuItem.Visible = false;
+				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), personsScreen.MainMenuItem);
+			}
+
+			if (eventsScreen.MainMenuItem != null)
+			{
+				eventsScreen.MainMenuItem.Visible = false;
+				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), eventsScreen.MainMenuItem);
+			}
 
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
@@ -118,7 +136,7 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void OnCommandMenuItem_Click(object sender, EventArgs e)
+		private void HandleCommandMenuItemClick(object sender, EventArgs e)
 		{
 			var handler = _commands.First(c => c.Id == (string)((ToolStripMenuItem)sender).Tag);
 			handler.Execute();
@@ -138,6 +156,22 @@ namespace SayMore.UI.ProjectWindow
 				var rc = _mainMenuStrip.ClientRectangle;
 				e.Graphics.DrawLine(pen, 0, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleViewActivated(ViewTabGroup sender, ViewTab activatedTab)
+		{
+			var view = activatedTab.View as ISayMoreView;
+			if (view != null && view.MainMenuItem != null)
+				view.MainMenuItem.Visible = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleViewDeactivated(ViewTabGroup sender, ViewTab deactivatedTab)
+		{
+			var view = deactivatedTab.View as ISayMoreView;
+			if (view != null && view.MainMenuItem != null)
+				view.MainMenuItem.Visible = false;
 		}
 	}
 }

@@ -20,6 +20,7 @@ namespace SayMore.UI.ProjectWindow
 		//bool IsViewActive { get; }
 		bool IsOKToLeaveView(bool showMsgWhenNotOK);
 		Image Image { get; }
+		ToolStripMenuItem MainMenuItem { get; }
 	}
 
 	/// ----------------------------------------------------------------------------------------

@@ -77,7 +77,7 @@ namespace SayMoreTests.UI.Charts
 		public void OpenTable_PassClassName_WritesClassAttribute()
 		{
 			_builder.OpenTable("classname");
-			Assert.AreEqual("<table class=\"classname\" cellspacing=\"0\" cellpadding=\"0\">", _builder.HtmlContent);
+			Assert.AreEqual("<table cellspacing=\"0\" cellpadding=\"0\" class=\"classname\">", _builder.HtmlContent);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,6 +111,33 @@ namespace SayMoreTests.UI.Charts
 			_builder.OpenTableRow();
 			Assert.AreEqual("<tr>", _builder.HtmlContent);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void OpenTableRow_ClassIsNull_DoesNotWriteClass()
+		{
+			_builder.OpenTableRow(null);
+			Assert.AreEqual("<tr>", _builder.HtmlContent);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void OpenTableRow_ClassIsSpace_DoesNotWriteClass()
+		{
+			_builder.OpenTableRow(" ");
+			Assert.AreEqual("<tr>", _builder.HtmlContent);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void OpenTableRow_ClassIsSomething_WritesIt()
+		{
+			_builder.OpenTableRow("something");
+			Assert.AreEqual("<tr class=\"something\">", _builder.HtmlContent);
+		}
+
+
+
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
@@ -221,7 +248,7 @@ namespace SayMoreTests.UI.Charts
 		public void WriteTableCell_WidthIsGreaterThanZero_WritesWidth()
 		{
 			_builder.WriteTableCell(null, 45, Color.Empty, null);
-			Assert.AreEqual("<td style=\"width: 45px;\"></td>", _builder.HtmlContent);
+			Assert.AreEqual("<td style=\"width: 45%;\"></td>", _builder.HtmlContent);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -285,7 +312,7 @@ namespace SayMoreTests.UI.Charts
 		public void WriteTableCell_PassSomethingOfEverything_WritesThemAll()
 		{
 			_builder.WriteTableCell("classname", 47, Color.Black, Color.Black, "tooltip", "content");
-			Assert.AreEqual("<td class=\"classname\" style=\"width: 47px; " +
+			Assert.AreEqual("<td class=\"classname\" style=\"width: 47%; " +
 				"background-color: #000000; color: #000000;\" title=\"tooltip\">content</td>", _builder.HtmlContent);
 		}
 

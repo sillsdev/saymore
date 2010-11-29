@@ -37,6 +37,12 @@ namespace SayMore.UI.SendReceive
 			get { return Resources.SendReceive; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public ToolStripMenuItem MainMenuItem
+		{
+			get { return null; }
+		}
+
 		#endregion
 	}
 }

@@ -37,7 +37,6 @@ namespace SayMore.UI.Overview.Statistics
 		public void UpdateDisplay()
 		{
 			_updateDisplayNeeded = false;
-			_panelWorking.Visible = true;
 
 			if (_webBrowser.DocumentStream != null)
 				_webBrowser.DocumentStream.Dispose();

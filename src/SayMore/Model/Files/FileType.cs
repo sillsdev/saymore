@@ -659,7 +659,8 @@ namespace SayMore.Model.Files
 			if (!File.Exists(filePath.Replace(Path.GetExtension(filePath), ".mp3")))
 			{
 				commands.Add(null); // Separator
-				commands.Add(new FileCommand("Extract Audio to MP3 File", ExtractMp3Audio, "convert"));
+				commands.Add(new FileCommand("Extract Audio to mono MP3 File (low quality)", ExtractMp3Audio, "convert"));
+				commands.Add(new FileCommand("Extract Audio Wav File", ExtractWavAudio, "convert"));
 			}
 
 			return commands;
@@ -668,30 +669,17 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private void ExtractMp3Audio(string path)
 		{
-			if (!MediaInfo.HaveNecessaryComponents)
-			{
-				MessageBox.Show("SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
-			}
+			//var outputPath = path.Replace(Path.GetExtension(path), ".wav");
+			var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
 
-			var outputPath = path.Replace(Path.GetExtension(path), ".wav");
-			//var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
-
-			if (File.Exists(outputPath))
-			{
-				//todo ask the user (or don't offer this in the first place)
-				//File.Delete(outputPath);
-
-				ErrorReport.NotifyUserOfProblem(
-					string.Format("Sorry, the file '{0}' already exists.", Path.GetFileName(outputPath)));
-
+			if(!CheckConversionIsPossible(outputPath))
 				return;
-			}
 
 			Cursor.Current = Cursors.WaitCursor;
 			//TODO...provide some progress
 
 			// REVIEW: At some point, we should probably switch to using MPlayer/MEncoder to do this.
-			var results = FFmpegRunner.ExtractMp3Audio(path, outputPath, new NullProgress());
+			var results = FFmpegRunner.ExtractMp3Audio(path, outputPath, 1 /*mono*/, new NullProgress());
 			Cursor.Current = Cursors.Default;
 
 			if (results.ExitCode != 0)
@@ -701,6 +689,51 @@ namespace SayMore.Model.Files
 							Environment.NewLine, Environment.NewLine, results.StandardError));
 			}
 		}
+
+		private void ExtractWavAudio(string path)
+		{
+			var outputPath = path.Replace(Path.GetExtension(path), ".wav");
+
+			if (!CheckConversionIsPossible(outputPath))
+				return;
+
+			Cursor.Current = Cursors.WaitCursor;
+			//TODO...provide some progress
+
+			// REVIEW: At some point, we should probably switch to using MPlayer/MEncoder to do this.
+			var results = FFmpegRunner.ExtractBestQualityWavAudio(path, outputPath, 0 /* whatever*/, new NullProgress());
+			Cursor.Current = Cursors.Default;
+
+			if (results.ExitCode != 0)
+			{
+				ErrorReport.NotifyUserOfProblem(
+						string.Format("Something didn't work out. FFmpeg said (start reading from the end): {0}{1}{2}",
+							Environment.NewLine, Environment.NewLine, results.StandardError));
+			}
+		}
+
+		private bool CheckConversionIsPossible(string outputPath)
+		{
+			if (!MediaInfo.HaveNecessaryComponents)
+			{
+				MessageBox.Show("SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
+				return false;
+			}
+
+
+			if (File.Exists(outputPath))
+			{
+				//todo ask the user (or don't offer this in the first place)
+				//File.Delete(outputPath);
+
+				ErrorReport.NotifyUserOfProblem(
+					string.Format("Sorry, the file '{0}' already exists.", Path.GetFileName(outputPath)));
+
+				return false;
+			}
+			return true;
+		}
+
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)

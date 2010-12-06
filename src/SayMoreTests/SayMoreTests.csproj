@@ -86,6 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClearShare\ClearShareUsage.cs" />
+    <Compile Include="ClearShare\ContributionTests.cs" />
+    <Compile Include="ClearShare\ContributorsListControlViewModelTests.cs" />
+    <Compile Include="ClearShare\LicenseTests.cs" />
+    <Compile Include="ClearShare\OlacSystemTests.cs" />
+    <Compile Include="ClearShare\RoleTests.cs" />
     <Compile Include="model\EventWorkflowInformantTests.cs" />
     <Compile Include="model\ElementRepositoryTests.cs" />
     <Compile Include="model\Fields\FieldInstanceTests.cs" />

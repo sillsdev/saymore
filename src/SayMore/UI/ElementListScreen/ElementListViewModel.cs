@@ -126,12 +126,12 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void MakeComponentEditorsGoDormant()
+		public void DeactivateComponentEditors()
 		{
 			if (_currentEditorProviders != null)
 			{
 				foreach (var editor in _currentEditorProviders)
-					editor.GoDormant();
+					editor.Deactivate();
 			}
 		}
 

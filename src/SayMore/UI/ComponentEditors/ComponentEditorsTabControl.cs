@@ -5,10 +5,6 @@ using System.Windows.Forms;
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class ComponentEditorsTabControl : TabControl
 	{
 		public string ProviderKey { get; private set; }

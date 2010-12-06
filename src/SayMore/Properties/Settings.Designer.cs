@@ -829,5 +829,17 @@ namespace SayMore.Properties {
                 this["PersonListGrid"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings ContributorsGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["ContributorsGrid"]));
+            }
+            set {
+                this["ContributorsGrid"] = value;
+            }
+        }
     }
 }

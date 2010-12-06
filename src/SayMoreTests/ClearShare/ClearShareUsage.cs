@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using NUnit.Framework;
 using Palaso.TestUtilities;
@@ -20,11 +15,10 @@ namespace SayMoreTests.ClearShare
 		public void TypicalEmbedInMyXmlDocument()
 		{
 			var system = new OlacSystem();
-
-			Work work = new Work();
+			var work = new Work();
 			work.Licenses.Add(License.CreativeCommons_Attribution_ShareAlike);
-			work.Contributions.Add(new Contribution("Charlie Brown", system.GetRoleOrThrow("author")));
-			work.Contributions.Add(new Contribution("Linus", system.GetRoleOrThrow("editor")));
+			work.Contributions.Add(new Contribution("Charlie Brown", system.GetRoleByCodeOrThrow("author")));
+			work.Contributions.Add(new Contribution("Linus", system.GetRoleByCodeOrThrow("editor")));
 
 			string metaData = system.GetXmlForWork(work);
 
@@ -38,13 +32,11 @@ namespace SayMoreTests.ClearShare
 				dom.Load(f.Path);
 
 				var node = dom.SelectSingleNode("//metadata");
-				Work work2 =new Work();
+				var work2 = new Work();
 				system.LoadWorkFromXml(work2, node.InnerXml);
 
 				Assert.AreEqual(2,work2.Contributions.Count());
 			}
-
 		}
-
 	}
 }

@@ -28,33 +28,23 @@ namespace SayMore.UI.ComponentEditors
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.components = new System.ComponentModel.Container();
-            this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
-            this._contributorsControl = new SayMore.ClearShare.ContributorsListControl();
-            this.SuspendLayout();
-            // 
-            // _contributorsControl
-            // 
-            this._contributorsControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._contributorsControl.Location = new System.Drawing.Point(7, 7);
-            this._contributorsControl.Name = "_contributorsControl";
-            this._contributorsControl.Size = new System.Drawing.Size(435, 265);
-            this._contributorsControl.TabIndex = 0;
-            // 
-            // ContributorsEditor
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this._contributorsControl);
-            this.Name = "ContributorsEditor";
-            this.Size = new System.Drawing.Size(449, 279);
-            this.ResumeLayout(false);
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ContributorsEditor));
+			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
+			this.SuspendLayout();
+			// 
+			// ContributorsEditor
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Name = "ContributorsEditor";
+			this.Size = new System.Drawing.Size(449, 279);
+			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
         private BindingHelper _binder;
-        private ClearShare.ContributorsListControl _contributorsControl;
 	}
 }

@@ -28,7 +28,6 @@ namespace SayMore.UI.ComponentEditors
 			MultiSelect = false;
 			Margin = new Padding(0, Margin.Top, 0, Margin.Bottom);
 			RowHeadersVisible = false;
-			SelectionMode = DataGridViewSelectionMode.CellSelect;
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 
 			_focusedSelectionBackColor = ColorHelper.CalculateColor(Color.White,

@@ -59,7 +59,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="SilUtils, Version=1.5.3821.32701, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SilUtils, Version=1.5.3992.31366, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SilUtils.dll</HintPath>
     </Reference>
@@ -88,6 +88,7 @@
     <Compile Include="ClearShare\ContributorsListControl.Designer.cs">
       <DependentUpon>ContributorsListControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClearShare\ContributorsListControlViewModel.cs" />
     <Compile Include="ClearShare\License.cs" />
     <Compile Include="ClearShare\OlacSystem.cs" />
     <Compile Include="ClearShare\Role.cs" />
@@ -654,8 +655,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)..\..\DistFiles\Genres.xml" "$(OutDir)"
-rd /S /Q "$(OutDir)mplayer"
-xcopy "$(ProjectDir)..\..\DistFiles\mplayer" "$(OutDir)mplayer" /E /I /Y /F /R</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

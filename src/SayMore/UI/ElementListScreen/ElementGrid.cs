@@ -159,8 +159,8 @@ namespace SayMore.UI.ElementListScreen
 		{
 			int itemCount = _items.Count();
 
-			var oldElement = (m_prevRowIndex >= 0 && m_prevRowIndex < itemCount ?
-				_items.ElementAt(m_prevRowIndex) : null);
+			var oldElement = (_prevRowIndex >= 0 && _prevRowIndex < itemCount ?
+				_items.ElementAt(_prevRowIndex) : null);
 
 			base.OnCurrentRowChanged(e);
 

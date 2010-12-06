@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 
 namespace SayMore.ClearShare
 {
@@ -38,10 +36,50 @@ namespace SayMore.ClearShare
 		/// </summary>
 		public string Notes { get; set; }
 
+		/// ------------------------------------------------------------------------------------
+		public Contribution()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public Contribution(string name, Role role)
 		{
 			ContributorName = name;
 			Role = role;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Contribution Clone()
+		{
+			// TODO: Deal with license if necessary.
+			return new Contribution(ContributorName, (Role != null ? Role.Clone() : null)) { Date = Date };
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns true if the contents of this Contribution are the same as those of the
+		/// specified Contribution.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool AreContentsEqual(Contribution other)
+		{
+			if (other == null)
+				return false;
+
+			bool rolesEqual = ((Role == null && other.Role == null) ||
+				(Role != null && Role.AreContentsEqual(other.Role)));
+
+			bool licensesEqual = ((ApprovedLicense == null && other.ApprovedLicense == null) ||
+				(ApprovedLicense != null && ApprovedLicense.AreContentsEqual(other.ApprovedLicense)));
+
+			return (ContributorName == other.ContributorName && rolesEqual &&
+				licensesEqual && Date == other.Date && Notes == other.Notes);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return ContributorName;
 		}
 	}
 }

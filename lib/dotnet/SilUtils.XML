@@ -595,10 +595,6 @@
 		</member>
 		<member name="M:SilUtils.Controls.CustomDropDownComboBox.OnPaint(System.Windows.Forms.PaintEventArgs)">
 			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.Controls.CustomDropDownComboBox.m_button_Paint(System.Object,System.Windows.Forms.PaintEventArgs)">
 			------------------------------------------------------------------------------------
@@ -609,39 +605,17 @@
 		</member>
 		<member name="M:SilUtils.Controls.CustomDropDownComboBox.PaintNonThemeButton(System.Drawing.Graphics,System.Windows.Forms.ButtonState)">
 			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
+		</member>
+		<member name="M:SilUtils.Controls.CustomDropDownComboBox.HandleButtonMouseEnter(System.Object,System.EventArgs)">
 			------------------------------------------------------------------------------------
 		</member>
-		<member name="M:SilUtils.Controls.CustomDropDownComboBox.m_button_MouseEnter(System.Object,System.EventArgs)">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
+		<member name="M:SilUtils.Controls.CustomDropDownComboBox.HandleButtonMouseLeave(System.Object,System.EventArgs)">
 			------------------------------------------------------------------------------------
 		</member>
-		<member name="M:SilUtils.Controls.CustomDropDownComboBox.m_button_MouseLeave(System.Object,System.EventArgs)">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
+		<member name="M:SilUtils.Controls.CustomDropDownComboBox.HandleButtonMouseUp(System.Object,System.Windows.Forms.MouseEventArgs)">
 			------------------------------------------------------------------------------------
 		</member>
-		<member name="M:SilUtils.Controls.CustomDropDownComboBox.m_button_MouseUp(System.Object,System.Windows.Forms.MouseEventArgs)">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="M:SilUtils.Controls.CustomDropDownComboBox.m_button_MouseDown(System.Object,System.Windows.Forms.MouseEventArgs)">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			<param name="sender"></param>
-			<param name="e"></param>
+		<member name="M:SilUtils.Controls.CustomDropDownComboBox.HandleButtonMouseDown(System.Object,System.Windows.Forms.MouseEventArgs)">
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="P:SilUtils.Controls.CustomDropDownComboBox.Text">
@@ -659,10 +633,6 @@
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="P:SilUtils.Controls.CustomDropDownComboBox.TextBox">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="P:SilUtils.Controls.CustomDropDownComboBox.AlignDropToLeft">
@@ -971,129 +941,13 @@
 			</summary>
 			------------------------------------------------------------------------------------
 		</member>
-		<member name="T:SilUtils.SilButtonColumn">
-			----------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
+		<member name="T:SilUtils.SilCalendarColumn">
 			----------------------------------------------------------------------------------------
 		</member>
-		<member name="M:SilUtils.SilButtonColumn.#ctor">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
+		<member name="M:SilUtils.SilCalendarColumn.#ctor">
 			------------------------------------------------------------------------------------
 		</member>
-		<member name="M:SilUtils.SilButtonColumn.#ctor(System.String)">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="M:SilUtils.SilButtonColumn.#ctor(System.String,System.Boolean)">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="M:SilUtils.SilButtonColumn.OnDataGridViewChanged">
-			------------------------------------------------------------------------------------
-			<summary>
-			Need to save the value of the owning grid's ShowCellToolTips value because we may
-			change it once in a while.
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="M:SilUtils.SilButtonColumn.ShowToolTip">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="M:SilUtils.SilButtonColumn.HideToolTip">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="M:SilUtils.SilButtonColumn.InvokeButtonClick(System.Windows.Forms.DataGridViewCellMouseEventArgs)">
-			------------------------------------------------------------------------------------
-			<summary>
-			Provides a way for an owned cell to fire the button clicked event on the column.
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="P:SilUtils.SilButtonColumn.CellTemplate">
-			------------------------------------------------------------------------------------
-			<summary>
-			Make sure the template is always a radion button cell.
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="P:SilUtils.SilButtonColumn.ButtonText">
-			------------------------------------------------------------------------------------
-			<summary>
-			Gets or sets the text of the button cells in this column.
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="P:SilUtils.SilButtonColumn.ButtonFont">
-			------------------------------------------------------------------------------------
-			<summary>
-			Gets or sets the text of the button cells in this column.
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="P:SilUtils.SilButtonColumn.ButtonWidth">
-			------------------------------------------------------------------------------------
-			<summary>
-			Gets or sets the width of the button within the column's cells.
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="P:SilUtils.SilButtonColumn.UseComboButtonStyle">
-			------------------------------------------------------------------------------------
-			<summary>
-			Gets or sets a value indicating whether or not to paint a combo box style button
-			in the column's owned cells. If false, a push button style is drawn.
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="P:SilUtils.SilButtonColumn.DrawDefaultComboButtonWidth">
-			------------------------------------------------------------------------------------
-			<summary>
-			Gets or sets a value indicating whether or not the combo button's width is
-			calculated automatically by the system (based on the theme). This value is only
-			relevant when UseComboButtonStyle is true and visual styles in the OS are
-			turned on.
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="P:SilUtils.SilButtonColumn.ShowButton">
-			------------------------------------------------------------------------------------
-			<summary>
-			Gets or sets a value indicating whether or not to show the button.
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="P:SilUtils.SilButtonColumn.DrawTextWithEllipsisPath">
-			------------------------------------------------------------------------------------
-			<summary>
-			Gets or sets a value indicating whether or not text in the button cells in the
-			column will be drawn using ellipsis path string formatting.
-			</summary>
-			------------------------------------------------------------------------------------
-		</member>
-		<member name="P:SilUtils.SilButtonColumn.ButtonToolTip">
-			------------------------------------------------------------------------------------
-			<summary>
-			Gets or sets the tooltip text for the buttons in the button cells in this column.
-			</summary>
+		<member name="P:SilUtils.SilCalendarColumn.CellTemplate">
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="T:SilUtils.SilButtonCell">
@@ -1167,6 +1021,18 @@
 			<summary>
 			Draws the button in the cell.
 			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonCell.DrawMinimalistButton(System.Drawing.Graphics,System.Drawing.Rectangle)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonCell.DrawVisualStyledButton(SilUtils.SilButtonColumn.ButtonType,System.Drawing.IDeviceContext,System.Drawing.Rectangle)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonCell.AdjustRectToDefaultComboButtonWidth(System.Drawing.Rectangle)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonCell.DrawPlainButton(SilUtils.SilButtonColumn.ButtonType,System.Drawing.Graphics,System.Drawing.Rectangle)">
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.SilButtonCell.DrawCellText(System.Drawing.IDeviceContext,System.String,System.Windows.Forms.DataGridViewCellStyle,System.Drawing.Rectangle)">
@@ -3091,6 +2957,122 @@
 			</summary>
 			------------------------------------------------------------------------------------
 		</member>
+		<member name="T:SilUtils.SilButtonColumn">
+			----------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonColumn.#ctor">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonColumn.#ctor(System.String)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonColumn.#ctor(System.String,System.Boolean)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonColumn.OnDataGridViewChanged">
+			------------------------------------------------------------------------------------
+			<summary>
+			Need to save the value of the owning grid's ShowCellToolTips value because we may
+			change it once in a while.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonColumn.ShowToolTip">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonColumn.HideToolTip">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilButtonColumn.InvokeButtonClick(System.Windows.Forms.DataGridViewCellMouseEventArgs)">
+			------------------------------------------------------------------------------------
+			<summary>
+			Provides a way for an owned cell to fire the button clicked event on the column.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilButtonColumn.CellTemplate">
+			------------------------------------------------------------------------------------
+			<summary>
+			Make sure the template is always a radion button cell.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilButtonColumn.ButtonText">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets or sets the text of the button cells in this column.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilButtonColumn.ButtonFont">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets or sets the text of the button cells in this column.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilButtonColumn.ButtonWidth">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets or sets the width of the button within the column's cells.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilButtonColumn.UseComboButtonStyle">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets or sets a value indicating whether or not to paint a combo box style button
+			in the column's owned cells. If false, a push button style is drawn.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilButtonColumn.DrawDefaultComboButtonWidth">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets or sets a value indicating whether or not the combo button's width is
+			calculated automatically by the system (based on the theme). This value is only
+			relevant when UseComboButtonStyle is true and visual styles in the OS are
+			turned on.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilButtonColumn.ShowButton">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets or sets a value indicating whether or not to show the button.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilButtonColumn.DrawTextWithEllipsisPath">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets or sets a value indicating whether or not text in the button cells in the
+			column will be drawn using ellipsis path string formatting.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilButtonColumn.ButtonToolTip">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets or sets the tooltip text for the buttons in the button cells in this column.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="F:SilUtils.SilButtonColumn.ButtonType.MinimalistCombo">
+			<summary>Draws just a simple drop-down arrow with no button border or background.</summary>
+		</member>
+		<member name="F:SilUtils.SilButtonColumn.ButtonType.PlainCombo">
+			<summary>Draws a plain combo box button, not using visual styles.</summary>
+		</member>
+		<member name="F:SilUtils.SilButtonColumn.ButtonType.PlainPush">
+			<summary>Draws a plain push button, not using visual styles.</summary>
+		</member>
+		<member name="F:SilUtils.SilButtonColumn.ButtonType.VisualStyleCombo">
+			<summary>Draws a combo box button using current visual style.</summary>
+		</member>
+		<member name="F:SilUtils.SilButtonColumn.ButtonType.VisualStylePush">
+			<summary>Draws a normal button using current visual style.</summary>
+		</member>
 		<member name="M:SilUtils.Utils.GetWindowRect(System.IntPtr,SilUtils.Utils.RECT@)">
 			<summary></summary>
 		</member>
@@ -3483,7 +3465,7 @@
 			</summary>
 			------------------------------------------------------------------------------------
 		</member>
-		<member name="M:SilUtils.SilGrid.ProcessHomeAndEndKeys(System.Windows.Forms.TextBox,System.Windows.Forms.Keys)">
+		<member name="M:SilUtils.SilGrid.ProcessHomeAndEndKeys(System.Windows.Forms.TextBoxBase,System.Windows.Forms.Keys)">
 			------------------------------------------------------------------------------------
 			<summary>
 			Processes the home and end keys.
@@ -3606,7 +3588,44 @@
 			</summary>
 			------------------------------------------------------------------------------------
 		</member>
+		<member name="M:SilUtils.SilGrid.CreateTextBoxColumn(System.String,System.String)">
+			------------------------------------------------------------------------------------
+			<summary>
+			Creates a text box grid column.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilGrid.CreateCalendarControlColumn(System.String)">
+			------------------------------------------------------------------------------------
+			<summary>
+			Creates a calendar control grid column that hosts calendar (date) cells.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilGrid.CreateCalendarControlColumn(System.String,System.String)">
+			------------------------------------------------------------------------------------
+			<summary>
+			Creates a calendar control grid column that hosts calendar (date) cells.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
 		<member name="M:SilUtils.SilGrid.CreateDropDownListComboBoxColumn(System.String,System.Collections.Generic.List{System.String})">
+			------------------------------------------------------------------------------------
+			<summary>
+			Creates a combo. box grid column whose cell values must be chosen from the
+			drop-down list.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilGrid.CreateDropDownListComboBoxColumn(System.String,System.Collections.Generic.IEnumerable{System.String})">
+			------------------------------------------------------------------------------------
+			<summary>
+			Creates a combo. box grid column whose cell values must be chosen from the
+			drop-down list.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilGrid.CreateDropDownListComboBoxColumn(System.String,System.Collections.Generic.IEnumerable{System.Object})">
 			------------------------------------------------------------------------------------
 			<summary>
 			Creates a combo. box grid column whose cell values must be chosen from the
@@ -3630,6 +3649,28 @@
 			</summary>
 			------------------------------------------------------------------------------------
 		</member>
+		<member name="M:SilUtils.SilGrid.CreateDropDownComboBoxColumn(System.String,System.Collections.Generic.IEnumerable{System.String})">
+			------------------------------------------------------------------------------------
+			<summary>
+			Creates a combo. box grid column whose cell values can be set by choosing a value
+			from the drop-down list or by typing one into the cell, even one that doesn't
+			appear in the drop-down list. If a value is typed into the cell that doesn't
+			appear in the drop-down list, that value is added to the list when the cell is
+			validated.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilGrid.CreateDropDownComboBoxColumn(System.String,System.Collections.Generic.IEnumerable{System.Object})">
+			------------------------------------------------------------------------------------
+			<summary>
+			Creates a combo. box grid column whose cell values can be set by choosing a value
+			from the drop-down list or by typing one into the cell, even one that doesn't
+			appear in the drop-down list. If a value is typed into the cell that doesn't
+			appear in the drop-down list, that value is added to the list when the cell is
+			validated.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
 		<member name="M:SilUtils.SilGrid.CreateDropDownComboBoxColumn(System.String,System.Collections.ArrayList)">
 			------------------------------------------------------------------------------------
 			<summary>
@@ -3639,9 +3680,6 @@
 			appear in the drop-down list, that value is added to the list when the cell is
 			validated.
 			</summary>
-			<param name="name"></param>
-			<param name="items"></param>
-			<returns></returns>
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.SilGrid.CreateDropDownComboBoxColumn(System.String,System.Object[])">
@@ -3667,8 +3705,6 @@
 			<summary>
 			Creates an image grid column.
 			</summary>
-			<param name="name"></param>
-			<returns></returns>
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.SilGrid.CreateSilButtonColumn(System.String)">
@@ -3746,6 +3782,58 @@
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="P:SilUtils.SilGrid.HScrollBar">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="T:SilUtils.SilCalendarEditingControl">
+			----------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilCalendarEditingControl.#ctor">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilCalendarEditingControl.OnValueChanged(System.EventArgs)">
+			------------------------------------------------------------------------------------
+			<summary>
+			Notify the DataGridView that the contents of the cell have changed.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilCalendarEditingControl.GetEditingControlFormattedValue(System.Windows.Forms.DataGridViewDataErrorContexts)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilCalendarEditingControl.ApplyCellStyleToEditingControl(System.Windows.Forms.DataGridViewCellStyle)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilCalendarEditingControl.EditingControlWantsInputKey(System.Windows.Forms.Keys,System.Boolean)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilCalendarEditingControl.PrepareEditingControlForEdit(System.Boolean)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilCalendarEditingControl.EditingPanelCursor">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilCalendarEditingControl.EditingControlFormattedValue">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilCalendarEditingControl.RepositionEditingControlOnValueChange">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="T:SilUtils.SilCalendarCell">
+			----------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilCalendarCell.#ctor">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:SilUtils.SilCalendarCell.InitializeEditingControl(System.Int32,System.Object,System.Windows.Forms.DataGridViewCellStyle)">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilCalendarCell.EditType">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilCalendarCell.ValueType">
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:SilUtils.SilCalendarCell.DefaultNewRowValue">
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="T:SilUtils.SplashScreenForm">

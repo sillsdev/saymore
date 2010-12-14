@@ -58,7 +58,7 @@ namespace SayMoreTests.Model
 			componentRoles.Add(new ComponentRole(null, "consent", null, ComponentRole.MeasurementTypes.None, null, null, Color.Empty));
 
 			return new Event(_parentFolder.Path, "dummyId", null,
-				new EventFileType(() => null), componentFactory,
+				new EventFileType(() => null, null), componentFactory,
 				new FileSerializer(null), factory, componentRoles, personInformant.Object);
 
 			//ComponentFile.CreateMinimalComponentFileForTests

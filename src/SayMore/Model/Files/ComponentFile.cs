@@ -426,7 +426,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(ProjectElement parentElement, string path)
 		{
-			return new ComponentFile(parentElement, path, new FileType[] { new UnknownFileType(null) },
+			return new ComponentFile(parentElement, path, new FileType[] { new UnknownFileType(null, null) },
 				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 		}
 

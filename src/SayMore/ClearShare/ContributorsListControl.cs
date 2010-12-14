@@ -232,11 +232,22 @@ namespace SayMore.ClearShare
 				return;
 
 			var txtBox = e.Control as TextBox;
+			_grid.Tag = txtBox;
+			_grid.CellEndEdit += HandleGridCellEndEdit;
 			txtBox.KeyPress += HandleCellEditBoxKeyPress;
-			txtBox.HandleDestroyed += HandleCellEditBoxHandleDestroyed;
 			txtBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 			txtBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
 			txtBox.AutoCompleteCustomSource = _model.GetAutoCompleteNames();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleGridCellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			var txtBox = _grid.Tag as TextBox;
+
+			txtBox.KeyPress -= HandleCellEditBoxKeyPress;
+			_grid.CellEndEdit -= HandleGridCellEndEdit;
+			_grid.Tag = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -250,13 +261,6 @@ namespace SayMore.ClearShare
 				e.Handled = true;
 				SystemSounds.Beep.Play();
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static void HandleCellEditBoxHandleDestroyed(object sender, EventArgs e)
-		{
-			((TextBox)sender).KeyPress -= HandleCellEditBoxKeyPress;
-			((TextBox)sender).HandleDestroyed -= HandleCellEditBoxHandleDestroyed;
 		}
 
 		/// ------------------------------------------------------------------------------------

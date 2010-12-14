@@ -52,7 +52,7 @@ namespace SayMoreTests.Model.Files
 			File.WriteAllText(_parentFolder.Combine(fileName), @"hello");
 
 			var cf = new ComponentFile(parentElement, _parentFolder.Combine(fileName),
-				new[] {FileType.Create("Text", ".txt"), new UnknownFileType(null) },
+				new[] {FileType.Create("Text", ".txt"), new UnknownFileType(null, null) },
 				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 
 			cf.Save(); //creates the meta file path
@@ -83,6 +83,23 @@ namespace SayMoreTests.Model.Files
 			var f = CreateComponentFile("abc.zzz");
 			SetStringValue(f, "color", "red");
 			Assert.AreEqual("red", f.GetStringValue("color", "blue"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetValue_FieldMissing_ReturnsSpecifiedDefault()
+		{
+			var f = CreateComponentFile("abc.zzz");
+			Assert.AreEqual(DateTime.MinValue, f.GetValue("notThere", DateTime.MinValue));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetValue_FieldIsThere_ReturnsCorrectValue()
+		{
+			var f = CreateComponentFile("abc.zzz");
+			SetValue(f, "wwII", new DateTime(1941, 12, 7));
+			Assert.AreEqual(new DateTime(1941, 12, 7), f.GetValue("wwII", null));
 		}
 
 		[Test]
@@ -298,6 +315,17 @@ namespace SayMoreTests.Model.Files
 		{
 			string failureMessage;
 			var suceeded = file.SetStringValue(key, value, out failureMessage);
+
+			if (!string.IsNullOrEmpty(failureMessage))
+				throw new ApplicationException(failureMessage);
+
+			return suceeded;
+		}
+
+		public object SetValue(ComponentFile file, string key, object value)
+		{
+			string failureMessage;
+			var suceeded = file.SetValue(key, value, out failureMessage);
 
 			if (!string.IsNullOrEmpty(failureMessage))
 				throw new ApplicationException(failureMessage);

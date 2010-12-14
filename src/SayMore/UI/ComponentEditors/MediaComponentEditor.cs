@@ -27,7 +27,7 @@ namespace SayMore.UI.ComponentEditors
 			FieldGatherer fieldGatherer)
 		{
 			_gridViewModel = new FieldsValuesGridViewModel(_file, autoCompleteProvider,
-				fieldGatherer, key => key != "notes");
+				fieldGatherer, key => !"notes contributions".Contains(key));
 
 			_grid = new FieldsValuesGrid(_gridViewModel);
 			_grid.Dock = DockStyle.Fill;

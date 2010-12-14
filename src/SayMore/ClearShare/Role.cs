@@ -37,6 +37,33 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				int result = (Code != null ? Code.GetHashCode() : 0);
+				result = (result * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+				result = (result * 397) ^ (Definition != null ? Definition.GetHashCode() : 0);
+				return result;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool Equals(object other)
+		{
+			if (other == null)
+				return false;
+
+			if (ReferenceEquals(this, other))
+				return true;
+
+			if (GetType() != other.GetType())
+				return false;
+
+			return AreContentsEqual(other as Role);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns true if the contents of this Role are the same as those of the specified
 		/// Role.
@@ -49,7 +76,8 @@ namespace SayMore.ClearShare
 
 			// REVIEW: Do we really care if name and definition are different. Perhaps only
 			// the code really matters.
-			return (Code == other.Code && Name == other.Name && Definition == other.Definition);
+			return (Code.Equals(other.Code) && Name.Equals(other.Name) &&
+				Definition.Equals(other.Definition));
 		}
 	}
 }

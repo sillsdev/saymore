@@ -141,7 +141,7 @@ namespace SayMore.Model
 			var newNames = personNames.Select(name => (name == oldId ? newId : name));
 
 			string failureMessage;
-			MetaDataFile.SetValue("participants",
+			MetaDataFile.SetStringValue("participants",
 				FieldInstance.GetTextFromMultipleValues(newNames), out failureMessage);
 
 			if (failureMessage != null)

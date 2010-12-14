@@ -32,5 +32,38 @@ namespace SayMoreTests.ClearShare
 			var l2 = License.CreativeCommons_Attribution_ShareAlike;
 			Assert.IsTrue(l1.AreContentsEqual(l2));
 		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equals_SameInstance_ReturnsTrue()
+		{
+			var l = License.CreativeCommons_Attribution_ShareAlike;
+			Assert.IsTrue(l.Equals(l));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equals_CompareToNull_ReturnsFalse()
+		{
+			var l = License.CreativeCommons_Attribution_ShareAlike;
+			Assert.IsFalse(l.Equals(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equals_CompareToObjOfDifferentType_ReturnsFalse()
+		{
+			var l = License.CreativeCommons_Attribution_ShareAlike;
+			Assert.IsFalse(l.Equals("junk"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equals_AreSame_ReturnsTrue()
+		{
+			var l1 = License.CreativeCommons_Attribution_ShareAlike;
+			var l2 = License.CreativeCommons_Attribution_ShareAlike;
+			Assert.IsTrue(l1.Equals(l2));
+		}
 	}
 }

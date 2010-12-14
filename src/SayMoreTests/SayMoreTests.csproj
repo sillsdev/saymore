@@ -93,6 +93,8 @@
     <Compile Include="ClearShare\RoleTests.cs" />
     <Compile Include="model\EventWorkflowInformantTests.cs" />
     <Compile Include="model\ElementRepositoryTests.cs" />
+    <Compile Include="model\Fields\ContributionCollectionTests.cs" />
+    <Compile Include="model\Fields\ContributionSerializerTests.cs" />
     <Compile Include="model\Fields\FieldInstanceTests.cs" />
     <Compile Include="model\Files\DataGathering\BackgroundFileProcessorTests.cs" />
     <Compile Include="model\Files\DataGathering\PresetDataTests.cs" />

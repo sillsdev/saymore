@@ -1,5 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using SayMore.Model.Fields;
+using SayMore.Model.Files.DataGathering;
 
 namespace SayMore.ClearShare
 {
@@ -8,13 +12,14 @@ namespace SayMore.ClearShare
 		public event EventHandler NewContributionListAvailable;
 
 		private readonly OlacSystem _olacSystem = new OlacSystem();
-		private Work _work;
-		private List<Contribution> _contributions;
+		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
+
+		public ContributionCollection Contributions { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<Contribution> Contributions
+		public ContributorsListControlViewModel(AutoCompleteValueGatherer autoCompleteProvider)
 		{
-			get { return _contributions; }
+			_autoCompleteProvider = autoCompleteProvider;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -24,56 +29,57 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetWorkFromXML(string xml)
+		public void SetContributionList(ContributionCollection list)
 		{
-			_work = new Work();
-			if (!string.IsNullOrEmpty(xml))
-				_olacSystem.LoadWorkFromXml(_work, xml);
-
-			_contributions = _work.Contributions;
+			Contributions = (list ?? new ContributionCollection());
 
 			if (NewContributionListAvailable != null)
 				NewContributionListAvailable(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetXMLFromWork()
+		public AutoCompleteStringCollection GetAutoCompleteNames()
 		{
-			return _olacSystem.GetXmlForWork(_work);
+			var list = (_autoCompleteProvider != null ?
+				_autoCompleteProvider.GetValuesForKey("person") : new List<string>(0));
+
+			var autoCompleteValues = new AutoCompleteStringCollection();
+			autoCompleteValues.AddRange(list.ToArray());
+			return autoCompleteValues;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool GetCanDeleteContribution(int index)
 		{
-			return (_contributions != null && index >= 0 && index < _contributions.Count);
+			return (Contributions != null && index >= 0 && index < Contributions.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public Contribution GetContributionCopy(int index)
 		{
-			return (index < 0 || index >= _contributions.Count ?
-				null : _contributions[index].Clone());
+			return (index < 0 || index >= Contributions.Count ?
+				null : Contributions[index].Clone() as Contribution);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public object GetContributionValue(int index, string valueName)
 		{
-			if (index >= 0 && index < _contributions.Count)
+			if (index >= 0 && index < Contributions.Count)
 			{
 				switch (valueName)
 				{
 					default: return null;
-					case "name": return _contributions[index].ContributorName;
-					case "notes": return _contributions[index].Notes;
+					case "name": return Contributions[index].ContributorName;
+					case "notes": return Contributions[index].Notes;
 
 					case "role":
-						if (_contributions[index].Role != null)
-							return _contributions[index].Role.Name;
+						if (Contributions[index].Role != null)
+							return Contributions[index].Role.Name;
 						break;
 
 					case "date":
 						DateTime date;
-						if (DateTime.TryParse(_contributions[index].Date, out date))
+						if (DateTime.TryParse(Contributions[index].Date, out date))
 							return date;
 						break;
 				}
@@ -85,27 +91,27 @@ namespace SayMore.ClearShare
 		/// ------------------------------------------------------------------------------------
 		public void SetContributionValue(int index, string valueName, object value)
 		{
-			if (index < 0 || index > _contributions.Count)
+			if (index < 0 || index > Contributions.Count)
 				return;
 
-			if (index == _contributions.Count)
-				_contributions.Add(new Contribution());
+			if (index == Contributions.Count)
+				Contributions.Add(new Contribution());
 
 			switch (valueName)
 			{
 				default: break;
-				case "name": _contributions[index].ContributorName = value as string; break;
-				case "notes": _contributions[index].Notes = value as string; break;
+				case "name": Contributions[index].ContributorName = value as string; break;
+				case "notes": Contributions[index].Notes = value as string; break;
 
 				case "role":
 					Role role;
 					if (_olacSystem.TryGetRoleByName(value as string, out role))
-						_contributions[index].Role = role;
+						Contributions[index].Role = role;
 					break;
 
 				case "date":
 					if (value != null && value.GetType() == typeof(DateTime))
-						_contributions[index].Date = ((DateTime)value).ToShortDateString();
+						Contributions[index].Date = ((DateTime)value).ToShortDateString();
 					break;
 			}
 		}
@@ -113,10 +119,10 @@ namespace SayMore.ClearShare
 		/// ------------------------------------------------------------------------------------
 		public bool DeleteContribution(int index)
 		{
-			if (index < 0 || index >= _contributions.Count)
+			if (index < 0 || index >= Contributions.Count)
 				return false;
 
-			_contributions.RemoveAt(index);
+			Contributions.RemoveAt(index);
 			return true;
 		}
 	}

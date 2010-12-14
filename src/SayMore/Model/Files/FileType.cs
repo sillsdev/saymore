@@ -523,13 +523,16 @@ namespace SayMore.Model.Files
 	public class AudioFileType : AudioVideoFileTypeBase
 	{
 		private readonly Func<AudioComponentEditor.Factory> _audioComponentEditorFactoryLazy;
+		private readonly Func<ContributorsEditor.Factory> _contributorsEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
-		public AudioFileType(Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy)
+		public AudioFileType(Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy,
+			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base("Audio",
 			p => Settings.Default.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
 		{
 			_audioComponentEditorFactoryLazy = audioComponentEditorFactoryLazy;
+			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -586,16 +589,15 @@ namespace SayMore.Model.Files
 			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
 			yield return _audioComponentEditorFactoryLazy()(file, text, null);
 
-#if DEBUG
+
 			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.Contributors", "Contributors");
-			yield return new ContributorsEditor(file, text, null/*"People"*/);
-#endif
+			yield return _contributorsEditorFactoryLazy()(file, text, null);
+
+			//text = LocalizationManager.LocalizeString("AudioFileInfoEditor.Contributors", "Contributors");
+			//yield return new ContributorsEditor(file, text, null);
 
 			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
-
-			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-
 		}
 
 		/// ------------------------------------------------------------------------------------

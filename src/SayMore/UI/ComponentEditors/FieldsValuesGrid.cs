@@ -78,13 +78,15 @@ namespace SayMore.UI.ComponentEditors
 			SetSelectionColors(true);
 			CurrentCell = (_model.GetIdForIndex(0) == null ? this[0, 0] : this[1, 0]);
 
-			// This prevents the grid stealing focus at startup when it shouldn't. The problem arises in the
-			// following way: The OnCellFormatting gets called, even when the grid does not have focus. In
-			// the CellFormatting event, cells are made readonly or not. When the edit mode is EditOnEnter,
-			// setting a cell's readonly property to false (I think) will cause the cell to go into edit
-			// mode. When it goes into edit mode, the cell editor gets displayed and if the  grid does not
-			// have focus, it thinks it should, because the editor just got shown. Therefore, the grid will
-			// steal the focus from another control at startup.
+			// This prevents the grid from stealing focus at startup when it shouldn't.
+			// The problem arises in the following way: The OnCellFormatting gets called,
+			// even when the grid does not have focus. In the CellFormatting event, cells
+			// are made readonly or not. When the edit mode is EditOnEnter, setting a
+			// cell's readonly property to false (I think) will cause the cell to go into
+			// edit mode. When it goes into edit mode, the cell editor gets displayed and
+			// if the grid does not have focus, it thinks it should, because the editor
+			// just got shown. Therefore, the grid will steal the focus from another
+			// control at startup.
 			if (EditMode != DataGridViewEditMode.EditOnEnter)
 				EditMode = DataGridViewEditMode.EditOnEnter;
 		}

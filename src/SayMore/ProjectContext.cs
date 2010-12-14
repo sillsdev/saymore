@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Autofac;
 using SayMore.Model;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.ComponentEditors;
@@ -104,7 +105,8 @@ namespace SayMore
 					c => new FieldGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
 						c.Resolve<FileTypeFields.Factory>())).InstancePerLifetimeScope();
 
-				builder.Register<FieldUpdater>(c => new FieldUpdater(c.Resolve<FieldGatherer>())).InstancePerLifetimeScope();
+				builder.Register<FieldUpdater>(c => new FieldUpdater(c.Resolve<FieldGatherer>(),
+					c.Resolve<IDictionary<string, IXmlFieldSerializer>>())).InstancePerLifetimeScope();
 
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor

@@ -142,7 +142,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public string GetValueForIndex(int index)
 		{
-			return (index < RowData.Count ? RowData[index].Value : null);
+			return (index < RowData.Count ? RowData[index].ValueAsString : null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -178,11 +178,11 @@ namespace SayMore.UI.ComponentEditors
 		{
 			value = (value != null ? value.Trim() : string.Empty);
 
-			if (value == RowData[index].Value)
+			if (value == RowData[index].ValueAsString)
 				return;
 
 			string failureMessage;
-			value = _file.SetValue(RowData[index].FieldId, value, out failureMessage);
+			value = _file.SetStringValue(RowData[index].FieldId, value, out failureMessage);
 			if (failureMessage != null)
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 			else

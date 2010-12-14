@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Moq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
@@ -40,7 +39,7 @@ namespace SayMoreTests.UI.Overview.Statistics
 			var events = new ElementRepository<Event>(_folder.Combine("events"),"Events", null, null);
 
 			return new StatisticsViewModel(people, events, new[] { nullRole },
-				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(() => null) }));
+				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(() => null, () => null) }));
 		}
 
 		[Test]

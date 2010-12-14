@@ -7,7 +7,7 @@ namespace SayMore.Model.Fields
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// A FieldInstance is conceptually a key-value pair.  We add other properties as necessary,
+	/// A FieldInstance is conceptually a key-value pair. We add other properties as necessary,
 	/// but that's the simple idea.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
@@ -17,10 +17,10 @@ namespace SayMore.Model.Fields
 
 		public string FieldId { get; set; }
 		public string Type { get; set; }
-		public string Value { get; set; }
+		public object Value { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public FieldInstance(string id, string type, string value)
+		public FieldInstance(string id, string type, object value)
 		{
 			FieldId = id;
 			Type = type;
@@ -28,8 +28,8 @@ namespace SayMore.Model.Fields
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldInstance(string id, string value)
-			: this(id, "string", value)
+		public FieldInstance(string id, object value) :
+			this(id, (value == null || value is string) ? "string" : "xml", value)
 		{
 		}
 
@@ -40,17 +40,45 @@ namespace SayMore.Model.Fields
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldInstance CreateCopy()
+		public string ValueAsString
 		{
-			return new FieldInstance(FieldId, Type, Value);
+			get
+			{
+				if (Value == null)
+					return null;
+
+				return (Value is string ? (string)Value : Value.ToString());
+			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a copy of the field's value if the value is a value type or if it
+		/// implements ICloneable. Otherwise, the returned value will be a reference to
+		/// the this instance's value object. So be warned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public object CopyValue()
+		{
+			// Reference types need to do a deep copy.
+			return (Value is ICloneable ? ((ICloneable)Value).Clone() : Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Copies the contents of the source instance to this instance. If the value is a
+		/// value type or implements ICloneable (and the cloning is a deep copy), then
+		/// all should work fine. Otherwise, the value will just refer to the same object
+		/// that's in the source.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Copy(FieldInstance source)
 		{
 			FieldId = source.FieldId;
 			Type = source.Type;
-			Value = source.Value;
+
+			// Reference types need to do a deep copy.
+			Value = (Value is ICloneable ? ((ICloneable)source.Value).Clone() : source.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -86,8 +114,13 @@ namespace SayMore.Model.Fields
 			if (ReferenceEquals(this, other))
 				return true;
 
-			return Equals(other.FieldId, FieldId) &&
-				Equals(other.Type, Type) && Equals(other.Value, Value);
+			if (!Equals(other.FieldId, FieldId) || !Equals(other.Type, Type))
+				return false;
+
+			if (Value is string && other.Value is string)
+				return Equals(other.ValueAsString, ValueAsString);
+
+			return Value.Equals(other.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,7 +138,7 @@ namespace SayMore.Model.Fields
 			{
 				int result = (FieldId != null ? FieldId.GetHashCode() : 0);
 				result = (result * 397) ^ (Type != null ? Type.GetHashCode() : 0);
-				result = (result * 397) ^ (Value != null ? Value.GetHashCode() : 0);
+				result = (result * 397) ^ (ValueAsString != null ? ValueAsString.GetHashCode() : 0);
 				return result;
 			}
 		}
@@ -125,19 +158,19 @@ namespace SayMore.Model.Fields
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return string.Format("{0}='{1}'", FieldId, Value);
+			return string.Format("{0}='{1}'", FieldId, ValueAsString);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool GetHasMultipleValues()
 		{
-			return (string.IsNullOrEmpty(Value) ? false : (GetValues().Count() > 1));
+			return (string.IsNullOrEmpty(ValueAsString) ? false : (GetValues().Count() > 1));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> GetValues()
 		{
-			return GetMultipleValuesFromText(Value);
+			return GetMultipleValuesFromText(ValueAsString);
 		}
 
 		/// ------------------------------------------------------------------------------------

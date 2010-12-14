@@ -1,24 +1,29 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using SayMore.ClearShare;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
+using SayMore.Model.Files.DataGathering;
 
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class ContributorsEditor : EditorBase
 	{
+		public delegate ContributorsEditor Factory(ComponentFile file, string tabText, string imageKey);
+
 		protected ContributorsListControl _contributorsControl;
 		protected ContributorsListControlViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public ContributorsEditor(ComponentFile file, string tabText, string imageKey)
+		public ContributorsEditor(ComponentFile file, string tabText, string imageKey,
+			AutoCompleteValueGatherer autoCompleteProvider)
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
 			Name = "Contributors";
 
-			_model = new ContributorsListControlViewModel();
+			_model = new ContributorsListControlViewModel(autoCompleteProvider);
 
 			_contributorsControl = new ContributorsListControl(_model);
 			_contributorsControl.Dock = DockStyle.Fill;
@@ -33,7 +38,7 @@ namespace SayMore.UI.ComponentEditors
 		public override void SetComponentFile(ComponentFile file)
 		{
 			base.SetComponentFile(file);
-			_model.SetWorkFromXML(file.GetStringValue("work", null));
+			_model.SetContributionList(file.GetValue("contributions", null) as ContributionCollection);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -52,29 +57,24 @@ namespace SayMore.UI.ComponentEditors
 				return "Please choose a contributor's role.";
 
 			e.Cancel = false;
-			SaveWork();
+			SaveContributors();
 			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleContributorDeleted(object sender, System.EventArgs e)
 		{
-			SaveWork();
+			SaveContributors();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SaveWork()
+		private void SaveContributors()
 		{
-			var xml = _model.GetXMLFromWork();
-
-			if (!string.IsNullOrEmpty(xml))
-			{
-				string failureMessage;
-				_file.SetValue("work", xml, out failureMessage);
-				_file.Save();
-				if (failureMessage != null)
-					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
-			}
+			string failureMessage;
+			_file.SetValue("contributions", _model.Contributions, out failureMessage);
+			_file.Save();
+			if (failureMessage != null)
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 		}
 	}
 }

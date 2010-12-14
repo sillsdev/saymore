@@ -46,6 +46,33 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				int result = (Url != null ? Url.GetHashCode() : 0);
+				result = (result * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+				result = (result * 397) ^ (Logo != null ? Logo.GetHashCode() : 0);
+				return result;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool Equals(object other)
+		{
+			if (other == null)
+				return false;
+
+			if (ReferenceEquals(this, other))
+				return true;
+
+			if (GetType() != other.GetType())
+				return false;
+
+			return AreContentsEqual(other as License);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns true if the contents of this License are the same as those of the
 		/// specified License.
@@ -54,7 +81,7 @@ namespace SayMore.ClearShare
 		public bool AreContentsEqual(License other)
 		{
 			// TODO: compare logo images.
-			return (other != null && Name == other.Name && Url == other.Url);
+			return (other != null && Name.Equals(other.Name) && Url.Equals(other.Url));
 		}
 	}
 }

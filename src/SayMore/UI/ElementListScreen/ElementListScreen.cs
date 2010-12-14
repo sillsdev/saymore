@@ -224,7 +224,7 @@ namespace SayMore.UI.ElementListScreen
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleComponentFileIdChanged(ComponentFile file,
-			string fieldId, string oldId, string newId)
+			string fieldId, object oldId, object newId)
 		{
 			_elementsGrid.Refresh();
 			_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
@@ -236,7 +236,7 @@ namespace SayMore.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleComponentFileMetadataValueChanged(ComponentFile file,
-			string fieldId, string oldValue, string newValue)
+			string fieldId, object oldValue, object newValue)
 		{
 			_componentFilesControl.Refresh();
 		}

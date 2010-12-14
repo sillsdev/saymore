@@ -59,7 +59,7 @@ namespace SayMoreTests.Model
 
 			return new Event(_parentFolder.Path, "dummyId", null,
 				new EventFileType(() => null), componentFactory,
-				new FileSerializer(), factory, componentRoles, personInformant.Object);
+				new FileSerializer(null), factory, componentRoles, personInformant.Object);
 
 			//ComponentFile.CreateMinimalComponentFileForTests
 		}

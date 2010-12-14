@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Windows.Forms;
 using Palaso.Code;
 using SayMore.Properties;
@@ -21,6 +22,7 @@ namespace SayMore.ClearShare
 
 		private Contribution _preValidatedContribution;
 		private readonly ContributorsListControlViewModel _model;
+		private int _indexOfIncompleteRowToDelete = -1;
 
 		/// ------------------------------------------------------------------------------------
 		public ContributorsListControl()
@@ -40,19 +42,26 @@ namespace SayMore.ClearShare
 		private void Initialize()
 		{
 			_grid.Font = SystemFonts.IconTitleFont;
-			_grid.Columns.Add(SilGrid.CreateTextBoxColumn("name", "Name"));
 
-			var col = SilGrid.CreateDropDownListComboBoxColumn("role",
+			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("name", "Name");
+			col.Width = 150;
+			_grid.Columns.Add(col);
+
+			col = SilGrid.CreateDropDownListComboBoxColumn("role",
 				_model.OlacRoles.Select(r => r.ToString()));
-
 			col.HeaderText = "Role";
+			col.Width = 120;
 			_grid.Columns.Add(col);
 
 			_grid.Columns.Add(SilGrid.CreateCalendarControlColumn("date", "Date"));
-			_grid.Columns.Add(SilGrid.CreateTextBoxColumn("notes", "Notes"));
+
+			col = SilGrid.CreateTextBoxColumn("notes", "Notes");
+			col.Width = 200;
+			_grid.Columns.Add(col);
 
 			_grid.AllowUserToAddRows = true;
 			_grid.AllowUserToDeleteRows = true;
+			_grid.EditingControlShowing += HandleEditingControlShowing;
 			_grid.CurrentRowChanged += HandleGridCurrentRowChanged;
 			_grid.RowValidating += HandleGridRowValidating;
 			_grid.MouseClick += HandleGridMouseClick;
@@ -129,8 +138,13 @@ namespace SayMore.ClearShare
 		void HandleGridMouseClick(object sender, MouseEventArgs e)
 		{
 			var hi = _grid.HitTest(e.X, e.Y);
-			if (e.Button == MouseButtons.Left && hi.ColumnIndex == -1)
+
+			// Make the first cell current when the user clicks a row heading.
+			if (e.Button == MouseButtons.Left && hi.ColumnIndex == -1 &&
+				hi.RowIndex >= 0 && hi.RowIndex < _grid.RowCount)
+			{
 				_grid.CurrentCell = _grid[0, hi.RowIndex];
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -160,12 +174,41 @@ namespace SayMore.ClearShare
 			if (contribution.AreContentsEqual(_preValidatedContribution))
 				return;
 
+			// If the name is missing, then get rid of the current row.
+			// See more explanation of the process in RemoveIncompleteRow.
+			if (contribution.ContributorName == null || contribution.ContributorName.Trim().Length == 0)
+			{
+				_grid.EndEdit();
+				_indexOfIncompleteRowToDelete = e.RowIndex;
+				Application.Idle += RemoveIncompleteRow;
+				return;
+			}
+
 			var args = new CancelEventArgs(e.Cancel);
 			var errorMsg = ValidatingContributor(this, contribution, args);
 			e.Cancel = args.Cancel;
 
 			if (!string.IsNullOrEmpty(errorMsg))
 				Palaso.Reporting.ProblemNotificationDialog.Show(errorMsg);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The best time to remove an imcomplete row is when it's determined that the row is
+		/// incomplete (i.e. in the row validating event). However, removing the row involves
+		/// changing the row count. The problem is, the grid throws an exception if you try
+		/// to change the row count in any of the row handling events (e.g. RowValidating,
+		/// RowValidated, RowLeave, RowEnter, etc.). The only way I know of to reliably get
+		/// rid of the row when the user would expect it, is when the app. goes idle right
+		/// after the row is validated and it's determined the row is incomplete. Argh!
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void RemoveIncompleteRow(object sender, EventArgs e)
+		{
+			if (_indexOfIncompleteRowToDelete >= 0)
+				DeleteRow(_indexOfIncompleteRowToDelete);
+
+			Application.Idle -= RemoveIncompleteRow;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -183,17 +226,56 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleDeleteButtonClicked(object sender, EventArgs e)
+		protected void HandleEditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
 		{
-			if (!_model.DeleteContribution(_grid.CurrentCellAddress.Y))
+			if (_grid.CurrentCellAddress.X != 0)
 				return;
 
-			int rowIndex = _grid.CurrentCellAddress.Y;
+			var txtBox = e.Control as TextBox;
+			txtBox.KeyPress += HandleCellEditBoxKeyPress;
+			txtBox.HandleDestroyed += HandleCellEditBoxHandleDestroyed;
+			txtBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+			txtBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+			txtBox.AutoCompleteCustomSource = _model.GetAutoCompleteNames();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void HandleCellEditBoxKeyPress(object sender, KeyPressEventArgs e)
+		{
+			// Prevent characters that are invalid as xml tags. There's probably more,
+			// but this will do for now.
+			if ("<>{}()[]/'\"\\.,;:?|!@#$%^&*=+`~".IndexOf(e.KeyChar) >= 0)
+			{
+				e.KeyChar = (char)0;
+				e.Handled = true;
+				SystemSounds.Beep.Play();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void HandleCellEditBoxHandleDestroyed(object sender, EventArgs e)
+		{
+			((TextBox)sender).KeyPress -= HandleCellEditBoxKeyPress;
+			((TextBox)sender).HandleDestroyed -= HandleCellEditBoxHandleDestroyed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleDeleteButtonClicked(object sender, EventArgs e)
+		{
+			DeleteRow(_grid.CurrentCellAddress.Y);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DeleteRow(int rowIndex)
+		{
+			if (!_model.DeleteContribution(rowIndex))
+				return;
+
 			_grid.CurrentRowChanged -= HandleGridCurrentRowChanged;
 			_grid.RowCount--;
 			_grid.CurrentRowChanged += HandleGridCurrentRowChanged;
 
-			if (rowIndex >= _grid.RowCount - 1 && rowIndex > 0)
+			if (rowIndex >= _grid.RowCount && rowIndex > 0)
 				rowIndex--;
 
 			_grid.CurrentCell = _grid[_grid.CurrentCellAddress.X, rowIndex];

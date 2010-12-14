@@ -53,7 +53,7 @@ namespace SayMoreTests.Model.Files
 
 			var cf = new ComponentFile(parentElement, _parentFolder.Combine(fileName),
 				new[] {FileType.Create("Text", ".txt"), new UnknownFileType(null) },
-				new ComponentRole[] { }, new FileSerializer(), null, null, null);
+				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 
 			cf.Save(); //creates the meta file path
 			return cf;
@@ -81,7 +81,7 @@ namespace SayMoreTests.Model.Files
 		public void GetStringValue_FieldIsThere_ReturnsCorrectValue()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			SetValue(f, "color", "red");
+			SetStringValue(f, "color", "red");
 			Assert.AreEqual("red", f.GetStringValue("color", "blue"));
 		}
 
@@ -90,8 +90,8 @@ namespace SayMoreTests.Model.Files
 		public void RenameId_FieldIsThere_Succeeds()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			SetValue(f, "height", "25");
-			SetValue(f, "width", "50");
+			SetStringValue(f, "height", "25");
+			SetStringValue(f, "width", "50");
 
 			f.RenameId("width", "girth");
 			Assert.IsNull(f.GetStringValue("width", null));
@@ -104,8 +104,8 @@ namespace SayMoreTests.Model.Files
 		public void RenameId_FieldIsThere_OldIdReturnsNothing()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			SetValue(f, "height", "25");
-			SetValue(f, "width", "50");
+			SetStringValue(f, "height", "25");
+			SetStringValue(f, "width", "50");
 
 			f.RenameId("width", "girth");
 			Assert.IsNull(f.GetStringValue("width", null));
@@ -116,8 +116,8 @@ namespace SayMoreTests.Model.Files
 		public void RenameId_FieldIsThere_NewIdReturnsOldValue()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			SetValue(f, "height", "25");
-			SetValue(f, "width", "50");
+			SetStringValue(f, "height", "25");
+			SetStringValue(f, "width", "50");
 
 			f.RenameId("width", "girth");
 			Assert.AreEqual("50", f.GetStringValue("girth", null));
@@ -128,7 +128,7 @@ namespace SayMoreTests.Model.Files
 		public void RenameId_FieldMissing_ReturnsFalse()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			SetValue(f, "height", "25");
+			SetStringValue(f, "height", "25");
 
 			f.RenameId("width", "girth");
 			Assert.IsNull(f.GetStringValue("width", null));
@@ -141,7 +141,7 @@ namespace SayMoreTests.Model.Files
 		public void RenameId_FieldMissing_NewIdReturnsNothing()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			SetValue(f, "height", "25");
+			SetStringValue(f, "height", "25");
 			f.RenameId("width", "girth");
 			Assert.IsNull(f.GetStringValue("width", null));
 		}
@@ -151,8 +151,8 @@ namespace SayMoreTests.Model.Files
 		public void RemoveField_FieldIsThere_RemovesIt()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			SetValue(f, "height", "25");
-			SetValue(f, "width", "50");
+			SetStringValue(f, "height", "25");
+			SetStringValue(f, "width", "50");
 			f.RemoveField("width");
 			Assert.AreEqual("25", f.GetStringValue("height", null));
 			Assert.IsNull(f.GetStringValue("width", null));
@@ -163,8 +163,8 @@ namespace SayMoreTests.Model.Files
 		public void RemoveField_FieldIsThere_OldIdReturnsNothing()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			SetValue(f, "height", "25");
-			SetValue(f, "width", "50");
+			SetStringValue(f, "height", "25");
+			SetStringValue(f, "width", "50");
 			f.RemoveField("width");
 			Assert.IsNull(f.GetStringValue("width", null));
 		}
@@ -174,7 +174,7 @@ namespace SayMoreTests.Model.Files
 		public void RemoveField_FieldMissing_DoesNothing()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			SetValue(f, "height", "25");
+			SetStringValue(f, "height", "25");
 			f.RemoveField("width");
 			Assert.AreEqual("25", f.GetStringValue("height", null));
 			Assert.IsNull(f.GetStringValue("width", null));
@@ -185,8 +185,8 @@ namespace SayMoreTests.Model.Files
 		public void SetValue_ChangingValue_NewValueOverwritesOld()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			SetValue(f, "color", "red");
-			SetValue(f, "color", "green");
+			SetStringValue(f, "color", "red");
+			SetStringValue(f, "color", "green");
 			Assert.AreEqual("green", f.GetStringValue("color", "blue"));
 		}
 
@@ -221,7 +221,7 @@ namespace SayMoreTests.Model.Files
 			};
 
 			return new ComponentFile(parentElement, path, new[] { FileType.Create("Text", ".txt"), },
-				componentRoles, new FileSerializer(), null, null, null);
+				componentRoles, new FileSerializer(null), null, null, null);
 		}
 
 		[Test]
@@ -294,14 +294,14 @@ namespace SayMoreTests.Model.Files
 			Assert.IsTrue(File.Exists(f.PathToAnnotatedFile));
 		}
 
-		public string SetValue(ComponentFile file, string key, string value)
+		public string SetStringValue(ComponentFile file, string key, string value)
 		{
 			string failureMessage;
-			var suceeded = file.SetValue(key, value, out failureMessage);
+			var suceeded = file.SetStringValue(key, value, out failureMessage);
+
 			if (!string.IsNullOrEmpty(failureMessage))
-			{
 				throw new ApplicationException(failureMessage);
-			}
+
 			return suceeded;
 		}
 	}

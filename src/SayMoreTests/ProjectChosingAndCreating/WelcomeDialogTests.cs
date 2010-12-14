@@ -1,32 +1,9 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.
-//
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright>
-#endregion
-//
-// File: WelcomeDialogTests.cs
-// Responsibility: Olson
-//
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
-
-using System.IO;
 using NUnit.Framework;
-using Palaso.TestUtilities;
 using SilUtils;
 using SayMore.UI.ProjectChoosingAndCreating;
 
 namespace SayMoreTests.ProjectChosingAndCreating
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
 	public class WelcomeDialogTests

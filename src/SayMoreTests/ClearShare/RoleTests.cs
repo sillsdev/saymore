@@ -61,11 +61,44 @@ namespace SayMoreTests.ClearShare
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void AreContentsEqual_SameEverything_ReturnsTrue()
+		public void AreContentsEqual_AllSame_ReturnsTrue()
 		{
 			var r1 = new Role("codered", "Jaguar", "black");
 			var r2 = new Role("codered", "Jaguar", "black");
 			Assert.IsTrue(r1.AreContentsEqual(r2));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equals_SameInstance_ReturnsTrue()
+		{
+			var r = new Role("codered", "Jaguar", "black");
+			Assert.IsTrue(r.Equals(r));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equals_CompareToNull_ReturnsFalse()
+		{
+			var r = new Role("codered", "Jaguar", "black");
+			Assert.IsFalse(r.Equals(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equals_CompareToObjOfDifferentType_ReturnsFalse()
+		{
+			var r = new Role("codered", "Jaguar", "black");
+			Assert.IsFalse(r.Equals("junk"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equals_AllSame_ReturnsTrue()
+		{
+			var r1 = new Role("codered", "Jaguar", "black");
+			var r2 = new Role("codered", "Jaguar", "black");
+			Assert.IsTrue(r1.Equals(r2));
 		}
 	}
 }

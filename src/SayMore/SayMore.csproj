@@ -632,6 +632,10 @@
     <None Include="Resources\Save.png" />
     <None Include="Resources\StatisticsViewStyles.css" />
     <None Include="Resources\Blue Wheel.gif" />
+    <None Include="Resources\Finsihed.png" />
+    <None Include="Resources\Incoming.png" />
+    <None Include="Resources\InProgress.png" />
+    <None Include="Resources\Skipped.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

@@ -70,7 +70,7 @@ namespace SayMore.ClearShare
 				{
 					default: return null;
 					case "name": return Contributions[index].ContributorName;
-					case "notes": return Contributions[index].Notes;
+					case "comments": return Contributions[index].Comments;
 
 					case "role":
 						if (Contributions[index].Role != null)
@@ -101,7 +101,7 @@ namespace SayMore.ClearShare
 			{
 				default: break;
 				case "name": Contributions[index].ContributorName = value as string; break;
-				case "notes": Contributions[index].Notes = value as string; break;
+				case "comments": Contributions[index].Comments = value as string; break;
 
 				case "role":
 					Role role;

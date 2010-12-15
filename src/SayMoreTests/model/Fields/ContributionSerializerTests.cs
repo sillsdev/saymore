@@ -66,8 +66,8 @@ namespace SayMoreTests.model.Fields
 			Assert.AreEqual("Singer", collection[1].Role.Name);
 			Assert.AreEqual("1993/07/04", collection[0].Date);
 			Assert.AreEqual("2004/10/18", collection[1].Date);
-			Assert.AreEqual("Show host", collection[0].Notes);
-			Assert.AreEqual("Show dork", collection[1].Notes);
+			Assert.AreEqual("Show host", collection[0].Comments);
+			Assert.AreEqual("Show dork", collection[1].Comments);
 		}
 	}
 }

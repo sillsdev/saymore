@@ -25,7 +25,7 @@ namespace SayMoreTests.ClearShare
 			var r = new Role("dev", "developer", "def");
 			var c = new Contribution("name", r);
 			c.Date = DateTime.Now.ToString();
-			c.Notes = "stupid note";
+			c.Comments = "stupid note";
 			Assert.IsTrue(c.AreContentsEqual(c.Clone() as Contribution));
 		}
 
@@ -92,8 +92,8 @@ namespace SayMoreTests.ClearShare
 		[Test]
 		public void AreContentsEqual_NotesDifferent_ReturnsFalse()
 		{
-			var c1 = new Contribution("bucky", null) { Notes = "get bread" };
-			var c2 = new Contribution("bucky", null) { Notes = "get pickles" };
+			var c1 = new Contribution("bucky", null) { Comments = "get bread" };
+			var c2 = new Contribution("bucky", null) { Comments = "get pickles" };
 			Assert.IsFalse(c1.AreContentsEqual(c2));
 		}
 
@@ -107,8 +107,8 @@ namespace SayMoreTests.ClearShare
 			var l1 = License.CreativeCommons_Attribution;
 			var l2 = License.CreativeCommons_Attribution;
 
-			var c1 = new Contribution("joey", r1) { Date = DateTime.Now.ToString(), Notes = "get bread", ApprovedLicense = l1 };
-			var c2 = new Contribution("joey", r2) { Date = DateTime.Now.ToString(), Notes = "get bread", ApprovedLicense = l2 };
+			var c1 = new Contribution("joey", r1) { Date = DateTime.Now.ToString(), Comments = "get bread", ApprovedLicense = l1 };
+			var c2 = new Contribution("joey", r2) { Date = DateTime.Now.ToString(), Comments = "get bread", ApprovedLicense = l2 };
 			Assert.IsTrue(c1.AreContentsEqual(c2));
 		}
 
@@ -140,8 +140,8 @@ namespace SayMoreTests.ClearShare
 		[Test]
 		public void Equals_DateIsNull_DoesNotThrow()
 		{
-			var c1 = new Contribution("joey", null) { Notes = "note" };
-			var c2 = new Contribution("joey", null) { Notes = "note" };
+			var c1 = new Contribution("joey", null) { Comments = "note" };
+			var c2 = new Contribution("joey", null) { Comments = "note" };
 			Assert.IsTrue(c1.Equals(c2));
 		}
 
@@ -164,8 +164,8 @@ namespace SayMoreTests.ClearShare
 			var l1 = License.CreativeCommons_Attribution;
 			var l2 = License.CreativeCommons_Attribution;
 
-			var c1 = new Contribution("joey", r1) { Date = DateTime.Now.ToString(), Notes = "get bread", ApprovedLicense = l1 };
-			var c2 = new Contribution("joey", r2) { Date = DateTime.Now.ToString(), Notes = "get bread", ApprovedLicense = l2 };
+			var c1 = new Contribution("joey", r1) { Date = DateTime.Now.ToString(), Comments = "get bread", ApprovedLicense = l1 };
+			var c2 = new Contribution("joey", r2) { Date = DateTime.Now.ToString(), Comments = "get bread", ApprovedLicense = l2 };
 			Assert.IsTrue(c1.Equals(c2));
 		}
 	}

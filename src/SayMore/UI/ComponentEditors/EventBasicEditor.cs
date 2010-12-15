@@ -51,6 +51,10 @@ namespace SayMore.UI.ComponentEditors
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
 			_participants.JITListAcquisition += HandleParticipantJustInTimeListAcquisition;
+
+			var sampleStatusImage = Properties.Resources.StatusFinished;
+			if (_status.ItemHeight < sampleStatusImage.Height)
+				_status.ItemHeight = sampleStatusImage.Height;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -88,6 +92,30 @@ namespace SayMore.UI.ComponentEditors
 		{
 			// Makes sure the id's label is also visible when the id field gains focus.
 			AutoScrollPosition = new Point(0, 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleStatusDrawItem(object sender, DrawItemEventArgs e)
+		{
+			e.DrawBackground();
+
+			var text = (e.Index < 0 ? string.Empty : _status.Items[e.Index] as string);
+			var img = (Image)Properties.Resources.ResourceManager.GetObject("Status" + text.Replace(' ', '_'));
+			int dy = (int)Math.Round((e.Bounds.Height - img.Height) / 2f, MidpointRounding.AwayFromZero);
+
+			// Draw image
+			var rc = e.Bounds;
+			rc.Width = img.Width;
+			rc.Y += dy;
+			rc.Height = img.Height;
+			e.Graphics.DrawImage(img, rc);
+
+			// Draw text
+			rc = e.Bounds;
+			rc.X += (img.Width + 3);
+			rc.Width -= (img.Width + 3);
+			TextRenderer.DrawText(e.Graphics, text, e.Font, rc, e.ForeColor,
+				TextFormatFlags.VerticalCenter | TextFormatFlags.WordEllipsis);
 		}
 	}
 }

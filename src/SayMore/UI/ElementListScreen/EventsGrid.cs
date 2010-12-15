@@ -29,10 +29,16 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected override object GetValueForField(ProjectElement element, string fieldName)
 		{
-			if (fieldName != "stages")
-				return base.GetValueForField(element, fieldName);
+			if (fieldName == "status")
+			{
+				var value = base.GetValueForField(element, fieldName);
+				return Resources.ResourceManager.GetObject("Status" + ((string)value).Replace(' ', '_'));
+			}
 
-			return _stagesImageMaker.CreateImageForComponentStage(element.GetCompletedStages());
+			if (fieldName == "stages")
+				return _stagesImageMaker.CreateImageForComponentStage(element.GetCompletedStages());
+
+			return base.GetValueForField(element, fieldName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -57,6 +63,19 @@ namespace SayMore.UI.ElementListScreen
 
 			if (Columns[e.ColumnIndex].DataPropertyName == "stages")
 				_tooltip.Hide();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellToolTipTextNeeded(System.Windows.Forms.DataGridViewCellToolTipTextNeededEventArgs e)
+		{
+			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
+				Columns[e.ColumnIndex].DataPropertyName == "status")
+			{
+				var value = base.GetValueForField(_items.ElementAt(e.RowIndex), "status");
+				e.ToolTipText = string.Format("Status: {0}", value);
+			}
+
+			base.OnCellToolTipTextNeeded(e);
 		}
 	}
 }

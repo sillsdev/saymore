@@ -55,7 +55,7 @@ namespace SayMore.ClearShare
 
 			_grid.Columns.Add(SilGrid.CreateCalendarControlColumn("date", "Date"));
 
-			col = SilGrid.CreateTextBoxColumn("notes", "Notes");
+			col = SilGrid.CreateTextBoxColumn("comments", "Comments");
 			col.Width = 200;
 			_grid.Columns.Add(col);
 

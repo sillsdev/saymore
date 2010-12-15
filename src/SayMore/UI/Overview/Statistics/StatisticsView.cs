@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using SayMore.Properties;
 
 namespace SayMore.UI.Overview.Statistics
 {
@@ -17,6 +16,7 @@ namespace SayMore.UI.Overview.Statistics
 		{
 			_model = model;
 			InitializeComponent();
+			_panelWorking.BorderStyle = BorderStyle.None;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -52,19 +52,14 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		private void UpdateStatusDisplay()
 		{
-			var showStatusLabel = !_model.IsDataUpToDate;
-			var showRefreshButton = !showStatusLabel;
-
-			_labelStatus.Text = _model.Status;
-
-			if (showStatusLabel != _labelStatus.Visible)
-				_labelStatus.Visible = showStatusLabel;
+			var showWorking = !_model.IsDataUpToDate;
+			var showRefreshButton = !showWorking;
 
 			if (showRefreshButton != _buttonRefresh.Visible)
 				_buttonRefresh.Visible = showRefreshButton;
 
-			if (_panelWorking.Visible != showStatusLabel)
-				_panelWorking.Visible = showStatusLabel;
+			if (_panelWorking.Visible != showWorking)
+				_panelWorking.Visible = showWorking;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -176,13 +171,6 @@ namespace SayMore.UI.Overview.Statistics
 			// background thread is a no-no. UpdateDisplay will be called when the timer
 			// tick fires.
 			_updateDisplayNeeded = true;
-		}
-
-		private void toolStripButton1_Click(object sender, EventArgs e)
-		{
-			toolStripButton1.Checked = !toolStripButton1.Checked;
-			Settings.Default.AllowStatisticsChartLabelsToWrap = toolStripButton1.Checked;
-			UpdateDisplay();
 		}
 	}
 }

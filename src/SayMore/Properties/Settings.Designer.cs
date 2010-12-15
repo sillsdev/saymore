@@ -844,15 +844,6 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
-        public global::System.Drawing.Color InformedConsentStageColor {
-            get {
-                return ((global::System.Drawing.Color)(this["InformedConsentStageColor"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Ivory")]
         public global::System.Drawing.Color IncompleteStageColor {
             get {
@@ -920,6 +911,27 @@ namespace SayMore.Properties {
             }
             set {
                 this["AllowStatisticsChartLabelsToWrap"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
+        public global::System.Drawing.Color InformedConsentStageColor {
+            get {
+                return ((global::System.Drawing.Color)(this["InformedConsentStageColor"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings ContributorsGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["ContributorsGrid"]));
+            }
+            set {
+                this["ContributorsGrid"] = value;
             }
         }
     }

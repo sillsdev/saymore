@@ -133,9 +133,6 @@
   <data name="PlayTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PlayTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Overview" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Overview3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="LargeSayMoreLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SayMoreLogo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -147,12 +144,6 @@
   </data>
   <data name="People" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\People4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ImageComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ImageComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PersonComponentFileImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PersonComponentFile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="VSliderThumbPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VSliderThumbPressed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -189,9 +180,6 @@
   </data>
   <data name="Progress" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Progress.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ViewTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ViewTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="VSliderThumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VSliderThumb.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -247,9 +235,6 @@
   <data name="kimidFemale_NotSelected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Female_NotSelected.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ContributorsTabImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ContributorsTab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MuteVolume" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MuteVolume.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -302,5 +287,17 @@
   </data>
   <data name="BusyWheelLarge" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Blue Wheel.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StatusFinished" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Finsihed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StatusIncoming" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Incoming.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StatusIn_Progress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InProgress.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StatusSkipped" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Skipped.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

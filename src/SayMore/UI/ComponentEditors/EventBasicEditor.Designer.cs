@@ -81,7 +81,7 @@ namespace SayMore.UI.ComponentEditors
 			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._id.Name = "_id";
-			this._id.Size = new System.Drawing.Size(211, 22);
+			this._id.Size = new System.Drawing.Size(202, 22);
 			this._id.TabIndex = 1;
 			this._autoCompleteHelper.SetUpdateGatherer(this._id, false);
 			this._id.Enter += new System.EventHandler(this.HandleIdEnter);
@@ -91,7 +91,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelTitle.AutoSize = true;
 			this._labelTitle.BackColor = System.Drawing.Color.Transparent;
 			this._labelTitle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelTitle.Location = new System.Drawing.Point(0, 46);
+			this._labelTitle.Location = new System.Drawing.Point(0, 60);
 			this._labelTitle.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelTitle.Name = "_labelTitle";
 			this._labelTitle.Size = new System.Drawing.Size(28, 13);
@@ -105,10 +105,10 @@ namespace SayMore.UI.ComponentEditors
 			this._title.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._title, true);
 			this._binder.SetIsComponentFileId(this._title, false);
-			this._title.Location = new System.Drawing.Point(0, 62);
+			this._title.Location = new System.Drawing.Point(0, 76);
 			this._title.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._title.Name = "_title";
-			this._title.Size = new System.Drawing.Size(211, 22);
+			this._title.Size = new System.Drawing.Size(202, 22);
 			this._title.TabIndex = 7;
 			this._autoCompleteHelper.SetUpdateGatherer(this._title, false);
 			// 
@@ -121,12 +121,12 @@ namespace SayMore.UI.ComponentEditors
 			this._situation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._situation, true);
 			this._binder.SetIsComponentFileId(this._situation, false);
-			this._situation.Location = new System.Drawing.Point(0, 201);
+			this._situation.Location = new System.Drawing.Point(0, 215);
 			this._situation.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._situation.Multiline = true;
 			this._situation.Name = "_situation";
 			this._situation.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._situation.Size = new System.Drawing.Size(211, 96);
+			this._situation.Size = new System.Drawing.Size(202, 96);
 			this._situation.TabIndex = 19;
 			this._autoCompleteHelper.SetUpdateGatherer(this._situation, false);
 			// 
@@ -136,7 +136,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis.BackColor = System.Drawing.Color.Transparent;
 			this._tableLayout.SetColumnSpan(this._labelSynopsis, 2);
 			this._labelSynopsis.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelSynopsis.Location = new System.Drawing.Point(221, 185);
+			this._labelSynopsis.Location = new System.Drawing.Point(212, 199);
 			this._labelSynopsis.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelSynopsis.Name = "_labelSynopsis";
 			this._labelSynopsis.Size = new System.Drawing.Size(52, 13);
@@ -153,12 +153,12 @@ namespace SayMore.UI.ComponentEditors
 			this._synopsis.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._synopsis, true);
 			this._binder.SetIsComponentFileId(this._synopsis, false);
-			this._synopsis.Location = new System.Drawing.Point(221, 201);
+			this._synopsis.Location = new System.Drawing.Point(212, 215);
 			this._synopsis.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._synopsis.Multiline = true;
 			this._synopsis.Name = "_synopsis";
 			this._synopsis.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._synopsis.Size = new System.Drawing.Size(211, 96);
+			this._synopsis.Size = new System.Drawing.Size(203, 96);
 			this._synopsis.TabIndex = 21;
 			this._autoCompleteHelper.SetUpdateGatherer(this._synopsis, false);
 			// 
@@ -211,7 +211,7 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(432, 384);
+			this._tableLayout.Size = new System.Drawing.Size(415, 398);
 			this._tableLayout.TabIndex = 0;
 			this._tableLayout.TabStop = true;
 			// 
@@ -225,14 +225,14 @@ namespace SayMore.UI.ComponentEditors
 			this._participants.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this._binder.SetIsBound(this._participants, true);
 			this._binder.SetIsComponentFileId(this._participants, false);
-			this._participants.Location = new System.Drawing.Point(0, 108);
+			this._participants.Location = new System.Drawing.Point(0, 122);
 			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._participants.Name = "_participants";
 			this._participants.Padding = new System.Windows.Forms.Padding(2);
 			this._participants.ReadOnly = true;
 			this._participants.SelectionLength = 0;
 			this._participants.SelectionStart = 0;
-			this._participants.Size = new System.Drawing.Size(211, 23);
+			this._participants.Size = new System.Drawing.Size(202, 23);
 			this._participants.TabIndex = 11;
 			this._autoCompleteHelper.SetUpdateGatherer(this._participants, false);
 			// 
@@ -240,10 +240,10 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._panelGrid.Location = new System.Drawing.Point(0, 321);
+			this._panelGrid.Location = new System.Drawing.Point(0, 335);
 			this._panelGrid.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._panelGrid.Name = "_panelGrid";
-			this._panelGrid.Size = new System.Drawing.Size(211, 60);
+			this._panelGrid.Size = new System.Drawing.Size(202, 60);
 			this._panelGrid.TabIndex = 23;
 			// 
 			// _labelCustomFields
@@ -251,7 +251,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelCustomFields.AutoSize = true;
 			this._labelCustomFields.BackColor = System.Drawing.Color.Transparent;
 			this._labelCustomFields.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelCustomFields.Location = new System.Drawing.Point(0, 305);
+			this._labelCustomFields.Location = new System.Drawing.Point(0, 319);
 			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelCustomFields.Name = "_labelCustomFields";
 			this._labelCustomFields.Size = new System.Drawing.Size(79, 13);
@@ -268,10 +268,10 @@ namespace SayMore.UI.ComponentEditors
 			this._access.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._access, true);
 			this._binder.SetIsComponentFileId(this._access, false);
-			this._access.Location = new System.Drawing.Point(221, 155);
+			this._access.Location = new System.Drawing.Point(212, 169);
 			this._access.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._access.Name = "_access";
-			this._access.Size = new System.Drawing.Size(211, 22);
+			this._access.Size = new System.Drawing.Size(203, 22);
 			this._access.TabIndex = 17;
 			this._autoCompleteHelper.SetUpdateGatherer(this._access, false);
 			// 
@@ -281,7 +281,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelAccess.BackColor = System.Drawing.Color.Transparent;
 			this._tableLayout.SetColumnSpan(this._labelAccess, 2);
 			this._labelAccess.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelAccess.Location = new System.Drawing.Point(221, 139);
+			this._labelAccess.Location = new System.Drawing.Point(212, 153);
 			this._labelAccess.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelAccess.Name = "_labelAccess";
 			this._labelAccess.Size = new System.Drawing.Size(40, 13);
@@ -296,10 +296,10 @@ namespace SayMore.UI.ComponentEditors
 			this._genre.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._genre, true);
 			this._binder.SetIsComponentFileId(this._genre, false);
-			this._genre.Location = new System.Drawing.Point(0, 155);
+			this._genre.Location = new System.Drawing.Point(0, 169);
 			this._genre.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._genre.Name = "_genre";
-			this._genre.Size = new System.Drawing.Size(211, 21);
+			this._genre.Size = new System.Drawing.Size(202, 21);
 			this._genre.TabIndex = 15;
 			// 
 			// _labelGenre
@@ -307,7 +307,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelGenre.AutoSize = true;
 			this._labelGenre.BackColor = System.Drawing.Color.Transparent;
 			this._labelGenre.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelGenre.Location = new System.Drawing.Point(0, 139);
+			this._labelGenre.Location = new System.Drawing.Point(0, 153);
 			this._labelGenre.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelGenre.Name = "_labelGenre";
 			this._labelGenre.Size = new System.Drawing.Size(38, 13);
@@ -324,10 +324,10 @@ namespace SayMore.UI.ComponentEditors
 			this._location.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._location, true);
 			this._binder.SetIsComponentFileId(this._location, false);
-			this._location.Location = new System.Drawing.Point(221, 108);
+			this._location.Location = new System.Drawing.Point(212, 122);
 			this._location.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._location.Name = "_location";
-			this._location.Size = new System.Drawing.Size(211, 22);
+			this._location.Size = new System.Drawing.Size(203, 22);
 			this._location.TabIndex = 13;
 			this._autoCompleteHelper.SetUpdateGatherer(this._location, false);
 			// 
@@ -337,7 +337,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelLocation.BackColor = System.Drawing.Color.Transparent;
 			this._tableLayout.SetColumnSpan(this._labelLocation, 2);
 			this._labelLocation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelLocation.Location = new System.Drawing.Point(221, 92);
+			this._labelLocation.Location = new System.Drawing.Point(212, 106);
 			this._labelLocation.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelLocation.Name = "_labelLocation";
 			this._labelLocation.Size = new System.Drawing.Size(51, 13);
@@ -349,7 +349,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelParticipants.AutoSize = true;
 			this._labelParticipants.BackColor = System.Drawing.Color.Transparent;
 			this._labelParticipants.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelParticipants.Location = new System.Drawing.Point(0, 92);
+			this._labelParticipants.Location = new System.Drawing.Point(0, 106);
 			this._labelParticipants.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelParticipants.Name = "_labelParticipants";
 			this._labelParticipants.Size = new System.Drawing.Size(67, 13);
@@ -362,7 +362,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSetting.BackColor = System.Drawing.Color.Transparent;
 			this._tableLayout.SetColumnSpan(this._labelSetting, 2);
 			this._labelSetting.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelSetting.Location = new System.Drawing.Point(221, 46);
+			this._labelSetting.Location = new System.Drawing.Point(212, 60);
 			this._labelSetting.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
 			this._labelSetting.Name = "_labelSetting";
 			this._labelSetting.Size = new System.Drawing.Size(44, 13);
@@ -379,10 +379,10 @@ namespace SayMore.UI.ComponentEditors
 			this._setting.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._binder.SetIsBound(this._setting, true);
 			this._binder.SetIsComponentFileId(this._setting, false);
-			this._setting.Location = new System.Drawing.Point(221, 62);
+			this._setting.Location = new System.Drawing.Point(212, 76);
 			this._setting.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._setting.Name = "_setting";
-			this._setting.Size = new System.Drawing.Size(211, 22);
+			this._setting.Size = new System.Drawing.Size(203, 22);
 			this._setting.TabIndex = 9;
 			this._autoCompleteHelper.SetUpdateGatherer(this._setting, false);
 			// 
@@ -391,7 +391,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSituation.AutoSize = true;
 			this._labelSituation.BackColor = System.Drawing.Color.Transparent;
 			this._labelSituation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelSituation.Location = new System.Drawing.Point(0, 185);
+			this._labelSituation.Location = new System.Drawing.Point(0, 199);
 			this._labelSituation.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelSituation.Name = "_labelSituation";
 			this._labelSituation.Size = new System.Drawing.Size(54, 13);
@@ -403,7 +403,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelDate.AutoSize = true;
 			this._labelDate.BackColor = System.Drawing.Color.Transparent;
 			this._labelDate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelDate.Location = new System.Drawing.Point(221, 0);
+			this._labelDate.Location = new System.Drawing.Point(212, 0);
 			this._labelDate.Margin = new System.Windows.Forms.Padding(5, 0, 3, 0);
 			this._labelDate.Name = "_labelDate";
 			this._labelDate.Size = new System.Drawing.Size(31, 13);
@@ -415,7 +415,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStatus.AutoSize = true;
 			this._labelStatus.BackColor = System.Drawing.Color.Transparent;
 			this._labelStatus.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelStatus.Location = new System.Drawing.Point(330, 0);
+			this._labelStatus.Location = new System.Drawing.Point(316, 0);
 			this._labelStatus.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
 			this._labelStatus.Name = "_labelStatus";
 			this._labelStatus.Size = new System.Drawing.Size(39, 13);
@@ -425,16 +425,18 @@ namespace SayMore.UI.ComponentEditors
 			// _status
 			// 
 			this._status.Dock = System.Windows.Forms.DockStyle.Top;
+			this._status.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this._status.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._status.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 			this._status.FormattingEnabled = true;
 			this._binder.SetIsBound(this._status, true);
 			this._binder.SetIsComponentFileId(this._status, false);
-			this._status.Location = new System.Drawing.Point(328, 16);
+			this._status.Location = new System.Drawing.Point(314, 16);
 			this._status.Margin = new System.Windows.Forms.Padding(4, 3, 3, 3);
 			this._status.Name = "_status";
-			this._status.Size = new System.Drawing.Size(101, 21);
+			this._status.Size = new System.Drawing.Size(98, 23);
 			this._status.TabIndex = 5;
+			this._status.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.HandleStatusDrawItem);
 			// 
 			// _date
 			// 
@@ -444,11 +446,11 @@ namespace SayMore.UI.ComponentEditors
 			this._date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this._binder.SetIsBound(this._date, true);
 			this._binder.SetIsComponentFileId(this._date, false);
-			this._date.Location = new System.Drawing.Point(221, 16);
+			this._date.Location = new System.Drawing.Point(212, 16);
 			this._date.Margin = new System.Windows.Forms.Padding(5, 3, 2, 3);
 			this._date.MinDate = new System.DateTime(1960, 1, 1, 0, 0, 0, 0);
 			this._date.Name = "_date";
-			this._date.Size = new System.Drawing.Size(101, 22);
+			this._date.Size = new System.Drawing.Size(96, 22);
 			this._date.TabIndex = 3;
 			// 
 			// EventBasicEditor
@@ -457,7 +459,7 @@ namespace SayMore.UI.ComponentEditors
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayout);
 			this.Name = "EventBasicEditor";
-			this.Size = new System.Drawing.Size(446, 400);
+			this.Size = new System.Drawing.Size(429, 400);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			this.ResumeLayout(false);

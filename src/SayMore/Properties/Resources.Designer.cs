@@ -102,13 +102,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap ContributorsTabImage {
-            get {
-                object obj = ResourceManager.GetObject("ContributorsTabImage", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap Copy {
             get {
                 object obj = ResourceManager.GetObject("Copy", resourceCulture);
@@ -167,13 +160,6 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap HSliderThumbMousePressed {
             get {
                 object obj = ResourceManager.GetObject("HSliderThumbMousePressed", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap ImageComponentFileImage {
-            get {
-                object obj = ResourceManager.GetObject("ImageComponentFileImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -290,13 +276,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap Overview {
-            get {
-                object obj = ResourceManager.GetObject("Overview", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap Pause {
             get {
                 object obj = ResourceManager.GetObject("Pause", resourceCulture);
@@ -307,13 +286,6 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap People {
             get {
                 object obj = ResourceManager.GetObject("People", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap PersonComponentFileImage {
-            get {
-                object obj = ResourceManager.GetObject("PersonComponentFileImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -420,6 +392,34 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap StatusFinished {
+            get {
+                object obj = ResourceManager.GetObject("StatusFinished", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap StatusIn_Progress {
+            get {
+                object obj = ResourceManager.GetObject("StatusIn_Progress", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap StatusIncoming {
+            get {
+                object obj = ResourceManager.GetObject("StatusIncoming", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap StatusSkipped {
+            get {
+                object obj = ResourceManager.GetObject("StatusSkipped", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Stop {
             get {
                 object obj = ResourceManager.GetObject("Stop", resourceCulture);
@@ -444,13 +444,6 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap VideoInformedConsent {
             get {
                 object obj = ResourceManager.GetObject("VideoInformedConsent", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap ViewTabImage {
-            get {
-                object obj = ResourceManager.GetObject("ViewTabImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

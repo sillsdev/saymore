@@ -361,7 +361,7 @@ namespace SayMore.Model.Files
 			col.ReadOnly = true;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn("Status");
+			col = SilGrid.CreateImageColumn("Status");
 			col.DataPropertyName = "status";
 			col.ReadOnly = true;
 			yield return col;
@@ -536,9 +536,8 @@ namespace SayMore.Model.Files
 		public AudioFileType(
 			Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Audio",
-			p => Settings.Default.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)),
-			contributorsEditorFactoryLazy)
+			: base("Audio", p => Settings.Default.AudioFileExtensions.Cast<string>()
+				.Any(ext => p.ToLower().EndsWith(ext)), contributorsEditorFactoryLazy)
 		{
 			_audioComponentEditorFactoryLazy = audioComponentEditorFactoryLazy;
 		}
@@ -620,11 +619,11 @@ namespace SayMore.Model.Files
 		private readonly Func<VideoComponentEditor.Factory> _videoComponentEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
-		public VideoFileType(Func<VideoComponentEditor.Factory> videoComponentEditorFactoryLazy,
+		public VideoFileType(
+			Func<VideoComponentEditor.Factory> videoComponentEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Video",
-				p => Settings.Default.VideoFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)),
-			contributorsEditorFactoryLazy)
+			: base("Video", p => Settings.Default.VideoFileExtensions.Cast<string>()
+				.Any(ext => p.ToLower().EndsWith(ext)), contributorsEditorFactoryLazy)
 		{
 			_videoComponentEditorFactoryLazy = videoComponentEditorFactoryLazy;
 		}
@@ -681,12 +680,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void ExtractMp3Audio(string path)
+		private void ExtractMp3Audio(string path)
 		{
 			//var outputPath = path.Replace(Path.GetExtension(path), ".wav");
 			var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
 
-			if(!CheckConversionIsPossible(outputPath))
+			if (!CheckConversionIsPossible(outputPath))
 				return;
 
 			Cursor.Current = Cursors.WaitCursor;
@@ -704,6 +703,7 @@ namespace SayMore.Model.Files
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private void ExtractWavAudio(string path)
 		{
 			var outputPath = path.Replace(Path.GetExtension(path), ".wav");
@@ -726,6 +726,7 @@ namespace SayMore.Model.Files
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private bool CheckConversionIsPossible(string outputPath)
 		{
 			if (!MediaInfo.HaveNecessaryComponents)
@@ -733,7 +734,6 @@ namespace SayMore.Model.Files
 				MessageBox.Show("SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
 				return false;
 			}
-
 
 			if (File.Exists(outputPath))
 			{
@@ -784,8 +784,7 @@ namespace SayMore.Model.Files
 		public ImageFileType(
 			Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Image",
-			p => Settings.Default.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
+			: base("Image", p => Settings.Default.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
 			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;

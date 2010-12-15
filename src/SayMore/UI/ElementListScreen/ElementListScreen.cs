@@ -66,7 +66,7 @@ namespace SayMore.UI.ElementListScreen
 			_tabControlImages.Images.Add("Image", Resources.ImageFileImage);
 			_tabControlImages.Images.Add("Video", Resources.VideoFileImage);
 			_tabControlImages.Images.Add("Audio", Resources.AudioFileImage);
-			_tabControlImages.Images.Add("View", Resources.ViewTabImage);
+			//_tabControlImages.Images.Add("View", Resources.ViewTabImage);
 
 			_elementsGrid.SelectedElementChanged += HandleSelectedElementChanged;
 			_elementsGrid.SetFileType(_model.ElementFileType);

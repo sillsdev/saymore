@@ -259,9 +259,6 @@
     <Setting Name="WrittenTranslationStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">252, 235, 132</Value>
     </Setting>
-    <Setting Name="InformedConsentStage" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">148, 195, 151</Value>
-    </Setting>
     <Setting Name="IncompleteStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">Ivory</Value>
     </Setting>
@@ -282,6 +279,12 @@
     </Setting>
     <Setting Name="AllowStatisticsChartLabelsToWrap" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="InformedConsentStageColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">148, 195, 151</Value>
+    </Setting>
+    <Setting Name="ContributorsGrid" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilUtils.GridSettings" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

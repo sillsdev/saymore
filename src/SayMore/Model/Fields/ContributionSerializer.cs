@@ -37,7 +37,7 @@ namespace SayMore.Model.Fields
 				_olacSystem.TryGetRoleByCode(e.Element("role").Value, out role);
 				var contrib = new Contribution(e.Element("name").Value, role);
 				contrib.Date = e.Element("date").Value;
-				contrib.Notes = e.Element("notes").Value;
+				contrib.Comments = e.Element("notes").Value;
 				return contrib;
 			});
 
@@ -62,7 +62,7 @@ namespace SayMore.Model.Fields
 					e.Add(new XElement("name", c.ContributorName));
 					e.Add(new XElement("role", c.Role.Code));
 					e.Add(new XElement("date", c.Date));
-					e.Add(new XElement("notes", c.Notes));
+					e.Add(new XElement("notes", c.Comments));
 					element.Add(e);
 				}
 

@@ -37,14 +37,14 @@ namespace SayMoreTests.UI.Overview.Statistics
 				p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta, Color.Black);
 
 			var personInformer = new PersonInformant(
-				new ElementRepository<Person>(_folder.Combine("people"), "People", null, null));
+				new ElementRepository<Person>(_folder.Combine("people"), "People", null, null), null);
 
 			var eventInformer = new EventWorkflowInformant(
 				new ElementRepository<Event>(_folder.Combine("events"), "Events", null, null),
 				new[] { nullRole });
 
 			return new StatisticsViewModel(null, personInformer, eventInformer, new[] { nullRole },
-				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(() => null) }));
+				new AudioVideoDataGatherer(_folder.Path, new[] { new AudioFileType(() => null, null) }));
 		}
 
 		[Test]

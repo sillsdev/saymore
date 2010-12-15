@@ -29,18 +29,15 @@ namespace SayMore.UI.Overview.Statistics
         private void InitializeComponent()
         {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatisticsView));
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this._webBrowser = new System.Windows.Forms.WebBrowser();
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
-			this._labelStatus = new System.Windows.Forms.ToolStripLabel();
 			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
 			this._panelBrowser = new SilUtils.Controls.SilPanel();
 			this._panelWorking = new SilUtils.Controls.SilPanel();
 			this._tableLayoutWorking = new System.Windows.Forms.TableLayoutPanel();
 			this._labelWorking = new System.Windows.Forms.Label();
 			this._pictureWorking = new System.Windows.Forms.PictureBox();
-			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this._toolStripActions.SuspendLayout();
 			this._panelBrowser.SuspendLayout();
 			this._panelWorking.SuspendLayout();
@@ -68,9 +65,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._toolStripActions.BackColor = System.Drawing.SystemColors.Control;
 			this._toolStripActions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this._toolStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._labelStatus,
-            this._buttonRefresh,
-            this.toolStripButton1});
+            this._buttonRefresh});
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
 			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
@@ -78,16 +73,6 @@ namespace SayMore.UI.Overview.Statistics
 			this._toolStripActions.Size = new System.Drawing.Size(504, 25);
 			this._toolStripActions.TabIndex = 8;
 			this._toolStripActions.Text = "toolStrip1";
-			// 
-			// _labelStatus
-			// 
-			this._labelStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._labelStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelStatus.Image = global::SayMore.Properties.Resources.BusyWheelSmall;
-			this._labelStatus.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this._labelStatus.Name = "_labelStatus";
-			this._labelStatus.Size = new System.Drawing.Size(58, 20);
-			this._labelStatus.Text = "Status";
 			// 
 			// _buttonRefresh
 			// 
@@ -180,16 +165,6 @@ namespace SayMore.UI.Overview.Statistics
 			this._pictureWorking.TabIndex = 0;
 			this._pictureWorking.TabStop = false;
 			// 
-			// toolStripButton1
-			// 
-			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(75, 20);
-			this.toolStripButton1.Text = "Wrap Labels";
-			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
-			// 
 			// StatisticsView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,12 +193,10 @@ namespace SayMore.UI.Overview.Statistics
 		private System.Windows.Forms.WebBrowser _webBrowser;
 		private System.Windows.Forms.ToolStrip _toolStripActions;
 		private System.Windows.Forms.ToolStripButton _buttonRefresh;
-		private System.Windows.Forms.ToolStripLabel _labelStatus;
 		private SilUtils.Controls.SilPanel _panelBrowser;
 		private System.Windows.Forms.Label _labelWorking;
 		private SilUtils.Controls.SilPanel _panelWorking;
 		private System.Windows.Forms.PictureBox _pictureWorking;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutWorking;
-		private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }

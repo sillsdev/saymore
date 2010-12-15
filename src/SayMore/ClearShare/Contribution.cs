@@ -41,7 +41,7 @@ namespace SayMore.ClearShare
 		/// Normally a short note about the contribution (e.g., a more specific description
 		/// of the role played)
 		/// </summary>
-		public string Notes { get; set; }
+		public string Comments { get; set; }
 
 		private readonly int _hashCode;
 
@@ -63,7 +63,7 @@ namespace SayMore.ClearShare
 		{
 			// TODO: Deal with license if necessary.
 			return new Contribution(ContributorName,
-				(Role != null ? Role.Clone() : null)) { Date = Date, Notes = Notes };
+				(Role != null ? Role.Clone() : null)) { Date = Date, Comments = Comments };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ namespace SayMore.ClearShare
 
 			return (rolesEqual && licensesEqual &&
 				ContributorName == other.ContributorName &&
-				Date == other.Date && Notes == other.Notes);
+				Date == other.Date && Comments == other.Comments);
 		}
 
 		/// ------------------------------------------------------------------------------------

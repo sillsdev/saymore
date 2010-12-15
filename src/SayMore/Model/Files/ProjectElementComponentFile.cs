@@ -41,12 +41,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string SetValue(string key, string newValue, out string failureMessage)
+		public override string SetStringValue(string key, string newValue, out string failureMessage)
 		{
 			if (key == "status")
 				newValue = newValue.Replace(' ', '_');
 
-			return base.SetValue(key, newValue, out failureMessage);
+			return base.SetStringValue(key, newValue, out failureMessage);
 		}
 
 		/// ------------------------------------------------------------------------------------

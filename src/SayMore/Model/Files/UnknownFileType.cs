@@ -10,11 +10,16 @@ namespace SayMore.Model.Files
 	/// </summary>
 	public class UnknownFileType : FileType
 	{
+		protected readonly Func<ContributorsEditor.Factory> _contributorsEditorFactoryLazy;
+
 		/// ------------------------------------------------------------------------------------
-		public UnknownFileType(Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy)
+		public UnknownFileType(
+			Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy,
+			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base("Unknown", path => false)
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
+			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -57,11 +62,11 @@ namespace SayMore.Model.Files
 			text = LocalizationManager.LocalizeString("MiscFileInfoEditor.PropertiesTabText", "Properties");
 			yield return _basicFieldGridEditorFactoryLazy()(file, text, null);
 
+			text = LocalizationManager.LocalizeString("MiscFileInfoEditor.Contributors", "Contributors");
+			yield return _contributorsEditorFactoryLazy()(file, text, null);
+
 			text = LocalizationManager.LocalizeString("MiscFileInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
-
-			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-
 		}
 	}
 }

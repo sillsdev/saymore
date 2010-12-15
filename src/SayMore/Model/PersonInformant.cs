@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SayMore.Model.Files.DataGathering;
 
 namespace SayMore.Model
 {
@@ -13,15 +14,18 @@ namespace SayMore.Model
 		public event ElementRepository<Person>.ElementIdChangedHandler PersonNameChanged;
 
 		private readonly ElementRepository<Person> _peopleRepository;
+		private readonly AutoCompleteValueGatherer _autoCompleteValueGatherer;
 
 		[Obsolete("For mocking only")]
 		public PersonInformant(){}
 
 		/// ------------------------------------------------------------------------------------
-		public PersonInformant(ElementRepository<Person> peopleRepository)
+		public PersonInformant(ElementRepository<Person> peopleRepository,
+			AutoCompleteValueGatherer autoCompleteValueGatherer)
 		{
 			_peopleRepository = peopleRepository;
 			_peopleRepository.ElementIdChanged += HandlePersonNameChanged;
+			_autoCompleteValueGatherer = autoCompleteValueGatherer;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -47,7 +51,38 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<string> GetPeopleNames()
+		/// <summary>
+		/// Gets names of all people found, whether or not their is an entry for the person
+		/// on the Person tab of the program. This method uses the people names found by the
+		/// auto-complete value gatherer.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<string> GetAllPeopleNames()
+		{
+			var gathererNames = (_autoCompleteValueGatherer == null ? null :
+				_autoCompleteValueGatherer.GetValueLists(false).Where(x => x.Key == "person"));
+
+			if (gathererNames == null || gathererNames.Count() == 0)
+			{
+				foreach (var name in GetPeopleNamesFromRepository())
+					yield return name;
+			}
+			else
+			{
+				foreach (var kvp in gathererNames)
+				{
+					foreach (var person in kvp.Value)
+						yield return person;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets only those people for whom there is an entry on the Person tab of the program.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<string> GetPeopleNamesFromRepository()
 		{
 			return _peopleRepository.AllItems.Select(x => x.Id);
 		}

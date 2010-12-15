@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 using Localization;
+using Palaso.IO;
 using SilUtils;
 
 namespace SayMore.Model.Fields
@@ -59,8 +58,7 @@ namespace SayMore.Model.Fields
 			{
 				if (s_allTypes == null)
 				{
-					var path = Application.ExecutablePath;
-					path = Path.Combine(Path.GetDirectoryName(path), "Genres.xml");
+					var path = FileLocator.GetFileDistributedWithApplication("Genres.xml");
 					s_allTypes = Load(path) ?? new List<GenreDefinition>();
 					s_allTypes.Add(UnknownType);
 				}

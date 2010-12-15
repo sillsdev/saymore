@@ -113,11 +113,11 @@ namespace SayMore.UI.ElementListScreen
 		/// this way: _model.GetComponentFile(index). Using the index here is really just
 		/// passing off to the model the inevitable job of indexing into the component file list.
 		/// The grid (i.e. the only object calling this delegate so far) does not keep a
-		/// reference to each component files that it can pass to this delegate.
+		/// reference to each component file that it can pass to this delegate.
 		/// ------------------------------------------------------------------------------------
 		private void HandleAfterComponentFileSelected(int index)
 		{
-			_model.MakeComponentEditorsGoDormant();
+			_model.DeactivateComponentEditors();
 			_model.SetSelectedComponentFile(index);
 			ShowSelectedComponentFileEditors();
 
@@ -224,7 +224,7 @@ namespace SayMore.UI.ElementListScreen
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleComponentFileIdChanged(ComponentFile file,
-			string fieldId, string oldId, string newId)
+			string fieldId, object oldId, object newId)
 		{
 			_elementsGrid.Refresh();
 			_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
@@ -236,7 +236,7 @@ namespace SayMore.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleComponentFileMetadataValueChanged(ComponentFile file,
-			string fieldId, string oldValue, string newValue)
+			string fieldId, object oldValue, object newValue)
 		{
 			_componentFilesControl.Refresh();
 		}

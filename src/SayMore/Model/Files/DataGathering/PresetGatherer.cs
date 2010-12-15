@@ -99,7 +99,7 @@ namespace SayMore.Model.Files.DataGathering
 								 where file.FileType.GetShowInPresetOptions(field.FieldId)
 								 select field;
 
-			Dictionary = writableFields.ToDictionary(field => field.FieldId, field => field.Value);
+			Dictionary = writableFields.ToDictionary(field => field.FieldId, field => field.ValueAsString);
 		}
 
 		/// ------------------------------------------------------------------------------------

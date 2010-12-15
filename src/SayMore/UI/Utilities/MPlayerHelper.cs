@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Palaso.IO;
 
 namespace SayMore.UI.Utilities
 {
@@ -15,32 +16,10 @@ namespace SayMore.UI.Utilities
 	/// ----------------------------------------------------------------------------------------
 	public static class MPlayerHelper
 	{
-		private static string s_mPlayerPath = DefaultMPlayerPath;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets an assumed path for mplayer.exe. It's assumed it's in a folder called
-		/// 'mplayer' that is a subfolder of the current assembly.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string DefaultMPlayerPath
-		{
-			get
-			{
-				var path = Path.Combine(GetPathToThisAssembly(), "mplayer");
-				return Path.Combine(path, "mplayer.exe");
-			}
-		}
-
 		/// ------------------------------------------------------------------------------------
 		public static string MPlayerPath
 		{
-			get { return (File.Exists(s_mPlayerPath) ? s_mPlayerPath : null); }
-			set
-			{
-				if (File.Exists(value))
-					s_mPlayerPath = value;
-			}
+			get { return FileLocator.GetFileDistributedWithApplication("mplayer", "mplayer.exe"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

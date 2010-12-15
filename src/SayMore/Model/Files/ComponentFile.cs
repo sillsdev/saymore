@@ -49,7 +49,7 @@ namespace SayMore.Model.Files
 		//autofac uses this, so that callers only need to know the path, not all the dependencies
 		public delegate ComponentFile Factory(ProjectElement parentElement, string pathToAnnotatedFile);
 
-		public delegate void ValueChangedHandler(ComponentFile file, string fieldId, string oldValue, string newValue);
+		public delegate void ValueChangedHandler(ComponentFile file, string fieldId, object oldValue, object newValue);
 		public event ValueChangedHandler IdChanged;
 		public event ValueChangedHandler MetadataValueChanged;
 
@@ -197,7 +197,7 @@ namespace SayMore.Model.Files
 
 			// Get the value from the metadata file.
 			var	field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
-			var savedValue = (field == null ? defaultValue : field.Value);
+			var savedValue = (field == null ? defaultValue : field.ValueAsString);
 
 			if (!string.IsNullOrEmpty(computedValue))
 			{
@@ -209,7 +209,7 @@ namespace SayMore.Model.Files
 					// metadata file, which is what we're doing here. In the future we'll
 					// probably want to change things to save the raw computed value.
 					string failureMessage;
-					SetValue(key, computedValue, out failureMessage);
+					SetStringValue(key, computedValue, out failureMessage);
 					if (failureMessage != null)
 						ErrorReport.NotifyUserOfProblem(failureMessage);
 
@@ -222,13 +222,10 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets the value for persisting, and returns the same value, potentially modified
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public virtual string SetValue(string key, string newValue, out string failureMessage)
+		public virtual object GetValue(string key, object defaultValue)
 		{
-			return SetValue(new FieldInstance(key, newValue), out failureMessage);
+			var field = MetaDataFieldValues.FirstOrDefault(v => v.FieldId == key);
+			return (field == null ? defaultValue : field.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -236,17 +233,60 @@ namespace SayMore.Model.Files
 		/// Sets the value for persisting, and returns the same value, potentially modified
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual string SetValue(FieldInstance newFieldInstance, out string failureMessage)
+		public virtual string SetStringValue(string key, string newValue, out string failureMessage)
+		{
+			return SetStringValue(new FieldInstance(key, newValue), out failureMessage);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the value for persisting, and returns the same value, potentially modified
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual object SetValue(string key, object newValue, out string failureMessage)
 		{
 			failureMessage = null;
 
-			newFieldInstance.Value = (newFieldInstance.Value ?? string.Empty).Trim();
+			object oldFieldValue = null;
+			var oldFieldInstance = MetaDataFieldValues.Find(v => v.FieldId == key);
+
+			if (oldFieldInstance == null)
+			{
+				if (newValue == null)
+					return newValue;
+
+				MetaDataFieldValues.Add(new FieldInstance(key, newValue));
+			}
+			else if (oldFieldInstance.Value.Equals(newValue))
+				return newValue;
+			else
+				oldFieldValue = oldFieldInstance.Value;
+
+			LoadFileSizeAndDateModified();
+			OnMetadataValueChanged(key, oldFieldValue, newValue);
+
+			if (oldFieldInstance != null)
+				oldFieldInstance.Value = newValue;
+
+			return newValue;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the value for persisting, and returns the same value, potentially modified
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual string SetStringValue(FieldInstance newFieldInstance, out string failureMessage)
+		{
+			failureMessage = null;
+
+			newFieldInstance.Value = (newFieldInstance.ValueAsString ?? string.Empty).Trim();
 
 			var oldFieldValue =
 				MetaDataFieldValues.Find(v => v.FieldId == newFieldInstance.FieldId);
 
 			if (oldFieldValue == newFieldInstance)
-				return newFieldInstance.Value;
+				return newFieldInstance.ValueAsString;
 
 			string oldValue = null;
 
@@ -254,13 +294,13 @@ namespace SayMore.Model.Files
 				MetaDataFieldValues.Add(newFieldInstance);
 			else
 			{
-				oldValue = oldFieldValue.Value;
+				oldValue = oldFieldValue.ValueAsString;
 				oldFieldValue.Copy(newFieldInstance);
 			}
 
 			LoadFileSizeAndDateModified();
-			OnMetadataValueChanged(newFieldInstance.FieldId, oldValue, newFieldInstance.Value);
-			return newFieldInstance.Value; //overrides may do more
+			OnMetadataValueChanged(newFieldInstance.FieldId, oldValue, newFieldInstance.ValueAsString);
+			return newFieldInstance.ValueAsString; //overrides may do more
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -302,7 +342,7 @@ namespace SayMore.Model.Files
 		public virtual void Load()
 		{
 			_fileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
-			_fileSerializer.Load(MetaDataFieldValues, _metaDataPath, RootElementName);
+			_fileSerializer.Load(/*TODO this.Work, */ MetaDataFieldValues, _metaDataPath, RootElementName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -319,7 +359,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void OnMetadataValueChanged(string fieldId, string oldValue, string newValue)
+		protected void OnMetadataValueChanged(string fieldId, object oldValue, object newValue)
 		{
 			if (MetadataValueChanged != null)
 				MetadataValueChanged(this, fieldId, oldValue, newValue);
@@ -386,15 +426,15 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(ProjectElement parentElement, string path)
 		{
-			return new ComponentFile(parentElement, path, new FileType[] { new UnknownFileType(null) },
-				new ComponentRole[] { }, new FileSerializer(), null, null, null);
+			return new ComponentFile(parentElement, path, new FileType[] { new UnknownFileType(null, null) },
+				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static ComponentFile CreateMinimalComponentFileForTests(string path, FileType fileType)
 		{
 			return new ComponentFile(null, path, new[] { fileType },
-				new ComponentRole[] { }, new FileSerializer(), null, null, null);
+				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -657,7 +697,7 @@ namespace SayMore.Model.Files
 			foreach (KeyValuePair<string, string> pair in preset)
 			{
 				string failureStringMessage;
-				SetValue(pair.Key, pair.Value, out failureStringMessage);
+				SetStringValue(pair.Key, pair.Value, out failureStringMessage);
 
 				if (!string.IsNullOrEmpty(failureStringMessage))
 					ErrorReport.NotifyUserOfProblem(failureStringMessage);

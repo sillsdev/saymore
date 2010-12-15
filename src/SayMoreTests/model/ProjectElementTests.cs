@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Moq;
 using Palaso.TestUtilities;
 using SayMore;
 using SayMore.Model;
@@ -41,8 +40,8 @@ namespace SayMoreTests.Model
 
 		public static Event CreateEvent(string parentFolderPath, string name)
 		{
-			return new Event(parentFolderPath, name, null, new EventFileType(() => null),
-				MakeComponent, new FileSerializer(), (w, x, y, z) =>
+			return new Event(parentFolderPath, name, null, new EventFileType(() => null, null),
+				MakeComponent, new FileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 					ApplicationContainer.ComponentRoles, null);
 		}
@@ -55,7 +54,7 @@ namespace SayMoreTests.Model
 		public static Person CreatePerson(string parentFolderPath, string name)
 		{
 			return new Person(parentFolderPath, name, null, new PersonFileType(() => null),
-				MakeComponent, new FileSerializer(), (w, x, y, z) =>
+				MakeComponent, new FileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)));
 		}
 
@@ -67,7 +66,7 @@ namespace SayMoreTests.Model
 		public string SetValue(Person person, string key, string value)
 		{
 			string failureMessage;
-			var suceeded = person.MetaDataFile.SetValue("color", "red", out failureMessage);
+			var suceeded = person.MetaDataFile.SetStringValue("color", "red", out failureMessage);
 			if (!string.IsNullOrEmpty(failureMessage))
 			{
 				throw new ApplicationException(failureMessage);

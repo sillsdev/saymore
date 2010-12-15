@@ -451,8 +451,8 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			string msg;
 			var date = File.GetLastWriteTime(sourcePath);
-			newEvent.MetaDataFile.SetValue("date", date.ToString(), out msg);
-			newEvent.MetaDataFile.SetValue("status", Event.Status.Incoming.ToString(), out msg);
+			newEvent.MetaDataFile.SetStringValue("date", date.ToString(), out msg);
+			newEvent.MetaDataFile.SetStringValue("status", Event.Status.Incoming.ToString(), out msg);
 			newEvent.MetaDataFile.Save();
 
 			if (FirstNewEventAdded == null)

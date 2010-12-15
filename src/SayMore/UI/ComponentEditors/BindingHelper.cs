@@ -230,7 +230,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			string failureMessage;
 			_file.MetadataValueChanged -= HandleValueChangedOutsideBinder;
-			var modifiedValue = _file.SetValue(key, value, out failureMessage);
+			var modifiedValue = _file.SetStringValue(key, value, out failureMessage);
 			_file.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
 			if (failureMessage != null)
@@ -273,7 +273,7 @@ namespace SayMore.UI.ComponentEditors
 
 			newValue = (_componentFileIdControl == ctrl ?
 				_file.TryChangeChangeId(newValue, out failureMessage) :
-				_file.SetValue(key, newValue, out failureMessage));
+				_file.SetStringValue(key, newValue, out failureMessage));
 
 			_file.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
@@ -296,7 +296,7 @@ namespace SayMore.UI.ComponentEditors
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleValueChangedOutsideBinder(ComponentFile file, string fieldId,
-			string oldValue, string newValue)
+			object oldValue, object newValue)
 		{
 			var ctrl = GetBoundControlFromKey(fieldId);
 			if (ctrl != null)

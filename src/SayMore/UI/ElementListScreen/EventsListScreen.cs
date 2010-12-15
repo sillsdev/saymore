@@ -68,7 +68,7 @@ namespace SayMore.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleComponentFileMetadataValueChanged(ComponentFile file,
-			string fieldId, string oldValue, string newValue)
+			string fieldId, object oldValue, object newValue)
 		{
 			base.HandleComponentFileMetadataValueChanged(file, fieldId, oldValue, newValue);
 

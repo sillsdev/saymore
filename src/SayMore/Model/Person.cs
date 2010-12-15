@@ -29,7 +29,7 @@ namespace SayMore.Model
 			{
 				// REVIEW: Should we report anything if there's an error message returned?
 				string errMsg;
-				MetaDataFile.SetValue("status", Status.Incoming.ToString(), out errMsg);
+				MetaDataFile.SetStringValue("status", Status.Incoming.ToString(), out errMsg);
 				Save();
 			}
 		}

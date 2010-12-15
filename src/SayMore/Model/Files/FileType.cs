@@ -45,7 +45,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static FileType Create(string name, string[] matchesForEndOfFileName)
 		{
-			return new FileType(name, p => matchesForEndOfFileName.Any(ext => p.EndsWith(ext)));
+			return new FileType(name, p => matchesForEndOfFileName.Any(p.EndsWith));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -270,8 +270,6 @@ namespace SayMore.Model.Files
 
 			text = LocalizationManager.LocalizeString("PersonInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
-
-			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -295,6 +293,7 @@ namespace SayMore.Model.Files
 	public class EventFileType : FileType
 	{
 		private readonly Func<EventBasicEditor.Factory> _eventBasicEditorFactoryLazy;
+		protected readonly Func<ContributorsEditor.Factory> _contributorsEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -304,10 +303,13 @@ namespace SayMore.Model.Files
 		/// error in autofac.  NB: when we move to .net 4, this can be replaced by
 		/// Lazy<Func<EventBasicEditor.Factory></param>
 		/// ------------------------------------------------------------------------------------
-		public EventFileType(Func<EventBasicEditor.Factory> eventBasicEditorFactoryLazy)
+		public EventFileType(
+			Func<EventBasicEditor.Factory> eventBasicEditorFactoryLazy,
+			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base("Event", p => p.EndsWith(Settings.Default.EventFileExtension))
 		{
 			_eventBasicEditorFactoryLazy = eventBasicEditorFactoryLazy;
+			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -338,6 +340,7 @@ namespace SayMore.Model.Files
 					"genre",
 					"participants",
 					"title",
+					"contributions",
 					"notes"
 				}
 				select new FieldDefinition(key);
@@ -370,10 +373,11 @@ namespace SayMore.Model.Files
 			var text = LocalizationManager.LocalizeString("EventInfoEditor.EventTabText", "Event");
 			yield return _eventBasicEditorFactoryLazy()(file, text, "Event");
 
+			text = LocalizationManager.LocalizeString("EventFileInfoEditor.Contributors", "Contributors");
+			yield return _contributorsEditorFactoryLazy()(file, text, null);
+
 			text = LocalizationManager.LocalizeString("EventInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
-
-			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -402,10 +406,14 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public abstract class AudioVideoFileTypeBase : FileType
 	{
+		protected readonly Func<ContributorsEditor.Factory> _contributorsEditorFactoryLazy;
+
 		/// ------------------------------------------------------------------------------------
-		protected AudioVideoFileTypeBase(string name, Func<string, bool> isMatchPredicate)
+		protected AudioVideoFileTypeBase(string name, Func<string, bool> isMatchPredicate,
+			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base(name, isMatchPredicate)
 		{
+			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -525,9 +533,12 @@ namespace SayMore.Model.Files
 		private readonly Func<AudioComponentEditor.Factory> _audioComponentEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
-		public AudioFileType(Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy)
+		public AudioFileType(
+			Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy,
+			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base("Audio",
-			p => Settings.Default.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
+			p => Settings.Default.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)),
+			contributorsEditorFactoryLazy)
 		{
 			_audioComponentEditorFactoryLazy = audioComponentEditorFactoryLazy;
 		}
@@ -545,7 +556,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FieldDefinition> FactoryFields
 		{
-			get {return AudioFields;}
+			get { return AudioFields; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -557,7 +568,7 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				foreach (var key in new[] { "Recordist", "Device", "Microphone" })
+				foreach (var key in new[] { "Recordist", "Device", "Microphone", "contributions" })
 					yield return new FieldDefinition(key);
 
 				foreach (var key in new[] { "Duration", "Channels", "Bit_Depth", "Sample_Rate", "Audio_Bit_Rate"})
@@ -586,10 +597,11 @@ namespace SayMore.Model.Files
 			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
 			yield return _audioComponentEditorFactoryLazy()(file, text, null);
 
+			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.Contributors", "Contributors");
+			yield return _contributorsEditorFactoryLazy()(file, text, null);
+
 			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
-
-			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -608,9 +620,11 @@ namespace SayMore.Model.Files
 		private readonly Func<VideoComponentEditor.Factory> _videoComponentEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
-		public VideoFileType(Func<VideoComponentEditor.Factory> videoComponentEditorFactoryLazy)
+		public VideoFileType(Func<VideoComponentEditor.Factory> videoComponentEditorFactoryLazy,
+			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base("Video",
-				p => Settings.Default.VideoFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
+				p => Settings.Default.VideoFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)),
+			contributorsEditorFactoryLazy)
 		{
 			_videoComponentEditorFactoryLazy = videoComponentEditorFactoryLazy;
 		}
@@ -667,7 +681,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void ExtractMp3Audio(string path)
+		private static void ExtractMp3Audio(string path)
 		{
 			//var outputPath = path.Replace(Path.GetExtension(path), ".wav");
 			var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
@@ -744,10 +758,11 @@ namespace SayMore.Model.Files
 			text = LocalizationManager.LocalizeString("VideoFileInfoEditor.PropertiesTabText", "Properties");
 			yield return _videoComponentEditorFactoryLazy()(file, text, null);
 
+			text = LocalizationManager.LocalizeString("VideoFileInfoEditor.Contributors", "Contributors");
+			yield return _contributorsEditorFactoryLazy()(file, text, null);
+
 			text = LocalizationManager.LocalizeString("VideoFileInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
-
-			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -763,12 +778,17 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class ImageFileType : FileType
 	{
+		private readonly Func<ContributorsEditor.Factory> _contributorsEditorFactoryLazy;
+
 		/// ------------------------------------------------------------------------------------
-		public ImageFileType(Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy)
+		public ImageFileType(
+			Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy,
+			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base("Image",
 			p => Settings.Default.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
+			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -786,10 +806,11 @@ namespace SayMore.Model.Files
 			text = LocalizationManager.LocalizeString("ImageFileInfoEditor.PropertiesTabText", "Properties");
 			yield return _basicFieldGridEditorFactoryLazy()(file, text, null);
 
+			text = LocalizationManager.LocalizeString("ImageFileInfoEditor.Contributors", "Contributors");
+			yield return _contributorsEditorFactoryLazy()(file, text, null);
+
 			text = LocalizationManager.LocalizeString("ImageFileInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
-
-			//_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
 		}
 
 		/// ------------------------------------------------------------------------------------

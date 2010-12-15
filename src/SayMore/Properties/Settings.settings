@@ -259,7 +259,7 @@
     <Setting Name="WrittenTranslationStageColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">252, 235, 132</Value>
     </Setting>
-    <Setting Name="InformedConsentStageColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="InformedConsentStage" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">148, 195, 151</Value>
     </Setting>
     <Setting Name="IncompleteStageColor" Type="System.Drawing.Color" Scope="Application">

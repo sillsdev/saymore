@@ -25,8 +25,8 @@ namespace SayMoreTests.Model.Files
 			var italiansFolder = _rootFolder.Combine("~Italians~");
 			Directory.CreateDirectory(italiansFolder);
 
-			var imgFileType = new ImageFileType(() => null);
-			var audioFileType = new AudioFileType(() => null);
+			var imgFileType = new ImageFileType(() => null, null);
+			var audioFileType = new AudioFileType(() => null, () => null);
 
 			var path = _rootFolder.Combine("PierreAugusteRenoir.jpg");
 			_imgFile1 = SetupData(path, imgFileType, "Claude", "Monet", "1840", "1840");

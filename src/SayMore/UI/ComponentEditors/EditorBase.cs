@@ -31,7 +31,7 @@ namespace SayMore.UI.ComponentEditors
 		void Initialize(string tabText, string imageKey);
 		void SetComponentFile(ComponentFile file);
 		Action ComponentFileListRefreshAction { set; }
-		void GoDormant();
+		void Deactivate();
 		event Action<string> TabTextChanged;
 	}
 
@@ -150,7 +150,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void GoDormant()
+		public virtual void Deactivate()
 		{
 			// Allows subclasses to do whatever they need to when a control gets taken out
 			// of use. This is not to be confused with being disposed, the difference being

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using SayMore.Model;
+using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating;
@@ -45,9 +46,12 @@ namespace SayMore
 //			var filesTypes = GetFilesTypes(parentContainer);
 //			builder.RegisterInstance(filesTypes).As(typeof(IEnumerable<FileType>));
 
-			//when something needs the list of filetypes, get them from this method
+			// When something needs the list of filetypes, get them from this method
 //			builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c));
 			builder.RegisterInstance(ComponentRoles).As(typeof(IEnumerable<ComponentRole>));
+
+			// When something needs a list of XML field serializers, get them from this method
+			builder.RegisterInstance(XmlFieldSerializers).As(typeof(IDictionary<string, IXmlFieldSerializer>));
 
 			_container = builder.Build();
 		}
@@ -140,6 +144,22 @@ namespace SayMore
 						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
 						Settings.Default.InformedConsentStageColor,
 						Settings.Default.InformedConsentStageTextColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IDictionary<string, IXmlFieldSerializer> XmlFieldSerializers
+		{
+			get
+			{
+				var list = new Dictionary<string, IXmlFieldSerializer>();
+
+				var contributionSerializer = new ContributionSerializer();
+				list[contributionSerializer.ElementName] = contributionSerializer;
+
+				// Add other field serializers here.
+
+				return list;
 			}
 		}
 

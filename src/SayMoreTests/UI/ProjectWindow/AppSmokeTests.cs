@@ -188,7 +188,7 @@ namespace SayMoreTests.UI.ProjectWindow
 			{
 				var list = listPanel.ListControl as ElementGrid;
 				int maxDeleteAttempts = 100;
-				var delButtonTester = new ButtonTester("_buttonDelete");
+				var delButtonTester = new ButtonTester("_buttonDelete", "DeleteMessageBox");
 
 				while (list.RowCount > 0)
 				{

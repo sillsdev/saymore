@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files.DataGathering
 {
+	/// ----------------------------------------------------------------------------------------
+	public interface IAutoCompleteValueProvider
+	{
+		string GetValueForKey(string key);
+	}
+
 	/// <summary>
 	/// Gets values used in the whole project (e.g. language names),
 	/// for the purpose of type-ahead.
@@ -38,9 +43,10 @@ namespace SayMore.Model.Files.DataGathering
 			_mappingOfFieldsToAutoCompleteKey.Add("fullName", "person");
 			_mappingOfFieldsToAutoCompleteKey.Add("participants", "person");
 			_mappingOfFieldsToAutoCompleteKey.Add("recordist", "person");
+			_mappingOfFieldsToAutoCompleteKey.Add("contributions", "person");
 			_mappingOfFieldsToAutoCompleteKey.Add("education", "education");
 
-			_multiValueFields = new List<string>(new[] { "participants", "education" });
+			_multiValueFields = new List<string>(new[] { "participants", "education", "contributions" });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,30 +83,21 @@ namespace SayMore.Model.Files.DataGathering
 			try
 			{
 				var file = componentFileFactory(null, path);
-
-				//TODO there is an occasional problem here we need to track down, which
-				//may be a case of the same key appearing twice. Why?
-
-//				var dictionary = file.MetaDataFieldValues.ToDictionary(
-//					field => field.FieldId, field => field.Value);
-
-				//for now, do it the long way:
 				var dictionary = new Dictionary<string, string>();
+
 				foreach (var fieldInstance in file.MetaDataFieldValues)
 				{
-					if (!dictionary.ContainsKey(fieldInstance.FieldId))
-					{
-						dictionary.Add(fieldInstance.FieldId, fieldInstance.Value);
-					}
-					else
-					{
-						Debug.WriteLine(fieldInstance + " appears more than once in the file " + path);
-					}
+					var value = (fieldInstance.Value is IAutoCompleteValueProvider ?
+						((IAutoCompleteValueProvider)fieldInstance.Value).GetValueForKey(fieldInstance.FieldId) :
+						fieldInstance.ValueAsString);
+
+					if (!string.IsNullOrEmpty(value))
+						dictionary[fieldInstance.FieldId] = value;
 				}
 
 				// something of a hack... the name of the file is the only place we currently keep
 				// the person's name
-				if (file.FileType.GetType() == typeof (PersonFileType))
+				if (file.FileType.GetType() == typeof(PersonFileType))
 				{
 					dictionary.Add("person", Path.GetFileNameWithoutExtension(path));
 				}
@@ -120,33 +117,35 @@ namespace SayMore.Model.Files.DataGathering
 		/// <summary>
 		/// Gives [key, (list of unique values)]
 		/// </summary>
-		/// <param name="includeUnattestedFactoryChoices"></param>
 		/// ------------------------------------------------------------------------------------
 		public virtual Dictionary<string, IEnumerable<string>> GetValueLists(bool includeUnattestedFactoryChoices)
 		{
 			var keyToValuesDictionary = new Dictionary<string, IEnumerable<string>>();
 
-			if(includeUnattestedFactoryChoices)
-			{
+			if (includeUnattestedFactoryChoices)
 				AddFactoryChoices(keyToValuesDictionary);
-			}
 
-			foreach (KeyValuePair<string, Dictionary<string, string>> fieldsOfFile in _fileToDataDictionary)
+			// Go through each file's dictionary of field/value pairs.
+			foreach (var fieldValuePairs in _fileToDataDictionary.Values)
 			{
-				foreach (var field in fieldsOfFile.Value)
+				// Go through each field/value pair.
+				foreach (var field in fieldValuePairs)
 				{
 					var key = GetKeyFromFieldName(field.Key);
-					if (!keyToValuesDictionary.ContainsKey(key))
-					{
-						keyToValuesDictionary.Add(key, new List<string>());
-					}
 
+					// If a list for the specified key hasn't already been started,
+					// then start a new one for the key.
+					if (!keyToValuesDictionary.ContainsKey(key))
+						keyToValuesDictionary.Add(key, new List<string>());
+
+					// In most cases, this will just loop once because most fields do not
+					// contain multiple values. However, some fields contain multiple
+					// values delimited by commas or semicolons. In those cases, this
+					// loop will iterate once for each delimited value found.
 					foreach (var value in GetIndividualValues(field))
 					{
 						if (!keyToValuesDictionary[key].Contains(value))
-						{
 							((List<string>)keyToValuesDictionary[key]).Add(value);
-						}
 					}
 				}
 			}
@@ -162,15 +161,17 @@ namespace SayMore.Model.Files.DataGathering
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Split list of values into individual components. Some fields in the UI can contain
-		/// multiple items separated by a comma or semi colon (e.g. participants could contain
+		/// Splits a list of values into individual values. Some fields in the UI can contain
+		/// multiple items delimited by a comma or semi colon (e.g. participants could contain
 		/// several people, "Fred; Barney; Wilma; Betty"). When that is true, then each value
 		/// in a multivalue field is a separate value in the auto-complete list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual IEnumerable<string> GetIndividualValues(KeyValuePair<string, string> field)
 		{
-			if (_multiValueFields.Contains(field.Key))
+			if (!_multiValueFields.Contains(field.Key))
+				yield return field.Value;
+			else
 			{
 				foreach (var v in from l in field.Value.Split(',', ';')
 								  where l.Trim().Length > 0
@@ -178,16 +179,16 @@ namespace SayMore.Model.Files.DataGathering
 				{
 					yield return v;
 				}
-
 			}
-
-			yield return field.Value;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Collapses various field names, e.g. various language fields, into a single key,
-		/// e.g. "language"
+		/// Collapses various field names into a single key. For example, in the program,
+		/// people's names can be entered into several fields (e.g. "participants",
+		/// "fullname", "recordist", etc.). These would collapse to a single key called
+		/// "person" and that key would be used by any name field that wanted to take
+		/// advantage of an auto-complete list of names.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetKeyFromFieldName(string fieldKey)
@@ -196,6 +197,22 @@ namespace SayMore.Model.Files.DataGathering
 
 			return (_mappingOfFieldsToAutoCompleteKey.TryGetValue(fieldKey, out key) ?
 				key : fieldKey);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetValuesForKey(string key)
+		{
+			return GetValuesForKey(key, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetValuesForKey(string key, bool includeUnattestedFactoryChoices)
+		{
+			var list = (from kvp in GetValueLists(includeUnattestedFactoryChoices)
+						where kvp.Key == key
+						select kvp.Value).FirstOrDefault();
+
+			return (list ?? new List<string>(0));
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace SayMore.UI.ComponentEditors
 			TabText = "Info";
 
 			foreach (var field in file.MetaDataFieldValues)
-				textBox1.Text += Environment.NewLine + field.FieldId + ": " + field.Value;
+				textBox1.Text += Environment.NewLine + field.FieldId + ": " + field.ValueAsString;
 		}
 	}
 }

@@ -56,7 +56,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<PickerPopupItem> HandleParticipantJustInTimeListAcquisition(object sender)
 		{
-			return from name in _personInformant.GetPeopleNames()
+			return from name in _personInformant.GetAllPeopleNames()
 				orderby name
 				select new PickerPopupItem { Text = name, ToolTipText = null };
 		}

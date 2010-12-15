@@ -89,8 +89,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClearShare\ClearShareUsage.cs" />
+    <Compile Include="ClearShare\ContributionTests.cs" />
+    <Compile Include="ClearShare\ContributorsListControlViewModelTests.cs" />
+    <Compile Include="ClearShare\LicenseTests.cs" />
+    <Compile Include="ClearShare\OlacSystemTests.cs" />
+    <Compile Include="ClearShare\RoleTests.cs" />
     <Compile Include="model\EventWorkflowInformantTests.cs" />
     <Compile Include="model\ElementRepositoryTests.cs" />
+    <Compile Include="model\Fields\ContributionCollectionTests.cs" />
+    <Compile Include="model\Fields\ContributionSerializerTests.cs" />
     <Compile Include="model\Fields\FieldInstanceTests.cs" />
     <Compile Include="model\Files\DataGathering\BackgroundFileProcessorTests.cs" />
     <Compile Include="model\Files\DataGathering\PresetDataTests.cs" />

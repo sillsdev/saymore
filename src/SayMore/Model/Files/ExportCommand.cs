@@ -119,7 +119,7 @@ namespace SayMore.Model.Files
 				}
 				else
 				{
-					builder.Append(EscapeIfNeeded(f.Value) + _delimeter);
+					builder.Append(EscapeIfNeeded(f.ValueAsString) + _delimeter);
 				}
 			}
 			return builder.ToString().TrimEnd(_delimeter);

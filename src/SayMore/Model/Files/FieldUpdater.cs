@@ -21,9 +21,10 @@ namespace SayMore.Model.Files
 		private readonly FileSerializer _fileSerializer;
 
 		/// ------------------------------------------------------------------------------------
-		public FieldUpdater(FieldGatherer fieldGatherer)
+		public FieldUpdater(FieldGatherer fieldGatherer,
+			IDictionary<string, IXmlFieldSerializer> fieldSerializers)
 		{
-			_fileSerializer = new FileSerializer();
+			_fileSerializer = new FileSerializer(fieldSerializers);
 			_fieldGatherer = fieldGatherer;
 
 			if (_fieldGatherer != null)
@@ -33,7 +34,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static FieldUpdater CreateMinimalFieldUpdaterForTests(string rootProjectFolder)
 		{
-			return new FieldUpdater(null) { _rootProjectFolder = rootProjectFolder };
+			return new FieldUpdater(null, null) { _rootProjectFolder = rootProjectFolder };
 		}
 
 		/// ------------------------------------------------------------------------------------

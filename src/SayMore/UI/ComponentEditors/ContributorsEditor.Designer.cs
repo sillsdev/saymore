@@ -29,35 +29,22 @@ namespace SayMore.UI.ComponentEditors
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ContributorsEditor));
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
-			this._labelComingSoon = new System.Windows.Forms.Label();
 			this.SuspendLayout();
-			// 
-			// _labelComingSoon
-			// 
-			this._labelComingSoon.AutoSize = true;
-			this._labelComingSoon.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelComingSoon.Location = new System.Drawing.Point(21, 20);
-			this._labelComingSoon.Name = "_labelComingSoon";
-			this._labelComingSoon.Size = new System.Drawing.Size(125, 21);
-			this._labelComingSoon.TabIndex = 0;
-			this._labelComingSoon.Text = "Coming Soon...";
 			// 
 			// ContributorsEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this._labelComingSoon);
 			this.Name = "ContributorsEditor";
 			this.Size = new System.Drawing.Size(449, 279);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private BindingHelper _binder;
-		private System.Windows.Forms.Label _labelComingSoon;
+        private BindingHelper _binder;
 	}
 }

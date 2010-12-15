@@ -73,7 +73,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override void GoDormant()
+		public override void Deactivate()
 		{
 			_mediaPlayerViewModel.VolumeChanged -= HandleMediaPlayerVolumeChanged;
 			_mediaPlayerViewModel.ShutdownMPlayerProcess();

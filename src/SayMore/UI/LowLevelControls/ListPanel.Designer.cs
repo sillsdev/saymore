@@ -25,9 +25,12 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonNew = new System.Windows.Forms.Button();
 			this._buttonDelete = new System.Windows.Forms.Button();
 			this._headerLabel = new SilUtils.Controls.HeaderLabel();
+			this._buttonColChooser = new SilUtils.Controls.XButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this._toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this._outerPanel.SuspendLayout();
 			this._buttonsFlowLayoutPanel.SuspendLayout();
+			this._headerLabel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -105,6 +108,7 @@ namespace SayMore.UI.LowLevelControls
 			// 
 			this._headerLabel.ClipTextForChildControls = true;
 			this._headerLabel.ControlReceivingFocusOnMnemonic = null;
+			this._headerLabel.Controls.Add(this._buttonColChooser);
 			this._headerLabel.Dock = System.Windows.Forms.DockStyle.Top;
 			this._headerLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.locExtender.SetLocalizableToolTip(this._headerLabel, null);
@@ -120,6 +124,26 @@ namespace SayMore.UI.LowLevelControls
 			this._headerLabel.TabIndex = 0;
 			this._headerLabel.Text = "Items";
 			this._headerLabel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleHeaderPanelPaint);
+			// 
+			// _buttonColChooser
+			// 
+			this._buttonColChooser.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._buttonColChooser.BackColor = System.Drawing.Color.Transparent;
+			this._buttonColChooser.CanBeChecked = false;
+			this._buttonColChooser.Checked = false;
+			this._buttonColChooser.DrawEmpty = false;
+			this._buttonColChooser.DrawLeftArrowButton = false;
+			this._buttonColChooser.DrawRightArrowButton = false;
+			this._buttonColChooser.Font = new System.Drawing.Font("Marlett", 9F);
+			this._buttonColChooser.Image = global::SayMore.Properties.Resources.ColumnChooser;
+			this.locExtender.SetLocalizableToolTip(this._buttonColChooser, null);
+			this.locExtender.SetLocalizationComment(this._buttonColChooser, null);
+			this.locExtender.SetLocalizingId(this._buttonColChooser, "xButton1.xButton1");
+			this._buttonColChooser.Location = new System.Drawing.Point(146, 2);
+			this._buttonColChooser.Name = "_buttonColChooser";
+			this._buttonColChooser.Size = new System.Drawing.Size(18, 18);
+			this._buttonColChooser.TabIndex = 0;
+			this._toolTip.SetToolTip(this._buttonColChooser, "Choose Columns");
 			// 
 			// locExtender
 			// 
@@ -141,6 +165,7 @@ namespace SayMore.UI.LowLevelControls
 			this._outerPanel.PerformLayout();
 			this._buttonsFlowLayoutPanel.ResumeLayout(false);
 			this._buttonsFlowLayoutPanel.PerformLayout();
+			this._headerLabel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
@@ -154,5 +179,7 @@ namespace SayMore.UI.LowLevelControls
 		public System.Windows.Forms.Button _buttonDelete;
 		public System.Windows.Forms.Button _buttonNew;
 		private System.Windows.Forms.FlowLayoutPanel _buttonsFlowLayoutPanel;
+		private SilUtils.Controls.XButton _buttonColChooser;
+		private System.Windows.Forms.ToolTip _toolTip;
 	}
 }

@@ -293,7 +293,6 @@ namespace SayMore.Model.Files
 	public class EventFileType : FileType
 	{
 		private readonly Func<EventBasicEditor.Factory> _eventBasicEditorFactoryLazy;
-		protected readonly Func<ContributorsEditor.Factory> _contributorsEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -303,13 +302,10 @@ namespace SayMore.Model.Files
 		/// error in autofac.  NB: when we move to .net 4, this can be replaced by
 		/// Lazy<Func<EventBasicEditor.Factory></param>
 		/// ------------------------------------------------------------------------------------
-		public EventFileType(
-			Func<EventBasicEditor.Factory> eventBasicEditorFactoryLazy,
-			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+		public EventFileType(Func<EventBasicEditor.Factory> eventBasicEditorFactoryLazy)
 			: base("Event", p => p.EndsWith(Settings.Default.EventFileExtension))
 		{
 			_eventBasicEditorFactoryLazy = eventBasicEditorFactoryLazy;
-			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -372,9 +368,6 @@ namespace SayMore.Model.Files
 		{
 			var text = LocalizationManager.LocalizeString("EventInfoEditor.EventTabText", "Event");
 			yield return _eventBasicEditorFactoryLazy()(file, text, "Event");
-
-			text = LocalizationManager.LocalizeString("EventFileInfoEditor.Contributors", "Contributors");
-			yield return _contributorsEditorFactoryLazy()(file, text, null);
 
 			text = LocalizationManager.LocalizeString("EventInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");

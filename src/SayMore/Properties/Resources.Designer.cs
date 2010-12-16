@@ -95,6 +95,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ColumnChooser {
+            get {
+                object obj = ResourceManager.GetObject("ColumnChooser", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ComponentStageColorBlockTemplate {
             get {
                 object obj = ResourceManager.GetObject("ComponentStageColorBlockTemplate", resourceCulture);

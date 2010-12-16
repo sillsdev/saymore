@@ -101,7 +101,7 @@ namespace SayMoreTests.UI.ProjectWindow
 			WalkThroughElements("PersonEditor", "_peopleListPanel", "_personComponentFileGrid", "PersonListScreen");
 
 			ClickEventTab();
-			WalkThroughElements("EventEditor", "_eventsListPanel", "_eventComponentFileGrid", "EventScreen");
+			WalkThroughElements("EventEditor", "_eventsListPanel", "_eventComponentFileGrid", "EventsListScreen");
 
 			_projectContext.ProjectWindow.Close();
 			SetupProjectWindow();
@@ -235,7 +235,7 @@ namespace SayMoreTests.UI.ProjectWindow
 			Assert.AreEqual("RenamedEvent.event", componentGrid.Grid[1, 0].Value as string);
 
 			// Delete the event.
-			DeleteItems(listPanel, "EventScreen");
+			DeleteItems(listPanel, "EventListScreen");
 			Assert.AreEqual(0, list.RowCount);
 
 			// Open the dialog to add files from a device, then cancel it.

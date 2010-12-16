@@ -636,6 +636,7 @@
     <None Include="Resources\Incoming.png" />
     <None Include="Resources\InProgress.png" />
     <None Include="Resources\Skipped.png" />
+    <None Include="Resources\ColumnChooser.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

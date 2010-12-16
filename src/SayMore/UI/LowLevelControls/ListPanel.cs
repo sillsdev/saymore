@@ -28,12 +28,10 @@ namespace SayMore.UI.LowLevelControls
 		public Color HeaderPanelBackColor2 { get; set; }
 		public Color HeaderPanelBottomBorderColor { get; set; }
 
-		public Control _listControl;
+		public MultiValuePickerPopup ColChooserPopup { get; private set; }
+		protected Control _listControl;
+		protected bool _showColumnChooserButton;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ListPanel"/> class.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ListPanel()
 		{
@@ -87,7 +85,41 @@ namespace SayMore.UI.LowLevelControls
 				_outerPanel.Controls.Add(_listControl);
 				_listControl.BringToFront();
 				_listControl.TabIndex = 0;
+
+				InitializeColumnChooser();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[DefaultValue(false)]
+		public bool ShowColumnChooserButton
+		{
+			get { return _showColumnChooserButton; }
+			set
+			{
+				_showColumnChooserButton = value;
+				InitializeColumnChooser();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeColumnChooser()
+		{
+			if (!_showColumnChooserButton || !(_listControl is DataGridView))
+			{
+				_buttonColChooser.Visible = false;
+				return;
+			}
+
+			if (ColChooserPopup == null)
+			{
+				ColChooserPopup = new MultiValuePickerPopup();
+				ColChooserPopup.PopupOpening += HandleColChooserDropDownOpening;
+				ColChooserPopup.PopupClosing += HandleColChooserDropDownClosing;
+				ColChooserPopup.ItemCheckChanged += HandleColChooserItemCheckChanged;
+			}
+
+			_buttonColChooser.Visible = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -225,6 +257,33 @@ namespace SayMore.UI.LowLevelControls
 
 			foreach (var b in _buttons)
 				_buttonsFlowLayoutPanel.Controls.Add(b);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleColChooserDropDownOpening(object sender, CancelEventArgs e)
+		{
+			//if (!e.Cancel && DropDownOpening != null)
+			//    DropDownOpening(this, e);
+
+			//if (!e.Cancel)
+			//{
+			//    _textBox.HideSelection = false;
+			//    Popup.SetCheckedItemsFromDelimitedString(Text);
+			//}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleColChooserDropDownClosing(object sender, ToolStripDropDownClosingEventArgs e)
+		{
+			//if (!e.Cancel)
+			//    _textBox.HideSelection = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleColChooserItemCheckChanged(object sender, PickerPopupItem item)
+		{
+			//Text = Popup.GetCheckedItemsString();
+			//_textBox.SelectAll();
 		}
 	}
 }

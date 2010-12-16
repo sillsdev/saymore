@@ -37,7 +37,7 @@ namespace SayMoreTests.UI.ElementListScreen
 		[Test]
 		public void SetFileType_UsingEventType_CreatesCorrectColumns()
 		{
-			_grid.SetFileType(new EventFileType(null, null));
+			_grid.SetFileType(new EventFileType(null));
 
 			Assert.AreEqual(3, _grid.ColumnCount);
 			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "id"));

@@ -85,9 +85,9 @@ namespace SayMore.UI.ElementListScreen
 			this._eventsListPanel.ButtonPanelBackColor2 = System.Drawing.SystemColors.Control;
 			this._eventsListPanel.ButtonPanelTopBorderColor = System.Drawing.SystemColors.ControlDark;
 			this._eventsListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			// 
-			// 
-			// 
+			this._eventsListPanel.HeaderPanelBackColor1 = System.Drawing.SystemColors.Control;
+			this._eventsListPanel.HeaderPanelBackColor2 = System.Drawing.SystemColors.Control;
+			this._eventsListPanel.HeaderPanelBottomBorderColor = System.Drawing.SystemColors.ControlDark;
 			this._eventsListPanel.Location = new System.Drawing.Point(0, 0);
 			this._eventsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
 			this._eventsListPanel.Name = "_eventsListPanel";
@@ -139,12 +139,12 @@ namespace SayMore.UI.ElementListScreen
 			this._labelHelp.Text = "Click \'New\' to add a new event.";
 			this._labelHelp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// EventScreen
+			// EventsListScreen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._elementListSplitter);
-			this.Name = "EventScreen";
+			this.Name = "EventsListScreen";
 			this.Size = new System.Drawing.Size(503, 350);
 			this._elementListSplitter.Panel1.ResumeLayout(false);
 			this._elementListSplitter.Panel1.PerformLayout();

@@ -68,7 +68,9 @@ namespace SayMore.UI.ElementListScreen
 
 			foreach (var col in type.GetFieldsShownInGrid())
 			{
-				col.HeaderText = col.Name;
+				if (string.IsNullOrEmpty(col.HeaderText))
+					col.HeaderText = col.Name;
+
 				Columns.Add(col);
 			}
 
@@ -130,6 +132,12 @@ namespace SayMore.UI.ElementListScreen
 				var msg = string.Format("'{0}' doesn't exist in elements collection.", element.Id);
 				throw new ArgumentException(msg);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void RefreshCurrentRow()
+		{
+			InvalidateRowInFullRowSelectMode(CurrentCellAddress.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------

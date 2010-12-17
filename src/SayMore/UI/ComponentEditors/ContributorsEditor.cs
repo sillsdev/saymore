@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using SayMore.ClearShare;
@@ -42,23 +43,21 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string HandleValidatingContributor(ContributorsListControl sender,
+		private KeyValuePair<string, string> HandleValidatingContributor(ContributorsListControl sender,
 			Contribution contribution, CancelEventArgs e)
 		{
 			e.Cancel = true;
 
-			if (string.IsNullOrEmpty(contribution.ContributorName) && contribution.Role == null)
-				return "Please enter a contributor's name and role.";
-
+			// TODO: Localize
 			if (string.IsNullOrEmpty(contribution.ContributorName))
-				return "Please enter a contributor's name.";
+				return new KeyValuePair<string,string>("name", "Enter a name.");
 
 			if (contribution.Role == null)
-				return "Please choose a contributor's role.";
+				return new KeyValuePair<string, string>("role", "Choose a role.");
 
 			e.Cancel = false;
 			SaveContributors();
-			return null;
+			return new KeyValuePair<string, string>();
 		}
 
 		/// ------------------------------------------------------------------------------------

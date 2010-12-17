@@ -28,7 +28,6 @@ namespace SayMore.UI.LowLevelControls
 		public Color HeaderPanelBackColor2 { get; set; }
 		public Color HeaderPanelBottomBorderColor { get; set; }
 
-		public MultiValuePickerPopup ColChooserPopup { get; private set; }
 		protected Control _listControl;
 		protected bool _showColumnChooserButton;
 
@@ -105,21 +104,14 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void InitializeColumnChooser()
 		{
-			if (!_showColumnChooserButton || !(_listControl is DataGridView))
+			if (DesignMode)
 			{
-				_buttonColChooser.Visible = false;
+				_buttonColChooser.Visible = _showColumnChooserButton;
 				return;
 			}
 
-			if (ColChooserPopup == null)
-			{
-				ColChooserPopup = new MultiValuePickerPopup();
-				ColChooserPopup.PopupOpening += HandleColChooserDropDownOpening;
-				ColChooserPopup.PopupClosing += HandleColChooserDropDownClosing;
-				ColChooserPopup.ItemCheckChanged += HandleColChooserItemCheckChanged;
-			}
-
-			_buttonColChooser.Visible = true;
+			_buttonColChooser.Visible = (_showColumnChooserButton && _listControl is DataGridView);
+			_buttonColChooser.Grid = _listControl as DataGridView;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -257,33 +249,6 @@ namespace SayMore.UI.LowLevelControls
 
 			foreach (var b in _buttons)
 				_buttonsFlowLayoutPanel.Controls.Add(b);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleColChooserDropDownOpening(object sender, CancelEventArgs e)
-		{
-			//if (!e.Cancel && DropDownOpening != null)
-			//    DropDownOpening(this, e);
-
-			//if (!e.Cancel)
-			//{
-			//    _textBox.HideSelection = false;
-			//    Popup.SetCheckedItemsFromDelimitedString(Text);
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleColChooserDropDownClosing(object sender, ToolStripDropDownClosingEventArgs e)
-		{
-			//if (!e.Cancel)
-			//    _textBox.HideSelection = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleColChooserItemCheckChanged(object sender, PickerPopupItem item)
-		{
-			//Text = Popup.GetCheckedItemsString();
-			//_textBox.SelectAll();
 		}
 	}
 }

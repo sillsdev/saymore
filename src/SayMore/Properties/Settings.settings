@@ -121,8 +121,8 @@
     <Setting Name="PersonScreenComponentGrid" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilUtils.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="PauseMediaPlayerWhenTabLoosesFocus" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
+    <Setting Name="PauseMediaPlayerWhenTabLoosesFocus" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ImageViewerClickImageZoomPercentages" Description="These are zoom percentages used when clicking on an image in an image viewer. For each click, the zoom is increased to the next percentage value. When the max value is reached, the zoom percentage changes to the lowest value, etc." Type="System.String" Scope="Application">
       <Value Profile="(Default)">25, 50, 75,100, 125, 150, 175, 200, 225, 250, 275, 300</Value>
@@ -285,6 +285,9 @@
     </Setting>
     <Setting Name="ContributorsGrid" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilUtils.GridSettings" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MissingDataWindowColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">252, 235, 132</Value>
     </Setting>
   </Settings>
 </SettingsFile>

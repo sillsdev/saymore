@@ -91,6 +91,7 @@ namespace SayMore.UI.ElementListScreen
 			this._eventsListPanel.Location = new System.Drawing.Point(0, 0);
 			this._eventsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
 			this._eventsListPanel.Name = "_eventsListPanel";
+			this._eventsListPanel.ShowColumnChooserButton = true;
 			this._eventsListPanel.Size = new System.Drawing.Size(182, 350);
 			this._eventsListPanel.TabIndex = 0;
 			this._eventsListPanel.Text = "Events";

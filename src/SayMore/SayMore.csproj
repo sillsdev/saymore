@@ -47,6 +47,7 @@
       <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
@@ -59,7 +60,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="SilUtils, Version=1.5.3992.31366, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SilUtils, Version=1.5.4002.29378, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SilUtils.dll</HintPath>
     </Reference>
@@ -68,6 +69,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -90,6 +92,12 @@
     </Compile>
     <Compile Include="ClearShare\ContributorsListControlViewModel.cs" />
     <Compile Include="ClearShare\License.cs" />
+    <Compile Include="ClearShare\FadingMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClearShare\FadingMessageForm.Designer.cs">
+      <DependentUpon>FadingMessageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClearShare\OlacSystem.cs" />
     <Compile Include="ClearShare\Role.cs" />
     <Compile Include="ClearShare\Work.cs" />
@@ -256,6 +264,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ElementListScreen\StagesImageMaker.cs" />
+    <Compile Include="UI\LowLevelControls\ColumnChooserButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\LowLevelControls\PopupControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -543,6 +554,9 @@
     <None Include="Resources\SessionComponentFile.png" />
     <None Include="Resources\SayMoreLogo 16x16.png" />
     <None Include="Resources\SayMoreLogo.png" />
+    <EmbeddedResource Include="ClearShare\FadingMessageForm.resx">
+      <DependentUpon>FadingMessageForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SayMore.ico" />
     <EmbeddedResource Include="UI\ComponentEditors\BasicFieldGridEditor.resx">
       <DependentUpon>BasicFieldGridEditor.cs</DependentUpon>
@@ -637,6 +651,7 @@
     <None Include="Resources\InProgress.png" />
     <None Include="Resources\Skipped.png" />
     <None Include="Resources\ColumnChooser.png" />
+    <None Include="Resources\Information.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

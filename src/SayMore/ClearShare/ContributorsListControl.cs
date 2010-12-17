@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
@@ -14,8 +15,8 @@ namespace SayMore.ClearShare
 	/// ----------------------------------------------------------------------------------------
 	public partial class ContributorsListControl : UserControl
 	{
-		public delegate string ValidatingContributorHandler(ContributorsListControl sender,
-			Contribution contribution, CancelEventArgs e);
+		public delegate KeyValuePair<string, string> ValidatingContributorHandler(
+			ContributorsListControl sender, Contribution contribution, CancelEventArgs e);
 
 		public event ValidatingContributorHandler ValidatingContributor;
 		public event EventHandler ContributorDeleted;
@@ -139,12 +140,30 @@ namespace SayMore.ClearShare
 		{
 			var hi = _grid.HitTest(e.X, e.Y);
 
-			// Make the first cell current when the user clicks a row heading.
-			if (e.Button == MouseButtons.Left && hi.ColumnIndex == -1 &&
-				hi.RowIndex >= 0 && hi.RowIndex < _grid.RowCount)
+			// Did the user click on a row heading?
+			if (e.Button != MouseButtons.Left || hi.ColumnIndex >= 0 ||
+				hi.RowIndex < 0 || hi.RowIndex >= _grid.RowCount)
 			{
-				_grid.CurrentCell = _grid[0, hi.RowIndex];
+				return;
 			}
+
+			// At this point we know the user clicked on a row heading. Now we
+			// need to make sure the row they're leaving is in a valid state.
+			if (ValidatingContributor != null && _grid.CurrentCellAddress.Y >= 0 &&
+				_grid.CurrentCellAddress.Y < _grid.RowCount - 1)
+			{
+				var contribution = _model.Contributions.ElementAt(_grid.CurrentCellAddress.Y);
+				var args = new CancelEventArgs(false);
+				ValidatingContributor(this, contribution, args);
+				if (args.Cancel)
+				{
+					SystemSounds.Beep.Play();
+					return;
+				}
+			}
+
+			// Make the first cell current in the row the user clicked.
+			_grid.CurrentCell = _grid[0, hi.RowIndex];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -165,7 +184,7 @@ namespace SayMore.ClearShare
 		/// ------------------------------------------------------------------------------------
 		private void HandleGridRowValidating(object sender, DataGridViewCellCancelEventArgs e)
 		{
-			if (ValidatingContributor == null || e.RowIndex == _grid.RowCount - 1)
+			if (e.RowIndex == _grid.RowCount - 1)
 				return;
 
 			var contribution = _model.Contributions.ElementAt(e.RowIndex);
@@ -184,12 +203,22 @@ namespace SayMore.ClearShare
 				return;
 			}
 
+			if (ValidatingContributor == null)
+				return;
+
 			var args = new CancelEventArgs(e.Cancel);
-			var errorMsg = ValidatingContributor(this, contribution, args);
+			var kvp = ValidatingContributor(this, contribution, args);
 			e.Cancel = args.Cancel;
 
-			if (!string.IsNullOrEmpty(errorMsg))
-				Palaso.Reporting.ProblemNotificationDialog.Show(errorMsg);
+			if (!string.IsNullOrEmpty(kvp.Key))
+			{
+				int col = _grid.Columns[kvp.Key].Index;
+				var msg = new FadingMessageWindow();
+				var rc = _grid.GetCellDisplayRectangle(col, e.RowIndex, true);
+				var pt = new Point(rc.X + (rc.Width / 2), rc.Y + 4);
+				msg.Show(kvp.Value, _grid.PointToScreen(pt));
+				_grid.CurrentCell = _grid[col, e.RowIndex];
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

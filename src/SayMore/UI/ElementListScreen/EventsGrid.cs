@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using SayMore.Model;
 using SayMore.Properties;
@@ -37,6 +38,13 @@ namespace SayMore.UI.ElementListScreen
 
 			if (fieldName == "stages")
 				return _stagesImageMaker.CreateImageForComponentStage(element.GetCompletedStages());
+
+			if (fieldName == "date")
+			{
+				var date = base.GetValueForField(element, fieldName);
+				return (string.IsNullOrEmpty(date as string) ?
+					date : DateTime.Parse(date as string).ToShortDateString());
+			}
 
 			return base.GetValueForField(element, fieldName);
 		}

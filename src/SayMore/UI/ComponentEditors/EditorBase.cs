@@ -36,10 +36,6 @@ namespace SayMore.UI.ComponentEditors
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class EditorBase : UserControl, IEditorProvider
 	{
 		private BindingHelper _binder;

@@ -346,10 +346,15 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
-			var col = SilGrid.CreateTextBoxColumn("Id");
+			var col = SilGrid.CreateTextBoxColumn("id*", "Id");
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.Frozen = true;
+			yield return col;
+
+			col = SilGrid.CreateTextBoxColumn("Title");
+			col.DataPropertyName = "title";
+			col.ReadOnly = true;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("Stages");
@@ -360,6 +365,24 @@ namespace SayMore.Model.Files
 			col = SilGrid.CreateImageColumn("Status");
 			col.DataPropertyName = "status";
 			col.ReadOnly = true;
+			yield return col;
+
+			col = SilGrid.CreateTextBoxColumn("Date");
+			col.DataPropertyName = "date";
+			col.ReadOnly = true;
+			col.Visible = false;
+			yield return col;
+
+			col = SilGrid.CreateTextBoxColumn("Genre");
+			col.DataPropertyName = "genre";
+			col.ReadOnly = true;
+			col.Visible = false;
+			yield return col;
+
+			col = SilGrid.CreateTextBoxColumn("Location");
+			col.DataPropertyName = "location";
+			col.ReadOnly = true;
+			col.Visible = false;
 			yield return col;
 		}
 

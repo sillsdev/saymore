@@ -71,9 +71,7 @@ namespace SayMore.UI.ElementListScreen
 			string fieldId, object oldValue, object newValue)
 		{
 			base.HandleComponentFileMetadataValueChanged(file, fieldId, oldValue, newValue);
-
-			if (fieldId == "status")
-				_elementsGrid.Refresh();
+			_elementsGrid.RefreshCurrentRow();
 		}
 
 		/// ------------------------------------------------------------------------------------

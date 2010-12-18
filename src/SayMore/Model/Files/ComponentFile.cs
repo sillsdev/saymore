@@ -117,13 +117,13 @@ namespace SayMore.Model.Files
 			FileType fileType, string rootElementName,
 			FileSerializer fileSerializer, FieldUpdater fieldUpdater)
 		{
+			RootElementName = rootElementName;
 			_parentElement = parentElement;
 			FileType = fileType;
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
 			_fieldUpdater = fieldUpdater;
 			MetaDataFieldValues = new List<FieldInstance>();
-			RootElementName = rootElementName;
 			_componentRoles = new ComponentRole[] {}; //no roles for person or event
 			InitializeFileInfo();
 		}
@@ -141,6 +141,8 @@ namespace SayMore.Model.Files
 			if (PathToAnnotatedFile == null)
 				return;
 
+			FileType.Migrate(this);
+
 			LoadFileSizeAndDateModified();
 
 			// Initialize file's icon and description.
@@ -149,6 +151,13 @@ namespace SayMore.Model.Files
 			GetSmallIconAndFileType(PathToAnnotatedFile, out icon, out fileDesc);
 			SmallIcon = FileType.SmallIcon ?? icon;
 			FileTypeDescription = (FileType is UnknownFileType ? fileDesc : FileType.Name);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public DateTime GetCreateDate()
+		{
+			var fi = new FileInfo(PathToAnnotatedFile);
+			return fi.CreationTime;
 		}
 
 		/// ------------------------------------------------------------------------------------

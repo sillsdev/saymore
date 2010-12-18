@@ -52,7 +52,7 @@ namespace SayMoreTests.Model.Files
 			File.WriteAllText(_parentFolder.Combine(fileName), @"hello");
 
 			var cf = new ComponentFile(parentElement, _parentFolder.Combine(fileName),
-				new[] {FileType.Create("Text", ".txt"), new UnknownFileType(null, null) },
+				new[] { FileType.Create("Text", ".txt"), new UnknownFileType(null, null) },
 				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 
 			cf.Save(); //creates the meta file path

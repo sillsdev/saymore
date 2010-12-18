@@ -28,19 +28,19 @@ namespace SayMoreTests.Model.Files
 			var t = FileType.Create("text", "txt");
 			Assert.IsTrue(t.IsMatch(_parentFolder.Combine("blah.txt")));
 		}
+
 		[Test]
 		public void IsMatch_BasedOnFactoryUsingExtension_ShouldNotBeAMatch()
 		{
 			var t = FileType.Create("text", "txt");
 			Assert.IsFalse(t.IsMatch(_parentFolder.Combine("blah.foo")));
 		}
+
 		[Test]
 		public void IsMatch_BasedOnFactoryUsingMultipleExtension_ShouldBeAMatch()
 		{
-			var t = FileType.Create("text", new string[]{"txt","db"});
+			var t = FileType.Create("text", new[]{"txt","db"});
 			Assert.IsTrue(t.IsMatch(_parentFolder.Combine("blah.db")));
 		}
-
-
 	}
 }

@@ -8,6 +8,7 @@ using Localization;
 using Palaso.CommandLineProcessing;
 using Palaso.Media;
 using Palaso.Reporting;
+using SayMore.ClearShare;
 using SayMore.Model.Fields;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
@@ -172,6 +173,11 @@ namespace SayMore.Model.Files
 		public virtual IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			return new List<DataGridViewColumn>(0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void Migrate(ComponentFile file)
+		{
 		}
 	}
 
@@ -515,6 +521,48 @@ namespace SayMore.Model.Files
 			int i = duration.LastIndexOf('.');
 			return (i < 0 ? duration : duration.Substring(0, i));
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Migrates the Recordist and speaker fields to contributions for the specified
+		/// component file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override void Migrate(ComponentFile file)
+		{
+			AddContribution(file, "Recordist", "recorder");
+			AddContribution(file, "Speaker", "speaker");
+			AddContribution(file, "speaker", "speaker");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Migrates the specified field to a contribution, adds it to the list of
+		/// contributions already associated with the specified file (or creates a new list
+		/// of contributions) and removes the fieldId from the metadata. Finally, the
+		/// file's metadata is saved.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void AddContribution(ComponentFile file, string fieldId, string roleCode)
+		{
+			var value = file.GetStringValue(fieldId, null);
+			if (value == null)
+				return;
+
+			var system = new OlacSystem();
+			var role = system.GetRoleByCodeOrThrow(roleCode);
+			var collection =
+				file.GetValue("contributions", new ContributionCollection()) as ContributionCollection;
+
+			var contributor = new Contribution(value, role);
+			contributor.Date = file.GetCreateDate().ToShortDateString();
+			contributor.Comments = string.Format("Formerly stored in the '{0}' field.", fieldId);
+			collection.Add(contributor);
+			string failureMessage;
+			file.SetValue("contributions", collection, out failureMessage);
+			file.RemoveField(fieldId);
+			file.Save();
+		}
 	}
 
 	#endregion
@@ -560,7 +608,7 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				foreach (var key in new[] { "Recordist", "Device", "Microphone", "contributions" })
+				foreach (var key in new[] { "Device", "Microphone", "contributions" })
 					yield return new FieldDefinition(key);
 
 				foreach (var key in new[] { "Duration", "Channels", "Bit_Depth", "Sample_Rate", "Audio_Bit_Rate"})
@@ -660,6 +708,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
+			// TODO: Localize these strings.
+
 			var commands = base.GetCommands(filePath).ToList();
 
 			if (!File.Exists(filePath.Replace(Path.GetExtension(filePath), ".mp3")))
@@ -690,6 +740,7 @@ namespace SayMore.Model.Files
 
 			if (results.ExitCode != 0)
 			{
+				// TODO: Localize this.
 				ErrorReport.NotifyUserOfProblem(
 						string.Format("Something didn't work out. FFmpeg said (start reading from the end): {0}{1}{2}",
 							Environment.NewLine, Environment.NewLine, results.StandardError));
@@ -713,6 +764,7 @@ namespace SayMore.Model.Files
 
 			if (results.ExitCode != 0)
 			{
+				// TODO: Localize this.
 				ErrorReport.NotifyUserOfProblem(
 						string.Format("Something didn't work out. FFmpeg said (start reading from the end): {0}{1}{2}",
 							Environment.NewLine, Environment.NewLine, results.StandardError));
@@ -722,6 +774,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private bool CheckConversionIsPossible(string outputPath)
 		{
+			// TODO: Localize these strings.
+
 			if (!MediaInfo.HaveNecessaryComponents)
 			{
 				MessageBox.Show("SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
@@ -738,13 +792,15 @@ namespace SayMore.Model.Files
 
 				return false;
 			}
+
 			return true;
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
+			// TODO: Localize these strings.
+
 			var text = LocalizationManager.LocalizeString("VideoFileInfoEditor.PlaybackTabText", "Video");
 			yield return new AudioVideoPlayer(file, text, "Video");
 

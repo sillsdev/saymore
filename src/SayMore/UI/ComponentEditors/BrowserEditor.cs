@@ -22,21 +22,31 @@ namespace SayMore.UI.ComponentEditors
 		{
 			base.SetComponentFile(file);
 
-			if (_browser != null)
+			if (_browser == null)
+				return;
+
+			_browser.Tag = file.PathToAnnotatedFile;
+			_browser.DocumentCompleted += HandleBrowserLoadCompleted;
+			_browser.Navigate("about:blank");
+
+			var msg = LocalizationManager.LocalizeString("BrowserEditor.FileNameMsg",
+				"<HTML>An attempt was made to load:<br /><br /><b>File:</b> {0}<br /><nobr><b>Folder:</b> {1}</nobr></HTML>");
+
+			msg = msg.Replace("\n", "<br />");
+
+			_browser.DocumentText = string.Format(msg,
+				Path.GetFileName(file.PathToAnnotatedFile),
+				Path.GetDirectoryName(file.PathToAnnotatedFile));
+
+			file.PreRenameAction = (() =>
 			{
-				_browser.Tag = file.PathToAnnotatedFile;
-				_browser.DocumentCompleted += HandleBrowserLoadCompleted;
+				// This will unlock the file so it can be renamed.
 				_browser.Navigate("about:blank");
 
-				var msg = LocalizationManager.LocalizeString("BrowserEditor.FileNameMsg",
-					"<HTML>An attempt was made to load:<br /><br /><b>File:</b> {0}<br /><nobr><b>Folder:</b> {1}</nobr></HTML>");
-
-				msg = msg.Replace("\n", "<br />");
-
-				_browser.DocumentText = string.Format(msg,
-					Path.GetFileName(file.PathToAnnotatedFile),
-					Path.GetDirectoryName(file.PathToAnnotatedFile));
-			}
+				// I don't like doing this, but the browser takes a moment to finish
+				// navigating and thus to release the file pointed to by the previous URL.
+				Application.DoEvents();
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------

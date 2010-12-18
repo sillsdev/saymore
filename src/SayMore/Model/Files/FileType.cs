@@ -556,7 +556,6 @@ namespace SayMore.Model.Files
 
 			var contributor = new Contribution(value, role);
 			contributor.Date = file.GetCreateDate().ToShortDateString();
-			contributor.Comments = string.Format("Formerly stored in the '{0}' field.", fieldId);
 			collection.Add(contributor);
 			string failureMessage;
 			file.SetValue("contributions", collection, out failureMessage);

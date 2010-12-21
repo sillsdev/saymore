@@ -40,7 +40,7 @@ namespace SayMoreTests.UI.ElementListScreen
 			_grid.SetFileType(new EventFileType(null));
 
 			Assert.AreEqual(7, _grid.ColumnCount);
-			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "id*"));
+			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "id"));
 			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "status"));
 			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "stages"));
 			Assert.IsNotNull(_grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name.ToLower() == "title"));

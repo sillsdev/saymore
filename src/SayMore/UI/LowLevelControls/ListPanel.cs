@@ -171,7 +171,7 @@ namespace SayMore.UI.LowLevelControls
 		/// returns true.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnDelete_Click(object sender, EventArgs e)
+		private void HandleDeleteButtonClick(object sender, EventArgs e)
 		{
 			if (DeleteButtonClicked != null)
 				DeleteButtonClicked(sender, e);
@@ -182,7 +182,7 @@ namespace SayMore.UI.LowLevelControls
 		/// Call the new item handler delegate and add the item returned from the delegate.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnNew_Click(object sender, EventArgs e)
+		private void HandleNewButtonClick(object sender, EventArgs e)
 		{
 			if (NewButtonClicked != null)
 				NewButtonClicked(this, e);

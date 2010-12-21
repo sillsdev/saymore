@@ -37,9 +37,8 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FadingMessageForm(string message, Point pt) : this()
+		public FadingMessageForm(Point pt) : this()
 		{
-			_labelMessage.Text = message;
 			_point = pt;
 		}
 
@@ -64,6 +63,17 @@ namespace SayMore.ClearShare
 		protected override bool ShowWithoutActivation
 		{
 			get { return true; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string Text
+		{
+			get { return base.Text; }
+			set
+			{
+				base.Text = value;
+				_labelMessage.Text = value;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -132,15 +142,20 @@ namespace SayMore.ClearShare
 						{
 							Opacity = currentOpacity - 0.05;
 							if (Opacity == 0)
-							{
-								_timer.Stop();
 								Close();
-							}
 						}
 						break;
 				}
 			}
 			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnFormClosing(FormClosingEventArgs e)
+		{
+			base.OnFormClosing(e);
+			_timer.Stop();
+			_timer = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -221,15 +236,11 @@ namespace SayMore.ClearShare
 		protected string _text;
 		protected Point _point;
 
-		//protected EventWaitHandle _waitHandle;
-
 		/// ------------------------------------------------------------------------------------
 		public void Show(string text, Point pt)
 		{
 			if (_thread != null)
 				return;
-
-			//_waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
 
 			if (Thread.CurrentThread.Name == null)
 				Thread.CurrentThread.Name = "Main";
@@ -251,19 +262,38 @@ namespace SayMore.ClearShare
 		/// ------------------------------------------------------------------------------------
 		protected virtual void ShowForm()
 		{
-			_form = new FadingMessageForm(_text, _point);
+			_form = new FadingMessageForm(_point);
+			_form.Text = _text;
 			_form.FormClosed += HandleFormClosed;
 			_form.ShowDialog();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleFormClosed(object sender, FormClosedEventArgs e)
+		public void Close()
+		{
+			if (_form != null)
+			{
+				lock (_form)
+				{
+					_form.Invoke(new MethodInvoker(_form.Close));
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFormClosed(object sender, FormClosedEventArgs e)
 		{
 			_form.FormClosed -= HandleFormClosed;
 			_form.Dispose();
 			_form = null;
-			_thread.Abort();
-			_thread = null;
+			try
+			{
+				_thread.Abort();
+			}
+			catch (ThreadAbortException)
+			{
+				_thread = null;
+			}
 		}
 	}
 }

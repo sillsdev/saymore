@@ -58,7 +58,6 @@ namespace SayMore.UI.ElementListScreen
 			_tabControlImages = new ImageList();
 			_tabControlImages.ColorDepth = ColorDepth.Depth32Bit;
 			_tabControlImages.ImageSize = Resources.PlayTabImage.Size;
-			//imgList.Images.Add("Contributors", Resources.ContributorsTabImage);
 			_tabControlImages.Images.Add("Notes", Resources.NotesTabImage);
 			_tabControlImages.Images.Add("Play", Resources.PlayTabImage);
 			_tabControlImages.Images.Add("Person", Resources.PersonFileImage);
@@ -66,8 +65,8 @@ namespace SayMore.UI.ElementListScreen
 			_tabControlImages.Images.Add("Image", Resources.ImageFileImage);
 			_tabControlImages.Images.Add("Video", Resources.VideoFileImage);
 			_tabControlImages.Images.Add("Audio", Resources.AudioFileImage);
-			//_tabControlImages.Images.Add("View", Resources.ViewTabImage);
 
+			_elementsGrid.IsOKToSelectDifferentElement = GetIsOKToLeaveCurrentEditor;
 			_elementsGrid.SelectedElementChanged += HandleSelectedElementChanged;
 			_elementsGrid.SetFileType(_model.ElementFileType);
 
@@ -82,6 +81,8 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.PostMenuCommandRefreshAction = HandlePostMenuCommandRefresh;
+			_componentFilesControl.IsOKToSelectDifferentFile = GetIsOKToLeaveCurrentEditor;
+			_componentFilesControl.IsOKToDoFileOperation = GetIsOKToLeaveCurrentEditor;
 
 			LoadElementList();
 		}
@@ -404,7 +405,17 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual bool IsOKToLeaveView(bool showMsgWhenNotOK)
 		{
-			return true;
+			return GetIsOKToLeaveCurrentEditor();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool GetIsOKToLeaveCurrentEditor()
+		{
+			if (SelectedComponentEditorsTabControl == null)
+				return true;
+
+			var editor = SelectedComponentEditorsTabControl.CurrentEditor;
+			return (editor == null ? true : editor.IsOKSToLeaveEditor);
 		}
 	}
 }

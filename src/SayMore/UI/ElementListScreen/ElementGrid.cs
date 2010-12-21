@@ -21,6 +21,8 @@ namespace SayMore.UI.ElementListScreen
 
 		public event SelectedElementChangedHandler SelectedElementChanged;
 
+		public Func<bool> IsOKToSelectDifferentElement;
+
 		protected IEnumerable<ProjectElement> _items = new ProjectElement[] { };
 
 		/// ------------------------------------------------------------------------------------
@@ -160,6 +162,13 @@ namespace SayMore.UI.ElementListScreen
 		{
 			return from row in SelectedRows.Cast<DataGridViewRow>()
 				   select _items.ElementAt(row.Index);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnRowValidating(DataGridViewCellCancelEventArgs e)
+		{
+			e.Cancel = (IsOKToSelectDifferentElement != null && !IsOKToSelectDifferentElement());
+			base.OnRowValidating(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

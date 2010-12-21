@@ -90,7 +90,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonNew.TabIndex = 0;
 			this._buttonNew.Text = "&New";
 			this._buttonNew.UseVisualStyleBackColor = true;
-			this._buttonNew.Click += new System.EventHandler(this.btnNew_Click);
+			this._buttonNew.Click += new System.EventHandler(this.HandleNewButtonClick);
 			// 
 			// _buttonDelete
 			// 
@@ -106,7 +106,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonDelete.TabIndex = 1;
 			this._buttonDelete.Text = "&Delete";
 			this._buttonDelete.UseVisualStyleBackColor = true;
-			this._buttonDelete.Click += new System.EventHandler(this.btnDelete_Click);
+			this._buttonDelete.Click += new System.EventHandler(this.HandleDeleteButtonClick);
 			// 
 			// _headerLabel
 			// 

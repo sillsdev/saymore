@@ -346,10 +346,10 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
-			var col = SilGrid.CreateTextBoxColumn("id*", "Id");
+			var col = SilGrid.CreateTextBoxColumn("Id");
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
-			col.Frozen = true;
+			//col.Frozen = true;
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("Title");

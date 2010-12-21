@@ -2,7 +2,9 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Windows.Forms;
+using SayMore.ClearShare;
 using SilUtils;
 using SilUtils.Controls;
 
@@ -11,6 +13,7 @@ namespace SayMore.UI.LowLevelControls
 	public class ColumnChooserButton : XButton
 	{
 		private DataGridView _grid;
+		private FadingMessageWindow _msgWindow;
 
 		public MultiValuePickerPopup ColChooserPopup { get; private set; }
 
@@ -50,10 +53,13 @@ namespace SayMore.UI.LowLevelControls
 			if (!Enabled)
 				return;
 
+			if (_msgWindow != null)
+				_msgWindow.Close();
+
 			ColChooserPopup.Clear();
 
 			ColChooserPopup.AddRange(from col in _grid.Columns.Cast<DataGridViewColumn>()
-									 where !col.Name.EndsWith("*")
+									 orderby col.DisplayIndex
 									 select new PickerPopupItem(col.HeaderText, col.Visible) { Tag = col });
 
 			var pt = PointToScreen(new Point(0, Height));
@@ -65,10 +71,29 @@ namespace SayMore.UI.LowLevelControls
 		{
 			var col = item.Tag as DataGridViewColumn;
 
-			// If the column is being hidden and it's the current column, then change the
-			// current column before hiding it. Otherwise, the current column becomes indeterminate.
-			if (_grid is SilGrid && !item.Checked && _grid != null && _grid.CurrentCellAddress.X == col.Index)
-				((SilGrid)_grid).SelectAdjacentVisibleColumn(true);
+			// Check if the column is being hidden.
+			if (!item.Checked)
+			{
+				if (_grid.Columns.Cast<DataGridViewColumn>().Where(c => c.Visible).Count() == 1)
+				{
+					ColChooserPopup.ItemCheckChanged -= HandleColChooserItemCheckChanged;
+					item.Checked = true;
+					ColChooserPopup.ItemCheckChanged += HandleColChooserItemCheckChanged;
+
+					if (_msgWindow == null)
+						_msgWindow = new FadingMessageWindow();
+
+					var pt = PointToScreen(new Point(Width / 2, Height / 3));
+					_msgWindow.Show("One column must be visible.", pt);
+					SystemSounds.Beep.Play();
+					return;
+				}
+
+				// If the column is the current column, then change the current column
+				// before hiding it. Otherwise, the current column becomes indeterminate.
+				if (_grid is SilGrid && _grid.CurrentCellAddress.X == col.Index)
+					((SilGrid)_grid).SelectAdjacentVisibleColumn(true);
+			}
 
 			col.Visible = item.Checked;
 		}

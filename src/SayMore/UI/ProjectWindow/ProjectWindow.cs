@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Reflection;
 using System.Windows.Forms;
 using Localization;
@@ -106,8 +107,16 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
+			if (!_viewTabGroup.IsOKToCloseGroup)
+			{
+				e.Cancel = true;
+				SystemSounds.Beep.Play();
+			}
+
 			base.OnFormClosing(e);
-			LocalizeItemDlg.StringsLocalized -= SetWindowText;
+
+			if (!e.Cancel)
+				LocalizeItemDlg.StringsLocalized -= SetWindowText;
 		}
 
 		/// ------------------------------------------------------------------------------------

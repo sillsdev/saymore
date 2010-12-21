@@ -216,6 +216,21 @@ namespace SayMore.UI.ProjectWindow
 			AdjustTabContainerWidth(true);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public bool IsOKToCloseGroup
+		{
+			get
+			{
+				foreach (var view in Tabs.Where(t => t.View is ISayMoreView).Select(t => t.View as ISayMoreView))
+				{
+					if (!view.IsOKToLeaveView(false))
+						return false;
+				}
+
+				return true;
+			}
+		}
+
 		#region Tab managment methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -32,6 +32,7 @@ namespace SayMore.UI.ComponentEditors
 		void SetComponentFile(ComponentFile file);
 		Action ComponentFileListRefreshAction { set; }
 		void Deactivate();
+		bool IsOKSToLeaveEditor { get; }
 		event Action<string> TabTextChanged;
 	}
 
@@ -60,7 +61,6 @@ namespace SayMore.UI.ComponentEditors
 		public EditorBase(ComponentFile file, string tabText, string imageKey) : this()
 		{
 			_file = file;
-			//dangerous SetComponentFile(file);
 			Initialize(tabText, imageKey);
 		}
 
@@ -143,6 +143,12 @@ namespace SayMore.UI.ComponentEditors
 				else
 					SetLabelFonts(ctrl, fnt);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool IsOKSToLeaveEditor
+		{
+			get { return true; }
 		}
 
 		/// ------------------------------------------------------------------------------------

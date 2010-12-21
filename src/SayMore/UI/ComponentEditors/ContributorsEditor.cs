@@ -46,17 +46,38 @@ namespace SayMore.UI.ComponentEditors
 		private KeyValuePair<string, string> HandleValidatingContributor(ContributorsListControl sender,
 			Contribution contribution, CancelEventArgs e)
 		{
-			e.Cancel = true;
+			var kvp = CheckIfContributorIsValid(contribution);
+			e.Cancel = !string.IsNullOrEmpty(kvp.Key);
 
-			// TODO: Localize
-			if (string.IsNullOrEmpty(contribution.ContributorName))
-				return new KeyValuePair<string,string>("name", "Enter a name.");
+			if (!e.Cancel)
+				SaveContributors();
 
-			if (contribution.Role == null)
-				return new KeyValuePair<string, string>("role", "Choose a role.");
+			return kvp;
+		}
 
-			e.Cancel = false;
-			SaveContributors();
+		/// ------------------------------------------------------------------------------------
+		public override bool IsOKSToLeaveEditor
+		{
+			get
+			{
+				var contribution = _contributorsControl.GetCurrentContribution();
+				return string.IsNullOrEmpty(CheckIfContributorIsValid(contribution).Key);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static KeyValuePair<string, string> CheckIfContributorIsValid(Contribution contribution)
+		{
+			if (contribution != null)
+			{
+				// TODO: Localize
+				if (string.IsNullOrEmpty(contribution.ContributorName))
+					return new KeyValuePair<string, string>("name", "Enter a name.");
+
+				if (contribution.Role == null)
+					return new KeyValuePair<string, string>("role", "Choose a role.");
+			}
+
 			return new KeyValuePair<string, string>();
 		}
 

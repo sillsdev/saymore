@@ -21,6 +21,7 @@ namespace SayMore.ClearShare
 		public event ValidatingContributorHandler ValidatingContributor;
 		public event EventHandler ContributorDeleted;
 
+		private FadingMessageWindow _msgWindow;
 		private Contribution _preValidatedContribution;
 		private readonly ContributorsListControlViewModel _model;
 		private int _indexOfIncompleteRowToDelete = -1;
@@ -44,6 +45,8 @@ namespace SayMore.ClearShare
 		{
 			_grid.Font = SystemFonts.IconTitleFont;
 
+			// TODO: Localize column headings
+
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("name", "Name");
 			col.Width = 150;
 			_grid.Columns.Add(col);
@@ -63,8 +66,11 @@ namespace SayMore.ClearShare
 			_grid.AllowUserToAddRows = true;
 			_grid.AllowUserToDeleteRows = true;
 			_grid.EditingControlShowing += HandleEditingControlShowing;
+			_grid.NewRowNeeded += HandleGridNewRowNeeded;
+			_grid.RowsRemoved += HandleGridRowRemoved;
 			_grid.CurrentRowChanged += HandleGridCurrentRowChanged;
 			_grid.RowValidating += HandleGridRowValidating;
+			_grid.RowValidated += HandleGridRowValidated;
 			_grid.MouseClick += HandleGridMouseClick;
 			_grid.Enter += HandleGridEnter;
 			_grid.Leave += HandleGridLeave;
@@ -88,6 +94,12 @@ namespace SayMore.ClearShare
 				return (base.DesignMode || GetService(typeof(IDesignerHost)) != null) ||
 					(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Contribution GetCurrentContribution()
+		{
+			return _model.GetContributionAt(_grid.CurrentCellAddress.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,6 +134,7 @@ namespace SayMore.ClearShare
 				var name = _model.GetContributionValue(_grid.CurrentCellAddress.Y, "name") as string;
 				if (!string.IsNullOrEmpty(name))
 				{
+					// TODO: Localize
 					var tooltip = string.Format("Delete contributor '{0}'", name);
 					_toolTip.SetToolTip(_buttonDelete, tooltip);
 				}
@@ -187,7 +200,7 @@ namespace SayMore.ClearShare
 			if (e.RowIndex == _grid.RowCount - 1)
 				return;
 
-			var contribution = _model.Contributions.ElementAt(e.RowIndex);
+			var contribution = _model.GetContributionAt(e.RowIndex);
 
 			// Don't bother doing anything if the contribution didn't change.
 			if (contribution.AreContentsEqual(_preValidatedContribution))
@@ -212,11 +225,13 @@ namespace SayMore.ClearShare
 
 			if (!string.IsNullOrEmpty(kvp.Key))
 			{
+				if (_msgWindow == null)
+					_msgWindow = new FadingMessageWindow();
+
 				int col = _grid.Columns[kvp.Key].Index;
-				var msg = new FadingMessageWindow();
 				var rc = _grid.GetCellDisplayRectangle(col, e.RowIndex, true);
 				var pt = new Point(rc.X + (rc.Width / 2), rc.Y + 4);
-				msg.Show(kvp.Value, _grid.PointToScreen(pt));
+				_msgWindow.Show(kvp.Value, _grid.PointToScreen(pt));
 				_grid.CurrentCell = _grid[col, e.RowIndex];
 			}
 		}
@@ -241,6 +256,24 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
+		void HandleGridRowRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+		{
+			_model.DiscardTempContribution();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleGridNewRowNeeded(object sender, DataGridViewRowEventArgs e)
+		{
+			_model.CreateTempContribution();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleGridRowValidated(object sender, DataGridViewCellEventArgs e)
+		{
+			_model.CommitTempContributionIfExists();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			var value = _model.GetContributionValue(e.RowIndex, _grid.Columns[e.ColumnIndex].Name);
@@ -257,24 +290,42 @@ namespace SayMore.ClearShare
 		/// ------------------------------------------------------------------------------------
 		protected void HandleEditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
 		{
-			if (_grid.CurrentCellAddress.X != 0)
-				return;
+			if (_grid.CurrentCellAddress.X == 0)
+			{
+				var txtBox = e.Control as TextBox;
+				_grid.Tag = txtBox;
+				_grid.CellEndEdit += HandleGridCellEndEdit;
+				txtBox.KeyPress += HandleCellEditBoxKeyPress;
+				txtBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+				txtBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+				txtBox.AutoCompleteCustomSource = _model.GetAutoCompleteNames();
+			}
+			else if (_grid.CurrentCellAddress.X == 1)
+			{
+				var cboBox = e.Control as ComboBox;
+				_grid.Tag = cboBox;
+				cboBox.SelectedIndexChanged += HandleRoleValueChanged;
+				_grid.CellEndEdit += HandleGridCellEndEdit;
+			}
+		}
 
-			var txtBox = e.Control as TextBox;
-			_grid.Tag = txtBox;
-			_grid.CellEndEdit += HandleGridCellEndEdit;
-			txtBox.KeyPress += HandleCellEditBoxKeyPress;
-			txtBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-			txtBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-			txtBox.AutoCompleteCustomSource = _model.GetAutoCompleteNames();
+		/// ------------------------------------------------------------------------------------
+		void HandleRoleValueChanged(object sender, EventArgs e)
+		{
+			if (_msgWindow != null)
+				_msgWindow.Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleGridCellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
-			var txtBox = _grid.Tag as TextBox;
+			var ctrl = _grid.Tag as Control;
 
-			txtBox.KeyPress -= HandleCellEditBoxKeyPress;
+			if (ctrl is TextBox)
+				ctrl.KeyPress -= HandleCellEditBoxKeyPress;
+			else if (ctrl is ComboBox)
+				((ComboBox)ctrl).SelectedIndexChanged -= HandleRoleValueChanged;
+
 			_grid.CellEndEdit -= HandleGridCellEndEdit;
 			_grid.Tag = null;
 		}
@@ -304,9 +355,11 @@ namespace SayMore.ClearShare
 			if (!_model.DeleteContribution(rowIndex))
 				return;
 
+			_grid.RowsRemoved -= HandleGridRowRemoved;
 			_grid.CurrentRowChanged -= HandleGridCurrentRowChanged;
 			_grid.RowCount--;
 			_grid.CurrentRowChanged += HandleGridCurrentRowChanged;
+			_grid.RowsRemoved += HandleGridRowRemoved;
 
 			if (rowIndex >= _grid.RowCount && rowIndex > 0)
 				rowIndex--;

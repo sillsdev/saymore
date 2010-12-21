@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Media;
 using System.Windows.Forms;
 using Localization;
 using SilUtils;
@@ -31,6 +32,8 @@ namespace SayMore.UI.ElementListScreen
 		public Func<string[], DragDropEffects> FilesBeingDraggedOverGrid;
 		public Func<string[], bool> FilesDroppedOnGrid;
 		public Func<string[], bool> FilesAdded;
+		public Func<bool> IsOKToSelectDifferentFile;
+		public Func<bool> IsOKToDoFileOperation;
 
 		public bool ShowContextMenu { get; set; }
 
@@ -59,6 +62,7 @@ namespace SayMore.UI.ElementListScreen
 			_grid.CellMouseClick += HandleFileGridCellMouseClick;
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
+			_grid.RowValidating += HandleGridRowValidating;
 			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
 			_grid.Paint += HandleFileGridPaint;
 			_grid.ClientSizeChanged += HandleFileGridClientSizeChanged;
@@ -186,18 +190,18 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridCellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Right)
-			{
-				if (e.RowIndex != _grid.CurrentCellAddress.Y)
-					SelectComponent(e.RowIndex);
+			if (e.Button != MouseButtons.Right || (IsOKToDoFileOperation != null && !IsOKToDoFileOperation()))
+				return;
 
-				if (ShowContextMenu)
-				{
-					var file = _files.ElementAt(e.RowIndex);
-					_contextMenuStrip.Items.Clear();
-					_contextMenuStrip.Items.AddRange(file.GetMenuCommands(PostMenuCommandRefreshAction).ToArray());
-					_contextMenuStrip.Show(MousePosition);
-				}
+			if (e.RowIndex != _grid.CurrentCellAddress.Y)
+				SelectComponent(e.RowIndex);
+
+			if (ShowContextMenu)
+			{
+				var file = _files.ElementAt(e.RowIndex);
+				_contextMenuStrip.Items.Clear();
+				_contextMenuStrip.Items.AddRange(file.GetMenuCommands(PostMenuCommandRefreshAction).ToArray());
+				_contextMenuStrip.Show(MousePosition);
 			}
 		}
 
@@ -212,6 +216,12 @@ namespace SayMore.UI.ElementListScreen
 				var file = _files.ElementAt(e.RowIndex);
 				file.HandleDoubleClick();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridRowValidating(object sender, DataGridViewCellCancelEventArgs e)
+		{
+			e.Cancel = (IsOKToSelectDifferentFile != null && !IsOKToSelectDifferentFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -328,6 +338,19 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Draw a line between the buttons and the grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleToolStripActionsPaint(object sender, PaintEventArgs e)
+		{
+			var dy = _toolStripActions.ClientSize.Height - _toolStripActions.Padding.Bottom - 1;
+
+			using (var pen = new Pen(_panelOuter.BorderColor))
+				e.Graphics.DrawLine(pen, 0, dy, _toolStripActions.ClientSize.Width, dy);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		void HandleFileGridDragEnter(object sender, DragEventArgs e)
 		{
 			e.Effect = DragDropEffects.None;
@@ -339,13 +362,29 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		void HandleFileGridDragDrop(object sender, DragEventArgs e)
 		{
+			if (!GetIsOKToPerformFileOperation())
+				return;
+
 			if (e.Data.GetFormats().Contains(DataFormats.FileDrop) && FilesDroppedOnGrid != null)
 				FilesDroppedOnGrid(e.Data.GetData(DataFormats.FileDrop) as string[]);
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleActionsDropDownOpening(object sender, EventArgs e)
+		{
+			bool operationOK = GetIsOKToPerformFileOperation();
+
+			var dropdown = sender as ToolStripDropDownButton;
+			foreach (ToolStripItem item in dropdown.DropDownItems)
+				item.Visible = operationOK;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		void HandleAddButtonClick(object sender, EventArgs e)
 		{
+			if (!GetIsOKToPerformFileOperation())
+				return;
+
 			using (var dlg = new OpenFileDialog())
 			{
 				dlg.Title = LocalizationManager.LocalizeString(
@@ -371,16 +410,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draw a line between the buttons and the grid.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void _toolStripActions_Paint(object sender, PaintEventArgs e)
+		private bool GetIsOKToPerformFileOperation()
 		{
-			var dy = _toolStripActions.ClientSize.Height - _toolStripActions.Padding.Bottom - 1;
+			if (IsOKToDoFileOperation == null || IsOKToDoFileOperation())
+				return true;
 
-			using (var pen = new Pen(_panelOuter.BorderColor))
-				e.Graphics.DrawLine(pen, 0, dy, _toolStripActions.ClientSize.Width, dy);
+			SystemSounds.Beep.Play();
+			return false;
 		}
 	}
 }

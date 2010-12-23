@@ -112,7 +112,7 @@ namespace SayMore.UI.ElementListScreen
 
 			if (index >= 0 && index < _items.Count())
 			{
-				CurrentCell = this[0, index];
+				CurrentCell = this[FirstDisplayedCell.ColumnIndex, index];
 				Rows[index].Selected = true;
 			}
 		}

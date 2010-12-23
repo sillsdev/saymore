@@ -127,6 +127,7 @@
     <Compile Include="Model\Files\FileSerializer.cs" />
     <Compile Include="Model\Files\ProjectElementComponentFile.cs" />
     <Compile Include="Model\PersonInformant.cs" />
+    <Compile Include="Model\ProjectElementComparer.cs" />
     <Compile Include="ProjectContext.cs" />
     <Compile Include="Model\Files\ComponentFile.cs" />
     <Compile Include="Model\Files\ComponentRole.cs" />
@@ -263,7 +264,7 @@
     <Compile Include="UI\ElementListScreen\ElementGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\ElementListScreen\StagesImageMaker.cs" />
+    <Compile Include="UI\ElementListScreen\StagesDataProvider.cs" />
     <Compile Include="UI\LowLevelControls\ColumnChooserButton.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -27,6 +27,14 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override object GetSortValueForField(ProjectElement element, string fieldName)
+		{
+			return (fieldName == "consent" ?
+				((Person)element).GetInformedConsentSortKey() :
+				base.GetSortValueForField(element, fieldName));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnCellMouseEnter(DataGridViewCellEventArgs e)
 		{
 			base.OnCellMouseEnter(e);

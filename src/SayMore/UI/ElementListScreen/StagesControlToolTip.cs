@@ -16,14 +16,14 @@ namespace SayMore.UI.ElementListScreen
 			int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
 #endif
 		private readonly IEnumerable<ComponentRole> _componentRoles;
-		private readonly StagesImageMaker _stagesImageMaker;
+		private readonly StagesDataProvider _stagesImageMaker;
 
 		private readonly PictureBox _imageTemplate;
 		private readonly Label _nameTemplate;
 		private readonly Label _compltedTemplate;
 
 		/// ------------------------------------------------------------------------------------
-		public StagesControlToolTip(IEnumerable<ComponentRole> componentRoles, StagesImageMaker stagesImageMaker)
+		public StagesControlToolTip(IEnumerable<ComponentRole> componentRoles, StagesDataProvider stagesImageMaker)
 		{
 			_componentRoles = componentRoles;
 			_stagesImageMaker = stagesImageMaker;

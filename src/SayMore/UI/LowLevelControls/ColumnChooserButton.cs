@@ -95,7 +95,9 @@ namespace SayMore.UI.LowLevelControls
 					((SilGrid)_grid).SelectAdjacentVisibleColumn(true);
 			}
 
+			_grid.SuspendLayout();
 			col.Visible = item.Checked;
+			_grid.ResumeLayout();
 		}
 	}
 }

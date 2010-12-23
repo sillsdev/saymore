@@ -1994,30 +1994,17 @@
 		</member>
 		<member name="M:SilUtils.GridSettings.Create(System.Windows.Forms.DataGridView)">
 			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.GridSettings.InitializeGrid(System.Windows.Forms.DataGridView)">
 			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
+		</member>
+		<member name="P:SilUtils.GridSettings.SortOrder">
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="T:SilUtils.GridColumnSettings">
 			----------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			----------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.GridColumnSettings.#ctor">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="T:SilUtils.SilHierarchicalGridRow">

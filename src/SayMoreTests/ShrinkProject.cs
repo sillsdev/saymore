@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Palaso.Code;
-using Palaso.CommandLineProcessing;
+using Palaso.Progress.LogBox;
 
 
 namespace SayMoreTests

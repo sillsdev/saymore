@@ -130,7 +130,7 @@ namespace SayMore.Model.Files
 
 		public static bool GetIsText(string path)
 		{
-			var extensions = new []{".txt", ".doc",".docx", ".odt", ".rtf", ".htm", ".html"};
+			var extensions = new []{".txt", ".doc",".docx", ".odt", ".rtf", ".htm", ".html", ".pdf"};
 			return extensions.Contains(Path.GetExtension(path).ToLower());
 		}
 	}

@@ -137,7 +137,7 @@ namespace SayMore
 					new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
 						ComponentRole.MeasurementTypes.Words,
 						 ComponentRole.GetIsText,
-						"$ElementId$_Translation-N",
+						"$ElementId$_Translation",
 						Settings.Default.WrittenTranslationStageColor,
 						Settings.Default.WrittenTranslationStageTextColor);
 

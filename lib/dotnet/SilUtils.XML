@@ -1090,16 +1090,8 @@
 		</member>
 		<member name="T:SilUtils.Controls.XButton">
 			----------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			----------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.Controls.XButton.#ctor">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.Controls.XButton.OnSystemColorsChanged(System.EventArgs)">
@@ -1212,10 +1204,6 @@
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="P:SilUtils.Controls.XButton.Image">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="P:SilUtils.Controls.XButton.DrawLeftArrowButton">
@@ -2006,30 +1994,17 @@
 		</member>
 		<member name="M:SilUtils.GridSettings.Create(System.Windows.Forms.DataGridView)">
 			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.GridSettings.InitializeGrid(System.Windows.Forms.DataGridView)">
 			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
+		</member>
+		<member name="P:SilUtils.GridSettings.SortOrder">
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="T:SilUtils.GridColumnSettings">
 			----------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
-			----------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.GridColumnSettings.#ctor">
-			------------------------------------------------------------------------------------
-			<summary>
-
-			</summary>
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="T:SilUtils.SilHierarchicalGridRow">
@@ -3550,6 +3525,19 @@
 			</summary>
 			------------------------------------------------------------------------------------
 		</member>
+		<member name="M:SilUtils.SilGrid.SelectAdjacentVisibleColumn(System.Boolean)">
+			------------------------------------------------------------------------------------
+			<summary>
+			Selects the first, visible column that is adjacent to the current column (i.e.
+			the column of the current cell). When searchLeftFirst is true, an attempt will
+			be made to first find a visible column to the left of the current column. If
+			that fails, then an attempt is made to find a visible column to the right of the
+			current column. Of course, if searchLeftFirst is false, then searching right is
+			first, then left. If a new column is successfully selected, true is returned.
+			Otherwise, false is returned.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
 		<member name="M:SilUtils.SilGrid.OnCurrentCellChanged(System.EventArgs)">
 			------------------------------------------------------------------------------------
 		</member>
@@ -3573,6 +3561,11 @@
 			--------------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.SilGrid.OnRowPostPaint(System.Windows.Forms.DataGridViewRowPostPaintEventArgs)">
+			------------------------------------------------------------------------------------
+			<summary>
+			This will only deal with painting in the area between the right edge of the
+			furthest right displayed cell and the right edge of the grid's client area.
+			</summary>
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:SilUtils.SilGrid.InvalidateRowInFullRowSelectMode(System.Int32)">

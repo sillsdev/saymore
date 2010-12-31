@@ -8,29 +8,39 @@ using SayMore.UI.Utilities;
 namespace SayMore.UI.ElementListScreen
 {
 	/// ------------------------------------------------------------------------------------
-	/// <summary>
-	/// Makes images representing the workflow stages that have been accomplished. Colors
-	/// representing the stages not found in the specified stage are absent (i.e. filled
-	/// with some white-ish color).
-	/// </summary>
-	/// ------------------------------------------------------------------------------------
-	public class StagesImageMaker
+	public class StagesDataProvider
 	{
 		private readonly Dictionary<Color, Image> s_clrBlockCache = new Dictionary<Color, Image>();
 		private readonly Dictionary<long, Image> s_stagesImageCache = new Dictionary<long, Image>();
 
 		private readonly IEnumerable<ComponentRole> _componentRoles;
+		private readonly IDictionary<string, int> _roleKeys;
 
 		/// ------------------------------------------------------------------------------------
-		public StagesImageMaker(IEnumerable<ComponentRole> componentRoles)
+		public StagesDataProvider(IEnumerable<ComponentRole> componentRoles)
 		{
 			_componentRoles = componentRoles;
+
+			int i = 1;
+			_roleKeys = new Dictionary<string, int>();
+			foreach (var role in _componentRoles)
+			{
+				_roleKeys[role.Id] = i;
+				i *= 2;
+			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Makes images representing the workflow stages that have been accomplished. Colors
+		/// representing the stages not found in the specified stage are absent (i.e. filled
+		/// with some white-ish color).
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Image CreateImageForComponentStage(IEnumerable<ComponentRole> completedRoles)
 		{
 			var completedRolesKey = GetCompletedRolesKey(completedRoles);
+
 			Image img;
 			if (s_stagesImageCache.TryGetValue(completedRolesKey, out img))
 				return img;
@@ -56,11 +66,11 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static long GetCompletedRolesKey(IEnumerable<ComponentRole> completedRoles)
+		public int GetCompletedRolesKey(IEnumerable<ComponentRole> completedRoles)
 		{
-			long key = 0;
+			int key = 0;
 			foreach (var role in completedRoles)
-				key += role.Id.GetHashCode();
+				key |= _roleKeys[role.Id];
 
 			return key;
 		}

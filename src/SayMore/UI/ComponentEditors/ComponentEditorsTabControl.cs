@@ -26,5 +26,15 @@ namespace SayMore.UI.ComponentEditors
 				editor.Control.BackColor = componentEditorBackColor;
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEditorProvider CurrentEditor
+		{
+			get
+			{
+				var page = SelectedTab as ComponentEditorTabPage;
+				return (page != null ? page.EditorProvider : null);
+			}
+		}
 	}
 }

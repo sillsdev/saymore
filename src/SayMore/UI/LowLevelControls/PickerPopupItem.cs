@@ -5,10 +5,6 @@ using System.Windows.Forms;
 namespace SayMore.UI.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class PickerPopupItem : ToolStripButton
 	{
 		public enum ItemSelectMode
@@ -43,6 +39,13 @@ namespace SayMore.UI.LowLevelControls
 			};
 
 			CheckBox.CheckedChanged += HandleCheckBoxCheckChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PickerPopupItem(string text, bool chked) : this()
+		{
+			Text = text;
+			Checked = chked;
 		}
 
 		/// ------------------------------------------------------------------------------------

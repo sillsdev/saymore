@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
-using Palaso.CommandLineProcessing;
 using Palaso.Media;
+using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 using SayMore.ClearShare;
 using SayMore.Model.Fields;
@@ -255,10 +255,12 @@ namespace SayMore.Model.Files
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.Frozen = true;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("Consent");
 			col.DataPropertyName = "consent";
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 		}
 
@@ -355,17 +357,47 @@ namespace SayMore.Model.Files
 			var col = SilGrid.CreateTextBoxColumn("Id");
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
-			col.Frozen = true;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			//col.Frozen = true;
+			yield return col;
+
+			col = SilGrid.CreateTextBoxColumn("Title");
+			col.DataPropertyName = "title";
+			col.ReadOnly = true;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("Stages");
 			col.DataPropertyName = "stages";
 			col.ReadOnly = true;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("Status");
 			col.DataPropertyName = "status";
 			col.ReadOnly = true;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			yield return col;
+
+			col = SilGrid.CreateTextBoxColumn("Date");
+			col.DataPropertyName = "date";
+			col.ReadOnly = true;
+			col.Visible = false;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			yield return col;
+
+			col = SilGrid.CreateTextBoxColumn("Genre");
+			col.DataPropertyName = "genre";
+			col.ReadOnly = true;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			col.Visible = false;
+			yield return col;
+
+			col = SilGrid.CreateTextBoxColumn("Location");
+			col.DataPropertyName = "location";
+			col.ReadOnly = true;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			col.Visible = false;
 			yield return col;
 		}
 

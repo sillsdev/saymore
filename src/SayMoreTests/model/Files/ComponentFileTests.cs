@@ -218,11 +218,11 @@ namespace SayMoreTests.Model.Files
 			{
 				new ComponentRole(typeof(Event), "translation", "translation",
 					ComponentRole.MeasurementTypes.None, p => p.EndsWith("txt"),
-					"$ElementId$_Original", Color.Magenta, Color.Black),
+					"$ElementId$_Translation", Color.Magenta, Color.Black),
 
 				new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
 					ComponentRole.MeasurementTypes.Words, (p => Path.GetExtension(p).ToLower() == ".txt"),
-					"$ElementId$_Translation-N", Color.Magenta, Color.Black),
+					"$ElementId$_Transcriptino", Color.Magenta, Color.Black),
 
 				new ComponentRole(typeof(Event), "original", "Original Recording",
 					ComponentRole.MeasurementTypes.Time, ComponentRole.GetIsAudioVideo,
@@ -283,6 +283,7 @@ namespace SayMoreTests.Model.Files
 			Assert.AreEqual(1, f.GetAssignedRoles().Count());
 		}
 
+
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetAssignedRoles_ForConsentAndEventType_ReturnsEmptyEnumerator()
@@ -297,6 +298,23 @@ namespace SayMoreTests.Model.Files
 		{
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Consent.txt");
 			Assert.AreEqual(1, f.GetAssignedRoles(typeof(Person)).Count());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetAssignedRoles_ForTranslation_ReturnCorrectOne()
+		{
+			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation.txt");
+			Assert.AreEqual("translation", f.GetAssignedRoles(typeof(Event)).First().Name);
+		}
+
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetAssignedRoles_HasTranslationWIthLanguageTag_ReturnTranslation()
+		{
+			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation-xyz.txt");
+			Assert.AreEqual("translation", f.GetAssignedRoles(typeof(Event)).First().Name);
 		}
 
 		[Test]

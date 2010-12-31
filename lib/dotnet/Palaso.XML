@@ -460,7 +460,7 @@
 			This is class originally from  SeemabK (seemabk@yahoo.com).  It has been enhanced for chorus.
 			</summary>
 		</member>
-		<member name="M:Palaso.CommandLineProcessing.ProcessOutputReader.Read(System.Diagnostics.Process@,System.Int32,Palaso.CommandLineProcessing.IProgress)">
+		<member name="M:Palaso.CommandLineProcessing.ProcessOutputReader.Read(System.Diagnostics.Process@,System.Int32,Palaso.Progress.LogBox.IProgress)">
 			<summary>
 			Safely read the streams of the process
 			</summary>
@@ -771,6 +771,13 @@
 						return;
 			</example>
 		</member>
+		<member name="M:Palaso.WritingSystems.RFC5646Tag.#ctor(Palaso.WritingSystems.RFC5646Tag)">
+			<summary>
+			 Copy constructor
+			</summary>
+			<param name="rhs"></param>
+		</member>
+		<!-- Badly formed XML comment ignored for member "M:Palaso.WritingSystems.RFC5646Tag.IsValid" -->
 		<member name="F:Palaso.Text.ApproximateMatcherOptions.None">
 			<summary>
 			Find closest forms only
@@ -1906,17 +1913,6 @@
 			Gets the exception that occurred, or null if there was an unspecified error
 			</summary>
 		</member>
-		<member name="M:Palaso.CommandLineProcessing.ConsoleProgress.Dispose">
-			<summary>
-			Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-			</summary>
-			<filterpriority>2</filterpriority>
-		</member>
-		<member name="T:Palaso.CommandLineProcessing.LabelStatus">
-			<summary>
-			Just conveys status, not all messages
-			</summary>
-		</member>
 		<member name="T:Palaso.WritingSystems.WritingSystemDefinition">
 			<summary>
 			This class stores the information used to define various writing system properties.
@@ -1936,6 +1932,12 @@
 			<summary>
 			For overridding the other identifier fields, to specify a custom RFC5646
 			</summary>
+		</member>
+		<member name="M:Palaso.WritingSystems.WritingSystemDefinition.#ctor(Palaso.WritingSystems.WritingSystemDefinition)">
+			<summary>
+			Copy constructor.
+			</summary>
+			<param name="ws">The ws.</param>
 		</member>
 		<member name="M:Palaso.WritingSystems.WritingSystemDefinition.LoadScriptOptionsIfNeeded">
 			<summary>
@@ -2419,7 +2421,7 @@
 			Just conveys status, not all messages
 			</summary>
 		</member>
-		<member name="M:Palaso.IO.FileLocator.GetFileDistributedWithApplication(System.String[])">
+		<member name="M:Palaso.IO.FileLocator.GetFileDistributedWithApplication(System.Boolean,System.String[])">
 			<summary>
 			Find a file which, on a development machine, lives in [solution]/[distFileFolderName]/[subPath],
 			and when installed, lives in
@@ -2428,9 +2430,26 @@
 			</summary>
 			<example>GetFileDistributedWithApplication("info", "releaseNotes.htm");</example>
 		</member>
-		<member name="M:Palaso.IO.FileLocator.GetDirectoryDistributedWithApplication(System.String[])">
+		<member name="M:Palaso.IO.FileLocator.GetFileDistributedWithApplication(System.String[])">
+			<summary>
+			Find a file which MUST EXIST. On a development machine, lives in [solution]/[distFileFolderName]/[subPath],
+			and when installed, lives in
+			[applicationFolder]/[distFileFolderName]/[subPath1]/[subPathN]  or
+			[applicationFolder]/[subPath]/[subPathN]
+			</summary>
+			<example>GetFileDistributedWithApplication("info", "releaseNotes.htm");</example>
+		</member>
+		<member name="M:Palaso.IO.FileLocator.GetDirectoryDistributedWithApplication(System.Boolean,System.String[])">
 			<summary>
 			Find a file which, on a development machine, lives in [solution]/DistFiles/[subPath],
+			and when installed, lives in
+			[applicationFolder]/[subPath1]/[subPathN]
+			</summary>
+			<example>GetFileDistributedWithApplication("info", "releaseNotes.htm");</example>
+		</member>
+		<member name="M:Palaso.IO.FileLocator.GetDirectoryDistributedWithApplication(System.String[])">
+			<summary>
+			Find a directory which MUST EXIST. On a development machine, lives in [solution]/DistFiles/[subPath],
 			and when installed, lives in
 			[applicationFolder]/[subPath1]/[subPathN]
 			</summary>
@@ -2751,6 +2770,11 @@
 			the contents of this method with the code editor.
 			</summary>
 		</member>
+		<member name="M:Palaso.Progress.LogBox.LogBox.SafeInvoke(System.Windows.Forms.Control,System.Action)">
+			<summary>
+			This is an attempt to avoid a mysterious crash (B.Waters) where the invoke was happening before the window's handle had been created
+			</summary>
+		</member>
 		<member name="P:Palaso.Progress.LogBox.LogBox.GetDiagnosticsMethod">
 			<summary>
 			This is a callback the client can set to soemthing which will then generate
@@ -2784,6 +2808,12 @@
 			<summary>
 			Delegate for a worker method which provides additional callbacks
 			</summary>
+		</member>
+		<member name="M:Palaso.Network.ProxyCredentialsRequestDialog.ReadProxyCredentials(System.String@,System.String@)">
+			<summary>
+			Get proxy creds from a place (not settings) that all palaso apps can share
+			</summary>
+			<returns>true if some credentials were found</returns>
 		</member>
 		<member name="M:Palaso.Network.ProxyCredentialsRequestDialog.GetCredentials(System.Boolean)">
 			<summary>

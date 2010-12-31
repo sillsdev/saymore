@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.
-//
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright>
-#endregion
-//
-// File: ViewTab.cs
-// Responsibility: D. Olson
-//
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -22,10 +6,6 @@ using SilUtils;
 
 namespace SayMore.UI.ProjectWindow
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class ViewTab : Label
 	{
@@ -38,10 +18,6 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		public ViewTabGroup OwningTabGroup { get; private set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ViewTab(ViewTabGroup owningTabControl, Control viewControl)
 		{
@@ -131,10 +107,6 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool Selected
 		{
 			get { return _selected; }
@@ -162,10 +134,6 @@ namespace SayMore.UI.ProjectWindow
 
 		#region Overridden methods and event handlers
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseEnter(EventArgs e)
 		{
 			_mouseOver = true;
@@ -174,10 +142,6 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseLeave(EventArgs e)
 		{
 			_mouseOver = false;
@@ -185,10 +149,6 @@ namespace SayMore.UI.ProjectWindow
 			base.OnMouseLeave(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaint(PaintEventArgs e)
 		{

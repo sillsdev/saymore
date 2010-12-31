@@ -28,7 +28,6 @@ namespace SayMore.UI.LowLevelControls
 		public Color HeaderPanelBackColor2 { get; set; }
 		public Color HeaderPanelBottomBorderColor { get; set; }
 
-		public MultiValuePickerPopup ColChooserPopup { get; private set; }
 		protected Control _listControl;
 		protected bool _showColumnChooserButton;
 
@@ -105,21 +104,14 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void InitializeColumnChooser()
 		{
-			if (!_showColumnChooserButton || !(_listControl is DataGridView))
+			if (DesignMode)
 			{
-				_buttonColChooser.Visible = false;
+				_buttonColChooser.Visible = _showColumnChooserButton;
 				return;
 			}
 
-			if (ColChooserPopup == null)
-			{
-				ColChooserPopup = new MultiValuePickerPopup();
-				ColChooserPopup.PopupOpening += HandleColChooserDropDownOpening;
-				ColChooserPopup.PopupClosing += HandleColChooserDropDownClosing;
-				ColChooserPopup.ItemCheckChanged += HandleColChooserItemCheckChanged;
-			}
-
-			_buttonColChooser.Visible = true;
+			_buttonColChooser.Visible = (_showColumnChooserButton && _listControl is DataGridView);
+			_buttonColChooser.Grid = _listControl as DataGridView;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -179,7 +171,7 @@ namespace SayMore.UI.LowLevelControls
 		/// returns true.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnDelete_Click(object sender, EventArgs e)
+		private void HandleDeleteButtonClick(object sender, EventArgs e)
 		{
 			if (DeleteButtonClicked != null)
 				DeleteButtonClicked(sender, e);
@@ -190,7 +182,7 @@ namespace SayMore.UI.LowLevelControls
 		/// Call the new item handler delegate and add the item returned from the delegate.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnNew_Click(object sender, EventArgs e)
+		private void HandleNewButtonClick(object sender, EventArgs e)
 		{
 			if (NewButtonClicked != null)
 				NewButtonClicked(this, e);
@@ -257,33 +249,6 @@ namespace SayMore.UI.LowLevelControls
 
 			foreach (var b in _buttons)
 				_buttonsFlowLayoutPanel.Controls.Add(b);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleColChooserDropDownOpening(object sender, CancelEventArgs e)
-		{
-			//if (!e.Cancel && DropDownOpening != null)
-			//    DropDownOpening(this, e);
-
-			//if (!e.Cancel)
-			//{
-			//    _textBox.HideSelection = false;
-			//    Popup.SetCheckedItemsFromDelimitedString(Text);
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleColChooserDropDownClosing(object sender, ToolStripDropDownClosingEventArgs e)
-		{
-			//if (!e.Cancel)
-			//    _textBox.HideSelection = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleColChooserItemCheckChanged(object sender, PickerPopupItem item)
-		{
-			//Text = Popup.GetCheckedItemsString();
-			//_textBox.SelectAll();
 		}
 	}
 }

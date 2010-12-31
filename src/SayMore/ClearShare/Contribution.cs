@@ -59,6 +59,27 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Call this sparingly since it has to create an OlacSystem each time it is invoked.
+		/// This returns true if Role is successfully set. Otherwise, false.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool SetRoleByCode(string roleCode)
+		{
+			if (roleCode != null)
+			{
+				Role role;
+				if ((new OlacSystem()).TryGetRoleByCode(roleCode, out role))
+				{
+					Role = role;
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public object Clone()
 		{
 			// TODO: Deal with license if necessary.

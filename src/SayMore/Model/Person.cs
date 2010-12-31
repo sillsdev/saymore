@@ -94,6 +94,23 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public int GetInformedConsentSortKey()
+		{
+			var componentFile = GetInformedConsentComponentFile();
+
+			if (componentFile == null)
+				return 0;
+
+			if (componentFile.FileType.IsAudio)
+				return 1;
+
+			if (componentFile.FileType.IsVideo)
+				return 2;
+
+			return 3;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string GetToolTipForInformedConsentType()
 		{
 			var componentFile = GetInformedConsentComponentFile();

@@ -128,14 +128,16 @@ namespace SayMore
 				yield return
 					new ComponentRole(typeof(Event), "transcription", "Transcription",
 						ComponentRole.MeasurementTypes.Words,
-						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Transcription",
+						ComponentRole.GetIsText,
+						"$ElementId$_Transcription",
 						Settings.Default.TranscriptionStageColor,
 						Settings.Default.TranscriptionStageTextColor);
 
 				yield return
 					new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
 						ComponentRole.MeasurementTypes.Words,
-						(p => Path.GetExtension(p).ToLower() == ".txt"), "$ElementId$_Translation-N",
+						 ComponentRole.GetIsText,
+						"$ElementId$_Translation",
 						Settings.Default.WrittenTranslationStageColor,
 						Settings.Default.WrittenTranslationStageTextColor);
 

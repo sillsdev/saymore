@@ -73,14 +73,14 @@ namespace SayMoreTests.ClearShare
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetCanDeleteContribution_InvalidTooSmall_ReturnsFalse()
+		public void GetCanDeleteContribution_IndexTooSmall_ReturnsFalse()
 		{
 			Assert.IsFalse(_model.GetCanDeleteContribution(-1));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetCanDeleteContribution_InvalidTooBig_ReturnsFalse()
+		public void GetCanDeleteContribution_IndexTooBig_ReturnsFalse()
 		{
 			Assert.IsFalse(_model.GetCanDeleteContribution(3));
 		}
@@ -106,7 +106,6 @@ namespace SayMoreTests.ClearShare
 		[Test]
 		public void SetContributionList_SetToValidList_YieldsCorrectList()
 		{
-			_model.SetContributionList(_contributions);
 			Assert.AreEqual(3, _model.Contributions.Count());
 			Assert.AreEqual("Leroy", _model.Contributions.ElementAt(0).ContributorName);
 			Assert.AreEqual("Jed", _model.Contributions.ElementAt(1).ContributorName);
@@ -115,7 +114,7 @@ namespace SayMoreTests.ClearShare
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SetContributionList_FiresEvent()
+		public void SetContributionList_Called_FiresEvent()
 		{
 			bool eventFired = false;
 			_model.NewContributionListAvailable += ((o, a) => eventFired = true);
@@ -125,14 +124,14 @@ namespace SayMoreTests.ClearShare
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetContributionCopy_IndexTooLow_ReturnsNull()
+		public void GetContributionCopy_IndexTooSmall_ReturnsNull()
 		{
 			Assert.IsNull(_model.GetContributionCopy(-1));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetContributionCopy_IndexTooHigh_ReturnsNull()
+		public void GetContributionCopy_IndexTooBig_ReturnsNull()
 		{
 			Assert.IsNull(_model.GetContributionCopy(3));
 		}
@@ -148,14 +147,26 @@ namespace SayMoreTests.ClearShare
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetContributionValue_IndexTooLow_ReturnsNull()
+		public void GetContributionCopy_IndexOneGreaterThanCollectionCount_ReturnsCopyOfTempContributor()
+		{
+			var temp = _model.CreateTempContribution();
+			temp.ContributorName = "Fosdick";
+			var copy = _model.GetContributionCopy(_model.Contributions.Count);
+
+			Assert.AreNotSame(temp, copy);
+			Assert.AreEqual("Fosdick", copy.ContributorName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetContributionValue_IndexTooSmall_ReturnsNull()
 		{
 			Assert.IsNull(_model.GetContributionValue(-1, "name"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetContributionValue_IndexTooHigh_ReturnsNull()
+		public void GetContributionValue_IndexTooBig_ReturnsNull()
 		{
 			Assert.IsNull(_model.GetContributionValue(3, "name"));
 		}
@@ -176,7 +187,18 @@ namespace SayMoreTests.ClearShare
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SetContributionValue_IndexTooLow_DoesNothing()
+		public void GetContributionValue_IndexEqualsCollectionCount_ReturnsTempContributionValue()
+		{
+			var temp = _model.CreateTempContribution();
+			temp.ContributorName = "Arturo";
+			temp.Comments = "is skinny";
+			Assert.AreEqual("Arturo", _model.GetContributionValue(_model.Contributions.Count, "name"));
+			Assert.AreEqual("is skinny", _model.GetContributionValue(_model.Contributions.Count, "comments"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SetContributionValue_IndexTooSmall_DoesNothing()
 		{
 			_model.SetContributionValue(-1, "name", "Dusty");
 			Assert.AreEqual("Leroy", _model.Contributions.ElementAt(0).ContributorName);
@@ -186,21 +208,12 @@ namespace SayMoreTests.ClearShare
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SetContributionValue_IndexTooHigh_DoesNothing()
+		public void SetContributionValue_IndexTooBig_DoesNothing()
 		{
 			_model.SetContributionValue(5, "name", "Dusty");
 			Assert.AreEqual("Leroy", _model.Contributions.ElementAt(0).ContributorName);
 			Assert.AreEqual("Jed", _model.Contributions.ElementAt(1).ContributorName);
 			Assert.AreEqual("Art", _model.Contributions.ElementAt(2).ContributorName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void SetContributionValue_IndexOneGreaterThanCount_AddsContributor()
-		{
-			_model.SetContributionValue(3, "name", "Dusty");
-			Assert.AreEqual(4, _model.Contributions.Count());
-			Assert.AreEqual("Dusty", _model.Contributions.ElementAt(3).ContributorName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -234,6 +247,19 @@ namespace SayMoreTests.ClearShare
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void SetContributionValue_IndexEqualsCollectionCount_ChangesTempContribution()
+		{
+			var temp = _model.CreateTempContribution();
+			Assert.IsNull(temp.ContributorName);
+			Assert.IsNull(temp.Role);
+			_model.SetContributionValue(_model.Contributions.Count, "name", "Arturo");
+			_model.SetContributionValue(_model.Contributions.Count, "role", "Editor");
+			Assert.AreEqual("Arturo", temp.ContributorName);
+			Assert.AreEqual("editor", temp.Role.Code);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void DeleteContribution_EmptyList_DoesNothing()
 		{
 			_model.SetContributionList(null);
@@ -244,7 +270,7 @@ namespace SayMoreTests.ClearShare
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void DeleteContribution_IndexTooLow_DoesNothing()
+		public void DeleteContribution_IndexTooSmall_DoesNothing()
 		{
 			Assert.AreEqual(3, _model.Contributions.Count());
 			_model.DeleteContribution(-1);
@@ -253,7 +279,7 @@ namespace SayMoreTests.ClearShare
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void DeleteContribution_IndexTooHigh_DoesNothing()
+		public void DeleteContribution_IndexTooBig_DoesNothing()
 		{
 			Assert.AreEqual(3, _model.Contributions.Count());
 			_model.DeleteContribution(3);
@@ -269,6 +295,90 @@ namespace SayMoreTests.ClearShare
 			Assert.AreEqual(2, _model.Contributions.Count());
 			Assert.AreEqual("Leroy", _model.Contributions.ElementAt(0).ContributorName);
 			Assert.AreEqual("Art", _model.Contributions.ElementAt(1).ContributorName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetContributionAt_IndexTooSmall_ReturnsNull()
+		{
+			Assert.IsNull(_model.GetContributionAt(-1));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetContributionAt_IndexTooBig_ReturnsNull()
+		{
+			Assert.IsNull(_model.GetContributionAt(3));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetContributionAt_ValidIndex_ReturnsCorrectContributor()
+		{
+			Assert.AreEqual("Leroy", _model.GetContributionAt(0).ContributorName);
+			Assert.AreEqual("Jed", _model.GetContributionAt(1).ContributorName);
+			Assert.AreEqual("Art", _model.GetContributionAt(2).ContributorName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetContributionAt_WhenTempExistsIndexOneGreaterThanCollectionCount_ReturnsTempContribution()
+		{
+			var temp =_model.CreateTempContribution();
+			Assert.AreEqual(temp, _model.GetContributionAt(3));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetContributionAt_WhenTempExistsIndexTooBig_ReturnsNull()
+		{
+			_model.CreateTempContribution();
+			Assert.IsNull(_model.GetContributionAt(4));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateTempContribution_Called_ReturnsContribution()
+		{
+			Assert.IsNotNull(_model.CreateTempContribution());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateTempContribution_Called_ReturnsContributionNotInCollection()
+		{
+			var temp = _model.CreateTempContribution();
+			Assert.IsFalse(_model.Contributions.Contains(temp));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CommitTempContributionIfExists_TempDoesNotExist_DoesNothing()
+		{
+			Assert.AreEqual(3, _model.Contributions.Count);
+			_model.CommitTempContributionIfExists();
+			Assert.AreEqual(3, _model.Contributions.Count);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CommitTempContributionIfExists_TempExists_AddsToCollection()
+		{
+			var temp = _model.CreateTempContribution();
+			Assert.IsFalse(_model.Contributions.Contains(temp));
+			_model.CommitTempContributionIfExists();
+			Assert.IsTrue(_model.Contributions.Contains(temp));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DiscardTempContribution_TempExists_CommitAfterDiscard_DoesNothing()
+		{
+			Assert.AreEqual(3, _model.Contributions.Count);
+			_model.CreateTempContribution();
+			_model.DiscardTempContribution();
+			_model.CommitTempContributionIfExists();
+			Assert.AreEqual(3, _model.Contributions.Count);
 		}
 	}
 }

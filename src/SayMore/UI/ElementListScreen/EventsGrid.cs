@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using SayMore.Model;
 using SayMore.Properties;
@@ -9,13 +10,13 @@ namespace SayMore.UI.ElementListScreen
 	{
 		public delegate EventsGrid Factory();  //autofac uses this
 
-		private readonly StagesImageMaker _stagesImageMaker;
+		private readonly StagesDataProvider _stagesDataProvider;
 		private readonly StagesControlToolTip _tooltip;
 
 		/// ------------------------------------------------------------------------------------
-		public EventsGrid(StagesImageMaker stagesImageMaker, StagesControlToolTip toolTip)
+		public EventsGrid(StagesDataProvider stagesDataProvider, StagesControlToolTip toolTip)
 		{
-			_stagesImageMaker = stagesImageMaker;
+			_stagesDataProvider = stagesDataProvider;
 			_tooltip = toolTip;
 		}
 
@@ -36,9 +37,40 @@ namespace SayMore.UI.ElementListScreen
 			}
 
 			if (fieldName == "stages")
-				return _stagesImageMaker.CreateImageForComponentStage(element.GetCompletedStages());
+				return _stagesDataProvider.CreateImageForComponentStage(element.GetCompletedStages());
+
+			if (fieldName == "date")
+			{
+				var date = base.GetValueForField(element, fieldName);
+				return (string.IsNullOrEmpty(date as string) ?
+					date : DateTime.Parse(date as string).ToShortDateString());
+			}
 
 			return base.GetValueForField(element, fieldName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override object GetSortValueForField(ProjectElement element, string fieldName)
+		{
+			if (fieldName == "status")
+			{
+				var statusString = base.GetValueForField(element, fieldName) as string;
+				var status = (Event.Status)Enum.Parse(typeof(Event.Status), statusString.Replace(' ', '_'));
+				return (int)status;
+			}
+
+			if (fieldName == "stages")
+				return _stagesDataProvider.GetCompletedRolesKey(element.GetCompletedStages());
+
+			if (fieldName == "date")
+			{
+				var dateString = base.GetValueForField(element, fieldName) as string;
+				DateTime date = DateTime.MinValue;
+				DateTime.TryParse(dateString ?? string.Empty, out date);
+				return date;
+			}
+
+			return base.GetSortValueForField(element, fieldName) as string;
 		}
 
 		/// ------------------------------------------------------------------------------------

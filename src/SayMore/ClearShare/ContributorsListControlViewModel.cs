@@ -13,6 +13,7 @@ namespace SayMore.ClearShare
 
 		private readonly OlacSystem _olacSystem = new OlacSystem();
 		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
+		private Contribution _tempContribution;
 
 		public ContributionCollection Contributions { get; protected set; }
 
@@ -55,34 +56,83 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public Contribution GetContributionAt(int index)
+		{
+			if (index == Contributions.Count && _tempContribution != null)
+				return _tempContribution;
+
+			return (Contributions == null || index < 0 || index >= Contributions.Count ?
+				null : Contributions[index]);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public Contribution GetContributionCopy(int index)
 		{
+			if (index == Contributions.Count && _tempContribution != null)
+				return _tempContribution.Clone() as Contribution;
+
 			return (index < 0 || index >= Contributions.Count ?
 				null : Contributions[index].Clone() as Contribution);
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a temporary contribution that that is not committed to the model's
+		/// contribution collection, but is treated as though it is and can later be
+		/// committed to the collection using the CommitTempContributionIfExists method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Contribution CreateTempContribution()
+		{
+			_tempContribution = new Contribution();
+			return _tempContribution;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DiscardTempContribution()
+		{
+			_tempContribution = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void CommitTempContributionIfExists()
+		{
+			if (_tempContribution != null)
+			{
+				Contributions.Add(_tempContribution);
+				_tempContribution = null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public object GetContributionValue(int index, string valueName)
 		{
-			if (index >= 0 && index < Contributions.Count)
+			if (index == Contributions.Count && _tempContribution != null)
+				return GetContributionValue(_tempContribution, valueName);
+
+			return (index < 0 || index >= Contributions.Count ?
+				null : GetContributionValue(Contributions[index], valueName));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public object GetContributionValue(Contribution contribution, string valueName)
+		{
+			switch (valueName)
 			{
-				switch (valueName)
-				{
-					default: return null;
-					case "name": return Contributions[index].ContributorName;
-					case "comments": return Contributions[index].Comments;
+				default: return null;
+				case "name": return contribution.ContributorName;
+				case "comments": return contribution.Comments;
 
-					case "role":
-						if (Contributions[index].Role != null)
-							return Contributions[index].Role.Name;
-						break;
+				case "role":
+					if (contribution.Role != null)
+						return contribution.Role.Name;
+					break;
 
-					case "date":
-						DateTime date;
-						if (DateTime.TryParse(Contributions[index].Date, out date))
-							return date;
-						break;
-				}
+				case "date":
+					DateTime date;
+					if (DateTime.TryParse(contribution.Date, out date))
+						return date;
+					break;
 			}
 
 			return null;
@@ -91,27 +141,30 @@ namespace SayMore.ClearShare
 		/// ------------------------------------------------------------------------------------
 		public void SetContributionValue(int index, string valueName, object value)
 		{
-			if (index < 0 || index > Contributions.Count)
-				return;
+			if (index == Contributions.Count && _tempContribution != null)
+				SetContributionValue(_tempContribution, valueName, value);
+			else if (index >= 0 && index < Contributions.Count)
+				SetContributionValue(Contributions[index], valueName, value);
+		}
 
-			if (index == Contributions.Count)
-				Contributions.Add(new Contribution());
-
+		/// ------------------------------------------------------------------------------------
+		public void SetContributionValue(Contribution contribution, string valueName, object value)
+		{
 			switch (valueName)
 			{
 				default: break;
-				case "name": Contributions[index].ContributorName = value as string; break;
-				case "comments": Contributions[index].Comments = value as string; break;
+				case "name": contribution.ContributorName = value as string; break;
+				case "comments": contribution.Comments = value as string; break;
 
 				case "role":
 					Role role;
 					if (_olacSystem.TryGetRoleByName(value as string, out role))
-						Contributions[index].Role = role;
+						contribution.Role = role;
 					break;
 
 				case "date":
 					if (value != null && value.GetType() == typeof(DateTime))
-						Contributions[index].Date = ((DateTime)value).ToShortDateString();
+						contribution.Date = ((DateTime)value).ToShortDateString();
 					break;
 			}
 		}

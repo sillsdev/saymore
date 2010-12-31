@@ -376,12 +376,15 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool PauseMediaPlayerWhenTabLoosesFocus {
             get {
                 return ((bool)(this["PauseMediaPlayerWhenTabLoosesFocus"]));
+            }
+            set {
+                this["PauseMediaPlayerWhenTabLoosesFocus"] = value;
             }
         }
         
@@ -932,6 +935,15 @@ namespace SayMore.Properties {
             }
             set {
                 this["ContributorsGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("252, 235, 132")]
+        public global::System.Drawing.Color MissingDataWindowColor {
+            get {
+                return ((global::System.Drawing.Color)(this["MissingDataWindowColor"]));
             }
         }
     }

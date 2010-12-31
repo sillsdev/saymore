@@ -481,20 +481,23 @@ namespace SayMore.Model.Files
 
 					string label = string.Format("Rename For {0}", role.Name);
 					ComponentRole role1 = role;
-					yield return new ToolStripMenuItem(label, null, (sender, args) =>
-					{
-						if (PreRenameAction != null)
-							PreRenameAction();
+					ToolStripMenuItem toolStripMenuItem = new ToolStripMenuItem(label, null, (sender, args) =>
+																								 {
+																									 if (PreRenameAction != null)
+																										 PreRenameAction();
 
-						AssignRole(role1);
+																									 AssignRole(role1);
 
-						if (refreshAction != null)
-							refreshAction();
+																									 if (refreshAction != null)
+																										 refreshAction();
 
-						if (PostRenameAction != null)
-							PostRenameAction();
+																									 if (PostRenameAction != null)
+																										 PostRenameAction();
 
-					}) { Tag = "rename" };
+																								 }) { Tag = "rename" };
+					//disable if the file is already named appropriately for this role
+					toolStripMenuItem.Enabled = !role.IsMatch(PathToAnnotatedFile);
+					yield return toolStripMenuItem;
 				}
 			}
 		}

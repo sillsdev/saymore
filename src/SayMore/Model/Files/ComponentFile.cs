@@ -95,6 +95,8 @@ namespace SayMore.Model.Files
 
 			MetaDataFieldValues = new List<FieldInstance>();
 
+			Guard.AgainstNull(FileType, "At runtime (maybe not in tests) FileType should go to a type intended for unknowns");
+
 			_metaDataPath = FileType.GetMetaFilePath(pathToAnnotatedFile);
 
 			RootElementName = "MetaData";

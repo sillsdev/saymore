@@ -237,7 +237,7 @@ namespace SayMoreTests.Model.Files
 					"$ElementId$_Consent", Color.Magenta, Color.Black)
 			};
 
-			return new ComponentFile(parentElement, path, new[] { FileType.Create("Text", ".txt"), },
+			return new ComponentFile(parentElement, path, new[] { FileType.Create("Text", ".txt"), FileType.Create("Audio", ".avi"), },
 				componentRoles, new FileSerializer(null), null, null, null);
 		}
 
@@ -279,7 +279,7 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void GetAssignedRoles_HasOneRoles_ReturnsThem()
 		{
-			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Original.txt");
+			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Original.avi");
 			Assert.AreEqual(1, f.GetAssignedRoles().Count());
 		}
 

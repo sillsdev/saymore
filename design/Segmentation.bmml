@@ -1,0 +1,146 @@
+<mockup version="1.0" skin="sketch" measuredW="1403" measuredH="538" mockupW="1322" mockupH="538">
+  <controls>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::TabBar" x="81" y="0" w="1016" h="538" measuredW="363" measuredH="100" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>1</selectedIndex>
+        <text>View%2C%20Segment%2C%20Transcribe%2C%20Contributions</text>
+      </controlProperties>
+    </control>
+    <control controlID="68" controlTypeID="com.balsamiq.mockups::Image" x="134" y="99" w="920" h="80" measuredW="471" measuredH="80" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/longWaveform.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="69" controlTypeID="com.balsamiq.mockups::Icon" x="205" y="41" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>StopIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="70" controlTypeID="com.balsamiq.mockups::Icon" x="134" y="41" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>RightTriangleIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="71" controlTypeID="com.balsamiq.mockups::HorizontalScrollBar" x="121" y="220" w="933" h="-1" measuredW="100" measuredH="16" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <value>34</value>
+      </controlProperties>
+    </control>
+    <control controlID="73" controlTypeID="com.balsamiq.mockups::Arrow" x="149" y="178" w="905" h="10" measuredW="150" measuredH="100" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <curvature>0</curvature>
+        <direction>top</direction>
+        <leftArrow>false</leftArrow>
+        <rightArrow>false</rightArrow>
+      </controlProperties>
+    </control>
+    <control controlID="74" controlTypeID="com.balsamiq.mockups::Canvas" x="121" y="83" w="942" h="153" measuredW="100" measuredH="70" zOrder="2" locked="false" isInGroup="-1"/>
+    <control controlID="78" controlTypeID="com.balsamiq.mockups::Component" x="212" y="93" w="32" h="127" measuredW="32" measuredH="127" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/symbols.bmml#manualCue</src>
+      </controlProperties>
+    </control>
+    <control controlID="79" controlTypeID="com.balsamiq.mockups::Component" x="646" y="93" w="32" h="127" measuredW="32" measuredH="127" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/symbols.bmml#manualCue</src>
+      </controlProperties>
+    </control>
+    <control controlID="81" controlTypeID="com.balsamiq.mockups::ComboBox" x="134" y="288" w="176" h="-1" measuredW="118" measuredH="22" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Find%20Silences</text>
+      </controlProperties>
+    </control>
+    <control controlID="82" controlTypeID="com.balsamiq.mockups::Image" x="333" y="293" w="-1" h="-1" measuredW="411" measuredH="208" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/sampleAutoSegmenterSettings.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="83" controlTypeID="com.balsamiq.mockups::Button" x="898" y="350" w="143" h="69" measuredW="76" measuredH="28" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Preview</text>
+      </controlProperties>
+    </control>
+    <control controlID="84" controlTypeID="com.balsamiq.mockups::Button" x="898" y="429" w="143" h="69" measuredW="116" measuredH="28" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20Segments</text>
+      </controlProperties>
+    </control>
+    <control controlID="85" controlTypeID="com.balsamiq.mockups::Button" x="898" y="310" w="-1" h="-1" measuredW="143" measuredH="28" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Remove%20Segments</text>
+      </controlProperties>
+    </control>
+    <control controlID="87" controlTypeID="com.balsamiq.mockups::FieldSet" x="121" y="260" w="942" h="267" measuredW="200" measuredH="170" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Auto%20Segment</text>
+      </controlProperties>
+    </control>
+    <control controlID="91" controlTypeID="com.balsamiq.mockups::Component" x="333" y="93" w="32" h="127" measuredW="32" measuredH="127" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/symbols.bmml#autoCue</src>
+      </controlProperties>
+    </control>
+    <control controlID="92" controlTypeID="com.balsamiq.mockups::Component" x="428" y="93" w="32" h="127" measuredW="32" measuredH="127" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/symbols.bmml#autoCue</src>
+      </controlProperties>
+    </control>
+    <control controlID="93" controlTypeID="com.balsamiq.mockups::Component" x="481" y="93" w="32" h="127" measuredW="32" measuredH="127" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/symbols.bmml#autoCue</src>
+      </controlProperties>
+    </control>
+    <control controlID="94" controlTypeID="com.balsamiq.mockups::Component" x="766" y="93" w="32" h="127" measuredW="32" measuredH="127" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/symbols.bmml#autoCue</src>
+      </controlProperties>
+    </control>
+    <control controlID="95" controlTypeID="com.balsamiq.mockups::Component" x="974" y="95" w="32" h="127" measuredW="32" measuredH="127" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/symbols.bmml#autoCue</src>
+      </controlProperties>
+    </control>
+    <control controlID="96" controlTypeID="com.balsamiq.mockups::Component" x="851" y="371" w="32" h="127" measuredW="32" measuredH="127" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/symbols.bmml#autoCue</src>
+      </controlProperties>
+    </control>
+    <control controlID="97" controlTypeID="com.balsamiq.mockups::Paragraph" x="1071" y="111" w="332" h="30" measuredW="200" measuredH="140" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>472931</color>
+        <text>%3C---%20Mouse%20here%20is%20for%20selecton</text>
+      </controlProperties>
+    </control>
+    <control controlID="98" controlTypeID="com.balsamiq.mockups::Paragraph" x="1069" y="188" w="332" h="114" measuredW="200" measuredH="140" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>472931</color>
+        <text>%3C---%20Mouse%20click%20here%20adds%20segment%20marker%0AMarkers%20can%20be%20dragged%2C%20selected.%0AWhen%20selected%2C%20respond%20to%20left%20and%20right%2C%20delete%2C%20and%20backspace.%0ARight-click%20shows%3A%20%0A%09%09Delete%20segment%20marker%0A%09%09Remove%20all%20segment%20markers</text>
+      </controlProperties>
+    </control>
+    <control controlID="99" controlTypeID="com.balsamiq.mockups::Paragraph" x="1041" y="369" w="332" h="50" measuredW="200" measuredH="140" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>472931</color>
+        <text>%3C---%20Does%20visible%20area%2C%2C%20only%20%28assumes%20slow%3B%20maybe%20disable%20if%20the%20method%20tells%20us%20it%27s%20fast%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="100" controlTypeID="com.balsamiq.mockups::Paragraph" x="1041" y="438" w="332" h="50" measuredW="200" measuredH="140" zOrder="25" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>472931</color>
+        <text>%3C---%20Each%20time%20you%20click%20this%2C%20it%20removes%20all%20previous%20auto-markers%2C%20from%20this%20or%20any%20other%20method.</text>
+      </controlProperties>
+    </control>
+    <control controlID="101" controlTypeID="com.balsamiq.mockups::Paragraph" x="134" y="350" w="196" h="125" measuredW="200" measuredH="140" zOrder="26" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>3480693</color>
+        <text>Method-specific%0Asettings%20control.%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20-%20-%20%3E%0A%28this%20just%20copied%20from%20%0AGoldWave%2C%20not%20part%20of%20%0Athe%20thought-out%20design%2C%20here.%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="102" controlTypeID="com.balsamiq.mockups::Canvas" x="1054" y="91" w="61" h="410" measuredW="100" measuredH="70" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0.75</backgroundAlpha>
+        <borderStyle>none</borderStyle>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

@@ -1,0 +1,91 @@
+<mockup version="1.0" skin="sketch" measuredW="1132" measuredH="776" mockupW="1006" mockupH="762">
+  <controls>
+    <control controlID="26" controlTypeID="com.balsamiq.mockups::Component" x="126" y="58" w="448" h="303" measuredW="448" measuredH="303" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/symbols.bmml#SegmentGrid</src>
+      </controlProperties>
+    </control>
+    <control controlID="27" controlTypeID="com.balsamiq.mockups::Canvas" x="188" y="145" w="100" h="25" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0.25</backgroundAlpha>
+        <borderStyle>none</borderStyle>
+        <color>16776960</color>
+      </controlProperties>
+    </control>
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::Component" x="154" y="473" w="448" h="303" measuredW="448" measuredH="303" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="0" y="0" w="448" h="303"/>
+        <override controlID="1" x="63" y="23" w="-1" h="-1"/>
+        <override controlID="2" x="258" y="31" w="139" h="28"/>
+        <override controlID="3" x="66" y="55" w="-1" h="-1"/>
+        <override controlID="4" x="249" y="55" w="-1" h="-1"/>
+        <override controlID="5" x="75" y="91" w="139" h="28"/>
+        <override controlID="6" x="65" y="117" w="-1" h="-1"/>
+        <override controlID="7" x="63" y="149" w="-1" h="-1"/>
+        <override controlID="8" x="2" y="81" w="427" h="38"/>
+        <src>./assets/symbols.bmml#SegmentGrid</src>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::Canvas" x="408" y="560" w="119" h="27" measuredW="100" measuredH="70" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <color>40463</color>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::Label" x="126" y="14" w="-1" h="-1" measuredW="160" measuredH="29" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>Careful%20Speech%20Tool</text>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Icon" x="188" y="145" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>40463</color>
+        <icon>RightFillTriangleIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="__group__" x="589" y="79" w="543" h="166" measuredW="543" measuredH="166" zOrder="5" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Button" x="0" y="105" w="108" h="61" measuredW="72" measuredH="56" zOrder="0" locked="false" isInGroup="49">
+          <controlProperties>
+            <color>16777215</color>
+            <icon>DownArrowIcon%7Clarge</icon>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="0" y="0" w="108" h="40" measuredW="48" measuredH="32" zOrder="1" locked="false" isInGroup="49">
+          <controlProperties>
+            <icon>UpArrowIcon%7Csmall</icon>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="0" y="31" w="108" h="75" measuredW="24" measuredH="28" zOrder="2" locked="false" isInGroup="49">
+          <controlProperties>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::Image" x="26" y="49" w="56" h="42" measuredW="72" measuredH="52" zOrder="3" locked="false" isInGroup="49">
+          <controlProperties>
+            <src>./assets/Repeat.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::Label" x="131" y="122" w="-1" h="-1" measuredW="389" measuredH="25" zOrder="4" locked="false" isInGroup="49">
+          <controlProperties>
+            <text>Go%20to%20next%20segment%2C%20listen%20to%20it%2C%20then%20record%20careful%20speech</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="131" y="57" w="-1" h="-1" measuredW="412" measuredH="25" zOrder="5" locked="false" isInGroup="49">
+          <controlProperties>
+            <text>Listen%20to%20the%20current%20segment%20again%2C%20then%20record%20careful%20speech</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::Label" x="131" y="7" w="-1" h="-1" measuredW="205" measuredH="25" zOrder="6" locked="false" isInGroup="49">
+          <controlProperties>
+            <text>Go%20to%20previous%20segment%2C%20play%20it.</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>

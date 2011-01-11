@@ -1,0 +1,50 @@
+<mockup version="1.0" skin="sketch" measuredW="92" measuredH="207" mockupW="32" mockupH="187">
+  <controls>
+    <control controlID="0" controlTypeID="__group__" x="60" y="20" w="32" h="127" measuredW="32" measuredH="127" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>manualCue</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="95" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="0">
+          <controlProperties>
+            <color>13369344</color>
+            <icon>UpFillTriangleIcon%7Cmedium</icon>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Arrow" x="12" y="0" w="10" h="109" measuredW="150" measuredH="100" zOrder="1" locked="false" isInGroup="0">
+          <controlProperties>
+            <backgroundAlpha>0.5</backgroundAlpha>
+            <color>13369344</color>
+            <curvature>0</curvature>
+            <direction>top</direction>
+            <leftArrow>false</leftArrow>
+            <rightArrow>false</rightArrow>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="1" controlTypeID="__group__" x="60" y="80" w="32" h="127" measuredW="32" measuredH="127" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>autoCue</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="95" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="1">
+          <controlProperties>
+            <color>40463</color>
+            <icon>UpFillTriangleIcon%7Cmedium</icon>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Arrow" x="12" y="0" w="10" h="109" measuredW="150" measuredH="100" zOrder="1" locked="false" isInGroup="1">
+          <controlProperties>
+            <backgroundAlpha>0.5</backgroundAlpha>
+            <color>40463</color>
+            <curvature>0</curvature>
+            <direction>top</direction>
+            <leftArrow>false</leftArrow>
+            <rightArrow>false</rightArrow>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>

@@ -1,0 +1,44 @@
+<mockup version="1.0" skin="sketch" measuredW="664" measuredH="488" mockupW="594" mockupH="458">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TabBar" x="60" y="20" w="594" h="458" measuredW="177" measuredH="100" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>11982760</color>
+        <selectedIndex>1</selectedIndex>
+        <text>Audio%2C%20Info</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::DataGrid" x="75" y="228" w="295" h="234" measuredW="162" measuredH="178" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <alternateRowColor>16777215</alternateRowColor>
+        <hLines>false</hLines>
+        <text>Field%2C%20Value%0ADevice%0AMicrophone%0ADuration%2C%2000%3A01%3A31%0AChannels%2Cstereo%0ABit%20Depth%2C%2016%20bits</text>
+        <vLines>false</vLines>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::TextArea" x="382" y="228" w="244" h="235" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::DataGrid" x="75" y="86" w="551" h="119" measuredW="392" measuredH="118" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%2CName%2C%20Role%2C%20Date%2C%20Note%20%20%20%20%20%20%0A%2CGiacomo%20Guilizzoni%2C%20Recordist%0A%2CMarco%20Botton%2C%20Speaker%2C%207/12/2010%0A*</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Label" x="75" y="61" w="-1" h="-1" measuredW="82" measuredH="25" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Contributors</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="382" y="206" w="-1" h="-1" measuredW="42" measuredH="25" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Notes</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Label" x="75" y="205" w="-1" h="-1" measuredW="70" measuredH="25" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Properties</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

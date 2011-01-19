@@ -101,42 +101,37 @@
         <src>./assets/symbols.bmml#autoCue</src>
       </controlProperties>
     </control>
-    <control controlID="96" controlTypeID="com.balsamiq.mockups::Component" x="851" y="371" w="32" h="127" measuredW="32" measuredH="127" zOrder="20" locked="false" isInGroup="-1">
-      <controlProperties>
-        <src>./assets/symbols.bmml#autoCue</src>
-      </controlProperties>
-    </control>
-    <control controlID="97" controlTypeID="com.balsamiq.mockups::Paragraph" x="1071" y="111" w="332" h="30" measuredW="200" measuredH="140" zOrder="22" locked="false" isInGroup="-1">
+    <control controlID="97" controlTypeID="com.balsamiq.mockups::Paragraph" x="1071" y="111" w="332" h="30" measuredW="200" measuredH="140" zOrder="21" locked="false" isInGroup="-1">
       <controlProperties>
         <color>472931</color>
         <text>%3C---%20Mouse%20here%20is%20for%20selecton</text>
       </controlProperties>
     </control>
-    <control controlID="98" controlTypeID="com.balsamiq.mockups::Paragraph" x="1069" y="188" w="332" h="114" measuredW="200" measuredH="140" zOrder="23" locked="false" isInGroup="-1">
+    <control controlID="98" controlTypeID="com.balsamiq.mockups::Paragraph" x="1069" y="188" w="332" h="114" measuredW="200" measuredH="140" zOrder="22" locked="false" isInGroup="-1">
       <controlProperties>
         <color>472931</color>
         <text>%3C---%20Mouse%20click%20here%20adds%20segment%20marker%0AMarkers%20can%20be%20dragged%2C%20selected.%0AWhen%20selected%2C%20respond%20to%20left%20and%20right%2C%20delete%2C%20and%20backspace.%0ARight-click%20shows%3A%20%0A%09%09Delete%20segment%20marker%0A%09%09Remove%20all%20segment%20markers</text>
       </controlProperties>
     </control>
-    <control controlID="99" controlTypeID="com.balsamiq.mockups::Paragraph" x="1041" y="369" w="332" h="50" measuredW="200" measuredH="140" zOrder="24" locked="false" isInGroup="-1">
+    <control controlID="99" controlTypeID="com.balsamiq.mockups::Paragraph" x="1041" y="369" w="332" h="50" measuredW="200" measuredH="140" zOrder="23" locked="false" isInGroup="-1">
       <controlProperties>
         <color>472931</color>
         <text>%3C---%20Does%20visible%20area%2C%2C%20only%20%28assumes%20slow%3B%20maybe%20disable%20if%20the%20method%20tells%20us%20it%27s%20fast%29</text>
       </controlProperties>
     </control>
-    <control controlID="100" controlTypeID="com.balsamiq.mockups::Paragraph" x="1041" y="438" w="332" h="50" measuredW="200" measuredH="140" zOrder="25" locked="false" isInGroup="-1">
+    <control controlID="100" controlTypeID="com.balsamiq.mockups::Paragraph" x="1041" y="438" w="332" h="50" measuredW="200" measuredH="140" zOrder="24" locked="false" isInGroup="-1">
       <controlProperties>
         <color>472931</color>
         <text>%3C---%20Each%20time%20you%20click%20this%2C%20it%20removes%20all%20previous%20auto-markers%2C%20from%20this%20or%20any%20other%20method.</text>
       </controlProperties>
     </control>
-    <control controlID="101" controlTypeID="com.balsamiq.mockups::Paragraph" x="134" y="350" w="196" h="125" measuredW="200" measuredH="140" zOrder="26" locked="false" isInGroup="-1">
+    <control controlID="101" controlTypeID="com.balsamiq.mockups::Paragraph" x="134" y="350" w="196" h="125" measuredW="200" measuredH="140" zOrder="25" locked="false" isInGroup="-1">
       <controlProperties>
         <color>3480693</color>
         <text>Method-specific%0Asettings%20control.%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20-%20-%20%3E%0A%28this%20just%20copied%20from%20%0AGoldWave%2C%20not%20part%20of%20%0Athe%20thought-out%20design%2C%20here.%29</text>
       </controlProperties>
     </control>
-    <control controlID="102" controlTypeID="com.balsamiq.mockups::Canvas" x="1054" y="91" w="61" h="410" measuredW="100" measuredH="70" zOrder="21" locked="false" isInGroup="-1">
+    <control controlID="102" controlTypeID="com.balsamiq.mockups::Canvas" x="1054" y="91" w="61" h="410" measuredW="100" measuredH="70" zOrder="20" locked="false" isInGroup="-1">
       <controlProperties>
         <backgroundAlpha>0.75</backgroundAlpha>
         <borderStyle>none</borderStyle>

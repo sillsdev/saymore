@@ -1,0 +1,70 @@
+<mockup version="1.0" skin="sketch" measuredW="873" measuredH="652" mockupW="756" mockupH="585">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::Image" x="363" y="123" w="-1" h="-1" measuredW="491" measuredH="125" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/SessionGrid.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Image" x="369" y="267" w="483" h="125" measuredW="491" measuredH="125" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/SessionGrid.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="363" y="98" w="-1" h="-1" measuredW="49" measuredH="22" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Actions</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Button" x="670" y="93" w="-1" h="-1" measuredW="89" measuredH="28" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20File...</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Image" x="410" y="110" w="-1" h="-1" measuredW="11" measuredH="9" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/DropDown.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Image" x="356" y="314" w="-1" h="-1" measuredW="11" measuredH="9" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/DropDown.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::Canvas" x="354" y="264" w="506" h="140" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::Image" x="363" y="517" w="-1" h="-1" measuredW="491" measuredH="125" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/SessionGrid.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::Button" x="759" y="486" w="-1" h="-1" measuredW="89" measuredH="28" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20File...</text>
+      </controlProperties>
+    </control>
+    <control controlID="20" controlTypeID="com.balsamiq.mockups::MenuBar" x="363" y="486" w="-1" h="-1" measuredW="212" measuredH="29" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Open%2CRename%2C%20Convert</text>
+      </controlProperties>
+    </control>
+    <control controlID="21" controlTypeID="com.balsamiq.mockups::Image" x="107" y="448" w="-1" h="-1" measuredW="747" measuredH="38" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/TabBar.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="22" controlTypeID="com.balsamiq.mockups::Image" x="114" y="57" w="-1" h="-1" measuredW="747" measuredH="38" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/TabBar.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::Button" x="774" y="404" w="-1" h="-1" measuredW="89" measuredH="28" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20File...</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

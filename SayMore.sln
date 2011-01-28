@@ -1,6 +1,6 @@
 
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SayMore", "src\SayMore\SayMore.csproj", "{A61F5E06-CACD-40FA-BBAD-8744212AF14E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SayMoreTests", "src\SayMoreTests\SayMoreTests.csproj", "{B534A7B9-FF0D-46C7-A845-C00845B223BC}"

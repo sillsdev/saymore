@@ -136,7 +136,7 @@
     <value>96, 0</value>
   </metadata>
   <data name="_linkSayMoreWebSite.Location" type="System.Drawing.Point, System.Drawing">
-    <value>139, 135</value>
+    <value>139, 146</value>
   </data>
   <data name="_linkSayMoreWebSite.Size" type="System.Drawing.Size, System.Drawing">
     <value>12, 21</value>
@@ -169,7 +169,7 @@
     <value>NoControl</value>
   </data>
   <data name="_labelVersionInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>136, 97</value>
+    <value>136, 108</value>
   </data>
   <data name="_labelVersionInfo.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 15</value>
@@ -202,7 +202,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblSubTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>136, 76</value>
+    <value>136, 87</value>
   </data>
   <data name="lblSubTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>307, 21</value>
@@ -310,7 +310,7 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AboutDialog</value>

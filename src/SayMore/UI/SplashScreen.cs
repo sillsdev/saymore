@@ -9,6 +9,8 @@ namespace SayMore.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class SplashScreenForm : SilUtils.SplashScreenForm
 	{
+		private const int kLogoTextImageTop = 18;
+
 		private readonly int _logoTextLeft;
 
 		/// ------------------------------------------------------------------------------------
@@ -19,10 +21,10 @@ namespace SayMore.UI
 			ShowStandardSILContent = false;
 
 			_logoTextLeft = Resources.LargeSayMoreLogo.Size.Width + 40;
-			_labelLoading.Location = new Point(_logoTextLeft, Resources.SayMoreText.Height + 25);
+			_labelLoading.Location = new Point(_logoTextLeft, kLogoTextImageTop + Resources.SayMoreText.Height);
 
 			Width = Resources.LargeSayMoreLogo.Size.Width + Resources.SayMoreText.Width + 80;
-			Height = Resources.LargeSayMoreLogo.Size.Height + 40;
+			Height = Resources.LargeSayMoreLogo.Size.Height + kLogoTextImageTop + 30;
 
 			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
 		}
@@ -62,7 +64,8 @@ namespace SayMore.UI
 			e.Graphics.DrawImage(Resources.LargeSayMoreLogo, rc);
 
 			// Draw logo text.
-			rc = new Rectangle(new Point(_logoTextLeft, 18), Resources.SayMoreText.Size);
+			rc = new Rectangle(new Point(_logoTextLeft, kLogoTextImageTop), Resources.SayMoreText.Size);
+			//rc = new Rectangle(new Point(_logoTextLeft, 18), Resources.SayMoreText.Size);
 			e.Graphics.DrawImage(Resources.SayMoreText, rc);
 
 			// Draw border around window.

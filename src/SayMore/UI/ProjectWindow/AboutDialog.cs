@@ -16,6 +16,8 @@ namespace SayMore.UI.ProjectWindow
 	/// ----------------------------------------------------------------------------------------
 	public partial class AboutDialog : Form
 	{
+		private const int kLogoTextImageTop = 10;
+
 		/// ------------------------------------------------------------------------------------
 		public AboutDialog()
 		{
@@ -93,9 +95,13 @@ namespace SayMore.UI.ProjectWindow
 		{
 			base.OnPaintBackground(e);
 
-			var rc = new Rectangle(0, 0, ClientSize.Width, 45);
+			// Draw a gradient from top to bottom of window.
+			var rc = new Rectangle(0, 45, ClientSize.Width, ClientSize.Height - 45);
+			using (var br = new LinearGradientBrush(rc, Color.White, AppColors.BarBegin, 90f))
+				e.Graphics.FillRectangle(br, rc);
 
 			// Draw the gradient blue bar.
+			rc = new Rectangle(0, 0, ClientSize.Width, 45);
 			using (var br = new LinearGradientBrush(rc, AppColors.BarBegin, AppColors.BarEnd, 0.0f))
 				e.Graphics.FillRectangle(br, rc);
 
@@ -103,7 +109,8 @@ namespace SayMore.UI.ProjectWindow
 			using (var pen = new Pen(AppColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
 
-			rc = new Rectangle(new Point(lblSubTitle.Left - 6, 15), Resources.SayMoreText.Size);
+			rc = new Rectangle(new Point(lblSubTitle.Left - 6, 10), Resources.SayMoreText.Size);
+			//rc = new Rectangle(new Point(lblSubTitle.Left - 6, 15), Resources.SayMoreText.Size);
 			//rc.Inflate(-4, -4);
 			e.Graphics.DrawImage(Resources.SayMoreText, rc);
 

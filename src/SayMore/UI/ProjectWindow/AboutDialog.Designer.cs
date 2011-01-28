@@ -35,7 +35,7 @@ namespace SayMore.UI.ProjectWindow
 			this._linkSayMoreWebSite = new System.Windows.Forms.LinkLabel();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
 			this.lblSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._linkSiLWebSite = new System.Windows.Forms.LinkLabel();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -46,6 +46,7 @@ namespace SayMore.UI.ProjectWindow
 			this._linkSayMoreWebSite.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this._linkSayMoreWebSite.ActiveLinkColor = System.Drawing.Color.RosyBrown;
 			resources.ApplyResources(this._linkSayMoreWebSite, "_linkSayMoreWebSite");
+			this._linkSayMoreWebSite.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._linkSayMoreWebSite, null);
 			this.locExtender.SetLocalizationComment(this._linkSayMoreWebSite, null);
 			this.locExtender.SetLocalizationPriority(this._linkSayMoreWebSite, Localization.LocalizationPriority.NotLocalizable);
@@ -57,6 +58,7 @@ namespace SayMore.UI.ProjectWindow
 			// _labelVersionInfo
 			// 
 			resources.ApplyResources(this._labelVersionInfo, "_labelVersionInfo");
+			this._labelVersionInfo.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._labelVersionInfo, null);
 			this.locExtender.SetLocalizationComment(this._labelVersionInfo, null);
 			this.locExtender.SetLocalizationPriority(this._labelVersionInfo, Localization.LocalizationPriority.NotLocalizable);
@@ -67,6 +69,7 @@ namespace SayMore.UI.ProjectWindow
 			// 
 			resources.ApplyResources(this.lblSubTitle, "lblSubTitle");
 			this.lblSubTitle.AutoEllipsis = true;
+			this.lblSubTitle.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblSubTitle, null);
 			this.locExtender.SetLocalizationComment(this.lblSubTitle, null);
 			this.locExtender.SetLocalizationPriority(this.lblSubTitle, Localization.LocalizationPriority.NotLocalizable);
@@ -92,6 +95,7 @@ namespace SayMore.UI.ProjectWindow
 			this._linkSiLWebSite.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this._linkSiLWebSite.ActiveLinkColor = System.Drawing.Color.RosyBrown;
 			resources.ApplyResources(this._linkSiLWebSite, "_linkSiLWebSite");
+			this._linkSiLWebSite.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._linkSiLWebSite, null);
 			this.locExtender.SetLocalizationComment(this._linkSiLWebSite, null);
 			this.locExtender.SetLocalizationPriority(this._linkSiLWebSite, Localization.LocalizationPriority.NotLocalizable);

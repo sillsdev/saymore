@@ -62,11 +62,13 @@ namespace SayMore.UI.ElementListScreen
 			_grid.CellMouseClick += HandleFileGridCellMouseClick;
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
-			_grid.RowValidating += HandleGridRowValidating;
+			//_grid.RowValidating += HandleGridRowValidating;
 			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
 			_grid.Paint += HandleFileGridPaint;
 			_grid.ClientSizeChanged += HandleFileGridClientSizeChanged;
 			_grid.Font = SystemFonts.IconTitleFont;
+
+			_grid.IsOkToChangeRows = (() => (IsOKToSelectDifferentFile == null || IsOKToSelectDifferentFile()));
 
 			var clr = ColorHelper.CalculateColor(Color.White,
 				 _grid.DefaultCellStyle.SelectionBackColor, 140);
@@ -417,6 +419,31 @@ namespace SayMore.UI.ElementListScreen
 
 			SystemSounds.Beep.Play();
 			return false;
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	internal class InternalComponentFileGrid : SilGrid
+	{
+		private int _prevRow = -1;
+
+		internal Func<bool> IsOkToChangeRows;
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool SetCurrentCellAddressCore(int columnIndex, int rowIndex,
+			bool setAnchorCellAddress, bool validateCurrentCell, bool throughMouseClick)
+		{
+			if (_prevRow >= 0 && _prevRow != rowIndex && rowIndex >= 0 &&
+				IsOkToChangeRows != null && !IsOkToChangeRows())
+			{
+				Rows[_prevRow].Selected = true;
+				rowIndex = _prevRow;
+			}
+
+			_prevRow = rowIndex;
+
+			return base.SetCurrentCellAddressCore(columnIndex, rowIndex,
+				setAnchorCellAddress, validateCurrentCell, throughMouseClick);
 		}
 	}
 }

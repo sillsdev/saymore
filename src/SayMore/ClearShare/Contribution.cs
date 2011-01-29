@@ -59,6 +59,17 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool IsEmpty
+		{
+			get
+			{
+				return (string.IsNullOrEmpty(ContributorName) && Role == null &&
+					ApprovedLicense == null && string.IsNullOrEmpty(Date) &&
+					string.IsNullOrEmpty(Comments));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Call this sparingly since it has to create an OlacSystem each time it is invoked.
 		/// This returns true if Role is successfully set. Otherwise, false.

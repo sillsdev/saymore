@@ -95,5 +95,10 @@
 			Will honor default namespace
 			</summary>
 		</member>
+		<member name="T:Palaso.TestUtilities.CanonicalXml">
+			<summary>
+			 Assorted static methods for working with canonical xml
+			</summary>
+		</member>
 	</members>
 </doc>

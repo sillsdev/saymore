@@ -141,8 +141,13 @@ namespace SayMore.ClearShare
 		/// ------------------------------------------------------------------------------------
 		public void SetContributionValue(int index, string valueName, object value)
 		{
-			if (index == Contributions.Count && _tempContribution != null)
+			if (index == Contributions.Count)
+			{
+				if (_tempContribution == null)
+					_tempContribution = new Contribution();
+
 				SetContributionValue(_tempContribution, valueName, value);
+			}
 			else if (index >= 0 && index < Contributions.Count)
 				SetContributionValue(Contributions[index], valueName, value);
 		}

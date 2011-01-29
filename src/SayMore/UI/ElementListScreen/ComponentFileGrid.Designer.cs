@@ -34,7 +34,7 @@ namespace SayMore.UI.ElementListScreen
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
-			this._grid = new SilUtils.SilGrid();
+			this._grid = new InternalComponentFileGrid();
 			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
 			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -262,7 +262,7 @@ namespace SayMore.UI.ElementListScreen
 
 		#endregion
 
-		private SilUtils.SilGrid _grid;
+		private InternalComponentFileGrid _grid;
 		private System.Windows.Forms.ContextMenuStrip _contextMenuStrip;
 		private SilUtils.Controls.SilPanel _panelOuter;
 		private System.Windows.Forms.ToolStrip _toolStripActions;

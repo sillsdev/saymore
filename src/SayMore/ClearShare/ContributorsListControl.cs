@@ -65,15 +65,19 @@ namespace SayMore.ClearShare
 
 			_grid.AllowUserToAddRows = true;
 			_grid.AllowUserToDeleteRows = true;
+
 			_grid.EditingControlShowing += HandleEditingControlShowing;
-			_grid.NewRowNeeded += HandleGridNewRowNeeded;
 			_grid.RowsRemoved += HandleGridRowRemoved;
 			_grid.CurrentRowChanged += HandleGridCurrentRowChanged;
 			_grid.RowValidating += HandleGridRowValidating;
-			_grid.RowValidated += HandleGridRowValidated;
 			_grid.MouseClick += HandleGridMouseClick;
-			_grid.Enter += HandleGridEnter;
 			_grid.Leave += HandleGridLeave;
+			_grid.Enter += delegate { _grid.SelectionMode = DataGridViewSelectionMode.CellSelect; };
+			_grid.RowValidated += delegate { _model.CommitTempContributionIfExists(); };
+			_grid.CellValueNeeded += HandleCellValueNeeded;
+			_grid.CellValuePushed += ((s, e) =>
+				_model.SetContributionValue(e.RowIndex, _grid.Columns[e.ColumnIndex].Name, e.Value));
+
 
 			if (Settings.Default.ContributorsGrid != null)
 				Settings.Default.ContributorsGrid.InitializeGrid(_grid);
@@ -94,6 +98,18 @@ namespace SayMore.ClearShare
 				return (base.DesignMode || GetService(typeof(IDesignerHost)) != null) ||
 					(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool InEditMode
+		{
+			get { return _grid.IsCurrentRowDirty; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool InNewContributionRow
+		{
+			get { return (_grid.CurrentCellAddress.Y == _grid.NewRowIndex); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -180,12 +196,6 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleGridEnter(object sender, EventArgs e)
-		{
-			_grid.SelectionMode = DataGridViewSelectionMode.CellSelect;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		void HandleGridLeave(object sender, EventArgs e)
 		{
 			_grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -262,29 +272,11 @@ namespace SayMore.ClearShare
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleGridNewRowNeeded(object sender, DataGridViewRowEventArgs e)
-		{
-			_model.CreateTempContribution();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void HandleGridRowValidated(object sender, DataGridViewCellEventArgs e)
-		{
-			_model.CommitTempContributionIfExists();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void HandleCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			var value = _model.GetContributionValue(e.RowIndex, _grid.Columns[e.ColumnIndex].Name);
 			if (value != null)
 				e.Value = value;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
-		{
-			_model.SetContributionValue(e.RowIndex, _grid.Columns[e.ColumnIndex].Name, e.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------

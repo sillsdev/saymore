@@ -113,8 +113,6 @@ namespace SayMore.ClearShare
 			this._grid.TabIndex = 0;
 			this._grid.VirtualMode = true;
 			this._grid.WaterMark = "!";
-			this._grid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleCellValueNeeded);
-			this._grid.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleCellValuePushed);
 			// 
 			// _buttonDelete
 			// 

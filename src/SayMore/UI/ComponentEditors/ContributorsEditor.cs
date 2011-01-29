@@ -61,6 +61,13 @@ namespace SayMore.UI.ComponentEditors
 			get
 			{
 				var contribution = _contributorsControl.GetCurrentContribution();
+
+				if (contribution == null ||
+					(contribution.IsEmpty && _contributorsControl.InNewContributionRow))
+				{
+					return true;
+				}
+
 				return string.IsNullOrEmpty(CheckIfContributorIsValid(contribution).Key);
 			}
 		}

@@ -20,7 +20,7 @@ namespace SayMoreTests.ClearShare
 		{
 			var system = new OlacSystem();
 
-			_model = new ContributorsListControlViewModel(null);
+			_model = new ContributorsListControlViewModel(null, null);
 			_contributions = new ContributionCollection(new[]
 			{
 				new Contribution("Leroy", system.GetRoles().ElementAt(0)),
@@ -46,7 +46,7 @@ namespace SayMoreTests.ClearShare
 			var lists = new Dictionary<string, IEnumerable<string>>();
 			lists["person"] = new[] { "jimmy", "tommy" };
 			gatherer.Setup(g => g.GetValueLists(false)).Returns(lists);
-			_model = new ContributorsListControlViewModel(gatherer.Object);
+			_model = new ContributorsListControlViewModel(gatherer.Object, null);
 
 			var names = _model.GetAutoCompleteNames();
 			Assert.AreEqual(2, names.Count);

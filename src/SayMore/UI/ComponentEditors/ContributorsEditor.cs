@@ -24,7 +24,7 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "Contributors";
 
-			_model = new ContributorsListControlViewModel(autoCompleteProvider);
+			_model = new ContributorsListControlViewModel(autoCompleteProvider, SaveContributors);
 
 			_contributorsControl = new ContributorsListControl(_model);
 			_contributorsControl.Dock = DockStyle.Fill;

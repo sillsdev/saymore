@@ -13,14 +13,17 @@ namespace SayMore.ClearShare
 
 		private readonly OlacSystem _olacSystem = new OlacSystem();
 		private readonly AutoCompleteValueGatherer _autoCompleteProvider;
+		private readonly Action _saveAction;
 		private Contribution _tempContribution;
 
 		public ContributionCollection Contributions { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
-		public ContributorsListControlViewModel(AutoCompleteValueGatherer autoCompleteProvider)
+		public ContributorsListControlViewModel(AutoCompleteValueGatherer autoCompleteProvider,
+			Action saveAction)
 		{
 			_autoCompleteProvider = autoCompleteProvider;
+			_saveAction = saveAction;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,6 +104,9 @@ namespace SayMore.ClearShare
 			{
 				Contributions.Add(_tempContribution);
 				_tempContribution = null;
+
+				if (_saveAction != null)
+					_saveAction();
 			}
 		}
 

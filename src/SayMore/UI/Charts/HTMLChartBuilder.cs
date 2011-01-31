@@ -60,7 +60,8 @@ namespace SayMore.UI.Charts
 		/// ------------------------------------------------------------------------------------
 		protected void WriteStageChart()
 		{
-			var eventsByStage = _statsViewModel.EventInformant.GetEventsCategorizedByStage();
+			var eventsByStage = _statsViewModel.EventInformant.GetEventsCategorizedByStage()
+				.Where(r => r.Key.Id != "consent");
 
 			var barInfoList = (eventsByStage.Select(
 				x => new ChartBarInfo(x.Key.Name, x.Value, x.Key.Color, x.Key.TextColor))).ToList();

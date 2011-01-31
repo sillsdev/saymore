@@ -33,20 +33,8 @@ namespace SayMore.UI.ComponentEditors
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 			_status.Items.AddRange(Event.GetStatusNames().ToArray());
 
-			if (GenreDefinition.FactoryGenreDefinitions != null)
-			{
-				//add the ones in use, factory or otherwise
-				var valueLists = autoCompleteProvider.GetValueLists(false);
-				IEnumerable<string> list;
-				if (valueLists.TryGetValue("genre", out list))
-				{
-					_genre.Items.AddRange(list.ToArray());
-					_genre.Items.Add("-----");
-				}
-
-				// Add the rest of the factory defaults
-				_genre.Items.AddRange(GenreDefinition.FactoryGenreDefinitions.ToArray());
-			}
+			//LoadGenreList(autoCompleteProvider, null);
+			autoCompleteProvider.NewDataAvailable += LoadGenreList;
 
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
@@ -55,6 +43,42 @@ namespace SayMore.UI.ComponentEditors
 			var sampleStatusImage = Properties.Resources.StatusFinished;
 			if (_status.ItemHeight < sampleStatusImage.Height)
 				_status.ItemHeight = sampleStatusImage.Height;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadGenreList(object sender, EventArgs e)
+		{
+			List<string> genreList = new List<string>();
+
+			var autoCompleteProvider = sender as AutoCompleteValueGatherer;
+
+			if (autoCompleteProvider != null)
+			{
+				// Add the genres in use, factory or not.
+				var valueLists = autoCompleteProvider.GetValueLists(false);
+				IEnumerable<string> list = null;
+				if (valueLists.TryGetValue("genre", out list))
+					genreList.AddRange(list.ToArray());
+			}
+
+			// Add the rest of the factory defaults
+			if (GenreDefinition.FactoryGenreDefinitions != null)
+			{
+				if (genreList.Count > 0)
+					genreList.Add("-----");
+
+				genreList.AddRange(GenreDefinition.FactoryGenreDefinitions.Select(gd => gd.Name).ToArray());
+			}
+
+			if (genreList.Count == 0)
+				return;
+
+			// Do this because we've gotten here when the auto-complete helper has new data available.
+			_genre.Invoke((MethodInvoker)delegate
+			{
+				_genre.Items.Clear();
+				_genre.Items.AddRange(genreList.ToArray());
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------

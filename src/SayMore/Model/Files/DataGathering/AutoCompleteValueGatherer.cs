@@ -142,10 +142,10 @@ namespace SayMore.Model.Files.DataGathering
 					// contain multiple values. However, some fields contain multiple
 					// values delimited by commas or semicolons. In those cases, this
 					// loop will iterate once for each delimited value found.
-					foreach (var value in GetIndividualValues(field))
+					foreach (var value in GetIndividualValues(field)
+						.Where(value => !keyToValuesDictionary[key].Contains(value)))
 					{
-						if (!keyToValuesDictionary[key].Contains(value))
-							((List<string>)keyToValuesDictionary[key]).Add(value);
+						((List<string>)keyToValuesDictionary[key]).Add(value);
 					}
 				}
 			}

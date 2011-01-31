@@ -242,8 +242,7 @@ namespace SayMore.ClearShare
 			if (_thread != null)
 				return;
 
-			if (Thread.CurrentThread.Name == null)
-				Thread.CurrentThread.Name = "Main";
+			Thread.CurrentThread.Name = "Main";
 
 			_text = text;
 			_point = pt;

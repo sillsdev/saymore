@@ -225,6 +225,9 @@ namespace SayMore.UI.ElementListScreen
 
 			Refresh();
 
+			if (RowCount == 0)
+				return;
+
 			if (prevId == null)
 				SelectElement(0);
 			else

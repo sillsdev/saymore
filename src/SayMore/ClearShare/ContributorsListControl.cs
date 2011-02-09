@@ -78,7 +78,6 @@ namespace SayMore.ClearShare
 			_grid.CellValuePushed += ((s, e) =>
 				_model.SetContributionValue(e.RowIndex, _grid.Columns[e.ColumnIndex].Name, e.Value));
 
-
 			if (Settings.Default.ContributorsGrid != null)
 				Settings.Default.ContributorsGrid.InitializeGrid(_grid);
 		}
@@ -222,6 +221,7 @@ namespace SayMore.ClearShare
 			{
 				_grid.EndEdit();
 				_indexOfIncompleteRowToDelete = e.RowIndex;
+				_model.DiscardTempContribution();
 				Application.Idle += RemoveIncompleteRow;
 				return;
 			}

@@ -8,4 +8,5 @@
   <File Id="releaseNotes.htm" Guid="7faa5799-f47a-4fb8-aebf-c7baae6aceb5" />
   <File Id="Genres.xml" Guid="86a67200-5a58-46ae-9ad5-eee1a75300d6" />
   <File Id="license.rtf" Guid="c515cf6a-3364-4578-bf4e-a3999294087c" />
+  <File Id="SayMore.chm" Guid="8a822c10-ac11-40d1-8c2e-a33b7236ccd1" />
 </InstallerMetadata>

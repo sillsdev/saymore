@@ -332,8 +332,8 @@ namespace SayMore.UI.ElementListScreen
 			int itemCount = _elementsGrid.SelectedRows.Count;
 
 			var msg = (itemCount == 1 ?
-				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "This will permanently remove 1 item?") :
-				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "This will permanently remove {0} items?"));
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "This will permanently remove 1 item.") :
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "This will permanently remove {0} items."));
 
 			msg = string.Format(msg, itemCount);
 			return (DeleteMessageBox.Show(this, msg) == DialogResult.OK);

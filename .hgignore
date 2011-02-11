@@ -12,3 +12,28 @@ glob:src/Sponge2/Sponge2.csproj.John
 glob:src/SayMore/bin/*
 glob:src/SayMore/Sponge2.csproj.John
 glob:src/Installer/bin/Release/SayMoreInstaller.wixpdb
+glob:AttemptAtRemovingGenericRepositories/*
+glob:VS2008Backup/*
+glob:SayMore Design Pics/*
+glob:MPlayer for Windows/*
+glob:_UpgradeReport_Files/*
+glob:Misc. Art Work/*
+glob:things to test.txt
+glob:src/SayMore/Model/Files/FileType.cs.orig
+glob:REAP-RAMP Notes.docx
+glob:OtherChartLayoutIdeas.xlsx
+glob:mplayerWrapper-v0.2.zip
+glob:RAMP, REAP, METS/METS Metadata Template.lnk
+glob:SayMore.sln.cache
+glob:RAMP, REAP, METS/RAMP.lnk
+glob:RAMP, REAP, METS/METSUCCSC.ppt
+glob:Thailand Report and Estimated Timeline for 2010-2011 work.pdf
+glob:build/TestInstallerBuild - Copy.bat
+glob:UpgradeLog.XML
+glob:artwork/SayMoreText.svg.orig
+glob:RAMP, REAP, METS/cat_mets.ppt
+glob:UpgradeLog2.XML
+glob:Interface Design Strategies for Computer-Assisted Speech Transcription.pdf
+glob:src/SayMore/Model/Files/ComponentFile.cs.orig
+glob:src/SayMore/Model/Files/DataGathering/BackgroundFileProcessor.cs.orig
+glob:src/SayMore/UI/Overview/Statistics/StatisticsViewModel.cs.orig

@@ -30,9 +30,9 @@ namespace SayMore.UI.LowLevelControls
 		{
 			this._tableLayoutMessage = new System.Windows.Forms.TableLayoutPanel();
 			this._pictureDeleteX = new System.Windows.Forms.PictureBox();
+			this._labelMessage = new SilUtils.Controls.AutoHeightLabel();
 			this._buttonDelete = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
-			this._labelMessage = new SilUtils.Controls.AutoHeightLabel();
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutMessage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureDeleteX)).BeginInit();
@@ -67,11 +67,25 @@ namespace SayMore.UI.LowLevelControls
 			this._pictureDeleteX.TabIndex = 0;
 			this._pictureDeleteX.TabStop = false;
 			// 
+			// _labelMessage
+			// 
+			this._labelMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._labelMessage.AutoEllipsis = true;
+			this._labelMessage.Image = null;
+			this._labelMessage.Location = new System.Drawing.Point(39, 0);
+			this._labelMessage.Margin = new System.Windows.Forms.Padding(0);
+			this._labelMessage.Name = "_labelMessage";
+			this._labelMessage.Size = new System.Drawing.Size(300, 13);
+			this._labelMessage.TabIndex = 0;
+			this._labelMessage.Text = "#";
+			// 
 			// _buttonDelete
 			// 
 			this._buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonDelete.AutoSize = true;
 			this._buttonDelete.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this._buttonDelete.Image = global::SayMore.Properties.Resources.DeleteMessageBoxButtonImage;
 			this._buttonDelete.Location = new System.Drawing.Point(90, 20);
 			this._buttonDelete.Margin = new System.Windows.Forms.Padding(0, 20, 4, 0);
 			this._buttonDelete.MinimumSize = new System.Drawing.Size(75, 26);
@@ -79,6 +93,8 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonDelete.Size = new System.Drawing.Size(75, 26);
 			this._buttonDelete.TabIndex = 1;
 			this._buttonDelete.Text = "Delete";
+			this._buttonDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this._buttonDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonDelete.UseVisualStyleBackColor = true;
 			// 
 			// _buttonCancel
@@ -91,22 +107,9 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
-			this._buttonCancel.TabIndex = 2;
+			this._buttonCancel.TabIndex = 0;
 			this._buttonCancel.Text = "Cancel";
 			this._buttonCancel.UseVisualStyleBackColor = true;
-			// 
-			// _labelMessage
-			// 
-			this._labelMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._labelMessage.AutoEllipsis = true;
-			this._labelMessage.Image = null;
-			this._labelMessage.Location = new System.Drawing.Point(39, 0);
-			this._labelMessage.Margin = new System.Windows.Forms.Padding(0);
-			this._labelMessage.Name = "_labelMessage";
-			this._labelMessage.Size = new System.Drawing.Size(300, 13);
-			this._labelMessage.TabIndex = 3;
-			this._labelMessage.Text = "#";
 			// 
 			// _tableLayoutButtons
 			// 

@@ -138,6 +138,13 @@ namespace SayMore.Model
 				Directory.Delete(item.FolderPath);
 #endif
 			}
+			catch (OperationCanceledException)
+			{
+				// This happens if the user clicked "No" when the OS asks for confirmation
+				// to send something to the recycle bin. That confirmation dialog box will
+				// not be displayed if that setting is turned off in the recycle bin properties.
+				return false;
+			}
 			catch (Exception e)
 			{
 				Palaso.Reporting.ErrorReport.ReportNonFatalException(e);

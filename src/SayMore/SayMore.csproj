@@ -670,6 +670,7 @@
     <None Include="Resources\Skipped.png" />
     <None Include="Resources\ColumnChooser.png" />
     <None Include="Resources\Information.png" />
+    <None Include="Resources\DeleteMessageBoxButtonImage.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

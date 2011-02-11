@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using NUnit.Framework;
-using Palaso.TestUtilities;
+using Palaso.IO;
 using SayMore.UI.MediaPlayer;
 
 namespace SayMoreTests.UI.MediaPlayer

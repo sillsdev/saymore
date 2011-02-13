@@ -38,3 +38,4 @@ glob:src/SayMore/Model/Files/ComponentFile.cs.orig
 glob:src/SayMore/Model/Files/DataGathering/BackgroundFileProcessor.cs.orig
 glob:src/SayMore/UI/Overview/Statistics/StatisticsViewModel.cs.orig
 glob:DistFiles/SayMore.chm
+glob:SayMore.chm

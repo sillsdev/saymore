@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
+using Palaso.IO;
 using Palaso.Media;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
@@ -143,7 +145,13 @@ namespace SayMore.UI.ProjectWindow
 			using (var dlg = new AboutDialog())
 				dlg.ShowDialog();
 		}
-
+		/// ------------------------------------------------------------------------------------
+		private void HandleHelpClick(object sender, EventArgs e)
+		{
+			//nb: when the file is in our source code, and not in the program directory, windows security will squak and then not show content.
+			var path = FileLocator.GetFileDistributedWithApplication(false,"SayMore.chm");
+			Process.Start(path);
+		}
 		/// ------------------------------------------------------------------------------------
 		private void HandleCommandMenuItemClick(object sender, EventArgs e)
 		{

@@ -24,6 +24,7 @@ namespace SayMore.UI.ProjectWindow
             this._menuOpenProject = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStripSeparator0 = new System.Windows.Forms.ToolStripSeparator();
             this._exportEventsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._exportPeopleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._menuExit = new System.Windows.Forms.ToolStripMenuItem();
             this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +60,7 @@ namespace SayMore.UI.ProjectWindow
             this._menuOpenProject,
             this._toolStripSeparator0,
             this._exportEventsMenuItem,
+            this._exportPeopleMenuItem,
             this._toolStripSeparator1,
             this._menuExit});
             this._menuProject.Name = "_menuProject";
@@ -81,9 +83,17 @@ namespace SayMore.UI.ProjectWindow
             // 
             this._exportEventsMenuItem.Name = "_exportEventsMenuItem";
             this._exportEventsMenuItem.Size = new System.Drawing.Size(153, 22);
-            this._exportEventsMenuItem.Tag = "export";
+            this._exportEventsMenuItem.Tag = "exportEvents";
             this._exportEventsMenuItem.Text = "Export Events...";
             this._exportEventsMenuItem.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
+            // 
+            // _exportPeoplesMenuItem
+            // 
+            this._exportPeopleMenuItem.Name = "_exportPeopleMenuItem";
+            this._exportPeopleMenuItem.Size = new System.Drawing.Size(153, 22);
+            this._exportPeopleMenuItem.Tag = "exportPeople";
+            this._exportPeopleMenuItem.Text = "Export People...";
+            this._exportPeopleMenuItem.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
             // 
             // _toolStripSeparator1
             // 
@@ -181,7 +191,8 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.ToolStripSeparator _toolStripSeparator0;
 		private System.Windows.Forms.ToolStripMenuItem _menuExit;
 		private System.Windows.Forms.ToolStripMenuItem _exportEventsMenuItem;
-		private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
+	    private System.Windows.Forms.ToolStripMenuItem _exportPeopleMenuItem;
+        private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
 		private ViewTabGroup _viewTabGroup;
 		private System.Windows.Forms.ToolStripMenuItem _menuHelp;
 		private System.Windows.Forms.ToolStripMenuItem _menuAbout;

@@ -8,6 +8,21 @@ using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files
 {
+	public class ExportEventsCommand: ExportCommand
+	{
+		public ExportEventsCommand(ElementRepository<Event> events)
+			: base("exportEvents", events.AllItems.ToArray())
+		{
+		}
+	}
+	public class ExportPeoplCommand : ExportCommand
+	{
+		public ExportPeoplCommand(ElementRepository<Person> people)
+			: base("exportPeople", people.AllItems.ToArray())
+		{
+		}
+	}
+
 	/// <summary>
 	/// Exports metadata to file (currently, only csv)
 	/// </summary>
@@ -16,10 +31,10 @@ namespace SayMore.Model.Files
 		private readonly IEnumerable<ProjectElement> _elements;
 		private char _delimeter = ',';
 
-		public ExportCommand(ElementRepository<Event> events)
-			: base("export")
+		public ExportCommand(string id, IEnumerable<ProjectElement> elements)
+			: base(id)
 		{
-			_elements = events.AllItems.ToArray();
+			_elements = elements;
 		}
 
 		/// <summary>
@@ -40,7 +55,7 @@ namespace SayMore.Model.Files
 			using(var dlg = new SaveFileDialog())
 			{
 				dlg.RestoreDirectory = true;
-				dlg.Title = "Export Event Data";
+				dlg.Title = "Export Data";
 				dlg.AddExtension = true;
 				dlg.AutoUpgradeEnabled = true;
 				dlg.Filter = "CSV (Comma delimited) (*.csv)|*.csv";

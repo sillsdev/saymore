@@ -116,7 +116,7 @@ namespace SayMore.Model.Files
 
 			foreach (string key in keys)
 			{
-				builder.Append(EscapeIfNeeded(key) + _delimeter);
+				builder.Append(MassageIfNeeded(key) + _delimeter);
 			}
 			return builder.ToString().TrimEnd(_delimeter);
 		}
@@ -134,19 +134,22 @@ namespace SayMore.Model.Files
 				}
 				else
 				{
-					builder.Append(EscapeIfNeeded(f.ValueAsString) + _delimeter);
+					builder.Append(MassageIfNeeded(f.ValueAsString) + _delimeter);
 				}
 			}
 			return builder.ToString().TrimEnd(_delimeter);
 		}
 
-		private string EscapeIfNeeded(string value)
+		private string MassageIfNeeded(string value)
 		{
-			if(value.Contains(_delimeter))
+			var x = value;
+			if(x.Contains(_delimeter))
 			{
-				return '"' + value + '"';
+				x= '"' + x + '"';
 			}
-			return value;
+			x = x.Replace("\r\n", " ");
+			x = x.Replace('\n', ' ');  //could have been entered on linux, but now we're outputing on windows
+			return x;
 		}
 
 	}

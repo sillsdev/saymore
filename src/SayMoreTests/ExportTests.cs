@@ -64,5 +64,20 @@ namespace Sponge2Tests
 			Assert.AreEqual("\"a,b\"", lines[0]);
 			Assert.AreEqual("\"1,2\"", lines[1]);
 		}
+
+
+		/// <summary>
+		/// excel generally doesn't like newlines
+		/// </summary>
+		[Test]
+		public void GetFileString_FieldHasNewLine_ChangedToSpaces()
+		{
+			var exporter = new ExportCommand();
+			var s1 = new List<FieldInstance>(new[]{
+				new FieldInstance("a","string","1"+Environment.NewLine+"2")});
+			var result = exporter.GetFileString(new[] { s1 });
+			var lines = result.Split('\n').Select(l => l.TrimEnd()).ToArray();
+		   Assert.AreEqual("1 2", lines[1]);
+		}
 	}
 }

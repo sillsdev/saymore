@@ -1,3 +1,4 @@
+using System;
 using SilUtils;
 using SayMore.UI.LowLevelControls;
 
@@ -166,5 +167,10 @@ namespace SayMore.UI.ElementListScreen
 		private ComponentFileGrid _eventComponentFileGrid;
 		private System.Windows.Forms.Button _buttonNewFromFiles;
 		private System.Windows.Forms.Label _labelHelp;
+
+	    public string NameForUsageReporting
+	    {
+            get { return "Events"; }
+	    }
 	}
 }

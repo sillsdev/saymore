@@ -11,6 +11,7 @@ using Localization;
 using Localization.UI;
 using Palaso.IO;
 using Palaso.Media;
+using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Overview;
@@ -151,6 +152,7 @@ namespace SayMore.UI.ProjectWindow
 			//nb: when the file is in our source code, and not in the program directory, windows security will squak and then not show content.
 			var path = FileLocator.GetFileDistributedWithApplication(false,"SayMore.chm");
 			Process.Start(path);
+			UsageReporter.SendNavigationNotice("Help");
 		}
 		/// ------------------------------------------------------------------------------------
 		private void HandleCommandMenuItemClick(object sender, EventArgs e)
@@ -181,6 +183,7 @@ namespace SayMore.UI.ProjectWindow
 			var view = activatedTab.View as ISayMoreView;
 			if (view != null && view.MainMenuItem != null)
 				view.MainMenuItem.Visible = true;
+			UsageReporter.SendNavigationNotice(view.NameForUsageReporting);
 		}
 
 		/// ------------------------------------------------------------------------------------

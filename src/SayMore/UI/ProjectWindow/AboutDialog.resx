@@ -132,9 +132,6 @@
   <data name="_linkSayMoreWebSite.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
     <value>28, 17</value>
   </data>
-  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>96, 0</value>
-  </metadata>
   <data name="_linkSayMoreWebSite.Location" type="System.Drawing.Point, System.Drawing">
     <value>139, 146</value>
   </data>
@@ -225,6 +222,9 @@
   <data name="&gt;&gt;lblSubTitle.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>96, 0</value>
+  </metadata>
   <data name="_buttonOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>

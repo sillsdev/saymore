@@ -1,3 +1,5 @@
+using System;
+
 namespace SayMore.UI.Overview
 {
 	partial class ProgressScreen
@@ -87,5 +89,10 @@ namespace SayMore.UI.Overview
 		private System.Windows.Forms.ToolStripButton tsbGenre;
 		private System.Windows.Forms.ToolStripButton tsbContributor;
 		private System.Windows.Forms.ToolStripButton tsbTasks;
+
+		public string NameForUsageReporting
+		{
+			get { return "Progress"; }
+		}
 	}
 }

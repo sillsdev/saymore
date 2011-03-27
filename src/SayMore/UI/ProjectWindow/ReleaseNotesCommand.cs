@@ -1,4 +1,5 @@
 using Palaso.IO;
+using Palaso.Reporting;
 
 namespace SayMore.UI.ProjectWindow
 {
@@ -23,6 +24,7 @@ namespace SayMore.UI.ProjectWindow
 		{
 			using (var dlg = new ShowHtmlDialog())
 			{
+				UsageReporter.SendNavigationNotice("ReleaseNotes");
 				dlg.Text = "Release Notes...";
 				dlg.Path = FileLocator.GetFileDistributedWithApplication("releaseNotes.htm");
 				dlg.ShowDialog();

@@ -3,6 +3,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
+using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.UI.Utilities;
 
@@ -117,6 +118,11 @@ namespace SayMore.UI.ProjectWindow
 			// Draw the application's logo image.
 			rc = new Rectangle(new Point(10, 5), Resources.LargeSayMoreLogo.Size);
 			e.Graphics.DrawImage(Resources.LargeSayMoreLogo, rc);
+		}
+
+		private void AboutDialog_Load(object sender, System.EventArgs e)
+		{
+			UsageReporter.SendNavigationNotice("AboutBox");
 		}
 	}
 }

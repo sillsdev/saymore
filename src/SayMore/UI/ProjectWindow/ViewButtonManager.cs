@@ -21,6 +21,7 @@ namespace SayMore.UI.ProjectWindow
 		bool IsOKToLeaveView(bool showMsgWhenNotOK);
 		Image Image { get; }
 		ToolStripMenuItem MainMenuItem { get; }
+		string NameForUsageReporting { get; }
 	}
 
 	/// ----------------------------------------------------------------------------------------

@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
@@ -41,6 +42,11 @@ namespace SayMore.UI.SendReceive
 		public ToolStripMenuItem MainMenuItem
 		{
 			get { return null; }
+		}
+
+		public string NameForUsageReporting
+		{
+			get { throw new NotImplementedException(); }
 		}
 
 		#endregion

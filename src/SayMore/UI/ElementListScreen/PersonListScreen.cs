@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model;
@@ -74,6 +75,11 @@ namespace SayMore.UI.ElementListScreen
 		public ToolStripMenuItem MainMenuItem
 		{
 			get { return null; }
+		}
+
+		public string NameForUsageReporting
+		{
+			get { return "People"; }
 		}
 
 		/// ------------------------------------------------------------------------------------

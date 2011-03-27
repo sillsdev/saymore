@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using Localization;
+using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
 using SilUtils;
@@ -31,6 +32,16 @@ namespace SayMore
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
+			//bring in settings from any previous version
+			if (Settings.Default.NeedUpgrade)
+			{
+				//see http://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
+				Settings.Default.Upgrade();
+				Settings.Default.NeedUpgrade = false;
+				Settings.Default.Save();
+			}
+
+
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(true);
 
@@ -38,6 +49,7 @@ namespace SayMore
 			LocalizationManager.Initialize();
 
 			SetUpErrorHandling();
+			SetUpReporting();
 
 			var args = Environment.GetCommandLineArgs();
 			var firstTimeArg = args.FirstOrDefault(x => x.ToLower().StartsWith("-i"));
@@ -177,7 +189,16 @@ namespace SayMore
 			Palaso.Reporting.ErrorReport.AddProperty("EmailAddress", "issues@saymore.palaso.org");
 			Palaso.Reporting.ErrorReport.AddStandardProperties();
 			Palaso.Reporting.ExceptionHandler.Init();
-			Palaso.Reporting.UsageReporter.ReportLaunchesAsync();
+		}
+
+		private static void SetUpReporting()
+		{
+			if (Settings.Default.Reporting == null)
+			{
+				Settings.Default.Reporting = new ReportingSettings();
+				Settings.Default.Save();
+			}
+			UsageReporter.Init(Settings.Default.Reporting, "saymore.palaso.org", "UA-22170471-3");
 		}
 	}
 }

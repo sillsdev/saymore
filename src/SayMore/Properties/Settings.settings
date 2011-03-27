@@ -289,5 +289,11 @@
     <Setting Name="MissingDataWindowColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">252, 235, 132</Value>
     </Setting>
+    <Setting Name="NeedUpgrade" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Reporting" Type="Palaso.Reporting.ReportingSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

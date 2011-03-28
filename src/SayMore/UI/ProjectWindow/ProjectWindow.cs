@@ -181,8 +181,12 @@ namespace SayMore.UI.ProjectWindow
 		private void HandleViewActivated(ViewTabGroup sender, ViewTab activatedTab)
 		{
 			var view = activatedTab.View as ISayMoreView;
-			if (view != null && view.MainMenuItem != null)
+			if (view == null)
+				return;
+
+			if (view.MainMenuItem != null)
 				view.MainMenuItem.Visible = true;
+
 			UsageReporter.SendNavigationNotice(view.NameForUsageReporting);
 		}
 

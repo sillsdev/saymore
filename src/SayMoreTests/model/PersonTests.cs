@@ -1,6 +1,5 @@
 using System.IO;
 using NUnit.Framework;
-using Palaso.IO;
 using Palaso.TestUtilities;
 using SayMoreTests.Model;
 

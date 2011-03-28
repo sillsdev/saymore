@@ -10,7 +10,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		[Test]
 		public void Execute_LaunchAndClose_DoesNotCrash()
 		{
-			ModalFormTester tester = new ModalFormTester();
+			var tester = new ModalFormTester();
 			var buttonTester = new ButtonTester("_close");
 			tester.ExpectModal("ShowHtmlDialog", () => buttonTester.FireEvent("Click"));
 			var cmd = new ReleaseNotesCommand();

@@ -429,21 +429,17 @@ namespace SayMore.UI.ElementListScreen
 
 		internal Func<bool> IsOkToChangeRows;
 
-		/// ------------------------------------------------------------------------------------
-		protected override bool SetCurrentCellAddressCore(int columnIndex, int rowIndex,
-			bool setAnchorCellAddress, bool validateCurrentCell, bool throughMouseClick)
+		/// ----------------------------------------------------------------------------------------
+		protected override void OnCellMouseDown(DataGridViewCellMouseEventArgs e)
 		{
-			if (_prevRow >= 0 && _prevRow != rowIndex && rowIndex >= 0 &&
+			if (_prevRow >= 0 && _prevRow != e.RowIndex && e.RowIndex >= 0 &&
 				IsOkToChangeRows != null && !IsOkToChangeRows())
 			{
-				Rows[_prevRow].Selected = true;
-				rowIndex = _prevRow;
+				return;
 			}
 
-			_prevRow = rowIndex;
-
-			return base.SetCurrentCellAddressCore(columnIndex, rowIndex,
-				setAnchorCellAddress, validateCurrentCell, throughMouseClick);
+			_prevRow = e.RowIndex;
+			base.OnCellMouseDown(e);
 		}
 	}
 }

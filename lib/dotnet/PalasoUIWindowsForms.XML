@@ -4,62 +4,101 @@
 		<name>PalasoUIWindowsForms</name>
 	</assembly>
 	<members>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.VoiceIdentifierView.components">
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeView.components">
 			<summary>
 			Required designer variable.
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.VoiceIdentifierView.Dispose(System.Boolean)">
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeView.Dispose(System.Boolean)">
 			<summary>
 			Clean up any resources being used.
 			</summary>
 			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.VoiceIdentifierView.InitializeComponent">
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeView.InitializeComponent">
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
 			</summary>
 		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.CustomIdentifierView.components">
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSSpellingControl.components">
 			<summary>
 			Required designer variable.
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.CustomIdentifierView.Dispose(System.Boolean)">
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSpellingControl.Dispose(System.Boolean)">
 			<summary>
 			Clean up any resources being used.
 			</summary>
 			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.CustomIdentifierView.InitializeComponent">
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSpellingControl.InitializeComponent">
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
 			</summary>
 		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.LookupISOCodeDialog.components">
+		<member name="F:Palaso.UI.WindowsForms.SuperToolTip.SuperToolTip.components">
 			<summary>
 			Required designer variable.
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.LookupISOCodeDialog.Dispose(System.Boolean)">
+		<member name="M:Palaso.UI.WindowsForms.SuperToolTip.SuperToolTip.Dispose(System.Boolean)">
 			<summary>
 			Clean up any resources being used.
 			</summary>
 			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.LookupISOCodeDialog.InitializeComponent">
+		<member name="M:Palaso.UI.WindowsForms.SuperToolTip.SuperToolTip.InitializeComponent">
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.HotSpot.HotSpotProvider.HotSpotPainter.GetHotSpotsFromOffset(System.Int32)">
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingListView.components">
 			<summary>
-			Find the first HotArea that contains the offset
+			Required designer variable.
 			</summary>
-			<returns>null when no HotArea contains the offset</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingListView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingListView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSTree.IpaSuggestion._fontsForIpa">
+			<summary>
+			these are ordered in terms of perference, so the last one is just the fallback
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.WritingSystems.WSTree.LanguageSuggestion">
+			<summary>
+			used to suggest languages not yet represented. Contrast with the other classes here,
+			which are use to suggest new writing systems based on already in-use languages
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.WSIdentifierView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.WSIdentifierView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.WSIdentifierView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
 		</member>
 		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.IpaIdentifierView.components">
 			<summary>
@@ -73,6 +112,23 @@
 			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		</member>
 		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.IpaIdentifierView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.NothingSpecialView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.NothingSpecialView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.NothingSpecialView.InitializeComponent">
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
@@ -97,6 +153,234 @@
 			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		</member>
 		<member name="M:Palaso.UI.WindowsForms.Widgets.BetterLabel.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.SuperToolTip.dlgSuperToolTipEditor.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.SuperToolTip.dlgSuperToolTipEditor.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.SuperToolTip.dlgSuperToolTipEditor.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageToolbox.ImageToolboxDialog.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ImageToolboxDialog.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ImageToolboxDialog.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageToolbox.Cropping.ImageCropper.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.Cropping.ImageCropper.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.Cropping.ImageCropper.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageToolbox.Cropping.ImageCropper._startOfDrag">
+			<summary>
+			Used to mark the spot where the user first started dragging the mouse, when he clicks somewhere other than one of the grips.
+			We use this to create the new crop rectangle as he continues the drag.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.i18n.LocalizationHelper.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.BeginInit">
+			<summary>
+			Signals the object that initialization is starting.
+			</summary>
+
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.EndInit">
+			<summary>
+			Signals the object that initialization is complete.
+			</summary>
+
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.CanExtend(System.Object)">
+			<summary>
+			Specifies whether this object can provide its extender properties to the specified object.
+			</summary>
+
+			<returns>
+			true if this object can provide extender properties to the specified object; otherwise, false.
+			</returns>
+
+			<param name="extendee">The <see cref="T:System.Object"></see> to receive the extender properties. </param>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.Commands.ProgressDialogHandler.TestEverythingClosedUp">
+			<summary>
+			tests (or anything else that is rapidly chaining these things together)
+			should use this to make sure we're ready to go on to the next activity
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.Progress.Commands.ProgressDialogHandler.ExceptionMethodInvoker">
+			<summary>
+			A delegate for a method which takes an exception as its only parmeter
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.#ctor">
+			<summary>
+			This one is for supporting the designer, and must be followed by a call to BindToModel
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.BindToModel(Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel)">
+			<summary>
+			Call this explicitly if using the constructor which does not set the model
+			</summary>
+			<param name="model"></param>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.WritingSystems.WSTree.GroupTreeItem">
+			<summary>
+			this is used when it would be confusing to make one of the WS's primary above the others.
+			related to http://projects.palaso.org/issues/show/482
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.SuperToolTip.SuperToolTipInfo.OffsetForWhereToDisplay">
+			<summary>
+			Set this when you need to control just where the tt is going to display
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSSortControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSortControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSortControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.#ctor(Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel)">
+			<summary>
+			Use this one to keep, say, a picker up to date with any change you make
+			while using the dialog.
+			</summary>
+			<param name="writingSystemModel"></param>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.WritingSystemSuggestor">
+			<summary>
+			Use this to set the appropriate kinds of writing systems according to your
+			application.  For example, is the user of your app likely to want voice? ipa? dialects?
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.VoiceIdentifierView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.VoiceIdentifierView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.VoiceIdentifierView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.SuperToolTip.SuperToolTipWindowData.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.SuperToolTip.SuperToolTipWindowData.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.SuperToolTip.SuperToolTipWindowData.InitializeComponent">
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
@@ -499,72 +783,202 @@
 			<p>In C#, this property is the indexer of the PropertyTable class.</p>
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.BeginInit">
+		<member name="T:Palaso.UI.WindowsForms.Properties.Resources">
 			<summary>
-			Signals the object that initialization is starting.
+			  A strongly-typed resource class, for looking up localized strings, etc.
 			</summary>
-
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.EndInit">
+		<member name="P:Palaso.UI.WindowsForms.Properties.Resources.ResourceManager">
 			<summary>
-			Signals the object that initialization is complete.
+			  Returns the cached ResourceManager instance used by this class.
 			</summary>
-
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.CanExtend(System.Object)">
+		<member name="P:Palaso.UI.WindowsForms.Properties.Resources.Culture">
 			<summary>
-			Specifies whether this object can provide its extender properties to the specified object.
+			  Overrides the current thread's CurrentUICulture property for all
+			  resource lookups using this strongly typed resource class.
 			</summary>
-
-			<returns>
-			true if this object can provide extender properties to the specified object; otherwise, false.
-			</returns>
-
-			<param name="extendee">The <see cref="T:System.Object"></see> to receive the extender properties. </param>
 		</member>
-		<member name="F:Palaso.UI.WindowsForms.i18n.LocalizationHelper.components">
+		<!-- Badly formed XML comment ignored for member "T:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog" -->
+		<member name="M:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog.Transform(System.Boolean)">
+			<summary>
+
+			</summary>
+			<returns>true if succeeded</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog.DoTransformWithProgressDialog(System.Boolean)">
+			<summary>
+
+			</summary>
+			<returns>false if not successful or cancelled</returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog.OnDoTransformWork(System.Object,System.ComponentModel.DoWorkEventArgs)">
+			<summary>
+			this runs in a worker thread
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.ScriptRegionVariantView.components">
 			<summary>
 			Required designer variable.
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.Dispose(System.Boolean)">
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.ScriptRegionVariantView.Dispose(System.Boolean)">
 			<summary>
 			Clean up any resources being used.
 			</summary>
 			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelper.InitializeComponent">
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.ScriptRegionVariantView.InitializeComponent">
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
 			</summary>
 		</member>
-		<member name="T:Palaso.UI.WindowsForms.i18n.LocalizationHelperDesigner">
-			<summary>
-			  Designer object used to set the Parent property.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelperDesigner.OnSetComponentDefaults">
-			  <summary>
-			  Sets the Parent property to "this" -
-			  the Form/UserControl where the component is being dropped.
-			  </summary>
-		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSFontControl.components">
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.LookupISOCodeDialog.components">
 			<summary>
 			Required designer variable.
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSFontControl.Dispose(System.Boolean)">
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.LookupISOCodeDialog.Dispose(System.Boolean)">
 			<summary>
 			Clean up any resources being used.
 			</summary>
 			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSFontControl.InitializeComponent">
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.LookupISOCodeDialog.InitializeComponent">
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.WritingSystems.LookupIsoCodeModel">
+			<summary>
+			 Basically just handles selecting from likely options, based on what you type
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Widgets.ControlListBox.AddControl(System.Windows.Forms.Control,System.Int32)">
+			<summary>
+			Callers: consider control.AutoSizeMode = AutoSizeMode.GrowAndShrink if the control supports it.
+			</summary>
+			<param name="control"></param>
+			<param name="insertAtRow"></param>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.Widgets.ControlListBox.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Widgets.ControlListBox.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Widgets.ControlListBox.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageToolbox.Scanner.DeviceAcquire.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.Scanner.DeviceAcquire.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.Scanner.DeviceAcquire.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageToolbox.ImageLicenseControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ImageLicenseControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ImageLicenseControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageToolbox.ImageCreditsControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ImageCreditsControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ImageCreditsControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageToolbox.ArtOfReadingChooser.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ArtOfReadingChooser.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ArtOfReadingChooser.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageGallery.ThumbnailViewer.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageGallery.ThumbnailViewer.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageGallery.ThumbnailViewer.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemSuggestor.SuggestIpa">
+			<summary>
+			Consider setting this to true in linguistic applications
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemSuggestor.SuggestDialects">
+			<summary>
+			Consider setting this to true in linguistic applications
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemSuggestor.SuppressSuggestionsForMajorWorldLanguages">
+			<summary>
+			When true, no suggestions will be made some languages which may be supplied by the OS
+			but which are unlikely to be the study of language documentation efforst
 			</summary>
 		</member>
 		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSTree.GetDialectNameDialog.components">
@@ -584,40 +998,133 @@
 			the contents of this method with the code editor.
 			</summary>
 		</member>
-		<member name="F:WeSay.LexicalTools.AddPictures.PictureChooser.components">
+		<member name="M:Palaso.UI.WindowsForms.ImageGallery.IImageCollection.GetThumbNail(System.Object)">
+			<summary>
+			The imageTOken here could be a path or whatever, the client doesn't need to know or care
+			</summary>
+			<param name="imageToken"></param>
+			<returns></returns>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemFromWindowsLocaleProvider.TrimOffCountryNameOfMajorLanguage(System.Windows.Forms.InputLanguage)">
+			<summary>
+			It's confusing for people to be presented with "English (UnitedStates)" or Icelandic (Iceland)
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageToolbox.ImageMetadataControl.components">
 			<summary>
 			Required designer variable.
 			</summary>
 		</member>
-		<member name="M:WeSay.LexicalTools.AddPictures.PictureChooser.Dispose(System.Boolean)">
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ImageMetadataControl.Dispose(System.Boolean)">
 			<summary>
 			Clean up any resources being used.
 			</summary>
 			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		</member>
-		<member name="M:WeSay.LexicalTools.AddPictures.PictureChooser.InitializeComponent">
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ImageMetadataControl.InitializeComponent">
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
 			</summary>
 		</member>
-		<member name="T:Palaso.UI.WindowsForms.i18n.ILocalizableControl">
-			<summary>
-			A control can implement this to override some default localization behavior
-			</summary>
-		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeView.components">
+		<member name="F:Palaso.UI.WindowsForms.ImageToolbox.GetImageFromFileSystemControl.components">
 			<summary>
 			Required designer variable.
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeView.Dispose(System.Boolean)">
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.GetImageFromFileSystemControl.Dispose(System.Boolean)">
 			<summary>
 			Clean up any resources being used.
 			</summary>
 			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeView.InitializeComponent">
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.GetImageFromFileSystemControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.ControlExtensions">
+			<summary>
+			Convenience extensions for controls
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ControlExtensions.InvokeIfRequired(System.Windows.Forms.Control,System.Action)">
+			<summary>
+			If the method might be in a different thread, this will do an invoke,
+			otherwise it just invokes the action
+			</summary>
+			<example>InvokeIfRequired(()=>BackgroundColor=Color.Blue);</example>
+			<example>((Control)this).InvokeIfRequired(()=>SetChoices(languages));</example>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSPropertiesTabControl.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPropertiesTabControl.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPropertiesTabControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.CustomIdentifierView.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.CustomIdentifierView.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.CustomIdentifierView.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.ImageToolbox.LicenseLogos">
+			<summary>
+			  A strongly-typed resource class, for looking up localized strings, etc.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.ImageToolbox.LicenseLogos.ResourceManager">
+			<summary>
+			  Returns the cached ResourceManager instance used by this class.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.ImageToolbox.LicenseLogos.Culture">
+			<summary>
+			  Overrides the current thread's CurrentUICulture property for all
+			  resource lookups using this strongly typed resource class.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.HotSpot.HotSpotProvider.HotSpotPainter.GetHotSpotsFromOffset(System.Int32)">
+			<summary>
+			Find the first HotArea that contains the offset
+			</summary>
+			<returns>null when no HotArea contains the offset</returns>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.ImageGallery.PictureChooser.components">
+			<summary>
+			Required designer variable.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageGallery.PictureChooser.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageGallery.PictureChooser.InitializeComponent">
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
@@ -656,338 +1163,48 @@
 			a label which describes what we are busy doing
 			</summary>
 		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.components">
+		<member name="T:Palaso.UI.WindowsForms.ImageToolbox.SampleImages">
+			<summary>
+			  A strongly-typed resource class, for looking up localized strings, etc.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.ImageToolbox.SampleImages.ResourceManager">
+			<summary>
+			  Returns the cached ResourceManager instance used by this class.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.ImageToolbox.SampleImages.Culture">
+			<summary>
+			  Overrides the current thread's CurrentUICulture property for all
+			  resource lookups using this strongly typed resource class.
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.i18n.LocalizationHelperDesigner">
+			<summary>
+			  Designer object used to set the Parent property.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.i18n.LocalizationHelperDesigner.OnSetComponentDefaults">
+			  <summary>
+			  Sets the Parent property to "this" -
+			  the Form/UserControl where the component is being dropped.
+			  </summary>
+		</member>
+		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSFontControl.components">
 			<summary>
 			Required designer variable.
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.Dispose(System.Boolean)">
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSFontControl.Dispose(System.Boolean)">
 			<summary>
 			Clean up any resources being used.
 			</summary>
 			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.InitializeComponent">
+		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSFontControl.InitializeComponent">
 			<summary>
 			Required method for Designer support - do not modify
 			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.#ctor">
-			<summary>
-			This one is for supporting the designer, and must be followed by a call to BindToModel
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingComboBox.BindToModel(Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel)">
-			<summary>
-			Call this explicitly if using the constructor which does not set the model
-			</summary>
-			<param name="model"></param>
-		</member>
-		<member name="P:Elsehemy.SuperToolTipInfo.OffsetForWhereToDisplay">
-			<summary>
-			Set this when you need to control just where the tt is going to display
-			</summary>
-		</member>
-		<member name="F:Elsehemy.SuperToolTipWindowData.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Elsehemy.SuperToolTipWindowData.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Elsehemy.SuperToolTipWindowData.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="F:Elsehemy.SuperToolTip.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Elsehemy.SuperToolTip.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Elsehemy.SuperToolTip.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="F:Elsehemy.dlgSuperToolTipEditor.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Elsehemy.dlgSuperToolTipEditor.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Elsehemy.dlgSuperToolTipEditor.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="T:Palaso.UI.WindowsForms.ControlExtensions">
-			<summary>
-			Convenience extensions for controls
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.ControlExtensions.InvokeIfRequired(System.Windows.Forms.Control,System.Action)">
-			<summary>
-			If the method might be in a different thread, this will do an invoke,
-			otherwise it just invokes the action
-			</summary>
-			<example>InvokeIfRequired(()=>BackgroundColor=Color.Blue);</example>
-			<example>((Control)this).InvokeIfRequired(()=>SetChoices(languages));</example>
-		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSSpellingControl.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSpellingControl.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSpellingControl.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.NothingSpecialView.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.NothingSpecialView.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.NothingSpecialView.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="F:Palaso.UI.WindowsForms.ImageGallery.ThumbnailViewer.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.ImageGallery.ThumbnailViewer.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.ImageGallery.ThumbnailViewer.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.WSIdentifierView.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.WSIdentifierView.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.WSIdentifierView.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.ImageGallery.IImageCollection.GetThumbNail(System.Object)">
-			<summary>
-			The imageTOken here could be a path or whatever, the client doesn't need to know or care
-			</summary>
-			<param name="imageToken"></param>
-			<returns></returns>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemSuggestor.SuggestIpa">
-			<summary>
-			Consider setting this to true in linguistic applications
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemSuggestor.SuggestDialects">
-			<summary>
-			Consider setting this to true in linguistic applications
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemSuggestor.SuppressSuggestionsForMajorWorldLanguages">
-			<summary>
-			When true, no suggestions will be made some languages which may be supplied by the OS
-			but which are unlikely to be the study of language documentation efforst
-			</summary>
-		</member>
-		<member name="T:Elsehemy.SuperToolTipInfoWrapper">
-			<summary>
-			Class to wrap SuperToolTipInfo with a Boolean variable to use the
-			SuperToolTip or not.
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialogHandler.TestEverythingClosedUp">
-			<summary>
-			tests (or anything else that is rapidly chaining these things together)
-			should use this to make sure we're ready to go on to the next activity
-			</summary>
-		</member>
-		<member name="T:Palaso.UI.WindowsForms.Progress.ProgressDialogHandler.ExceptionMethodInvoker">
-			<summary>
-			A delegate for a method which takes an exception as its only parmeter
-			</summary>
-		</member>
-		<member name="T:Palaso.UI.WindowsForms.Progress.ProgressDialog">
-			<summary>
-			Provides a progress dialog similar to the one shown by Windows
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.#ctor">
-			<summary>
-			Standard constructor
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.DelayShow">
-			<summary>
-			Show the control, but honor the
-			<see cref="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.DelayShowInterval"/>.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.ForceClose">
-			<summary>
-			Close the dialog, ignoring cancel status
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.OnCancelled(System.EventArgs)">
-			<summary>
-			Raises the cancelled event
-			</summary>
-			<param name="e">Event data</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.DelayShowInterval">
-			<summary>
-			Get / set the time in ms to delay
-			before showing the dialog
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.StatusText">
-			<summary>
-			Get / set the text to display in the first status panel
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.Overview">
-			<summary>
-			Description of why this dialog is even showing
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.ProgressRangeMinimum">
-			<summary>
-			Get / set the minimum range of the progress bar
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.ProgressRangeMaximum">
-			<summary>
-			Get / set the maximum range of the progress bar
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.Progress">
-			<summary>
-			Get / set the current value of the progress bar
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.CanCancel">
-			<summary>
-			Get/set a boolean which determines whether the form
-			will show a cancel option (true) or not (false)
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.BackgroundWorker">
-			<summary>
-			If this is set before showing, the dialog will run the worker and respond
-			to its events
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.BarStyle">
-			<summary>
-			Gets or sets the manner in which progress should be indicated on the progress bar.
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.ProgressState">
-			<summary>
-			Optional; one will be created (of some class or subclass) if you don't set it.
-			E.g. dlg.ProgressState = new BackgroundWorkerState(dlg.BackgroundWorker);
-			Also, you can use the getter to gain access to the progressstate, in order to add arguments
-			which the worker method can get at.
-			</summary>
-		</member>
-		<member name="E:Palaso.UI.WindowsForms.Progress.ProgressDialog.CancelRequested">
-			<summary>
-			Raised when the cancel button is clicked
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.#ctor(Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupModel)">
-			<summary>
-			Use this one to keep, say, a picker up to date with any change you make
-			while using the dialog.
-			</summary>
-			<param name="writingSystemModel"></param>
-		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemSetupDialog.WritingSystemSuggestor">
-			<summary>
-			Use this to set the appropriate kinds of writing systems according to your
-			application.  For example, is the user of your app likely to want voice? ipa? dialects?
 			</summary>
 		</member>
 		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSKeyboardControl.components">
@@ -1209,55 +1426,21 @@
 			is changed.
 			</summary>
 		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.ScriptRegionVariantView.components">
+		<member name="T:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeModel">
 			<summary>
-			Required designer variable.
+			This is the Presentation Model (e.g., logic, no UI) for the list
+			of existing writing systems and ones the user might want to add.
 			</summary>
 		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.ScriptRegionVariantView.Dispose(System.Boolean)">
+		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WSTree.WritingSystemTreeModel.Suggestor">
 			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSIdentifiers.ScriptRegionVariantView.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
+			Given some existing writiting system definitions for a language, what other ones might they want ot add?
 			</summary>
 		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSSortControl.components">
+		<member name="T:Palaso.UI.WindowsForms.SuperToolTip.SuperToolTipInfoWrapper">
 			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSortControl.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSSortControl.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSPropertiesTabControl.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPropertiesTabControl.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPropertiesTabControl.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
+			Class to wrap SuperToolTipInfo with a Boolean variable to use the
+			SuperToolTip or not.
 			</summary>
 		</member>
 		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSAddDuplicateMoreButtonBar.components">
@@ -1277,117 +1460,146 @@
 			the contents of this method with the code editor.
 			</summary>
 		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSTree.IpaSuggestion._fontsForIpa">
-			<summary>
-			these are ordered in terms of perference, so the last one is just the fallback
-			</summary>
-		</member>
-		<member name="T:Palaso.UI.WindowsForms.WritingSystems.WSTree.LanguageSuggestion">
-			<summary>
-			used to suggest languages not yet represented. Contrast with the other classes here,
-			which are use to suggest new writing systems based on already in-use languages
-			</summary>
-		</member>
-		<member name="F:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingListView.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingListView.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WSPickerUsingListView.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.WritingSystems.WritingSystemFromWindowsLocaleProvider.TrimOffCountryNameOfMajorLanguage(System.Windows.Forms.InputLanguage)">
-			<summary>
-			It's confusing for people to be presented with "English (UnitedStates)" or Icelandic (Iceland)
-			</summary>
-		</member>
-		<member name="T:Palaso.UI.WindowsForms.WritingSystems.LookupIsoCodeModel">
-			<summary>
-			 Basically just handles selecting from likely options, based on what you type
-			</summary>
-		</member>
-		<member name="F:Palaso.UI.Widgets.ControlListBox.components">
-			<summary>
-			Required designer variable.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.Widgets.ControlListBox.Dispose(System.Boolean)">
-			<summary>
-			Clean up any resources being used.
-			</summary>
-			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		</member>
-		<member name="M:Palaso.UI.Widgets.ControlListBox.InitializeComponent">
-			<summary>
-			Required method for Designer support - do not modify
-			the contents of this method with the code editor.
-			</summary>
-		</member>
-		<member name="M:Palaso.UI.Widgets.ControlListBox.AddControl(System.Windows.Forms.Control,System.Int32)">
-			<summary>
-			Callers: consider control.AutoSizeMode = AutoSizeMode.GrowAndShrink if the control supports it.
-			</summary>
-			<param name="control"></param>
-			<param name="insertAtRow"></param>
-		</member>
-		<member name="T:Palaso.UI.WindowsForms.WritingSystems.GroupTreeItem">
-			<summary>
-			this is used when it would be confusing to make one of the WS's primary above the others.
-			related to http://projects.palaso.org/issues/show/482
-			</summary>
-		</member>
-		<member name="T:Palaso.UI.WindowsForms.Properties.Resources">
+		<member name="T:Palaso.UI.WindowsForms.ImageToolbox.ImageToolboxButtons">
 			<summary>
 			  A strongly-typed resource class, for looking up localized strings, etc.
 			</summary>
 		</member>
-		<member name="P:Palaso.UI.WindowsForms.Properties.Resources.ResourceManager">
+		<member name="P:Palaso.UI.WindowsForms.ImageToolbox.ImageToolboxButtons.ResourceManager">
 			<summary>
 			  Returns the cached ResourceManager instance used by this class.
 			</summary>
 		</member>
-		<member name="P:Palaso.UI.WindowsForms.Properties.Resources.Culture">
+		<member name="P:Palaso.UI.WindowsForms.ImageToolbox.ImageToolboxButtons.Culture">
 			<summary>
 			  Overrides the current thread's CurrentUICulture property for all
 			  resource lookups using this strongly typed resource class.
 			</summary>
 		</member>
-		<!-- Badly formed XML comment ignored for member "T:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog" -->
-		<member name="M:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog.Transform(System.Boolean)">
+		<member name="F:Palaso.UI.WindowsForms.ImageToolbox.ImageToolboxControl.components">
 			<summary>
-
-			</summary>
-			<returns>true if succeeded</returns>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog.DoTransformWithProgressDialog(System.Boolean)">
-			<summary>
-
-			</summary>
-			<returns>false if not successful or cancelled</returns>
-		</member>
-		<member name="M:Palaso.UI.WindowsForms.Progress.TransformWithProgressDialog.OnDoTransformWork(System.Object,System.ComponentModel.DoWorkEventArgs)">
-			<summary>
-			this runs in a worker thread
+			Required designer variable.
 			</summary>
 		</member>
-		<member name="T:Palaso.UI.WindowsForms.WritingSystems.WritingSystemTreeModel">
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ImageToolboxControl.Dispose(System.Boolean)">
 			<summary>
-			This is the Presentation Model (e.g., logic, no UI) for the list
-			of existing writing systems and ones the user might want to add.
+			Clean up any resources being used.
+			</summary>
+			<param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.ImageToolbox.ImageToolboxControl.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
 			</summary>
 		</member>
-		<member name="P:Palaso.UI.WindowsForms.WritingSystems.WritingSystemTreeModel.Suggestor">
+		<member name="P:Palaso.UI.WindowsForms.ImageToolbox.ImageToolboxControl.ImageInfo">
 			<summary>
-			Given some existing writiting system definitions for a language, what other ones might they want ot add?
+			This is the main input/output of this dialog
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.i18n.ILocalizableControl">
+			<summary>
+			A control can implement this to override some default localization behavior
+			</summary>
+		</member>
+		<member name="T:Palaso.UI.WindowsForms.Progress.ProgressDialog">
+			<summary>
+			Provides a progress dialog similar to the one shown by Windows
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.#ctor">
+			<summary>
+			Standard constructor
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.DelayShow">
+			<summary>
+			Show the control, but honor the
+			<see cref="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.DelayShowInterval"/>.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.ForceClose">
+			<summary>
+			Close the dialog, ignoring cancel status
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.OnCancelled(System.EventArgs)">
+			<summary>
+			Raises the cancelled event
+			</summary>
+			<param name="e">Event data</param>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.Dispose(System.Boolean)">
+			<summary>
+			Clean up any resources being used.
+			</summary>
+		</member>
+		<member name="M:Palaso.UI.WindowsForms.Progress.ProgressDialog.InitializeComponent">
+			<summary>
+			Required method for Designer support - do not modify
+			the contents of this method with the code editor.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.DelayShowInterval">
+			<summary>
+			Get / set the time in ms to delay
+			before showing the dialog
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.StatusText">
+			<summary>
+			Get / set the text to display in the first status panel
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.Overview">
+			<summary>
+			Description of why this dialog is even showing
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.ProgressRangeMinimum">
+			<summary>
+			Get / set the minimum range of the progress bar
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.ProgressRangeMaximum">
+			<summary>
+			Get / set the maximum range of the progress bar
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.Progress">
+			<summary>
+			Get / set the current value of the progress bar
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.CanCancel">
+			<summary>
+			Get/set a boolean which determines whether the form
+			will show a cancel option (true) or not (false)
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.BackgroundWorker">
+			<summary>
+			If this is set before showing, the dialog will run the worker and respond
+			to its events
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.BarStyle">
+			<summary>
+			Gets or sets the manner in which progress should be indicated on the progress bar.
+			</summary>
+		</member>
+		<member name="P:Palaso.UI.WindowsForms.Progress.ProgressDialog.ProgressState">
+			<summary>
+			Optional; one will be created (of some class or subclass) if you don't set it.
+			E.g. dlg.ProgressState = new BackgroundWorkerState(dlg.BackgroundWorker);
+			Also, you can use the getter to gain access to the progressstate, in order to add arguments
+			which the worker method can get at.
+			</summary>
+		</member>
+		<member name="E:Palaso.UI.WindowsForms.Progress.ProgressDialog.CancelRequested">
+			<summary>
+			Raised when the cancel button is clicked
 			</summary>
 		</member>
 	</members>

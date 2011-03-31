@@ -15,8 +15,10 @@ namespace SayMore.UI.LowLevelControls
 	public class Slider : UserControl
 	{
 		public event EventHandler ValueChanged;
-		public event EventHandler BeforeUserMovingThumb;
 		public event EventHandler AfterUserMovingThumb;
+
+		public delegate void BeforeUserMovingThumbHandler(object sender, float newValue);
+		public event BeforeUserMovingThumbHandler BeforeUserMovingThumb;
 
 		private Orientation _orientation = Orientation.Horizontal;
 		private float _value;
@@ -152,6 +154,9 @@ namespace SayMore.UI.LowLevelControls
 				return 0;
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool UserIsMoving { get; private set; }
 
 		#endregion
 
@@ -350,18 +355,20 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
+			if (e.Button != MouseButtons.Left)
+				return;
+
+			var newValue = GetValueFromPoint(GetAdjustedMousePoint(e.Location));
+
+			if (BeforeUserMovingThumb != null)
+				BeforeUserMovingThumb(this, newValue);
+
+			base.OnMouseDown(e);
+
+			if (Enabled)
 			{
-				if (BeforeUserMovingThumb != null)
-					BeforeUserMovingThumb(this, EventArgs.Empty);
-
-				base.OnMouseDown(e);
-
-				if (Enabled)
-				{
-					Value = GetValueFromPoint(GetAdjustedMousePoint(e.Location));
-					_mouseDown = true;
-				}
+				Value = newValue;
+				_mouseDown = true;
 			}
 		}
 
@@ -380,7 +387,10 @@ namespace SayMore.UI.LowLevelControls
 			if (Enabled)
 			{
 				if (_mouseDown && rcHot.Contains(e.Location))
+				{
 					Value = GetValueFromPoint(GetAdjustedMousePoint(e.Location));
+					UserIsMoving = true;
+				}
 
 				if (ShowTooltip)
 					ManageTooltip(e.Location);
@@ -390,6 +400,7 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
+			UserIsMoving = false;
 			_mouseDown = false;
 			base.OnMouseUp(e);
 			Invalidate(_thumbRect);

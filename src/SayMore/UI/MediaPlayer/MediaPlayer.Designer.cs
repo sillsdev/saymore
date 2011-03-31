@@ -166,7 +166,7 @@ namespace SayMore.UI.MediaPlayer
 			this._sliderTime.Size = new System.Drawing.Size(305, 9);
 			this._sliderTime.TabIndex = 7;
 			this._sliderTime.TrackThickness = 3;
-			this._sliderTime.BeforeUserMovingThumb += new System.EventHandler(this.HandleSliderTimeBeforeUserMovingThumb);
+			this._sliderTime.BeforeUserMovingThumb += this.HandleSliderTimeBeforeUserMovingThumb;
 			this._sliderTime.AfterUserMovingThumb += new System.EventHandler(this.HandleSliderTimeAfterUserMovingThumb);
 			// 
 			// MediaPlayer

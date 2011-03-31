@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -14,37 +13,30 @@ namespace SayMore.UI.MediaPlayer
 		public event PlaybackPositionChangedHandler PlaybackPositionChanged;
 		public event EventHandler PlaybackPaused;
 		public event EventHandler PlaybackResumed;
-		//public event EventHandler PlaybackStarting;
 		public event EventHandler PlaybackEnded;
+		public event EventHandler PlaybackStarted;
 		public event EventHandler MediaQueued;
 		public event EventHandler VolumeChanged;
 
 		private const string kFmtTimeDisplay = "{0} / {1}";
 		private const string kFmtTime = "{0}.{1:0}";
 
-		private readonly StringBuilder _outputLog = new StringBuilder();
-		private Process _mplayer;
+		private readonly StringBuilder _mplayerStartInfo = new StringBuilder();
+		private MPlayerProcess _mplayer;
 		private StreamWriter _stdIn;
 		private float _prevPostion;
-		private float _volume = 25f;
-		private bool _paused;
-		private bool _volumeMuted;
-		private bool _playbackEnded;
+		private float _playbackStartPosition;
 		private string _filename;
 		private MPlayerOutputLogForm _formMPlayerOutputLog;
 		private Int32 _hwndVideo;
 		private DataReceivedEventHandler _outputDataHandler;
 		private DataReceivedEventHandler _errorDataHandler;
 
-		public float MediaFileLength { get; private set; }
-		public Size VideoPictureSize { get; private set; }
-		public bool IsForVideo { get; private set; }
-
 		#region Construction and initialization
 		/// ------------------------------------------------------------------------------------
 		public MediaPlayerViewModel()
 		{
-			VideoPictureSize = Size.Empty;
+			Volume = 25f;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,30 +57,6 @@ namespace SayMore.UI.MediaPlayer
 			_hwndVideo = hwndVideo;
 			_outputDataHandler = outputDataHandler;
 			_errorDataHandler = errorDataHandler;
-			Reinitialize();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void Reinitialize()
-		{
-			if (_hwndVideo == 0 || _outputDataHandler == null || _errorDataHandler == null)
-				throw new Exception("You must call Initialize before calling Reinitialize.");
-
-			_outputLog.Length = 0;
-
-			if (_mplayer != null)
-				ShutdownMPlayerProcess();
-
-			_mplayer = MPlayerHelper.StartProcessToMonitor(_hwndVideo,
-				_outputDataHandler, _errorDataHandler);
-
-			_outputLog.AppendLine("Command Line:");
-			_outputLog.Append(_mplayer.StartInfo.FileName);
-			_outputLog.Append(" ");
-			_outputLog.AppendLine(_mplayer.StartInfo.Arguments);
-			_outputLog.AppendLine();
-
-			_stdIn = _mplayer.StandardInput;
 		}
 
 		#endregion
@@ -98,10 +66,10 @@ namespace SayMore.UI.MediaPlayer
 		{
 			if (_mplayer != null && !_mplayer.HasExited)
 			{
-				Application.DoEvents();
-				_mplayer.Kill();
+				_mplayer.KillAndWaitForFileRelease();
 				_mplayer.Dispose();
 				_mplayer = null;
+				_stdIn = null;
 			}
 
 			if (_formMPlayerOutputLog != null)
@@ -114,93 +82,125 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public void LoadFile(string filename)
 		{
-			LoadFile(filename, false);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void LoadFile(string filename, bool playImmediately)
-		{
 			// REVIEW: Should something be reported to user if filename is not valid?
 			if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
 				return;
 
 			_filename = filename.Replace('\\', '/');
-			_stdIn.WriteLine(string.Format("loadfile \"{0}\" ", _filename));
-			_stdIn.WriteLine("volume 0 ");
+			MediaInfo = new MPlayerMediaInfo(filename);
+			OnMediaQueued();
+		}
 
-			if (playImmediately)
-				SendVolumeMessageToPlayer();
-			else
+		/// ------------------------------------------------------------------------------------
+		private void OnMediaQueued()
+		{
+			ShutdownMPlayerProcess();
+			HasPlaybackStarted = false;
+			_playbackStartPosition = 0;
+
+			if (MediaQueued != null && GetTotalMediaDuration() > 0f && (!MediaInfo.IsVideo ||
+				(MediaInfo.PictureSize.Width > 0 && MediaInfo.PictureSize.Height > 0)))
 			{
-				_paused = true;
-				_stdIn.WriteLine("pause ");
+				MediaQueued(this, EventArgs.Empty);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the duration plus the start time. For audio files, the start time is zero.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public float GetTotalMediaDuration()
+		{
+			return (MediaInfo == null ? 0f : MediaInfo.Duration + MediaInfo.StartTime);
 		}
 
 		#region Button state properties
 		/// ------------------------------------------------------------------------------------
 		public bool IsPlayButtonVisible
 		{
-			get { return (_paused || _playbackEnded); }
+			get { return (IsPaused || !HasPlaybackStarted); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool IsPauseButtonVisible
 		{
-			get { return (!_paused && !_playbackEnded); }
+			get { return (!IsPaused && HasPlaybackStarted); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool IsStopEnabled
 		{
-			get { return IsPauseButtonVisible; }
+			get { return HasPlaybackStarted; }
 		}
 
 		#endregion
 
 		#region Misc. Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns a string containing all the output from the MPlayer process.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string OutputLog
-		{
-			get { return _outputLog.ToString(); }
-
-		}
-		/// ------------------------------------------------------------------------------------
-		public bool IsPaused
-		{
-			get { return _paused; }
-		}
+		public bool HasPlaybackStarted { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public float Volume
-		{
-			get { return _volume; }
-		}
+		public bool IsPaused { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public bool IsVolumeMuted
-		{
-			get { return _volumeMuted; }
-		}
+		public float Volume { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsVolumeMuted { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public MPlayerMediaInfo MediaInfo { get; private set; }
 
 		#endregion
 
 		#region Play/Pause/Seek methods
 		/// ------------------------------------------------------------------------------------
+		public void ConfigurePlayingForTest()
+		{
+			HasPlaybackStarted = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void Play()
 		{
-			if (_playbackEnded)
-				LoadFile(_filename);
-
-			if (_paused)
-			{
+			if (!HasPlaybackStarted)
+				StartPlayback();
+			else if (IsPaused)
 				_stdIn.WriteLine("pause ");
-				SendVolumeMessageToPlayer();
-			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void StartPlayback()
+		{
+			if (_hwndVideo == 0)
+				throw new Exception("Media player needs a window handle.");
+
+			if (_outputDataHandler == null)
+				throw new Exception("Media player needs am output data handler.");
+
+			if (_errorDataHandler == null)
+				throw new Exception("Media player needs am error data handler.");
+
+			if (_mplayer != null)
+				ShutdownMPlayerProcess();
+
+			_mplayer = MPlayerHelper.StartProcessToMonitor(_playbackStartPosition,
+				Volume, _hwndVideo, _outputDataHandler, _errorDataHandler);
+
+			_mplayerStartInfo.AppendLine("Command Line:");
+			_mplayerStartInfo.Append(_mplayer.StartInfo.FileName);
+			_mplayerStartInfo.Append(" ");
+			_mplayerStartInfo.AppendLine(_mplayer.StartInfo.Arguments);
+			_mplayerStartInfo.AppendLine();
+
+			_mplayer.MediaFileName = _filename;
+			_stdIn = _mplayer.StandardInput;
+			_stdIn.WriteLine(string.Format("loadfile \"{0}\" ", _filename));
+			HasPlaybackStarted = true;
+
+			if (PlaybackStarted != null)
+				PlaybackStarted(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -210,20 +210,34 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public void Pause()
 		{
-			_stdIn.WriteLine("pause ");
+			if (_stdIn != null)
+				_stdIn.WriteLine("pause ");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Seek(float position)
 		{
-			_stdIn.WriteLine(string.Format("seek {0} 2", position));
+			if (_stdIn != null)
+			{
+				_stdIn.WriteLine(IsPaused ?
+					string.Format("pause {0}seek {1} 2", Environment.NewLine, position) :
+					string.Format("seek {0} 2", position));
+			}
+			else
+			{
+				_playbackStartPosition = position;
+				Play();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Stop()
 		{
-			_stdIn.WriteLine("stop ");
-			LoadFile(_filename);
+			if (HasPlaybackStarted)
+			{
+				_stdIn.WriteLine("stop ");
+				OnMediaQueued();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -231,8 +245,8 @@ namespace SayMore.UI.MediaPlayer
 		{
 			if (volume >= 0f && volume <= 100f)
 			{
-				_volume = volume;
-				if (!_paused)
+				Volume = volume;
+				if (!IsPaused)
 					SendVolumeMessageToPlayer();
 
 				if (VolumeChanged != null)
@@ -243,8 +257,8 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public void ToggleVolumeMute()
 		{
-			_volumeMuted = !_volumeMuted;
-			if (!_paused)
+			IsVolumeMuted = !IsVolumeMuted;
+			if (!IsPaused)
 				SendVolumeMessageToPlayer();
 		}
 
@@ -252,7 +266,7 @@ namespace SayMore.UI.MediaPlayer
 		private void SendVolumeMessageToPlayer()
 		{
 			if (_stdIn != null)
-				_stdIn.WriteLine(string.Format("volume {0} 1 ", _volumeMuted ? 0 : _volume));
+				_stdIn.WriteLine(string.Format("volume {0} 1 ", IsVolumeMuted ? 0 : Volume));
 		}
 
 		#endregion
@@ -266,11 +280,13 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public string GetTimeDisplay(float position)
 		{
-			if (position > MediaFileLength)
-				position = MediaFileLength;
+			var totalDuration = GetTotalMediaDuration();
+
+			if (position > totalDuration)
+				position = totalDuration;
 
 			return string.Format(kFmtTimeDisplay, MakeTimeString(position),
-				MakeTimeString(MediaFileLength));
+				MakeTimeString(totalDuration));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -293,11 +309,8 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public void HandlePlayerOutput(string data)
 		{
-			// REVIEW: Maybe this should output to a temp. file since it doesn't
-			// take a very long media file to generate gobs of output while playing.
-			_outputLog.AppendLine(data);
 			if (_formMPlayerOutputLog != null)
-				_formMPlayerOutputLog.UpdateLogDisplay(_outputLog.ToString());
+				_formMPlayerOutputLog.UpdateLogDisplay(data);
 
 			if (data.StartsWith("A: "))
 			{
@@ -305,61 +318,26 @@ namespace SayMore.UI.MediaPlayer
 			}
 			else if (data.StartsWith("EOF code:"))
 			{
-				_playbackEnded = true;
-				_paused = true;
+				OnMediaQueued();
+				IsPaused = true;
 
 				if (PlaybackEnded != null)
 					PlaybackEnded(this, EventArgs.Empty);
 			}
-			else if (data.StartsWith("ID_LENGTH="))
-			{
-				MediaFileLength = float.Parse(data.Substring(10));
-				CheckIfAllMediaQueuedInfoFound();
-			}
-			else if (data.StartsWith("ID_VIDEO_WIDTH="))
-			{
-				VideoPictureSize = new Size(int.Parse(data.Substring(15)), VideoPictureSize.Height);
-				CheckIfAllMediaQueuedInfoFound();
-			}
-			else if (data.StartsWith("ID_VIDEO_HEIGHT="))
-			{
-				VideoPictureSize = new Size(VideoPictureSize.Width, int.Parse(data.Substring(16)));
-				CheckIfAllMediaQueuedInfoFound();
-			}
 			else if (data.StartsWith("ID_PAUSED"))
 			{
-				_paused = true;
+				IsPaused = true;
 				if (PlaybackPaused != null)
 					PlaybackPaused(this, EventArgs.Empty);
-			}
-			else if (data.StartsWith("ID_VIDEO_FORMAT"))
-			{
-				IsForVideo = true;
-			}
-			//else if (data.StartsWith("ANS_volume="))
-			//{
-			//    _volume = float.Parse(data.Substring(11));
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void CheckIfAllMediaQueuedInfoFound()
-		{
-			if (MediaQueued != null && MediaFileLength > 0f && (!IsForVideo ||
-				(VideoPictureSize.Width > 0 && VideoPictureSize.Height > 0)))
-			{
-				MediaQueued(this, EventArgs.Empty);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void ProcessPlaybackPositionMessage(string data)
 		{
-			_playbackEnded = false;
-
-			if (_paused)
+			if (IsPaused)
 			{
-				_paused = false;
+				IsPaused = false;
 				if (PlaybackResumed != null)
 					PlaybackResumed(this, EventArgs.Empty);
 			}
@@ -370,8 +348,9 @@ namespace SayMore.UI.MediaPlayer
 
 			_prevPostion = position;
 
-			if (position > MediaFileLength)
-				position = MediaFileLength;
+			var totalDuration = GetTotalMediaDuration();
+			if (position > totalDuration)
+				position = totalDuration;
 
 			if (PlaybackPositionChanged != null)
 				PlaybackPositionChanged(this, position);
@@ -386,10 +365,10 @@ namespace SayMore.UI.MediaPlayer
 			if (show)
 			{
 				if (_formMPlayerOutputLog != null)
-					_formMPlayerOutputLog.UpdateLogDisplay(_outputLog.ToString());
+					_formMPlayerOutputLog.UpdateLogDisplay(_mplayerStartInfo.ToString());
 				else
 				{
-					_formMPlayerOutputLog = new MPlayerOutputLogForm(_outputLog.ToString());
+					_formMPlayerOutputLog = new MPlayerOutputLogForm(_mplayerStartInfo.ToString());
 					_formMPlayerOutputLog.FormClosing += HandleOutputLogFormClosing;
 					_formMPlayerOutputLog.Show();
 				}

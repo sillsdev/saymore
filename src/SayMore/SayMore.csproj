@@ -550,7 +550,7 @@
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
     <Compile Include="Model\Files\DataGathering\UniqueCombinationsFinder.cs" />
     <Compile Include="UI\Utilities\MPlayerHelper.cs">
-      <SubType>Form</SubType>
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

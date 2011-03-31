@@ -122,7 +122,7 @@ namespace SayMore.UI.ProjectWindow
 
 		private void AboutDialog_Load(object sender, System.EventArgs e)
 		{
-			UsageReporter.SendNavigationNotice("AboutBox");
+			//UsageReporter.SendNavigationNotice("AboutBox");
 		}
 	}
 }

@@ -22,6 +22,7 @@ namespace SayMore.UI.MediaPlayer
 			InitializeComponent();
 			DoubleBuffered = true;
 
+			_panelVideoSurface.BackgroundImageLayout = ImageLayout.Center;
 			_panelVideoSurface.BackColor = _panelContainer.BackColor;
 			_toolbarButtons.Renderer.RenderToolStripBorder += HandleButtonBarBorderPainting;
 			CreateHandle();
@@ -47,6 +48,7 @@ namespace SayMore.UI.MediaPlayer
 			_viewModel.PlaybackPaused += HandlePlaybackPausedResumed;
 			_viewModel.PlaybackResumed += HandlePlaybackPausedResumed;
 			_viewModel.PlaybackEnded += HandleMediaPlayEnded;
+			_viewModel.PlaybackStarted += HandleMediaPlayStarted;
 			_viewModel.PlaybackPositionChanged += HandlePlaybackPositionChanged;
 
 			UpdateButtons();
@@ -144,12 +146,15 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		private void AdjustVideoSurfaceSize()
 		{
-			if (_viewModel == null || _viewModel.VideoPictureSize.Width == 0 || _viewModel.VideoPictureSize.Height == 0)
+			if (_viewModel == null || _viewModel.MediaInfo == null ||
+				_viewModel.MediaInfo.PictureSize.Width == 0 || _viewModel.MediaInfo.PictureSize.Height == 0)
+			{
 				return;
+			}
 
 			var rc = Rectangle.Empty;
 			var usableRatio = (float)_panelContainer.Width / _panelContainer.Height;
-			var videoRatio = (float)_viewModel.VideoPictureSize.Width / _viewModel.VideoPictureSize.Height;
+			var videoRatio = (float)_viewModel.MediaInfo.PictureSize.Width / _viewModel.MediaInfo.PictureSize.Height;
 
 			if (usableRatio < videoRatio)
 			{
@@ -164,7 +169,9 @@ namespace SayMore.UI.MediaPlayer
 
 			rc.X = (_panelContainer.ClientSize.Width - rc.Width) / 2;
 			rc.Y = (_panelContainer.ClientSize.Height - rc.Height) / 2;
+
 			_panelVideoSurface.Bounds = rc;
+			_panelVideoSurface.BackgroundImage = _viewModel.MediaInfo.FullSizedThumbnail;
 		}
 
 		#endregion
@@ -206,22 +213,25 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		void HandleVolumePopupValueChanged(object sender, EventArgs e)
 		{
-			if (_viewModel != null)
-			{
-				if (_viewModel.IsVolumeMuted)
-				{
-					_viewModel.ToggleVolumeMute();
-					UpdateButtons();
-				}
+			if (_viewModel == null)
+				return;
 
-				_viewModel.SetVolume(((VolumePopup)sender).VolumeLevel);
+			if (_viewModel.IsVolumeMuted)
+			{
+				_viewModel.ToggleVolumeMute();
+				UpdateButtons();
 			}
+
+			_viewModel.SetVolume(((VolumePopup)sender).VolumeLevel);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleSliderTimeBeforeUserMovingThumb(object sender, EventArgs e)
+		private void HandleSliderTimeBeforeUserMovingThumb(object sender, float newValue)
 		{
-			HandleButtonPauseClick(null, null);
+			if (!_viewModel.IsPaused)
+				HandleButtonPauseClick(null, null);
+
+			_viewModel.PlaybackPositionChanged -= HandlePlaybackPositionChanged;
 			_sliderTime.ValueChanged += HandleSliderTimeValueChanged;
 		}
 
@@ -229,8 +239,8 @@ namespace SayMore.UI.MediaPlayer
 		private void HandleSliderTimeAfterUserMovingThumb(object sender, EventArgs e)
 		{
 			_sliderTime.ValueChanged -= HandleSliderTimeValueChanged;
-			HandleButtonPlayClick(null, null);
 			_viewModel.Seek(_sliderTime.Value);
+			_viewModel.PlaybackPositionChanged += HandlePlaybackPositionChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -292,7 +302,7 @@ namespace SayMore.UI.MediaPlayer
 		private void HandleMediaQueued(object sender, EventArgs e)
 		{
 			_sliderTime.SetValueWithoutEvent(0);
-			_sliderTime.Maximum = _viewModel.MediaFileLength;
+			_sliderTime.Maximum = _viewModel.GetTotalMediaDuration();
 			_sliderTime.Enabled = true;
 
 			AdjustVideoSurfaceSize();
@@ -304,14 +314,24 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		private void HandlePlaybackPositionChanged(object sender, float position)
 		{
-			UpdateTimeDisplay(position);
-			_sliderTime.SetValueWithoutEvent(position);
+			if (!_sliderTime.UserIsMoving)
+			{
+				UpdateTimeDisplay(position);
+				_sliderTime.SetValueWithoutEvent(position);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlayEnded(object sender, EventArgs e)
 		{
-			_sliderTime.Enabled = false;
+			//_sliderTime.Enabled = false;
+			//UpdateButtons();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleMediaPlayStarted(object sender, EventArgs e)
+		{
+			_panelVideoSurface.BackgroundImage = null;
 			UpdateButtons();
 		}
 

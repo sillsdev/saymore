@@ -137,6 +137,7 @@
     <Compile Include="UI\Overview\Statistics\StatisticsViewModelTests.cs" />
     <Compile Include="UI\ProjectWindow\AppSmokeTests.cs" />
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommandTests.cs" />
+    <Compile Include="UI\Utilities\MPlayerMediaInfoTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SayMore\SayMore.csproj">
@@ -146,16 +147,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Resources\shortSound.wav" />
+    <EmbeddedResource Include="Resources\shortSound.wav" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Statistics\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\shortVideo.wmv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

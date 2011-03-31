@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Xml;
 using NUnit.Framework;
-using Palaso.IO;
+using Palaso.TestUtilities;
 using SayMore.ClearShare;
 
 namespace SayMoreTests.ClearShare

@@ -19,6 +19,7 @@ namespace SayMore.Model.Files
 			MediaFilePath = mediaFilePath;
 			LengthInBytes = new FileInfo(mediaFilePath).Length;
 			_mediaInfo = MediaInfo.GetInfo(mediaFilePath);
+			ComponentFile.WaitForFileRelease(mediaFilePath);
 		}
 
 		#region Properties

@@ -1,10 +1,9 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using NUnit.Framework;
-using Palaso.IO;
 using SayMore.UI.MediaPlayer;
+using SayMoreTests.UI.Utilities;
 
 namespace SayMoreTests.UI.MediaPlayer
 {
@@ -60,18 +59,6 @@ namespace SayMoreTests.UI.MediaPlayer
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetTimeDisplayTest()
-		{
-			var length = (float)(new TimeSpan(23, 59, 59).TotalSeconds);
-			_model.HandlePlayerOutput("ID_LENGTH=" + length);
-
-			var ts = new TimeSpan(0, 2, 32, 54, 430);
-			var seconds = float.Parse(ts.TotalSeconds.ToString());
-			Assert.AreEqual("02:32:54.4 / 23:59:59.0", _model.GetTimeDisplay(seconds));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
 		public void HandlePlayerOutput_SendEOF_GetsPlaybackEndedEvent()
 		{
 			bool eventCalled = false;
@@ -82,20 +69,21 @@ namespace SayMoreTests.UI.MediaPlayer
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void HandlePlayerOutput_SendMediaLength_SetsProperty()
+		public void HandlePlayerOutput_SendEOF_GetsMediaQueuedEvent()
 		{
-			Assert.AreEqual(0f, _model.MediaFileLength);
-			_model.HandlePlayerOutput("ID_LENGTH=172.8");
-			Assert.AreEqual(172.8f, _model.MediaFileLength);
-		}
+			var file = LoadMediaFile();
+			bool eventCalled = false;
+			_model.MediaQueued += ((sender, e) => eventCalled = true);
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void HandlePlayerOutput_SendVideoFormat_SetsProperty()
-		{
-			Assert.IsFalse(_model.IsForVideo);
-			_model.HandlePlayerOutput("ID_VIDEO_FORMAT");
-			Assert.IsTrue(_model.IsForVideo);
+			try
+			{
+				_model.HandlePlayerOutput("EOF code:");
+				Assert.IsTrue(eventCalled);
+			}
+			finally
+			{
+				File.Delete(file);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,49 +93,6 @@ namespace SayMoreTests.UI.MediaPlayer
 			bool eventCalled = false;
 			_model.PlaybackPaused += ((sender, e) => eventCalled = true);
 			_model.HandlePlayerOutput("ID_PAUSED");
-			Assert.IsTrue(eventCalled);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void HandlePlayerOutput_SendVideoWidth_SetsProperty()
-		{
-			Assert.AreEqual(new Size(0, 0), _model.VideoPictureSize);
-			_model.HandlePlayerOutput("ID_VIDEO_WIDTH=320");
-			Assert.AreEqual(new Size(320, 0), _model.VideoPictureSize);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void HandlePlayerOutput_SendVideoHeight_SetsProperty()
-		{
-			Assert.AreEqual(new Size(0, 0), _model.VideoPictureSize);
-			_model.HandlePlayerOutput("ID_VIDEO_HEIGHT=240");
-			Assert.AreEqual(new Size(0, 240), _model.VideoPictureSize);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void HandlePlayerOutput_SendAllMediaInfoForVideo_GetsMediaQueuedEvent()
-		{
-			_model.HandlePlayerOutput("ID_VIDEO_FORMAT");
-			bool eventCalled = false;
-			_model.MediaQueued += ((sender, e) => eventCalled = true);
-			_model.HandlePlayerOutput("ID_LENGTH=172.8");
-			Assert.IsFalse(eventCalled);
-			_model.HandlePlayerOutput("ID_VIDEO_WIDTH=320");
-			Assert.IsFalse(eventCalled);
-			_model.HandlePlayerOutput("ID_VIDEO_HEIGHT=240");
-			Assert.IsTrue(eventCalled);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void HandlePlayerOutput_SendAllMediaInfoForAudio_GetsMediaQueuedEvent()
-		{
-			bool eventCalled = false;
-			_model.MediaQueued += ((sender, e) => eventCalled = true);
-			_model.HandlePlayerOutput("ID_LENGTH=172.8");
 			Assert.IsTrue(eventCalled);
 		}
 
@@ -253,6 +198,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		[Test]
 		public void Stop_Call_WritesToInputStream()
 		{
+			_model.ConfigurePlayingForTest();
 			_model.Stop();
 			VerifyStreamContent("stop \r\n");
 		}
@@ -269,44 +215,93 @@ namespace SayMoreTests.UI.MediaPlayer
 		[Test]
 		public void Play_CallWhenPaused_WritesToInputStream()
 		{
+			_model.ConfigurePlayingForTest();
 			_model.HandlePlayerOutput("ID_PAUSED");
 			_model.Play();
-			VerifyStreamContent(string.Format("pause \r\nvolume {0} 1 \r\n", _model.Volume));
+			VerifyStreamContent("pause \r\n");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void Play_CallWhenNotPaused_DoesNotWriteToInputStream()
 		{
+			_model.ConfigurePlayingForTest();
 			_model.Play();
 			VerifyStreamContent(string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void LoadFile_CallPlayImmediately_WritesToInputStream()
+		public void LoadFile_Called_CallsQueuesMediaEvent()
 		{
-			var vol = _model.Volume;
+			bool eventCalled = false;
+			_model.MediaQueued += ((sender, e) => eventCalled = true);
+			var file = LoadMediaFile();
 
-			using (var file = new TempFile())
+			try
 			{
-				_model.LoadFile(file.Path, true);
-				var path = file.Path.Replace('\\', '/');
-				VerifyStreamContent(string.Format(
-					"loadfile \"{0}\" \r\nvolume 0 \r\nvolume {1} 1 \r\n", path, vol));
+				Assert.IsTrue(eventCalled);
+			}
+			finally
+			{
+				File.Delete(file);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void LoadFile_CallDoNotPlayImmediately_WritesToInputStream()
+		public void LoadFile_Called_MediaInfoAcquired()
 		{
-			using (var file = new TempFile())
+			Assert.IsNull(_model.MediaInfo);
+			var file = LoadMediaFile();
+
+			try
 			{
-				_model.LoadFile(file.Path, false);
-				var path = file.Path.Replace('\\', '/');
-				VerifyStreamContent(string.Format("loadfile \"{0}\" \r\nvolume 0 \r\npause \r\n", path));
+				// Don't really need to check any more MediaInfo
+				// properties since other test fixtures will do that.
+				Assert.IsNotNull(_model.MediaInfo);
+				Assert.IsTrue(_model.MediaInfo.IsVideo);
 			}
+			finally
+			{
+				File.Delete(file);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void LoadFile_Called_TerminatesPlayback()
+		{
+			_model.ConfigurePlayingForTest();
+			Assert.IsTrue(_model.HasPlaybackStarted);
+			var file = LoadMediaFile();
+
+			try
+			{
+				Assert.IsFalse(_model.HasPlaybackStarted);
+			}
+			finally
+			{
+				File.Delete(file);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string LoadMediaFile()
+		{
+			var file = MPlayerMediaInfoTests.GetTestVideoFile();
+
+			try
+			{
+				_model.LoadFile(file);
+			}
+			catch
+			{
+				File.Delete(file);
+				throw;
+			}
+
+			return file;
 		}
 
 		/// ------------------------------------------------------------------------------------

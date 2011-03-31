@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Code;
@@ -484,19 +485,20 @@ namespace SayMore.Model.Files
 					string label = string.Format("Rename For {0}", role.Name);
 					ComponentRole role1 = role;
 					ToolStripMenuItem toolStripMenuItem = new ToolStripMenuItem(label, null, (sender, args) =>
-																								 {
-																									 if (PreRenameAction != null)
-																										 PreRenameAction();
+					{
+						if (PreRenameAction != null)
+							PreRenameAction();
 
-																									 AssignRole(role1);
+						AssignRole(role1);
 
-																									 if (refreshAction != null)
-																										 refreshAction();
+						if (refreshAction != null)
+							refreshAction();
 
-																									 if (PostRenameAction != null)
-																										 PostRenameAction();
+						if (PostRenameAction != null)
+							PostRenameAction();
 
-																								 }) { Tag = "rename" };
+					}) { Tag = "rename" };
+
 					//disable if the file is already named appropriately for this role
 					toolStripMenuItem.Enabled = !role.IsMatch(PathToAnnotatedFile);
 					yield return toolStripMenuItem;
@@ -718,6 +720,33 @@ namespace SayMore.Model.Files
 			}
 
 			Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Waits for the lock on a file to be released. The method will give up after waiting
+		/// for 10 seconds.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void WaitForFileRelease(string filePath)
+		{
+			var timeout = DateTime.Now.AddSeconds(10);
+
+			// Now wait until the mplayer process lets go of the file.
+			while (true)
+			{
+				try
+				{
+					Thread.Sleep(100);
+					File.OpenWrite(filePath).Close();
+					return;
+				}
+				catch
+				{
+					if (DateTime.Now >= timeout)
+						return;
+				}
+			}
 		}
 	}
 }

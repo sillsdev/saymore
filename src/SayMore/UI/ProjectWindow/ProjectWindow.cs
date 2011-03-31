@@ -150,9 +150,9 @@ namespace SayMore.UI.ProjectWindow
 		private void HandleHelpClick(object sender, EventArgs e)
 		{
 			//nb: when the file is in our source code, and not in the program directory, windows security will squak and then not show content.
-			var path = FileLocator.GetFileDistributedWithApplication(false,"SayMore.chm");
+			var path = FileLocator.GetFileDistributedWithApplication(false, "SayMore.chm");
 			Process.Start(path);
-			UsageReporter.SendNavigationNotice("Help");
+			//UsageReporter.SendNavigationNotice("Help");
 		}
 		/// ------------------------------------------------------------------------------------
 		private void HandleCommandMenuItemClick(object sender, EventArgs e)
@@ -187,7 +187,7 @@ namespace SayMore.UI.ProjectWindow
 			if (view.MainMenuItem != null)
 				view.MainMenuItem.Visible = true;
 
-			UsageReporter.SendNavigationNotice(view.NameForUsageReporting);
+			//UsageReporter.SendNavigationNotice(view.NameForUsageReporting);
 		}
 
 		/// ------------------------------------------------------------------------------------

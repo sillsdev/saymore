@@ -7,6 +7,7 @@ using Localization;
 using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
+using SayMore.UI.Utilities;
 using SilUtils;
 
 namespace SayMore
@@ -40,7 +41,6 @@ namespace SayMore
 				Settings.Default.NeedUpgrade = false;
 				Settings.Default.Save();
 			}
-
 
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(true);
@@ -133,8 +133,7 @@ namespace SayMore
 
 			_applicationContainer.CloseSplashScreen();
 
-			Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-				new Palaso.Reporting.ShowAlwaysPolicy(), error,
+			ErrorReport.NotifyUserOfProblem(new ShowAlwaysPolicy(), error,
 				"{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.",
 				Application.ProductName, Path.GetFileNameWithoutExtension(projectPath));
 
@@ -186,11 +185,16 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private static void SetUpErrorHandling()
 		{
-			Palaso.Reporting.ErrorReport.AddProperty("EmailAddress", "issues@saymore.palaso.org");
-			Palaso.Reporting.ErrorReport.AddStandardProperties();
-			Palaso.Reporting.ExceptionHandler.Init();
+			Application.ApplicationExit += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
+			Application.ThreadException += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
+			AppDomain.CurrentDomain.UnhandledException += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
+
+			ErrorReport.AddProperty("EmailAddress", "issues@saymore.palaso.org");
+			ErrorReport.AddStandardProperties();
+			ExceptionHandler.Init();
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private static void SetUpReporting()
 		{
 			if (Settings.Default.Reporting == null)
@@ -198,7 +202,8 @@ namespace SayMore
 				Settings.Default.Reporting = new ReportingSettings();
 				Settings.Default.Save();
 			}
-			UsageReporter.Init(Settings.Default.Reporting, "saymore.palaso.org", "UA-22170471-3");
+
+			//UsageReporter.Init(Settings.Default.Reporting, "saymore.palaso.org", "UA-22170471-3");
 		}
 	}
 }

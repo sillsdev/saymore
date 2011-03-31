@@ -61,7 +61,7 @@ namespace SayMore.UI.ComponentEditors
 														break;
 													}
 												}
-												catch (Exception e)
+												catch
 												{
 													Thread.Sleep(100);
 												}

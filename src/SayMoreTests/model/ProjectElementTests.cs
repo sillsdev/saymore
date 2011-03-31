@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Palaso.IO;
 using Palaso.TestUtilities;
 using SayMore;
 using SayMore.Model;

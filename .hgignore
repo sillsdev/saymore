@@ -43,3 +43,7 @@ glob:src/SayMore/obj/*
 glob:src/SayMoreTests/obj/*
 glob:src/Sponge/obj/*
 glob:src/SpongeTests/obj/*
+glob:lib/dotnet/Palaso.Media.pdb
+glob:lib/dotnet/Palaso.TestUtilities.pdb
+glob:lib/dotnet/PalasoUIWindowsForms.pdb
+glob:lib/dotnet/Palaso.pdb

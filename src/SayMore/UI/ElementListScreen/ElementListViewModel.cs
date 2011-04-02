@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.ComponentEditors;
@@ -41,6 +44,27 @@ namespace SayMore.UI.ElementListScreen
 		public IEnumerable<ComponentFile> GetComponentsOfSelectedElement()
 		{
 			return (SelectedElement == null ? new ComponentFile[] { } : _componentFiles);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool VerifyAllElementsStillExist()
+		{
+			var bldr = new StringBuilder();
+
+			foreach (var element in Elements.Where(element => !Directory.Exists(element.FolderPath)))
+			{
+				int i = element.FolderPath.LastIndexOf(Path.DirectorySeparatorChar);
+				bldr.AppendLine(element.FolderPath.Substring(i + 1));
+			}
+
+			if (bldr.Length == 0)
+				return true;
+
+			var msg = "The folders for the following elements have been removed from your computer. Therefore, SayMore will remove them from the list.";
+			bldr.Insert(0, msg + Environment.NewLine + Environment.NewLine);
+			Palaso.Reporting.ErrorReport.NotifyUserOfProblem(bldr.ToString());
+			RefreshElementList();
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------

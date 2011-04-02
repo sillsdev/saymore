@@ -55,6 +55,7 @@ namespace SayMoreTests.UI.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void MPlayerMediaInfo_CreateAudio_ContainsCorrectInfo()
 		{
 			var tmpfile = GetTestAudioFile();
@@ -75,6 +76,7 @@ namespace SayMoreTests.UI.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void MPlayerMediaInfo_CreateVideo_ContainsCorrectInfo()
 		{
 			var tmpfile = GetTestVideoFile();

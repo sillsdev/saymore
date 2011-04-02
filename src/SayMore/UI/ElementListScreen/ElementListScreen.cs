@@ -100,9 +100,19 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleParentFormActivated(object sender, EventArgs e)
 		{
+			var frm = FindForm();
+			if (frm != null)
+				frm.Activated -= HandleParentFormActivated;
+
+			if (!_model.VerifyAllElementsStillExist())
+				LoadElementList();
+
 			// Do this in case some of the meta data changed (e.g. audio file was edited)
 			// while the program was deactivated.
 			Refresh();
+
+			if (frm != null)
+				frm.Activated += HandleParentFormActivated;
 		}
 
 		/// ------------------------------------------------------------------------------------

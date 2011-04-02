@@ -69,6 +69,7 @@ namespace SayMoreTests.UI.MediaPlayer
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void HandlePlayerOutput_SendEOF_GetsMediaQueuedEvent()
 		{
 			var file = LoadMediaFile();
@@ -232,6 +233,7 @@ namespace SayMoreTests.UI.MediaPlayer
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void LoadFile_Called_CallsQueuesMediaEvent()
 		{
 			bool eventCalled = false;
@@ -250,6 +252,7 @@ namespace SayMoreTests.UI.MediaPlayer
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[Category("SkipOnTeamCity")]
 		public void LoadFile_Called_MediaInfoAcquired()
 		{
 			Assert.IsNull(_model.MediaInfo);

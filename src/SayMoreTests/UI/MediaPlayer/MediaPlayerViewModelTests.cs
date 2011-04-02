@@ -290,6 +290,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		private string LoadMediaFile()
 		{
 			var file = MPlayerMediaInfoTests.GetTestVideoFile();
+			Assert.IsTrue(File.Exists(file));
 
 			try
 			{

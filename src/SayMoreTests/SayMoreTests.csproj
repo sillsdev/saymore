@@ -131,6 +131,7 @@
     <Compile Include="UI\Charts\HTMLChartBuilderTests.cs" />
     <Compile Include="UI\ComponentEditors\ImageViewerViewModelTests.cs" />
     <Compile Include="UI\ElementListScreen\ElementGridTests.cs" />
+    <Compile Include="UI\ElementListScreen\ElementListViewModelTests.cs" />
     <Compile Include="UI\LowLevelControls\ListPanelTests.cs" />
     <Compile Include="UI\LowLevelControls\MultiValuePickerPopupTests.cs" />
     <Compile Include="UI\MediaPlayer\MediaPlayerViewModelTests.cs" />

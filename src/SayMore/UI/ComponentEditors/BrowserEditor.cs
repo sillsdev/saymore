@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
+using SayMore.Properties;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -23,7 +24,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private static bool GetShouldAvoidShowingInBrowserControl(string filePath)
 		{
-			return (".doc;.odt;.ppt;.xls").Contains(Path.GetExtension(filePath));
+			return (Settings.Default.FileTypesToAvoidLoadingInBrowserEditor).Contains(Path.GetExtension(filePath));
 		}
 
 		/// ------------------------------------------------------------------------------------

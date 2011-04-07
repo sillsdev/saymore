@@ -295,5 +295,8 @@
     <Setting Name="Reporting" Type="Palaso.Reporting.ReportingSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="FileTypesToAvoidLoadingInBrowserEditor" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.doc;.odt;.ppt;.xls</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

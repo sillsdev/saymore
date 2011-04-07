@@ -970,5 +970,14 @@ namespace SayMore.Properties {
                 this["Reporting"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".doc;.odt;.ppt;.xls")]
+        public string FileTypesToAvoidLoadingInBrowserEditor {
+            get {
+                return ((string)(this["FileTypesToAvoidLoadingInBrowserEditor"]));
+            }
+        }
     }
 }

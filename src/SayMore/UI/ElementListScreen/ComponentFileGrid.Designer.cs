@@ -34,7 +34,7 @@ namespace SayMore.UI.ElementListScreen
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
-			this._grid = new InternalComponentFileGrid();
+			this._grid = new SayMore.UI.ElementListScreen.InternalComponentFileGrid();
 			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
 			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,6 +48,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonConvert = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
+			this._buttonDelete = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this._panelOuter.SuspendLayout();
 			this._toolStripActions.SuspendLayout();
@@ -107,11 +108,10 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
 			this.colIcon.DataPropertyName = "SmallIcon";
-			this.colIcon.HeaderText = "";
 			this.colIcon.Name = "colIcon";
 			this.colIcon.ReadOnly = true;
 			this.colIcon.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.colIcon.Width = 5;
+			this.colIcon.Width = 52;
 			// 
 			// colName
 			// 
@@ -186,7 +186,8 @@ namespace SayMore.UI.ElementListScreen
             this._buttonOpen,
             this._buttonRename,
             this._buttonConvert,
-            this._buttonAddFiles});
+            this._buttonAddFiles,
+            this._buttonDelete});
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
 			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
@@ -237,14 +238,25 @@ namespace SayMore.UI.ElementListScreen
 			// _buttonAddFiles
 			// 
 			this._buttonAddFiles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._buttonAddFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonAddFiles.Image = ((System.Drawing.Image)(resources.GetObject("_buttonAddFiles.Image")));
+			this._buttonAddFiles.Image = global::SayMore.Properties.Resources.Add;
 			this._buttonAddFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this._buttonAddFiles.Name = "_buttonAddFiles";
-			this._buttonAddFiles.Size = new System.Drawing.Size(68, 20);
+			this._buttonAddFiles.Size = new System.Drawing.Size(84, 20);
 			this._buttonAddFiles.Text = "Add Files...";
 			this._buttonAddFiles.ToolTipText = "Add Files to the event";
 			this._buttonAddFiles.Click += new System.EventHandler(this.HandleAddButtonClick);
+			// 
+			// _buttonDelete
+			// 
+			this._buttonDelete.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._buttonDelete.Image = global::SayMore.Properties.Resources.Delete;
+			this._buttonDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this._buttonDelete.Margin = new System.Windows.Forms.Padding(0, 1, 7, 2);
+			this._buttonDelete.Name = "_buttonDelete";
+			this._buttonDelete.Size = new System.Drawing.Size(60, 20);
+			this._buttonDelete.Text = "Delete";
+			this._buttonDelete.ToolTipText = "Delete Selected File";
+			this._buttonDelete.Click += new System.EventHandler(this.HandleDeleteButtonClick);
 			// 
 			// ComponentFileGrid
 			// 
@@ -276,6 +288,7 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDuration;
+		private System.Windows.Forms.ToolStripButton _buttonDelete;
 
 	}
 }

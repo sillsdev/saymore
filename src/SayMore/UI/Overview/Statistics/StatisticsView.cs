@@ -93,7 +93,7 @@ namespace SayMore.UI.Overview.Statistics
 			if (_webBrowser.Document == null || _model.IsBusy)
 				return;
 
-#if !MONO
+#if !__MonoCS__
 			const string regKeyPath = @"Software\Microsoft\Internet Explorer\PageSetup";
 
 			var regKey = Registry.CurrentUser.OpenSubKey(regKeyPath, true);
@@ -106,7 +106,7 @@ namespace SayMore.UI.Overview.Statistics
 
 			_webBrowser.ShowPrintDialog();
 
-#if !MONO
+#if !__MonoCS__
 			if (!isIEPageSetupSetToPrintingBkgndColor)
 				regKey.SetValue("Print_Background", "no", RegistryValueKind.String);
 

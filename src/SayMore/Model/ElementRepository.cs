@@ -129,7 +129,7 @@ namespace SayMore.Model
 
 			try
 			{
-#if !MONO
+#if !__MonoCS__
 				FileSystem.DeleteDirectory(item.FolderPath,
 					(Settings.Default.PreventDeleteElementSystemConfirmationMessage ?
 					UIOption.OnlyErrorDialogs : UIOption.AllDialogs), RecycleOption.SendToRecycleBin);

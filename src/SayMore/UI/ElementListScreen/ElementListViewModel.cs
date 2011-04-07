@@ -51,7 +51,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var bldr = new StringBuilder();
 
-			foreach (var element in Elements.Where(element => !Directory.Exists(element.FolderPath)))
+			foreach (var element in Elements.Where(e => !Directory.Exists(e.FolderPath)))
 			{
 				int i = element.FolderPath.LastIndexOf(Path.DirectorySeparatorChar);
 				bldr.AppendLine(element.FolderPath.Substring(i + 1));
@@ -138,6 +138,16 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool DeleteComponentFile(ComponentFile file)
+		{
+			if (!ComponentFile.MoveToRecycleBin(file))
+				return false;
+
+			_componentFiles = SelectedElement.GetComponentFiles().ToArray();
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void RefreshAfterIdChanged()
 		{
 			_componentFiles = SelectedElement.GetComponentFiles().ToArray();
@@ -152,11 +162,11 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public void DeactivateComponentEditors()
 		{
-			if (_currentEditorProviders != null)
-			{
-				foreach (var editor in _currentEditorProviders)
-					editor.Deactivate();
-			}
+			if (_currentEditorProviders == null)
+				return;
+
+			foreach (var editor in _currentEditorProviders)
+				editor.Deactivate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -181,7 +191,7 @@ namespace SayMore.UI.ElementListScreen
 		public bool Remove(string id)
 		{
 			var retVal = _repository.Remove(id);
-			if (retVal && SelectedElement.Id == id)
+			if (retVal && SelectedElement != null && SelectedElement.Id == id)
 				SelectedElement = null;
 
 			return retVal;

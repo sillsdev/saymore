@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using Localization;
+using SayMore.UI.LowLevelControls;
 using SilUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -32,6 +33,7 @@ namespace SayMore.UI.ElementListScreen
 		public Func<string[], DragDropEffects> FilesBeingDraggedOverGrid;
 		public Func<string[], bool> FilesDroppedOnGrid;
 		public Func<string[], bool> FilesAdded;
+		public Func<ComponentFile, bool> FileDeleted;
 		public Func<bool> IsOKToSelectDifferentFile;
 		public Func<bool> IsOKToDoFileOperation;
 
@@ -107,33 +109,35 @@ namespace SayMore.UI.ElementListScreen
 		public bool AddButtonVisible
 		{
 			get { return _buttonAddFiles.Visible; }
-			set
-			{
-				if (_buttonAddFiles.Visible != value)
-					_buttonAddFiles.Visible = value;
-			}
+			set { _buttonAddFiles.Visible = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool DeleteButtonEnabled
+		{
+			get { return _buttonDelete.Enabled; }
+			set { _buttonDelete.Enabled = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool DeleteButtonVisible
+		{
+			get { return _buttonDelete.Visible; }
+			set { _buttonDelete.Visible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool RenameButtonVisible
 		{
 			get { return _buttonRename.Visible; }
-			set
-			{
-				if (_buttonRename.Visible != value)
-					_buttonRename.Visible = value;
-			}
+			set { _buttonRename.Visible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool ConvertButtonVisible
 		{
 			get { return _buttonConvert.Visible; }
-			set
-			{
-				if (_buttonConvert.Visible != value)
-					_buttonConvert.Visible = value;
-			}
+			set { _buttonConvert.Visible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -221,18 +225,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleGridRowValidating(object sender, DataGridViewCellCancelEventArgs e)
-		{
-			e.Cancel = (IsOKToSelectDifferentFile != null && !IsOKToSelectDifferentFile());
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
 			if (Disposing)
 				return;
 
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
+			DeleteButtonEnabled = GetIsOKToDeleteCurrentFile();
 
 			if (null != AfterComponentSelected)
 				AfterComponentSelected(_grid.CurrentCellAddress.Y);
@@ -241,11 +240,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
-			var dataPropName = _grid.Columns[e.ColumnIndex].DataPropertyName;
-			var currElementFile = _files.ElementAt(e.RowIndex);
-
-			e.Value = (currElementFile == null ? null :
-				ReflectionHelper.GetProperty(currElementFile, dataPropName));
+			var propName = _grid.Columns[e.ColumnIndex].DataPropertyName;
+			var currFile = _files.ElementAt(e.RowIndex);
+			e.Value = (currFile == null ? null : ReflectionHelper.GetProperty(currFile, propName));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -290,6 +287,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public void TrySetComponent(string file)
 		{
+			if (string.IsNullOrEmpty(file))
+				return;
+
 			file = Path.GetFileName(file);
 			int i = 0;
 			foreach (var f in _files)
@@ -307,8 +307,18 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public void UpdateComponentFileList(IEnumerable<ComponentFile> componentFiles)
 		{
-			var currFile = (_grid.CurrentCellAddress.Y >= 0 && _files.Count() > 0 ?
-				_files.ElementAt(_grid.CurrentCellAddress.Y).PathToAnnotatedFile : null);
+			UpdateComponentFileList(componentFiles, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateComponentFileList(IEnumerable<ComponentFile> componentFiles,
+			ComponentFile fileToSelectAfterUpdate)
+		{
+			if (fileToSelectAfterUpdate == null)
+			{
+				fileToSelectAfterUpdate = (_grid.CurrentCellAddress.Y >= 0 && _files.Count() > 0 ?
+					_files.ElementAt(_grid.CurrentCellAddress.Y) : null);
+			}
 
 			_files = componentFiles;
 
@@ -316,27 +326,14 @@ namespace SayMore.UI.ElementListScreen
 			// event in the process of changing the row count but it fires it for rows that
 			// are no longer supposed to exist. This tends to happen when the row count was
 			// previously higher than the new value.
-
 			_grid.CellValueNeeded -= HandleFileGridCellValueNeeded;
 			_grid.RowCount = componentFiles.Count();
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.Invalidate();
 
-			if (currFile == null)
-				return;
-
 			// Try to select the same file that was selected before updating the list.
-			int i = 0;
-			foreach (var file in _files)
-			{
-				if (file.PathToAnnotatedFile == currFile)
-				{
-					_grid.CurrentCell = _grid[0, i];
-					break;
-				}
-
-				i++;
-			}
+			if (fileToSelectAfterUpdate != null)
+				TrySetComponent(fileToSelectAfterUpdate.PathToAnnotatedFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -353,7 +350,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleFileGridDragEnter(object sender, DragEventArgs e)
+		private void HandleFileGridDragEnter(object sender, DragEventArgs e)
 		{
 			e.Effect = DragDropEffects.None;
 
@@ -362,7 +359,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleFileGridDragDrop(object sender, DragEventArgs e)
+		private void HandleFileGridDragDrop(object sender, DragEventArgs e)
 		{
 			if (!GetIsOKToPerformFileOperation())
 				return;
@@ -382,7 +379,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleAddButtonClick(object sender, EventArgs e)
+		private void HandleAddButtonClick(object sender, EventArgs e)
 		{
 			if (!GetIsOKToPerformFileOperation())
 				return;
@@ -412,6 +409,32 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleDeleteButtonClick(object sender, EventArgs e)
+		{
+			int index = _grid.CurrentCellAddress.Y;
+			var currFile = _files.ElementAt(index);
+
+			if (currFile == null || FileDeleted == null || !FileDeleted(currFile))
+				return;
+
+			var msg = LocalizationManager.LocalizeString("Misc. Messages.DeleteComponentFileMsg",
+				"This will move '{0}' to the recycle bin?");
+
+			msg = string.Format(msg, Path.GetFileName(currFile.PathToAnnotatedFile));
+			if (DeleteMessageBox.Show(this, msg) != DialogResult.OK)
+				return;
+
+			var newList = _files.ToList();
+			newList.RemoveAt(index);
+
+			if (index == newList.Count)
+				index--;
+
+			UpdateComponentFileList(newList, newList[index]);
+			HandleFileGridCurrentRowChanged(null, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private bool GetIsOKToPerformFileOperation()
 		{
 			if (IsOKToDoFileOperation == null || IsOKToDoFileOperation())
@@ -419,6 +442,16 @@ namespace SayMore.UI.ElementListScreen
 
 			SystemSounds.Beep.Play();
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool GetIsOKToDeleteCurrentFile()
+		{
+			if (_grid.CurrentCellAddress.Y < 0 || _grid.CurrentCellAddress.Y >= _files.Count())
+				return false;
+
+			var currFile = _files.ElementAt(_grid.CurrentCellAddress.Y);
+			return !(currFile.FileType is EventFileType);
 		}
 	}
 

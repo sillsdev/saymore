@@ -103,6 +103,8 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._personComponentFileGrid.AddButtonEnabled = false;
 			this._personComponentFileGrid.AddButtonVisible = true;
+			this._personComponentFileGrid.DeleteButtonEnabled = false;
+			this._personComponentFileGrid.DeleteButtonVisible = true;
 			this._personComponentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._personComponentFileGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this._personComponentFileGrid.Location = new System.Drawing.Point(0, 0);

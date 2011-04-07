@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Localization;
+using Microsoft.VisualBasic.FileIO;
 using Palaso.Code;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
@@ -27,7 +28,7 @@ namespace SayMore.Model.Files
 	public class ComponentFile
 	{
 		#region Windows API stuff
-#if !MONO
+#if !__MonoCS__
 		public const uint SHGFI_DISPLAYNAME = 0x00000200;
 		public const uint SHGFI_TYPENAME = 0x400;
 		public const uint SHGFI_EXETYPE = 0x2000;
@@ -414,14 +415,15 @@ namespace SayMore.Model.Files
 		}
 
 #if notyet
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The roles various people have played in creating/editing this file.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public List<Contribution> Contributions
 		{
 			get; private set;
 		}
-
 #endif
 
 		/// ------------------------------------------------------------------------------------
@@ -641,7 +643,7 @@ namespace SayMore.Model.Files
 			smallIcon = null;
 			fileType = null;
 
-#if !MONO
+#if !__MonoCS__
 			var ext = Path.GetExtension(fullFilePath);
 			if (s_fileTypes.TryGetValue(ext, out fileType))
 			{
@@ -730,6 +732,17 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static void WaitForFileRelease(string filePath)
 		{
+			WaitForFileRelease(filePath, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Waits for the lock on a file to be released. The method will give up after waiting
+		/// for 10 seconds.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void WaitForFileRelease(string filePath, bool fileOpenedByThisProcess)
+		{
 			var timeout = DateTime.Now.AddSeconds(10);
 
 			// Now wait until the mplayer process lets go of the file.
@@ -737,7 +750,11 @@ namespace SayMore.Model.Files
 			{
 				try
 				{
-					Thread.Sleep(100);
+					if (fileOpenedByThisProcess)
+						Application.DoEvents();
+					else
+						Thread.Sleep(100);
+
 					File.OpenWrite(filePath).Close();
 					return;
 				}
@@ -748,5 +765,49 @@ namespace SayMore.Model.Files
 				}
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool MoveToRecycleBin(ComponentFile file)
+		{
+			try
+			{
+#if !__MonoCS__
+				FileSystem.DeleteFile(file.PathToAnnotatedFile,
+					(Settings.Default.PreventDeleteElementSystemConfirmationMessage ?
+					UIOption.OnlyErrorDialogs : UIOption.AllDialogs), RecycleOption.SendToRecycleBin);
+#else
+				// TODO: Find a way in Mono to send something to the recycle bin.
+				File.Delete(file.PathToAnnotatedFile);
+#endif
+			}
+			catch (Exception e)
+			{
+				ErrorReport.ReportNonFatalException(e);
+				return false;
+			}
+
+			try
+			{
+				// When moving the component file fails, we return false and report the error.
+				// If moving the meta data fails, we report it, but still return true since the
+				// component file is no longer in the project's folder and it's too complicated
+				// trying to undo moving a file to the recycle bin.
+#if !__MonoCS__
+				FileSystem.DeleteFile(file.PathToAnnotatedFile + ".meta",
+					(Settings.Default.PreventDeleteElementSystemConfirmationMessage ?
+					UIOption.OnlyErrorDialogs : UIOption.AllDialogs), RecycleOption.SendToRecycleBin);
+#else
+				// TODO: Find a way in Mono to send something to the recycle bin.
+				File.Delete(file.PathToAnnotatedFile + ".meta");
+#endif
+			}
+			catch (Exception e)
+			{
+				ErrorReport.ReportNonFatalException(e);
+			}
+
+			return true;
+		}
+
 	}
 }

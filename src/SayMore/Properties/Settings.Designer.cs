@@ -737,6 +737,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.SettingsDescriptionAttribute("This is used for tests and prevents the display of the confirmation dialog box wh" +
             "en moving deleted session and persons to the recycle bin.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool PreventDeleteElementSystemConfirmationMessage {
             get {
                 return ((bool)(this["PreventDeleteElementSystemConfirmationMessage"]));

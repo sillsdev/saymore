@@ -78,6 +78,7 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl = componentGrid;
 			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
+			_componentFilesControl.FileDeleted = HandleFileDeletedFromComponentGrid;
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.PostMenuCommandRefreshAction = HandlePostMenuCommandRefresh;
@@ -168,6 +169,12 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private bool HandleFileDeletedFromComponentGrid(ComponentFile file)
+		{
+			return _model.DeleteComponentFile(file);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected virtual void LoadElementList()
 		{
 			LoadElementList(null);
@@ -215,6 +222,7 @@ namespace SayMore.UI.ElementListScreen
 			{
 				_selectedEditorsTabControl = null;
 				_componentFilesControl.AddButtonEnabled = false;
+				_componentFilesControl.DeleteButtonEnabled = false;
 			}
 			else
 			{
@@ -267,6 +275,7 @@ namespace SayMore.UI.ElementListScreen
 			var currProviderKey = _model.GetSelectedProviderKey();
 
 			_componentFilesControl.AddButtonEnabled = (currProviderKey != null);
+
 			if (currProviderKey == null)
 				return;
 
@@ -342,8 +351,8 @@ namespace SayMore.UI.ElementListScreen
 			int itemCount = _elementsGrid.SelectedRows.Count;
 
 			var msg = (itemCount == 1 ?
-				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "This will permanently remove 1 item.") :
-				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "This will permanently remove {0} items."));
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "This will move 1 item to the recycle bin?") :
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "This will move {0} items to the recycle bin."));
 
 			msg = string.Format(msg, itemCount);
 			return (DeleteMessageBox.Show(this, msg) == DialogResult.OK);

@@ -10,7 +10,7 @@ namespace SayMore.UI.ElementListScreen
 {
 	public partial class StagesControlToolTip : Form
 	{
-#if !MONO
+#if !__MonoCS__
 		[DllImport("user32.dll", EntryPoint = "SetWindowPos")]
 		public static extern IntPtr SetWindowPos(IntPtr hWnd,
 			int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
@@ -100,7 +100,7 @@ namespace SayMore.UI.ElementListScreen
 				_tableLayout.Height + (_tableLayout.Top * 2));
 
 			Show();
-#if !MONO
+#if !__MonoCS__
 			// There are some cases when showing the window doesn't bring it to the
 			// front. e.g. after dropping down a menu, this tooltip form no longer
 			// get's displayed on top of the main window's form. Therefore, we need

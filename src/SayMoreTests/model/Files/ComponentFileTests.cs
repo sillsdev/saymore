@@ -17,7 +17,7 @@ namespace SayMoreTests.Model.Files
 		[SetUp]
 		public void Setup()
 		{
-			_parentFolder = new TemporaryFolder("fileTypeTest");
+			_parentFolder = new TemporaryFolder("componentFileTest");
 		}
 
 		private string ParentFolderName
@@ -47,16 +47,69 @@ namespace SayMoreTests.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private ComponentFile CreateComponentFile(ProjectElement parentElement, string fileName)
+		public ComponentFile CreateComponentFile(ProjectElement parentElement, string fileName)
 		{
-			File.WriteAllText(_parentFolder.Combine(fileName), @"hello");
+			return CreateComponentFile(_parentFolder, parentElement, fileName);
+		}
 
-			var cf = new ComponentFile(parentElement, _parentFolder.Combine(fileName),
+		/// ------------------------------------------------------------------------------------
+		public static ComponentFile CreateComponentFile(TemporaryFolder parentFolder,
+			ProjectElement parentElement, string fileName)
+		{
+			File.WriteAllText(parentFolder.Combine(fileName), @"hello");
+
+			var cf = new ComponentFile(parentElement, parentFolder.Combine(fileName),
 				new[] { FileType.Create("Text", ".txt"), new UnknownFileType(null, null) },
 				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 
 			cf.Save(); //creates the meta file path
+
+			Assert.IsTrue(File.Exists(parentFolder.Combine(fileName)));
+			Assert.IsTrue(File.Exists(parentFolder.Combine(fileName + ".meta")));
+
 			return cf;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void MoveToRecycleBin_MoveBothFileAndMetaFile_MovesFiles()
+		{
+			var f = CreateComponentFile("abc.zzz");
+
+			Assert.IsTrue(ComponentFile.MoveToRecycleBin(f));
+			Assert.IsFalse(File.Exists(_parentFolder.Combine("abc.zzz")));
+			Assert.IsFalse(File.Exists(_parentFolder.Combine("abc.zzz.meta")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void MoveToRecycleBin_MissingComponentFile_Fails()
+		{
+			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			var f = CreateComponentFile("abc.zzz");
+
+			File.Delete(_parentFolder.Combine("abc.zzz"));
+			Assert.IsFalse(File.Exists(_parentFolder.Combine("abc.zzz")));
+
+			using (new Palaso.Reporting.ErrorReport.NonFatalErrorReportExpected())
+				Assert.IsFalse(ComponentFile.MoveToRecycleBin(f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void MoveToRecycleBin_MissingMetadataFile_FailsButReturnsTrue()
+		{
+			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+			var f = CreateComponentFile("abc.zzz");
+
+			File.Delete(_parentFolder.Combine("abc.zzz.meta"));
+			Assert.IsFalse(File.Exists(_parentFolder.Combine("abc.zzz.meta")));
+
+			using (new Palaso.Reporting.ErrorReport.NonFatalErrorReportExpected())
+				Assert.IsTrue(ComponentFile.MoveToRecycleBin(f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -307,7 +360,6 @@ namespace SayMoreTests.Model.Files
 			ComponentFile f = CreateComponentFileWithRoleChoices("abc_Translation.txt");
 			Assert.AreEqual("translation", f.GetAssignedRoles(typeof(Event)).First().Name);
 		}
-
 
 		[Test]
 		[Category("SkipOnTeamCity")]

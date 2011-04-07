@@ -114,7 +114,7 @@ namespace SayMore.UI.Utilities
 				cmdLine = string.Format("-slave -noquiet -idle " +
 					"-msglevel identify=9:global=9 -nofontconfig -autosync 100 -priority abovenormal " +
 					" −osdlevel 0 -ss {0} -volume {1} -fixed-vo -wid {2} ", startPosition, volume, hwndVideo);
-#if !MONO
+#if !__MonoCS__
 				cmdLine += " -vo gl";
 #endif
 			}

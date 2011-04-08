@@ -454,9 +454,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ToolStripItem> GetMenuCommands(Action refreshAction)
 		{
-			foreach (FileCommand cmd in FileType.GetCommands(PathToAnnotatedFile))
+			foreach (var cmd in FileType.GetCommands(PathToAnnotatedFile))
 			{
-				FileCommand cmd1 = cmd;// needed to avoid "access to modified closure". I.e., avoid executing the wrong command.
+				var cmd1 = cmd;// needed to avoid "access to modified closure". I.e., avoid executing the wrong command.
 				if (cmd1 == null)
 					yield return new ToolStripSeparator();
 				else

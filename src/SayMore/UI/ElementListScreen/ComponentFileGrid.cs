@@ -64,7 +64,6 @@ namespace SayMore.UI.ElementListScreen
 			_grid.CellMouseClick += HandleFileGridCellMouseClick;
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
-			//_grid.RowValidating += HandleGridRowValidating;
 			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
 			_grid.Paint += HandleFileGridPaint;
 			_grid.ClientSizeChanged += HandleFileGridClientSizeChanged;
@@ -78,6 +77,9 @@ namespace SayMore.UI.ElementListScreen
 			_grid.FullRowFocusRectangleColor = _grid.DefaultCellStyle.SelectionBackColor;
 			_grid.DefaultCellStyle.SelectionBackColor = clr;
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
+
+			_buttonDelete.Click += ((s, e) => DeleteFile());
+			_menuDeleteFile.Click += ((s, e) => DeleteFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,8 +207,18 @@ namespace SayMore.UI.ElementListScreen
 			if (ShowContextMenu)
 			{
 				var file = _files.ElementAt(e.RowIndex);
+
+				var deleteMenu = _menuDeleteFile;
 				_contextMenuStrip.Items.Clear();
+				_menuDeleteFile = deleteMenu;
 				_contextMenuStrip.Items.AddRange(file.GetMenuCommands(PostMenuCommandRefreshAction).ToArray());
+
+				if (GetIsOKToDeleteCurrentFile())
+				{
+					_contextMenuStrip.Items.Add(new ToolStripSeparator());
+					_contextMenuStrip.Items.Add(_menuDeleteFile);
+				}
+
 				_contextMenuStrip.Show(MousePosition);
 			}
 		}
@@ -409,19 +421,26 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleDeleteButtonClick(object sender, EventArgs e)
+		private void HandleGridKeyDown(object sender, KeyEventArgs e)
 		{
-			int index = _grid.CurrentCellAddress.Y;
+			if (e.KeyCode == Keys.Delete && GetIsOKToDeleteCurrentFile())
+				DeleteFile();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DeleteFile()
+		{
+			var index = _grid.CurrentCellAddress.Y;
 			var currFile = _files.ElementAt(index);
 
-			if (currFile == null || FileDeleted == null || !FileDeleted(currFile))
+			if (currFile == null || FileDeleted == null)
 				return;
 
 			var msg = LocalizationManager.LocalizeString("Misc. Messages.DeleteComponentFileMsg",
 				"This will move '{0}' to the recycle bin?");
 
 			msg = string.Format(msg, Path.GetFileName(currFile.PathToAnnotatedFile));
-			if (DeleteMessageBox.Show(this, msg) != DialogResult.OK)
+			if (DeleteMessageBox.Show(this, msg) != DialogResult.OK || !FileDeleted(currFile))
 				return;
 
 			var newList = _files.ToList();

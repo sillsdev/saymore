@@ -29,10 +29,10 @@ namespace SayMore.UI.ElementListScreen
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
 			this._grid = new SayMore.UI.ElementListScreen.InternalComponentFileGrid();
 			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
@@ -42,6 +42,7 @@ namespace SayMore.UI.ElementListScreen
 			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this._menuDeleteFile = new System.Windows.Forms.ToolStripMenuItem();
 			this._panelOuter = new SilUtils.Controls.SilPanel();
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
 			this._buttonOpen = new System.Windows.Forms.ToolStripDropDownButton();
@@ -50,6 +51,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
 			this._buttonDelete = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
+			this._contextMenuStrip.SuspendLayout();
 			this._panelOuter.SuspendLayout();
 			this._toolStripActions.SuspendLayout();
 			this.SuspendLayout();
@@ -60,20 +62,20 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.AllowUserToDeleteRows = false;
 			this._grid.AllowUserToOrderColumns = true;
 			this._grid.AllowUserToResizeRows = false;
-			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-			this._grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			this._grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this._grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this._grid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this._grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this._grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colIcon,
@@ -103,6 +105,7 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.TabIndex = 1;
 			this._grid.VirtualMode = true;
 			this._grid.WaterMark = "!";
+			this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleGridKeyDown);
 			// 
 			// colIcon
 			// 
@@ -138,8 +141,8 @@ namespace SayMore.UI.ElementListScreen
 			// colSize
 			// 
 			this.colSize.DataPropertyName = "FileSize";
-			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colSize.DefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
 			this.colSize.HeaderText = "Size";
 			this.colSize.Name = "colSize";
 			this.colSize.ReadOnly = true;
@@ -148,16 +151,24 @@ namespace SayMore.UI.ElementListScreen
 			// colDuration
 			// 
 			this.colDuration.DataPropertyName = "DurationString";
-			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colDuration.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colDuration.DefaultCellStyle = dataGridViewCellStyle4;
 			this.colDuration.HeaderText = "Duration";
 			this.colDuration.Name = "colDuration";
 			this.colDuration.ReadOnly = true;
 			// 
 			// _contextMenuStrip
 			// 
+			this._contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._menuDeleteFile});
 			this._contextMenuStrip.Name = "_contextMenuStrip";
-			this._contextMenuStrip.Size = new System.Drawing.Size(61, 4);
+			this._contextMenuStrip.Size = new System.Drawing.Size(153, 48);
+			// 
+			// _menuDeleteFile
+			// 
+			this._menuDeleteFile.Name = "_menuDeleteFile";
+			this._menuDeleteFile.Size = new System.Drawing.Size(152, 22);
+			this._menuDeleteFile.Text = "Delete File";
 			// 
 			// _panelOuter
 			// 
@@ -256,7 +267,6 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonDelete.Size = new System.Drawing.Size(60, 20);
 			this._buttonDelete.Text = "Delete";
 			this._buttonDelete.ToolTipText = "Delete Selected File";
-			this._buttonDelete.Click += new System.EventHandler(this.HandleDeleteButtonClick);
 			// 
 			// ComponentFileGrid
 			// 
@@ -264,6 +274,7 @@ namespace SayMore.UI.ElementListScreen
 			this.Name = "ComponentFileGrid";
 			this.Size = new System.Drawing.Size(470, 255);
 			((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
+			this._contextMenuStrip.ResumeLayout(false);
 			this._panelOuter.ResumeLayout(false);
 			this._panelOuter.PerformLayout();
 			this._toolStripActions.ResumeLayout(false);
@@ -289,6 +300,7 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDuration;
 		private System.Windows.Forms.ToolStripButton _buttonDelete;
+		private System.Windows.Forms.ToolStripMenuItem _menuDeleteFile;
 
 	}
 }

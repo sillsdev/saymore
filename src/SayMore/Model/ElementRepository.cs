@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualBasic.FileIO;
 using Palaso.Code;
+using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
@@ -127,31 +127,7 @@ namespace SayMore.Model
 			if (item.FolderPath == "*mocked*")
 				return true;
 
-			try
-			{
-#if !__MonoCS__
-				FileSystem.DeleteDirectory(item.FolderPath,
-					(Settings.Default.PreventDeleteElementSystemConfirmationMessage ?
-					UIOption.OnlyErrorDialogs : UIOption.AllDialogs), RecycleOption.SendToRecycleBin);
-#else
-				// TODO: Find a way in Mono to send something to the recycle bin.
-				Directory.Delete(item.FolderPath);
-#endif
-			}
-			catch (OperationCanceledException)
-			{
-				// This happens if the user clicked "No" when the OS asks for confirmation
-				// to send something to the recycle bin. That confirmation dialog box will
-				// not be displayed if that setting is turned off in the recycle bin properties.
-				return false;
-			}
-			catch (Exception e)
-			{
-				Palaso.Reporting.ErrorReport.ReportNonFatalException(e);
-				return false;
-			}
-
-			return true;
+			return ConfirmRecycleDialog.ConfirmThenRecycle(Path.GetFileName(item.FolderPath), item.FolderPath);
 		}
 
 		/// ------------------------------------------------------------------------------------

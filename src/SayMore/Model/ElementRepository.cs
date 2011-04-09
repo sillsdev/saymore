@@ -127,7 +127,8 @@ namespace SayMore.Model
 			if (item.FolderPath == "*mocked*")
 				return true;
 
-			return ConfirmRecycleDialog.ConfirmThenRecycle(Path.GetFileName(item.FolderPath), item.FolderPath);
+			//this would be if we hadn't already confirmed: return ConfirmRecycleDialog.ConfirmThenRecycle(Path.GetFileName(item.FolderPath), item.FolderPath);
+			return ConfirmRecycleDialog.Recycle(item.FolderPath);
 		}
 
 		/// ------------------------------------------------------------------------------------

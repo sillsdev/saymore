@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
+using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Model;
@@ -346,23 +347,23 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-//		protected virtual bool DoesUserConfirmDeletingSelectedElements()
-//		{
-//			int itemCount = _elementsGrid.SelectedRows.Count;
-//
-//			var msg = (itemCount == 1 ?
-//				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "This will move 1 item to the recycle bin?") :
-//				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "This will move {0} items to the recycle bin."));
-//
-//			msg = string.Format(msg, itemCount);
-//			return (DeleteMessageBox.Show(this, msg) == DialogResult.OK);
-//		}
+		protected virtual bool DoesUserConfirmDeletingSelectedElements()
+		{
+			int itemCount = _elementsGrid.SelectedRows.Count;
+
+			var msg = (itemCount == 1 ?
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "this item") :
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "these {0} items"));
+
+			msg = string.Format(msg, itemCount);
+			return ConfirmRecycleDialog.JustConfirm(msg);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleDeletingSelectedElements(object sender, EventArgs e)
 		{
-//			if (!DoesUserConfirmDeletingSelectedElements())
-//				return;
+			if (!DoesUserConfirmDeletingSelectedElements())
+				return;
 
 			var currElementIndex = _elementsGrid.CurrentCellAddress.Y;
 

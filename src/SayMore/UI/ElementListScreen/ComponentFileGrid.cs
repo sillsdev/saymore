@@ -33,7 +33,7 @@ namespace SayMore.UI.ElementListScreen
 		public Func<string[], DragDropEffects> FilesBeingDraggedOverGrid;
 		public Func<string[], bool> FilesDroppedOnGrid;
 		public Func<string[], bool> FilesAdded;
-		public Func<ComponentFile, bool> FileDeleted;
+		public Func<ComponentFile, bool> FileDeletionAction;
 		public Func<bool> IsOKToSelectDifferentFile;
 		public Func<bool> IsOKToDoFileOperation;
 
@@ -433,14 +433,14 @@ namespace SayMore.UI.ElementListScreen
 			var index = _grid.CurrentCellAddress.Y;
 			var currFile = _files.ElementAt(index);
 
-			if (currFile == null || FileDeleted == null)
+			if (currFile == null || FileDeletionAction == null)
 				return;
 
 			var msg = LocalizationManager.LocalizeString("Misc. Messages.DeleteComponentFileMsg",
 				"This will move '{0}' to the recycle bin?");
 
 			msg = string.Format(msg, Path.GetFileName(currFile.PathToAnnotatedFile));
-			if (DeleteMessageBox.Show(this, msg) != DialogResult.OK || !FileDeleted(currFile))
+			if (/*DeleteMessageBox.Show(this, msg) != DialogResult.OK ||*/ !FileDeletionAction(currFile))
 				return;
 
 			var newList = _files.ToList();

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
+using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Model;
@@ -78,7 +79,7 @@ namespace SayMore.UI.ElementListScreen
 			_componentFilesControl = componentGrid;
 			_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
 			_componentFilesControl.FilesAdded = HandleFilesAddedToComponentGrid;
-			_componentFilesControl.FileDeleted = HandleFileDeletedFromComponentGrid;
+			_componentFilesControl.FileDeletionAction = HandleFileDeletedFromComponentGrid;
 			_componentFilesControl.FilesBeingDraggedOverGrid = HandleFilesBeingDraggedOverComponentGrid;
 			_componentFilesControl.FilesDroppedOnGrid = HandleFilesAddedToComponentGrid;
 			_componentFilesControl.PostMenuCommandRefreshAction = HandlePostMenuCommandRefresh;
@@ -351,11 +352,11 @@ namespace SayMore.UI.ElementListScreen
 			int itemCount = _elementsGrid.SelectedRows.Count;
 
 			var msg = (itemCount == 1 ?
-				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "This will move 1 item to the recycle bin?") :
-				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "This will move {0} items to the recycle bin."));
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "this item") :
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "these {0} items"));
 
 			msg = string.Format(msg, itemCount);
-			return (DeleteMessageBox.Show(this, msg) == DialogResult.OK);
+			return ConfirmRecycleDialog.JustConfirm(msg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -367,7 +368,10 @@ namespace SayMore.UI.ElementListScreen
 			var currElementIndex = _elementsGrid.CurrentCellAddress.Y;
 
 			foreach (var item in _elementsGrid.GetSelectedElements())
-				_model.Remove(item as T);
+			{
+				if(!_model.Remove(item as T))
+					break;//bail after the first 'cancel'
+			}
 
 			int newElementCount = _model.Elements.Count();
 			while (currElementIndex >= newElementCount)

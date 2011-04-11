@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Localization;
-using Microsoft.VisualBasic.FileIO;
 using Palaso.Code;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -769,44 +769,17 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static bool MoveToRecycleBin(ComponentFile file)
 		{
-			try
+			if (ConfirmRecycleDialog.ConfirmThenRecycle(Path.GetFileName(file.PathToAnnotatedFile), file.PathToAnnotatedFile))
 			{
-#if !__MonoCS__
-				FileSystem.DeleteFile(file.PathToAnnotatedFile,
-					(Settings.Default.PreventDeleteElementSystemConfirmationMessage ?
-					UIOption.OnlyErrorDialogs : UIOption.AllDialogs), RecycleOption.SendToRecycleBin);
-#else
-				// TODO: Find a way in Mono to send something to the recycle bin.
-				File.Delete(file.PathToAnnotatedFile);
-#endif
+				var metaPath = file.PathToAnnotatedFile + ".meta";
+				if (File.Exists(metaPath))
+					ConfirmRecycleDialog.Recycle(metaPath);
+				return true;
 			}
-			catch (Exception e)
+			else
 			{
-				ErrorReport.ReportNonFatalException(e);
 				return false;
 			}
-
-			try
-			{
-				// When moving the component file fails, we return false and report the error.
-				// If moving the meta data fails, we report it, but still return true since the
-				// component file is no longer in the project's folder and it's too complicated
-				// trying to undo moving a file to the recycle bin.
-#if !__MonoCS__
-				FileSystem.DeleteFile(file.PathToAnnotatedFile + ".meta",
-					(Settings.Default.PreventDeleteElementSystemConfirmationMessage ?
-					UIOption.OnlyErrorDialogs : UIOption.AllDialogs), RecycleOption.SendToRecycleBin);
-#else
-				// TODO: Find a way in Mono to send something to the recycle bin.
-				File.Delete(file.PathToAnnotatedFile + ".meta");
-#endif
-			}
-			catch (Exception e)
-			{
-				ErrorReport.ReportNonFatalException(e);
-			}
-
-			return true;
 		}
 
 	}

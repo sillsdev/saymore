@@ -188,12 +188,12 @@ namespace SayMoreTests.UI.ProjectWindow
 			{
 				var list = listPanel.ListControl as ElementGrid;
 				int maxDeleteAttempts = 100;
-				var delButtonTester = new ButtonTester("_buttonDelete", "DeleteMessageBox");
+				var delButtonTester = new ButtonTester("deleteBtn", "ConfirmRecycleDialog");
 
 				while (list.RowCount > 0)
 				{
 					list.SelectElement(0);
-					modalFormTester.ExpectModal("DeleteMessageBox", delButtonTester.Click);
+					modalFormTester.ExpectModal("ConfirmRecycleDialog", delButtonTester.Click);
 					listPanel.DeleteButton.PerformClick();
 
 					if (--maxDeleteAttempts == 0)

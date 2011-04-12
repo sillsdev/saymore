@@ -239,20 +239,12 @@ namespace SayMoreTests.UI.ElementListScreen
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void DeleteComponentFile_FileIsNull_ReportsExceptionAndReturnsFalse()
-		{
-			using (new Palaso.Reporting.ErrorReport.NonFatalErrorReportExpected())
-				Assert.IsFalse(_model.DeleteComponentFile(null));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
 		[Category("SkipOnTeamCity")]
 		public void DeleteComponentFile_PassesGoodFile_RemovesFile()
 		{
 			_model.SetSelectedElement(_model.Elements.ElementAt(1) as Person);
 			var file = _model.GetComponentFile(1);
-			Assert.IsTrue(_model.DeleteComponentFile(file));
+			Assert.IsTrue(_model.DeleteComponentFile(file, false));
 			Assert.IsFalse(File.Exists(file.PathToAnnotatedFile));
 			Assert.IsFalse(File.Exists(file.PathToAnnotatedFile + ".meta"));
 		}

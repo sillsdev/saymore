@@ -49,7 +49,6 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonConvert = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
-			this._buttonDelete = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this._contextMenuStrip.SuspendLayout();
 			this._panelOuter.SuspendLayout();
@@ -197,8 +196,7 @@ namespace SayMore.UI.ElementListScreen
             this._buttonOpen,
             this._buttonRename,
             this._buttonConvert,
-            this._buttonAddFiles,
-            this._buttonDelete});
+            this._buttonAddFiles});
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
 			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
@@ -257,17 +255,6 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonAddFiles.ToolTipText = "Add Files to the event";
 			this._buttonAddFiles.Click += new System.EventHandler(this.HandleAddButtonClick);
 			// 
-			// _buttonDelete
-			// 
-			this._buttonDelete.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._buttonDelete.Image = global::SayMore.Properties.Resources.Delete;
-			this._buttonDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this._buttonDelete.Margin = new System.Windows.Forms.Padding(0, 1, 7, 2);
-			this._buttonDelete.Name = "_buttonDelete";
-			this._buttonDelete.Size = new System.Drawing.Size(60, 20);
-			this._buttonDelete.Text = "Delete";
-			this._buttonDelete.ToolTipText = "Delete Selected File";
-			// 
 			// ComponentFileGrid
 			// 
 			this.Controls.Add(this._panelOuter);
@@ -299,7 +286,6 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDuration;
-		private System.Windows.Forms.ToolStripButton _buttonDelete;
 		private System.Windows.Forms.ToolStripMenuItem _menuDeleteFile;
 
 	}

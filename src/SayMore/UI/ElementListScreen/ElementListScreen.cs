@@ -223,7 +223,6 @@ namespace SayMore.UI.ElementListScreen
 			{
 				_selectedEditorsTabControl = null;
 				_componentFilesControl.AddButtonEnabled = false;
-				_componentFilesControl.DeleteButtonEnabled = false;
 			}
 			else
 			{
@@ -352,10 +351,12 @@ namespace SayMore.UI.ElementListScreen
 			int itemCount = _elementsGrid.SelectedRows.Count;
 
 			var msg = (itemCount == 1 ?
-				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "this item") :
-				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "these {0} items"));
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteOneItemMsg", "{0}") :
+				LocalizationManager.LocalizeString("Misc. Messages.DeleteMultipleItemsMsg", "{0} items"));
 
-			msg = string.Format(msg, itemCount);
+			msg = (itemCount > 1 ? string.Format(msg, itemCount) :
+				string.Format(msg, _elementsGrid.GetCurrentElement().Id));
+
 			return ConfirmRecycleDialog.JustConfirm(msg);
 		}
 

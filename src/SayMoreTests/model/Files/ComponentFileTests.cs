@@ -76,8 +76,7 @@ namespace SayMoreTests.Model.Files
 		public void MoveToRecycleBin_MoveBothFileAndMetaFile_MovesFiles()
 		{
 			var f = CreateComponentFile("abc.zzz");
-
-			Assert.IsTrue(ComponentFile.MoveToRecycleBin(f));
+			Assert.IsTrue(ComponentFile.MoveToRecycleBin(f, false));
 			Assert.IsFalse(File.Exists(_parentFolder.Combine("abc.zzz")));
 			Assert.IsFalse(File.Exists(_parentFolder.Combine("abc.zzz.meta")));
 		}
@@ -87,14 +86,10 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void MoveToRecycleBin_MissingComponentFile_Fails()
 		{
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 			var f = CreateComponentFile("abc.zzz");
-
 			File.Delete(_parentFolder.Combine("abc.zzz"));
 			Assert.IsFalse(File.Exists(_parentFolder.Combine("abc.zzz")));
-
-			using (new Palaso.Reporting.ErrorReport.NonFatalErrorReportExpected())
-				Assert.IsFalse(ComponentFile.MoveToRecycleBin(f));
+			Assert.IsFalse(ComponentFile.MoveToRecycleBin(f, false));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -102,14 +97,10 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void MoveToRecycleBin_MissingMetadataFile_FailsButReturnsTrue()
 		{
-			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 			var f = CreateComponentFile("abc.zzz");
-
 			File.Delete(_parentFolder.Combine("abc.zzz.meta"));
 			Assert.IsFalse(File.Exists(_parentFolder.Combine("abc.zzz.meta")));
-
-			using (new Palaso.Reporting.ErrorReport.NonFatalErrorReportExpected())
-				Assert.IsTrue(ComponentFile.MoveToRecycleBin(f));
+			Assert.IsTrue(ComponentFile.MoveToRecycleBin(f, false));
 		}
 
 		/// ------------------------------------------------------------------------------------

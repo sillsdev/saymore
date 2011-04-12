@@ -44,7 +44,7 @@ namespace SayMore
 			}
 
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
-			_applicationContainer = new ApplicationContainer(true);
+			_applicationContainer = new ApplicationContainer(false);
 
 			LocalizationManager.Enabled = true;
 			LocalizationManager.Initialize();

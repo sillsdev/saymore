@@ -140,7 +140,13 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public bool DeleteComponentFile(ComponentFile file)
 		{
-			if (!ComponentFile.MoveToRecycleBin(file))
+			return DeleteComponentFile(file, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool DeleteComponentFile(ComponentFile file, bool askForConfirmation)
+		{
+			if (!ComponentFile.MoveToRecycleBin(file, askForConfirmation))
 				return false;
 
 			_componentFiles = SelectedElement.GetComponentFiles().ToArray();

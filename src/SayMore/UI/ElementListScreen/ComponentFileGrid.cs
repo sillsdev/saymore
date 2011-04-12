@@ -7,7 +7,6 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using Localization;
-using SayMore.UI.LowLevelControls;
 using SilUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -78,7 +77,6 @@ namespace SayMore.UI.ElementListScreen
 			_grid.DefaultCellStyle.SelectionBackColor = clr;
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 
-			_buttonDelete.Click += ((s, e) => DeleteFile());
 			_menuDeleteFile.Click += ((s, e) => DeleteFile());
 		}
 
@@ -112,20 +110,6 @@ namespace SayMore.UI.ElementListScreen
 		{
 			get { return _buttonAddFiles.Visible; }
 			set { _buttonAddFiles.Visible = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool DeleteButtonEnabled
-		{
-			get { return _buttonDelete.Enabled; }
-			set { _buttonDelete.Enabled = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool DeleteButtonVisible
-		{
-			get { return _buttonDelete.Visible; }
-			set { _buttonDelete.Visible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -243,7 +227,6 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
-			DeleteButtonEnabled = GetIsOKToDeleteCurrentFile();
 
 			if (null != AfterComponentSelected)
 				AfterComponentSelected(_grid.CurrentCellAddress.Y);

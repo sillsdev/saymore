@@ -769,18 +769,28 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static bool MoveToRecycleBin(ComponentFile file)
 		{
-			if (ConfirmRecycleDialog.ConfirmThenRecycle(Path.GetFileName(file.PathToAnnotatedFile), file.PathToAnnotatedFile))
-			{
-				var metaPath = file.PathToAnnotatedFile + ".meta";
-				if (File.Exists(metaPath))
-					ConfirmRecycleDialog.Recycle(metaPath);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return MoveToRecycleBin(file, true);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public static bool MoveToRecycleBin(ComponentFile file, bool askForConfirmation)
+		{
+			var path = file.PathToAnnotatedFile;
+
+			if (!File.Exists(path))
+				return false;
+
+			if (askForConfirmation && !ConfirmRecycleDialog.JustConfirm(Path.GetFileName(path)))
+				return false;
+
+			if (!ConfirmRecycleDialog.Recycle(path))
+				return false;
+
+			var metaPath = path + ".meta";
+			if (File.Exists(metaPath))
+				ConfirmRecycleDialog.Recycle(metaPath);
+
+			return true;
+		}
 	}
 }

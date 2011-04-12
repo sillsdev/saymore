@@ -121,8 +121,6 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._eventComponentFileGrid.AddButtonEnabled = false;
 			this._eventComponentFileGrid.AddButtonVisible = true;
-			this._eventComponentFileGrid.DeleteButtonEnabled = false;
-			this._eventComponentFileGrid.DeleteButtonVisible = true;
 			this._eventComponentFileGrid.ConvertButtonVisible = true;
 			this._eventComponentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._eventComponentFileGrid.Location = new System.Drawing.Point(0, 0);

@@ -63,7 +63,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
     </Reference>
-    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
     </Reference>
@@ -71,7 +71,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.Media.dll</HintPath>
     </Reference>
-    <Reference Include="PalasoUIWindowsForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="PalasoUIWindowsForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
@@ -710,6 +710,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

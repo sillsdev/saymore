@@ -84,6 +84,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			// _cancelButton
 			//
 			this._cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._cancelButton.AutoSize = true;
 			this._cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this._cancelButton.Location = new System.Drawing.Point(148, 0);
 			this._cancelButton.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
@@ -237,8 +238,6 @@ namespace SayMore.UI.NewEventsFromFiles
 			//
 			this._gridFiles.AddButtonEnabled = false;
 			this._gridFiles.AddButtonVisible = false;
-			this._gridFiles.DeleteButtonEnabled = false;
-			this._gridFiles.DeleteButtonVisible = false;
 			this._gridFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));

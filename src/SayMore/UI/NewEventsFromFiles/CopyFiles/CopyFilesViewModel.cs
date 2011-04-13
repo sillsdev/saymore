@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Threading;
+using System.Windows.Forms;
 using Palaso.Code;
 
 namespace SayMore.UI.NewEventsFromFiles
@@ -15,13 +16,17 @@ namespace SayMore.UI.NewEventsFromFiles
 	/// ----------------------------------------------------------------------------------------
 	public class CopyFilesViewModel : IDisposable
 	{
+		private const int kUpdateStatus = -1;
+
 		private readonly KeyValuePair<string, string>[] _sourceDestinationPathPairs;
 		private readonly long _totalBytes;
-		private Thread _workerThread;
+		private BackgroundWorker _worker;
 		private long _totalBytesCopied;
 		private Exception _encounteredError;
 
 		public event EventHandler OnFinished;
+		public event EventHandler OnUpdateProgress;
+		public event EventHandler OnUpdateStatus;
 
 		public int IndexOfCurrentFile { get; private set; }
 
@@ -36,7 +41,14 @@ namespace SayMore.UI.NewEventsFromFiles
 				_totalBytes += new FileInfo(pair.Key).Length;
 
 			IndexOfCurrentFile = -1;
-			BeforeCopyingFileRaised = source => { };
+			BeforeFileCopiedAction = source => { };
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			if (_worker != null)
+				_worker.Dispose();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -64,7 +76,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			{
 				if (_encounteredError != null)
 				{
-					return "Copying failed:" + _encounteredError.Message;//todo: these won't be user friendly
+					return string.Format("Copying failed: {0}", _encounteredError.Message);//todo: these won't be user friendly
 				}
 
 				if (Copying)
@@ -82,13 +94,10 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Called with source and destination paths, just before each copy
+		/// Called just before a file is copied.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Action<string> BeforeCopyingFileRaised
-		{
-			get; set;
-		}
+		public Action<string> BeforeFileCopiedAction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		private string Megs(long bytes)
@@ -99,61 +108,42 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public void Start()
 		{
-			_workerThread = new Thread(DoCopying);
-			_workerThread.Start();
+			_worker = new BackgroundWorker();
+			_worker.WorkerSupportsCancellation = true;
+			_worker.WorkerReportsProgress = true;
+			_worker.ProgressChanged += HandleWorkerProgressChanged;
+			_worker.RunWorkerCompleted += HandleWorkerFinished;
+			_worker.DoWork += DoCopying;
+			_worker.RunWorkerAsync();
+			while (_worker.IsBusy) { Application.DoEvents(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void DoCopying()
+		public void DoCopying(object sender, DoWorkEventArgs args)
 		{
 			try
 			{
 				for (IndexOfCurrentFile = 0; IndexOfCurrentFile < _sourceDestinationPathPairs.Count(); IndexOfCurrentFile++)
 				{
-					KeyValuePair<string, string> pair = _sourceDestinationPathPairs[IndexOfCurrentFile];
-					BeforeCopyingFileRaised(pair.Key);
-					var buffer = new byte[1000 * 1024];
+					if (_worker.CancellationPending)
+						continue;
+
+					var pair = _sourceDestinationPathPairs[IndexOfCurrentFile];
+					_worker.ReportProgress(kUpdateStatus, pair.Key);
 					var sourceFileInfo = new FileInfo(pair.Key);
 
-					if (File.Exists(pair.Value))
+					if (CheckIfDestFileExists(sourceFileInfo, pair.Value))
+						continue;
+
+					if (_encounteredError != null)
 					{
-						if (new FileInfo(pair.Value).CreationTimeUtc== sourceFileInfo.CreationTimeUtc &&
-							new FileInfo(pair.Value).Length == sourceFileInfo.Length &&
-							new FileInfo(pair.Value).LastWriteTimeUtc == sourceFileInfo.LastWriteTimeUtc)
-						{
-							// enhance.. would be better if we have a reporting method we could talk to,
-							// that this would be up to the UI how/when/whether to display something.
-							Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-								string.Format("The file {0} appears unchanged since it was copied before, so it will be skipped.", Path.GetFileName(pair.Value)));
-
-							continue;
-						}
-
-						_encounteredError = new ApplicationException(string.Format("The file {0} already exists", pair.Value));
+						_worker.CancelAsync();
 						return;
 					}
 
 					try
 					{
-						using (var source = new FileStream(pair.Key,FileMode.Open))
-						using (var dest = new FileStream(pair.Value, FileMode.CreateNew))
-						{
-							int bytesRead;
-							do
-							{
-								bytesRead = source.Read(buffer, 0, buffer.Length);
-
-								if (bytesRead > 0)
-								{
-									dest.Write(buffer, 0, bytesRead);
-									_totalBytesCopied += bytesRead;
-								}
-							} while (bytesRead > 0);
-						}
-
-						new FileInfo(pair.Value).CreationTimeUtc = sourceFileInfo.CreationTimeUtc;
-						new FileInfo(pair.Value).LastWriteTimeUtc = sourceFileInfo.LastWriteTimeUtc;
-						sourceFileInfo.Attributes  = (FileAttributes)(sourceFileInfo.Attributes - FileAttributes.Archive);//enhance... could be under control of the client
+						CopyFile(sourceFileInfo, pair.Value);
 					}
 					catch (Exception)
 					{
@@ -162,7 +152,6 @@ namespace SayMore.UI.NewEventsFromFiles
 
 						throw;
 					}
-					//File.Copy(pair.Key, pair.Value, false);
 				}
 
 				IndexOfCurrentFile = -2;
@@ -170,18 +159,96 @@ namespace SayMore.UI.NewEventsFromFiles
 			catch(Exception e)
 			{
 				_encounteredError = e;
+				_worker.CancelAsync();
 			}
 			finally
 			{
 				IndexOfCurrentFile = -2;
-				if (OnFinished != null)
-					OnFinished.Invoke(_encounteredError, null);
 			}
 		}
 
-		public void Dispose()
+		/// ------------------------------------------------------------------------------------
+		private bool CheckIfDestFileExists(FileInfo srcFile, string dstFile)
 		{
-//todo
+			if (!File.Exists(dstFile))
+				return false;
+
+			var finfo = new FileInfo(dstFile);
+			if (finfo.CreationTimeUtc == srcFile.CreationTimeUtc &&
+				finfo.Length == srcFile.Length &&
+				finfo.LastWriteTimeUtc == srcFile.LastWriteTimeUtc)
+			{
+				// enhance.. would be better if we have a reporting method we could talk to,
+				// that this would be up to the UI how/when/whether to display something.
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
+					"The file {0} appears unchanged since it was copied before, so it will be skipped.",
+					Path.GetFileName(dstFile));
+
+				_totalBytesCopied += finfo.Length;
+				_worker.ReportProgress(1);
+				return true;
+			}
+
+			_encounteredError = new ApplicationException(string.Format("The file '{0}' already exists", dstFile));
+			_worker.CancelAsync();
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CopyFile(FileInfo srcFile, string dstFile)
+		{
+			if (BeforeFileCopiedAction != null)
+				BeforeFileCopiedAction(srcFile.FullName);
+
+			var buffer = new byte[1000 * 1024];
+
+			using (var source = new FileStream(srcFile.FullName, FileMode.Open))
+			using (var dest = new FileStream(dstFile, FileMode.CreateNew))
+			{
+				int bytesRead;
+				do
+				{
+					bytesRead = source.Read(buffer, 0, buffer.Length);
+
+					if (bytesRead > 0)
+					{
+						dest.Write(buffer, 0, bytesRead);
+						_totalBytesCopied += bytesRead;
+					}
+
+					_worker.ReportProgress(1);
+
+				} while (bytesRead > 0);
+			}
+
+			new FileInfo(dstFile)
+			{
+				CreationTimeUtc = srcFile.CreationTimeUtc,
+				LastWriteTimeUtc = srcFile.LastWriteTimeUtc,
+			};
+
+			srcFile.Attributes = (FileAttributes)(srcFile.Attributes - FileAttributes.Archive);//enhance... could be under control of the client
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleWorkerFinished(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (OnFinished != null)
+				OnFinished.Invoke(_encounteredError, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			if (e.ProgressPercentage == kUpdateStatus)
+			{
+				if (OnUpdateStatus != null)
+					OnUpdateStatus(this, EventArgs.Empty);
+			}
+			else if (OnUpdateProgress != null)
+			{
+				OnUpdateProgress(this, EventArgs.Empty);
+			}
 		}
 	}
 }

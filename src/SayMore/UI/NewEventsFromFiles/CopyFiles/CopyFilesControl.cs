@@ -17,12 +17,30 @@ namespace SayMore.UI.NewEventsFromFiles
 			InitializeComponent();
 			_statusLabel.Font = new Font(SystemFonts.IconTitleFont, FontStyle.Bold);
 			_model = model;
-			model.OnFinished += HandleCopyFinished;
+			_model.OnFinished += HandleCopyFinished;
+			_model.OnUpdateProgress += HandleCopyProgressUpdate;
+			_model.OnUpdateStatus += HandleCopyStatusUpdate;
+			_progressBar.Maximum = 100;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleCopyStatusUpdate(object sender, EventArgs e)
+		{
+			_statusLabel.Text = _model.StatusString;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleCopyProgressUpdate(object sender, EventArgs e)
+		{
+			_progressBar.Value = _model.TotalPercentage;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleCopyFinished(object sender, EventArgs e)
 		{
+			_progressBar.Value = _progressBar.Maximum;
+			_statusLabel.Text = _model.StatusString;
+
 			if (sender == null)
 			{
 				using (var player = new SoundPlayer(Resources.Finished))
@@ -31,21 +49,12 @@ namespace SayMore.UI.NewEventsFromFiles
 			else
 			{
 				if (InvokeRequired)
-				{
 					Invoke(new EventHandler(delegate { _progressBar.ForeColor = Color.Red; }));
-					return;
-				}
+				else
+					_progressBar.ForeColor = Color.Red;
 
-				_progressBar.ForeColor = Color.Red;
 				//enhance...  play an error sound.
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void _timer_Tick(object sender, EventArgs e)
-		{
-			_progressBar.Value = _model.TotalPercentage;
-			_statusLabel.Text = _model.StatusString;
 		}
 	}
 }

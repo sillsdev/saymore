@@ -27,10 +27,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		private readonly MediaPlayer.MediaPlayer _mediaPlayer;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public NewEventsFromFilesDlg(NewEventsFromFileDlgViewModel viewModel)
 		{
 			InitializeComponent();
@@ -207,20 +203,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Centers the progress bar panel in the file list grid.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SizeAndLocateProgressPanel()
-		{
-			_panelProgress.Width = (int)(_gridFiles.Width * .66);
-			var pt = new Point((_gridFiles.Width - _panelProgress.Width) / 2,
-				(_gridFiles.Height - _panelProgress.Height) / 2);
-
-			_panelProgress.Location = PointToClient(_gridFiles.PointToScreen(pt));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public void InitializeProgressIndicatorForFileLoading(int fileCount)
 		{
 			_progressBar.Maximum = fileCount;
@@ -270,8 +252,11 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			_mediaPlayerViewModel.Stop();
 
-			using (var dlg = new MakeEventsFromFileProgressDialog(
-				_viewModel.GetSourceAndDestinationPairs(), _viewModel.CreateSingleEvent))
+			var pairs = _viewModel.GetUniqueSourceAndDestinationPairs();
+			if (pairs.Count() == 0)
+				return;
+
+			using (var dlg = new MakeEventsFromFileProgressDialog(pairs, _viewModel.CreateSingleEvent))
 			{
 				dlg.StartPosition = FormStartPosition.CenterScreen;
 				dlg.ShowDialog();
@@ -307,6 +292,20 @@ namespace SayMore.UI.NewEventsFromFiles
 		private void HandleOuterTableLayoutSizeChanged(object sender, EventArgs e)
 		{
 			SizeAndLocateProgressPanel();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Centers the progress bar panel in the file list grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SizeAndLocateProgressPanel()
+		{
+			_panelProgress.Width = (int)(_gridFiles.Width * .66);
+			var pt = new Point((_gridFiles.Width - _panelProgress.Width) / 2,
+				(_gridFiles.Height - _panelProgress.Height) / 2);
+
+			_panelProgress.Location = PointToClient(_gridFiles.PointToScreen(pt));
 		}
 
 		#endregion

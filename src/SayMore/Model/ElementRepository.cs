@@ -5,7 +5,6 @@ using System.Linq;
 using Palaso.Code;
 using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Files;
-using SayMore.Properties;
 
 namespace SayMore.Model
 {
@@ -88,7 +87,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string PathToFolder
+		public virtual string PathToFolder
 		{
 			get { return _rootFolder; }
 		}

@@ -135,6 +135,7 @@
     <Compile Include="UI\LowLevelControls\ListPanelTests.cs" />
     <Compile Include="UI\LowLevelControls\MultiValuePickerPopupTests.cs" />
     <Compile Include="UI\MediaPlayer\MediaPlayerViewModelTests.cs" />
+    <Compile Include="UI\NewEventsFromFiles\NewEventsFromFileDlgViewModelTests.cs" />
     <Compile Include="UI\Overview\Statistics\StatisticsViewModelTests.cs" />
     <Compile Include="UI\ProjectWindow\AppSmokeTests.cs" />
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommandTests.cs" />

@@ -30,9 +30,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this._progressBar = new System.Windows.Forms.ProgressBar();
-			this._timer = new System.Windows.Forms.Timer(this.components);
 			this._statusLabel = new Palaso.UI.WindowsForms.Widgets.BetterLabel();
 			this.SuspendLayout();
 			// 
@@ -46,18 +44,13 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this._progressBar.TabIndex = 2;
 			// 
-			// _timer
-			// 
-			this._timer.Enabled = true;
-			this._timer.Interval = 300;
-			this._timer.Tick += new System.EventHandler(this._timer_Tick);
-			// 
 			// _statusLabel
 			// 
 			this._statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this._statusLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._statusLabel.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this._statusLabel.Location = new System.Drawing.Point(3, 20);
 			this._statusLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
 			this._statusLabel.Multiline = true;
@@ -84,7 +77,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		#endregion
 
 		private System.Windows.Forms.ProgressBar _progressBar;
-		private System.Windows.Forms.Timer _timer;
 		private BetterLabel _statusLabel;
 	}
 }

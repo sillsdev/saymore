@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Localization;
+using Palaso.Reporting;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
-using SilUtils;
 
 namespace SayMore.UI.NewEventsFromFiles
 {
@@ -198,7 +199,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			if (_dlg != null)
 				_dlg.UpdateDisplay();
-			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		private void AddFile(string path)
@@ -245,18 +246,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		#endregion
 
 		#region Misc. public methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the specified property value for the file at the specified index in the
-		/// files list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public object GetPropertyValueForFile(int fileIndex, string property)
-		{
-			return (fileIndex < 0 || fileIndex >= Files.Count ? null :
-				ReflectionHelper.GetProperty(Files[fileIndex], property));
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// An empty string is returned if fileIndex is out of range.
@@ -376,7 +365,7 @@ namespace SayMore.UI.NewEventsFromFiles
 				{
 					if (validExtensions.Contains(Path.GetExtension(file).ToLower()))
 					{
-						var eventFile =_newComponentFileFactory(file);
+						var eventFile = _newComponentFileFactory(file);
 						eventFile.Selected = (new FileInfo(file).Attributes & FileAttributes.Archive) > 0;
 						Files.Add(eventFile);
 					}
@@ -424,7 +413,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		#region Methods for creating events from selected files
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<KeyValuePair<string, string>> GetSourceAndDestinationPairs()
+		public IEnumerable<KeyValuePair<string, string>> GetAllSourceAndDestinationPairs()
 		{
 			var eventsPath = EventPresentationModel.PathToEventsFolder;
 
@@ -435,6 +424,38 @@ namespace SayMore.UI.NewEventsFromFiles
 				destPath = Path.Combine(destPath, Path.GetFileName(srcFile));
 				return new KeyValuePair<string, string>(srcFile, destPath);
 			});
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a list sourc/destination file path pairs where the destination file is sure
+		/// not to exist. If any of the destination files already exist, a message box will
+		/// be displayed, telling the user of that fact.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<KeyValuePair<string, string>> GetUniqueSourceAndDestinationPairs()
+		{
+			var pairs = GetAllSourceAndDestinationPairs();
+
+			var existing = from kvp in GetAllSourceAndDestinationPairs()
+						   where File.Exists(kvp.Value)
+						   select kvp.Key;
+
+			if (existing.Count() > 0)
+			{
+				// Remove the pairs for which events already exist.
+				pairs = pairs.Where(kvp => !existing.Contains(kvp.Key));
+
+				// Build a string showing all the event Ids that will be skipped.
+				var bldr = new StringBuilder();
+				foreach (var file in existing)
+					bldr.AppendLine(Path.GetFileNameWithoutExtension(file));
+
+				var msg = "Events already exist for the following Ids. These will be skipped.\n\n{0}";
+				ErrorReport.NotifyUserOfProblem(msg, bldr);
+			}
+
+			return pairs;
 		}
 
 		/// ------------------------------------------------------------------------------------

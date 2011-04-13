@@ -188,7 +188,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string PathToEventsFolder
+		public virtual string PathToEventsFolder
 		{
 			get { return _repository.PathToFolder; }
 		}

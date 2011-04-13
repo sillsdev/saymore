@@ -16,28 +16,23 @@ namespace SayMore.UI.NewEventsFromFiles
 		{
 			InitializeComponent();
 			_model = new CopyFilesViewModel(sourceDestinationPathPairs);
-			_model.BeforeCopyingFileRaised = eventCreatingMethod;
+			_model.BeforeFileCopiedAction = eventCreatingMethod;
+			_model.OnFinished += HandleCopyFinished;
 			var copyControl = new CopyFilesControl(_model);
 			copyControl.Dock = DockStyle.Fill;
 			_tableLayout.Controls.Add(copyControl, 0, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateDisplay()
+		void HandleCopyFinished(object sender, EventArgs e)
 		{
-			_buttonOK.Enabled = _model.Finished;
+			_buttonOK.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleTimerTick(object sender, EventArgs e)
+		protected override void OnShown(EventArgs e)
 		{
-			UpdateDisplay();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
+			base.OnShown(e);
 			_model.Start();
 		}
 	}

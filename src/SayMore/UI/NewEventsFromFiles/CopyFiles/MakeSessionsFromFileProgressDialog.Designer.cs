@@ -28,9 +28,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this._buttonOK = new System.Windows.Forms.Button();
-			this._timer = new System.Windows.Forms.Timer(this.components);
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
@@ -41,20 +39,15 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._buttonOK.AutoSize = true;
 			this._buttonOK.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this._buttonOK.Location = new System.Drawing.Point(280, 82);
+			this._buttonOK.Enabled = false;
+			this._buttonOK.Location = new System.Drawing.Point(285, 82);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
-			this._buttonOK.MinimumSize = new System.Drawing.Size(80, 26);
+			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonOK.Name = "_buttonOK";
-			this._buttonOK.Size = new System.Drawing.Size(80, 26);
+			this._buttonOK.Size = new System.Drawing.Size(75, 26);
 			this._buttonOK.TabIndex = 0;
 			this._buttonOK.Text = "&OK";
 			this._buttonOK.UseVisualStyleBackColor = true;
-			// 
-			// _timer
-			// 
-			this._timer.Enabled = true;
-			this._timer.Interval = 500;
-			this._timer.Tick += new System.EventHandler(this.HandleTimerTick);
 			// 
 			// _tableLayout
 			// 
@@ -93,7 +86,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		#endregion
 
 		private System.Windows.Forms.Button _buttonOK;
-		private System.Windows.Forms.Timer _timer;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 	}
 }

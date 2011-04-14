@@ -14,8 +14,8 @@ namespace SayMore.UI.ComponentEditors
 	/// This is kind of an experiment at the moment...
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[ProvideProperty("IsBound", typeof(IComponent))]
-	[ProvideProperty("IsComponentFileId", typeof(IComponent))]
+	[ProvideProperty("IsBound", typeof(Control))]
+	[ProvideProperty("IsComponentFileId", typeof(Control))]
 	public class BindingHelper : Component, IExtenderProvider
 	{
 		private readonly Func<Control, string> MakeIdFromControlName = (ctrl => ctrl.Name.TrimStart('_'));
@@ -64,18 +64,21 @@ namespace SayMore.UI.ComponentEditors
 			if (ctrl == null)
 				return false;
 
-			var extend = (new[]
-			{
-				typeof(TextBox),
-				typeof(DateTimePicker),
-				typeof(ComboBox),
-				typeof(MultiValueComboBox)
-			}).Contains(ctrl.GetType());
+			var extend = GetExtendedTypes().Contains(ctrl.GetType());
 
 			if (extend && !_extendedControls.ContainsKey(ctrl))
 				_extendedControls[ctrl] = true;
 
 			return extend;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static IEnumerable<Type> GetExtendedTypes()
+		{
+			yield return typeof(TextBox);
+			yield return typeof(DateTimePicker);
+			yield return typeof(ComboBox);
+			yield return typeof(MultiValueComboBox);
 		}
 
 		#endregion
@@ -84,16 +87,18 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		[Localizable(false)]
 		[Category("BindingHelper Properties")]
-		public bool GetIsBound(object obj)
+		public bool GetIsBound(Control ctrl)
 		{
 			bool isBound;
-			return (_extendedControls.TryGetValue(obj as Control, out isBound) ? isBound : false);
+			return (ctrl != null && _extendedControls.TryGetValue(ctrl, out isBound) ? isBound : false);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIsBound(object obj, bool bind)
+		public void SetIsBound(Control ctrl, bool bind)
 		{
-			var ctrl = obj as Control;
+			if (ctrl == null)
+				return;
+
 			_extendedControls[ctrl] = bind;
 
 			// Do this just in case this is being called from outside the initialize
@@ -105,16 +110,16 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		[Localizable(false)]
 		[Category("BindingHelper Properties")]
-		public bool GetIsComponentFileId(object obj)
+		public bool GetIsComponentFileId(Control ctrl)
 		{
-			return (_componentFileIdControl == obj);
+			return (ctrl != null && _componentFileIdControl == ctrl);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIsComponentFileId(object obj, bool isFileId)
+		public void SetIsComponentFileId(Control ctrl, bool isFileId)
 		{
-			if (obj is Control && isFileId)
-				_componentFileIdControl = (Control)obj;
+			if (isFileId)
+				_componentFileIdControl = ctrl;
 		}
 
 		#endregion

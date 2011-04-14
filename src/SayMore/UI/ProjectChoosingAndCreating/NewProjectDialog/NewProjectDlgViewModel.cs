@@ -7,13 +7,10 @@ using SayMore.Properties;
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class NewProjectDlgViewModel
 	{
 		private readonly ToolTip _tooltip;
+		private PathValidator _pathValidator;
 
 		/// ------------------------------------------------------------------------------------
 		public NewProjectDlgViewModel()
@@ -31,12 +28,15 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 				"NewProjectDlg.newProjectPathLabel.InvalidPathMsg", "Unable to create a new project by that name.",
 				"This text is displayed under the project name when it is invalid.", "Dialog Boxes");
 
+			if (_pathValidator == null)
+				_pathValidator = new PathValidator(newProjectPathLabel, _tooltip) { InvalidMessage = invalidPathMsg };
+
 			var validPathMsg = LocalizationManager.GetString(newProjectPathLabel);
 
 			NewProjectName = newName;
 
-			return PathValidator.ValidatePathEntry(DefaultProjectsFolder,
-				newName, newProjectPathLabel, validPathMsg, invalidPathMsg, _tooltip);
+			return _pathValidator.IsPathValid(DefaultProjectsFolder,
+				newName, validPathMsg, invalidPathMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -44,15 +44,13 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		{
 			get
 			{
-				if(string.IsNullOrEmpty(Settings.Default.DefaultFolderForNewProjects)
-					|| !Directory.Exists(Settings.Default.DefaultFolderForNewProjects))
+				if (string.IsNullOrEmpty(Settings.Default.DefaultFolderForNewProjects) ||
+					!Directory.Exists(Settings.Default.DefaultFolderForNewProjects))
 				{
 					return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SayMore");
 				}
-				else
-				{
-					return Settings.Default.DefaultFolderForNewProjects;
-				}
+
+				return Settings.Default.DefaultFolderForNewProjects;
 			}
 		}
 

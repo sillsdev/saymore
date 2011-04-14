@@ -532,17 +532,6 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void DoCustomRename()
-		{
-			using (var dlg = new CustomComponentFileRenamingDialog(_parentElement.Id, PathToAnnotatedFile))
-			{
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Rename the file so that it is clear (visually and programatically) that this file
 		/// plays this role.
@@ -580,7 +569,7 @@ namespace SayMore.Model.Files
 				if (renameMetaFile && File.Exists(newMetaPath))
 				{
 					var msg = LocalizationManager.LocalizeString("ComponentFile.CannotRenameMetadataFileMsg",
-						"{0} could not rename the metadata file to '{1}' because there is already a file with that name.");
+						"{0} could not rename the meta data file to '{1}' because there is already a file with that name.");
 
 					ErrorReport.NotifyUserOfProblem(msg, Application.ProductName, newMetaPath);
 					return;
@@ -595,6 +584,16 @@ namespace SayMore.Model.Files
 			catch (Exception e)
 			{
 				ErrorReport.NotifyUserOfProblem(e, "Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DoCustomRename()
+		{
+			using (var dlg = new CustomComponentFileRenamingDialog(_parentElement.Id, PathToAnnotatedFile))
+			{
+				if (dlg.ShowDialog() == DialogResult.OK)
+					RenameAnnotatedFile(dlg.NewFilePath);
 			}
 		}
 

@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.
-//
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright>
-#endregion
-//
-// File: PathValidator.cs
-// Responsibility: D. Olson
-//
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -21,47 +5,96 @@ using System.Windows.Forms;
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
 	/// ----------------------------------------------------------------------------------------
-	public static class PathValidator
+	public class PathValidator
 	{
+		private readonly Control _ctrlMessage;
+		private readonly ToolTip _tooltip;
+		private string _message;
+		private Color _foreColor;
+
+		public string InvalidMessage { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public PathValidator()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PathValidator(Control ctrlMessage, ToolTip tooltip)
+		{
+			if (ctrlMessage == null)
+				return;
+
+			_ctrlMessage = ctrlMessage;
+			_ctrlMessage.Text = string.Empty;
+			_tooltip = tooltip;
+
+			_ctrlMessage.Paint += HandleMessageControlPaint;
+			_ctrlMessage.Disposed += HandleMessageControlDisposed;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Validates the path entry.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool ValidatePathEntry(string basePath, string newFolderName,
-			Label lblMsg, string validMsg, string invalidMsg, ToolTip tooltip)
+		public bool IsPathValid(string basePath, string newFolderName)
 		{
-			lblMsg.Paint -= HandleMessageLablePaint;
-			lblMsg.Disposed -= HandleMessageLableDisposed;
-			lblMsg.Paint += HandleMessageLablePaint;
-			lblMsg.Disposed += HandleMessageLableDisposed;
+			return IsPathValid(basePath, newFolderName, null);
+		}
 
-			if (tooltip != null)
-				tooltip.SetToolTip(lblMsg, null);
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Validates the path entry.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool IsPathValid(string basePath, string newFolderName, string validMsg)
+		{
+			return IsPathValid(basePath, newFolderName, validMsg, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Validates the path entry.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool IsPathValid(string basePath, string newFolderName, string validMsg, string invalidMsg)
+		{
+			if (_tooltip != null)
+				_tooltip.SetToolTip(_ctrlMessage, null);
+
+			if (invalidMsg != null)
+				InvalidMessage = invalidMsg;
+
+			bool isValid = true;
 
 			if (!PathOK(basePath, newFolderName))
 			{
 				newFolderName = newFolderName ?? string.Empty;
-				lblMsg.Text = (newFolderName.Length > 0 ? invalidMsg : string.Empty);
-				lblMsg.ForeColor = Color.DarkRed;
-				return false;
+				_message = (newFolderName.Length > 0 ? InvalidMessage : string.Empty);
+				_foreColor = Color.DarkRed;
+				isValid = false;
 			}
-
-			var fullPath = Path.Combine(basePath, newFolderName);
-			string[] dirs = fullPath.Split(Path.DirectorySeparatorChar);
-			if (dirs.Length > 1)
+			else
 			{
-				string root = Path.Combine(dirs[dirs.Length - 3], dirs[dirs.Length - 2]);
-				root = Path.Combine(root, dirs[dirs.Length - 1]);
-				lblMsg.Text = string.Format(validMsg ?? string.Empty, root);
-				lblMsg.ForeColor = Color.Gray;
+				var fullPath = Path.Combine(basePath, newFolderName);
+				string[] dirs = fullPath.Split(Path.DirectorySeparatorChar);
+				if (dirs.Length > 1)
+				{
+					string root = Path.Combine(dirs[dirs.Length - 3], dirs[dirs.Length - 2]);
+					root = Path.Combine(root, dirs[dirs.Length - 1]);
+					_message = string.Format(validMsg ?? string.Empty, root);
+					_foreColor = Color.Gray;
 
-				if (tooltip != null)
-					tooltip.SetToolTip(lblMsg, fullPath);
+					if (_tooltip != null)
+						_tooltip.SetToolTip(_ctrlMessage, fullPath);
+				}
 			}
 
-			lblMsg.Invalidate();
-			return true;
+			if (_ctrlMessage != null)
+				_ctrlMessage.Invalidate();
+
+			return isValid;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -84,33 +117,17 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void HandleMessageLableDisposed(object sender, System.EventArgs e)
+		private void HandleMessageControlDisposed(object sender, System.EventArgs e)
 		{
-			((Label)sender).Paint -= HandleMessageLablePaint;
-			((Label)sender).Disposed -= HandleMessageLableDisposed;
+			_ctrlMessage.Paint -= HandleMessageControlPaint;
+			_ctrlMessage.Disposed -= HandleMessageControlDisposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void HandleMessageLablePaint(object sender, PaintEventArgs e)
+		private void HandleMessageControlPaint(object sender, PaintEventArgs e)
 		{
-			var lbl = sender as Label;
-
-			var clr = lbl.BackColor;
-			var ctrl = lbl as Control;
-			while (clr == Color.Transparent && ctrl.Parent != null)
-			{
-				ctrl = ctrl.Parent;
-				clr = ctrl.BackColor;
-			}
-
-			if (clr != Color.Transparent)
-			{
-				using (var br = new SolidBrush(clr))
-					e.Graphics.FillRectangle(br, lbl.ClientRectangle);
-			}
-
-			TextRenderer.DrawText(e.Graphics, lbl.Text, lbl.Font,
-				lbl.ClientRectangle, lbl.ForeColor, TextFormatFlags.PathEllipsis);
+			TextRenderer.DrawText(e.Graphics, _message, _ctrlMessage.Font,
+				_ctrlMessage.ClientRectangle, _foreColor, TextFormatFlags.PathEllipsis);
 		}
 	}
 }

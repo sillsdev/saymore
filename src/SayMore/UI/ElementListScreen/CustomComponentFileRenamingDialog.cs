@@ -10,6 +10,7 @@ namespace SayMore.UI.ElementListScreen
 	public partial class CustomComponentFileRenamingDialog : Form
 	{
 		private readonly string _origFilePath;
+		private readonly PathValidator _pathValidator;
 
 		/// ------------------------------------------------------------------------------------
 		public CustomComponentFileRenamingDialog()
@@ -21,6 +22,11 @@ namespace SayMore.UI.ElementListScreen
 			_textBox.Font = SystemFonts.MessageBoxFont;
 			_labelMessage.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8f, GraphicsUnit.Point);
 			_labelMessage.Height = _labelMessage.PreferredHeight;
+
+			_pathValidator = new PathValidator(_labelMessage, null)
+			{
+				InvalidMessage = "A file by that name already exists or the name is invalid."
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -39,6 +45,16 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// New file path, including the file name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string NewFilePath
+		{
+			get { return Path.Combine(Path.GetDirectoryName(_origFilePath), NewFileName); }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleTableLayoutSizeChanged(object sender, EventArgs e)
 		{
 			if (!IsHandleCreated)
@@ -50,12 +66,11 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleTextBoxTextChanged(object sender, EventArgs e)
 		{
-			var newPath = Path.GetDirectoryName(_origFilePath);
-			var validMsg = (_textBox.Text.Trim() == string.Empty ? string.Empty :
-				string.Format("New file: {0}", Path.Combine(newPath, NewFileName)));
+			var validMsg = (_textBox.Text.Trim() == string.Empty ?
+				string.Empty : string.Format("New file: {0}", NewFilePath));
 
-			_buttonOK.Enabled = PathValidator.ValidatePathEntry(Path.GetDirectoryName(_origFilePath),
-				NewFileName, _labelMessage, validMsg, "A file by that name already exists.", null);
+			_buttonOK.Enabled = _pathValidator.IsPathValid(
+				Path.GetDirectoryName(_origFilePath), NewFileName, validMsg);
 		}
 	}
 }

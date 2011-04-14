@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
@@ -13,31 +14,20 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		private readonly NewProjectDlgViewModel _viewModel;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public NewProjectDlg()
 		{
 			InitializeComponent();
 			_buttonOK.Enabled = false;
 			_newProjectPathLabel.Text = string.Empty;
+			_newProjectPathLabel.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8f, GraphicsUnit.Point);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public NewProjectDlg(NewProjectDlgViewModel viewModel) : this()
 		{
 			_viewModel = viewModel;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnActivated(EventArgs e)
 		{
@@ -48,10 +38,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			txtName_TextChanged(null, null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected void txtName_TextChanged(object sender, EventArgs e)
 		{

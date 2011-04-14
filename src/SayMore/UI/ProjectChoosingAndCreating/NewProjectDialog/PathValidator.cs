@@ -14,15 +14,12 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public static class PathValidator
 	{
@@ -32,8 +29,13 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool ValidatePathEntry(string basePath, string newFolderName,
-											 Label lblMsg, string validMsg, string invalidMsg, ToolTip tooltip)
+			Label lblMsg, string validMsg, string invalidMsg, ToolTip tooltip)
 		{
+			lblMsg.Paint -= HandleMessageLablePaint;
+			lblMsg.Disposed -= HandleMessageLableDisposed;
+			lblMsg.Paint += HandleMessageLablePaint;
+			lblMsg.Disposed += HandleMessageLableDisposed;
+
 			if (tooltip != null)
 				tooltip.SetToolTip(lblMsg, null);
 
@@ -41,6 +43,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			{
 				newFolderName = newFolderName ?? string.Empty;
 				lblMsg.Text = (newFolderName.Length > 0 ? invalidMsg : string.Empty);
+				lblMsg.ForeColor = Color.DarkRed;
 				return false;
 			}
 
@@ -51,6 +54,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 				string root = Path.Combine(dirs[dirs.Length - 3], dirs[dirs.Length - 2]);
 				root = Path.Combine(root, dirs[dirs.Length - 1]);
 				lblMsg.Text = string.Format(validMsg ?? string.Empty, root);
+				lblMsg.ForeColor = Color.Gray;
 
 				if (tooltip != null)
 					tooltip.SetToolTip(lblMsg, fullPath);
@@ -60,10 +64,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static bool PathOK(string basePath, string relativePath)
 		{
@@ -81,6 +81,36 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 
 			var path = Path.Combine(basePath, relativePath);
 			return (!Directory.Exists(path) && !File.Exists(path));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void HandleMessageLableDisposed(object sender, System.EventArgs e)
+		{
+			((Label)sender).Paint -= HandleMessageLablePaint;
+			((Label)sender).Disposed -= HandleMessageLableDisposed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void HandleMessageLablePaint(object sender, PaintEventArgs e)
+		{
+			var lbl = sender as Label;
+
+			var clr = lbl.BackColor;
+			var ctrl = lbl as Control;
+			while (clr == Color.Transparent && ctrl.Parent != null)
+			{
+				ctrl = ctrl.Parent;
+				clr = ctrl.BackColor;
+			}
+
+			if (clr != Color.Transparent)
+			{
+				using (var br = new SolidBrush(clr))
+					e.Graphics.FillRectangle(br, lbl.ClientRectangle);
+			}
+
+			TextRenderer.DrawText(e.Graphics, lbl.Text, lbl.Font,
+				lbl.ClientRectangle, lbl.ForeColor, TextFormatFlags.PathEllipsis);
 		}
 	}
 }

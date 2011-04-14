@@ -453,7 +453,7 @@ namespace SayMore.UI.ElementListScreen
 				return false;
 
 			var currFile = _files.ElementAt(_grid.CurrentCellAddress.Y);
-			return !(currFile.FileType is EventFileType);
+			return !(currFile is ProjectElementComponentFile);
 		}
 	}
 

@@ -13,6 +13,7 @@ using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
+using SayMore.UI.ElementListScreen;
 using SayMore.UI.Utilities;
 using SilUtils;
 
@@ -474,37 +475,52 @@ namespace SayMore.Model.Files
 			bool needSeparator = true;
 
 			// commands which assign to roles
-			foreach (var role in GetRelevantComponentRoles())
+			foreach (var role in GetRelevantComponentRoles().Where(role => role.IsPotential(PathToAnnotatedFile)))
 			{
-				if (role.IsPotential(PathToAnnotatedFile))
+				if (needSeparator)
 				{
-					if (needSeparator)
-					{
-						needSeparator = false;
-						yield return new ToolStripSeparator();
-					}
-
-					string label = string.Format("Rename For {0}", role.Name);
-					ComponentRole role1 = role;
-					ToolStripMenuItem toolStripMenuItem = new ToolStripMenuItem(label, null, (sender, args) =>
-					{
-						if (PreRenameAction != null)
-							PreRenameAction();
-
-						AssignRole(role1);
-
-						if (refreshAction != null)
-							refreshAction();
-
-						if (PostRenameAction != null)
-							PostRenameAction();
-
-					}) { Tag = "rename" };
-
-					//disable if the file is already named appropriately for this role
-					toolStripMenuItem.Enabled = !role.IsMatch(PathToAnnotatedFile);
-					yield return toolStripMenuItem;
+					needSeparator = false;
+					yield return new ToolStripSeparator();
 				}
+
+				string label = string.Format("Rename For {0}", role.Name);
+				var role1 = role;
+				var toolStripMenuItem = new ToolStripMenuItem(label, null, (sender, args) =>
+				{
+					if (PreRenameAction != null)
+						PreRenameAction();
+
+					AssignRole(role1);
+
+					if (refreshAction != null)
+						refreshAction();
+
+					if (PostRenameAction != null)
+						PostRenameAction();
+
+				}) { Tag = "rename" };
+
+				//disable if the file is already named appropriately for this role
+				toolStripMenuItem.Enabled = !role.IsMatch(PathToAnnotatedFile);
+				yield return toolStripMenuItem;
+			}
+
+			if (!(this is ProjectElementComponentFile))
+			{
+				yield return new ToolStripMenuItem("Custom Rename...", null, (sender, args) =>
+				{
+					if (PreRenameAction != null)
+						PreRenameAction();
+
+					DoCustomRename();
+
+					if (refreshAction != null)
+						refreshAction();
+
+					if (PostRenameAction != null)
+						PostRenameAction();
+
+				}) { Tag = "rename" };
 			}
 		}
 
@@ -513,6 +529,17 @@ namespace SayMore.Model.Files
 		{
 			return (_parentElement == null ? _componentRoles :
 				_componentRoles.Where(r => r.RelevantElementType == _parentElement.GetType()));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DoCustomRename()
+		{
+			using (var dlg = new CustomComponentFileRenamingDialog(_parentElement.Id, PathToAnnotatedFile))
+			{
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -546,7 +573,7 @@ namespace SayMore.Model.Files
 					var msg = LocalizationManager.LocalizeString("ComponentFile.CannotRenameMsg",
 						"{0} could not rename the file to '{1}' because there is already a file with that name.");
 
-					Utils.MsgBox(string.Format(msg, Application.ProductName, newPath));
+					ErrorReport.NotifyUserOfProblem(msg, Application.ProductName, newPath);
 					return;
 				}
 
@@ -555,7 +582,7 @@ namespace SayMore.Model.Files
 					var msg = LocalizationManager.LocalizeString("ComponentFile.CannotRenameMetadataFileMsg",
 						"{0} could not rename the metadata file to '{1}' because there is already a file with that name.");
 
-					Utils.MsgBox(string.Format(msg, Application.ProductName, newMetaPath));
+					ErrorReport.NotifyUserOfProblem(msg, Application.ProductName, newMetaPath);
 					return;
 				}
 
@@ -567,7 +594,7 @@ namespace SayMore.Model.Files
 			}
 			catch (Exception e)
 			{
-				ErrorReport.NotifyUserOfProblem(e,"Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it.  Please try again later.");
+				ErrorReport.NotifyUserOfProblem(e, "Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.");
 			}
 		}
 

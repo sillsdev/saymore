@@ -252,6 +252,12 @@
     <Compile Include="UI\ElementListScreen\ComponentFileGrid.Designer.cs">
       <DependentUpon>ComponentFileGrid.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ElementListScreen\CustomComponentFileRenamingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\CustomComponentFileRenamingDialog.Designer.cs">
+      <DependentUpon>CustomComponentFileRenamingDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ElementListScreen\PersonGrid.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -472,6 +478,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\ComponentFileGrid.resx">
       <DependentUpon>ComponentFileGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ElementListScreen\CustomComponentFileRenamingDialog.resx">
+      <DependentUpon>CustomComponentFileRenamingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\PersonListScreen.resx">
       <DependentUpon>PersonListScreen.cs</DependentUpon>

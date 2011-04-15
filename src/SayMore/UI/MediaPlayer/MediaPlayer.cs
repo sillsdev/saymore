@@ -24,7 +24,7 @@ namespace SayMore.UI.MediaPlayer
 
 			_panelVideoSurface.BackgroundImageLayout = ImageLayout.Center;
 			_panelVideoSurface.BackColor = _panelContainer.BackColor;
-			_toolbarButtons.Renderer.RenderToolStripBorder += HandleButtonBarBorderPainting;
+			_toolbarButtons.Renderer = new NoToolStripBorderRenderer();
 			CreateHandle();
 			_reportPlayerOutput = HandleReportingPlayerOutput;
 			SetupVolumePopup();
@@ -275,17 +275,6 @@ namespace SayMore.UI.MediaPlayer
 			var clr2 = Color.FromArgb(50, 50, 50);
 
 			using (var br = new LinearGradientBrush(rc, clr1, clr2, 90))
-				e.Graphics.FillRectangle(br, rc);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleButtonBarBorderPainting(object sender, ToolStripRenderEventArgs e)
-		{
-			var rc = e.AffectedBounds;
-			rc.Height = 2;
-			rc.Y = _toolbarButtons.Height - 2;
-
-			using (var br = new SolidBrush(Color.FromArgb(50, 50, 50)))
 				e.Graphics.FillRectangle(br, rc);
 		}
 

@@ -29,7 +29,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			Initialize(_componentsSplitter.Panel2, _eventComponentFileGrid, _eventsListPanel);
-			_eventComponentFileGrid.InitializeGrid("EventScreen");
+			_eventComponentFileGrid.InitializeGrid("EventScreen", "Add Files to the Event");
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 

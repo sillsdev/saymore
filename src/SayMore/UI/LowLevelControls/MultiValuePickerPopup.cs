@@ -26,15 +26,8 @@ namespace SayMore.UI.LowLevelControls
 
 			InitializeComponent();
 
-			// Will paint over the toolstrip's bottom border (thereby erasing it).
-			_toolStripItems.Renderer.RenderToolStripBorder += ((sender, e) =>
-			{
-				var rc = e.AffectedBounds;
-				rc.Height = 2;
-				rc.Y = _toolStripItems.Height - 2;
-				using (var br = new SolidBrush(BackColor))
-					e.Graphics.FillRectangle(br, rc);
-			});
+			// Keeps toolstrip's border from being painted.
+			_toolStripItems.Renderer = new NoToolStripBorderRenderer();
 
 			_panelTextBox.Font = _toolStripItems.Font;
 			_timer = new Timer { Interval = 750 };
@@ -331,5 +324,14 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		#endregion
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	public class NoToolStripBorderRenderer : ToolStripProfessionalRenderer
+	{
+		protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+		{
+			// Eat this event.
+		}
 	}
 }

@@ -41,7 +41,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			_gridFiles.Grid.Columns.Insert(0, selectedCol);
 			_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(selectedCol);
 
-			_gridFiles.InitializeGrid("NewEventsFromFilesDlg");
+			_gridFiles.InitializeGrid("NewEventsFromFilesDlg", null);
 			_gridFiles.AfterComponentSelected = HandleComponentFileSelected;
 
 			Controls.Add(_panelProgress);

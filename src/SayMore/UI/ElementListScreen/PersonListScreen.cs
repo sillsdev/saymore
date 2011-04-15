@@ -23,7 +23,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			Initialize(_componentsSplitter.Panel2, _personComponentFileGrid, _peopleListPanel);
-			_personComponentFileGrid.InitializeGrid("PersonScreen");
+			_personComponentFileGrid.InitializeGrid("PersonScreen", "Add Files for the Person");
 
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
 				_labelHelp.Visible = false;

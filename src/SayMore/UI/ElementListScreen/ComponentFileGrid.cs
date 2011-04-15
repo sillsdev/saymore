@@ -81,8 +81,10 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void InitializeGrid(string settingPrefix)
+		public void InitializeGrid(string settingPrefix, string addFileButtonTooltipText)
 		{
+			_buttonAddFiles.ToolTipText = addFileButtonTooltipText;
+
 			_gridColSettingPrefix = settingPrefix;
 
 			if (Settings.Default[_gridColSettingPrefix + "ComponentGrid"] != null)

@@ -68,11 +68,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public int GetCompletedRolesKey(IEnumerable<ComponentRole> completedRoles)
 		{
-			int key = 0;
-			foreach (var role in completedRoles)
-				key |= _roleKeys[role.Id];
-
-			return key;
+			return completedRoles.Aggregate(0, (current, role) => current | _roleKeys[role.Id]);
 		}
 
 		/// ------------------------------------------------------------------------------------

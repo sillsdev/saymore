@@ -108,21 +108,27 @@ namespace SayMore
 					ComponentRole(typeof(Event), "original", "Original Recording",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Original",
-						Settings.Default.OriginalRecordingStageColor,
+						Settings.Default.WorkflowStageColor1,
 						Settings.Default.OralTranslationStageTextColor);//todo... but maybe we dont' show this as a stage?
+
+				yield return
+					new ComponentRole(typeof(Person), "consent", "Informed Consent",
+						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
+						Settings.Default.WorkflowStageColor2,
+						Settings.Default.InformedConsentStageTextColor);
 
 				yield return
 					new ComponentRole(typeof(Event), "carefulSpeech", "Careful Speech",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful",
-						Settings.Default.CarefulSpeechStageColor,
+						Settings.Default.WorkflowStageColor3,
 						Settings.Default.CarefulSpeechStageTextColor);
 
 				yield return
 					new ComponentRole(typeof(Event), "oralTranslation", "Oral Translation",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation",
-						Settings.Default.OralTranslationStageColor,
+						Settings.Default.WorkflowStageColor4,
 						Settings.Default.OralTranslationStageTextColor);
 
 				yield return
@@ -130,7 +136,7 @@ namespace SayMore
 						ComponentRole.MeasurementTypes.Words,
 						ComponentRole.GetIsText,
 						"$ElementId$_Transcription",
-						Settings.Default.TranscriptionStageColor,
+						Settings.Default.WorkflowStageColor5,
 						Settings.Default.TranscriptionStageTextColor);
 
 				yield return
@@ -138,14 +144,8 @@ namespace SayMore
 						ComponentRole.MeasurementTypes.Words,
 						 ComponentRole.GetIsText,
 						"$ElementId$_Translation",
-						Settings.Default.WrittenTranslationStageColor,
+						Settings.Default.WorkflowStageColor6,
 						Settings.Default.WrittenTranslationStageTextColor);
-
-				yield return
-					new ComponentRole(typeof(Person), "consent", "Informed Consent",
-						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
-						Settings.Default.InformedConsentStageColor,
-						Settings.Default.InformedConsentStageTextColor);
 			}
 		}
 

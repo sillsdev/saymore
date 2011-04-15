@@ -804,45 +804,45 @@ namespace SayMore.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("196, 209, 227")]
-        public global::System.Drawing.Color OriginalRecordingStageColor {
+        public global::System.Drawing.Color WorkflowStageColor1 {
             get {
-                return ((global::System.Drawing.Color)(this["OriginalRecordingStageColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageColor1"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("101, 104, 100")]
-        public global::System.Drawing.Color CarefulSpeechStageColor {
+        public global::System.Drawing.Color WorkflowStageColor2 {
             get {
-                return ((global::System.Drawing.Color)(this["CarefulSpeechStageColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageColor2"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("207, 240, 159")]
-        public global::System.Drawing.Color OralTranslationStageColor {
+        public global::System.Drawing.Color WorkflowStageColor3 {
             get {
-                return ((global::System.Drawing.Color)(this["OralTranslationStageColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageColor3"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("83, 110, 145")]
-        public global::System.Drawing.Color TranscriptionStageColor {
+        public global::System.Drawing.Color WorkflowStageColor4 {
             get {
-                return ((global::System.Drawing.Color)(this["TranscriptionStageColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageColor4"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("252, 235, 132")]
-        public global::System.Drawing.Color WrittenTranslationStageColor {
+        public global::System.Drawing.Color WorkflowStageColor5 {
             get {
-                return ((global::System.Drawing.Color)(this["WrittenTranslationStageColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageColor5"]));
             }
         }
         
@@ -921,9 +921,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("148, 195, 151")]
-        public global::System.Drawing.Color InformedConsentStageColor {
+        public global::System.Drawing.Color WorkflowStageColor6 {
             get {
-                return ((global::System.Drawing.Color)(this["InformedConsentStageColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageColor6"]));
             }
         }
         

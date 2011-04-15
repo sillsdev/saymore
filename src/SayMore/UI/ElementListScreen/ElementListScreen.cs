@@ -172,6 +172,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private bool HandleFileDeletedFromComponentGrid(ComponentFile file)
 		{
+
 			return _model.DeleteComponentFile(file);
 		}
 

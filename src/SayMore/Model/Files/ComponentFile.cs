@@ -70,8 +70,11 @@ namespace SayMore.Model.Files
 		public string FileSize { get; protected set; }
 		public Image SmallIcon { get; protected set; }
 		public string DateModified { get; protected set; }
+		public Action PreFileCommandAction;
+		public Action PostFileCommandAction;
 		public Action PreRenameAction;
 		public Action PostRenameAction;
+		public Action PreDeleteAction;
 
 		protected string _metaDataPath;
 		protected ProjectElement _parentElement;
@@ -464,9 +467,16 @@ namespace SayMore.Model.Files
 				{
 					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) =>
 					{
+						if (PreFileCommandAction != null)
+							PreFileCommandAction();
+
 						cmd1.Action(PathToAnnotatedFile);
+
 						if (refreshAction != null)
 							refreshAction();
+
+						if (PostFileCommandAction != null)
+							PostFileCommandAction();
 
 					}) { Tag = cmd1.MenuId };
 				}
@@ -808,6 +818,9 @@ namespace SayMore.Model.Files
 
 			if (askForConfirmation && !ConfirmRecycleDialog.JustConfirm(Path.GetFileName(path)))
 				return false;
+
+			if (file.PreDeleteAction != null)
+				file.PreDeleteAction();
 
 			if (!ConfirmRecycleDialog.Recycle(path))
 				return false;

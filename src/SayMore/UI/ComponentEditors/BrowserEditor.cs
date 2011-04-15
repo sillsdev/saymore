@@ -49,7 +49,7 @@ namespace SayMore.UI.ComponentEditors
 
 			TryToDisplayFileInBrowser(file.PathToAnnotatedFile);
 
-			file.PreRenameAction = (() =>
+			file.PreRenameAction = file.PreFileCommandAction = file.PreDeleteAction = (() =>
 			{
 				// This will unlock the file so it can be renamed.
 				_browser.Navigate("about:blank");

@@ -190,23 +190,22 @@ namespace SayMore.UI.ElementListScreen
 			if (e.RowIndex != _grid.CurrentCellAddress.Y)
 				SelectComponent(e.RowIndex);
 
-			if (ShowContextMenu)
+			if (!ShowContextMenu)
+				return;
+
+			var file = _files.ElementAt(e.RowIndex);
+			var deleteMenu = _menuDeleteFile;
+			_contextMenuStrip.Items.Clear();
+			_menuDeleteFile = deleteMenu;
+			_contextMenuStrip.Items.AddRange(file.GetMenuCommands(PostMenuCommandRefreshAction).ToArray());
+
+			if (GetIsOKToDeleteCurrentFile())
 			{
-				var file = _files.ElementAt(e.RowIndex);
-
-				var deleteMenu = _menuDeleteFile;
-				_contextMenuStrip.Items.Clear();
-				_menuDeleteFile = deleteMenu;
-				_contextMenuStrip.Items.AddRange(file.GetMenuCommands(PostMenuCommandRefreshAction).ToArray());
-
-				if (GetIsOKToDeleteCurrentFile())
-				{
-					_contextMenuStrip.Items.Add(new ToolStripSeparator());
-					_contextMenuStrip.Items.Add(_menuDeleteFile);
-				}
-
-				_contextMenuStrip.Show(MousePosition);
+				_contextMenuStrip.Items.Add(new ToolStripSeparator());
+				_contextMenuStrip.Items.Add(_menuDeleteFile);
 			}
+
+			_contextMenuStrip.Show(MousePosition);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -418,14 +417,7 @@ namespace SayMore.UI.ElementListScreen
 			var index = _grid.CurrentCellAddress.Y;
 			var currFile = _files.ElementAt(index);
 
-			if (currFile == null || FileDeletionAction == null)
-				return;
-
-			var msg = LocalizationManager.LocalizeString("Misc. Messages.DeleteComponentFileMsg",
-				"This will move '{0}' to the recycle bin?");
-
-			msg = string.Format(msg, Path.GetFileName(currFile.PathToAnnotatedFile));
-			if (/*DeleteMessageBox.Show(this, msg) != DialogResult.OK ||*/ !FileDeletionAction(currFile))
+			if (currFile == null || FileDeletionAction == null || !FileDeletionAction(currFile))
 				return;
 
 			var newList = _files.ToList();

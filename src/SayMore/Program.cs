@@ -20,6 +20,8 @@ namespace SayMore
 		/// </summary>
 		private static ProjectContext _projectContext;
 
+		private static string _pathOfLoadedProjectFile;
+
 		private static ApplicationContainer _applicationContainer;
 
 		/// ------------------------------------------------------------------------------------
@@ -32,7 +34,6 @@ namespace SayMore
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-
 
 			//bring in settings from any previous version
 			if (Settings.Default.NeedUpgrade)
@@ -96,6 +97,8 @@ namespace SayMore
 				_projectContext.ProjectWindow.Closed += HandleProjectWindowClosed;
 				_projectContext.ProjectWindow.Activated += HandleProjectWindowActivated;
 				_projectContext.ProjectWindow.Show();
+				_pathOfLoadedProjectFile = projectPath;
+				Application.Idle += SaveLastOpenedProjectInMRUList;
 				return true;
 			}
 			catch (Exception e)
@@ -104,6 +107,20 @@ namespace SayMore
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// By the time we get here, we know the app. has settled down after loading a project.
+		/// Now that the project has been loaded without crashing, save the project as the
+		/// most recently opened project. xref: SP-186.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void SaveLastOpenedProjectInMRUList(object sender, EventArgs e)
+		{
+			Application.Idle -= SaveLastOpenedProjectInMRUList;
+			MruFiles.AddNewPath(_pathOfLoadedProjectFile);
+			Settings.Default.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -159,10 +176,7 @@ namespace SayMore
 					}
 
 					if (OpenProjectWindow(dlg.Model.ProjectSettingsFilePath))
-					{
-						MruFiles.AddNewPath(dlg.Model.ProjectSettingsFilePath);
 						return;
-					}
 				}
 			}
 		}

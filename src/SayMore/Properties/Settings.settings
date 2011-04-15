@@ -289,10 +289,10 @@
     <Setting Name="MissingDataWindowColor" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">252, 235, 132</Value>
     </Setting>
-    <Setting Name="NeedUpgrade" Type="System.Boolean" Scope="User">
+    <Setting Name="NeedUpgrade" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="Reporting" Type="Palaso.Reporting.ReportingSettings" Scope="User">
+    <Setting Name="Reporting" Provider="SilUtils.PortableSettingsProvider" Type="Palaso.Reporting.ReportingSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="FileTypesToAvoidLoadingInBrowserEditor" Type="System.String" Scope="Application">

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using SayMore.Properties;
+using SayMore.UI.LowLevelControls;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SayMore.UI.Utilities;
 using SilUtils;
@@ -37,6 +38,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				Settings.Default.WelcomeDialog = FormSettings.Create(this);
 			}
 
+			tsOptions.Renderer = new NoToolStripBorderRenderer();
 			tsOptions.BackColorBegin = Color.White;
 			tsOptions.BackColorEnd = Color.White;
 			DialogResult = DialogResult.Cancel;

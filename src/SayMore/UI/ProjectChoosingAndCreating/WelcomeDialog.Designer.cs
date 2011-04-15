@@ -46,7 +46,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.lnkWebSites = new System.Windows.Forms.LinkLabel();
 			this.lblVersionInfo = new System.Windows.Forms.Label();
 			this.lblSubTitle = new System.Windows.Forms.Label();
-			this.locExtender = new LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.pnlOptions.SuspendLayout();
 			this.tsOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -74,19 +74,12 @@ namespace SayMore.UI.ProjectChoosingAndCreating
             this.toolStripSeparator2,
             this._buttonCreate});
 			this.tsOptions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-			this.locExtender.SetLocalizableToolTip(this.tsOptions, null);
-			this.locExtender.SetLocalizationComment(this.tsOptions, null);
-			this.locExtender.SetLocalizingId(this.tsOptions, "WelcomeDlg.tsOptions");
 			this.tsOptions.Name = "tsOptions";
-			this.tsOptions.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			// 
 			// tslblOpen
 			// 
 			resources.ApplyResources(this.tslblOpen, "tslblOpen");
 			this.tslblOpen.ForeColor = System.Drawing.Color.DarkOliveGreen;
-			this.locExtender.SetLocalizableToolTip(this.tslblOpen, null);
-			this.locExtender.SetLocalizationComment(this.tslblOpen, null);
-			this.locExtender.SetLocalizingId(this.tslblOpen, "WelcomeDlg.tslblOpen");
 			this.tslblOpen.Name = "tslblOpen";
 			// 
 			// toolStripSeparator1
@@ -98,10 +91,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			// 
 			resources.ApplyResources(this._buttonMru0, "_buttonMru0");
 			this._buttonMru0.Image = global::SayMore.Properties.Resources.SmallSayMoreLogo;
-			this.locExtender.SetLocalizableToolTip(this._buttonMru0, null);
-			this.locExtender.SetLocalizationComment(this._buttonMru0, null);
-			this.locExtender.SetLocalizationPriority(this._buttonMru0, LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._buttonMru0, "WelcomeDlg.tsbMru0");
 			this._buttonMru0.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
 			this._buttonMru0.Name = "_buttonMru0";
 			this._buttonMru0.Click += new System.EventHandler(this.HandleMruClick);
@@ -110,9 +99,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			// 
 			resources.ApplyResources(this._buttonBrowse, "_buttonBrowse");
 			this._buttonBrowse.Image = global::SayMore.Properties.Resources.kimidBrowseForProject;
-			this.locExtender.SetLocalizableToolTip(this._buttonBrowse, null);
-			this.locExtender.SetLocalizationComment(this._buttonBrowse, null);
-			this.locExtender.SetLocalizingId(this._buttonBrowse, "WelcomeDialog._buttonBrowse");
 			this._buttonBrowse.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
 			this._buttonBrowse.Name = "_buttonBrowse";
 			this._buttonBrowse.Click += new System.EventHandler(this.HandleBrowseForExistingProjectClick);
@@ -121,9 +107,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			// 
 			resources.ApplyResources(this.tslblCreate, "tslblCreate");
 			this.tslblCreate.ForeColor = System.Drawing.Color.DarkOliveGreen;
-			this.locExtender.SetLocalizableToolTip(this.tslblCreate, null);
-			this.locExtender.SetLocalizationComment(this.tslblCreate, null);
-			this.locExtender.SetLocalizingId(this.tslblCreate, "WelcomeDlg.tslblCreate");
 			this.tslblCreate.Name = "tslblCreate";
 			// 
 			// toolStripSeparator2
@@ -135,9 +118,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			// 
 			resources.ApplyResources(this._buttonCreate, "_buttonCreate");
 			this._buttonCreate.Image = global::SayMore.Properties.Resources.kimidNewProject;
-			this.locExtender.SetLocalizableToolTip(this._buttonCreate, null);
-			this.locExtender.SetLocalizationComment(this._buttonCreate, null);
-			this.locExtender.SetLocalizingId(this._buttonCreate, "WelcomeDialog._buttonCreate");
 			this._buttonCreate.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
 			this._buttonCreate.Name = "_buttonCreate";
 			this._buttonCreate.Click += new System.EventHandler(this.HandleCreateProjectClick);
@@ -146,9 +126,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			// 
 			this.lnkWebSites.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			resources.ApplyResources(this.lnkWebSites, "lnkWebSites");
-			this.locExtender.SetLocalizableToolTip(this.lnkWebSites, null);
-			this.locExtender.SetLocalizationComment(this.lnkWebSites, null);
-			this.locExtender.SetLocalizingId(this.lnkWebSites, "WelcomeDialog.lnkWebSites");
 			this.lnkWebSites.Name = "lnkWebSites";
 			this.lnkWebSites.UseCompatibleTextRendering = true;
 			this.lnkWebSites.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebSiteLinkClicked);
@@ -156,18 +133,12 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			// lblVersionInfo
 			// 
 			resources.ApplyResources(this.lblVersionInfo, "lblVersionInfo");
-			this.locExtender.SetLocalizableToolTip(this.lblVersionInfo, null);
-			this.locExtender.SetLocalizationComment(this.lblVersionInfo, null);
-			this.locExtender.SetLocalizingId(this.lblVersionInfo, "WelcomeDlg.lblVersionInfo");
 			this.lblVersionInfo.Name = "lblVersionInfo";
 			// 
 			// lblSubTitle
 			// 
 			resources.ApplyResources(this.lblSubTitle, "lblSubTitle");
 			this.lblSubTitle.AutoEllipsis = true;
-			this.locExtender.SetLocalizableToolTip(this.lblSubTitle, null);
-			this.locExtender.SetLocalizationComment(this.lblSubTitle, null);
-			this.locExtender.SetLocalizingId(this.lblSubTitle, "WelcomeDlg.lblSubTitle");
 			this.lblSubTitle.Name = "lblSubTitle";
 			// 
 			// locExtender
@@ -184,9 +155,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.Controls.Add(this.lblVersionInfo);
 			this.Controls.Add(this.pnlOptions);
 			this.DoubleBuffered = true;
-			this.locExtender.SetLocalizableToolTip(this, null);
-			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "WelcomeDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "WelcomeDialog";

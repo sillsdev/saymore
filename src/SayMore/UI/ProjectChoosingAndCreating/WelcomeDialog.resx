@@ -135,9 +135,6 @@
   <data name="tslblOpen.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 11.25pt, style=Bold</value>
   </data>
-  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>96, 0</value>
-  </metadata>
   <data name="tslblOpen.Size" type="System.Drawing.Size, System.Drawing">
     <value>416, 20</value>
   </data>
@@ -223,7 +220,7 @@
     <value>0, 0</value>
   </data>
   <data name="tsOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 236</value>
+    <value>418, 231</value>
   </data>
   <data name="tsOptions.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -232,7 +229,7 @@
     <value>tsOptions</value>
   </data>
   <data name="&gt;&gt;tsOptions.Type" xml:space="preserve">
-    <value>SayMore.UI.LowLevelControls.ElementBar, SayMore, Version=0.1.6.789, Culture=neutral, PublicKeyToken=null</value>
+    <value>SayMore.UI.LowLevelControls.ElementBar, SayMore, Version=1.1.1.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tsOptions.Parent" xml:space="preserve">
     <value>pnlOptions</value>
@@ -241,10 +238,10 @@
     <value>0</value>
   </data>
   <data name="pnlOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>30, 102</value>
+    <value>30, 107</value>
   </data>
   <data name="pnlOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 236</value>
+    <value>418, 231</value>
   </data>
   <data name="pnlOptions.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -369,6 +366,9 @@
   <data name="&gt;&gt;lblSubTitle.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>96, 0</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -436,7 +436,7 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>WelcomeDialog</value>

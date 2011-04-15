@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Properties;
@@ -78,11 +79,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			get
 			{
-				foreach (string prjPath in MruFiles.Paths)
-				{
-					yield return new KeyValuePair<string, string>(prjPath,
-						Path.GetFileNameWithoutExtension(prjPath));
-				}
+				return MruFiles.Paths.Select(prjPath =>
+					new KeyValuePair<string, string>(prjPath, Path.GetFileNameWithoutExtension(prjPath)));
 			}
 		}
 

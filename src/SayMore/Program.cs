@@ -218,7 +218,13 @@ namespace SayMore
 				Settings.Default.Save();
 			}
 
-			UsageReporter.Init(Settings.Default.Reporting, "saymore.palaso.org", "UA-22170471-3");
+			UsageReporter.Init(Settings.Default.Reporting, "saymore.palaso.org", "UA-22170471-3",
+#if DEBUG
+ true
+#else
+				false
+#endif
+);
 		}
 	}
 }

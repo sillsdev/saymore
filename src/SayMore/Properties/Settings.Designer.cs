@@ -750,54 +750,54 @@ namespace SayMore.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color OriginalRecordingStageTextColor {
+        public global::System.Drawing.Color WorkflowStageTextColor6 {
             get {
-                return ((global::System.Drawing.Color)(this["OriginalRecordingStageTextColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageTextColor6"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("White")]
-        public global::System.Drawing.Color CarefulSpeechStageTextColor {
+        public global::System.Drawing.Color WorkflowStageTextColor4 {
             get {
-                return ((global::System.Drawing.Color)(this["CarefulSpeechStageTextColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageTextColor4"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color OralTranslationStageTextColor {
+        public global::System.Drawing.Color WorkflowStageTextColor5 {
             get {
-                return ((global::System.Drawing.Color)(this["OralTranslationStageTextColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageTextColor5"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("White")]
-        public global::System.Drawing.Color TranscriptionStageTextColor {
+        public global::System.Drawing.Color WorkflowStageTextColor2 {
             get {
-                return ((global::System.Drawing.Color)(this["TranscriptionStageTextColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageTextColor2"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color WrittenTranslationStageTextColor {
+        public global::System.Drawing.Color WorkflowStageTextColor3 {
             get {
-                return ((global::System.Drawing.Color)(this["WrittenTranslationStageTextColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageTextColor3"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color InformedConsentStageTextColor {
+        public global::System.Drawing.Color WorkflowStageTextColor1 {
             get {
-                return ((global::System.Drawing.Color)(this["InformedConsentStageTextColor"]));
+                return ((global::System.Drawing.Color)(this["WorkflowStageTextColor1"]));
             }
         }
         

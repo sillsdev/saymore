@@ -109,27 +109,27 @@ namespace SayMore
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Original",
 						Settings.Default.WorkflowStageColor1,
-						Settings.Default.OralTranslationStageTextColor);//todo... but maybe we dont' show this as a stage?
+						Settings.Default.WorkflowStageTextColor1);//todo... but maybe we dont' show this as a stage?
 
 				yield return
 					new ComponentRole(typeof(Person), "consent", "Informed Consent",
 						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
 						Settings.Default.WorkflowStageColor2,
-						Settings.Default.InformedConsentStageTextColor);
+						Settings.Default.WorkflowStageTextColor2);
 
 				yield return
 					new ComponentRole(typeof(Event), "carefulSpeech", "Careful Speech",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful",
 						Settings.Default.WorkflowStageColor3,
-						Settings.Default.CarefulSpeechStageTextColor);
+						Settings.Default.WorkflowStageTextColor3);
 
 				yield return
 					new ComponentRole(typeof(Event), "oralTranslation", "Oral Translation",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation",
 						Settings.Default.WorkflowStageColor4,
-						Settings.Default.OralTranslationStageTextColor);
+						Settings.Default.WorkflowStageTextColor4);
 
 				yield return
 					new ComponentRole(typeof(Event), "transcription", "Transcription",
@@ -137,7 +137,7 @@ namespace SayMore
 						ComponentRole.GetIsText,
 						"$ElementId$_Transcription",
 						Settings.Default.WorkflowStageColor5,
-						Settings.Default.TranscriptionStageTextColor);
+						Settings.Default.WorkflowStageTextColor5);
 
 				yield return
 					new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
@@ -145,7 +145,7 @@ namespace SayMore
 						 ComponentRole.GetIsText,
 						"$ElementId$_Translation",
 						Settings.Default.WorkflowStageColor6,
-						Settings.Default.WrittenTranslationStageTextColor);
+						Settings.Default.WorkflowStageTextColor6);
 			}
 		}
 

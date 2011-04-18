@@ -226,22 +226,22 @@
     <Setting Name="PreventDeleteElementSystemConfirmationMessage" Description="This is used for tests and prevents the display of the confirmation dialog box when moving deleted session and persons to the recycle bin." Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="OriginalRecordingStageTextColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="WorkflowStageTextColor6" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="CarefulSpeechStageTextColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="WorkflowStageTextColor4" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">White</Value>
     </Setting>
-    <Setting Name="OralTranslationStageTextColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="WorkflowStageTextColor5" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="TranscriptionStageTextColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="WorkflowStageTextColor2" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">White</Value>
     </Setting>
-    <Setting Name="WrittenTranslationStageTextColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="WorkflowStageTextColor3" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="InformedConsentStageTextColor" Type="System.Drawing.Color" Scope="Application">
+    <Setting Name="WorkflowStageTextColor1" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">Black</Value>
     </Setting>
     <Setting Name="WorkflowStageColor1" Type="System.Drawing.Color" Scope="Application">

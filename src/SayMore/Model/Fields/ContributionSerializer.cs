@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Xml.Linq;
-using SayMore.ClearShare;
+using Palaso.ClearShare;
 
 namespace SayMore.Model.Fields
 {

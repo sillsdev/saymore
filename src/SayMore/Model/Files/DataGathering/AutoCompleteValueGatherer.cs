@@ -2,15 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Palaso.ClearShare;
 using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files.DataGathering
 {
-	/// ----------------------------------------------------------------------------------------
-	public interface IAutoCompleteValueProvider
-	{
-		string GetValueForKey(string key);
-	}
 
 	/// <summary>
 	/// Gets values used in the whole project (e.g. language names),
@@ -21,7 +17,7 @@ namespace SayMore.Model.Files.DataGathering
 	/// Then when the data is needed for autocomplete, GetValueLists() distills it down to
 	/// {fieldKey, (list of unique values)}
 	/// </summary>
-	public class AutoCompleteValueGatherer : BackgroundFileProcessor<Dictionary<string, string>> /* a list of the languages mentioned in this file*/, IMultiListDataProvider
+	public class AutoCompleteValueGatherer : BackgroundFileProcessor<Dictionary<string, string>> /* a list of the languages mentioned in this file*/, IMultiListDataProvider, IAutoCompleteValueProvider
 	{
 		protected Dictionary<string, string> _mappingOfFieldsToAutoCompleteKey = new Dictionary<string,string>();
 		protected List<string> _multiValueFields = new List<string>();
@@ -88,7 +84,7 @@ namespace SayMore.Model.Files.DataGathering
 				foreach (var fieldInstance in file.MetaDataFieldValues)
 				{
 					var value = (fieldInstance.Value is IAutoCompleteValueProvider ?
-						((IAutoCompleteValueProvider)fieldInstance.Value).GetValueForKey(fieldInstance.FieldId) :
+						((IAutoCompleteValueProviderWeird)fieldInstance.Value).GetValueForKey(fieldInstance.FieldId) :
 						fieldInstance.ValueAsString);
 
 					if (!string.IsNullOrEmpty(value))

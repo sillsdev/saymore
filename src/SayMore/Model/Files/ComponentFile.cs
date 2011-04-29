@@ -781,7 +781,7 @@ namespace SayMore.Model.Files
 		{
 			var timeout = DateTime.Now.AddSeconds(10);
 
-			// Now wait until the mplayer process lets go of the file.
+			// Now wait until the process lets go of the file.
 			while (true)
 			{
 				try

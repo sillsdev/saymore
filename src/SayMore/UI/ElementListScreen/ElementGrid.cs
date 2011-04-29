@@ -10,10 +10,6 @@ using SilUtils;
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class ElementGrid : SilGrid
 	{
 		public delegate void SelectedElementChangedHandler(object sender,
@@ -22,9 +18,11 @@ namespace SayMore.UI.ElementListScreen
 		public event SelectedElementChangedHandler SelectedElementChanged;
 
 		public Func<bool> IsOKToSelectDifferentElement;
+		public Action DeleteAction;
 
 		protected FileType _fileType;
 		protected IEnumerable<ProjectElement> _items = new ProjectElement[] { };
+		protected ContextMenuStrip _contextMenuStrip = new ContextMenuStrip();
 
 		/// ------------------------------------------------------------------------------------
 		public ElementGrid()
@@ -232,6 +230,29 @@ namespace SayMore.UI.ElementListScreen
 				SelectElement(0);
 			else
 				SelectElement(prevId);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseDown(DataGridViewCellMouseEventArgs e)
+		{
+			base.OnCellMouseDown(e);
+
+			if (e.Button != MouseButtons.Right)
+				return;
+
+			if (e.RowIndex != CurrentCellAddress.Y)
+				SelectElement(e.RowIndex);
+
+			_contextMenuStrip.Items.Clear();
+			_contextMenuStrip.Items.AddRange(GetMenuCommands().ToArray());
+			_contextMenuStrip.Show(MousePosition);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual IEnumerable<ToolStripMenuItem> GetMenuCommands()
+		{
+			yield return (DeleteAction == null ? null :
+				new ToolStripMenuItem("Delete", null, (s, e) => DeleteAction()));
 		}
 
 		/// ------------------------------------------------------------------------------------

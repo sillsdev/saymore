@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using SayMore;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;

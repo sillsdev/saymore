@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Properties;
 using SilUtils;
@@ -74,7 +76,18 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnCellMouseEnter(System.Windows.Forms.DataGridViewCellEventArgs e)
+		protected override IEnumerable<ToolStripMenuItem> GetMenuCommands()
+		{
+			var cmds = base.GetMenuCommands().ToList();
+
+			cmds.Insert(0, new ToolStripMenuItem("Archive with RAMP (SIL)",
+				Resources.RampIcon, (s, e) => ((Event)GetCurrentElement()).CreateArchiveFile()));
+
+			return cmds;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseEnter(DataGridViewCellEventArgs e)
 		{
 			base.OnCellMouseEnter(e);
 
@@ -89,7 +102,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnCellMouseLeave(System.Windows.Forms.DataGridViewCellEventArgs e)
+		protected override void OnCellMouseLeave(DataGridViewCellEventArgs e)
 		{
 			base.OnCellMouseLeave(e);
 
@@ -98,7 +111,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnCellToolTipTextNeeded(System.Windows.Forms.DataGridViewCellToolTipTextNeededEventArgs e)
+		protected override void OnCellToolTipTextNeeded(DataGridViewCellToolTipTextNeededEventArgs e)
 		{
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
 				Columns[e.ColumnIndex].DataPropertyName == "status")

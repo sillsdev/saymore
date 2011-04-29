@@ -13,6 +13,30 @@ namespace SayMoreTests.model
 	{
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void GetPersonByName_PersonNotFound_ReturnsNull()
+		{
+			var repo = new Mock<ElementRepository<Person>>();
+			repo.Setup(x => x.GetById("Joe")).Returns((Person)null);
+			var informant = new PersonInformant(repo.Object, null);
+			Assert.IsNull(informant.GetPersonByName("Joe"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetPersonByName_PersonFound_ReturnsPerson()
+		{
+			var componentFile = new Mock<ProjectElementComponentFile>();
+			var person = new Mock<Person>();
+			person.Setup(p => p.GetInformedConsentComponentFile()).Returns(componentFile.Object);
+			var repo = new Mock<ElementRepository<Person>>();
+
+			repo.Setup(x => x.GetById("Joe")).Returns(person.Object);
+			var informant = new PersonInformant(repo.Object, null);
+			Assert.AreEqual(person.Object, informant.GetPersonByName("Joe"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void GetHasInformedConsent_PersonNotFound_ReturnsFalse()
 		{
 			var repo = new Mock<ElementRepository<Person>>();

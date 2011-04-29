@@ -168,5 +168,22 @@ namespace SayMoreTests.ClearShare
 			var c2 = new Contribution("joey", r2) { Date = DateTime.Now.ToString(), Comments = "get bread", ApprovedLicense = l2 };
 			Assert.IsTrue(c1.Equals(c2));
 		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetREAPValue_NullRole_ReturnsEmptyRole()
+		{
+			var c = new Contribution("Bubba", null);
+			Assert.AreEqual("\" \":\"Bubba\",\"role\":\"\"", c.GetREAPValue());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetREAPValue_HasRole_ReturnsCorrectString()
+		{
+			var r = new Role("dev", "developer", "def");
+			var c = new Contribution("Bubba", r);
+			Assert.AreEqual("\" \":\"Bubba\",\"role\":\"dev\"", c.GetREAPValue());
+		}
 	}
 }

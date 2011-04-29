@@ -69,12 +69,19 @@ namespace SayMore.Model
 			}
 			else
 			{
-				foreach (var kvp in gathererNames)
-				{
-					foreach (var person in kvp.Value)
-						yield return person;
-				}
+				foreach (var person in gathererNames.SelectMany(kvp => kvp.Value))
+					yield return person;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets only those people for whom there is an entry on the Person tab of the program.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<Person> GetPeopleFromRepository()
+		{
+			return _peopleRepository.AllItems;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,6 +92,12 @@ namespace SayMore.Model
 		public virtual IEnumerable<string> GetPeopleNamesFromRepository()
 		{
 			return _peopleRepository.AllItems.Select(x => x.Id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Person GetPersonByName(string name)
+		{
+			return _peopleRepository.GetById(name);
 		}
 	}
 }

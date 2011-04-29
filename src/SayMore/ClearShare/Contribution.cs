@@ -1,4 +1,5 @@
 using System;
+using SayMore.UI.Utilities;
 
 namespace SayMore.ClearShare
 {
@@ -139,6 +140,13 @@ namespace SayMore.ClearShare
 			return (rolesEqual && licensesEqual &&
 				ContributorName == other.ContributorName &&
 				Date == other.Date && Comments == other.Comments);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetREAPValue()
+		{
+			return JSONUtils.MakeKeyValuePair(" ", ContributorName) + "," +
+				JSONUtils.MakeKeyValuePair("role", Role == null ? "" : Role.Code);
 		}
 
 		/// ------------------------------------------------------------------------------------

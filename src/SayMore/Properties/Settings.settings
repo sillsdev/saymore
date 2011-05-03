@@ -298,5 +298,8 @@
     <Setting Name="FileTypesToAvoidLoadingInBrowserEditor" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.doc;.odt;.ppt;.xls</Value>
     </Setting>
+    <Setting Name="RampProgramLoadWait" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

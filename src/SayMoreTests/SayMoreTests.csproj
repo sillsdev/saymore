@@ -140,6 +140,7 @@
     <Compile Include="UI\ProjectWindow\AppSmokeTests.cs" />
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommandTests.cs" />
     <Compile Include="UI\Utilities\MPlayerMediaInfoTests.cs" />
+    <Compile Include="Utilities\ArchiveHelperTests.cs" />
     <Compile Include="Utilities\JSONUtilsTests.cs" />
   </ItemGroup>
   <ItemGroup>

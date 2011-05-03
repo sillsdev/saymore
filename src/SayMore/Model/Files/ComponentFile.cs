@@ -791,14 +791,31 @@ namespace SayMore.Model.Files
 					else
 						Thread.Sleep(100);
 
-					File.OpenWrite(filePath).Close();
-					return;
+					if (!IsFileLocked(filePath) || DateTime.Now >= timeout)
+						return;
 				}
 				catch
 				{
 					if (DateTime.Now >= timeout)
 						return;
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool IsFileLocked(string filePath)
+		{
+			if (filePath == null || !File.Exists(filePath))
+				return false;
+
+			try
+			{
+				File.OpenWrite(filePath).Close();
+				return false;
+			}
+			catch
+			{
+				return true;
 			}
 		}
 

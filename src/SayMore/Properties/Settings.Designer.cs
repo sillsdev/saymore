@@ -981,5 +981,18 @@ namespace SayMore.Properties {
                 return ((string)(this["FileTypesToAvoidLoadingInBrowserEditor"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        public int RampProgramLoadWait {
+            get {
+                return ((int)(this["RampProgramLoadWait"]));
+            }
+            set {
+                this["RampProgramLoadWait"] = value;
+            }
+        }
     }
 }

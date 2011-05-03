@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 using Ionic.Zip;
 using Palaso.IO;
 using Palaso.Progress;
@@ -14,19 +15,22 @@ using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using Timer = System.Threading.Timer;
 
 namespace SayMore.UI.Utilities
 {
-	public class ArchiveHelper : IDisposable
+	public class ArchiveHelper
 	{
-		private readonly Event _event;
-		private readonly PersonInformant _personInformant;
 		private readonly string _eventTitle;
+		private Event _event;
+		private PersonInformant _personInformant;
 		private string _pathOfFolderToArchive;
 		private string _eventArchiveFilePath;
 		private string _metsFilePath;
 		private BackgroundWorker _worker;
 		private ZipEntry _zipProgressPrevEntry;
+		private Timer _timer;
+		private bool _cancelProcess;
 
 		public string RampPackagePath { get; private set; }
 
@@ -38,8 +42,69 @@ namespace SayMore.UI.Utilities
 			_eventTitle = _event.MetaDataFile.GetStringValue("title", null);
 		}
 
+		#region RAMP calling methods
 		/// ------------------------------------------------------------------------------------
-		public void Dispose()
+		public bool CallRAMP()
+		{
+			try
+			{
+				var prs = new Process();
+				prs.StartInfo.FileName = RampPackagePath;
+				prs.Start();
+				prs.WaitForInputIdle(8000);
+
+				// Every 4 seconds we'll check to see if the RAMP package is locked. When
+				// it gets unlocked by RAMP, then we'll delete it.
+				_timer = new Timer(CheckIfPackageFileIsLocked, RampPackagePath, 2000, 4000);
+				return true;
+			}
+			catch (Exception e)
+			{
+				ReportError(e, "There was an error attempting to open the archive package in RAMP.");
+				return false;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CheckIfPackageFileIsLocked(Object packageFile)
+		{
+			if (ComponentFile.IsFileLocked(packageFile as string))
+				return;
+
+			try { File.Delete(RampPackagePath); }
+			catch { }
+			_timer.Dispose();
+			_timer = null;
+		}
+
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public bool CreateRampPackage()
+		{
+			Application.UseWaitCursor = true;
+
+			var retVal = CreateCopyOfEvent();
+
+			if (retVal)
+				retVal = CreateCopyOfParticipants();
+
+			if (retVal)
+				retVal = CreateEventArchive();
+
+			if (retVal)
+				retVal = CreateMetsFile();
+
+			if (retVal)
+				retVal = CreateRampPackageWithEventArchiveAndMetsFile();
+
+			CleanUp();
+			Application.UseWaitCursor = false;
+			return retVal;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void CleanUp()
 		{
 			try { Directory.Delete(_pathOfFolderToArchive, true); }
 			catch { }
@@ -50,74 +115,44 @@ namespace SayMore.UI.Utilities
 			try { File.Delete(_eventArchiveFilePath); }
 			catch { }
 
-			try { File.Delete(RampPackagePath); }
-			catch { }
+			_event = null;
+			_personInformant = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool CallRAMP()
+		/// <summary>
+		/// Makes a copy of the event folder in the OS' temp. folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool CreateCopyOfEvent()
 		{
-			var prs = new Process();
-			prs.StartInfo.UseShellExecute = false;
-			//prs.StartInfo.FileName = "\"" + RampPackagePath + "\"";
-			prs.StartInfo.FileName = @"C:\Program Files\dev.RAMP\dev.RAMP.exe";
-			prs.StartInfo.Arguments = RampPackagePath;
+			var errorMsg = "There was an error attempting to copy the files for the event '{0}'";
 
-			try
+			if (!Directory.Exists(_event.FolderPath))
 			{
-				prs.Start();
-
-				// Wait until the process has started.
-				while (!prs.HasExited && prs.Id == 0)
-					Thread.Sleep(100);
-
-			}
-			catch (Exception e)
-			{
-				ReportError(e, "There was an error attempting to open the archive package in RAMP.");
+				ReportError(new DirectoryNotFoundException(), errorMsg);
 				return false;
 			}
 
-			// Make sure the RAMP package is released before going any further.
-			ComponentFile.WaitForFileRelease(RampPackagePath, false);
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool Archive()
-		{
 			try
 			{
 				_pathOfFolderToArchive = FolderUtils.CopyFolderToTempFolder(_event.FolderPath);
 			}
 			catch (Exception e)
 			{
-				ReportError(e, "There was an error attempting to copy the files for the event '{0}'");
+				ReportError(e, errorMsg);
 				return false;
 			}
 
-			if (_pathOfFolderToArchive == null)
-				return false;
-
-			if (!CreateCopyOfEventContainingParticipants())
-				return false;
-
-			if (!CreateEventArchive())
-				return false;
-
-			if (!CreateMetsFile())
-				return false;
-
-			return CreateRampPackageWithEventArchiveAndMetsFile();
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Makes a copy of the event's folder in the temp folder, and then copies into that
-		/// all the folder associated with each participants.
+		/// Makes a copy of the event's participant folders in the temp folder for the event.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool CreateCopyOfEventContainingParticipants()
+		public bool CreateCopyOfParticipants()
 		{
 			try
 			{
@@ -140,11 +175,18 @@ namespace SayMore.UI.Utilities
 
 			try
 			{
+				_cancelProcess = false;
+				_worker = new BackgroundWorker();
+				_worker.DoWork += delegate
+				{
+					CreateZipFile(_eventArchiveFilePath, z => z.AddDirectory(_pathOfFolderToArchive));
+				};
+
 				using (var dlg = new ProgressDialog())
 				{
 					dlg.Overview = string.Format("Creating archive for event '{0}'", _eventTitle ?? _event.Id);
-					dlg.BackgroundWorker = _worker = new BackgroundWorker();
-					_worker.DoWork += ZipUpFolder;
+					dlg.BackgroundWorker = _worker;
+					dlg.CancelRequested += HandleCancelZipping;
 					dlg.ShowDialog();
 				}
 			}
@@ -154,21 +196,7 @@ namespace SayMore.UI.Utilities
 				return false;
 			}
 
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void ZipUpFolder(object sender, DoWorkEventArgs e)
-		{
-			using (var zip = new ZipFile())
-			{
-				_zipProgressPrevEntry = null;
-				zip.SaveProgress += HandleZipSaveProgress;
-				zip.AddDirectory(_pathOfFolderToArchive);
-				zip.Save(_eventArchiveFilePath);
-				_worker.ReportProgress(100);
-				Thread.Sleep(700);
-			}
+			return !_cancelProcess;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -219,9 +247,7 @@ namespace SayMore.UI.Utilities
 			var value = (createDate ?? Guid.NewGuid().ToString()).Replace('/', '_').Replace('\\', '_');
 			var rampId = string.Format("{0}_{1}", _event.Id, value);
 			yield return JSONUtils.MakeKeyValuePair("id", rampId);
-
-			if (_eventTitle != null)
-				yield return JSONUtils.MakeKeyValuePair("dc.title", _eventTitle);
+			yield return JSONUtils.MakeKeyValuePair("dc.title", _eventTitle ?? _event.Id);
 
 			value = _event.MetaDataFile.GetStringValue("situation", null);
 			if (value != null)
@@ -258,17 +284,28 @@ namespace SayMore.UI.Utilities
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool CreateRampPackageWithEventArchiveAndMetsFile()
+		public bool CreateRampPackageWithEventArchiveAndMetsFile()
 		{
 			try
 			{
+				_cancelProcess = false;
 				RampPackagePath = Path.Combine(Path.GetTempPath(), _event.Id + ".ramp");
+				_worker = new BackgroundWorker();
+				_worker.DoWork += delegate
+				{
+					CreateZipFile(RampPackagePath, z =>
+					{
+						z.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
+						z.AddFile(_eventArchiveFilePath, string.Empty);
+						z.AddFile(_metsFilePath, string.Empty);
+					});
+				};
 
 				using (var dlg = new ProgressDialog())
 				{
 					dlg.Overview = string.Format("Creating RAMP/REAP package for event '{0}'", _eventTitle ?? _event.Id);
-					dlg.BackgroundWorker = _worker = new BackgroundWorker();
-					_worker.DoWork += ZipUpRampFiles;
+					dlg.BackgroundWorker = _worker;
+					dlg.CancelRequested += HandleCancelZipping;
 					dlg.ShowDialog();
 				}
 			}
@@ -278,46 +315,62 @@ namespace SayMore.UI.Utilities
 				return false;
 			}
 
-			return true;
+			return !_cancelProcess;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void ZipUpRampFiles(object sender, DoWorkEventArgs e)
+		private void CreateZipFile(string zipFilePath, Action<ZipFile> addStuffToZipAction)
 		{
 			using (var zip = new ZipFile())
 			{
 				_zipProgressPrevEntry = null;
+
+				addStuffToZipAction(zip);
 				zip.SaveProgress += HandleZipSaveProgress;
-				zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
-				zip.AddFile(_eventArchiveFilePath, string.Empty);
-				zip.AddFile(_metsFilePath, string.Empty);
-				zip.Save(RampPackagePath);
-				_worker.ReportProgress(100);
-				Thread.Sleep(700);
+				zip.Save(zipFilePath);
+
+				if (!_cancelProcess)
+				{
+					_worker.ReportProgress(100);
+					Thread.Sleep(700);
+				}
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleZipSaveProgress(object s, SaveProgressEventArgs args)
+		private void HandleZipSaveProgress(object s, SaveProgressEventArgs e)
 		{
-			if (_zipProgressPrevEntry == args.CurrentEntry || args.CurrentEntry == null || args.CurrentEntry.IsDirectory)
+			if (_zipProgressPrevEntry == e.CurrentEntry || e.CurrentEntry == null ||
+				e.CurrentEntry.IsDirectory || _worker.CancellationPending)
+			{
 				return;
+			}
 
-			_zipProgressPrevEntry = args.CurrentEntry;
-			int pct = (int)(((float)args.EntriesSaved / args.EntriesTotal) * 100);
+			_zipProgressPrevEntry = e.CurrentEntry;
+			int pct = (int)(((float)e.EntriesSaved / e.EntriesTotal) * 100);
 
 			_worker.ReportProgress(pct, new ProgressState
 			{
-				StatusLabel = string.Format("Adding: {0}", Path.GetFileName(args.CurrentEntry.FileName)),
+				StatusLabel = string.Format("Adding: {0}", Path.GetFileName(e.CurrentEntry.FileName)),
 				NumberOfStepsCompleted = pct,
 				TotalNumberOfSteps = 100
 			});
 		}
 
 		/// ------------------------------------------------------------------------------------
+		void HandleCancelZipping(object sender, EventArgs e)
+		{
+			_cancelProcess = true;
+			_worker.CancelAsync();
+			while (_worker.IsBusy)
+				Application.DoEvents();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void ReportError(Exception e, string msg)
 		{
-			Palaso.Reporting.ErrorReport.ReportNonFatalExceptionWithMessage(e, msg, _eventTitle ?? _event.Id);
+			Application.UseWaitCursor = false;
+			Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg, _eventTitle ?? _event.Id);
 		}
 	}
 }

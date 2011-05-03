@@ -95,7 +95,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Person GetPersonByName(string name)
+		public virtual Person GetPersonByName(string name)
 		{
 			return _peopleRepository.GetById(name);
 		}

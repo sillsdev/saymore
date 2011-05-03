@@ -153,7 +153,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> GetAllParticipants()
+		public virtual IEnumerable<string> GetAllParticipants()
 		{
 			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
 			return FieldInstance.GetMultipleValuesFromText(allParticipants);
@@ -162,11 +162,9 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void CreateArchiveFile()
 		{
-			using (var helper = new ArchiveHelper(this, _personInformant))
-			{
-				if (helper.Archive())
-					helper.CallRAMP();
-			}
+			var helper = new ArchiveHelper(this, _personInformant);
+			if (helper.CreateRampPackage())
+				helper.CallRAMP();
 		}
 
 		#region Static methods

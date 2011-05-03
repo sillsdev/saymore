@@ -14,17 +14,20 @@ namespace SayMoreTests.Model.Files
 	{
 		private TemporaryFolder _parentFolder;
 
+		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
 			_parentFolder = new TemporaryFolder("componentFileTest");
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private string ParentFolderName
 		{
 			get { return Path.GetFileName(_parentFolder.Path); }
 		}
 
+		/// ------------------------------------------------------------------------------------
 		[TearDown]
 		public void TearDown()
 		{
@@ -32,6 +35,7 @@ namespace SayMoreTests.Model.Files
 			_parentFolder = null;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetFileType_IsText_GivesTextFileType()
@@ -327,7 +331,6 @@ namespace SayMoreTests.Model.Files
 			Assert.AreEqual(1, f.GetAssignedRoles().Count());
 		}
 
-
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetAssignedRoles_ForConsentAndEventType_ReturnsEmptyEnumerator()
@@ -364,12 +367,48 @@ namespace SayMoreTests.Model.Files
 		[Category("SkipOnTeamCity")]
 		public void IdentifyAsRole_FileRenamed()
 		{
-			ComponentFile f = CreateComponentFile("abc.txt");
+			var f = CreateComponentFile("abc.txt");
 			var role = new ComponentRole(typeof (Event), "someRole", "someRole", ComponentRole.MeasurementTypes.None,
 										 p => p.EndsWith("txt"), "$ElementId$_someRole", Color.Magenta, Color.Black);
 			f.AssignRole(role);
 			Assert.AreEqual(ParentFolderName + "_someRole.txt", Path.GetFileName(f.PathToAnnotatedFile));
 			Assert.IsTrue(File.Exists(f.PathToAnnotatedFile));
+		}
+
+		[Test]
+		public void IsFileLocked_FilePathIsNull_ReturnsFalse()
+		{
+			Assert.IsFalse(ComponentFile.IsFileLocked(null));
+		}
+
+		[Test]
+		public void IsFileLocked_FileDoesntExist_ReturnsFalse()
+		{
+			Assert.IsFalse(ComponentFile.IsFileLocked(@"c:\blahblah.blah"));
+		}
+
+		[Test]
+		public void IsFileLocked_FileExistsAndIsNotLocked_ReturnsFalse()
+		{
+			using (var file = new TempFileFromFolder(_parentFolder))
+				Assert.IsFalse(ComponentFile.IsFileLocked(file.Path));
+		}
+
+		[Test]
+		public void IsFileLocked_FileExistsAndIsLocked_ReturnsTrue()
+		{
+			using (var file = new TempFileFromFolder(_parentFolder))
+			{
+				var stream = File.OpenWrite(file.Path);
+				try
+				{
+					Assert.IsTrue(ComponentFile.IsFileLocked(file.Path));
+				}
+				finally
+				{
+					stream.Close();
+				}
+			}
 		}
 
 		public string SetStringValue(ComponentFile file, string key, string value)

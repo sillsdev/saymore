@@ -17,8 +17,6 @@ namespace SayMoreTests.Utilities
 		private Mock<Person> _person;
 		private Mock<PersonInformant> _personInformant;
 		private ArchiveHelper _helper;
-		private string _eventCopyFolder;
-		private string _personCopyFolder;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
@@ -26,12 +24,9 @@ namespace SayMoreTests.Utilities
 		{
 			ErrorReport.IsOkToInteractWithUser = false;
 
-			_tmpFolder = new TemporaryFolder("ArchiveHelperEventsTestFolder");
+			_tmpFolder = new TemporaryFolder("ArchiveHelperTestFolder");
 
 			CreateEventAndPersonFolders();
-
-			_eventCopyFolder = Path.Combine(Path.GetTempPath(), "ddo-event");
-			_personCopyFolder = Path.Combine(_eventCopyFolder, "ddo-person");
 
 			SetupMocks();
 
@@ -74,6 +69,7 @@ namespace SayMoreTests.Utilities
 
 			_person = new Mock<Person>();
 			_person.Setup(p => p.FolderPath).Returns(Path.Combine(Path.Combine(_tmpFolder.Path, "People"), "ddo-person"));
+			_person.Setup(p => p.Id).Returns("ddo-person");
 
 			_personInformant = new Mock<PersonInformant>();
 			_personInformant.Setup(i => i.GetPersonByName("ddo-person")).Returns(_person.Object);
@@ -95,68 +91,9 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateCopyOfEvent_ReturnsTrue()
-		{
-			Assert.IsTrue(_helper.CreateCopyOfEvent());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CreateCopyOfEvent_EventPathInvalid_ReportsError()
-		{
-			_event.Setup(e => e.FolderPath).Returns(null as string);
-
-			using (new ErrorReport.NonFatalErrorReportExpected())
-				_helper.CreateCopyOfEvent();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CreateCopyOfEvent_EventPathInvalid_ReturnsFalse()
-		{
-			_event.Setup(e => e.FolderPath).Returns(@"c\blahblahblah");
-
-			using (new ErrorReport.NonFatalErrorReportExpected())
-				Assert.IsFalse(_helper.CreateCopyOfEvent());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CreateCopyOfEvent_CreatesEventFolderContainingCorrectFiles()
-		{
-			_helper.CreateCopyOfEvent();
-			Assert.IsTrue(Directory.Exists(_eventCopyFolder));
-			Assert.IsTrue(File.Exists(Path.Combine(_eventCopyFolder, "ddo.event")));
-			Assert.IsTrue(File.Exists(Path.Combine(_eventCopyFolder, "ddo.mpg")));
-			Assert.IsTrue(File.Exists(Path.Combine(_eventCopyFolder, "ddo.mp3")));
-			Assert.IsTrue(File.Exists(Path.Combine(_eventCopyFolder, "ddo.pdf")));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CreateCopyOfParticipants_ReturnsTrue()
-		{
-			_helper.CreateCopyOfEvent();
-			Assert.IsTrue(_helper.CreateCopyOfParticipants());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CreateCopyOfParticipants_CreatesPersonFolderContainingCorrectFiles()
-		{
-			_helper.CreateCopyOfEvent();
-			_helper.CreateCopyOfParticipants();
-			Assert.IsTrue(Directory.Exists(_personCopyFolder));
-			Assert.IsTrue(File.Exists(Path.Combine(_personCopyFolder, "ddoPic.jpg")));
-			Assert.IsTrue(File.Exists(Path.Combine(_personCopyFolder, "ddoVoice.wav")));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
 		[Category("SkipOnTeamCity")]
 		public void CreateEventArchive_CreatesArchive()
 		{
-			_helper.CreateCopyOfEvent();
 			Assert.IsTrue(_helper.CreateEventArchive());
 			Assert.IsTrue(File.Exists(Path.Combine(Path.GetTempPath(), "ddo.zip")));
 		}
@@ -165,7 +102,6 @@ namespace SayMoreTests.Utilities
 		[Test]
 		public void CreateMetsFile_CreatesFile()
 		{
-			_helper.CreateCopyOfEvent();
 			Assert.IsTrue(_helper.CreateMetsFile());
 			Assert.IsTrue(File.Exists(Path.Combine(Path.GetTempPath(), "mets.xml")));
 		}
@@ -175,7 +111,6 @@ namespace SayMoreTests.Utilities
 		[Category("SkipOnTeamCity")]
 		public void CreateRampPackageWithEventArchiveAndMetsFile_CreatesRampPackage()
 		{
-			_helper.CreateCopyOfEvent();
 			_helper.CreateEventArchive();
 			_helper.CreateMetsFile();
 			Assert.IsTrue(_helper.CreateRampPackageWithEventArchiveAndMetsFile());

@@ -41,7 +41,7 @@ namespace SayMore.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectWindow(string projectPath, EventsListScreen eventsScreen,
-			PersonListScreen personsScreen, ProgressScreen overviewScreen,
+			PersonListScreen personsScreen, ProgressScreen progressScreen,
 			IEnumerable<ICommand> commands) : this()
 		{
 			if (Settings.Default.ProjectWindow == null)
@@ -58,25 +58,25 @@ namespace SayMore.UI.ProjectWindow
 
 			_viewTabGroup.AddTab("Events", eventsScreen);
 			_viewTabGroup.AddTab("People", personsScreen);
-			_viewTabGroup.AddTab("Progress", overviewScreen);
+			_viewTabGroup.AddTab("Progress", progressScreen);
 			//_viewTabGroup.AddTab("Send/Receive", new SendReceiveScreen());
 
-			if (overviewScreen.MainMenuItem != null)
+			if (eventsScreen.MainMenuItem != null)
 			{
-				overviewScreen.MainMenuItem.Visible = false;
-				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), overviewScreen.MainMenuItem);
+				eventsScreen.MainMenuItem.Enabled = false;
+				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), eventsScreen.MainMenuItem);
 			}
 
 			if (personsScreen.MainMenuItem != null)
 			{
-				personsScreen.MainMenuItem.Visible = false;
+				personsScreen.MainMenuItem.Enabled = false;
 				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), personsScreen.MainMenuItem);
 			}
 
-			if (eventsScreen.MainMenuItem != null)
+			if (progressScreen.MainMenuItem != null)
 			{
-				eventsScreen.MainMenuItem.Visible = false;
-				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), eventsScreen.MainMenuItem);
+				progressScreen.MainMenuItem.Enabled = false;
+				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), progressScreen.MainMenuItem);
 			}
 
 			SetWindowText();
@@ -193,7 +193,7 @@ namespace SayMore.UI.ProjectWindow
 				return;
 
 			if (view.MainMenuItem != null)
-				view.MainMenuItem.Visible = true;
+				view.MainMenuItem.Enabled = true;
 
 			UsageReporter.SendNavigationNotice(view.NameForUsageReporting);
 		}
@@ -203,7 +203,7 @@ namespace SayMore.UI.ProjectWindow
 		{
 			var view = deactivatedTab.View as ISayMoreView;
 			if (view != null && view.MainMenuItem != null)
-				view.MainMenuItem.Visible = false;
+				view.MainMenuItem.Enabled = false;
 		}
 	}
 }

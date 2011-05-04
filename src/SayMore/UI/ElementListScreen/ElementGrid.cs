@@ -249,7 +249,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual IEnumerable<ToolStripMenuItem> GetMenuCommands()
+		public virtual IEnumerable<ToolStripMenuItem> GetMenuCommands()
 		{
 			yield return (DeleteAction == null ? null :
 				new ToolStripMenuItem("Delete", null, (s, e) => DeleteAction()));

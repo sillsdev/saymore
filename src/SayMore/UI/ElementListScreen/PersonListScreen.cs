@@ -77,6 +77,7 @@ namespace SayMore.UI.ElementListScreen
 			get { return null; }
 		}
 
+		/// ------------------------------------------------------------------------------------
 		public string NameForUsageReporting
 		{
 			get { return "People"; }
@@ -110,7 +111,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleDestroyed(System.EventArgs e)
+		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			Settings.Default.PersonScreenElementListSpiltterPos = _elementListSplitter.SplitterDistance;
 			Settings.Default.PersonScreenComponentsSplitterPos = _componentsSplitter.SplitterDistance;

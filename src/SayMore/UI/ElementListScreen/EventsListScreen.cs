@@ -33,6 +33,14 @@ namespace SayMore.UI.ElementListScreen
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 
+			MainMenuItem = new ToolStripMenuItem("E&vent");
+			MainMenuItem.DropDownItems.Add(_elementsListPanel._buttonNew.Text, null, HandleAddingNewElement);
+			MainMenuItem.DropDownItems.Add(_buttonNewFromFiles.Text, null, HandleButtonNewFromFilesClick);
+			MainMenuItem.DropDownItems.Add(new ToolStripSeparator());
+
+			foreach (var eventMenuItem in _elementsGrid.GetMenuCommands())
+				MainMenuItem.DropDownItems.Add(eventMenuItem);
+
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
 				_labelHelp.Visible = false;
 			else
@@ -103,10 +111,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ToolStripMenuItem MainMenuItem
-		{
-			get { return null; }
-		}
+		public ToolStripMenuItem MainMenuItem { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		protected override Color ComponentEditorBackgroundColor

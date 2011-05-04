@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Ionic.Zip;
-using Palaso.IO;
 using Palaso.Progress;
 using Palaso.UI.WindowsForms.Progress;
 using SayMore.Model;
@@ -16,6 +15,8 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using Timer = System.Threading.Timer;
+using ZipEntry = Ionic.Zip.ZipEntry;
+using ZipFile = Ionic.Zip.ZipFile;
 
 namespace SayMore.UI.Utilities
 {
@@ -24,7 +25,6 @@ namespace SayMore.UI.Utilities
 		private readonly string _eventTitle;
 		private Event _event;
 		private PersonInformant _personInformant;
-		private string _pathOfFolderToArchive;
 		private string _eventArchiveFilePath;
 		private string _metsFilePath;
 		private BackgroundWorker _worker;
@@ -84,13 +84,7 @@ namespace SayMore.UI.Utilities
 		{
 			Application.UseWaitCursor = true;
 
-			var retVal = CreateCopyOfEvent();
-
-			if (retVal)
-				retVal = CreateCopyOfParticipants();
-
-			if (retVal)
-				retVal = CreateEventArchive();
+			var	retVal = CreateEventArchive();
 
 			if (retVal)
 				retVal = CreateMetsFile();
@@ -106,9 +100,6 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		public void CleanUp()
 		{
-			try { Directory.Delete(_pathOfFolderToArchive, true); }
-			catch { }
-
 			try { File.Delete(_metsFilePath); }
 			catch { }
 
@@ -117,55 +108,6 @@ namespace SayMore.UI.Utilities
 
 			_event = null;
 			_personInformant = null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Makes a copy of the event folder in the OS' temp. folder.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool CreateCopyOfEvent()
-		{
-			var errorMsg = "There was an error attempting to copy the files for the event '{0}'";
-
-			if (!Directory.Exists(_event.FolderPath))
-			{
-				ReportError(new DirectoryNotFoundException(), errorMsg);
-				return false;
-			}
-
-			try
-			{
-				_pathOfFolderToArchive = FolderUtils.CopyFolderToTempFolder(_event.FolderPath);
-			}
-			catch (Exception e)
-			{
-				ReportError(e, errorMsg);
-				return false;
-			}
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Makes a copy of the event's participant folders in the temp folder for the event.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool CreateCopyOfParticipants()
-		{
-			try
-			{
-				foreach (var person in _event.GetAllParticipants().Select(n => _personInformant.GetPersonByName(n)))
-					FolderUtils.CopyFolder(person.FolderPath, _pathOfFolderToArchive);
-			}
-			catch (Exception e)
-			{
-				ReportError(e, "There was an error attempting to copy the participant informaton for the event '{0}'.");
-				return false;
-			}
-
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -179,7 +121,12 @@ namespace SayMore.UI.Utilities
 				_worker = new BackgroundWorker();
 				_worker.DoWork += delegate
 				{
-					CreateZipFile(_eventArchiveFilePath, z => z.AddDirectory(_pathOfFolderToArchive));
+					CreateZipFile(_eventArchiveFilePath, z =>
+					{
+						z.AddDirectory(_event.FolderPath);
+						foreach (var person in _event.GetAllParticipants().Select(n => _personInformant.GetPersonByName(n)))
+							z.AddDirectory(person.FolderPath, Path.Combine("Contributors", person.Id));
+					});
 				};
 
 				using (var dlg = new ProgressDialog())

@@ -9,10 +9,6 @@ using SilUtils;
 namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public interface ISayMoreView
 	{
 		void ViewActivated(bool firstTime);
@@ -39,10 +35,6 @@ namespace SayMore.UI.ProjectWindow
 		private Dictionary<Control, bool> _hasBeenActivatedList;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ViewButtonManager"/> class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public ViewButtonManager(ToolStrip toolstrip, IEnumerable<Control> ctrls)
 		{
 			Debug.Assert(toolstrip.Items.Count >= ctrls.Count());
@@ -54,7 +46,7 @@ namespace SayMore.UI.ProjectWindow
 			_hasBeenActivatedList = new Dictionary<Control, bool>();
 
 			int i = 0;
-			foreach (Control ctrl in ctrls)
+			foreach (var ctrl in ctrls)
 			{
 				ctrl.Dock = DockStyle.Fill;
 				ctrl.Visible = false;
@@ -109,16 +101,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		public ToolStripButton CurrentViewButton
 		{
-			get
-			{
-				foreach (ToolStripButton btn in _toolStrip.Items)
-				{
-					if (btn.Checked)
-						return btn;
-				}
-
-				return null;
-			}
+			get { return _toolStrip.Items.Cast<ToolStripButton>().FirstOrDefault(btn => btn.Checked); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -141,11 +124,11 @@ namespace SayMore.UI.ProjectWindow
 			if (!_controls.ContainsKey(btn))
 				return;
 
-			ToolStripButton currbtn = CurrentViewButton;
+			var currbtn = CurrentViewButton;
 			if (btn == currbtn)
 				return;
 
-			Control newVw = (btn == null ? null : _controls[btn]);
+			var newVw = (btn == null ? null : _controls[btn]);
 
 			// Now make sure we can leave the current view.
 			foreach (var vw in Views)

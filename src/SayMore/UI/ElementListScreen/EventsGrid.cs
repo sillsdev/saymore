@@ -76,11 +76,11 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override IEnumerable<ToolStripMenuItem> GetMenuCommands()
+		public override IEnumerable<ToolStripMenuItem> GetMenuCommands()
 		{
 			var cmds = base.GetMenuCommands().ToList();
 
-			cmds.Insert(0, new ToolStripMenuItem("Archive with RAMP (SIL)",
+			cmds.Insert(0, new ToolStripMenuItem("Archive with RAMP (SIL)...",
 				Resources.RampIcon, (s, e) => ((Event)GetCurrentElement()).CreateArchiveFile()));
 
 			return cmds;

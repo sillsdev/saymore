@@ -10,7 +10,7 @@ using SayMore.UI.Archiving;
 namespace SayMoreTests.Utilities
 {
 	[TestFixture]
-	public class ArchiveHelperTests
+	public class ArchivingDlgViewModelTests
 	{
 		private TemporaryFolder _tmpFolder;
 		private Mock<Event> _event;

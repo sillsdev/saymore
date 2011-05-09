@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Palaso.Reporting;
@@ -87,6 +88,42 @@ namespace SayMoreTests.Utilities
 
 			try { File.Delete(_helper.RampPackagePath); }
 			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetFilesToArchive_GetsCorrectListSize()
+		{
+			var files = _helper.GetFilesToArchive();
+			Assert.AreEqual(2, files.Count);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetFilesToArchive_GetsCorrectEventFiles()
+		{
+			var files = _helper.GetFilesToArchive();
+			Assert.AreEqual(4, files[string.Empty].Count());
+
+			var list = files[string.Empty].Select(Path.GetFileName).ToList();
+			Assert.Contains("ddo.event", list);
+			Assert.Contains("ddo.mpg", list);
+			Assert.Contains("ddo.mp3", list);
+			Assert.Contains("ddo.pdf", list);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetFilesToArchive_GetsCorrectPersonFiles()
+		{
+			var files = _helper.GetFilesToArchive();
+			Assert.AreEqual(2, files["ddo-person"].Count());
+			var list = files["ddo-person"].Select(Path.GetFileName).ToList();
+			Assert.Contains("ddoPic.jpg", list);
+			Assert.Contains("ddoVoice.wav", list);
 		}
 
 		/// ------------------------------------------------------------------------------------

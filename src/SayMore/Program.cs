@@ -22,10 +22,8 @@ namespace SayMore
 		private static ProjectContext _projectContext;
 
 		private static string _pathOfLoadedProjectFile;
-
 		private static ApplicationContainer _applicationContainer;
-
-		public static Font DialogFont { get; private set; }
+		private static Font _dialogFont;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -42,7 +40,7 @@ namespace SayMore
 			// Don't use SystemFonts.DefaultFont because that always returns "Microsoft Sans Serif"
 			// and SystemFonts.DialogFont always returns "Tahoma", regardless of OS.
 			// See: http://benhollis.net/blog/2007/04/11/setting-the-correct-default-font-in-net-windows-forms-apps/
-			DialogFont = new Font(SystemFonts.MessageBoxFont, FontStyle.Regular);
+			_dialogFont = new Font(SystemFonts.MessageBoxFont, FontStyle.Regular);
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
@@ -80,6 +78,12 @@ namespace SayMore
 
 			if (_projectContext != null)
 				_projectContext.Dispose();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Font DialogFont
+		{
+			get { return _dialogFont ?? SystemFonts.MessageBoxFont; }
 		}
 
 		/// ------------------------------------------------------------------------------------

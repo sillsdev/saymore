@@ -34,7 +34,6 @@ namespace SayMore.UI.Archiving
 		private bool _workerException;
 		private readonly Dictionary<int, string> _progressMessages = new Dictionary<int,string>();
 		private string _rampProgramPath;
-		private Action<int> _initializeProgressBarAction;
 		private Action _incrementProgressBarAction;
 
 		public bool IsBusy { get; private set; }
@@ -58,16 +57,16 @@ namespace SayMore.UI.Archiving
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool Initialize(Action<int> initializeProgressBarAction, Action incrementProgressBarAction)
+		public bool Initialize(out int maxProgBarValue, Action incrementProgressBarAction)
 		{
+			maxProgBarValue = 0;
 			IsBusy = true;
-			_initializeProgressBarAction = initializeProgressBarAction;
 			_incrementProgressBarAction = incrementProgressBarAction;
 
 			LogBox.WriteMessage("Searching for the RAMP program...");
 			Application.DoEvents();
-			_rampProgramPath = FileUtils.GetProgramFromRegistryThatOpensFileType(".ramp") ??
-				FileUtils.LocateInProgramFiles("ramp.exe", true, "ramp");
+			_rampProgramPath = FileLocator.GetFromRegistryProgramThatOpensFileType(".ramp") ??
+				FileLocator.LocateInProgramFiles("ramp.exe", true, "ramp");
 
 			LogBox.Clear();
 
@@ -104,12 +103,17 @@ namespace SayMore.UI.Archiving
 			if (_rampProgramPath == null)
 				return false;
 
-			if (_initializeProgressBarAction != null)
-				_initializeProgressBarAction(fileCount + 3);
+			maxProgBarValue = fileCount + 3;
 
 			return true;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Each entry in the dictionary is a list of files. The first entry contains a list
+		/// of all the event files. All subsequent entries are keyed using a person id and
+		/// the values are the lists of files for each person.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public IDictionary<string, IEnumerable<string>> GetFilesToArchive()
 		{

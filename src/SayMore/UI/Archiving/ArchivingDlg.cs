@@ -71,11 +71,9 @@ namespace SayMore.UI.Archiving
 			base.OnShown(e);
 
 			WaitCursor.Show();
-
-			_buttonCreatePackage.Enabled = _viewModel.Initialize(
-				max => _progressBar.Invoke(new Action(() => { _progressBar.Value = 0; _progressBar.Maximum = max; })),
-				() => _progressBar.Increment(1));
-
+			int maxProgBarValue;
+			_buttonCreatePackage.Enabled = _viewModel.Initialize(out maxProgBarValue, () => _progressBar.Increment(1));
+			_progressBar.Maximum = maxProgBarValue;
 			WaitCursor.Hide();
 		}
 

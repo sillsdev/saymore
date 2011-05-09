@@ -8,7 +8,7 @@ using Localization.UI;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
-using SayMore.UI.Utilities;
+using SayMore.UI.Archiving;
 using SilUtils;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
@@ -121,10 +121,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 				lnkWebSites.Links.Add(i, appPortion.Length, Settings.Default.ProgramsWebSite);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{

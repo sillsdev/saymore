@@ -5,7 +5,7 @@ using Localization;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI.Utilities;
+using SayMore.UI.Archiving;
 
 namespace SayMore.Model
 {
@@ -162,9 +162,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public void CreateArchiveFile()
 		{
-			var helper = new ArchiveHelper(this, _personInformant);
-			if (helper.CreateRampPackage())
-				helper.CallRAMP();
+			var helper = new ArchivingDlgViewModel(this, _personInformant);
+
+			using (var dlg = new ArchivingDlg(helper))
+				dlg.ShowDialog();
+
+			//if (helper.CreateRampPackage())
+			//    helper.CallRAMP();
 		}
 
 		#region Static methods

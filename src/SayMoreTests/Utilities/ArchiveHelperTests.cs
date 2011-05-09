@@ -5,7 +5,7 @@ using Palaso.Reporting;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.UI.Utilities;
+using SayMore.UI.Archiving;
 
 namespace SayMoreTests.Utilities
 {
@@ -16,7 +16,7 @@ namespace SayMoreTests.Utilities
 		private Mock<Event> _event;
 		private Mock<Person> _person;
 		private Mock<PersonInformant> _personInformant;
-		private ArchiveHelper _helper;
+		private ArchivingDlgViewModel _helper;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
@@ -30,7 +30,7 @@ namespace SayMoreTests.Utilities
 
 			SetupMocks();
 
-			_helper = new ArchiveHelper(_event.Object, _personInformant.Object);
+			_helper = new ArchivingDlgViewModel(_event.Object, _personInformant.Object);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SayMore.UI.Utilities
+namespace SayMore.UI.Archiving
 {
 	public class JSONUtils
 	{

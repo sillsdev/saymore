@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace SayMore.UI.Utilities
+namespace SayMore.UI.Archiving
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

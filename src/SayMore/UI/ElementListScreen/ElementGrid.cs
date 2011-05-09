@@ -237,7 +237,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			base.OnCellMouseDown(e);
 
-			if (e.Button != MouseButtons.Right)
+			if (e.Button != MouseButtons.Right || e.RowIndex < 0)
 				return;
 
 			if (e.RowIndex != CurrentCellAddress.Y)

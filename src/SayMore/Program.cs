@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Diagnostics;
 using System.IO;
@@ -7,7 +8,7 @@ using Localization;
 using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
-using SayMore.UI.Utilities;
+using SayMore.UI.Archiving;
 using SilUtils;
 
 namespace SayMore
@@ -24,6 +25,8 @@ namespace SayMore
 
 		private static ApplicationContainer _applicationContainer;
 
+		public static Font DialogFont { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The main entry point for the application.
@@ -32,6 +35,15 @@ namespace SayMore
 		[STAThread]
 		static void Main()
 		{
+			// This is pretty annoying: When because .Net doesn't have a font style of SemiBold
+			// (e.g. Segoe UI SemiBold), fonts having that style are assumed to be bold, but
+			// when some controls (e.g. Label) are set to a SemiBold font, the are displayed as
+			// bold, so we'll create our own forcing the style to regular, which seems to work.
+			// Don't use SystemFonts.DefaultFont because that always returns "Microsoft Sans Serif"
+			// and SystemFonts.DialogFont always returns "Tahoma", regardless of OS.
+			// See: http://benhollis.net/blog/2007/04/11/setting-the-correct-default-font-in-net-windows-forms-apps/
+			DialogFont = new Font(SystemFonts.MessageBoxFont, FontStyle.Regular);
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 

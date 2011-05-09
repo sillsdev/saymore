@@ -983,15 +983,14 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
-        public int RampProgramLoadWait {
+        [global::System.Configuration.DefaultSettingValueAttribute("https://www.help.insitehome.org/reap/manual/ramp-users-manual")]
+        public string RampWebSite {
             get {
-                return ((int)(this["RampProgramLoadWait"]));
+                return ((string)(this["RampWebSite"]));
             }
             set {
-                this["RampProgramLoadWait"] = value;
+                this["RampWebSite"] = value;
             }
         }
     }

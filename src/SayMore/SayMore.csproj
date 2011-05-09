@@ -66,10 +66,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
     </Reference>
-    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
-    </Reference>
     <Reference Include="Palaso.Media, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.Media.dll</HintPath>
@@ -154,6 +150,12 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
+    <Compile Include="UI\Archiving\ArchivingDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Archiving\ArchivingDlg.Designer.cs">
+      <DependentUpon>ArchivingDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Charts\ChartBarInfo.cs" />
     <Compile Include="UI\Charts\HTMLChartBuilder.cs" />
     <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
@@ -448,6 +450,9 @@
     <EmbeddedResource Include="ClearShare\ContributorsListControl.resx">
       <DependentUpon>ContributorsListControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Archiving\ArchivingDlg.resx">
+      <DependentUpon>ArchivingDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\AudioComponentEditor.resx">
       <DependentUpon>AudioComponentEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -554,7 +559,7 @@
     <Compile Include="UI\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Utilities\ArchiveHelper.cs" />
+    <Compile Include="UI\Archiving\ArchivingDlgViewModel.cs" />
     <Compile Include="UI\Utilities\IconHelper.cs" />
     <Compile Include="UI\Utilities\AppColors.cs" />
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
@@ -728,6 +733,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Palaso\Palaso\Palaso.csproj">
+      <Project>{3527DA1D-1E25-48BE-A71E-9EBF7F9208D4}</Project>
+      <Name>Palaso</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

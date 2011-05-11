@@ -107,7 +107,7 @@ namespace SayMoreTests.Utilities
 			var files = _helper.GetFilesToArchive();
 			Assert.AreEqual(4, files[string.Empty].Count());
 
-			var list = files[string.Empty].Select(Path.GetFileName).ToList();
+			var list = files[string.Empty].Select(f => Path.GetFileName(f)).ToList();
 			Assert.Contains("ddo.event", list);
 			Assert.Contains("ddo.mpg", list);
 			Assert.Contains("ddo.mp3", list);
@@ -131,7 +131,7 @@ namespace SayMoreTests.Utilities
 		{
 			var files = _helper.GetFilesToArchive();
 			Assert.AreEqual(2, files["ddo-person"].Count());
-			var list = files["ddo-person"].Select(Path.GetFileName).ToList();
+			var list = files["ddo-person"].Select(f => Path.GetFileName(f)).ToList();
 			Assert.Contains("ddoPic.jpg", list);
 			Assert.Contains("ddoVoice.wav", list);
 		}

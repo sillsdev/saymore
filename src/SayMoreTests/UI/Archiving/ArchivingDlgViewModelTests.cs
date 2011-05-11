@@ -114,6 +114,16 @@ namespace SayMoreTests.Utilities
 			Assert.Contains("ddo.pdf", list);
 		}
 
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetFilesToArchive_ParticipantFileDoNotExist_DoesNotCrash()
+		{
+			_event.Setup(e => e.GetAllParticipants()).Returns(new[] { "ddo-person", "non-existant-person" });
+			_helper.GetFilesToArchive();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]

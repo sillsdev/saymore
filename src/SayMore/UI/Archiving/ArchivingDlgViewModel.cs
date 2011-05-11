@@ -9,11 +9,11 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Ionic.Zip;
+using Palaso.ClearShare;
 using Palaso.IO;
 using Palaso.Progress;
 using Palaso.Progress.LogBox;
 using SayMore.Model;
-using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using Timer = System.Threading.Timer;
@@ -121,8 +121,11 @@ namespace SayMore.UI.Archiving
 
 			list[string.Empty] = Directory.GetFiles(_event.FolderPath);
 
-			foreach (var person in _event.GetAllParticipants().Select(n => _personInformant.GetPersonByName(n)))
+			foreach (var person in _event.GetAllParticipants()
+				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
+			{
 				list[person.Id] = Directory.GetFiles(person.FolderPath);
+			}
 
 			return list;
 		}
@@ -279,7 +282,7 @@ namespace SayMore.UI.Archiving
 
 			var contributions = _event.MetaDataFile.GetValue("contributions", null) as ContributionCollection;
 			if (contributions != null && contributions.Count > 0)
-				yield return JSONUtils.MakeArrayFromValues("dc.contributor", contributions.Select(c => c.GetREAPValue()));
+				yield return JSONUtils.MakeArrayFromValues("dc.contributor", contributions.Select(GetContributorsMetsPair));
 
 			var file =
 				JSONUtils.MakeKeyValuePair(" ", Path.GetFileName(_eventArchiveFilePath)) + "," +
@@ -295,6 +298,13 @@ namespace SayMore.UI.Archiving
 
 			yield return JSONUtils.MakeArrayFromValues("dc.relation.requires",
 				new[] { JSONUtils.MakeKeyValuePair(" ", "SayMore") });
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetContributorsMetsPair(Contribution contribution)
+		{
+			return JSONUtils.MakeKeyValuePair(" ", contribution.ContributorName) + "," +
+				JSONUtils.MakeKeyValuePair("role", contribution.Role == null ? "" : contribution.Role.Code);
 		}
 
 		#endregion

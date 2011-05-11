@@ -45,3 +45,6 @@ glob:src/SayMore/obj/*
 glob:src/SayMoreTests/obj/*
 glob:src/Sponge/obj/*
 glob:src/SpongeTests/obj/*
+syntax: glob
+HG Setup.eml
+src/SayMore/SayMore.csproj.orig

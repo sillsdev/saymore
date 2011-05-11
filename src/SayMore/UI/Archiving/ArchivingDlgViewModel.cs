@@ -282,7 +282,7 @@ namespace SayMore.UI.Archiving
 
 			var contributions = _event.MetaDataFile.GetValue("contributions", null) as ContributionCollection;
 			if (contributions != null && contributions.Count > 0)
-				yield return JSONUtils.MakeArrayFromValues("dc.contributor", contributions.Select(GetContributorsMetsPair));
+				yield return JSONUtils.MakeArrayFromValues("dc.contributor", contributions.Select(c => GetContributorsMetsPair(c)));
 
 			var file =
 				JSONUtils.MakeKeyValuePair(" ", Path.GetFileName(_eventArchiveFilePath)) + "," +

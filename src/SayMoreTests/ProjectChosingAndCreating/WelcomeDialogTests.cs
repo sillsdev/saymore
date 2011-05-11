@@ -35,7 +35,7 @@ namespace SayMoreTests.ProjectChosingAndCreating
 //			}
 //		}
 //
-		/// ------------------------------------------------------------------------------------
+//		/// ------------------------------------------------------------------------------------
 //		[Test]
 //		public void ProjectSettingsFilePath_AfterCreating_IsCorrect()
 //		{
@@ -47,8 +47,8 @@ namespace SayMoreTests.ProjectChosingAndCreating
 //			}
 //		}
 
-//	NB: Dave, is is worth it to make it possible to create on top of an existing folder?
-// seems like a a lot of work/testing for unclear benefit
+		//	NB: Dave, is is worth it to make it possible to create on top of an existing folder?
+		// seems like a a lot of work/testing for unclear benefit
 //		[Test]
 //		public void CreateNewProject_ExistingEmptyFolder_True()
 //		{
@@ -72,7 +72,7 @@ namespace SayMoreTests.ProjectChosingAndCreating
 //			}
 //		}
 
-		/// ------------------------------------------------------------------------------------
+//		/// ------------------------------------------------------------------------------------
 //		[Test]
 //		public void CreateNewProject_FolderAlreadyExists_False()
 //		{
@@ -88,7 +88,7 @@ namespace SayMoreTests.ProjectChosingAndCreating
 //			}
 //		}
 //
-		/// ------------------------------------------------------------------------------------
+//		/// ------------------------------------------------------------------------------------
 //		[Test]
 //		public void CreateNewProject_FolderAlreadyContainsProject_ProjectPath_Null()
 //		{

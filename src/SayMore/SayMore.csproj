@@ -59,6 +59,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\lib\dotnet\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="LocalizationManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
@@ -127,12 +130,17 @@
     <Compile Include="ProjectContext.cs" />
     <Compile Include="Model\Files\ComponentFile.cs" />
     <Compile Include="Model\Files\ComponentRole.cs" />
-    <Compile Include="Model\Contribution.cs" />
     <Compile Include="Model\Files\FileType.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
+    <Compile Include="UI\Archiving\ArchivingDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Archiving\ArchivingDlg.Designer.cs">
+      <DependentUpon>ArchivingDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Charts\ChartBarInfo.cs" />
     <Compile Include="UI\Charts\HTMLChartBuilder.cs" />
     <Compile Include="UI\ComponentEditors\AudioComponentEditor.cs">
@@ -424,6 +432,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="UI\Archiving\ArchivingDlg.resx">
+      <DependentUpon>ArchivingDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\AudioComponentEditor.resx">
       <DependentUpon>AudioComponentEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -530,10 +541,12 @@
     <Compile Include="UI\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Archiving\ArchivingDlgViewModel.cs" />
     <Compile Include="UI\Utilities\IconHelper.cs" />
     <Compile Include="UI\Utilities\AppColors.cs" />
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
     <Compile Include="Model\Files\DataGathering\UniqueCombinationsFinder.cs" />
+    <Compile Include="UI\Utilities\JSONUtils.cs" />
     <Compile Include="UI\Utilities\MPlayerHelper.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -655,6 +668,8 @@
     <None Include="Resources\DeleteMessageBoxButtonImage.png" />
     <None Include="Resources\Add.png" />
     <None Include="Resources\Delete.png" />
+    <None Include="Resources\ramp.png" />
+    <None Include="Resources\EmptyMets.xml" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

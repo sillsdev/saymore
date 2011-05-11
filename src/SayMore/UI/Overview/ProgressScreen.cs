@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Properties;
@@ -56,6 +57,12 @@ namespace SayMore.UI.Overview
 		}
 
 		#region ISayMoreView Members
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ToolStripMenuItem> GetMainMenuCommands()
+		{
+			return null;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public void ViewActivated(bool firstTime)
 		{

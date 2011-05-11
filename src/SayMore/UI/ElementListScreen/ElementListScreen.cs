@@ -68,6 +68,7 @@ namespace SayMore.UI.ElementListScreen
 			_tabControlImages.Images.Add("Audio", Resources.AudioFileImage);
 
 			_elementsGrid.IsOKToSelectDifferentElement = GetIsOKToLeaveCurrentEditor;
+			_elementsGrid.DeleteAction = DeleteSelectedElements;
 			_elementsGrid.SelectedElementChanged += HandleSelectedElementChanged;
 			_elementsGrid.SetFileType(_model.ElementFileType);
 
@@ -172,7 +173,6 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private bool HandleFileDeletedFromComponentGrid(ComponentFile file)
 		{
-
 			return _model.DeleteComponentFile(file);
 		}
 
@@ -364,6 +364,12 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleDeletingSelectedElements(object sender, EventArgs e)
 		{
+			DeleteSelectedElements();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DeleteSelectedElements()
+		{
 			if (!DoesUserConfirmDeletingSelectedElements())
 				return;
 
@@ -371,8 +377,8 @@ namespace SayMore.UI.ElementListScreen
 
 			foreach (var item in _elementsGrid.GetSelectedElements())
 			{
-				if(!_model.Remove(item as T))
-					break;//bail after the first 'cancel'
+				if (!_model.Remove(item as T))
+					break; //bail after the first 'cancel'
 			}
 
 			int newElementCount = _model.Elements.Count();
@@ -387,6 +393,7 @@ namespace SayMore.UI.ElementListScreen
 				return;
 			}
 
+			// At this point, we know that we just deleted all the elements.
 			_model.SetSelectedElement(null);
 			LoadElementList();
 			foreach (var tabCtrl in _tabControls.Values)

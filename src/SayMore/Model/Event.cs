@@ -5,6 +5,7 @@ using Localization;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.UI.Archiving;
 
 namespace SayMore.Model
 {
@@ -140,9 +141,8 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private void HandlePersonsNameChanged(ProjectElement element, string oldId, string newId)
 		{
-			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
-			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToList();
-			var newNames = personNames.Select(name => (name == oldId ? newId : name));
+			var allParticipants = GetAllParticipants();
+			var newNames = allParticipants.Select(name => (name == oldId ? newId : name));
 
 			string failureMessage;
 			MetaDataFile.SetStringValue("participants",
@@ -150,6 +150,25 @@ namespace SayMore.Model
 
 			if (failureMessage != null)
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<string> GetAllParticipants()
+		{
+			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
+			return FieldInstance.GetMultipleValuesFromText(allParticipants);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void CreateArchiveFile()
+		{
+			var helper = new ArchivingDlgViewModel(this, _personInformant);
+
+			using (var dlg = new ArchivingDlg(helper))
+				dlg.ShowDialog();
+
+			//if (helper.CreateRampPackage())
+			//    helper.CallRAMP();
 		}
 
 		#region Static methods

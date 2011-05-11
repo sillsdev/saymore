@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Properties;
 
-namespace SayMore.UI.Utilities
+namespace SayMore.UI.Archiving
 {
 	[Flags]
 	public enum BorderSides

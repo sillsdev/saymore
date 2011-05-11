@@ -981,5 +981,17 @@ namespace SayMore.Properties {
                 return ((string)(this["FileTypesToAvoidLoadingInBrowserEditor"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://www.help.insitehome.org/reap/manual/ramp-users-manual")]
+        public string RampWebSite {
+            get {
+                return ((string)(this["RampWebSite"]));
+            }
+            set {
+                this["RampWebSite"] = value;
+            }
+        }
     }
 }

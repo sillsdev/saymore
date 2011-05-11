@@ -18,7 +18,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Files;
-using SayMore.UI.Utilities;
+using SayMore.UI.Archiving;
 
 namespace SayMore.UI.ComponentEditors
 {

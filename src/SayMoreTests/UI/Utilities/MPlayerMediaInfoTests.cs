@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
-using SayMore.UI.Utilities;
+using SayMore.UI.Archiving;
 
 namespace SayMoreTests.UI.Utilities
 {

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using Palaso.Media;
-using SayMore.UI.Utilities;
+using SayMore.UI.Archiving;
 
 namespace SayMore.Model.Files
 {

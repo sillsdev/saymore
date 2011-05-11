@@ -14,7 +14,7 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
-using SayMore.UI.Utilities;
+using SayMore.UI.Archiving;
 using SilUtils;
 
 namespace SayMore.Model.Files
@@ -781,7 +781,7 @@ namespace SayMore.Model.Files
 		{
 			var timeout = DateTime.Now.AddSeconds(10);
 
-			// Now wait until the mplayer process lets go of the file.
+			// Now wait until the process lets go of the file.
 			while (true)
 			{
 				try
@@ -791,14 +791,31 @@ namespace SayMore.Model.Files
 					else
 						Thread.Sleep(100);
 
-					File.OpenWrite(filePath).Close();
-					return;
+					if (!IsFileLocked(filePath) || DateTime.Now >= timeout)
+						return;
 				}
 				catch
 				{
 					if (DateTime.Now >= timeout)
 						return;
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool IsFileLocked(string filePath)
+		{
+			if (filePath == null || !File.Exists(filePath))
+				return false;
+
+			try
+			{
+				File.OpenWrite(filePath).Close();
+				return false;
+			}
+			catch
+			{
+				return true;
 			}
 		}
 

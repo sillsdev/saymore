@@ -14,12 +14,14 @@ namespace SayMoreTests.Model
 	{
 		private TemporaryFolder _parentFolder;
 
+		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
 			_parentFolder = new TemporaryFolder("eventTest");
 		}
 
+		/// ------------------------------------------------------------------------------------
 		[TearDown]
 		public void TearDown()
 		{
@@ -27,7 +29,8 @@ namespace SayMoreTests.Model
 			_parentFolder = null;
 		}
 
-		private Event CreateEvent(IEnumerable<string>particpants)
+		/// ------------------------------------------------------------------------------------
+		private Event CreateEvent(IEnumerable<string> particpants)
 		{
 			ProjectElementComponentFile.Factory factory = (parentElement, fileType, fileSerializer, ootElementName) =>
 			{
@@ -35,7 +38,7 @@ namespace SayMoreTests.Model
 			  file.Setup(f => f.Save());
 			  file.Setup(
 				  f => f.GetStringValue("participants", string.Empty)).
-				  Returns(particpants.Count()>0? particpants.Aggregate((a,b)=>a+","+b):string.Empty
+				  Returns(particpants.Count()>0? particpants.Aggregate((a,b)=>a+";"+b):string.Empty
 				  );
 			  return file.Object;
 			};
@@ -70,6 +73,25 @@ namespace SayMoreTests.Model
 		 * AND TESTED THERE, INSTEAD
 		 */
 
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetAllParticipants_NoParticpantsListed_NoneReturned()
+		{
+			var evnt = CreateEvent(new string[] { });
+			Assert.AreEqual(0, evnt.GetAllParticipants().Count());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetAllParticipants_SomeParticpantsListed_ReturnsTheirNames()
+		{
+			var evnt = CreateEvent(new[] { "mo", "curly" });
+			var names = evnt.GetAllParticipants().ToList();
+			Assert.Contains("mo", names);
+			Assert.Contains("curly", names);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetCompletedStages_NoParticpantsListed_NoConsent()
 		{
@@ -77,18 +99,23 @@ namespace SayMoreTests.Model
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
 
+		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetCompletedStages_ParticpantsListedButNotFound_NoConsent()
 		{
 			var stages = CreateEvent(new[] {"you", "me" }).GetCompletedStages();
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
+
+		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetCompletedStages_TwoParticpantsFoundOneLacksConsent_NoConsent()
 		{
 			var stages = CreateEvent(new[] { "oneWithConsent", "none" }).GetCompletedStages();
 			Assert.IsFalse(stages.Any(s => s.Name == "consent"));
 		}
+
+		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetCompletedStages_TwoParticpantsFoundBothHaveConsent_ResultIncludesConsent()
 		{

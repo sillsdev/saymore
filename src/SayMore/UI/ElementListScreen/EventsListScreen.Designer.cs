@@ -76,7 +76,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles.Name = "_buttonNewFromFiles";
 			this._buttonNewFromFiles.Size = new System.Drawing.Size(117, 26);
 			this._buttonNewFromFiles.TabIndex = 1;
-			this._buttonNewFromFiles.Text = "New From Device...";
+			this._buttonNewFromFiles.Text = "Ne&w From Device...";
 			this._buttonNewFromFiles.UseVisualStyleBackColor = true;
 			this._buttonNewFromFiles.Click += new System.EventHandler(this.HandleButtonNewFromFilesClick);
 			// 

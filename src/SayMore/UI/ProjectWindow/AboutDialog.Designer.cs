@@ -102,7 +102,6 @@ namespace SayMore.UI.ProjectWindow
             this.MinimizeBox = false;
             this.Name = "AboutDialog";
             this.ShowIcon = false;
-            this.Load += new System.EventHandler(this.AboutDialog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

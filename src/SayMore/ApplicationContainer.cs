@@ -66,7 +66,7 @@ namespace SayMore
 			var fi = new FileInfo(file);
 
 			return string.Format(fmt, ver.Major, ver.Minor,
-				ver.Revision, fi.CreationTime.ToString("dd-MMM-yyyy"));
+				ver.Build, fi.CreationTime.ToString("dd-MMM-yyyy"));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -76,6 +76,13 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(System.EventArgs e)
+		{
+			base.OnLoad(e);
+			UsageReporter.SendNavigationNotice("AboutBox");
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);
@@ -118,11 +125,6 @@ namespace SayMore.UI.ProjectWindow
 			// Draw the application's logo image.
 			rc = new Rectangle(new Point(10, 5), Resources.LargeSayMoreLogo.Size);
 			e.Graphics.DrawImage(Resources.LargeSayMoreLogo, rc);
-		}
-
-		private void AboutDialog_Load(object sender, System.EventArgs e)
-		{
-			UsageReporter.SendNavigationNotice("AboutBox");
 		}
 	}
 }

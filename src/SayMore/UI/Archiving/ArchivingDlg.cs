@@ -56,6 +56,7 @@ namespace SayMore.UI.Archiving
 			_buttonCreatePackage.Click += delegate
 			{
 				Focus();
+				_buttonCreatePackage.Enabled = false;
 				_progressBar.Visible = true;
 				WaitCursor.Show();
 				_buttonLaunchRamp.Enabled = model.CreatePackage();
@@ -70,11 +71,18 @@ namespace SayMore.UI.Archiving
 		{
 			base.OnShown(e);
 
-			WaitCursor.Show();
-			int maxProgBarValue;
-			_buttonCreatePackage.Enabled = _viewModel.Initialize(out maxProgBarValue, () => _progressBar.Increment(1));
-			_progressBar.Maximum = maxProgBarValue;
-			WaitCursor.Hide();
+			try
+			{
+				WaitCursor.Show();
+				int maxProgBarValue;
+				_buttonCreatePackage.Enabled = _viewModel.Initialize(out maxProgBarValue, () => _progressBar.Increment(1));
+				_progressBar.Maximum = maxProgBarValue;
+			}
+			catch
+			{
+				WaitCursor.Hide();
+				throw;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

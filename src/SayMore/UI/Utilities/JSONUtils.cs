@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace SayMore.UI.Archiving
 {
@@ -18,8 +19,24 @@ namespace SayMore.UI.Archiving
 			if (key == null || value == null || key + value == string.Empty)
 				return null;
 
-			var retValue = string.Format("\"{0}\":\"{1}\"", key, value);
-			return (!bracketValue ? retValue : string.Format("[{0}]", retValue));
+			var fmt = (bracketValue ? "\"{0}\":[\"{1}\"]" : "\"{0}\":\"{1}\"");
+			return string.Format(fmt, key, value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string MakeBracketedListFromValues(string key, IEnumerable<string> values)
+		{
+			if (string.IsNullOrEmpty(key) ||  values == null || values.Count() == 0)
+				return null;
+
+			var bldr = new StringBuilder();
+			foreach (var value in values)
+				bldr.AppendFormat("\"{0}\",", value);
+
+			// Get rid of last comma.
+			bldr.Length--;
+
+			return string.Format("\"{0}\":[{1}]", key, bldr);
 		}
 
 		/// ------------------------------------------------------------------------------------

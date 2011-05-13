@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -23,6 +24,14 @@ namespace SayMore.UI.Archiving
 {
 	public class ArchivingDlgViewModel
 	{
+#if !__MonoCS__
+		[DllImport("User32.dll")]
+		private static extern IntPtr SetForegroundWindow(int hWnd);
+
+		[DllImport("User32.dll")]
+		private static extern bool BringWindowToTop(int hWnd);
+#endif
+
 		private readonly string _eventTitle;
 		private Event _event;
 		private PersonInformant _personInformant;
@@ -141,12 +150,16 @@ namespace SayMore.UI.Archiving
 				var prs = new Process();
 				prs.StartInfo.FileName = _rampProgramPath;
 				prs.StartInfo.Arguments = RampPackagePath;
-				prs.Start();
-				prs.WaitForInputIdle(8000);
+				if (!prs.Start())
+					return false;
 
-				// Every 4 seconds we'll check to see if the RAMP package is locked. When
-				// it gets unlocked by RAMP, then we'll delete it.
-				_timer = new Timer(CheckIfPackageFileIsLocked, RampPackagePath, 2000, 4000);
+				prs.WaitForInputIdle(8000);
+				EnsureRampHasFocusAndWaitForPackageToUnlock();
+				return true;
+			}
+			catch (InvalidOperationException)
+			{
+				EnsureRampHasFocusAndWaitForPackageToUnlock();
 				return true;
 			}
 			catch (Exception e)
@@ -154,6 +167,25 @@ namespace SayMore.UI.Archiving
 				ReportError(e, "There was an error attempting to open the archive package in RAMP.");
 				return false;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void EnsureRampHasFocusAndWaitForPackageToUnlock()
+		{
+#if !__MonoCS__
+			var processes = Process.GetProcessesByName("RAMP");
+			if (processes.Length >= 1)
+			{
+				// I can't figure out why neither of these work.
+				BringWindowToTop(processes[0].MainWindowHandle.ToInt32());
+//				SetForegroundWindow(processes[0].MainWindowHandle.ToInt32());
+			}
+#else
+			// Figure out how to do this in MONO
+#endif
+			// Every 4 seconds we'll check to see if the RAMP package is locked. When
+			// it gets unlocked by RAMP, then we'll delete it.
+			_timer = new Timer(CheckIfPackageFileIsLocked, RampPackagePath, 2000, 4000);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -186,12 +218,6 @@ namespace SayMore.UI.Archiving
 
 			IsBusy = false;
 			return success;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool CreateEventArchive()
-		{
-			return false;
 		}
 
 		#region Methods for creating mets file.
@@ -424,7 +450,7 @@ namespace SayMore.UI.Archiving
 					zip.Save(RampPackagePath);
 
 					if (!_cancelProcess && _incrementProgressBarAction != null)
-						Thread.Sleep(1000);
+						Thread.Sleep(800);
 				}
 			}
 			catch (Exception exception)

@@ -26,15 +26,15 @@ namespace SayMore.UI.Archiving
 		private readonly string _eventTitle;
 		private Event _event;
 		private PersonInformant _personInformant;
-		private string _eventArchiveFilePath;
 		private string _metsFilePath;
 		private BackgroundWorker _worker;
 		private Timer _timer;
 		private bool _cancelProcess;
 		private bool _workerException;
-		private readonly Dictionary<int, string> _progressMessages = new Dictionary<int,string>();
+		private readonly Dictionary<string, string> _progressMessages = new Dictionary<string, string>();
 		private string _rampProgramPath;
 		private Action _incrementProgressBarAction;
+		private IDictionary<string, IEnumerable<string>> _fileLists;
 
 		public bool IsBusy { get; private set; }
 		public string RampPackagePath { get; private set; }
@@ -46,7 +46,7 @@ namespace SayMore.UI.Archiving
 		{
 			_event = evnt;
 			_personInformant = personInformant;
-			_eventTitle = _event.MetaDataFile.GetStringValue("title", null);
+			_eventTitle = _event.MetaDataFile.GetStringValue("title", null) ?? _event.Id;
 
 			LogBox = new LogBox();
 			LogBox.TabStop = false;
@@ -59,7 +59,6 @@ namespace SayMore.UI.Archiving
 		/// ------------------------------------------------------------------------------------
 		public bool Initialize(out int maxProgBarValue, Action incrementProgressBarAction)
 		{
-			maxProgBarValue = 0;
 			IsBusy = true;
 			_incrementProgressBarAction = incrementProgressBarAction;
 
@@ -73,61 +72,62 @@ namespace SayMore.UI.Archiving
 			if (_rampProgramPath == null)
 				LogBox.WriteMessageWithColor("Red", "The RAMP pogram cannot be found!{0}", Environment.NewLine);
 
-			LogBox.WriteMessageWithFontStyle(FontStyle.Bold, "The following event and contributor files will be added to your archive.");
-
-			var allFilesInArchive = GetFilesToArchive();
-			int fileCount = 0;
-
-			foreach (var kvp in allFilesInArchive)
-			{
-				LogBox.WriteMessage(kvp.Key == string.Empty ?
-					string.Format("{0}     Event: {1}", Environment.NewLine, _eventTitle ?? _event.Id) :
-					string.Format("{0}     Contributor: {1}", Environment.NewLine, kvp.Key));
-
-				foreach (var file in kvp.Value)
-				{
-					LogBox.WriteMessageWithFontStyle(FontStyle.Regular, "          \u00B7 {0}", Path.GetFileName(file));
-					fileCount++;
-				}
-			}
-
-			if (allFilesInArchive.Count == 1)
-			{
-				LogBox.WriteMessage(string.Empty);
-				LogBox.WriteWarning("There are no contributors for this event.");
-			}
-
-			LogBox.ScrollToTop();
+			_fileLists = GetFilesToArchive();
+			DisplayInitialSummary();
 			IsBusy = false;
 
-			if (_rampProgramPath == null)
-				return false;
+			// Add one for the mets.xml file.
+			maxProgBarValue = _fileLists.SelectMany(kvp => kvp.Value).Count() + 1;
 
-			maxProgBarValue = fileCount + 3;
-
-			return true;
+			return (_rampProgramPath != null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Each entry in the dictionary is a list of files. The first entry contains a list
-		/// of all the event files. All subsequent entries are keyed using a person id and
-		/// the values are the lists of files for each person.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public IDictionary<string, IEnumerable<string>> GetFilesToArchive()
 		{
-			var list = new Dictionary<string, IEnumerable<string>>();
+			var filesInDir = Directory.GetFiles(_event.FolderPath);
 
-			list[string.Empty] = Directory.GetFiles(_event.FolderPath);
+			var msgKey = Path.GetFileName(filesInDir[0]);
+			_progressMessages[msgKey] = string.Format("Adding Files for Event '{0}'", _eventTitle);
+
+			var fileList = new Dictionary<string, IEnumerable<string>>();
+			fileList[string.Empty] = filesInDir;
 
 			foreach (var person in _event.GetAllParticipants()
 				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
 			{
-				list[person.Id] = Directory.GetFiles(person.FolderPath);
+				filesInDir = Directory.GetFiles(person.FolderPath);
+				fileList[person.Id] = filesInDir;
+
+				msgKey = Path.Combine(Path.Combine("Contributors", person.Id), Path.GetFileName(filesInDir[0]));
+				_progressMessages[msgKey] = string.Format("Adding Files for Contributor '{0}'", person.Id);
 			}
 
-			return list;
+			return fileList;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DisplayInitialSummary()
+		{
+			if (_fileLists.Count > 1)
+				LogBox.WriteMessage("The following event and contributor files will be added to your archive.");
+			else
+			{
+				LogBox.WriteWarning("There are no contributors for this event.");
+				LogBox.WriteMessage(Environment.NewLine + "The following event files will be added to your archive.");
+			}
+
+			foreach (var kvp in _fileLists)
+			{
+				LogBox.WriteMessage(string.Format("{0}     {1}: {2}", Environment.NewLine,
+					(kvp.Key == string.Empty ? "Event" : "Contributor"),
+					(kvp.Key == string.Empty ? _eventTitle : kvp.Key)));
+
+				foreach (var file in kvp.Value)
+					LogBox.WriteMessageWithFontStyle(FontStyle.Regular, "          \u00B7 {0}", Path.GetFileName(file));
+			}
+
+			LogBox.ScrollToTop();
 		}
 
 		#endregion
@@ -171,16 +171,10 @@ namespace SayMore.UI.Archiving
 			IsBusy = true;
 			LogBox.Clear();
 
-			var success = CreateEventArchive();
+			var	success = CreateMetsFile();
 
 			if (success)
-				success = CreateMetsFile();
-
-			if (success)
-				success = CreateRampPackageWithEventArchiveAndMetsFile();
-
-			if (success && _incrementProgressBarAction != null)
-				Thread.Sleep(700);
+				success = CreateRampPackage();
 
 			CleanUp();
 
@@ -197,38 +191,10 @@ namespace SayMore.UI.Archiving
 		/// ------------------------------------------------------------------------------------
 		public bool CreateEventArchive()
 		{
-			_progressMessages.Clear();
-			_progressMessages[0] = string.Format("Adding Event Files For '{0}'...", _eventTitle ?? _event.Id);
-			_progressMessages[Directory.GetFiles(_event.FolderPath).Count() + 1] =
-				string.Format("{0}Adding Contributor Files For '{1}'...", Environment.NewLine, _eventTitle ?? _event.Id);
-
-			_eventArchiveFilePath = Path.Combine(Path.GetTempPath(), _event.Id + ".zip");
-
-			return RunWorker(() => CreateZipFile(_eventArchiveFilePath, z =>
-			{
-				z.AddDirectory(_event.FolderPath);
-				foreach (var person in _event.GetAllParticipants().Select(n => _personInformant.GetPersonByName(n)))
-					z.AddDirectory(person.FolderPath, Path.Combine("Contributors", person.Id));
-			}, "There was an error attempting to create an archive for the event '{0}'."));
+			return false;
 		}
 
 		#region Methods for creating mets file.
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sample JSON data:
-		///
-		/// "id":"8zd4uscmys",
-		/// "dc.title":"Wedding on the Lake",
-		/// "dc.type.mode": ["Text","Photograph","Video","Music","Speech","Map"],
-		/// "dc.contributor"
-		/// "dc.description":
-		/// "dc.description.abstract":
-		/// "format.extent.recording":"1 hour",
-		/// "files":
-		/// "dc.date.created":"2010-2011 (April 19, 2009)",
-		/// "dc.date.modified":"May 25, 2011",
-		/// "relation.requires.has":"Y",
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool CreateMetsFile()
 		{
@@ -260,75 +226,156 @@ namespace SayMore.UI.Archiving
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> GetMetsPairs()
 		{
-			var createDate = _event.MetaDataFile.GetStringValue("date", null);
-			var value = (createDate ?? Guid.NewGuid().ToString()).Replace('/', '_').Replace('\\', '_');
-			var rampId = string.Format("{0}_{1}", _event.Id, value);
-			yield return JSONUtils.MakeKeyValuePair("id", rampId);
-			yield return JSONUtils.MakeKeyValuePair("dc.title", _eventTitle ?? _event.Id);
+			yield return JSONUtils.MakeKeyValuePair("dc.title", _eventTitle);
+			yield return JSONUtils.MakeKeyValuePair("broad_type", "wider_audience");
+			yield return JSONUtils.MakeKeyValuePair("dc.type.scholarlyWork", "Data set");
+			yield return JSONUtils.MakeKeyValuePair("dc.subject.silDomain", "LING:Linguistics", true);
 
+			var value = _event.MetaDataFile.GetStringValue("date", null);
+			if (value != null)
+				yield return JSONUtils.MakeKeyValuePair("dc.date.created", value);
+
+			// Return the event's situation as the the package's description.
 			value = _event.MetaDataFile.GetStringValue("situation", null);
 			if (value != null)
-				yield return JSONUtils.MakeKeyValuePair("dc.description", value);
+			{
+				var desc = JSONUtils.MakeKeyValuePair(" ", value) + "," +
+					JSONUtils.MakeKeyValuePair("lang", string.Empty);
 
+				yield return JSONUtils.MakeArrayFromValues("dc.description", new[] { desc });
+			}
+
+			// Return the event's note as the abstract portion of the package's description.
 			value = _event.MetaDataFile.GetStringValue("notes", null);
 			if (value != null)
 			{
-				var abs =
-					JSONUtils.MakeKeyValuePair(" ", value) + "," +
+				var abs = JSONUtils.MakeKeyValuePair(" ", value) + "," +
 					JSONUtils.MakeKeyValuePair("lang", string.Empty);
 
 				yield return JSONUtils.MakeArrayFromValues("dc.description.abstract", new[] { abs });
 			}
 
+			// Return JSON array of contributors
 			var contributions = _event.MetaDataFile.GetValue("contributions", null) as ContributionCollection;
 			if (contributions != null && contributions.Count > 0)
-				yield return JSONUtils.MakeArrayFromValues("dc.contributor", contributions.Select(c => GetContributorsMetsPair(c)));
+			{
+				yield return JSONUtils.MakeArrayFromValues("dc.contributor",
+					contributions.Select(c => GetContributorsMetsPair(c)));
+			}
 
-			var file =
-				JSONUtils.MakeKeyValuePair(" ", Path.GetFileName(_eventArchiveFilePath)) + "," +
-				JSONUtils.MakeKeyValuePair("description", string.Format("'{0}' Event Archive", _eventTitle ?? _event.Id)) + "," +
-				JSONUtils.MakeKeyValuePair("relationship", "source");
+			// Return total duration of original audio/video recordings.
+			var recExtent = GetRecordingExtent(_event.GetComponentFiles().Where(file =>
+				file.GetAssignedRoles().FirstOrDefault(r =>
+					r.Id == Settings.Default.OriginalRecordingComponentRoleId) != null)
+					.Where(f => !string.IsNullOrEmpty(f.DurationString)).Select(f => f.DurationString));
 
-			yield return JSONUtils.MakeArrayFromValues("files", new[] { file });
+			if (recExtent != null)
+			{
+				yield return JSONUtils.MakeKeyValuePair("format.extent.recording",
+					string.Format("Total Length of Original Recordings: {0}", recExtent));
+			}
 
-			if (createDate != null)
-				yield return JSONUtils.MakeKeyValuePair("dc.date.created", createDate);
+			if (_fileLists != null)
+			{
+				// Return a list of types found in event's files (e.g. Text, Video, etc.).
+				value = GetMode(_fileLists.SelectMany(f => f.Value));
+				if (value != null)
+					yield return value;
 
-			yield return JSONUtils.MakeKeyValuePair("relation.requires.has", "Y");
+				// Return JSON array of event and contributor files with their descriptions.
+				yield return JSONUtils.MakeArrayFromValues("files",
+					GetSourceFilesForMetsData(_fileLists));
+			}
 
-			yield return JSONUtils.MakeArrayFromValues("dc.relation.requires",
-				new[] { JSONUtils.MakeKeyValuePair(" ", "SayMore") });
+			//yield return JSONUtils.MakeKeyValuePair("relation.requires.has", "Y");
+			//yield return JSONUtils.MakeArrayFromValues("dc.relation.requires",
+			//    new[] { JSONUtils.MakeKeyValuePair(" ", "SayMore") });
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetMode(IEnumerable<string> files)
+		{
+			if (files == null)
+				return null;
+
+			var list = new HashSet<string>();
+
+			foreach (var file in files)
+			{
+				if (ComponentRole.GetIsAudio(file))
+					list.Add("Speech");
+				if (ComponentRole.GetIsVideo(file))
+					list.Add("Video");
+				if (ComponentRole.GetIsText(file))
+					list.Add("Text");
+			}
+
+			return JSONUtils.MakeBracketedListFromValues("dc.type.mode", list);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string GetContributorsMetsPair(Contribution contribution)
 		{
-			return JSONUtils.MakeKeyValuePair(" ", contribution.ContributorName) + "," +
-				JSONUtils.MakeKeyValuePair("role", contribution.Role == null ? "" : contribution.Role.Code);
+			var roleCode = (contribution.Role != null &&
+				Settings.Default.RampContributorRoles.Contains(contribution.Role.Code) ?
+				contribution.Role.Code : string.Empty);
+
+			return JSONUtils.MakeKeyValuePair(" ", contribution.ContributorName) +
+				"," + JSONUtils.MakeKeyValuePair("role", roleCode);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetRecordingExtent(IEnumerable<string> durationStrings)
+		{
+			if (durationStrings == null)
+				return null;
+
+			var totalDuration = new TimeSpan(0);
+
+			foreach (var duration in durationStrings)
+			{
+				TimeSpan span;
+				if (TimeSpan.TryParse(duration, out span))
+					totalDuration += span;
+			}
+
+			return (totalDuration.Ticks == 0 ? null : totalDuration.ToString());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetSourceFilesForMetsData(IDictionary<string, IEnumerable<string>> fileLists)
+		{
+			foreach (var kvp in fileLists)
+			{
+				foreach (var file in kvp.Value)
+				{
+					var description = (kvp.Key == string.Empty ?
+						"SayMore Event File" : "SayMore Contributor File");
+
+					if (file.ToLower().EndsWith(".event"))
+						description = "SayMore Event Metadata (XML)";
+					else if (file.ToLower().EndsWith(".person"))
+						description = "SayMore Contributor Metadata (XML)";
+					else if (file.ToLower().EndsWith(".meta"))
+						description = "SayMore File Metadata (XML)";
+
+					yield return JSONUtils.MakeKeyValuePair(" ", Path.GetFileName(file)) + "," +
+						JSONUtils.MakeKeyValuePair("description", description) + "," +
+						JSONUtils.MakeKeyValuePair("relationship", "source");
+				}
+			}
 		}
 
 		#endregion
 
+		#region Creating RAMP package (zip file) in background thread.
 		/// ------------------------------------------------------------------------------------
-		public bool CreateRampPackageWithEventArchiveAndMetsFile()
-		{
-			_progressMessages.Clear();
-			_progressMessages[0] = Environment.NewLine + "Creating RAMP Package Containing 2 Files...";
-			RampPackagePath = Path.Combine(Path.GetTempPath(), _event.Id + ".ramp");
-
-			return RunWorker(() => CreateZipFile(RampPackagePath, z =>
-			{
-				z.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
-				z.AddFile(_eventArchiveFilePath, string.Empty);
-				z.AddFile(_metsFilePath, string.Empty);
-			}, "There was an error attempting to create an archive for the event '{0}'."));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool RunWorker(Action workAction)
+		public bool CreateRampPackage()
 		{
 			try
 			{
+				RampPackagePath = Path.Combine(Path.GetTempPath(), _event.Id + ".ramp");
+
 				using (_worker = new BackgroundWorker())
 				{
 					_cancelProcess = false;
@@ -336,7 +383,7 @@ namespace SayMore.UI.Archiving
 					_worker.ProgressChanged += HandleBackgroundWorkerProgressChanged;
 					_worker.WorkerReportsProgress = true;
 					_worker.WorkerSupportsCancellation = true;
-					_worker.DoWork += delegate { workAction(); };
+					_worker.DoWork += CreateZipFileInWorkerThread;
 					_worker.RunWorkerAsync();
 
 					while (_worker.IsBusy)
@@ -357,21 +404,34 @@ namespace SayMore.UI.Archiving
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CreateZipFile(string zipFilePath, Action<ZipFile> addStuffToZipAction,
-			string errorMsg)
+		private void CreateZipFileInWorkerThread(object sender, DoWorkEventArgs e)
 		{
 			try
 			{
 				using (var zip = new ZipFile())
 				{
-					addStuffToZipAction(zip);
+					// RAMP packages must not be compressed or RAMP can't read them.
+					zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
+
+					foreach (var list in _fileLists)
+					{
+						zip.AddFiles(list.Value, list.Key == string.Empty ?
+							string.Empty : "Contributors\\" + list.Key);
+					}
+
+					zip.AddFile(_metsFilePath, string.Empty);
 					zip.SaveProgress += HandleZipSaveProgress;
-					zip.Save(zipFilePath);
+					zip.Save(RampPackagePath);
+
+					if (!_cancelProcess && _incrementProgressBarAction != null)
+						Thread.Sleep(1000);
 				}
 			}
-			catch (Exception e)
+			catch (Exception exception)
 			{
-				_worker.ReportProgress(0, new KeyValuePair<Exception, string>(e, errorMsg));
+				_worker.ReportProgress(0, new KeyValuePair<Exception, string>(exception,
+					"There was an error attempting to create an archive for the event '{0}'."));
+
 				_workerException = true;
 			}
 		}
@@ -388,8 +448,8 @@ namespace SayMore.UI.Archiving
 				return;
 
 			string msg;
-			if (_progressMessages.TryGetValue(e.EntriesSaved, out msg))
-				LogBox.WriteMessage(msg);
+			if (_progressMessages.TryGetValue(e.CurrentEntry.FileName.Replace('/', '\\'), out msg))
+				LogBox.WriteMessage(Environment.NewLine + msg);
 
 			_worker.ReportProgress(e.EntriesSaved, Path.GetFileName(e.CurrentEntry.FileName));
 		}
@@ -407,14 +467,14 @@ namespace SayMore.UI.Archiving
 				return;
 			}
 
-			var msg = e.UserState as string;
-
-			if (!string.IsNullOrEmpty(msg) && msg != "~zippingDone")
+			if (!string.IsNullOrEmpty(e.UserState as string))
 				LogBox.WriteMessageWithFontStyle(FontStyle.Regular, "\t" + e.UserState);
 
 			if (!_cancelProcess && _incrementProgressBarAction != null)
 				_incrementProgressBarAction();
 		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public void Cancel()
@@ -440,7 +500,7 @@ namespace SayMore.UI.Archiving
 		private void ReportError(Exception e, string msg)
 		{
 			WaitCursor.Hide();
-			LogBox.WriteError(msg, _eventTitle ?? _event.Id);
+			LogBox.WriteError(msg, _eventTitle);
 			LogBox.WriteException(e);
 		}
 
@@ -449,9 +509,6 @@ namespace SayMore.UI.Archiving
 		public void CleanUp()
 		{
 			try { File.Delete(_metsFilePath); }
-			catch { }
-
-			try { File.Delete(_eventArchiveFilePath); }
 			catch { }
 
 			_event = null;

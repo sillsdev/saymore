@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Moq;
@@ -114,7 +115,6 @@ namespace SayMoreTests.Utilities
 			Assert.Contains("ddo.pdf", list);
 		}
 
-
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
@@ -138,15 +138,6 @@ namespace SayMoreTests.Utilities
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[Category("SkipOnTeamCity")]
-		public void CreateEventArchive_CreatesArchive()
-		{
-			Assert.IsTrue(_helper.CreateEventArchive());
-			Assert.IsTrue(File.Exists(Path.Combine(Path.GetTempPath(), "ddo.zip")));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
 		public void CreateMetsFile_CreatesFile()
 		{
 			Assert.IsTrue(_helper.CreateMetsFile());
@@ -158,10 +149,149 @@ namespace SayMoreTests.Utilities
 		[Category("SkipOnTeamCity")]
 		public void CreateRampPackageWithEventArchiveAndMetsFile_CreatesRampPackage()
 		{
-			_helper.CreateEventArchive();
+			int dummy;
+			_helper.Initialize(out dummy, null);
 			_helper.CreateMetsFile();
-			Assert.IsTrue(_helper.CreateRampPackageWithEventArchiveAndMetsFile());
+			Assert.IsTrue(_helper.CreateRampPackage());
 			Assert.IsTrue(File.Exists(_helper.RampPackagePath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetRecordingExtent_NullList_ReturnsNull()
+		{
+			Assert.IsNull(_helper.GetRecordingExtent(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetRecordingExtent_EmptyList_ReturnsNull()
+		{
+			Assert.IsNull(_helper.GetRecordingExtent(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetRecordingExtent_ValidTimesInList_ReturnsTotalTimeAsString()
+		{
+			var times = new[] { "00:50:10", "03:20:03", "00:04:27" };
+			Assert.AreEqual("04:14:40", _helper.GetRecordingExtent(times));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetMode_NullList_ReturnsNull()
+		{
+			Assert.IsNull(_helper.GetMode(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetMode_EmptyList_ReturnsNull()
+		{
+			Assert.IsNull(_helper.GetMode(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetMode_SingleTypeInList_ReturnsCorrectMetsList()
+		{
+			Assert.AreEqual("\"dc.type.mode\":[\"Video\"]", _helper.GetMode(new[] { "blah.mpg" }));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetMode_MultipleTypesInList_ReturnsCorrectMetsList()
+		{
+			var mode =_helper.GetMode(new[] { "blah.mp3", "blah.doc", "blah.mov" });
+			Assert.AreEqual("\"dc.type.mode\":[\"Speech\",\"Text\",\"Video\"]", mode);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetMode_ListContainsMultiplesOfOneType_ReturnsOnlyOneTypeInList()
+		{
+			var mode = _helper.GetMode(new[] { "blah.mp3", "blah.wma", "blah.wav" });
+			Assert.AreEqual("\"dc.type.mode\":[\"Speech\"]", mode);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSourceFilesForMetsData_ListContainsOnlyEventMetaFile_ReturnsCorrectMetsData()
+		{
+			var fileLists = new Dictionary<string, IEnumerable<string>>();
+			fileLists[string.Empty] = new[] { "blah.event" };
+
+			var expected = "\" \":\"blah.event\",\"description\":\"SayMore Event Metadata (XML)\",\"relationship\":\"source\"";
+			Assert.AreEqual(expected, _helper.GetSourceFilesForMetsData(fileLists).ElementAt(0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSourceFilesForMetsData_ListContainsOnlyPersonMetaFile_ReturnsCorrectMetsData()
+		{
+			var fileLists = new Dictionary<string, IEnumerable<string>>();
+			fileLists[string.Empty] = new[] { "blah.person" };
+
+			var expected = "\" \":\"blah.person\",\"description\":\"SayMore Contributor Metadata (XML)\",\"relationship\":\"source\"";
+			Assert.AreEqual(expected, _helper.GetSourceFilesForMetsData(fileLists).ElementAt(0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSourceFilesForMetsData_ListContainsOnlyMetaFile_ReturnsCorrectMetsData()
+		{
+			var fileLists = new Dictionary<string, IEnumerable<string>>();
+			fileLists[string.Empty] = new[] { "blah.meta" };
+
+			var expected = "\" \":\"blah.meta\",\"description\":\"SayMore File Metadata (XML)\",\"relationship\":\"source\"";
+			Assert.AreEqual(expected, _helper.GetSourceFilesForMetsData(fileLists).ElementAt(0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSourceFilesForMetsData_ListContainsGenericEventFile_ReturnsCorrectMetsData()
+		{
+			var fileLists = new Dictionary<string, IEnumerable<string>>();
+			fileLists[string.Empty] = new[] { "blah.wav" };
+
+			var expected = "\" \":\"blah.wav\",\"description\":\"SayMore Event File\",\"relationship\":\"source\"";
+			Assert.AreEqual(expected, _helper.GetSourceFilesForMetsData(fileLists).ElementAt(0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSourceFilesForMetsData_ListContainsGenericPersonFile_ReturnsCorrectMetsData()
+		{
+			var fileLists = new Dictionary<string, IEnumerable<string>>();
+			fileLists["person id"] = new[] { "blah.wav" };
+
+			var expected = "\" \":\"blah.wav\",\"description\":\"SayMore Contributor File\",\"relationship\":\"source\"";
+			Assert.AreEqual(expected, _helper.GetSourceFilesForMetsData(fileLists).ElementAt(0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSourceFilesForMetsData_ListMultipleFiles_ReturnsCorrectMetsData()
+		{
+			var fileLists = new Dictionary<string, IEnumerable<string>>();
+			fileLists[string.Empty] = new[] { "blah.event", "baa.wav" };
+			fileLists["person id"] = new[] { "blah.person", "baa.mpg", "baa.mpg.meta" };
+
+			Assert.AreEqual("\" \":\"blah.event\",\"description\":\"SayMore Event Metadata (XML)\",\"relationship\":\"source\"",
+				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(0));
+
+			Assert.AreEqual("\" \":\"baa.wav\",\"description\":\"SayMore Event File\",\"relationship\":\"source\"",
+				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(1));
+
+			Assert.AreEqual("\" \":\"blah.person\",\"description\":\"SayMore Contributor Metadata (XML)\",\"relationship\":\"source\"",
+				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(2));
+
+			Assert.AreEqual("\" \":\"baa.mpg\",\"description\":\"SayMore Contributor File\",\"relationship\":\"source\"",
+				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(3));
+
+			Assert.AreEqual("\" \":\"baa.mpg.meta\",\"description\":\"SayMore File Metadata (XML)\",\"relationship\":\"source\"",
+				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(4));
 		}
 	}
 }

@@ -105,7 +105,7 @@ namespace SayMore
 			get
 			{
 				yield return new
-					ComponentRole(typeof(Event), "original", "Original Recording",
+					ComponentRole(typeof(Event), Settings.Default.OriginalRecordingComponentRoleId, "Original Recording",
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Original",
 						Settings.Default.WorkflowStageColor1,

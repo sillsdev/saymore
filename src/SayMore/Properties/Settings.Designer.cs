@@ -993,5 +993,59 @@ namespace SayMore.Properties {
                 this["RampWebSite"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("author;compiler;consultant;developer;editor;facilitator;illustrator;interviewer;p" +
+            "hotographer;recorder;researcher;signer;speaker;transcriber;translator")]
+        public string RampContributorRoles {
+            get {
+                return ((string)(this["RampContributorRoles"]));
+            }
+            set {
+                this["RampContributorRoles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("original")]
+        public string OriginalRecordingComponentRoleId {
+            get {
+                return ((string)(this["OriginalRecordingComponentRoleId"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>.txt</string>
+  <string>.doc</string>
+  <string>.docx</string>
+  <string>.odt</string>
+  <string>.rtf</string>
+  <string>.htm</string>
+  <string>.html</string>
+  <string>.pdf</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection TextFileExtensions {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TextFileExtensions"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.FormSettings ArchivingDialog {
+            get {
+                return ((global::SilUtils.FormSettings)(this["ArchivingDialog"]));
+            }
+            set {
+                this["ArchivingDialog"] = value;
+            }
+        }
     }
 }

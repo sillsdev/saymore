@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using Palaso.Progress;
 using SayMore.Properties;
+using SilUtils;
 
 namespace SayMore.UI.Archiving
 {
@@ -14,6 +15,12 @@ namespace SayMore.UI.Archiving
 		public ArchivingDlg()
 		{
 			InitializeComponent();
+
+			if (Settings.Default.ArchivingDialog == null)
+			{
+				StartPosition = FormStartPosition.CenterScreen;
+				Settings.Default.ArchivingDialog = FormSettings.Create(this);
+			}
 
 			_progressBar.Visible = false;
 			_linkOverview.Font = Program.DialogFont;
@@ -67,6 +74,13 @@ namespace SayMore.UI.Archiving
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			Settings.Default.ArchivingDialog.InitializeForm(this);
+			base.OnLoad(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
@@ -77,6 +91,7 @@ namespace SayMore.UI.Archiving
 				int maxProgBarValue;
 				_buttonCreatePackage.Enabled = _viewModel.Initialize(out maxProgBarValue, () => _progressBar.Increment(1));
 				_progressBar.Maximum = maxProgBarValue;
+				WaitCursor.Hide();
 			}
 			catch
 			{

@@ -57,17 +57,17 @@ namespace SayMore.UI.Archiving
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutPanel.Size = new System.Drawing.Size(368, 388);
+			this._tableLayoutPanel.Size = new System.Drawing.Size(355, 377);
 			this._tableLayoutPanel.TabIndex = 0;
 			// 
 			// _buttonCreatePackage
 			// 
 			this._buttonCreatePackage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonCreatePackage.AutoSize = true;
-			this._buttonCreatePackage.Location = new System.Drawing.Point(57, 362);
+			this._buttonCreatePackage.Location = new System.Drawing.Point(48, 351);
 			this._buttonCreatePackage.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._buttonCreatePackage.Name = "_buttonCreatePackage";
-			this._buttonCreatePackage.Size = new System.Drawing.Size(110, 26);
+			this._buttonCreatePackage.Size = new System.Drawing.Size(106, 26);
 			this._buttonCreatePackage.TabIndex = 0;
 			this._buttonCreatePackage.Text = "&1) Create Package";
 			this._buttonCreatePackage.UseVisualStyleBackColor = true;
@@ -77,7 +77,7 @@ namespace SayMore.UI.Archiving
 			this._buttonLaunchRamp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonLaunchRamp.AutoSize = true;
 			this._buttonLaunchRamp.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this._buttonLaunchRamp.Location = new System.Drawing.Point(175, 362);
+			this._buttonLaunchRamp.Location = new System.Drawing.Point(162, 351);
 			this._buttonLaunchRamp.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._buttonLaunchRamp.Name = "_buttonLaunchRamp";
 			this._buttonLaunchRamp.Size = new System.Drawing.Size(110, 26);
@@ -90,7 +90,7 @@ namespace SayMore.UI.Archiving
 			this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonCancel.AutoSize = true;
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._buttonCancel.Location = new System.Drawing.Point(293, 362);
+			this._buttonCancel.Location = new System.Drawing.Point(280, 351);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
@@ -107,7 +107,7 @@ namespace SayMore.UI.Archiving
 			this._linkOverview.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
 			this._linkOverview.Location = new System.Drawing.Point(3, 0);
 			this._linkOverview.Name = "_linkOverview";
-			this._linkOverview.Size = new System.Drawing.Size(362, 78);
+			this._linkOverview.Size = new System.Drawing.Size(349, 78);
 			this._linkOverview.TabIndex = 3;
 			this._linkOverview.Text = resources.GetString("_linkOverview.Text");
 			this._linkOverview.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleRampLinkClicked);
@@ -117,10 +117,10 @@ namespace SayMore.UI.Archiving
 			this._progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutPanel.SetColumnSpan(this._progressBar, 3);
-			this._progressBar.Location = new System.Drawing.Point(0, 335);
+			this._progressBar.Location = new System.Drawing.Point(0, 324);
 			this._progressBar.Margin = new System.Windows.Forms.Padding(0, 0, 0, 12);
 			this._progressBar.Name = "_progressBar";
-			this._progressBar.Size = new System.Drawing.Size(368, 15);
+			this._progressBar.Size = new System.Drawing.Size(355, 15);
 			this._progressBar.TabIndex = 4;
 			// 
 			// ArchivingDlg
@@ -129,15 +129,16 @@ namespace SayMore.UI.Archiving
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this._buttonCancel;
-			this.ClientSize = new System.Drawing.Size(392, 412);
+			this.ClientSize = new System.Drawing.Size(379, 401);
 			this.Controls.Add(this._tableLayoutPanel);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(355, 320);
 			this.Name = "ArchivingDlg";
 			this.Padding = new System.Windows.Forms.Padding(12);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "SayMore: Archive with RAMP (SIL Only)";
 			this._tableLayoutPanel.ResumeLayout(false);
 			this._tableLayoutPanel.PerformLayout();

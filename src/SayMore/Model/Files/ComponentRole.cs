@@ -96,6 +96,18 @@ namespace SayMore.Model.Files
 			return extensions.Contains(Path.GetExtension(path).ToLower());
 		}
 
+		public static bool GetIsImage(string path)
+		{
+			var extensions = Settings.Default.ImageFileExtensions;
+			return extensions.Contains(Path.GetExtension(path).ToLower());
+		}
+
+		public static bool GetIsText(string path)
+		{
+			var extensions = Settings.Default.TextFileExtensions;
+			return extensions.Contains(Path.GetExtension(path).ToLower());
+		}
+
 		public string GetCanoncialName(string eventId, string path)
 		{
 			var dir = Path.GetDirectoryName(path);
@@ -126,12 +138,6 @@ namespace SayMore.Model.Files
 		public override string ToString()
 		{
 			return Name + ", " + Id + ", Type: " + RelevantElementType;
-		}
-
-		public static bool GetIsText(string path)
-		{
-			var extensions = Settings.Default.TextFileExtensions;
-			return extensions.Contains(Path.GetExtension(path).ToLower());
 		}
 	}
 }

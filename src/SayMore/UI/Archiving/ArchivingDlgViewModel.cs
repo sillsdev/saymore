@@ -258,22 +258,22 @@ namespace SayMore.UI.Archiving
 			yield return JSONUtils.MakeKeyValuePair("dc.subject.silDomain", "LING:Linguistics", true);
 
 			var value = _event.MetaDataFile.GetStringValue("date", null);
-			if (value != null)
+			if (!string.IsNullOrEmpty(value))
 				yield return JSONUtils.MakeKeyValuePair("dc.date.created", value);
 
-			// Return the event's situation as the the package's description.
-			value = _event.MetaDataFile.GetStringValue("situation", null);
-			if (value != null)
-			{
-				var desc = JSONUtils.MakeKeyValuePair(" ", value) + "," +
-					JSONUtils.MakeKeyValuePair("lang", string.Empty);
+			//// Return the event's situation as the the package's description.
+			//value = _event.MetaDataFile.GetStringValue("situation", null);
+			//if (value != null)
+			//{
+			//    var desc = JSONUtils.MakeKeyValuePair(" ", value) + "," +
+			//        JSONUtils.MakeKeyValuePair("lang", string.Empty);
 
-				yield return JSONUtils.MakeArrayFromValues("dc.description", new[] { desc });
-			}
+			//    yield return JSONUtils.MakeArrayFromValues("dc.description", new[] { desc });
+			//}
 
 			// Return the event's note as the abstract portion of the package's description.
-			value = _event.MetaDataFile.GetStringValue("notes", null);
-			if (value != null)
+			value = _event.MetaDataFile.GetStringValue("synopsis", null);
+			if (!string.IsNullOrEmpty(value))
 			{
 				var abs = JSONUtils.MakeKeyValuePair(" ", value) + "," +
 					JSONUtils.MakeKeyValuePair("lang", string.Empty);
@@ -295,7 +295,7 @@ namespace SayMore.UI.Archiving
 					r.Id == Settings.Default.OriginalRecordingComponentRoleId) != null)
 					.Where(f => !string.IsNullOrEmpty(f.DurationString)).Select(f => f.DurationString));
 
-			if (recExtent != null)
+			if (!string.IsNullOrEmpty(recExtent))
 			{
 				yield return JSONUtils.MakeKeyValuePair("format.extent.recording",
 					string.Format("Total Length of Original Recordings: {0}", recExtent));

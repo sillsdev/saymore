@@ -48,3 +48,4 @@ glob:src/SpongeTests/obj/*
 syntax: glob
 HG Setup.eml
 src/SayMore/SayMore.csproj.orig
+RAMP Stuff/*

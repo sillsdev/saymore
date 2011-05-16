@@ -149,7 +149,7 @@ namespace SayMore.UI.Archiving
 			{
 				var prs = new Process();
 				prs.StartInfo.FileName = _rampProgramPath;
-				prs.StartInfo.Arguments = RampPackagePath;
+				prs.StartInfo.Arguments = "\"" + RampPackagePath + "\"";
 				if (!prs.Start())
 					return false;
 
@@ -334,6 +334,8 @@ namespace SayMore.UI.Archiving
 					list.Add("Video");
 				if (ComponentRole.GetIsText(file))
 					list.Add("Text");
+				if (ComponentRole.GetIsImage(file))
+					list.Add("Photograph");
 			}
 
 			return JSONUtils.MakeBracketedListFromValues("dc.type.mode", list);

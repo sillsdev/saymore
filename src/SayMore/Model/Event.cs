@@ -166,9 +166,6 @@ namespace SayMore.Model
 
 			using (var dlg = new ArchivingDlg(helper))
 				dlg.ShowDialog();
-
-			//if (helper.CreateRampPackage())
-			//    helper.CallRAMP();
 		}
 
 		#region Static methods

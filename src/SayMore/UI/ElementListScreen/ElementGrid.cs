@@ -243,6 +243,7 @@ namespace SayMore.UI.ElementListScreen
 			if (e.RowIndex != CurrentCellAddress.Y)
 				SelectElement(e.RowIndex);
 
+			Select();
 			_contextMenuStrip.Items.Clear();
 			_contextMenuStrip.Items.AddRange(GetMenuCommands().ToArray());
 			_contextMenuStrip.Show(MousePosition);

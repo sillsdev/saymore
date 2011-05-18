@@ -36,5 +36,16 @@ namespace SayMore.UI.ComponentEditors
 				return (page != null ? page.EditorProvider : null);
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public void MakeAppropriateEditorsVisible()
+		{
+			foreach (var tab in TabPages)
+			{
+				var editor = tab as IEditorProvider;
+				if (editor != null)
+					((Control)tab).Visible = editor.IsOKSToShow;
+			}
+		}
 	}
 }

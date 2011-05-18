@@ -33,6 +33,7 @@ namespace SayMore.UI.ComponentEditors
 		Action ComponentFileListRefreshAction { set; }
 		void Deactivate();
 		bool IsOKSToLeaveEditor { get; }
+		bool IsOKSToShow { get; }
 		event Action<string> TabTextChanged;
 	}
 
@@ -147,6 +148,12 @@ namespace SayMore.UI.ComponentEditors
 
 		/// ------------------------------------------------------------------------------------
 		public virtual bool IsOKSToLeaveEditor
+		{
+			get { return true; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool IsOKSToShow
 		{
 			get { return true; }
 		}

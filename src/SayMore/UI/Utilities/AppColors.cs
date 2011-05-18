@@ -17,10 +17,6 @@ namespace SayMore.UI.Archiving
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class AppColors
 	{
 		public static Color BarBegin = Settings.Default.BarColorBegin;

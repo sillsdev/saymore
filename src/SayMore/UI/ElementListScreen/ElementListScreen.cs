@@ -305,6 +305,8 @@ namespace SayMore.UI.ElementListScreen
 				tabCtrl.Visible = true;
 				_selectedEditorsTabControl = tabCtrl;
 			}
+
+			tabCtrl.MakeAppropriateEditorsVisible();
 		}
 
 		/// ------------------------------------------------------------------------------------

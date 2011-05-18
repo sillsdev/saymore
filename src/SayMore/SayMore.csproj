@@ -554,7 +554,7 @@
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
     <Compile Include="Model\Files\DataGathering\UniqueCombinationsFinder.cs" />
     <Compile Include="UI\Utilities\JSONUtils.cs" />
-    <Compile Include="UI\Utilities\MPlayerHelper.cs">
+    <Compile Include="UI\MediaPlayer\MPlayerHelper.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>

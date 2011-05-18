@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Palaso.IO;
 using SayMore.Model.Files;
 
-namespace SayMore.UI.Archiving
+namespace SayMore.UI.MediaPlayer
 {
 	#region MPlayerHelper class
 	/// ----------------------------------------------------------------------------------------

@@ -7,8 +7,8 @@ using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
 using SayMore.Properties;
+using SayMore.UI.MediaPlayer;
 using SayMore.UI.ProjectWindow;
-using SayMore.UI.Archiving;
 using SilUtils;
 
 namespace SayMore

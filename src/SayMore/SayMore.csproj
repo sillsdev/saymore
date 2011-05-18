@@ -135,6 +135,13 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
+    <Compile Include="Transcription\Model\ColumnConfiguration.cs" />
+    <Compile Include="Transcription\Model\ICell.cs" />
+    <Compile Include="Transcription\Model\ISegment.cs" />
+    <Compile Include="Transcription\Model\ISegmentRepository.cs" />
+    <Compile Include="Transcription\Model\ITier.cs" />
+    <Compile Include="Transcription\Model\TestAdaptor\TestAdaptor.cs" />
+    <Compile Include="Transcription\UI\DummyGridUI.cs" />
     <Compile Include="UI\Archiving\ArchivingDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -712,6 +719,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Transcription\Model\ElanAdaptor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

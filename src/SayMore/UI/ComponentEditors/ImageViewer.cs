@@ -3,8 +3,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SilUtils;
-using SilUtils.Controls;
+using SilTools;
+using SilTools.Controls;
 
 namespace SayMore.UI.ComponentEditors
 {

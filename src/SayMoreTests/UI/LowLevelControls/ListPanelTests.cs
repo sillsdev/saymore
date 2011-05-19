@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
-using SayMore.UI.LowLevelControls;
-using SilUtils;
 
 namespace SayMoreTests.UI.LowLevelControls
 {

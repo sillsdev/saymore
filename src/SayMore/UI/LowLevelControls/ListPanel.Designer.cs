@@ -1,6 +1,6 @@
 using Localization;
 using Localization.UI;
-using SilUtils.Controls;
+using SilTools.Controls;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -22,11 +22,11 @@ namespace SayMore.UI.LowLevelControls
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListPanel));
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this._outerPanel = new SilUtils.Controls.SilPanel();
+			this._outerPanel = new SilTools.Controls.SilPanel();
 			this._buttonsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this._buttonNew = new System.Windows.Forms.Button();
 			this._buttonDelete = new System.Windows.Forms.Button();
-			this._headerLabel = new SilUtils.Controls.HeaderLabel();
+			this._headerLabel = new SilTools.Controls.HeaderLabel();
 			this._buttonColChooser = new SayMore.UI.LowLevelControls.ColumnChooserButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._outerPanel.SuspendLayout();
@@ -172,7 +172,7 @@ namespace SayMore.UI.LowLevelControls
 
 		#endregion
 
-		private SilUtils.Controls.SilPanel _outerPanel;
+		private SilTools.Controls.SilPanel _outerPanel;
 		private HeaderLabel _headerLabel;
 		private LocalizationExtender locExtender;
 		public System.Windows.Forms.Button _buttonDelete;

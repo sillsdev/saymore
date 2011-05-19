@@ -33,8 +33,8 @@ namespace SayMore.UI.Overview.Statistics
 			this._webBrowser = new System.Windows.Forms.WebBrowser();
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
 			this._buttonRefresh = new System.Windows.Forms.ToolStripButton();
-			this._panelBrowser = new SilUtils.Controls.SilPanel();
-			this._panelWorking = new SilUtils.Controls.SilPanel();
+			this._panelBrowser = new SilTools.Controls.SilPanel();
+			this._panelWorking = new SilTools.Controls.SilPanel();
 			this._tableLayoutWorking = new System.Windows.Forms.TableLayoutPanel();
 			this._labelWorking = new System.Windows.Forms.Label();
 			this._pictureWorking = new System.Windows.Forms.PictureBox();
@@ -193,9 +193,9 @@ namespace SayMore.UI.Overview.Statistics
 		private System.Windows.Forms.WebBrowser _webBrowser;
 		private System.Windows.Forms.ToolStrip _toolStripActions;
 		private System.Windows.Forms.ToolStripButton _buttonRefresh;
-		private SilUtils.Controls.SilPanel _panelBrowser;
+		private SilTools.Controls.SilPanel _panelBrowser;
 		private System.Windows.Forms.Label _labelWorking;
-		private SilUtils.Controls.SilPanel _panelWorking;
+		private SilTools.Controls.SilPanel _panelWorking;
 		private System.Windows.Forms.PictureBox _pictureWorking;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutWorking;
     }

@@ -6,10 +6,9 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using SayMore.Properties;
-using SayMore.UI.LowLevelControls;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SayMore.UI.Archiving;
-using SilUtils;
+using SilTools;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
 {

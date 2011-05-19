@@ -15,7 +15,7 @@ using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Overview;
-using SilUtils;
+using SilTools;
 
 namespace SayMore.UI.ProjectWindow
 {

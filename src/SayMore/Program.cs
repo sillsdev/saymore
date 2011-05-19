@@ -9,7 +9,7 @@ using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.UI.MediaPlayer;
 using SayMore.UI.ProjectWindow;
-using SilUtils;
+using SilTools;
 
 namespace SayMore
 {

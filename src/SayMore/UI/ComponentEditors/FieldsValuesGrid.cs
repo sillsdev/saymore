@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
-using SilUtils;
+using SilTools;
 
 namespace SayMore.UI.ComponentEditors
 {

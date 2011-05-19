@@ -5,8 +5,8 @@ using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using Palaso.ClearShare;
-using SilUtils;
-using SilUtils.Controls;
+using SilTools;
+using SilTools.Controls;
 
 namespace SayMore.UI.LowLevelControls
 {

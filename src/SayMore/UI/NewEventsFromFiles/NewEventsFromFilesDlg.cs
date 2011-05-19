@@ -7,7 +7,7 @@ using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.MediaPlayer;
-using SilUtils;
+using SilTools;
 
 namespace SayMore.UI.NewEventsFromFiles
 {

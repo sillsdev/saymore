@@ -43,7 +43,7 @@ namespace SayMore.UI.ElementListScreen
 			this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._menuDeleteFile = new System.Windows.Forms.ToolStripMenuItem();
-			this._panelOuter = new SilUtils.Controls.SilPanel();
+			this._panelOuter = new SilTools.Controls.SilPanel();
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
 			this._buttonOpen = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonRename = new System.Windows.Forms.ToolStripDropDownButton();
@@ -274,7 +274,7 @@ namespace SayMore.UI.ElementListScreen
 
 		private InternalComponentFileGrid _grid;
 		private System.Windows.Forms.ContextMenuStrip _contextMenuStrip;
-		private SilUtils.Controls.SilPanel _panelOuter;
+		private SilTools.Controls.SilPanel _panelOuter;
 		private System.Windows.Forms.ToolStrip _toolStripActions;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonOpen;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonRename;

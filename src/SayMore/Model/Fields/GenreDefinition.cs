@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using Localization;
 using Palaso.IO;
-using SilUtils;
+using SilTools;
 
 namespace SayMore.Model.Fields
 {

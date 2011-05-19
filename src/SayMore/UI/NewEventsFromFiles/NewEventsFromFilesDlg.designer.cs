@@ -1,5 +1,5 @@
 using System.Windows.Forms;
-using SilUtils;
+using SilTools;
 
 namespace SayMore.UI.NewEventsFromFiles
 {
@@ -37,7 +37,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelSourceFolder = new System.Windows.Forms.Label();
 			this._labelIncomingFiles = new System.Windows.Forms.Label();
 			this._labelInstructions = new System.Windows.Forms.Label();
-			this._mediaPlayerPanel = new SilUtils.Controls.SilPanel();
+			this._mediaPlayerPanel = new SilTools.Controls.SilPanel();
 			this._panelProgress = new System.Windows.Forms.Panel();
 			this._progressLabel = new System.Windows.Forms.Label();
 			this._progressBar = new System.Windows.Forms.ProgressBar();
@@ -293,7 +293,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		private System.Windows.Forms.Label _labelSourceFolder;
 		private System.Windows.Forms.Label _labelIncomingFiles;
 		private System.Windows.Forms.Label _labelInstructions;
-		private SilUtils.Controls.SilPanel _mediaPlayerPanel;
+		private SilTools.Controls.SilPanel _mediaPlayerPanel;
 		private System.Windows.Forms.Panel _panelProgress;
 		private System.Windows.Forms.TableLayoutPanel _outerTableLayout;
 		private System.Windows.Forms.Label _progressLabel;

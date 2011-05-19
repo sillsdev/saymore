@@ -29,7 +29,7 @@ namespace SayMore.UI.ComponentEditors
 		private void InitializeComponent()
 		{
 			this._browser = new System.Windows.Forms.WebBrowser();
-			this._panelBrowser = new SilUtils.Controls.SilPanel();
+			this._panelBrowser = new SilTools.Controls.SilPanel();
 			this._panelBrowser.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -74,6 +74,6 @@ namespace SayMore.UI.ComponentEditors
 		#endregion
 
 		private System.Windows.Forms.WebBrowser _browser;
-		private SilUtils.Controls.SilPanel _panelBrowser;
+		private SilTools.Controls.SilPanel _panelBrowser;
 	}
 }

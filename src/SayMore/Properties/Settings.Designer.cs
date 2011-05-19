@@ -24,7 +24,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection MRUList {
             get {
@@ -36,7 +36,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int LocalizationDlgSplitterPos {
             get {
@@ -48,7 +48,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle LocalizationDlgBounds {
@@ -227,11 +227,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.FormSettings NewEventsFromFilesDlg {
+        public global::SilTools.FormSettings NewEventsFromFilesDlg {
             get {
-                return ((global::SilUtils.FormSettings)(this["NewEventsFromFilesDlg"]));
+                return ((global::SilTools.FormSettings)(this["NewEventsFromFilesDlg"]));
             }
             set {
                 this["NewEventsFromFilesDlg"] = value;
@@ -239,11 +239,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings NewEventsFromFilesDlgComponentGrid {
+        public global::SilTools.GridSettings NewEventsFromFilesDlgComponentGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["NewEventsFromFilesDlgComponentGrid"]));
+                return ((global::SilTools.GridSettings)(this["NewEventsFromFilesDlgComponentGrid"]));
             }
             set {
                 this["NewEventsFromFilesDlgComponentGrid"] = value;
@@ -251,7 +251,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string NewEventsFromFilesLastFolder {
             get {
@@ -281,7 +281,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int PersonScreenElementListSpiltterPos {
             get {
@@ -293,7 +293,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int PersonScreenComponentsSplitterPos {
             get {
@@ -305,7 +305,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int EventScreenElementsListSplitterPos {
             get {
@@ -317,7 +317,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int EventScreenComponentsSplitterPos {
             get {
@@ -329,11 +329,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.FormSettings WelcomeDialog {
+        public global::SilTools.FormSettings WelcomeDialog {
             get {
-                return ((global::SilUtils.FormSettings)(this["WelcomeDialog"]));
+                return ((global::SilTools.FormSettings)(this["WelcomeDialog"]));
             }
             set {
                 this["WelcomeDialog"] = value;
@@ -341,11 +341,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.FormSettings ProjectWindow {
+        public global::SilTools.FormSettings ProjectWindow {
             get {
-                return ((global::SilUtils.FormSettings)(this["ProjectWindow"]));
+                return ((global::SilTools.FormSettings)(this["ProjectWindow"]));
             }
             set {
                 this["ProjectWindow"] = value;
@@ -353,11 +353,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings EventScreenComponentGrid {
+        public global::SilTools.GridSettings EventScreenComponentGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["EventScreenComponentGrid"]));
+                return ((global::SilTools.GridSettings)(this["EventScreenComponentGrid"]));
             }
             set {
                 this["EventScreenComponentGrid"] = value;
@@ -365,11 +365,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings PersonScreenComponentGrid {
+        public global::SilTools.GridSettings PersonScreenComponentGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["PersonScreenComponentGrid"]));
+                return ((global::SilTools.GridSettings)(this["PersonScreenComponentGrid"]));
             }
             set {
                 this["PersonScreenComponentGrid"] = value;
@@ -377,7 +377,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool PauseMediaPlayerWhenTabLoosesFocus {
             get {
@@ -455,7 +455,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string LastFolderForComponentFileAdd {
             get {
@@ -467,7 +467,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-1")]
         public float MediaPlayerVolume {
@@ -489,7 +489,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection CustomEventFileFields {
             get {
@@ -501,7 +501,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection CustomPersonFileFields {
             get {
@@ -513,7 +513,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection CustomImageFileFields {
             get {
@@ -525,7 +525,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection CustomAudioFileFields {
             get {
@@ -537,7 +537,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection CustomVideoFileFields {
             get {
@@ -549,7 +549,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection CustomUnknownFileFields {
             get {
@@ -561,11 +561,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings EventCustomFieldsGrid {
+        public global::SilTools.GridSettings EventCustomFieldsGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["EventCustomFieldsGrid"]));
+                return ((global::SilTools.GridSettings)(this["EventCustomFieldsGrid"]));
             }
             set {
                 this["EventCustomFieldsGrid"] = value;
@@ -573,11 +573,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings PersonCustomFieldsGrid {
+        public global::SilTools.GridSettings PersonCustomFieldsGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["PersonCustomFieldsGrid"]));
+                return ((global::SilTools.GridSettings)(this["PersonCustomFieldsGrid"]));
             }
             set {
                 this["PersonCustomFieldsGrid"] = value;
@@ -585,11 +585,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings AudioFileFieldsGrid {
+        public global::SilTools.GridSettings AudioFileFieldsGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["AudioFileFieldsGrid"]));
+                return ((global::SilTools.GridSettings)(this["AudioFileFieldsGrid"]));
             }
             set {
                 this["AudioFileFieldsGrid"] = value;
@@ -597,11 +597,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings VideoFileFieldsGrid {
+        public global::SilTools.GridSettings VideoFileFieldsGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["VideoFileFieldsGrid"]));
+                return ((global::SilTools.GridSettings)(this["VideoFileFieldsGrid"]));
             }
             set {
                 this["VideoFileFieldsGrid"] = value;
@@ -609,11 +609,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings ImageFileFieldsGrid {
+        public global::SilTools.GridSettings ImageFileFieldsGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["ImageFileFieldsGrid"]));
+                return ((global::SilTools.GridSettings)(this["ImageFileFieldsGrid"]));
             }
             set {
                 this["ImageFileFieldsGrid"] = value;
@@ -621,11 +621,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings UnknownFileFieldsGrid {
+        public global::SilTools.GridSettings UnknownFileFieldsGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["UnknownFileFieldsGrid"]));
+                return ((global::SilTools.GridSettings)(this["UnknownFileFieldsGrid"]));
             }
             set {
                 this["UnknownFileFieldsGrid"] = value;
@@ -705,7 +705,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool FirstTimeRun {
@@ -718,7 +718,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string DefaultFolderForNewProjects {
             get {
@@ -733,7 +733,7 @@ namespace SayMore.Properties {
         /// This is used for tests and prevents the display of the confirmation dialog box when moving deleted session and persons to the recycle bin.
         /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("This is used for tests and prevents the display of the confirmation dialog box wh" +
             "en moving deleted session and persons to the recycle bin.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -856,11 +856,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings EventsListGrid {
+        public global::SilTools.GridSettings EventsListGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["EventsListGrid"]));
+                return ((global::SilTools.GridSettings)(this["EventsListGrid"]));
             }
             set {
                 this["EventsListGrid"] = value;
@@ -868,11 +868,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings PersonListGrid {
+        public global::SilTools.GridSettings PersonListGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["PersonListGrid"]));
+                return ((global::SilTools.GridSettings)(this["PersonListGrid"]));
             }
             set {
                 this["PersonListGrid"] = value;
@@ -907,7 +907,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool AllowStatisticsChartLabelsToWrap {
             get {
@@ -928,11 +928,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings ContributorsGrid {
+        public global::SilTools.GridSettings ContributorsGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["ContributorsGrid"]));
+                return ((global::SilTools.GridSettings)(this["ContributorsGrid"]));
             }
             set {
                 this["ContributorsGrid"] = value;
@@ -949,7 +949,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool NeedUpgrade {
@@ -962,7 +962,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Palaso.Reporting.ReportingSettings Reporting {
             get {
@@ -995,7 +995,7 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("author;compiler;consultant;developer;editor;facilitator;illustrator;interviewer;p" +
             "hotographer;recorder;researcher;signer;speaker;transcriber;translator")]
@@ -1037,11 +1037,11 @@ namespace SayMore.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.FormSettings ArchivingDialog {
+        public global::SilTools.FormSettings ArchivingDialog {
             get {
-                return ((global::SilUtils.FormSettings)(this["ArchivingDialog"]));
+                return ((global::SilTools.FormSettings)(this["ArchivingDialog"]));
             }
             set {
                 this["ArchivingDialog"] = value;

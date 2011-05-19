@@ -15,7 +15,6 @@ using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Archiving;
-using SilUtils;
 
 namespace SayMore.Model.Files
 {

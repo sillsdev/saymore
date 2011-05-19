@@ -10,7 +10,7 @@ using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.LowLevelControls;
 using Palaso.TestUtilities;
-using SilUtils;
+using SilTools;
 using NUnit.Extensions.Forms;
 using NUnit.Framework;
 

@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using Localization;
-using SilUtils;
+using SilTools;
 using SayMore.Model.Files;
 using SayMore.Properties;
 

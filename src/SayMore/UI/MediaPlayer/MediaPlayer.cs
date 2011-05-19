@@ -47,7 +47,6 @@ namespace SayMore.UI.MediaPlayer
 			_viewModel.MediaQueued += HandleMediaQueued;
 			_viewModel.PlaybackPaused += HandlePlaybackPausedResumed;
 			_viewModel.PlaybackResumed += HandlePlaybackPausedResumed;
-			_viewModel.PlaybackEnded += HandleMediaPlayEnded;
 			_viewModel.PlaybackStarted += HandleMediaPlayStarted;
 			_viewModel.PlaybackPositionChanged += HandlePlaybackPositionChanged;
 
@@ -308,13 +307,6 @@ namespace SayMore.UI.MediaPlayer
 				UpdateTimeDisplay(position);
 				_sliderTime.SetValueWithoutEvent(position);
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleMediaPlayEnded(object sender, EventArgs e)
-		{
-			//_sliderTime.Enabled = false;
-			//UpdateButtons();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using SayMore.UI.Archiving;
 
 namespace SayMore.UI.MediaPlayer
 {
@@ -185,8 +184,9 @@ namespace SayMore.UI.MediaPlayer
 			if (_mplayer != null)
 				ShutdownMPlayerProcess();
 
-			_mplayer = MPlayerHelper.StartProcessToMonitor(_playbackStartPosition,
-				Volume, _hwndVideo, _outputDataHandler, _errorDataHandler);
+			_mplayer = MPlayerHelper.StartProcessToMonitor(
+				MPlayerHelper.GetPlaybackArguments(_playbackStartPosition, Volume, _hwndVideo),
+				_outputDataHandler, _errorDataHandler);
 
 			_mplayerStartInfo.AppendLine("Command Line:");
 			_mplayerStartInfo.Append(_mplayer.StartInfo.FileName);

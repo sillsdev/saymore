@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Palaso.IO;
@@ -61,12 +62,9 @@ namespace SayMore.UI.MediaPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static MPlayerProcess StartProcessToMonitor(float startPosition, float volume, Int32 hwndVideo,
+		public static MPlayerProcess StartProcessToMonitor(IEnumerable<string> playbackArgs,
 			DataReceivedEventHandler outputDataHandler, DataReceivedEventHandler errorDataHandler)
 		{
-			if (hwndVideo == 0)
-				throw new ArgumentException("No window handle specified.");
-
 			if (outputDataHandler == null)
 				throw new ArgumentNullException("outputDataHandler");
 
@@ -78,13 +76,12 @@ namespace SayMore.UI.MediaPlayer
 			prs.StartInfo.RedirectStandardError = true;
 			prs.OutputDataReceived += outputDataHandler;
 			prs.ErrorDataReceived += errorDataHandler;
-			prs.StartInfo.Arguments = GetMPlayerCommandLineForPlayback(startPosition, volume, hwndVideo);
+			prs.StartInfo.Arguments = BuildCommandLine(playbackArgs);
 
 			if (!StartProcess(prs))
 			{
-				// REVIEW: Revise to do something a little less drastic.
 				prs = null;
-				throw new ApplicationException("Unable to start mplayer.");
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Unable to start mplayer.");
 			}
 
 			prs.StandardInput.AutoFlush = true;
@@ -94,33 +91,88 @@ namespace SayMore.UI.MediaPlayer
 			return prs;
 		}
 
+		#region Methods for building MPlayer command-line arguments.
 		/// ------------------------------------------------------------------------------------
-		private static string GetMPlayerCommandLineForPlayback(float startPosition,
+		public static IEnumerable<string> GetPlaybackArguments(float startPosition, float volume)
+		{
+			foreach (var arg in GetStandardPlaybackArguments())
+				yield return arg;
+
+			yield return string.Format("-ss {0}", startPosition);
+			yield return string.Format("-volume {0}", volume);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<string> GetPlaybackArguments(float startPosition,
+			float duration, float volume)
+		{
+			foreach (var arg in GetStandardPlaybackArguments())
+				yield return arg;
+
+			yield return string.Format("-ss {0}", startPosition);
+			yield return string.Format("-endpos {0}", duration);
+			yield return string.Format("-volume {0}", volume);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<string> GetPlaybackArguments(float startPosition,
 			float volume, int hwndVideo)
 		{
-			// If we find an MPlayer config file in the same path as this assembly, then
-			// use that for the settings instead of our default set.
+			if (hwndVideo == 0)
+				throw new ArgumentException("No window handle specified.");
+
+			foreach (var arg in GetStandardVideoPlaybackArguments())
+				yield return arg;
+
+			yield return string.Format("-ss {0}", startPosition);
+			yield return string.Format("-volume {0}", volume);
+			yield return string.Format("-wid {0}", hwndVideo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static IEnumerable<string> GetStandardVideoPlaybackArguments()
+		{
+			foreach (var arg in GetStandardPlaybackArguments())
+				yield return arg;
+
+			yield return "-fixed-vo";
+
+#if !__MonoCS__
+			yield return "-vo gl";
+#endif
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static IEnumerable<string> GetStandardPlaybackArguments()
+		{
 			var mplayerConfigPath = Path.Combine(GetPathToThisAssembly(), "MPlayerSettings.conf");
 
-			string cmdLine;
-
 			if (File.Exists(mplayerConfigPath))
-			{
-				cmdLine = string.Format("-include {0} -ss {1} -volume {2} -wid {3} ",
-					mplayerConfigPath, startPosition, volume, hwndVideo);
-			}
+				yield return string.Format("-include {0}", mplayerConfigPath);
 			else
 			{
-				cmdLine = string.Format("-slave -noquiet -idle " +
-					"-msglevel identify=9:global=9 -nofontconfig -autosync 100 -priority abovenormal " +
-					" −osdlevel 0 -ss {0} -volume {1} -fixed-vo -wid {2} ", startPosition, volume, hwndVideo);
-#if !__MonoCS__
-				cmdLine += " -vo gl";
-#endif
+				yield return "-slave";
+				yield return "-noquiet";
+				yield return "-idle ";
+				yield return "-msglevel identify=9:global=9";
+				yield return "-nofontconfig";
+				yield return "-autosync 100";
+				yield return "-priority abovenormal";
+				yield return "−osdlevel 0";
 			}
-
-			return cmdLine;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		private static string BuildCommandLine(IEnumerable<string> args)
+		{
+			var bldr = new StringBuilder();
+			foreach (var arg in args)
+				bldr.AppendFormat("{0} ", arg);
+
+			return bldr.ToString();
+		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		private static string GetPathToThisAssembly()

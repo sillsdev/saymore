@@ -168,6 +168,24 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public string GetPathToSegmentFile()
+		{
+			return (File.Exists(PropsedSegmentFileName) ? PropsedSegmentFileName : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool GetCanHaveSegmentFile()
+		{
+			return (".mp3;.wav".Contains(Path.GetExtension(PathToAnnotatedFile)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string PropsedSegmentFileName
+		{
+			get { return (GetCanHaveSegmentFile() ? PathToAnnotatedFile + ".segments" : string.Empty); }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual string DurationString
 		{
 			get

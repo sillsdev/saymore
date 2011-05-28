@@ -11,6 +11,7 @@ using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Properties;
+using SayMore.Transcription.UI;
 using SayMore.UI.ComponentEditors;
 using SilTools;
 
@@ -664,6 +665,12 @@ namespace SayMore.Model.Files
 		{
 			var text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PlaybackTabText", "Audio");
 			yield return new AudioVideoPlayer(file, text, "Audio");
+
+			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.SegmentTabText", "Segment");
+			yield return new SegmentEditor(file, text, "Segment");
+
+			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
+			yield return _audioComponentEditorFactoryLazy()(file, text, null);
 
 			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
 			yield return _audioComponentEditorFactoryLazy()(file, text, null);

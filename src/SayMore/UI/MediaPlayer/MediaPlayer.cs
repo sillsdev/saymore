@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -12,8 +11,6 @@ namespace SayMore.UI.MediaPlayer
 {
 	public partial class MediaPlayer : UserControl
 	{
-		private delegate void ReportPlayerOutputHandler(string data);
-		private ReportPlayerOutputHandler _reportPlayerOutput;
 		private MediaPlayerViewModel _viewModel;
 
 		#region Construction and disposal
@@ -27,7 +24,6 @@ namespace SayMore.UI.MediaPlayer
 			_panelVideoSurface.BackColor = _panelContainer.BackColor;
 			_toolbarButtons.Renderer = new NoToolStripBorderRenderer();
 			CreateHandle();
-			_reportPlayerOutput = HandleReportingPlayerOutput;
 			SetupVolumePopup();
 		}
 
@@ -41,15 +37,12 @@ namespace SayMore.UI.MediaPlayer
 		public void SetViewModel(MediaPlayerViewModel viewModel)
 		{
 			_viewModel = viewModel;
-
-			_viewModel.Initialize(_panelVideoSurface.Handle.ToInt32(),
-				HandleOutputDataReceived, HandleErrorDataReceived);
-
-			_viewModel.MediaQueued += HandleMediaQueued;
-			_viewModel.PlaybackPaused += HandlePlaybackPausedResumed;
-			_viewModel.PlaybackResumed += HandlePlaybackPausedResumed;
-			_viewModel.PlaybackStarted += HandleMediaPlayStarted;
-			_viewModel.PlaybackPositionChanged += HandlePlaybackPositionChanged;
+			_viewModel.VideoWindowHandle = _panelVideoSurface.Handle.ToInt32();
+			_viewModel.MediaQueued = delegate { Invoke((Action)HandleMediaQueued); };
+			_viewModel.PlaybackPaused = delegate { Invoke((Action)HandlePlaybackPausedResumed); };
+			_viewModel.PlaybackResumed = delegate { Invoke((Action)HandlePlaybackPausedResumed); };
+			_viewModel.PlaybackStarted = delegate { Invoke((Action)HandleMediaPlayStarted); };
+			_viewModel.PlaybackPositionChanged = delegate(float pos) { Invoke((Action<float>)(HandlePlaybackPositionChanged), pos); };
 
 			UpdateButtons();
 			_volumePopup.VolumeLevel = _viewModel.Volume;
@@ -100,7 +93,7 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			_reportPlayerOutput = null;
+			//_reportPlayerOutput = null;
 			_viewModel.ShutdownMPlayerProcess();
 			base.OnHandleDestroyed(e);
 		}
@@ -282,13 +275,13 @@ namespace SayMore.UI.MediaPlayer
 
 		#region View model's event handlers
 		/// ------------------------------------------------------------------------------------
-		void HandlePlaybackPausedResumed(object sender, EventArgs e)
+		void HandlePlaybackPausedResumed()
 		{
 			UpdateButtons();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleMediaQueued(object sender, EventArgs e)
+		private void HandleMediaQueued()
 		{
 			_sliderTime.SetValueWithoutEvent(0);
 			_sliderTime.Maximum = _viewModel.GetTotalMediaDuration();
@@ -301,7 +294,7 @@ namespace SayMore.UI.MediaPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandlePlaybackPositionChanged(object sender, float position)
+		private void HandlePlaybackPositionChanged(float position)
 		{
 			if (!_sliderTime.UserIsMoving)
 			{
@@ -311,33 +304,10 @@ namespace SayMore.UI.MediaPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleMediaPlayStarted(object sender, EventArgs e)
+		private void HandleMediaPlayStarted()
 		{
 			_panelVideoSurface.BackgroundImage = null;
 			UpdateButtons();
-		}
-
-		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		public void HandleReportingPlayerOutput(string data)
-		{
-			_viewModel.HandlePlayerOutput(data);
-		}
-
-		#region Delegate methods executed in worker thread
-		/// ------------------------------------------------------------------------------------
-		void HandleErrorDataReceived(object sender, DataReceivedEventArgs e)
-		{
-			if (_reportPlayerOutput != null && e.Data != null)
-				Invoke(_reportPlayerOutput, e.Data);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void HandleOutputDataReceived(object sender, DataReceivedEventArgs e)
-		{
-			if (_reportPlayerOutput != null && e.Data != null)
-				Invoke(_reportPlayerOutput, e.Data);
 		}
 
 		#endregion

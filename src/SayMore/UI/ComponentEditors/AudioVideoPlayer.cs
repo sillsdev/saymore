@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Windows.Forms;
 using SayMore.Model.Files;
@@ -65,11 +66,11 @@ namespace SayMore.UI.ComponentEditors
 			if (Settings.Default.MediaPlayerVolume >= 0)
 				_mediaPlayerViewModel.SetVolume(Settings.Default.MediaPlayerVolume);
 
-			_mediaPlayerViewModel.VolumeChanged += HandleMediaPlayerVolumeChanged;
+			_mediaPlayerViewModel.VolumeChanged = delegate { Invoke((Action)HandleMediaPlayerVolumeChanged); };
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleMediaPlayerVolumeChanged(object sender, System.EventArgs e)
+		private void HandleMediaPlayerVolumeChanged()
 		{
 			Settings.Default.MediaPlayerVolume = _mediaPlayerViewModel.Volume;
 		}
@@ -77,7 +78,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public override void Deactivate()
 		{
-			_mediaPlayerViewModel.VolumeChanged -= HandleMediaPlayerVolumeChanged;
+			_mediaPlayerViewModel.VolumeChanged = null;
 			_mediaPlayerViewModel.ShutdownMPlayerProcess();
 		}
 
@@ -88,7 +89,7 @@ namespace SayMore.UI.ComponentEditors
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnParentChanged(System.EventArgs e)
+		protected override void OnParentChanged(EventArgs e)
 		{
 			base.OnParentChanged(e);
 
@@ -108,7 +109,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleOwningTabPageEnter(object sender, System.EventArgs e)
+		void HandleOwningTabPageEnter(object sender, EventArgs e)
 		{
 			if (Settings.Default.PauseMediaPlayerWhenTabLoosesFocus && _playerPausedWhenTabChanged)
 			{
@@ -118,7 +119,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleOwningTabPageLeave(object sender, System.EventArgs e)
+		void HandleOwningTabPageLeave(object sender, EventArgs e)
 		{
 			if (Settings.Default.PauseMediaPlayerWhenTabLoosesFocus && !_mediaPlayerViewModel.IsPaused)
 			{

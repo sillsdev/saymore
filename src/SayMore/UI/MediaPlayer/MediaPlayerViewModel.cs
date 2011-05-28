@@ -1,21 +1,22 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using Palaso.Reporting;
 
 namespace SayMore.UI.MediaPlayer
 {
 	public class MediaPlayerViewModel
 	{
-		public delegate void PlaybackPositionChangedHandler(object sender, float position);
-		public event PlaybackPositionChangedHandler PlaybackPositionChanged;
-		public event EventHandler PlaybackPaused;
-		public event EventHandler PlaybackResumed;
-		public event EventHandler PlaybackEnded;
-		public event EventHandler PlaybackStarted;
-		public event EventHandler MediaQueued;
-		public event EventHandler VolumeChanged;
+		public Action<float> PlaybackPositionChanged;
+		public Action PlaybackPaused;
+		public Action PlaybackResumed;
+		public Action PlaybackEnded;
+		public Action PlaybackStarted;
+		public Action MediaQueued;
+		public Action VolumeChanged;
 
 		private const string kFmtTimeDisplay = "{0} / {1}";
 		private const string kFmtTime = "{0}.{1:0}";
@@ -24,12 +25,7 @@ namespace SayMore.UI.MediaPlayer
 		private MPlayerProcess _mplayer;
 		private StreamWriter _stdIn;
 		private float _prevPostion;
-		private float _playbackStartPosition;
-		private string _filename;
 		private MPlayerOutputLogForm _formMPlayerOutputLog;
-		private Int32 _hwndVideo;
-		private DataReceivedEventHandler _outputDataHandler;
-		private DataReceivedEventHandler _errorDataHandler;
 
 		#region Construction and initialization
 		/// ------------------------------------------------------------------------------------
@@ -50,43 +46,85 @@ namespace SayMore.UI.MediaPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Initialize(Int32 hwndVideo, DataReceivedEventHandler outputDataHandler,
-			DataReceivedEventHandler errorDataHandler)
+		public Int32 VideoWindowHandle { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public float CurrentPosition { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public float PlaybackStartPosition { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public float PlaybackLength { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsFileLoaded
 		{
-			_hwndVideo = hwndVideo;
-			_outputDataHandler = outputDataHandler;
-			_errorDataHandler = errorDataHandler;
+			get { return MediaFile != null; }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Use LoadFile to set this property.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string MediaFile { get; private set; }
 
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public void ShutdownMPlayerProcess()
 		{
-			if (_mplayer != null && !_mplayer.HasExited)
+			try
 			{
-				_mplayer.KillAndWaitForFileRelease();
-				_mplayer.Dispose();
-				_mplayer = null;
-				_stdIn = null;
-			}
+				if (_mplayer != null && !_mplayer.HasExited)
+				{
+					_mplayer.KillAndWaitForFileRelease();
+					_mplayer.Dispose();
+					_mplayer = null;
+					_stdIn = null;
+				}
 
-			if (_formMPlayerOutputLog != null)
-			{
-				_formMPlayerOutputLog.Close();
-				_formMPlayerOutputLog = null;
+				if (_formMPlayerOutputLog != null)
+				{
+					_formMPlayerOutputLog.Close();
+					_formMPlayerOutputLog = null;
+				}
 			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void LoadFile(string filename)
 		{
-			// REVIEW: Should something be reported to user if filename is not valid?
-			if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
-				return;
+			LoadFile(filename, 0f);
+		}
 
-			_filename = filename.Replace('\\', '/');
+		/// ------------------------------------------------------------------------------------
+		public void LoadFile(string filename, float startPosition)
+		{
+			LoadFile(filename, 0f, 0f);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void LoadFile(string filename, float playbackStartPosition, float playbackLength)
+		{
+			if (string.IsNullOrEmpty(filename))
+			{
+				ErrorReport.NotifyUserOfProblem("Media player file name has not been specified.");
+				return;
+			}
+
+			if (!File.Exists(filename))
+			{
+				ErrorReport.NotifyUserOfProblem("Media file '{0}' not found.", filename);
+				return;
+			}
+
+			MediaFile = filename.Replace('\\', '/');
 			MediaInfo = new MPlayerMediaInfo(filename);
+			PlaybackStartPosition = playbackStartPosition;
+			PlaybackLength = playbackLength;
 			OnMediaQueued();
 		}
 
@@ -95,12 +133,12 @@ namespace SayMore.UI.MediaPlayer
 		{
 			ShutdownMPlayerProcess();
 			HasPlaybackStarted = false;
-			_playbackStartPosition = 0;
+			CurrentPosition = PlaybackStartPosition;
 
 			if (MediaQueued != null && GetTotalMediaDuration() > 0f && (!MediaInfo.IsVideo ||
 				(MediaInfo.PictureSize.Width > 0 && MediaInfo.PictureSize.Height > 0)))
 			{
-				MediaQueued(this, EventArgs.Empty);
+				MediaQueued();
 			}
 		}
 
@@ -112,6 +150,17 @@ namespace SayMore.UI.MediaPlayer
 		public float GetTotalMediaDuration()
 		{
 			return (MediaInfo == null ? 0f : MediaInfo.Duration + MediaInfo.StartTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private float GetPlayBackEndPosition()
+		{
+			var mediaDuration = GetTotalMediaDuration();
+
+			var endPosition = (PlaybackLength == 0 ? mediaDuration :
+				PlaybackStartPosition + PlaybackLength);
+
+			return Math.Min(mediaDuration, endPosition);
 		}
 
 		#region Button state properties
@@ -172,35 +221,35 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		private void StartPlayback()
 		{
-			if (_hwndVideo == 0)
+			if (MediaInfo.IsVideo && VideoWindowHandle == 0)
 				throw new Exception("Media player needs a window handle.");
-
-			if (_outputDataHandler == null)
-				throw new Exception("Media player needs am output data handler.");
-
-			if (_errorDataHandler == null)
-				throw new Exception("Media player needs am error data handler.");
 
 			if (_mplayer != null)
 				ShutdownMPlayerProcess();
 
-			_mplayer = MPlayerHelper.StartProcessToMonitor(
-				MPlayerHelper.GetPlaybackArguments(_playbackStartPosition, Volume, _hwndVideo),
-				_outputDataHandler, _errorDataHandler);
+			IEnumerable<string> args;
 
+			if (VideoWindowHandle > 0)
+				args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, Volume, VideoWindowHandle);
+			else if (PlaybackLength > 0)
+				args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, PlaybackLength, Volume);
+			else
+				args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, Volume);
+
+			_mplayer = MPlayerHelper.StartProcessToMonitor(args, HandleErrorDataReceived, HandleErrorDataReceived);
 			_mplayerStartInfo.AppendLine("Command Line:");
 			_mplayerStartInfo.Append(_mplayer.StartInfo.FileName);
 			_mplayerStartInfo.Append(" ");
 			_mplayerStartInfo.AppendLine(_mplayer.StartInfo.Arguments);
 			_mplayerStartInfo.AppendLine();
 
-			_mplayer.MediaFileName = _filename;
+			_mplayer.MediaFileName = MediaFile;
 			_stdIn = _mplayer.StandardInput;
-			_stdIn.WriteLine(string.Format("loadfile \"{0}\" ", _filename));
+			_stdIn.WriteLine(string.Format("loadfile \"{0}\" ", MediaFile));
 			HasPlaybackStarted = true;
 
 			if (PlaybackStarted != null)
-				PlaybackStarted(this, EventArgs.Empty);
+				PlaybackStarted();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -225,7 +274,7 @@ namespace SayMore.UI.MediaPlayer
 			}
 			else
 			{
-				_playbackStartPosition = position;
+				PlaybackStartPosition = position;
 				Play();
 			}
 		}
@@ -237,6 +286,9 @@ namespace SayMore.UI.MediaPlayer
 			{
 				_stdIn.WriteLine("stop ");
 				OnMediaQueued();
+
+				if (PlaybackEnded != null)
+					PlaybackEnded();
 			}
 		}
 
@@ -250,7 +302,7 @@ namespace SayMore.UI.MediaPlayer
 					SendVolumeMessageToPlayer();
 
 				if (VolumeChanged != null)
-					VolumeChanged(this, EventArgs.Empty);
+					VolumeChanged();
 			}
 		}
 
@@ -274,19 +326,39 @@ namespace SayMore.UI.MediaPlayer
 		#region Time display methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Combines two results of MakeTimeString into a display of a the time represented
-		/// by position next to the total time (which is the duration of the media file).
+		/// Combines two results of MakeTimeString into a display of a the current time
+		/// position next to the total time (which is the duration of the media file).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetTimeDisplay()
+		{
+			return GetTimeDisplay(CurrentPosition);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Combines two results of MakeTimeString into a display of a the current time
+		/// position next to the total time (which is the duration of the media file).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string GetTimeDisplay(float position)
 		{
-			var totalDuration = GetTotalMediaDuration();
+			return GetTimeDisplay(position, GetPlayBackEndPosition());
+		}
 
-			if (position > totalDuration)
-				position = totalDuration;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Combines two results of MakeTimeString into a display of a the time represented
+		/// by position next to the specified length.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetTimeDisplay(float position, float endPosition)
+		{
+			if (position > endPosition)
+				position = endPosition;
 
-			return string.Format(kFmtTimeDisplay, MakeTimeString(position),
-				MakeTimeString(totalDuration));
+			return string.Format(kFmtTimeDisplay,
+				MakeTimeString(position), MakeTimeString(endPosition));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -307,6 +379,13 @@ namespace SayMore.UI.MediaPlayer
 
 		#region Methods for processing output from MPlayer
 		/// ------------------------------------------------------------------------------------
+		private void HandleErrorDataReceived(object sender, DataReceivedEventArgs e)
+		{
+			if (e.Data != null)
+				HandlePlayerOutput(e.Data);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void HandlePlayerOutput(string data)
 		{
 			if (_formMPlayerOutputLog != null)
@@ -319,16 +398,15 @@ namespace SayMore.UI.MediaPlayer
 			else if (data.StartsWith("EOF code:"))
 			{
 				OnMediaQueued();
-				IsPaused = true;
 
 				if (PlaybackEnded != null)
-					PlaybackEnded(this, EventArgs.Empty);
+					PlaybackEnded();
 			}
 			else if (data.StartsWith("ID_PAUSED"))
 			{
 				IsPaused = true;
 				if (PlaybackPaused != null)
-					PlaybackPaused(this, EventArgs.Empty);
+					PlaybackPaused();
 			}
 		}
 
@@ -339,21 +417,29 @@ namespace SayMore.UI.MediaPlayer
 			{
 				IsPaused = false;
 				if (PlaybackResumed != null)
-					PlaybackResumed(this, EventArgs.Empty);
+					PlaybackResumed();
 			}
 
-			var position = float.Parse(data.Substring(3, 5));
-			if (position < 0f || position == _prevPostion)
+			CurrentPosition = float.Parse(data.Substring(3, 5));
+
+			if (CurrentPosition < 0f)
+			{
+				CurrentPosition = 0f;
+				return;
+			}
+
+			if (CurrentPosition == _prevPostion)
 				return;
 
-			_prevPostion = position;
+			_prevPostion = CurrentPosition;
 
-			var totalDuration = GetTotalMediaDuration();
-			if (position > totalDuration)
-				position = totalDuration;
+			var endPosition = GetPlayBackEndPosition();
+
+			if (CurrentPosition > endPosition)
+				CurrentPosition = endPosition;
 
 			if (PlaybackPositionChanged != null)
-				PlaybackPositionChanged(this, position);
+				PlaybackPositionChanged(CurrentPosition);
 		}
 
 		#endregion

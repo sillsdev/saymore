@@ -68,7 +68,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			_mediaPlayerViewModel = new MediaPlayerViewModel();
 			_mediaPlayerViewModel.SetVolume(Settings.Default.MediaPlayerVolume);
-			_mediaPlayerViewModel.VolumeChanged += HandleMediaPlayerVolumeChanged;
+			_mediaPlayerViewModel.VolumeChanged = delegate { Invoke((Action)HandleMediaPlayerVolumeChanged); };
 			_mediaPlayer = new MediaPlayer.MediaPlayer(_mediaPlayerViewModel);
 			_mediaPlayer.Dock = DockStyle.Fill;
 			_mediaPlayerPanel.Controls.Add(_mediaPlayer);
@@ -236,7 +236,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		#region Event handlers
 		/// ------------------------------------------------------------------------------------
-		void HandleMediaPlayerVolumeChanged(object sender, EventArgs e)
+		void HandleMediaPlayerVolumeChanged()
 		{
 			Settings.Default.MediaPlayerVolume = _mediaPlayerViewModel.Volume;
 		}

@@ -8,7 +8,12 @@ namespace SayMore.Transcription.Model
 	public interface ISegmentRepository
 	{
 		IEnumerable<ISegment> GetAllSegments();
-		IEnumerable<ITier> GetAllTiers();
 		ISegment GetSegment(int i);
+	}
+
+	public interface ITierRepository
+	{
+		IEnumerable<ITier> GetAllTiers();
+		ITier GetTier(int i);
 	}
 }

@@ -135,12 +135,18 @@
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
     <Compile Include="Transcription\Model\ColumnConfiguration.cs" />
-    <Compile Include="Transcription\Model\ICell.cs" />
     <Compile Include="Transcription\Model\ISegment.cs" />
     <Compile Include="Transcription\Model\ISegmentRepository.cs" />
     <Compile Include="Transcription\Model\ITier.cs" />
-    <Compile Include="Transcription\Model\TestAdaptor\TestAdaptor.cs" />
-    <Compile Include="Transcription\UI\DummyGridUI.cs" />
+    <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
+    <Compile Include="Transcription\UI\SegmentEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\SegmentEditor.designer.cs">
+      <DependentUpon>SegmentEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\TranscriptionColumn.cs" />
+    <Compile Include="Transcription\UI\TierColumnBase.cs" />
     <Compile Include="UI\Archiving\ArchivingDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -284,6 +290,9 @@
     <Compile Include="UI\LowLevelControls\ColumnChooserButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\LowLevelControls\IconicButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\LowLevelControls\PopupControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -316,6 +325,12 @@
     </Compile>
     <Compile Include="UI\LowLevelControls\VolumePopup.designer.cs">
       <DependentUpon>VolumePopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\TinyMediaPlayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\TinyMediaPlayer.Designer.cs">
+      <DependentUpon>TinyMediaPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MediaPlayer\MediaPlayer.cs">
       <SubType>UserControl</SubType>
@@ -438,6 +453,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Transcription\UI\SegmentEditor.resx">
+      <DependentUpon>SegmentEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Archiving\ArchivingDlg.resx">
       <DependentUpon>ArchivingDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -482,6 +500,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\TinyMediaPlayer.resx">
+      <DependentUpon>TinyMediaPlayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesControl.resx">
       <DependentUpon>CopyFilesControl.cs</DependentUpon>
@@ -676,6 +697,10 @@
     <None Include="Resources\Delete.png" />
     <None Include="Resources\ramp.png" />
     <None Include="Resources\EmptyMets.xml" />
+    <None Include="Resources\PlaySegment.png" />
+    <None Include="Resources\PlaySegment_Hot.png" />
+    <None Include="Resources\StopSegment.png" />
+    <None Include="Resources\StopSegment_Hot.PNG" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />
@@ -721,6 +746,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Transcription\Model\ElanAdaptor\" />
+    <Folder Include="Transcription\Model\TestAdaptor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

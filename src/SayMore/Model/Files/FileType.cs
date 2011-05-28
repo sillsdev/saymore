@@ -672,9 +672,6 @@ namespace SayMore.Model.Files
 			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
 			yield return _audioComponentEditorFactoryLazy()(file, text, null);
 
-			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
-			yield return _audioComponentEditorFactoryLazy()(file, text, null);
-
 			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.Contributors", "Contributors");
 			yield return _contributorsEditorFactoryLazy()(file, text, null);
 

@@ -27,6 +27,7 @@ namespace SayMore.Transcription.UI
 			_buttonStop.Click += delegate { Stop(); };
 
 			_model = new MediaPlayerViewModel();
+			_model.SetVolume(100);
 			_model.PlaybackEnded = () => Invoke((Action)HandlePlaybackStopped);
 			_model.PlaybackPositionChanged = (pos) => Invoke((Action<Rectangle>)(Invalidate), WaveFormRectangle);
 

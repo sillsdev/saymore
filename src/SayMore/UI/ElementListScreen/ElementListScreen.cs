@@ -422,7 +422,7 @@ namespace SayMore.UI.ElementListScreen
 		protected virtual void HandleSelectedComponentEditorTabSelecting(object sender,
 			TabControlCancelEventArgs e)
 		{
-			if (e.Action == TabControlAction.Selecting)
+			if (e.Action == TabControlAction.Selecting && e.TabPage != null)
 				((ComponentEditorTabPage)e.TabPage).EditorProvider.Control.Focus();
 		}
 

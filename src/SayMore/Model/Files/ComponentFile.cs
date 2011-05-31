@@ -176,7 +176,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual bool GetCanHaveSegmentFile()
 		{
-			return (".mp3;.wav".Contains(Path.GetExtension(PathToAnnotatedFile)));
+			return (".mp3;.wav".Contains(Path.GetExtension(PathToAnnotatedFile)) &&
+				Path.GetFileNameWithoutExtension(PathToAnnotatedFile).EndsWith("_Original"));
 		}
 
 		/// ------------------------------------------------------------------------------------

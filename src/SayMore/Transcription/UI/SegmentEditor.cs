@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
@@ -32,21 +35,7 @@ namespace SayMore.Transcription.UI
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 			_grid.EditMode = DataGridViewEditMode.EditOnEnter;
 
-			int rowCount = 0;
-
-			foreach (var tier in (new TierRepo(file.PathToAnnotatedFile)).GetAllTiers())
-			{
-				if (tier.DataType == TierType.Audio)
-					_grid.Columns.Add(new AudioWaveFormColumn(tier));
-				else if (tier.DataType == TierType.Text)
-					_grid.Columns.Add(new TranscriptionColumn(tier));
-
-				rowCount = Math.Max(rowCount, tier.GetAllSegments().Count());
-			}
-
 			_tableLayout.Controls.Add(_grid, 0, 1);
-
-			_grid.RowCount = rowCount;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,46 +56,97 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleLoadSegmentFileClick(object sender, EventArgs e)
 		{
+			using (var dlg = new OpenFileDialog())
+			{
+				var caption = LocalizationManager.LocalizeString(
+					"SegmentEditor.LoadSegmentFileDlgCaption", "Select Segment File");
 
+				dlg.Title = caption;
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
+				dlg.Multiselect = false;
+
+				// TODO: Add ELAN .eaf files.
+
+				dlg.Filter = "Audacity Label File (*.txt)|*.txt|All Files (*.*)|*.*";
+
+				if (dlg.ShowDialog(this) == DialogResult.OK)
+					LoadTiersFromLabelFile(GetTimePositionPairsFromFile(dlg.FileName));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<KeyValuePair<float, float>> GetTimePositionPairsFromFile(string labelFile)
+		{
+			foreach (var ln in File.ReadAllLines(labelFile))
+			{
+				var pieces = ln.Split('\t');
+				if (pieces.Length < 2)
+					continue;
+
+				float start;
+				if (!float.TryParse(pieces[0], out start))
+					continue;
+
+				float stop;
+				if (!float.TryParse(pieces[1], out stop))
+					continue;
+
+				yield return new KeyValuePair<float, float>(start, stop - start);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadTiersFromLabelFile(IEnumerable<KeyValuePair<float, float>> timeSegments)
+		{
+			int rowCount = 0;
+
+			var otTier = new OriginalTranscriptionTier(_file.PathToAnnotatedFile);
+			_grid.Columns.Add(new AudioWaveFormColumn(otTier));
+
+			var ttTier = new TextTranscriptionTier();
+			_grid.Columns.Add(new TextTranscriptionColumn(ttTier));
+
+			foreach (var kvp in timeSegments)
+			{
+				otTier.AddSegment(kvp.Key, kvp.Value);
+				ttTier.AddSegment(string.Empty);
+				rowCount++;
+			}
+
+			_grid.RowCount = rowCount;
 		}
 	}
 
-	public class TierRepo : ITierRepository
-	{
-		private List<ITier> _tiers;
+	//public class TierRepo : ITierRepository
+	//{
+	//    private List<ITier> _tiers;
 
-		public TierRepo(string originalFileName)
-		{
-			_tiers = new List<ITier> { new OriginalTranscriptionTier(originalFileName), new TranscriptionTier() };
-		}
+	//    public TierRepo(string originalFileName)
+	//    {
+	//        _tiers = new List<ITier> { new OriginalTranscriptionTier(originalFileName), new TranscriptionTier() };
+	//    }
 
-		public IEnumerable<ITier> GetAllTiers()
-		{
-			return _tiers;
-		}
+	//    public IEnumerable<ITier> GetAllTiers()
+	//    {
+	//        return _tiers;
+	//    }
 
-		public ITier GetTier(int i)
-		{
-			return _tiers[i];
-		}
-	}
+	//    public ITier GetTier(int i)
+	//    {
+	//        return _tiers[i];
+	//    }
+	//}
 
 	public class OriginalTranscriptionTier : ITier
 	{
-		private IEnumerable<IMediaSegment> _segments;
+		private List<IMediaSegment> _segments = new List<IMediaSegment>();
+		private string _filename;
 
 		public OriginalTranscriptionTier(string filename)
 		{
 			DisplayName = "Original";
-
-			_segments = new List<IMediaSegment>
-			{
-				new AudioSegment(this, filename, 0f, 3.0f),
-				new AudioSegment(this, filename, 3.0f, 5.5f),
-				new AudioSegment(this, filename, 5.5f, 6.2f),
-				new AudioSegment(this, filename, 10f, 3.8f),
-				new AudioSegment(this, filename, 93.7f, 5.7f),
-			};
+			_filename = filename;
 		}
 
 		public string DisplayName { get; private set; }
@@ -114,6 +154,11 @@ namespace SayMore.Transcription.UI
 		public TierType DataType
 		{
 			get { return TierType.Audio; }
+		}
+
+		public void AddSegment(float start, float length)
+		{
+			_segments.Add(new AudioSegment(this, _filename, start, length));
 		}
 
 		public IEnumerable<ISegment> GetAllSegments()
@@ -127,22 +172,22 @@ namespace SayMore.Transcription.UI
 		}
 	}
 
-	public class TranscriptionTier : ITier
+	public class TextTranscriptionTier : ITier
 	{
-		private IEnumerable<ITextSegment> _segments;
+		private List<ITextSegment> _segments = new List<ITextSegment>();
 
-		public TranscriptionTier()
+		public TextTranscriptionTier()
 		{
 			DisplayName = "Transcription";
 
-			_segments = new List<ITextSegment>
-			{
-				new TextSegment(this, "blah one"),
-				new TextSegment(this, "blah two"),
-				new TextSegment(this, "blah three"),
-				new TextSegment(this, "blah four"),
-				new TextSegment(this, "blah five"),
-			};
+			//_segments = new List<ITextSegment>
+			//{
+			//    new TextSegment(this, "blah one"),
+			//    new TextSegment(this, "blah two"),
+			//    new TextSegment(this, "blah three"),
+			//    new TextSegment(this, "blah four"),
+			//    new TextSegment(this, "blah five"),
+			//};
 		}
 
 		public string DisplayName { get; private set; }
@@ -150,6 +195,11 @@ namespace SayMore.Transcription.UI
 		public TierType DataType
 		{
 			get { return TierType.Text; }
+		}
+
+		public void AddSegment(string text)
+		{
+			_segments.Add(new TextSegment(this, text));
 		}
 
 		public IEnumerable<ISegment> GetAllSegments()

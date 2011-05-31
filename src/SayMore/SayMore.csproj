@@ -145,7 +145,7 @@
     <Compile Include="Transcription\UI\SegmentEditor.designer.cs">
       <DependentUpon>SegmentEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\TranscriptionColumn.cs" />
+    <Compile Include="Transcription\UI\TextTranscriptionColumn.cs" />
     <Compile Include="Transcription\UI\TierColumnBase.cs" />
     <Compile Include="UI\Archiving\ArchivingDlg.cs">
       <SubType>Form</SubType>

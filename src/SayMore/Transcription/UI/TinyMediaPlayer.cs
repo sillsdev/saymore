@@ -22,14 +22,17 @@ namespace SayMore.Transcription.UI
 			SetStyle(ControlStyles.Selectable, false);
 			DoubleBuffered = true;
 			Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 7f);
+			_buttonStop.Location = _buttonPlay.Location;
 
 			_buttonPlay.Click += delegate { Play(); };
 			_buttonStop.Click += delegate { Stop(); };
 
 			_model = new MediaPlayerViewModel();
 			_model.SetVolume(100);
-			_model.PlaybackEnded = () => Invoke((Action)HandlePlaybackStopped);
-			_model.PlaybackPositionChanged = (pos) => Invoke((Action<Rectangle>)(Invalidate), WaveFormRectangle);
+			_model.Loop = true;
+			_model.PlaybackStarted = (() => Invoke((Action)UpdateButtons));
+			_model.PlaybackEnded = (() => Invoke((Action)HandlePlaybackStopped));
+			_model.PlaybackPositionChanged = (pos => Invoke((Action<Rectangle>)(Invalidate), WaveFormRectangle));
 
 			ShowButtons = true;
 		}
@@ -55,12 +58,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void LoadSegment(IMediaSegment segment)
 		{
-			if (segment == Segment)
-				return;
-
-			Segment = segment;
-			_mediaFileNeedsLoading = true;
-			Invalidate(WaveFormRectangle);
+			if (segment != Segment)
+			{
+				Segment = segment;
+				_mediaFileNeedsLoading = true;
+				Invalidate(WaveFormRectangle);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -89,10 +92,7 @@ namespace SayMore.Transcription.UI
 		public void Play()
 		{
 			if (_model.HasPlaybackStarted)
-			{
 				Stop();
-				return;
-			}
 
 			if (_mediaFileNeedsLoading)
 			{
@@ -101,14 +101,16 @@ namespace SayMore.Transcription.UI
 			}
 
 			_model.Play();
-			UpdateButtons();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Stop()
 		{
-			_model.Stop();
-			UpdateButtons();
+			if (_model.HasPlaybackStarted)
+			{
+				_model.Stop();
+				UpdateButtons();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -144,14 +146,18 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnPaint(e);
 
+			if (Segment == null)
+				return;
+
 			var rc = WaveFormRectangle;
 
 			if (_mediaFileNeedsLoading)
-				Draw(e.Graphics, Segment.MediaStart, Segment.MediaLength, rc, ForeColor, BackColor);
+				DrawTimeInfo(e.Graphics, Segment.MediaStart, Segment.MediaLength, rc, ForeColor, BackColor);
 			else
 			{
-				Draw(e.Graphics, _model.GetTimeDisplay(), rc, ForeColor, BackColor);
+				DrawTimeInfo(e.Graphics, _model.GetTimeDisplay(), rc, ForeColor, BackColor);
 
+				// Draw vertical line indicating where is the playback position.
 				var pixelsPerSec = rc.Width / Segment.MediaLength;
 				var dx = (int)Math.Round(pixelsPerSec * (_model.CurrentPosition - Segment.MediaStart),
 					MidpointRounding.AwayFromZero);
@@ -165,15 +171,15 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Draw(Graphics g, float startPosition, float length, Rectangle rc,
+		public void DrawTimeInfo(Graphics g, float startPosition, float length, Rectangle rc,
 			Color foreColor, Color backColor)
 		{
 			var text = _model.GetTimeDisplay(startPosition, startPosition + length);
-			Draw(g, text, rc, foreColor, backColor);
+			DrawTimeInfo(g, text, rc, foreColor, backColor);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void Draw(Graphics g, string text, Rectangle rc, Color foreColor, Color backColor)
+		protected virtual void DrawTimeInfo(Graphics g, string text, Rectangle rc, Color foreColor, Color backColor)
 		{
 			using (var br = new SolidBrush(backColor))
 				g.FillRectangle(br, rc);

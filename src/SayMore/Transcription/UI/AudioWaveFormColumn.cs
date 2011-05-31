@@ -17,6 +17,7 @@ namespace SayMore.Transcription.UI
 		{
 			Debug.Assert(tier.DataType == TierType.Audio);
 			_player = new TinyMediaPlayer();
+			_player.Visible = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -29,45 +30,48 @@ namespace SayMore.Transcription.UI
 
 			DataGridView.Controls.Add(_player);
 			DataGridView.CellPainting += HandleCellPainting;
-			DataGridView.KeyDown += HandleKeyDown;
-			DataGridView.RowEnter += (s, e) => LocatePlayer(e.RowIndex, true);
+			DataGridView.Leave += (s, e) => _player.Stop();
+			//DataGridView.KeyDown += HandleKeyDown;
+
+			DataGridView.RowEnter += (s, e) =>
+			{
+				LocatePlayer(e.RowIndex, true);
+				Application.Idle -= HandleStartPlaybackOnIdle;
+				Application.Idle += HandleStartPlaybackOnIdle;
+			};
+
 			DataGridView.ColumnWidthChanged += (s, e) =>
 			{
 				if (e.Column.Index == Index)
 					LocatePlayer(DataGridView.CurrentCellAddress.Y, false);
 			};
 
-			DataGridView.EditingControlShowing += (s, e) =>
-			{
-				_gridEditControl = e.Control;
-				_gridEditControl.KeyDown += HandleKeyDown;
-			};
+			//DataGridView.EditingControlShowing += (s, e) =>
+			//{
+			//    _gridEditControl = e.Control;
+			//    _gridEditControl.KeyDown += HandleKeyDown;
+			//};
 
-			DataGridView.CellEndEdit += (s, e) =>
-			{
-				_gridEditControl.KeyDown -= HandleKeyDown;
-				_gridEditControl = null;
-			};
+			//DataGridView.CellEndEdit += (s, e) =>
+			//{
+			//    _gridEditControl.KeyDown -= HandleKeyDown;
+			//    _gridEditControl = null;
+			//};
 		}
 
-		/// ------------------------------------------------------------------------------------
-		void HandleKeyDown(object sender, KeyEventArgs e)
+		///// ------------------------------------------------------------------------------------
+		private void HandleStartPlaybackOnIdle(object sender, EventArgs e)
 		{
-			if (!e.Shift)
-				return;
+			Application.Idle -= HandleStartPlaybackOnIdle;
 
-			if (DateTime.Now.Subtract(_lastShiftKeyPress).Milliseconds > 250)
-				_lastShiftKeyPress = DateTime.Now;
-			else
-			{
+			if (DataGridView.Focused || DataGridView.IsCurrentCellInEditMode)
 				_player.Play();
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
-			if (e.ColumnIndex != Index || DataGridView.CurrentCellAddress.Y == e.RowIndex || e.RowIndex < 0)
+			if (e.ColumnIndex != Index || e.RowIndex < 0)
 				return;
 
 			e.Handled = true;
@@ -79,15 +83,15 @@ namespace SayMore.Transcription.UI
 
 			var segment = _tier.GetSegment(e.RowIndex) as IMediaSegment;
 
-			_player.Draw(e.Graphics, segment.MediaStart, segment.MediaLength,
+			_player.DrawTimeInfo(e.Graphics, segment.MediaStart, segment.MediaLength,
 				rc, SystemColors.GrayText, e.CellStyle.BackColor);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void LocatePlayer(int rowIndex, bool stopPlayingFirst)
 		{
-			if (stopPlayingFirst)
-				_player.Stop();
+			//if (stopPlayingFirst)
+			//    _player.Stop();
 
 			var segment = _tier.GetSegment(rowIndex) as IMediaSegment;
 			if (segment != _player.Segment)
@@ -98,10 +102,29 @@ namespace SayMore.Transcription.UI
 			rc.Height--;
 
 			if (_player.Bounds != rc)
+			{
 				_player.Bounds = rc;
+
+				if (!_player.Visible)
+					_player.Visible = true;
+			}
 
 			_player.ForeColor = DataGridView.DefaultCellStyle.SelectionForeColor;
 			_player.BackColor = DataGridView.DefaultCellStyle.SelectionBackColor;
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//void HandleKeyDown(object sender, KeyEventArgs e)
+		//{
+		//    //if (!e.Shift)
+		//    //    return;
+
+		//    //if (DateTime.Now.Subtract(_lastShiftKeyPress).Milliseconds > 250)
+		//    //    _lastShiftKeyPress = DateTime.Now;
+		//    //else
+		//    //{
+		//    //    _player.Play();
+		//    //}
+		//}
 	}
 }

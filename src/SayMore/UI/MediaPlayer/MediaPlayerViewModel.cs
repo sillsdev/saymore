@@ -8,6 +8,7 @@ using Palaso.Reporting;
 
 namespace SayMore.UI.MediaPlayer
 {
+	/// ----------------------------------------------------------------------------------------
 	public class MediaPlayerViewModel
 	{
 		public Action<float> PlaybackPositionChanged;
@@ -26,12 +27,14 @@ namespace SayMore.UI.MediaPlayer
 		private StreamWriter _stdIn;
 		private float _prevPostion;
 		private MPlayerOutputLogForm _formMPlayerOutputLog;
+		private System.Threading.Timer _loopDelayTimer;
 
 		#region Construction and initialization
 		/// ------------------------------------------------------------------------------------
 		public MediaPlayerViewModel()
 		{
 			Volume = 25f;
+			LoopDelay = 400;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -70,6 +73,23 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public string MediaFile { get; private set; }
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value in milliseconds indicating how much time between playback
+		/// loops to wait.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public int LoopDelay { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not playback loops after playback ends
+		/// by coming to the end of the playback range. If playback is stopped (e.g. by the
+		/// user clicking a stop playback button), then playback will not loop.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool Loop { get; set; }
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -89,6 +109,12 @@ namespace SayMore.UI.MediaPlayer
 				{
 					_formMPlayerOutputLog.Close();
 					_formMPlayerOutputLog = null;
+				}
+
+				if (_loopDelayTimer != null)
+				{
+					_loopDelayTimer.Dispose();
+					_loopDelayTimer = null;
 				}
 			}
 			catch { }
@@ -221,6 +247,12 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		private void StartPlayback()
 		{
+			if (_loopDelayTimer != null)
+			{
+				_loopDelayTimer.Dispose();
+				_loopDelayTimer = null;
+			}
+
 			if (MediaInfo.IsVideo && VideoWindowHandle == 0)
 				throw new Exception("Media player needs a window handle.");
 
@@ -401,6 +433,10 @@ namespace SayMore.UI.MediaPlayer
 
 				if (PlaybackEnded != null)
 					PlaybackEnded();
+
+				if (Loop)
+					StartLoopTimer();
+
 			}
 			else if (data.StartsWith("ID_PAUSED"))
 			{
@@ -408,6 +444,13 @@ namespace SayMore.UI.MediaPlayer
 				if (PlaybackPaused != null)
 					PlaybackPaused();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void StartLoopTimer()
+		{
+			_loopDelayTimer = new System.Threading.Timer(a => Play(), null, LoopDelay,
+				System.Threading.Timeout.Infinite);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -3,13 +3,12 @@ using SayMore.Transcription.Model;
 
 namespace SayMore.Transcription.UI
 {
-	public class TranscriptionColumn : TierColumnBase
+	public class TextTranscriptionColumn : TierColumnBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public TranscriptionColumn(ITier tier) : base(tier)
+		public TextTranscriptionColumn(ITier tier) : base(tier)
 		{
 			Debug.Assert(tier.DataType == TierType.Text);
-
 		}
 
 		/// ------------------------------------------------------------------------------------

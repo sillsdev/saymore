@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MetaData>
-  <Recordist type="string">Hatton</Recordist>
   <Device type="string">Shure X2u A/D, into GoldWave</Device>
   <Microphone type="string">Sure SM10A Headset</Microphone>
   <Channels type="string">1</Channels>
-  <Speaker type="string">Awi Heole</Speaker>
   <notes type="string">This was downgraded to low bit-rate mp3 to keep the SayMore installer from getting huge.</notes>
+  <contributions type="xml">
+	<contributor>
+	  <name>Hatton</name>
+	  <role>recorder</role>
+	  <date>9/10/2010</date>
+	  <notes />
+	</contributor>
+	<contributor>
+	  <name>Awi Heole</name>
+	  <role>speaker</role>
+	  <date>9/10/2010</date>
+	  <notes />
+	</contributor>
+  </contributions>
 </MetaData>

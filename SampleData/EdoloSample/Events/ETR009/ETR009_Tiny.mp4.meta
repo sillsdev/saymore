@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MetaData>
-  <Recordist type="string">Hatton</Recordist>
   <Device type="string">Zoom Q3</Device>
   <Microphone type="string">Built-in</Microphone>
   <fps type="string">30</fps>
   <notes type="string">This was downgraded to small picture and low bit-rate mp3 to keep the SayMore installer from getting huge.</notes>
+  <contributions type="xml">
+	<contributor>
+	  <name>Hatton</name>
+	  <role>recorder</role>
+	  <date>9/10/2010</date>
+	  <notes />
+	</contributor>
+  </contributions>
 </MetaData>

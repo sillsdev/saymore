@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SayMore.Model;
 using SayMore.Properties;
 using SilUtils;
+using Palaso.Extensions;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -44,12 +46,15 @@ namespace SayMore.UI.ElementListScreen
 			if (fieldName == "date")
 			{
 				var date = base.GetValueForField(element, fieldName);
-				return (string.IsNullOrEmpty(date as string) ?
-					date : DateTime.Parse(date as string).ToShortDateString());
+				// We have this permsissive business because we released versions of SayMore (prior to 1.1.120) which used the local
+				// format, rather than a universal one.
+				return date; //: DateTimeExtensions.ParseDateTimePermissively(date as string).ToShortDateString());
 			}
 
 			return base.GetValueForField(element, fieldName);
 		}
+
+
 
 		/// ------------------------------------------------------------------------------------
 		protected override object GetSortValueForField(ProjectElement element, string fieldName)
@@ -67,9 +72,19 @@ namespace SayMore.UI.ElementListScreen
 			if (fieldName == "date")
 			{
 				var dateString = base.GetValueForField(element, fieldName) as string;
-				DateTime date = DateTime.MinValue;
-				DateTime.TryParse(dateString ?? string.Empty, out date);
-				return date;
+
+				try
+				{
+					//we parse it and then generate it because we're trying to migrate old, locale-specific dates to ISO8601 dates
+					return DateTimeExtensions.ParseDateTimePermissively(dateString).ToISO8601DateOnlyString();
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					ErrorReport.NotifyUserOfProblem(e, "only seeing because your'e in DEBUG mode");
+#endif
+					return DateTime.MinValue.ToISO8601DateOnlyString();
+				}
 			}
 
 			return base.GetSortValueForField(element, fieldName) as string;

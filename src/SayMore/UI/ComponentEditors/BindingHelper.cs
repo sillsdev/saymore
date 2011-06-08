@@ -1,9 +1,11 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Palaso.Extensions;
 using SayMore.Model.Files;
 using SayMore.UI.LowLevelControls;
 
@@ -275,6 +277,14 @@ namespace SayMore.UI.ComponentEditors
 			string failureMessage;
 
 			_file.MetadataValueChanged -= HandleValueChangedOutsideBinder;
+
+			if (key == "date")
+			{
+				//NB: we're doing a plain old-fashioned "parse" here because the editor is showing it in the user's local culture,
+				//that's fine.  But internally, we want to deal only in DateTimes where possible, and in ISO8601 where strings
+				//are necessary.
+				newValue = DateTime.Parse(newValue, CultureInfo.CurrentCulture).ToISO8601DateOnlyString();
+			}
 
 			newValue = (_componentFileIdControl == ctrl ?
 				_file.TryChangeChangeId(newValue, out failureMessage) :

@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using NUnit.Framework;
 using Palaso.ClearShare;
 using SayMore.Model.Fields;
+using Palaso.Extensions;
 
 namespace SayMoreTests.model.Fields
 {
@@ -64,8 +67,8 @@ namespace SayMoreTests.model.Fields
 			Assert.AreEqual("Green", collection[1].ContributorName);
 			Assert.AreEqual("Developer", collection[0].Role.Name);
 			Assert.AreEqual("Singer", collection[1].Role.Name);
-			Assert.AreEqual("1993/07/04", collection[0].Date);
-			Assert.AreEqual("2004/10/18", collection[1].Date);
+			Assert.AreEqual(new DateTime(1993, 7, 4), collection[0].Date);
+			Assert.AreEqual(new DateTime(2004, 10, 18), collection[1].Date);
 			Assert.AreEqual("Show host", collection[0].Comments);
 			Assert.AreEqual("Show dork", collection[1].Comments);
 		}

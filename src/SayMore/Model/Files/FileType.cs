@@ -587,7 +587,7 @@ namespace SayMore.Model.Files
 				file.GetValue("contributions", new ContributionCollection()) as ContributionCollection;
 
 			var contributor = new Contribution(value, role);
-			contributor.Date = file.GetCreateDate().ToShortDateString();
+			contributor.Date = file.GetCreateDate();
 			collection.Add(contributor);
 			string failureMessage;
 			file.SetValue("contributions", collection, out failureMessage);

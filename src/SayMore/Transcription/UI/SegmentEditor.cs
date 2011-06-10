@@ -16,7 +16,7 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class SegmentEditor : EditorBase
 	{
-		private SilGrid _grid;
+		private SegmentEditorGrid _grid;
 
 		/// ------------------------------------------------------------------------------------
 		public SegmentEditor(ComponentFile file, string tabText, string imageKey)
@@ -25,7 +25,7 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 			Name = "Segments";
 
-			_grid = new SilGrid();
+			_grid = new SegmentEditorGrid();
 			_grid.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
 			_grid.Margin = new Padding(0);
 			_grid.VirtualMode = true;

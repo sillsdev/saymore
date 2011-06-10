@@ -78,7 +78,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="SilTools">
+    <Reference Include="SilTools, Version=2.0.4174.26699, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SilTools.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -144,6 +145,9 @@
     </Compile>
     <Compile Include="Transcription\UI\SegmentEditor.designer.cs">
       <DependentUpon>SegmentEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\SegmentEditorGrid.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Transcription\UI\TextTranscriptionColumn.cs" />
     <Compile Include="Transcription\UI\TierColumnBase.cs" />

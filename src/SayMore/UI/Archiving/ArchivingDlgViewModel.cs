@@ -256,6 +256,7 @@ namespace SayMore.UI.Archiving
 			yield return JSONUtils.MakeKeyValuePair("broad_type", "wider_audience");
 			yield return JSONUtils.MakeKeyValuePair("dc.type.scholarlyWork", "Data set");
 			yield return JSONUtils.MakeKeyValuePair("dc.subject.silDomain", "LING:Linguistics", true);
+			yield return JSONUtils.MakeKeyValuePair("type.domainSubtype.LING", "language documentation (LING)", true);
 
 			var value = _event.MetaDataFile.GetStringValue("date", null);
 			if (!string.IsNullOrEmpty(value))

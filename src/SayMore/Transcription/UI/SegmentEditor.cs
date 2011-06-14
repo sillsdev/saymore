@@ -31,7 +31,7 @@ namespace SayMore.Transcription.UI
 		{
 			base.SetComponentFile(file);
 
-			if (!file.GetCanHaveSegmentFile())
+			if (!file.GetCanHaveTranscriptionFile())
 				return;
 
 		// do something to read file, if there is one.
@@ -40,7 +40,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override bool IsOKSToShow
 		{
-			get { return _file.GetCanHaveSegmentFile(); }
+			get { return _file.GetCanHaveTranscriptionFile(); }
 		}
 
 		/// ------------------------------------------------------------------------------------

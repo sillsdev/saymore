@@ -17,13 +17,14 @@ namespace SayMore.Transcription.Model
 		public IEnumerable<ISegment> Segments { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public EafFile(string fileName, string mediaFileName)
+		public EafFile(string eafFileName, string mediaFileName)
 		{
-			EafFileName = fileName;
+			EafFileName = eafFileName;
 			MediaFileName = mediaFileName;
 
-			if (File.Exists(fileName))
+			if (File.Exists(eafFileName))
 			{
+				// Load file;
 			}
 		}
 

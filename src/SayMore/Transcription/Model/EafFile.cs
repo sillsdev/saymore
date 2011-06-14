@@ -106,7 +106,7 @@ namespace SayMore.Transcription.Model
 
 			return new XElement("TIME_ORDER", timeSlots.Select(value => new XElement("TIME_SLOT",
 					new XAttribute("TIME_SLOT_ID", string.Format("ts{0}", ++id)),
-					new XAttribute("TIME_VALUE", (int)(value * 1000)))));
+					new XAttribute("TIME_VALUE", (int)Math.Round(value * 1000f)))));
 		}
 
 		/// ------------------------------------------------------------------------------------

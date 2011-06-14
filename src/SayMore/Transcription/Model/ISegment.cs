@@ -1,11 +1,9 @@
 
 namespace SayMore.Transcription.Model
 {
-
 	/// ------------------------------------------------------------------------------------
 	public interface ISegment
 	{
-		//IEnumerable<ITier> GetAllTeirs();
 		ITier Tier { get; }
 	}
 

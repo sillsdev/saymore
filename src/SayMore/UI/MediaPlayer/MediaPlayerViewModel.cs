@@ -386,6 +386,9 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public string GetTimeDisplay(float position, float endPosition)
 		{
+			if (endPosition <= 0)
+				endPosition = GetPlayBackEndPosition();
+
 			if (position > endPosition)
 				position = endPosition;
 

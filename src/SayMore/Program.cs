@@ -220,7 +220,7 @@ namespace SayMore
 			Application.ThreadException += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
 			AppDomain.CurrentDomain.UnhandledException += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
 
-			ErrorReport.EmailAddress= "issues@saymore.palaso.org";
+			ErrorReport.EmailAddress = "issues@saymore.palaso.org";
 			ErrorReport.AddStandardProperties();
 			ExceptionHandler.Init();
 		}

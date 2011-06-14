@@ -255,6 +255,85 @@ namespace SayMoreTests.Model.Files
 			Assert.AreEqual("green", f.GetStringValue("color", "blue"));
 		}
 
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetCanHaveTranscriptionFile_IsNotMediaFile_ReturnsFalse()
+		{
+			var f = CreateComponentFile("abc.zzz");
+			Assert.IsFalse(f.GetCanHaveTranscriptionFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetCanHaveTranscriptionFile_IsWaveFile_ReturnsTrue()
+		{
+			var f = CreateAudioComponentFile("abc.wav");
+			Assert.IsTrue(f.GetCanHaveTranscriptionFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetCanHaveTranscriptionFile_IsMp3File_ReturnsTrue()
+		{
+			var f = CreateAudioComponentFile("abc.mp3");
+			Assert.IsTrue(f.GetCanHaveTranscriptionFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetTranscriptionFolderName_IsNotMediaFile_ReturnsNull()
+		{
+			var f = CreateComponentFile("abc.zzz");
+			Assert.IsNull(f.GetTranscriptionFolderName());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetTranscriptionFolderName_FileIsWave_ReturnsFolderPath()
+		{
+			var f = CreateAudioComponentFile("abc.wav");
+			Assert.IsTrue(f.GetTranscriptionFolderName().EndsWith("abc.wav_transcription"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetTranscriptionFolderName_FileIsMp3_ReturnsFolderPath()
+		{
+			var f = CreateAudioComponentFile("abc.mp3");
+			Assert.IsTrue(f.GetTranscriptionFolderName().EndsWith("abc.mp3_transcription"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetPathToTranscriptionFile_IsNotMediaFile_ReturnsNull()
+		{
+			var f = CreateComponentFile("abc.zzz");
+			Assert.IsNull(f.GetPathToTranscriptionFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetPathToTranscriptionFile_FileIsWave_ReturnsFolderPath()
+		{
+			var f = CreateAudioComponentFile("abc.wav");
+			Assert.IsTrue(f.GetPathToTranscriptionFile().EndsWith("abc.wav_transcription\\abc.wav.eaf"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetPathToTranscriptionFile_FileIsMp3_ReturnsFolderPath()
+		{
+			var f = CreateAudioComponentFile("abc.mp3");
+			Assert.IsTrue(f.GetPathToTranscriptionFile().EndsWith("abc.mp3_transcription\\abc.mp3.eaf"));
+		}
+
+		private ComponentFile CreateAudioComponentFile(string filename)
+		{
+			return new ComponentFile(null, _parentFolder.Combine(filename),
+				new FileType[] { new AudioFileType(null, null), new UnknownFileType(null, null) },
+				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
+		}
+
 		private static ComponentFile CreateComponentFileWithRoleChoices(string path)
 		{
 			return CreateComponentFileWithRoleChoices(null, path);

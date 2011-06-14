@@ -168,25 +168,42 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the component file can have transcriptions.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual bool GetCanHaveTranscriptionFile()
+		{
+			return (FileType.IsAudioOrVideo &&
+				".mp3;.wav".Contains(Path.GetExtension(PathToAnnotatedFile)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path to the folder where transcriptions are stored for the
+		/// component file. If the file type of the component file is not one that can have
+		/// transcriptions, then null is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public string GetTranscriptionFolderName()
 		{
+			if (!GetCanHaveTranscriptionFile())
+				return null;
+
 			return PathToAnnotatedFile + "_transcription";
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool GetCanHaveSegmentFile()
-		{
-			return (".mp3;.wav".Contains(Path.GetExtension(PathToAnnotatedFile)));
-
-			//return (".mp3;.wav".Contains(Path.GetExtension(PathToAnnotatedFile)) &&
-			//    Path.GetFileNameWithoutExtension(PathToAnnotatedFile).EndsWith("_Original"));
-		}
-
+		/// <summary>
+		/// Gets the full path to the transcription file for the component file. If the file
+		/// type of the component file is not one that can have transcriptions, then null is
+		/// returned.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string GetPathToSegmentFile()
+		public string GetPathToTranscriptionFile()
 		{
-			if (!GetCanHaveSegmentFile())
-				return string.Empty;
+			if (!GetCanHaveTranscriptionFile())
+				return null;
 
 			var filename = Path.GetFileName(PathToAnnotatedFile);
 			return Path.Combine(GetTranscriptionFolderName(), filename + ".eaf");

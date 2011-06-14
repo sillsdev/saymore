@@ -135,10 +135,17 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
-    <Compile Include="Transcription\Model\ColumnConfiguration.cs" />
+    <Compile Include="Transcription\Model\AudacityLabelFile.cs" />
+    <Compile Include="Transcription\Model\AudioTier.cs" />
+    <Compile Include="Transcription\Model\EafFile.cs" />
     <Compile Include="Transcription\Model\ISegment.cs" />
     <Compile Include="Transcription\Model\ISegmentRepository.cs" />
     <Compile Include="Transcription\Model\ITier.cs" />
+    <Compile Include="Transcription\Model\AudioSegment.cs" />
+    <Compile Include="Transcription\Model\SegmentBase.cs" />
+    <Compile Include="Transcription\Model\TextSegment.cs" />
+    <Compile Include="Transcription\Model\TextTier.cs" />
+    <Compile Include="Transcription\Model\TierBase.cs" />
     <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
     <Compile Include="Transcription\UI\SegmentEditor.cs">
       <SubType>UserControl</SubType>

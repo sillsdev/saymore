@@ -22,13 +22,13 @@ namespace SayMore.Transcription.UI
 			DataGridView.CellValueNeeded += (s, e) =>
 			{
 				if (e.ColumnIndex == Index)
-					e.Value = ((ITextSegment)_tier.GetSegment(e.RowIndex)).GetText();
+					e.Value = ((ITextSegment)Tier.GetSegment(e.RowIndex)).GetText();
 			};
 
 			DataGridView.CellValuePushed += (s, e) =>
 			{
 				if (e.ColumnIndex == Index)
-					((ITextSegment)_tier.GetSegment(e.RowIndex)).SetText(e.Value as string);
+					((ITextSegment)Tier.GetSegment(e.RowIndex)).SetText(e.Value as string);
 			};
 		}
 	}

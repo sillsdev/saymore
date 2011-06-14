@@ -9,8 +9,9 @@ namespace SayMore.Transcription.UI
 	public class AudioWaveFormColumn : TierColumnBase
 	{
 		private readonly TinyMediaPlayer _player;
-		private DateTime _lastShiftKeyPress;
-		private Control _gridEditControl;
+		private DataGridView _grid;
+		//private DateTime _lastShiftKeyPress;
+		//private Control _gridEditControl;
 
 		/// ------------------------------------------------------------------------------------
 		public AudioWaveFormColumn(ITier tier) : base(tier)
@@ -25,46 +26,67 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnDataGridViewChanged();
 
-			if (DataGridView == null)
+			if (_grid != null)
+			{
+				_grid.Leave -= HandleGridLeave;
+				_grid.RowEnter -= HandleGridRowEnter;
+				_grid.CellPainting -= HandleCellPainting;
+				_grid.ColumnWidthChanged -= HandleGridColumnWidthChanged;
+			}
+
+			_grid = DataGridView;
+
+			if (_grid == null)
 				return;
 
-			DataGridView.Controls.Add(_player);
-			DataGridView.CellPainting += HandleCellPainting;
-			DataGridView.Leave += (s, e) => _player.Stop();
-			//DataGridView.KeyDown += HandleKeyDown;
+			_grid.Controls.Add(_player);
+			_grid.Leave += HandleGridLeave;
+			_grid.RowEnter += HandleGridRowEnter;
+			_grid.CellPainting += HandleCellPainting;
+			_grid.ColumnWidthChanged += HandleGridColumnWidthChanged;
 
-			DataGridView.RowEnter += (s, e) =>
-			{
-				LocatePlayer(e.RowIndex, true);
-				Application.Idle -= HandleStartPlaybackOnIdle;
-				Application.Idle += HandleStartPlaybackOnIdle;
-			};
+			//_grid.KeyDown += HandleKeyDown;
 
-			DataGridView.ColumnWidthChanged += (s, e) =>
-			{
-				if (e.Column.Index == Index)
-					LocatePlayer(DataGridView.CurrentCellAddress.Y, false);
-			};
-
-			//DataGridView.EditingControlShowing += (s, e) =>
+			//_grid.EditingControlShowing += (s, e) =>
 			//{
 			//    _gridEditControl = e.Control;
 			//    _gridEditControl.KeyDown += HandleKeyDown;
 			//};
 
-			//DataGridView.CellEndEdit += (s, e) =>
+			//_grid.CellEndEdit += (s, e) =>
 			//{
 			//    _gridEditControl.KeyDown -= HandleKeyDown;
 			//    _gridEditControl = null;
 			//};
 		}
 
-		///// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridLeave(object sender, EventArgs e)
+		{
+			_player.Stop();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+		{
+			if (e.Column.Index == Index)
+				LocatePlayer(DataGridView.CurrentCellAddress.Y, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridRowEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			LocatePlayer(e.RowIndex, true);
+			Application.Idle -= HandleStartPlaybackOnIdle;
+			Application.Idle += HandleStartPlaybackOnIdle;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleStartPlaybackOnIdle(object sender, EventArgs e)
 		{
 			Application.Idle -= HandleStartPlaybackOnIdle;
 
-			if (DataGridView.Focused || DataGridView.IsCurrentCellInEditMode)
+			if (DataGridView != null && (DataGridView.Focused || DataGridView.IsCurrentCellInEditMode))
 				_player.Play();
 		}
 
@@ -81,7 +103,7 @@ namespace SayMore.Transcription.UI
 			rc.Width--;
 			rc.Height--;
 
-			var segment = _tier.GetSegment(e.RowIndex) as IMediaSegment;
+			var segment = Tier.GetSegment(e.RowIndex) as IMediaSegment;
 
 			_player.DrawTimeInfo(e.Graphics, segment.MediaStart, segment.MediaLength,
 				rc, SystemColors.GrayText, e.CellStyle.BackColor);
@@ -90,10 +112,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void LocatePlayer(int rowIndex, bool stopPlayingFirst)
 		{
+			if (DataGridView == null)
+			{
+				_player.Visible = false;
+				return;
+			}
+
 			//if (stopPlayingFirst)
 			//    _player.Stop();
 
-			var segment = _tier.GetSegment(rowIndex) as IMediaSegment;
+			var segment = Tier.GetSegment(rowIndex) as IMediaSegment;
 			if (segment != _player.Segment)
 				_player.LoadSegment(segment);
 

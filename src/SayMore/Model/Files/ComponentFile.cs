@@ -168,9 +168,9 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetPathToSegmentFile()
+		public string GetTranscriptionFolderName()
 		{
-			return (File.Exists(PropsedSegmentFileName) ? PropsedSegmentFileName : null);
+			return PathToAnnotatedFile + "_transcription";
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -183,9 +183,13 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string PropsedSegmentFileName
+		public string GetPathToSegmentFile()
 		{
-			get { return (GetCanHaveSegmentFile() ? PathToAnnotatedFile + ".segments" : string.Empty); }
+			if (!GetCanHaveSegmentFile())
+				return string.Empty;
+
+			var filename = Path.GetFileName(PathToAnnotatedFile);
+			return Path.Combine(GetTranscriptionFolderName(), filename + ".eaf");
 		}
 
 		/// ------------------------------------------------------------------------------------

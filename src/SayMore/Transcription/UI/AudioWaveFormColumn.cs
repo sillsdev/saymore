@@ -9,7 +9,6 @@ namespace SayMore.Transcription.UI
 	public class AudioWaveFormColumn : TierColumnBase
 	{
 		private readonly TinyMediaPlayer _player;
-		private DataGridView _grid;
 		//private DateTime _lastShiftKeyPress;
 		//private Control _gridEditControl;
 
@@ -25,21 +24,21 @@ namespace SayMore.Transcription.UI
 		protected override void OnDataGridViewChanged()
 		{
 			base.OnDataGridViewChanged();
-
-			if (_grid != null)
-			{
-				_grid.Leave -= HandleGridLeave;
-				_grid.RowEnter -= HandleGridRowEnter;
-				_grid.CellPainting -= HandleCellPainting;
-				_grid.ColumnWidthChanged -= HandleGridColumnWidthChanged;
-			}
-
-			_grid = DataGridView;
-
-			if (_grid == null)
-				return;
-
 			_grid.Controls.Add(_player);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void UnsubscribeToGridEvents()
+		{
+			_grid.Leave -= HandleGridLeave;
+			_grid.RowEnter -= HandleGridRowEnter;
+			_grid.CellPainting -= HandleCellPainting;
+			_grid.ColumnWidthChanged -= HandleGridColumnWidthChanged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void SubscribeToGridEvents()
+		{
 			_grid.Leave += HandleGridLeave;
 			_grid.RowEnter += HandleGridRowEnter;
 			_grid.CellPainting += HandleCellPainting;

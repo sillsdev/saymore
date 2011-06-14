@@ -4,8 +4,11 @@ using SayMore.Transcription.Model;
 
 namespace SayMore.Transcription.UI
 {
+	/// ----------------------------------------------------------------------------------------
 	public class TierColumnBase : DataGridViewTextBoxColumn
 	{
+		protected DataGridView _grid;
+
 		public ITier Tier { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -26,11 +29,36 @@ namespace SayMore.Transcription.UI
 		protected override void Dispose(bool disposing)
 		{
 			Tier = null;
+			UnsubscribeToGridEvents();
 			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetTier(ITier tier)
+		protected override void OnDataGridViewChanged()
+		{
+			base.OnDataGridViewChanged();
+
+			if (_grid != null)
+				UnsubscribeToGridEvents();
+
+			_grid = DataGridView;
+
+			if (_grid != null)
+				SubscribeToGridEvents();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void UnsubscribeToGridEvents()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void SubscribeToGridEvents()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void SetTier(ITier tier)
 		{
 			Tier = tier;
 			Name = Tier.DisplayName;

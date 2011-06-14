@@ -1,8 +1,10 @@
 using System.Diagnostics;
+using System.Windows.Forms;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Transcription.UI
 {
+	/// ----------------------------------------------------------------------------------------
 	public class TextTranscriptionColumn : TierColumnBase
 	{
 		/// ------------------------------------------------------------------------------------
@@ -12,24 +14,31 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnDataGridViewChanged()
+		protected override void UnsubscribeToGridEvents()
 		{
-			base.OnDataGridViewChanged();
+			_grid.CellValueNeeded -= HandleGridCellValueNeeded;
+			_grid.CellValuePushed -= HandleGridCellValuePushed;
+		}
 
-			if (DataGridView == null)
-				return;
+		/// ------------------------------------------------------------------------------------
+		protected override void SubscribeToGridEvents()
+		{
+			_grid.CellValueNeeded += HandleGridCellValueNeeded;
+			_grid.CellValuePushed += HandleGridCellValuePushed;
+		}
 
-			DataGridView.CellValueNeeded += (s, e) =>
-			{
-				if (e.ColumnIndex == Index)
-					e.Value = ((ITextSegment)Tier.GetSegment(e.RowIndex)).GetText();
-			};
+		/// ------------------------------------------------------------------------------------
+		void HandleGridCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
+		{
+			if (e.ColumnIndex == Index)
+				((ITextSegment)Tier.GetSegment(e.RowIndex)).SetText(e.Value as string);
+		}
 
-			DataGridView.CellValuePushed += (s, e) =>
-			{
-				if (e.ColumnIndex == Index)
-					((ITextSegment)Tier.GetSegment(e.RowIndex)).SetText(e.Value as string);
-			};
+		/// ------------------------------------------------------------------------------------
+		void HandleGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+		{
+			if (e.ColumnIndex == Index)
+				e.Value = ((ITextSegment)Tier.GetSegment(e.RowIndex)).GetText();
 		}
 	}
 }

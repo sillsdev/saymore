@@ -77,7 +77,7 @@ namespace SayMore.Transcription.UI
 			_grid.Columns.Clear();
 			int rowCount = 0;
 
-			foreach (var tier in alf.GetTiers(_file.PathToAnnotatedFile))
+			foreach (var tier in alf.GetTiers())
 			{
 				_grid.Columns.Add(tier.GridColumn);
 				rowCount = Math.Max(rowCount, tier.GetAllSegments().Count());

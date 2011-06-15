@@ -8,6 +8,7 @@ using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.Overview.Statistics;
+using SayMoreTests.Model.Files.DataGathering;
 
 namespace SayMoreTests.UI.Overview.Statistics
 {
@@ -108,20 +109,8 @@ namespace SayMoreTests.UI.Overview.Statistics
 
 		private void CreateCanonciallyNamedRecordingInEvent(ComponentRole roleDefinition, string eventId)
 		{
-			var path = CreateRecording(_folder.Path);
+			var path = FileStatisticsTests.CreateRecording(_folder.Path);
 			File.Move(path, roleDefinition.GetCanoncialName(eventId, path));
-		}
-
-		private static string CreateRecording(string folder)
-		{
-			var buf = new byte[Resources.shortSound.Length];
-			Resources.shortSound.Read(buf, 0, buf.Length);
-			string destination = folder;
-			string wavPath = Path.Combine(destination, Directory.GetFiles(destination).Count() + ".wav");
-			var f = File.CreateText(wavPath);
-			f.Write(buf);
-			f.Close();
-			return wavPath;
 		}
 	}
 }

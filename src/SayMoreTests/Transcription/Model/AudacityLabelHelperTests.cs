@@ -18,7 +18,7 @@ namespace SayMoreTests.Transcription.Model
 		[SetUp]
 		public void Setup()
 		{
-			_folder = new TemporaryFolder("FileStatisticsTests");
+			_folder = new TemporaryFolder("AudacityLabelHelperTests");
 			_audioFilePath = FileStatisticsTests.CreateRecording(_folder.Path);
 			_helper = new AudacityLabelHelper(new string[] { }, _audioFilePath);
 		}

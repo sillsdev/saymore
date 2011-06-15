@@ -126,6 +126,7 @@
     <Compile Include="ShrinkProject.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelperTests.cs" />
     <Compile Include="Transcription\Model\EafFileTests.cs" />
+    <Compile Include="Transcription\Model\TextTierTests.cs" />
     <Compile Include="UI\Charts\ChartBarInfoTests.cs" />
     <Compile Include="UI\Charts\HTMLChartBuilderTests.cs" />
     <Compile Include="UI\ComponentEditors\ImageViewerViewModelTests.cs" />

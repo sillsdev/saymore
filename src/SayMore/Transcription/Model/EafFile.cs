@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model
 {
@@ -14,7 +11,8 @@ namespace SayMore.Transcription.Model
 	{
 		public string MediaFileName { get; private set; }
 		public string EafFileName { get; private set; }
-		public IEnumerable<ISegment> Segments { get; private set; }
+		public IEnumerable<ITier> TextTiers { get; private set; }
+		public ITier MediaTier { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public EafFile(string eafFileName, string mediaFileName)
@@ -29,21 +27,46 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Save(AudioTier origTier, IEnumerable<ITier> tiers)
+		public void SetTextTiers(IEnumerable<ITier> tiers)
 		{
-			var timeSlots = origTier.GetAllSegments().Cast<IMediaSegment>().Select(s => s .MediaStart)
-				.Concat(origTier.GetAllSegments().Cast<IMediaSegment>().Select(s => s.MediaStart + s.MediaLength))
-				.Distinct().OrderBy(s => s);
+			TextTiers = tiers;
+		}
 
-			var timeOrderElement = CreateTimeOrderElement(timeSlots);
+		/// ------------------------------------------------------------------------------------
+		public void SetMediaTier(ITier tier)
+		{
+			MediaTier = tier;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<IMediaSegment> GetMediaSegments()
+		{
+			return MediaTier.GetAllSegments().Cast<IMediaSegment>().ToList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<float> GetTimeSlotCollection()
+		{
+			var mediaSegments = GetMediaSegments().ToList();
+
+			return mediaSegments.Select(s => s.MediaStart)
+				.Concat(mediaSegments.Select(s => s.MediaStart + s.MediaLength))
+				.Distinct().OrderBy(s => s).ToList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Save()
+		{
+			var timeSlotCollection = GetTimeSlotCollection();
+			var timeOrderElement = CreateTimeOrderElement(timeSlotCollection);
 			var headerElement = CreateHeaderElement();
-			headerElement.Add(CreateLastUsedAnnotationIdPropertyElement(timeSlots.Count()));
+			headerElement.Add(CreateLastUsedAnnotationIdPropertyElement(timeSlotCollection.Count()));
 
 			var root = CreateRootElement();
 			root.Add(headerElement, timeOrderElement);
 
-			foreach (var tier in tiers.Where(t => t.DataType == TierType.Text))
-				root.Add(CreateTierElement(origTier, tier, timeSlots));
+			foreach (var tier in TextTiers.Where(t => t.DataType == TierType.Text))
+				root.Add(CreateTierElement(tier));
 
 			root.Add(CreateLinguisticTypeElement());
 			root.Add(CreateLocaleElement());
@@ -110,38 +133,75 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public XElement CreateTierElement(AudioTier origTier, ITier tier, IEnumerable<float> tSlots)
+		public XElement CreateTierElement(ITier textTier)
 		{
-			var timeSlots = tSlots.ToList();
-
-			// TODO: Fix the default locale.
-			var tierElement = new XElement("TIER",
-				new XAttribute("DEFAULT_LOCALE", "en"),
-				new XAttribute("LINGUISTIC_TYPE_REF", "default-lt"),
-				new XAttribute("TIER_ID", tier.DisplayName));
+			var tierElement = CreateTierElement(textTier.DisplayName);
 
 			var i = 0;
+			var annotationId = 1;
 
-			foreach (var mediaSegment in origTier.GetAllSegments().Cast<IMediaSegment>())
+			foreach (var mediaSegment in GetMediaSegments())
 			{
 				ISegment textSegment;
-				if (!tier.TryGetSegment(i, out textSegment) || !(textSegment is ITextSegment))
+				if (!textTier.TryGetSegment(i++, out textSegment))
 					continue;
 
-				var start = timeSlots.IndexOf(mediaSegment.MediaStart);
-				var stop = timeSlots.IndexOf(mediaSegment.MediaStart + mediaSegment.MediaLength);
+				var annotationElement = CreateAnnotationElement(mediaSegment,
+					textSegment as ITextSegment, annotationId);
 
-				var annotationElement = new XElement("ANNOTATION");
-				annotationElement.Add(new XElement("ALIGNABLE_ANNOTATION",
-					new XAttribute("ANNOTATION_ID", string.Format("a{0}", ++i)),
-					new XAttribute("TIME_SLOT_REF1", string.Format("ts{0}", start + 1)),
-					new	XAttribute("TIME_SLOT_REF2", string.Format("ts{0}", stop + 1)),
-					new XElement("ANNOTATION_VALUE", ((ITextSegment)textSegment).GetText())));
+				if (annotationElement == null)
+					continue;
 
 				tierElement.Add(annotationElement);
+				annotationId++;
 			}
 
 			return tierElement;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public XElement CreateAnnotationElement(IMediaSegment mediaSegment,
+			ITextSegment textSegment, int annotationId)
+		{
+			if (textSegment == null)
+				return null;
+
+			var startTimeSlotId = GetTimeSlotId(mediaSegment.MediaStart);
+			var stopTimeSlotId = GetTimeSlotId(mediaSegment.MediaStart + mediaSegment.MediaLength);
+
+			if (startTimeSlotId == null || stopTimeSlotId == null)
+				return null;
+
+			return new XElement("ANNOTATION", CreateAlignableAnnotationElement(annotationId,
+				startTimeSlotId, stopTimeSlotId, textSegment.GetText()));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetTimeSlotId(float time)
+		{
+			var index = GetTimeSlotCollection().ToList().IndexOf(time);
+			return (index < 0 ? null : string.Format("ts{0}", index + 1));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public XElement CreateTierElement(string tierName)
+		{
+			// TODO: Fix the default locale.
+			return new XElement("TIER",
+				new XAttribute("DEFAULT_LOCALE", "en"),
+				new XAttribute("LINGUISTIC_TYPE_REF", "default-lt"),
+				new XAttribute("TIER_ID", tierName));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public XElement CreateAlignableAnnotationElement(int annotationId,
+			string startTimeSlotId, string stopTimeSlotId, string annotationText)
+		{
+			return new XElement("ALIGNABLE_ANNOTATION",
+					new XAttribute("ANNOTATION_ID", string.Format("a{0}", annotationId)),
+					new XAttribute("TIME_SLOT_REF1", startTimeSlotId),
+					new	XAttribute("TIME_SLOT_REF2", stopTimeSlotId),
+					new XElement("ANNOTATION_VALUE", annotationText));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -29,7 +29,10 @@ namespace SayMore.Transcription.UI
 		protected override void Dispose(bool disposing)
 		{
 			Tier = null;
-			UnsubscribeToGridEvents();
+
+			if (_grid != null)
+				UnsubscribeToGridEvents();
+
 			base.Dispose(disposing);
 		}
 

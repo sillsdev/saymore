@@ -139,7 +139,6 @@
     <Compile Include="Transcription\Model\AudioTier.cs" />
     <Compile Include="Transcription\Model\EafFile.cs" />
     <Compile Include="Transcription\Model\ISegment.cs" />
-    <Compile Include="Transcription\Model\ISegmentRepository.cs" />
     <Compile Include="Transcription\Model\ITier.cs" />
     <Compile Include="Transcription\Model\AudioSegment.cs" />
     <Compile Include="Transcription\Model\SegmentBase.cs" />

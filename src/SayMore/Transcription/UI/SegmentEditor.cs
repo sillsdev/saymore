@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -63,12 +64,13 @@ namespace SayMore.Transcription.UI
 				if (dlg.ShowDialog(this) != DialogResult.OK)
 					return;
 
-				CreateTierColumns(new AudacityLabelFile(dlg.FileName, _file.PathToAnnotatedFile));
+				CreateTierColumns(
+					new AudacityLabelHelper(File.ReadAllLines(dlg.FileName), _file.PathToAnnotatedFile));
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CreateTierColumns(AudacityLabelFile alf)
+		private void CreateTierColumns(AudacityLabelHelper alf)
 		{
 			Utils.SetWindowRedraw(_grid, false);
 			_grid.RowCount = 0;

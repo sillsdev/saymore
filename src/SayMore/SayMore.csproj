@@ -135,7 +135,7 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
-    <Compile Include="Transcription\Model\AudacityLabelFile.cs" />
+    <Compile Include="Transcription\Model\AudacityLabelHelper.cs" />
     <Compile Include="Transcription\Model\AudioTier.cs" />
     <Compile Include="Transcription\Model\EafFile.cs" />
     <Compile Include="Transcription\Model\ISegment.cs" />

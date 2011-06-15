@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using SayMore.UI.MediaPlayer;
 
@@ -14,17 +13,20 @@ namespace SayMore.Transcription.Model
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	public class AudacityLabelFile
+	public class AudacityLabelHelper
 	{
 		public IEnumerable<AudacityLabelInfo> LabelInfo { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public AudacityLabelFile(string fileName, string mediaFileName)
+		public AudacityLabelHelper(IEnumerable<string> allLabelLines, string mediaFileName)
 		{
-			var lines = File.ReadAllLines(fileName)
-				.Select(ln => ln.Split('\t')).Where(p => p.Length >= 2).ToList();
+			// Parse each line (using tabs as the delimiter) into an array of strings.
+			// Only keep lines having two or more pieces.
+			var lines = allLabelLines.Select(ln => ln.Split('\t')).Where(p => p.Length >= 2).ToList();
 
+			// Create an easier to use (i.e. than string arrays) list of objects for each label.
 			var labelInfo = lines.Select(CreateSingleLabelInfo).Where(ali => ali.Start > -1).ToList();
+
 			LabelInfo = FixUpLabelInfo(mediaFileName, labelInfo);
 		}
 

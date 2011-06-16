@@ -174,8 +174,14 @@ namespace SayMore.Transcription.UI
 		public void DrawTimeInfo(Graphics g, float startPosition, float length, Rectangle rc,
 			Color foreColor, Color backColor)
 		{
-			var text = _model.GetTimeDisplay(startPosition, (length == 0 ? 0 : startPosition + length));
-			DrawTimeInfo(g, text, rc, foreColor, backColor);
+			DrawTimeInfo(g, GetTimeInfoDisplayText(startPosition, length), rc, foreColor, backColor);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetTimeInfoDisplayText(float startPosition, float length)
+		{
+			return _model.GetTimeDisplay(startPosition, (length == 0 ? 0 :
+				(float)((decimal)startPosition + (decimal)length)));
 		}
 
 		/// ------------------------------------------------------------------------------------

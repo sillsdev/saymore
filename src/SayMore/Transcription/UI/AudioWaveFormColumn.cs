@@ -37,8 +37,11 @@ namespace SayMore.Transcription.UI
 		{
 			_grid.Leave -= HandleGridLeave;
 			_grid.RowEnter -= HandleGridRowEnter;
-			_grid.CellPainting -= HandleCellPainting;
+			_grid.CellFormatting -= HandleGridCellFormatting;
 			_grid.ColumnWidthChanged -= HandleGridColumnWidthChanged;
+			_grid.Scroll -= HandleGridScroll;
+
+			base.UnsubscribeToGridEvents();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -46,8 +49,9 @@ namespace SayMore.Transcription.UI
 		{
 			_grid.Leave += HandleGridLeave;
 			_grid.RowEnter += HandleGridRowEnter;
-			_grid.CellPainting += HandleCellPainting;
+			_grid.CellFormatting += HandleGridCellFormatting;
 			_grid.ColumnWidthChanged += HandleGridColumnWidthChanged;
+			_grid.Scroll += HandleGridScroll;
 
 			//_grid.KeyDown += HandleKeyDown;
 
@@ -62,6 +66,8 @@ namespace SayMore.Transcription.UI
 			//    _gridEditControl.KeyDown -= HandleKeyDown;
 			//    _gridEditControl = null;
 			//};
+
+			base.SubscribeToGridEvents();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -74,7 +80,7 @@ namespace SayMore.Transcription.UI
 		private void HandleGridColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
 		{
 			if (e.Column.Index == Index)
-				LocatePlayer(DataGridView.CurrentCellAddress.Y, false);
+				LocatePlayer(_grid.CurrentCellAddress.Y, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -90,33 +96,45 @@ namespace SayMore.Transcription.UI
 		{
 			Application.Idle -= HandleStartPlaybackOnIdle;
 
-			if (DataGridView != null && (DataGridView.Focused || DataGridView.IsCurrentCellInEditMode))
+			if (_grid != null && (_grid.Focused || _grid.IsCurrentCellInEditMode))
 				_player.Play();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+		protected override void HandleGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
-			if (e.ColumnIndex != Index || e.RowIndex < 0)
+			base.HandleGridCellValueNeeded(sender, e);
+
+			if (e.ColumnIndex != Index)
 				return;
 
-			e.Handled = true;
-			var rc = e.CellBounds;
-			e.Paint(rc, DataGridViewPaintParts.Border);
-
-			rc.Width--;
-			rc.Height--;
-
 			var segment = Tier.GetSegment(e.RowIndex) as IMediaSegment;
+			e.Value = _player.GetTimeInfoDisplayText(segment.MediaStart, segment.MediaLength);
+		}
 
-			_player.DrawTimeInfo(e.Graphics, segment.MediaStart, segment.MediaLength,
-				rc, SystemColors.GrayText, e.CellStyle.BackColor);
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			if (e.ColumnIndex != Index)
+				return;
+
+			e.CellStyle.ForeColor = SystemColors.GrayText;
+			e.CellStyle.Font = _player.Font;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleGridScroll(object sender, ScrollEventArgs e)
+		{
+			LocatePlayer(_grid.CurrentCellAddress.Y, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void LocatePlayer(int rowIndex, bool stopPlayingFirst)
 		{
-			if (DataGridView == null)
+			if (_grid == null || rowIndex < _grid.FirstDisplayedScrollingRowIndex ||
+				rowIndex > _grid.FirstDisplayedScrollingRowIndex + _grid.DisplayedRowCount(false) ||
+				Index < _grid.FirstDisplayedScrollingColumnIndex ||
+				Index > _grid.FirstDisplayedScrollingColumnIndex + _grid.DisplayedColumnCount(false))
 			{
 				_player.Visible = false;
 				return;
@@ -129,20 +147,64 @@ namespace SayMore.Transcription.UI
 			if (segment != _player.Segment)
 				_player.LoadSegment(segment);
 
-			var rc = DataGridView.GetCellDisplayRectangle(Index, rowIndex, false);
-			rc.Width--;
-			rc.Height--;
+			var rc = GetPlayerRectangle(rowIndex);
 
 			if (_player.Bounds != rc)
-			{
 				_player.Bounds = rc;
 
-				if (!_player.Visible)
-					_player.Visible = true;
+			if (!_player.Visible)
+				_player.Visible = true;
+
+			_player.ForeColor = _grid.DefaultCellStyle.SelectionForeColor;
+			_player.BackColor = _grid.DefaultCellStyle.SelectionBackColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// In most cases, getting the player's rectangle is simply done making a call to the
+		/// grid's GetCellDisplayRectangle. However, when the grid's scroll event is fired,
+		/// and the cell is just scrolling into view, calling GetCellDisplayRectangle to get
+		/// its rectangle returns an empty rectangle. I think that's a bug in the grid, but
+		/// whether or not it is, it has to be worked around. That's what most of this method
+		/// does.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetPlayerRectangle(int rowIndex)
+		{
+			var rect = _grid.GetCellDisplayRectangle(Index, rowIndex, false);
+
+			if (rect.Height > 0)
+			{
+				rect.Width--;
+				rect.Height--;
+				return rect;
 			}
 
-			_player.ForeColor = DataGridView.DefaultCellStyle.SelectionForeColor;
-			_player.BackColor = DataGridView.DefaultCellStyle.SelectionBackColor;
+			// At this point, we know the current cell (i.e. the one containing the player)
+			// has just been scrolled into view, whether horizontally or vertically.
+			rect.Height = _grid.Rows[rowIndex].Height - 1;
+
+			var rc = _grid.GetColumnDisplayRectangle(Index, true);
+
+			if (rc.Width > 0)
+			{
+				rect.X = rc.X;
+				rect.Width = rc.Width - 1;
+			}
+			{
+				rect.X = _grid.RowHeadersWidth + 1;
+				rect.Width = Width - 1;
+			}
+
+			if (rowIndex == _grid.FirstDisplayedScrollingRowIndex)
+				rect.Y = _grid.ColumnHeadersHeight + 1;
+			else
+			{
+				rc = _grid.GetRowDisplayRectangle(rowIndex - 1, false);
+				rect.Y = (rc.Y + rc.Height);
+			}
+
+			return rect;
 		}
 
 		///// ------------------------------------------------------------------------------------

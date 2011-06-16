@@ -10,12 +10,22 @@ namespace SayMoreTests.Transcription.Model
 	public class EafFileTests
 	{
 		private EafFile _eafFile;
+		private AudioTier _mediaTier;
+		private TextTier _textTier;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
 			_eafFile = new EafFile(null, null);
+
+			_mediaTier = new AudioTier("teetering tier", "Fleet Foxes.mp3");
+			_mediaTier.AddSegment(2f, 4f);
+			_mediaTier.AddSegment(10f, 8f);
+
+			_textTier = new TextTier("lead");
+			_textTier.AddSegment("brass");
+			_textTier.AddSegment("steel");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -26,146 +36,55 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetMediaSegments_DoesNotHaveSegments_ThrowsException()
-		{
-			Assert.Throws<NullReferenceException>(() => _eafFile.GetMediaSegments());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetMediaSegments_HasSegments_ReturnsCorrectCount()
-		{
-			SetupWithAudioTier();
-			Assert.AreEqual(2, _eafFile.GetMediaSegments().Count());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetMediaSegments_HasSegments_ReturnsCorrectSegmentMediaFiles()
-		{
-			SetupWithAudioTier();
-			Assert.AreEqual("Fleet Foxes.mp3", _eafFile.GetMediaSegments().ElementAt(0).MediaFile);
-			Assert.AreEqual("Fleet Foxes.mp3", _eafFile.GetMediaSegments().ElementAt(1).MediaFile);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetMediaSegments_HasSegments_ReturnsCorrectStartTimes()
-		{
-			SetupWithAudioTier();
-			Assert.AreEqual(2f, _eafFile.GetMediaSegments().ElementAt(0).MediaStart);
-			Assert.AreEqual(10f, _eafFile.GetMediaSegments().ElementAt(1).MediaStart);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetMediaSegments_HasSegments_ReturnsCorrectLengths()
-		{
-			SetupWithAudioTier();
-			Assert.AreEqual(4f, _eafFile.GetMediaSegments().ElementAt(0).MediaLength);
-			Assert.AreEqual(8f, _eafFile.GetMediaSegments().ElementAt(1).MediaLength);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SetupWithAudioTier()
-		{
-			var tier = new AudioTier("teetering tier", "Fleet Foxes.mp3");
-			tier.AddSegment(2f, 4f);
-			tier.AddSegment(10f, 8f);
-			_eafFile.SetMediaTier(tier);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetTimeSlotCollection_DoesNotHaveMediaTier_ThrowException()
-		{
-			Assert.Throws<NullReferenceException>(() => _eafFile.GetTimeSlotCollection());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
 		public void GetTimeSlotCollection_HasMediaTierWithNoSegments_ReturnsEmptyCollection()
 		{
-			var tier = new AudioTier("teetering tier", "Fleet Foxes.mp3");
-			_eafFile.SetMediaTier(tier);
-			Assert.AreEqual(0, _eafFile.GetTimeSlotCollection().Count());
+			_mediaTier = new AudioTier("teetering tier", "Fleet Foxes.mp3");
+			Assert.AreEqual(0, _eafFile.GetTimeSlotCollection(_mediaTier).Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetTimeSlotCollection_HasMediaTierWithSegments_ReturnsCorrectCount()
 		{
-			SetupWithAudioTier();
-			Assert.AreEqual(4, _eafFile.GetTimeSlotCollection().Count());
+			Assert.AreEqual(4, _eafFile.GetTimeSlotCollection(_mediaTier).Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetTimeSlotCollection_NoDuplicateTimes_ReturnsCorrectCollection()
 		{
-			SetupWithAudioTier();
-			Assert.AreEqual(2f, _eafFile.GetTimeSlotCollection().ElementAt(0));
-			Assert.AreEqual(6f, _eafFile.GetTimeSlotCollection().ElementAt(1));
-			Assert.AreEqual(10f, _eafFile.GetTimeSlotCollection().ElementAt(2));
-			Assert.AreEqual(18f, _eafFile.GetTimeSlotCollection().ElementAt(3));
+			Assert.AreEqual(2f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(0));
+			Assert.AreEqual(6f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(1));
+			Assert.AreEqual(10f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(2));
+			Assert.AreEqual(18f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(3));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetTimeSlotCollection_DuplicateTimes_ReturnsCorrectCollection()
 		{
-			var tier = new AudioTier("teetering tier", null);
-			tier.AddSegment(2f, 4f);
-			tier.AddSegment(6f, 8f);
-			_eafFile.SetMediaTier(tier);
+			_mediaTier = new AudioTier("teetering tier", null);
+			_mediaTier.AddSegment(2f, 4f);
+			_mediaTier.AddSegment(6f, 8f);
 
-			Assert.AreEqual(3, _eafFile.GetTimeSlotCollection().Count());
-			Assert.AreEqual(2f, _eafFile.GetTimeSlotCollection().ElementAt(0));
-			Assert.AreEqual(6f, _eafFile.GetTimeSlotCollection().ElementAt(1));
-			Assert.AreEqual(14f, _eafFile.GetTimeSlotCollection().ElementAt(2));
+			Assert.AreEqual(3, _eafFile.GetTimeSlotCollection(_mediaTier).Count());
+			Assert.AreEqual(2f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(0));
+			Assert.AreEqual(6f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(1));
+			Assert.AreEqual(14f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(2));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void GetTimeSlotCollection_OutOfOrderAndOverlappingSegments_ReturnsSortedCollection()
 		{
-			var tier = new AudioTier("teetering tier", null);
-			tier.AddSegment(100f, 50f);
-			tier.AddSegment(70f, 40f);
-			_eafFile.SetMediaTier(tier);
+			_mediaTier = new AudioTier("teetering tier", null);
+			_mediaTier.AddSegment(100f, 50f);
+			_mediaTier.AddSegment(70f, 40f);
 
-			Assert.AreEqual(70f, _eafFile.GetTimeSlotCollection().ElementAt(0));
-			Assert.AreEqual(100f, _eafFile.GetTimeSlotCollection().ElementAt(1));
-			Assert.AreEqual(110f, _eafFile.GetTimeSlotCollection().ElementAt(2));
-			Assert.AreEqual(150f, _eafFile.GetTimeSlotCollection().ElementAt(3));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetTimeSlotId_NoSegments_ReturnsNull()
-		{
-			var tier = new AudioTier("teetering tier", null);
-			_eafFile.SetMediaTier(tier);
-			Assert.IsNull(_eafFile.GetTimeSlotId(4f));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetTimeSlotId_ForNonExistantTime_ReturnsNull()
-		{
-			SetupWithAudioTier();
-			Assert.IsNull(_eafFile.GetTimeSlotId(444f));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetTimeSlotId_ForExistantTime_ReturnsNull()
-		{
-			SetupWithAudioTier();
-			Assert.AreEqual("ts1", _eafFile.GetTimeSlotId(2f));
-			Assert.AreEqual("ts2", _eafFile.GetTimeSlotId(6f));
-			Assert.AreEqual("ts3", _eafFile.GetTimeSlotId(10f));
-			Assert.AreEqual("ts4", _eafFile.GetTimeSlotId(18f));
+			Assert.AreEqual(70f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(0));
+			Assert.AreEqual(100f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(1));
+			Assert.AreEqual(110f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(2));
+			Assert.AreEqual(150f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(3));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -241,69 +160,113 @@ namespace SayMoreTests.Transcription.Model
 			Assert.AreEqual("tippy tier", element.Attribute("TIER_ID").Value);
 		}
 
-		/// ------------------------------------------------------------------------------------
+				/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateAnnotationElement_TextSegmentIsNull_ReturnsNull()
+		public void CreateTimeSlotElements_ReturnsElementsWithCorrectNames()
 		{
-			Assert.IsNull(_eafFile.CreateAnnotationElement(null, null, 0));
-			Assert.IsNull(_eafFile.CreateAnnotationElement(null,
-				new AudioSegment(null, null, 0f, 0f) as ITextSegment, 0));
+			var elements = _eafFile.CreateTimeSlotElements(new[] { 0f, 0f, 0f }).ToList();
+			Assert.AreEqual("TIME_SLOT", elements[0].Name.LocalName);
+			Assert.AreEqual("TIME_SLOT", elements[1].Name.LocalName);
+			Assert.AreEqual("TIME_SLOT", elements[2].Name.LocalName);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateAnnotationElement_TimeSlotsNotFound_ReturnsNull()
+		public void CreateTimeSlotElements_ReturnsElementsWithCorrectIds()
 		{
-			SetupWithAudioTier();
-			var textSeg = new TextSegment(null, null);
-
-			// Invalid stop time
-			Assert.IsNull(_eafFile.CreateAnnotationElement(
-				new AudioSegment(null, null, 10f, 111f), textSeg, 0));
-
-			// Invalid start time
-			Assert.IsNull(_eafFile.CreateAnnotationElement(
-				new AudioSegment(null, null, 111f, 8f), textSeg, 0));
+			var elements = _eafFile.CreateTimeSlotElements(new[] { 0f, 0f, 0f }).ToList();
+			Assert.AreEqual("ts1", elements[0].Attribute("TIME_SLOT_ID").Value);
+			Assert.AreEqual("ts2", elements[1].Attribute("TIME_SLOT_ID").Value);
+			Assert.AreEqual("ts3", elements[2].Attribute("TIME_SLOT_ID").Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateAnnotationElement_GoodData_ReturnsCorrectElements()
+		public void CreateTimeSlotElements_ReturnsElementsWithCorrectValues()
 		{
-			SetupWithAudioTier();
-			var textSeg = new TextSegment(null, string.Empty);
-
-			var element = _eafFile.CreateAnnotationElement(
-				_eafFile.GetMediaSegments().ElementAt(0), textSeg, 5);
-
-			Assert.AreEqual("ANNOTATION", element.Name.LocalName);
-			Assert.IsNotNull(element.Element("ALIGNABLE_ANNOTATION"));
-			Assert.IsNotNull(element.Element("ALIGNABLE_ANNOTATION").Element("ANNOTATION_VALUE"));
+			var elements = _eafFile.CreateTimeSlotElements(new[] { 0.3f, 0.7f, 0.9f }).ToList();
+			Assert.AreEqual("300", elements[0].Attribute("TIME_VALUE").Value);
+			Assert.AreEqual("700", elements[1].Attribute("TIME_VALUE").Value);
+			Assert.AreEqual("900", elements[2].Attribute("TIME_VALUE").Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateTierElement_TextTierHasNoTextSegments_ReturnsEmptyElement()
+		public void CreateAnnotationElement_NullTextTier_ReturnsEmptyList()
 		{
-			SetupWithAudioTier();
-			var element = _eafFile.CreateTierElement(new TextTier("blah"));
-			Assert.AreEqual("TIER", element.Name.LocalName);
-			Assert.AreEqual(0, element.Elements().Count());
+			Assert.AreEqual(0, _eafFile.CreateAnnotationElements(null,
+				_mediaTier.GetAllSegments().Cast<IMediaSegment>(), null).Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateTierElement_TextTierHasSegments_ReturnsCorrectElements()
+		public void CreateAnnotationElement_NullMediaSegments_ReturnsEmptyList()
 		{
-			SetupWithAudioTier();
-			var textTier = new TextTier("blah");
-			textTier.AddSegment("blah one");
-			textTier.AddSegment("blah two");
+			Assert.AreEqual(0, _eafFile.CreateAnnotationElements(new TextTier("iron"), null, null).Count());
+		}
 
-			var element = _eafFile.CreateTierElement(textTier);
-			Assert.AreEqual("TIER", element.Name.LocalName);
-			Assert.AreEqual(2, element.Elements().Count());
-			Assert.AreEqual(2, element.Elements("ANNOTATION").Count());
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateAnnotationElement_NoTextSegments_ReturnsEmptyList()
+		{
+			Assert.AreEqual(0, _eafFile.CreateAnnotationElements(new TextTier("copper"),
+				_mediaTier.GetAllSegments().Cast<IMediaSegment>(), null).Count());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateAnnotationElement_GoodData_ReturnsCorrectNumberOfElements()
+		{
+			Assert.AreEqual(2, _eafFile.CreateAnnotationElements(_textTier,
+				_mediaTier.GetAllSegments().Cast<IMediaSegment>(), f => "").Count());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateAnnotationElement_GoodData_ReturnsCorrectElementNames()
+		{
+			var elements = _eafFile.CreateAnnotationElements(_textTier,
+				_mediaTier.GetAllSegments().Cast<IMediaSegment>(), f => "").ToList();
+
+			Assert.AreEqual("ANNOTATION", elements[0].Name.LocalName);
+			Assert.AreEqual("ANNOTATION", elements[1].Name.LocalName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateAnnotationElement_GoodData_ReturnsCorrectAnnotationIds()
+		{
+			var elements = _eafFile.CreateAnnotationElements(_textTier,
+				_mediaTier.GetAllSegments().Cast<IMediaSegment>(), f => "").ToList();
+
+			Assert.AreEqual("a1", elements[0].Element("ALIGNABLE_ANNOTATION").Attribute("ANNOTATION_ID").Value);
+			Assert.AreEqual("a2", elements[1].Element("ALIGNABLE_ANNOTATION").Attribute("ANNOTATION_ID").Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateAnnotationElement_GoodData_ReturnsCorrectTimeSlotRefs()
+		{
+			int i = 5;
+
+			var elements = _eafFile.CreateAnnotationElements(_textTier,
+				_mediaTier.GetAllSegments().Cast<IMediaSegment>(), f => "ts" + i++).ToList();
+
+			Assert.AreEqual("ts5", elements[0].Element("ALIGNABLE_ANNOTATION").Attribute("TIME_SLOT_REF1").Value);
+			Assert.AreEqual("ts6", elements[0].Element("ALIGNABLE_ANNOTATION").Attribute("TIME_SLOT_REF2").Value);
+			Assert.AreEqual("ts7", elements[1].Element("ALIGNABLE_ANNOTATION").Attribute("TIME_SLOT_REF1").Value);
+			Assert.AreEqual("ts8", elements[1].Element("ALIGNABLE_ANNOTATION").Attribute("TIME_SLOT_REF2").Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateAnnotationElement_GoodData_ReturnsCorrectAnnotations()
+		{
+			var elements = _eafFile.CreateAnnotationElements(_textTier,
+				_mediaTier.GetAllSegments().Cast<IMediaSegment>(), f => "").ToList();
+
+			Assert.AreEqual("brass", elements[0].Element("ALIGNABLE_ANNOTATION").Element("ANNOTATION_VALUE").Value);
+			Assert.AreEqual("steel", elements[1].Element("ALIGNABLE_ANNOTATION").Element("ANNOTATION_VALUE").Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -316,34 +279,6 @@ namespace SayMoreTests.Transcription.Model
 			Assert.AreEqual("ts33", element.Attribute("TIME_SLOT_REF1").Value);
 			Assert.AreEqual("ts55", element.Attribute("TIME_SLOT_REF2").Value);
 			Assert.AreEqual("some text", element.Element("ANNOTATION_VALUE").Value);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CreateTimeOrderElement_TwoTimes_ReturnsCorrectSubElements()
-		{
-			var element = _eafFile.CreateTimeOrderElement(new[] { 0f, 0f });
-			Assert.AreEqual("TIME_ORDER", element.Name.LocalName);
-			Assert.AreEqual("TIME_SLOT", element.Elements().ElementAt(0).Name.LocalName);
-			Assert.AreEqual("TIME_SLOT", element.Elements().ElementAt(1).Name.LocalName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CreateTimeOrderElement_TwoTimes_ReturnsCorrectTimeSlotIds()
-		{
-			var element = _eafFile.CreateTimeOrderElement(new[] { 0f, 0f });
-			Assert.AreEqual("ts1", element.Elements().ElementAt(0).Attribute("TIME_SLOT_ID").Value);
-			Assert.AreEqual("ts2", element.Elements().ElementAt(1).Attribute("TIME_SLOT_ID").Value);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CreateTimeOrderElement_TwoTimes_ReturnsCorrectTimeValues()
-		{
-			var element = _eafFile.CreateTimeOrderElement(new[] { 1.3f, 4.5f });
-			Assert.AreEqual("1300", element.Elements().ElementAt(0).Attribute("TIME_VALUE").Value);
-			Assert.AreEqual("4500", element.Elements().ElementAt(1).Attribute("TIME_VALUE").Value);
 		}
 
 		/// ------------------------------------------------------------------------------------

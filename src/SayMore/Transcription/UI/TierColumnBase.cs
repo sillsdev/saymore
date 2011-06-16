@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Transcription.Model;
@@ -9,6 +10,7 @@ namespace SayMore.Transcription.UI
 	{
 		protected DataGridView _grid;
 
+		public Action SegmentChangedAction;
 		public ITier Tier { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -53,10 +55,26 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void UnsubscribeToGridEvents()
 		{
+			_grid.CellValueNeeded -= HandleGridCellValueNeeded;
+			_grid.CellValuePushed -= HandleGridCellValuePushed;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void SubscribeToGridEvents()
+		{
+			_grid.CellValueNeeded += HandleGridCellValueNeeded;
+			_grid.CellValuePushed += HandleGridCellValuePushed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleGridCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
+		{
+			if (SegmentChangedAction != null)
+				SegmentChangedAction();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 		}
 

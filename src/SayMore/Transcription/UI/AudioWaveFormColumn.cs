@@ -23,8 +23,13 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDataGridViewChanged()
 		{
+			if (_grid != null)
+				_grid.Controls.Remove(_player);
+
 			base.OnDataGridViewChanged();
-			_grid.Controls.Add(_player);
+
+			if (_grid != null)
+				_grid.Controls.Add(_player);
 		}
 
 		/// ------------------------------------------------------------------------------------

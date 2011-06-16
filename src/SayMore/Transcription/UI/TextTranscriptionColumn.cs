@@ -14,29 +14,23 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void UnsubscribeToGridEvents()
+		protected override void HandleGridCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
-			_grid.CellValueNeeded -= HandleGridCellValueNeeded;
-			_grid.CellValuePushed -= HandleGridCellValuePushed;
+			ISegment segment;
+
+			if (e.ColumnIndex != Index || !Tier.TryGetSegment(e.RowIndex, out segment))
+				return;
+
+			((ITextSegment)segment).SetText(e.Value as string);
+
+			base.HandleGridCellValuePushed(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void SubscribeToGridEvents()
+		protected override void HandleGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
-			_grid.CellValueNeeded += HandleGridCellValueNeeded;
-			_grid.CellValuePushed += HandleGridCellValuePushed;
-		}
+			base.HandleGridCellValueNeeded(sender, e);
 
-		/// ------------------------------------------------------------------------------------
-		void HandleGridCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
-		{
-			if (e.ColumnIndex == Index)
-				((ITextSegment)Tier.GetSegment(e.RowIndex)).SetText(e.Value as string);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void HandleGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
-		{
 			if (e.ColumnIndex == Index)
 				e.Value = ((ITextSegment)Tier.GetSegment(e.RowIndex)).GetText();
 		}

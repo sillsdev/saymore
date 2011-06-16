@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SilTools;
@@ -28,7 +29,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			if (IsCurrentCellInEditMode && (keyData & Keys.Tab) == Keys.Tab)
+			if (IsCurrentCellInEditMode && msg.WParam.ToInt32() == (int)Keys.Tab)
 			{
 				int newRowIndex =  CurrentCellAddress.Y + (ModifierKeys == Keys.Shift ? -1 : 1);
 

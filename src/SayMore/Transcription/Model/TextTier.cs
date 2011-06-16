@@ -1,3 +1,4 @@
+using System;
 using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model

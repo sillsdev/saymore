@@ -47,18 +47,21 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public static void CleanUpMPlayerProcesses()
 		{
-			foreach (int id in s_mplayerProcessIds)
+			lock (s_mplayerProcessIds)
 			{
-				try
+				foreach (int id in s_mplayerProcessIds)
 				{
-					var prs = Process.GetProcessById(id);
-					prs.Kill();
-					prs.Close();
+					try
+					{
+						var prs = Process.GetProcessById(id);
+						prs.Kill();
+						prs.Close();
+					}
+					catch { }
 				}
-				catch { }
-			}
 
-			s_mplayerProcessIds.Clear();
+				s_mplayerProcessIds.Clear();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Transcription.Model;
+using SilTools;
 
 namespace SayMore.Transcription.UI
 {
@@ -118,7 +119,7 @@ namespace SayMore.Transcription.UI
 			if (e.ColumnIndex != Index)
 				return;
 
-			e.CellStyle.ForeColor = SystemColors.GrayText;
+			e.CellStyle.ForeColor = ColorHelper.CalculateColor(Color.White, e.CellStyle.ForeColor, 85);
 			e.CellStyle.Font = _player.Font;
 		}
 
@@ -149,6 +150,8 @@ namespace SayMore.Transcription.UI
 
 			var rc = GetPlayerRectangle(rowIndex);
 
+			Utils.SetWindowRedraw(_player, false);
+
 			if (_player.Bounds != rc)
 				_player.Bounds = rc;
 
@@ -157,6 +160,8 @@ namespace SayMore.Transcription.UI
 
 			_player.ForeColor = _grid.DefaultCellStyle.SelectionForeColor;
 			_player.BackColor = _grid.DefaultCellStyle.SelectionBackColor;
+
+			Utils.SetWindowRedraw(_player, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

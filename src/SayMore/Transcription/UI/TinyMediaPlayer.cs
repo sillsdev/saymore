@@ -17,8 +17,8 @@ namespace SayMore.Transcription.UI
 		public TinyMediaPlayer()
 		{
 			InitializeComponent();
-			BackColor = SystemColors.Window;
 			ForeColor = SystemColors.WindowText;
+			BackColor = SystemColors.Window;
 			SetStyle(ControlStyles.Selectable, false);
 			DoubleBuffered = true;
 			Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 7f);
@@ -155,18 +155,33 @@ namespace SayMore.Transcription.UI
 				DrawTimeInfo(e.Graphics, Segment.MediaStart, Segment.MediaLength, rc, ForeColor, BackColor);
 			else
 			{
-				DrawTimeInfo(e.Graphics, _model.GetTimeDisplay(), rc, ForeColor, BackColor);
-
-				// Draw vertical line indicating where is the playback position.
-				var pixelsPerSec = rc.Width / Segment.MediaLength;
+				// Draw bar indicating playback progress.
+				var rcBar = rc;
+				var pixelsPerSec = rcBar.Width / Segment.MediaLength;
 				var dx = (int)Math.Round(pixelsPerSec * (_model.CurrentPosition - Segment.MediaStart),
 					MidpointRounding.AwayFromZero);
 
 				if (dx > 0)
 				{
-					using (var pen = new Pen(ForeColor))
-						e.Graphics.DrawLine(pen, rc.Left + dx, rc.Top, rc.Left + dx, rc.Bottom);
+					rcBar.Width = (dx - rcBar.X);
+					rcBar.Height -= 6;
+					rcBar.Y += 3;
+					using (var br = new SolidBrush(ColorHelper.CalculateColor(Color.White, BackColor, 110)))
+						e.Graphics.FillRectangle(br, rcBar);
 				}
+
+				DrawTimeInfo(e.Graphics, _model.GetTimeDisplay(), rc, ForeColor, Color.Transparent);
+
+				//// Draw vertical line indicating where is the playback position.
+				//var pixelsPerSec = rc.Width / Segment.MediaLength;
+				//var dx = (int)Math.Round(pixelsPerSec * (_model.CurrentPosition - Segment.MediaStart),
+				//    MidpointRounding.AwayFromZero);
+
+				//if (dx > 0)
+				//{
+				//    using (var pen = new Pen(ForeColor))
+				//        e.Graphics.DrawLine(pen, rc.Left + dx, rc.Top, rc.Left + dx, rc.Bottom);
+				//}
 			}
 		}
 

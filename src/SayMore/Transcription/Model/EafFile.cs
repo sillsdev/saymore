@@ -11,40 +11,23 @@ namespace SayMore.Transcription.Model
 	{
 		public string MediaFileName { get; private set; }
 		public string EafFileName { get; private set; }
-		//public IEnumerable<ITier> TextTiers { get; private set; }
-		//public ITier MediaTier { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public EafFile(string eafFileName, string mediaFileName)
 		{
 			EafFileName = eafFileName;
 			MediaFileName = mediaFileName;
-			//SetTextTiers(new List<ITier>());
-
-			if (File.Exists(eafFileName))
-				Load(XElement.Load(EafFileName));
-		}
-
-		///// ------------------------------------------------------------------------------------
-		private float AddFloats(float x, float y)
-		{
-			return (float)((decimal)x + (decimal)y);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public IEnumerable<float> GetTimeSlotCollection(ITier mediaTier)
-		{
-			var mediaSegments = mediaTier.GetAllSegments().Cast<IMediaSegment>();
-
-			return mediaSegments.Select(s => s.MediaStart)
-				.Concat(mediaSegments.Select(s => AddFloats(s.MediaStart, s.MediaLength)))
-				.Distinct().OrderBy(s => s);
 		}
 
 		#region Methods for reading an EAF file
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ITier> Load(XElement root)
+		public IEnumerable<ITier> GetTiers()
 		{
+			if (!File.Exists(EafFileName))
+				return new ITier[] { };
+
+			var root = XElement.Load(EafFileName);
+
 			var timeSlots = root.Element("TIME_ORDER").Elements("TIME_SLOT").ToDictionary(
 				e => e.Attribute("TIME_SLOT_ID").Value,
 				e => (float)(int.Parse(e.Attribute("TIME_VALUE").Value) / (decimal)1000));
@@ -72,6 +55,22 @@ namespace SayMore.Transcription.Model
 		}
 
 		#endregion
+
+		///// ------------------------------------------------------------------------------------
+		private float AddFloats(float x, float y)
+		{
+			return (float)((decimal)x + (decimal)y);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<float> GetTimeSlotCollection(ITier mediaTier)
+		{
+			var mediaSegments = mediaTier.GetAllSegments().Cast<IMediaSegment>();
+
+			return mediaSegments.Select(s => s.MediaStart)
+				.Concat(mediaSegments.Select(s => AddFloats(s.MediaStart, s.MediaLength)))
+				.Distinct().OrderBy(s => s);
+		}
 
 		#region Methods for writing an EAF file
 		/// ------------------------------------------------------------------------------------

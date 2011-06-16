@@ -13,7 +13,6 @@ using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
-using SayMore.Transcription.Model;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Archiving;
 
@@ -65,7 +64,6 @@ namespace SayMore.Model.Files
 		public string RootElementName { get; protected set; }
 		public string PathToAnnotatedFile { get; protected set; }
 		public List<FieldInstance> MetaDataFieldValues { get; protected set; }
-		public EafFile TranscriptionFile { get; protected set; }
 		public FileType FileType { get; protected set; }
 		public string FileTypeDescription { get; protected set; }
 		public string FileSize { get; protected set; }
@@ -160,9 +158,6 @@ namespace SayMore.Model.Files
 			GetSmallIconAndFileType(PathToAnnotatedFile, out icon, out fileDesc);
 			SmallIcon = FileType.SmallIcon ?? icon;
 			FileTypeDescription = (FileType is UnknownFileType ? fileDesc : FileType.Name);
-
-			if (GetCanHaveTranscriptionFile())
-				TranscriptionFile = new EafFile(GetPathToTranscriptionFile(), PathToAnnotatedFile);
 		}
 
 		/// ------------------------------------------------------------------------------------

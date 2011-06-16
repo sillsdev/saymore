@@ -16,6 +16,7 @@ namespace SayMore.Transcription.UI
 	{
 		private readonly SegmentEditorGrid _grid;
 		private IEnumerable<ITier> _tiers;
+		private EafFile _transcriptionFile;
 
 		/// ------------------------------------------------------------------------------------
 		public SegmentEditor(ComponentFile file, string tabText, string imageKey)
@@ -37,7 +38,9 @@ namespace SayMore.Transcription.UI
 			if (!file.GetCanHaveTranscriptionFile())
 				return;
 
-		// do something to read file, if there is one.
+			_transcriptionFile = new EafFile(file.GetPathToTranscriptionFile(), file.PathToAnnotatedFile);
+			_tiers = _transcriptionFile.GetTiers();
+			CreateTierColumns();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -89,7 +92,7 @@ namespace SayMore.Transcription.UI
 
 				var col = tier.GridColumn as TextTranscriptionColumn;
 				if (col != null)
-					col.TextSegmentChangedAction = SaveTranscriptionFile;
+					col.SegmentChangedAction = SaveTranscriptionFile;
 			}
 
 			_grid.RowCount = rowCount;
@@ -99,7 +102,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void SaveTranscriptionFile()
 		{
-			_file.TranscriptionFile.Save(_tiers.First(t => t.DataType == TierType.Audio ||
+			_transcriptionFile.Save(_tiers.First(t => t.DataType == TierType.Audio ||
 				t.DataType == TierType.Video), _tiers.Where(t => t.DataType == TierType.Text));
 		}
 	}

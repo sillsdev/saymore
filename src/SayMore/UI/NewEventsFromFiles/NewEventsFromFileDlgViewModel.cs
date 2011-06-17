@@ -10,6 +10,7 @@ using Palaso.Reporting;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
+using Palaso.Extensions;
 
 namespace SayMore.UI.NewEventsFromFiles
 {
@@ -472,7 +473,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			string msg;
 			var date = File.GetLastWriteTime(sourcePath);
-			newEvent.MetaDataFile.SetStringValue("date", date.ToString(), out msg);
+			newEvent.MetaDataFile.SetStringValue("date", date.ToISO8601DateOnlyString(), out msg);
 			newEvent.MetaDataFile.SetStringValue("status", Event.Status.Incoming.ToString(), out msg);
 			newEvent.MetaDataFile.Save();
 

@@ -1,6 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using Palaso.ClearShare;
+using Palaso.Extensions;
 
 namespace SayMore.Model.Fields
 {
@@ -36,13 +40,16 @@ namespace SayMore.Model.Fields
 				Role role;
 				_olacSystem.TryGetRoleByCode(e.Element("role").Value, out role);
 				var contrib = new Contribution(e.Element("name").Value, role);
-				contrib.Date = e.Element("date").Value;
+				// We have this permsissive business because we released versions of SayMore (prior to 1.1.120) which used the local
+				// format, rather than a universal one.
+				contrib.Date = DateTimeExtensions.ParseDateTimePermissively(e.Element("date").Value);
 				contrib.Comments = e.Element("notes").Value;
 				return contrib;
 			});
 
 			return new ContributionCollection(contributionCollection);
 		}
+
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -61,7 +68,7 @@ namespace SayMore.Model.Fields
 					var e = new XElement("contributor");
 					e.Add(new XElement("name", c.ContributorName));
 					e.Add(new XElement("role", c.Role.Code));
-					e.Add(new XElement("date", c.Date));
+					e.Add(new XElement("date", c.Date.ToISO8601DateOnlyString()));
 					e.Add(new XElement("notes", c.Comments));
 					element.Add(e);
 				}

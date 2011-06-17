@@ -1,6 +1,6 @@
-using System;
 using System.Drawing;
 using System.Windows.Forms;
+using SayMore.Properties;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -13,11 +13,13 @@ namespace SayMore.Transcription.UI
 			Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
 			Margin = new Padding(0);
 			VirtualMode = true;
+			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 			EditMode = DataGridViewEditMode.EditOnEnter;
 			FullRowFocusRectangleColor = DefaultCellStyle.SelectionBackColor;
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 			DefaultCellStyle.SelectionBackColor =
 				ColorHelper.CalculateColor(Color.White, DefaultCellStyle.SelectionBackColor, 140);
+
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -43,6 +45,13 @@ namespace SayMore.Transcription.UI
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
+		{
+			base.OnColumnWidthChanged(e);
+			Settings.Default.SegmentGrid = GridSettings.Create(this);
 		}
 	}
 }

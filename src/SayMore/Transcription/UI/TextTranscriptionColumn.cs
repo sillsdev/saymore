@@ -11,6 +11,8 @@ namespace SayMore.Transcription.UI
 		public TextTranscriptionColumn(ITier tier) : base(tier)
 		{
 			Debug.Assert(tier.DataType == TierType.Text);
+			Name = "textTranscriptionColumn";
+			DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
+using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
 using SilTools;
@@ -25,8 +26,20 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 			Name = "Segments";
 
+			var hint = "To transcribe the file '{0}',\nclick 'Load Segment File...'\n" +
+				"to specify an Audacity label file or an ELAN file\nthat will be used to create segments.";
+
 			_grid = new SegmentEditorGrid();
 			_tableLayout.Controls.Add(_grid, 0, 0);
+			_grid.Paint += (s, e) =>
+			{
+				if (_grid.ColumnCount == 0)
+				{
+					_grid.DrawMessageInCenterOfGrid(e.Graphics, string.Format(hint,
+						Path.GetFileName(_file.PathToAnnotatedFile)), 0);
+				}
+			};
+
 			SetComponentFile(file);
 		}
 
@@ -62,15 +75,22 @@ namespace SayMore.Transcription.UI
 				dlg.CheckPathExists = true;
 				dlg.Multiselect = false;
 
-				// TODO: Add ELAN .eaf files.
-
-				dlg.Filter = "Audacity Label File (*.txt)|*.txt|All Files (*.*)|*.*";
+				dlg.Filter = "Audacity Label File (*.txt)|*.txt|ELAN File (*.eaf)|*.eaf|All Files (*.*)|*.*";
 
 				if (dlg.ShowDialog(this) != DialogResult.OK)
 					return;
 
-				_tiers = new AudacityLabelHelper(File.ReadAllLines(dlg.FileName),
-					_file.PathToAnnotatedFile).GetTiers();
+				if (!EafFile.GetIsElanFile(dlg.FileName))
+				{
+					_tiers = new AudacityLabelHelper(File.ReadAllLines(dlg.FileName),
+						_file.PathToAnnotatedFile).GetTiers();
+				}
+				else
+				{
+					// REVIEW: What if media file in eaf file is different from _file.PathToAnnotatedFile?
+					var eaf = new EafFile(dlg.FileName, _file.PathToAnnotatedFile);
+					_tiers = eaf.GetTiers();
+				}
 
 				CreateTierColumns();
 				SaveTranscriptionFile();
@@ -97,6 +117,9 @@ namespace SayMore.Transcription.UI
 
 			_grid.RowCount = rowCount;
 			Utils.SetWindowRedraw(_grid, true);
+
+			if (Settings.Default.SegmentGrid != null)
+				Settings.Default.SegmentGrid.InitializeGrid(_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -157,28 +157,12 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridPaint(object sender, PaintEventArgs e)
 		{
-			if (_grid.RowCount != 1)
-				return;
-
-			var rcRow = _grid.GetRowDisplayRectangle(0, false);
-			var rc = _grid.ClientRectangle;
-			rc.Height -= (rcRow.Height + _grid.ColumnHeadersHeight);
-			rc.Y += rcRow.Bottom;
-
-			// Strangely, the grid's client size doesn't change when the scroll bars
-			// are visible. Therefore, we have to explicitly allow for them.
-			var hscroll = _grid.HScrollBar;
-			if (hscroll != null && hscroll.Visible)
-				rc.Height -= hscroll.Height;
-
-			const string hint = "Add additional files related to this event by\n" +
-				"dragging them here or clicking the 'Add' button.";
-
-			const TextFormatFlags flags =
-				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
-
-			using (var fnt = new Font(_grid.Font.FontFamily, 12, FontStyle.Regular))
-				TextRenderer.DrawText(e.Graphics, hint, fnt, rc, SystemColors.GrayText, flags);
+			if (_grid.RowCount == 1)
+			{
+				var rcRow = _grid.GetRowDisplayRectangle(0, false);
+				_grid.DrawMessageInCenterOfGrid(e.Graphics, "Add additional files related to this event by\n" +
+					"dragging them here or clicking the 'Add Files' button.", rcRow.Height);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

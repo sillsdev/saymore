@@ -19,6 +19,19 @@ namespace SayMore.Transcription.Model
 			MediaFileName = mediaFileName;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsElanFile(string fileName)
+		{
+			try
+			{
+				var root = XElement.Load(fileName);
+				return root.Name.LocalName == "ANNOTATION_DOCUMENT";
+			}
+			catch { }
+
+			return false;
+		}
+
 		#region Methods for reading an EAF file
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ITier> GetTiers()

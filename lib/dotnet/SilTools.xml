@@ -2422,6 +2422,22 @@
         <member name="M:SilTools.SilGrid.OnCurrentRowChanged(System.EventArgs)">
             ------------------------------------------------------------------------------------
         </member>
+        <member name="M:SilTools.SilGrid.DrawMessageInCenterOfGrid(System.Drawing.Graphics,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Draws the specified text in the middle of the grid using 12 point/bold version
+            of the grid's font.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SilTools.SilGrid.DrawMessageInCenterOfGrid(System.Drawing.Graphics,System.String,System.Drawing.Font)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Draws the specified text in the middle of the grid using the specified font. The
+            text will be drawn using the gray font.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
         <member name="M:SilTools.SilGrid.CreateTextBoxColumn(System.String)">
             ------------------------------------------------------------------------------------
             <summary>

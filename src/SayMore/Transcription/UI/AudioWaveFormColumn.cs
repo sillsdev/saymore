@@ -17,6 +17,7 @@ namespace SayMore.Transcription.UI
 		public AudioWaveFormColumn(ITier tier) : base(tier)
 		{
 			Debug.Assert(tier.DataType == TierType.Audio);
+			Name = "audioWaveFormColumn";
 			_player = new TinyMediaPlayer();
 			_player.Visible = false;
 		}
@@ -38,6 +39,7 @@ namespace SayMore.Transcription.UI
 		{
 			_grid.Leave -= HandleGridLeave;
 			_grid.RowEnter -= HandleGridRowEnter;
+			_grid.RowHeightChanged -= HandleGridRowHeightChanged;
 			_grid.CellFormatting -= HandleGridCellFormatting;
 			_grid.ColumnWidthChanged -= HandleGridColumnWidthChanged;
 			_grid.Scroll -= HandleGridScroll;
@@ -50,6 +52,7 @@ namespace SayMore.Transcription.UI
 		{
 			_grid.Leave += HandleGridLeave;
 			_grid.RowEnter += HandleGridRowEnter;
+			_grid.RowHeightChanged += HandleGridRowHeightChanged;
 			_grid.CellFormatting += HandleGridCellFormatting;
 			_grid.ColumnWidthChanged += HandleGridColumnWidthChanged;
 			_grid.Scroll += HandleGridScroll;
@@ -75,6 +78,13 @@ namespace SayMore.Transcription.UI
 		private void HandleGridLeave(object sender, EventArgs e)
 		{
 			_player.Stop();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleGridRowHeightChanged(object sender, DataGridViewRowEventArgs e)
+		{
+			if (e.Row == _grid.CurrentRow)
+				LocatePlayer(e.Row.Index, false);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -18,6 +18,7 @@ namespace SayMore.Transcription.UI
 		{
 			Debug.Assert(tier.DataType == TierType.Audio);
 			Name = "audioWaveFormColumn";
+			ReadOnly = true;
 			_player = new TinyMediaPlayer();
 			_player.Visible = false;
 		}

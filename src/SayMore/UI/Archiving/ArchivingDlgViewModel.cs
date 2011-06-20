@@ -92,6 +92,12 @@ namespace SayMore.UI.Archiving
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private string GetPathToContributorFileInArchive(string personId, string fullFilePath)
+		{
+			return Path.Combine(Path.Combine("Contributors", personId), Path.GetFileName(fullFilePath));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public IDictionary<string, IEnumerable<string>> GetFilesToArchive()
 		{
 			var filesInDir = Directory.GetFiles(_event.FolderPath);
@@ -108,6 +114,7 @@ namespace SayMore.UI.Archiving
 				filesInDir = Directory.GetFiles(person.FolderPath);
 				fileList[person.Id] = filesInDir;
 
+				msgKey = GetPathToContributorFileInArchive(person.Id, filesInDir[0]);
 				msgKey = Path.Combine(Path.Combine("Contributors", person.Id), Path.GetFileName(filesInDir[0]));
 				_progressMessages[msgKey] = string.Format("Adding Files for Contributor '{0}'", person.Id);
 			}
@@ -388,7 +395,10 @@ namespace SayMore.UI.Archiving
 					else if (file.ToLower().EndsWith(".meta"))
 						description = "SayMore File Metadata (XML)";
 
-					yield return JSONUtils.MakeKeyValuePair(" ", Path.GetFileName(file)) + "," +
+					var filePath = (kvp.Key == string.Empty ? Path.GetFileName(file) :
+						GetPathToContributorFileInArchive(kvp.Key, file));
+
+					yield return JSONUtils.MakeKeyValuePair(" ", filePath.Replace('\\', '/')) + "," +
 						JSONUtils.MakeKeyValuePair("description", description) + "," +
 						JSONUtils.MakeKeyValuePair("relationship", "source");
 				}

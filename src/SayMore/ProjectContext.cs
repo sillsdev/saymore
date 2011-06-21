@@ -81,7 +81,7 @@ namespace SayMore
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
-				builder.Register<IEnumerable<FileType>>(c => GetFilesTypes(c)).InstancePerLifetimeScope();
+				builder.Register<IEnumerable<FileType>>(GetFilesTypes).InstancePerLifetimeScope();
 
 				//these needed to be done later (as delegates) because of the FileTypes dependency
 				//there's maybe something I'm doing wrong that requires me to register this twice like this...
@@ -127,6 +127,7 @@ namespace SayMore
 				context.Resolve<AudioFileType>(),
 				context.Resolve<VideoFileType>(),
 				context.Resolve<ImageFileType>(),
+				context.Resolve<TextTranscriptionFileType>(),
 				context.Resolve<UnknownFileType>(),
 			});
 		}

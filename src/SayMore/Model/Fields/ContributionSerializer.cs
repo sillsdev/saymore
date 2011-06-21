@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using Palaso.ClearShare;
@@ -49,7 +46,6 @@ namespace SayMore.Model.Fields
 
 			return new ContributionCollection(contributionCollection);
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

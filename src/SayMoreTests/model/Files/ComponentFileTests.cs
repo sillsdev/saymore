@@ -281,30 +281,6 @@ namespace SayMoreTests.Model.Files
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetTranscriptionFolderName_IsNotMediaFile_ReturnsNull()
-		{
-			var f = CreateComponentFile("abc.zzz");
-			Assert.IsNull(f.GetTranscriptionFolderName());
-		}
-
-		[Test]
-		[Category("SkipOnTeamCity")]
-		public void GetTranscriptionFolderName_FileIsWave_ReturnsFolderPath()
-		{
-			var f = CreateAudioComponentFile("abc.wav");
-			Assert.IsTrue(f.GetTranscriptionFolderName().EndsWith("abc.wav_transcription"));
-		}
-
-		[Test]
-		[Category("SkipOnTeamCity")]
-		public void GetTranscriptionFolderName_FileIsMp3_ReturnsFolderPath()
-		{
-			var f = CreateAudioComponentFile("abc.mp3");
-			Assert.IsTrue(f.GetTranscriptionFolderName().EndsWith("abc.mp3_transcription"));
-		}
-
-		[Test]
-		[Category("SkipOnTeamCity")]
 		public void GetPathToTranscriptionFile_IsNotMediaFile_ReturnsNull()
 		{
 			var f = CreateComponentFile("abc.zzz");
@@ -316,7 +292,9 @@ namespace SayMoreTests.Model.Files
 		public void GetPathToTranscriptionFile_FileIsWave_ReturnsFolderPath()
 		{
 			var f = CreateAudioComponentFile("abc.wav");
-			Assert.IsTrue(f.GetPathToTranscriptionFile().EndsWith("abc.wav_transcription\\abc.wav.eaf"));
+			var expected = Path.GetDirectoryName(f.PathToAnnotatedFile);
+			expected = Path.Combine(expected, "abc.wav.transcription.eaf");
+			Assert.AreEqual(expected, f.GetPathToTranscriptionFile());
 		}
 
 		[Test]
@@ -324,7 +302,35 @@ namespace SayMoreTests.Model.Files
 		public void GetPathToTranscriptionFile_FileIsMp3_ReturnsFolderPath()
 		{
 			var f = CreateAudioComponentFile("abc.mp3");
-			Assert.IsTrue(f.GetPathToTranscriptionFile().EndsWith("abc.mp3_transcription\\abc.mp3.eaf"));
+			var expected = Path.GetDirectoryName(f.PathToAnnotatedFile);
+			expected = Path.Combine(expected, "abc.mp3.transcription.eaf");
+			Assert.AreEqual(expected, f.GetPathToTranscriptionFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetDoesHaveTranscriptionFile_IsNotMediaFile_ReturnsFalse()
+		{
+			Assert.IsFalse(CreateComponentFile("abc.zzz").GetDoesHaveTranscriptionFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetDoesHaveTranscriptionFile_IsMediaFileButDoesNotHaveTransFile_ReturnsFalse()
+		{
+			Assert.IsFalse(CreateAudioComponentFile("abc.mp3").GetDoesHaveTranscriptionFile());
+			Assert.IsFalse(CreateAudioComponentFile("abc.wav").GetDoesHaveTranscriptionFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetDoesHaveTranscriptionFile_IsMediaFileAndHasTransFile_ReturnsTrue()
+		{
+			File.CreateText(Path.Combine(_parentFolder.Path, "abc.wav.transcription.eaf")).Close();
+			File.CreateText(Path.Combine(_parentFolder.Path, "abc.mp3.transcription.eaf")).Close();
+
+			Assert.IsTrue(CreateAudioComponentFile("abc.mp3").GetDoesHaveTranscriptionFile());
+			Assert.IsTrue(CreateAudioComponentFile("abc.wav").GetDoesHaveTranscriptionFile());
 		}
 
 		private ComponentFile CreateAudioComponentFile(string filename)

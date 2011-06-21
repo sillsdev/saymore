@@ -17,7 +17,7 @@ namespace SayMore.Transcription.UI
 	{
 		private readonly SegmentEditorGrid _grid;
 		private IEnumerable<ITier> _tiers;
-		private EafFile _transcriptionFile;
+		private EafFileHelper _transcriptionFile;
 
 		/// ------------------------------------------------------------------------------------
 		public SegmentEditor(ComponentFile file, string tabText, string imageKey)
@@ -51,16 +51,16 @@ namespace SayMore.Transcription.UI
 			if (!file.GetCanHaveTranscriptionFile())
 				return;
 
-			_transcriptionFile = new EafFile(file.GetPathToTranscriptionFile(), file.PathToAnnotatedFile);
-			_tiers = _transcriptionFile.GetTiers();
-			CreateTierColumns();
+			//_transcriptionFile = new EafFileHelper(file.GetPathToTranscriptionFile(), file.PathToAnnotatedFile);
+			//_tiers = _transcriptionFile.GetTiers();
+			//CreateTierColumns();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public override bool IsOKSToShow
-		{
-			get { return _file.GetCanHaveTranscriptionFile(); }
-		}
+		///// ------------------------------------------------------------------------------------
+		//public override bool IsOKSToShow
+		//{
+		//    get { return _file.GetCanHaveTranscriptionFile(); }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleLoadSegmentFileClick(object sender, EventArgs e)
@@ -80,7 +80,7 @@ namespace SayMore.Transcription.UI
 				if (dlg.ShowDialog(this) != DialogResult.OK)
 					return;
 
-				if (!EafFile.GetIsElanFile(dlg.FileName))
+				if (!EafFileHelper.GetIsElanFile(dlg.FileName))
 				{
 					_tiers = new AudacityLabelHelper(File.ReadAllLines(dlg.FileName),
 						_file.PathToAnnotatedFile).GetTiers();
@@ -88,7 +88,7 @@ namespace SayMore.Transcription.UI
 				else
 				{
 					// REVIEW: What if media file in eaf file is different from _file.PathToAnnotatedFile?
-					var eaf = new EafFile(dlg.FileName, _file.PathToAnnotatedFile);
+					var eaf = new EafFileHelper(dlg.FileName, _file.PathToAnnotatedFile);
 					_tiers = eaf.GetTiers();
 				}
 

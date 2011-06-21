@@ -22,7 +22,9 @@ namespace SayMore.UI.NewEventsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// TODO: David, can you add comments for this one?  It's an odd bird...
+	/// This class is like a ComponentFile except that it's for ComponentFiles displayed in
+	/// the grid of files from which a user may create new events (i.e. when clicking the
+	/// "New From Device" button on the events screen).
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class NewComponentFile : ComponentFile

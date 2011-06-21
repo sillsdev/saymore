@@ -27,7 +27,7 @@ namespace SayMore.UI.ElementListScreen
 		/// <summary>
 		/// When the user chooses a menu command, this is called after the command is issued.
 		/// </summary>
-		public Action PostMenuCommandRefreshAction;
+		public Action<string> PostMenuCommandRefreshAction;
 
 		public Func<string[], DragDropEffects> FilesBeingDraggedOverGrid;
 		public Func<string[], bool> FilesDroppedOnGrid;
@@ -65,6 +65,7 @@ namespace SayMore.UI.ElementListScreen
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
 			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
 			_grid.Paint += HandleFileGridPaint;
+			_grid.CellPainting += HandleFileGridCellPainting;
 			_grid.ClientSizeChanged += HandleFileGridClientSizeChanged;
 			_grid.Font = SystemFonts.IconTitleFont;
 
@@ -112,6 +113,13 @@ namespace SayMore.UI.ElementListScreen
 		{
 			get { return _buttonAddFiles.Visible; }
 			set { _buttonAddFiles.Visible = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool CreateAnnotationFileButtonVisible
+		{
+			get { return _buttonCreateAnnotationFile.Visible; }
+			set { _buttonCreateAnnotationFile.Visible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -166,6 +174,51 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		void HandleFileGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+		{
+			if (e.ColumnIndex != 1 || e.RowIndex < 0)
+				return;
+
+			var file = _files.ElementAt(e.RowIndex);
+			if (file.DisplayIndentLevel == 0)
+				return;
+
+			var img = Resources.ArrowToSubordinateFile;
+			int dx = img.Width * file.DisplayIndentLevel;
+
+			e.Handled = true;
+
+
+			var rc = e.CellBounds;
+			var paintParts = e.PaintParts;
+			paintParts &= ~DataGridViewPaintParts.ContentForeground;
+			e.Paint(rc, paintParts);
+
+			rc = e.CellBounds;
+			rc.Height--;
+			rc.X += (dx + 15);
+			rc.Width -= (dx + 15);
+
+			var selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
+			var clrFore = (selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
+			const TextFormatFlags flags = TextFormatFlags.EndEllipsis | TextFormatFlags.VerticalCenter;
+			TextRenderer.DrawText(e.Graphics, e.Value as string, e.CellStyle.Font, rc, clrFore, flags);
+
+			if (selected)
+			{
+				rc = e.CellBounds;
+				using (var pen = new Pen(_grid.FullRowFocusRectangleColor))
+					e.Graphics.DrawLine(pen, rc.X, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
+			}
+
+			rc = e.CellBounds;
+			rc.X += 10;
+			rc.Y += 2;
+			rc.Size = img.Size;
+			e.Graphics.DrawImage(img, rc);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridCellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			if (e.Button != MouseButtons.Right || (IsOKToDoFileOperation != null && !IsOKToDoFileOperation()))
@@ -212,6 +265,12 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
+
+			var file = (_files.Count() > 0 && _grid.CurrentCellAddress.Y >= 0 ?
+				_files.ElementAt(_grid.CurrentCellAddress.Y) : null);
+
+			_buttonCreateAnnotationFile.Enabled = (file != null &&
+				file.GetCanHaveTranscriptionFile() && !file.GetDoesHaveTranscriptionFile());
 
 			if (null != AfterComponentSelected)
 				AfterComponentSelected(_grid.CurrentCellAddress.Y);
@@ -356,6 +415,34 @@ namespace SayMore.UI.ElementListScreen
 			var dropdown = sender as ToolStripDropDownButton;
 			foreach (ToolStripItem item in dropdown.DropDownItems)
 				item.Visible = operationOK;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleCreateAnnotationFileButtonClick(object sender, EventArgs e)
+		{
+			_files.ElementAt(_grid.CurrentCellAddress.Y).CreateTranscriptionFile(PostMenuCommandRefreshAction);
+
+			//using (var dlg = new OpenFileDialog())
+			//{
+			//    var caption = LocalizationManager.LocalizeString(
+			//        "SegmentEditor.LoadSegmentFileDlgCaption", "Select Segment File");
+
+			//    dlg.Title = caption;
+			//    dlg.CheckFileExists = true;
+			//    dlg.CheckPathExists = true;
+			//    dlg.Multiselect = false;
+
+			//    dlg.Filter = "Audacity Label File (*.txt)|*.txt|ELAN File (*.eaf)|*.eaf|All Files (*.*)|*.*";
+
+			//    if (dlg.ShowDialog(this) != DialogResult.OK)
+			//        return;
+
+			//    if (CreateAnnotationFileForComponentFile != null)
+			//    {
+			//        CreateAnnotationFileForComponentFile(
+			//            _files.ElementAt(_grid.CurrentCellAddress.Y), dlg.FileName);
+			//    }
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------

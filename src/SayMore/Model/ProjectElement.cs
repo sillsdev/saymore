@@ -21,6 +21,7 @@ namespace SayMore.Model
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
 		private readonly ComponentFile.Factory _componentFileFactory;
+		private readonly TranscriptionComponentFile.Factory _transcriptionFileFactory;
 		private string _id;
 
 		public virtual string Id { get { return _id; } }
@@ -44,10 +45,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		protected ProjectElement(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver, FileType fileType,
-			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
+			ComponentFile.Factory componentFileFactory,
+			TranscriptionComponentFile.Factory transcriptionFileFactory,
+			FileSerializer fileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 		{
 			_componentFileFactory = componentFileFactory;
+			_transcriptionFileFactory = transcriptionFileFactory;
 			RequireThat.Directory(parentElementFolder).Exists();
 
 			ParentFolderPath = parentElementFolder;
@@ -85,7 +89,9 @@ namespace SayMore.Model
 								 !x.ToLower().EndsWith("thumbs.db") &&
 								 !Path.GetFileName(x).StartsWith(".")) //these are normally hidden
 							 orderby x
-							 select _componentFileFactory(this, x);
+							 select (_transcriptionFileFactory != null &&
+								x.ToLower().EndsWith(Settings.Default.TextTranscriptionFileExtension.ToLower()) ?
+								_transcriptionFileFactory(this, x) : _componentFileFactory(this, x));
 
 			foreach (var file in otherFiles)
 			{

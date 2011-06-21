@@ -140,12 +140,11 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void HandlePostMenuCommandRefresh()
+		public void HandlePostMenuCommandRefresh(string fileToSelectAfterRefresh)
 		{
-			var currFile = _model.SelectedComponentFile.PathToAnnotatedFile;
 			_model.RefreshSelectedElementComponentFileList();
 			UpdateComponentFileList();
-			_componentFilesControl.TrySetComponent(currFile);
+			_componentFilesControl.TrySetComponent(fileToSelectAfterRefresh);
 			_componentFilesControl.Invalidate();
 			_elementsGrid.Refresh();
 		}

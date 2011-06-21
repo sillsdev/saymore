@@ -23,7 +23,7 @@ namespace SayMore.Model
 			PersonFileType personFileType, ComponentFile.Factory componentFileFactory,
 			FileSerializer fileSerializer, ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 			: base(parentElementFolder, id, idChangedNotificationReceiver, personFileType,
-				componentFileFactory, fileSerializer, prjElementComponentFileFactory)
+				componentFileFactory, null, fileSerializer, prjElementComponentFileFactory)
 		{
 			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue("status", null)))
 			{

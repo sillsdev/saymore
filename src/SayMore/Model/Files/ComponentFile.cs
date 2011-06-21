@@ -13,11 +13,54 @@ using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Archiving;
 
 namespace SayMore.Model.Files
 {
+	public class TranscriptionComponentFile : ComponentFile
+	{
+		public new delegate TranscriptionComponentFile Factory(
+			ProjectElement parentElement, string pathToAnnotationFile);
+
+		/// ------------------------------------------------------------------------------------
+		public TranscriptionComponentFile(ProjectElement parentElement, string pathToAnnotationFile,
+			TextTranscriptionFileType fileType)
+			: base(parentElement, pathToAnnotationFile, fileType, null, null, null)
+		{
+			// The annotated file is the same as the annotation file.
+			PathToAnnotatedFile = pathToAnnotationFile;
+			InitializeFileInfo();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override int DisplayIndentLevel
+		{
+			get { return 1; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Save()
+		{
+			//Save(_metaDataPath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Save(string path)
+		{
+			//_metaDataPath = path;
+			//_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Load()
+		{
+			//_fileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
+			//_fileSerializer.Load(/*TODO this.Work, */ MetaDataFieldValues, _metaDataPath, RootElementName);
+		}
+	}
+
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Both events and people are made up of a number of files: an xml file we help them
@@ -112,8 +155,7 @@ namespace SayMore.Model.Files
 			InitializeFileInfo();
 		}
 
-		[Obsolete("For Mocking Only")]
-		public ComponentFile(){}
+		[Obsolete("For Mocking Only")]	    public ComponentFile(){}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -180,21 +222,6 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the full path to the folder where transcriptions are stored for the
-		/// component file. If the file type of the component file is not one that can have
-		/// transcriptions, then null is returned.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string GetTranscriptionFolderName()
-		{
-			if (!GetCanHaveTranscriptionFile())
-				return null;
-
-			return PathToAnnotatedFile + "_transcription";
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets the full path to the transcription file for the component file. If the file
 		/// type of the component file is not one that can have transcriptions, then null is
 		/// returned.
@@ -205,8 +232,66 @@ namespace SayMore.Model.Files
 			if (!GetCanHaveTranscriptionFile())
 				return null;
 
-			var filename = Path.GetFileName(PathToAnnotatedFile);
-			return Path.Combine(GetTranscriptionFolderName(), filename + ".eaf");
+			var template = "{0}.transcription" + Settings.Default.TextTranscriptionFileExtension;
+			return string.Format(template, PathToAnnotatedFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetDoesHaveTranscriptionFile()
+		{
+			return (GetCanHaveTranscriptionFile() && File.Exists(GetPathToTranscriptionFile()));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void CreateTranscriptionFile(Action<string> refreshAction)
+		{
+			using (var dlg = new OpenFileDialog())
+			{
+				var caption = LocalizationManager.LocalizeString(
+					"ComponentFile.LoadSegmentFileDlgCaption", "Select Segment File");
+
+				dlg.Title = caption;
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
+				dlg.Multiselect = false;
+
+				dlg.Filter = "Audacity Label File (*.txt)|*.txt|ELAN File (*.eaf)|*.eaf|All Files (*.*)|*.*";
+
+				if (dlg.ShowDialog() != DialogResult.OK)
+					return;
+
+				CreateTranscriptionFileFromSegmentFile(dlg.FileName);
+
+				if (refreshAction != null)
+					refreshAction(GetPathToTranscriptionFile());
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CreateTranscriptionFileFromSegmentFile(string segmentFile)
+		{
+			IEnumerable<ITier> tiers;
+
+			if (!EafFileHelper.GetIsElanFile(segmentFile))
+			{
+				tiers = new AudacityLabelHelper(File.ReadAllLines(segmentFile),
+					PathToAnnotatedFile).GetTiers();
+			}
+			else
+			{
+				// REVIEW: What if media file in eaf file is different from _file.PathToAnnotatedFile?
+				tiers = new EafFileHelper(segmentFile, PathToAnnotatedFile).GetTiers();
+			}
+
+			var eaf = new EafFileHelper(GetPathToTranscriptionFile(), PathToAnnotatedFile);
+			eaf.Save(tiers.First(t => t.DataType == TierType.Audio ||
+				t.DataType == TierType.Video), tiers.Where(t => t.DataType == TierType.Text));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual int DisplayIndentLevel
+		{
+			get { return 0; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -497,7 +582,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ToolStripItem> GetMenuCommands(Action refreshAction)
+		public IEnumerable<ToolStripItem> GetMenuCommands(Action<string> refreshAction)
 		{
 			foreach (var cmd in FileType.GetCommands(PathToAnnotatedFile))
 			{
@@ -506,7 +591,7 @@ namespace SayMore.Model.Files
 					yield return new ToolStripSeparator();
 				else
 				{
-					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) =>
+					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (s, e) =>
 					{
 						if (PreFileCommandAction != null)
 							PreFileCommandAction();
@@ -514,7 +599,7 @@ namespace SayMore.Model.Files
 						cmd1.Action(PathToAnnotatedFile);
 
 						if (refreshAction != null)
-							refreshAction();
+							refreshAction(PathToAnnotatedFile);
 
 						if (PostFileCommandAction != null)
 							PostFileCommandAction();
@@ -536,7 +621,7 @@ namespace SayMore.Model.Files
 
 				string label = string.Format("Rename For {0}", role.Name);
 				var role1 = role;
-				var toolStripMenuItem = new ToolStripMenuItem(label, null, (sender, args) =>
+				var toolStripMenuItem = new ToolStripMenuItem(label, null, (s, e) =>
 				{
 					if (PreRenameAction != null)
 						PreRenameAction();
@@ -544,7 +629,7 @@ namespace SayMore.Model.Files
 					AssignRole(role1);
 
 					if (refreshAction != null)
-						refreshAction();
+						refreshAction(PathToAnnotatedFile);
 
 					if (PostRenameAction != null)
 						PostRenameAction();
@@ -558,7 +643,7 @@ namespace SayMore.Model.Files
 
 			if (!(this is ProjectElementComponentFile))
 			{
-				yield return new ToolStripMenuItem("Custom Rename...", null, (sender, args) =>
+				yield return new ToolStripMenuItem("Custom Rename...", null, (s, e) =>
 				{
 					if (PreRenameAction != null)
 						PreRenameAction();
@@ -566,12 +651,19 @@ namespace SayMore.Model.Files
 					DoCustomRename();
 
 					if (refreshAction != null)
-						refreshAction();
+						refreshAction(PathToAnnotatedFile);
 
 					if (PostRenameAction != null)
 						PostRenameAction();
 
 				}) { Tag = "rename" };
+			}
+
+			if (GetCanHaveTranscriptionFile())
+			{
+				yield return new ToolStripSeparator();
+				yield return new ToolStripMenuItem("Creat Annotation File...", null,
+					(s, e) => CreateTranscriptionFile(refreshAction)) { Enabled = !GetDoesHaveTranscriptionFile() };
 			}
 		}
 

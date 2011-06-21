@@ -40,11 +40,12 @@ namespace SayMore.Model
 		public Event(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver,
 			EventFileType eventFileType, ComponentFile.Factory componentFileFactory,
+			TranscriptionComponentFile.Factory transcriptionFileFactory,
 			FileSerializer fileSerializer, ProjectElementComponentFile.Factory prjElementComponentFileFactory,
 			IEnumerable<ComponentRole> componentRoles,
 			PersonInformant personInformant)
 			: base(parentElementFolder, id, idChangedNotificationReceiver, eventFileType,
-				componentFileFactory, fileSerializer, prjElementComponentFileFactory)
+				componentFileFactory, transcriptionFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
 			_componentRoles = componentRoles;
 			_personInformant = personInformant;

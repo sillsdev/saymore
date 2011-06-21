@@ -39,14 +39,9 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override void Save()
-		{
-			Save(PathToAnnotatedFile);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public override void Save(string path)
 		{
+			// path is ignored.
 			_eafFileHelper.Save(Tiers.First(t => t.DataType == TierType.Audio ||
 				t.DataType == TierType.Video), Tiers.Where(t => t.DataType == TierType.Text));
 		}

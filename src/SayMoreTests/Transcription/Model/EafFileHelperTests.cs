@@ -108,7 +108,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void CreateMediaDescriptorElement_ReturnsCorrectElementContent()
 		{
-			var element = new EafFileHelper(null, "Alathea.wav").CreateMediaDescriptorElement();
+			var element = new EafFileHelper(null, @"c:\My\Folk\Music\Alathea.wav").CreateMediaDescriptorElement();
 			Assert.AreEqual("MEDIA_DESCRIPTOR", element.Name.LocalName);
 			Assert.AreEqual("Alathea.wav", element.Attribute("MEDIA_URL").Value);
 			Assert.AreEqual("audio/x-wav", element.Attribute("MIME_TYPE").Value);

@@ -7,7 +7,7 @@ using SayMore.Transcription.Model;
 namespace SayMoreTests.Transcription.Model
 {
 	[TestFixture]
-	public class EafFileTests
+	public class EafFileHelperTests
 	{
 		private EafFileHelper _eafFile;
 		private AudioTier _mediaTier;

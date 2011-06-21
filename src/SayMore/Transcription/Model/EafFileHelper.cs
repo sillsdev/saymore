@@ -147,7 +147,7 @@ namespace SayMore.Transcription.Model
 		public XElement CreateMediaDescriptorElement()
 		{
 			return new XElement("MEDIA_DESCRIPTOR",
-				new XAttribute("MEDIA_URL", MediaFileName),
+				new XAttribute("MEDIA_URL", Path.GetFileName(MediaFileName)),
 				new XAttribute("MIME_TYPE", CreateMediaFileMimeType()));
 		}
 

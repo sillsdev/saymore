@@ -138,6 +138,20 @@ namespace SayMore.Transcription.UI
 		void HandleGridScroll(object sender, ScrollEventArgs e)
 		{
 			LocatePlayer(_grid.CurrentCellAddress.Y, false);
+
+			if (_grid.RowCount == 0)
+				return;
+
+			// Sometimes when the grid scrolls and empty space below the last row is the result,
+			// a stray image of the player gets left behind. Therefore, invalidate that blank
+			// area of the grid to get rid of that image.
+			var rc = _grid.GetRowDisplayRectangle(_grid.RowCount - 1, false);
+			if (rc.Bottom > _grid.ClientRectangle.Bottom)
+				return;
+
+			rc.Y = rc.Bottom + 1;
+			rc.Height = _grid.ClientRectangle.Bottom - rc.Y;
+			_grid.Invalidate(rc);
 		}
 
 		/// ------------------------------------------------------------------------------------

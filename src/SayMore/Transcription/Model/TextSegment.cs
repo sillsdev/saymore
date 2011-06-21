@@ -23,5 +23,11 @@ namespace SayMore.Transcription.Model
 		{
 			_text = text;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return GetText();
+		}
 	}
 }

@@ -80,6 +80,8 @@ namespace SayMore
 				builder.RegisterType<EventFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
 
+				builder.RegisterType<TextTranscriptionFileType>().InstancePerLifetimeScope();
+
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(GetFilesTypes).InstancePerLifetimeScope();
 

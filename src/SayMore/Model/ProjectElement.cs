@@ -39,6 +39,7 @@ namespace SayMore.Model
 		/// <param name="id">e.g. "ETR007"</param>
 		/// <param name="idChangedNotificationReceiver"></param>
 		/// <param name="componentFileFactory"></param>
+		/// <param name="transcriptionFileFactory"></param>
 		/// <param name="fileSerializer">used to load/save</param>
 		/// <param name="fileType"></param>
 		/// <param name="prjElementComponentFileFactory"></param>

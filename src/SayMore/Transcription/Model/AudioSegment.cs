@@ -16,5 +16,12 @@ namespace SayMore.Transcription.Model
 			MediaStart = start;
 			MediaLength = length;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return string.Format("{0};  Start={1};  Length={2}",
+				MediaFile, MediaStart, MediaLength);
+		}
 	}
 }

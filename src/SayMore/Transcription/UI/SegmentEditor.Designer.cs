@@ -61,7 +61,6 @@ namespace SayMore.Transcription.UI
 			this._buttonLoadSegFile.TabIndex = 3;
 			this._buttonLoadSegFile.Text = "Load Segment File...";
 			this._buttonLoadSegFile.UseVisualStyleBackColor = true;
-			this._buttonLoadSegFile.Click += new System.EventHandler(this.HandleLoadSegmentFileClick);
 			// 
 			// SegmentEditor
 			// 

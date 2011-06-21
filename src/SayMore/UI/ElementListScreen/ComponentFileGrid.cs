@@ -204,7 +204,7 @@ namespace SayMore.UI.ElementListScreen
 			const TextFormatFlags flags = TextFormatFlags.EndEllipsis | TextFormatFlags.VerticalCenter;
 			TextRenderer.DrawText(e.Graphics, e.Value as string, e.CellStyle.Font, rc, clrFore, flags);
 
-			if (selected)
+			if (selected && _grid.Focused)
 			{
 				rc = e.CellBounds;
 				using (var pen = new Pen(_grid.FullRowFocusRectangleColor))

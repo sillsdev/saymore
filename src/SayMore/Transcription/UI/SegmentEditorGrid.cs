@@ -19,7 +19,6 @@ namespace SayMore.Transcription.UI
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 			DefaultCellStyle.SelectionBackColor =
 				ColorHelper.CalculateColor(Color.White, DefaultCellStyle.SelectionBackColor, 140);
-
 		}
 
 		/// ------------------------------------------------------------------------------------

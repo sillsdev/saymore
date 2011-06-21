@@ -122,6 +122,7 @@
     <Compile Include="Model\Files\FieldUpdater.cs" />
     <Compile Include="Model\Files\FileCommand.cs" />
     <Compile Include="Model\Files\MediaFileInfo.cs" />
+    <Compile Include="Model\Files\TranscriptionComponentFile.cs" />
     <Compile Include="Model\Files\UnknownFileType.cs" />
     <Compile Include="Model\Files\FileSerializer.cs" />
     <Compile Include="Model\Files\ProjectElementComponentFile.cs" />

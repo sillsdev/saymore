@@ -9,7 +9,7 @@ namespace SayMoreTests.Transcription.Model
 	[TestFixture]
 	public class EafFileTests
 	{
-		private EafFile _eafFile;
+		private EafFileHelper _eafFile;
 		private AudioTier _mediaTier;
 		private TextTier _textTier;
 
@@ -17,7 +17,7 @@ namespace SayMoreTests.Transcription.Model
 		[SetUp]
 		public void Setup()
 		{
-			_eafFile = new EafFile(null, null);
+			_eafFile = new EafFileHelper(null, null);
 
 			_mediaTier = new AudioTier("teetering tier", "Fleet Foxes.mp3");
 			_mediaTier.AddSegment(2f, 4f);
@@ -108,7 +108,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void CreateMediaDescriptorElement_ReturnsCorrectElementContent()
 		{
-			var element = new EafFile(null, "Alathea.wav").CreateMediaDescriptorElement();
+			var element = new EafFileHelper(null, "Alathea.wav").CreateMediaDescriptorElement();
 			Assert.AreEqual("MEDIA_DESCRIPTOR", element.Name.LocalName);
 			Assert.AreEqual("Alathea.wav", element.Attribute("MEDIA_URL").Value);
 			Assert.AreEqual("audio/x-wav", element.Attribute("MIME_TYPE").Value);
@@ -118,21 +118,21 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void CreateMediaFileMimeType_WaveFile_ReturnsProperMimeType()
 		{
-			Assert.AreEqual("audio/x-wav", new EafFile(null, "Alathea.wav").CreateMediaFileMimeType());
+			Assert.AreEqual("audio/x-wav", new EafFileHelper(null, "Alathea.wav").CreateMediaFileMimeType());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void CreateMediaFileMimeType_Mp3File_ReturnsProperMimeType()
 		{
-			Assert.AreEqual("audio/*", new EafFile(null, "Alathea.mp3").CreateMediaFileMimeType());
+			Assert.AreEqual("audio/*", new EafFileHelper(null, "Alathea.mp3").CreateMediaFileMimeType());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void CreateHeaderElement_ReturnsCorrectElementContent()
 		{
-			var element = new EafFile(null, "Great Lake Swimmers.wav").CreateHeaderElement();
+			var element = new EafFileHelper(null, "Great Lake Swimmers.wav").CreateHeaderElement();
 			Assert.AreEqual("HEADER", element.Name.LocalName);
 			Assert.AreEqual(string.Empty, element.Attribute("MEDIA_FILE").Value);
 			Assert.AreEqual("milliseconds", element.Attribute("TIME_UNITS").Value);

@@ -1059,5 +1059,14 @@ namespace SayMore.Properties {
                 this["SegmentGrid"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".eaf")]
+        public string TextTranscriptionFileExtension {
+            get {
+                return ((string)(this["TextTranscriptionFileExtension"]));
+            }
+        }
     }
 }

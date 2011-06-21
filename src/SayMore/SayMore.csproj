@@ -137,7 +137,7 @@
     <Compile Include="Model\Event.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelper.cs" />
     <Compile Include="Transcription\Model\AudioTier.cs" />
-    <Compile Include="Transcription\Model\EafFile.cs" />
+    <Compile Include="Transcription\Model\EafFileHelper.cs" />
     <Compile Include="Transcription\Model\ISegment.cs" />
     <Compile Include="Transcription\Model\ITier.cs" />
     <Compile Include="Transcription\Model\AudioSegment.cs" />
@@ -711,6 +711,7 @@
     <None Include="Resources\PlaySegment_Hot.png" />
     <None Include="Resources\StopSegment.png" />
     <None Include="Resources\StopSegment_Hot.PNG" />
+    <None Include="Resources\ArrowToSubordinateFile.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

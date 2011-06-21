@@ -7,13 +7,13 @@ using System.Xml.Linq;
 
 namespace SayMore.Transcription.Model
 {
-	public class EafFile
+	public class EafFileHelper
 	{
 		public string MediaFileName { get; private set; }
 		public string EafFileName { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public EafFile(string eafFileName, string mediaFileName)
+		public EafFileHelper(string eafFileName, string mediaFileName)
 		{
 			EafFileName = eafFileName;
 			MediaFileName = mediaFileName;
@@ -69,7 +69,7 @@ namespace SayMore.Transcription.Model
 
 		#endregion
 
-		///// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		private float AddFloats(float x, float y)
 		{
 			return (float)((decimal)x + (decimal)y);

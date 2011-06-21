@@ -19,48 +19,6 @@ using SayMore.UI.Archiving;
 
 namespace SayMore.Model.Files
 {
-	public class TranscriptionComponentFile : ComponentFile
-	{
-		public new delegate TranscriptionComponentFile Factory(
-			ProjectElement parentElement, string pathToAnnotationFile);
-
-		/// ------------------------------------------------------------------------------------
-		public TranscriptionComponentFile(ProjectElement parentElement, string pathToAnnotationFile,
-			TextTranscriptionFileType fileType)
-			: base(parentElement, pathToAnnotationFile, fileType, null, null, null)
-		{
-			// The annotated file is the same as the annotation file.
-			PathToAnnotatedFile = pathToAnnotationFile;
-			InitializeFileInfo();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override int DisplayIndentLevel
-		{
-			get { return 1; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override void Save()
-		{
-			//Save(_metaDataPath);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override void Save(string path)
-		{
-			//_metaDataPath = path;
-			//_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override void Load()
-		{
-			//_fileSerializer.CreateIfMissing(_metaDataPath, RootElementName);
-			//_fileSerializer.Load(/*TODO this.Work, */ MetaDataFieldValues, _metaDataPath, RootElementName);
-		}
-	}
-
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Both events and people are made up of a number of files: an xml file we help them
@@ -155,7 +113,8 @@ namespace SayMore.Model.Files
 			InitializeFileInfo();
 		}
 
-		[Obsolete("For Mocking Only")]	    public ComponentFile(){}
+		[Obsolete("For Mocking Only")]
+		public ComponentFile(){}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -270,18 +229,10 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private void CreateTranscriptionFileFromSegmentFile(string segmentFile)
 		{
-			IEnumerable<ITier> tiers;
-
-			if (!EafFileHelper.GetIsElanFile(segmentFile))
-			{
-				tiers = new AudacityLabelHelper(File.ReadAllLines(segmentFile),
-					PathToAnnotatedFile).GetTiers();
-			}
-			else
-			{
-				// REVIEW: What if media file in eaf file is different from _file.PathToAnnotatedFile?
-				tiers = new EafFileHelper(segmentFile, PathToAnnotatedFile).GetTiers();
-			}
+			// REVIEW: What if media file in eaf file is different from _file.PathToAnnotatedFile?
+			var tiers = (!EafFileHelper.GetIsElanFile(segmentFile) ?
+				new AudacityLabelHelper(File.ReadAllLines(segmentFile), PathToAnnotatedFile).GetTiers() :
+				new EafFileHelper(segmentFile, PathToAnnotatedFile).GetTiers());
 
 			var eaf = new EafFileHelper(GetPathToTranscriptionFile(), PathToAnnotatedFile);
 			eaf.Save(tiers.First(t => t.DataType == TierType.Audio ||
@@ -662,7 +613,7 @@ namespace SayMore.Model.Files
 			if (GetCanHaveTranscriptionFile())
 			{
 				yield return new ToolStripSeparator();
-				yield return new ToolStripMenuItem("Creat Annotation File...", null,
+				yield return new ToolStripMenuItem("Create Annotation File...", null,
 					(s, e) => CreateTranscriptionFile(refreshAction)) { Enabled = !GetDoesHaveTranscriptionFile() };
 			}
 		}

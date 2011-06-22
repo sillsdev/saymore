@@ -14,13 +14,15 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		public TranscriptionComponentFile(ProjectElement parentElement,
-			string pathToAnnotationFile, TextTranscriptionFileType fileType)
+			string pathToAnnotationFile, TextAnnotationFileType fileType)
 			: base(parentElement, pathToAnnotationFile, fileType, null, null, null)
 		{
 			// The annotated file is the same as the annotation file.
 			PathToAnnotatedFile = pathToAnnotationFile;
 			InitializeFileInfo();
 			Load();
+
+			SmallIcon = Properties.Resources.ElanIcon;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -29,7 +31,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public string GetAssociatedMediaFile()
 		{
-			return PathToAnnotatedFile.Substring(0, PathToAnnotatedFile.Length - ".transcription.eaf".Length);
+			return PathToAnnotatedFile.Substring(0, PathToAnnotatedFile.Length - ".annotations.eaf".Length);
 		}
 
 		/// ------------------------------------------------------------------------------------

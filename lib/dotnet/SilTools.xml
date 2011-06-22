@@ -2408,6 +2408,9 @@
         <member name="M:SilTools.SilGrid.OnDrawFocusRectangle(System.Windows.Forms.DataGridViewCellPaintingEventArgs)">
             --------------------------------------------------------------------------------------------
         </member>
+        <member name="M:SilTools.SilGrid.DrawFocusRectangle(System.Windows.Forms.DataGridViewCellPaintingEventArgs)">
+            ------------------------------------------------------------------------------------
+        </member>
         <member name="M:SilTools.SilGrid.OnRowPostPaint(System.Windows.Forms.DataGridViewRowPostPaintEventArgs)">
             ------------------------------------------------------------------------------------
             <summary>
@@ -2422,19 +2425,21 @@
         <member name="M:SilTools.SilGrid.OnCurrentRowChanged(System.EventArgs)">
             ------------------------------------------------------------------------------------
         </member>
-        <member name="M:SilTools.SilGrid.DrawMessageInCenterOfGrid(System.Drawing.Graphics,System.String)">
+        <member name="M:SilTools.SilGrid.DrawMessageInCenterOfGrid(System.Drawing.Graphics,System.String,System.Int32)">
             ------------------------------------------------------------------------------------
             <summary>
             Draws the specified text in the middle of the grid using 12 point/bold version
-            of the grid's font.
+            of the grid's font. The verticalOffset is how far below the middle of the grid's
+            client area the message is drawn.
             </summary>
             ------------------------------------------------------------------------------------
         </member>
-        <member name="M:SilTools.SilGrid.DrawMessageInCenterOfGrid(System.Drawing.Graphics,System.String,System.Drawing.Font)">
+        <member name="M:SilTools.SilGrid.DrawMessageInCenterOfGrid(System.Drawing.Graphics,System.String,System.Drawing.Font,System.Int32)">
             ------------------------------------------------------------------------------------
             <summary>
             Draws the specified text in the middle of the grid using the specified font. The
-            text will be drawn using the gray font.
+            text will be drawn using the gray font. The verticalOffset is how far below the
+            middle of the grid's client area the message is drawn.
             </summary>
             ------------------------------------------------------------------------------------
         </member>

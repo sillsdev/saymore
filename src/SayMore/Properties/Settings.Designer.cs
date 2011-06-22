@@ -1063,9 +1063,9 @@ namespace SayMore.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(".eaf")]
-        public string TextTranscriptionFileExtension {
+        public string TextAnnotationFileExtension {
             get {
-                return ((string)(this["TextTranscriptionFileExtension"]));
+                return ((string)(this["TextAnnotationFileExtension"]));
             }
         }
     }

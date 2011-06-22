@@ -147,13 +147,13 @@
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
     <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
-    <Compile Include="Transcription\UI\SegmentEditor.cs">
+    <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Transcription\UI\SegmentEditor.designer.cs">
-      <DependentUpon>SegmentEditor.cs</DependentUpon>
+    <Compile Include="Transcription\UI\TextAnnotationEditor.designer.cs">
+      <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\SegmentEditorGrid.cs">
+    <Compile Include="Transcription\UI\TextAnnotationEditorGrid.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Transcription\UI\TextTranscriptionColumn.cs" />
@@ -464,8 +464,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Transcription\UI\SegmentEditor.resx">
-      <DependentUpon>SegmentEditor.cs</DependentUpon>
+    <EmbeddedResource Include="Transcription\UI\TextAnnotationEditor.resx">
+      <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Archiving\ArchivingDlg.resx">
       <DependentUpon>ArchivingDlg.cs</DependentUpon>
@@ -712,7 +712,7 @@
     <None Include="Resources\PlaySegment_Hot.png" />
     <None Include="Resources\StopSegment.png" />
     <None Include="Resources\StopSegment_Hot.PNG" />
-    <None Include="Resources\ArrowToSubordinateFile.png" />
+    <None Include="Resources\ElanIcon.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

@@ -326,7 +326,7 @@
     <Setting Name="SegmentGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="TextTranscriptionFileExtension" Type="System.String" Scope="Application">
+    <Setting Name="TextAnnotationFileExtension" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.eaf</Value>
     </Setting>
   </Settings>

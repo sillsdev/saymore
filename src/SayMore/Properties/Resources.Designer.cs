@@ -67,13 +67,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap ArrowToSubordinateFile {
-            get {
-                object obj = ResourceManager.GetObject("ArrowToSubordinateFile", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap AudioComponentFileImage {
             get {
                 object obj = ResourceManager.GetObject("AudioComponentFileImage", resourceCulture);
@@ -154,6 +147,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap DropDownArrow {
             get {
                 object obj = ResourceManager.GetObject("DropDownArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ElanIcon {
+            get {
+                object obj = ResourceManager.GetObject("ElanIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

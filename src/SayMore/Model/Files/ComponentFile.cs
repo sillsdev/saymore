@@ -173,7 +173,7 @@ namespace SayMore.Model.Files
 		/// Gets a value indicating whether or not the component file can have transcriptions.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual bool GetCanHaveTranscriptionFile()
+		public virtual bool GetCanHaveAnnotationFile()
 		{
 			return (FileType.IsAudioOrVideo &&
 				".mp3;.wav".Contains(Path.GetExtension(PathToAnnotatedFile)));
@@ -181,28 +181,28 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the full path to the transcription file for the component file. If the file
-		/// type of the component file is not one that can have transcriptions, then null is
-		/// returned.
+		/// Gets the full path to the annotation (i.e. transcription) file for the component
+		/// file. If the file type of the component file is not one that can have
+		/// transcriptions, then null is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string GetPathToTranscriptionFile()
+		public string GetPathToAnnotationFile()
 		{
-			if (!GetCanHaveTranscriptionFile())
+			if (!GetCanHaveAnnotationFile())
 				return null;
 
-			var template = "{0}.transcription" + Settings.Default.TextTranscriptionFileExtension;
+			var template = "{0}.annotations" + Settings.Default.TextAnnotationFileExtension;
 			return string.Format(template, PathToAnnotatedFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetDoesHaveTranscriptionFile()
+		public bool GetDoesHaveAnnotationFile()
 		{
-			return (GetCanHaveTranscriptionFile() && File.Exists(GetPathToTranscriptionFile()));
+			return (GetCanHaveAnnotationFile() && File.Exists(GetPathToAnnotationFile()));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void CreateTranscriptionFile(Action<string> refreshAction)
+		public void CreateAnnotationFile(Action<string> refreshAction)
 		{
 			using (var dlg = new OpenFileDialog())
 			{
@@ -219,22 +219,22 @@ namespace SayMore.Model.Files
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return;
 
-				CreateTranscriptionFileFromSegmentFile(dlg.FileName);
+				CreateAnnotationFileFromSegmentFile(dlg.FileName);
 
 				if (refreshAction != null)
-					refreshAction(GetPathToTranscriptionFile());
+					refreshAction(GetPathToAnnotationFile());
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CreateTranscriptionFileFromSegmentFile(string segmentFile)
+		private void CreateAnnotationFileFromSegmentFile(string segmentFile)
 		{
 			// REVIEW: What if media file in eaf file is different from _file.PathToAnnotatedFile?
 			var tiers = (!EafFileHelper.GetIsElanFile(segmentFile) ?
 				new AudacityLabelHelper(File.ReadAllLines(segmentFile), PathToAnnotatedFile).GetTiers() :
 				new EafFileHelper(segmentFile, PathToAnnotatedFile).GetTiers());
 
-			var eaf = new EafFileHelper(GetPathToTranscriptionFile(), PathToAnnotatedFile);
+			var eaf = new EafFileHelper(GetPathToAnnotationFile(), PathToAnnotatedFile);
 			eaf.Save(tiers.First(t => t.DataType == TierType.Audio ||
 				t.DataType == TierType.Video), tiers.Where(t => t.DataType == TierType.Text));
 		}
@@ -592,7 +592,7 @@ namespace SayMore.Model.Files
 				yield return toolStripMenuItem;
 			}
 
-			if (!(this is ProjectElementComponentFile))
+			if (!(this is ProjectElementComponentFile) && !(this is TranscriptionComponentFile))
 			{
 				yield return new ToolStripMenuItem("Custom Rename...", null, (s, e) =>
 				{
@@ -610,11 +610,11 @@ namespace SayMore.Model.Files
 				}) { Tag = "rename" };
 			}
 
-			if (GetCanHaveTranscriptionFile())
+			if (GetCanHaveAnnotationFile())
 			{
 				yield return new ToolStripSeparator();
 				yield return new ToolStripMenuItem("Create Annotation File...", null,
-					(s, e) => CreateTranscriptionFile(refreshAction)) { Enabled = !GetDoesHaveTranscriptionFile() };
+					(s, e) => CreateAnnotationFile(refreshAction)) { Enabled = !GetDoesHaveAnnotationFile() };
 			}
 		}
 

@@ -260,7 +260,7 @@ namespace SayMoreTests.Model.Files
 		public void GetCanHaveTranscriptionFile_IsNotMediaFile_ReturnsFalse()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			Assert.IsFalse(f.GetCanHaveTranscriptionFile());
+			Assert.IsFalse(f.GetCanHaveAnnotationFile());
 		}
 
 		[Test]
@@ -268,7 +268,7 @@ namespace SayMoreTests.Model.Files
 		public void GetCanHaveTranscriptionFile_IsWaveFile_ReturnsTrue()
 		{
 			var f = CreateAudioComponentFile("abc.wav");
-			Assert.IsTrue(f.GetCanHaveTranscriptionFile());
+			Assert.IsTrue(f.GetCanHaveAnnotationFile());
 		}
 
 		[Test]
@@ -276,7 +276,7 @@ namespace SayMoreTests.Model.Files
 		public void GetCanHaveTranscriptionFile_IsMp3File_ReturnsTrue()
 		{
 			var f = CreateAudioComponentFile("abc.mp3");
-			Assert.IsTrue(f.GetCanHaveTranscriptionFile());
+			Assert.IsTrue(f.GetCanHaveAnnotationFile());
 		}
 
 		[Test]
@@ -284,7 +284,7 @@ namespace SayMoreTests.Model.Files
 		public void GetPathToTranscriptionFile_IsNotMediaFile_ReturnsNull()
 		{
 			var f = CreateComponentFile("abc.zzz");
-			Assert.IsNull(f.GetPathToTranscriptionFile());
+			Assert.IsNull(f.GetPathToAnnotationFile());
 		}
 
 		[Test]
@@ -293,8 +293,8 @@ namespace SayMoreTests.Model.Files
 		{
 			var f = CreateAudioComponentFile("abc.wav");
 			var expected = Path.GetDirectoryName(f.PathToAnnotatedFile);
-			expected = Path.Combine(expected, "abc.wav.transcription.eaf");
-			Assert.AreEqual(expected, f.GetPathToTranscriptionFile());
+			expected = Path.Combine(expected, "abc.wav.annotations.eaf");
+			Assert.AreEqual(expected, f.GetPathToAnnotationFile());
 		}
 
 		[Test]
@@ -303,34 +303,34 @@ namespace SayMoreTests.Model.Files
 		{
 			var f = CreateAudioComponentFile("abc.mp3");
 			var expected = Path.GetDirectoryName(f.PathToAnnotatedFile);
-			expected = Path.Combine(expected, "abc.mp3.transcription.eaf");
-			Assert.AreEqual(expected, f.GetPathToTranscriptionFile());
+			expected = Path.Combine(expected, "abc.mp3.annotations.eaf");
+			Assert.AreEqual(expected, f.GetPathToAnnotationFile());
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetDoesHaveTranscriptionFile_IsNotMediaFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreateComponentFile("abc.zzz").GetDoesHaveTranscriptionFile());
+			Assert.IsFalse(CreateComponentFile("abc.zzz").GetDoesHaveAnnotationFile());
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetDoesHaveTranscriptionFile_IsMediaFileButDoesNotHaveTransFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreateAudioComponentFile("abc.mp3").GetDoesHaveTranscriptionFile());
-			Assert.IsFalse(CreateAudioComponentFile("abc.wav").GetDoesHaveTranscriptionFile());
+			Assert.IsFalse(CreateAudioComponentFile("abc.mp3").GetDoesHaveAnnotationFile());
+			Assert.IsFalse(CreateAudioComponentFile("abc.wav").GetDoesHaveAnnotationFile());
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
 		public void GetDoesHaveTranscriptionFile_IsMediaFileAndHasTransFile_ReturnsTrue()
 		{
-			File.CreateText(Path.Combine(_parentFolder.Path, "abc.wav.transcription.eaf")).Close();
-			File.CreateText(Path.Combine(_parentFolder.Path, "abc.mp3.transcription.eaf")).Close();
+			File.CreateText(Path.Combine(_parentFolder.Path, "abc.wav.annotations.eaf")).Close();
+			File.CreateText(Path.Combine(_parentFolder.Path, "abc.mp3.annotations.eaf")).Close();
 
-			Assert.IsTrue(CreateAudioComponentFile("abc.mp3").GetDoesHaveTranscriptionFile());
-			Assert.IsTrue(CreateAudioComponentFile("abc.wav").GetDoesHaveTranscriptionFile());
+			Assert.IsTrue(CreateAudioComponentFile("abc.mp3").GetDoesHaveAnnotationFile());
+			Assert.IsTrue(CreateAudioComponentFile("abc.wav").GetDoesHaveAnnotationFile());
 		}
 
 		private ComponentFile CreateAudioComponentFile(string filename)

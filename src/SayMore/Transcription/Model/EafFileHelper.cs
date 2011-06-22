@@ -41,6 +41,9 @@ namespace SayMore.Transcription.Model
 
 			var root = XElement.Load(EafFileName);
 
+			if (root.Name.LocalName != "ANNOTATION_DOCUMENT")
+				return new ITier[] { };
+
 			var timeSlots = root.Element("TIME_ORDER").Elements("TIME_SLOT").ToDictionary(
 				e => e.Attribute("TIME_SLOT_ID").Value,
 				e => (float)(int.Parse(e.Attribute("TIME_VALUE").Value) / (decimal)1000));

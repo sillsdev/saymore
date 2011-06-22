@@ -255,8 +255,16 @@ namespace SayMoreTests.Model
 		[Category("SkipOnTeamCity")]
 		public void GetShowAsComponentFile_IsElanPrefFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("carrots.pfsx"));
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("CARROTS.PFSX"));
+			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("carrots.wav.pfsx"));
+			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("CARROTS.WAV.PFSX"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetShowAsComponentFile_IsAnnotationFile_ReturnsFalse()
+		{
+			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("peas.mp3.eaf"));
+			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("PEAS.MP3.EAF"));
 		}
 
 		[Test]

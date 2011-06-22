@@ -85,10 +85,21 @@ namespace SayMore.Model
 			var otherFiles = from f in Directory.GetFiles(FolderPath, "*.*")
 							 where GetShowAsComponentFile(f)
 							 orderby f
-							 select CreateComponentFile(f);
+							 select _componentFileFactory(this, f);
 
 			foreach (var file in otherFiles)
+			{
 				yield return file;
+
+				var annotationFilePath = file.GetSuggestedPathToAnnotationFile();
+
+				if (_transcriptionFileFactory != null && annotationFilePath != null &&
+					File.Exists(annotationFilePath))
+				{
+					file.SetAnnotationFile(_transcriptionFileFactory(this, annotationFilePath));
+					yield return file.GetAnnotationFile();
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,15 +112,8 @@ namespace SayMore.Model
 				!path.EndsWith(Settings.Default.MetadataFileExtension) &&
 				!path.EndsWith("thumbs.db") &&
 				!path.EndsWith(".pfsx") &&
+				!path.EndsWith(".eaf") &&
 				!Path.GetFileName(path).StartsWith("."); //these are normally hidden
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual ComponentFile CreateComponentFile(string filePath)
-		{
-			return (_transcriptionFileFactory != null &&
-				filePath.ToLower().EndsWith(Settings.Default.TextAnnotationFileExtension.ToLower()) ?
-					_transcriptionFileFactory(this, filePath) : _componentFileFactory(this, filePath));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -56,6 +56,7 @@ namespace SayMore.Model.Files
 		public event ValueChangedHandler IdChanged;
 		public event ValueChangedHandler MetadataValueChanged;
 
+		private TranscriptionComponentFile _annotationFile;
 		protected IEnumerable<ComponentRole> _componentRoles;
 		protected FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
@@ -181,12 +182,12 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the full path to the annotation (i.e. transcription) file for the component
-		/// file. If the file type of the component file is not one that can have
-		/// transcriptions, then null is returned.
+		/// Gets the full path of to the component file's annotation file, even if the file
+		/// doesn't exist. If the component file is not of a type that can have an annotation
+		/// file, then null is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string GetPathToAnnotationFile()
+		public string GetSuggestedPathToAnnotationFile()
 		{
 			if (!GetCanHaveAnnotationFile())
 				return null;
@@ -198,7 +199,21 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool GetDoesHaveAnnotationFile()
 		{
-			return (GetCanHaveAnnotationFile() && File.Exists(GetPathToAnnotationFile()));
+			return (GetCanHaveAnnotationFile() && GetAnnotationFile() != null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TranscriptionComponentFile GetAnnotationFile()
+		{
+			return (_annotationFile != null && File.Exists(_annotationFile.PathToAnnotatedFile) ?
+				_annotationFile : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetAnnotationFile(TranscriptionComponentFile annotationFile)
+		{
+			_annotationFile = (annotationFile != null &&
+				File.Exists(annotationFile.PathToAnnotatedFile) ? annotationFile : null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -222,7 +237,7 @@ namespace SayMore.Model.Files
 				CreateAnnotationFileFromSegmentFile(dlg.FileName);
 
 				if (refreshAction != null)
-					refreshAction(GetPathToAnnotationFile());
+					refreshAction(GetSuggestedPathToAnnotationFile());
 			}
 		}
 
@@ -234,7 +249,7 @@ namespace SayMore.Model.Files
 				new AudacityLabelHelper(File.ReadAllLines(segmentFile), PathToAnnotatedFile).GetTiers() :
 				new EafFileHelper(segmentFile, PathToAnnotatedFile).GetTiers());
 
-			var eaf = new EafFileHelper(GetPathToAnnotationFile(), PathToAnnotatedFile);
+			var eaf = new EafFileHelper(GetSuggestedPathToAnnotationFile(), PathToAnnotatedFile);
 			eaf.Save(tiers.First(t => t.DataType == TierType.Audio ||
 				t.DataType == TierType.Video), tiers.Where(t => t.DataType == TierType.Text));
 		}
@@ -923,18 +938,26 @@ namespace SayMore.Model.Files
 			if (file.PreDeleteAction != null)
 				file.PreDeleteAction();
 
+			var annotationFile = file.GetAnnotationFile();
+
+			// Delete the file.
 			if (!ConfirmRecycleDialog.Recycle(path))
 				return false;
 
+			// Delete the file's metadata file.
 			var metaPath = path + ".meta";
 			if (File.Exists(metaPath))
 				ConfirmRecycleDialog.Recycle(metaPath);
 
-			if (file is TranscriptionComponentFile)
+			if (annotationFile != null)
 			{
-				var elanPrefFile = Path.ChangeExtension(file.PathToAnnotatedFile, ".pfsx");
-				if (File.Exists(elanPrefFile))
-					ConfirmRecycleDialog.Recycle(elanPrefFile);
+				// If the annotation has an associated ELAN preference file, then delete it.
+				path = Path.ChangeExtension(annotationFile.PathToAnnotatedFile, ".pfsx");
+				if (File.Exists(path))
+					ConfirmRecycleDialog.Recycle(path);
+
+				// Delete the annotation file.
+				ConfirmRecycleDialog.Recycle(annotationFile.PathToAnnotatedFile);
 			}
 
 			return true;

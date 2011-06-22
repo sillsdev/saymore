@@ -495,18 +495,16 @@ namespace SayMore.UI.ElementListScreen
 			if (currFile == null || FileDeletionAction == null)
 				return;
 
-			var annotationFile = (!currFile.GetDoesHaveAnnotationFile() ? null :
-				_files.SingleOrDefault (f => f.PathToAnnotatedFile == currFile.GetPathToAnnotationFile()));
+			var annotationFile = currFile.GetAnnotationFile();
 
 			if (!FileDeletionAction(currFile))
 				return;
 
 			var newList = _files.ToList();
+			newList.Remove(currFile);
 
 			if (annotationFile != null)
 				newList.Remove(annotationFile);
-
-			newList.Remove(currFile);
 
 			if (index == newList.Count)
 				index--;

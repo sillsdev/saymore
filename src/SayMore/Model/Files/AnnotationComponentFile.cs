@@ -5,15 +5,15 @@ using SayMore.Transcription.Model;
 
 namespace SayMore.Model.Files
 {
-	public class TranscriptionComponentFile : ComponentFile
+	public class AnnotationComponentFile : ComponentFile
 	{
-		public new delegate TranscriptionComponentFile Factory(
+		public new delegate AnnotationComponentFile Factory(
 			ProjectElement parentElement, string pathToAnnotationFile);
 
 		private EafFileHelper _eafFileHelper;
 
 		/// ------------------------------------------------------------------------------------
-		public TranscriptionComponentFile(ProjectElement parentElement,
+		public AnnotationComponentFile(ProjectElement parentElement,
 			string pathToAnnotationFile, TextAnnotationFileType fileType)
 			: base(parentElement, pathToAnnotationFile, fileType, null, null, null)
 		{

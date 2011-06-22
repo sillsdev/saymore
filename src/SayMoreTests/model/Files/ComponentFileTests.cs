@@ -345,7 +345,7 @@ namespace SayMoreTests.Model.Files
 			var s = File.CreateText(annotationPath);
 			s.Write("<?xml version=\"1.0\" encoding=\"utf-8\"?><root />");
 			s.Close();
-			var annotationFile = new TranscriptionComponentFile(null, annotationPath, new TextAnnotationFileType(null));
+			var annotationFile = new AnnotationComponentFile(null, annotationPath, new TextAnnotationFileType(null));
 			file.SetAnnotationFile(annotationFile);
 			return file;
 		}

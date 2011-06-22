@@ -9,7 +9,7 @@ namespace SayMore.Transcription.Model
 		public TextTier(string displayName) : base(displayName)
 		{
 			DataType = TierType.Text;
-			GridColumn = new TextTranscriptionColumn(this);
+			GridColumn = new TextAnnotationColumn(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

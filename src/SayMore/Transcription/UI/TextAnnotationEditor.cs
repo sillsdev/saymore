@@ -30,11 +30,11 @@ namespace SayMore.Transcription.UI
 		{
 			base.SetComponentFile(file);
 			file.Load();
-			LoadGrid(file as TranscriptionComponentFile);
+			LoadGrid(file as AnnotationComponentFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void LoadGrid(TranscriptionComponentFile file)
+		private void LoadGrid(AnnotationComponentFile file)
 		{
 			Utils.SetWindowRedraw(_grid, false);
 			_grid.RowCount = 0;
@@ -50,7 +50,7 @@ namespace SayMore.Transcription.UI
 				_grid.Columns.Add(tier.GridColumn);
 				rowCount = Math.Max(rowCount, tier.GetAllSegments().Count());
 
-				var col = tier.GridColumn as TextTranscriptionColumn;
+				var col = tier.GridColumn as TextAnnotationColumn;
 				if (col != null)
 					col.SegmentChangedAction = file.Save;
 			}

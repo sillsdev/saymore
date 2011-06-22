@@ -20,7 +20,7 @@ namespace SayMore.Model
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
 		private readonly ComponentFile.Factory _componentFileFactory;
-		private readonly TranscriptionComponentFile.Factory _transcriptionFileFactory;
+		private readonly AnnotationComponentFile.Factory _transcriptionFileFactory;
 		private string _id;
 
 		public virtual string Id { get { return _id; } }
@@ -46,7 +46,7 @@ namespace SayMore.Model
 		protected ProjectElement(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver, FileType fileType,
 			ComponentFile.Factory componentFileFactory,
-			TranscriptionComponentFile.Factory transcriptionFileFactory,
+			AnnotationComponentFile.Factory transcriptionFileFactory,
 			FileSerializer fileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 		{

@@ -40,7 +40,7 @@ namespace SayMore.Model
 		public Event(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver,
 			EventFileType eventFileType, ComponentFile.Factory componentFileFactory,
-			TranscriptionComponentFile.Factory transcriptionFileFactory,
+			AnnotationComponentFile.Factory transcriptionFileFactory,
 			FileSerializer fileSerializer, ProjectElementComponentFile.Factory prjElementComponentFileFactory,
 			IEnumerable<ComponentRole> componentRoles,
 			PersonInformant personInformant)

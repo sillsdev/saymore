@@ -157,7 +157,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void LocatePlayer(int rowIndex, bool stopPlayingFirst)
 		{
-			if (_grid == null || rowIndex < _grid.FirstDisplayedScrollingRowIndex ||
+			if (_grid == null || rowIndex < 0 || rowIndex < _grid.FirstDisplayedScrollingRowIndex ||
 				rowIndex > _grid.FirstDisplayedScrollingRowIndex + _grid.DisplayedRowCount(false) ||
 				Index < _grid.FirstDisplayedScrollingColumnIndex ||
 				Index > _grid.FirstDisplayedScrollingColumnIndex + _grid.DisplayedColumnCount(false))

@@ -107,6 +107,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\Fields\FieldSerializer.cs" />
+    <Compile Include="Model\Files\AnnotationComponentFile.cs" />
     <Compile Include="Model\Files\DataGathering\BackgroundFileProcessor.cs" />
     <Compile Include="Model\Files\DataGathering\AutoCompleteValueGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\PresetGatherer.cs" />
@@ -122,7 +123,6 @@
     <Compile Include="Model\Files\FieldUpdater.cs" />
     <Compile Include="Model\Files\FileCommand.cs" />
     <Compile Include="Model\Files\MediaFileInfo.cs" />
-    <Compile Include="Model\Files\TranscriptionComponentFile.cs" />
     <Compile Include="Model\Files\UnknownFileType.cs" />
     <Compile Include="Model\Files\FileSerializer.cs" />
     <Compile Include="Model\Files\ProjectElementComponentFile.cs" />
@@ -147,6 +147,7 @@
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
     <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -156,7 +157,6 @@
     <Compile Include="Transcription\UI\TextAnnotationEditorGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Transcription\UI\TextTranscriptionColumn.cs" />
     <Compile Include="Transcription\UI\TierColumnBase.cs" />
     <Compile Include="UI\Archiving\ArchivingDlg.cs">
       <SubType>Form</SubType>

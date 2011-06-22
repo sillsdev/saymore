@@ -5,13 +5,13 @@ using SayMore.Transcription.Model;
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
-	public class TextTranscriptionColumn : TierColumnBase
+	public class TextAnnotationColumn : TierColumnBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public TextTranscriptionColumn(ITier tier) : base(tier)
+		public TextAnnotationColumn(ITier tier) : base(tier)
 		{
 			Debug.Assert(tier.DataType == TierType.Text);
-			Name = "textTranscriptionColumn";
+			Name = "textAnnotationColumn";
 			DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 		}
 

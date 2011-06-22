@@ -56,7 +56,7 @@ namespace SayMore.Model.Files
 		public event ValueChangedHandler IdChanged;
 		public event ValueChangedHandler MetadataValueChanged;
 
-		private TranscriptionComponentFile _annotationFile;
+		private AnnotationComponentFile _annotationFile;
 		protected IEnumerable<ComponentRole> _componentRoles;
 		protected FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
@@ -203,14 +203,14 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TranscriptionComponentFile GetAnnotationFile()
+		public AnnotationComponentFile GetAnnotationFile()
 		{
 			return (_annotationFile != null && File.Exists(_annotationFile.PathToAnnotatedFile) ?
 				_annotationFile : null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetAnnotationFile(TranscriptionComponentFile annotationFile)
+		public void SetAnnotationFile(AnnotationComponentFile annotationFile)
 		{
 			_annotationFile = (annotationFile != null &&
 				File.Exists(annotationFile.PathToAnnotatedFile) ? annotationFile : null);
@@ -607,7 +607,7 @@ namespace SayMore.Model.Files
 				yield return toolStripMenuItem;
 			}
 
-			if (!(this is ProjectElementComponentFile) && !(this is TranscriptionComponentFile))
+			if (!(this is ProjectElementComponentFile) && !(this is AnnotationComponentFile))
 			{
 				yield return new ToolStripMenuItem("Custom Rename...", null, (s, e) =>
 				{

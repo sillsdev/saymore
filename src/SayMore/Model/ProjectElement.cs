@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using Palaso.Code;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
@@ -79,25 +78,38 @@ namespace SayMore.Model
 			// John: Should we cache this?
 			// Ansr: if it proves slow, but then we have to complicate things to keep it up to date.
 
-			//this is the actual person or event data
+			// This is the actual person or event data
 			yield return MetaDataFile;
 
 			//these are the other files we find in the folder
-			var otherFiles = from x in Directory.GetFiles(FolderPath, "*.*")
-							 where (
-								 !x.EndsWith("." + ExtensionWithoutPeriod) &&
-								 !x.EndsWith(Settings.Default.MetadataFileExtension) &&
-								 !x.ToLower().EndsWith("thumbs.db") &&
-								 !Path.GetFileName(x).StartsWith(".")) //these are normally hidden
-							 orderby x
-							 select (_transcriptionFileFactory != null &&
-								x.ToLower().EndsWith(Settings.Default.TextTranscriptionFileExtension.ToLower()) ?
-								_transcriptionFileFactory(this, x) : _componentFileFactory(this, x));
+			var otherFiles = from f in Directory.GetFiles(FolderPath, "*.*")
+							 where GetShowAsComponentFile(f)
+							 orderby f
+							 select CreateComponentFile(f);
 
 			foreach (var file in otherFiles)
-			{
 				yield return file;
-			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetShowAsComponentFile(string filePath)
+		{
+			var path = filePath.ToLower();
+
+			return
+				!path.EndsWith("." + ExtensionWithoutPeriod) &&
+				!path.EndsWith(Settings.Default.MetadataFileExtension) &&
+				!path.EndsWith("thumbs.db") &&
+				!path.EndsWith(".pfsx") &&
+				!Path.GetFileName(path).StartsWith("."); //these are normally hidden
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual ComponentFile CreateComponentFile(string filePath)
+		{
+			return (_transcriptionFileFactory != null &&
+				filePath.ToLower().EndsWith(Settings.Default.TextAnnotationFileExtension.ToLower()) ?
+					_transcriptionFileFactory(this, filePath) : _componentFileFactory(this, filePath));
 		}
 
 		/// ------------------------------------------------------------------------------------

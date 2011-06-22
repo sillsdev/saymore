@@ -8,19 +8,19 @@ using SilTools;
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class SegmentEditor : EditorBase
+	public partial class TextAnnotationEditor : EditorBase
 	{
-		public delegate SegmentEditor Factory(ComponentFile file, string tabText, string imageKey);
+		public delegate TextAnnotationEditor Factory(ComponentFile file, string tabText, string imageKey);
 
-		private readonly SegmentEditorGrid _grid;
+		private readonly TextAnnotationEditorGrid _grid;
 
 		/// ------------------------------------------------------------------------------------
-		public SegmentEditor(ComponentFile file, string tabText, string imageKey)
+		public TextAnnotationEditor(ComponentFile file, string tabText, string imageKey)
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
 			Name = "Segments";
-			_grid = new SegmentEditorGrid();
+			_grid = new TextAnnotationEditorGrid();
 			_tableLayout.Controls.Add(_grid, 0, 0);
 			SetComponentFile(file);
 		}

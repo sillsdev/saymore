@@ -5,10 +5,10 @@ using SilTools;
 
 namespace SayMore.Transcription.UI
 {
-	public class SegmentEditorGrid : SilGrid
+	public class TextAnnotationEditorGrid : SilGrid
 	{
 		/// ------------------------------------------------------------------------------------
-		public SegmentEditorGrid()
+		public TextAnnotationEditorGrid()
 		{
 			Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
 			Margin = new Padding(0);

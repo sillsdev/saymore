@@ -1,6 +1,6 @@
 namespace SayMore.Transcription.UI
 {
-	partial class SegmentEditor
+	partial class TextAnnotationEditor
 	{
 		/// <summary> 
 		/// Required designer variable.

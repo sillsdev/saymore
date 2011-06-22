@@ -140,7 +140,19 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public bool DeleteComponentFile(ComponentFile file)
 		{
-			return DeleteComponentFile(file, true);
+			if (!DeleteComponentFile(file, true))
+				return false;
+
+			if (file.GetDoesHaveAnnotationFile())
+			{
+				var annotationFile = _componentFiles.SingleOrDefault(f =>
+					f.PathToAnnotatedFile == file.GetPathToAnnotationFile());
+
+				if (annotationFile != null)
+					DeleteComponentFile(annotationFile, false);
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -930,6 +930,13 @@ namespace SayMore.Model.Files
 			if (File.Exists(metaPath))
 				ConfirmRecycleDialog.Recycle(metaPath);
 
+			if (file is TranscriptionComponentFile)
+			{
+				var elanPrefFile = Path.ChangeExtension(file.PathToAnnotatedFile, ".pfsx");
+				if (File.Exists(elanPrefFile))
+					ConfirmRecycleDialog.Recycle(elanPrefFile);
+			}
+
 			return true;
 		}
 	}

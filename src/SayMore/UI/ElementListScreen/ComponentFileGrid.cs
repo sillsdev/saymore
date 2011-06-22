@@ -492,11 +492,21 @@ namespace SayMore.UI.ElementListScreen
 			var index = _grid.CurrentCellAddress.Y;
 			var currFile = _files.ElementAt(index);
 
-			if (currFile == null || FileDeletionAction == null || !FileDeletionAction(currFile))
+			if (currFile == null || FileDeletionAction == null)
+				return;
+
+			var annotationFile = (!currFile.GetDoesHaveAnnotationFile() ? null :
+				_files.SingleOrDefault (f => f.PathToAnnotatedFile == currFile.GetPathToAnnotationFile()));
+
+			if (!FileDeletionAction(currFile))
 				return;
 
 			var newList = _files.ToList();
-			newList.RemoveAt(index);
+
+			if (annotationFile != null)
+				newList.Remove(annotationFile);
+
+			newList.Remove(currFile);
 
 			if (index == newList.Count)
 				index--;

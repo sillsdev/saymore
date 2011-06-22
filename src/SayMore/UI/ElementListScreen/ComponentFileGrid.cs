@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -183,11 +184,7 @@ namespace SayMore.UI.ElementListScreen
 			if (file.DisplayIndentLevel == 0)
 				return;
 
-			var img = Resources.ArrowToSubordinateFile;
-			int dx = img.Width * file.DisplayIndentLevel;
-
 			e.Handled = true;
-
 
 			var rc = e.CellBounds;
 			var paintParts = e.PaintParts;
@@ -196,26 +193,33 @@ namespace SayMore.UI.ElementListScreen
 
 			rc = e.CellBounds;
 			rc.Height--;
-			rc.X += (dx + 15);
-			rc.Width -= (dx + 15);
+			int dx = 20 * file.DisplayIndentLevel;
+			rc.X += dx;
+			rc.Width -= dx;
 
 			var selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
 			var clrFore = (selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
 			const TextFormatFlags flags = TextFormatFlags.EndEllipsis | TextFormatFlags.VerticalCenter;
 			TextRenderer.DrawText(e.Graphics, e.Value as string, e.CellStyle.Font, rc, clrFore, flags);
 
-			if (selected && _grid.Focused)
-			{
-				rc = e.CellBounds;
-				using (var pen = new Pen(_grid.FullRowFocusRectangleColor))
-					e.Graphics.DrawLine(pen, rc.X, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
-			}
-
 			rc = e.CellBounds;
-			rc.X += 10;
-			rc.Y += 2;
-			rc.Size = img.Size;
-			e.Graphics.DrawImage(img, rc);
+
+			if (_grid.Focused)
+				_grid.DrawFocusRectangle(e);
+
+			if (ModifierKeys != Keys.Alt)
+			{
+				using (Pen pen = new Pen(ColorHelper.CalculateColor(Color.White, clrFore, 130)))
+				{
+					pen.DashStyle = DashStyle.Dot;
+					e.Graphics.DrawLines(pen, new[]
+					{
+						new Point(rc.X + 10, rc.Y + 1),
+						new Point(rc.X + 10, rc.Y + 1 + (rc.Height / 2)),
+						new Point(rc.X + (dx - 2), rc.Y + 1 + (rc.Height / 2))
+					});
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -270,7 +274,7 @@ namespace SayMore.UI.ElementListScreen
 				_files.ElementAt(_grid.CurrentCellAddress.Y) : null);
 
 			_buttonCreateAnnotationFile.Enabled = (file != null &&
-				file.GetCanHaveTranscriptionFile() && !file.GetDoesHaveTranscriptionFile());
+				file.GetCanHaveAnnotationFile() && !file.GetDoesHaveAnnotationFile());
 
 			if (null != AfterComponentSelected)
 				AfterComponentSelected(_grid.CurrentCellAddress.Y);
@@ -420,7 +424,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleCreateAnnotationFileButtonClick(object sender, EventArgs e)
 		{
-			_files.ElementAt(_grid.CurrentCellAddress.Y).CreateTranscriptionFile(PostMenuCommandRefreshAction);
+			_files.ElementAt(_grid.CurrentCellAddress.Y).CreateAnnotationFile(PostMenuCommandRefreshAction);
 
 			//using (var dlg = new OpenFileDialog())
 			//{

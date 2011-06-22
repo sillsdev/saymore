@@ -80,7 +80,7 @@ namespace SayMore
 				builder.RegisterType<EventFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
 
-				builder.RegisterType<TextTranscriptionFileType>().InstancePerLifetimeScope();
+				builder.RegisterType<TextAnnotationFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(GetFilesTypes).InstancePerLifetimeScope();
@@ -129,7 +129,7 @@ namespace SayMore
 				context.Resolve<AudioFileType>(),
 				context.Resolve<VideoFileType>(),
 				context.Resolve<ImageFileType>(),
-				context.Resolve<TextTranscriptionFileType>(),
+				context.Resolve<TextAnnotationFileType>(),
 				context.Resolve<UnknownFileType>(),
 			});
 		}

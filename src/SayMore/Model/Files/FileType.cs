@@ -451,14 +451,14 @@ namespace SayMore.Model.Files
 
 	#endregion
 
-	#region TextTranscriptionFileType class
+	#region TextAnnotationFileType class
 	/// ----------------------------------------------------------------------------------------
-	public class TextTranscriptionFileType : FileTypeWithContributors
+	public class TextAnnotationFileType : FileTypeWithContributors
 	{
 		/// ------------------------------------------------------------------------------------
-		public TextTranscriptionFileType(Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Text Transcription",
-				f => f.ToLower().EndsWith(Settings.Default.TextTranscriptionFileExtension.ToLower()),
+		public TextAnnotationFileType(Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+			: base("Annotations",
+				f => f.ToLower().EndsWith(Settings.Default.TextAnnotationFileExtension.ToLower()),
 				contributorsEditorFactoryLazy)
 		{
 		}
@@ -466,13 +466,13 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = LocalizationManager.LocalizeString("TextTranscriptionInfoEditor.TranscriptionTabText", "Annotations");
-			yield return new SegmentEditor(file, text, "Annotation");
+			var text = LocalizationManager.LocalizeString("TextAnnotationInfoEditor.AnnotationsTabText", "Annotations");
+			yield return new TextAnnotationEditor(file, text, "Annotation");
 
-			text = LocalizationManager.LocalizeString("TextTranscriptionInfoEditor.Contributors", "Contributors");
+			text = LocalizationManager.LocalizeString("TextAnnotationInfoEditor.Contributors", "Contributors");
 			yield return _contributorsEditorFactoryLazy()(file, text, null);
 
-			text = LocalizationManager.LocalizeString("TextTranscriptionInfoEditor.NotesTabText", "Notes");
+			text = LocalizationManager.LocalizeString("TextAnnotationInfoEditor.NotesTabText", "Notes");
 			yield return new NotesEditor(file, text, "Notes");
 		}
 

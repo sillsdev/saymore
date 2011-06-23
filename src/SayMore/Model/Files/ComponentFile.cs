@@ -658,7 +658,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void RenameAnnotatedFile(string newPath)
+		public virtual void RenameAnnotatedFile(string newPath)
 		{
 			try
 			{
@@ -689,6 +689,9 @@ namespace SayMore.Model.Files
 					File.Move(_metaDataPath, newMetaPath);
 
 				PathToAnnotatedFile = newPath;
+
+				if (_annotationFile != null)
+					_annotationFile.RenameAnnotatedFile(GetSuggestedPathToAnnotationFile());
 			}
 			catch (Exception e)
 			{
@@ -950,15 +953,7 @@ namespace SayMore.Model.Files
 				ConfirmRecycleDialog.Recycle(metaPath);
 
 			if (annotationFile != null)
-			{
-				// If the annotation has an associated ELAN preference file, then delete it.
-				path = Path.ChangeExtension(annotationFile.PathToAnnotatedFile, ".pfsx");
-				if (File.Exists(path))
-					ConfirmRecycleDialog.Recycle(path);
-
-				// Delete the annotation file.
-				ConfirmRecycleDialog.Recycle(annotationFile.PathToAnnotatedFile);
-			}
+				annotationFile.Delete();
 
 			return true;
 		}

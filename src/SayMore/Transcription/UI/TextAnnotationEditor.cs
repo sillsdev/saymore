@@ -1,5 +1,8 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
@@ -29,9 +32,24 @@ namespace SayMore.Transcription.UI
 		public override void SetComponentFile(ComponentFile file)
 		{
 			base.SetComponentFile(file);
+
+			//file.PostFileCommandAction = (() => CheckIfElanHasFile(file as AnnotationComponentFile));
 			file.Load();
 			LoadGrid(file as AnnotationComponentFile);
 		}
+
+		//[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		//internal static extern int GetWindowText (IntPtr hWnd, [Out] StringBuilder lpString, int nMaxCount );
+
+		//private void CheckIfElanHasFile(AnnotationComponentFile file)
+		//{
+		//    var elan = Process.GetProcesses().SingleOrDefault(p => p.ProcessName.ToLower() == "elan");
+		//    if (elan == null)
+		//        return;
+
+		//    var sb = new StringBuilder(256);
+		//    GetWindowText(elan.MainWindowHandle, sb, sb.Capacity);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid(AnnotationComponentFile file)

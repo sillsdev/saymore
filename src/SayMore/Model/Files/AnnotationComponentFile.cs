@@ -1,6 +1,8 @@
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Model.Files
@@ -53,6 +55,32 @@ namespace SayMore.Model.Files
 		{
 			_eafFileHelper = new EafFileHelper(PathToAnnotatedFile, GetAssociatedMediaFile());
 			Tiers = _eafFileHelper.GetTiers();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void RenameAnnotatedFile(string newPath)
+		{
+			var oldPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
+			base.RenameAnnotatedFile(newPath);
+			EafFileHelper.UpdateMediaFileName(PathToAnnotatedFile, GetAssociatedMediaFile());
+
+			if (!File.Exists(oldPfsxFile))
+				return;
+
+			var newPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
+			File.Move(oldPfsxFile, newPfsxFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Delete()
+		{
+			// If the annotation has an associated ELAN preference file, then delete it.
+			var path = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
+			if (File.Exists(path))
+				ConfirmRecycleDialog.Recycle(path);
+
+			// Delete this annotation file.
+			ConfirmRecycleDialog.Recycle(PathToAnnotatedFile);
 		}
 	}
 }

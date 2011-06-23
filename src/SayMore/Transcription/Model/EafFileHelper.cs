@@ -32,16 +32,35 @@ namespace SayMore.Transcription.Model
 			return false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public static void UpdateMediaFileName(string eafFileName, string mediaFileName)
+		{
+			if (!File.Exists(eafFileName) || !GetIsElanFile(eafFileName))
+				return;
+
+			var helper = new EafFileHelper(eafFileName, mediaFileName);
+			var root = helper.GetRootElement();
+			root.Element("HEADER").Element("MEDIA_DESCRIPTOR").ReplaceWith(helper.CreateMediaDescriptorElement());
+			root.Save(eafFileName);
+		}
+
 		#region Methods for reading an EAF file
+		/// ------------------------------------------------------------------------------------
+		private XElement GetRootElement()
+		{
+			if (!File.Exists(EafFileName))
+				return null;
+
+			var root = XElement.Load(EafFileName);
+			return (root.Name.LocalName == "ANNOTATION_DOCUMENT" ? root : null);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ITier> GetTiers()
 		{
-			if (!File.Exists(EafFileName))
-				return new ITier[] { };
+			var root = GetRootElement();
 
-			var root = XElement.Load(EafFileName);
-
-			if (root.Name.LocalName != "ANNOTATION_DOCUMENT")
+			if (root == null)
 				return new ITier[] { };
 
 			var timeSlots = root.Element("TIME_ORDER").Elements("TIME_SLOT").ToDictionary(

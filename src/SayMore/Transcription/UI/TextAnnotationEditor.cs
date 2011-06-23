@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
@@ -23,7 +24,8 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 			Name = "Segments";
 			_grid = new TextAnnotationEditorGrid();
-			_tableLayout.Controls.Add(_grid, 0, 0);
+			_grid.Dock = DockStyle.Fill;
+			Controls.Add(_grid);
 			SetComponentFile(file);
 		}
 

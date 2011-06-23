@@ -14,6 +14,7 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SayMore.Transcription.UI;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Archiving;
 
@@ -219,18 +220,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void CreateAnnotationFile(Action<string> refreshAction)
 		{
-			using (var dlg = new OpenFileDialog())
+			using (var dlg = new CreateAnnotationFileDlg())
 			{
-				var caption = LocalizationManager.LocalizeString(
-					"ComponentFile.LoadSegmentFileDlgCaption", "Select Segment File");
-
-				dlg.Title = caption;
-				dlg.CheckFileExists = true;
-				dlg.CheckPathExists = true;
-				dlg.Multiselect = false;
-
-				dlg.Filter = "Audacity Label File (*.txt)|*.txt|ELAN File (*.eaf)|*.eaf|All Files (*.*)|*.*";
-
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return;
 

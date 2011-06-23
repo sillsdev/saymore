@@ -94,7 +94,7 @@ namespace SayMore.Transcription.Model
 		public IEnumerable<ITier> GetTiers()
 		{
 			var audioTier = new AudioTier("Original", _mediaFile);
-			var textTier = new TextTier("Annotation");
+			var textTier = new TextTier("Transcription");
 
 			foreach (var label in LabelInfo)
 			{

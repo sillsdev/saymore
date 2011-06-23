@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
@@ -16,6 +14,7 @@ namespace SayMore.Transcription.UI
 		public delegate TextAnnotationEditor Factory(ComponentFile file, string tabText, string imageKey);
 
 		private readonly TextAnnotationEditorGrid _grid;
+		private FileSystemWatcher _watcher;
 
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationEditor(ComponentFile file, string tabText, string imageKey)
@@ -33,30 +32,19 @@ namespace SayMore.Transcription.UI
 		{
 			base.SetComponentFile(file);
 
-			//file.PostFileCommandAction = (() => CheckIfElanHasFile(file as AnnotationComponentFile));
 			file.Load();
-			LoadGrid(file as AnnotationComponentFile);
+			LoadGrid();
+			SetupWatchingForFileChanges();
 		}
 
-		//[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-		//internal static extern int GetWindowText (IntPtr hWnd, [Out] StringBuilder lpString, int nMaxCount );
-
-		//private void CheckIfElanHasFile(AnnotationComponentFile file)
-		//{
-		//    var elan = Process.GetProcesses().SingleOrDefault(p => p.ProcessName.ToLower() == "elan");
-		//    if (elan == null)
-		//        return;
-
-		//    var sb = new StringBuilder(256);
-		//    GetWindowText(elan.MainWindowHandle, sb, sb.Capacity);
-		//}
-
 		/// ------------------------------------------------------------------------------------
-		private void LoadGrid(AnnotationComponentFile file)
+		private void LoadGrid()
 		{
 			Utils.SetWindowRedraw(_grid, false);
 			_grid.RowCount = 0;
 			_grid.Columns.Clear();
+
+			var file = _file as AnnotationComponentFile;
 
 			if (file == null)
 				return;
@@ -80,5 +68,56 @@ namespace SayMore.Transcription.UI
 			if (Settings.Default.SegmentGrid != null)
 				Settings.Default.SegmentGrid.InitializeGrid(_grid);
 		}
+
+		#region Methods for tracking changes to the EAF file outside of SayMore
+		/// ------------------------------------------------------------------------------------
+		void SetupWatchingForFileChanges()
+		{
+			_watcher = new FileSystemWatcher(
+				Path.GetDirectoryName(_file.PathToAnnotatedFile),
+				Path.GetFileName(_file.PathToAnnotatedFile));
+
+			_watcher.IncludeSubdirectories = false;
+			_watcher.EnableRaisingEvents = true;
+			_watcher.Changed += HandleAnnotationFileChanged;
+
+			((AnnotationComponentFile)_file).PreSaveAction = () =>
+			{
+				if (_watcher != null)
+					_watcher.EnableRaisingEvents = false;
+			};
+
+			((AnnotationComponentFile)_file).PostSaveAction = () =>
+			{
+				if (_watcher != null)
+					_watcher.EnableRaisingEvents = true;
+			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleAnnotationFileChanged(object sender, FileSystemEventArgs e)
+		{
+			Invoke(new EventHandler((s, args) =>
+			{
+				_file.Load();
+				LoadGrid();
+			}));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Deactivate()
+		{
+			((AnnotationComponentFile)_file).PostSaveAction = null;
+			((AnnotationComponentFile)_file).PostSaveAction = null;
+
+			if (_watcher != null)
+			{
+				_watcher.Changed -= HandleAnnotationFileChanged;
+				_watcher.Dispose();
+				_watcher = null;
+			}
+		}
+
+		#endregion
 	}
 }

@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace SayMore.Model.Files
 	{
 		public new delegate AnnotationComponentFile Factory(
 			ProjectElement parentElement, string pathToAnnotationFile);
+
+		public Action PreSaveAction;
+		public Action PostSaveAction;
 
 		private EafFileHelper _eafFileHelper;
 
@@ -45,9 +49,15 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override void Save(string path)
 		{
+			if (PreSaveAction != null)
+				PreSaveAction();
+
 			// path is ignored.
 			_eafFileHelper.Save(Tiers.First(t => t.DataType == TierType.Audio ||
 				t.DataType == TierType.Video), Tiers.Where(t => t.DataType == TierType.Text));
+
+			if (PostSaveAction != null)
+				PostSaveAction();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -74,7 +84,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void Delete()
 		{
-			// If the annotation has an associated ELAN preference file, then delete it.
+			// If the annotation file has an associated ELAN preference file, then delete it.
 			var path = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
 			if (File.Exists(path))
 				ConfirmRecycleDialog.Recycle(path);

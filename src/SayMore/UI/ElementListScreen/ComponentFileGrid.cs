@@ -207,18 +207,16 @@ namespace SayMore.UI.ElementListScreen
 			if (_grid.Focused)
 				_grid.DrawFocusRectangle(e);
 
-			if (ModifierKeys != Keys.Alt)
+			// Draw a dotted, right-angle line linking the row to the one above.
+			using (Pen pen = new Pen(ColorHelper.CalculateColor(Color.White, clrFore, 130)))
 			{
-				using (Pen pen = new Pen(ColorHelper.CalculateColor(Color.White, clrFore, 130)))
+				pen.DashStyle = DashStyle.Dot;
+				e.Graphics.DrawLines(pen, new[]
 				{
-					pen.DashStyle = DashStyle.Dot;
-					e.Graphics.DrawLines(pen, new[]
-					{
-						new Point(rc.X + 10, rc.Y + 1),
-						new Point(rc.X + 10, rc.Y + 1 + (rc.Height / 2)),
-						new Point(rc.X + (dx - 2), rc.Y + 1 + (rc.Height / 2))
-					});
-				}
+					new Point(rc.X + 10, rc.Y + 1),
+					new Point(rc.X + 10, rc.Y + 1 + (rc.Height / 2)),
+					new Point(rc.X + (dx - 2), rc.Y + 1 + (rc.Height / 2))
+				});
 			}
 		}
 

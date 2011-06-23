@@ -177,45 +177,91 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		void HandleFileGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
-			if (e.ColumnIndex != 1 || e.RowIndex < 0)
+			if (e.ColumnIndex < 0 || e.ColumnIndex > 1 || e.RowIndex < 0)
 				return;
 
 			var file = _files.ElementAt(e.RowIndex);
-			if (file.DisplayIndentLevel == 0)
-				return;
+
+			if (e.ColumnIndex == 0)
+				DrawIconColumnCell(file.DisplayIndentLevel > 0, e);
+			else if (file.DisplayIndentLevel > 0)
+				DrawIndentedFileName(file, e);
+
+			if (_grid.Focused)
+				_grid.DrawFocusRectangle(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawIndentedFileName(ComponentFile file, DataGridViewCellPaintingEventArgs e)
+		{
+			// TODO: Account for indent levels greater than 1 if we ever need to.
 
 			e.Handled = true;
+
+			var selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
+			var clrFore = (selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
 
 			var rc = e.CellBounds;
 			var paintParts = e.PaintParts;
 			paintParts &= ~DataGridViewPaintParts.ContentForeground;
 			e.Paint(rc, paintParts);
 
+			// Draw the icon.
+			var img = _grid[0, e.RowIndex].Value as Image;
+			rc.X += 8;
+			rc.Y += ((rc.Height - img.Height) / 2);
+			rc.Height = img.Height;
+			rc.Width = img.Width;
+			e.Graphics.DrawImage(img, rc);
+
+			// Draw the file name, indented.
 			rc = e.CellBounds;
+			rc.X += (img.Width + 12);
+			rc.Width -= (img.Width + 12);
 			rc.Height--;
-			int dx = 20 * file.DisplayIndentLevel;
-			rc.X += dx;
-			rc.Width -= dx;
+
+			TextRenderer.DrawText(e.Graphics, e.Value as string, e.CellStyle.Font, rc,
+				clrFore, TextFormatFlags.EndEllipsis | TextFormatFlags.VerticalCenter);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawIconColumnCell(bool drawConnectorLine, DataGridViewCellPaintingEventArgs e)
+		{
+			e.Handled = true;
+			var rc = e.CellBounds;
+			var paintParts = e.PaintParts;
+
+			if (drawConnectorLine)
+				paintParts &= ~DataGridViewPaintParts.ContentForeground;
+
+			e.Paint(rc, paintParts);
 
 			var selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
 			var clrFore = (selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
-			const TextFormatFlags flags = TextFormatFlags.EndEllipsis | TextFormatFlags.VerticalCenter;
-			TextRenderer.DrawText(e.Graphics, e.Value as string, e.CellStyle.Font, rc, clrFore, flags);
+			var clrBack = (selected ? e.CellStyle.SelectionBackColor : e.CellStyle.BackColor);
 
-			rc = e.CellBounds;
+			// Don't paint the border on the right edge of the icon column.
+			using (var pen = new Pen(clrBack))
+			{
+				e.Graphics.DrawLine(pen, new Point(rc.Right - 1, rc.Y),
+					new Point(rc.Right - 1, rc.Bottom));
+			}
 
-			if (_grid.Focused)
-				_grid.DrawFocusRectangle(e);
+			if (!drawConnectorLine)
+				return;
 
 			// Draw a dotted, right-angle line linking the row to the one above.
-			using (Pen pen = new Pen(ColorHelper.CalculateColor(Color.White, clrFore, 130)))
+			using (var pen = new Pen(ColorHelper.CalculateColor(Color.White, clrFore, 130)))
 			{
+				var dx = rc.X + (rc.Width / 2);
+				var dy = rc.Y + (rc.Height / 2) + 1;
+
 				pen.DashStyle = DashStyle.Dot;
 				e.Graphics.DrawLines(pen, new[]
 				{
-					new Point(rc.X + 10, rc.Y + 1),
-					new Point(rc.X + 10, rc.Y + 1 + (rc.Height / 2)),
-					new Point(rc.X + (dx - 2), rc.Y + 1 + (rc.Height / 2))
+					new Point(dx, rc.Y + 1),
+					new Point(dx, dy),
+					new Point(rc.Right, dy)
 				});
 			}
 		}

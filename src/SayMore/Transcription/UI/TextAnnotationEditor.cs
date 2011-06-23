@@ -22,7 +22,7 @@ namespace SayMore.Transcription.UI
 			: base(file, tabText, imageKey)
 		{
 			InitializeComponent();
-			Name = "Segments";
+			Name = "Annotations";
 			_grid = new TextAnnotationEditorGrid();
 			_grid.Dock = DockStyle.Fill;
 			Controls.Add(_grid);

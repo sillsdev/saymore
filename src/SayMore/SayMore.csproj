@@ -147,6 +147,12 @@
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
     <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
+    <Compile Include="Transcription\UI\CreateAnnotationFileDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\CreateAnnotationFileDlg.Designer.cs">
+      <DependentUpon>CreateAnnotationFileDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transcription\UI\TextAnnotationColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
       <SubType>UserControl</SubType>
@@ -464,6 +470,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Transcription\UI\CreateAnnotationFileDlg.resx">
+      <DependentUpon>CreateAnnotationFileDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\TextAnnotationEditor.resx">
       <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
     </EmbeddedResource>

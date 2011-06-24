@@ -121,7 +121,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			var segment = Tier.GetSegment(e.RowIndex) as IMediaSegment;
-			e.Value = _player.GetTimeInfoDisplayText(segment.MediaStart, segment.MediaLength);
+			e.Value = _player.GetRangeTimeInfoDisplayText(segment.MediaStart, segment.MediaLength);
 		}
 
 		/// ------------------------------------------------------------------------------------

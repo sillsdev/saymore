@@ -19,6 +19,7 @@ namespace SayMore.UI.MediaPlayer
 		public Action MediaQueued;
 		public Action VolumeChanged;
 
+		private const string kFmtRangeTimeDisplay = "{0} - {1}";
 		private const string kFmtTimeDisplay = "{0} / {1}";
 		private const string kFmtTime = "{0}.{1:0}";
 
@@ -397,17 +398,45 @@ namespace SayMore.UI.MediaPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Combines two results of MakeTimeString into a display of a the time represented
+		/// by position next to the specified length.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetRangeTimeDisplay(float startPosition, float endPosition)
+		{
+			if (endPosition <= 0)
+				endPosition = GetPlayBackEndPosition();
+
+			if (startPosition > endPosition)
+				startPosition = endPosition;
+
+			return string.Format(kFmtRangeTimeDisplay,
+				MakeTimeString(startPosition), MakeTimeString(endPosition));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static string MakeTimeString(float position)
 		{
-			int seconds = (int)Math.Floor(position);
-			int tenths = (int)Math.Round(((position - seconds) * 10));
-			var span = TimeSpan.FromSeconds(seconds);
+			if (position == 0f)
+				return "00.0";
 
-			var str = span.ToString();
+			var roundedPosition = Math.Round(position, 1, MidpointRounding.AwayFromZero);
+
+			var str = TimeSpan.FromSeconds(roundedPosition).ToString();
+
 			while (str.StartsWith("00:"))
 				str = str.Substring(3);
 
-			return string.Format(kFmtTime, str, tenths);
+			str = str.TrimEnd('0');
+
+			if (str.EndsWith("."))
+				str = str + "0";
+
+			if (!str.Contains("."))
+				str = str + ".0";
+
+			return str;
 		}
 
 		#endregion

@@ -151,9 +151,7 @@ namespace SayMore.Transcription.UI
 
 			var rc = WaveFormRectangle;
 
-			if (_mediaFileNeedsLoading)
-				DrawTimeInfo(e.Graphics, Segment.MediaStart, Segment.MediaLength, rc, ForeColor, BackColor);
-			else
+			if (!_mediaFileNeedsLoading)
 			{
 				// Draw bar indicating playback progress.
 				var rcBar = rc;
@@ -170,7 +168,8 @@ namespace SayMore.Transcription.UI
 						e.Graphics.FillRectangle(br, rcBar);
 				}
 
-				DrawTimeInfo(e.Graphics, _model.GetTimeDisplay(), rc, ForeColor, Color.Transparent);
+				// Uncomment this to update playback position while playing back.
+				//DrawTimeInfo(e.Graphics, _model.GetTimeDisplay(), rc, ForeColor, Color.Transparent);
 
 				//// Draw vertical line indicating where is the playback position.
 				//var pixelsPerSec = rc.Width / Segment.MediaLength;
@@ -183,13 +182,8 @@ namespace SayMore.Transcription.UI
 				//        e.Graphics.DrawLine(pen, rc.Left + dx, rc.Top, rc.Left + dx, rc.Bottom);
 				//}
 			}
-		}
 
-		/// ------------------------------------------------------------------------------------
-		public void DrawTimeInfo(Graphics g, float startPosition, float length, Rectangle rc,
-			Color foreColor, Color backColor)
-		{
-			DrawTimeInfo(g, GetTimeInfoDisplayText(startPosition, length), rc, foreColor, backColor);
+			DrawTimeInfo(e.Graphics, Segment.MediaStart, Segment.MediaLength, rc, ForeColor, Color.Transparent);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -197,6 +191,20 @@ namespace SayMore.Transcription.UI
 		{
 			return _model.GetTimeDisplay(startPosition, (length == 0 ? 0 :
 				(float)((decimal)startPosition + (decimal)length)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetRangeTimeInfoDisplayText(float startPosition, float length)
+		{
+			return _model.GetRangeTimeDisplay(startPosition, (length == 0 ? 0 :
+				(float)((decimal)startPosition + (decimal)length)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DrawTimeInfo(Graphics g, float startPosition, float length, Rectangle rc,
+			Color foreColor, Color backColor)
+		{
+			DrawTimeInfo(g, GetRangeTimeInfoDisplayText(startPosition, length), rc, foreColor, backColor);
 		}
 
 		/// ------------------------------------------------------------------------------------

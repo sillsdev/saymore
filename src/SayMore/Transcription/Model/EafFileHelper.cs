@@ -258,8 +258,8 @@ namespace SayMore.Transcription.Model
 		{
 			// TODO: Fix this.
 			return new XElement("LOCALE",
-				new XAttribute("COUNTRY_CODE", "US"),
-				new XAttribute("LANGUAGE_CODE", "en"));
+				new XAttribute("VARIANT", "IPA Extended"),
+				new XAttribute("LANGUAGE_CODE", "ipa-ext"));
 		}
 
 		#endregion

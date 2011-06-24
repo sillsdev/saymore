@@ -298,8 +298,8 @@ namespace SayMoreTests.Transcription.Model
 		{
 			var element = _eafFile.CreateLocaleElement();
 			Assert.AreEqual("LOCALE", element.Name.LocalName);
-			Assert.AreEqual("US", element.Attribute("COUNTRY_CODE").Value);
-			Assert.AreEqual("en", element.Attribute("LANGUAGE_CODE").Value);
+			Assert.AreEqual("IPA Extended", element.Attribute("VARIANT").Value);
+			Assert.AreEqual("ipa-ext", element.Attribute("LANGUAGE_CODE").Value);
 		}
 	}
 }

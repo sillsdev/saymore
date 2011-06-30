@@ -15,12 +15,33 @@ namespace SayMore.Transcription.Model
 
 		public virtual string DisplayName { get; protected set; }
 		public virtual TierType DataType { get; protected set; }
+		public virtual string Locale { get; protected set; }
 		public virtual TierColumnBase GridColumn { get; protected set; }
+
+		protected readonly List<ITier> _dependentTiers = new List<ITier>();
 
 		/// ------------------------------------------------------------------------------------
 		public TierBase(string displayName)
 		{
 			DisplayName = displayName;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ITier> DependentTiers
+		{
+			get { return _dependentTiers; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void AddDependentTier(ITier tier)
+		{
+			_dependentTiers.Add(tier);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void AddDependentTierRange(IEnumerable<ITier> tiers)
+		{
+			_dependentTiers.AddRange(tiers);
 		}
 
 		/// ------------------------------------------------------------------------------------

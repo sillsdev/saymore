@@ -8,16 +8,24 @@ namespace SayMore.Transcription.Model
 	}
 
 	/// ------------------------------------------------------------------------------------
-	public interface IMediaSegment : ISegment
+	public interface ITimeOrderSegment : ISegment
+	{
+		float Start { get; }
+		float Stop { get; }
+		float GetLength();
+	}
+
+	/// ------------------------------------------------------------------------------------
+	public interface IMediaSegment : ITimeOrderSegment
 	{
 		string MediaFile { get; }
-		float MediaStart { get; }
-		float MediaLength { get; }
 	}
 
 	/// ------------------------------------------------------------------------------------
 	public interface ITextSegment : ISegment
 	{
+		string Id { get; }
+
 		string GetText();
 
 		/// <summary>

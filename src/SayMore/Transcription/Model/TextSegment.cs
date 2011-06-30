@@ -6,10 +6,13 @@ namespace SayMore.Transcription.Model
 	{
 		string _text;
 
+		public string Id { get; protected set; }
+
 		/// ------------------------------------------------------------------------------------
-		public TextSegment(ITier tier, string text) : base(tier)
+		public TextSegment(ITier tier, string id, string text) : base(tier)
 		{
 			SetText(text);
+			Id = id;
 		}
 
 		/// ------------------------------------------------------------------------------------

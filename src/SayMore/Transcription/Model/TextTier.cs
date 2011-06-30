@@ -5,6 +5,7 @@ namespace SayMore.Transcription.Model
 	/// ----------------------------------------------------------------------------------------
 	public class TextTier : TierBase
 	{
+
 		/// ------------------------------------------------------------------------------------
 		public TextTier(string displayName) : base(displayName)
 		{
@@ -13,9 +14,15 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TextSegment AddSegment(string text)
+		public TextSegment AddSegment(string id)
 		{
-			var segment = new TextSegment(this, text);
+			return AddSegment(id, string.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TextSegment AddSegment(string id, string text)
+		{
+			var segment = new TextSegment(this, id, text);
 			_segments.Add(segment);
 			return segment;
 		}

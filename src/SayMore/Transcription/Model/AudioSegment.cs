@@ -2,26 +2,21 @@
 namespace SayMore.Transcription.Model
 {
 	/// ----------------------------------------------------------------------------------------
-	public class AudioSegment : SegmentBase, IMediaSegment
+	public class AudioSegment : TimeOrderSegment, IMediaSegment
 	{
 		public string MediaFile { get; private set; }
-		public float MediaStart { get; private set; }
-		public float MediaLength { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public AudioSegment(ITier tier, string filename, float start, float length)
-			: base(tier)
+		public AudioSegment(ITier tier, string filename, float start, float stop)
+			: base(tier, start, stop)
 		{
 			MediaFile = filename;
-			MediaStart = start;
-			MediaLength = length;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return string.Format("{0};  Start={1};  Length={2}",
-				MediaFile, MediaStart, MediaLength);
+			return string.Format("{0};  {1}", MediaFile, base.ToString());
 		}
 	}
 }

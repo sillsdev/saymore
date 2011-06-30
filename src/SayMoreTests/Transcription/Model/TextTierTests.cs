@@ -25,8 +25,9 @@ namespace SayMoreTests.Transcription.Model
 		public void AddSegment_AddsSegment()
 		{
 			Assert.AreEqual(0, _tier.GetAllSegments().Count());
-			_tier.AddSegment("carbon");
+			_tier.AddSegment("C", "carbon");
 			Assert.AreEqual(1, _tier.GetAllSegments().Count());
+			Assert.AreEqual("C", ((ITextSegment)_tier.GetSegment(0)).Id);
 			Assert.AreEqual("carbon", ((ITextSegment)_tier.GetSegment(0)).GetText());
 		}
 

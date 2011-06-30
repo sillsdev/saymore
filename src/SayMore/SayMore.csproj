@@ -138,10 +138,12 @@
     <Compile Include="Model\Event.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelper.cs" />
     <Compile Include="Transcription\Model\AudioTier.cs" />
-    <Compile Include="Transcription\Model\EafFileHelper.cs" />
+    <Compile Include="Transcription\Model\EafFile.cs" />
     <Compile Include="Transcription\Model\ISegment.cs" />
     <Compile Include="Transcription\Model\ITier.cs" />
     <Compile Include="Transcription\Model\AudioSegment.cs" />
+    <Compile Include="Transcription\Model\TimeOrderSegment.cs" />
+    <Compile Include="Transcription\Model\TimeOrderTier.cs" />
     <Compile Include="Transcription\Model\SegmentBase.cs" />
     <Compile Include="Transcription\Model\TextSegment.cs" />
     <Compile Include="Transcription\Model\TextTier.cs" />

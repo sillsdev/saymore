@@ -225,24 +225,11 @@ namespace SayMore.Model.Files
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return;
 
-				CreateAnnotationFileFromSegmentFile(dlg.FileName);
+				var newAnnotationFile = EafFile.Create(dlg.FileName, PathToAnnotatedFile);
 
 				if (refreshAction != null)
-					refreshAction(GetSuggestedPathToAnnotationFile());
+					refreshAction(newAnnotationFile);
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void CreateAnnotationFileFromSegmentFile(string segmentFile)
-		{
-			// REVIEW: What if media file in eaf file is different from _file.PathToAnnotatedFile?
-			var tiers = (!EafFileHelper.GetIsElanFile(segmentFile) ?
-				new AudacityLabelHelper(File.ReadAllLines(segmentFile), PathToAnnotatedFile).GetTiers() :
-				new EafFileHelper(segmentFile, PathToAnnotatedFile).GetTiers());
-
-			var eaf = new EafFileHelper(GetSuggestedPathToAnnotationFile(), PathToAnnotatedFile);
-			eaf.Save(tiers.First(t => t.DataType == TierType.Audio ||
-				t.DataType == TierType.Video), tiers.Where(t => t.DataType == TierType.Text));
 		}
 
 		/// ------------------------------------------------------------------------------------

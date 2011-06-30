@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMoreTests.Transcription.Model;
 
 namespace SayMoreTests.Model.Files
 {
@@ -342,9 +343,7 @@ namespace SayMoreTests.Model.Files
 				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 
 			var annotationPath = Path.Combine(_parentFolder.Path, filename + ".annotations.eaf");
-			var s = File.CreateText(annotationPath);
-			s.Write("<?xml version=\"1.0\" encoding=\"utf-8\"?><root />");
-			s.Close();
+			EafFileTests.CreateTestEaf(annotationPath);
 			var annotationFile = new AnnotationComponentFile(null, annotationPath, new TextAnnotationFileType(null));
 			file.SetAnnotationFile(annotationFile);
 			return file;

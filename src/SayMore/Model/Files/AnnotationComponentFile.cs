@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +15,7 @@ namespace SayMore.Model.Files
 		public Action PreSaveAction;
 		public Action PostSaveAction;
 
-		private EafFileHelper _eafFileHelper;
+		private EafFile _eafFile;
 
 		/// ------------------------------------------------------------------------------------
 		public AnnotationComponentFile(ProjectElement parentElement,
@@ -49,12 +48,12 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override void Save(string path)
 		{
+			// path is ignored.
+
 			if (PreSaveAction != null)
 				PreSaveAction();
 
-			// path is ignored.
-			_eafFileHelper.Save(Tiers.First(t => t.DataType == TierType.Audio ||
-				t.DataType == TierType.Video), Tiers.Where(t => t.DataType == TierType.Text));
+			_eafFile.Save(Tiers.First(t => t.DataType == TierType.Text) as TextTier);
 
 			if (PostSaveAction != null)
 				PostSaveAction();
@@ -63,8 +62,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override void Load()
 		{
-			_eafFileHelper = new EafFileHelper(PathToAnnotatedFile, GetAssociatedMediaFile());
-			Tiers = _eafFileHelper.GetTiers();
+			_eafFile = EafFile.Load(PathToAnnotatedFile);
+			Tiers = _eafFile.GetTiers();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,7 +71,7 @@ namespace SayMore.Model.Files
 		{
 			var oldPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
 			base.RenameAnnotatedFile(newPath);
-			EafFileHelper.UpdateMediaFileName(PathToAnnotatedFile, GetAssociatedMediaFile());
+			EafFile.ChangeMediaFileName(PathToAnnotatedFile, GetAssociatedMediaFile());
 
 			if (!File.Exists(oldPfsxFile))
 				return;

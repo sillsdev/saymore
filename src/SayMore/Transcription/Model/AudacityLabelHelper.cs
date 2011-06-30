@@ -39,9 +39,7 @@ namespace SayMore.Transcription.Model
 		{
 			for (int i = 0; i < labelInfo.Count; i++)
 			{
-				// If the length is not zero, we know the labels refer to segments
-				// with lengths, rather than just positions in the media stream.
-				if (labelInfo[i].Stop > 0)
+				if (labelInfo[i].Stop > labelInfo[i].Start)
 					continue;
 
 				// At this point, we know the stop location is zero. For all labels but the

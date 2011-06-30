@@ -11,7 +11,6 @@ namespace SayMore.Transcription.UI
 		public TextAnnotationColumn(ITier tier) : base(tier)
 		{
 			Debug.Assert(tier.DataType == TierType.Text);
-			Name = "transcriptionColumn";
 			DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 		}
 

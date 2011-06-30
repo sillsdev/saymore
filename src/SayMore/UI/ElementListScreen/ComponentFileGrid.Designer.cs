@@ -29,10 +29,10 @@ namespace SayMore.UI.ElementListScreen
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
 			this._grid = new SayMore.UI.ElementListScreen.InternalComponentFileGrid();
 			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
@@ -49,8 +49,8 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonConvert = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
-			this._buttonCreateAnnotationFile = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this._buttonCreateAnnotationFile = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this._contextMenuStrip.SuspendLayout();
 			this._panelOuter.SuspendLayout();
@@ -63,21 +63,20 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.AllowUserToDeleteRows = false;
 			this._grid.AllowUserToOrderColumns = true;
 			this._grid.AllowUserToResizeRows = false;
-			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-			this._grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			this._grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this._grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this._grid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this._grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this._grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
-			this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colIcon,
             this.colName,
@@ -87,7 +86,7 @@ namespace SayMore.UI.ElementListScreen
             this.colDuration});
 			this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._grid.DrawTextBoxEditControlBorder = false;
-			this._grid.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._grid.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
 			this._grid.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this._grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(219)))), ((int)(((byte)(180)))));
 			this._grid.IsDirty = false;
@@ -112,7 +111,8 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._grid.VirtualMode = true;
 			this._grid.WaterMark = "!";
-			this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleGridKeyDown);
+			this._grid.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.HandleFileGridColumnWidthChanged);
+			this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleFileGridKeyDown);
 			// 
 			// colIcon
 			// 
@@ -149,8 +149,8 @@ namespace SayMore.UI.ElementListScreen
 			// colSize
 			// 
 			this.colSize.DataPropertyName = "FileSize";
-			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colSize.DefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
 			this.colSize.HeaderText = "Size";
 			this.colSize.Name = "colSize";
 			this.colSize.ReadOnly = true;
@@ -159,8 +159,8 @@ namespace SayMore.UI.ElementListScreen
 			// colDuration
 			// 
 			this.colDuration.DataPropertyName = "DurationString";
-			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colDuration.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colDuration.DefaultCellStyle = dataGridViewCellStyle4;
 			this.colDuration.HeaderText = "Duration";
 			this.colDuration.Name = "colDuration";
 			this.colDuration.ReadOnly = true;
@@ -268,6 +268,11 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonAddFiles.Text = "Add Files...";
 			this._buttonAddFiles.Click += new System.EventHandler(this.HandleAddButtonClick);
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+			// 
 			// _buttonCreateAnnotationFile
 			// 
 			this._buttonCreateAnnotationFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -279,11 +284,6 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonCreateAnnotationFile.Text = "Create Annotation File...";
 			this._buttonCreateAnnotationFile.ToolTipText = "Create an annotation file";
 			this._buttonCreateAnnotationFile.Click += new System.EventHandler(this.HandleCreateAnnotationFileButtonClick);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
 			// 
 			// ComponentFileGrid
 			// 

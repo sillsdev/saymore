@@ -20,7 +20,9 @@ namespace SayMore.Transcription.UI
 			Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
 			Margin = new Padding(0);
 			VirtualMode = true;
-			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			AllowUserToResizeRows = false;
 			EditMode = DataGridViewEditMode.EditOnEnter;
 			FullRowFocusRectangleColor = DefaultCellStyle.SelectionBackColor;
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
@@ -51,6 +53,9 @@ namespace SayMore.Transcription.UI
 
 			if (Settings.Default.SegmentGrid != null)
 				Settings.Default.SegmentGrid.InitializeGrid(this);
+
+			AutoResizeColumnHeadersHeight();
+			ColumnHeadersHeight += 8;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -97,6 +102,8 @@ namespace SayMore.Transcription.UI
 		protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
 		{
 			base.OnColumnWidthChanged(e);
+			AutoResizeColumnHeadersHeight();
+			ColumnHeadersHeight += 8;
 			Settings.Default.SegmentGrid = GridSettings.Create(this);
 		}
 

@@ -22,7 +22,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TierColumnBase(ITier tier)
+		public TierColumnBase(ITier tier) : this()
 		{
 			SetTier(tier);
 		}
@@ -82,7 +82,7 @@ namespace SayMore.Transcription.UI
 		public virtual void SetTier(ITier tier)
 		{
 			Tier = tier;
-			Name = Tier.DisplayName;
+			Name = Tier.DisplayName.Replace(" ", string.Empty);
 			HeaderText = Tier.DisplayName;
 		}
 

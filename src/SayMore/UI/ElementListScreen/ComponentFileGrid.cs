@@ -45,6 +45,7 @@ namespace SayMore.UI.ElementListScreen
 			ShowContextMenu = true;
 
 			InitializeComponent();
+			Font = SystemFonts.IconTitleFont;
 
 			try
 			{
@@ -91,6 +92,9 @@ namespace SayMore.UI.ElementListScreen
 
 			if (Settings.Default[_gridColSettingPrefix + "ComponentGrid"] != null)
 				((GridSettings)Settings.Default[_gridColSettingPrefix + "ComponentGrid"]).InitializeGrid(_grid);
+
+			_grid.AutoResizeColumnHeadersHeight();
+			_grid.ColumnHeadersHeight += 8;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -304,6 +308,13 @@ namespace SayMore.UI.ElementListScreen
 				var file = _files.ElementAt(e.RowIndex);
 				file.HandleDoubleClick();
 			}
+		}
+
+		/// ----------------------------------------------------------------------------------------
+		private void HandleFileGridColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+		{
+			_grid.AutoResizeColumnHeadersHeight();
+			_grid.ColumnHeadersHeight += 8;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -524,7 +535,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleGridKeyDown(object sender, KeyEventArgs e)
+		private void HandleFileGridKeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Delete && GetIsOKToDeleteCurrentFile())
 				DeleteFile();

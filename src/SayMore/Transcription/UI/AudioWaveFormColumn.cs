@@ -16,7 +16,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public AudioWaveFormColumn(ITier tier) : base(tier)
 		{
-			Debug.Assert(tier.DataType == TierType.Audio);
+			Debug.Assert(tier.DataType == TierType.Audio || tier.DataType == TierType.TimeOrder);
 			Name = "audioWaveFormColumn";
 			ReadOnly = true;
 			_player = new TinyMediaPlayer();
@@ -43,6 +43,7 @@ namespace SayMore.Transcription.UI
 			_grid.RowHeightChanged -= HandleGridRowHeightChanged;
 			_grid.CellFormatting -= HandleGridCellFormatting;
 			_grid.ColumnWidthChanged -= HandleGridColumnWidthChanged;
+			_grid.ColumnHeadersHeightChanged -= HandleGridColumnHeadersHeightChanged;
 			_grid.Scroll -= HandleGridScroll;
 
 			base.UnsubscribeToGridEvents();
@@ -56,6 +57,7 @@ namespace SayMore.Transcription.UI
 			_grid.RowHeightChanged += HandleGridRowHeightChanged;
 			_grid.CellFormatting += HandleGridCellFormatting;
 			_grid.ColumnWidthChanged += HandleGridColumnWidthChanged;
+			_grid.ColumnHeadersHeightChanged += HandleGridColumnHeadersHeightChanged;
 			_grid.Scroll += HandleGridScroll;
 
 			//_grid.KeyDown += HandleKeyDown;
@@ -96,6 +98,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected void HandleGridColumnHeadersHeightChanged(object sender, EventArgs e)
+		{
+			LocatePlayer(_grid.CurrentCellAddress.Y, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleGridRowEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			LocatePlayer(e.RowIndex, true);
@@ -120,8 +128,8 @@ namespace SayMore.Transcription.UI
 			if (e.ColumnIndex != Index)
 				return;
 
-			var segment = Tier.GetSegment(e.RowIndex) as IMediaSegment;
-			e.Value = _player.GetRangeTimeInfoDisplayText(segment.MediaStart, segment.MediaLength);
+			var segment = Tier.GetSegment(e.RowIndex) as ITimeOrderSegment;
+			e.Value = _player.GetRangeTimeInfoDisplayText(segment.Start, segment.GetLength());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -169,9 +177,14 @@ namespace SayMore.Transcription.UI
 			//if (stopPlayingFirst)
 			//    _player.Stop();
 
-			var segment = Tier.GetSegment(rowIndex) as IMediaSegment;
+			var segment = Tier.GetSegment(rowIndex) as ITimeOrderSegment;
 			if (segment != _player.Segment)
-				_player.LoadSegment(segment);
+			{
+				if (segment is IMediaSegment)
+					_player.LoadSegment(segment as IMediaSegment);
+				else if (Tier is TimeOrderTier)
+					_player.LoadSegment(((TimeOrderTier)Tier).MediaFileName, segment);
+			}
 
 			var rc = GetPlayerRectangle(rowIndex);
 

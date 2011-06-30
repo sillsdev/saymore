@@ -53,13 +53,29 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IMediaSegment Segment { get; private set; }
+		public string MediaFileName { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public ITimeOrderSegment Segment { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public void LoadSegment(string mediaFileName, ITimeOrderSegment segment)
+		{
+			if (segment != Segment)
+			{
+				MediaFileName = mediaFileName;
+				Segment = segment;
+				_mediaFileNeedsLoading = true;
+				Invalidate(WaveFormRectangle);
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public void LoadSegment(IMediaSegment segment)
 		{
 			if (segment != Segment)
 			{
+				MediaFileName = segment.MediaFile;
 				Segment = segment;
 				_mediaFileNeedsLoading = true;
 				Invalidate(WaveFormRectangle);
@@ -96,7 +112,7 @@ namespace SayMore.Transcription.UI
 
 			if (_mediaFileNeedsLoading)
 			{
-				_model.LoadFile(Segment.MediaFile, Segment.MediaStart, Segment.MediaLength);
+				_model.LoadFile(MediaFileName, Segment.Start, Segment.GetLength());
 				_mediaFileNeedsLoading = false;
 			}
 
@@ -155,8 +171,8 @@ namespace SayMore.Transcription.UI
 			{
 				// Draw bar indicating playback progress.
 				var rcBar = rc;
-				var pixelsPerSec = rcBar.Width / Segment.MediaLength;
-				var dx = (int)Math.Round(pixelsPerSec * (_model.CurrentPosition - Segment.MediaStart),
+				var pixelsPerSec = rcBar.Width / Segment.GetLength();
+				var dx = (int)Math.Round(pixelsPerSec * (_model.CurrentPosition - Segment.Start),
 					MidpointRounding.AwayFromZero);
 
 				if (dx > 0)
@@ -183,7 +199,7 @@ namespace SayMore.Transcription.UI
 				//}
 			}
 
-			DrawTimeInfo(e.Graphics, Segment.MediaStart, Segment.MediaLength, rc, ForeColor, Color.Transparent);
+			DrawTimeInfo(e.Graphics, Segment.Start, Segment.GetLength(), rc, ForeColor, Color.Transparent);
 		}
 
 		/// ------------------------------------------------------------------------------------

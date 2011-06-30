@@ -1,11 +1,8 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model.Files;
-using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
-using SilTools;
 
 namespace SayMore.Transcription.UI
 {
@@ -35,40 +32,8 @@ namespace SayMore.Transcription.UI
 			base.SetComponentFile(file);
 
 			file.Load();
-			LoadGrid();
+			_grid.Load(file as AnnotationComponentFile);
 			SetupWatchingForFileChanges();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void LoadGrid()
-		{
-			Utils.SetWindowRedraw(_grid, false);
-			_grid.RowCount = 0;
-			_grid.Columns.Clear();
-
-			var file = _file as AnnotationComponentFile;
-
-			if (file == null)
-				return;
-
-			int rowCount = 0;
-
-			foreach (var tier in file.Tiers)
-			{
-				_grid.Columns.Add(tier.GridColumn);
-				rowCount = Math.Max(rowCount, tier.GetAllSegments().Count());
-
-				var col = tier.GridColumn as TextAnnotationColumn;
-				if (col != null)
-					col.SegmentChangedAction = file.Save;
-			}
-
-			_grid.RowCount = rowCount;
-			Utils.SetWindowRedraw(_grid, true);
-			_grid.Invalidate();
-
-			if (Settings.Default.SegmentGrid != null)
-				Settings.Default.SegmentGrid.InitializeGrid(_grid);
 		}
 
 		#region Methods for tracking changes to the EAF file outside of SayMore
@@ -102,7 +67,7 @@ namespace SayMore.Transcription.UI
 			Invoke(new EventHandler((s, args) =>
 			{
 				_file.Load();
-				LoadGrid();
+				_grid.Load(_file as AnnotationComponentFile);
 			}));
 		}
 

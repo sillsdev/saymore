@@ -8,6 +8,7 @@
 	<LINGUISTIC_TYPE CONSTRAINTS="Symbolic_Association" GRAPHIC_REFERENCES="false" LINGUISTIC_TYPE_ID="Translation" TIME_ALIGNABLE="false"/>
 	<LOCALE LANGUAGE_CODE="ipa-ext" VARIANT="IPA Extended"/>
 	<LOCALE LANGUAGE_CODE="ar" VARIANT="MLT Arabic"/>
+	<LOCALE LANGUAGE_CODE="en" />
 	<CONSTRAINT DESCRIPTION="Time subdivision of parent annotation's time interval, no time gaps allowed within this interval" STEREOTYPE="Time_Subdivision"/>
 	<CONSTRAINT DESCRIPTION="Symbolic subdivision of a parent annotation. Annotations refering to the same parent are ordered" STEREOTYPE="Symbolic_Subdivision"/>
 	<CONSTRAINT DESCRIPTION="1-1 association with a parent annotation" STEREOTYPE="Symbolic_Association"/>

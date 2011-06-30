@@ -320,8 +320,10 @@ namespace SayMore.Transcription.Model
 					var dependentSegment = dependentTier.GetSegment(i) as ITextSegment;
 
 					SetDependentTierAnnotationValue(dependentTier.DisplayName,
-						transcriptionSegments[i].Id, dependentSegment.Id,
-						dependentSegment.GetText());
+						transcriptionSegments[i].Id, dependentSegment);
+
+					//transcriptionSegments[i].Id, dependentSegment.Id,
+						//dependentSegment.GetText());
 				}
 			}
 
@@ -358,7 +360,8 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		public void SetDependentTierAnnotationValue(string dependentTierId,
-			string transcriptionAnnotationId, string dependentAnnotationId, string text)
+			string transcriptionAnnotationId, ITextSegment dependentSegment)
+			//string transcriptionAnnotationId, string dependentAnnotationId, string text)
 		{
 			var tierElement = Root.Elements("TIER")
 				.SingleOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == dependentTierId.ToLower());
@@ -367,17 +370,19 @@ namespace SayMore.Transcription.Model
 				return;
 
 			var annElement = tierElement.Elements("ANNOTATION")
-				.SingleOrDefault(e => e.Element("REF_ANNOTATION").Attribute("ANNOTATION_ID").Value == dependentAnnotationId);
+				.SingleOrDefault(e => e.Element("REF_ANNOTATION").Attribute("ANNOTATION_ID").Value == dependentSegment.Id);
 
 			if (annElement != null)
-				annElement.Element("REF_ANNOTATION").Element("ANNOTATION_VALUE").SetValue(text);
+				annElement.Element("REF_ANNOTATION").Element("ANNOTATION_VALUE").SetValue(dependentSegment.GetText());
 			else
 			{
+				var newId = GetNextAvailableAnnotationIdAndIncrement();
+				dependentSegment.Id = newId;
 				tierElement.Add(new XElement("ANNOTATION",
 					new XElement("REF_ANNOTATION",
-					new XAttribute("ANNOTATION_ID", GetNextAvailableAnnotationIdAndIncrement()),
+					new XAttribute("ANNOTATION_ID", newId),
 					new XAttribute("ANNOTATION_REF", transcriptionAnnotationId),
-					new XElement("ANNOTATION_VALUE", text))));
+					new XElement("ANNOTATION_VALUE", dependentSegment.GetText()))));
 			}
 		}
 

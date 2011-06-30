@@ -24,7 +24,7 @@ namespace SayMore.Transcription.Model
 	/// ------------------------------------------------------------------------------------
 	public interface ITextSegment : ISegment
 	{
-		string Id { get; }
+		string Id { get; set; }
 
 		string GetText();
 

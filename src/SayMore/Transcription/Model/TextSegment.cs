@@ -6,7 +6,7 @@ namespace SayMore.Transcription.Model
 	{
 		string _text;
 
-		public string Id { get; protected set; }
+		public string Id { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public TextSegment(ITier tier, string id, string text) : base(tier)

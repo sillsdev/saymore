@@ -370,7 +370,7 @@ namespace SayMore.Transcription.Model
 				.SingleOrDefault(e => e.Element("REF_ANNOTATION").Attribute("ANNOTATION_ID").Value == dependentAnnotationId);
 
 			if (annElement != null)
-				annElement.SetValue(text);
+				annElement.Element("REF_ANNOTATION").Element("ANNOTATION_VALUE").SetValue(text);
 			else
 			{
 				tierElement.Add(new XElement("ANNOTATION",

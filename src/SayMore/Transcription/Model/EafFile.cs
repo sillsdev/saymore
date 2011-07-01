@@ -317,13 +317,8 @@ namespace SayMore.Transcription.Model
 
 				foreach (var dependentTier in transcriptionTier.DependentTiers.Where(t => t.DataType == TierType.Text))
 				{
-					var dependentSegment = dependentTier.GetSegment(i) as ITextSegment;
-
 					SetDependentTierAnnotationValue(dependentTier.DisplayName,
-						transcriptionSegments[i].Id, dependentSegment);
-
-					//transcriptionSegments[i].Id, dependentSegment.Id,
-						//dependentSegment.GetText());
+						transcriptionSegments[i].Id, dependentTier.GetSegment(i) as ITextSegment);
 				}
 			}
 
@@ -361,7 +356,6 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetDependentTierAnnotationValue(string dependentTierId,
 			string transcriptionAnnotationId, ITextSegment dependentSegment)
-			//string transcriptionAnnotationId, string dependentAnnotationId, string text)
 		{
 			var tierElement = Root.Elements("TIER")
 				.SingleOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == dependentTierId.ToLower());

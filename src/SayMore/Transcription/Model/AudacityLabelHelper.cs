@@ -29,7 +29,7 @@ namespace SayMore.Transcription.Model
 			var lines = allLabelLines.Select(ln => ln.Split('\t')).Where(p => p.Length >= 2).ToList();
 
 			// Create an easier to use (i.e. than string arrays) list of objects for each label.
-			var labelInfo = lines.Select(CreateSingleLabelInfo).Where(ali => ali.Start > -1).ToList();
+			var labelInfo = lines.Select(l => CreateSingleLabelInfo(l)).Where(ali => ali.Start > -1).ToList();
 
 			LabelInfo = FixUpLabelInfo(labelInfo);
 		}

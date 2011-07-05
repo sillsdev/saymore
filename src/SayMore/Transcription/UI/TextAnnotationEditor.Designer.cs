@@ -54,8 +54,9 @@ namespace SayMore.Transcription.UI
 			// 
 			// _labelPlaybackSpeed
 			// 
+			this._labelPlaybackSpeed.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelPlaybackSpeed.AutoSize = true;
-			this._labelPlaybackSpeed.Location = new System.Drawing.Point(0, 0);
+			this._labelPlaybackSpeed.Location = new System.Drawing.Point(0, 4);
 			this._labelPlaybackSpeed.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelPlaybackSpeed.Name = "_labelPlaybackSpeed";
 			this._labelPlaybackSpeed.Size = new System.Drawing.Size(88, 13);

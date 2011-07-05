@@ -21,7 +21,7 @@ namespace SayMore.UI.MediaPlayer
 
 		private const string kFmtRangeTimeDisplay = "{0} - {1}";
 		private const string kFmtTimeDisplay = "{0} / {1}";
-		private const string kFmtTime = "{0}.{1:0}";
+		//private const string kFmtTime = "{0}.{1:0}";
 
 		private readonly StringBuilder _mplayerStartInfo = new StringBuilder();
 		private MPlayerProcess _mplayer;
@@ -148,6 +148,7 @@ namespace SayMore.UI.MediaPlayer
 				return;
 			}
 
+			ShutdownMPlayerProcess();
 			MediaFile = filename.Replace('\\', '/');
 			MediaInfo = new MPlayerMediaInfo(filename);
 			PlaybackStartPosition = playbackStartPosition;
@@ -158,6 +159,7 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		private void OnMediaQueued()
 		{
+			_queueingInProgress = true;
 			ShutdownMPlayerProcess();
 			HasPlaybackStarted = false;
 			CurrentPosition = PlaybackStartPosition;
@@ -167,6 +169,7 @@ namespace SayMore.UI.MediaPlayer
 			{
 				MediaQueued();
 			}
+			_queueingInProgress = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -449,9 +452,15 @@ namespace SayMore.UI.MediaPlayer
 				HandlePlayerOutput(e.Data);
 		}
 
+		private bool _queueingInProgress;
+
 		/// ------------------------------------------------------------------------------------
 		public void HandlePlayerOutput(string data)
 		{
+			if (_queueingInProgress)
+				return;
+
+
 			if (_formMPlayerOutputLog != null)
 				_formMPlayerOutputLog.UpdateLogDisplay(data);
 

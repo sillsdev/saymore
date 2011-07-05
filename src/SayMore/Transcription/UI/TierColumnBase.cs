@@ -6,7 +6,7 @@ using SayMore.Transcription.Model;
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
-	public class TierColumnBase : DataGridViewTextBoxColumn
+	public class TierColumnBase : DataGridViewColumn
 	{
 		protected DataGridView _grid;
 
@@ -14,17 +14,17 @@ namespace SayMore.Transcription.UI
 		public ITier Tier { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public TierColumnBase()
+		public TierColumnBase(DataGridViewCell cellTemplate, ITier tier) : base(cellTemplate)
 		{
 			DefaultCellStyle.ForeColor = SystemColors.WindowText;
 			DefaultCellStyle.BackColor = SystemColors.Window;
 			CellTemplate.Style = DefaultCellStyle;
+			SetTier(tier);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TierColumnBase(ITier tier) : this()
+		public TierColumnBase(ITier tier) : this(new DataGridViewTextBoxCell(), tier)
 		{
-			SetTier(tier);
 		}
 
 		/// ------------------------------------------------------------------------------------

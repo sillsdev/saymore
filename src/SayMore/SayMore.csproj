@@ -148,6 +148,7 @@
     <Compile Include="Transcription\Model\TextSegment.cs" />
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
+    <Compile Include="Transcription\UI\AudioWaveFormCell.cs" />
     <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
     <Compile Include="Transcription\UI\CreateAnnotationFileDlg.cs">
       <SubType>Form</SubType>

@@ -13,6 +13,7 @@ namespace SayMore.Transcription.Model
 		float Start { get; }
 		float Stop { get; }
 		float GetLength();
+		float GetLength(int decimalPlaces);
 	}
 
 	/// ------------------------------------------------------------------------------------

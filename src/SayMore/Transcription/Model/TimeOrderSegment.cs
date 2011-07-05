@@ -1,4 +1,6 @@
 
+using System;
+
 namespace SayMore.Transcription.Model
 {
 	public class TimeOrderSegment : SegmentBase, ITimeOrderSegment
@@ -21,6 +23,17 @@ namespace SayMore.Transcription.Model
 		public float GetLength()
 		{
 			return (float)((decimal)Stop - (decimal)Start);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns the length of the segment in seconds.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public float GetLength(int decimalPlaces)
+		{
+			return (float)Math.Round((decimal)Stop - (decimal)Start, decimalPlaces,
+				MidpointRounding.AwayFromZero);
 		}
 
 		/// ------------------------------------------------------------------------------------

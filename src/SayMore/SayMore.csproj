@@ -346,12 +346,6 @@
     <Compile Include="UI\LowLevelControls\VolumePopup.designer.cs">
       <DependentUpon>VolumePopup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\TinyMediaPlayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\TinyMediaPlayer.Designer.cs">
-      <DependentUpon>TinyMediaPlayer.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\MediaPlayer\MediaPlayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -523,9 +517,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\TinyMediaPlayer.resx">
-      <DependentUpon>TinyMediaPlayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesControl.resx">
       <DependentUpon>CopyFilesControl.cs</DependentUpon>

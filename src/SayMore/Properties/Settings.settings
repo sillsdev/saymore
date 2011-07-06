@@ -329,5 +329,8 @@
     <Setting Name="TextAnnotationFileExtension" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.eaf</Value>
     </Setting>
+    <Setting Name="AnnotationEditorPlaybackSpeed" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

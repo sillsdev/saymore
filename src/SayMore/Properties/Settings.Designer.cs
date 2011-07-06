@@ -1068,5 +1068,18 @@ namespace SayMore.Properties {
                 return ((string)(this["TextAnnotationFileExtension"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int AnnotationEditorPlaybackSpeed {
+            get {
+                return ((int)(this["AnnotationEditorPlaybackSpeed"]));
+            }
+            set {
+                this["AnnotationEditorPlaybackSpeed"] = value;
+            }
+        }
     }
 }

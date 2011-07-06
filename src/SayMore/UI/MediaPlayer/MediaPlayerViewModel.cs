@@ -36,6 +36,7 @@ namespace SayMore.UI.MediaPlayer
 		{
 			Volume = 25f;
 			LoopDelay = 400;
+			Speed = 100;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -169,6 +170,7 @@ namespace SayMore.UI.MediaPlayer
 			{
 				MediaQueued();
 			}
+
 			_queueingInProgress = false;
 		}
 
@@ -228,6 +230,9 @@ namespace SayMore.UI.MediaPlayer
 		public bool IsVolumeMuted { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
+		public int Speed { get; set; }
+
+		/// ------------------------------------------------------------------------------------
 		public MPlayerMediaInfo MediaInfo { get; private set; }
 
 		#endregion
@@ -268,7 +273,13 @@ namespace SayMore.UI.MediaPlayer
 			if (VideoWindowHandle > 0)
 				args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, Volume, VideoWindowHandle);
 			else if (PlaybackLength > 0)
-				args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, PlaybackLength, Volume);
+			{
+				args = (Speed == 0 ?
+					MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, PlaybackLength, Volume) :
+					MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, PlaybackLength, Speed, Volume));
+			}
+			else if (Speed > 0)
+				args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, Speed, Volume);
 			else
 				args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, Volume);
 

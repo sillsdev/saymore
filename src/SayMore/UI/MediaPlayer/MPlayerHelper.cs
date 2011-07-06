@@ -106,6 +106,16 @@ namespace SayMore.UI.MediaPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<string> GetPlaybackArguments(float startPosition, int speed,
+			float volume)
+		{
+			foreach (var arg in GetPlaybackArguments(startPosition, volume))
+				yield return arg;
+
+			yield return string.Format("-af scaletempo -speed {0}/100", speed);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<string> GetPlaybackArguments(float startPosition,
 			float duration, float volume)
 		{
@@ -115,6 +125,16 @@ namespace SayMore.UI.MediaPlayer
 			yield return string.Format("-ss {0}", startPosition);
 			yield return string.Format("-endpos {0}", duration);
 			yield return string.Format("-volume {0}", volume);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<string> GetPlaybackArguments(float startPosition,
+			float duration, int speed, float volume)
+		{
+			foreach (var arg in GetPlaybackArguments(startPosition, duration, volume))
+				yield return arg;
+
+			yield return string.Format("-af scaletempo -speed {0}/100", speed);
 		}
 
 		/// ------------------------------------------------------------------------------------

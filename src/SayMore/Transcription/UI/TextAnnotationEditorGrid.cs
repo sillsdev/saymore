@@ -12,6 +12,8 @@ namespace SayMore.Transcription.UI
 {
 	public class TextAnnotationEditorGrid : SilGrid
 	{
+		public delegate void PlaybackSpeedChangedHandler(object sender, int newSpeed);
+		public event PlaybackSpeedChangedHandler PlaybackSpeedChanged;
 		private AnnotationComponentFile _annotationFile;
 
 		/// ------------------------------------------------------------------------------------
@@ -71,6 +73,13 @@ namespace SayMore.Transcription.UI
 				AddColumnForTier(dependentTier);
 
 			return tier.GetAllSegments().Count();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetPlaybackSpeed(int playbackSpeed)
+		{
+			if (PlaybackSpeedChanged != null)
+				PlaybackSpeedChanged(this, playbackSpeed);
 		}
 
 		/// ------------------------------------------------------------------------------------

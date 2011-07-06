@@ -1,7 +1,9 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SayMore.Model.Files;
+using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
 
 namespace SayMore.Transcription.UI
@@ -20,9 +22,17 @@ namespace SayMore.Transcription.UI
 		{
 			InitializeComponent();
 			Name = "Annotations";
+
+			_labelPlaybackSpeed.Font = SystemFonts.IconTitleFont;
+			_comboPlaybackSpeed.Font = SystemFonts.IconTitleFont;
+
 			_grid = new TextAnnotationEditorGrid();
-			_grid.Dock = DockStyle.Fill;
-			Controls.Add(_grid);
+			_grid.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
+			_grid.Margin = new Padding(0, 8, 0, 0);
+			_tableLayout.Controls.Add(_grid, 0, 1);
+			_tableLayout.SetColumnSpan(_grid, 2);
+
+			SetSpeedPercentageString(Settings.Default.AnnotationEditorPlaybackSpeed);
 			SetComponentFile(file);
 		}
 
@@ -33,7 +43,53 @@ namespace SayMore.Transcription.UI
 
 			file.Load();
 			_grid.Load(file as AnnotationComponentFile);
+			_grid.SetPlaybackSpeed(Settings.Default.AnnotationEditorPlaybackSpeed);
 			SetupWatchingForFileChanges();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePlaybackSpeedSelectionCommitted(object sender, EventArgs e)
+		{
+			ChangePlaybackSpeed(_comboPlaybackSpeed.SelectedItem as string);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePlaybackSpeedValidating(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			ChangePlaybackSpeed(_comboPlaybackSpeed.Text);
+			SetSpeedPercentageString(Settings.Default.AnnotationEditorPlaybackSpeed);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ChangePlaybackSpeed(string text)
+		{
+			int percentage = GetSpeedPercentageFromText(text);
+			Settings.Default.AnnotationEditorPlaybackSpeed = percentage;
+			_grid.SetPlaybackSpeed(percentage);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private int GetSpeedPercentageFromText(string text)
+		{
+			text = text ?? string.Empty;
+			text = text.Replace("%", string.Empty).Trim();
+			int percentage;
+
+			return (int.TryParse(text, out percentage) ?
+				percentage : Settings.Default.AnnotationEditorPlaybackSpeed);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetSpeedPercentageString(int percentage)
+		{
+			var text = (percentage == 0 || percentage == 100 ?
+				_comboPlaybackSpeed.Items[0] as string : string.Format("{0}%", percentage));
+
+			int i = _comboPlaybackSpeed.FindStringExact(text);
+			if (i >= 0)
+				_comboPlaybackSpeed.SelectedIndex = i;
+			else
+				_comboPlaybackSpeed.Text = text;
 		}
 
 		#region Methods for tracking changes to the EAF file outside of SayMore

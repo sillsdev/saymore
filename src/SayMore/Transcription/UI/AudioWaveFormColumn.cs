@@ -26,6 +26,7 @@ namespace SayMore.Transcription.UI
 			ReadOnly = true;
 
 			DefaultCellStyle.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 7f);
+			DefaultCellStyle.ForeColor = ColorHelper.CalculateColor(Color.White, DefaultCellStyle.ForeColor, 85);
 
 			PlayerViewModel = new MediaPlayerViewModel();
 			PlayerViewModel.SetVolume(100);
@@ -50,21 +51,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void UnsubscribeToGridEvents()
-		{
-			_grid.Leave -= HandleGridLeave;
-			_grid.RowEnter -= HandleGridRowEnter;
-			_grid.CellFormatting -= HandleGridCellFormatting;
-
-			base.UnsubscribeToGridEvents();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override void SubscribeToGridEvents()
 		{
 			_grid.Leave += HandleGridLeave;
+			_grid.Enter += HandleGridEnter;
 			_grid.RowEnter += HandleGridRowEnter;
-			_grid.CellFormatting += HandleGridCellFormatting;
+
+			if (_grid is TextAnnotationEditorGrid)
+				((TextAnnotationEditorGrid)_grid).PlaybackSpeedChanged += HandlePlaybackSpeedChanged;
 
 			//_grid.KeyDown += HandleKeyDown;
 
@@ -84,9 +78,38 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void UnsubscribeToGridEvents()
+		{
+			_grid.Leave -= HandleGridLeave;
+			_grid.RowEnter -= HandleGridRowEnter;
+
+			if (_grid.FindForm() != null)
+				_grid.FindForm().Deactivate -= HandleGridLeave;
+
+			if (_grid is TextAnnotationEditorGrid)
+				((TextAnnotationEditorGrid)_grid).PlaybackSpeedChanged -= HandlePlaybackSpeedChanged;
+
+			base.UnsubscribeToGridEvents();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePlaybackSpeedChanged(object sender, int newSpeed)
+		{
+			PlayerViewModel.Speed = newSpeed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleGridEnter(object sender, EventArgs e)
+		{
+			if (_grid != null && _grid.FindForm() != null)
+				_grid.FindForm().Deactivate += HandleGridLeave;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleGridLeave(object sender, EventArgs e)
 		{
 			Stop();
+			RedrawPlayerCell();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,7 +124,8 @@ namespace SayMore.Transcription.UI
 			var segment = Tier.GetSegment(e.RowIndex) as ITimeOrderSegment;
 			_mediaFileNeedsLoading = (segment != CurrentSegment);
 			CurrentSegment = segment;
-			Application.Idle += HandleStartPlaybackOnIdle;
+			//Application.Idle += HandleStartPlaybackOnIdle;
+			Play();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,16 +146,10 @@ namespace SayMore.Transcription.UI
 				return;
 
 			var segment = Tier.GetSegment(e.RowIndex) as ITimeOrderSegment;
+			var length = segment.GetLength();
 
-			e.Value = PlayerViewModel.GetRangeTimeDisplay(segment.Start, (segment.GetLength() == 0 ? 0 :
-				(float)((decimal)segment.Start + (decimal)segment.GetLength())));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleGridCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-		{
-			if (e.ColumnIndex == Index)
-				e.CellStyle.ForeColor = ColorHelper.CalculateColor(Color.White, e.CellStyle.ForeColor, 85);
+			e.Value = PlayerViewModel.GetRangeTimeDisplay(segment.Start, (length.Equals(0f) ? 0 :
+				(float)((decimal)segment.Start + (decimal)length)));
 		}
 
 		/// ------------------------------------------------------------------------------------

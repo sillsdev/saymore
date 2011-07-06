@@ -50,7 +50,6 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayout.Size = new System.Drawing.Size(425, 255);
 			this._tableLayout.TabIndex = 0;
-			this._tableLayout.Visible = false;
 			// 
 			// _labelPlaybackSpeed
 			// 
@@ -61,7 +60,7 @@ namespace SayMore.Transcription.UI
 			this._labelPlaybackSpeed.Name = "_labelPlaybackSpeed";
 			this._labelPlaybackSpeed.Size = new System.Drawing.Size(88, 13);
 			this._labelPlaybackSpeed.TabIndex = 0;
-			this._labelPlaybackSpeed.Text = "Playback Speed:";
+			this._labelPlaybackSpeed.Text = "Playback &Speed:";
 			// 
 			// _comboPlaybackSpeed
 			// 
@@ -77,8 +76,10 @@ namespace SayMore.Transcription.UI
 			this._comboPlaybackSpeed.Location = new System.Drawing.Point(94, 0);
 			this._comboPlaybackSpeed.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
-			this._comboPlaybackSpeed.Size = new System.Drawing.Size(178, 21);
+			this._comboPlaybackSpeed.Size = new System.Drawing.Size(137, 21);
 			this._comboPlaybackSpeed.TabIndex = 1;
+			this._comboPlaybackSpeed.SelectionChangeCommitted += new System.EventHandler(this.HandlePlaybackSpeedSelectionCommitted);
+			this._comboPlaybackSpeed.Validating += new System.ComponentModel.CancelEventHandler(this.HandlePlaybackSpeedValidating);
 			// 
 			// TextAnnotationEditor
 			// 

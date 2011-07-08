@@ -353,6 +353,9 @@
       <DependentUpon>MediaPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MediaPlayer\MediaPlayerViewModel.cs" />
+    <Compile Include="UI\MediaPlayer\VideoPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommand.cs" />
     <Compile Include="UI\LowLevelControls\DeleteMessageBox.cs">
       <SubType>Form</SubType>

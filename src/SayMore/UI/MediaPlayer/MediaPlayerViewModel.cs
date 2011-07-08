@@ -14,9 +14,10 @@ namespace SayMore.UI.MediaPlayer
 		public Action PlaybackPaused;
 		public Action PlaybackResumed;
 		public Action PlaybackEnded;
-		public Action PlaybackStarted;
-		public Action MediaQueued;
 		public Action VolumeChanged;
+
+		public event EventHandler PlaybackStarted;
+		public event EventHandler MediaQueued;
 
 		private const string kFmtRangeTimeDisplay = "{0} - {1}";
 		private const string kFmtTimeDisplay = "{0} / {1}";
@@ -170,7 +171,7 @@ namespace SayMore.UI.MediaPlayer
 			if (MediaQueued != null && GetTotalMediaDuration() > 0f && (!MediaInfo.IsVideo ||
 				(MediaInfo.PictureSize.Width > 0 && MediaInfo.PictureSize.Height > 0)))
 			{
-				MediaQueued();
+				MediaQueued(this, EventArgs.Empty);
 			}
 
 			_queueingInProgress = false;
@@ -290,7 +291,7 @@ namespace SayMore.UI.MediaPlayer
 			HasPlaybackStarted = true;
 
 			if (PlaybackStarted != null)
-				PlaybackStarted();
+				PlaybackStarted(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

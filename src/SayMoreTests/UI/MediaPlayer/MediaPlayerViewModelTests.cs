@@ -74,7 +74,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		{
 			var file = LoadMediaFile();
 			bool eventCalled = false;
-			_model.MediaQueued = (() => eventCalled = true);
+			_model.MediaQueued += ((s, e) => eventCalled = true);
 
 			try
 			{
@@ -237,7 +237,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		public void LoadFile_Called_CallsQueuesMediaEvent()
 		{
 			bool eventCalled = false;
-			_model.MediaQueued = (() => eventCalled = true);
+			_model.MediaQueued += ((s, e) => eventCalled = true);
 			var file = LoadMediaFile();
 
 			try

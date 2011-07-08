@@ -162,11 +162,7 @@ namespace SayMore.Transcription.UI
 		public void SetPlaybackSpeed(int playbackSpeed)
 		{
 			if (PlayerViewModel.Speed != playbackSpeed)
-			{
-				//Stop();
 				PlayerViewModel.SetSpeed(playbackSpeed);
-				//Play();
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -210,7 +206,8 @@ namespace SayMore.Transcription.UI
 					SegmentProvider().Start, SegmentProvider().GetLength());
 			}
 
-			PlayerViewModel.PlaybackStarted = (() => Invoke(_playbackProgressReportingAction));
+			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
+			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded = (() => Invoke(_playbackProgressReportingAction));
 			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));
 			PlayerViewModel.Play();
@@ -219,10 +216,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void Stop()
 		{
-			PlayerViewModel.PlaybackStarted = null;
+			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded = null;
 			PlayerViewModel.PlaybackPositionChanged = null;
 			PlayerViewModel.Stop();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleMediaPlayStarted(object sender, EventArgs e)
+		{
+			Invoke(_playbackProgressReportingAction);
 		}
 
 		#endregion

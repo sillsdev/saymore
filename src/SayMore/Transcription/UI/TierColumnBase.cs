@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Transcription.Model;
@@ -8,7 +9,7 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public class TierColumnBase : DataGridViewColumn
 	{
-		protected DataGridView _grid;
+		protected TextAnnotationEditorGrid _grid;
 
 		public Action SegmentChangedAction;
 		public ITier Tier { get; private set; }
@@ -46,7 +47,7 @@ namespace SayMore.Transcription.UI
 			if (_grid != null)
 				UnsubscribeToGridEvents();
 
-			_grid = DataGridView;
+			_grid = DataGridView as TextAnnotationEditorGrid;
 
 			if (_grid != null)
 				SubscribeToGridEvents();
@@ -92,6 +93,12 @@ namespace SayMore.Transcription.UI
 			var clone = base.Clone() as TierColumnBase;
 			clone.Tier = Tier;
 			return clone;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ToolStripMenuItem> GetContextMenuCommands()
+		{
+			return new ToolStripMenuItem[] { };
 		}
 	}
 }

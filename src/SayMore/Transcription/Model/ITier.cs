@@ -17,5 +17,6 @@ namespace SayMore.Transcription.Model
 		IEnumerable<ISegment> GetAllSegments();
 		ISegment GetSegment(int index);
 		bool TryGetSegment(int index, out ISegment segment);
+		object GetTierClipboardData(out string dataFormat);
 	}
 }

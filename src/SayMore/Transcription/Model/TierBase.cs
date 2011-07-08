@@ -67,5 +67,12 @@ namespace SayMore.Transcription.Model
 			segment = GetSegment(index);
 			return true;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual object GetTierClipboardData(out string dataFormat)
+		{
+			dataFormat = null;
+			return null;
+		}
 	}
 }

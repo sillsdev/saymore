@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SayMore.Transcription.Model;
@@ -34,6 +35,19 @@ namespace SayMore.Transcription.UI
 
 			if (e.ColumnIndex == Index)
 				e.Value = ((ITextSegment)Tier.GetSegment(e.RowIndex)).GetText();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<ToolStripMenuItem> GetContextMenuCommands()
+		{
+			string text = string.Format("Copy {0} to clipboard", HeaderText);
+
+			yield return new ToolStripMenuItem(text, null, delegate
+			{
+				string dataFormat;
+				var data = Tier.GetTierClipboardData(out dataFormat);
+				Clipboard.SetData(dataFormat, data);
+			});
 		}
 	}
 }

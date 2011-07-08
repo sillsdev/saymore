@@ -6,15 +6,24 @@ using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SayMore.UI.MediaPlayer;
 using SilTools;
 
 namespace SayMore.Transcription.UI
 {
 	public class TextAnnotationEditorGrid : SilGrid
 	{
-		public delegate void PlaybackSpeedChangedHandler(object sender, int newSpeed);
-		public event PlaybackSpeedChangedHandler PlaybackSpeedChanged;
+		public Func<ITimeOrderSegment> SegmentProvider;
+		public Func<string> MediaFileProvider;
+
+		//public delegate void PlaybackSpeedChangedHandler(object sender, int newSpeed);
+		//public event PlaybackSpeedChangedHandler PlaybackSpeedChanged;
+
+		public MediaPlayerViewModel PlayerViewModel { get; private set; }
+
 		private AnnotationComponentFile _annotationFile;
+		private bool _mediaFileNeedsLoading = true;
+		private Action _playbackProgressReportingAction;
 
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationEditorGrid()
@@ -30,6 +39,13 @@ namespace SayMore.Transcription.UI
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 			DefaultCellStyle.SelectionBackColor =
 				ColorHelper.CalculateColor(Color.White, DefaultCellStyle.SelectionBackColor, 140);
+
+			PlayerViewModel = new MediaPlayerViewModel();
+			PlayerViewModel.SetVolume(100);
+			PlayerViewModel.SetSpeed(Settings.Default.AnnotationEditorPlaybackSpeed);
+			PlayerViewModel.Loop = true;
+
+			SetPlaybackProgressReportAction(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,13 +89,6 @@ namespace SayMore.Transcription.UI
 				AddColumnForTier(dependentTier);
 
 			return tier.GetAllSegments().Count();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetPlaybackSpeed(int playbackSpeed)
-		{
-			if (PlaybackSpeedChanged != null)
-				PlaybackSpeedChanged(this, playbackSpeed);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -128,5 +137,94 @@ namespace SayMore.Transcription.UI
 			DrawMessageInCenterOfGrid(e.Graphics, string.Format(hint,
 				Path.GetFileName(_annotationFile.PathToAnnotatedFile)), 0);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseClick(DataGridViewCellMouseEventArgs e)
+		{
+			base.OnCellMouseClick(e);
+
+			var col = Columns[e.ColumnIndex] as TierColumnBase;
+
+			if (e.RowIndex < 0 || e.Button != MouseButtons.Right || col == null)
+				return;
+
+			var menuItems = col.GetContextMenuCommands().ToArray();
+			if (menuItems.Length == 0)
+				return;
+
+			var menu = new ContextMenuStrip();
+			menu.Items.AddRange(menuItems.ToArray());
+			menu.Show(MousePosition);
+		}
+
+		#region Playback methods
+		/// ------------------------------------------------------------------------------------
+		public void SetPlaybackSpeed(int playbackSpeed)
+		{
+			if (PlayerViewModel.Speed != playbackSpeed)
+			{
+				//Stop();
+				PlayerViewModel.SetSpeed(playbackSpeed);
+				//Play();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetPlaybackProgressReportAction(Action action)
+		{
+			_playbackProgressReportingAction = (action ?? (() => { }));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCurrentRowChanged(EventArgs e)
+		{
+			Stop();
+
+			if (CurrentCellAddress.Y >= 0)
+				_mediaFileNeedsLoading = true;
+
+			base.OnCurrentRowChanged(e);
+
+			if (CurrentCellAddress.Y >= 0 && Focused)
+				Play();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnEnter(EventArgs e)
+		{
+			base.OnEnter(e);
+
+			if (!PlayerViewModel.HasPlaybackStarted)
+				Play();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Play()
+		{
+			if (PlayerViewModel.HasPlaybackStarted)
+				Stop();
+
+			if (_mediaFileNeedsLoading && MediaFileProvider != null && SegmentProvider != null)
+			{
+				PlayerViewModel.LoadFile(MediaFileProvider(),
+					SegmentProvider().Start, SegmentProvider().GetLength());
+			}
+
+			PlayerViewModel.PlaybackStarted = (() => Invoke(_playbackProgressReportingAction));
+			PlayerViewModel.PlaybackEnded = (() => Invoke(_playbackProgressReportingAction));
+			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));
+			PlayerViewModel.Play();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Stop()
+		{
+			PlayerViewModel.PlaybackStarted = null;
+			PlayerViewModel.PlaybackEnded = null;
+			PlayerViewModel.PlaybackPositionChanged = null;
+			PlayerViewModel.Stop();
+		}
+
+		#endregion
 	}
 }

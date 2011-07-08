@@ -23,7 +23,6 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 			Name = "Annotations";
 
-			_labelPlaybackSpeed.Font = SystemFonts.IconTitleFont;
 			_comboPlaybackSpeed.Font = SystemFonts.IconTitleFont;
 
 			_grid = new TextAnnotationEditorGrid();
@@ -32,7 +31,12 @@ namespace SayMore.Transcription.UI
 			_tableLayout.Controls.Add(_grid, 0, 1);
 			_tableLayout.SetColumnSpan(_grid, 2);
 
+			// TODO: Internationalize
+			_comboPlaybackSpeed.Items.AddRange(new[] {"100% (Normal)", "90%", "80%", "70%",
+				"60%", "50%", "40%", "30%", "20%", "10%"});
+
 			SetSpeedPercentageString(Settings.Default.AnnotationEditorPlaybackSpeed);
+			_comboPlaybackSpeed.SelectedValueChanged += HandlePlaybackSpeedValueChanged;
 			SetComponentFile(file);
 		}
 
@@ -43,27 +47,13 @@ namespace SayMore.Transcription.UI
 
 			file.Load();
 			_grid.Load(file as AnnotationComponentFile);
-			_grid.SetPlaybackSpeed(Settings.Default.AnnotationEditorPlaybackSpeed);
 			SetupWatchingForFileChanges();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandlePlaybackSpeedSelectionCommitted(object sender, EventArgs e)
+		private void HandlePlaybackSpeedValueChanged(object sender, EventArgs e)
 		{
-			ChangePlaybackSpeed(_comboPlaybackSpeed.SelectedItem as string);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandlePlaybackSpeedValidating(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			ChangePlaybackSpeed(_comboPlaybackSpeed.Text);
-			SetSpeedPercentageString(Settings.Default.AnnotationEditorPlaybackSpeed);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void ChangePlaybackSpeed(string text)
-		{
-			int percentage = GetSpeedPercentageFromText(text);
+			int percentage = GetSpeedPercentageFromText(_comboPlaybackSpeed.SelectedItem as string);
 			Settings.Default.AnnotationEditorPlaybackSpeed = percentage;
 			_grid.SetPlaybackSpeed(percentage);
 		}
@@ -74,9 +64,7 @@ namespace SayMore.Transcription.UI
 			text = text ?? string.Empty;
 			text = text.Replace("%", string.Empty).Trim();
 			int percentage;
-
-			return (int.TryParse(text, out percentage) ?
-				percentage : Settings.Default.AnnotationEditorPlaybackSpeed);
+			return (int.TryParse(text, out percentage) ? percentage : 100);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -86,10 +74,22 @@ namespace SayMore.Transcription.UI
 				_comboPlaybackSpeed.Items[0] as string : string.Format("{0}%", percentage));
 
 			int i = _comboPlaybackSpeed.FindStringExact(text);
-			if (i >= 0)
-				_comboPlaybackSpeed.SelectedIndex = i;
-			else
-				_comboPlaybackSpeed.Text = text;
+			_comboPlaybackSpeed.SelectedIndex = (i >= 0 ? i : 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnEditorAndChildrenLostFocus()
+		{
+			base.OnEditorAndChildrenLostFocus();
+			_grid.Stop();
+			_grid.Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnFormLostFocus()
+		{
+			base.OnFormLostFocus();
+			OnEditorAndChildrenLostFocus();
 		}
 
 		#region Methods for tracking changes to the EAF file outside of SayMore

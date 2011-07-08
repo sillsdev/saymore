@@ -291,8 +291,8 @@ namespace SayMore.UI.ComponentEditors
 
 			if (error == null)
 			{
-				if (_componentFileListRefreshAction != null)
-					_componentFileListRefreshAction();
+				if (ComponentFileListRefreshAction != null)
+					ComponentFileListRefreshAction();
 			}
 			else
 			{

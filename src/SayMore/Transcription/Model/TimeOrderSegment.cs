@@ -1,5 +1,6 @@
 
 using System;
+using SayMore.UI.MediaPlayer;
 
 namespace SayMore.Transcription.Model
 {
@@ -39,7 +40,10 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return string.Format("Start={0};  Length={1}", Start, Stop);
+			var length = GetLength();
+
+			return MediaPlayerViewModel.GetRangeTimeDisplay(Start, (length.Equals(0f) ? 0 :
+				(float)((decimal)Start + (decimal)length)));
 		}
 	}
 }

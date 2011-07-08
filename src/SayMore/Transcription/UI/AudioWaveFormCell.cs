@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using SayMore.Transcription.Model;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -8,7 +9,7 @@ namespace SayMore.Transcription.UI
 	public class AudioWaveFormCell : DataGridViewTextBoxCell
 	{
 		private readonly Size _buttonSize = Properties.Resources.PlaySegment.Size;
-		private DataGridView _grid;
+		private TextAnnotationEditorGrid _grid;
 		private bool _mouseIsOverButtonArea;
 		private bool _playButtonVisible;
 
@@ -16,13 +17,7 @@ namespace SayMore.Transcription.UI
 		protected override void OnDataGridViewChanged()
 		{
 			base.OnDataGridViewChanged();
-			_grid = DataGridView;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private AudioWaveFormColumn OwningCol
-		{
-			get { return OwningColumn as AudioWaveFormColumn; }
+			_grid = DataGridView as TextAnnotationEditorGrid;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -45,7 +40,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private Image GetImageToDraw()
 		{
-			if (OwningCol.PlayerViewModel.IsPlayButtonVisible)
+			if (_grid.PlayerViewModel.IsPlayButtonVisible)
 			{
 				_playButtonVisible = true;
 				return (_mouseIsOverButtonArea ? Properties.Resources.PlaySegment_Hot :
@@ -68,13 +63,16 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnMouseClick(e);
 
-			if (e.RowIndex != _grid.CurrentCellAddress.Y || !_mouseIsOverButtonArea)
+			if (e.RowIndex != _grid.CurrentCellAddress.Y || !_mouseIsOverButtonArea ||
+				e.Button != MouseButtons.Left)
+			{
 				return;
+			}
 
 			if (_playButtonVisible)
-				OwningCol.Play();
+				_grid.Play();
 			else
-				OwningCol.Stop();
+				_grid.Stop();
 
 			_grid.InvalidateCell(this);
 		}
@@ -104,36 +102,40 @@ namespace SayMore.Transcription.UI
 			DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle,
 			DataGridViewPaintParts paintParts)
 		{
+			// If we're drawing the current row's cell, then don't draw the cell's text.
 			if (_grid.CurrentCellAddress.Y == rowIndex && rowIndex > 0)
 				paintParts &= ~DataGridViewPaintParts.ContentForeground;
 
+			// Draw most or all of the cell's parts, depending on whether or not this is the current row.
 			base.Paint(g, clipBounds, cellBounds, rowIndex, cellState, value,
 				formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
 
+			// If not drawing the current row, then we're done.
 			if (_grid.CurrentCellAddress.Y != rowIndex || rowIndex < 0)
 				return;
 
-			DrawPlaybackProgressBar(g, cellBounds, cellStyle);
+			DrawPlaybackProgressBar(g, value as ITimeOrderSegment, cellBounds, cellStyle);
 
+			// Now draw the cell's text.
 			paintParts = DataGridViewPaintParts.ContentForeground;
 
 			base.Paint(g, clipBounds, cellBounds, rowIndex, cellState, value,
 				formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
 
+			// Draw the play or stop button.
 			g.DrawImage(GetImageToDraw(), GetButtonRectangle(cellBounds));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawPlaybackProgressBar(Graphics g, Rectangle cellBounds, DataGridViewCellStyle cellStyle)
+		private void DrawPlaybackProgressBar(Graphics g, ITimeOrderSegment segment,
+			Rectangle cellBounds, DataGridViewCellStyle cellStyle)
 		{
-			var segment = OwningCol.CurrentSegment;
-
-			if (_playButtonVisible || segment == null || !OwningCol.PlayerViewModel.HasPlaybackStarted)
+			if (segment == null || _playButtonVisible || !_grid.PlayerViewModel.HasPlaybackStarted)
 				return;
 
 			// Draw bar indicating playback progress.
 			var rcBar = cellBounds;
-			var playbackPosition = OwningCol.PlayerViewModel.CurrentPosition;
+			var playbackPosition = _grid.PlayerViewModel.CurrentPosition;
 
 			if (playbackPosition < Math.Round(segment.Stop, 1, MidpointRounding.AwayFromZero))
 			{

@@ -64,22 +64,13 @@ namespace SayMore.Transcription.UI
 			// 
 			// _comboPlaybackSpeed
 			// 
+			this._comboPlaybackSpeed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._comboPlaybackSpeed.FormattingEnabled = true;
-			this._comboPlaybackSpeed.Items.AddRange(new object[] {
-            "100% (Normal)",
-            "95%",
-            "90%",
-            "85%",
-            "80%",
-            "75%",
-            "70%"});
-			this._comboPlaybackSpeed.Location = new System.Drawing.Point(94, 0);
+			this._comboPlaybackSpeed.Location = new System.Drawing.Point(3, 0);
 			this._comboPlaybackSpeed.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
 			this._comboPlaybackSpeed.Size = new System.Drawing.Size(137, 21);
 			this._comboPlaybackSpeed.TabIndex = 1;
-			this._comboPlaybackSpeed.SelectionChangeCommitted += new System.EventHandler(this.HandlePlaybackSpeedSelectionCommitted);
-			this._comboPlaybackSpeed.Validating += new System.ComponentModel.CancelEventHandler(this.HandlePlaybackSpeedValidating);
 			// 
 			// TextAnnotationEditor
 			// 

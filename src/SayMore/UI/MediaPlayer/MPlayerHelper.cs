@@ -96,82 +96,15 @@ namespace SayMore.UI.MediaPlayer
 
 		#region Methods for building MPlayer command-line arguments.
 		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetPlaybackArguments(float startPosition, float volume)
-		{
-			foreach (var arg in GetStandardPlaybackArguments())
-				yield return arg;
-
-			yield return string.Format("-ss {0}", startPosition);
-			yield return string.Format("-volume {0}", volume);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetPlaybackArguments(float startPosition, int speed,
-			float volume)
-		{
-			foreach (var arg in GetPlaybackArguments(startPosition, volume))
-				yield return arg;
-
-			yield return string.Format("-af scaletempo -speed {0}/100", speed);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetPlaybackArguments(float startPosition,
-			float duration, float volume)
-		{
-			foreach (var arg in GetStandardPlaybackArguments())
-				yield return arg;
-
-			yield return string.Format("-ss {0}", startPosition);
-			yield return string.Format("-endpos {0}", duration);
-			yield return string.Format("-volume {0}", volume);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetPlaybackArguments(float startPosition,
-			float duration, int speed, float volume)
-		{
-			foreach (var arg in GetPlaybackArguments(startPosition, duration, volume))
-				yield return arg;
-
-			yield return string.Format("-af scaletempo -speed {0}/100", speed);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetPlaybackArguments(float startPosition,
-			float volume, int hwndVideo)
-		{
-			if (hwndVideo == 0)
-				throw new ArgumentException("No window handle specified.");
-
-			foreach (var arg in GetStandardVideoPlaybackArguments())
-				yield return arg;
-
-			yield return string.Format("-ss {0}", startPosition);
-			yield return string.Format("-volume {0}", volume);
-			yield return string.Format("-wid {0}", hwndVideo);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static IEnumerable<string> GetStandardVideoPlaybackArguments()
-		{
-			foreach (var arg in GetStandardPlaybackArguments())
-				yield return arg;
-
-			yield return "-fixed-vo";
-
-#if !__MonoCS__
-			yield return "-vo gl";
-#endif
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static IEnumerable<string> GetStandardPlaybackArguments()
+		public static IEnumerable<string> GetPlaybackArguments(float startPosition, float duration,
+			float volume, int speed, int hwndVideo)
 		{
 			var mplayerConfigPath = Path.Combine(GetPathToThisAssembly(), "MPlayerSettings.conf");
 
 			if (File.Exists(mplayerConfigPath))
+			{
 				yield return string.Format("-include {0}", mplayerConfigPath);
+			}
 			else
 			{
 				yield return "-slave";
@@ -181,7 +114,28 @@ namespace SayMore.UI.MediaPlayer
 				yield return "-nofontconfig";
 				yield return "-autosync 100";
 				yield return "-priority abovenormal";
-				yield return "−osdlevel 0";
+				yield return "-osdlevel 0";
+				yield return string.Format("-volume {0}", volume);
+				yield return "-af scaletempo";
+
+				if (speed != 100)
+					yield return string.Format("-speed {0}", speed / 100d);
+
+				if (startPosition > 0f)
+					yield return string.Format("-ss {0}", startPosition);
+
+				if (duration > 0f)
+					yield return string.Format("-endpos {0}", duration);
+
+				if (hwndVideo > 0)
+				{
+					yield return "-fixed-vo";
+
+#if !__MonoCS__
+					yield return "-vo gl";
+#endif
+					yield return string.Format("-wid {0}", hwndVideo);
+				}
 			}
 		}
 
@@ -413,6 +367,7 @@ namespace SayMore.UI.MediaPlayer
 			_textBox.ScrollBars = ScrollBars.Both;
 			_textBox.Dock = DockStyle.Fill;
 			_textBox.Font = SystemFonts.MessageBoxFont;
+			_textBox.Text = initialOutput;
 
 			var rc = Screen.PrimaryScreen.Bounds;
 			Width = (rc.Width / 4);
@@ -426,15 +381,19 @@ namespace SayMore.UI.MediaPlayer
 			MaximizeBox = false;
 			MinimizeBox = false;
 			Controls.Add(_textBox);
+		}
 
-			UpdateLogDisplay(initialOutput);
+		/// --------------------------------------------------------------------------------
+		public void Clear()
+		{
+			Invoke((Action)(() => _textBox.Text = string.Empty));
 		}
 
 		/// --------------------------------------------------------------------------------
 		public void UpdateLogDisplay(string output)
 		{
-			_textBox.SelectionStart = _textBox.Text.Length;
-			_textBox.SelectedText = output + Environment.NewLine;
+			Invoke((Action)(() => _textBox.SelectionStart = _textBox.Text.Length));
+			Invoke((Action<string>)(text => _textBox.SelectedText = text + Environment.NewLine), output);
 		}
 
 		/// --------------------------------------------------------------------------------

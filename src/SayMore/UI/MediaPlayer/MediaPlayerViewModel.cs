@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -35,7 +34,7 @@ namespace SayMore.UI.MediaPlayer
 		public MediaPlayerViewModel()
 		{
 			Volume = 25f;
-			LoopDelay = 400;
+			LoopDelay = 100;
 			Speed = 100;
 		}
 
@@ -107,11 +106,11 @@ namespace SayMore.UI.MediaPlayer
 					_stdIn = null;
 				}
 
-				if (_formMPlayerOutputLog != null)
-				{
-					_formMPlayerOutputLog.Close();
-					_formMPlayerOutputLog = null;
-				}
+				//if (_formMPlayerOutputLog != null)
+				//{
+				//    _formMPlayerOutputLog.Close();
+				//    _formMPlayerOutputLog = null;
+				//}
 
 				if (_loopDelayTimer != null)
 				{
@@ -155,6 +154,9 @@ namespace SayMore.UI.MediaPlayer
 			PlaybackStartPosition = playbackStartPosition;
 			PlaybackLength = playbackLength;
 			OnMediaQueued();
+
+			if (_formMPlayerOutputLog != null)
+				_formMPlayerOutputLog.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -189,8 +191,8 @@ namespace SayMore.UI.MediaPlayer
 		{
 			var mediaDuration = GetTotalMediaDuration();
 
-			var endPosition = (PlaybackLength == 0 ? mediaDuration :
-				PlaybackStartPosition + PlaybackLength);
+			var endPosition = (PlaybackLength.Equals(0f) ?
+				mediaDuration : PlaybackStartPosition + PlaybackLength);
 
 			return Math.Min(mediaDuration, endPosition);
 		}
@@ -268,20 +270,8 @@ namespace SayMore.UI.MediaPlayer
 			if (_mplayer != null)
 				ShutdownMPlayerProcess();
 
-			IEnumerable<string> args;
-
-			if (VideoWindowHandle > 0)
-				args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, Volume, VideoWindowHandle);
-			else if (PlaybackLength > 0)
-			{
-				args = (Speed == 0 ?
-					MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, PlaybackLength, Volume) :
-					MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, PlaybackLength, Speed, Volume));
-			}
-			else if (Speed > 0)
-				args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, Speed, Volume);
-			else
-				args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition, Volume);
+			var args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition,
+				PlaybackLength, Volume, Speed, VideoWindowHandle);
 
 			_mplayer = MPlayerHelper.StartProcessToMonitor(args, HandleErrorDataReceived, HandleErrorDataReceived);
 			_mplayerStartInfo.AppendLine("Command Line:");
@@ -293,6 +283,10 @@ namespace SayMore.UI.MediaPlayer
 			_mplayer.MediaFileName = MediaFile;
 			_stdIn = _mplayer.StandardInput;
 			_stdIn.WriteLine(string.Format("loadfile \"{0}\" ", MediaFile));
+
+			//if (Loop)
+			//    _stdIn.WriteLine("loop 32000 ");
+
 			HasPlaybackStarted = true;
 
 			if (PlaybackStarted != null)
@@ -337,6 +331,21 @@ namespace SayMore.UI.MediaPlayer
 				if (PlaybackEnded != null)
 					PlaybackEnded();
 			}
+
+			if (_loopDelayTimer != null)
+			{
+				_loopDelayTimer.Dispose();
+				_loopDelayTimer = null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetSpeed(int speed)
+		{
+			Speed = speed;
+
+			if (_stdIn != null)
+				_stdIn.WriteLine(string.Format("speed_set {0} ", Speed / 100d));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -417,10 +426,10 @@ namespace SayMore.UI.MediaPlayer
 		/// by position next to the specified length.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string GetRangeTimeDisplay(float startPosition, float endPosition)
+		public static string GetRangeTimeDisplay(float startPosition, float endPosition)
 		{
-			if (endPosition <= 0)
-				endPosition = GetPlayBackEndPosition();
+			//if (endPosition <= 0)
+			//    endPosition = GetPlayBackEndPosition();
 
 			if (startPosition > endPosition)
 				startPosition = endPosition;
@@ -432,7 +441,7 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public static string MakeTimeString(float position)
 		{
-			if (position == 0f)
+			if (position.Equals(0f))
 				return "00.0";
 
 			var roundedPosition = Math.Round(position, 1, MidpointRounding.AwayFromZero);
@@ -471,7 +480,6 @@ namespace SayMore.UI.MediaPlayer
 			if (_queueingInProgress)
 				return;
 
-
 			if (_formMPlayerOutputLog != null)
 				_formMPlayerOutputLog.UpdateLogDisplay(data);
 
@@ -482,13 +490,11 @@ namespace SayMore.UI.MediaPlayer
 			else if (data.StartsWith("EOF code:"))
 			{
 				OnMediaQueued();
-
 				if (PlaybackEnded != null)
 					PlaybackEnded();
 
 				if (Loop)
 					StartLoopTimer();
-
 			}
 			else if (data.StartsWith("ID_PAUSED"))
 			{
@@ -523,7 +529,7 @@ namespace SayMore.UI.MediaPlayer
 				return;
 			}
 
-			if (CurrentPosition == _prevPostion)
+			if (CurrentPosition.Equals(_prevPostion))
 				return;
 
 			_prevPostion = CurrentPosition;

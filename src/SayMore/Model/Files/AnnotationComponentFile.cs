@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Palaso.UI.WindowsForms.FileSystem;
+using SayMore.Properties;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Model.Files
@@ -43,6 +44,12 @@ namespace SayMore.Model.Files
 		public override int DisplayIndentLevel
 		{
 			get { return 1; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsAnnotatingAudioFile()
+		{
+			return Settings.Default.AudioFileExtensions.Contains(Path.GetExtension(GetAssociatedMediaFile()));
 		}
 
 		/// ------------------------------------------------------------------------------------

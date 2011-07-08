@@ -177,8 +177,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual bool GetCanHaveAnnotationFile()
 		{
-			return (FileType.IsAudioOrVideo &&
-				".mp3;.wav".Contains(Path.GetExtension(PathToAnnotatedFile)));
+			return (FileType.IsAudioOrVideo);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -45,6 +45,22 @@ namespace SayMore.Transcription.UI
 
 			SetComponentFile(file);
 			_splitter.Panel1.ClientSizeChanged += HandleSplitterPanel1ClientSizeChanged;
+
+			Application.Idle += HandleFirstTimeEditorBecomesQuiescent;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFirstTimeEditorBecomesQuiescent(object sender, EventArgs e)
+		{
+			Application.Idle -= HandleFirstTimeEditorBecomesQuiescent;
+
+			if (Settings.Default.AnnotationEditorSpiltterPos > 0)
+				_splitter.SplitterDistance = Settings.Default.AnnotationEditorSpiltterPos;
+
+			_splitter.SplitterMoved += delegate
+			{
+				Settings.Default.AnnotationEditorSpiltterPos = _splitter.SplitterDistance;
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------

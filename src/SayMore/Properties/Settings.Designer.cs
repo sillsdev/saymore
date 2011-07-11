@@ -1094,5 +1094,17 @@ namespace SayMore.Properties {
                 this["AnnotationEditorVideoWindowYtoXRatio"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int AnnotationEditorSpiltterPos {
+            get {
+                return ((int)(this["AnnotationEditorSpiltterPos"]));
+            }
+            set {
+                this["AnnotationEditorSpiltterPos"] = value;
+            }
+        }
     }
 }

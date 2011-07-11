@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Palaso.Media;
+using SilTools;
 using SilTools.Controls;
 
 namespace SayMore.UI.MediaPlayer
@@ -15,7 +15,6 @@ namespace SayMore.UI.MediaPlayer
 		public VideoPanel()
 		{
 			_panelPlayingSurface = new Panel();
-			_panelPlayingSurface.BackgroundImageLayout = ImageLayout.Center;
 			BackColor = Color.Black;
 			Controls.Add(_panelPlayingSurface);
 		}
@@ -27,11 +26,14 @@ namespace SayMore.UI.MediaPlayer
 			{
 				_viewModel.MediaQueued -= HandleMediaQueued;
 				_viewModel.PlaybackStarted -= HandleMediaPlayStarted;
+				_viewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
 			}
 
 			_viewModel = viewModel;
+			_viewModel.VideoWindowHandle = VideoWindowHandle;
 			_viewModel.MediaQueued += HandleMediaQueued;
 			_viewModel.PlaybackStarted += HandleMediaPlayStarted;
+			_viewModel.PlaybackEnded += HandleMediaPlaybackEnded;
 
 			AdjustVideoSurfaceSize();
 		}
@@ -48,16 +50,16 @@ namespace SayMore.UI.MediaPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public int VideoWindowHandle
+		{
+			get { return _panelPlayingSurface.Handle.ToInt32(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
 			AdjustVideoSurfaceSize();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public int VideoWindowHandle
-		{
-			get { return _panelPlayingSurface.Handle.ToInt32(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,12 +74,15 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		private void AdjustVideoSurfaceSize()
 		{
+			_panelPlayingSurface.BackgroundImage = null;
+
 			if (_viewModel == null || _viewModel.MediaInfo == null ||
 				_viewModel.MediaInfo.PictureSize.Width == 0 || _viewModel.MediaInfo.PictureSize.Height == 0)
 			{
 				return;
 			}
 
+			Utils.SetWindowRedraw(this, false);
 			var rc = Rectangle.Empty;
 			var usableRatio = (float)ClientSize.Width / ClientSize.Height;
 			var videoRatio = (float)_viewModel.MediaInfo.PictureSize.Width / _viewModel.MediaInfo.PictureSize.Height;
@@ -97,19 +102,58 @@ namespace SayMore.UI.MediaPlayer
 			rc.Y = (ClientSize.Height - rc.Height) / 2;
 
 			_panelPlayingSurface.Bounds = rc;
-			_panelPlayingSurface.BackgroundImage = _viewModel.MediaInfo.FullSizedThumbnail;
+
+			if (!_viewModel.Loop && !_viewModel.HasPlaybackStarted)
+				ShowVideoThumbnailNow();
+
+			Utils.SetWindowRedraw(this, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ShowVideoThumbnailNow()
+		{
+			if (_viewModel == null || _viewModel.MediaInfo == null || !_viewModel.MediaInfo.IsVideo)
+				return;
+
+			var img = _viewModel.GetVideoThumbnail();
+			var rc = _panelPlayingSurface.ClientRectangle;
+
+			if (rc.Width > img.Width || rc.Height > img.Height)
+				_panelPlayingSurface.BackgroundImageLayout = ImageLayout.Center;
+			else
+				_panelPlayingSurface.BackgroundImageLayout = ImageLayout.Stretch;
+
+			_panelPlayingSurface.BackgroundImage = img;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaQueued(object sender, EventArgs e)
 		{
-			Invoke((Action)AdjustVideoSurfaceSize);
+			if (InvokeRequired)
+				Invoke((Action)AdjustVideoSurfaceSize);
+			else
+				AdjustVideoSurfaceSize();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlayStarted(object sender, EventArgs e)
 		{
-			Invoke((Action)(() => _panelPlayingSurface.BackgroundImage = null));
+			if (InvokeRequired)
+				Invoke((Action)(() => _panelPlayingSurface.BackgroundImage = null));
+			else
+				_panelPlayingSurface.BackgroundImage = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleMediaPlaybackEnded(object sender, bool EndedBecauseEOF)
+		{
+			if (_viewModel.Loop && EndedBecauseEOF)
+				return;
+
+			if (InvokeRequired)
+				Invoke((Action)ShowVideoThumbnailNow);
+			else
+				ShowVideoThumbnailNow();
 		}
 	}
 }

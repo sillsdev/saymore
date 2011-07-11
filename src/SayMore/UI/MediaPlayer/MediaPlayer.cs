@@ -41,7 +41,6 @@ namespace SayMore.UI.MediaPlayer
 			}
 
 			_viewModel = viewModel;
-			_viewModel.VideoWindowHandle = _videoPanel.VideoWindowHandle;
 			_viewModel.MediaQueued += HandleMediaQueued;
 			_viewModel.PlaybackStarted += HandleMediaPlayStarted;
 			_viewModel.PlaybackPaused = delegate { Invoke((Action)HandlePlaybackPausedResumed); };

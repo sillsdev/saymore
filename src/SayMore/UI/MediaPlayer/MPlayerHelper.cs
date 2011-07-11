@@ -206,7 +206,7 @@ namespace SayMore.UI.MediaPlayer
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		public static Image GetImageFromVideo(string videoPath, int seconds)
+		public static Image GetImageFromVideo(string videoPath, float seconds)
 		{
 			Image img = null;
 			videoPath = videoPath.Replace('\\', '/');

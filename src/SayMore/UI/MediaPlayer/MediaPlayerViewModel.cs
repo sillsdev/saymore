@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -13,9 +14,10 @@ namespace SayMore.UI.MediaPlayer
 		public Action<float> PlaybackPositionChanged;
 		public Action PlaybackPaused;
 		public Action PlaybackResumed;
-		public Action PlaybackEnded;
 		public Action VolumeChanged;
 
+		public delegate void PlaybackEndedEventHandler(object sender, bool EndedBecauseEOF);
+		public event PlaybackEndedEventHandler PlaybackEnded;
 		public event EventHandler PlaybackStarted;
 		public event EventHandler MediaQueued;
 
@@ -198,6 +200,16 @@ namespace SayMore.UI.MediaPlayer
 			return Math.Min(mediaDuration, endPosition);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public Image GetVideoThumbnail()
+		{
+			if (MediaInfo == null || !MediaInfo.IsVideo)
+				return null;
+
+			return (PlaybackStartPosition.Equals(0f) ? MediaInfo.FullSizedThumbnail :
+				MPlayerHelper.GetImageFromVideo(MediaInfo.FileName, PlaybackStartPosition));
+		}
+
 		#region Button state properties
 		/// ------------------------------------------------------------------------------------
 		public bool IsPlayButtonVisible
@@ -272,7 +284,7 @@ namespace SayMore.UI.MediaPlayer
 				ShutdownMPlayerProcess();
 
 			var args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition,
-				PlaybackLength, Volume, Speed, VideoWindowHandle);
+				PlaybackLength, Volume, Speed, MediaInfo.IsVideo ? VideoWindowHandle : 0);
 
 			_mplayer = MPlayerHelper.StartProcessToMonitor(args, HandleErrorDataReceived, HandleErrorDataReceived);
 			_mplayerStartInfo.AppendLine("Command Line:");
@@ -330,7 +342,7 @@ namespace SayMore.UI.MediaPlayer
 				OnMediaQueued();
 
 				if (PlaybackEnded != null)
-					PlaybackEnded();
+					PlaybackEnded(this, false);
 			}
 
 			if (_loopDelayTimer != null)
@@ -491,8 +503,9 @@ namespace SayMore.UI.MediaPlayer
 			else if (data.StartsWith("EOF code:"))
 			{
 				OnMediaQueued();
+
 				if (PlaybackEnded != null)
-					PlaybackEnded();
+					PlaybackEnded(this, true);
 
 				if (Loop)
 					StartLoopTimer();

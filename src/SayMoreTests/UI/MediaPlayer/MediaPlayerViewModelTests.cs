@@ -62,7 +62,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		public void HandlePlayerOutput_SendEOF_GetsPlaybackEndedEvent()
 		{
 			bool eventCalled = false;
-			_model.PlaybackEnded = (() => eventCalled = true );
+			_model.PlaybackEnded += ((s, e) => eventCalled = true );
 			_model.HandlePlayerOutput("EOF code:");
 			Assert.IsTrue(eventCalled);
 		}

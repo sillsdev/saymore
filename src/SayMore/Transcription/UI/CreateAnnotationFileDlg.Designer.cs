@@ -83,7 +83,7 @@ namespace SayMore.Transcription.UI
 			this._labelElanOverview.Name = "_labelElanOverview";
 			this._labelElanOverview.Size = new System.Drawing.Size(450, 26);
 			this._labelElanOverview.TabIndex = 6;
-			this._labelElanOverview.Text = "Alternatively, you can add an Elan \"eaf\" file which already contains segments and" +
+			this._labelElanOverview.Text = "Alternatively, you can add an ELAN \"eaf\" file which already contains segments and" +
     " annotations for this media file:";
 			// 
 			// _labelAudacityOverview
@@ -157,9 +157,9 @@ namespace SayMore.Transcription.UI
 			this._buttonLoadAudacityLabelFile.Location = new System.Drawing.Point(0, 148);
 			this._buttonLoadAudacityLabelFile.Margin = new System.Windows.Forms.Padding(0);
 			this._buttonLoadAudacityLabelFile.Name = "_buttonLoadAudacityLabelFile";
-			this._buttonLoadAudacityLabelFile.Size = new System.Drawing.Size(173, 26);
+			this._buttonLoadAudacityLabelFile.Size = new System.Drawing.Size(175, 26);
 			this._buttonLoadAudacityLabelFile.TabIndex = 5;
-			this._buttonLoadAudacityLabelFile.Text = "Load Audacity Label Track File...";
+			this._buttonLoadAudacityLabelFile.Text = "Read Audacity Label Track File...";
 			this._buttonLoadAudacityLabelFile.UseVisualStyleBackColor = true;
 			this._buttonLoadAudacityLabelFile.Click += new System.EventHandler(this.HandleLoadAudacityLabelFileClick);
 			// 
@@ -169,9 +169,9 @@ namespace SayMore.Transcription.UI
 			this._buttonLoadEafFile.Location = new System.Drawing.Point(0, 223);
 			this._buttonLoadEafFile.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._buttonLoadEafFile.Name = "_buttonLoadEafFile";
-			this._buttonLoadEafFile.Size = new System.Drawing.Size(114, 26);
+			this._buttonLoadEafFile.Size = new System.Drawing.Size(115, 26);
 			this._buttonLoadEafFile.TabIndex = 7;
-			this._buttonLoadEafFile.Text = "Load Segment File...";
+			this._buttonLoadEafFile.Text = "Copy an ELAN File...";
 			this._buttonLoadEafFile.UseVisualStyleBackColor = true;
 			this._buttonLoadEafFile.Click += new System.EventHandler(this.HandleLoadSegmentFileClick);
 			// 

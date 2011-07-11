@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
+using SayMore.UI.MediaPlayer;
+using SilTools;
 
 namespace SayMore.Transcription.UI
 {
@@ -14,6 +16,7 @@ namespace SayMore.Transcription.UI
 		public delegate TextAnnotationEditor Factory(ComponentFile file, string tabText, string imageKey);
 
 		private readonly TextAnnotationEditorGrid _grid;
+		private readonly VideoPanel _videoPanel;
 		private FileSystemWatcher _watcher;
 
 		/// ------------------------------------------------------------------------------------
@@ -24,30 +27,60 @@ namespace SayMore.Transcription.UI
 			Name = "Annotations";
 
 			_comboPlaybackSpeed.Font = SystemFonts.IconTitleFont;
-
-			_grid = new TextAnnotationEditorGrid();
-			_grid.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
-			_grid.Margin = new Padding(0, 8, 0, 0);
-			_tableLayout.Controls.Add(_grid, 0, 1);
-			_tableLayout.SetColumnSpan(_grid, 2);
-
 			// TODO: Internationalize
-			_comboPlaybackSpeed.Items.AddRange(new[] {"100% (Normal)", "90%", "80%", "70%",
-				"60%", "50%", "40%", "30%", "20%", "10%"});
+			_comboPlaybackSpeed.Items.AddRange(new[] { "100% (Normal)",
+				"90%", "80%", "70%", "60%", "50%", "40%", "30%", "20%", "10%" });
 
 			SetSpeedPercentageString(Settings.Default.AnnotationEditorPlaybackSpeed);
 			_comboPlaybackSpeed.SelectedValueChanged += HandlePlaybackSpeedValueChanged;
+
+			_grid = new TextAnnotationEditorGrid();
+			_grid.Dock = DockStyle.Fill;
+			_splitter.Panel2.Controls.Add(_grid);
+
+			_videoPanel = new VideoPanel();
+			_videoPanel.BackColor = Color.Black;
+			_videoPanel.SetPlayerViewModel(_grid.PlayerViewModel);
+			_splitter.Panel1.Controls.Add(_videoPanel);
+
 			SetComponentFile(file);
+			_splitter.Panel1.ClientSizeChanged += HandleSplitterPanel1ClientSizeChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
+			Utils.SetWindowRedraw(this, false);
 			base.SetComponentFile(file);
 
+			var annotationFile = file as AnnotationComponentFile;
+			_splitter.Panel1Collapsed = annotationFile.GetIsAnnotatingAudioFile();
+
 			file.Load();
-			_grid.Load(file as AnnotationComponentFile);
+			_grid.Load(annotationFile);
 			SetupWatchingForFileChanges();
+			Utils.SetWindowRedraw(this, true);
+			_videoPanel.ShowVideoThumbnailNow();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleSplitterPanel1ClientSizeChanged(object sender, EventArgs e)
+		{
+			Utils.SetWindowRedraw(this, false);
+
+			_videoPanel.Size = new Size(_splitter.Panel1.ClientSize.Width,
+				(int)(_splitter.Panel1.ClientSize.Width * Settings.Default.AnnotationEditorVideoWindowYtoXRatio));
+
+			if (_videoPanel.Width > _splitter.Panel1.ClientSize.Width)
+				_videoPanel.Width = _splitter.Panel1.ClientSize.Width;
+
+			if (_videoPanel.Height > _splitter.Panel1.ClientSize.Height)
+				_videoPanel.Height = _splitter.Panel1.ClientSize.Height;
+
+			if (!_grid.PlayerViewModel.HasPlaybackStarted)
+				_videoPanel.ShowVideoThumbnailNow();
+
+			Utils.SetWindowRedraw(this, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -31,7 +31,9 @@ namespace SayMore.Transcription.UI
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._labelPlaybackSpeed = new System.Windows.Forms.Label();
 			this._comboPlaybackSpeed = new System.Windows.Forms.ComboBox();
+			this._splitter = new System.Windows.Forms.SplitContainer();
 			this._tableLayout.SuspendLayout();
+			this._splitter.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _tableLayout
@@ -40,8 +42,10 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.ColumnCount = 2;
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableLayout.Controls.Add(this._labelPlaybackSpeed, 0, 0);
 			this._tableLayout.Controls.Add(this._comboPlaybackSpeed, 1, 0);
+			this._tableLayout.Controls.Add(this._splitter, 0, 1);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayout.Location = new System.Drawing.Point(12, 12);
 			this._tableLayout.Name = "_tableLayout";
@@ -66,11 +70,25 @@ namespace SayMore.Transcription.UI
 			// 
 			this._comboPlaybackSpeed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._comboPlaybackSpeed.FormattingEnabled = true;
-			this._comboPlaybackSpeed.Location = new System.Drawing.Point(3, 0);
+			this._comboPlaybackSpeed.Location = new System.Drawing.Point(94, 0);
 			this._comboPlaybackSpeed.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
 			this._comboPlaybackSpeed.Size = new System.Drawing.Size(137, 21);
 			this._comboPlaybackSpeed.TabIndex = 1;
+			// 
+			// _splitter
+			// 
+			this._splitter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._tableLayout.SetColumnSpan(this._splitter, 2);
+			this._splitter.Location = new System.Drawing.Point(0, 29);
+			this._splitter.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
+			this._splitter.Name = "_splitter";
+			this._splitter.Size = new System.Drawing.Size(425, 226);
+			this._splitter.SplitterDistance = 141;
+			this._splitter.SplitterWidth = 8;
+			this._splitter.TabIndex = 2;
 			// 
 			// TextAnnotationEditor
 			// 
@@ -82,6 +100,7 @@ namespace SayMore.Transcription.UI
 			this.Size = new System.Drawing.Size(449, 279);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
+			this._splitter.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -91,6 +110,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private System.Windows.Forms.Label _labelPlaybackSpeed;
 		private System.Windows.Forms.ComboBox _comboPlaybackSpeed;
+		private System.Windows.Forms.SplitContainer _splitter;
 
 
 	}

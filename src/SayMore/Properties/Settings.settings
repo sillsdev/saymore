@@ -332,5 +332,8 @@
     <Setting Name="AnnotationEditorPlaybackSpeed" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
+    <Setting Name="AnnotationEditorVideoWindowYtoXRatio" Provider="SilTools.PortableSettingsProvider" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0.75</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

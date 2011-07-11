@@ -1081,5 +1081,18 @@ namespace SayMore.Properties {
                 this["AnnotationEditorPlaybackSpeed"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.75")]
+        public decimal AnnotationEditorVideoWindowYtoXRatio {
+            get {
+                return ((decimal)(this["AnnotationEditorVideoWindowYtoXRatio"]));
+            }
+            set {
+                this["AnnotationEditorVideoWindowYtoXRatio"] = value;
+            }
+        }
     }
 }

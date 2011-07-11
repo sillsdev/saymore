@@ -74,6 +74,9 @@ namespace SayMore.Transcription.UI
 
 			AutoResizeColumnHeadersHeight();
 			ColumnHeadersHeight += 8;
+
+			if (MediaFileProvider != null)
+				PlayerViewModel.LoadFile(MediaFileProvider());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -208,7 +211,8 @@ namespace SayMore.Transcription.UI
 
 			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
-			PlayerViewModel.PlaybackEnded = (() => Invoke(_playbackProgressReportingAction));
+			PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
+			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));
 			PlayerViewModel.Play();
 		}
@@ -217,15 +221,27 @@ namespace SayMore.Transcription.UI
 		public void Stop()
 		{
 			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
-			PlayerViewModel.PlaybackEnded = null;
+			PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = null;
 			PlayerViewModel.Stop();
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleMediaPlaybackEnded(object sender, bool EndedBecauseEOF)
+		{
+			if (InvokeRequired)
+				Invoke(_playbackProgressReportingAction);
+			else
+				_playbackProgressReportingAction();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlayStarted(object sender, EventArgs e)
 		{
-			Invoke(_playbackProgressReportingAction);
+			if (InvokeRequired)
+				Invoke(_playbackProgressReportingAction);
+			else
+				_playbackProgressReportingAction();
 		}
 
 		#endregion

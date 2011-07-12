@@ -134,6 +134,7 @@ namespace SayMore.UI.ElementListScreen
 			_model.DeactivateComponentEditors();
 			_model.SetSelectedComponentFile(index);
 			ShowSelectedComponentFileEditors();
+			_model.ActivateComponentEditors();
 
 			if (AfterComponentFileSelected != null)
 				AfterComponentFileSelected(_model.SelectedComponentFile);
@@ -282,6 +283,8 @@ namespace SayMore.UI.ElementListScreen
 			var editorProviders = _model.GetComponentEditorProviders();
 			ComponentEditorsTabControl tabCtrl;
 
+			// Check if editiors for the current file type have been shown yet. If not then
+			// load a new tab control for this file type containing the appropriate editors.
 			if (!_tabControls.TryGetValue(currProviderKey, out tabCtrl))
 			{
 				tabCtrl = new ComponentEditorsTabControl(currProviderKey, _tabControlImages,

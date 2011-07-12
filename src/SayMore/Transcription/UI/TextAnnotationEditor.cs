@@ -18,6 +18,7 @@ namespace SayMore.Transcription.UI
 		private readonly TextAnnotationEditorGrid _grid;
 		private readonly VideoPanel _videoPanel;
 		private FileSystemWatcher _watcher;
+		private bool _isFirstTimeActivated = true;
 
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationEditor(ComponentFile file, string tabText, string imageKey)
@@ -45,14 +46,17 @@ namespace SayMore.Transcription.UI
 
 			SetComponentFile(file);
 			_splitter.Panel1.ClientSizeChanged += HandleSplitterPanel1ClientSizeChanged;
-
-			Application.Idle += HandleFirstTimeEditorBecomesQuiescent;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleFirstTimeEditorBecomesQuiescent(object sender, EventArgs e)
+		public override void Activated()
 		{
-			Application.Idle -= HandleFirstTimeEditorBecomesQuiescent;
+			base.Activated();
+
+			if (!_isFirstTimeActivated)
+				return;
+
+			_isFirstTimeActivated = false;
 
 			if (Settings.Default.AnnotationEditorSpiltterPos > 0)
 				_splitter.SplitterDistance = Settings.Default.AnnotationEditorSpiltterPos;
@@ -177,7 +181,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override void Deactivate()
+		public override void Deactivated()
 		{
 			((AnnotationComponentFile)_file).PostSaveAction = null;
 			((AnnotationComponentFile)_file).PostSaveAction = null;

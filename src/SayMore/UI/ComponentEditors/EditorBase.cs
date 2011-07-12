@@ -33,7 +33,8 @@ namespace SayMore.UI.ComponentEditors
 		void Initialize(string tabText, string imageKey);
 		void SetComponentFile(ComponentFile file);
 		Action ComponentFileListRefreshAction { set; }
-		void Deactivate();
+		void Deactivated();
+		void Activated();
 		bool IsOKSToLeaveEditor { get; }
 		bool IsOKSToShow { get; }
 		event Action<string> TabTextChanged;
@@ -180,7 +181,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void Deactivate()
+		public virtual void Activated()
+		{
+			// Allows subclasses to do whatever they need to when an editor gets activated
+			// (i.e. when the tab control the editor is on becomes visible).
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void Deactivated()
 		{
 			// Allows subclasses to do whatever they need to when an editor gets taken out
 			// of use. This is not to be confused with being disposed, the difference being

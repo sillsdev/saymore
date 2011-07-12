@@ -145,6 +145,16 @@ namespace SayMore.Transcription.UI
 			OnEditorAndChildrenLostFocus();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private void HandleExportButtonClick(object sender, EventArgs e)
+		{
+			using (var dlg = new ExportToFieldWorksInterlinearDlg())
+			{
+				if (dlg.ShowDialog() == DialogResult.Cancel)
+					return;
+			}
+		}
+
 		#region Methods for tracking changes to the EAF file outside of SayMore
 		/// ------------------------------------------------------------------------------------
 		void SetupWatchingForFileChanges()

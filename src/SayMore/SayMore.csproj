@@ -156,6 +156,12 @@
     <Compile Include="Transcription\UI\CreateAnnotationFileDlg.Designer.cs">
       <DependentUpon>CreateAnnotationFileDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.Designer.cs">
+      <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transcription\UI\TextAnnotationColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
       <SubType>UserControl</SubType>
@@ -473,6 +479,9 @@
     <EmbeddedResource Include="Transcription\UI\CreateAnnotationFileDlg.resx">
       <DependentUpon>CreateAnnotationFileDlg.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.resx">
+      <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\TextAnnotationEditor.resx">
       <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -719,6 +728,7 @@
     <None Include="Resources\StopSegment.png" />
     <None Include="Resources\StopSegment_Hot.PNG" />
     <None Include="Resources\ElanIcon.png" />
+    <None Include="Resources\InterlinearExport.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

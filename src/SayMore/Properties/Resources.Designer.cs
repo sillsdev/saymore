@@ -225,6 +225,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap InterlinearExport {
+            get {
+                object obj = ResourceManager.GetObject("InterlinearExport", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidBrowseForProject {
             get {
                 object obj = ResourceManager.GetObject("kimidBrowseForProject", resourceCulture);

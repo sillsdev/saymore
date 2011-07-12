@@ -224,7 +224,7 @@ namespace SayMore.Model.Files
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return;
 
-				var newAnnotationFile = EafFile.Create(dlg.FileName, PathToAnnotatedFile);
+				var newAnnotationFile = AnnotationFileHelper.Create(dlg.FileName, PathToAnnotatedFile);
 
 				if (refreshAction != null)
 					refreshAction(newAnnotationFile);

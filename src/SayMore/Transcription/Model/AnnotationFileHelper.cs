@@ -6,38 +6,44 @@ using Palaso.IO;
 
 namespace SayMore.Transcription.Model
 {
-	public class EafFile
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// Class for managing annotation files. SayMore annotation files are the same as
+	/// ELAN eaf files.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class AnnotationFileHelper
 	{
-		public string EafFileName { get; private set; }
+		public string AnnotationFileName { get; private set; }
 		public XElement Root { get; private set; }
 
 		private string _mediaFileName;
 
 		#region Constructors and static methods for loading and verifying validity of file
 		/// ------------------------------------------------------------------------------------
-		private EafFile(string eafFileName)
+		private AnnotationFileHelper(string annotationFileName)
 		{
-			EafFileName = eafFileName;
-			Root = XElement.Load(EafFileName);
+			AnnotationFileName = annotationFileName;
+			Root = XElement.Load(AnnotationFileName);
 
 			if (Root.Name.LocalName != "ANNOTATION_DOCUMENT")
 				Root = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public EafFile(string eafFileName, string mediaFileName)
+		public AnnotationFileHelper(string annotationFileName, string mediaFileName)
 		{
-			EafFileName = eafFileName;
+			AnnotationFileName = annotationFileName;
 			_mediaFileName = mediaFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static EafFile Load(string eafFileName)
+		public static AnnotationFileHelper Load(string annotationFileName)
 		{
-			if (!File.Exists(eafFileName) || !GetIsElanFile(eafFileName))
+			if (!File.Exists(annotationFileName) || !GetIsElanFile(annotationFileName))
 				return null;
 
-			return new EafFile(eafFileName);
+			return new AnnotationFileHelper(annotationFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,16 +66,16 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public string GetAnnotationFolderPath()
 		{
-			return Path.GetDirectoryName(EafFileName);
+			return Path.GetDirectoryName(AnnotationFileName);
 		}
 
 		#endregion
 
 		#region Methods for reading/writing media file
 		/// ------------------------------------------------------------------------------------
-		public static void ChangeMediaFileName(string eafFileName, string mediaFileName)
+		public static void ChangeMediaFileName(string annotationFileName, string mediaFileName)
 		{
-			var eafFile = Load(eafFileName);
+			var eafFile = Load(annotationFileName);
 
 			if (eafFile != null)
 			{
@@ -304,7 +310,7 @@ namespace SayMore.Transcription.Model
 
 		#endregion
 
-		#region Methods for saving an EAF file
+		#region Methods for saving an annotation file
 		/// ------------------------------------------------------------------------------------
 		public void Save(TextTier transcriptionTier)
 		{
@@ -328,11 +334,11 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			var folder = Path.GetDirectoryName(EafFileName);
+			var folder = Path.GetDirectoryName(AnnotationFileName);
 			if (!Directory.Exists(folder))
 				Directory.CreateDirectory(folder);
 
-			Root.Save(EafFileName);
+			Root.Save(AnnotationFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------

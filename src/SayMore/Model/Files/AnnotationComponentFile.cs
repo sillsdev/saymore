@@ -16,7 +16,7 @@ namespace SayMore.Model.Files
 		public Action PreSaveAction;
 		public Action PostSaveAction;
 
-		private EafFile _eafFile;
+		private AnnotationFileHelper _eafFile;
 
 		/// ------------------------------------------------------------------------------------
 		public AnnotationComponentFile(ProjectElement parentElement,
@@ -69,7 +69,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override void Load()
 		{
-			_eafFile = EafFile.Load(PathToAnnotatedFile);
+			_eafFile = AnnotationFileHelper.Load(PathToAnnotatedFile);
 			Tiers = _eafFile.GetTiers();
 		}
 
@@ -78,7 +78,7 @@ namespace SayMore.Model.Files
 		{
 			var oldPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
 			base.RenameAnnotatedFile(newPath);
-			EafFile.ChangeMediaFileName(PathToAnnotatedFile, GetAssociatedMediaFile());
+			AnnotationFileHelper.ChangeMediaFileName(PathToAnnotatedFile, GetAssociatedMediaFile());
 
 			if (!File.Exists(oldPfsxFile))
 				return;

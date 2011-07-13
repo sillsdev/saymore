@@ -139,6 +139,7 @@
     <Compile Include="Transcription\Model\AnnotationFileHelper.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelper.cs" />
     <Compile Include="Transcription\Model\AudioTier.cs" />
+    <Compile Include="Transcription\Model\InterlinearXmlHelper.cs" />
     <Compile Include="Transcription\Model\ISegment.cs" />
     <Compile Include="Transcription\Model\ITier.cs" />
     <Compile Include="Transcription\Model\AudioSegment.cs" />

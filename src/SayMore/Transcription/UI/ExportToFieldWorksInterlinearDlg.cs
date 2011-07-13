@@ -11,7 +11,13 @@ namespace SayMore.Transcription.UI
 	{
 		public string FileName { get; private set; }
 		public WritingSystemDefinition TranscriptionWs { get; private set; }
-		public WritingSystemDefinition PhraseFreeTranslationWs { get; private set; }
+		public WritingSystemDefinition FreeTranslationWs { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public ExportToFieldWorksInterlinearDlg(string defaultExportFileName) : this()
+		{
+			FileName = defaultExportFileName + ".xml";
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public ExportToFieldWorksInterlinearDlg()
@@ -40,6 +46,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<WritingSystemDefinition> GetAvailableWritingSystems()
 		{
+			// TODO: JohnH - get writing systems using Palaso.
 			yield return new WritingSystemDefinition("seh", "", "", "", "Sen", false);
 			yield return new WritingSystemDefinition("pt", "", "", "", "Por", false);
 			yield return new WritingSystemDefinition("en", "", "", "", "Eng", false);
@@ -61,6 +68,7 @@ namespace SayMore.Transcription.UI
 			using (var dlg = new SaveFileDialog())
 			{
 				dlg.Title = "Export to File";
+				dlg.FileName = FileName;
 				dlg.OverwritePrompt = true;
 				dlg.CheckPathExists = true;
 				dlg.Filter = "Interlinear XML (*.xml)|*.xml|All Files (*.*)|*.*";
@@ -78,14 +86,14 @@ namespace SayMore.Transcription.UI
 		private void HandleWritingSystemChanged(object sender, EventArgs e)
 		{
 			TranscriptionWs = _comboTranscriptionWs.SelectedItem as WritingSystemDefinition;
-			PhraseFreeTranslationWs = _comboTranslationWs.SelectedItem as WritingSystemDefinition;
+			FreeTranslationWs = _comboTranslationWs.SelectedItem as WritingSystemDefinition;
 			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
-			_buttonExport.Enabled = (TranscriptionWs != null && PhraseFreeTranslationWs != null);
+			_buttonExport.Enabled = (TranscriptionWs != null && FreeTranslationWs != null);
 		}
 	}
 }

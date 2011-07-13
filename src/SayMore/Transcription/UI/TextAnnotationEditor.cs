@@ -1,9 +1,11 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.MediaPlayer;
 using SilTools;
@@ -148,10 +150,18 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleExportButtonClick(object sender, EventArgs e)
 		{
-			using (var dlg = new ExportToFieldWorksInterlinearDlg())
+			var file = (AnnotationComponentFile)_file;
+			var mediaFileName = Path.GetFileName(file.GetPathToAssociatedMediaFile());
+
+			using (var dlg = new ExportToFieldWorksInterlinearDlg(mediaFileName))
 			{
 				if (dlg.ShowDialog() == DialogResult.Cancel)
 					return;
+
+				var tier = file.Tiers.FirstOrDefault(t => t is TextTier);
+
+				InterlinearXmlHelper.Save(dlg.FileName, mediaFileName,
+					tier, dlg.TranscriptionWs.Id, dlg.FreeTranslationWs.Id);
 			}
 		}
 

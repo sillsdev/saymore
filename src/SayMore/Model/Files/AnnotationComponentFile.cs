@@ -28,16 +28,17 @@ namespace SayMore.Model.Files
 			InitializeFileInfo();
 			Load();
 
-			SmallIcon = Properties.Resources.ElanIcon;
+			SmallIcon = Resources.ElanIcon;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ITier> Tiers { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public string GetAssociatedMediaFile()
+		public string GetPathToAssociatedMediaFile()
 		{
-			return PathToAnnotatedFile.Substring(0, PathToAnnotatedFile.Length - ".annotations.eaf".Length);
+			return PathToAnnotatedFile.Substring(0,
+				PathToAnnotatedFile.Length - ".annotations.eaf".Length);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -49,7 +50,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsAnnotatingAudioFile()
 		{
-			return Settings.Default.AudioFileExtensions.Contains(Path.GetExtension(GetAssociatedMediaFile()));
+			return Settings.Default.AudioFileExtensions.Contains(Path.GetExtension(GetPathToAssociatedMediaFile()));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -78,7 +79,7 @@ namespace SayMore.Model.Files
 		{
 			var oldPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
 			base.RenameAnnotatedFile(newPath);
-			AnnotationFileHelper.ChangeMediaFileName(PathToAnnotatedFile, GetAssociatedMediaFile());
+			AnnotationFileHelper.ChangeMediaFileName(PathToAnnotatedFile, GetPathToAssociatedMediaFile());
 
 			if (!File.Exists(oldPfsxFile))
 				return;

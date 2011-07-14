@@ -46,6 +46,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<WritingSystemDefinition> GetAvailableWritingSystems()
 		{
+			var x = new LdmlInFolderWritingSystemRepository().AllWritingSystems;
+
 			// TODO: JohnH - get writing systems using Palaso.
 			yield return new WritingSystemDefinition("seh", "", "", "", "Sen", false);
 			yield return new WritingSystemDefinition("pt", "", "", "", "Por", false);
@@ -71,7 +73,7 @@ namespace SayMore.Transcription.UI
 				dlg.FileName = FileName;
 				dlg.OverwritePrompt = true;
 				dlg.CheckPathExists = true;
-				dlg.Filter = "Interlinear XML (*.xml)|*.xml|All Files (*.*)|*.*";
+				dlg.Filter = "FLEx Interlinear XML (*.xml)|*.xml|All Files (*.*)|*.*";
 
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{

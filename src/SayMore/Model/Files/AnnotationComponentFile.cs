@@ -16,7 +16,7 @@ namespace SayMore.Model.Files
 		public Action PreSaveAction;
 		public Action PostSaveAction;
 
-		private AnnotationFileHelper _eafFile;
+		private AnnotationFileHelper _helper;
 
 		/// ------------------------------------------------------------------------------------
 		public AnnotationComponentFile(ProjectElement parentElement,
@@ -61,7 +61,7 @@ namespace SayMore.Model.Files
 			if (PreSaveAction != null)
 				PreSaveAction();
 
-			_eafFile.Save(Tiers.First(t => t.DataType == TierType.Text) as TextTier);
+			_helper.Save(Tiers.First(t => t.DataType == TierType.Text) as TextTier);
 
 			if (PostSaveAction != null)
 				PostSaveAction();
@@ -70,8 +70,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override void Load()
 		{
-			_eafFile = AnnotationFileHelper.Load(PathToAnnotatedFile);
-			Tiers = _eafFile.GetTiers();
+			_helper = AnnotationFileHelper.Load(PathToAnnotatedFile);
+			Tiers = _helper.GetTiers();
 		}
 
 		/// ------------------------------------------------------------------------------------

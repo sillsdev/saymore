@@ -361,10 +361,13 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetDependentTiersElements_NoDependentTiersExist_ReturnsEmptyList()
+		public void GetDependentTiersElements_NoDependentTiersExist_AddsEmptyFreeTranslationTier()
 		{
 			LoadEafFile();
-			Assert.IsEmpty(_helper.GetDependentTiersElements().ToList());
+			var tierElements = _helper.GetDependentTiersElements().ToList();
+			Assert.AreEqual(1, tierElements.Count);
+			Assert.AreEqual("Transcription", tierElements[0].Attribute("PARENT_REF").Value);
+			Assert.AreEqual("Phrase Free Translation", tierElements[0].Attribute("TIER_ID").Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -538,183 +541,27 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateMediaFileMimeType_Mp3File_ReturnsProperMimeType()
+		public void CreateMediaFileMimeType_NonWaveAudioFile_ReturnsProperMimeType()
 		{
 			Assert.AreEqual("audio/*", new AnnotationFileHelper(null, "Alathea.mp3").CreateMediaFileMimeType());
+			Assert.AreEqual("audio/*", new AnnotationFileHelper(null, "Alathea.wma").CreateMediaFileMimeType());
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateHeaderElement_ReturnsCorrectElementContent()
-		//{
-		//    var element = new EafFile(null, "Great Lake Swimmers.wav").CreateHeaderElement();
-		//    Assert.AreEqual("HEADER", element.Name.LocalName);
-		//    Assert.AreEqual(string.Empty, element.Attribute("MEDIA_FILE").Value);
-		//    Assert.AreEqual("milliseconds", element.Attribute("TIME_UNITS").Value);
-		//    Assert.IsNotNull(element.Element("MEDIA_DESCRIPTOR"));
-		//}
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateMediaFileMimeType_MpgFile_ReturnsProperMimeType()
+		{
+			Assert.AreEqual("video/mpeg", new AnnotationFileHelper(null, "Alathea.mpg").CreateMediaFileMimeType());
+			Assert.AreEqual("video/mpeg", new AnnotationFileHelper(null, "Alathea.mpeg").CreateMediaFileMimeType());
+		}
 
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateLastUsedAnnotationIdPropertyElement_ReturnsCorrectElementContent()
-		//{
-		//    var element = _eafFile.CreateLastUsedAnnotationIdPropertyElement(123);
-		//    Assert.AreEqual("PROPERTY", element.Name.LocalName);
-		//    Assert.AreEqual("lastUsedAnnotationId", element.Attribute("NAME").Value);
-		//    Assert.AreEqual("123", element.Value);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateTierElement_ReturnsCorrectElementContent()
-		//{
-		//    var element = _eafFile.CreateTierElement("tippy tier");
-		//    Assert.AreEqual("TIER", element.Name.LocalName);
-		//    Assert.AreEqual("en", element.Attribute("DEFAULT_LOCALE").Value);
-		//    Assert.AreEqual("default-lt", element.Attribute("LINGUISTIC_TYPE_REF").Value);
-		//    Assert.AreEqual("tippy tier", element.Attribute("TIER_ID").Value);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateTimeSlotElements_ReturnsElementsWithCorrectNames()
-		//{
-		//    var elements = _eafFile.CreateTimeSlotElements(new[] { 0f, 0f, 0f }).ToList();
-		//    Assert.AreEqual("TIME_SLOT", elements[0].Name.LocalName);
-		//    Assert.AreEqual("TIME_SLOT", elements[1].Name.LocalName);
-		//    Assert.AreEqual("TIME_SLOT", elements[2].Name.LocalName);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateTimeSlotElements_ReturnsElementsWithCorrectIds()
-		//{
-		//    var elements = _eafFile.CreateTimeSlotElements(new[] { 0f, 0f, 0f }).ToList();
-		//    Assert.AreEqual("ts1", elements[0].Attribute("TIME_SLOT_ID").Value);
-		//    Assert.AreEqual("ts2", elements[1].Attribute("TIME_SLOT_ID").Value);
-		//    Assert.AreEqual("ts3", elements[2].Attribute("TIME_SLOT_ID").Value);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateTimeSlotElements_ReturnsElementsWithCorrectValues()
-		//{
-		//    var elements = _eafFile.CreateTimeSlotElements(new[] { 0.3f, 0.7f, 0.9f }).ToList();
-		//    Assert.AreEqual("300", elements[0].Attribute("TIME_VALUE").Value);
-		//    Assert.AreEqual("700", elements[1].Attribute("TIME_VALUE").Value);
-		//    Assert.AreEqual("900", elements[2].Attribute("TIME_VALUE").Value);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateAnnotationElement_NullTextTier_ReturnsEmptyList()
-		//{
-		//    Assert.AreEqual(0, _eafFile.CreateAnnotationElements(null,
-		//        _mediaTier.GetAllSegments().Cast<IMediaSegment>(), null).Count());
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateAnnotationElement_NullMediaSegments_ReturnsEmptyList()
-		//{
-		//    Assert.AreEqual(0, _eafFile.CreateAnnotationElements(new TextTier("iron"), null, null).Count());
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateAnnotationElement_NoTextSegments_ReturnsEmptyList()
-		//{
-		//    Assert.AreEqual(0, _eafFile.CreateAnnotationElements(new TextTier("copper"),
-		//        _mediaTier.GetAllSegments().Cast<IMediaSegment>(), null).Count());
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateAnnotationElement_GoodData_ReturnsCorrectNumberOfElements()
-		//{
-		//    Assert.AreEqual(2, _eafFile.CreateAnnotationElements(_textTier,
-		//        _mediaTier.GetAllSegments().Cast<IMediaSegment>(), f => "").Count());
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateAnnotationElement_GoodData_ReturnsCorrectElementNames()
-		//{
-		//    var elements = _eafFile.CreateAnnotationElements(_textTier,
-		//        _mediaTier.GetAllSegments().Cast<IMediaSegment>(), f => "").ToList();
-
-		//    Assert.AreEqual("ANNOTATION", elements[0].Name.LocalName);
-		//    Assert.AreEqual("ANNOTATION", elements[1].Name.LocalName);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateAnnotationElement_GoodData_ReturnsCorrectAnnotationIds()
-		//{
-		//    var elements = _eafFile.CreateAnnotationElements(_textTier,
-		//        _mediaTier.GetAllSegments().Cast<IMediaSegment>(), f => "").ToList();
-
-		//    Assert.AreEqual("a1", elements[0].Element("ALIGNABLE_ANNOTATION").Attribute("ANNOTATION_ID").Value);
-		//    Assert.AreEqual("a2", elements[1].Element("ALIGNABLE_ANNOTATION").Attribute("ANNOTATION_ID").Value);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateAnnotationElement_GoodData_ReturnsCorrectTimeSlotRefs()
-		//{
-		//    int i = 5;
-
-		//    var elements = _eafFile.CreateAnnotationElements(_textTier,
-		//        _mediaTier.GetAllSegments().Cast<IMediaSegment>(), f => "ts" + i++).ToList();
-
-		//    Assert.AreEqual("ts5", elements[0].Element("ALIGNABLE_ANNOTATION").Attribute("TIME_SLOT_REF1").Value);
-		//    Assert.AreEqual("ts6", elements[0].Element("ALIGNABLE_ANNOTATION").Attribute("TIME_SLOT_REF2").Value);
-		//    Assert.AreEqual("ts7", elements[1].Element("ALIGNABLE_ANNOTATION").Attribute("TIME_SLOT_REF1").Value);
-		//    Assert.AreEqual("ts8", elements[1].Element("ALIGNABLE_ANNOTATION").Attribute("TIME_SLOT_REF2").Value);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateAnnotationElement_GoodData_ReturnsCorrectAnnotations()
-		//{
-		//    var elements = _eafFile.CreateAnnotationElements(_textTier,
-		//        _mediaTier.GetAllSegments().Cast<IMediaSegment>(), f => "").ToList();
-
-		//    Assert.AreEqual("brass", elements[0].Element("ALIGNABLE_ANNOTATION").Element("ANNOTATION_VALUE").Value);
-		//    Assert.AreEqual("steel", elements[1].Element("ALIGNABLE_ANNOTATION").Element("ANNOTATION_VALUE").Value);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateAlignableAnnotationElement_ReturnsCorrectElementContent()
-		//{
-		//    var element = _eafFile.CreateAlignableAnnotationElement(48, "ts33", "ts55", "some text");
-		//    Assert.AreEqual("ALIGNABLE_ANNOTATION", element.Name.LocalName);
-		//    Assert.AreEqual("a48", element.Attribute("ANNOTATION_ID").Value);
-		//    Assert.AreEqual("ts33", element.Attribute("TIME_SLOT_REF1").Value);
-		//    Assert.AreEqual("ts55", element.Attribute("TIME_SLOT_REF2").Value);
-		//    Assert.AreEqual("some text", element.Element("ANNOTATION_VALUE").Value);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateLinguisticTypeElement_ReturnsCorrectElementContent()
-		//{
-		//    var element = _eafFile.CreateLinguisticTypeElement();
-		//    Assert.AreEqual("LINGUISTIC_TYPE", element.Name.LocalName);
-		//    Assert.AreEqual("false", element.Attribute("GRAPHIC_REFERENCES").Value);
-		//    Assert.AreEqual("default-lt", element.Attribute("LINGUISTIC_TYPE_ID").Value);
-		//    Assert.AreEqual("true", element.Attribute("TIME_ALIGNABLE").Value);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void CreateLocaleElement_ReturnsCorrectElementContent()
-		//{
-		//    var element = _eafFile.CreateLocaleElement();
-		//    Assert.AreEqual("LOCALE", element.Name.LocalName);
-		//    Assert.AreEqual("IPA Extended", element.Attribute("VARIANT").Value);
-		//    Assert.AreEqual("ipa-ext", element.Attribute("LANGUAGE_CODE").Value);
-		//}
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateMediaFileMimeType_NonMpgVideoFile_ReturnsProperMimeType()
+		{
+			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.wmv").CreateMediaFileMimeType());
+			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.mov").CreateMediaFileMimeType());
+			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.avi").CreateMediaFileMimeType());
+		}
 	}
 }

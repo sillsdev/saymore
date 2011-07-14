@@ -15,10 +15,6 @@ namespace SayMore.Transcription.UI
 	{
 		public Func<ITimeOrderSegment> SegmentProvider;
 		public Func<string> MediaFileProvider;
-
-		//public delegate void PlaybackSpeedChangedHandler(object sender, int newSpeed);
-		//public event PlaybackSpeedChangedHandler PlaybackSpeedChanged;
-
 		public MediaPlayerViewModel PlayerViewModel { get; private set; }
 
 		private AnnotationComponentFile _annotationFile;

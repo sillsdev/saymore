@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Palaso.IO;
+using SayMore.Properties;
 
 namespace SayMore.Transcription.Model
 {
@@ -42,6 +43,22 @@ namespace SayMore.Transcription.Model
 		{
 			if (!File.Exists(annotationFileName) || !GetIsElanFile(annotationFileName))
 				return null;
+
+			var helper = new AnnotationFileHelper(annotationFileName);
+
+			// Esure thee is a dependent free translation tier.
+			var elements = helper.GetDependentTiersElements();
+			if (elements.SingleOrDefault(e =>
+				e.Attribute("TIER_ID").Value.ToLower() == "phrase free translation") == null)
+			{
+				helper.Root.Add(new XElement("TIER",
+					new XAttribute("DEFAULT_LOCALE", "en"),
+					new XAttribute("LINGUISTIC_TYPE_REF", "Translation"),
+					new XAttribute("PARENT_REF", "Transcription"),
+					new XAttribute("TIER_ID", "Phrase Free Translation")));
+
+				helper.Save();
+			}
 
 			return new AnnotationFileHelper(annotationFileName);
 		}
@@ -195,7 +212,16 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public string CreateMediaFileMimeType()
 		{
-			return "audio/" + (Path.GetExtension(_mediaFileName).ToLower() == ".wav" ? "x-wav" : "*");
+			var ext = Path.GetExtension(_mediaFileName).ToLower();
+
+			switch (ext)
+			{
+				case ".wav" : return "audio/x-wav";
+				case ".mpg":
+				case ".mpeg": return "video/mpeg";
+			}
+
+			return (Settings.Default.AudioFileExtensions.Contains(ext) ? "audio" : "video") + "/*";
 		}
 
 		#endregion

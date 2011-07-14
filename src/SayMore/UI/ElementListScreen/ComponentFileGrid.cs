@@ -425,6 +425,7 @@ namespace SayMore.UI.ElementListScreen
 			// are no longer supposed to exist. This tends to happen when the row count was
 			// previously higher than the new value.
 			_grid.CellValueNeeded -= HandleFileGridCellValueNeeded;
+			_grid.CurrentCell = null;
 			_grid.RowCount = componentFiles.Count();
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.Invalidate();

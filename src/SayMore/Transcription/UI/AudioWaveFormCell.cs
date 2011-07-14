@@ -87,6 +87,8 @@ namespace SayMore.Transcription.UI
 
 			var rc = _grid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
 			rc.X = rc.Y = 0;
+			rc.Width = _grid.Columns[ColumnIndex].Width;
+
 			var overButtonArea = GetButtonRectangle(rc).Contains(e.Location);
 
 			if (_mouseIsOverButtonArea == overButtonArea)

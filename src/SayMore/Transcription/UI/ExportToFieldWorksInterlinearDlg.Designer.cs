@@ -63,7 +63,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(323, 132);
+			this._tableLayout.Size = new System.Drawing.Size(323, 136);
 			this._tableLayout.TabIndex = 0;
 			// 
 			// _buttonCancel
@@ -71,8 +71,8 @@ namespace SayMore.Transcription.UI
 			this._buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonCancel.AutoSize = true;
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._buttonCancel.Location = new System.Drawing.Point(248, 106);
-			this._buttonCancel.Margin = new System.Windows.Forms.Padding(4, 8, 0, 0);
+			this._buttonCancel.Location = new System.Drawing.Point(248, 110);
+			this._buttonCancel.Margin = new System.Windows.Forms.Padding(4, 12, 0, 0);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
 			this._buttonCancel.TabIndex = 1;
@@ -83,8 +83,8 @@ namespace SayMore.Transcription.UI
 			// 
 			this._buttonExport.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonExport.AutoSize = true;
-			this._buttonExport.Location = new System.Drawing.Point(165, 106);
-			this._buttonExport.Margin = new System.Windows.Forms.Padding(0, 8, 4, 0);
+			this._buttonExport.Location = new System.Drawing.Point(165, 110);
+			this._buttonExport.Margin = new System.Windows.Forms.Padding(0, 12, 4, 0);
 			this._buttonExport.Name = "_buttonExport";
 			this._buttonExport.Size = new System.Drawing.Size(75, 26);
 			this._buttonExport.TabIndex = 2;

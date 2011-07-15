@@ -134,16 +134,14 @@ namespace SayMore
 				yield return
 					new ComponentRole(typeof(Event), "transcription", "Transcription",
 						ComponentRole.MeasurementTypes.Words,
-						ComponentRole.GetIsText,
-						"$ElementId$_Transcription",
+						ComponentRole.GetIsAudioVideo, "$ElementId$_Transcription",
 						Settings.Default.WorkflowStageColor5,
 						Settings.Default.WorkflowStageTextColor5);
 
 				yield return
 					new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
 						ComponentRole.MeasurementTypes.Words,
-						 ComponentRole.GetIsText,
-						"$ElementId$_Translation",
+						ComponentRole.GetIsText, "$ElementId$_Translation",
 						Settings.Default.WorkflowStageColor6,
 						Settings.Default.WorkflowStageTextColor6);
 			}

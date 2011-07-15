@@ -104,6 +104,8 @@ namespace SayMore.Transcription.UI
 			DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle,
 			DataGridViewPaintParts paintParts)
 		{
+			paintParts &= ~DataGridViewPaintParts.Focus;
+
 			// If we're drawing the current row's cell, then don't draw the cell's text.
 			if (_grid.CurrentCellAddress.Y == rowIndex && rowIndex > 0)
 				paintParts &= ~DataGridViewPaintParts.ContentForeground;

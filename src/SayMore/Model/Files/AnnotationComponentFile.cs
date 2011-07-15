@@ -18,10 +18,12 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		public AnnotationComponentFile(ProjectElement parentElement,
-			string pathToAnnotationFile, TextAnnotationFileType fileType,
+			string pathToAnnotationFile, AnnotationFileType fileType,
 			IEnumerable<ComponentRole> componentRoles)
 			: base(parentElement, pathToAnnotationFile, fileType, null, null, null)
 		{
+			Tiers = new ITier[] { };
+
 			// The annotated file is the same as the annotation file.
 			PathToAnnotatedFile = pathToAnnotationFile;
 			_componentRoles = componentRoles;
@@ -66,8 +68,24 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override void Load()
 		{
-			_helper = AnnotationFileHelper.Load(PathToAnnotatedFile);
-			Tiers = _helper.GetTiers();
+			TryLoadAndReturnException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Exception TryLoadAndReturnException()
+		{
+			try
+			{
+				_helper = AnnotationFileHelper.Load(PathToAnnotatedFile);
+				Tiers = _helper.GetTiers();
+			}
+			catch (Exception e)
+			{
+				Tiers = new ITier[] { };
+				return e;
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------

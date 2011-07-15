@@ -80,7 +80,7 @@ namespace SayMore
 				builder.RegisterType<EventFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
 
-				builder.RegisterType<TextAnnotationFileType>().InstancePerLifetimeScope();
+				builder.RegisterType<AnnotationFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(GetFilesTypes).InstancePerLifetimeScope();
@@ -99,14 +99,14 @@ namespace SayMore
 
 				//using the factory gave stack overflow: builder.Register<PresetGatherer>(c => c.Resolve<PresetGatherer.Factory>()(rootDirectoryPath));
 				builder.Register<PresetGatherer>(c => new PresetGatherer(rootDirectoryPath,
-					c.Resolve<IEnumerable<FileType>>(), c.Resolve<PresetData.Factory>())).InstancePerLifetimeScope();
+					GetDataGatheringFilesTypes(c), c.Resolve<PresetData.Factory>())).InstancePerLifetimeScope();
 
 				builder.Register<AutoCompleteValueGatherer>(
-					c => new AutoCompleteValueGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
+					c => new AutoCompleteValueGatherer(rootDirectoryPath, GetDataGatheringFilesTypes(c),
 						c.Resolve<ComponentFile.Factory>())).InstancePerLifetimeScope();
 
 				builder.Register<FieldGatherer>(
-					c => new FieldGatherer(rootDirectoryPath, c.Resolve<IEnumerable<FileType>>(),
+					c => new FieldGatherer(rootDirectoryPath, GetDataGatheringFilesTypes(c),
 						c.Resolve<FileTypeFields.Factory>())).InstancePerLifetimeScope();
 
 				builder.Register<FieldUpdater>(c => new FieldUpdater(c.Resolve<FieldGatherer>(),
@@ -129,7 +129,21 @@ namespace SayMore
 				context.Resolve<AudioFileType>(),
 				context.Resolve<VideoFileType>(),
 				context.Resolve<ImageFileType>(),
-				context.Resolve<TextAnnotationFileType>(),
+				context.Resolve<AnnotationFileType>(),
+				context.Resolve<UnknownFileType>(),
+			});
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<FileType> GetDataGatheringFilesTypes(IComponentContext context)
+		{
+			return new List<FileType>(new FileType[]
+			{
+				context.Resolve<EventFileType>(),
+				context.Resolve<PersonFileType>(),
+				context.Resolve<AudioFileType>(),
+				context.Resolve<VideoFileType>(),
+				context.Resolve<ImageFileType>(),
 				context.Resolve<UnknownFileType>(),
 			});
 		}

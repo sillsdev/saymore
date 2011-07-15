@@ -451,14 +451,14 @@ namespace SayMore.Model.Files
 
 	#endregion
 
-	#region TextAnnotationFileType class
+	#region AnnotationFileType class
 	/// ----------------------------------------------------------------------------------------
-	public class TextAnnotationFileType : FileTypeWithContributors
+	public class AnnotationFileType : FileTypeWithContributors
 	{
 		/// ------------------------------------------------------------------------------------
-		public TextAnnotationFileType(Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+		public AnnotationFileType(Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base("Annotations",
-				f => f.ToLower().EndsWith(Settings.Default.TextAnnotationFileExtension.ToLower()),
+				f => f.ToLower().EndsWith(Settings.Default.AnnotationFileExtension.ToLower()),
 				contributorsEditorFactoryLazy)
 		{
 		}

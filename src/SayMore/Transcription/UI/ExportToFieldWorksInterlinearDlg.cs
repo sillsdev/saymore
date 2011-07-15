@@ -25,8 +25,11 @@ namespace SayMore.Transcription.UI
 		{
 			InitializeComponent();
 
-			_labelTranscriptionWs.Text = TextTier.TranscriptionTierName;
-			_labelTranslationWs.Text = TextTier.FreeTranslationTierName;
+			_labelTranscriptionWs.Text =
+				string.Format(_labelTranscriptionWs.Text, TextTier.TranscriptionTierName);
+
+			_labelTranslationWs.Text =
+				string.Format(_labelTranslationWs.Text, TextTier.FreeTranslationTierName);
 
 			_labelOverview.Font = SystemFonts.IconTitleFont;
 			_labelTranscriptionWs.Font = SystemFonts.IconTitleFont;

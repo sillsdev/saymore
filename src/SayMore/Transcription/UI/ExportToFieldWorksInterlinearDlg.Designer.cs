@@ -63,7 +63,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(323, 136);
+			this._tableLayout.Size = new System.Drawing.Size(284, 136);
 			this._tableLayout.TabIndex = 0;
 			// 
 			// _buttonCancel
@@ -71,7 +71,7 @@ namespace SayMore.Transcription.UI
 			this._buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonCancel.AutoSize = true;
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._buttonCancel.Location = new System.Drawing.Point(248, 110);
+			this._buttonCancel.Location = new System.Drawing.Point(209, 110);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(4, 12, 0, 0);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
@@ -83,7 +83,7 @@ namespace SayMore.Transcription.UI
 			// 
 			this._buttonExport.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonExport.AutoSize = true;
-			this._buttonExport.Location = new System.Drawing.Point(165, 110);
+			this._buttonExport.Location = new System.Drawing.Point(126, 110);
 			this._buttonExport.Margin = new System.Windows.Forms.Padding(0, 12, 4, 0);
 			this._buttonExport.Name = "_buttonExport";
 			this._buttonExport.Size = new System.Drawing.Size(75, 26);
@@ -99,19 +99,20 @@ namespace SayMore.Transcription.UI
 			this._labelTranscriptionWs.Location = new System.Drawing.Point(0, 45);
 			this._labelTranscriptionWs.Margin = new System.Windows.Forms.Padding(0);
 			this._labelTranscriptionWs.Name = "_labelTranscriptionWs";
-			this._labelTranscriptionWs.Size = new System.Drawing.Size(71, 13);
+			this._labelTranscriptionWs.Size = new System.Drawing.Size(24, 13);
 			this._labelTranscriptionWs.TabIndex = 3;
-			this._labelTranscriptionWs.Text = "Transcription:";
+			this._labelTranscriptionWs.Text = "{0}:";
 			// 
 			// _comboTranscriptionWs
 			// 
+			this._comboTranscriptionWs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayout.SetColumnSpan(this._comboTranscriptionWs, 3);
 			this._comboTranscriptionWs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._comboTranscriptionWs.FormattingEnabled = true;
-			this._comboTranscriptionWs.Location = new System.Drawing.Point(125, 41);
+			this._comboTranscriptionWs.Location = new System.Drawing.Point(27, 41);
 			this._comboTranscriptionWs.Margin = new System.Windows.Forms.Padding(3, 5, 0, 5);
 			this._comboTranscriptionWs.Name = "_comboTranscriptionWs";
-			this._comboTranscriptionWs.Size = new System.Drawing.Size(198, 21);
+			this._comboTranscriptionWs.Size = new System.Drawing.Size(257, 21);
 			this._comboTranscriptionWs.TabIndex = 4;
 			this._comboTranscriptionWs.SelectionChangeCommitted += new System.EventHandler(this.HandleWritingSystemChanged);
 			// 
@@ -122,19 +123,20 @@ namespace SayMore.Transcription.UI
 			this._labelTranslationWs.Location = new System.Drawing.Point(0, 76);
 			this._labelTranslationWs.Margin = new System.Windows.Forms.Padding(0);
 			this._labelTranslationWs.Name = "_labelTranslationWs";
-			this._labelTranslationWs.Size = new System.Drawing.Size(122, 13);
+			this._labelTranslationWs.Size = new System.Drawing.Size(24, 13);
 			this._labelTranslationWs.TabIndex = 5;
-			this._labelTranslationWs.Text = "Phrase Free Translation:";
+			this._labelTranslationWs.Text = "{0}:";
 			// 
 			// _comboTranslationWs
 			// 
+			this._comboTranslationWs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayout.SetColumnSpan(this._comboTranslationWs, 3);
 			this._comboTranslationWs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._comboTranslationWs.FormattingEnabled = true;
-			this._comboTranslationWs.Location = new System.Drawing.Point(125, 72);
+			this._comboTranslationWs.Location = new System.Drawing.Point(27, 72);
 			this._comboTranslationWs.Margin = new System.Windows.Forms.Padding(3, 5, 0, 5);
 			this._comboTranslationWs.Name = "_comboTranslationWs";
-			this._comboTranslationWs.Size = new System.Drawing.Size(198, 21);
+			this._comboTranslationWs.Size = new System.Drawing.Size(257, 21);
 			this._comboTranslationWs.TabIndex = 6;
 			this._comboTranslationWs.SelectionChangeCommitted += new System.EventHandler(this.HandleWritingSystemChanged);
 			// 
@@ -147,9 +149,9 @@ namespace SayMore.Transcription.UI
 			this._labelOverview.Location = new System.Drawing.Point(0, 0);
 			this._labelOverview.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
 			this._labelOverview.Name = "_labelOverview";
-			this._labelOverview.Size = new System.Drawing.Size(323, 26);
+			this._labelOverview.Size = new System.Drawing.Size(284, 26);
 			this._labelOverview.TabIndex = 7;
-			this._labelOverview.Text = "Specify the writing systems for the transcriptions and phrase free translation.";
+			this._labelOverview.Text = "Specify the writing systems for the transcriptions and free translations.";
 			// 
 			// ExportToFieldWorksInterlinearDlg
 			// 
@@ -157,7 +159,7 @@ namespace SayMore.Transcription.UI
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.CancelButton = this._buttonCancel;
-			this.ClientSize = new System.Drawing.Size(359, 146);
+			this.ClientSize = new System.Drawing.Size(320, 146);
 			this.Controls.Add(this._tableLayout);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;

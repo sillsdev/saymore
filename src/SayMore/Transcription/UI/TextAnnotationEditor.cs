@@ -61,7 +61,14 @@ namespace SayMore.Transcription.UI
 			var annotationFile = file as AnnotationComponentFile;
 			_splitter.Panel1Collapsed = annotationFile.GetIsAnnotatingAudioFile();
 
-			file.Load();
+			var exception = annotationFile.TryLoadAndReturnException();
+			if (exception != null)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(exception,
+					"There was an error loading the annotation file '{0}'.",
+					file.PathToAnnotatedFile);
+			}
+
 			_grid.Load(annotationFile);
 			SetupWatchingForFileChanges();
 			Utils.SetWindowRedraw(this, true);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -41,12 +42,19 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public static AnnotationFileHelper Load(string annotationFileName)
 		{
-			if (!File.Exists(annotationFileName) || !GetIsElanFile(annotationFileName))
-				return null;
+			if (!File.Exists(annotationFileName))
+				throw new FileNotFoundException("File not found: " + annotationFileName);
+
+			if (!GetIsElanFile(annotationFileName))
+			{
+				throw new Exception(
+					string.Format("File '{0}' is not a SayMore annotation file. It is possibly corrupt.",
+					annotationFileName));
+			}
 
 			var helper = new AnnotationFileHelper(annotationFileName);
 
-			// Esure thee is a dependent free translation tier.
+			// Esure there is a dependent free translation tier.
 			var elements = helper.GetDependentTiersElements();
 			if (elements.SingleOrDefault(e =>
 				e.Attribute("TIER_ID").Value.ToLower() == TextTier.FreeTranslationTierName.ToLower()) == null)
@@ -58,9 +66,10 @@ namespace SayMore.Transcription.Model
 					new XAttribute("TIER_ID", TextTier.FreeTranslationTierName)));
 
 				helper.Save();
+				helper = new AnnotationFileHelper(annotationFileName);
 			}
 
-			return new AnnotationFileHelper(annotationFileName);
+			return helper;
 		}
 
 		/// ------------------------------------------------------------------------------------

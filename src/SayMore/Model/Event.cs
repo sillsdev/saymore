@@ -126,8 +126,8 @@ namespace SayMore.Model
 		private bool GetShouldReportHaveConsent()
 		{
 			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
-			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants);
-			bool allParticipantsHaveConsent = personNames.Count() > 0;
+			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToArray();
+			bool allParticipantsHaveConsent = personNames.Length > 0;
 
 			return !personNames.Any(name => !_personInformant.GetHasInformedConsent(name)) &&
 				allParticipantsHaveConsent;

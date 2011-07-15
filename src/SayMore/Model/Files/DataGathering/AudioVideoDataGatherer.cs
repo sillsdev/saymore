@@ -12,8 +12,7 @@ namespace SayMore.Model.Files.DataGathering
 		BackgroundFileProcessor<MediaFileInfo>, IProvideAudioVideoFileStatistics
 	{
 		public AudioVideoDataGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes) :
-			base(rootDirectoryPath,
-				from t in allFileTypes where t.IsAudioOrVideo select t,
+			base(rootDirectoryPath, allFileTypes.Where(t => t.IsAudioOrVideo),
 				path => new MediaFileInfo(path))
 		{
 		}

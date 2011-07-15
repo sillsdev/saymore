@@ -93,14 +93,6 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnLayout(LayoutEventArgs e)
-		{
-			base.OnLayout(e);
-			if (FindForm() != null)
-				System.Diagnostics.Debug.Write("");
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public virtual void SetComponentFile(ComponentFile file)
 		{
 			_file = file;

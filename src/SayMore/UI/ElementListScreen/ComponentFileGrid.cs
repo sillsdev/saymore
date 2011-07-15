@@ -481,28 +481,6 @@ namespace SayMore.UI.ElementListScreen
 		private void HandleCreateAnnotationFileButtonClick(object sender, EventArgs e)
 		{
 			_files.ElementAt(_grid.CurrentCellAddress.Y).CreateAnnotationFile(PostMenuCommandRefreshAction);
-
-			//using (var dlg = new OpenFileDialog())
-			//{
-			//    var caption = LocalizationManager.LocalizeString(
-			//        "SegmentEditor.LoadSegmentFileDlgCaption", "Select Segment File");
-
-			//    dlg.Title = caption;
-			//    dlg.CheckFileExists = true;
-			//    dlg.CheckPathExists = true;
-			//    dlg.Multiselect = false;
-
-			//    dlg.Filter = "Audacity Label File (*.txt)|*.txt|ELAN File (*.eaf)|*.eaf|All Files (*.*)|*.*";
-
-			//    if (dlg.ShowDialog(this) != DialogResult.OK)
-			//        return;
-
-			//    if (CreateAnnotationFileForComponentFile != null)
-			//    {
-			//        CreateAnnotationFileForComponentFile(
-			//            _files.ElementAt(_grid.CurrentCellAddress.Y), dlg.FileName);
-			//    }
-			//}
 		}
 
 		/// ------------------------------------------------------------------------------------

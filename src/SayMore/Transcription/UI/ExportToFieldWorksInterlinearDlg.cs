@@ -48,6 +48,7 @@ namespace SayMore.Transcription.UI
 				_comboTranscriptionWs.SelectedItem = wsList[0];
 				_comboTranslationWs.SelectedItem = wsList[0];
 			}
+			_comboTranslationWs.SelectedItem = wsList.FirstOrDefault(w => w.Id == "en");
 
 			HandleWritingSystemChanged(null, null);
 		}

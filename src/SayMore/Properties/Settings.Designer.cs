@@ -1106,5 +1106,29 @@ namespace SayMore.Properties {
                 this["AnnotationEditorSpiltterPos"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string TranscriptionWsForFWInterlinearExport {
+            get {
+                return ((string)(this["TranscriptionWsForFWInterlinearExport"]));
+            }
+            set {
+                this["TranscriptionWsForFWInterlinearExport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string FreeTranslationWsForFWInterlinearExport {
+            get {
+                return ((string)(this["FreeTranslationWsForFWInterlinearExport"]));
+            }
+            set {
+                this["FreeTranslationWsForFWInterlinearExport"] = value;
+            }
+        }
     }
 }

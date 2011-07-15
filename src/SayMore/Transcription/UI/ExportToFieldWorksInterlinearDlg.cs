@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Palaso.WritingSystems;
+using SayMore.Properties;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Transcription.UI
@@ -43,8 +44,11 @@ namespace SayMore.Transcription.UI
 
 			if (wsList.Length > 0)
 			{
-				_comboTranscriptionWs.SelectedItem = wsList[0];
-				_comboTranslationWs.SelectedItem = wsList[0];
+				IntializeWritingSystemCombo(_comboTranscriptionWs,
+					Settings.Default.TranscriptionWsForFWInterlinearExport);
+
+				IntializeWritingSystemCombo(_comboTranslationWs,
+					Settings.Default.FreeTranslationWsForFWInterlinearExport);
 			}
 
 			HandleWritingSystemChanged(null, null);
@@ -72,6 +76,19 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void IntializeWritingSystemCombo(ComboBox combo, string initialWs)
+		{
+			if (initialWs != null)
+			{
+				combo.SelectedItem =
+					combo.Items.Cast<WritingSystemDefinition>().FirstOrDefault(w => w.Id == initialWs);
+			}
+
+			if (combo.SelectedItem == null)
+				combo.SelectedItem = combo.Items[0];
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleExportButtonClick(object sender, EventArgs e)
 		{
 			using (var dlg = new SaveFileDialog())
@@ -96,6 +113,10 @@ namespace SayMore.Transcription.UI
 		{
 			TranscriptionWs = _comboTranscriptionWs.SelectedItem as WritingSystemDefinition;
 			FreeTranslationWs = _comboTranslationWs.SelectedItem as WritingSystemDefinition;
+
+			Settings.Default.TranscriptionWsForFWInterlinearExport = TranscriptionWs.Id;
+			Settings.Default.FreeTranslationWsForFWInterlinearExport = FreeTranslationWs.Id;
+
 			UpdateDisplay();
 		}
 

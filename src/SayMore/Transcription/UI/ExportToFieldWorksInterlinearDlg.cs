@@ -13,9 +13,24 @@ namespace SayMore.Transcription.UI
 {
 	public partial class ExportToFieldWorksInterlinearDlg : Form
 	{
+		#region DisplayFriendlyWritingSystem class
+		/// ------------------------------------------------------------------------------------
+		public class DisplayFriendlyWritingSystem
+		{
+			public string Id;
+			public string Name;
+
+			public override string ToString()
+			{
+				return string.Format("{0} ({1})", Name, Id);
+			}
+		}
+
+		#endregion
+
 		public string FileName { get; private set; }
-		public WritingSystemDefinition TranscriptionWs { get; private set; }
-		public WritingSystemDefinition FreeTranslationWs { get; private set; }
+		public DisplayFriendlyWritingSystem TranscriptionWs { get; private set; }
+		public DisplayFriendlyWritingSystem FreeTranslationWs { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public ExportToFieldWorksInterlinearDlg(string defaultExportFileName) : this()
@@ -40,7 +55,9 @@ namespace SayMore.Transcription.UI
 			_comboTranscriptionWs.Font = SystemFonts.IconTitleFont;
 			_comboTranslationWs.Font = SystemFonts.IconTitleFont;
 
-			var wsList = GetAvailableWritingSystems().ToArray();
+			var wsList = GetAvailableWritingSystems().Select(ws =>
+				new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.LanguageName }).ToArray();
+
 			_comboTranscriptionWs.Items.AddRange(wsList);
 			_comboTranslationWs.Items.AddRange(wsList);
 
@@ -50,9 +67,9 @@ namespace SayMore.Transcription.UI
 					Settings.Default.TranscriptionWsForFWInterlinearExport);
 
 				IntializeWritingSystemCombo(_comboTranslationWs,
-					Settings.Default.FreeTranslationWsForFWInterlinearExport);
+					string.IsNullOrEmpty(Settings.Default.FreeTranslationWsForFWInterlinearExport) ?
+					"en" : Settings.Default.FreeTranslationWsForFWInterlinearExport);
 			}
-			_comboTranslationWs.SelectedItem = wsList.FirstOrDefault(w => w.Id == "en");
 
 			HandleWritingSystemChanged(null, null);
 		}
@@ -63,7 +80,7 @@ namespace SayMore.Transcription.UI
 			//TODO: someday, this may be safe to call. But not yet.
 			//return (new LdmlInFolderWritingSystemRepository()).AllWritingSystems;
 
-			var globalPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).CombineForPath(
+			var globalPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).CombineForPath(
 				"SIL", "WritingSystemStore");
 			if (!Directory.Exists(globalPath))
 			{
@@ -77,10 +94,9 @@ namespace SayMore.Transcription.UI
 				foreach (string path in Directory.GetFiles(globalPath, "*.ldml"))
 				{
 					var name = Path.GetFileNameWithoutExtension(path);
-					yield return  WritingSystemDefinition.FromLanguage(name);
+					yield return WritingSystemDefinition.FromLanguage(name);
 				}
 			}
-
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -96,7 +112,7 @@ namespace SayMore.Transcription.UI
 			if (initialWs != null)
 			{
 				combo.SelectedItem =
-					combo.Items.Cast<WritingSystemDefinition>().FirstOrDefault(w => w.Id == initialWs);
+					combo.Items.Cast<DisplayFriendlyWritingSystem>().FirstOrDefault(w => w.Id == initialWs);
 			}
 
 			if (combo.SelectedItem == null)
@@ -126,8 +142,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleWritingSystemChanged(object sender, EventArgs e)
 		{
-			TranscriptionWs = _comboTranscriptionWs.SelectedItem as WritingSystemDefinition;
-			FreeTranslationWs = _comboTranslationWs.SelectedItem as WritingSystemDefinition;
+			TranscriptionWs = _comboTranscriptionWs.SelectedItem as DisplayFriendlyWritingSystem;
+			FreeTranslationWs = _comboTranslationWs.SelectedItem as DisplayFriendlyWritingSystem;
 
 			Settings.Default.TranscriptionWsForFWInterlinearExport = TranscriptionWs.Id;
 			Settings.Default.FreeTranslationWsForFWInterlinearExport = FreeTranslationWs.Id;

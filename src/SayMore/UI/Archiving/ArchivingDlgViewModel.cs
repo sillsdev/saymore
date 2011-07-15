@@ -106,13 +106,13 @@ namespace SayMore.UI.Archiving
 			_progressMessages[msgKey] = string.Format("Adding Files for Event '{0}'", _eventTitle);
 
 			var fileList = new Dictionary<string, IEnumerable<string>>();
-			fileList[string.Empty] = filesInDir;
+			fileList[string.Empty] = filesInDir.Where(f => IncludeFileInArchive(f));
 
 			foreach (var person in _event.GetAllParticipants()
 				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
 			{
 				filesInDir = Directory.GetFiles(person.FolderPath);
-				fileList[person.Id] = filesInDir;
+				fileList[person.Id] = filesInDir.Where(f => IncludeFileInArchive(f));
 
 				msgKey = GetPathToContributorFileInArchive(person.Id, filesInDir[0]);
 				msgKey = Path.Combine(Path.Combine("Contributors", person.Id), Path.GetFileName(filesInDir[0]));
@@ -120,6 +120,12 @@ namespace SayMore.UI.Archiving
 			}
 
 			return fileList;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool IncludeFileInArchive(string path)
+		{
+			return (Path.GetExtension(path).ToLower() != ".pfsx");
 		}
 
 		/// ------------------------------------------------------------------------------------

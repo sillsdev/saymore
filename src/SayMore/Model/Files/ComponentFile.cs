@@ -57,6 +57,9 @@ namespace SayMore.Model.Files
 		public event ValueChangedHandler IdChanged;
 		public event ValueChangedHandler MetadataValueChanged;
 
+		public event EventHandler BeforeSave;
+		public event EventHandler AfterSave;
+
 		private AnnotationComponentFile _annotationFile;
 		protected IEnumerable<ComponentRole> _componentRoles;
 		protected FileSerializer _fileSerializer;
@@ -141,8 +144,11 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected void DetermineFileType(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes)
 		{
-			FileType = (fileTypes.FirstOrDefault(t => t.IsMatch(pathToAnnotatedFile)) ??
-				fileTypes.FirstOrDefault(t => t.IsForUnknownFileTypes));
+			var fTypes = fileTypes.ToArray();
+
+			FileType =
+				fTypes.FirstOrDefault(t => t.IsMatch(pathToAnnotatedFile)) ??
+				fTypes.FirstOrDefault(t => t.IsForUnknownFileTypes);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -339,7 +345,7 @@ namespace SayMore.Model.Files
 			if (oldFieldInstance == null)
 			{
 				if (newValue == null)
-					return newValue;
+					return null;
 
 				MetaDataFieldValues.Add(new FieldInstance(key, newValue));
 			}
@@ -421,7 +427,23 @@ namespace SayMore.Model.Files
 		public virtual void Save(string path)
 		{
 			_metaDataPath = path;
+			OnBeforeSave(this);
 			_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
+			OnAfterSave(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnBeforeSave(object sender)
+		{
+			if (BeforeSave != null)
+				BeforeSave(sender, EventArgs.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnAfterSave(object sender)
+		{
+			if (AfterSave != null)
+				AfterSave(sender, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -525,7 +547,40 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ToolStripItem> GetMenuCommands(Action<string> refreshAction)
+		public virtual IEnumerable<ToolStripItem> GetMenuCommands(Action<string> refreshAction)
+		{
+			bool addSeparator = false;
+
+			foreach (var cmd in GetFileTypeMenuCommands(refreshAction))
+			{
+				addSeparator = true;
+				yield return cmd;
+			}
+
+			var menuCommands = GetRenamingMenuCommands(refreshAction).ToArray();
+			if (menuCommands.Length > 0 && addSeparator)
+				yield return new ToolStripSeparator();
+
+			addSeparator = false;
+
+			foreach (var cmd in menuCommands)
+			{
+				addSeparator = true;
+				yield return cmd;
+			}
+
+			if (GetCanHaveAnnotationFile())
+			{
+				if (addSeparator)
+					yield return new ToolStripSeparator();
+
+				yield return new ToolStripMenuItem("Create Annotation File...", null,
+					(s, e) => CreateAnnotationFile(refreshAction)) { Enabled = !GetDoesHaveAnnotationFile() };
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ToolStripItem> GetFileTypeMenuCommands(Action<string> refreshAction)
 		{
 			foreach (var cmd in FileType.GetCommands(PathToAnnotatedFile))
 			{
@@ -550,18 +605,14 @@ namespace SayMore.Model.Files
 					}) { Tag = cmd1.MenuId };
 				}
 			}
+		}
 
-			bool needSeparator = true;
-
-			// commands which assign to roles
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ToolStripItem> GetRenamingMenuCommands(Action<string> refreshAction)
+		{
+			// Commands which rename for assigning to roles
 			foreach (var role in GetRelevantComponentRoles().Where(role => role.IsPotential(PathToAnnotatedFile)))
 			{
-				if (needSeparator)
-				{
-					needSeparator = false;
-					yield return new ToolStripSeparator();
-				}
-
 				string label = string.Format("Rename For {0}", role.Name);
 				var role1 = role;
 				var toolStripMenuItem = new ToolStripMenuItem(label, null, (s, e) =>
@@ -584,7 +635,7 @@ namespace SayMore.Model.Files
 				yield return toolStripMenuItem;
 			}
 
-			if (!(this is ProjectElementComponentFile) && !(this is AnnotationComponentFile))
+			if (GetCanBeCustomRenamed())
 			{
 				yield return new ToolStripMenuItem("Custom Rename...", null, (s, e) =>
 				{
@@ -601,13 +652,12 @@ namespace SayMore.Model.Files
 
 				}) { Tag = "rename" };
 			}
+		}
 
-			if (GetCanHaveAnnotationFile())
-			{
-				yield return new ToolStripSeparator();
-				yield return new ToolStripMenuItem("Create Annotation File...", null,
-					(s, e) => CreateAnnotationFile(refreshAction)) { Enabled = !GetDoesHaveAnnotationFile() };
-			}
+		/// ------------------------------------------------------------------------------------
+		public virtual bool GetCanBeCustomRenamed()
+		{
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

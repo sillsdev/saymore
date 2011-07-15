@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -13,18 +14,17 @@ namespace SayMore.Model.Files
 		public new delegate AnnotationComponentFile Factory(
 			ProjectElement parentElement, string pathToAnnotationFile);
 
-		public Action PreSaveAction;
-		public Action PostSaveAction;
-
 		private AnnotationFileHelper _helper;
 
 		/// ------------------------------------------------------------------------------------
 		public AnnotationComponentFile(ProjectElement parentElement,
-			string pathToAnnotationFile, TextAnnotationFileType fileType)
+			string pathToAnnotationFile, TextAnnotationFileType fileType,
+			IEnumerable<ComponentRole> componentRoles)
 			: base(parentElement, pathToAnnotationFile, fileType, null, null, null)
 		{
 			// The annotated file is the same as the annotation file.
 			PathToAnnotatedFile = pathToAnnotationFile;
+			_componentRoles = componentRoles;
 			InitializeFileInfo();
 			Load();
 
@@ -58,13 +58,9 @@ namespace SayMore.Model.Files
 		{
 			// path is ignored.
 
-			if (PreSaveAction != null)
-				PreSaveAction();
-
+			base.OnBeforeSave(this);
 			_helper.Save(Tiers.First(t => t.DataType == TierType.Text) as TextTier);
-
-			if (PostSaveAction != null)
-				PostSaveAction();
+			base.OnAfterSave(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,6 +94,57 @@ namespace SayMore.Model.Files
 
 			// Delete this annotation file.
 			ConfirmRecycleDialog.Recycle(PathToAnnotatedFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TextTier GetTranscriptionTier()
+		{
+			return Tiers.FirstOrDefault(t => t.DisplayName == TextTier.TranscriptionTierName) as TextTier;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TextTier GetFreeTranslationTier()
+		{
+			var transcriptionTier = GetTranscriptionTier();
+
+			return (transcriptionTier == null ? null :
+				transcriptionTier.DependentTiers.FirstOrDefault(t =>
+					t.DisplayName == TextTier.FreeTranslationTierName) as TextTier);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<ToolStripItem> GetRenamingMenuCommands(Action<string> refreshAction)
+		{
+			return new ToolStripItem[] { };
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool GetCanHaveAnnotationFile()
+		{
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool GetCanBeCustomRenamed()
+		{
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Return the transcription and/or translation roles if all the segments are not
+		/// empty.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<ComponentRole> GetAssignedRoles(Type elementType)
+		{
+			var tier = GetTranscriptionTier();
+			if (tier != null && tier.GetIsComplete())
+				yield return _componentRoles.Single(r => r.Id == "transcription");
+
+			tier = GetFreeTranslationTier();
+			if (tier != null && tier.GetIsComplete())
+				yield return _componentRoles.Single(r => r.Id == "transcriptionN");
 		}
 	}
 }

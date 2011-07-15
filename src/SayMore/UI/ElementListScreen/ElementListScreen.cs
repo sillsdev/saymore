@@ -193,7 +193,7 @@ namespace SayMore.UI.ElementListScreen
 					_elementsGrid.SelectElement(0);
 				else if (itemToSelectAfterLoad is ProjectElement)
 					_elementsGrid.SelectElement((ProjectElement)itemToSelectAfterLoad);
-				else if (itemToSelectAfterLoad.GetType() == typeof(int))
+				else if (itemToSelectAfterLoad is int)
 					_elementsGrid.SelectElement((int)itemToSelectAfterLoad);
 				else if (itemToSelectAfterLoad == typeof(string))
 					_elementsGrid.SelectElement((string)itemToSelectAfterLoad);
@@ -208,7 +208,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected void UpdateComponentFileList()
 		{
-			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement();
+			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement().ToArray();
 			_componentFilesControl.AfterComponentSelected = null;
 			_componentFilesControl.UpdateComponentFileList(componentsOfSelectedElement);
 
@@ -218,6 +218,8 @@ namespace SayMore.UI.ElementListScreen
 				componentFile.IdChanged += HandleComponentFileIdChanged;
 				componentFile.MetadataValueChanged -= HandleComponentFileMetadataValueChanged;
 				componentFile.MetadataValueChanged += HandleComponentFileMetadataValueChanged;
+				componentFile.AfterSave -= HandleComponentFileSaved;
+				componentFile.AfterSave += HandleComponentFileSaved;
 			}
 
 			if (componentsOfSelectedElement.Count() == 0)
@@ -258,6 +260,11 @@ namespace SayMore.UI.ElementListScreen
 		protected virtual void HandleComponentFileMetadataValueChanged(ComponentFile file,
 			string fieldId, object oldValue, object newValue)
 		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleComponentFileSaved(object sender, EventArgs e)
+		{
 			_componentFilesControl.Refresh();
 		}
 
@@ -280,7 +287,7 @@ namespace SayMore.UI.ElementListScreen
 			if (currProviderKey == null)
 				return;
 
-			var editorProviders = _model.GetComponentEditorProviders();
+			var editorProviders = _model.GetComponentEditorProviders().ToArray();
 			ComponentEditorsTabControl tabCtrl;
 
 			// Check if editiors for the current file type have been shown yet. If not then
@@ -451,7 +458,7 @@ namespace SayMore.UI.ElementListScreen
 				return true;
 
 			var editor = SelectedComponentEditorsTabControl.CurrentEditor;
-			return (editor == null ? true : editor.IsOKSToLeaveEditor);
+			return (editor == null || editor.IsOKSToLeaveEditor);
 		}
 	}
 }

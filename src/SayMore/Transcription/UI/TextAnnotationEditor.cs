@@ -51,6 +51,24 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override void SetComponentFile(ComponentFile file)
+		{
+			Deactivated();
+
+			Utils.SetWindowRedraw(this, false);
+			base.SetComponentFile(file);
+
+			var annotationFile = file as AnnotationComponentFile;
+			_splitter.Panel1Collapsed = annotationFile.GetIsAnnotatingAudioFile();
+
+			file.Load();
+			_grid.Load(annotationFile);
+			SetupWatchingForFileChanges();
+			Utils.SetWindowRedraw(this, true);
+			_videoPanel.ShowVideoThumbnailNow();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override void Activated()
 		{
 			base.Activated();
@@ -70,19 +88,20 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override void SetComponentFile(ComponentFile file)
+		public override void Deactivated()
 		{
-			Utils.SetWindowRedraw(this, false);
-			base.SetComponentFile(file);
+			if (_file != null)
+			{
+				_file.BeforeSave -= HandleBeforeAnnotationFileSaved;
+				_file.AfterSave -= HandleAfterAnnotationFileSaved;
+			}
 
-			var annotationFile = file as AnnotationComponentFile;
-			_splitter.Panel1Collapsed = annotationFile.GetIsAnnotatingAudioFile();
-
-			file.Load();
-			_grid.Load(annotationFile);
-			SetupWatchingForFileChanges();
-			Utils.SetWindowRedraw(this, true);
-			_videoPanel.ShowVideoThumbnailNow();
+			if (_watcher != null)
+			{
+				_watcher.Changed -= HandleAnnotationFileChanged;
+				_watcher.Dispose();
+				_watcher = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,18 +152,18 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnFormLostFocus()
+		{
+			base.OnFormLostFocus();
+			OnEditorAndChildrenLostFocus();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnEditorAndChildrenLostFocus()
 		{
 			base.OnEditorAndChildrenLostFocus();
 			_grid.Stop();
 			_grid.Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormLostFocus()
-		{
-			base.OnFormLostFocus();
-			OnEditorAndChildrenLostFocus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -177,41 +196,32 @@ namespace SayMore.Transcription.UI
 			_watcher.EnableRaisingEvents = true;
 			_watcher.Changed += HandleAnnotationFileChanged;
 
-			((AnnotationComponentFile)_file).PreSaveAction = () =>
-			{
-				if (_watcher != null)
-					_watcher.EnableRaisingEvents = false;
-			};
-
-			((AnnotationComponentFile)_file).PostSaveAction = () =>
-			{
-				if (_watcher != null)
-					_watcher.EnableRaisingEvents = true;
-			};
+			_file.BeforeSave += HandleBeforeAnnotationFileSaved;
+			_file.AfterSave += HandleAfterAnnotationFileSaved;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleAnnotationFileChanged(object sender, FileSystemEventArgs e)
+		private void HandleBeforeAnnotationFileSaved(object sender, EventArgs e)
+		{
+			if (_watcher != null)
+				_watcher.EnableRaisingEvents = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleAfterAnnotationFileSaved(object sender, EventArgs e)
+		{
+			if (_watcher != null)
+				_watcher.EnableRaisingEvents = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleAnnotationFileChanged(object sender, FileSystemEventArgs e)
 		{
 			Invoke(new EventHandler((s, args) =>
 			{
 				_file.Load();
 				_grid.Load(_file as AnnotationComponentFile);
 			}));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override void Deactivated()
-		{
-			((AnnotationComponentFile)_file).PostSaveAction = null;
-			((AnnotationComponentFile)_file).PostSaveAction = null;
-
-			if (_watcher != null)
-			{
-				_watcher.Changed -= HandleAnnotationFileChanged;
-				_watcher.Dispose();
-				_watcher = null;
-			}
 		}
 
 		#endregion

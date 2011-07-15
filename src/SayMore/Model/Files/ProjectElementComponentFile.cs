@@ -70,6 +70,18 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override bool GetCanBeCustomRenamed()
+		{
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool GetCanHaveAnnotationFile()
+		{
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override void Save(string path)
 		{
 			base.Save(path);

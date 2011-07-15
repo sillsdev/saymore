@@ -75,10 +75,9 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleComponentFileMetadataValueChanged(ComponentFile file,
-			string fieldId, object oldValue, object newValue)
+		protected override void HandleComponentFileSaved(object sender, EventArgs e)
 		{
-			base.HandleComponentFileMetadataValueChanged(file, fieldId, oldValue, newValue);
+			base.HandleComponentFileSaved(sender, e);
 			_elementsGrid.RefreshCurrentRow();
 		}
 

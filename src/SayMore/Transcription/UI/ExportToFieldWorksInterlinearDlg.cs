@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Palaso.WritingSystems;
 using SayMore.Transcription.Model;
+using Palaso.Extensions;
 
 namespace SayMore.Transcription.UI
 {
@@ -53,15 +55,27 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<WritingSystemDefinition> GetAvailableWritingSystems()
 		{
-			var x = new LdmlInFolderWritingSystemRepository().AllWritingSystems;
-
-			// TODO: JohnH - get writing systems using Palaso.
-			yield return new WritingSystemDefinition("seh", "", "", "", "Sen", false);
-			yield return new WritingSystemDefinition("pt", "", "", "", "Por", false);
-			yield return new WritingSystemDefinition("en", "", "", "", "Eng", false);
-
-
+			//TODO: someday, this may be safe to call. But not yet.
 			//return (new LdmlInFolderWritingSystemRepository()).AllWritingSystems;
+
+			var globalPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).CombineForPath(
+				"SIL", "WritingSystemStore");
+			if (!Directory.Exists(globalPath))
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
+					"In order to export, we need to find a writing system ID that FLEx will accept. SayMore tried to find a list of writing systems which FLEx knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of FLEx.",
+					globalPath);
+				yield return WritingSystemDefinition.FromLanguage("en");
+			}
+			else
+			{
+				foreach (string path in Directory.GetFiles(globalPath, "*.ldml"))
+				{
+					var name = Path.GetFileNameWithoutExtension(path);
+					yield return  WritingSystemDefinition.FromLanguage(name);
+				}
+			}
+
 		}
 
 		/// ------------------------------------------------------------------------------------

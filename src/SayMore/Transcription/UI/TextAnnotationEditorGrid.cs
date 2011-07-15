@@ -21,6 +21,8 @@ namespace SayMore.Transcription.UI
 		private bool _mediaFileNeedsLoading = true;
 		private Action _playbackProgressReportingAction;
 
+		private System.Threading.Timer _delayBeginRowPlayingTimer;
+
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationEditorGrid()
 		{
@@ -180,8 +182,27 @@ namespace SayMore.Transcription.UI
 
 			base.OnCurrentRowChanged(e);
 
-			if (CurrentCellAddress.Y >= 0 && Focused)
-				Play();
+			if (CurrentCellAddress.Y < 0 || !Focused)
+				return;
+
+			// Now that we're on a new row, wait a 1/4 of a second before beginning to
+			// play this row's media segment. Do this just in case the user is moving
+			// from row to row rapidly. Before the 1/4 sec. delay, the program's
+			// responsiveness to moving from row to row rapidly was very sluggish. This
+			// forces the user to settle on a row, at least briefly, before we attempt
+			// to begin playback.
+			_delayBeginRowPlayingTimer = new System.Threading.Timer(
+				a => Play(), null, 250, System.Threading.Timeout.Infinite);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DisableTimer()
+		{
+			if (_delayBeginRowPlayingTimer != null)
+			{
+				_delayBeginRowPlayingTimer.Dispose();
+				_delayBeginRowPlayingTimer = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -196,6 +217,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void Play()
 		{
+			DisableTimer();
+
 			if (PlayerViewModel.HasPlaybackStarted)
 				Stop();
 
@@ -216,6 +239,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void Stop()
 		{
+			DisableTimer();
 			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = null;

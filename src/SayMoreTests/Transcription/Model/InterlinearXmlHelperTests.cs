@@ -198,12 +198,12 @@ namespace SayMoreTests.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private ITier CreateTestTier()
 		{
-			var tier = new TextTier("Transcription");
+			var tier = new TextTier(TextTier.TranscriptionTierName);
 			tier.AddSegment(null, "up");
 			tier.AddSegment(null, "down");
 			tier.AddSegment(null, "over");
 
-			tier.AddDependentTier(new TextTier("Phrase Free Translation"));
+			tier.AddDependentTier(new TextTier(TextTier.FreeTranslationTierName));
 			((TextTier)tier.DependentTiers.ElementAt(0)).AddSegment(null, "in");
 			((TextTier)tier.DependentTiers.ElementAt(0)).AddSegment(null, "around");
 			((TextTier)tier.DependentTiers.ElementAt(0)).AddSegment(null, "through");

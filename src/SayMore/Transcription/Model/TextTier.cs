@@ -8,6 +8,9 @@ namespace SayMore.Transcription.Model
 	/// ----------------------------------------------------------------------------------------
 	public class TextTier : TierBase
 	{
+		public const string TranscriptionTierName = "Transcription";
+		public const string FreeTranslationTierName = "Free Translation";
+
 		/// ------------------------------------------------------------------------------------
 		public TextTier(string displayName) : base(displayName)
 		{
@@ -38,6 +41,17 @@ namespace SayMore.Transcription.Model
 				bldr.AppendLine(seg.GetText());
 
 			return bldr.ToString().TrimEnd();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns true if all the segments in the tier are not empty.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsComplete()
+		{
+			var segments = GetAllSegments().Cast<ITextSegment>().ToArray();
+			return (segments.Length > 0 && !segments.Any(s => string.IsNullOrEmpty(s.GetText())));
 		}
 	}
 }

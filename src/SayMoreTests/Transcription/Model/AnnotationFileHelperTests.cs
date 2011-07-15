@@ -366,8 +366,8 @@ namespace SayMoreTests.Transcription.Model
 			LoadEafFile();
 			var tierElements = _helper.GetDependentTiersElements().ToList();
 			Assert.AreEqual(1, tierElements.Count);
-			Assert.AreEqual("Transcription", tierElements[0].Attribute("PARENT_REF").Value);
-			Assert.AreEqual("Phrase Free Translation", tierElements[0].Attribute("TIER_ID").Value);
+			Assert.AreEqual(TextTier.TranscriptionTierName, tierElements[0].Attribute("PARENT_REF").Value);
+			Assert.AreEqual(TextTier.FreeTranslationTierName, tierElements[0].Attribute("TIER_ID").Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -377,7 +377,7 @@ namespace SayMoreTests.Transcription.Model
 			LoadEafFile(false);
 			var list = _helper.GetDependentTiersElements().ToList();
 			Assert.AreEqual(1, list.Count);
-			Assert.AreEqual("Phrase Free Translation", list[0].Attribute("TIER_ID").Value);
+			Assert.AreEqual(TextTier.FreeTranslationTierName, list[0].Attribute("TIER_ID").Value);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -103,5 +103,39 @@ namespace SayMoreTests.Transcription.Model
 			var expected = string.Format("oxygen{0}hydrogen{1}carbon", Environment.NewLine, Environment.NewLine);
 			Assert.AreEqual(expected, data);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsComplete_NoSegments_ReturnsFalse()
+		{
+			Assert.IsFalse(_tier.GetIsComplete());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsComplete_AllSegmentsAreEmpty_ReturnsFalse()
+		{
+			_tier.AddSegment("O", null);
+			_tier.AddSegment("H", string.Empty);
+			Assert.IsFalse(_tier.GetIsComplete());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsComplete_SomeButNotAllSegmentsAreEmpty_ReturnsFalse()
+		{
+			_tier.AddSegment("O", "oxygen");
+			_tier.AddSegment("H", string.Empty);
+			Assert.IsFalse(_tier.GetIsComplete());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsComplete_AllSegmentsContainText_ReturnsTrue()
+		{
+			_tier.AddSegment("O", "oxygen");
+			_tier.AddSegment("H", "hydrogen");
+			Assert.IsTrue(_tier.GetIsComplete());
+		}
 	}
 }

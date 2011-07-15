@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Palaso.WritingSystems;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Transcription.UI
 {
@@ -23,6 +24,9 @@ namespace SayMore.Transcription.UI
 		public ExportToFieldWorksInterlinearDlg()
 		{
 			InitializeComponent();
+
+			_labelTranscriptionWs.Text = TextTier.TranscriptionTierName;
+			_labelTranslationWs.Text = TextTier.FreeTranslationTierName;
 
 			_labelOverview.Font = SystemFonts.IconTitleFont;
 			_labelTranscriptionWs.Font = SystemFonts.IconTitleFont;

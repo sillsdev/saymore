@@ -49,13 +49,13 @@ namespace SayMore.Transcription.Model
 			// Esure thee is a dependent free translation tier.
 			var elements = helper.GetDependentTiersElements();
 			if (elements.SingleOrDefault(e =>
-				e.Attribute("TIER_ID").Value.ToLower() == "phrase free translation") == null)
+				e.Attribute("TIER_ID").Value.ToLower() == TextTier.FreeTranslationTierName.ToLower()) == null)
 			{
 				helper.Root.Add(new XElement("TIER",
 					new XAttribute("DEFAULT_LOCALE", "en"),
 					new XAttribute("LINGUISTIC_TYPE_REF", "Translation"),
-					new XAttribute("PARENT_REF", "Transcription"),
-					new XAttribute("TIER_ID", "Phrase Free Translation")));
+					new XAttribute("PARENT_REF", TextTier.TranscriptionTierName),
+					new XAttribute("TIER_ID", TextTier.FreeTranslationTierName)));
 
 				helper.Save();
 			}
@@ -238,7 +238,7 @@ namespace SayMore.Transcription.Model
 				return new ITier[] { };
 
 			var timeOrderTier = new TimeOrderTier(GetFullPathToMediaFile());
-			var textTier = new TextTier("Transcription");
+			var textTier = new TextTier(TextTier.TranscriptionTierName);
 
 			foreach (var kvp in transcriptionAnnotations)
 			{
@@ -270,14 +270,15 @@ namespace SayMore.Transcription.Model
 		public XElement GetTranscriptionTierElement()
 		{
 			var element = Root.Elements().FirstOrDefault(e => e.Name.LocalName == "TIER" &&
-				e.Attribute("TIER_ID") != null && e.Attribute("TIER_ID").Value.ToLower() == "transcription");
+				e.Attribute("TIER_ID") != null &&
+				e.Attribute("TIER_ID").Value.ToLower() == TextTier.TranscriptionTierName.ToLower());
 
 			if (element == null)
 			{
 				element = new XElement("TIER",
 					new XAttribute("DEFAULT_LOCALE", "ipa-ext"),
 					new XAttribute("LINGUISTIC_TYPE_REF", "Transcription"),
-					new XAttribute("TIER_ID", "Transcription"));
+					new XAttribute("TIER_ID", TextTier.TranscriptionTierName));
 
 				Root.Add(element);
 			}
@@ -290,7 +291,8 @@ namespace SayMore.Transcription.Model
 		{
 			// Create a list of all tiers that reference the transcription tier.
 			return Root.Elements().Where(e => e.Name.LocalName == "TIER" &&
-				e.Attribute("PARENT_REF") != null && e.Attribute("PARENT_REF").Value.ToLower() == "transcription");
+				e.Attribute("PARENT_REF") != null &&
+				e.Attribute("PARENT_REF").Value.ToLower() == TextTier.TranscriptionTierName.ToLower());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -371,7 +373,7 @@ namespace SayMore.Transcription.Model
 		public void SetTranscriptionTierAnnotationValue(string transcriptionAnnotationId, string text)
 		{
 			var element = Root.Elements("TIER")
-				.SingleOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == "transcription");
+				.SingleOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == TextTier.TranscriptionTierName.ToLower());
 
 			if (element == null)
 				return;

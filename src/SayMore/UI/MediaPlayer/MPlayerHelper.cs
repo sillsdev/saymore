@@ -36,8 +36,15 @@ namespace SayMore.UI.MediaPlayer
 		{
 			if (prs.Start())
 			{
-				prs.PriorityClass = ProcessPriorityClass.High;
-				s_mplayerProcessIds.Add(prs.Id);
+				// Sometimes the program will crash when trying to set the PriorityClass,
+				// claiming the process has already exited. Hence the try/catch. Hmm...
+				try
+				{
+					prs.PriorityClass = ProcessPriorityClass.High;
+					s_mplayerProcessIds.Add(prs.Id);
+				}
+				catch { }
+
 				return true;
 			}
 
@@ -304,8 +311,8 @@ namespace SayMore.UI.MediaPlayer
 			if (!IsVideo)
 				return;
 
-			// I don't understand it, but videos have a start time and a duration. Sometimes
-			// the start time is zero, but for other videos it's not. The most accurate
+			// Videos have a start time and a duration. Sometimes the start time is zero,
+			// but for other it's not. I don't understand that. It seems the most accurate
 			// duration when playing back in the player seems to be the sum of the duration
 			// and the start time. Therefore, check if this media file has a start time to
 			// add to the duration.

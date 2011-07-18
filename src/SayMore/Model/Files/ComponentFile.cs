@@ -225,7 +225,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void CreateAnnotationFile(Action<string> refreshAction)
 		{
-			using (var dlg = new CreateAnnotationFileDlg())
+			using (var dlg = new CreateAnnotationFileDlg(Path.GetFileName(PathToAnnotatedFile)))
 			{
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return;

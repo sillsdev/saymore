@@ -10,6 +10,12 @@ namespace SayMore.Transcription.UI
 		public string FileName { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
+		public CreateAnnotationFileDlg(string mediaFilePath) : this()
+		{
+			_labelOverview.Text = string.Format(_labelOverview.Text, mediaFilePath);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public CreateAnnotationFileDlg()
 		{
 			InitializeComponent();

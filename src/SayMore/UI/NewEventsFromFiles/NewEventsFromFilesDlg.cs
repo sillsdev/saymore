@@ -250,7 +250,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		{
 			Hide();
 
-			_mediaPlayerViewModel.Stop();
+			_mediaPlayerViewModel.Stop(true);
 
 			var pairs = _viewModel.GetUniqueSourceAndDestinationPairs();
 			if (pairs.Count() == 0)

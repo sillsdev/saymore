@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using Palaso.Reporting;
+using SayMore.Model.Files;
 
 namespace SayMore.UI.MediaPlayer
 {
@@ -26,7 +27,7 @@ namespace SayMore.UI.MediaPlayer
 		//private const string kFmtTime = "{0}.{1:0}";
 
 		private readonly StringBuilder _mplayerStartInfo = new StringBuilder();
-		private MPlayerProcess _mplayer;
+		private MPlayerProcess _mplayerProcess;
 		private StreamWriter _stdIn;
 		private float _prevPostion;
 		private MPlayerOutputLogForm _formMPlayerOutputLog;
@@ -101,11 +102,11 @@ namespace SayMore.UI.MediaPlayer
 		{
 			try
 			{
-				if (_mplayer != null && !_mplayer.HasExited)
+				if (_mplayerProcess != null && !_mplayerProcess.HasExited)
 				{
-					_mplayer.KillAndWaitForFileRelease();
-					_mplayer.Dispose();
-					_mplayer = null;
+					_mplayerProcess.KillProcess();
+					_mplayerProcess.Dispose();
+					_mplayerProcess = null;
 					_stdIn = null;
 				}
 
@@ -280,21 +281,21 @@ namespace SayMore.UI.MediaPlayer
 			if (MediaInfo.IsVideo && VideoWindowHandle == 0)
 				throw new Exception("Media player needs a window handle.");
 
-			if (_mplayer != null)
+			if (_mplayerProcess != null)
 				ShutdownMPlayerProcess();
 
 			var args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition,
 				PlaybackLength, Volume, Speed, MediaInfo.IsVideo ? VideoWindowHandle : 0);
 
-			_mplayer = MPlayerHelper.StartProcessToMonitor(args, HandleErrorDataReceived, HandleErrorDataReceived);
+			_mplayerProcess = MPlayerHelper.StartProcessToMonitor(args, HandleErrorDataReceived, HandleErrorDataReceived);
 			_mplayerStartInfo.AppendLine("Command Line:");
-			_mplayerStartInfo.Append(_mplayer.StartInfo.FileName);
+			_mplayerStartInfo.Append(_mplayerProcess.StartInfo.FileName);
 			_mplayerStartInfo.Append(" ");
-			_mplayerStartInfo.AppendLine(_mplayer.StartInfo.Arguments);
+			_mplayerStartInfo.AppendLine(_mplayerProcess.StartInfo.Arguments);
 			_mplayerStartInfo.AppendLine();
 
-			_mplayer.MediaFileName = MediaFile;
-			_stdIn = _mplayer.StandardInput;
+			_mplayerProcess.MediaFileName = MediaFile;
+			_stdIn = _mplayerProcess.StandardInput;
 			_stdIn.WriteLine(string.Format("loadfile \"{0}\" ", MediaFile));
 
 			//if (Loop)
@@ -336,6 +337,12 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public void Stop()
 		{
+			Stop(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Stop(bool waitForMediaFileToBeReleased)
+		{
 			if (HasPlaybackStarted)
 			{
 				_stdIn.WriteLine("stop ");
@@ -343,6 +350,9 @@ namespace SayMore.UI.MediaPlayer
 
 				if (PlaybackEnded != null)
 					PlaybackEnded(this, false);
+
+				if (waitForMediaFileToBeReleased && MediaFile != null)
+					ComponentFile.WaitForFileRelease(MediaFile);
 			}
 
 			if (_loopDelayTimer != null)

@@ -54,10 +54,10 @@ namespace SayMore.UI.ComponentEditors
 			base.SetComponentFile(file);
 			Name = "AudioVideoPlayer:" + Path.GetFileName(file.PathToAnnotatedFile);
 
-			file.PreDeleteAction = (() => _mediaPlayerViewModel.Stop());
-			file.PreFileCommandAction = (() => _mediaPlayerViewModel.Stop());
+			file.PreDeleteAction = (() => _mediaPlayerViewModel.Stop(true));
+			file.PreFileCommandAction = (() => _mediaPlayerViewModel.Stop(true));
 			file.PostFileCommandAction = (() => _mediaPlayerViewModel.LoadFile(file.PathToAnnotatedFile));
-			file.PreRenameAction = (() => _mediaPlayerViewModel.Stop());
+			file.PreRenameAction = (() => _mediaPlayerViewModel.Stop(true));
 			file.PostRenameAction = (() => _mediaPlayerViewModel.LoadFile(file.PathToAnnotatedFile));
 
 			_playerPausedWhenTabChanged = false;

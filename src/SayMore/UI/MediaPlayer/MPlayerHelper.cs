@@ -281,6 +281,13 @@ namespace SayMore.UI.MediaPlayer
 			if (MediaFileName != null)
 				ComponentFile.WaitForFileRelease(MediaFileName);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public void KillProcess()
+		{
+			if (!HasExited)
+				Kill();
+		}
 	}
 
 	#endregion

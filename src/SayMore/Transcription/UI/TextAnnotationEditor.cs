@@ -48,6 +48,11 @@ namespace SayMore.Transcription.UI
 
 			SetComponentFile(file);
 			_splitter.Panel1.ClientSizeChanged += HandleSplitterPanel1ClientSizeChanged;
+
+			_buttonHelp.Click += delegate
+			{
+				Program.ShowHelpTopic("/Using_Tools/Events_tab/Create_Annotation_File_overview.htm");
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------

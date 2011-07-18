@@ -19,6 +19,12 @@ namespace SayMore.Transcription.UI
 			_labelAnnoatationType2.Font = SystemFonts.IconTitleFont;
 			_labelAudacityOverview.Font = SystemFonts.IconTitleFont;
 			_labelElanOverview.Font = SystemFonts.IconTitleFont;
+
+			_buttonAudacityHelp.Click += (s, e) =>
+				Program.ShowHelpTopic("/Using_Tools/Events_tab/Create_Annotation_File.htm");
+
+			_buttonELANFileHelp.Click += (s, e) =>
+				Program.ShowHelpTopic("/Using_Tools/Events_tab/Create_Annotation_File.htm");
 		}
 
 		/// ------------------------------------------------------------------------------------

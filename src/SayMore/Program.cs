@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using Localization;
+using Palaso.IO;
 using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.UI.MediaPlayer;
@@ -211,6 +212,13 @@ namespace SayMore
 			{
 				Application.Exit();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void ShowHelpTopic(string topicLink)
+		{
+			var path = FileLocator.GetFileDistributedWithApplication("SayMore.chm");
+			Help.ShowHelp(new Label(), path, topicLink);
 		}
 
 		/// ------------------------------------------------------------------------------------

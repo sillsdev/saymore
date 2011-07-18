@@ -730,6 +730,7 @@
     <None Include="Resources\StopSegment_Hot.PNG" />
     <None Include="Resources\ElanIcon.png" />
     <None Include="Resources\InterlinearExport.png" />
+    <None Include="Resources\Help.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

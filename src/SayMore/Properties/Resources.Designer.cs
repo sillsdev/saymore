@@ -190,6 +190,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Help {
+            get {
+                object obj = ResourceManager.GetObject("Help", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap HSliderThumb {
             get {
                 object obj = ResourceManager.GetObject("HSliderThumb", resourceCulture);

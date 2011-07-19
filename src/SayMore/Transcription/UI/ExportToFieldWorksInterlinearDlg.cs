@@ -47,7 +47,7 @@ namespace SayMore.Transcription.UI
 				string.Format(_labelTranscriptionWs.Text, TextTier.TranscriptionTierName);
 
 			_labelTranslationWs.Text =
-				string.Format(_labelTranslationWs.Text, TextTier.FreeTranslationTierName);
+				string.Format(_labelTranslationWs.Text, TextTier.SayMoreFreeTranslationTierName);
 
 			_labelOverview.Font = SystemFonts.IconTitleFont;
 			_labelTranscriptionWs.Font = SystemFonts.IconTitleFont;

@@ -203,7 +203,7 @@ namespace SayMoreTests.Transcription.Model
 			tier.AddSegment(null, "down");
 			tier.AddSegment(null, "over");
 
-			tier.AddDependentTier(new TextTier(TextTier.FreeTranslationTierName));
+			tier.AddDependentTier(new TextTier(TextTier.SayMoreFreeTranslationTierName));
 			((TextTier)tier.DependentTiers.ElementAt(0)).AddSegment(null, "in");
 			((TextTier)tier.DependentTiers.ElementAt(0)).AddSegment(null, "around");
 			((TextTier)tier.DependentTiers.ElementAt(0)).AddSegment(null, "through");

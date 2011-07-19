@@ -57,13 +57,13 @@ namespace SayMore.Transcription.Model
 			// Esure there is a dependent free translation tier.
 			var elements = helper.GetDependentTiersElements();
 			if (elements.SingleOrDefault(e =>
-				e.Attribute("TIER_ID").Value.ToLower() == TextTier.FreeTranslationTierName.ToLower()) == null)
+				e.Attribute("TIER_ID").Value.ToLower() == TextTier.ElanFreeTranslationTierName.ToLower()) == null)
 			{
 				helper.Root.Add(new XElement("TIER",
 					new XAttribute("DEFAULT_LOCALE", "en"),
 					new XAttribute("LINGUISTIC_TYPE_REF", "Translation"),
 					new XAttribute("PARENT_REF", TextTier.TranscriptionTierName),
-					new XAttribute("TIER_ID", TextTier.FreeTranslationTierName)));
+					new XAttribute("TIER_ID", TextTier.ElanFreeTranslationTierName)));
 
 				helper.Save();
 				helper = new AnnotationFileHelper(annotationFileName);
@@ -257,7 +257,8 @@ namespace SayMore.Transcription.Model
 				textTier.AddSegment(kvp.Key, kvp.Value.Value);
 			}
 
-			textTier.AddDependentTierRange(CreateDependentTextTiers(transcriptionAnnotations.Keys));
+			var tiers = CreateDependentTextTiers(transcriptionAnnotations.Keys).ToArray();
+			textTier.AddDependentTierRange(tiers);
 
 			return new[] { (ITier)timeOrderTier, textTier };
 		}
@@ -321,7 +322,12 @@ namespace SayMore.Transcription.Model
 			foreach (var dependentTierElement in GetDependentTiersElements())
 			{
 				var depAnnotations = GetDependentTierAnnotationElements(dependentTierElement);
-				var dependentTier = new TextTier(dependentTierElement.Attribute("TIER_ID").Value);
+
+				var dependentTierName = dependentTierElement.Attribute("TIER_ID").Value;
+				if (dependentTierName == TextTier.ElanFreeTranslationTierName)
+					dependentTierName = TextTier.SayMoreFreeTranslationTierName;
+
+				var dependentTier = new TextTier(dependentTierName);
 
 				// Go through all the annotations in the transcription tier looking for
 				// annotations in the dependent tier that reference the annotations in
@@ -400,8 +406,11 @@ namespace SayMore.Transcription.Model
 		public void SetDependentTierAnnotationValue(string dependentTierId,
 			string transcriptionAnnotationId, ITextSegment dependentSegment)
 		{
+			if (dependentTierId == TextTier.SayMoreFreeTranslationTierName)
+				dependentTierId = TextTier.ElanFreeTranslationTierName.ToLower();
+
 			var tierElement = Root.Elements("TIER")
-				.SingleOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == dependentTierId.ToLower());
+				.SingleOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == dependentTierId);
 
 			if (tierElement == null)
 				return;

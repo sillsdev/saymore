@@ -127,7 +127,7 @@ namespace SayMore.Model.Files
 
 			return (transcriptionTier == null ? null :
 				transcriptionTier.DependentTiers.FirstOrDefault(t =>
-					t.DisplayName == TextTier.FreeTranslationTierName) as TextTier);
+					t.DisplayName == TextTier.SayMoreFreeTranslationTierName) as TextTier);
 		}
 
 		/// ------------------------------------------------------------------------------------

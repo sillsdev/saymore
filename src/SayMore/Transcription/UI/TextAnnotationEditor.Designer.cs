@@ -74,20 +74,20 @@ namespace SayMore.Transcription.UI
 			this._splitter.Size = new System.Drawing.Size(425, 221);
 			this._splitter.SplitterDistance = 138;
 			this._splitter.SplitterWidth = 8;
-			this._splitter.TabIndex = 2;
+			this._splitter.TabIndex = 3;
 			// 
 			// _buttonExport
 			// 
 			this._buttonExport.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonExport.AutoSize = true;
 			this._buttonExport.Image = global::SayMore.Properties.Resources.InterlinearExport;
-			this._buttonExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonExport.Location = new System.Drawing.Point(298, 0);
+			this._buttonExport.Location = new System.Drawing.Point(310, 0);
 			this._buttonExport.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonExport.Name = "_buttonExport";
-			this._buttonExport.Size = new System.Drawing.Size(97, 26);
-			this._buttonExport.TabIndex = 3;
+			this._buttonExport.Size = new System.Drawing.Size(85, 26);
+			this._buttonExport.TabIndex = 1;
 			this._buttonExport.Text = "Export...";
+			this._buttonExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonExport.UseVisualStyleBackColor = true;
 			this._buttonExport.Click += new System.EventHandler(this.HandleExportButtonClick);
 			// 
@@ -106,7 +106,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutPlaybackSpeed.RowCount = 1;
 			this._tableLayoutPlaybackSpeed.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutPlaybackSpeed.Size = new System.Drawing.Size(191, 21);
-			this._tableLayoutPlaybackSpeed.TabIndex = 4;
+			this._tableLayoutPlaybackSpeed.TabIndex = 0;
 			// 
 			// _comboPlaybackSpeed
 			// 
@@ -117,7 +117,7 @@ namespace SayMore.Transcription.UI
 			this._comboPlaybackSpeed.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._comboPlaybackSpeed.Name = "_comboPlaybackSpeed";
 			this._comboPlaybackSpeed.Size = new System.Drawing.Size(97, 21);
-			this._comboPlaybackSpeed.TabIndex = 2;
+			this._comboPlaybackSpeed.TabIndex = 1;
 			// 
 			// _labelPlaybackSpeed
 			// 
@@ -127,7 +127,7 @@ namespace SayMore.Transcription.UI
 			this._labelPlaybackSpeed.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelPlaybackSpeed.Name = "_labelPlaybackSpeed";
 			this._labelPlaybackSpeed.Size = new System.Drawing.Size(88, 13);
-			this._labelPlaybackSpeed.TabIndex = 1;
+			this._labelPlaybackSpeed.TabIndex = 0;
 			this._labelPlaybackSpeed.Text = "Playback &Speed:";
 			// 
 			// _buttonHelp
@@ -147,7 +147,7 @@ namespace SayMore.Transcription.UI
 			this._buttonHelp.Margin = new System.Windows.Forms.Padding(0);
 			this._buttonHelp.Name = "_buttonHelp";
 			this._buttonHelp.Size = new System.Drawing.Size(20, 20);
-			this._buttonHelp.TabIndex = 5;
+			this._buttonHelp.TabIndex = 2;
 			this._buttonHelp.UseVisualStyleBackColor = true;
 			// 
 			// TextAnnotationEditor

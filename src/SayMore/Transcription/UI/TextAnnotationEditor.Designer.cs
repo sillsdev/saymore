@@ -47,8 +47,8 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.BackColor = System.Drawing.Color.Transparent;
 			this._tableLayout.ColumnCount = 3;
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayout.Controls.Add(this._splitter, 0, 1);
 			this._tableLayout.Controls.Add(this._buttonExport, 1, 0);
 			this._tableLayout.Controls.Add(this._tableLayoutPlaybackSpeed, 0, 0);
@@ -78,11 +78,12 @@ namespace SayMore.Transcription.UI
 			// 
 			// _buttonExport
 			// 
+			this._buttonExport.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonExport.AutoSize = true;
 			this._buttonExport.Image = global::SayMore.Properties.Resources.InterlinearExport;
 			this._buttonExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonExport.Location = new System.Drawing.Point(211, 0);
-			this._buttonExport.Margin = new System.Windows.Forms.Padding(20, 0, 0, 0);
+			this._buttonExport.Location = new System.Drawing.Point(298, 0);
+			this._buttonExport.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonExport.Name = "_buttonExport";
 			this._buttonExport.Size = new System.Drawing.Size(97, 26);
 			this._buttonExport.TabIndex = 3;

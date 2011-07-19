@@ -474,7 +474,8 @@ namespace SayMore.UI.MediaPlayer
 			while (str.StartsWith("00:"))
 				str = str.Substring(3);
 
-			str = str.TrimEnd('0');
+			if (str.IndexOf('.') >= 0)
+				str = str.TrimEnd('0');
 
 			if (str.EndsWith("."))
 				str = str + "0";

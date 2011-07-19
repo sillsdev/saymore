@@ -225,13 +225,15 @@ namespace SayMore.UI.MediaPlayer
 			try
 			{
 				prs.StartInfo.Arguments =
-					string.Format("-nocache -nofontconfig -really-quiet -frames 1 -ss {0} -nosound -vo jpeg:outdir=\"\"\"{1}\"\"\" quality=100 \"{2}\"",
+					string.Format("-nocache -nofontconfig -really-quiet -frames 1 -ss {0} -nosound -vo jpeg:outdir=\"\"\"{1}\"\"\" \"{2}\"",
 					seconds, tmpFolder, videoPath);
 
 				StartProcess(prs);
 				prs.WaitForExit();
 				prs.Close();
-				ComponentFile.WaitForFileRelease(videoPath);
+
+				// I'm hesitant to comment out this line, but because of SP-248, we'll see what happens.
+				//ComponentFile.WaitForFileRelease(videoPath);
 
 				if (File.Exists(tmpFile))
 				{
@@ -307,10 +309,57 @@ namespace SayMore.UI.MediaPlayer
 		public MPlayerMediaInfo(string filename)
 		{
 			FileName = filename;
+			InitializeFromFFMpeg(filename);
 
+			// This requires reference to "Microsoft Shell Controls And Automation"
+			// on the COM tab of Visual Studio's references dialog box. My thought
+			// was we could use this initialization method when running on a Windows
+			// computer and use the FFMpeg initialization method otherwise.
+			//InitializeFromShell32(filename);
+		}
+
+		///// ----------------------------------------------------------------------------------------
+		//private void InitializeFromShell32(string filename)
+		//{
+			//Shell32.Shell shell = new Shell32.Shell();
+			//Shell32.Folder objFolder;
+
+			//objFolder = shell.NameSpace(Path.GetDirectoryName(filename));
+
+			//for (int i = 0; i < short.MaxValue; i++)
+			//{
+			//    string header = objFolder.GetDetailsOf(null, i);
+			//    if (String.IsNullOrEmpty(header))
+			//        break;
+			//    arrHeaders.Add(header);
+			//}
+
+			//var itemm = objFolder.Items().Cast<Shell32.FolderItem2>().SingleOrDefault(i => i.Path == filename);
+			//if (itemm != null)
+			//{
+			//    IsVideo = (objFolder.GetDetailsOf(itemm, 9).ToLower() == "video");
+			//    Duration = TimeSpan.Parse(objFolder.GetDetailsOf(itemm, 27)).Seconds;
+
+			//    if (IsVideo)
+			//    {
+			//        int secs = Math.Min(8, (int)(Duration / 2));
+			//        FullSizedThumbnail = MPlayerHelper.GetImageFromVideo(filename, secs);
+			//        PictureSize = new Size(int.Parse(objFolder.GetDetailsOf(itemm, 285)),
+			//            int.Parse(objFolder.GetDetailsOf(itemm, 283)));
+
+			//        return;
+			//    }
+			//}
+		//}
+
+		/// ----------------------------------------------------------------------------------------
+		private void InitializeFromFFMpeg(string filename)
+		{
 			// Palaso uses FFMpeg, which seems to give a more accurate media length.
 			var ffmpeginfo = Palaso.Media.MediaInfo.GetInfo(filename);
-			ComponentFile.WaitForFileRelease(filename);
+
+			// I'm hesitant to comment out this line, but because of SP-248, we'll see what happens.
+			//ComponentFile.WaitForFileRelease(filename);
 
 			IsVideo = (ffmpeginfo.Video != null);
 			Duration = (float)ffmpeginfo.Audio.Duration.TotalSeconds;

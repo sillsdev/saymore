@@ -118,7 +118,7 @@ namespace SayMore.UI.MediaPlayer
 			var img = _viewModel.GetVideoThumbnail();
 			var rc = _panelPlayingSurface.ClientRectangle;
 
-			if (rc.Width > img.Width || rc.Height > img.Height)
+			if (img != null && (rc.Width > img.Width || rc.Height > img.Height))
 				_panelPlayingSurface.BackgroundImageLayout = ImageLayout.Center;
 			else
 				_panelPlayingSurface.BackgroundImageLayout = ImageLayout.Stretch;

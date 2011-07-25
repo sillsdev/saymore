@@ -126,10 +126,12 @@ namespace SayMore.Transcription.UI
 			this._buttonAudacityHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonAudacityHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this._buttonAudacityHelp.Image = null;
+			this._buttonAudacityHelp.ImageMargin = new System.Drawing.Size(2, 2);
 			this._buttonAudacityHelp.Location = new System.Drawing.Point(183, 3);
 			this._buttonAudacityHelp.Name = "_buttonAudacityHelp";
-			this._buttonAudacityHelp.Size = new System.Drawing.Size(20, 20);
+			this._buttonAudacityHelp.Size = new System.Drawing.Size(26, 20);
 			this._buttonAudacityHelp.TabIndex = 1;
+			this._buttonAudacityHelp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonAudacityHelp.UseVisualStyleBackColor = false;
 			// 
 			// _tableLayoutCopyELANFileButton
@@ -165,9 +167,10 @@ namespace SayMore.Transcription.UI
 			this._buttonELANFileHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonELANFileHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this._buttonELANFileHelp.Image = null;
+			this._buttonELANFileHelp.ImageMargin = new System.Drawing.Size(2, 2);
 			this._buttonELANFileHelp.Location = new System.Drawing.Point(123, 3);
 			this._buttonELANFileHelp.Name = "_buttonELANFileHelp";
-			this._buttonELANFileHelp.Size = new System.Drawing.Size(20, 20);
+			this._buttonELANFileHelp.Size = new System.Drawing.Size(26, 20);
 			this._buttonELANFileHelp.TabIndex = 1;
 			this._buttonELANFileHelp.UseVisualStyleBackColor = false;
 			// 

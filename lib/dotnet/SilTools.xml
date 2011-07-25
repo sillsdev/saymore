@@ -2079,6 +2079,34 @@
         <member name="P:SilTools.Controls.ProgressForm.Message">
             ------------------------------------------------------------------------------------
         </member>
+        <member name="M:SilTools.Controls.NicerButton.#ctor">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SilTools.Controls.NicerButton.OnEnter(System.EventArgs)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SilTools.Controls.NicerButton.OnLeave(System.EventArgs)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SilTools.Controls.NicerButton.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SilTools.Controls.NicerButton.DrawFocusRectangle(System.Drawing.Graphics)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SilTools.Controls.NicerButton.ShowFocusCues">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SilTools.Controls.NicerButton.FocusBackColor">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets or sets the background color of the button when it has focus.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SilTools.Controls.NicerButton.ShowFocusRectangle">
+            ------------------------------------------------------------------------------------
+        </member>
         <member name="T:SilTools.Controls.AutoHeighRadioButton">
             ----------------------------------------------------------------------------------------
             <summary>
@@ -2197,6 +2225,29 @@
             <param name="y"></param>
             <param name="IsSelected"></param>
             <param name="IsHovering"></param>
+        </member>
+        <member name="M:SilTools.Controls.ImageButton.#ctor">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SilTools.Controls.ImageButton.GetPreferredSize(System.Drawing.Size)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SilTools.Controls.ImageButton.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SilTools.Controls.ImageButton.ImageMargin">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SilTools.Controls.ImageButton.Image">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SilTools.Controls.ImageButton.ButtonImage">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Can't use the button's Image property because it makes various other handling
+            more difficult.
+            </summary>
+            ------------------------------------------------------------------------------------
         </member>
         <member name="T:SilTools.SilGrid">
             ----------------------------------------------------------------------------------------
@@ -4468,6 +4519,13 @@
             when the mouse is over it, with consideration for whether the look should be like
             the mouse is down or not. Note, when a PaintState of normal is specified, this
             method does nothing. Normal background painting is up to the caller.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SilTools.PaintingHelper.MakeHotImage(System.Drawing.Image)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Returns a darkened version of the specified image.
             </summary>
             ------------------------------------------------------------------------------------
         </member>

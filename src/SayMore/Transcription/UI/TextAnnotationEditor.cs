@@ -237,5 +237,15 @@ namespace SayMore.Transcription.UI
 		}
 
 		#endregion
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			var file = (AnnotationComponentFile)_file;
+
+			var tier = file.Tiers.FirstOrDefault(t => t is TimeOrderTier);
+
+			using (var dlg = new OralAnnotationDlg(tier as TimeOrderTier))
+				dlg.ShowDialog();
+		}
 	}
 }

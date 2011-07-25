@@ -149,6 +149,12 @@
     <Compile Include="Transcription\Model\TextSegment.cs" />
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
+    <Compile Include="Transcription\UI\OralAnnotationDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationDlg.designer.cs">
+      <DependentUpon>OralAnnotationDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transcription\UI\AudioWaveFormCell.cs" />
     <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
     <Compile Include="Transcription\UI\CreateAnnotationFileDlg.cs">
@@ -163,6 +169,13 @@
     <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.Designer.cs">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationRecorder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationRecorder.Designer.cs">
+      <DependentUpon>OralAnnotationRecorder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationRecorderViewModel.cs" />
     <Compile Include="Transcription\UI\TextAnnotationColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
       <SubType>UserControl</SubType>
@@ -477,11 +490,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Transcription\UI\OralAnnotationDlg.resx">
+      <DependentUpon>OralAnnotationDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\CreateAnnotationFileDlg.resx">
       <DependentUpon>CreateAnnotationFileDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.resx">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\OralAnnotationRecorder.resx">
+      <DependentUpon>OralAnnotationRecorder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\TextAnnotationEditor.resx">
       <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
@@ -731,6 +750,12 @@
     <None Include="Resources\ElanIcon.png" />
     <None Include="Resources\InterlinearExport.png" />
     <None Include="Resources\Help.png" />
+    <None Include="Resources\RecordingPlayback.png" />
+    <None Include="Resources\RecordStart.png" />
+    <None Include="Resources\RecordStop.png" />
+    <None Include="Resources\NextSegment.png" />
+    <None Include="Resources\RecordingPlaybackAnnotation.png" />
+    <None Include="Resources\RecordErase.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

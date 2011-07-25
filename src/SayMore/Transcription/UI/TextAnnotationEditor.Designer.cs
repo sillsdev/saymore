@@ -37,6 +37,7 @@ namespace SayMore.Transcription.UI
 			this._comboPlaybackSpeed = new System.Windows.Forms.ComboBox();
 			this._labelPlaybackSpeed = new System.Windows.Forms.Label();
 			this._buttonHelp = new SilTools.Controls.ImageButton();
+			this.button1 = new System.Windows.Forms.Button();
 			this._tableLayout.SuspendLayout();
 			this._splitter.SuspendLayout();
 			this._tableLayoutPlaybackSpeed.SuspendLayout();
@@ -142,18 +143,32 @@ namespace SayMore.Transcription.UI
 			this._buttonHelp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
 			this._buttonHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this._buttonHelp.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonHelp.Image = null;
+			this._buttonHelp.ImageMargin = new System.Drawing.Size(2, 2);
 			this._buttonHelp.Location = new System.Drawing.Point(405, 3);
 			this._buttonHelp.Margin = new System.Windows.Forms.Padding(0);
 			this._buttonHelp.Name = "_buttonHelp";
+			this._buttonHelp.ShowFocusRectangle = true;
 			this._buttonHelp.Size = new System.Drawing.Size(20, 20);
 			this._buttonHelp.TabIndex = 2;
 			this._buttonHelp.UseVisualStyleBackColor = true;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(321, 267);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(64, 11);
+			this.button1.TabIndex = 1;
+			this.button1.Text = "button1";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// TextAnnotationEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.button1);
 			this.Controls.Add(this._tableLayout);
 			this.Name = "TextAnnotationEditor";
 			this.Padding = new System.Windows.Forms.Padding(12);
@@ -176,6 +191,7 @@ namespace SayMore.Transcription.UI
         private System.Windows.Forms.ComboBox _comboPlaybackSpeed;
         private System.Windows.Forms.Label _labelPlaybackSpeed;
 		private ImageButton _buttonHelp;
+		private System.Windows.Forms.Button button1;
 
 
 	}

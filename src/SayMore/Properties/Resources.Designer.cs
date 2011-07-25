@@ -414,6 +414,41 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap RecordErase {
+            get {
+                object obj = ResourceManager.GetObject("RecordErase", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordingPlayback {
+            get {
+                object obj = ResourceManager.GetObject("RecordingPlayback", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordingPlaybackAnnotation {
+            get {
+                object obj = ResourceManager.GetObject("RecordingPlaybackAnnotation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordStart {
+            get {
+                object obj = ResourceManager.GetObject("RecordStart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordStop {
+            get {
+                object obj = ResourceManager.GetObject("RecordStop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Refresh {
             get {
                 object obj = ResourceManager.GetObject("Refresh", resourceCulture);

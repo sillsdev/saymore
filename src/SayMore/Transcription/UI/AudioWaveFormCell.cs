@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Transcription.Model;
-using SilTools;
 
 namespace SayMore.Transcription.UI
 {
@@ -38,7 +37,7 @@ namespace SayMore.Transcription.UI
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		private Image GetImageToDraw()
+		private Image GetButtonImageToDraw()
 		{
 			if (_grid.PlayerViewModel.IsPlayButtonVisible)
 			{
@@ -85,6 +84,7 @@ namespace SayMore.Transcription.UI
 			if (e.RowIndex != _grid.CurrentCellAddress.Y)
 				return;
 
+			// Determine if mouse is over the part of the cell where the button is drawn.
 			var rc = _grid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
 			rc.X = rc.Y = 0;
 			rc.Width = _grid.Columns[ColumnIndex].Width;
@@ -118,7 +118,12 @@ namespace SayMore.Transcription.UI
 			if (_grid.CurrentCellAddress.Y != rowIndex || rowIndex < 0)
 				return;
 
-			DrawPlaybackProgressBar(g, value as ITimeOrderSegment, cellBounds, cellStyle);
+			var segment = value as TimeOrderSegment;
+			if (segment != null && !_playButtonVisible && _grid.PlayerViewModel.HasPlaybackStarted)
+			{
+				segment.DrawPlaybackProgressBar(g, cellBounds,
+					_grid.PlayerViewModel.CurrentPosition, cellStyle.SelectionBackColor);
+			}
 
 			// Now draw the cell's text.
 			paintParts = DataGridViewPaintParts.ContentForeground;
@@ -127,33 +132,7 @@ namespace SayMore.Transcription.UI
 				formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
 
 			// Draw the play or stop button.
-			g.DrawImage(GetImageToDraw(), GetButtonRectangle(cellBounds));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void DrawPlaybackProgressBar(Graphics g, ITimeOrderSegment segment,
-			Rectangle cellBounds, DataGridViewCellStyle cellStyle)
-		{
-			if (segment == null || _playButtonVisible || !_grid.PlayerViewModel.HasPlaybackStarted)
-				return;
-
-			// Draw bar indicating playback progress.
-			var rcBar = cellBounds;
-			var playbackPosition = _grid.PlayerViewModel.CurrentPosition;
-
-			if (playbackPosition < Math.Round(segment.Stop, 1, MidpointRounding.AwayFromZero))
-			{
-				var pixelsPerSec = rcBar.Width / segment.GetLength(1);
-				rcBar.Width = (int)Math.Round(pixelsPerSec * (playbackPosition - segment.Start), MidpointRounding.AwayFromZero);
-			}
-
-			if (rcBar.Width <= 0)
-				return;
-
-			rcBar.Height -= 6;
-			rcBar.Y += 3;
-			using (var br = new SolidBrush(ColorHelper.CalculateColor(Color.White, cellStyle.SelectionBackColor, 110)))
-				g.FillRectangle(br, rcBar);
+			g.DrawImage(GetButtonImageToDraw(), GetButtonRectangle(cellBounds));
 		}
 	}
 }

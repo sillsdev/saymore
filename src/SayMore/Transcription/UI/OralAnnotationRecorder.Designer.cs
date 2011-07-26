@@ -1,3 +1,6 @@
+using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+
 namespace SayMore.Transcription.UI
 {
 	partial class OralAnnotationRecorder
@@ -31,13 +34,15 @@ namespace SayMore.Transcription.UI
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._labelSegmentNumber = new System.Windows.Forms.Label();
 			this._buttonEraseAnnotation = new SilTools.Controls.NicerButton();
+			this._trackBarSegment = new System.Windows.Forms.TrackBar();
+			this._panelMicorphoneLevel = new SilTools.Controls.SilPanel();
+			this._trackBarMicLevel = new TrackBar();
 			this._buttonPlayOriginal = new SayMore.Transcription.UI.StartStopButton();
 			this._buttonPlayAnnotation = new SayMore.Transcription.UI.StartStopButton();
 			this._buttonRecord = new SayMore.Transcription.UI.StartStopButton();
-			this._trackBarSegment = new System.Windows.Forms.TrackBar();
-			this._panelMicorphoneLevel = new SilTools.Controls.SilPanel();
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._trackBarSegment)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._trackBarMicLevel)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _tableLayout
@@ -60,7 +65,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(239, 167);
+			this._tableLayout.Size = new System.Drawing.Size(349, 167);
 			this._tableLayout.TabIndex = 0;
 			// 
 			// _labelSegmentNumber
@@ -71,7 +76,7 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentNumber.Location = new System.Drawing.Point(8, 0);
 			this._labelSegmentNumber.Margin = new System.Windows.Forms.Padding(8, 0, 5, 20);
 			this._labelSegmentNumber.Name = "_labelSegmentNumber";
-			this._labelSegmentNumber.Size = new System.Drawing.Size(226, 13);
+			this._labelSegmentNumber.Size = new System.Drawing.Size(336, 13);
 			this._labelSegmentNumber.TabIndex = 1;
 			this._labelSegmentNumber.Text = "Segment: {0} of {1}";
 			// 
@@ -94,12 +99,62 @@ namespace SayMore.Transcription.UI
 			this._buttonEraseAnnotation.Margin = new System.Windows.Forms.Padding(30, 0, 8, 0);
 			this._buttonEraseAnnotation.Name = "_buttonEraseAnnotation";
 			this._buttonEraseAnnotation.ShowFocusRectangle = true;
-			this._buttonEraseAnnotation.Size = new System.Drawing.Size(201, 28);
+			this._buttonEraseAnnotation.Size = new System.Drawing.Size(311, 28);
 			this._buttonEraseAnnotation.TabIndex = 6;
 			this._buttonEraseAnnotation.Text = "  Erase Annotation";
 			this._buttonEraseAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonEraseAnnotation.UseVisualStyleBackColor = true;
 			this._buttonEraseAnnotation.Click += new System.EventHandler(this.HandleEraseButtonClick);
+			// 
+			// _trackBarSegment
+			// 
+			this._trackBarSegment.Dock = System.Windows.Forms.DockStyle.Top;
+			this._trackBarSegment.LargeChange = 1;
+			this._trackBarSegment.Location = new System.Drawing.Point(0, 0);
+			this._trackBarSegment.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+			this._trackBarSegment.Maximum = 1000;
+			this._trackBarSegment.Minimum = 10;
+			this._trackBarSegment.Name = "_trackBarSegment";
+			this._trackBarSegment.Size = new System.Drawing.Size(405, 40);
+			this._trackBarSegment.TabIndex = 0;
+			this._trackBarSegment.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+			this._trackBarSegment.Value = 10;
+			// 
+			// _panelMicorphoneLevel
+			// 
+			this._panelMicorphoneLevel.BackColor = System.Drawing.Color.White;
+			this._panelMicorphoneLevel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._panelMicorphoneLevel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._panelMicorphoneLevel.ClipTextForChildControls = true;
+			this._panelMicorphoneLevel.ControlReceivingFocusOnMnemonic = null;
+			this._panelMicorphoneLevel.Dock = System.Windows.Forms.DockStyle.Right;
+			this._panelMicorphoneLevel.DoubleBuffered = true;
+			this._panelMicorphoneLevel.DrawOnlyBottomBorder = false;
+			this._panelMicorphoneLevel.DrawOnlyTopBorder = false;
+			this._panelMicorphoneLevel.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World, ((byte)(0)));
+			this._panelMicorphoneLevel.ForeColor = System.Drawing.Color.LightGreen;
+			this._panelMicorphoneLevel.Location = new System.Drawing.Point(389, 40);
+			this._panelMicorphoneLevel.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
+			this._panelMicorphoneLevel.MnemonicGeneratesClick = false;
+			this._panelMicorphoneLevel.Name = "_panelMicorphoneLevel";
+			this._panelMicorphoneLevel.PaintExplorerBarBackground = false;
+			this._panelMicorphoneLevel.Size = new System.Drawing.Size(16, 167);
+			this._panelMicorphoneLevel.TabIndex = 7;
+			// 
+			// _trackBarMicLevel
+			// 
+			this._trackBarMicLevel.Dock = System.Windows.Forms.DockStyle.Right;
+			this._trackBarMicLevel.LargeChange = 20;
+			this._trackBarMicLevel.Location = new System.Drawing.Point(349, 40);
+			this._trackBarMicLevel.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+			this._trackBarMicLevel.Maximum = 100;
+			this._trackBarMicLevel.Name = "_trackBarMicLevel";
+			this._trackBarMicLevel.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this._trackBarMicLevel.Size = new System.Drawing.Size(40, 167);
+			this._trackBarMicLevel.SmallChange = 5;
+			this._trackBarMicLevel.TabIndex = 8;
+			this._trackBarMicLevel.TickFrequency = 5;
+			this._trackBarMicLevel.Value = 10;
 			// 
 			// _buttonPlayOriginal
 			// 
@@ -119,7 +174,7 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayOriginal.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
 			this._buttonPlayOriginal.Name = "_buttonPlayOriginal";
 			this._buttonPlayOriginal.ShowFocusRectangle = true;
-			this._buttonPlayOriginal.Size = new System.Drawing.Size(231, 30);
+			this._buttonPlayOriginal.Size = new System.Drawing.Size(341, 30);
 			this._buttonPlayOriginal.TabIndex = 2;
 			this._buttonPlayOriginal.Text = "  Listen to Original (press \'O\')";
 			this._buttonPlayOriginal.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -143,7 +198,7 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayAnnotation.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
 			this._buttonPlayAnnotation.Name = "_buttonPlayAnnotation";
 			this._buttonPlayAnnotation.ShowFocusRectangle = true;
-			this._buttonPlayAnnotation.Size = new System.Drawing.Size(231, 30);
+			this._buttonPlayAnnotation.Size = new System.Drawing.Size(341, 30);
 			this._buttonPlayAnnotation.TabIndex = 5;
 			this._buttonPlayAnnotation.Text = "  Check Annotation (press \'A\')";
 			this._buttonPlayAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -167,59 +222,26 @@ namespace SayMore.Transcription.UI
 			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
 			this._buttonRecord.Name = "_buttonRecord";
 			this._buttonRecord.ShowFocusRectangle = true;
-			this._buttonRecord.Size = new System.Drawing.Size(231, 30);
+			this._buttonRecord.Size = new System.Drawing.Size(341, 30);
 			this._buttonRecord.TabIndex = 4;
 			this._buttonRecord.Text = "  Record (press SPACE)";
 			this._buttonRecord.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonRecord.UseVisualStyleBackColor = true;
-			// 
-			// _trackBarSegment
-			// 
-			this._trackBarSegment.Dock = System.Windows.Forms.DockStyle.Top;
-			this._trackBarSegment.LargeChange = 1;
-			this._trackBarSegment.Location = new System.Drawing.Point(0, 0);
-			this._trackBarSegment.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-			this._trackBarSegment.Maximum = 1000;
-			this._trackBarSegment.Minimum = 10;
-			this._trackBarSegment.Name = "_trackBarSegment";
-			this._trackBarSegment.Size = new System.Drawing.Size(255, 40);
-			this._trackBarSegment.TabIndex = 0;
-			this._trackBarSegment.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-			this._trackBarSegment.Value = 10;
-			// 
-			// _panelMicorphoneLevel
-			// 
-			this._panelMicorphoneLevel.BackColor = System.Drawing.Color.MediumSeaGreen;
-			this._panelMicorphoneLevel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this._panelMicorphoneLevel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this._panelMicorphoneLevel.ClipTextForChildControls = true;
-			this._panelMicorphoneLevel.ControlReceivingFocusOnMnemonic = null;
-			this._panelMicorphoneLevel.Dock = System.Windows.Forms.DockStyle.Right;
-			this._panelMicorphoneLevel.DoubleBuffered = true;
-			this._panelMicorphoneLevel.DrawOnlyBottomBorder = false;
-			this._panelMicorphoneLevel.DrawOnlyTopBorder = false;
-			this._panelMicorphoneLevel.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World, ((byte)(0)));
-			this._panelMicorphoneLevel.ForeColor = System.Drawing.SystemColors.ControlText;
-			this._panelMicorphoneLevel.Location = new System.Drawing.Point(239, 40);
-			this._panelMicorphoneLevel.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
-			this._panelMicorphoneLevel.MnemonicGeneratesClick = false;
-			this._panelMicorphoneLevel.Name = "_panelMicorphoneLevel";
-			this._panelMicorphoneLevel.PaintExplorerBarBackground = false;
-			this._panelMicorphoneLevel.Size = new System.Drawing.Size(16, 167);
-			this._panelMicorphoneLevel.TabIndex = 7;
 			// 
 			// OralAnnotationRecorder
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayout);
+			this.Controls.Add(this._trackBarMicLevel);
 			this.Controls.Add(this._panelMicorphoneLevel);
 			this.Controls.Add(this._trackBarSegment);
 			this.Name = "OralAnnotationRecorder";
-			this.Size = new System.Drawing.Size(255, 207);
+			this.Size = new System.Drawing.Size(405, 207);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this._trackBarSegment)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._trackBarMicLevel)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -235,5 +257,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelSegmentNumber;
 		private SilTools.Controls.SilPanel _panelMicorphoneLevel;
 		private StartStopButton _buttonPlayOriginal;
+		private TrackBar _trackBarMicLevel;
 	}
 }

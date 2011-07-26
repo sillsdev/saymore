@@ -1,13 +1,16 @@
+using System;
 using System.IO;
 using System.Linq;
-using Palaso.Media;
+using System.Windows.Forms;
+using NAudio.Wave;
+using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.UI.MediaPlayer;
 
 namespace SayMore.Transcription.UI
 {
-	public class OralAnnotationRecorderViewModel
+	public class OralAnnotationRecorderViewModel : IDisposable
 	{
 		public enum State
 		{
@@ -17,33 +20,51 @@ namespace SayMore.Transcription.UI
 			Recording
 		}
 
-		public event MediaPlayerViewModel.PlaybackEndedEventHandler PlaybackEnded;
+		public event EventHandler PlaybackEnded;
 
-		public ISimpleAudioSession Recorder { get; private set; }
 		public int CurrentSegmentNumber { get; private set; }
 
 		private readonly MediaPlayerViewModel _origPlayerViewModel;
-		private MediaPlayerViewModel _annotationPlayerViewModel;
 		private readonly ITimeOrderSegment[] _segments;
+		private AudioRecorder _annotationRecorder;
+		private AudioPlayer _annotationPlayer;
 		private readonly string _pathToAnnotationsFolder;
 		public string _annotationFileAffix = "_Careful.wav";
 		public string _originalRecordingPath;
+
+		public Control MicLevelDisplayControl { get; set; }
+		public TrackBar MicLevelChangeControl { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationRecorderViewModel(TimeOrderTier tier)
 		{
 			_origPlayerViewModel = new MediaPlayerViewModel();
 
-			_origPlayerViewModel.PlaybackEnded += delegate(object sender, bool EndedBecauseEOF)
+			_origPlayerViewModel.PlaybackEnded += delegate
 			{
 				if (PlaybackEnded != null)
-					PlaybackEnded(_origPlayerViewModel.MediaFile, EndedBecauseEOF);
+					PlaybackEnded(_origPlayerViewModel.MediaFile, EventArgs.Empty);
 			};
 
 			_originalRecordingPath = tier.MediaFileName;
 			_segments = tier.GetAllSegments().Cast<ITimeOrderSegment>().ToArray();
 			_pathToAnnotationsFolder = tier.MediaFileName + "_Annotations";
 			SetCurrentSegmentNumber(0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			CloseAnnotationPlayer();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CloseAnnotationPlayer()
+		{
+			if (_annotationPlayer != null)
+				_annotationPlayer.Dispose();
+
+			_annotationPlayer = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,7 +88,11 @@ namespace SayMore.Transcription.UI
 			Stop();
 			bool incremented = (CurrentSegmentNumber < segmentNumber);
 			CurrentSegmentNumber = segmentNumber;
-			Recorder = AudioFactory.AudioSession(GetPathToCurrentAnnotationFile());
+
+			_annotationRecorder = new AudioRecorder();
+			_annotationRecorder.SetRecordingLevelChangeControl(MicLevelChangeControl);
+			_annotationRecorder.SetRecordingLevelDisplayControl(MicLevelDisplayControl);
+
 			var segment = _segments[CurrentSegmentNumber];
 			_origPlayerViewModel.LoadFile(_originalRecordingPath, segment.Start, segment.GetLength());
 			InitializeAnnotationPlayerModel();
@@ -78,17 +103,17 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeAnnotationPlayerModel()
 		{
+			CloseAnnotationPlayer();
+
 			var filename = GetPathToCurrentAnnotationFile();
-			if (!File.Exists(filename))
-				_annotationPlayerViewModel = null;
-			else
+			if (File.Exists(filename))
 			{
-				_annotationPlayerViewModel = new MediaPlayerViewModel();
-				_annotationPlayerViewModel.LoadFile(filename);
-				_annotationPlayerViewModel.PlaybackEnded += delegate(object sender, bool EndedBecauseEOF)
+				_annotationPlayer = new AudioPlayer();
+				_annotationPlayer.LoadFile(filename);
+				_annotationPlayer.Stopped += delegate
 				{
 					if (PlaybackEnded != null)
-						PlaybackEnded(_annotationPlayerViewModel.MediaFile, EndedBecauseEOF);
+						PlaybackEnded(_annotationPlayer.AudioFilePath, EventArgs.Empty);
 				};
 			}
 		}
@@ -96,13 +121,13 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public State GetState()
 		{
-			if (Recorder != null && Recorder.IsRecording)
+			if (_annotationRecorder != null && _annotationRecorder.RecordingState == RecordingState.Recording)
 				return State.Recording;
 
 			if (_origPlayerViewModel.HasPlaybackStarted)
 				return State.PlayingOriginal;
 
-			if (_annotationPlayerViewModel != null && _annotationPlayerViewModel.HasPlaybackStarted)
+			if (_annotationPlayer != null && _annotationPlayer.PlaybackState == PlaybackState.Playing)
 				return State.PlayingAnnotation;
 
 			return State.Idle;
@@ -112,6 +137,7 @@ namespace SayMore.Transcription.UI
 		public void EraseAnnotation()
 		{
 			Stop();
+			CloseAnnotationPlayer();
 			var filename = GetPathToCurrentAnnotationFile();
 			ComponentFile.WaitForFileRelease(filename);
 			File.Delete(filename);
@@ -122,14 +148,14 @@ namespace SayMore.Transcription.UI
 		public void BeginRecording()
 		{
 			Stop();
-			Recorder.StartRecording();
+			_annotationRecorder.BeginRecording(GetPathToCurrentAnnotationFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void PlayAnnotation()
 		{
 			Stop();
-			_annotationPlayerViewModel.Play();
+			_annotationPlayer.Play();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -142,54 +168,37 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void Stop()
 		{
-			if (Recorder != null && Recorder.IsRecording)
-				SaveRecoding();
+			if (_annotationRecorder != null && _annotationRecorder.RecordingState == RecordingState.Recording)
+			{
+				_annotationRecorder.Stop();
+				InitializeAnnotationPlayerModel();
+			}
 
-			if (_annotationPlayerViewModel != null && _annotationPlayerViewModel.HasPlaybackStarted)
-				_annotationPlayerViewModel.Stop();
+			if (_annotationPlayer != null && _annotationPlayer.PlaybackState != PlaybackState.Stopped)
+				_annotationPlayer.Stop();
 
 			if (_origPlayerViewModel != null && _origPlayerViewModel.HasPlaybackStarted)
 				_origPlayerViewModel.Stop();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SaveRecoding()
-		{
-			if (!Directory.Exists(_pathToAnnotationsFolder))
-				Directory.CreateDirectory(_pathToAnnotationsFolder);
-
-			Recorder.StopRecordingAndSaveAsWav();
-			InitializeAnnotationPlayerModel();
 		}
 
 		#region Properties for enabling, showing and hiding player buttons.
 		/// ------------------------------------------------------------------------------------
 		public bool IsRecording
 		{
-			get { return Recorder.IsRecording; }
+			get { return _annotationRecorder != null && _annotationRecorder.RecordingState == RecordingState.Recording; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool ShouldRecordButtonBeVisible
 		{
-			get { return !File.Exists(GetPathToCurrentAnnotationFile()); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool ShouldStopButtonBeVisible
-		{
-			get
-			{
-				return Recorder.CanStop || Recorder.IsRecording ||
-					_origPlayerViewModel.HasPlaybackStarted ||
-					(_annotationPlayerViewModel != null &&_annotationPlayerViewModel.HasPlaybackStarted);
-			}
+			get { return IsRecording || !ShouldListenToAnnotationButtonBeVisible; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool ShouldListenToAnnotationButtonBeVisible
 		{
-			get { return File.Exists(GetPathToCurrentAnnotationFile()); }
+			get { return File.Exists(GetPathToCurrentAnnotationFile()) && _annotationPlayer != null &&
+				(_annotationRecorder == null || _annotationRecorder.RecordingState != RecordingState.Recording); }
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -203,8 +212,8 @@ namespace SayMore.Transcription.UI
 		{
 			get
 			{
-				return File.Exists(GetPathToCurrentAnnotationFile()) &&
-					!ShouldStopButtonBeVisible;
+				return File.Exists(GetPathToCurrentAnnotationFile()) && !IsRecording &&
+					(_annotationPlayer == null || _annotationPlayer.PlaybackState != PlaybackState.Playing);
 			}
 		}
 

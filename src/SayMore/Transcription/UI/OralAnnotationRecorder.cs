@@ -33,6 +33,8 @@ namespace SayMore.Transcription.UI
 		public void Initialize(OralAnnotationRecorderViewModel viewModel)
 		{
 			_viewModel = viewModel;
+			_viewModel.MicLevelChangeControl = _trackBarMicLevel;
+			_viewModel.MicLevelDisplayControl = _panelMicorphoneLevel;
 			_viewModel.PlaybackEnded += delegate { Invoke((Action)UpdateDisplay); };
 
 			_buttonPlayOriginal.Initialize("Stop Listening (press 'O')",
@@ -47,6 +49,13 @@ namespace SayMore.Transcription.UI
 			_trackBarSegment.Minimum = 1;
 			_trackBarSegment.Maximum = _viewModel.SegmentCount;
 			_trackBarSegment.Value = _viewModel.CurrentSegmentNumber + 1;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			_viewModel.Dispose();
+			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,6 +109,10 @@ namespace SayMore.Transcription.UI
 			_buttonRecord.Visible = _viewModel.ShouldRecordButtonBeVisible;
 			_buttonEraseAnnotation.Enabled = _viewModel.ShouldEraseAnnotationButtonBeEnabled;
 			//_buttonEraseAnnotation.Visible = _viewModel.ShouldEraseAnnotationButtonBeVisible;
+
+			if (_buttonPlayAnnotation.Visible)
+				System.Diagnostics.Debug.Write("");
+
 		}
 
 		/// ------------------------------------------------------------------------------------

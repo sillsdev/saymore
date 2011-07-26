@@ -66,6 +66,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\..\lib\dotnet\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
@@ -101,6 +104,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioUtils\AudioPlayer.cs" />
+    <Compile Include="AudioUtils\AudioRecorder.cs" />
+    <Compile Include="AudioUtils\SampleAggregator.cs" />
+    <Compile Include="AudioUtils\TrimWaveStream.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
@@ -753,7 +760,6 @@
     <None Include="Resources\RecordingPlayback.png" />
     <None Include="Resources\RecordStart.png" />
     <None Include="Resources\RecordStop.png" />
-    <None Include="Resources\NextSegment.png" />
     <None Include="Resources\RecordingPlaybackAnnotation.png" />
     <None Include="Resources\RecordErase.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />

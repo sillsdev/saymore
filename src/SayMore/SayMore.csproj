@@ -762,6 +762,9 @@
     <None Include="Resources\RecordStop.png" />
     <None Include="Resources\RecordingPlaybackAnnotation.png" />
     <None Include="Resources\RecordErase.png" />
+    <None Include="Resources\CarefulSpeech.png" />
+    <None Include="Resources\OralTranslation.png" />
+    <None Include="Resources\RecordedOralAnnotations.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

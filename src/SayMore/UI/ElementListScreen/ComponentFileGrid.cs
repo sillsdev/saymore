@@ -46,6 +46,7 @@ namespace SayMore.UI.ElementListScreen
 
 			InitializeComponent();
 			Font = SystemFonts.IconTitleFont;
+			_toolStripActions.Renderer = new NoToolStripBorderRenderer();
 
 			try
 			{

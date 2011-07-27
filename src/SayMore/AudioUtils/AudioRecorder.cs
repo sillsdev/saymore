@@ -341,44 +341,109 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		private void HandleLevelControlPaint(object sender, PaintEventArgs e)
 		{
-			var fullHeight = _recordingLevelDisplayControl.ClientSize.Height;
+			if (_recordingLevelDisplayControl.Width < _recordingLevelDisplayControl.Height)
+				DrawVerticalMeter(e.Graphics);
+			else
+				DrawHorizontalMeter(e.Graphics);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawHorizontalMeter(Graphics g)
+		{
+			var fullExtent = _recordingLevelDisplayControl.ClientSize.Width;
 
 			// The first step involves painting the entire control so it looks maxed out.
 			// After that, erase (using the control's background color) from the top of
 			// the control, to a point along the Y coordinate that represents the peak level.
 
-			// Draw the top two colors
-			var height = (int)(fullHeight * 0.10);
-			var rc = new Rectangle(0, 0, _recordingLevelDisplayControl.ClientSize.Width, height + 1);
-			using (var br = new LinearGradientBrush(rc, MeterLevelMaxPeakColor, MeterLevelMidColor, 90))
+			// Draw yellow fading to red. The gradient to and yellow take up 10% of the meter.
+			var partialExtent = (int)(fullExtent * 0.10);
+			var rc = new Rectangle(fullExtent - partialExtent - 1, 0, partialExtent + 2,
+				_recordingLevelDisplayControl.ClientSize.Height);
+
+			using (var br = new LinearGradientBrush(rc, MeterLevelMidColor, MeterLevelMaxPeakColor, 0f))
 			{
 				var blend = new Blend();
 				blend.Positions = new[] { 0.0f, 0.4f, 0.9f, 1.0f };
 				blend.Factors = new[] { 0.0f, 0.5f, 1.0f, 1.0f };
 				br.Blend = blend;
-				e.Graphics.FillRectangle(br, rc);
+				g.FillRectangle(br, rc);
 			}
 
-			// Draw the bottom two colors
-			rc.Y = height - 1;
-			rc.Height = (int)(fullHeight * 0.90) + 2;
-			using (var br = new LinearGradientBrush(rc, MeterLevelMidColor, MeterLevelBaseColor, 90))
+			// Draw green fading to yellow. The gradient green to yellow take up 90% of the meter.
+			rc.X = 0;
+			rc.Width = (int)(fullExtent * 0.90) + 2;
+
+			using (var br = new LinearGradientBrush(rc, MeterLevelBaseColor, MeterLevelMidColor, 0f))
 			{
-				rc.Y++;
-				e.Graphics.FillRectangle(br, rc);
+				rc.Width--;
+				g.FillRectangle(br, rc);
 			}
 
+			// If the meter is maxed out, then we're done.
 			if (_peakLevel.Equals(1f))
 				return;
 
 			// Now use the back ground color to erase the part of control
 			// that represents what's above the peak level.
-			height = fullHeight -
-				(int)(Math.Round(_peakLevel * fullHeight, MidpointRounding.AwayFromZero));
+			partialExtent = fullExtent -
+				(int)(Math.Round(_peakLevel * fullExtent, MidpointRounding.AwayFromZero));
 
-			rc = new Rectangle(0, 0, _recordingLevelDisplayControl.ClientSize.Width, height);
+			rc = new Rectangle(fullExtent - partialExtent, 0, partialExtent,
+				_recordingLevelDisplayControl.ClientSize.Height);
+
+
+			//rc = new Rectangle(0, 0, partialExtent, _recordingLevelDisplayControl.ClientSize.Height);
+
 			using (var br = new SolidBrush(_recordingLevelDisplayControl.BackColor))
-				e.Graphics.FillRectangle(br, rc);
+				g.FillRectangle(br, rc);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawVerticalMeter(Graphics g)
+		{
+			var fullExtent = _recordingLevelDisplayControl.ClientSize.Height;
+
+			// The first step involves painting the entire control so it looks maxed out.
+			// After that, erase (using the control's background color) from the top of
+			// the control, to a point along the Y coordinate that represents the peak level.
+
+			// Draw yellow fading to red. The gradient to and yellow take up 10% of the meter.
+			var partialExtent = (int)(fullExtent * 0.10);
+			var rc = new Rectangle(0, 0, _recordingLevelDisplayControl.ClientSize.Width, partialExtent + 1);
+
+			using (var br = new LinearGradientBrush(rc, MeterLevelMaxPeakColor, MeterLevelMidColor, 90f))
+			{
+				var blend = new Blend();
+				blend.Positions = new[] { 0.0f, 0.4f, 0.9f, 1.0f };
+				blend.Factors = new[] { 0.0f, 0.5f, 1.0f, 1.0f };
+				br.Blend = blend;
+				g.FillRectangle(br, rc);
+			}
+
+			// Draw green fading to yellow. The gradient green to yellow take up 90% of the meter.
+			rc.Y = partialExtent - 1;
+			rc.Height = (int)(fullExtent * 0.90) + 2;
+
+			using (var br = new LinearGradientBrush(rc, MeterLevelMidColor, MeterLevelBaseColor, 0f))
+			{
+				rc.Y++;
+				g.FillRectangle(br, rc);
+			}
+
+			// If the meter is maxed out, then we're done.
+			if (_peakLevel.Equals(1f))
+				return;
+
+			// Now use the back ground color to erase the part of control
+			// that represents what's above the peak level.
+			partialExtent = fullExtent -
+				(int)(Math.Round(_peakLevel * fullExtent, MidpointRounding.AwayFromZero));
+
+			rc = new Rectangle(0, 0, _recordingLevelDisplayControl.ClientSize.Width, partialExtent);
+
+			using (var br = new SolidBrush(_recordingLevelDisplayControl.BackColor))
+				g.FillRectangle(br, rc);
 		}
 
 		#endregion

@@ -28,6 +28,7 @@ namespace SayMore.Transcription.UI
 		{
 			InitializeComponent();
 			Name = "Annotations";
+			_toolStrip.Renderer = new NoToolStripBorderRenderer();
 
 			_comboPlaybackSpeed.Font = SystemFonts.IconTitleFont;
 			// TODO: Internationalize
@@ -238,13 +239,15 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		private void button1_Click(object sender, EventArgs e)
+		/// ------------------------------------------------------------------------------------
+		private void HandleRecordedAnnotationButtonClick(object sender, EventArgs e)
 		{
+			var recordedFileAffix = (sender == _buttonCarefulSpeech ? "CarefulSpeech" : "OralTranslation");
+			var caption = (sender == _buttonCarefulSpeech ? "Careful Speech" : "Oral Translation");
 			var file = (AnnotationComponentFile)_file;
-
 			var tier = file.Tiers.FirstOrDefault(t => t is TimeOrderTier);
 
-			using (var dlg = new OralAnnotationDlg(tier as TimeOrderTier))
+			using (var dlg = new OralAnnotationDlg(caption, recordedFileAffix, tier as TimeOrderTier))
 				dlg.ShowDialog();
 		}
 	}

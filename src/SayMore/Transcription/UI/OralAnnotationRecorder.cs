@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using SilTools;
 using SilTools.Controls;
 
 namespace SayMore.Transcription.UI
@@ -8,6 +9,7 @@ namespace SayMore.Transcription.UI
 	public partial class OralAnnotationRecorder : UserControl
 	{
 		private readonly string _segmentCountFormatString;
+		private readonly string _micLevelFormatString;
 		private OralAnnotationRecorderViewModel _viewModel;
 
 		/// ------------------------------------------------------------------------------------
@@ -17,6 +19,8 @@ namespace SayMore.Transcription.UI
 
 			_segmentCountFormatString = _labelSegmentNumber.Text;
 			_labelSegmentNumber.Font = SystemFonts.IconTitleFont;
+			_micLevelFormatString = _labelMicLevel.Text;
+			_labelMicLevel.Font = SystemFonts.IconTitleFont;
 			_buttonPlayOriginal.Font = SystemFonts.IconTitleFont;
 			_buttonRecord.Font = SystemFonts.IconTitleFont;
 			_buttonPlayAnnotation.Font = SystemFonts.IconTitleFont;
@@ -26,7 +30,8 @@ namespace SayMore.Transcription.UI
 			_buttonPlayAnnotation.Click += delegate { UpdateDisplay(); };
 			_buttonRecord.Click += delegate { UpdateDisplay(); };
 
-			_trackBarSegment.ValueChanged += HandleTrackBarValueChanged;
+			_trackBarSegment.ValueChanged += HandleSegmentTrackBarValueChanged;
+			_trackBarMicLevel.ValueChanged += delegate { UpdateDisplay(); };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -37,13 +42,13 @@ namespace SayMore.Transcription.UI
 			_viewModel.MicLevelDisplayControl = _panelMicorphoneLevel;
 			_viewModel.PlaybackEnded += delegate { Invoke((Action)UpdateDisplay); };
 
-			_buttonPlayOriginal.Initialize("Stop Listening (press 'O')",
+			_buttonPlayOriginal.Initialize(" Stop Listening (press 'O')",
 				_viewModel.PlayOriginalRecording, _viewModel.Stop);
 
-			_buttonPlayAnnotation.Initialize("Stop Listening (press 'A')",
+			_buttonPlayAnnotation.Initialize(" Stop Listening (press 'A')",
 				_viewModel.PlayAnnotation, _viewModel.Stop);
 
-			_buttonRecord.Initialize("Stop Recording (press 'SPACE')",
+			_buttonRecord.Initialize(" Stop Recording (press 'SPACE')",
 				_viewModel.BeginRecording, _viewModel.Stop);
 
 			_trackBarSegment.Minimum = 1;
@@ -54,7 +59,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			_viewModel.Dispose();
+			if (_viewModel != null)
+				_viewModel.Dispose();
+
 			base.OnHandleDestroyed(e);
 		}
 
@@ -94,10 +101,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
+			Utils.SetWindowRedraw(this, false);
+
 			_trackBarSegment.Enabled = !_viewModel.IsRecording;
 
 			_labelSegmentNumber.Text = string.Format(_segmentCountFormatString,
 				_trackBarSegment.Value, _viewModel.SegmentCount);
+
+			_labelMicLevel.Text = string.Format(_micLevelFormatString,_trackBarMicLevel.Value);
 
 			var state = _viewModel.GetState();
 			_buttonPlayOriginal.SetStateProperties(state == OralAnnotationRecorderViewModel.State.PlayingOriginal);
@@ -110,9 +121,7 @@ namespace SayMore.Transcription.UI
 			_buttonEraseAnnotation.Enabled = _viewModel.ShouldEraseAnnotationButtonBeEnabled;
 			//_buttonEraseAnnotation.Visible = _viewModel.ShouldEraseAnnotationButtonBeVisible;
 
-			if (_buttonPlayAnnotation.Visible)
-				System.Diagnostics.Debug.Write("");
-
+			Utils.SetWindowRedraw(this, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -124,7 +133,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleTrackBarValueChanged(object sender, EventArgs e)
+		private void HandleSegmentTrackBarValueChanged(object sender, EventArgs e)
 		{
 			if (_buttonPlayOriginal.HasActionStarted)
 				_buttonPlayOriginal.PerformClick();

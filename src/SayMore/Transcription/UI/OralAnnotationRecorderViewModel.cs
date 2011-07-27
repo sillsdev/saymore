@@ -29,14 +29,14 @@ namespace SayMore.Transcription.UI
 		private AudioRecorder _annotationRecorder;
 		private AudioPlayer _annotationPlayer;
 		private readonly string _pathToAnnotationsFolder;
-		public string _annotationFileAffix = "_Careful.wav";
+		public string _annotationFileAffix;
 		public string _originalRecordingPath;
 
 		public Control MicLevelDisplayControl { get; set; }
 		public TrackBar MicLevelChangeControl { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationRecorderViewModel(TimeOrderTier tier)
+		public OralAnnotationRecorderViewModel(string annotationFileAffix, TimeOrderTier tier)
 		{
 			_origPlayerViewModel = new MediaPlayerViewModel();
 
@@ -46,6 +46,7 @@ namespace SayMore.Transcription.UI
 					PlaybackEnded(_origPlayerViewModel.MediaFile, EventArgs.Empty);
 			};
 
+			_annotationFileAffix = "_" + annotationFileAffix + ".wav";
 			_originalRecordingPath = tier.MediaFileName;
 			_segments = tier.GetAllSegments().Cast<ITimeOrderSegment>().ToArray();
 			_pathToAnnotationsFolder = tier.MediaFileName + "_Annotations";

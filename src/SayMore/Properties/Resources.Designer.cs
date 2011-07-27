@@ -102,6 +102,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CarefulSpeech {
+            get {
+                object obj = ResourceManager.GetObject("CarefulSpeech", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ColumnChooser {
             get {
                 object obj = ResourceManager.GetObject("ColumnChooser", resourceCulture);
@@ -344,6 +351,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap OralTranslation {
+            get {
+                object obj = ResourceManager.GetObject("OralTranslation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Pause {
             get {
                 object obj = ResourceManager.GetObject("Pause", resourceCulture);
@@ -410,6 +424,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap RampIcon {
             get {
                 object obj = ResourceManager.GetObject("RampIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordedOralAnnotations {
+            get {
+                object obj = ResourceManager.GetObject("RecordedOralAnnotations", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

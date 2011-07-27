@@ -1130,5 +1130,17 @@ namespace SayMore.Properties {
                 this["FreeTranslationWsForFWInterlinearExport"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.FormSettings OralAnnotationDlg {
+            get {
+                return ((global::SilTools.FormSettings)(this["OralAnnotationDlg"]));
+            }
+            set {
+                this["OralAnnotationDlg"] = value;
+            }
+        }
     }
 }

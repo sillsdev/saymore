@@ -2,11 +2,14 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Transcription.Model;
+using SilTools;
 
 namespace SayMore.Transcription.UI
 {
 	public class AudioWaveFormCell : DataGridViewTextBoxCell
 	{
+		private static Image s_hotPlayButtonImage;
+		private static Image s_hotStopButtonImage;
 		private readonly Size _buttonSize = Properties.Resources.PlaySegment.Size;
 		private TextAnnotationEditorGrid _grid;
 		private bool _mouseIsOverButtonArea;
@@ -39,16 +42,20 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private Image GetButtonImageToDraw()
 		{
+			if (s_hotPlayButtonImage == null)
+				s_hotPlayButtonImage = PaintingHelper.MakeHotImage(Properties.Resources.PlaySegment);
+
+			if (s_hotStopButtonImage == null)
+				s_hotStopButtonImage = PaintingHelper.MakeHotImage(Properties.Resources.StopSegment);
+
 			if (_grid.PlayerViewModel.IsPlayButtonVisible)
 			{
 				_playButtonVisible = true;
-				return (_mouseIsOverButtonArea ? Properties.Resources.PlaySegment_Hot :
-					Properties.Resources.PlaySegment);
+				return (_mouseIsOverButtonArea ? s_hotPlayButtonImage : Properties.Resources.PlaySegment);
 			}
 
 			_playButtonVisible = false;
-			return (_mouseIsOverButtonArea ? Properties.Resources.StopSegment_Hot :
-				Properties.Resources.StopSegment);
+			return (_mouseIsOverButtonArea ? s_hotStopButtonImage : Properties.Resources.StopSegment);
 		}
 
 		/// ------------------------------------------------------------------------------------

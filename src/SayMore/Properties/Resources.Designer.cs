@@ -393,13 +393,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap PlaySegment_Hot {
-            get {
-                object obj = ResourceManager.GetObject("PlaySegment_Hot", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap PlayTabImage {
             get {
                 object obj = ResourceManager.GetObject("PlayTabImage", resourceCulture);
@@ -575,13 +568,6 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap StopSegment {
             get {
                 object obj = ResourceManager.GetObject("StopSegment", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap StopSegment_Hot {
-            get {
-                object obj = ResourceManager.GetObject("StopSegment_Hot", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

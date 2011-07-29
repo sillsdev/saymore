@@ -75,12 +75,18 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetPathToCurrentAnnotationFile()
+		public string GetPathToAnnotationFileForSegment(int segmentNumber)
 		{
-			var segment = _segments[CurrentSegmentNumber];
+			var segment = _segments[segmentNumber];
 
 			return Path.Combine(_pathToAnnotationsFolder,
 				segment.Start + "_to_" + segment.Stop + _annotationFileAffix);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetPathToCurrentAnnotationFile()
+		{
+			return GetPathToAnnotationFileForSegment(CurrentSegmentNumber);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -198,8 +204,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool ShouldListenToAnnotationButtonBeVisible
 		{
-			get { return File.Exists(GetPathToCurrentAnnotationFile()) && _annotationPlayer != null &&
-				(_annotationRecorder == null || _annotationRecorder.RecordingState != RecordingState.Recording); }
+			get
+			{
+				return File.Exists(GetPathToCurrentAnnotationFile()) && _annotationPlayer != null &&
+					(_annotationRecorder == null || _annotationRecorder.RecordingState != RecordingState.Recording);
+			}
 		}
 
 		///// ------------------------------------------------------------------------------------

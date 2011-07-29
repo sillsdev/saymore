@@ -158,6 +158,10 @@ namespace SayMore.AudioUtils
 				_waveIn.WaveFormat = _recordingFormat;
 				_waveIn.StartRecording();
 				TryGetVolumeControl();
+
+				if (_volumeControl != null)
+					_microphoneLevel = Math.Round(_volumeControl.Percent, MidpointRounding.AwayFromZero);
+
 				RecordingState = RecordingState.Monitoring;
 			}
 			catch (Exception e)
@@ -207,18 +211,13 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		private void TryGetVolumeControl()
 		{
-			int waveInDeviceNumber = _waveIn.DeviceNumber;
-
 			// Check for Vista OS or newer.
 			if (Environment.OSVersion.Version.Major >= 6)
 			{
 				var mixerLine = _waveIn.GetMixerLine();
-				//new MixerLine((IntPtr)waveInDeviceNumber, 0, MixerFlags.WaveIn);
-
 				foreach (var control in mixerLine.Controls.Where(c => c.ControlType == MixerControlType.Volume))
 				{
 					_volumeControl = control as UnsignedMixerControl;
-					MicrophoneLevel = _microphoneLevel;
 					break;
 				}
 
@@ -226,7 +225,7 @@ namespace SayMore.AudioUtils
 			}
 
 			// OS is older than Vista.
-			var mixer = new Mixer(waveInDeviceNumber);
+			var mixer = new Mixer(_waveIn.DeviceNumber);
 			foreach (var destination in mixer.Destinations.Where(d => d.ComponentType == MixerLineComponentType.DestinationWaveIn))
 			{
 				foreach (var source in destination.Sources.Where(s => s.ComponentType == MixerLineComponentType.SourceMicrophone))
@@ -234,7 +233,6 @@ namespace SayMore.AudioUtils
 					foreach (var control in source.Controls.Where(c => c.ControlType == MixerControlType.Volume))
 					{
 						_volumeControl = control as UnsignedMixerControl;
-						MicrophoneLevel = _microphoneLevel;
 						break;
 					}
 				}
@@ -391,9 +389,6 @@ namespace SayMore.AudioUtils
 
 			rc = new Rectangle(fullExtent - partialExtent, 0, partialExtent,
 				_recordingLevelDisplayControl.ClientSize.Height);
-
-
-			//rc = new Rectangle(0, 0, partialExtent, _recordingLevelDisplayControl.ClientSize.Height);
 
 			using (var br = new SolidBrush(_recordingLevelDisplayControl.BackColor))
 				g.FillRectangle(br, rc);

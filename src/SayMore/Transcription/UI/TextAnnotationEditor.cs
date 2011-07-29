@@ -242,7 +242,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordedAnnotationButtonClick(object sender, EventArgs e)
 		{
-			var recordedFileAffix = (sender == _buttonCarefulSpeech ? "CarefulSpeech" : "OralTranslation");
+			var recordedFileAffix = (sender == _buttonCarefulSpeech ? "Careful" : "OralTranslation");
 			var caption = (sender == _buttonCarefulSpeech ? "Careful Speech" : "Oral Translation");
 			var file = (AnnotationComponentFile)_file;
 			var tier = file.Tiers.FirstOrDefault(t => t is TimeOrderTier);

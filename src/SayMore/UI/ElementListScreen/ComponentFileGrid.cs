@@ -332,7 +332,7 @@ namespace SayMore.UI.ElementListScreen
 			_buttonCreateAnnotationFile.Enabled = (file != null &&
 				file.GetCanHaveAnnotationFile() && !file.GetDoesHaveAnnotationFile());
 
-			if (null != AfterComponentSelected)
+			if (null != AfterComponentSelected && _grid.CurrentCellAddress.Y >= 0)
 				AfterComponentSelected(_grid.CurrentCellAddress.Y);
 		}
 

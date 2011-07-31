@@ -203,6 +203,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _toolStripActions
 			// 
+			this._toolStripActions.BackColor = System.Drawing.SystemColors.Control;
 			this._toolStripActions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this._toolStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._buttonOpen,
@@ -214,10 +215,8 @@ namespace SayMore.UI.ElementListScreen
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
 			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
-			this._toolStripActions.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this._toolStripActions.Size = new System.Drawing.Size(468, 25);
 			this._toolStripActions.TabIndex = 4;
-			this._toolStripActions.Text = "toolStrip1";
 			this._toolStripActions.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleToolStripActionsPaint);
 			// 
 			// _buttonOpen

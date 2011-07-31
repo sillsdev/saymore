@@ -344,5 +344,8 @@
     <Setting Name="FreeTranslationWsForFWInterlinearExport" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="OralAnnotationDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

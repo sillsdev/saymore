@@ -102,6 +102,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CarefulSpeech {
+            get {
+                object obj = ResourceManager.GetObject("CarefulSpeech", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ColumnChooser {
             get {
                 object obj = ResourceManager.GetObject("ColumnChooser", resourceCulture);
@@ -344,6 +351,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap OralTranslation {
+            get {
+                object obj = ResourceManager.GetObject("OralTranslation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Pause {
             get {
                 object obj = ResourceManager.GetObject("Pause", resourceCulture);
@@ -379,13 +393,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap PlaySegment_Hot {
-            get {
-                object obj = ResourceManager.GetObject("PlaySegment_Hot", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap PlayTabImage {
             get {
                 object obj = ResourceManager.GetObject("PlayTabImage", resourceCulture);
@@ -410,6 +417,48 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap RampIcon {
             get {
                 object obj = ResourceManager.GetObject("RampIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordedOralAnnotations {
+            get {
+                object obj = ResourceManager.GetObject("RecordedOralAnnotations", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordErase {
+            get {
+                object obj = ResourceManager.GetObject("RecordErase", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordingPlayback {
+            get {
+                object obj = ResourceManager.GetObject("RecordingPlayback", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordingPlaybackAnnotation {
+            get {
+                object obj = ResourceManager.GetObject("RecordingPlaybackAnnotation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordStart {
+            get {
+                object obj = ResourceManager.GetObject("RecordStart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordStop {
+            get {
+                object obj = ResourceManager.GetObject("RecordStop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -519,13 +568,6 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap StopSegment {
             get {
                 object obj = ResourceManager.GetObject("StopSegment", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap StopSegment_Hot {
-            get {
-                object obj = ResourceManager.GetObject("StopSegment_Hot", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

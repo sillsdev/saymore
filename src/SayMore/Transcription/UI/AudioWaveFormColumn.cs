@@ -1,10 +1,8 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using SayMore.Transcription.Model;
-using SayMore.UI.MediaPlayer;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -13,7 +11,7 @@ namespace SayMore.Transcription.UI
 	{
 		protected bool _mediaFileNeedsLoading = true;
 
-
+		private CheckBoxColumnHeaderHandler _chkBoxColHdrHandler;
 		//private DateTime _lastShiftKeyPress;
 		//private Control _gridEditControl;
 
@@ -41,6 +39,28 @@ namespace SayMore.Transcription.UI
 					throw new InvalidCastException("Cell template must be an AudioWaveFormCell");
 
 				base.CellTemplate = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsColumnChecked
+		{
+			get { return _chkBoxColHdrHandler.HeadersCheckState == CheckState.Checked; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnDataGridViewChanged()
+		{
+			base.OnDataGridViewChanged();
+
+			if (_chkBoxColHdrHandler != null)
+				_chkBoxColHdrHandler.Dispose();
+
+			if (DataGridView != null)
+			{
+				_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(DataGridView, Index);
+				_chkBoxColHdrHandler.CheckBoxAlignment = System.Windows.Forms.VisualStyles.ContentAlignment.Right;
+				_chkBoxColHdrHandler.HeadersCheckState = CheckState.Checked;
 			}
 		}
 
@@ -74,39 +94,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UnsubscribeToGridEvents()
 		{
-			//_grid.Leave -= HandleGridLeave;
 			_grid.CurrentRowChanged -= HandleCurrentRowChanged;
 			_grid.SetPlaybackProgressReportAction(null);
-			//_grid.PlaybackSpeedChanged -= HandlePlaybackSpeedChanged;
-
-			//if (_grid.FindForm() != null)
-			//    _grid.FindForm().Deactivate -= HandleGridLeave;
-
 			base.UnsubscribeToGridEvents();
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//private void HandlePlaybackSpeedChanged(object sender, int newSpeed)
-		//{
-		//    _grid.PlayerViewModel.Speed = newSpeed;
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		//void HandleGridEnter(object sender, EventArgs e)
-		//{
-		//    if (_grid != null && _grid.FindForm() != null)
-		//        _grid.FindForm().Deactivate += HandleGridLeave;
-
-		//    if (!_grid.PlayerViewModel.HasPlaybackStarted)
-		//        Play();
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//private void HandleGridLeave(object sender, EventArgs e)
-		//{
-		//    Stop();
-		//    RedrawPlayerCell();
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleCurrentRowChanged(object sender, EventArgs e)
@@ -121,31 +112,6 @@ namespace SayMore.Transcription.UI
 			return Tier.GetSegment(_grid.CurrentCellAddress.Y) as ITimeOrderSegment;
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//private void HandleGridRowEnter(object sender, DataGridViewCellEventArgs e)
-		//{
-		//    Stop();
-		//    Application.Idle -= HandleStartPlaybackOnIdle;
-
-		//    if (_grid.CurrentCellAddress.Y < 0)
-		//        return;
-
-		//    var segment = Tier.GetSegment(e.RowIndex) as ITimeOrderSegment;
-		//    _mediaFileNeedsLoading = (segment != CurrentSegment);
-		//    CurrentSegment = segment;
-		//    //Application.Idle += HandleStartPlaybackOnIdle;
-		//    Play();
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//private void HandleStartPlaybackOnIdle(object sender, EventArgs e)
-		//{
-		//    Application.Idle -= HandleStartPlaybackOnIdle;
-
-		//    if (_grid != null && (_grid.Focused || _grid.IsCurrentCellInEditMode))
-		//        Play();
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
@@ -156,33 +122,6 @@ namespace SayMore.Transcription.UI
 
 			e.Value = Tier.GetSegment(e.RowIndex) as ITimeOrderSegment;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//public void Play()
-		//{
-		//    if (_grid.PlayerViewModel.HasPlaybackStarted)
-		//        Stop();
-
-		//    if (_mediaFileNeedsLoading)
-		//    {
-		//        _grid.PlayerViewModel.LoadFile(((TimeOrderTier)Tier).MediaFileName,
-		//            CurrentSegment.Start, CurrentSegment.GetLength());
-		//    }
-
-		//    _grid.PlayerViewModel.PlaybackStarted = (() => _grid.Invoke((Action)RedrawPlayerCell));
-		//    _grid.PlayerViewModel.PlaybackEnded = (() => _grid.Invoke((Action)RedrawPlayerCell));
-		//    _grid.PlayerViewModel.PlaybackPositionChanged = (pos => _grid.Invoke((Action)RedrawPlayerCell));
-		//    _grid.PlayerViewModel.Play();
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//public void Stop()
-		//{
-		//    _grid.PlayerViewModel.PlaybackStarted = null;
-		//    _grid.PlayerViewModel.PlaybackEnded = null;
-		//    _grid.PlayerViewModel.PlaybackPositionChanged = null;
-		//    _grid.PlayerViewModel.Stop();
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		protected void RedrawPlayerCell()

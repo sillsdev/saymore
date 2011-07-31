@@ -66,6 +66,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\..\lib\dotnet\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
@@ -101,6 +104,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioUtils\AudioPlayer.cs" />
+    <Compile Include="AudioUtils\AudioRecorder.cs" />
+    <Compile Include="AudioUtils\SampleAggregator.cs" />
+    <Compile Include="AudioUtils\TrimWaveStream.cs" />
+    <Compile Include="AudioUtils\WaveFileUtils.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
@@ -149,6 +157,12 @@
     <Compile Include="Transcription\Model\TextSegment.cs" />
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
+    <Compile Include="Transcription\UI\OralAnnotationDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationDlg.designer.cs">
+      <DependentUpon>OralAnnotationDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transcription\UI\AudioWaveFormCell.cs" />
     <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
     <Compile Include="Transcription\UI\CreateAnnotationFileDlg.cs">
@@ -163,6 +177,13 @@
     <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.Designer.cs">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationRecorder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationRecorder.Designer.cs">
+      <DependentUpon>OralAnnotationRecorder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationRecorderViewModel.cs" />
     <Compile Include="Transcription\UI\TextAnnotationColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
       <SubType>UserControl</SubType>
@@ -477,11 +498,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Transcription\UI\OralAnnotationDlg.resx">
+      <DependentUpon>OralAnnotationDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\CreateAnnotationFileDlg.resx">
       <DependentUpon>CreateAnnotationFileDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.resx">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\OralAnnotationRecorder.resx">
+      <DependentUpon>OralAnnotationRecorder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\TextAnnotationEditor.resx">
       <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
@@ -725,12 +752,18 @@
     <None Include="Resources\ramp.png" />
     <None Include="Resources\EmptyMets.xml" />
     <None Include="Resources\PlaySegment.png" />
-    <None Include="Resources\PlaySegment_Hot.png" />
     <None Include="Resources\StopSegment.png" />
-    <None Include="Resources\StopSegment_Hot.PNG" />
     <None Include="Resources\ElanIcon.png" />
     <None Include="Resources\InterlinearExport.png" />
     <None Include="Resources\Help.png" />
+    <None Include="Resources\RecordingPlayback.png" />
+    <None Include="Resources\RecordStart.png" />
+    <None Include="Resources\RecordStop.png" />
+    <None Include="Resources\RecordingPlaybackAnnotation.png" />
+    <None Include="Resources\RecordErase.png" />
+    <None Include="Resources\CarefulSpeech.png" />
+    <None Include="Resources\OralTranslation.png" />
+    <None Include="Resources\RecordedOralAnnotations.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

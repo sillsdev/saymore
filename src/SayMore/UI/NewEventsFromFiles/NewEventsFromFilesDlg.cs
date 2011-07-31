@@ -39,7 +39,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			selectedCol.Resizable = DataGridViewTriState.False;
 			selectedCol.SortMode = DataGridViewColumnSortMode.Automatic;
 			_gridFiles.Grid.Columns.Insert(0, selectedCol);
-			_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(selectedCol);
+			_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(_gridFiles.Grid, 0);
 
 			_gridFiles.InitializeGrid("NewEventsFromFilesDlg", null);
 			_gridFiles.AfterComponentSelected = HandleComponentFileSelected;
@@ -252,8 +252,9 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			_mediaPlayerViewModel.Stop(true);
 
-			var pairs = _viewModel.GetUniqueSourceAndDestinationPairs();
-			if (pairs.Count() == 0)
+			var pairs = _viewModel.GetUniqueSourceAndDestinationPairs().ToArray();
+
+			if (pairs.Length == 0)
 				return;
 
 			using (var dlg = new MakeEventsFromFileProgressDialog(pairs, _viewModel.CreateSingleEvent))

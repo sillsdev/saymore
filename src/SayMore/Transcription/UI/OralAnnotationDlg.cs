@@ -42,5 +42,11 @@ namespace SayMore.Transcription.UI
 			Settings.Default.OralAnnotationDlg.InitializeForm(this);
 			base.OnShown(e);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleCloseClick(object sender, EventArgs e)
+		{
+			Close();
+		}
 	}
 }

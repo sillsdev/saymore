@@ -420,7 +420,7 @@ namespace SayMore.AudioUtils
 			rc.Y = partialExtent - 1;
 			rc.Height = (int)(fullExtent * 0.90) + 2;
 
-			using (var br = new LinearGradientBrush(rc, MeterLevelMidColor, MeterLevelBaseColor, 0f))
+			using (var br = new LinearGradientBrush(rc, MeterLevelMidColor, MeterLevelBaseColor, 90f))
 			{
 				rc.Y++;
 				g.FillRectangle(br, rc);

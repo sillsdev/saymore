@@ -46,7 +46,7 @@ namespace SayMore.Transcription.UI
 			_viewModel = viewModel;
 			_viewModel.MicLevelChangeControl = _trackBarMicLevel;
 			_viewModel.MicLevelDisplayControl = _panelMicorphoneLevel;
-			_viewModel.PlaybackEnded += delegate { Invoke((Action)UpdateDisplay); };
+			_viewModel.PlaybackEnded += HandlePlaybackEnded;
 
 			_buttonPlayOriginal.Initialize(" Playing (press 'O' to stop)",
 				_viewModel.PlayOriginalRecording, _viewModel.Stop);
@@ -67,7 +67,11 @@ namespace SayMore.Transcription.UI
 			Application.RemoveMessageFilter(this);
 
 			if (_viewModel != null)
+			{
+				_viewModel.Stop();
+				_viewModel.PlaybackEnded -= HandlePlaybackEnded;
 				_viewModel.Dispose();
+			}
 
 			base.OnHandleDestroyed(e);
 		}
@@ -127,6 +131,13 @@ namespace SayMore.Transcription.UI
 			}
 
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePlaybackEnded(object sender, EventArgs e)
+		{
+			if (!IsDisposed)
+				Invoke((Action)UpdateDisplay);
 		}
 
 		/// ------------------------------------------------------------------------------------

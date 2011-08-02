@@ -40,9 +40,11 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayAnnotation = new SayMore.Transcription.UI.StartStopButton();
 			this._buttonPlayOriginal = new SayMore.Transcription.UI.StartStopButton();
 			this._buttonRecord = new SayMore.Transcription.UI.StartStopButton();
+			this._panelLevelMeter = new System.Windows.Forms.Panel();
 			((System.ComponentModel.ISupportInitialize)(this._trackBarSegment)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._trackBarMicLevel)).BeginInit();
 			this._tableLayout.SuspendLayout();
+			this._panelLevelMeter.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _trackBarSegment
@@ -51,11 +53,11 @@ namespace SayMore.Transcription.UI
 			this._trackBarSegment.Dock = System.Windows.Forms.DockStyle.Top;
 			this._trackBarSegment.LargeChange = 1;
 			this._trackBarSegment.Location = new System.Drawing.Point(0, 0);
-			this._trackBarSegment.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
+			this._trackBarSegment.Margin = new System.Windows.Forms.Padding(0);
 			this._trackBarSegment.Maximum = 1000;
 			this._trackBarSegment.Minimum = 10;
 			this._trackBarSegment.Name = "_trackBarSegment";
-			this._trackBarSegment.Size = new System.Drawing.Size(249, 28);
+			this._trackBarSegment.Size = new System.Drawing.Size(271, 28);
 			this._trackBarSegment.TabIndex = 0;
 			this._trackBarSegment.TabStop = false;
 			this._trackBarSegment.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
@@ -67,24 +69,24 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentNumber.AutoEllipsis = true;
 			this._labelSegmentNumber.AutoSize = true;
 			this._labelSegmentNumber.BackColor = System.Drawing.Color.Transparent;
-			this._labelSegmentNumber.Location = new System.Drawing.Point(8, 0);
-			this._labelSegmentNumber.Margin = new System.Windows.Forms.Padding(8, 0, 5, 15);
+			this._labelSegmentNumber.Location = new System.Drawing.Point(8, 3);
+			this._labelSegmentNumber.Margin = new System.Windows.Forms.Padding(8, 3, 5, 15);
 			this._labelSegmentNumber.Name = "_labelSegmentNumber";
-			this._labelSegmentNumber.Size = new System.Drawing.Size(188, 13);
+			this._labelSegmentNumber.Size = new System.Drawing.Size(258, 13);
 			this._labelSegmentNumber.TabIndex = 1;
 			this._labelSegmentNumber.Text = "{0}/{1}";
 			// 
 			// _trackBarMicLevel
 			// 
 			this._trackBarMicLevel.AutoSize = false;
-			this._trackBarMicLevel.Dock = System.Windows.Forms.DockStyle.Right;
+			this._trackBarMicLevel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._trackBarMicLevel.LargeChange = 20;
-			this._trackBarMicLevel.Location = new System.Drawing.Point(201, 28);
+			this._trackBarMicLevel.Location = new System.Drawing.Point(0, 10);
 			this._trackBarMicLevel.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this._trackBarMicLevel.Maximum = 100;
 			this._trackBarMicLevel.Name = "_trackBarMicLevel";
 			this._trackBarMicLevel.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this._trackBarMicLevel.Size = new System.Drawing.Size(33, 162);
+			this._trackBarMicLevel.Size = new System.Drawing.Size(33, 168);
 			this._trackBarMicLevel.SmallChange = 5;
 			this._trackBarMicLevel.TabIndex = 8;
 			this._trackBarMicLevel.TabStop = false;
@@ -105,12 +107,12 @@ namespace SayMore.Transcription.UI
 			this._panelMicorphoneLevel.DrawOnlyTopBorder = false;
 			this._panelMicorphoneLevel.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World, ((byte)(0)));
 			this._panelMicorphoneLevel.ForeColor = System.Drawing.Color.LightGreen;
-			this._panelMicorphoneLevel.Location = new System.Drawing.Point(234, 28);
+			this._panelMicorphoneLevel.Location = new System.Drawing.Point(33, 10);
 			this._panelMicorphoneLevel.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this._panelMicorphoneLevel.MnemonicGeneratesClick = false;
 			this._panelMicorphoneLevel.Name = "_panelMicorphoneLevel";
 			this._panelMicorphoneLevel.PaintExplorerBarBackground = false;
-			this._panelMicorphoneLevel.Size = new System.Drawing.Size(15, 162);
+			this._panelMicorphoneLevel.Size = new System.Drawing.Size(15, 168);
 			this._panelMicorphoneLevel.TabIndex = 7;
 			// 
 			// _tableLayout
@@ -133,7 +135,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayout.Size = new System.Drawing.Size(201, 162);
+			this._tableLayout.Size = new System.Drawing.Size(271, 178);
 			this._tableLayout.TabIndex = 9;
 			// 
 			// _buttonEraseAnnotation
@@ -151,11 +153,11 @@ namespace SayMore.Transcription.UI
 			this._buttonEraseAnnotation.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonEraseAnnotation.Image = global::SayMore.Properties.Resources.RecordErase;
 			this._buttonEraseAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonEraseAnnotation.Location = new System.Drawing.Point(30, 106);
+			this._buttonEraseAnnotation.Location = new System.Drawing.Point(30, 109);
 			this._buttonEraseAnnotation.Margin = new System.Windows.Forms.Padding(30, 0, 10, 0);
 			this._buttonEraseAnnotation.Name = "_buttonEraseAnnotation";
 			this._buttonEraseAnnotation.ShowFocusRectangle = true;
-			this._buttonEraseAnnotation.Size = new System.Drawing.Size(161, 28);
+			this._buttonEraseAnnotation.Size = new System.Drawing.Size(231, 28);
 			this._buttonEraseAnnotation.TabIndex = 6;
 			this._buttonEraseAnnotation.Text = " Erase Annotation";
 			this._buttonEraseAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -176,11 +178,11 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayAnnotation.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonPlayAnnotation.Image = global::SayMore.Properties.Resources.RecordingPlaybackAnnotation;
 			this._buttonPlayAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonPlayAnnotation.Location = new System.Drawing.Point(0, 80);
+			this._buttonPlayAnnotation.Location = new System.Drawing.Point(0, 83);
 			this._buttonPlayAnnotation.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonPlayAnnotation.Name = "_buttonPlayAnnotation";
 			this._buttonPlayAnnotation.ShowFocusRectangle = true;
-			this._buttonPlayAnnotation.Size = new System.Drawing.Size(191, 26);
+			this._buttonPlayAnnotation.Size = new System.Drawing.Size(261, 26);
 			this._buttonPlayAnnotation.TabIndex = 5;
 			this._buttonPlayAnnotation.Text = " Check Annotation (press \'A\' to start)";
 			this._buttonPlayAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -200,11 +202,11 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayOriginal.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonPlayOriginal.Image = global::SayMore.Properties.Resources.RecordingPlayback;
 			this._buttonPlayOriginal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonPlayOriginal.Location = new System.Drawing.Point(0, 28);
+			this._buttonPlayOriginal.Location = new System.Drawing.Point(0, 31);
 			this._buttonPlayOriginal.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonPlayOriginal.Name = "_buttonPlayOriginal";
 			this._buttonPlayOriginal.ShowFocusRectangle = true;
-			this._buttonPlayOriginal.Size = new System.Drawing.Size(191, 26);
+			this._buttonPlayOriginal.Size = new System.Drawing.Size(261, 26);
 			this._buttonPlayOriginal.TabIndex = 2;
 			this._buttonPlayOriginal.Text = " Listen to Original (press \'O\' to start)";
 			this._buttonPlayOriginal.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -224,31 +226,42 @@ namespace SayMore.Transcription.UI
 			this._buttonRecord.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonRecord.Image = global::SayMore.Properties.Resources.RecordStart;
 			this._buttonRecord.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonRecord.Location = new System.Drawing.Point(0, 54);
+			this._buttonRecord.Location = new System.Drawing.Point(0, 57);
 			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonRecord.Name = "_buttonRecord";
 			this._buttonRecord.ShowFocusRectangle = true;
-			this._buttonRecord.Size = new System.Drawing.Size(191, 26);
+			this._buttonRecord.Size = new System.Drawing.Size(261, 26);
 			this._buttonRecord.TabIndex = 4;
 			this._buttonRecord.Text = " Record (press SPACE to start)";
 			this._buttonRecord.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonRecord.UseVisualStyleBackColor = true;
+			// 
+			// _panelLevelMeter
+			// 
+			this._panelLevelMeter.Controls.Add(this._trackBarMicLevel);
+			this._panelLevelMeter.Controls.Add(this._panelMicorphoneLevel);
+			this._panelLevelMeter.Dock = System.Windows.Forms.DockStyle.Right;
+			this._panelLevelMeter.Location = new System.Drawing.Point(223, 28);
+			this._panelLevelMeter.Name = "_panelLevelMeter";
+			this._panelLevelMeter.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
+			this._panelLevelMeter.Size = new System.Drawing.Size(48, 178);
+			this._panelLevelMeter.TabIndex = 10;
 			// 
 			// OralAnnotationRecorder
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Transparent;
+			this.Controls.Add(this._panelLevelMeter);
 			this.Controls.Add(this._tableLayout);
-			this.Controls.Add(this._trackBarMicLevel);
-			this.Controls.Add(this._panelMicorphoneLevel);
 			this.Controls.Add(this._trackBarSegment);
 			this.Name = "OralAnnotationRecorder";
-			this.Size = new System.Drawing.Size(249, 190);
+			this.Size = new System.Drawing.Size(271, 206);
 			((System.ComponentModel.ISupportInitialize)(this._trackBarSegment)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._trackBarMicLevel)).EndInit();
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
+			this._panelLevelMeter.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -264,5 +277,6 @@ namespace SayMore.Transcription.UI
 		private TrackBar _trackBarMicLevel;
 		private TableLayoutPanel _tableLayout;
 		private SilTools.Controls.NicerButton _buttonEraseAnnotation;
+		private Panel _panelLevelMeter;
 	}
 }

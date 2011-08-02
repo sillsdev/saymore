@@ -48,13 +48,14 @@ namespace SayMore.Transcription.UI
 			_viewModel.MicLevelDisplayControl = _panelMicorphoneLevel;
 			_viewModel.PlaybackEnded += HandlePlaybackEnded;
 
-			_buttonPlayOriginal.Initialize(" Playing (press 'O' to stop)",
+			_buttonPlayOriginal.Initialize(" Playing... (press 'O' to stop)",
 				_viewModel.PlayOriginalRecording, _viewModel.Stop);
 
-			_buttonPlayAnnotation.Initialize(" Playing (press 'A' to stop)",
+			_buttonPlayAnnotation.Initialize(" Playing... (press 'A' to stop)",
 				_viewModel.PlayAnnotation, _viewModel.Stop);
 
-			_buttonRecord.Initialize(" Recording (release SPACE to stop)", _viewModel.BeginRecording, _viewModel.Stop);
+			_buttonRecord.Initialize(" Recording... (release SPACE to stop)",
+				_viewModel.BeginRecording, HandleRecordingStopped);
 
 			_trackBarSegment.Minimum = 1;
 			_trackBarSegment.Maximum = _viewModel.SegmentCount;
@@ -87,10 +88,7 @@ namespace SayMore.Transcription.UI
 
 			switch ((Keys)m.WParam)
 			{
-				case Keys.Right:
-					if (_trackBarSegment.Value < _trackBarSegment.Maximum)
-						_trackBarSegment.Value++;
-					break;
+				case Keys.Right: MoveToNextSegment(); break;
 
 				case Keys.Left:
 					if (_trackBarSegment.Value > _trackBarSegment.Minimum)
@@ -108,19 +106,21 @@ namespace SayMore.Transcription.UI
 					break;
 
 				case Keys.Space:
-					if (m.Msg == WM_KEYDOWN && !_recordingButtonDown)
+					if (_buttonRecord.Visible)
 					{
-						_recordingButtonDown = true;
-						_buttonRecord.InvokeStartAction();
-						UpdateDisplay();
+						if (m.Msg == WM_KEYDOWN && !_recordingButtonDown)
+						{
+							_recordingButtonDown = true;
+							_buttonRecord.InvokeStartAction();
+							UpdateDisplay();
+						}
+						else if (m.Msg == WM_KEYUP)
+						{
+							_recordingButtonDown = false;
+							_buttonRecord.InvokeStopAction();
+							UpdateDisplay();
+						}
 					}
-					else if (m.Msg == WM_KEYUP)
-					{
-						_recordingButtonDown = false;
-						_buttonRecord.InvokeStopAction();
-						UpdateDisplay();
-					}
-
 				break;
 
 				case Keys.Enter:
@@ -164,6 +164,21 @@ namespace SayMore.Transcription.UI
 			_buttonEraseAnnotation.Visible = _viewModel.ShouldEraseAnnotationButtonBeVisible;
 
 			Utils.SetWindowRedraw(this, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleRecordingStopped()
+		{
+			_viewModel.Stop();
+			UpdateDisplay();
+			MoveToNextSegment();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void MoveToNextSegment()
+		{
+			if (_trackBarSegment.Value < _trackBarSegment.Maximum)
+				_trackBarSegment.Value++;
 		}
 
 		/// ------------------------------------------------------------------------------------

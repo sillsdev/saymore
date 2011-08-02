@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
@@ -134,6 +135,10 @@ namespace SayMore.AudioUtils
 				throw new InvalidOperationException(
 					"Can't begin recording while we are in this state: " + _recordingState);
 			}
+
+			var folder = Path.GetDirectoryName(waveFileName);
+			if (!Directory.Exists(folder))
+				Directory.CreateDirectory(folder);
 
 			_writer = new WaveFileWriter(waveFileName, _recordingFormat);
 			RecordingState = RecordingState.Recording;

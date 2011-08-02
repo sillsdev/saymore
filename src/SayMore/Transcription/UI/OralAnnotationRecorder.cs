@@ -160,8 +160,8 @@ namespace SayMore.Transcription.UI
 			_buttonPlayOriginal.Enabled = (state != OralAnnotationRecorderViewModel.State.Recording);
 			_buttonPlayAnnotation.Visible = _viewModel.ShouldListenToAnnotationButtonBeVisible;
 			_buttonRecord.Visible = _viewModel.ShouldRecordButtonBeVisible;
-			_buttonEraseAnnotation.Enabled = _viewModel.ShouldEraseAnnotationButtonBeEnabled;
-			//_buttonEraseAnnotation.Visible = _viewModel.ShouldEraseAnnotationButtonBeVisible;
+			//_buttonEraseAnnotation.Enabled = _viewModel.ShouldEraseAnnotationButtonBeEnabled;
+			_buttonEraseAnnotation.Visible = _viewModel.ShouldEraseAnnotationButtonBeVisible;
 
 			Utils.SetWindowRedraw(this, true);
 		}

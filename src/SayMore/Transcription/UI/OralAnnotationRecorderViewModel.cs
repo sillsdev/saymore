@@ -211,11 +211,11 @@ namespace SayMore.Transcription.UI
 			}
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public bool ShouldEraseAnnotationButtonBeVisible
-		//{
-		//    get { return File.Exists(GetPathToCurrentAnnotationFile()); }
-		//}
+		/// ------------------------------------------------------------------------------------
+		public bool ShouldEraseAnnotationButtonBeVisible
+		{
+			get { return ShouldEraseAnnotationButtonBeEnabled; }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool ShouldEraseAnnotationButtonBeEnabled

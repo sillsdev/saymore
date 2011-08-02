@@ -64,6 +64,7 @@ namespace SayMore.Transcription.UI
 			// _labelSegmentNumber
 			// 
 			this._labelSegmentNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelSegmentNumber.AutoEllipsis = true;
 			this._labelSegmentNumber.AutoSize = true;
 			this._labelSegmentNumber.BackColor = System.Drawing.Color.Transparent;
 			this._labelSegmentNumber.Location = new System.Drawing.Point(8, 0);
@@ -89,6 +90,7 @@ namespace SayMore.Transcription.UI
 			this._trackBarMicLevel.TabStop = false;
 			this._trackBarMicLevel.TickFrequency = 10;
 			this._trackBarMicLevel.Value = 10;
+			this._trackBarMicLevel.Visible = false;
 			// 
 			// _panelMicorphoneLevel
 			// 
@@ -150,10 +152,10 @@ namespace SayMore.Transcription.UI
 			this._buttonEraseAnnotation.Image = global::SayMore.Properties.Resources.RecordErase;
 			this._buttonEraseAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonEraseAnnotation.Location = new System.Drawing.Point(30, 106);
-			this._buttonEraseAnnotation.Margin = new System.Windows.Forms.Padding(30, 0, 0, 0);
+			this._buttonEraseAnnotation.Margin = new System.Windows.Forms.Padding(30, 0, 10, 0);
 			this._buttonEraseAnnotation.Name = "_buttonEraseAnnotation";
 			this._buttonEraseAnnotation.ShowFocusRectangle = true;
-			this._buttonEraseAnnotation.Size = new System.Drawing.Size(171, 28);
+			this._buttonEraseAnnotation.Size = new System.Drawing.Size(161, 28);
 			this._buttonEraseAnnotation.TabIndex = 6;
 			this._buttonEraseAnnotation.Text = " Erase Annotation";
 			this._buttonEraseAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -175,10 +177,10 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayAnnotation.Image = global::SayMore.Properties.Resources.RecordingPlaybackAnnotation;
 			this._buttonPlayAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonPlayAnnotation.Location = new System.Drawing.Point(0, 80);
-			this._buttonPlayAnnotation.Margin = new System.Windows.Forms.Padding(0);
+			this._buttonPlayAnnotation.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonPlayAnnotation.Name = "_buttonPlayAnnotation";
 			this._buttonPlayAnnotation.ShowFocusRectangle = true;
-			this._buttonPlayAnnotation.Size = new System.Drawing.Size(201, 26);
+			this._buttonPlayAnnotation.Size = new System.Drawing.Size(191, 26);
 			this._buttonPlayAnnotation.TabIndex = 5;
 			this._buttonPlayAnnotation.Text = " Check Annotation (press \'A\' to start)";
 			this._buttonPlayAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -199,10 +201,10 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayOriginal.Image = global::SayMore.Properties.Resources.RecordingPlayback;
 			this._buttonPlayOriginal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonPlayOriginal.Location = new System.Drawing.Point(0, 28);
-			this._buttonPlayOriginal.Margin = new System.Windows.Forms.Padding(0);
+			this._buttonPlayOriginal.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonPlayOriginal.Name = "_buttonPlayOriginal";
 			this._buttonPlayOriginal.ShowFocusRectangle = true;
-			this._buttonPlayOriginal.Size = new System.Drawing.Size(201, 26);
+			this._buttonPlayOriginal.Size = new System.Drawing.Size(191, 26);
 			this._buttonPlayOriginal.TabIndex = 2;
 			this._buttonPlayOriginal.Text = " Listen to Original (press \'O\' to start)";
 			this._buttonPlayOriginal.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -223,10 +225,10 @@ namespace SayMore.Transcription.UI
 			this._buttonRecord.Image = global::SayMore.Properties.Resources.RecordStart;
 			this._buttonRecord.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonRecord.Location = new System.Drawing.Point(0, 54);
-			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0);
+			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonRecord.Name = "_buttonRecord";
 			this._buttonRecord.ShowFocusRectangle = true;
-			this._buttonRecord.Size = new System.Drawing.Size(201, 26);
+			this._buttonRecord.Size = new System.Drawing.Size(191, 26);
 			this._buttonRecord.TabIndex = 4;
 			this._buttonRecord.Text = " Record (press SPACE to start)";
 			this._buttonRecord.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;

@@ -134,6 +134,11 @@ namespace SayMore.UI.MediaPlayer
 				if (duration > 0f)
 					yield return string.Format("-endpos {0}", duration);
 
+				// A window handle of -1 means we're only playing back
+				// the audio portion of a video file.
+				if (hwndVideo == -1)
+					yield return "-novideo";
+
 				if (hwndVideo > 0)
 				{
 					yield return "-fixed-vo";

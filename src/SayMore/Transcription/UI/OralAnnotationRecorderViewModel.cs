@@ -39,7 +39,7 @@ namespace SayMore.Transcription.UI
 		public OralAnnotationRecorderViewModel(string annotationFileAffix, TimeOrderTier tier)
 		{
 			_origPlayerViewModel = new MediaPlayerViewModel();
-
+			_origPlayerViewModel.SetVolume(100);
 			_origPlayerViewModel.PlaybackEnded += delegate
 			{
 				if (PlaybackEnded != null)
@@ -211,11 +211,11 @@ namespace SayMore.Transcription.UI
 			}
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public bool ShouldEraseAnnotationButtonBeVisible
-		//{
-		//    get { return File.Exists(GetPathToCurrentAnnotationFile()); }
-		//}
+		/// ------------------------------------------------------------------------------------
+		public bool ShouldEraseAnnotationButtonBeVisible
+		{
+			get { return ShouldEraseAnnotationButtonBeEnabled; }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool ShouldEraseAnnotationButtonBeEnabled

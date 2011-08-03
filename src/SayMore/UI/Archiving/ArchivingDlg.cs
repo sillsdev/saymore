@@ -4,7 +4,7 @@ using Palaso.Progress;
 using SayMore.Properties;
 using SilTools;
 
-namespace SayMore.UI.Archiving
+namespace SayMore.UI.Utilities
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class ArchivingDlg : Form

@@ -5,7 +5,7 @@ using Localization;
 using Localization.UI;
 using Palaso.Reporting;
 using SayMore.Properties;
-using SayMore.UI.Archiving;
+using SayMore.UI.Utilities;
 
 namespace SayMore.UI.ProjectWindow
 {

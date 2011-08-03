@@ -7,7 +7,7 @@ using Palaso.Reporting;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.UI.Archiving;
+using SayMore.UI.Utilities;
 
 namespace SayMoreTests.Utilities
 {

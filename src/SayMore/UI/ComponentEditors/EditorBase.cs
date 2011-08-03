@@ -20,7 +20,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model.Files;
-using SayMore.UI.Archiving;
+using SayMore.UI.Utilities;
 
 namespace SayMore.UI.ComponentEditors
 {

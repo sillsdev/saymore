@@ -1,52 +1,6 @@
-<mockup version="1.0" skin="sketch" measuredW="484" measuredH="448" mockupW="424" mockupH="428">
+<mockup version="1.0" skin="sketch" measuredW="484" measuredH="448" mockupW="424" mockupH="308">
   <controls>
-    <control controlID="0" controlTypeID="__group__" x="60" y="20" w="32" h="127" measuredW="32" measuredH="127" zOrder="0" locked="false" isInGroup="-1">
-      <controlProperties>
-        <controlName>manualCue</controlName>
-      </controlProperties>
-      <groupChildrenDescriptors>
-        <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="95" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="0">
-          <controlProperties>
-            <color>13369344</color>
-            <icon>UpFillTriangleIcon%7Cmedium</icon>
-          </controlProperties>
-        </control>
-        <control controlID="1" controlTypeID="com.balsamiq.mockups::Arrow" x="12" y="0" w="10" h="109" measuredW="150" measuredH="100" zOrder="1" locked="false" isInGroup="0">
-          <controlProperties>
-            <backgroundAlpha>0.5</backgroundAlpha>
-            <color>13369344</color>
-            <curvature>0</curvature>
-            <direction>top</direction>
-            <leftArrow>false</leftArrow>
-            <rightArrow>false</rightArrow>
-          </controlProperties>
-        </control>
-      </groupChildrenDescriptors>
-    </control>
-    <control controlID="1" controlTypeID="__group__" x="60" y="80" w="32" h="127" measuredW="32" measuredH="127" zOrder="1" locked="false" isInGroup="-1">
-      <controlProperties>
-        <controlName>autoCue</controlName>
-      </controlProperties>
-      <groupChildrenDescriptors>
-        <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="95" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="1">
-          <controlProperties>
-            <color>40463</color>
-            <icon>UpFillTriangleIcon%7Cmedium</icon>
-          </controlProperties>
-        </control>
-        <control controlID="1" controlTypeID="com.balsamiq.mockups::Arrow" x="12" y="0" w="10" h="109" measuredW="150" measuredH="100" zOrder="1" locked="false" isInGroup="1">
-          <controlProperties>
-            <backgroundAlpha>0.5</backgroundAlpha>
-            <color>40463</color>
-            <curvature>0</curvature>
-            <direction>top</direction>
-            <leftArrow>false</leftArrow>
-            <rightArrow>false</rightArrow>
-          </controlProperties>
-        </control>
-      </groupChildrenDescriptors>
-    </control>
-    <control controlID="2" controlTypeID="__group__" x="60" y="140" w="424" h="308" measuredW="424" measuredH="308" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="2" controlTypeID="__group__" x="60" y="140" w="424" h="308" measuredW="424" measuredH="308" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
         <controlName>gizmo</controlName>
       </controlProperties>
@@ -92,39 +46,38 @@
             <color>10470904</color>
           </controlProperties>
         </control>
-        <control controlID="8" controlTypeID="__group__" x="389" y="81" w="12" h="131" measuredW="12" measuredH="131" zOrder="8" locked="false" isInGroup="2">
-          <groupChildrenDescriptors>
-            <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="12" h="131" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="8">
-              <controlProperties>
-                <borderColor>0</borderColor>
-                <borderStyle>none</borderStyle>
-                <color>0</color>
-              </controlProperties>
-            </control>
-            <control controlID="1" controlTypeID="com.balsamiq.mockups::Canvas" x="1" y="52" w="10" h="75" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="8">
-              <controlProperties>
-                <backgroundAlpha>1</backgroundAlpha>
-                <borderColor>16777215</borderColor>
-                <borderStyle>none</borderStyle>
-                <color>10470904</color>
-              </controlProperties>
-            </control>
-            <control controlID="2" controlTypeID="com.balsamiq.mockups::Canvas" x="1" y="2" w="10" h="20" measuredW="100" measuredH="70" zOrder="2" locked="false" isInGroup="8">
-              <controlProperties>
-                <borderColor>16777215</borderColor>
-                <borderStyle>none</borderStyle>
-                <color>6684672</color>
-              </controlProperties>
-            </control>
-          </groupChildrenDescriptors>
-        </control>
-        <control controlID="9" controlTypeID="com.balsamiq.mockups::Arrow" x="26" y="43" w="17" h="10" measuredW="150" measuredH="100" zOrder="9" locked="false" isInGroup="2">
+        <control controlID="9" controlTypeID="com.balsamiq.mockups::Arrow" x="26" y="43" w="17" h="10" measuredW="150" measuredH="100" zOrder="8" locked="false" isInGroup="2">
           <controlProperties>
             <color>13576743</color>
             <curvature>0</curvature>
             <leftArrow>false</leftArrow>
             <rightArrow>false</rightArrow>
           </controlProperties>
+        </control>
+        <control controlID="10" controlTypeID="__group__" x="388" y="83" w="10" h="125" measuredW="10" measuredH="125" zOrder="9" locked="false" isInGroup="2">
+          <groupChildrenDescriptors>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="103" w="10" h="22" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="10">
+              <controlProperties>
+                <borderColor>16777215</borderColor>
+                <borderStyle>none</borderStyle>
+                <color>16776960</color>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="10" h="20" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="10">
+              <controlProperties>
+                <borderColor>16777215</borderColor>
+                <borderStyle>none</borderStyle>
+                <color>13369344</color>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="20" w="10" h="83" measuredW="100" measuredH="70" zOrder="2" locked="false" isInGroup="10">
+              <controlProperties>
+                <borderColor>16777215</borderColor>
+                <borderStyle>none</borderStyle>
+                <color>40463</color>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
         </control>
       </groupChildrenDescriptors>
     </control>

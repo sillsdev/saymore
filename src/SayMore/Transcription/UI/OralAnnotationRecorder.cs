@@ -1,6 +1,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Palaso.Reporting;
+using SayMore.UI.Utilities;
 using SilTools;
 using SilTools.Controls;
 
@@ -15,6 +17,7 @@ namespace SayMore.Transcription.UI
 		//private readonly string _micLevelFormatString;
 		private OralAnnotationRecorderViewModel _viewModel;
 		private bool _recordingButtonDown;
+		private string _annotationType;
 
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationRecorder()
@@ -32,7 +35,8 @@ namespace SayMore.Transcription.UI
 
 			_buttonPlayOriginal.Click += delegate { UpdateDisplay(); };
 			_buttonPlayAnnotation.Click += delegate { UpdateDisplay(); };
-			_buttonRecord.Click += delegate { UpdateDisplay(); };
+			_buttonRecord.MouseDown += delegate { UpdateDisplay(); };
+			_buttonRecord.MouseUp += delegate { UpdateDisplay(); };
 
 			_trackBarSegment.ValueChanged += HandleSegmentTrackBarValueChanged;
 			_trackBarMicLevel.ValueChanged += delegate { UpdateDisplay(); };
@@ -41,15 +45,17 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Initialize(OralAnnotationRecorderViewModel viewModel)
+		public void Initialize(OralAnnotationRecorderViewModel viewModel, string annotationType)
 		{
+			_annotationType = annotationType;
+
 			_viewModel = viewModel;
 			_viewModel.MicLevelChangeControl = _trackBarMicLevel;
 			_viewModel.MicLevelDisplayControl = _panelMicorphoneLevel;
 			_viewModel.PlaybackEnded += HandlePlaybackEnded;
 
 			_buttonPlayOriginal.Initialize(" Playing... (press 'O' to stop)",
-				_viewModel.PlayOriginalRecording, _viewModel.Stop);
+				_viewModel.PlayOriginalRecording, _viewModel.Stop );
 
 			_buttonPlayAnnotation.Initialize(" Playing... (press 'A' to stop)",
 				_viewModel.PlayAnnotation, _viewModel.Stop);
@@ -74,7 +80,32 @@ namespace SayMore.Transcription.UI
 				_viewModel.Dispose();
 			}
 
+			ReportUsage();
 			base.OnHandleDestroyed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ReportUsage()
+		{
+			UsageReporter.SendEvent(Name, _annotationType, "Dialog Opened", null, 0);
+
+			UsageReporter.SendNavigationNotice("{0} - {1}: Playback original invoked {2} times.",
+				Name, _annotationType, _buttonPlayOriginal.ActionStartedCount);
+
+			UsageReporter.SendNavigationNotice("{0} - {1}: Playback annotation invoked {2} times.",
+				Name, _annotationType, _buttonPlayAnnotation.ActionStartedCount);
+
+			UsageReporter.SendNavigationNotice("{0} - {1}: Record annotation invoked {2} times.",
+				Name, _annotationType, _buttonRecord.ActionStartedCount);
+
+			UsageReporter.SendNavigationNotice("{0} - {1}: Stop playback original invoked {2} times.",
+				Name, _annotationType, _buttonPlayOriginal.ActionStoppedCount);
+
+			UsageReporter.SendNavigationNotice("{0} - {1}: Stop playback annotation invoked {2} times.",
+				Name, _annotationType, _buttonPlayAnnotation.ActionStoppedCount);
+
+			UsageReporter.SendNavigationNotice("{0} - {1}: Erase annotation invoked {2} times.",
+				Name, _annotationType, _buttonEraseAnnotation.ActionInvokedCount);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,6 +116,7 @@ namespace SayMore.Transcription.UI
 
 			if (m.Msg == WM_KEYUP && (Keys)m.WParam != Keys.Space)
 				return false;
+
 
 			switch ((Keys)m.WParam)
 			{
@@ -121,9 +153,10 @@ namespace SayMore.Transcription.UI
 							UpdateDisplay();
 						}
 					}
-				break;
+					break;
 
 				case Keys.Enter:
+					// Eat the enter key.
 					break;
 
 				default:
@@ -136,8 +169,25 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandlePlaybackEnded(object sender, EventArgs e)
 		{
-			if (!IsDisposed)
-				Invoke((Action)UpdateDisplay);
+			if (IsDisposed)
+				return;
+
+			Invoke((Action)UpdateDisplay);
+			Invoke((Action)UpdateFocusedButtonAfterPlayback);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateFocusedButtonAfterPlayback()
+		{
+			if (_buttonPlayAnnotation.Focused)
+				_buttonPlayOriginal.Focus();
+			else if (_buttonPlayOriginal.Focused)
+			{
+				if (_buttonRecord.Visible)
+					_buttonRecord.Focus();
+				else if (_buttonPlayAnnotation.Visible)
+					_buttonPlayAnnotation.Focus();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,8 +200,6 @@ namespace SayMore.Transcription.UI
 			_labelSegmentNumber.Text = string.Format(_segmentCountFormatString,
 				_trackBarSegment.Value, _viewModel.SegmentCount);
 
-			//_labelMicLevel.Text = string.Format(_micLevelFormatString,_trackBarMicLevel.Value);
-
 			var state = _viewModel.GetState();
 			_buttonPlayOriginal.SetStateProperties(state == OralAnnotationRecorderViewModel.State.PlayingOriginal);
 			_buttonPlayAnnotation.SetStateProperties(state == OralAnnotationRecorderViewModel.State.PlayingAnnotation);
@@ -160,8 +208,10 @@ namespace SayMore.Transcription.UI
 			_buttonPlayOriginal.Enabled = (state != OralAnnotationRecorderViewModel.State.Recording);
 			_buttonPlayAnnotation.Visible = _viewModel.ShouldListenToAnnotationButtonBeVisible;
 			_buttonRecord.Visible = _viewModel.ShouldRecordButtonBeVisible;
-			//_buttonEraseAnnotation.Enabled = _viewModel.ShouldEraseAnnotationButtonBeEnabled;
 			_buttonEraseAnnotation.Visible = _viewModel.ShouldEraseAnnotationButtonBeVisible;
+
+			//_buttonEraseAnnotation.Enabled = _viewModel.ShouldEraseAnnotationButtonBeEnabled;
+			//_labelMicLevel.Text = string.Format(_micLevelFormatString,_trackBarMicLevel.Value);
 
 			Utils.SetWindowRedraw(this, true);
 		}
@@ -204,9 +254,56 @@ namespace SayMore.Transcription.UI
 		}
 	}
 
+	#region ActionTrackerButton class
+	/// ----------------------------------------------------------------------------------------
+	public class ActionTrackerButton : NicerButton
+	{
+		public int ActionInvokedCount { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnClick(EventArgs e)
+		{
+			base.OnClick(e);
+			ActionInvokedCount++;
+		}
+	}
+
+	#endregion
+
+	#region RecordButton class
+	/// ----------------------------------------------------------------------------------------
+	public class RecordButton : StartStopButton
+	{
+		/// ------------------------------------------------------------------------------------
+		protected override void OnClick(EventArgs e)
+		{
+			// Eat it.
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+				InvokeStartAction();
+
+			base.OnMouseDown(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseUp(MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+				InvokeStopAction();
+
+			base.OnMouseUp(e);
+		}
+	}
+
+	#endregion
+
 	#region StartStopButton class
 	/// ----------------------------------------------------------------------------------------
-	public class StartStopButton : NicerButton
+	public class StartStopButton : ActionTrackerButton
 	{
 		private Image _startImage;
 		private string _startText;
@@ -215,17 +312,25 @@ namespace SayMore.Transcription.UI
 		private Action _stopAction;
 
 		public bool HasActionStarted { get; private set; }
+		public int ActionStartedCount { get; private set; }
+		public int ActionStoppedCount { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(string stopText, Action startAction, Action stopAction)
 		{
 			ShowFocusRectangle = false;
+			Cursor = Cursors.Hand;
 
 			_startAction = startAction;
 			_stopAction = stopAction;
 			_stopText = stopText;
 			_startText = Text;
 			_startImage = Image;
+
+			FocusBackColor = AppColors.BarBegin;
+			FlatAppearance.MouseDownBackColor = BackColor;
+			FlatAppearance.MouseOverBackColor = BackColor;
+			FlatAppearance.BorderColor = AppColors.BarBorder;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -234,8 +339,25 @@ namespace SayMore.Transcription.UI
 			Text = (setStopProps ? _stopText : _startText);
 			Image = (setStopProps ? Properties.Resources.RecordStop : _startImage);
 			HasActionStarted = setStopProps;
-			BackColor = (HasActionStarted ? Color.CornflowerBlue : Color.Transparent);
 			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnEnter(EventArgs e)
+		{
+			base.OnEnter(e);
+			FlatAppearance.MouseDownBackColor = FocusBackColor;
+			FlatAppearance.MouseOverBackColor = FocusBackColor;
+			FlatAppearance.BorderSize = 1;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLeave(EventArgs e)
+		{
+			base.OnLeave(e);
+			FlatAppearance.MouseDownBackColor = BackColor;
+			FlatAppearance.MouseOverBackColor = BackColor;
+			FlatAppearance.BorderSize = 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -253,14 +375,23 @@ namespace SayMore.Transcription.UI
 		public void InvokeStartAction()
 		{
 			if (_startAction != null)
+			{
+				if (!Focused)
+					Focus();
+
 				_startAction();
+				ActionStartedCount++;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void InvokeStopAction()
 		{
 			if (HasActionStarted && _stopAction != null)
+			{
 				_stopAction();
+				ActionStoppedCount++;
+			}
 		}
 	}
 

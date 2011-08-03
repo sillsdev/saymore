@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.UI.Archiving;
+using SayMore.UI.Utilities;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -33,7 +33,7 @@ namespace SayMore.Transcription.UI
 		public OralAnnotationDlg(string caption, string annotationAffix, TimeOrderTier tier) : this()
 		{
 			_labelRecordingType.Text = caption;
-			_oralAnnotationRecorder.Initialize(new OralAnnotationRecorderViewModel(annotationAffix, tier));
+			_oralAnnotationRecorder.Initialize(new OralAnnotationRecorderViewModel(annotationAffix, tier), caption);
 		}
 
 		/// ------------------------------------------------------------------------------------

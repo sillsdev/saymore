@@ -126,6 +126,7 @@ namespace SayMore.Model.Files.DataGathering
 			_workerThread = new Thread(StartWorking);
 			_workerThread.Name = GetType().Name;
 			_workerThread.Priority = ThreadPriority;
+			_workerThread.TrySetApartmentState(ApartmentState.STA);//needed in case we eventually show an error & need to talk to email.
 			_workerThread.Start();
 		}
 

@@ -3314,53 +3314,37 @@
             </summary>
             ----------------------------------------------------------------------------------------
         </member>
-        <member name="M:SilTools.CheckBoxColumnHeaderHandler.#ctor(System.Windows.Forms.DataGridViewColumn)">
+        <member name="M:SilTools.CheckBoxColumnHeaderHandler.#ctor(System.Windows.Forms.DataGridView,System.Int32)">
             ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
+        </member>
+        <member name="M:SilTools.CheckBoxColumnHeaderHandler.Dispose">
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.HandleHandleDestroyed(System.Object,System.EventArgs)">
             ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
+        </member>
+        <member name="M:SilTools.CheckBoxColumnHeaderHandler.SubscribeToGridEvents">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:SilTools.CheckBoxColumnHeaderHandler.UnSubscribeToGridEvents">
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.HandleGridRowsRemoved(System.Object,System.Windows.Forms.DataGridViewRowsRemovedEventArgs)">
             ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
-            ------------------------------------------------------------------------------------
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.HandleGridRowsAdded(System.Object,System.Windows.Forms.DataGridViewRowsAddedEventArgs)">
-            ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.HandleGridScroll(System.Object,System.Windows.Forms.ScrollEventArgs)">
             ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
-            ------------------------------------------------------------------------------------
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.UpdateHeadersCheckStateFromColumnsValues">
-            ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.UpdateColumnsDataValuesFromHeadersCheckState">
             ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
+        </member>
+        <member name="M:SilTools.CheckBoxColumnHeaderHandler.GetRowsThatHaveBooleanValues">
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.HandleDataCellCellContentClick(System.Object,System.Windows.Forms.DataGridViewCellEventArgs)">
@@ -3372,36 +3356,36 @@
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.HandleHeaderCellMouseClick(System.Object,System.Windows.Forms.DataGridViewCellMouseEventArgs)">
             ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
-            ------------------------------------------------------------------------------------
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.HandleHeaderCellMouseMove(System.Object,System.Windows.Forms.DataGridViewCellMouseEventArgs)">
             ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
+        </member>
+        <member name="M:SilTools.CheckBoxColumnHeaderHandler.GetCheckBoxRectangle(System.Boolean)">
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.HandleHeaderCellPainting(System.Object,System.Windows.Forms.DataGridViewCellPaintingEventArgs)">
             ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
+        </member>
+        <member name="M:SilTools.CheckBoxColumnHeaderHandler.DrawTextWhenCheckBoxIsAlignedLeftOrRight(System.Drawing.Rectangle,System.Windows.Forms.DataGridViewCellPaintingEventArgs)">
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:SilTools.CheckBoxColumnHeaderHandler.DrawVisualStyleCheckBox(System.Drawing.IDeviceContext,System.Drawing.Rectangle)">
             ------------------------------------------------------------------------------------
-            <summary>
-            
-            </summary>
+        </member>
+        <member name="P:SilTools.CheckBoxColumnHeaderHandler.Column">
             ------------------------------------------------------------------------------------
         </member>
         <member name="P:SilTools.CheckBoxColumnHeaderHandler.HeadersCheckState">
             ------------------------------------------------------------------------------------
             <summary>
             Gets or sets the state of the column header's check box.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="P:SilTools.CheckBoxColumnHeaderHandler.CheckBoxAlignment">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets or sets the check box's alignment within the column's header cell.
             </summary>
             ------------------------------------------------------------------------------------
         </member>

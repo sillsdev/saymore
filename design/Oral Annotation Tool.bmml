@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" measuredW="2244" measuredH="1406" mockupW="2209" mockupH="1382">
+<mockup version="1.0" skin="sketch" measuredW="1590" measuredH="1430" mockupW="1555" mockupH="1406">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::TabBar" x="35" y="24" w="576" h="390" measuredW="603" measuredH="100" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
@@ -6,12 +6,12 @@
         <text>Careful%20Speech%2C%20Oral%20Translation%2C%20Transcription%2CTranslation%2C%20Contributions%2C%20Notes</text>
       </controlProperties>
     </control>
-    <control controlID="131" controlTypeID="com.balsamiq.mockups::Label" x="1432" y="926" w="273" h="24" measuredW="229" measuredH="22" zOrder="5" locked="false" isInGroup="-1">
+    <control controlID="131" controlTypeID="com.balsamiq.mockups::Label" x="778" y="934" w="273" h="24" measuredW="229" measuredH="22" zOrder="5" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Now%20hold%20down%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20and%20Talk</text>
       </controlProperties>
     </control>
-    <control controlID="135" controlTypeID="__group__" x="1529" y="926" w="69" h="36" measuredW="69" measuredH="36" zOrder="6" locked="false" isInGroup="-1">
+    <control controlID="135" controlTypeID="__group__" x="875" y="934" w="69" h="36" measuredW="69" measuredH="36" zOrder="6" locked="false" isInGroup="-1">
       <groupChildrenDescriptors>
         <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="69" h="18" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="135"/>
         <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="2" y="14" w="-1" h="-1" measuredW="66" measuredH="22" zOrder="1" locked="false" isInGroup="135">
@@ -21,7 +21,7 @@
         </control>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="145" controlTypeID="com.balsamiq.mockups::Label" x="1424" y="1256" w="234" h="24" measuredW="82" measuredH="22" zOrder="8" locked="false" isInGroup="-1">
+    <control controlID="145" controlTypeID="com.balsamiq.mockups::Label" x="770" y="1264" w="234" h="24" measuredW="82" measuredH="22" zOrder="8" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>true</bold>
         <text>Recording...</text>
@@ -34,12 +34,11 @@
         <color>15843890</color>
       </controlProperties>
     </control>
-    <control controlID="177" controlTypeID="com.balsamiq.mockups::Component" x="1355" y="433" w="424" h="308" measuredW="424" measuredH="308" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="177" controlTypeID="com.balsamiq.mockups::Component" x="701" y="441" w="424" h="308" measuredW="424" measuredH="308" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <override controlID="0" x="0" y="0" w="424" h="308"/>
         <override controlID="1" x="18" y="90" w="-1" h="-1"/>
         <override controlID="2" x="24" y="59" w="-1" h="-1"/>
-        <override controlID="3" x="306" y="266" w="99" h="27"/>
         <override controlID="4" x="24" y="43" w="381" h="-1"/>
         <override controlID="5" x="84" y="105" w="234" h="24">
           <bold>true</bold>
@@ -52,18 +51,18 @@
         </override>
         <override controlID="8" x="389" y="81" w="12" h="131"/>
         <override controlID="9" x="26" y="43" w="17" h="10"/>
+        <override controlID="3" x="306" y="266" w="99" h="27"/>
         <override controlID="8:1" x="1" y="52" w="10" h="75"/>
-        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
         <override controlID="8:2" x="1" y="2" w="10" h="20"/>
+        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
         <src>./assets/symbols.bmml#gizmo</src>
       </controlProperties>
     </control>
-    <control controlID="178" controlTypeID="com.balsamiq.mockups::Component" x="1351" y="774" w="424" h="308" measuredW="424" measuredH="308" zOrder="4" locked="false" isInGroup="-1">
+    <control controlID="178" controlTypeID="com.balsamiq.mockups::Component" x="697" y="782" w="424" h="308" measuredW="424" measuredH="308" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
         <override controlID="0" x="0" y="0" w="424" h="308"/>
         <override controlID="1" x="18" y="90" w="-1" h="-1"/>
         <override controlID="2" x="24" y="59" w="-1" h="-1"/>
-        <override controlID="3" x="306" y="266" w="99" h="27"/>
         <override controlID="4" x="24" y="43" w="381" h="-1"/>
         <override controlID="5" x="84" y="105" w="234" h="24">
           <text>%20</text>
@@ -72,20 +71,20 @@
         <override controlID="7" x="18" y="138" w="300" h="62"/>
         <override controlID="8" x="389" y="81" w="12" h="131"/>
         <override controlID="9" x="26" y="43" w="17" h="10"/>
+        <override controlID="3" x="306" y="266" w="99" h="27"/>
         <override controlID="8:1" x="1" y="52" w="10" h="75"/>
-        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
         <override controlID="8:2" x="1" y="2" w="10" h="20"/>
+        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
         <src>./assets/symbols.bmml#gizmo</src>
       </controlProperties>
     </control>
-    <control controlID="179" controlTypeID="com.balsamiq.mockups::Component" x="1342" y="1098" w="424" h="308" measuredW="424" measuredH="308" zOrder="7" locked="false" isInGroup="-1">
+    <control controlID="179" controlTypeID="com.balsamiq.mockups::Component" x="688" y="1106" w="424" h="308" measuredW="424" measuredH="308" zOrder="7" locked="false" isInGroup="-1">
       <controlProperties>
         <override controlID="0" x="0" y="0" w="424" h="308">
           <text>Oral%20Annotation%20Gizmo</text>
         </override>
         <override controlID="1" x="18" y="90" w="-1" h="-1"/>
         <override controlID="2" x="24" y="59" w="-1" h="-1"/>
-        <override controlID="3" x="306" y="266" w="99" h="27"/>
         <override controlID="4" x="24" y="43" w="381" h="-1"/>
         <override controlID="5" x="84" y="105" w="234" h="24">
           <text>%20</text>
@@ -94,13 +93,14 @@
         <override controlID="7" x="18" y="138" w="300" h="62"/>
         <override controlID="8" x="389" y="81" w="12" h="131"/>
         <override controlID="9" x="26" y="43" w="17" h="10"/>
+        <override controlID="3" x="306" y="266" w="99" h="27"/>
         <override controlID="8:1" x="1" y="52" w="10" h="75"/>
-        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
         <override controlID="8:2" x="1" y="2" w="10" h="20"/>
+        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
         <src>./assets/symbols.bmml#gizmo</src>
       </controlProperties>
     </control>
-    <control controlID="180" controlTypeID="com.balsamiq.mockups::Component" x="1820" y="578" w="424" h="308" measuredW="424" measuredH="308" zOrder="9" locked="false" isInGroup="-1">
+    <control controlID="180" controlTypeID="com.balsamiq.mockups::Component" x="1166" y="586" w="424" h="308" measuredW="424" measuredH="308" zOrder="9" locked="false" isInGroup="-1">
       <controlProperties>
         <override controlID="0" x="0" y="0" w="424" h="308">
           <text>Oral%20Annotation%20Gizmo</text>
@@ -109,7 +109,6 @@
         <override controlID="2" x="69" y="59" w="-1" h="-1">
           <text>36/92</text>
         </override>
-        <override controlID="3" x="306" y="266" w="99" h="27"/>
         <override controlID="4" x="24" y="43" w="381" h="-1">
           <value>16</value>
         </override>
@@ -120,46 +119,47 @@
         </override>
         <override controlID="8" x="389" y="81" w="12" h="131"/>
         <override controlID="9" x="26" y="43" w="115" h="10"/>
+        <override controlID="3" x="306" y="266" w="99" h="27"/>
         <override controlID="8:1" x="1" y="52" w="10" h="75"/>
-        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
         <override controlID="8:2" x="1" y="2" w="10" h="20"/>
+        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
         <src>./assets/symbols.bmml#gizmo</src>
       </controlProperties>
     </control>
-    <control controlID="188" controlTypeID="com.balsamiq.mockups::Label" x="1814" y="548" w="-1" h="-1" measuredW="407" measuredH="22" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="188" controlTypeID="com.balsamiq.mockups::Label" x="1160" y="556" w="-1" h="-1" measuredW="407" measuredH="22" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <text>If%20user%20uses%20the%20slider%20to%20go%20to%20a%20segment%20that%20already%20has%20a%20recording</text>
       </controlProperties>
     </control>
-    <control controlID="199" controlTypeID="com.balsamiq.mockups::Label" x="1923" y="754" w="-1" h="-1" measuredW="101" measuredH="22" zOrder="10" locked="false" isInGroup="-1">
+    <control controlID="199" controlTypeID="com.balsamiq.mockups::Label" x="1269" y="762" w="-1" h="-1" measuredW="101" measuredH="22" zOrder="10" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Erase%20Recording</text>
       </controlProperties>
     </control>
-    <control controlID="200" controlTypeID="com.balsamiq.mockups::Label" x="1898" y="722" w="-1" h="-1" measuredW="108" measuredH="22" zOrder="11" locked="false" isInGroup="-1">
+    <control controlID="200" controlTypeID="com.balsamiq.mockups::Label" x="1244" y="730" w="-1" h="-1" measuredW="108" measuredH="22" zOrder="11" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Check%20Annotation</text>
       </controlProperties>
     </control>
-    <control controlID="201" controlTypeID="com.balsamiq.mockups::Icon" x="1903" y="757" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="12" locked="false" isInGroup="-1">
+    <control controlID="201" controlTypeID="com.balsamiq.mockups::Icon" x="1249" y="765" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="12" locked="false" isInGroup="-1">
       <controlProperties>
         <color>10027008</color>
         <icon>XIcon%7Cxsmall</icon>
       </controlProperties>
     </control>
-    <control controlID="202" controlTypeID="com.balsamiq.mockups::Canvas" x="1841" y="719" w="35" h="38" measuredW="100" measuredH="70" zOrder="13" locked="false" isInGroup="-1">
+    <control controlID="202" controlTypeID="com.balsamiq.mockups::Canvas" x="1187" y="727" w="35" h="38" measuredW="100" measuredH="70" zOrder="13" locked="false" isInGroup="-1">
       <controlProperties>
         <borderStyle>roundedSolid</borderStyle>
         <color>16777215</color>
       </controlProperties>
     </control>
-    <control controlID="203" controlTypeID="com.balsamiq.mockups::Icon" x="1845" y="722" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="14" locked="false" isInGroup="-1">
+    <control controlID="203" controlTypeID="com.balsamiq.mockups::Icon" x="1191" y="730" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="14" locked="false" isInGroup="-1">
       <controlProperties>
         <color>2848996</color>
         <icon>RightTriangleIcon%7Cmedium</icon>
       </controlProperties>
     </control>
-    <control controlID="204" controlTypeID="com.balsamiq.mockups::Component" x="1351" y="81" w="424" h="308" measuredW="424" measuredH="308" zOrder="15" locked="false" isInGroup="-1">
+    <control controlID="204" controlTypeID="com.balsamiq.mockups::Component" x="697" y="89" w="424" h="308" measuredW="424" measuredH="308" zOrder="15" locked="false" isInGroup="-1">
       <controlProperties>
         <override controlID="7">
           <color>10470904</color>
@@ -167,14 +167,13 @@
         <src>./assets/symbols.bmml#gizmo</src>
       </controlProperties>
     </control>
-    <control controlID="205" controlTypeID="com.balsamiq.mockups::Component" x="831" y="742" w="424" h="308" measuredW="424" measuredH="308" zOrder="16" locked="false" isInGroup="-1">
+    <control controlID="205" controlTypeID="com.balsamiq.mockups::Component" x="177" y="750" w="424" h="308" measuredW="424" measuredH="308" zOrder="16" locked="false" isInGroup="-1">
       <controlProperties>
         <override controlID="0" x="0" y="0" w="424" h="308"/>
         <override controlID="1" x="18" y="90" w="-1" h="-1"/>
         <override controlID="2" x="24" y="59" w="-1" h="-1">
           <text>17/92</text>
         </override>
-        <override controlID="3" x="306" y="266" w="99" h="27"/>
         <override controlID="4" x="24" y="43" w="381" h="-1">
           <value>8</value>
         </override>
@@ -189,9 +188,10 @@
         </override>
         <override controlID="8" x="389" y="81" w="12" h="131"/>
         <override controlID="9" x="26" y="43" w="27" h="10"/>
+        <override controlID="3" x="306" y="266" w="99" h="27"/>
         <override controlID="8:1" x="1" y="52" w="10" h="75"/>
-        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
         <override controlID="8:2" x="1" y="2" w="10" h="20"/>
+        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
         <src>./assets/symbols.bmml#gizmo</src>
       </controlProperties>
     </control>
@@ -257,15 +257,42 @@
         <rightArrow>false</rightArrow>
       </controlProperties>
     </control>
-    <control controlID="248" controlTypeID="com.balsamiq.mockups::Button" x="1847" y="956" w="-1" h="-1" measuredW="128" measuredH="28" zOrder="25" locked="false" isInGroup="-1">
+    <control controlID="248" controlTypeID="com.balsamiq.mockups::Button" x="1193" y="964" w="-1" h="-1" measuredW="128" measuredH="28" zOrder="25" locked="false" isInGroup="-1">
       <controlProperties>
         <icon>GridIcon%7Cxsmall</icon>
         <text>Set%20Up%20Grid...</text>
       </controlProperties>
     </control>
-    <control controlID="250" controlTypeID="com.balsamiq.mockups::ComboBox" x="1883" y="405" w="-1" h="-1" measuredW="87" measuredH="22" zOrder="26" locked="false" isInGroup="-1">
+    <control controlID="250" controlTypeID="com.balsamiq.mockups::ComboBox" x="1229" y="413" w="-1" h="-1" measuredW="87" measuredH="22" zOrder="26" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Columns</text>
+      </controlProperties>
+    </control>
+    <control controlID="251" controlTypeID="com.balsamiq.mockups::Component" x="140" y="1122" w="424" h="308" measuredW="424" measuredH="308" zOrder="27" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="0" y="0" w="424" h="308"/>
+        <override controlID="1" x="18" y="90" w="-1" h="-1"/>
+        <override controlID="2" x="24" y="59" w="-1" h="-1"/>
+        <override controlID="4" x="24" y="43" w="381" h="-1"/>
+        <override controlID="5" x="84" y="105" w="234" h="24">
+          <text>%20</text>
+        </override>
+        <override controlID="6" x="24" y="150" w="35" h="38"/>
+        <override controlID="7" x="18" y="138" w="300" h="62"/>
+        <override controlID="8" x="389" y="81" w="12" h="131"/>
+        <override controlID="9" x="26" y="43" w="17" h="10"/>
+        <override controlID="3" x="306" y="266" w="99" h="27"/>
+        <override controlID="8:1" x="1" y="52" w="10" h="75"/>
+        <override controlID="8:2" x="1" y="2" w="10" h="20"/>
+        <override controlID="8:0" x="0" y="0" w="12" h="131"/>
+        <src>./assets/symbols.bmml#gizmo</src>
+      </controlProperties>
+    </control>
+    <control controlID="255" controlTypeID="com.balsamiq.mockups::Paragraph" x="218" y="1264" w="232" h="66" measuredW="200" measuredH="140" zOrder="28" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <color>13576743</color>
+        <text>Whoops.%20You%20need%20to%20hold%20down%20the%20space%20bar%20or%20mouse%20button%20while%20talking.</text>
       </controlProperties>
     </control>
   </controls>

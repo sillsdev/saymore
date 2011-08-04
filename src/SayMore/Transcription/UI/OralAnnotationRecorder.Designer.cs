@@ -35,12 +35,12 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentNumber = new System.Windows.Forms.Label();
 			this._trackBarMicLevel = new System.Windows.Forms.TrackBar();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._panelLevelMeter = new System.Windows.Forms.Panel();
-			this._panelMicorphoneLevel = new SilTools.Controls.SilPanel();
 			this._buttonEraseAnnotation = new SayMore.Transcription.UI.ActionTrackerButton();
 			this._buttonPlayAnnotation = new SayMore.Transcription.UI.StartStopButton();
 			this._buttonPlayOriginal = new SayMore.Transcription.UI.StartStopButton();
 			this._buttonRecord = new SayMore.Transcription.UI.RecordButton();
+			this._panelLevelMeter = new System.Windows.Forms.Panel();
+			this._panelMicorphoneLevel = new SilTools.Controls.SilPanel();
 			((System.ComponentModel.ISupportInitialize)(this._trackBarSegment)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._trackBarMicLevel)).BeginInit();
 			this._tableLayout.SuspendLayout();
@@ -117,6 +117,100 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.Size = new System.Drawing.Size(224, 178);
 			this._tableLayout.TabIndex = 9;
 			// 
+			// _buttonEraseAnnotation
+			// 
+			this._buttonEraseAnnotation.Active = false;
+			this._buttonEraseAnnotation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._buttonEraseAnnotation.BackColor = System.Drawing.Color.Transparent;
+			this._buttonEraseAnnotation.Cursor = System.Windows.Forms.Cursors.Hand;
+			this._buttonEraseAnnotation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(110)))), ((int)(((byte)(145)))));
+			this._buttonEraseAnnotation.FlatAppearance.BorderSize = 0;
+			this._buttonEraseAnnotation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this._buttonEraseAnnotation.FocusBackColor = System.Drawing.Color.Empty;
+			this._buttonEraseAnnotation.Image = global::SayMore.Properties.Resources.RecordErase;
+			this._buttonEraseAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonEraseAnnotation.Location = new System.Drawing.Point(30, 128);
+			this._buttonEraseAnnotation.Margin = new System.Windows.Forms.Padding(30, 0, 10, 0);
+			this._buttonEraseAnnotation.Name = "_buttonEraseAnnotation";
+			this._buttonEraseAnnotation.ShowFocusRectangle = false;
+			this._buttonEraseAnnotation.Size = new System.Drawing.Size(184, 29);
+			this._buttonEraseAnnotation.TabIndex = 6;
+			this._buttonEraseAnnotation.Text = " Erase Annotation";
+			this._buttonEraseAnnotation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonEraseAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this._buttonEraseAnnotation.UseVisualStyleBackColor = false;
+			this._buttonEraseAnnotation.Click += new System.EventHandler(this.HandleEraseButtonClick);
+			// 
+			// _buttonPlayAnnotation
+			// 
+			this._buttonPlayAnnotation.Active = false;
+			this._buttonPlayAnnotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._buttonPlayAnnotation.BackColor = System.Drawing.Color.Transparent;
+			this._buttonPlayAnnotation.Cursor = System.Windows.Forms.Cursors.Hand;
+			this._buttonPlayAnnotation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(110)))), ((int)(((byte)(145)))));
+			this._buttonPlayAnnotation.FlatAppearance.BorderSize = 0;
+			this._buttonPlayAnnotation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this._buttonPlayAnnotation.FocusBackColor = System.Drawing.Color.Empty;
+			this._buttonPlayAnnotation.Image = global::SayMore.Properties.Resources.RecordingPlaybackAnnotation;
+			this._buttonPlayAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonPlayAnnotation.Location = new System.Drawing.Point(0, 99);
+			this._buttonPlayAnnotation.Margin = new System.Windows.Forms.Padding(0, 5, 10, 0);
+			this._buttonPlayAnnotation.Name = "_buttonPlayAnnotation";
+			this._buttonPlayAnnotation.ShowFocusRectangle = false;
+			this._buttonPlayAnnotation.Size = new System.Drawing.Size(214, 29);
+			this._buttonPlayAnnotation.TabIndex = 5;
+			this._buttonPlayAnnotation.Text = " Check Annotation";
+			this._buttonPlayAnnotation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonPlayAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this._buttonPlayAnnotation.UseVisualStyleBackColor = false;
+			// 
+			// _buttonPlayOriginal
+			// 
+			this._buttonPlayOriginal.Active = false;
+			this._buttonPlayOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._buttonPlayOriginal.BackColor = System.Drawing.Color.Transparent;
+			this._buttonPlayOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
+			this._buttonPlayOriginal.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(110)))), ((int)(((byte)(145)))));
+			this._buttonPlayOriginal.FlatAppearance.BorderSize = 0;
+			this._buttonPlayOriginal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this._buttonPlayOriginal.FocusBackColor = System.Drawing.Color.Empty;
+			this._buttonPlayOriginal.Image = global::SayMore.Properties.Resources.RecordingPlayback;
+			this._buttonPlayOriginal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonPlayOriginal.Location = new System.Drawing.Point(0, 31);
+			this._buttonPlayOriginal.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
+			this._buttonPlayOriginal.Name = "_buttonPlayOriginal";
+			this._buttonPlayOriginal.ShowFocusRectangle = false;
+			this._buttonPlayOriginal.Size = new System.Drawing.Size(214, 29);
+			this._buttonPlayOriginal.TabIndex = 2;
+			this._buttonPlayOriginal.Text = " Listen";
+			this._buttonPlayOriginal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonPlayOriginal.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this._buttonPlayOriginal.UseVisualStyleBackColor = false;
+			// 
+			// _buttonRecord
+			// 
+			this._buttonRecord.Active = false;
+			this._buttonRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._buttonRecord.BackColor = System.Drawing.Color.Transparent;
+			this._buttonRecord.Cursor = System.Windows.Forms.Cursors.Hand;
+			this._buttonRecord.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(110)))), ((int)(((byte)(145)))));
+			this._buttonRecord.FlatAppearance.BorderSize = 0;
+			this._buttonRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this._buttonRecord.FocusBackColor = System.Drawing.Color.Empty;
+			this._buttonRecord.Image = global::SayMore.Properties.Resources.RecordStart;
+			this._buttonRecord.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonRecord.Location = new System.Drawing.Point(0, 65);
+			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0, 5, 10, 0);
+			this._buttonRecord.Name = "_buttonRecord";
+			this._buttonRecord.ShowFocusRectangle = false;
+			this._buttonRecord.Size = new System.Drawing.Size(214, 29);
+			this._buttonRecord.TabIndex = 4;
+			this._buttonRecord.Text = " Hold the Space Bar down and talk";
+			this._buttonRecord.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonRecord.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this._buttonRecord.UseVisualStyleBackColor = false;
+			// 
 			// _panelLevelMeter
 			// 
 			this._panelLevelMeter.AutoSize = true;
@@ -150,96 +244,6 @@ namespace SayMore.Transcription.UI
 			this._panelMicorphoneLevel.PaintExplorerBarBackground = false;
 			this._panelMicorphoneLevel.Size = new System.Drawing.Size(15, 168);
 			this._panelMicorphoneLevel.TabIndex = 7;
-			// 
-			// _buttonEraseAnnotation
-			// 
-			this._buttonEraseAnnotation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._buttonEraseAnnotation.BackColor = System.Drawing.Color.Transparent;
-			this._buttonEraseAnnotation.Cursor = System.Windows.Forms.Cursors.Hand;
-			this._buttonEraseAnnotation.FlatAppearance.BorderSize = 0;
-			this._buttonEraseAnnotation.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this._buttonEraseAnnotation.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this._buttonEraseAnnotation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this._buttonEraseAnnotation.FocusBackColor = System.Drawing.Color.Empty;
-			this._buttonEraseAnnotation.Image = global::SayMore.Properties.Resources.RecordErase;
-			this._buttonEraseAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonEraseAnnotation.Location = new System.Drawing.Point(30, 128);
-			this._buttonEraseAnnotation.Margin = new System.Windows.Forms.Padding(30, 0, 10, 0);
-			this._buttonEraseAnnotation.Name = "_buttonEraseAnnotation";
-			this._buttonEraseAnnotation.ShowFocusRectangle = true;
-			this._buttonEraseAnnotation.Size = new System.Drawing.Size(184, 29);
-			this._buttonEraseAnnotation.TabIndex = 6;
-			this._buttonEraseAnnotation.Text = " Erase Annotation";
-			this._buttonEraseAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this._buttonEraseAnnotation.UseVisualStyleBackColor = true;
-			this._buttonEraseAnnotation.Click += new System.EventHandler(this.HandleEraseButtonClick);
-			// 
-			// _buttonPlayAnnotation
-			// 
-			this._buttonPlayAnnotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._buttonPlayAnnotation.BackColor = System.Drawing.Color.Transparent;
-			this._buttonPlayAnnotation.Cursor = System.Windows.Forms.Cursors.Hand;
-			this._buttonPlayAnnotation.FlatAppearance.BorderSize = 0;
-			this._buttonPlayAnnotation.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this._buttonPlayAnnotation.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this._buttonPlayAnnotation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this._buttonPlayAnnotation.FocusBackColor = System.Drawing.Color.Empty;
-			this._buttonPlayAnnotation.Image = global::SayMore.Properties.Resources.RecordingPlaybackAnnotation;
-			this._buttonPlayAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonPlayAnnotation.Location = new System.Drawing.Point(0, 99);
-			this._buttonPlayAnnotation.Margin = new System.Windows.Forms.Padding(0, 5, 10, 0);
-			this._buttonPlayAnnotation.Name = "_buttonPlayAnnotation";
-			this._buttonPlayAnnotation.ShowFocusRectangle = true;
-			this._buttonPlayAnnotation.Size = new System.Drawing.Size(214, 29);
-			this._buttonPlayAnnotation.TabIndex = 5;
-			this._buttonPlayAnnotation.Text = " Check Annotation (press \'A\' to start)";
-			this._buttonPlayAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this._buttonPlayAnnotation.UseVisualStyleBackColor = true;
-			// 
-			// _buttonPlayOriginal
-			// 
-			this._buttonPlayOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._buttonPlayOriginal.BackColor = System.Drawing.Color.Transparent;
-			this._buttonPlayOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
-			this._buttonPlayOriginal.FlatAppearance.BorderSize = 0;
-			this._buttonPlayOriginal.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this._buttonPlayOriginal.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this._buttonPlayOriginal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this._buttonPlayOriginal.FocusBackColor = System.Drawing.Color.CornflowerBlue;
-			this._buttonPlayOriginal.Image = global::SayMore.Properties.Resources.RecordingPlayback;
-			this._buttonPlayOriginal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonPlayOriginal.Location = new System.Drawing.Point(0, 31);
-			this._buttonPlayOriginal.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
-			this._buttonPlayOriginal.Name = "_buttonPlayOriginal";
-			this._buttonPlayOriginal.ShowFocusRectangle = true;
-			this._buttonPlayOriginal.Size = new System.Drawing.Size(214, 29);
-			this._buttonPlayOriginal.TabIndex = 2;
-			this._buttonPlayOriginal.Text = " Listen to Original (press \'O\' to start)";
-			this._buttonPlayOriginal.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this._buttonPlayOriginal.UseVisualStyleBackColor = true;
-			// 
-			// _buttonRecord
-			// 
-			this._buttonRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._buttonRecord.BackColor = System.Drawing.Color.Transparent;
-			this._buttonRecord.Cursor = System.Windows.Forms.Cursors.Hand;
-			this._buttonRecord.FlatAppearance.BorderSize = 0;
-			this._buttonRecord.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this._buttonRecord.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this._buttonRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this._buttonRecord.FocusBackColor = System.Drawing.Color.CornflowerBlue;
-			this._buttonRecord.Image = global::SayMore.Properties.Resources.RecordStart;
-			this._buttonRecord.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonRecord.Location = new System.Drawing.Point(0, 65);
-			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0, 5, 10, 0);
-			this._buttonRecord.Name = "_buttonRecord";
-			this._buttonRecord.ShowFocusRectangle = true;
-			this._buttonRecord.Size = new System.Drawing.Size(214, 29);
-			this._buttonRecord.TabIndex = 4;
-			this._buttonRecord.Text = " Record (press SPACE to start)";
-			this._buttonRecord.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this._buttonRecord.UseVisualStyleBackColor = true;
 			// 
 			// OralAnnotationRecorder
 			// 

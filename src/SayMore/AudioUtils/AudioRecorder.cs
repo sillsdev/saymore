@@ -39,7 +39,7 @@ namespace SayMore.AudioUtils
 	#endregion
 
 	#region AudioRecorder class
-	public class AudioRecorder : IAudioRecorder
+	public class AudioRecorder : IAudioRecorder, IDisposable
 	{
 		/// <summary>
 		/// This guy is always working, whether we're playing, recording, or just idle (monitoring)
@@ -87,6 +87,22 @@ namespace SayMore.AudioUtils
 
 			RecordingFormat = new WaveFormat(sampleRate, channels);
 			BeginMonitoring(0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			if (_waveIn != null)
+			{
+				_waveIn.Dispose();
+				_waveIn = null;
+			}
+
+			if (_writer != null)
+			{
+				_writer.Dispose();
+				_writer = null;
+			}
 		}
 
 		#region Properties
@@ -201,11 +217,11 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		private void TransitionFromRecordingToMonitoring()
 		{
-			RecordedTime = TimeSpan.FromSeconds((double)_writer.Length / _writer.WaveFormat.AverageBytesPerSecond);
 			RecordingState = RecordingState.Monitoring;
 
 			if (_writer != null)
 			{
+				RecordedTime = TimeSpan.FromSeconds((double)_writer.Length / _writer.WaveFormat.AverageBytesPerSecond);
 				_writer.Dispose();
 				_writer = null;
 			}

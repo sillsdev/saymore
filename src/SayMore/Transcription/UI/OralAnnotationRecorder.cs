@@ -16,8 +16,8 @@ namespace SayMore.Transcription.UI
 		private readonly string _segmentCountFormatString;
 		//private readonly string _micLevelFormatString;
 		private OralAnnotationRecorderViewModel _viewModel;
-		private bool _recordingButtonDown;
 		private string _annotationType;
+		private Timer _startTimer;
 
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationRecorder()
@@ -33,10 +33,13 @@ namespace SayMore.Transcription.UI
 			_buttonPlayAnnotation.Font = SystemFonts.IconTitleFont;
 			_buttonEraseAnnotation.Font = SystemFonts.IconTitleFont;
 
-			_buttonPlayOriginal.Click += delegate { UpdateDisplay(); };
-			_buttonPlayAnnotation.Click += delegate { UpdateDisplay(); };
+			_buttonPlayOriginal.Click += HandleButtonClick;
+			_buttonPlayAnnotation.Click += HandleButtonClick;
 			_buttonRecord.MouseDown += delegate { UpdateDisplay(); };
 			_buttonRecord.MouseUp += delegate { UpdateDisplay(); };
+
+			_buttonPlayOriginal.CanInvokeActionDelegate = (() => !_buttonPlayAnnotation.ActionInProgress);
+			_buttonPlayAnnotation.CanInvokeActionDelegate = (() => !_buttonPlayOriginal.ActionInProgress);
 
 			_trackBarSegment.ValueChanged += HandleSegmentTrackBarValueChanged;
 			_trackBarMicLevel.ValueChanged += delegate { UpdateDisplay(); };
@@ -54,18 +57,29 @@ namespace SayMore.Transcription.UI
 			_viewModel.MicLevelDisplayControl = _panelMicorphoneLevel;
 			_viewModel.PlaybackEnded += HandlePlaybackEnded;
 
-			_buttonPlayOriginal.Initialize(" Playing... (press 'O' to stop)",
-				_viewModel.PlayOriginalRecording, _viewModel.Stop );
-
-			_buttonPlayAnnotation.Initialize(" Playing... (press 'A' to stop)",
-				_viewModel.PlayAnnotation, _viewModel.Stop);
-
-			_buttonRecord.Initialize(" Recording... (release SPACE to stop)",
-				_viewModel.BeginRecording, HandleRecordingStopped);
+			_buttonPlayOriginal.Initialize(" Playing...", "", _viewModel.PlayOriginalRecording, _viewModel.Stop );
+			_buttonPlayAnnotation.Initialize(" Playing...", "Check Annotation", _viewModel.PlayAnnotation, _viewModel.Stop);
+			_buttonRecord.Initialize(" Recording...", "", _viewModel.BeginRecording, HandleRecordingStopped);
 
 			_trackBarSegment.Minimum = 1;
 			_trackBarSegment.Maximum = _viewModel.SegmentCount;
 			_trackBarSegment.Value = _viewModel.CurrentSegmentNumber + 1;
+
+			_startTimer = new Timer();
+			_startTimer.Interval = 2000;
+			_startTimer.Tick += HandleStartTimerTick;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleStartTimerTick(object sender, EventArgs e)
+		{
+			_startTimer.Tick += HandleStartTimerTick;
+			_startTimer.Dispose();
+			_startTimer = null;
+
+			Activate(_buttonPlayOriginal);
+			_buttonPlayOriginal.InvokeStartAction();
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -117,7 +131,6 @@ namespace SayMore.Transcription.UI
 			if (m.Msg == WM_KEYUP && (Keys)m.WParam != Keys.Space)
 				return false;
 
-
 			switch ((Keys)m.WParam)
 			{
 				case Keys.Right: MoveToNextSegment(); break;
@@ -127,36 +140,35 @@ namespace SayMore.Transcription.UI
 						_trackBarSegment.Value--;
 					break;
 
-				case Keys.O:
-					if (_buttonPlayOriginal.Enabled)
-						_buttonPlayOriginal.PerformClick();
-					break;
+				//case Keys.O:
+				//    if (_buttonPlayOriginal.Enabled)
+				//        _buttonPlayOriginal.PerformClick();
+				//    break;
 
-				case Keys.A:
-					if (_buttonPlayAnnotation.Visible)
-						_buttonPlayAnnotation.PerformClick();
-					break;
+				//case Keys.A:
+				//    if (_buttonPlayAnnotation.Visible)
+				//        _buttonPlayAnnotation.PerformClick();
+				//    break;
 
 				case Keys.Space:
-					if (_buttonRecord.Visible)
+					if (_buttonRecord.Visible && _buttonRecord.Active)
 					{
-						if (m.Msg == WM_KEYDOWN && !_recordingButtonDown)
-						{
-							_recordingButtonDown = true;
-							_buttonRecord.InvokeStartAction();
-							UpdateDisplay();
-						}
-						else if (m.Msg == WM_KEYUP)
-						{
-							_recordingButtonDown = false;
+						if (m.Msg == WM_KEYUP)
 							_buttonRecord.InvokeStopAction();
+						else if (m.Msg == WM_KEYDOWN && !_buttonRecord.ActionInProgress)
+						{
+							Activate(_buttonRecord);
+							_buttonRecord.InvokeStartAction();
 							UpdateDisplay();
 						}
 					}
 					break;
 
+				case Keys.Tab:
 				case Keys.Enter:
-					// Eat the enter key.
+				case Keys.Up:
+				case Keys.Down:
+					// Eat these.
 					break;
 
 				default:
@@ -167,27 +179,86 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleButtonClick(object sender, EventArgs e)
+		{
+			if (!_buttonPlayOriginal.ActionInProgress && !_buttonRecord.ActionInProgress &&
+				!_buttonPlayAnnotation.ActionInProgress)
+			{
+				var button = sender as StartStopButton;
+				Activate(button);
+				button.InvokeStartAction();
+				UpdateDisplay();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleEraseButtonClick(object sender, EventArgs e)
+		{
+			_viewModel.EraseAnnotation();
+			Activate(_buttonPlayOriginal);
+			_buttonPlayOriginal.InvokeStartAction();
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleSegmentTrackBarValueChanged(object sender, EventArgs e)
+		{
+			Activate(_buttonPlayOriginal);
+
+			if (_viewModel.SetCurrentSegmentNumber(_trackBarSegment.Value - 1) &&
+				!_viewModel.DoesAnnotationExist)
+			{
+				_buttonPlayOriginal.InvokeStartAction();
+			}
+
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandlePlaybackEnded(object sender, EventArgs e)
 		{
 			if (IsDisposed)
 				return;
 
+			var buttonToActivate = _buttonPlayOriginal;
+			var playbackOfOriginalEnded = (bool)sender;
+
+			if (playbackOfOriginalEnded)
+				buttonToActivate = (_viewModel.DoesAnnotationExist ? _buttonPlayAnnotation : _buttonRecord);
+
+			Invoke((Action<StartStopButton>)Activate, buttonToActivate);
 			Invoke((Action)UpdateDisplay);
-			Invoke((Action)UpdateFocusedButtonAfterPlayback);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateFocusedButtonAfterPlayback()
+		private void HandleRecordingStopped()
 		{
-			if (_buttonPlayAnnotation.Focused)
-				_buttonPlayOriginal.Focus();
-			else if (_buttonPlayOriginal.Focused)
+			_viewModel.Stop();
+			if (!MoveToNextSegment())
 			{
-				if (_buttonRecord.Visible)
-					_buttonRecord.Focus();
-				else if (_buttonPlayAnnotation.Visible)
-					_buttonPlayAnnotation.Focus();
+				Activate(_buttonPlayOriginal);
+				UpdateDisplay();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool MoveToNextSegment()
+		{
+			if (_trackBarSegment.Value < _trackBarSegment.Maximum)
+			{
+				_trackBarSegment.Value++;
+				return true;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void Activate(StartStopButton button)
+		{
+			_buttonPlayOriginal.Active = (button == _buttonPlayOriginal);
+			_buttonPlayAnnotation.Active = (button == _buttonPlayAnnotation);
+			_buttonRecord.Active = (button == _buttonRecord);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -204,53 +275,16 @@ namespace SayMore.Transcription.UI
 			_buttonPlayOriginal.SetStateProperties(state == OralAnnotationRecorderViewModel.State.PlayingOriginal);
 			_buttonPlayAnnotation.SetStateProperties(state == OralAnnotationRecorderViewModel.State.PlayingAnnotation);
 			_buttonRecord.SetStateProperties(state == OralAnnotationRecorderViewModel.State.Recording);
-
 			_buttonPlayOriginal.Enabled = (state != OralAnnotationRecorderViewModel.State.Recording);
+
 			_buttonPlayAnnotation.Visible = _viewModel.ShouldListenToAnnotationButtonBeVisible;
 			_buttonRecord.Visible = _viewModel.ShouldRecordButtonBeVisible;
 			_buttonEraseAnnotation.Visible = _viewModel.ShouldEraseAnnotationButtonBeVisible;
+			_buttonEraseAnnotation.Enabled = _viewModel.ShouldEraseAnnotationButtonBeEnabled;
 
-			//_buttonEraseAnnotation.Enabled = _viewModel.ShouldEraseAnnotationButtonBeEnabled;
 			//_labelMicLevel.Text = string.Format(_micLevelFormatString,_trackBarMicLevel.Value);
 
 			Utils.SetWindowRedraw(this, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleRecordingStopped()
-		{
-			_viewModel.Stop();
-			UpdateDisplay();
-			MoveToNextSegment();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void MoveToNextSegment()
-		{
-			if (_trackBarSegment.Value < _trackBarSegment.Maximum)
-				_trackBarSegment.Value++;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleEraseButtonClick(object sender, EventArgs e)
-		{
-			_viewModel.EraseAnnotation();
-			UpdateDisplay();
-			_buttonPlayOriginal.Focus();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleSegmentTrackBarValueChanged(object sender, EventArgs e)
-		{
-			if (_buttonPlayOriginal.HasActionStarted)
-				_buttonPlayOriginal.PerformClick();
-			else if (_buttonPlayAnnotation.HasActionStarted)
-				_buttonPlayAnnotation.PerformClick();
-
-			if (_viewModel.SetCurrentSegmentNumber(_trackBarSegment.Value - 1))
-				_buttonPlayOriginal.PerformClick();
-			else
-				UpdateDisplay();
 		}
 	}
 
@@ -258,13 +292,52 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public class ActionTrackerButton : NicerButton
 	{
+		private bool _active;
+
 		public int ActionInvokedCount { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public ActionTrackerButton()
+		{
+			ShowFocusRectangle = false;
+			FlatAppearance.MouseDownBackColor = Color.Transparent;
+			FlatAppearance.MouseOverBackColor = Color.Transparent;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool Active
+		{
+			get { return _active; }
+			set
+			{
+				_active = value;
+				BackColor = (_active ? AppColors.BarBegin : Color.Transparent);
+				FlatAppearance.MouseOverBackColor = BackColor;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClick(EventArgs e)
 		{
 			base.OnClick(e);
 			ActionInvokedCount++;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+
+			if (!Active)
+				return;
+
+			var rc = ClientRectangle;
+
+			rc.Width--;
+			rc.Height--;
+
+			using (var pen = new Pen(AppColors.BarBorder))
+				e.Graphics.DrawRectangle(pen, rc);
 		}
 	}
 
@@ -306,79 +379,47 @@ namespace SayMore.Transcription.UI
 	public class StartStopButton : ActionTrackerButton
 	{
 		private Image _startImage;
-		private string _startText;
-		private string _stopText;
+		private Image _inProgressImage;
+		private string _activeText;
+		private string _inactiveText;
+		private string _inProgressText;
 		private Action _startAction;
 		private Action _stopAction;
 
-		public bool HasActionStarted { get; private set; }
+		public Func<bool> CanInvokeActionDelegate;
+
+		public bool ActionInProgress { get; private set; }
 		public int ActionStartedCount { get; private set; }
 		public int ActionStoppedCount { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public void Initialize(string stopText, Action startAction, Action stopAction)
+		public void Initialize(string inProgressText, string inactiveText,
+			Action startAction, Action stopAction)
 		{
-			ShowFocusRectangle = false;
 			Cursor = Cursors.Hand;
-
 			_startAction = startAction;
 			_stopAction = stopAction;
-			_stopText = stopText;
-			_startText = Text;
+			_inProgressText = inProgressText;
+			_inactiveText = inactiveText;
+			_activeText = Text;
 			_startImage = Image;
-
-			FocusBackColor = AppColors.BarBegin;
-			FlatAppearance.MouseDownBackColor = BackColor;
-			FlatAppearance.MouseOverBackColor = BackColor;
-			FlatAppearance.BorderColor = AppColors.BarBorder;
+			_inProgressImage = PaintingHelper.MakeHotImage(Image);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetStateProperties(bool setStopProps)
+		public void SetStateProperties(bool inProgress)
 		{
-			Text = (setStopProps ? _stopText : _startText);
-			Image = (setStopProps ? Properties.Resources.RecordStop : _startImage);
-			HasActionStarted = setStopProps;
+			Text = (inProgress ? _inProgressText : (Active ? _activeText : _inactiveText));
+			Image = (inProgress ? _inProgressImage : _startImage);
+			ActionInProgress = inProgress;
 			Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnEnter(EventArgs e)
-		{
-			base.OnEnter(e);
-			FlatAppearance.MouseDownBackColor = FocusBackColor;
-			FlatAppearance.MouseOverBackColor = FocusBackColor;
-			FlatAppearance.BorderSize = 1;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnLeave(EventArgs e)
-		{
-			base.OnLeave(e);
-			FlatAppearance.MouseDownBackColor = BackColor;
-			FlatAppearance.MouseOverBackColor = BackColor;
-			FlatAppearance.BorderSize = 0;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnClick(EventArgs e)
-		{
-			if (HasActionStarted)
-				InvokeStopAction();
-			else
-				InvokeStartAction();
-
-			base.OnClick(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void InvokeStartAction()
 		{
-			if (_startAction != null)
+			if (_startAction != null && CanInvokeActionDelegate())
 			{
-				if (!Focused)
-					Focus();
-
 				_startAction();
 				ActionStartedCount++;
 			}
@@ -387,7 +428,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void InvokeStopAction()
 		{
-			if (HasActionStarted && _stopAction != null)
+			if (ActionInProgress && _stopAction != null)
 			{
 				_stopAction();
 				ActionStoppedCount++;

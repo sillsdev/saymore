@@ -43,7 +43,7 @@ namespace SayMore.Transcription.UI
 			_origPlayerViewModel.PlaybackEnded += delegate
 			{
 				if (PlaybackEnded != null)
-					PlaybackEnded(_origPlayerViewModel.MediaFile, EventArgs.Empty);
+					PlaybackEnded(true, EventArgs.Empty);
 			};
 
 			_annotationFileAffix = "_" + annotationFileAffix + ".wav";
@@ -57,6 +57,7 @@ namespace SayMore.Transcription.UI
 		public void Dispose()
 		{
 			CloseAnnotationPlayer();
+			CloseAnnotationRecorder();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -66,6 +67,15 @@ namespace SayMore.Transcription.UI
 				_annotationPlayer.Dispose();
 
 			_annotationPlayer = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CloseAnnotationRecorder()
+		{
+			if (_annotationRecorder != null)
+				_annotationRecorder.Dispose();
+
+			_annotationRecorder = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,6 +103,8 @@ namespace SayMore.Transcription.UI
 		public bool SetCurrentSegmentNumber(int segmentNumber)
 		{
 			Stop();
+			CloseAnnotationRecorder();
+
 			bool incremented = (CurrentSegmentNumber < segmentNumber);
 			CurrentSegmentNumber = segmentNumber;
 
@@ -115,12 +127,19 @@ namespace SayMore.Transcription.UI
 			var filename = GetPathToCurrentAnnotationFile();
 			if (File.Exists(filename))
 			{
+				var fi = new FileInfo(filename);
+				if (fi.Length == 0)
+				{
+					fi.Delete();
+					return;
+				}
+
 				_annotationPlayer = new AudioPlayer();
 				_annotationPlayer.LoadFile(filename);
 				_annotationPlayer.Stopped += delegate
 				{
 					if (PlaybackEnded != null)
-						PlaybackEnded(_annotationPlayer.AudioFilePath, EventArgs.Empty);
+						PlaybackEnded(false, EventArgs.Empty);
 				};
 			}
 		}
@@ -214,7 +233,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool ShouldEraseAnnotationButtonBeVisible
 		{
-			get { return ShouldEraseAnnotationButtonBeEnabled; }
+			get { return DoesAnnotationExist; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -222,9 +241,15 @@ namespace SayMore.Transcription.UI
 		{
 			get
 			{
-				return File.Exists(GetPathToCurrentAnnotationFile()) && !IsRecording &&
+				return DoesAnnotationExist && !IsRecording && !_origPlayerViewModel.HasPlaybackStarted &&
 					(_annotationPlayer == null || _annotationPlayer.PlaybackState != PlaybackState.Playing);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool DoesAnnotationExist
+		{
+			get { return (File.Exists(GetPathToCurrentAnnotationFile())); }
 		}
 
 		#endregion

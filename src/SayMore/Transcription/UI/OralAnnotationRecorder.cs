@@ -40,6 +40,7 @@ namespace SayMore.Transcription.UI
 
 			_buttonPlayOriginal.CanInvokeActionDelegate = (() => !_buttonPlayAnnotation.ActionInProgress);
 			_buttonPlayAnnotation.CanInvokeActionDelegate = (() => !_buttonPlayOriginal.ActionInProgress);
+			_buttonRecord.CanInvokeActionDelegate = (() => !_buttonPlayOriginal.ActionInProgress);
 
 			_trackBarSegment.ValueChanged += HandleSegmentTrackBarValueChanged;
 			_trackBarMicLevel.ValueChanged += delegate { UpdateDisplay(); };

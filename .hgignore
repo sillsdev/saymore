@@ -49,3 +49,6 @@ syntax: glob
 HG Setup.eml
 src/SayMore/SayMore.csproj.orig
 RAMP Stuff/*
+lib/dotnet/SilTools.pdb
+RAMP Fields.docx
+src/SayMore/Program.cs.orig

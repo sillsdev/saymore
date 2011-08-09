@@ -5,15 +5,11 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Localization;
-using SilUtils;
-using SilUtils.Controls;
+using SilTools;
+using SilTools.Controls;
 
 namespace SayMore.UI.ProjectWindow
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class ViewTabGroup : Panel
 	{

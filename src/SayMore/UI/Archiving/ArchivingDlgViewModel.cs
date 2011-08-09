@@ -20,7 +20,7 @@ using SayMore.Properties;
 using Timer = System.Threading.Timer;
 using ZipFile = Ionic.Zip.ZipFile;
 
-namespace SayMore.UI.Archiving
+namespace SayMore.UI.Utilities
 {
 	public class ArchivingDlgViewModel
 	{
@@ -92,6 +92,12 @@ namespace SayMore.UI.Archiving
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private string GetPathToContributorFileInArchive(string personId, string fullFilePath)
+		{
+			return Path.Combine(Path.Combine("Contributors", personId), Path.GetFileName(fullFilePath));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public IDictionary<string, IEnumerable<string>> GetFilesToArchive()
 		{
 			var filesInDir = Directory.GetFiles(_event.FolderPath);
@@ -100,19 +106,26 @@ namespace SayMore.UI.Archiving
 			_progressMessages[msgKey] = string.Format("Adding Files for Event '{0}'", _eventTitle);
 
 			var fileList = new Dictionary<string, IEnumerable<string>>();
-			fileList[string.Empty] = filesInDir;
+			fileList[string.Empty] = filesInDir.Where(f => IncludeFileInArchive(f));
 
 			foreach (var person in _event.GetAllParticipants()
 				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
 			{
 				filesInDir = Directory.GetFiles(person.FolderPath);
-				fileList[person.Id] = filesInDir;
+				fileList[person.Id] = filesInDir.Where(f => IncludeFileInArchive(f));
 
+				msgKey = GetPathToContributorFileInArchive(person.Id, filesInDir[0]);
 				msgKey = Path.Combine(Path.Combine("Contributors", person.Id), Path.GetFileName(filesInDir[0]));
 				_progressMessages[msgKey] = string.Format("Adding Files for Contributor '{0}'", person.Id);
 			}
 
 			return fileList;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool IncludeFileInArchive(string path)
+		{
+			return (Path.GetExtension(path).ToLower() != ".pfsx");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -256,6 +269,7 @@ namespace SayMore.UI.Archiving
 			yield return JSONUtils.MakeKeyValuePair("broad_type", "wider_audience");
 			yield return JSONUtils.MakeKeyValuePair("dc.type.scholarlyWork", "Data set");
 			yield return JSONUtils.MakeKeyValuePair("dc.subject.silDomain", "LING:Linguistics", true);
+			yield return JSONUtils.MakeKeyValuePair("type.domainSubtype.LING", "language documentation (LING)", true);
 
 			var value = _event.MetaDataFile.GetStringValue("date", null);
 			if (!string.IsNullOrEmpty(value))
@@ -387,7 +401,10 @@ namespace SayMore.UI.Archiving
 					else if (file.ToLower().EndsWith(".meta"))
 						description = "SayMore File Metadata (XML)";
 
-					yield return JSONUtils.MakeKeyValuePair(" ", Path.GetFileName(file)) + "," +
+					var filePath = (kvp.Key == string.Empty ? Path.GetFileName(file) :
+						GetPathToContributorFileInArchive(kvp.Key, file));
+
+					yield return JSONUtils.MakeKeyValuePair(" ", filePath.Replace('\\', '/')) + "," +
 						JSONUtils.MakeKeyValuePair("description", description) + "," +
 						JSONUtils.MakeKeyValuePair("relationship", "source");
 				}

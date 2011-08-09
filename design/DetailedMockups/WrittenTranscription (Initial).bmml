@@ -1,0 +1,131 @@
+<mockup version="1.0" skin="sketch" measuredW="1562" measuredH="910" mockupW="1481" mockupH="910">
+  <controls>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::TabBar" x="81" y="0" w="788" h="217" measuredW="309" measuredH="100" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>0</selectedIndex>
+        <text>Annotations%2C%20Contributors%2C%20Notes</text>
+      </controlProperties>
+    </control>
+    <control controlID="75" controlTypeID="com.balsamiq.mockups::TabBar" x="81" y="520" w="908" h="390" measuredW="365" measuredH="100" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>2</selectedIndex>
+        <text>View%2C%20Segment%2C%20Transcribe%2C%20Contributions</text>
+      </controlProperties>
+    </control>
+    <control controlID="76" controlTypeID="com.balsamiq.mockups::Button" x="905" y="631" w="57" h="54" measuredW="24" measuredH="28" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="77" controlTypeID="__group__" x="100" y="571" w="710" h="303" measuredW="710" measuredH="303" zOrder="3" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::DataGrid" x="0" y="0" w="710" h="303" measuredW="493" measuredH="210" zOrder="0" locked="false" isInGroup="77">
+          <controlProperties>
+            <alternateRowColor>16777215</alternateRowColor>
+            <hLines>false</hLines>
+            <rowHeight>37</rowHeight>
+            <selectedIndex>3</selectedIndex>
+            <text>%23%2C%20Audio%2C%20Transcription%0A1%2C%20%2Clorem%20ipsum%20dolor%20sit%20amet%0A2%2C%20%2Cconsectetur%20adipisicing%20elit%0A3%2C%20%2Csed%20do%20eiusmod%20tempor%20incididunt%20ut%20labore%20et%20dolore%20magna%20aliqua%20%0A4%0A5%0A%7B0R%2C%2050%2C%20100%7D</text>
+            <value>23</value>
+            <verticalScrollbar>true</verticalScrollbar>
+            <vLines>true</vLines>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Image" x="31" y="20" w="188" h="36" measuredW="180" measuredH="36" zOrder="1" locked="false" isInGroup="77">
+          <controlProperties>
+            <src>../transcription/assets/waveform.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Image" x="31" y="100" w="181" h="32" measuredW="174" measuredH="32" zOrder="2" locked="false" isInGroup="77">
+          <controlProperties>
+            <src>../transcription/assets/waveform3.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::Image" x="31" y="57" w="145" h="28" measuredW="139" measuredH="21" zOrder="3" locked="false" isInGroup="77">
+          <controlProperties>
+            <src>../transcription/assets/waveform2.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::Image" x="31" y="169" w="181" h="32" measuredW="174" measuredH="32" zOrder="4" locked="false" isInGroup="77">
+          <controlProperties>
+            <src>../transcription/assets/waveform3.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Image" x="31" y="133" w="188" h="36" measuredW="180" measuredH="36" zOrder="5" locked="false" isInGroup="77">
+          <controlProperties>
+            <src>../transcription/assets/waveform.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="78" controlTypeID="com.balsamiq.mockups::Button" x="839" y="695" w="123" h="61" measuredW="72" measuredH="56" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>16777215</color>
+        <icon>DownArrowIcon%7Clarge</icon>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="79" controlTypeID="com.balsamiq.mockups::Button" x="839" y="578" w="123" h="40" measuredW="48" measuredH="32" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>UpArrowIcon%7Csmall</icon>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="80" controlTypeID="com.balsamiq.mockups::Button" x="839" y="631" w="57" h="54" measuredW="24" measuredH="28" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="81" controlTypeID="com.balsamiq.mockups::Icon" x="921" y="646" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>StopIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="82" controlTypeID="com.balsamiq.mockups::Icon" x="853" y="646" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>RightTriangleIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="86" controlTypeID="com.balsamiq.mockups::Button" x="961" y="281" w="-1" h="-1" measuredW="234" measuredH="28" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Load%20Audacity%20Label%20Track%20File...</text>
+      </controlProperties>
+    </control>
+    <control controlID="98" controlTypeID="com.balsamiq.mockups::TitleWindow" x="945" y="43" w="617" h="443" measuredW="450" measuredH="400" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>0</bottomheight>
+        <text>Create%20Annotation%20File...</text>
+      </controlProperties>
+    </control>
+    <control controlID="99" controlTypeID="com.balsamiq.mockups::Paragraph" x="961" y="85" w="564" h="196" measuredW="200" measuredH="140" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>This%20will%20create%20a%20file%20to%20hold%20annotations%20of%20the%20media%20file%20%22x%22.%20SayMore%20currently%20supports%20the%20following%20annotations%3A%0A*%20transcription%0A*%20translation%0A%20%0AAnnotation%20requires%20that%20the%20media%20stream%20first%20be%20_segmented_%20into%20small%20pieces.%20Currently%2C%20you%20need%20to%20use%20another%20program%20to%20specify%20the%20segments%20boundaries.%20The%20easiest%20way%20is%20to%20use%20Audacity.%20%20Open%20your%20media%20file%20there%2C%20do%20%22Tracks%3ACreate%20New%3ALabel%20Track%22.%20%20At%20each%20point%20where%20you%20want%20a%20segment%2C%20do%20%22Tracks%3A%20Add%20label%20at%20selection%22.%20%20Finally%2C%20do%20%22File%3AExport%20Labels...%22%2C%20then%20click%20this%20button%20and%20select%20the%20file%20you%20created%3A%0A%20%0A%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="100" controlTypeID="com.balsamiq.mockups::Button" x="962" y="375" w="-1" h="-1" measuredW="157" measuredH="28" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Load%20Segment%20File...</text>
+      </controlProperties>
+    </control>
+    <control controlID="101" controlTypeID="com.balsamiq.mockups::Paragraph" x="961" y="321" w="562" h="45" measuredW="200" measuredH="140" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Alternatively%2C%20you%20can%20add%20an%20Elan%20%22eaf%22%20file%20which%20already%20contains%20segments%20and%20annotations%20for%20this%20media%20file%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="102" controlTypeID="com.balsamiq.mockups::Button" x="1441" y="428" w="-1" h="-1" measuredW="68" measuredH="28" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cancel</text>
+      </controlProperties>
+    </control>
+    <control controlID="103" controlTypeID="com.balsamiq.mockups::ComboBox" x="96" y="43" w="-1" h="-1" measuredW="123" measuredH="118" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Normal%20Speed%0A90%25%0A85%25%0A80%25%0A75%25%0A70%25</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

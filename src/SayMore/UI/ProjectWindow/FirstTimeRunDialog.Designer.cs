@@ -31,7 +31,7 @@ namespace SayMore.UI.ProjectWindow
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._browser = new System.Windows.Forms.WebBrowser();
 			this._buttonOK = new System.Windows.Forms.Button();
-			this._panelBrowser = new SilUtils.Controls.SilPanel();
+			this._panelBrowser = new SilTools.Controls.SilPanel();
 			this._tableLayout.SuspendLayout();
 			this._panelBrowser.SuspendLayout();
 			this.SuspendLayout();
@@ -115,6 +115,6 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.WebBrowser _browser;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private System.Windows.Forms.Button _buttonOK;
-		private SilUtils.Controls.SilPanel _panelBrowser;
+		private SilTools.Controls.SilPanel _panelBrowser;
 	}
 }

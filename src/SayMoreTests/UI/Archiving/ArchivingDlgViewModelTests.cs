@@ -7,7 +7,7 @@ using Palaso.Reporting;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.UI.Archiving;
+using SayMore.UI.Utilities;
 
 namespace SayMoreTests.Utilities
 {
@@ -266,7 +266,7 @@ namespace SayMoreTests.Utilities
 			var fileLists = new Dictionary<string, IEnumerable<string>>();
 			fileLists["person id"] = new[] { "blah.wav" };
 
-			var expected = "\" \":\"blah.wav\",\"description\":\"SayMore Contributor File\",\"relationship\":\"source\"";
+			var expected = "\" \":\"Contributors/person id/blah.wav\",\"description\":\"SayMore Contributor File\",\"relationship\":\"source\"";
 			Assert.AreEqual(expected, _helper.GetSourceFilesForMetsData(fileLists).ElementAt(0));
 		}
 
@@ -284,13 +284,13 @@ namespace SayMoreTests.Utilities
 			Assert.AreEqual("\" \":\"baa.wav\",\"description\":\"SayMore Event File\",\"relationship\":\"source\"",
 				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(1));
 
-			Assert.AreEqual("\" \":\"blah.person\",\"description\":\"SayMore Contributor Metadata (XML)\",\"relationship\":\"source\"",
+			Assert.AreEqual("\" \":\"Contributors/person id/blah.person\",\"description\":\"SayMore Contributor Metadata (XML)\",\"relationship\":\"source\"",
 				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(2));
 
-			Assert.AreEqual("\" \":\"baa.mpg\",\"description\":\"SayMore Contributor File\",\"relationship\":\"source\"",
+			Assert.AreEqual("\" \":\"Contributors/person id/baa.mpg\",\"description\":\"SayMore Contributor File\",\"relationship\":\"source\"",
 				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(3));
 
-			Assert.AreEqual("\" \":\"baa.mpg.meta\",\"description\":\"SayMore File Metadata (XML)\",\"relationship\":\"source\"",
+			Assert.AreEqual("\" \":\"Contributors/person id/baa.mpg.meta\",\"description\":\"SayMore File Metadata (XML)\",\"relationship\":\"source\"",
 				_helper.GetSourceFilesForMetsData(fileLists).ElementAt(4));
 		}
 	}

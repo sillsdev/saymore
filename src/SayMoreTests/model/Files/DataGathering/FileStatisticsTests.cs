@@ -28,8 +28,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 			}
 		}
 
-
-		private static string CreateRecording(string folder)
+		public static string CreateRecording(string folder)
 		{
 			var buf = new byte[Resources.shortSound.Length];
 			Resources.shortSound.Read(buf, 0, buf.Length);

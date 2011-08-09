@@ -13,9 +13,10 @@ using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
+using SayMore.Transcription.UI;
 using SayMore.UI.ElementListScreen;
-using SayMore.UI.Archiving;
-using SilUtils;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Model.Files
 {
@@ -56,6 +57,10 @@ namespace SayMore.Model.Files
 		public event ValueChangedHandler IdChanged;
 		public event ValueChangedHandler MetadataValueChanged;
 
+		public event EventHandler BeforeSave;
+		public event EventHandler AfterSave;
+
+		private AnnotationComponentFile _annotationFile;
 		protected IEnumerable<ComponentRole> _componentRoles;
 		protected FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
@@ -139,8 +144,11 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected void DetermineFileType(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes)
 		{
-			FileType = (fileTypes.FirstOrDefault(t => t.IsMatch(pathToAnnotatedFile)) ??
-				fileTypes.FirstOrDefault(t => t.IsForUnknownFileTypes));
+			var fTypes = fileTypes.ToArray();
+
+			FileType =
+				fTypes.FirstOrDefault(t => t.IsMatch(pathToAnnotatedFile)) ??
+				fTypes.FirstOrDefault(t => t.IsForUnknownFileTypes);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -166,6 +174,73 @@ namespace SayMore.Model.Files
 		{
 			var fi = new FileInfo(PathToAnnotatedFile);
 			return fi.CreationTime;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the component file can have transcriptions.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual bool GetCanHaveAnnotationFile()
+		{
+			return (FileType.IsAudioOrVideo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path of to the component file's annotation file, even if the file
+		/// doesn't exist. If the component file is not of a type that can have an annotation
+		/// file, then null is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetSuggestedPathToAnnotationFile()
+		{
+			if (!GetCanHaveAnnotationFile())
+				return null;
+
+			var template = "{0}.annotations" + Settings.Default.AnnotationFileExtension;
+			return string.Format(template, PathToAnnotatedFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetDoesHaveAnnotationFile()
+		{
+			return (GetCanHaveAnnotationFile() && GetAnnotationFile() != null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public AnnotationComponentFile GetAnnotationFile()
+		{
+			return (_annotationFile != null && File.Exists(_annotationFile.PathToAnnotatedFile) ?
+				_annotationFile : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetAnnotationFile(AnnotationComponentFile annotationFile)
+		{
+			_annotationFile = (annotationFile != null &&
+				File.Exists(annotationFile.PathToAnnotatedFile) ? annotationFile : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void CreateAnnotationFile(Action<string> refreshAction)
+		{
+			using (var dlg = new CreateAnnotationFileDlg(Path.GetFileName(PathToAnnotatedFile)))
+			{
+				if (dlg.ShowDialog() != DialogResult.OK)
+					return;
+
+				var newAnnotationFile = AnnotationFileHelper.Create(dlg.FileName, PathToAnnotatedFile);
+
+				if (refreshAction != null)
+					refreshAction(newAnnotationFile);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual int DisplayIndentLevel
+		{
+			get { return 0; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -270,7 +345,7 @@ namespace SayMore.Model.Files
 			if (oldFieldInstance == null)
 			{
 				if (newValue == null)
-					return newValue;
+					return null;
 
 				MetaDataFieldValues.Add(new FieldInstance(key, newValue));
 			}
@@ -352,7 +427,23 @@ namespace SayMore.Model.Files
 		public virtual void Save(string path)
 		{
 			_metaDataPath = path;
+			OnBeforeSave(this);
 			_fileSerializer.Save(MetaDataFieldValues, _metaDataPath, RootElementName);
+			OnAfterSave(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnBeforeSave(object sender)
+		{
+			if (BeforeSave != null)
+				BeforeSave(sender, EventArgs.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnAfterSave(object sender)
+		{
+			if (AfterSave != null)
+				AfterSave(sender, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -456,7 +547,40 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ToolStripItem> GetMenuCommands(Action refreshAction)
+		public virtual IEnumerable<ToolStripItem> GetMenuCommands(Action<string> refreshAction)
+		{
+			bool addSeparator = false;
+
+			foreach (var cmd in GetFileTypeMenuCommands(refreshAction))
+			{
+				addSeparator = true;
+				yield return cmd;
+			}
+
+			var menuCommands = GetRenamingMenuCommands(refreshAction).ToArray();
+			if (menuCommands.Length > 0 && addSeparator)
+				yield return new ToolStripSeparator();
+
+			addSeparator = false;
+
+			foreach (var cmd in menuCommands)
+			{
+				addSeparator = true;
+				yield return cmd;
+			}
+
+			if (GetCanHaveAnnotationFile())
+			{
+				if (addSeparator)
+					yield return new ToolStripSeparator();
+
+				yield return new ToolStripMenuItem("Create Annotation File...", null,
+					(s, e) => CreateAnnotationFile(refreshAction)) { Enabled = !GetDoesHaveAnnotationFile() };
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ToolStripItem> GetFileTypeMenuCommands(Action<string> refreshAction)
 		{
 			foreach (var cmd in FileType.GetCommands(PathToAnnotatedFile))
 			{
@@ -465,7 +589,7 @@ namespace SayMore.Model.Files
 					yield return new ToolStripSeparator();
 				else
 				{
-					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (sender, args) =>
+					yield return new ToolStripMenuItem(cmd.EnglishLabel, null, (s, e) =>
 					{
 						if (PreFileCommandAction != null)
 							PreFileCommandAction();
@@ -473,7 +597,7 @@ namespace SayMore.Model.Files
 						cmd1.Action(PathToAnnotatedFile);
 
 						if (refreshAction != null)
-							refreshAction();
+							refreshAction(PathToAnnotatedFile);
 
 						if (PostFileCommandAction != null)
 							PostFileCommandAction();
@@ -481,21 +605,17 @@ namespace SayMore.Model.Files
 					}) { Tag = cmd1.MenuId };
 				}
 			}
+		}
 
-			bool needSeparator = true;
-
-			// commands which assign to roles
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ToolStripItem> GetRenamingMenuCommands(Action<string> refreshAction)
+		{
+			// Commands which rename for assigning to roles
 			foreach (var role in GetRelevantComponentRoles().Where(role => role.IsPotential(PathToAnnotatedFile)))
 			{
-				if (needSeparator)
-				{
-					needSeparator = false;
-					yield return new ToolStripSeparator();
-				}
-
 				string label = string.Format("Rename For {0}", role.Name);
 				var role1 = role;
-				var toolStripMenuItem = new ToolStripMenuItem(label, null, (sender, args) =>
+				var toolStripMenuItem = new ToolStripMenuItem(label, null, (s, e) =>
 				{
 					if (PreRenameAction != null)
 						PreRenameAction();
@@ -503,7 +623,7 @@ namespace SayMore.Model.Files
 					AssignRole(role1);
 
 					if (refreshAction != null)
-						refreshAction();
+						refreshAction(PathToAnnotatedFile);
 
 					if (PostRenameAction != null)
 						PostRenameAction();
@@ -515,9 +635,9 @@ namespace SayMore.Model.Files
 				yield return toolStripMenuItem;
 			}
 
-			if (!(this is ProjectElementComponentFile))
+			if (GetCanBeCustomRenamed())
 			{
-				yield return new ToolStripMenuItem("Custom Rename...", null, (sender, args) =>
+				yield return new ToolStripMenuItem("Custom Rename...", null, (s, e) =>
 				{
 					if (PreRenameAction != null)
 						PreRenameAction();
@@ -525,13 +645,19 @@ namespace SayMore.Model.Files
 					DoCustomRename();
 
 					if (refreshAction != null)
-						refreshAction();
+						refreshAction(PathToAnnotatedFile);
 
 					if (PostRenameAction != null)
 						PostRenameAction();
 
 				}) { Tag = "rename" };
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool GetCanBeCustomRenamed()
+		{
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -559,7 +685,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void RenameAnnotatedFile(string newPath)
+		public virtual void RenameAnnotatedFile(string newPath)
 		{
 			try
 			{
@@ -590,6 +716,9 @@ namespace SayMore.Model.Files
 					File.Move(_metaDataPath, newMetaPath);
 
 				PathToAnnotatedFile = newPath;
+
+				if (_annotationFile != null)
+					_annotationFile.RenameAnnotatedFile(GetSuggestedPathToAnnotationFile());
 			}
 			catch (Exception e)
 			{
@@ -839,12 +968,19 @@ namespace SayMore.Model.Files
 			if (file.PreDeleteAction != null)
 				file.PreDeleteAction();
 
+			var annotationFile = file.GetAnnotationFile();
+
+			// Delete the file.
 			if (!ConfirmRecycleDialog.Recycle(path))
 				return false;
 
+			// Delete the file's metadata file.
 			var metaPath = path + ".meta";
 			if (File.Exists(metaPath))
 				ConfirmRecycleDialog.Recycle(metaPath);
+
+			if (annotationFile != null)
+				annotationFile.Delete();
 
 			return true;
 		}

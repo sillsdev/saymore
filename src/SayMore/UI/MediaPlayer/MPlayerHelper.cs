@@ -4,12 +4,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Palaso.IO;
 using SayMore.Model.Files;
 
-namespace SayMore.UI.Archiving
+namespace SayMore.UI.MediaPlayer
 {
 	#region MPlayerHelper class
 	/// ----------------------------------------------------------------------------------------
@@ -35,8 +36,15 @@ namespace SayMore.UI.Archiving
 		{
 			if (prs.Start())
 			{
-				prs.PriorityClass = ProcessPriorityClass.High;
-				s_mplayerProcessIds.Add(prs.Id);
+				// Sometimes the program will crash when trying to set the PriorityClass,
+				// claiming the process has already exited. Hence the try/catch. Hmm...
+				try
+				{
+					prs.PriorityClass = ProcessPriorityClass.High;
+					s_mplayerProcessIds.Add(prs.Id);
+				}
+				catch { }
+
 				return true;
 			}
 
@@ -46,27 +54,27 @@ namespace SayMore.UI.Archiving
 		/// ------------------------------------------------------------------------------------
 		public static void CleanUpMPlayerProcesses()
 		{
-			foreach (int id in s_mplayerProcessIds)
+			lock (s_mplayerProcessIds)
 			{
-				try
+				foreach (int id in s_mplayerProcessIds)
 				{
-					var prs = Process.GetProcessById(id);
-					prs.Kill();
-					prs.Close();
+					try
+					{
+						var prs = Process.GetProcessById(id);
+						prs.Kill();
+						prs.Close();
+					}
+					catch { }
 				}
-				catch { }
-			}
 
-			s_mplayerProcessIds.Clear();
+				s_mplayerProcessIds.Clear();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static MPlayerProcess StartProcessToMonitor(float startPosition, float volume, Int32 hwndVideo,
+		public static MPlayerProcess StartProcessToMonitor(IEnumerable<string> playbackArgs,
 			DataReceivedEventHandler outputDataHandler, DataReceivedEventHandler errorDataHandler)
 		{
-			if (hwndVideo == 0)
-				throw new ArgumentException("No window handle specified.");
-
 			if (outputDataHandler == null)
 				throw new ArgumentNullException("outputDataHandler");
 
@@ -78,13 +86,12 @@ namespace SayMore.UI.Archiving
 			prs.StartInfo.RedirectStandardError = true;
 			prs.OutputDataReceived += outputDataHandler;
 			prs.ErrorDataReceived += errorDataHandler;
-			prs.StartInfo.Arguments = GetMPlayerCommandLineForPlayback(startPosition, volume, hwndVideo);
+			prs.StartInfo.Arguments = BuildCommandLine(playbackArgs);
 
 			if (!StartProcess(prs))
 			{
-				// REVIEW: Revise to do something a little less drastic.
 				prs = null;
-				throw new ApplicationException("Unable to start mplayer.");
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("Unable to start mplayer.");
 			}
 
 			prs.StandardInput.AutoFlush = true;
@@ -94,33 +101,67 @@ namespace SayMore.UI.Archiving
 			return prs;
 		}
 
+		#region Methods for building MPlayer command-line arguments.
 		/// ------------------------------------------------------------------------------------
-		private static string GetMPlayerCommandLineForPlayback(float startPosition,
-			float volume, int hwndVideo)
+		public static IEnumerable<string> GetPlaybackArguments(float startPosition, float duration,
+			float volume, int speed, int hwndVideo)
 		{
-			// If we find an MPlayer config file in the same path as this assembly, then
-			// use that for the settings instead of our default set.
 			var mplayerConfigPath = Path.Combine(GetPathToThisAssembly(), "MPlayerSettings.conf");
-
-			string cmdLine;
 
 			if (File.Exists(mplayerConfigPath))
 			{
-				cmdLine = string.Format("-include {0} -ss {1} -volume {2} -wid {3} ",
-					mplayerConfigPath, startPosition, volume, hwndVideo);
+				yield return string.Format("-include {0}", mplayerConfigPath);
 			}
 			else
 			{
-				cmdLine = string.Format("-slave -noquiet -idle " +
-					"-msglevel identify=9:global=9 -nofontconfig -autosync 100 -priority abovenormal " +
-					" −osdlevel 0 -ss {0} -volume {1} -fixed-vo -wid {2} ", startPosition, volume, hwndVideo);
-#if !__MonoCS__
-				cmdLine += " -vo gl";
-#endif
-			}
+				yield return "-slave";
+				yield return "-noquiet";
+				yield return "-idle ";
+				yield return "-msglevel identify=9:global=9";
+				yield return "-nofontconfig";
+				yield return "-autosync 100";
+				yield return "-priority abovenormal";
+				yield return "-osdlevel 0";
+				yield return string.Format("-volume {0}", volume);
+				yield return "-af scaletempo";
 
-			return cmdLine;
+				if (speed != 100)
+					yield return string.Format("-speed {0}", speed / 100d);
+
+				if (startPosition > 0f)
+					yield return string.Format("-ss {0}", startPosition);
+
+				if (duration > 0f)
+					yield return string.Format("-endpos {0}", duration);
+
+				// A window handle of -1 means we're only playing back
+				// the audio portion of a video file.
+				if (hwndVideo == -1)
+					yield return "-novideo";
+
+				if (hwndVideo > 0)
+				{
+					yield return "-fixed-vo";
+
+#if !__MonoCS__
+					yield return "-vo gl";
+#endif
+					yield return string.Format("-wid {0}", hwndVideo);
+				}
+			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		private static string BuildCommandLine(IEnumerable<string> args)
+		{
+			var bldr = new StringBuilder();
+			foreach (var arg in args)
+				bldr.AppendFormat("{0} ", arg);
+
+			return bldr.ToString();
+		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		private static string GetPathToThisAssembly()
@@ -177,7 +218,7 @@ namespace SayMore.UI.Archiving
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		public static Image GetImageFromVideo(string videoPath, int seconds)
+		public static Image GetImageFromVideo(string videoPath, float seconds)
 		{
 			Image img = null;
 			videoPath = videoPath.Replace('\\', '/');
@@ -189,13 +230,15 @@ namespace SayMore.UI.Archiving
 			try
 			{
 				prs.StartInfo.Arguments =
-					string.Format("-nocache -nofontconfig -really-quiet -frames 1 -ss {0} -nosound -vo jpeg:outdir=\"\"\"{1}\"\"\" quality=100 \"{2}\"",
+					string.Format("-nocache -nofontconfig -really-quiet -frames 1 -ss {0} -nosound -vo jpeg:outdir=\"\"\"{1}\"\"\" \"{2}\"",
 					seconds, tmpFolder, videoPath);
 
 				StartProcess(prs);
 				prs.WaitForExit();
 				prs.Close();
-				ComponentFile.WaitForFileRelease(videoPath);
+
+				// I'm hesitant to comment out this line, but because of SP-248, we'll see what happens.
+				//ComponentFile.WaitForFileRelease(videoPath);
 
 				if (File.Exists(tmpFile))
 				{
@@ -245,6 +288,13 @@ namespace SayMore.UI.Archiving
 			if (MediaFileName != null)
 				ComponentFile.WaitForFileRelease(MediaFileName);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public void KillProcess()
+		{
+			if (!HasExited)
+				Kill();
+		}
 	}
 
 	#endregion
@@ -264,10 +314,57 @@ namespace SayMore.UI.Archiving
 		public MPlayerMediaInfo(string filename)
 		{
 			FileName = filename;
+			InitializeFromFFMpeg(filename);
 
+			// This requires reference to "Microsoft Shell Controls And Automation"
+			// on the COM tab of Visual Studio's references dialog box. My thought
+			// was we could use this initialization method when running on a Windows
+			// computer and use the FFMpeg initialization method otherwise.
+			//InitializeFromShell32(filename);
+		}
+
+		///// ----------------------------------------------------------------------------------------
+		//private void InitializeFromShell32(string filename)
+		//{
+			//Shell32.Shell shell = new Shell32.Shell();
+			//Shell32.Folder objFolder;
+
+			//objFolder = shell.NameSpace(Path.GetDirectoryName(filename));
+
+			//for (int i = 0; i < short.MaxValue; i++)
+			//{
+			//    string header = objFolder.GetDetailsOf(null, i);
+			//    if (String.IsNullOrEmpty(header))
+			//        break;
+			//    arrHeaders.Add(header);
+			//}
+
+			//var itemm = objFolder.Items().Cast<Shell32.FolderItem2>().SingleOrDefault(i => i.Path == filename);
+			//if (itemm != null)
+			//{
+			//    IsVideo = (objFolder.GetDetailsOf(itemm, 9).ToLower() == "video");
+			//    Duration = TimeSpan.Parse(objFolder.GetDetailsOf(itemm, 27)).Seconds;
+
+			//    if (IsVideo)
+			//    {
+			//        int secs = Math.Min(8, (int)(Duration / 2));
+			//        FullSizedThumbnail = MPlayerHelper.GetImageFromVideo(filename, secs);
+			//        PictureSize = new Size(int.Parse(objFolder.GetDetailsOf(itemm, 285)),
+			//            int.Parse(objFolder.GetDetailsOf(itemm, 283)));
+
+			//        return;
+			//    }
+			//}
+		//}
+
+		/// ----------------------------------------------------------------------------------------
+		private void InitializeFromFFMpeg(string filename)
+		{
 			// Palaso uses FFMpeg, which seems to give a more accurate media length.
 			var ffmpeginfo = Palaso.Media.MediaInfo.GetInfo(filename);
-			ComponentFile.WaitForFileRelease(filename);
+
+			// I'm hesitant to comment out this line, but because of SP-248, we'll see what happens.
+			//ComponentFile.WaitForFileRelease(filename);
 
 			IsVideo = (ffmpeginfo.Video != null);
 			Duration = (float)ffmpeginfo.Audio.Duration.TotalSeconds;
@@ -275,8 +372,8 @@ namespace SayMore.UI.Archiving
 			if (!IsVideo)
 				return;
 
-			// I don't understand it, but videos have a start time and a duration. Sometimes
-			// the start time is zero, but for other videos it's not. The most accurate
+			// Videos have a start time and a duration. Sometimes the start time is zero,
+			// but for other it's not. I don't understand that. It seems the most accurate
 			// duration when playing back in the player seems to be the sum of the duration
 			// and the start time. Therefore, check if this media file has a start time to
 			// add to the duration.
@@ -338,6 +435,7 @@ namespace SayMore.UI.Archiving
 			_textBox.ScrollBars = ScrollBars.Both;
 			_textBox.Dock = DockStyle.Fill;
 			_textBox.Font = SystemFonts.MessageBoxFont;
+			_textBox.Text = initialOutput;
 
 			var rc = Screen.PrimaryScreen.Bounds;
 			Width = (rc.Width / 4);
@@ -351,15 +449,19 @@ namespace SayMore.UI.Archiving
 			MaximizeBox = false;
 			MinimizeBox = false;
 			Controls.Add(_textBox);
+		}
 
-			UpdateLogDisplay(initialOutput);
+		/// --------------------------------------------------------------------------------
+		public void Clear()
+		{
+			Invoke((Action)(() => _textBox.Text = string.Empty));
 		}
 
 		/// --------------------------------------------------------------------------------
 		public void UpdateLogDisplay(string output)
 		{
-			_textBox.SelectionStart = _textBox.Text.Length;
-			_textBox.SelectedText = output + Environment.NewLine;
+			Invoke((Action)(() => _textBox.SelectionStart = _textBox.Text.Length));
+			Invoke((Action<string>)(text => _textBox.SelectedText = text + Environment.NewLine), output);
 		}
 
 		/// --------------------------------------------------------------------------------

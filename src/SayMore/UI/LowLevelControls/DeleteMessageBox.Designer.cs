@@ -30,7 +30,7 @@ namespace SayMore.UI.LowLevelControls
 		{
 			this._tableLayoutMessage = new System.Windows.Forms.TableLayoutPanel();
 			this._pictureDeleteX = new System.Windows.Forms.PictureBox();
-			this._labelMessage = new SilUtils.Controls.AutoHeightLabel();
+			this._labelMessage = new SilTools.Controls.AutoHeightLabel();
 			this._buttonDelete = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
@@ -167,7 +167,7 @@ namespace SayMore.UI.LowLevelControls
 		private System.Windows.Forms.PictureBox _pictureDeleteX;
 		private System.Windows.Forms.Button _buttonDelete;
 		private System.Windows.Forms.Button _buttonCancel;
-		private SilUtils.Controls.AutoHeightLabel _labelMessage;
+		private SilTools.Controls.AutoHeightLabel _labelMessage;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
 	}
 }

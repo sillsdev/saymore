@@ -15,10 +15,12 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model.Files;
-using SayMore.UI.Archiving;
+using SayMore.UI.Utilities;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -31,9 +33,12 @@ namespace SayMore.UI.ComponentEditors
 		void Initialize(string tabText, string imageKey);
 		void SetComponentFile(ComponentFile file);
 		Action ComponentFileListRefreshAction { set; }
-		void Deactivate();
+		void Deactivated();
+		void Activated();
 		bool IsOKSToLeaveEditor { get; }
+		bool IsOKSToShow { get; }
 		event Action<string> TabTextChanged;
+		IEnumerable<Control> ChildControls { get; }
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -42,10 +47,11 @@ namespace SayMore.UI.ComponentEditors
 		private BindingHelper _binder;
 		protected ComponentFile _file;
 		protected string _tabText;
-		protected Action _componentFileListRefreshAction;
+		protected HashSet<Control> _childControls = new HashSet<Control>();
 
 		public event Action<string> TabTextChanged;
 		public string ImageKey { get; protected set; }
+		public Action ComponentFileListRefreshAction { protected get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public EditorBase()
@@ -55,6 +61,10 @@ namespace SayMore.UI.ComponentEditors
 			Padding = new Padding(7);
 			AutoScroll = true;
 			Name = "EditorBase";
+
+			ControlAdded += HandleControlAdded;
+			ControlRemoved += HandleControlRemoved;
+			Layout += HandleLayout;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,6 +79,17 @@ namespace SayMore.UI.ComponentEditors
 		{
 			TabText = tabText;
 			ImageKey = imageKey;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleLayout(object sender, LayoutEventArgs e)
+		{
+			var frm = FindForm();
+			if (frm != null)
+			{
+				frm.Deactivate += delegate { OnFormLostFocus(); };
+				Layout -= HandleLayout;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -121,12 +142,6 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Action ComponentFileListRefreshAction
-		{
-			set { _componentFileListRefreshAction = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
 			SetLabelFonts(this, new Font(SystemFonts.IconTitleFont, FontStyle.Bold));
@@ -152,11 +167,73 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void Deactivate()
+		public virtual bool IsOKSToShow
 		{
-			// Allows subclasses to do whatever they need to when a control gets taken out
+			get { return true; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void Activated()
+		{
+			// Allows subclasses to do whatever they need to when an editor gets activated
+			// (i.e. when the tab control the editor is on becomes visible).
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void Deactivated()
+		{
+			// Allows subclasses to do whatever they need to when an editor gets taken out
 			// of use. This is not to be confused with being disposed, the difference being
 			// the editor will probably be used again. This could probably use a better name.
 		}
+
+		#region Methods for managing child control collection and focus.
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<Control> ChildControls
+		{
+			get { return _childControls; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleControlAdded(object sender, ControlEventArgs e)
+		{
+			if (_childControls.Add(e.Control))
+			{
+				e.Control.Leave += HandleControlLeave;
+				e.Control.ControlAdded += HandleControlAdded;
+				e.Control.ControlRemoved += HandleControlRemoved;
+			}
+
+			foreach (Control ctrl in e.Control.Controls)
+				HandleControlAdded(null, new ControlEventArgs(ctrl));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleControlRemoved(object sender, ControlEventArgs e)
+		{
+			e.Control.Leave -= HandleControlLeave;
+			e.Control.ControlAdded -= HandleControlAdded;
+			e.Control.ControlRemoved -= HandleControlRemoved;
+			_childControls.Remove(e.Control);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleControlLeave(object sender, EventArgs e)
+		{
+			if (_childControls.SingleOrDefault(c => c.Focused) == null)
+				OnEditorAndChildrenLostFocus();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnEditorAndChildrenLostFocus()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnFormLostFocus()
+		{
+		}
+
+		#endregion
 	}
 }

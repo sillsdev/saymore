@@ -66,6 +66,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\..\lib\dotnet\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.dll</HintPath>
@@ -78,9 +81,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="SilUtils, Version=1.5.4002.29378, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SilTools, Version=2.0.4174.26699, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\SilUtils.dll</HintPath>
+      <HintPath>..\..\lib\dotnet\SilTools.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -101,12 +104,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioUtils\AudioPlayer.cs" />
+    <Compile Include="AudioUtils\AudioRecorder.cs" />
+    <Compile Include="AudioUtils\SampleAggregator.cs" />
+    <Compile Include="AudioUtils\TrimWaveStream.cs" />
+    <Compile Include="AudioUtils\WaveFileUtils.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\Fields\FieldSerializer.cs" />
+    <Compile Include="Model\Files\AnnotationComponentFile.cs" />
     <Compile Include="Model\Files\DataGathering\BackgroundFileProcessor.cs" />
     <Compile Include="Model\Files\DataGathering\AutoCompleteValueGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\PresetGatherer.cs" />
@@ -135,13 +144,57 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
-    <Compile Include="Transcription\Model\ColumnConfiguration.cs" />
-    <Compile Include="Transcription\Model\ICell.cs" />
+    <Compile Include="Transcription\Model\AnnotationFileHelper.cs" />
+    <Compile Include="Transcription\Model\AudacityLabelHelper.cs" />
+    <Compile Include="Transcription\Model\AudioTier.cs" />
+    <Compile Include="Transcription\Model\InterlinearXmlHelper.cs" />
     <Compile Include="Transcription\Model\ISegment.cs" />
-    <Compile Include="Transcription\Model\ISegmentRepository.cs" />
     <Compile Include="Transcription\Model\ITier.cs" />
-    <Compile Include="Transcription\Model\TestAdaptor\TestAdaptor.cs" />
-    <Compile Include="Transcription\UI\DummyGridUI.cs" />
+    <Compile Include="Transcription\Model\AudioSegment.cs" />
+    <Compile Include="Transcription\Model\TimeOrderSegment.cs" />
+    <Compile Include="Transcription\Model\TimeOrderTier.cs" />
+    <Compile Include="Transcription\Model\SegmentBase.cs" />
+    <Compile Include="Transcription\Model\TextSegment.cs" />
+    <Compile Include="Transcription\Model\TextTier.cs" />
+    <Compile Include="Transcription\Model\TierBase.cs" />
+    <Compile Include="Transcription\UI\OralAnnotationDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationDlg.designer.cs">
+      <DependentUpon>OralAnnotationDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\AudioWaveFormCell.cs" />
+    <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
+    <Compile Include="Transcription\UI\CreateAnnotationFileDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\CreateAnnotationFileDlg.Designer.cs">
+      <DependentUpon>CreateAnnotationFileDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.Designer.cs">
+      <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationRecorder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationRecorder.Designer.cs">
+      <DependentUpon>OralAnnotationRecorder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationRecorderViewModel.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationColumn.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\TextAnnotationEditor.designer.cs">
+      <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\TextAnnotationEditorGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\TierColumnBase.cs" />
     <Compile Include="UI\Archiving\ArchivingDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -285,6 +338,9 @@
     <Compile Include="UI\LowLevelControls\ColumnChooserButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\LowLevelControls\IconicButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\LowLevelControls\PopupControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -325,6 +381,9 @@
       <DependentUpon>MediaPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MediaPlayer\MediaPlayerViewModel.cs" />
+    <Compile Include="UI\MediaPlayer\VideoPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommand.cs" />
     <Compile Include="UI\LowLevelControls\DeleteMessageBox.cs">
       <SubType>Form</SubType>
@@ -439,6 +498,21 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Transcription\UI\OralAnnotationDlg.resx">
+      <DependentUpon>OralAnnotationDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\CreateAnnotationFileDlg.resx">
+      <DependentUpon>CreateAnnotationFileDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.resx">
+      <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\OralAnnotationRecorder.resx">
+      <DependentUpon>OralAnnotationRecorder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\TextAnnotationEditor.resx">
+      <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Archiving\ArchivingDlg.resx">
       <DependentUpon>ArchivingDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -554,7 +628,7 @@
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
     <Compile Include="Model\Files\DataGathering\UniqueCombinationsFinder.cs" />
     <Compile Include="UI\Utilities\JSONUtils.cs" />
-    <Compile Include="UI\Utilities\MPlayerHelper.cs">
+    <Compile Include="UI\MediaPlayer\MPlayerHelper.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
@@ -677,6 +751,19 @@
     <None Include="Resources\Delete.png" />
     <None Include="Resources\ramp.png" />
     <None Include="Resources\EmptyMets.xml" />
+    <None Include="Resources\PlaySegment.png" />
+    <None Include="Resources\StopSegment.png" />
+    <None Include="Resources\ElanIcon.png" />
+    <None Include="Resources\InterlinearExport.png" />
+    <None Include="Resources\Help.png" />
+    <None Include="Resources\RecordingPlayback.png" />
+    <None Include="Resources\RecordStart.png" />
+    <None Include="Resources\RecordStop.png" />
+    <None Include="Resources\RecordingPlaybackAnnotation.png" />
+    <None Include="Resources\RecordErase.png" />
+    <None Include="Resources\CarefulSpeech.png" />
+    <None Include="Resources\OralTranslation.png" />
+    <None Include="Resources\RecordedOralAnnotations.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />
@@ -719,9 +806,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Transcription\Model\ElanAdaptor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

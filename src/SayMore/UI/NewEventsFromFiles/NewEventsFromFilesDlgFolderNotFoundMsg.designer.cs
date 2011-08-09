@@ -28,12 +28,12 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this._problemOverviewMsgLabel = new SilUtils.Controls.AutoHeightLabel();
-			this._possibleProblemsMsg1Label = new SilUtils.Controls.AutoHeightLabel();
-			this._driveLetterHintMsgLabel = new SilUtils.Controls.AutoHeightLabel();
+			this._problemOverviewMsgLabel = new SilTools.Controls.AutoHeightLabel();
+			this._possibleProblemsMsg1Label = new SilTools.Controls.AutoHeightLabel();
+			this._driveLetterHintMsgLabel = new SilTools.Controls.AutoHeightLabel();
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-			this._possibleProblemsMsg3Label = new SilUtils.Controls.AutoHeightLabel();
-			this._possibleProblemsMsg2Label = new SilUtils.Controls.AutoHeightLabel();
+			this._possibleProblemsMsg3Label = new SilTools.Controls.AutoHeightLabel();
+			this._possibleProblemsMsg2Label = new SilTools.Controls.AutoHeightLabel();
 			this._tableLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
 			//
@@ -151,11 +151,11 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		#endregion
 
-		private SilUtils.Controls.AutoHeightLabel _problemOverviewMsgLabel;
-		private SilUtils.Controls.AutoHeightLabel _possibleProblemsMsg1Label;
-		private SilUtils.Controls.AutoHeightLabel _driveLetterHintMsgLabel;
+		private SilTools.Controls.AutoHeightLabel _problemOverviewMsgLabel;
+		private SilTools.Controls.AutoHeightLabel _possibleProblemsMsg1Label;
+		private SilTools.Controls.AutoHeightLabel _driveLetterHintMsgLabel;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
-		private SilUtils.Controls.AutoHeightLabel _possibleProblemsMsg2Label;
-		private SilUtils.Controls.AutoHeightLabel _possibleProblemsMsg3Label;
+		private SilTools.Controls.AutoHeightLabel _possibleProblemsMsg2Label;
+		private SilTools.Controls.AutoHeightLabel _possibleProblemsMsg3Label;
 	}
 }

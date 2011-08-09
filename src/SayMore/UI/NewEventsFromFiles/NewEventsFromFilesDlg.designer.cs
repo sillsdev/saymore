@@ -1,5 +1,5 @@
 using System.Windows.Forms;
-using SilUtils;
+using SilTools;
 
 namespace SayMore.UI.NewEventsFromFiles
 {
@@ -37,7 +37,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelSourceFolder = new System.Windows.Forms.Label();
 			this._labelIncomingFiles = new System.Windows.Forms.Label();
 			this._labelInstructions = new System.Windows.Forms.Label();
-			this._mediaPlayerPanel = new SilUtils.Controls.SilPanel();
+			this._mediaPlayerPanel = new SilTools.Controls.SilPanel();
 			this._panelProgress = new System.Windows.Forms.Panel();
 			this._progressLabel = new System.Windows.Forms.Label();
 			this._progressBar = new System.Windows.Forms.ProgressBar();
@@ -54,7 +54,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			// _linkFindFiles
 			//
 			this._linkFindFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._linkFindFiles.AutoSize = true;
 			this._linkFindFiles.BackColor = System.Drawing.Color.Transparent;
 			this._linkFindFiles.Location = new System.Drawing.Point(3, 10);
@@ -86,8 +86,8 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._cancelButton.AutoSize = true;
 			this._cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._cancelButton.Location = new System.Drawing.Point(148, 0);
-			this._cancelButton.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+			this._cancelButton.Location = new System.Drawing.Point(150, 0);
+			this._cancelButton.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._cancelButton.Name = "_cancelButton";
 			this._cancelButton.Size = new System.Drawing.Size(80, 26);
 			this._cancelButton.TabIndex = 4;
@@ -97,7 +97,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			// _labelSourceFolder
 			//
 			this._labelSourceFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelSourceFolder.AutoSize = true;
 			this._labelSourceFolder.BackColor = System.Drawing.Color.Transparent;
 			this._outerTableLayout.SetColumnSpan(this._labelSourceFolder, 2);
@@ -123,7 +123,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			// _labelInstructions
 			//
 			this._labelInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelInstructions.AutoEllipsis = true;
 			this._labelInstructions.AutoSize = true;
 			this._labelInstructions.BackColor = System.Drawing.Color.Transparent;
@@ -134,7 +134,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelInstructions.Size = new System.Drawing.Size(388, 26);
 			this._labelInstructions.TabIndex = 2;
 			this._labelInstructions.Text = "Mark each file which represents an original recording of an event. For each one, " +
-				"{0} will create a new event and copy the file into it.";
+	"{0} will create a new event and copy the file into it.";
 			//
 			// _mediaPlayerPanel
 			//
@@ -145,7 +145,10 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._mediaPlayerPanel.ControlReceivingFocusOnMnemonic = null;
 			this._mediaPlayerPanel.Controls.Add(this._panelProgress);
 			this._mediaPlayerPanel.DoubleBuffered = true;
+			this._mediaPlayerPanel.DrawOnlyBottomBorder = false;
+			this._mediaPlayerPanel.DrawOnlyTopBorder = false;
 			this._mediaPlayerPanel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this._mediaPlayerPanel.ForeColor = System.Drawing.SystemColors.ControlText;
 			this._mediaPlayerPanel.Location = new System.Drawing.Point(414, 61);
 			this._mediaPlayerPanel.Margin = new System.Windows.Forms.Padding(20, 0, 0, 0);
 			this._mediaPlayerPanel.MnemonicGeneratesClick = false;
@@ -157,7 +160,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			// _panelProgress
 			//
 			this._panelProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._panelProgress.BackColor = System.Drawing.Color.Transparent;
 			this._panelProgress.Controls.Add(this._progressLabel);
 			this._panelProgress.Controls.Add(this._progressBar);
@@ -226,12 +229,12 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._tableLayoutButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutButtons.Controls.Add(this._createEventsButton, 0, 0);
 			this._tableLayoutButtons.Controls.Add(this._cancelButton, 1, 0);
-			this._tableLayoutButtons.Location = new System.Drawing.Point(414, 356);
+			this._tableLayoutButtons.Location = new System.Drawing.Point(412, 356);
 			this._tableLayoutButtons.Margin = new System.Windows.Forms.Padding(5, 5, 0, 0);
 			this._tableLayoutButtons.Name = "_tableLayoutButtons";
 			this._tableLayoutButtons.RowCount = 1;
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutButtons.Size = new System.Drawing.Size(228, 26);
+			this._tableLayoutButtons.Size = new System.Drawing.Size(230, 26);
 			this._tableLayoutButtons.TabIndex = 9;
 			//
 			// _gridFiles
@@ -239,10 +242,12 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._gridFiles.AddButtonEnabled = false;
 			this._gridFiles.AddButtonVisible = false;
 			this._gridFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._outerTableLayout.SetColumnSpan(this._gridFiles, 2);
 			this._gridFiles.ConvertButtonVisible = false;
+			this._gridFiles.CreateAnnotationFileButtonVisible = false;
+			this._gridFiles.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
 			this._gridFiles.Location = new System.Drawing.Point(0, 61);
 			this._gridFiles.Margin = new System.Windows.Forms.Padding(0);
 			this._gridFiles.Name = "_gridFiles";
@@ -293,7 +298,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		private System.Windows.Forms.Label _labelSourceFolder;
 		private System.Windows.Forms.Label _labelIncomingFiles;
 		private System.Windows.Forms.Label _labelInstructions;
-		private SilUtils.Controls.SilPanel _mediaPlayerPanel;
+		private SilTools.Controls.SilPanel _mediaPlayerPanel;
 		private System.Windows.Forms.Panel _panelProgress;
 		private System.Windows.Forms.TableLayoutPanel _outerTableLayout;
 		private System.Windows.Forms.Label _progressLabel;

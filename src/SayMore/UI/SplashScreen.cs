@@ -2,12 +2,12 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SayMore.Properties;
-using SayMore.UI.Archiving;
+using SayMore.UI.Utilities;
 
 namespace SayMore.UI
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class SplashScreenForm : SilUtils.SplashScreenForm
+	public partial class SplashScreenForm : SilTools.SplashScreenForm
 	{
 		private const int kLogoTextImageTop = 18;
 
@@ -76,12 +76,12 @@ namespace SayMore.UI
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	public class SplashScreen : SilUtils.SplashScreen
+	public class SplashScreen : SilTools.SplashScreen
 	{
 		private SplashScreenForm _splashScreenForm;
 
 		/// ------------------------------------------------------------------------------------
-		protected override SilUtils.SplashScreenForm GetSplashScreenForm()
+		protected override SilTools.SplashScreenForm GetSplashScreenForm()
 		{
 			_splashScreenForm = new SplashScreenForm();
 			return _splashScreenForm;

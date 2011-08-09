@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SilUtils;
+using SilTools;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -36,7 +36,8 @@ namespace SayMore.UI.ElementListScreen
 			MultiSelect = true;
 			PaintFullRowFocusRectangle = true;
 			ExtendFullRowSelectRectangleToEdge = true;
-			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 
 			var clr = ColorHelper.CalculateColor(Color.White,
 				 DefaultCellStyle.SelectionBackColor, 140);
@@ -79,6 +80,9 @@ namespace SayMore.UI.ElementListScreen
 
 			if (!DesignMode && GridSettings != null)
 				GridSettings.InitializeGrid(this);
+
+			AutoResizeColumnHeadersHeight();
+			ColumnHeadersHeight += 8;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -261,6 +265,18 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (e.Button == MouseButtons.Left || _fileType != null)
 				Sort(e.ColumnIndex);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
+		{
+			base.OnColumnWidthChanged(e);
+
+			AutoResizeColumnHeadersHeight();
+			ColumnHeadersHeight += 8;
+
+			if (!DesignMode)
+				GridSettings = GridSettings.Create(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

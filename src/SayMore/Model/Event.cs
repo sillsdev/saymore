@@ -5,7 +5,7 @@ using Localization;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI.Archiving;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Model
 {
@@ -40,11 +40,12 @@ namespace SayMore.Model
 		public Event(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver,
 			EventFileType eventFileType, ComponentFile.Factory componentFileFactory,
+			AnnotationComponentFile.Factory transcriptionFileFactory,
 			FileSerializer fileSerializer, ProjectElementComponentFile.Factory prjElementComponentFileFactory,
 			IEnumerable<ComponentRole> componentRoles,
 			PersonInformant personInformant)
 			: base(parentElementFolder, id, idChangedNotificationReceiver, eventFileType,
-				componentFileFactory, fileSerializer, prjElementComponentFileFactory)
+				componentFileFactory, transcriptionFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
 			_componentRoles = componentRoles;
 			_personInformant = personInformant;
@@ -125,8 +126,8 @@ namespace SayMore.Model
 		private bool GetShouldReportHaveConsent()
 		{
 			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
-			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants);
-			bool allParticipantsHaveConsent = personNames.Count() > 0;
+			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToArray();
+			bool allParticipantsHaveConsent = personNames.Length > 0;
 
 			return !personNames.Any(name => !_personInformant.GetHasInformedConsent(name)) &&
 				allParticipantsHaveConsent;

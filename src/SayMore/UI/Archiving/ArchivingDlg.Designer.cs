@@ -1,4 +1,4 @@
-namespace SayMore.UI.Archiving
+namespace SayMore.UI.Utilities
 {
 	partial class ArchivingDlg
 	{

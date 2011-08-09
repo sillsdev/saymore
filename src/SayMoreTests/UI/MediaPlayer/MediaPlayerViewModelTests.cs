@@ -62,7 +62,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		public void HandlePlayerOutput_SendEOF_GetsPlaybackEndedEvent()
 		{
 			bool eventCalled = false;
-			_model.PlaybackEnded += ((sender, e) => eventCalled = true );
+			_model.PlaybackEnded += ((s, e) => eventCalled = true );
 			_model.HandlePlayerOutput("EOF code:");
 			Assert.IsTrue(eventCalled);
 		}
@@ -74,7 +74,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		{
 			var file = LoadMediaFile();
 			bool eventCalled = false;
-			_model.MediaQueued += ((sender, e) => eventCalled = true);
+			_model.MediaQueued += ((s, e) => eventCalled = true);
 
 			try
 			{
@@ -92,7 +92,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		public void HandlePlayerOutput_SendPause_GetsPausedEvent()
 		{
 			bool eventCalled = false;
-			_model.PlaybackPaused += ((sender, e) => eventCalled = true);
+			_model.PlaybackPaused = (() => eventCalled = true);
 			_model.HandlePlayerOutput("ID_PAUSED");
 			Assert.IsTrue(eventCalled);
 		}
@@ -105,7 +105,7 @@ namespace SayMoreTests.UI.MediaPlayer
 			Assert.IsTrue(_model.IsPaused);
 
 			bool eventCalled = false;
-			_model.PlaybackResumed += ((sender, e) => eventCalled = true);
+			_model.PlaybackResumed = (() => eventCalled = true);
 			_model.HandlePlayerOutput("A:  24.8");
 			Assert.IsTrue(eventCalled);
 		}
@@ -115,7 +115,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		public void HandlePlayerOutput_SendPositionChange_GetsPositionChangedEvent()
 		{
 			bool eventCalled = false;
-			_model.PlaybackPositionChanged += ((sender, e) => eventCalled = true);
+			_model.PlaybackPositionChanged = (p => eventCalled = true);
 			_model.HandlePlayerOutput("A:  24.8");
 			Assert.IsTrue(eventCalled);
 		}
@@ -137,7 +137,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		{
 			var vol = _model.Volume;
 			bool eventCalled = false;
-			_model.VolumeChanged += ((sender, e) => eventCalled = true);
+			_model.VolumeChanged = (() => eventCalled = true);
 			_model.SetVolume(-1f);
 			Assert.IsFalse(eventCalled);
 			Assert.AreEqual(vol, _model.Volume);
@@ -149,7 +149,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		{
 			var vol = _model.Volume;
 			bool eventCalled = false;
-			_model.VolumeChanged += ((sender, e) => eventCalled = true);
+			_model.VolumeChanged = (() => eventCalled = true);
 			_model.SetVolume(101f);
 			Assert.IsFalse(eventCalled);
 			Assert.AreEqual(vol, _model.Volume);
@@ -161,7 +161,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		{
 			var vol = _model.Volume;
 			bool eventCalled = false;
-			_model.VolumeChanged += ((sender, e) => eventCalled = true);
+			_model.VolumeChanged = (() => eventCalled = true);
 			_model.SetVolume(vol + 10);
 			Assert.IsTrue(eventCalled);
 			Assert.AreEqual(vol + 10, _model.Volume);
@@ -237,7 +237,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		public void LoadFile_Called_CallsQueuesMediaEvent()
 		{
 			bool eventCalled = false;
-			_model.MediaQueued += ((sender, e) => eventCalled = true);
+			_model.MediaQueued += ((s, e) => eventCalled = true);
 			var file = LoadMediaFile();
 
 			try

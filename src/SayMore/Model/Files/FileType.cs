@@ -11,8 +11,9 @@ using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Properties;
+using SayMore.Transcription.UI;
 using SayMore.UI.ComponentEditors;
-using SilUtils;
+using SilTools;
 
 namespace SayMore.Model.Files
 {
@@ -197,7 +198,7 @@ namespace SayMore.Model.Files
 		/// error in autofac.  NB: when we move to .net 4, this can be replaced by Lazy<Func<PersonBasicEditor.Factory></param>
 		/// ------------------------------------------------------------------------------------
 		public PersonFileType(Func<PersonBasicEditor.Factory> personBasicEditorFactoryLazy)
-			: base("Person", p => p.EndsWith(".person"))
+			: base("Person", p => p.ToLower().EndsWith(".person"))
 		{
 			_personBasicEditorFactoryLazy = personBasicEditorFactoryLazy;
 		}
@@ -311,7 +312,7 @@ namespace SayMore.Model.Files
 		/// Lazy<Func<EventBasicEditor.Factory></param>
 		/// ------------------------------------------------------------------------------------
 		public EventFileType(Func<EventBasicEditor.Factory> eventBasicEditorFactoryLazy)
-			: base("Event", p => p.EndsWith(Settings.Default.EventFileExtension))
+			: base("Event", p => p.ToLower().EndsWith(Settings.Default.EventFileExtension.ToLower()))
 		{
 			_eventBasicEditorFactoryLazy = eventBasicEditorFactoryLazy;
 		}
@@ -433,18 +434,66 @@ namespace SayMore.Model.Files
 
 	#endregion
 
-	#region AudioVideoFileTypeBase class
+	#region FileTypeWithContributors class
 	/// ----------------------------------------------------------------------------------------
-	public abstract class AudioVideoFileTypeBase : FileType
+	public abstract class FileTypeWithContributors : FileType
 	{
 		protected readonly Func<ContributorsEditor.Factory> _contributorsEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
-		protected AudioVideoFileTypeBase(string name, Func<string, bool> isMatchPredicate,
+		protected FileTypeWithContributors(string name, Func<string, bool> isMatchPredicate,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base(name, isMatchPredicate)
 		{
 			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;
+		}
+	}
+
+	#endregion
+
+	#region AnnotationFileType class
+	/// ----------------------------------------------------------------------------------------
+	public class AnnotationFileType : FileTypeWithContributors
+	{
+		/// ------------------------------------------------------------------------------------
+		public AnnotationFileType(Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+			: base("Annotations",
+				f => f.ToLower().EndsWith(Settings.Default.AnnotationFileExtension.ToLower()),
+				contributorsEditorFactoryLazy)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
+		{
+			var text = LocalizationManager.LocalizeString("TextAnnotationInfoEditor.AnnotationsTabText", "Annotations");
+			yield return new TextAnnotationEditor(file, text, "Annotation");
+
+			text = LocalizationManager.LocalizeString("TextAnnotationInfoEditor.Contributors", "Contributors");
+			yield return _contributorsEditorFactoryLazy()(file, text, null);
+
+			text = LocalizationManager.LocalizeString("TextAnnotationInfoEditor.NotesTabText", "Notes");
+			yield return new NotesEditor(file, text, "Notes");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string GetMetaFilePath(string pathToAnnotatedFile)
+		{
+			return pathToAnnotatedFile; //we are our own metadata file, there is no sidecar
+		}
+	}
+
+	#endregion
+
+	#region AudioVideoFileTypeBase class
+	/// ----------------------------------------------------------------------------------------
+	public abstract class AudioVideoFileTypeBase : FileTypeWithContributors
+	{
+		/// ------------------------------------------------------------------------------------
+		protected AudioVideoFileTypeBase(string name, Func<string, bool> isMatchPredicate,
+			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
+			: base(name, isMatchPredicate, contributorsEditorFactoryLazy)
+		{
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -608,8 +657,9 @@ namespace SayMore.Model.Files
 		public AudioFileType(
 			Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Audio", p => Settings.Default.AudioFileExtensions.Cast<string>()
-				.Any(ext => p.ToLower().EndsWith(ext)), contributorsEditorFactoryLazy)
+			: base("Audio",
+				p => Settings.Default.AudioFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())),
+				contributorsEditorFactoryLazy)
 		{
 			_audioComponentEditorFactoryLazy = audioComponentEditorFactoryLazy;
 		}
@@ -695,7 +745,7 @@ namespace SayMore.Model.Files
 			Func<VideoComponentEditor.Factory> videoComponentEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base("Video", p => Settings.Default.VideoFileExtensions.Cast<string>()
-				.Any(ext => p.ToLower().EndsWith(ext)), contributorsEditorFactoryLazy)
+				.Any(ext => p.ToLower().EndsWith(ext.ToLower())), contributorsEditorFactoryLazy)
 		{
 			_videoComponentEditorFactoryLazy = videoComponentEditorFactoryLazy;
 		}
@@ -864,7 +914,7 @@ namespace SayMore.Model.Files
 		public ImageFileType(
 			Func<BasicFieldGridEditor.Factory> basicFieldGridEditorFactoryLazy,
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Image", p => Settings.Default.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext)))
+			: base("Image", p => Settings.Default.ImageFileExtensions.Cast<string>().Any(ext => p.ToLower().EndsWith(ext.ToLower())))
 		{
 			_basicFieldGridEditorFactoryLazy = basicFieldGridEditorFactoryLazy;
 			_contributorsEditorFactoryLazy = contributorsEditorFactoryLazy;

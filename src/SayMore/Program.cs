@@ -5,11 +5,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using Localization;
+using Palaso.IO;
 using Palaso.Reporting;
 using SayMore.Properties;
+using SayMore.UI.MediaPlayer;
 using SayMore.UI.ProjectWindow;
-using SayMore.UI.Archiving;
-using SilUtils;
+using SilTools;
 
 namespace SayMore
 {
@@ -214,13 +215,20 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static void ShowHelpTopic(string topicLink)
+		{
+			var path = FileLocator.GetFileDistributedWithApplication("SayMore.chm");
+			Help.ShowHelp(new Label(), path, topicLink);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static void SetUpErrorHandling()
 		{
 			Application.ApplicationExit += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
 			Application.ThreadException += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
 			AppDomain.CurrentDomain.UnhandledException += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
 
-			ErrorReport.EmailAddress= "issues@saymore.palaso.org";
+			ErrorReport.EmailAddress = "issues@saymore.palaso.org";
 			ErrorReport.AddStandardProperties();
 			ExceptionHandler.Init();
 		}

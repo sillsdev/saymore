@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using Localization;
-using SilUtils;
+using SilTools;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
@@ -27,7 +28,7 @@ namespace SayMore.UI.ElementListScreen
 		/// <summary>
 		/// When the user chooses a menu command, this is called after the command is issued.
 		/// </summary>
-		public Action PostMenuCommandRefreshAction;
+		public Action<string> PostMenuCommandRefreshAction;
 
 		public Func<string[], DragDropEffects> FilesBeingDraggedOverGrid;
 		public Func<string[], bool> FilesDroppedOnGrid;
@@ -44,6 +45,8 @@ namespace SayMore.UI.ElementListScreen
 			ShowContextMenu = true;
 
 			InitializeComponent();
+			Font = SystemFonts.IconTitleFont;
+			_toolStripActions.Renderer = new NoToolStripBorderRenderer();
 
 			try
 			{
@@ -65,6 +68,7 @@ namespace SayMore.UI.ElementListScreen
 			_grid.CellDoubleClick += HandleFileGridCellDoubleClick;
 			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
 			_grid.Paint += HandleFileGridPaint;
+			_grid.CellPainting += HandleFileGridCellPainting;
 			_grid.ClientSizeChanged += HandleFileGridClientSizeChanged;
 			_grid.Font = SystemFonts.IconTitleFont;
 
@@ -89,6 +93,9 @@ namespace SayMore.UI.ElementListScreen
 
 			if (Settings.Default[_gridColSettingPrefix + "ComponentGrid"] != null)
 				((GridSettings)Settings.Default[_gridColSettingPrefix + "ComponentGrid"]).InitializeGrid(_grid);
+
+			_grid.AutoResizeColumnHeadersHeight();
+			_grid.ColumnHeadersHeight += 8;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -112,6 +119,13 @@ namespace SayMore.UI.ElementListScreen
 		{
 			get { return _buttonAddFiles.Visible; }
 			set { _buttonAddFiles.Visible = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool CreateAnnotationFileButtonVisible
+		{
+			get { return _buttonCreateAnnotationFile.Visible; }
+			set { _buttonCreateAnnotationFile.Visible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -157,28 +171,104 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridPaint(object sender, PaintEventArgs e)
 		{
-			if (_grid.RowCount != 1)
+			if (_grid.RowCount == 1)
+			{
+				var rcRow = _grid.GetRowDisplayRectangle(0, false);
+				_grid.DrawMessageInCenterOfGrid(e.Graphics, "Add additional files related to this event by\n" +
+					"dragging them here or clicking the 'Add Files' button.", rcRow.Height);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleFileGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+		{
+			if (e.ColumnIndex < 0 || e.ColumnIndex > 1 || e.RowIndex < 0)
 				return;
 
-			var rcRow = _grid.GetRowDisplayRectangle(0, false);
-			var rc = _grid.ClientRectangle;
-			rc.Height -= (rcRow.Height + _grid.ColumnHeadersHeight);
-			rc.Y += rcRow.Bottom;
+			var file = _files.ElementAt(e.RowIndex);
 
-			// Strangely, the grid's client size doesn't change when the scroll bars
-			// are visible. Therefore, we have to explicitly allow for them.
-			var hscroll = _grid.HScrollBar;
-			if (hscroll != null && hscroll.Visible)
-				rc.Height -= hscroll.Height;
+			if (e.ColumnIndex == 0)
+				DrawIconColumnCell(file.DisplayIndentLevel > 0, e);
+			else if (file.DisplayIndentLevel > 0)
+				DrawIndentedFileName(file, e);
 
-			const string hint = "Add additional files related to this event by\n" +
-				"dragging them here or clicking the 'Add' button.";
+			if (_grid.Focused)
+				_grid.DrawFocusRectangle(e);
+		}
 
-			const TextFormatFlags flags =
-				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
+		/// ------------------------------------------------------------------------------------
+		private void DrawIndentedFileName(ComponentFile file, DataGridViewCellPaintingEventArgs e)
+		{
+			// TODO: Account for indent levels greater than 1 if we ever need to.
 
-			using (var fnt = new Font(_grid.Font.FontFamily, 12, FontStyle.Regular))
-				TextRenderer.DrawText(e.Graphics, hint, fnt, rc, SystemColors.GrayText, flags);
+			e.Handled = true;
+
+			var selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
+			var clrFore = (selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
+
+			var rc = e.CellBounds;
+			var paintParts = e.PaintParts;
+			paintParts &= ~DataGridViewPaintParts.ContentForeground;
+			e.Paint(rc, paintParts);
+
+			// Draw the icon.
+			var img = _grid[0, e.RowIndex].Value as Image;
+			rc.X += 8;
+			rc.Y += ((rc.Height - img.Height) / 2);
+			rc.Height = img.Height;
+			rc.Width = img.Width;
+			e.Graphics.DrawImage(img, rc);
+
+			// Draw the file name, indented.
+			rc = e.CellBounds;
+			rc.X += (img.Width + 12);
+			rc.Width -= (img.Width + 12);
+			rc.Height--;
+
+			TextRenderer.DrawText(e.Graphics, e.Value as string, e.CellStyle.Font, rc,
+				clrFore, TextFormatFlags.EndEllipsis | TextFormatFlags.VerticalCenter);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawIconColumnCell(bool drawConnectorLine, DataGridViewCellPaintingEventArgs e)
+		{
+			e.Handled = true;
+			var rc = e.CellBounds;
+			var paintParts = e.PaintParts;
+
+			if (drawConnectorLine)
+				paintParts &= ~DataGridViewPaintParts.ContentForeground;
+
+			e.Paint(rc, paintParts);
+
+			var selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
+			var clrFore = (selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
+			var clrBack = (selected ? e.CellStyle.SelectionBackColor : e.CellStyle.BackColor);
+
+			// Don't paint the border on the right edge of the icon column.
+			using (var pen = new Pen(clrBack))
+			{
+				e.Graphics.DrawLine(pen, new Point(rc.Right - 1, rc.Y),
+					new Point(rc.Right - 1, rc.Bottom));
+			}
+
+			if (!drawConnectorLine)
+				return;
+
+			// Draw a dotted, right-angle line linking the row to the one above.
+			using (var pen = new Pen(ColorHelper.CalculateColor(Color.White, clrFore, 130)))
+			{
+				var dx = rc.X + (rc.Width / 2);
+				var dy = rc.Y + (rc.Height / 2) + 1;
+
+				pen.DashStyle = DashStyle.Dot;
+				e.Graphics.DrawLines(pen, new[]
+				{
+					new Point(dx, rc.Y + 1),
+					new Point(dx, dy),
+					new Point(rc.Right, dy)
+				});
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -221,6 +311,13 @@ namespace SayMore.UI.ElementListScreen
 			}
 		}
 
+		/// ----------------------------------------------------------------------------------------
+		private void HandleFileGridColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+		{
+			_grid.AutoResizeColumnHeadersHeight();
+			_grid.ColumnHeadersHeight += 8;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
@@ -229,7 +326,13 @@ namespace SayMore.UI.ElementListScreen
 
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
 
-			if (null != AfterComponentSelected)
+			var file = (_files.Count() > 0 && _grid.CurrentCellAddress.Y >= 0 ?
+				_files.ElementAt(_grid.CurrentCellAddress.Y) : null);
+
+			_buttonCreateAnnotationFile.Enabled = (file != null &&
+				file.GetCanHaveAnnotationFile() && !file.GetDoesHaveAnnotationFile());
+
+			if (null != AfterComponentSelected && _grid.CurrentCellAddress.Y >= 0)
 				AfterComponentSelected(_grid.CurrentCellAddress.Y);
 		}
 
@@ -323,6 +426,7 @@ namespace SayMore.UI.ElementListScreen
 			// are no longer supposed to exist. This tends to happen when the row count was
 			// previously higher than the new value.
 			_grid.CellValueNeeded -= HandleFileGridCellValueNeeded;
+			_grid.CurrentCell = null;
 			_grid.RowCount = componentFiles.Count();
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.Invalidate();
@@ -375,6 +479,12 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleCreateAnnotationFileButtonClick(object sender, EventArgs e)
+		{
+			_files.ElementAt(_grid.CurrentCellAddress.Y).CreateAnnotationFile(PostMenuCommandRefreshAction);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleAddButtonClick(object sender, EventArgs e)
 		{
 			if (!GetIsOKToPerformFileOperation())
@@ -405,7 +515,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleGridKeyDown(object sender, KeyEventArgs e)
+		private void HandleFileGridKeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Delete && GetIsOKToDeleteCurrentFile())
 				DeleteFile();
@@ -417,11 +527,19 @@ namespace SayMore.UI.ElementListScreen
 			var index = _grid.CurrentCellAddress.Y;
 			var currFile = _files.ElementAt(index);
 
-			if (currFile == null || FileDeletionAction == null || !FileDeletionAction(currFile))
+			if (currFile == null || FileDeletionAction == null)
+				return;
+
+			var annotationFile = currFile.GetAnnotationFile();
+
+			if (!FileDeletionAction(currFile))
 				return;
 
 			var newList = _files.ToList();
-			newList.RemoveAt(index);
+			newList.Remove(currFile);
+
+			if (annotationFile != null)
+				newList.Remove(annotationFile);
 
 			if (index == newList.Count)
 				index--;

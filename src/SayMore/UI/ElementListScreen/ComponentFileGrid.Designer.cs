@@ -43,12 +43,14 @@ namespace SayMore.UI.ElementListScreen
 			this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._menuDeleteFile = new System.Windows.Forms.ToolStripMenuItem();
-			this._panelOuter = new SilUtils.Controls.SilPanel();
+			this._panelOuter = new SilTools.Controls.SilPanel();
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
 			this._buttonOpen = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonRename = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonConvert = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this._buttonCreateAnnotationFile = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this._contextMenuStrip.SuspendLayout();
 			this._panelOuter.SuspendLayout();
@@ -69,13 +71,12 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-			this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colIcon,
             this.colName,
@@ -84,7 +85,8 @@ namespace SayMore.UI.ElementListScreen
             this.colSize,
             this.colDuration});
 			this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._grid.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._grid.DrawTextBoxEditControlBorder = false;
+			this._grid.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
 			this._grid.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this._grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(219)))), ((int)(((byte)(180)))));
 			this._grid.IsDirty = false;
@@ -97,14 +99,20 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this._grid.RowHeadersVisible = false;
 			this._grid.RowHeadersWidth = 22;
+			this._grid.SelectedCellBackColor = System.Drawing.Color.Empty;
+			this._grid.SelectedCellForeColor = System.Drawing.Color.Empty;
+			this._grid.SelectedRowBackColor = System.Drawing.Color.Empty;
+			this._grid.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this._grid.ShowWaterMarkWhenDirty = false;
 			this._grid.Size = new System.Drawing.Size(468, 228);
 			this._grid.StandardTab = true;
 			this._grid.TabIndex = 1;
+			this._grid.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._grid.VirtualMode = true;
 			this._grid.WaterMark = "!";
-			this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleGridKeyDown);
+			this._grid.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.HandleFileGridColumnWidthChanged);
+			this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleFileGridKeyDown);
 			// 
 			// colIcon
 			// 
@@ -181,7 +189,10 @@ namespace SayMore.UI.ElementListScreen
 			this._panelOuter.Controls.Add(this._toolStripActions);
 			this._panelOuter.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._panelOuter.DoubleBuffered = true;
+			this._panelOuter.DrawOnlyBottomBorder = false;
+			this._panelOuter.DrawOnlyTopBorder = false;
 			this._panelOuter.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this._panelOuter.ForeColor = System.Drawing.SystemColors.ControlText;
 			this._panelOuter.Location = new System.Drawing.Point(0, 0);
 			this._panelOuter.Margin = new System.Windows.Forms.Padding(0);
 			this._panelOuter.MnemonicGeneratesClick = false;
@@ -192,19 +203,20 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _toolStripActions
 			// 
+			this._toolStripActions.BackColor = System.Drawing.SystemColors.Control;
 			this._toolStripActions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this._toolStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._buttonOpen,
             this._buttonRename,
             this._buttonConvert,
-            this._buttonAddFiles});
+            this._buttonAddFiles,
+            this.toolStripSeparator1,
+            this._buttonCreateAnnotationFile});
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
 			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
-			this._toolStripActions.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this._toolStripActions.Size = new System.Drawing.Size(468, 25);
 			this._toolStripActions.TabIndex = 4;
-			this._toolStripActions.Text = "toolStrip1";
 			this._toolStripActions.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleToolStripActionsPaint);
 			// 
 			// _buttonOpen
@@ -214,7 +226,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonOpen.Image = ((System.Drawing.Image)(resources.GetObject("_buttonOpen.Image")));
 			this._buttonOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this._buttonOpen.Name = "_buttonOpen";
-			this._buttonOpen.Size = new System.Drawing.Size(49, 20);
+			this._buttonOpen.Size = new System.Drawing.Size(47, 20);
 			this._buttonOpen.Text = "Open";
 			this._buttonOpen.ToolTipText = "Open Selected File";
 			this._buttonOpen.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
@@ -227,7 +239,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this._buttonRename.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
 			this._buttonRename.Name = "_buttonRename";
-			this._buttonRename.Size = new System.Drawing.Size(65, 20);
+			this._buttonRename.Size = new System.Drawing.Size(61, 20);
 			this._buttonRename.Text = "Rename";
 			this._buttonRename.ToolTipText = "Rename Selected File";
 			this._buttonRename.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
@@ -251,9 +263,26 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonAddFiles.Image = global::SayMore.Properties.Resources.Add;
 			this._buttonAddFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this._buttonAddFiles.Name = "_buttonAddFiles";
-			this._buttonAddFiles.Size = new System.Drawing.Size(87, 20);
+			this._buttonAddFiles.Size = new System.Drawing.Size(83, 20);
 			this._buttonAddFiles.Text = "Add Files...";
 			this._buttonAddFiles.Click += new System.EventHandler(this.HandleAddButtonClick);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+			// 
+			// _buttonCreateAnnotationFile
+			// 
+			this._buttonCreateAnnotationFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this._buttonCreateAnnotationFile.Enabled = false;
+			this._buttonCreateAnnotationFile.Image = ((System.Drawing.Image)(resources.GetObject("_buttonCreateAnnotationFile.Image")));
+			this._buttonCreateAnnotationFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this._buttonCreateAnnotationFile.Name = "_buttonCreateAnnotationFile";
+			this._buttonCreateAnnotationFile.Size = new System.Drawing.Size(133, 20);
+			this._buttonCreateAnnotationFile.Text = "Create Annotation File...";
+			this._buttonCreateAnnotationFile.ToolTipText = "Create an annotation file";
+			this._buttonCreateAnnotationFile.Click += new System.EventHandler(this.HandleCreateAnnotationFileButtonClick);
 			// 
 			// ComponentFileGrid
 			// 
@@ -274,7 +303,7 @@ namespace SayMore.UI.ElementListScreen
 
 		private InternalComponentFileGrid _grid;
 		private System.Windows.Forms.ContextMenuStrip _contextMenuStrip;
-		private SilUtils.Controls.SilPanel _panelOuter;
+		private SilTools.Controls.SilPanel _panelOuter;
 		private System.Windows.Forms.ToolStrip _toolStripActions;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonOpen;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonRename;
@@ -287,6 +316,8 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDuration;
+		private System.Windows.Forms.ToolStripButton _buttonCreateAnnotationFile;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 
 	}
 }

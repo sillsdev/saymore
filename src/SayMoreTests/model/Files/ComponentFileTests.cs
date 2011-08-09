@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMoreTests.Transcription.Model;
 
 namespace SayMoreTests.Model.Files
 {
@@ -253,6 +254,101 @@ namespace SayMoreTests.Model.Files
 			SetStringValue(f, "color", "red");
 			SetStringValue(f, "color", "green");
 			Assert.AreEqual("green", f.GetStringValue("color", "blue"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetCanHaveAnnotationFile_IsNotMediaFile_ReturnsFalse()
+		{
+			var f = CreateComponentFile("abc.zzz");
+			Assert.IsFalse(f.GetCanHaveAnnotationFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetCanHaveAnnotationFile_IsWaveFile_ReturnsTrue()
+		{
+			var f = CreateAudioComponentFile("abc.wav");
+			Assert.IsTrue(f.GetCanHaveAnnotationFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetCanHaveAnnotationFile_IsMp3File_ReturnsTrue()
+		{
+			var f = CreateAudioComponentFile("abc.mp3");
+			Assert.IsTrue(f.GetCanHaveAnnotationFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetSuggestedPathToAnnotationFile_IsNotMediaFile_ReturnsNull()
+		{
+			var f = CreateComponentFile("abc.zzz");
+			Assert.IsNull(f.GetSuggestedPathToAnnotationFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetSuggestedPathToAnnotationFile_FileIsWave_ReturnsFolderPath()
+		{
+			var f = CreateAudioComponentFile("abc.wav");
+			var expected = Path.GetDirectoryName(f.PathToAnnotatedFile);
+			expected = Path.Combine(expected, "abc.wav.annotations.eaf");
+			Assert.AreEqual(expected, f.GetSuggestedPathToAnnotationFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetSuggestedPathToAnnotationFile_FileIsMp3_ReturnsFolderPath()
+		{
+			var f = CreateAudioComponentFile("abc.mp3");
+			var expected = Path.GetDirectoryName(f.PathToAnnotatedFile);
+			expected = Path.Combine(expected, "abc.mp3.annotations.eaf");
+			Assert.AreEqual(expected, f.GetSuggestedPathToAnnotationFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetDoesHaveAnnotationFile_IsNotMediaFile_ReturnsFalse()
+		{
+			Assert.IsFalse(CreateComponentFile("abc.zzz").GetDoesHaveAnnotationFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetDoesHaveAnnotationFile_IsMediaFileButDoesNotHaveEafFile_ReturnsFalse()
+		{
+			var file = CreateAudioComponentFile("abc.mp3");
+			File.Delete(file.GetSuggestedPathToAnnotationFile());
+			Assert.IsFalse(file.GetDoesHaveAnnotationFile());
+
+			file = CreateAudioComponentFile("abc.wav");
+			File.Delete(file.GetSuggestedPathToAnnotationFile());
+			Assert.IsFalse(file.GetDoesHaveAnnotationFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetDoesHaveAnnotationFile_IsMediaFileAndHasEafFile_ReturnsTrue()
+		{
+			Assert.IsTrue(CreateAudioComponentFile("abc.mp3").GetDoesHaveAnnotationFile());
+			Assert.IsTrue(CreateAudioComponentFile("abc.wav").GetDoesHaveAnnotationFile());
+		}
+
+		private ComponentFile CreateAudioComponentFile(string filename)
+		{
+			var file = new ComponentFile(null, _parentFolder.Combine(filename),
+				new FileType[] { new AudioFileType(null, null), new UnknownFileType(null, null) },
+				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
+
+			var annotationPath = Path.Combine(_parentFolder.Path, filename + ".annotations.eaf");
+			AnnotationFileHelperTests.CreateTestEaf(annotationPath);
+			var annotationFile = new AnnotationComponentFile(null, annotationPath,
+				new AnnotationFileType(null), null);
+
+			file.SetAnnotationFile(annotationFile);
+			return file;
 		}
 
 		private static ComponentFile CreateComponentFileWithRoleChoices(string path)

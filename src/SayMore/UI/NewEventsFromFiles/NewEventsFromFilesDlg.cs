@@ -7,7 +7,7 @@ using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.MediaPlayer;
-using SilUtils;
+using SilTools;
 
 namespace SayMore.UI.NewEventsFromFiles
 {
@@ -39,7 +39,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			selectedCol.Resizable = DataGridViewTriState.False;
 			selectedCol.SortMode = DataGridViewColumnSortMode.Automatic;
 			_gridFiles.Grid.Columns.Insert(0, selectedCol);
-			_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(selectedCol);
+			_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(_gridFiles.Grid, 0);
 
 			_gridFiles.InitializeGrid("NewEventsFromFilesDlg", null);
 			_gridFiles.AfterComponentSelected = HandleComponentFileSelected;
@@ -68,7 +68,6 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			_mediaPlayerViewModel = new MediaPlayerViewModel();
 			_mediaPlayerViewModel.SetVolume(Settings.Default.MediaPlayerVolume);
-			_mediaPlayerViewModel.VolumeChanged += HandleMediaPlayerVolumeChanged;
 			_mediaPlayer = new MediaPlayer.MediaPlayer(_mediaPlayerViewModel);
 			_mediaPlayer.Dock = DockStyle.Fill;
 			_mediaPlayerPanel.Controls.Add(_mediaPlayer);
@@ -82,6 +81,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		{
 			Settings.Default.NewEventsFromFilesDlg.InitializeForm(this);
 			base.OnShown(e);
+			_mediaPlayerViewModel.VolumeChanged = delegate { Invoke((Action)HandleMediaPlayerVolumeChanged); };
 			_viewModel.SelectedFolder = Settings.Default.NewEventsFromFilesLastFolder;
 			UpdateDisplay();
 		}
@@ -236,7 +236,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		#region Event handlers
 		/// ------------------------------------------------------------------------------------
-		void HandleMediaPlayerVolumeChanged(object sender, EventArgs e)
+		void HandleMediaPlayerVolumeChanged()
 		{
 			Settings.Default.MediaPlayerVolume = _mediaPlayerViewModel.Volume;
 		}
@@ -250,10 +250,11 @@ namespace SayMore.UI.NewEventsFromFiles
 		{
 			Hide();
 
-			_mediaPlayerViewModel.Stop();
+			_mediaPlayerViewModel.Stop(true);
 
-			var pairs = _viewModel.GetUniqueSourceAndDestinationPairs();
-			if (pairs.Count() == 0)
+			var pairs = _viewModel.GetUniqueSourceAndDestinationPairs().ToArray();
+
+			if (pairs.Length == 0)
 				return;
 
 			using (var dlg = new MakeEventsFromFileProgressDialog(pairs, _viewModel.CreateSingleEvent))

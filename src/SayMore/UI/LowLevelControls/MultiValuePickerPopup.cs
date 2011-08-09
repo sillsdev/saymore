@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SayMore.Model.Fields;
+using SilTools;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -324,14 +325,5 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		#endregion
-	}
-
-	/// ----------------------------------------------------------------------------------------
-	public class NoToolStripBorderRenderer : ToolStripProfessionalRenderer
-	{
-		protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
-		{
-			// Eat this event.
-		}
 	}
 }

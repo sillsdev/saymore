@@ -28,9 +28,8 @@ namespace SayMore.UI.MediaPlayer
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this._panelContainer = new System.Windows.Forms.Panel();
+			this._videoPanel = new SayMore.UI.MediaPlayer.VideoPanel();
 			this._volumePopup = new SayMore.UI.LowLevelControls.VolumePopup();
-			this._panelVideoSurface = new System.Windows.Forms.Panel();
 			this._toolbarButtons = new System.Windows.Forms.ToolStrip();
 			this._buttonPlay = new System.Windows.Forms.ToolStripButton();
 			this._buttonPause = new System.Windows.Forms.ToolStripButton();
@@ -38,20 +37,19 @@ namespace SayMore.UI.MediaPlayer
 			this._buttonVolume = new System.Windows.Forms.ToolStripSplitButton();
 			this._labelTime = new System.Windows.Forms.ToolStripLabel();
 			this._sliderTime = new SayMore.UI.LowLevelControls.Slider();
-			this._panelContainer.SuspendLayout();
+			this._videoPanel.SuspendLayout();
 			this._toolbarButtons.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _panelContainer
 			// 
-			this._panelContainer.BackColor = System.Drawing.Color.Black;
-			this._panelContainer.Controls.Add(this._volumePopup);
-			this._panelContainer.Controls.Add(this._panelVideoSurface);
-			this._panelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._panelContainer.Location = new System.Drawing.Point(0, 0);
-			this._panelContainer.Name = "_panelContainer";
-			this._panelContainer.Size = new System.Drawing.Size(305, 208);
-			this._panelContainer.TabIndex = 10;
+			this._videoPanel.BackColor = System.Drawing.Color.Black;
+			this._videoPanel.Controls.Add(this._volumePopup);
+			this._videoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._videoPanel.Location = new System.Drawing.Point(0, 0);
+			this._videoPanel.Name = "_panelContainer";
+			this._videoPanel.Size = new System.Drawing.Size(305, 208);
+			this._videoPanel.TabIndex = 10;
 			// 
 			// _volumePopup
 			// 
@@ -63,15 +61,6 @@ namespace SayMore.UI.MediaPlayer
 			this._volumePopup.TabIndex = 0;
 			this._volumePopup.VolumeLevel = 0F;
 			this._volumePopup.VolumeChanged += new System.EventHandler(this.HandleVolumePopupValueChanged);
-			// 
-			// _panelVideoSurface
-			// 
-			this._panelVideoSurface.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this._panelVideoSurface.BackColor = System.Drawing.Color.Gray;
-			this._panelVideoSurface.Location = new System.Drawing.Point(24, 31);
-			this._panelVideoSurface.Name = "_panelVideoSurface";
-			this._panelVideoSurface.Size = new System.Drawing.Size(217, 146);
-			this._panelVideoSurface.TabIndex = 0;
 			// 
 			// _toolbarButtons
 			// 
@@ -166,19 +155,18 @@ namespace SayMore.UI.MediaPlayer
 			this._sliderTime.Size = new System.Drawing.Size(305, 9);
 			this._sliderTime.TabIndex = 7;
 			this._sliderTime.TrackThickness = 3;
-			this._sliderTime.BeforeUserMovingThumb += this.HandleSliderTimeBeforeUserMovingThumb;
 			this._sliderTime.AfterUserMovingThumb += new System.EventHandler(this.HandleSliderTimeAfterUserMovingThumb);
 			// 
 			// MediaPlayer
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this._panelContainer);
+			this.Controls.Add(this._videoPanel);
 			this.Controls.Add(this._sliderTime);
 			this.Controls.Add(this._toolbarButtons);
 			this.Name = "MediaPlayer";
 			this.Size = new System.Drawing.Size(305, 251);
-			this._panelContainer.ResumeLayout(false);
+			this._videoPanel.ResumeLayout(false);
 			this._toolbarButtons.ResumeLayout(false);
 			this._toolbarButtons.PerformLayout();
 			this.ResumeLayout(false);
@@ -188,8 +176,7 @@ namespace SayMore.UI.MediaPlayer
 
 		#endregion
 
-		private System.Windows.Forms.Panel _panelContainer;
-		private System.Windows.Forms.Panel _panelVideoSurface;
+		private VideoPanel _videoPanel;
 		private System.Windows.Forms.ToolStrip _toolbarButtons;
 		private System.Windows.Forms.ToolStripButton _buttonPlay;
 		private System.Windows.Forms.ToolStripButton _buttonPause;

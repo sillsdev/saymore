@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using Palaso.Code;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
@@ -21,6 +20,7 @@ namespace SayMore.Model
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
 		private readonly ComponentFile.Factory _componentFileFactory;
+		private readonly AnnotationComponentFile.Factory _transcriptionFileFactory;
 		private string _id;
 
 		public virtual string Id { get { return _id; } }
@@ -38,16 +38,20 @@ namespace SayMore.Model
 		/// <param name="id">e.g. "ETR007"</param>
 		/// <param name="idChangedNotificationReceiver"></param>
 		/// <param name="componentFileFactory"></param>
+		/// <param name="transcriptionFileFactory"></param>
 		/// <param name="fileSerializer">used to load/save</param>
 		/// <param name="fileType"></param>
 		/// <param name="prjElementComponentFileFactory"></param>
 		/// ------------------------------------------------------------------------------------
 		protected ProjectElement(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver, FileType fileType,
-			ComponentFile.Factory componentFileFactory, FileSerializer fileSerializer,
+			ComponentFile.Factory componentFileFactory,
+			AnnotationComponentFile.Factory transcriptionFileFactory,
+			FileSerializer fileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 		{
 			_componentFileFactory = componentFileFactory;
+			_transcriptionFileFactory = transcriptionFileFactory;
 			RequireThat.Directory(parentElementFolder).Exists();
 
 			ParentFolderPath = parentElementFolder;
@@ -74,23 +78,42 @@ namespace SayMore.Model
 			// John: Should we cache this?
 			// Ansr: if it proves slow, but then we have to complicate things to keep it up to date.
 
-			//this is the actual person or event data
+			// This is the actual person or event data
 			yield return MetaDataFile;
 
 			//these are the other files we find in the folder
-			var otherFiles = from x in Directory.GetFiles(FolderPath, "*.*")
-							 where (
-								 !x.EndsWith("." + ExtensionWithoutPeriod) &&
-								 !x.EndsWith(Settings.Default.MetadataFileExtension) &&
-								 !x.ToLower().EndsWith("thumbs.db") &&
-								 !Path.GetFileName(x).StartsWith(".")) //these are normally hidden
-							 orderby x
-							 select _componentFileFactory(this, x);
+			var otherFiles = from f in Directory.GetFiles(FolderPath, "*.*")
+							 where GetShowAsComponentFile(f)
+							 orderby f
+							 select _componentFileFactory(this, f);
 
 			foreach (var file in otherFiles)
 			{
 				yield return file;
+
+				var annotationFilePath = file.GetSuggestedPathToAnnotationFile();
+
+				if (_transcriptionFileFactory != null && annotationFilePath != null &&
+					File.Exists(annotationFilePath))
+				{
+					file.SetAnnotationFile(_transcriptionFileFactory(this, annotationFilePath));
+					yield return file.GetAnnotationFile();
+				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetShowAsComponentFile(string filePath)
+		{
+			var path = filePath.ToLower();
+
+			return
+				!path.EndsWith("." + ExtensionWithoutPeriod) &&
+				!path.EndsWith(Settings.Default.MetadataFileExtension) &&
+				!path.EndsWith("thumbs.db") &&
+				!path.EndsWith(".pfsx") &&
+				!path.EndsWith(".eaf") &&
+				!Path.GetFileName(path).StartsWith("."); //these are normally hidden
 		}
 
 		/// ------------------------------------------------------------------------------------

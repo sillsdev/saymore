@@ -1,18 +1,16 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SayMore.UI.LowLevelControls;
+using SilTools;
 
 namespace SayMore.UI.MediaPlayer
 {
 	public partial class MediaPlayer : UserControl
 	{
-		private delegate void ReportPlayerOutputHandler(string data);
-		private ReportPlayerOutputHandler _reportPlayerOutput;
 		private MediaPlayerViewModel _viewModel;
 
 		#region Construction and disposal
@@ -22,11 +20,8 @@ namespace SayMore.UI.MediaPlayer
 			InitializeComponent();
 			DoubleBuffered = true;
 
-			_panelVideoSurface.BackgroundImageLayout = ImageLayout.Center;
-			_panelVideoSurface.BackColor = _panelContainer.BackColor;
 			_toolbarButtons.Renderer = new NoToolStripBorderRenderer();
 			CreateHandle();
-			_reportPlayerOutput = HandleReportingPlayerOutput;
 			SetupVolumePopup();
 		}
 
@@ -39,26 +34,29 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public void SetViewModel(MediaPlayerViewModel viewModel)
 		{
+			if (_viewModel != null)
+			{
+				_viewModel.MediaQueued -= HandleMediaQueued;
+				_viewModel.PlaybackStarted -= HandleMediaPlayStarted;
+			}
+
 			_viewModel = viewModel;
-
-			_viewModel.Initialize(_panelVideoSurface.Handle.ToInt32(),
-				HandleOutputDataReceived, HandleErrorDataReceived);
-
 			_viewModel.MediaQueued += HandleMediaQueued;
-			_viewModel.PlaybackPaused += HandlePlaybackPausedResumed;
-			_viewModel.PlaybackResumed += HandlePlaybackPausedResumed;
-			_viewModel.PlaybackEnded += HandleMediaPlayEnded;
 			_viewModel.PlaybackStarted += HandleMediaPlayStarted;
-			_viewModel.PlaybackPositionChanged += HandlePlaybackPositionChanged;
+			_viewModel.PlaybackPaused = delegate { Invoke((Action)HandlePlaybackPausedResumed); };
+			_viewModel.PlaybackResumed = delegate { Invoke((Action)HandlePlaybackPausedResumed); };
+			_viewModel.PlaybackPositionChanged = delegate(float pos) { Invoke((Action<float>)(HandlePlaybackPositionChanged), pos); };
 
 			UpdateButtons();
 			_volumePopup.VolumeLevel = _viewModel.Volume;
+
+			_videoPanel.SetPlayerViewModel(_viewModel);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void SetupVolumePopup()
 		{
-			_panelContainer.Controls.Remove(_volumePopup);
+			_videoPanel.Controls.Remove(_volumePopup);
 			_volumePopup.VolumeLevel = 100;
 			_volumePopup.Width = _buttonVolume.Width;
 
@@ -100,16 +98,9 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			_reportPlayerOutput = null;
+			//_reportPlayerOutput = null;
 			_viewModel.ShutdownMPlayerProcess();
 			base.OnHandleDestroyed(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnSizeChanged(EventArgs e)
-		{
-			base.OnSizeChanged(e);
-			AdjustVideoSurfaceSize();
 		}
 
 		#endregion
@@ -132,46 +123,6 @@ namespace SayMore.UI.MediaPlayer
 		private void UpdateTimeDisplay(float position)
 		{
 			_labelTime.Text = _viewModel.GetTimeDisplay(position);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This method will adjust the inner panel (which is the one in which video is
-		/// displayed) so it's size matches the aspect ration of the video and it's location
-		/// is centered. MPlayer, by default, will keep the aspect ration for most video output
-		/// devices. However, for the sake of Windows 7, we're using direct3d. For some
-		/// reason, MPlayer doesn't keep the aspect ration when using that video output
-		/// device. So, we'll do it ourselves.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void AdjustVideoSurfaceSize()
-		{
-			if (_viewModel == null || _viewModel.MediaInfo == null ||
-				_viewModel.MediaInfo.PictureSize.Width == 0 || _viewModel.MediaInfo.PictureSize.Height == 0)
-			{
-				return;
-			}
-
-			var rc = Rectangle.Empty;
-			var usableRatio = (float)_panelContainer.Width / _panelContainer.Height;
-			var videoRatio = (float)_viewModel.MediaInfo.PictureSize.Width / _viewModel.MediaInfo.PictureSize.Height;
-
-			if (usableRatio < videoRatio)
-			{
-				rc.Width = _panelContainer.ClientSize.Width;
-				rc.Height = (int)(rc.Width / videoRatio);
-			}
-			else
-			{
-				rc.Height = _panelContainer.ClientSize.Height;
-				rc.Width = (int)(rc.Height * videoRatio);
-			}
-
-			rc.X = (_panelContainer.ClientSize.Width - rc.Width) / 2;
-			rc.Y = (_panelContainer.ClientSize.Height - rc.Height) / 2;
-
-			_panelVideoSurface.Bounds = rc;
-			_panelVideoSurface.BackgroundImage = _viewModel.MediaInfo.FullSizedThumbnail;
 		}
 
 		#endregion
@@ -225,15 +176,15 @@ namespace SayMore.UI.MediaPlayer
 			_viewModel.SetVolume(((VolumePopup)sender).VolumeLevel);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void HandleSliderTimeBeforeUserMovingThumb(object sender, float newValue)
-		{
-			if (!_viewModel.IsPaused)
-				HandleButtonPauseClick(null, null);
+		///// ------------------------------------------------------------------------------------
+		//private void HandleSliderTimeBeforeUserMovingThumb(object sender, float newValue)
+		//{
+		//    if (!_viewModel.IsPaused)
+		//        HandleButtonPauseClick(null, null);
 
-			_viewModel.PlaybackPositionChanged -= HandlePlaybackPositionChanged;
-			_sliderTime.ValueChanged += HandleSliderTimeValueChanged;
-		}
+		//    _viewModel.PlaybackPositionChanged -= HandlePlaybackPositionChanged;
+		//    _sliderTime.ValueChanged += HandleSliderTimeValueChanged;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleSliderTimeAfterUserMovingThumb(object sender, EventArgs e)
@@ -268,8 +219,8 @@ namespace SayMore.UI.MediaPlayer
 			base.OnPaintBackground(e);
 
 			var rc = ClientRectangle;
-			rc.Height -= _panelContainer.Height;
-			rc.Y = _panelContainer.Bottom;
+			rc.Height -= _videoPanel.Height;
+			rc.Y = _videoPanel.Bottom;
 
 			var clr1 = Color.DimGray;
 			var clr2 = Color.FromArgb(50, 50, 50);
@@ -282,7 +233,7 @@ namespace SayMore.UI.MediaPlayer
 
 		#region View model's event handlers
 		/// ------------------------------------------------------------------------------------
-		void HandlePlaybackPausedResumed(object sender, EventArgs e)
+		void HandlePlaybackPausedResumed()
 		{
 			UpdateButtons();
 		}
@@ -290,18 +241,15 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaQueued(object sender, EventArgs e)
 		{
-			_sliderTime.SetValueWithoutEvent(0);
-			_sliderTime.Maximum = _viewModel.GetTotalMediaDuration();
-			_sliderTime.Enabled = true;
-
-			AdjustVideoSurfaceSize();
-
-			UpdateTimeDisplay(0);
-			UpdateButtons();
+			Invoke((Action)(() => _sliderTime.SetValueWithoutEvent(0)));
+			Invoke((Action)(() => _sliderTime.Maximum = _viewModel.GetTotalMediaDuration()));
+			Invoke((Action)(() => _sliderTime.Enabled = true));
+			Invoke((Action)(() => UpdateTimeDisplay(0)));
+			Invoke((Action)UpdateButtons);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandlePlaybackPositionChanged(object sender, float position)
+		private void HandlePlaybackPositionChanged(float position)
 		{
 			if (!_sliderTime.UserIsMoving)
 			{
@@ -311,40 +259,9 @@ namespace SayMore.UI.MediaPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleMediaPlayEnded(object sender, EventArgs e)
-		{
-			//_sliderTime.Enabled = false;
-			//UpdateButtons();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlayStarted(object sender, EventArgs e)
 		{
-			_panelVideoSurface.BackgroundImage = null;
-			UpdateButtons();
-		}
-
-		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		public void HandleReportingPlayerOutput(string data)
-		{
-			_viewModel.HandlePlayerOutput(data);
-		}
-
-		#region Delegate methods executed in worker thread
-		/// ------------------------------------------------------------------------------------
-		void HandleErrorDataReceived(object sender, DataReceivedEventArgs e)
-		{
-			if (_reportPlayerOutput != null && e.Data != null)
-				Invoke(_reportPlayerOutput, e.Data);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void HandleOutputDataReceived(object sender, DataReceivedEventArgs e)
-		{
-			if (_reportPlayerOutput != null && e.Data != null)
-				Invoke(_reportPlayerOutput, e.Data);
+			Invoke((Action)UpdateButtons);
 		}
 
 		#endregion

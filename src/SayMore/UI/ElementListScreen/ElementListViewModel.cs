@@ -166,13 +166,23 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void ActivateComponentEditors()
+		{
+			if (_currentEditorProviders == null)
+				return;
+
+			foreach (var editor in _currentEditorProviders)
+				editor.Activated();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void DeactivateComponentEditors()
 		{
 			if (_currentEditorProviders == null)
 				return;
 
 			foreach (var editor in _currentEditorProviders)
-				editor.Deactivate();
+				editor.Deactivated();
 		}
 
 		/// ------------------------------------------------------------------------------------

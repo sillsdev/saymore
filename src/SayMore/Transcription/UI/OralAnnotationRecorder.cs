@@ -8,6 +8,12 @@ using SilTools.Controls;
 
 namespace SayMore.Transcription.UI
 {
+	public enum OralTranscriptionFileAffix
+	{
+		Careful,
+		Translation
+	}
+
 	public partial class OralAnnotationRecorder : UserControl, IMessageFilter
 	{
 		private const int WM_KEYDOWN = 0x100;

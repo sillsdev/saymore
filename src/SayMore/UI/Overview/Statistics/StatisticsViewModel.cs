@@ -113,7 +113,7 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetRecordingDurations(ComponentRole role)
 		{
-			var total = new TimeSpan(0);
+			var total = TimeSpan.Zero;
 			foreach (MediaFileInfo info in _backgroundStatisticsGather.GetAllFileData())
 			{
 				if (role.IsMatch(info.MediaFilePath))

@@ -10,9 +10,16 @@ namespace SayMore.Transcription.Model
 	/// ------------------------------------------------------------------------------------
 	public interface ITimeOrderSegment : ISegment
 	{
+		/// <summary>Segment's start time in seconds</summary>
 		float Start { get; }
+
+		/// <summary>Segment's stop time in seconds</summary>
 		float Stop { get; }
+
+		/// <summary>Segment's length in seconds</summary>
 		float GetLength();
+
+		/// <summary>Segment's length in seconds to a specified decimal place</summary>
 		float GetLength(int decimalPlaces);
 	}
 

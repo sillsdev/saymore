@@ -269,8 +269,7 @@ namespace SayMore.AudioUtils
 
 			for (int index = 0; index < e.BytesRecorded; index += 2)
 			{
-				var sample = (short)((buffer[index + 1] << 8) |
-				buffer[index + 0]);
+				var sample = (short)((buffer[index + 1] << 8) | buffer[index + 0]);
 				var sample32 = sample / 32768f;
 				SampleAggregator.Add(sample32);
 			}

@@ -372,7 +372,7 @@ namespace SayMore.UI.Utilities
 			if (durationStrings == null)
 				return null;
 
-			var totalDuration = new TimeSpan(0);
+			var totalDuration = TimeSpan.Zero;
 
 			foreach (var duration in durationStrings)
 			{

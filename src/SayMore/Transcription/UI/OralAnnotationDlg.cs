@@ -1,10 +1,8 @@
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.UI.Utilities;
 using SilTools;
 
 namespace SayMore.Transcription.UI

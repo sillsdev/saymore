@@ -8,7 +8,7 @@ using SilTools.Controls;
 
 namespace SayMore.Transcription.UI
 {
-	public enum OralTranscriptionFileAffix
+	public enum OralAnnotationType
 	{
 		Careful,
 		Translation

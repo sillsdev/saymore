@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using NAudio.Wave;
+using SayMore.Properties;
 using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model
@@ -14,9 +15,7 @@ namespace SayMore.Transcription.Model
 	/// ----------------------------------------------------------------------------------------
 	public class OralAnnotationFileGenerator
 	{
-		public const string GeneratedFileAffix = ".oralAnnotations.wav";
-
-			private readonly TimeOrderTier _origRecordingTier;
+		private readonly TimeOrderTier _origRecordingTier;
 		private readonly ITimeOrderSegment[] _origRecordingSegments;
 		private WaveFileWriter _audioFileWriter;
 
@@ -37,7 +36,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private void CreateInterleavedAudioFile()
 		{
-			var outputFilename = _origRecordingTier.MediaFileName + GeneratedFileAffix;
+			var outputFilename = _origRecordingTier.MediaFileName + Settings.Default.OralAnnotationGeneratedFileAffix;
 
 			using (_audioFileWriter = new WaveFileWriter(outputFilename, new WaveFormat(44100, 16, 3)))
 			{
@@ -57,7 +56,7 @@ namespace SayMore.Transcription.Model
 
 			// Write a channel for the careful speech segment
 			inputStream = GetWaveStreamForOralAnnotationSegment(segmentIndex,
-				OralTranscriptionFileAffix.Careful);
+				OralAnnotationType.Careful);
 
 			if (inputStream != null)
 			{
@@ -67,7 +66,7 @@ namespace SayMore.Transcription.Model
 
 			// Write a channel for the oral translation segment
 			inputStream = GetWaveStreamForOralAnnotationSegment(segmentIndex,
-				OralTranscriptionFileAffix.Translation);
+				OralAnnotationType.Translation);
 
 			if (inputStream != null)
 			{
@@ -88,13 +87,14 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		private WaveStream GetWaveStreamForOralAnnotationSegment(int segmentIndex,
-			OralTranscriptionFileAffix annotationType)
+			OralAnnotationType annotationType)
 		{
 			var pathToAnnotationsFolder = _origRecordingTier.MediaFileName + "_Annotations";
 			var segment = _origRecordingSegments[segmentIndex];
 
 			var filename = Path.Combine(pathToAnnotationsFolder,
-				segment.Start + "_to_" + segment.Stop + "_" + annotationType.ToString() + ".wav");
+				string.Format(Settings.Default.OralAnnotationSegmentFileAffix,
+					segment.Start, segment.Stop, annotationType));
 
 			return (File.Exists(filename) ? new WaveFileReader(filename) : null);
 		}

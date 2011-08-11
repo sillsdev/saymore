@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using SayMore.AudioUtils;
 using SayMore.Model.Files;
+using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.UI.MediaPlayer;
 
@@ -29,14 +30,15 @@ namespace SayMore.Transcription.UI
 		private AudioRecorder _annotationRecorder;
 		private AudioPlayer _annotationPlayer;
 		private readonly string _pathToAnnotationsFolder;
-		public string _annotationFileAffix;
+		public OralAnnotationType _annotationType;
 		public string _originalRecordingPath;
 
 		public Control MicLevelDisplayControl { get; set; }
 		public TrackBar MicLevelChangeControl { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationRecorderViewModel(string annotationFileAffix, TimeOrderTier tier)
+		public OralAnnotationRecorderViewModel(OralAnnotationType annotationType,
+			TimeOrderTier tier)
 		{
 			_origPlayerViewModel = new MediaPlayerViewModel();
 			_origPlayerViewModel.SetVolume(100);
@@ -46,7 +48,7 @@ namespace SayMore.Transcription.UI
 					PlaybackEnded(true, EventArgs.Empty);
 			};
 
-			_annotationFileAffix = "_" + annotationFileAffix + ".wav";
+			_annotationType = annotationType;
 			_originalRecordingPath = tier.MediaFileName;
 			_segments = tier.GetAllSegments().Cast<ITimeOrderSegment>().ToArray();
 			_pathToAnnotationsFolder = tier.MediaFileName + "_Annotations";
@@ -90,7 +92,8 @@ namespace SayMore.Transcription.UI
 			var segment = _segments[segmentNumber];
 
 			return Path.Combine(_pathToAnnotationsFolder,
-				segment.Start + "_to_" + segment.Stop + _annotationFileAffix);
+				string.Format(Settings.Default.OralAnnotationSegmentFileAffix,
+					segment.Start, segment.Stop, _annotationType));
 		}
 
 		/// ------------------------------------------------------------------------------------

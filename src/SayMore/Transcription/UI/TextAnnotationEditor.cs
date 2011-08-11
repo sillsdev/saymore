@@ -242,15 +242,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordedAnnotationButtonClick(object sender, EventArgs e)
 		{
-			var recordedFileAffix = (sender == _buttonCarefulSpeech ?
-				OralTranscriptionFileAffix.Careful.ToString() :
-				OralTranscriptionFileAffix.Translation.ToString());
+			var annotationType = (sender == _buttonCarefulSpeech ?
+				OralAnnotationType.Careful : OralAnnotationType.Translation);
 
 			var caption = (sender == _buttonCarefulSpeech ? "Careful Speech" : "Oral Translation");
 			var file = ((AnnotationComponentFile)_file);
 			var tier = (TimeOrderTier)file.Tiers.FirstOrDefault(t => t is TimeOrderTier);
 
-			using (var dlg = new OralAnnotationDlg(caption, recordedFileAffix, tier))
+			using (var dlg = new OralAnnotationDlg(caption, annotationType, tier))
 				dlg.ShowDialog();
 
 			OralAnnotationFileGenerator.Generate(tier);

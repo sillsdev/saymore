@@ -28,10 +28,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationDlg(string caption, string annotationAffix, TimeOrderTier tier) : this()
+		public OralAnnotationDlg(string caption,
+			OralAnnotationType annotationType, TimeOrderTier tier) : this()
 		{
 			_labelRecordingType.Text = caption;
-			_oralAnnotationRecorder.Initialize(new OralAnnotationRecorderViewModel(annotationAffix, tier), caption);
+			_oralAnnotationRecorder.Initialize(new OralAnnotationRecorderViewModel(annotationType, tier), caption);
 		}
 
 		/// ------------------------------------------------------------------------------------

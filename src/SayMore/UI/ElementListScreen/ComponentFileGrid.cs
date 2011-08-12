@@ -268,6 +268,11 @@ namespace SayMore.UI.ElementListScreen
 					new Point(dx, dy),
 					new Point(rc.Right, dy)
 				});
+
+				// If the following row is also indented, then draw the connector so it spans
+				// the height of the cell, rather tha stop where the horizontal line starts.
+				if (e.RowIndex + 1 < _grid.RowCount && _files.ElementAt(e.RowIndex + 1).DisplayIndentLevel > 0)
+					e.Graphics.DrawLine(pen, dx, rc.Y + 1, dx, rc.Y + rc.Height - 1);
 			}
 		}
 

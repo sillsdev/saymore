@@ -26,7 +26,7 @@ namespace SayMore.Model.Files.DataGathering
 
 		/// ------------------------------------------------------------------------------------
 		public AutoCompleteValueGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes,
-			ComponentFile.Factory componentFileFactory)
+			Func<ProjectElement, string, ComponentFile> componentFileFactory)
 			:	base(rootDirectoryPath, allFileTypes, path => ExtractValues(path, componentFileFactory))
 		{
 			_mappingOfFieldsToAutoCompleteKey.Add("primaryLanguage", "language");
@@ -74,7 +74,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected static Dictionary<string, string> ExtractValues(string path,
-			ComponentFile.Factory componentFileFactory)
+			Func<ProjectElement, string, ComponentFile> componentFileFactory)
 		{
 			try
 			{

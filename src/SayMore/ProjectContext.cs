@@ -103,7 +103,7 @@ namespace SayMore
 
 				builder.Register<AutoCompleteValueGatherer>(
 					c => new AutoCompleteValueGatherer(rootDirectoryPath, GetDataGatheringFilesTypes(c),
-						c.Resolve<ComponentFile.Factory>())).InstancePerLifetimeScope();
+						c.Resolve<Func<ProjectElement, string, ComponentFile>>())).InstancePerLifetimeScope();
 
 				builder.Register<FieldGatherer>(
 					c => new FieldGatherer(rootDirectoryPath, GetDataGatheringFilesTypes(c),
@@ -111,6 +111,17 @@ namespace SayMore
 
 				builder.Register<FieldUpdater>(c => new FieldUpdater(c.Resolve<FieldGatherer>(),
 					c.Resolve<IDictionary<string, IXmlFieldSerializer>>())).InstancePerLifetimeScope();
+
+				builder.Register<ComponentFileFactory>(c => new ComponentFileFactory(
+					c.Resolve<IEnumerable<FileType>>(),
+					c.Resolve<IEnumerable<ComponentRole>>(),
+					c.Resolve<FileSerializer>(),
+					c.Resolve<IProvideAudioVideoFileStatistics>(),
+					c.Resolve<PresetGatherer>(),
+					c.Resolve<FieldUpdater>()));
+
+				// This replaces the ComponentFile.Factory that was expected in various constructors.
+				builder.Register<Func<ProjectElement, string, ComponentFile>>(c => c.Resolve<ComponentFileFactory>().Create);
 
 				//make a lazy factory-getter to get around a mysterious circular dependency problem
 				//NB: when we move to .net 4, we can remove this and instead use Lazy<Func<PersonBasicEditor.Factory> in the PersonFileType constructor

@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using Moq;
 using NUnit.Framework;
@@ -43,7 +44,7 @@ namespace SayMoreTests.Model
 			  return file.Object;
 			};
 
-			ComponentFile.Factory componentFactory = (parentElement, path) =>
+			Func<ProjectElement, string, ComponentFile> componentFactory = (parentElement, path) =>
 			{
 				var file = new Mock<ComponentFile>();
 				//person.Setup(p => p.GetInformedConsentComponentFile()).Returns((ComponentFile)null);
@@ -62,7 +63,7 @@ namespace SayMoreTests.Model
 				ComponentRole.MeasurementTypes.None, null, null, Color.Empty, Color.Empty));
 
 			return new Event(_parentFolder.Path, "dummyId", null,
-				new EventFileType(() => null), componentFactory, null, null,
+				new EventFileType(() => null), componentFactory,
 				new FileSerializer(null), factory, componentRoles, personInformant.Object);
 
 			//ComponentFile.CreateMinimalComponentFileForTests

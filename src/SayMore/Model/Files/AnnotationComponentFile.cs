@@ -11,14 +11,11 @@ namespace SayMore.Model.Files
 {
 	public class AnnotationComponentFile : ComponentFile
 	{
-		public new delegate AnnotationComponentFile Factory(
-			ProjectElement parentElement, string pathToAnnotationFile);
-
 		private AnnotationFileHelper _helper;
 
 		/// ------------------------------------------------------------------------------------
 		public AnnotationComponentFile(ProjectElement parentElement,
-			string pathToAnnotationFile, AnnotationFileType fileType,
+			string pathToAnnotationFile, FileType fileType,
 			IEnumerable<ComponentRole> componentRoles)
 			: base(parentElement, pathToAnnotationFile, fileType, null, null, null)
 		{

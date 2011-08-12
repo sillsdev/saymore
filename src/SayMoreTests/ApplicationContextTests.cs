@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -101,7 +102,7 @@ namespace SayMoreTests
 			{
 				using (var projectContext = CreateProjectContext(appContext))
 				{
-					var factory = projectContext.ResolveForTests<ComponentFile.Factory>();
+					var factory = projectContext.ResolveForTests<Func<ProjectElement, string, ComponentFile>>();
 					//will throw if the container couldn't put all the pieces together
 					factory(null, _parentFolder.Combine("test.txt"));
 				}

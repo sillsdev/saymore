@@ -55,7 +55,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=2.1.13.813, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac, Version=2.5.1.827, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Autofac.dll</HintPath>
     </Reference>
@@ -125,6 +125,7 @@
     <Compile Include="Model\Files\AnnotationComponentFile.cs" />
     <Compile Include="Model\Files\DataGathering\BackgroundFileProcessor.cs" />
     <Compile Include="Model\Files\DataGathering\AutoCompleteValueGatherer.cs" />
+    <Compile Include="Model\Files\DataGathering\ComponentFileFactory.cs" />
     <Compile Include="Model\Files\DataGathering\PresetGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\AudioVideoDataGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\SessionOverviewStatistics.cs" />

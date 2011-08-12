@@ -91,7 +91,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// E.g., media files have sidecars with data that makes sense as a presets.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PresetData(string path, ComponentFile.Factory componentFileFactory)
+		public PresetData(string path, Func<ProjectElement, string, ComponentFile> componentFileFactory)
 		{
 			var file = componentFileFactory(null, path);
 

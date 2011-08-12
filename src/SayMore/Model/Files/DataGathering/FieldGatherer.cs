@@ -112,7 +112,7 @@ namespace SayMore.Model.Files.DataGathering
 		public IEnumerable<string> FieldKeys { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public FileTypeFields(string path, ComponentFile.Factory componentFileFactory)
+		public FileTypeFields(string path, Func<ProjectElement, string, ComponentFile> componentFileFactory)
 		{
 			var file = componentFileFactory(null, path);
 			FileType = file.FileType.GetType();

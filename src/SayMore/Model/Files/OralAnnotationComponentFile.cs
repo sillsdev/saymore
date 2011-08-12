@@ -8,15 +8,12 @@ namespace SayMore.Model.Files
 {
 	public class OralAnnotationComponentFile : ComponentFile
 	{
-		public new delegate OralAnnotationComponentFile Factory(
-			ProjectElement parentElement, string pathToAnnotationFile);
-
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationComponentFile(ProjectElement parentElement, string pathToAnnotatedFile,
+		public OralAnnotationComponentFile(ProjectElement parentElement, string pathtoAnnotatedFile,
 			IEnumerable<FileType> fileTypes, IEnumerable<ComponentRole> componentRoles,
 			FileSerializer fileSerializer, IProvideAudioVideoFileStatistics statisticsProvider,
 			PresetGatherer presetProvider, FieldUpdater fieldUpdater) :
-			base(parentElement, pathToAnnotatedFile, fileTypes, componentRoles,
+			base(parentElement, pathtoAnnotatedFile, fileTypes, componentRoles,
 				fileSerializer, statisticsProvider, presetProvider, fieldUpdater)
 		{
 		}

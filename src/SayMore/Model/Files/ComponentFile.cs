@@ -50,9 +50,6 @@ namespace SayMore.Model.Files
 		private static readonly Dictionary<string, string> s_fileTypes = new Dictionary<string, string>();
 		private static readonly Dictionary<string, Bitmap> s_smallFileIcons = new Dictionary<string, Bitmap>();
 
-		//autofac uses this, so that callers only need to know the path, not all the dependencies
-		public delegate ComponentFile Factory(ProjectElement parentElement, string pathToAnnotatedFile);
-
 		public delegate void ValueChangedHandler(ComponentFile file, string fieldId, object oldValue, object newValue);
 		public event ValueChangedHandler IdChanged;
 		public event ValueChangedHandler MetadataValueChanged;
@@ -85,10 +82,14 @@ namespace SayMore.Model.Files
 		protected ProjectElement _parentElement;
 
 		/// ------------------------------------------------------------------------------------
-		public ComponentFile(ProjectElement parentElement, string pathToAnnotatedFile,
-			IEnumerable<FileType> fileTypes, IEnumerable<ComponentRole> componentRoles,
-			FileSerializer fileSerializer, IProvideAudioVideoFileStatistics statisticsProvider,
-			PresetGatherer presetProvider, FieldUpdater fieldUpdater)
+		public ComponentFile(ProjectElement parentElement,
+			string pathToAnnotatedFile,
+			IEnumerable<FileType> fileTypes,
+			IEnumerable<ComponentRole> componentRoles,
+			FileSerializer fileSerializer,
+			IProvideAudioVideoFileStatistics statisticsProvider,
+			PresetGatherer presetProvider,
+			FieldUpdater fieldUpdater)
 		{
 			_parentElement = parentElement;
 			PathToAnnotatedFile = pathToAnnotatedFile;
@@ -123,7 +124,7 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// used only by ProjectElementComponentFile
+		/// used only by ProjectElementComponentFile and AnnotationComponentFile
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected ComponentFile(ProjectElement parentElement, string filePath,
@@ -142,7 +143,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void DetermineFileType(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes)
+		protected virtual void DetermineFileType(string pathToAnnotatedFile, IEnumerable<FileType> fileTypes)
 		{
 			var fTypes = fileTypes.ToArray();
 

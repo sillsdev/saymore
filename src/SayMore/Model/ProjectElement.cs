@@ -19,9 +19,7 @@ namespace SayMore.Model
 		/// <summary>
 		/// This lets us make componentFile instances without knowing all the inputs they need
 		/// </summary>
-		private readonly ComponentFile.Factory _componentFileFactory;
-		private readonly AnnotationComponentFile.Factory _transcriptionFileFactory;
-		private readonly OralAnnotationComponentFile.Factory _oralTranscriptionFileFactory;
+		private readonly Func<ProjectElement, string, ComponentFile> _componentFileFactory;
 		private string _id;
 
 		public virtual string Id { get { return _id; } }
@@ -39,23 +37,17 @@ namespace SayMore.Model
 		/// <param name="id">e.g. "ETR007"</param>
 		/// <param name="idChangedNotificationReceiver"></param>
 		/// <param name="componentFileFactory"></param>
-		/// <param name="transcriptionFileFactory"></param>
-		/// <param name="oralTranscriptionFileFactory"></param>
 		/// <param name="fileSerializer">used to load/save</param>
 		/// <param name="fileType"></param>
 		/// <param name="prjElementComponentFileFactory"></param>
 		/// ------------------------------------------------------------------------------------
 		protected ProjectElement(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver, FileType fileType,
-			ComponentFile.Factory componentFileFactory,
-			AnnotationComponentFile.Factory transcriptionFileFactory,
-			OralAnnotationComponentFile.Factory oralTranscriptionFileFactory,
+			Func<ProjectElement, string, ComponentFile> componentFileFactory,
 			FileSerializer fileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 		{
 			_componentFileFactory = componentFileFactory;
-			_transcriptionFileFactory = transcriptionFileFactory;
-			_oralTranscriptionFileFactory = oralTranscriptionFileFactory;
 			RequireThat.Directory(parentElementFolder).Exists();
 
 			ParentFolderPath = parentElementFolder;
@@ -94,20 +86,13 @@ namespace SayMore.Model
 
 				var annotationFilePath = file.GetSuggestedPathToAnnotationFile();
 
-				if (_transcriptionFileFactory != null && annotationFilePath != null &&
-					File.Exists(annotationFilePath))
+				if (annotationFilePath != null && File.Exists(annotationFilePath))
 				{
-					file.SetAnnotationFile(_transcriptionFileFactory(this, annotationFilePath));
+					file.SetAnnotationFile(_componentFileFactory(
+						this, annotationFilePath) as AnnotationComponentFile);
+
 					yield return file.GetAnnotationFile();
 				}
-
-				//var oralAnnotationFilePath = file.GetSuggestedPathToOralAnnotationFile();
-
-				//if (_oralTranscriptionFileFactory != null && oralAnnotationFilePath != null &&
-				//    File.Exists(oralAnnotationFilePath))
-				//{
-				//    yield return _oralTranscriptionFileFactory(this, oralAnnotationFilePath);
-				//}
 			}
 		}
 
@@ -122,7 +107,7 @@ namespace SayMore.Model
 				!path.EndsWith("thumbs.db") &&
 				!path.EndsWith(".pfsx") &&
 				!path.EndsWith(".eaf") &&
-				/*!path.EndsWith(Settings.Default.OralAnnotationGeneratedFileAffix.ToLower()) && */
+				//!path.EndsWith(Settings.Default.OralAnnotationGeneratedFileAffix.ToLower()) &&
 				!Path.GetFileName(path).StartsWith("."); //these are normally hidden
 		}
 

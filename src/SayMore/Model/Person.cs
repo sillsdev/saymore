@@ -20,10 +20,10 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public Person(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver,
-			PersonFileType personFileType, ComponentFile.Factory componentFileFactory,
+			PersonFileType personFileType, Func<ProjectElement, string, ComponentFile> componentFileFactory,
 			FileSerializer fileSerializer, ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 			: base(parentElementFolder, id, idChangedNotificationReceiver, personFileType,
-				componentFileFactory, null, null, fileSerializer, prjElementComponentFileFactory)
+				componentFileFactory, fileSerializer, prjElementComponentFileFactory)
 		{
 			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue("status", null)))
 			{

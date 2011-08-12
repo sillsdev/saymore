@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -6,6 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using SilTools;
 
 namespace SayMore.Transcription.UI
 {
@@ -18,6 +20,8 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class OralAnnotationWaveViewer : UserControl
 	{
+		public EventHandler PlaybackStopped;
+
 		private bool _allowScrolling;
 		private int _virtualWaveWidth;
 		private WaveOut _waveOut;
@@ -28,6 +32,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationWaveViewer()
 		{
+			DoubleBuffered = true;
+
 			InitializeComponent();
 
 			_labelOriginal.Font = new Font(SystemFonts.IconTitleFont, FontStyle.Bold);
@@ -159,6 +165,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnResize(System.EventArgs e)
+		{
+			Utils.SetWindowRedraw(this, false);
+			base.OnResize(e);
+			Utils.SetWindowRedraw(this, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		[DefaultValue(false)]
 		public bool AllowScrolling
 		{
@@ -209,6 +223,9 @@ namespace SayMore.Transcription.UI
 				_wavePanelOriginal.SetCursor(0);
 				_wavePanelCareful.SetCursor(0);
 				_wavePanelTranslation.SetCursor(0);
+
+				if (PlaybackStopped != null)
+					PlaybackStopped(this, EventArgs.Empty);
 			};
 
 			_waveOut.Play();

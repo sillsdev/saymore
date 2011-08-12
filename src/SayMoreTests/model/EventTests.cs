@@ -62,7 +62,7 @@ namespace SayMoreTests.Model
 				ComponentRole.MeasurementTypes.None, null, null, Color.Empty, Color.Empty));
 
 			return new Event(_parentFolder.Path, "dummyId", null,
-				new EventFileType(() => null), componentFactory, null,
+				new EventFileType(() => null), componentFactory, null, null,
 				new FileSerializer(null), factory, componentRoles, personInformant.Object);
 
 			//ComponentFile.CreateMinimalComponentFileForTests

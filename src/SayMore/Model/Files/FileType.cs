@@ -33,7 +33,7 @@ namespace SayMore.Model.Files
 		protected readonly Dictionary<int, IEnumerable<IEditorProvider>> _editors =
 			new Dictionary<int, IEnumerable<IEditorProvider>>();
 
-		public string Name { get; private set; }
+		public string Name { get; protected set; }
 		public virtual string TypeDescription { get; protected set; }
 		public virtual Image SmallIcon { get; protected set; }
 		public virtual string FileSize { get; protected set; }
@@ -485,6 +485,50 @@ namespace SayMore.Model.Files
 
 	#endregion
 
+	#region OralAnnotationFileType class
+	/// ----------------------------------------------------------------------------------------
+	public class OralAnnotationFileType : AudioFileType
+	{
+		/// ------------------------------------------------------------------------------------
+		public OralAnnotationFileType(
+			Func<AudioComponentEditor.Factory> audioComponentEditorFactoryLazy,
+			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy) :
+				base(audioComponentEditorFactoryLazy, contributorsEditorFactoryLazy)
+		{
+			Name = "OralAnnotations";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool IsMatch(string path)
+		{
+			return path.ToLower().EndsWith(Settings.Default.OralAnnotationGeneratedFileAffix.ToLower());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
+		{
+			var text = LocalizationManager.LocalizeString("OralAnnotationInfoEditor.OralAnnotationsTabText", "Generated Audio");
+			yield return new OralAnnotationEditor(file, text, "Audio");
+
+			text = LocalizationManager.LocalizeString("AudioFileInfoEditor.PropertiesTabText", "Properties");
+			yield return _audioComponentEditorFactoryLazy()(file, text, null);
+
+			text = LocalizationManager.LocalizeString("TextAnnotationInfoEditor.Contributors", "Contributors");
+			yield return _contributorsEditorFactoryLazy()(file, text, null);
+
+			text = LocalizationManager.LocalizeString("TextAnnotationInfoEditor.NotesTabText", "Notes");
+			yield return new NotesEditor(file, text, "Notes");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool IsAudio
+		{
+			get { return true; }
+		}
+	}
+
+	#endregion
+
 	#region AudioVideoFileTypeBase class
 	/// ----------------------------------------------------------------------------------------
 	public abstract class AudioVideoFileTypeBase : FileTypeWithContributors
@@ -651,7 +695,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class AudioFileType : AudioVideoFileTypeBase
 	{
-		private readonly Func<AudioComponentEditor.Factory> _audioComponentEditorFactoryLazy;
+		protected readonly Func<AudioComponentEditor.Factory> _audioComponentEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
 		public AudioFileType(

@@ -79,8 +79,8 @@ namespace SayMore
 
 				builder.RegisterType<EventFileType>().InstancePerLifetimeScope();
 				builder.RegisterType<PersonFileType>().InstancePerLifetimeScope();
-
 				builder.RegisterType<AnnotationFileType>().InstancePerLifetimeScope();
+				builder.RegisterType<OralAnnotationFileType>().InstancePerLifetimeScope();
 
 				//when something needs the list of filetypes, get them from this method
 				builder.Register<IEnumerable<FileType>>(GetFilesTypes).InstancePerLifetimeScope();
@@ -126,10 +126,11 @@ namespace SayMore
 			{
 				context.Resolve<EventFileType>(),
 				context.Resolve<PersonFileType>(),
+				context.Resolve<AnnotationFileType>(),
+				context.Resolve<OralAnnotationFileType>(),	// This must come before AudioFileType.
 				context.Resolve<AudioFileType>(),
 				context.Resolve<VideoFileType>(),
 				context.Resolve<ImageFileType>(),
-				context.Resolve<AnnotationFileType>(),
 				context.Resolve<UnknownFileType>(),
 			});
 		}
@@ -141,6 +142,8 @@ namespace SayMore
 			{
 				context.Resolve<EventFileType>(),
 				context.Resolve<PersonFileType>(),
+				// REVIEW: Should this be a gathered type?
+				// context.Resolve<OralAnnotationFileType>(),
 				context.Resolve<AudioFileType>(),
 				context.Resolve<VideoFileType>(),
 				context.Resolve<ImageFileType>(),

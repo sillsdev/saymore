@@ -32,7 +32,7 @@ namespace SayMoreTests.Model
 		private Event CreateEvent()
 		{
 			return new Event(_parentFolder.Path, "xyz", null, new EventFileType(() => null),
-				(parentElement, path) => null, null, new FileSerializer(null), (w, x, y, z) =>
+				(parentElement, path) => null, null, null, new FileSerializer(null), (w, x, y, z) =>
 			{
 				return new ProjectElementComponentFile(w, x, y, z,
 					FieldUpdater.CreateMinimalFieldUpdaterForTests(null));

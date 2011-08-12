@@ -21,6 +21,7 @@ namespace SayMore.Model
 		/// </summary>
 		private readonly ComponentFile.Factory _componentFileFactory;
 		private readonly AnnotationComponentFile.Factory _transcriptionFileFactory;
+		private readonly OralAnnotationComponentFile.Factory _oralTranscriptionFileFactory;
 		private string _id;
 
 		public virtual string Id { get { return _id; } }
@@ -39,6 +40,7 @@ namespace SayMore.Model
 		/// <param name="idChangedNotificationReceiver"></param>
 		/// <param name="componentFileFactory"></param>
 		/// <param name="transcriptionFileFactory"></param>
+		/// <param name="oralTranscriptionFileFactory"></param>
 		/// <param name="fileSerializer">used to load/save</param>
 		/// <param name="fileType"></param>
 		/// <param name="prjElementComponentFileFactory"></param>
@@ -47,11 +49,13 @@ namespace SayMore.Model
 			Action<ProjectElement, string, string> idChangedNotificationReceiver, FileType fileType,
 			ComponentFile.Factory componentFileFactory,
 			AnnotationComponentFile.Factory transcriptionFileFactory,
+			OralAnnotationComponentFile.Factory oralTranscriptionFileFactory,
 			FileSerializer fileSerializer,
 			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
 		{
 			_componentFileFactory = componentFileFactory;
 			_transcriptionFileFactory = transcriptionFileFactory;
+			_oralTranscriptionFileFactory = oralTranscriptionFileFactory;
 			RequireThat.Directory(parentElementFolder).Exists();
 
 			ParentFolderPath = parentElementFolder;
@@ -75,15 +79,12 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentFile> GetComponentFiles()
 		{
-			// John: Should we cache this?
-			// Ansr: if it proves slow, but then we have to complicate things to keep it up to date.
-
 			// This is the actual person or event data
 			yield return MetaDataFile;
 
 			//these are the other files we find in the folder
 			var otherFiles = from f in Directory.GetFiles(FolderPath, "*.*")
-							 where GetShowAsComponentFile(f)
+							 where GetShowAsNormalComponentFile(f)
 							 orderby f
 							 select _componentFileFactory(this, f);
 
@@ -99,11 +100,19 @@ namespace SayMore.Model
 					file.SetAnnotationFile(_transcriptionFileFactory(this, annotationFilePath));
 					yield return file.GetAnnotationFile();
 				}
+
+				//var oralAnnotationFilePath = file.GetSuggestedPathToOralAnnotationFile();
+
+				//if (_oralTranscriptionFileFactory != null && oralAnnotationFilePath != null &&
+				//    File.Exists(oralAnnotationFilePath))
+				//{
+				//    yield return _oralTranscriptionFileFactory(this, oralAnnotationFilePath);
+				//}
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetShowAsComponentFile(string filePath)
+		public bool GetShowAsNormalComponentFile(string filePath)
 		{
 			var path = filePath.ToLower();
 
@@ -113,6 +122,7 @@ namespace SayMore.Model
 				!path.EndsWith("thumbs.db") &&
 				!path.EndsWith(".pfsx") &&
 				!path.EndsWith(".eaf") &&
+				/*!path.EndsWith(Settings.Default.OralAnnotationGeneratedFileAffix.ToLower()) && */
 				!Path.GetFileName(path).StartsWith("."); //these are normally hidden
 		}
 

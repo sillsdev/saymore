@@ -47,7 +47,7 @@ namespace SayMoreTests.Model
 		public static Event CreateEvent(string parentFolderPath, string name)
 		{
 			return new Event(parentFolderPath, name, null, new EventFileType(() => null),
-				MakeComponent, null, new FileSerializer(null), (w, x, y, z) =>
+				MakeComponent, null, null, new FileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 					ApplicationContainer.ComponentRoles, null);
 		}
@@ -253,50 +253,50 @@ namespace SayMoreTests.Model
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetShowAsComponentFile_IsElanPrefFile_ReturnsFalse()
+		public void GetShowAsNormalComponentFile_IsElanPrefFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("carrots.wav.pfsx"));
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("CARROTS.WAV.PFSX"));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("carrots.wav.pfsx"));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("CARROTS.WAV.PFSX"));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetShowAsComponentFile_IsAnnotationFile_ReturnsFalse()
+		public void GetShowAsNormalComponentFile_IsAnnotationFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("peas.mp3.eaf"));
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("PEAS.MP3.EAF"));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("peas.mp3.eaf"));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("PEAS.MP3.EAF"));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetShowAsComponentFile_IsMetaFile_ReturnsFalse()
+		public void GetShowAsNormalComponentFile_IsMetaFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("beans.wav.meta"));
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("BEANS.WAV.META"));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("beans.wav.meta"));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("BEANS.WAV.META"));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetShowAsComponentFile_IsThumbsFile_ReturnsFalse()
+		public void GetShowAsNormalComponentFile_IsThumbsFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("thumbs.db"));
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("THUMBS.DB"));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("thumbs.db"));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("THUMBS.DB"));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetShowAsComponentFile_IsPersonFile_ReturnsFalse()
+		public void GetShowAsNormalComponentFile_IsPersonFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("broccoli.person"));
-			Assert.IsFalse(CreatePerson().GetShowAsComponentFile("BROCCOLI.PERSON"));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("broccoli.person"));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("BROCCOLI.PERSON"));
 		}
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetShowAsComponentFile_IsEventFile_ReturnsFalse()
+		public void GetShowAsNormalComponentFile_IsEventFile_ReturnsFalse()
 		{
-			Assert.IsFalse(CreateEvent().GetShowAsComponentFile("corn.event"));
-			Assert.IsFalse(CreateEvent().GetShowAsComponentFile("CORN.EVENT"));
+			Assert.IsFalse(CreateEvent().GetShowAsNormalComponentFile("corn.event"));
+			Assert.IsFalse(CreateEvent().GetShowAsNormalComponentFile("CORN.EVENT"));
 		}
 
 		//[Test]

@@ -176,6 +176,7 @@ namespace SayMore.Model.Files
 			return fi.CreationTime;
 		}
 
+		#region Methods related to a file's text annotation file
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a value indicating whether or not the component file can have transcriptions.
@@ -236,6 +237,24 @@ namespace SayMore.Model.Files
 					refreshAction(newAnnotationFile);
 			}
 		}
+
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path of to the component file's oral annotation file, even if the file
+		/// doesn't exist. If the component file is not of a type that can have an annotation
+		/// file, then null is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetSuggestedPathToOralAnnotationFile()
+		{
+			if (!GetCanHaveAnnotationFile())
+				return null;
+
+			return PathToAnnotatedFile + Settings.Default.OralAnnotationGeneratedFileAffix;
+		}
+
 
 		/// ------------------------------------------------------------------------------------
 		public virtual int DisplayIndentLevel

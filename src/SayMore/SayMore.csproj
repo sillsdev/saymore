@@ -109,7 +109,13 @@
     <Compile Include="AudioUtils\AudioRecorder.cs" />
     <Compile Include="AudioUtils\SampleAggregator.cs" />
     <Compile Include="AudioUtils\TrimWaveStream.cs" />
+    <Compile Include="AudioUtils\WaveControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="AudioUtils\WaveFileUtils.cs" />
+    <Compile Include="AudioUtils\WavePainter.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
@@ -132,6 +138,7 @@
     <Compile Include="Model\Files\FieldUpdater.cs" />
     <Compile Include="Model\Files\FileCommand.cs" />
     <Compile Include="Model\Files\MediaFileInfo.cs" />
+    <Compile Include="Model\Files\OralAnnotationComponentFile.cs" />
     <Compile Include="Model\Files\UnknownFileType.cs" />
     <Compile Include="Model\Files\FileSerializer.cs" />
     <Compile Include="Model\Files\ProjectElementComponentFile.cs" />
@@ -179,6 +186,12 @@
     <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.Designer.cs">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationEditor.designer.cs">
+      <DependentUpon>OralAnnotationEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transcription\UI\OralAnnotationRecorder.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -186,6 +199,12 @@
       <DependentUpon>OralAnnotationRecorder.cs</DependentUpon>
     </Compile>
     <Compile Include="Transcription\UI\OralAnnotationRecorderViewModel.cs" />
+    <Compile Include="Transcription\UI\OralAnnotationWaveViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\OralAnnotationWaveViewer.designer.cs">
+      <DependentUpon>OralAnnotationWaveViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transcription\UI\TextAnnotationColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
       <SubType>UserControl</SubType>
@@ -337,6 +356,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ElementListScreen\StagesDataProvider.cs" />
+    <Compile Include="UI\LoadingDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LoadingDlg.Designer.cs">
+      <DependentUpon>LoadingDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\LowLevelControls\ColumnChooserButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -509,8 +534,14 @@
     <EmbeddedResource Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.resx">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\OralAnnotationEditor.resx">
+      <DependentUpon>OralAnnotationEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\OralAnnotationRecorder.resx">
       <DependentUpon>OralAnnotationRecorder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\OralAnnotationWaveViewer.resx">
+      <DependentUpon>OralAnnotationWaveViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\TextAnnotationEditor.resx">
       <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
@@ -559,6 +590,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LoadingDlg.resx">
+      <DependentUpon>LoadingDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesControl.resx">
       <DependentUpon>CopyFilesControl.cs</DependentUpon>

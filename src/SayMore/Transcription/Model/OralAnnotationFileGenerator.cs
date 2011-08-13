@@ -36,7 +36,8 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private void CreateInterleavedAudioFile()
 		{
-			var outputFilename = _origRecordingTier.MediaFileName + Settings.Default.OralAnnotationGeneratedFileAffix;
+			var outputFilename = _origRecordingTier.MediaFileName +
+				Settings.Default.OralAnnotationGeneratedFileAffix;
 
 			using (_audioFileWriter = new WaveFileWriter(outputFilename, new WaveFormat(44100, 16, 3)))
 			{

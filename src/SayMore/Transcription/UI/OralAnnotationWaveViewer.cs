@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -24,6 +23,7 @@ namespace SayMore.Transcription.UI
 
 		private bool _allowScrolling;
 		private int _virtualWaveWidth;
+		private BackgroundWorker _worker;
 		private WaveOut _waveOut;
 
 		public WaveStream MonoWaveStream { get; private set; }
@@ -45,6 +45,8 @@ namespace SayMore.Transcription.UI
 
 			_wavePanelOriginal.BackColor = _wavePanelCareful.BackColor =
 				_wavePanelTranslation.BackColor = SystemColors.Window;
+
+			_wavePanelOriginal.MouseClick += new MouseEventHandler(HandleWavePanelMouseClick);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -96,19 +98,34 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void LoadAnnotationAudioFile(string filename)
 		{
-			var orginalSamples = new List<float>(65535);
-			var carefulSamples = new List<float>(65535);
-			var translationSamples = new List<float>(65535);
+			_worker = new BackgroundWorker();
+			_worker.DoWork += InternalLoadAnnotationAudioFile;
+			_worker.RunWorkerAsync(filename);
 
-			using (var threeChannelStream = new WaveFileReader(filename))
+			while (_worker.IsBusy)
+				Application.DoEvents();
+
+			_worker.Dispose();
+			_worker = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InternalLoadAnnotationAudioFile(object sender, DoWorkEventArgs e)
+		{
+			using (var threeChannelStream = new WaveFileReader(e.Argument as string))
 			{
+				var orginalSamples = new float[threeChannelStream.SampleCount];
+				var carefulSamples = new float[threeChannelStream.SampleCount];
+				var translationSamples = new float[threeChannelStream.SampleCount];
+
 				var provider = new SampleChannel(threeChannelStream);
 				float[] buffer = new float[3];
-				while (provider.Read(buffer, 0, 3) > 0)
+
+				for (int i = 0; i < threeChannelStream.SampleCount && provider.Read(buffer, 0, 3) > 0; i++)
 				{
-					orginalSamples.Add(buffer[0]);
-					carefulSamples.Add(buffer[1]);
-					translationSamples.Add(buffer[2]);
+					orginalSamples[i] = buffer[0];
+					carefulSamples[i] = buffer[1];
+					translationSamples[i] = buffer[2];
 				}
 
 				_wavePanelOriginal.Initialize(orginalSamples, threeChannelStream.TotalTime);
@@ -127,45 +144,63 @@ namespace SayMore.Transcription.UI
 		/// channel 2 and translation in channel 3.
 		/// </summary>
 		/// <remarks>
-		/// The 3-channel stream is a series of 3, 16-bit values, or samples. Each set of
-		/// 3, 16-bit samples is a block and each sample in a block corresponds to a channel.
+		/// The 3-channel stream is a series of 3 samples of bytes, each sample containing
+		/// a number of bytes equal to the number of bits per sample divided by 2. Each
+		/// set of samples for the three channels is a block.
 		///
+		/// Example for 3-channel, 16-bits per sample
 		/// +-----------------------------------------------------+--------+--------+
-		/// +                        Block 1                      |       Block 2    ... etc.
+		/// +                        Block 1                      |      Block 2     ... etc.
 		/// +-----------------------------------------------------+--------+--------+
 		/// |   (Channel 1)   |   (Channel 2)   |   (Channel 3)   |   (Channel 1)   |... etc.
 		/// +--------+--------+--------+--------+--------+--------+--------+--------+
 		/// | byte 0 | byte 1 | byte 2 | byte 3 | byte 4 | byte 5 | byte 6 | byte 7 |... etc.
 		/// +--------+--------+--------+--------+--------+--------+--------+--------+
-		/// |Sample 0|Sample 1|Sample 2|Sample 3|Sample 4|Sample 5|Sample 6|Sample 7|... etc.
+		/// |     Sample 0    |     Sample 1    |     Sample 2    |     Sample 3    |... etc.
 		/// +--------+--------+--------+--------+--------+--------+--------+--------+
 		///
 		/// The process of creating a mono stream involves combining the samples in each block
-		/// into a single sample (i.e. 16-bit value). In this case, that's fairly easy because
-		/// we know that whenever a sample contains non-zero data (i.e. sound), the other
-		/// samples in the block will contain zeros (i.e. silence). The stream is read in
-		/// blocks of 6 bytes (3 samples) and written to a new buffer having the bytes from
-		/// each sample bitwise OR'd together.
+		/// into a single sample (i.e. 16-bit value in the example case). That's fairly easy
+		/// because we know that whenever a sample contains non-zero data (i.e. sound), the
+		/// other samples in the block will contain zeros (i.e. silence). The stream is read in
+		/// blocks and written to a new buffer having the bytes from each sample bitwise
+		/// OR'd together.
 		/// </remarks>
 		/// ------------------------------------------------------------------------------------
-		private void CreateMonoStreamFrom3ChannelStream(WaveStream threeChannelStream)
+		private void CreateMonoStreamFrom3ChannelStream(WaveFileReader threeChannelStream)
 		{
 			threeChannelStream.Position = 0;
-			var samples = new List<byte>();
-			var singleSample = new byte[6];
 
-			while (threeChannelStream.Read(singleSample, 0, 6) > 0)
+			// 2 for 16 bit, 3 for 24 bit, 4 for 32 bit, etc.
+			var bytesPerSample = threeChannelStream.WaveFormat.BitsPerSample / 8;
+
+			var bytesPerBlock = bytesPerSample * threeChannelStream.WaveFormat.Channels;
+			var buffer = new byte[threeChannelStream.SampleCount * bytesPerSample];
+			var singleBlock = new byte[bytesPerBlock];
+
+			for (int i = 0; i < threeChannelStream.SampleCount * bytesPerSample;)
 			{
-				samples.Add((byte)(singleSample[0] | singleSample[2] | singleSample[4]));
-				samples.Add((byte)(singleSample[1] | singleSample[3] | singleSample[5]));
+				threeChannelStream.Read(singleBlock, 0, bytesPerBlock);
+
+				for (int byteInSample = 0; byteInSample < bytesPerSample; byteInSample++)
+				{
+					for (int channel = 0; channel < threeChannelStream.WaveFormat.Channels; channel++)
+						buffer[i] |= singleBlock[byteInSample + (channel * bytesPerSample)];
+
+					i++;
+				}
 			}
 
-			var memStream = new MemoryStream(samples.ToArray());
-			MonoWaveStream = new RawSourceWaveStream(memStream, new WaveFormat(44100, 1));
+			var memStream = new MemoryStream(buffer);
+
+			var format = new WaveFormat(threeChannelStream.WaveFormat.SampleRate,
+				threeChannelStream.WaveFormat.BitsPerSample, 1);
+
+			MonoWaveStream = new RawSourceWaveStream(memStream, format);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnResize(System.EventArgs e)
+		protected override void OnResize(EventArgs e)
 		{
 			Utils.SetWindowRedraw(this, false);
 			base.OnResize(e);
@@ -207,10 +242,29 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleWavePanelMouseClick(object sender, MouseEventArgs e)
+		{
+			if (_waveOut != null && _waveOut.PlaybackState == PlaybackState.Playing)
+				Stop();
+
+			_wavePanelOriginal.SetCursor(e.X);
+			_wavePanelCareful.SetCursor(e.X);
+			_wavePanelTranslation.SetCursor(e.X);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void Play()
 		{
-			MonoWaveStream.Position = 0;
-			var provider = new SampleChannel(MonoWaveStream);
+			var stream = MonoWaveStream;
+
+			if (_wavePanelOriginal.GetCursor() > 0)
+			{
+				var cursorTime = _wavePanelOriginal.GetCursorTime();
+				stream = new WaveOffsetStream(MonoWaveStream, TimeSpan.Zero,
+					cursorTime, MonoWaveStream.TotalTime - cursorTime);
+			}
+
+			var provider = new SampleChannel(stream);
 			provider.PreVolumeMeter += HandlePlaybackMetering;
 
 			_waveOut = new WaveOut();
@@ -220,9 +274,9 @@ namespace SayMore.Transcription.UI
 			{
 				_waveOut.Dispose();
 				_waveOut = null;
-				_wavePanelOriginal.SetCursor(0);
-				_wavePanelCareful.SetCursor(0);
-				_wavePanelTranslation.SetCursor(0);
+				_wavePanelOriginal.SetPlaybackCursor(TimeSpan.Zero);
+				_wavePanelCareful.SetPlaybackCursor(TimeSpan.Zero);
+				_wavePanelTranslation.SetPlaybackCursor(TimeSpan.Zero);
 
 				if (PlaybackStopped != null)
 					PlaybackStopped(this, EventArgs.Empty);
@@ -234,9 +288,17 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandlePlaybackMetering(object sender, StreamVolumeEventArgs e)
 		{
-			_wavePanelOriginal.SetCursor(MonoWaveStream.CurrentTime);
-			_wavePanelCareful.SetCursor(MonoWaveStream.CurrentTime);
-			_wavePanelTranslation.SetCursor(MonoWaveStream.CurrentTime);
+			// If playback didn't start at zero, then we're using a WaveOffsetStream and
+			// when using that kind of stream, we never get a  PlaybackStopped event on
+			// the WaveOut, so we have to force it here.
+			if (MonoWaveStream.CurrentTime == MonoWaveStream.TotalTime)
+				_waveOut.Stop();
+			else
+			{
+				_wavePanelOriginal.SetPlaybackCursor(MonoWaveStream.CurrentTime);
+				_wavePanelCareful.SetPlaybackCursor(MonoWaveStream.CurrentTime);
+				_wavePanelTranslation.SetPlaybackCursor(MonoWaveStream.CurrentTime);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

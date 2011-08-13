@@ -69,23 +69,25 @@ namespace SayMore.AudioUtils
 		public Color MeterLevelBaseColor { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public AudioRecorder() : this(44100, 1)
+		public AudioRecorder(int sampleRate, int bitsPerSample, int channels) :
+			this(new WaveFormat(sampleRate, bitsPerSample, channels))
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public AudioRecorder(WaveFormat recordingFormat)
 		{
 			MeterLevelMaxPeakColor = Color.Red;
 			MeterLevelMidColor = Color.Yellow;
 			MeterLevelBaseColor = Color.FromArgb(0xFF, 0x00, 0xFF, 0x00);
-		}
 
-		/// ------------------------------------------------------------------------------------
-		public AudioRecorder(int sampleRate, int channels)
-		{
 			SampleAggregator = new SampleAggregator();
 			SampleAggregator.MaximumCalculated += delegate(object sender, MaxSampleEventArgs e)
 			{
 				_peakLevel = Math.Max(e.MaxSample, Math.Abs(e.MinSample));
 			};
 
-			RecordingFormat = new WaveFormat(sampleRate, channels);
+			RecordingFormat = recordingFormat;
 			BeginMonitoring(0);
 		}
 

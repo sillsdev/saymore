@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using NAudio.Wave;
+using SayMore.AudioUtils;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
 
@@ -39,7 +40,7 @@ namespace SayMore.Transcription.Model
 			var outputFilename = _origRecordingTier.MediaFileName +
 				Settings.Default.OralAnnotationGeneratedFileAffix;
 
-			using (_audioFileWriter = new WaveFileWriter(outputFilename, new WaveFormat(44100, 16, 3)))
+			using (_audioFileWriter = new WaveFileWriter(outputFilename, WaveFileUtils.GetDefaultWaveFormat(3)))
 			{
 				for (int i = 0; i < _origRecordingSegments.Length; i++)
 					InterleaveSegments(i);
@@ -81,9 +82,9 @@ namespace SayMore.Transcription.Model
 		{
 			var segment = _origRecordingSegments[segmentIndex];
 			var origRecStream = new WaveFileReader(_origRecordingTier.MediaFileName);
-			return new WaveOffsetStream(origRecStream, TimeSpan.Zero,
-					TimeSpan.FromSeconds(segment.Start),
-					TimeSpan.FromSeconds(segment.GetLength()));
+
+			return new WaveSegmentStream(origRecStream,
+					TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.GetLength()));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -104,33 +105,31 @@ namespace SayMore.Transcription.Model
 		private void WriteAudioStreamToChannel(int channel, WaveStream inputStream)
 		{
 			int bytesPerBlock = (inputStream.WaveFormat.BitsPerSample / 8) * inputStream.WaveFormat.Channels;
-			var oneSample = new byte[bytesPerBlock];
-			var silentSample = new byte[bytesPerBlock];
-			long bytesRead = 0;
+			var oneBlock = new byte[bytesPerBlock];
+			var silentBlock = new byte[bytesPerBlock];
 
-			while (bytesRead < inputStream.Length)
+			for (long bytesRead = 0; bytesRead < inputStream.Length; bytesRead += bytesPerBlock)
 			{
-				inputStream.Read(oneSample, 0, bytesPerBlock);
-				bytesRead += bytesPerBlock;
+				inputStream.Read(oneBlock, 0, bytesPerBlock);
 
 				switch (channel)
 				{
 					case 1:
-						_audioFileWriter.Write(oneSample, 0, bytesPerBlock);
-						_audioFileWriter.Write(silentSample, 0, bytesPerBlock);
-						_audioFileWriter.Write(silentSample, 0, bytesPerBlock);
+						_audioFileWriter.Write(oneBlock, 0, bytesPerBlock);
+						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
+						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
 						break;
 
 					case 2:
-						_audioFileWriter.Write(silentSample, 0, bytesPerBlock);
-						_audioFileWriter.Write(oneSample, 0, bytesPerBlock);
-						_audioFileWriter.Write(silentSample, 0, bytesPerBlock);
+						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
+						_audioFileWriter.Write(oneBlock, 0, bytesPerBlock);
+						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
 						break;
 
 					case 3:
-						_audioFileWriter.Write(silentSample, 0, bytesPerBlock);
-						_audioFileWriter.Write(silentSample, 0, bytesPerBlock);
-						_audioFileWriter.Write(oneSample, 0, bytesPerBlock);
+						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
+						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
+						_audioFileWriter.Write(oneBlock, 0, bytesPerBlock);
 						break;
 				}
 			}

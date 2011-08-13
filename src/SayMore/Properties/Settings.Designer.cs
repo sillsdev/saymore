@@ -1168,5 +1168,31 @@ namespace SayMore.Properties {
                 this["OralAnnotationSegmentFileAffix"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("32")]
+        public int OralAnnotationsBitsPerSample {
+            get {
+                return ((int)(this["OralAnnotationsBitsPerSample"]));
+            }
+            set {
+                this["OralAnnotationsBitsPerSample"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4800")]
+        public int OralAnnotationsSampleRate {
+            get {
+                return ((int)(this["OralAnnotationsSampleRate"]));
+            }
+            set {
+                this["OralAnnotationsSampleRate"] = value;
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using SayMore.AudioUtils;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -46,7 +47,7 @@ namespace SayMore.Transcription.UI
 			_wavePanelOriginal.BackColor = _wavePanelCareful.BackColor =
 				_wavePanelTranslation.BackColor = SystemColors.Window;
 
-			_wavePanelOriginal.MouseClick += new MouseEventHandler(HandleWavePanelMouseClick);
+			_wavePanelOriginal.MouseClick += HandleWavePanelMouseClick;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -260,8 +261,7 @@ namespace SayMore.Transcription.UI
 			if (_wavePanelOriginal.GetCursor() > 0)
 			{
 				var cursorTime = _wavePanelOriginal.GetCursorTime();
-				stream = new WaveOffsetStream(MonoWaveStream, TimeSpan.Zero,
-					cursorTime, MonoWaveStream.TotalTime - cursorTime);
+				stream = new WaveSegmentStream(MonoWaveStream, cursorTime);
 			}
 
 			var provider = new SampleChannel(stream);

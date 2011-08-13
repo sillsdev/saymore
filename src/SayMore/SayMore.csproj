@@ -116,6 +116,7 @@
     <Compile Include="AudioUtils\WavePainter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AudioUtils\WaveSegmentStream.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">

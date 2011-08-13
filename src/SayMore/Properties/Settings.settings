@@ -353,5 +353,11 @@
     <Setting Name="OralAnnotationSegmentFileAffix" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">{0}_to_{1}_{2}.wav</Value>
     </Setting>
+    <Setting Name="OralAnnotationsBitsPerSample" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">32</Value>
+    </Setting>
+    <Setting Name="OralAnnotationsSampleRate" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4800</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

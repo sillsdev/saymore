@@ -115,15 +115,39 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetCursor(int cursorTimeInMilliseconds)
-		{
-			SetCursor(TimeSpan.FromMilliseconds(cursorTimeInMilliseconds));
-		}
+		//public void SetCursor(double cursorTimeInMilliseconds)
+		//{
+		//    SetCursor(TimeSpan.FromMilliseconds(cursorTimeInMilliseconds));
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetCursor(TimeSpan cursorTime)
 		{
 			_painter.SetCursor(this, cursorTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetCursor(int cursorX)
+		{
+			_painter.SetCursor(this, cursorX);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetPlaybackCursor(TimeSpan cursorTime)
+		{
+			_painter.SetPlaybackCursor(this, cursorTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int GetCursor()
+		{
+			return _painter.GetCursor();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetCursorTime()
+		{
+			return _painter.GetCursorTime();
 		}
 
 		#region Overridden methods

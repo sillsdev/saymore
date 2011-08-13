@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
+using SilTools;
 
 namespace SayMore.AudioUtils
 {
@@ -19,9 +20,10 @@ namespace SayMore.AudioUtils
 		/// Each pixel value (X direction) represents this many samples in the wavefile
 		/// Starting value is based on control width so that the .WAV will cover the entire width.
 		/// </summary>
-		private double _samplesPerPixel;
+		public double SamplesPerPixel { get; private set; }
 
-		private TimeSpan _cursor;
+		private int _cursorX;
+		private int _playbackCursorX;
 		private double _pixelPerMillisecond;
 		private int _offsetOfLeftEdge;
 		private readonly TimeSpan _totalTime;
@@ -66,7 +68,7 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		private void SetSamplesPerPixel(double value)
 		{
-			_samplesPerPixel = value;
+			SamplesPerPixel = value;
 			LoadBufferOfSamplesToDraw();
 		}
 
@@ -82,14 +84,14 @@ namespace SayMore.AudioUtils
 				float minVal = float.MaxValue;
 
 				// Find the max & min peaks for this pixel
-				for (int i = 0; i < _samplesPerPixel && firstSampleInPixel + i< _samples.Length; i++)
+				for (int i = 0; i < SamplesPerPixel && firstSampleInPixel + i< _samples.Length; i++)
 				{
 					maxVal = Math.Max(maxVal, _samples[firstSampleInPixel + i]);
 					minVal = Math.Min(minVal, _samples[firstSampleInPixel + i]);
 				}
 
 				samplesToDraw.Add(new KeyValuePair<float, float>(maxVal, minVal));
-				firstSampleInPixel += (int)_samplesPerPixel;
+				firstSampleInPixel += (int)SamplesPerPixel;
 			}
 
 			_samplesToDraw = samplesToDraw.ToArray();
@@ -110,14 +112,17 @@ namespace SayMore.AudioUtils
 
 			// If samples per pixel is small or less than zero,
 			// we are out of zoom range, so don't display anything
-			if (_samplesPerPixel > 0.0000000001d)
+			if (SamplesPerPixel > 0.0000000001d)
 				DrawWave(e.Graphics, rc);
 
 			// Now draw the selected region, if there is one.
 			DrawSelectedRegion(e.Graphics, rc);
 
-			if (_cursor > TimeSpan.Zero)
+			if (_cursorX > 0)
 				DrawCursor(e.Graphics, rc);
+
+			if (_playbackCursorX > 0)
+				DrawPlaybackProgressShading(e.Graphics, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -178,36 +183,108 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		private void DrawCursor(Graphics g, Rectangle rc)
 		{
-			int cursorX = GetCursorX();
+			using (var pen = new Pen(Color.FromArgb(255, Color.Red)))
+				g.DrawLine(pen, _cursorX, 0, _cursorX, rc.Height);
 
-			using (var pen = new Pen(Color.FromArgb(200, ForeColor)))
-				g.DrawLine(pen, cursorX, 0, cursorX, rc.Height);
+			PreviousCursorRectangle = new Rectangle(_cursorX, 0, 1, rc.Height);
+		}
 
-			PreviousCursorRectangle = new Rectangle(cursorX, 0, 1, rc.Height);
+		/// ------------------------------------------------------------------------------------
+		private void DrawPlaybackProgressShading(Graphics g, Rectangle rc)
+		{
+			rc.X = _cursorX;
+			rc.Width = _playbackCursorX - _cursorX;
+
+			using (var br = new SolidBrush(Color.FromArgb(110, SystemColors.Highlight)))
+				g.FillRectangle(br, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetCursor(Control ctrl, TimeSpan cursorTime)
 		{
-			var rc = PreviousCursorRectangle;
-			if (rc != Rectangle.Empty)
-				ctrl.Invalidate(rc);
-
-			_cursor = cursorTime;
-			var cursorX = GetCursorX();
-			ctrl.Invalidate(new Rectangle(cursorX, 0, cursorX, ctrl.ClientSize.Height));
+			SetCursor(ctrl, ConvertTimeToXCoordinate(cursorTime));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TimeSpan GetCursor()
+		public void SetCursor(Control ctrl, int cursorX)
 		{
-			return _cursor;
+			if (_playbackCursorX > 0)
+				SetPlaybackCursor(ctrl, cursorX);
+			else
+			{
+				var rc = PreviousCursorRectangle;
+				if (rc != Rectangle.Empty)
+					ctrl.Invalidate(rc);
+
+				_cursorX = cursorX;
+				ctrl.Invalidate(new Rectangle(_cursorX, 0, _cursorX, ctrl.ClientSize.Height));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public int GetCursorX()
+		public void SetPlaybackCursor(Control ctrl, TimeSpan cursorTime)
 		{
-			return (int)(_cursor.TotalMilliseconds * _pixelPerMillisecond) - _offsetOfLeftEdge;
+			SetPlaybackCursor(ctrl, ConvertTimeToXCoordinate(cursorTime));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetPlaybackCursor(Control ctrl, int cursorX)
+		{
+			_playbackCursorX = cursorX;
+
+			if (cursorX > 0)
+			{
+				ctrl.Invalidate(new Rectangle(_playbackCursorX - 10, 0,
+					_playbackCursorX + 10, ctrl.ClientSize.Height));
+			}
+			else
+			{
+				Utils.SetWindowRedraw(ctrl, false);
+				ctrl.Invalidate();
+				Utils.SetWindowRedraw(ctrl, true);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private int ConvertTimeToXCoordinate(TimeSpan time)
+		{
+			return (int)(time.TotalMilliseconds * _pixelPerMillisecond) - _offsetOfLeftEdge;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Converts the x-coordinate of the cursor to a time. The calculation is approximate.
+		/// This *does* factors in whether or not the auto scroll position of the client area
+		/// is not zero.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetCursorTime()
+		{
+			return TimeSpan.FromMilliseconds((_cursorX + _offsetOfLeftEdge) / _pixelPerMillisecond);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the x-coordinate of the cursor within the client rectangle. Therefore, this
+		/// does not factor in whether or not the auto scroll position of the client area
+		/// is not zero.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public int GetCursor()
+		{
+			return _cursorX;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the x-coordinate of the playback cursor within the client rectangle.
+		/// Therefore, this does not factor in whether or not the auto scroll position of
+		/// the client area is not zero.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public int GetPlaybackCursor()
+		{
+			return _playbackCursorX;
 		}
 	}
 }

@@ -57,7 +57,7 @@ namespace SayMore.Transcription.UI
 			this._trackBarSegment.Maximum = 1000;
 			this._trackBarSegment.Minimum = 10;
 			this._trackBarSegment.Name = "_trackBarSegment";
-			this._trackBarSegment.Size = new System.Drawing.Size(271, 28);
+			this._trackBarSegment.Size = new System.Drawing.Size(263, 28);
 			this._trackBarSegment.TabIndex = 0;
 			this._trackBarSegment.TabStop = false;
 			this._trackBarSegment.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
@@ -72,7 +72,7 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentNumber.Location = new System.Drawing.Point(8, 3);
 			this._labelSegmentNumber.Margin = new System.Windows.Forms.Padding(8, 3, 5, 15);
 			this._labelSegmentNumber.Name = "_labelSegmentNumber";
-			this._labelSegmentNumber.Size = new System.Drawing.Size(211, 13);
+			this._labelSegmentNumber.Size = new System.Drawing.Size(203, 13);
 			this._labelSegmentNumber.TabIndex = 1;
 			this._labelSegmentNumber.Text = "{0}/{1}";
 			// 
@@ -86,7 +86,7 @@ namespace SayMore.Transcription.UI
 			this._trackBarMicLevel.Maximum = 100;
 			this._trackBarMicLevel.Name = "_trackBarMicLevel";
 			this._trackBarMicLevel.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this._trackBarMicLevel.Size = new System.Drawing.Size(32, 168);
+			this._trackBarMicLevel.Size = new System.Drawing.Size(32, 211);
 			this._trackBarMicLevel.SmallChange = 5;
 			this._trackBarMicLevel.TabIndex = 8;
 			this._trackBarMicLevel.TabStop = false;
@@ -114,7 +114,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayout.Size = new System.Drawing.Size(224, 178);
+			this._tableLayout.Size = new System.Drawing.Size(216, 221);
 			this._tableLayout.TabIndex = 9;
 			// 
 			// _buttonEraseAnnotation
@@ -126,17 +126,19 @@ namespace SayMore.Transcription.UI
 			this._buttonEraseAnnotation.Cursor = System.Windows.Forms.Cursors.Hand;
 			this._buttonEraseAnnotation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(110)))), ((int)(((byte)(145)))));
 			this._buttonEraseAnnotation.FlatAppearance.BorderSize = 0;
+			this._buttonEraseAnnotation.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this._buttonEraseAnnotation.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonEraseAnnotation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this._buttonEraseAnnotation.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonEraseAnnotation.Image = global::SayMore.Properties.Resources.RecordErase;
 			this._buttonEraseAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonEraseAnnotation.Location = new System.Drawing.Point(30, 128);
+			this._buttonEraseAnnotation.Location = new System.Drawing.Point(30, 161);
 			this._buttonEraseAnnotation.Margin = new System.Windows.Forms.Padding(30, 0, 10, 0);
 			this._buttonEraseAnnotation.Name = "_buttonEraseAnnotation";
 			this._buttonEraseAnnotation.ShowFocusRectangle = false;
-			this._buttonEraseAnnotation.Size = new System.Drawing.Size(184, 29);
+			this._buttonEraseAnnotation.Size = new System.Drawing.Size(176, 40);
 			this._buttonEraseAnnotation.TabIndex = 6;
-			this._buttonEraseAnnotation.Text = " Erase Annotation";
+			this._buttonEraseAnnotation.Text = "Erase Annotation";
 			this._buttonEraseAnnotation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonEraseAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonEraseAnnotation.UseVisualStyleBackColor = false;
@@ -150,17 +152,19 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayAnnotation.Cursor = System.Windows.Forms.Cursors.Hand;
 			this._buttonPlayAnnotation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(110)))), ((int)(((byte)(145)))));
 			this._buttonPlayAnnotation.FlatAppearance.BorderSize = 0;
+			this._buttonPlayAnnotation.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this._buttonPlayAnnotation.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonPlayAnnotation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this._buttonPlayAnnotation.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonPlayAnnotation.Image = global::SayMore.Properties.Resources.RecordingPlaybackAnnotation;
 			this._buttonPlayAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonPlayAnnotation.Location = new System.Drawing.Point(0, 99);
+			this._buttonPlayAnnotation.Location = new System.Drawing.Point(0, 121);
 			this._buttonPlayAnnotation.Margin = new System.Windows.Forms.Padding(0, 5, 10, 0);
 			this._buttonPlayAnnotation.Name = "_buttonPlayAnnotation";
 			this._buttonPlayAnnotation.ShowFocusRectangle = false;
-			this._buttonPlayAnnotation.Size = new System.Drawing.Size(214, 29);
+			this._buttonPlayAnnotation.Size = new System.Drawing.Size(206, 40);
 			this._buttonPlayAnnotation.TabIndex = 5;
-			this._buttonPlayAnnotation.Text = " Check Annotation";
+			this._buttonPlayAnnotation.Text = "Check Annotation";
 			this._buttonPlayAnnotation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonPlayAnnotation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonPlayAnnotation.UseVisualStyleBackColor = false;
@@ -173,6 +177,8 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
 			this._buttonPlayOriginal.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(110)))), ((int)(((byte)(145)))));
 			this._buttonPlayOriginal.FlatAppearance.BorderSize = 0;
+			this._buttonPlayOriginal.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this._buttonPlayOriginal.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonPlayOriginal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this._buttonPlayOriginal.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonPlayOriginal.Image = global::SayMore.Properties.Resources.RecordingPlayback;
@@ -181,9 +187,9 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayOriginal.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonPlayOriginal.Name = "_buttonPlayOriginal";
 			this._buttonPlayOriginal.ShowFocusRectangle = false;
-			this._buttonPlayOriginal.Size = new System.Drawing.Size(214, 29);
+			this._buttonPlayOriginal.Size = new System.Drawing.Size(206, 40);
 			this._buttonPlayOriginal.TabIndex = 2;
-			this._buttonPlayOriginal.Text = " Listen";
+			this._buttonPlayOriginal.Text = "Listen";
 			this._buttonPlayOriginal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonPlayOriginal.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonPlayOriginal.UseVisualStyleBackColor = false;
@@ -196,17 +202,19 @@ namespace SayMore.Transcription.UI
 			this._buttonRecord.Cursor = System.Windows.Forms.Cursors.Hand;
 			this._buttonRecord.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(110)))), ((int)(((byte)(145)))));
 			this._buttonRecord.FlatAppearance.BorderSize = 0;
+			this._buttonRecord.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this._buttonRecord.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this._buttonRecord.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonRecord.Image = global::SayMore.Properties.Resources.RecordStart;
 			this._buttonRecord.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this._buttonRecord.Location = new System.Drawing.Point(0, 65);
+			this._buttonRecord.Location = new System.Drawing.Point(0, 76);
 			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0, 5, 10, 0);
 			this._buttonRecord.Name = "_buttonRecord";
 			this._buttonRecord.ShowFocusRectangle = false;
-			this._buttonRecord.Size = new System.Drawing.Size(214, 29);
+			this._buttonRecord.Size = new System.Drawing.Size(206, 40);
 			this._buttonRecord.TabIndex = 4;
-			this._buttonRecord.Text = " Hold the Space Bar down and talk";
+			this._buttonRecord.Text = "Hold the Space Bar down and talk";
 			this._buttonRecord.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonRecord.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonRecord.UseVisualStyleBackColor = false;
@@ -218,10 +226,10 @@ namespace SayMore.Transcription.UI
 			this._panelLevelMeter.Controls.Add(this._trackBarMicLevel);
 			this._panelLevelMeter.Controls.Add(this._panelMicorphoneLevel);
 			this._panelLevelMeter.Dock = System.Windows.Forms.DockStyle.Right;
-			this._panelLevelMeter.Location = new System.Drawing.Point(224, 28);
+			this._panelLevelMeter.Location = new System.Drawing.Point(216, 28);
 			this._panelLevelMeter.Name = "_panelLevelMeter";
 			this._panelLevelMeter.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
-			this._panelLevelMeter.Size = new System.Drawing.Size(47, 178);
+			this._panelLevelMeter.Size = new System.Drawing.Size(47, 221);
 			this._panelLevelMeter.TabIndex = 10;
 			// 
 			// _panelMicorphoneLevel
@@ -242,7 +250,7 @@ namespace SayMore.Transcription.UI
 			this._panelMicorphoneLevel.MnemonicGeneratesClick = false;
 			this._panelMicorphoneLevel.Name = "_panelMicorphoneLevel";
 			this._panelMicorphoneLevel.PaintExplorerBarBackground = false;
-			this._panelMicorphoneLevel.Size = new System.Drawing.Size(15, 168);
+			this._panelMicorphoneLevel.Size = new System.Drawing.Size(15, 211);
 			this._panelMicorphoneLevel.TabIndex = 7;
 			// 
 			// OralAnnotationRecorder
@@ -254,7 +262,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this._panelLevelMeter);
 			this.Controls.Add(this._trackBarSegment);
 			this.Name = "OralAnnotationRecorder";
-			this.Size = new System.Drawing.Size(271, 206);
+			this.Size = new System.Drawing.Size(263, 249);
 			((System.ComponentModel.ISupportInitialize)(this._trackBarSegment)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._trackBarMicLevel)).EndInit();
 			this._tableLayout.ResumeLayout(false);

@@ -22,6 +22,8 @@ namespace SayMore.Transcription.UI
 		private readonly string _segmentCountFormatString;
 		//private readonly string _micLevelFormatString;
 		private OralAnnotationRecorderViewModel _viewModel;
+		private readonly string _recordingButtonText;
+		private readonly Color _recordingButtonForeColor;
 		private string _annotationType;
 		private Timer _startTimer;
 
@@ -29,6 +31,9 @@ namespace SayMore.Transcription.UI
 		public OralAnnotationRecorder()
 		{
 			InitializeComponent();
+
+			_recordingButtonText = _buttonRecord.Text;
+			_recordingButtonForeColor = _buttonRecord.ForeColor;
 
 			_segmentCountFormatString = _labelSegmentNumber.Text;
 			_labelSegmentNumber.Font = SystemFonts.IconTitleFont;
@@ -42,7 +47,11 @@ namespace SayMore.Transcription.UI
 			_buttonPlayOriginal.Click += HandleButtonClick;
 			_buttonPlayAnnotation.Click += HandleButtonClick;
 			_buttonRecord.MouseDown += delegate { UpdateDisplay(); };
-			_buttonRecord.MouseUp += delegate { UpdateDisplay(); };
+			_buttonRecord.MouseUp += delegate
+			{
+				if (_buttonRecord.ForeColor != Color.Red)
+					UpdateDisplay();
+			};
 
 			_buttonPlayOriginal.CanInvokeActionDelegate = (() => !_buttonPlayAnnotation.ActionInProgress);
 			_buttonPlayAnnotation.CanInvokeActionDelegate = (() => !_buttonPlayOriginal.ActionInProgress);
@@ -241,7 +250,15 @@ namespace SayMore.Transcription.UI
 		private void HandleRecordingStopped()
 		{
 			_viewModel.Stop();
-			if (!MoveToNextSegment())
+
+			if (_viewModel.GetIsRecordingTooShort())
+			{
+				_viewModel.EraseAnnotation();
+				UpdateDisplay();
+				_buttonRecord.ForeColor = Color.Red;
+				_buttonRecord.Text = "Whoops. You need to hold down the SPACE bar or mouse button while talking.";
+			}
+			else if (!MoveToNextSegment())
 			{
 				Activate(_buttonPlayOriginal);
 				UpdateDisplay();
@@ -288,6 +305,9 @@ namespace SayMore.Transcription.UI
 			_buttonRecord.Visible = _viewModel.ShouldRecordButtonBeVisible;
 			_buttonEraseAnnotation.Visible = _viewModel.ShouldEraseAnnotationButtonBeVisible;
 			_buttonEraseAnnotation.Enabled = _viewModel.ShouldEraseAnnotationButtonBeEnabled;
+
+			_buttonRecord.Text = _recordingButtonText;
+			_buttonRecord.ForeColor = _recordingButtonForeColor;
 
 			//_labelMicLevel.Text = string.Format(_micLevelFormatString,_trackBarMicLevel.Value);
 

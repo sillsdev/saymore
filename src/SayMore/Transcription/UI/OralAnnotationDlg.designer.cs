@@ -34,6 +34,7 @@ namespace SayMore.Transcription.UI
 			this._labelRecordingType = new System.Windows.Forms.Label();
 			this._oralAnnotationRecorder = new SayMore.Transcription.UI.OralAnnotationRecorder();
 			this._buttonClose = new System.Windows.Forms.Button();
+			this._labelRecordingFormat = new System.Windows.Forms.Label();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			//
@@ -43,11 +44,13 @@ namespace SayMore.Transcription.UI
 			| System.Windows.Forms.AnchorStyles.Left)
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-			this.tableLayoutPanel1.ColumnCount = 1;
+			this.tableLayoutPanel1.ColumnCount = 2;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.Controls.Add(this._labelRecordingFormat, 0, 2);
 			this.tableLayoutPanel1.Controls.Add(this._labelRecordingType, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this._oralAnnotationRecorder, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this._buttonClose, 0, 2);
+			this.tableLayoutPanel1.Controls.Add(this._buttonClose, 1, 2);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -62,6 +65,7 @@ namespace SayMore.Transcription.UI
 			//
 			this._labelRecordingType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelRecordingType.AutoSize = true;
+			this.tableLayoutPanel1.SetColumnSpan(this._labelRecordingType, 2);
 			this._labelRecordingType.Location = new System.Drawing.Point(3, 0);
 			this._labelRecordingType.Name = "_labelRecordingType";
 			this._labelRecordingType.Size = new System.Drawing.Size(288, 13);
@@ -74,6 +78,7 @@ namespace SayMore.Transcription.UI
 			| System.Windows.Forms.AnchorStyles.Left)
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this._oralAnnotationRecorder.BackColor = System.Drawing.Color.Transparent;
+			this.tableLayoutPanel1.SetColumnSpan(this._oralAnnotationRecorder, 2);
 			this._oralAnnotationRecorder.Location = new System.Drawing.Point(3, 13);
 			this._oralAnnotationRecorder.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._oralAnnotationRecorder.Name = "_oralAnnotationRecorder";
@@ -92,6 +97,19 @@ namespace SayMore.Transcription.UI
 			this._buttonClose.Text = "Close";
 			this._buttonClose.UseVisualStyleBackColor = true;
 			this._buttonClose.Click += new System.EventHandler(this.HandleCloseClick);
+			//
+			// _labelRecordingFormat
+			//
+			this._labelRecordingFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this._labelRecordingFormat.AutoEllipsis = true;
+			this._labelRecordingFormat.AutoSize = true;
+			this._labelRecordingFormat.ForeColor = System.Drawing.Color.DarkRed;
+			this._labelRecordingFormat.Location = new System.Drawing.Point(3, 224);
+			this._labelRecordingFormat.Name = "_labelRecordingFormat";
+			this._labelRecordingFormat.Size = new System.Drawing.Size(213, 13);
+			this._labelRecordingFormat.TabIndex = 2;
+			this._labelRecordingFormat.Text = "Format: {0} bits, {1} Hz";
 			//
 			// OralAnnotationDlg
 			//
@@ -120,6 +138,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.Label _labelRecordingType;
 		private System.Windows.Forms.Button _buttonClose;
+		private System.Windows.Forms.Label _labelRecordingFormat;
 
 
 

@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using SayMore.AudioUtils;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SilTools;
@@ -19,6 +20,13 @@ namespace SayMore.Transcription.UI
 
 			_labelRecordingType.Font = new Font(SystemFonts.IconTitleFont.FontFamily,
 				10f, FontStyle.Bold, GraphicsUnit.Point);
+
+			_labelRecordingFormat.Font = SystemFonts.IconTitleFont;
+
+			var bestFormat = WaveFileUtils.GetDefaultWaveFormat(1);
+
+			_labelRecordingFormat.Text = string.Format(_labelRecordingFormat.Text,
+				bestFormat.BitsPerSample, bestFormat.SampleRate);
 
 			if (Settings.Default.OralAnnotationDlg == null)
 			{

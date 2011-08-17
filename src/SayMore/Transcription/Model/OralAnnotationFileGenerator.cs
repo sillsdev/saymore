@@ -1,6 +1,8 @@
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using NAudio.Wave;
 using SayMore.AudioUtils;
 using SayMore.Properties;
@@ -14,17 +16,30 @@ namespace SayMore.Transcription.Model
 	/// audio file, original recording, careful speech and oral translation segments.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class OralAnnotationFileGenerator
+	public class OralAnnotationFileGenerator : IDisposable
 	{
 		private readonly TimeOrderTier _origRecordingTier;
 		private readonly ITimeOrderSegment[] _origRecordingSegments;
 		private WaveFileWriter _audioFileWriter;
+		private readonly WaveFormat _output3ChannelAudioFormat;
+		private readonly WaveFormat _output1ChannelAudioFormat;
+		private WaveStreamProvider _origRecStreamProvider;
+		private string _outputFileName;
 
 		/// ------------------------------------------------------------------------------------
-		public static void Generate(TimeOrderTier originalRecodingTier)
+		public static string Generate(TimeOrderTier originalRecodingTier)
 		{
-			var generator = new OralAnnotationFileGenerator(originalRecodingTier);
-			generator.CreateInterleavedAudioFile();
+			using (var generator = new OralAnnotationFileGenerator(originalRecodingTier))
+			{
+				var worker = new BackgroundWorker();
+				worker.DoWork += generator.CreateInterleavedAudioFile;
+				worker.RunWorkerAsync();
+
+				while (worker.IsBusy)
+					Application.DoEvents();
+
+				return generator._outputFileName;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -32,73 +47,94 @@ namespace SayMore.Transcription.Model
 		{
 			_origRecordingTier = originalRecodingTier;
 			_origRecordingSegments = _origRecordingTier.GetAllSegments().Cast<ITimeOrderSegment>().ToArray();
+			_output3ChannelAudioFormat = WaveFileUtils.GetDefaultWaveFormat(3);
+			_output1ChannelAudioFormat = WaveFileUtils.GetDefaultWaveFormat(1);
+
+			_origRecStreamProvider =
+				WaveStreamProvider.Create(_output1ChannelAudioFormat, _origRecordingTier.MediaFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CreateInterleavedAudioFile()
+		public void Dispose()
 		{
-			var outputFilename = _origRecordingTier.MediaFileName +
+			if (_audioFileWriter != null)
+				_audioFileWriter.Close();
+
+			if (_origRecStreamProvider != null)
+				_origRecStreamProvider.Dispose();
+
+			_audioFileWriter = null;
+			_origRecStreamProvider = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CreateInterleavedAudioFile(object sender, DoWorkEventArgs e)
+		{
+			if (_origRecStreamProvider.Error != null)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
+					"There was an error processing the original recording.", _origRecStreamProvider.Error);
+
+				return;
+			}
+
+			_outputFileName = _origRecordingTier.MediaFileName +
 				Settings.Default.OralAnnotationGeneratedFileAffix;
 
-			using (_audioFileWriter = new WaveFileWriter(outputFilename, WaveFileUtils.GetDefaultWaveFormat(3)))
+			using (_audioFileWriter = new WaveFileWriter(_outputFileName, _output3ChannelAudioFormat))
 			{
 				for (int i = 0; i < _origRecordingSegments.Length; i++)
 					InterleaveSegments(i);
 			}
+
+			_audioFileWriter = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void InterleaveSegments(int segmentIndex)
 		{
-			WaveStream inputStream;
+			var segment = _origRecordingSegments[segmentIndex];
 
 			// Write a channel for the original recording segment
-			using (inputStream = GetWaveStreamForOriginalSegment(segmentIndex))
+			var inputStream = _origRecStreamProvider.GetStreamSubset(segment.Start, segment.GetLength());
+			if (inputStream != null)
 				WriteAudioStreamToChannel(1, inputStream);
 
 			// Write a channel for the careful speech segment
-			inputStream = GetWaveStreamForOralAnnotationSegment(segmentIndex,
-				OralAnnotationType.Careful);
-
-			if (inputStream != null)
+			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, OralAnnotationType.Careful))
 			{
-				WriteAudioStreamToChannel(2, inputStream);
-				inputStream.Dispose();
+				if (provider.Stream != null)
+					WriteAudioStreamToChannel(2, provider.Stream);
 			}
 
 			// Write a channel for the oral translation segment
-			inputStream = GetWaveStreamForOralAnnotationSegment(segmentIndex,
-				OralAnnotationType.Translation);
-
-			if (inputStream != null)
+			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, OralAnnotationType.Translation))
 			{
-				WriteAudioStreamToChannel(3, inputStream);
-				inputStream.Dispose();
+				if (provider.Stream != null)
+					WriteAudioStreamToChannel(3, provider.Stream);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private WaveStream GetWaveStreamForOriginalSegment(int segmentIndex)
-		{
-			var segment = _origRecordingSegments[segmentIndex];
-			var origRecStream = new WaveFileReader(_origRecordingTier.MediaFileName);
-
-			return new WaveSegmentStream(origRecStream,
-					TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.GetLength()));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private WaveStream GetWaveStreamForOralAnnotationSegment(int segmentIndex,
+		private WaveStreamProvider GetWaveStreamForOralAnnotationSegment(ITimeOrderSegment segment,
 			OralAnnotationType annotationType)
 		{
 			var pathToAnnotationsFolder = _origRecordingTier.MediaFileName + "_Annotations";
-			var segment = _origRecordingSegments[segmentIndex];
 
 			var filename = Path.Combine(pathToAnnotationsFolder,
 				string.Format(Settings.Default.OralAnnotationSegmentFileAffix,
 					segment.Start, segment.Stop, annotationType));
 
-			return (File.Exists(filename) ? new WaveFileReader(filename) : null);
+			var provider = WaveStreamProvider.Create(_output1ChannelAudioFormat, filename);
+			if (provider.Error != null && !(provider.Error is FileNotFoundException))
+			{
+				var msg = "There was an error processing a {0} annotation file.";
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
+					string.Format(msg, annotationType.ToString().ToLower()),
+					_origRecStreamProvider.Error);
+			}
+
+			return provider;
 		}
 
 		/// ------------------------------------------------------------------------------------

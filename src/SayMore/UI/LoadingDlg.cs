@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using SayMore.UI.Utilities;
 
@@ -16,6 +10,35 @@ namespace SayMore.UI
 		public LoadingDlg()
 		{
 			InitializeComponent();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public LoadingDlg(string message) : this()
+		{
+			if (message != null)
+				_labelLoading.Text = message;
+
+			if (_labelLoading.Right - 20 > Right)
+				Width += ((_labelLoading.Right + 20) - Right);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Show(Control parent)
+		{
+			if (parent == null || parent.Width < Width || parent.Height < Height)
+				StartPosition = FormStartPosition.CenterScreen;
+			else
+			{
+				// Center the loading dialog within the bounds of the specified control.
+				StartPosition = FormStartPosition.Manual;
+				var pt = parent.PointToScreen(new Point(0, 0));
+				pt.X += (parent.Width - Width) / 2;
+				pt.Y += (parent.Height - Height) / 2;
+				Location = pt;
+			}
+
+			Show();
+			Application.DoEvents();
 		}
 
 		/// ------------------------------------------------------------------------------------

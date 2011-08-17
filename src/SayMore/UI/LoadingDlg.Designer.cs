@@ -37,10 +37,10 @@ namespace SayMore.UI
 			// 
 			this._labelLoading.AutoSize = true;
 			this._labelLoading.BackColor = System.Drawing.Color.Transparent;
-			this._labelLoading.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelLoading.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._labelLoading.Location = new System.Drawing.Point(94, 31);
 			this._labelLoading.Name = "_labelLoading";
-			this._labelLoading.Size = new System.Drawing.Size(84, 19);
+			this._labelLoading.Size = new System.Drawing.Size(72, 16);
 			this._labelLoading.TabIndex = 2;
 			this._labelLoading.Text = "Loading...";
 			// 

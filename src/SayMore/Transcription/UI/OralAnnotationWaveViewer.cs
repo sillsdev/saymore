@@ -48,6 +48,8 @@ namespace SayMore.Transcription.UI
 				_wavePanelTranslation.BackColor = SystemColors.Window;
 
 			_wavePanelOriginal.MouseClick += HandleWavePanelMouseClick;
+			_wavePanelCareful.MouseClick += HandleWavePanelMouseClick;
+			_wavePanelTranslation.MouseClick += HandleWavePanelMouseClick;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,6 +102,8 @@ namespace SayMore.Transcription.UI
 		public void LoadAnnotationAudioFile(string filename)
 		{
 			_worker = new BackgroundWorker();
+			_worker.WorkerReportsProgress = true;
+			_worker.ProgressChanged += HandleWorkerProgressChanged;
 			_worker.DoWork += InternalLoadAnnotationAudioFile;
 			_worker.RunWorkerAsync(filename);
 
@@ -111,30 +115,44 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			if (e.UserState is Exception)
+				throw e.UserState as Exception;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void InternalLoadAnnotationAudioFile(object sender, DoWorkEventArgs e)
 		{
-			using (var threeChannelStream = new WaveFileReader(e.Argument as string))
+			try
 			{
-				var orginalSamples = new float[threeChannelStream.SampleCount];
-				var carefulSamples = new float[threeChannelStream.SampleCount];
-				var translationSamples = new float[threeChannelStream.SampleCount];
-
-				var provider = new SampleChannel(threeChannelStream);
-				float[] buffer = new float[3];
-
-				for (int i = 0; i < threeChannelStream.SampleCount && provider.Read(buffer, 0, 3) > 0; i++)
+				using (var threeChannelStream = new WaveFileReader(e.Argument as string))
 				{
-					orginalSamples[i] = buffer[0];
-					carefulSamples[i] = buffer[1];
-					translationSamples[i] = buffer[2];
+					var orginalSamples = new float[threeChannelStream.SampleCount];
+					var carefulSamples = new float[threeChannelStream.SampleCount];
+					var translationSamples = new float[threeChannelStream.SampleCount];
+
+					var provider = new SampleChannel(threeChannelStream);
+					float[] buffer = new float[3];
+
+					for (int i = 0; i < threeChannelStream.SampleCount && provider.Read(buffer, 0, 3) > 0; i++)
+					{
+						orginalSamples[i] = buffer[0];
+						carefulSamples[i] = buffer[1];
+						translationSamples[i] = buffer[2];
+					}
+
+					_wavePanelOriginal.Initialize(orginalSamples, threeChannelStream.TotalTime);
+					_wavePanelCareful.Initialize(carefulSamples, threeChannelStream.TotalTime);
+					_wavePanelTranslation.Initialize(translationSamples, threeChannelStream.TotalTime);
+
+					CreateMonoStreamFrom3ChannelStream(threeChannelStream);
+					threeChannelStream.Close();
 				}
-
-				_wavePanelOriginal.Initialize(orginalSamples, threeChannelStream.TotalTime);
-				_wavePanelCareful.Initialize(carefulSamples, threeChannelStream.TotalTime);
-				_wavePanelTranslation.Initialize(translationSamples, threeChannelStream.TotalTime);
-
-				CreateMonoStreamFrom3ChannelStream(threeChannelStream);
-				threeChannelStream.Close();
+			}
+			catch (Exception error)
+			{
+				_worker.ReportProgress(0, error);
 			}
 		}
 

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SayMore.UI;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.MediaPlayer;
 using SilTools;
@@ -252,7 +253,20 @@ namespace SayMore.Transcription.UI
 			using (var dlg = new OralAnnotationDlg(caption, annotationType, tier))
 				dlg.ShowDialog();
 
-			OralAnnotationFileGenerator.Generate(tier);
+			bool oralAnnotationFileAlreadyExist =
+				(file.AssociatedComponentFile.GetOralAnnotationFile() != null);
+
+			using (var dlg = new LoadingDlg("Generating Oral Annotation file..."))
+			{
+				dlg.Show(this);
+
+				var oralAnnotationFile = OralAnnotationFileGenerator.Generate(tier);
+
+				if (!oralAnnotationFileAlreadyExist && ComponentFileListRefreshAction != null)
+					ComponentFileListRefreshAction(oralAnnotationFile);
+
+				dlg.Close();
+			}
 		}
 	}
 }

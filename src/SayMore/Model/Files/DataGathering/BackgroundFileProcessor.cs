@@ -255,15 +255,10 @@ namespace SayMore.Model.Files.DataGathering
 
 			try
 			{
-				//if (!GetDoIncludeFile(path))
-				//{
-				//    return;
-				//}
-
 				Debug.WriteLine("processing " + path);
 				var actualPath = GetActualPath(path);
 
-				if (!ShouldStop)
+				if (!ShouldStop && File.Exists(actualPath))
 				{
 					fileData = _fileDataFactory(actualPath);
 

@@ -13,16 +13,19 @@ namespace SayMore.Model.Files
 	{
 		private AnnotationFileHelper _helper;
 
+		public ComponentFile AssociatedComponentFile { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		public AnnotationComponentFile(ProjectElement parentElement,
-			string pathToAnnotationFile, FileType fileType,
-			IEnumerable<ComponentRole> componentRoles)
+			string pathToAnnotationFile, ComponentFile associatedComponentFile,
+			FileType fileType, IEnumerable<ComponentRole> componentRoles)
 			: base(parentElement, pathToAnnotationFile, fileType, null, null, null)
 		{
 			Tiers = new ITier[] { };
 
 			// The annotated file is the same as the annotation file.
 			PathToAnnotatedFile = pathToAnnotationFile;
+			AssociatedComponentFile = associatedComponentFile;
 			_componentRoles = componentRoles;
 			InitializeFileInfo();
 			Load();

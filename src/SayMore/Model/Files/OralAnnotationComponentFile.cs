@@ -8,14 +8,18 @@ namespace SayMore.Model.Files
 {
 	public class OralAnnotationComponentFile : ComponentFile
 	{
+		public ComponentFile AssociatedComponentFile { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationComponentFile(ProjectElement parentElement, string pathtoAnnotatedFile,
-			IEnumerable<FileType> fileTypes, IEnumerable<ComponentRole> componentRoles,
-			FileSerializer fileSerializer, IProvideAudioVideoFileStatistics statisticsProvider,
-			PresetGatherer presetProvider, FieldUpdater fieldUpdater) :
+			ComponentFile associatedComponentFile, IEnumerable<FileType> fileTypes,
+			IEnumerable<ComponentRole> componentRoles, FileSerializer fileSerializer,
+			IProvideAudioVideoFileStatistics statisticsProvider, PresetGatherer presetProvider,
+			FieldUpdater fieldUpdater) :
 			base(parentElement, pathtoAnnotatedFile, fileTypes, componentRoles,
 				fileSerializer, statisticsProvider, presetProvider, fieldUpdater)
 		{
+			AssociatedComponentFile = associatedComponentFile;
 		}
 
 		/// ------------------------------------------------------------------------------------

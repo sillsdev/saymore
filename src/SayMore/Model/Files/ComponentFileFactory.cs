@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using SayMore.Model.Files.DataGathering;
-using SayMore.Properties;
 
 namespace SayMore.Model.Files
 {
@@ -36,22 +36,26 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual ComponentFile Create(ProjectElement parentElement, string pathToAnnotatedFile)
 		{
-			var path = pathToAnnotatedFile.ToLower();
+			var newComponentFile = new ComponentFile(parentElement, pathToAnnotatedFile, _fileTypes,
+			   _componentRoles, _fileSerializer, _statisticsProvider, _presetProvider, _fieldUpdater);
 
-			if (path.EndsWith(Settings.Default.OralAnnotationGeneratedFileAffix.ToLower()))
+			var annotationFilePath = newComponentFile.GetSuggestedPathToAnnotationFile();
+			if (File.Exists(annotationFilePath))
 			{
-				return new OralAnnotationComponentFile(parentElement, pathToAnnotatedFile, _fileTypes,
-					_componentRoles, _fileSerializer, _statisticsProvider, _presetProvider, _fieldUpdater);
+				newComponentFile.SetAnnotationFile(new AnnotationComponentFile(parentElement,
+					annotationFilePath, newComponentFile,
+					_fileTypes.Single(t => t is AnnotationFileType), _componentRoles));
 			}
 
-			if (path.EndsWith(".eaf"))
+			annotationFilePath = newComponentFile.GetSuggestedPathToOralAnnotationFile();
+			if (File.Exists(annotationFilePath))
 			{
-				return new AnnotationComponentFile(parentElement, pathToAnnotatedFile,
-					_fileTypes.Single(t => t is AnnotationFileType), _componentRoles);
+				newComponentFile.SetOralAnnotationFile(new OralAnnotationComponentFile(parentElement,
+					annotationFilePath, newComponentFile, _fileTypes, _componentRoles,
+					_fileSerializer, _statisticsProvider, _presetProvider, _fieldUpdater));
 			}
 
-			return new ComponentFile(parentElement, pathToAnnotatedFile, _fileTypes,
-				_componentRoles, _fileSerializer, _statisticsProvider, _presetProvider, _fieldUpdater);
+			return newComponentFile;
 		}
 	}
 }

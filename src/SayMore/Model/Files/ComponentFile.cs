@@ -58,6 +58,8 @@ namespace SayMore.Model.Files
 		public event EventHandler AfterSave;
 
 		private AnnotationComponentFile _annotationFile;
+		private OralAnnotationComponentFile _oralAnnotationFile;
+
 		protected IEnumerable<ComponentRole> _componentRoles;
 		protected FileSerializer _fileSerializer;
 		private readonly IProvideAudioVideoFileStatistics _statisticsProvider;
@@ -177,7 +179,7 @@ namespace SayMore.Model.Files
 			return fi.CreationTime;
 		}
 
-		#region Methods related to a file's text annotation file
+		#region Methods related to a file's annotation files
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a value indicating whether or not the component file can have transcriptions.
@@ -205,6 +207,19 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path of to the component file's oral annotation file, even if the file
+		/// doesn't exist. If the component file is not of a type that can have an annotation
+		/// file, then null is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetSuggestedPathToOralAnnotationFile()
+		{
+			return (!GetCanHaveAnnotationFile() ? null :
+				PathToAnnotatedFile + Settings.Default.OralAnnotationGeneratedFileAffix);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool GetDoesHaveAnnotationFile()
 		{
 			return (GetCanHaveAnnotationFile() && GetAnnotationFile() != null);
@@ -218,10 +233,24 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public OralAnnotationComponentFile GetOralAnnotationFile()
+		{
+			return (_oralAnnotationFile != null && File.Exists(_oralAnnotationFile.PathToAnnotatedFile) ?
+				_oralAnnotationFile : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetAnnotationFile(AnnotationComponentFile annotationFile)
 		{
 			_annotationFile = (annotationFile != null &&
 				File.Exists(annotationFile.PathToAnnotatedFile) ? annotationFile : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetOralAnnotationFile(OralAnnotationComponentFile oralAnnotationFile)
+		{
+			_oralAnnotationFile = (oralAnnotationFile != null &&
+				File.Exists(oralAnnotationFile.PathToAnnotatedFile) ? oralAnnotationFile : null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -240,22 +269,6 @@ namespace SayMore.Model.Files
 		}
 
 		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the full path of to the component file's oral annotation file, even if the file
-		/// doesn't exist. If the component file is not of a type that can have an annotation
-		/// file, then null is returned.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string GetSuggestedPathToOralAnnotationFile()
-		{
-			if (!GetCanHaveAnnotationFile())
-				return null;
-
-			return PathToAnnotatedFile + Settings.Default.OralAnnotationGeneratedFileAffix;
-		}
-
 
 		/// ------------------------------------------------------------------------------------
 		public virtual int DisplayIndentLevel

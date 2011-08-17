@@ -74,25 +74,21 @@ namespace SayMore.Model
 			// This is the actual person or event data
 			yield return MetaDataFile;
 
-			//these are the other files we find in the folder
+			// These are the other files we find in the folder
 			var otherFiles = from f in Directory.GetFiles(FolderPath, "*.*")
 							 where GetShowAsNormalComponentFile(f)
 							 orderby f
-							 select _componentFileFactory(this, f);
+							 select f;
 
-			foreach (var file in otherFiles)
+			foreach (var newComponentFile in otherFiles.Select(f => _componentFileFactory(this, f)))
 			{
-				yield return file;
+				yield return newComponentFile;
 
-				var annotationFilePath = file.GetSuggestedPathToAnnotationFile();
+				if (newComponentFile.GetAnnotationFile() != null)
+					yield return newComponentFile.GetAnnotationFile();
 
-				if (annotationFilePath != null && File.Exists(annotationFilePath))
-				{
-					file.SetAnnotationFile(_componentFileFactory(
-						this, annotationFilePath) as AnnotationComponentFile);
-
-					yield return file.GetAnnotationFile();
-				}
+				if (newComponentFile.GetOralAnnotationFile() != null)
+					yield return newComponentFile.GetOralAnnotationFile();
 			}
 		}
 
@@ -106,8 +102,8 @@ namespace SayMore.Model
 				!path.EndsWith(Settings.Default.MetadataFileExtension) &&
 				!path.EndsWith("thumbs.db") &&
 				!path.EndsWith(".pfsx") &&
-				!path.EndsWith(".eaf") &&
-				//!path.EndsWith(Settings.Default.OralAnnotationGeneratedFileAffix.ToLower()) &&
+				!path.EndsWith(Settings.Default.AnnotationFileExtension) &&
+				!path.EndsWith(Settings.Default.OralAnnotationGeneratedFileAffix) &&
 				!Path.GetFileName(path).StartsWith("."); //these are normally hidden
 		}
 

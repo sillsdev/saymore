@@ -117,6 +117,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AudioUtils\WaveSegmentStream.cs" />
+    <Compile Include="AudioUtils\WaveStreamProvider.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
@@ -124,9 +125,9 @@
     </Compile>
     <Compile Include="Model\Fields\FieldSerializer.cs" />
     <Compile Include="Model\Files\AnnotationComponentFile.cs" />
+    <Compile Include="Model\Files\ComponentFileFactory.cs" />
     <Compile Include="Model\Files\DataGathering\BackgroundFileProcessor.cs" />
     <Compile Include="Model\Files\DataGathering\AutoCompleteValueGatherer.cs" />
-    <Compile Include="Model\Files\DataGathering\ComponentFileFactory.cs" />
     <Compile Include="Model\Files\DataGathering\PresetGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\AudioVideoDataGatherer.cs" />
     <Compile Include="Model\Files\DataGathering\SessionOverviewStatistics.cs" />

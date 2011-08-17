@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using NAudio.Wave;
-using SayMore.Properties;
+using NAudio.Wave.Compression;
 
 namespace SayMore.AudioUtils
 {
@@ -11,8 +9,39 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public static WaveFormat GetDefaultWaveFormat(int channels)
 		{
-			return new WaveFormat(Settings.Default.OralAnnotationsSampleRate,
-				Settings.Default.OralAnnotationsBitsPerSample, channels);
+			WaveFormat bestFormat = null;
+
+			var pcmDriver = AcmDriver.EnumerateAcmDrivers().SingleOrDefault(d => d.ShortName == "MS-PCM");
+			if (pcmDriver != null)
+			{
+				pcmDriver.Open();
+
+				var formatTag = pcmDriver.FormatTags.SingleOrDefault(t => t.FormatTag == WaveFormatEncoding.Pcm);
+				if (formatTag != null)
+				{
+					foreach (var fmt in pcmDriver.GetFormats(formatTag))
+					{
+						if (bestFormat == null ||
+							fmt.WaveFormat.BitsPerSample > bestFormat.BitsPerSample ||
+							fmt.WaveFormat.SampleRate > bestFormat.SampleRate)
+						{
+							bestFormat = fmt.WaveFormat;
+						}
+					}
+				}
+				else
+				{
+					Palaso.Reporting.ErrorReport.NotifyUserOfProblem("There was an error trying to find PCM audio conversion capabilities on this computer. Ensure that you have a PCM sound driver installed.");
+				}
+
+				pcmDriver.Close();
+			}
+			else
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("There was an error trying to find a PCM audio driver on this computer. Ensure that you have a PCM sound driver installed.");
+			}
+
+			return new WaveFormat(bestFormat.SampleRate, bestFormat.BitsPerSample, channels);
 		}
 
 		///// ------------------------------------------------------------------------------------

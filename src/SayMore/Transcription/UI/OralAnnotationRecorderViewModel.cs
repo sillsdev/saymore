@@ -111,7 +111,7 @@ namespace SayMore.Transcription.UI
 			bool incremented = (CurrentSegmentNumber < segmentNumber);
 			CurrentSegmentNumber = segmentNumber;
 
-			_annotationRecorder = new AudioRecorder(WaveFileUtils.GetDefaultWaveFormat(1));
+			_annotationRecorder = new AudioRecorder(48000, 32, 1); //       WaveFileUtils.GetDefaultWaveFormat(1));
 			_annotationRecorder.SetRecordingLevelChangeControl(MicLevelChangeControl);
 			_annotationRecorder.SetRecordingLevelDisplayControl(MicLevelDisplayControl);
 

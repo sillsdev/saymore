@@ -1,14 +1,11 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using SayMore.Model.Files;
-using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.UI;
 using SayMore.UI.ComponentEditors;
-using SayMore.UI.MediaPlayer;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -27,6 +24,12 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 			Name = "OralAnnotations";
 			_toolStrip.Renderer = new NoToolStripBorderRenderer();
+
+			_oralAnnotationWaveViewer.Dock = DockStyle.Fill;
+			_tableLayoutError.Dock = DockStyle.Fill;
+			_labelError.Font = new Font(SystemFonts.IconTitleFont.FontFamily, 11, FontStyle.Bold);
+			_textBoxError.Font = SystemFonts.IconTitleFont;
+			_pictureBoxError.Image = SystemIcons.Exclamation.ToBitmap();
 
 			_buttonPlay.Click += delegate
 			{
@@ -59,11 +62,25 @@ namespace SayMore.Transcription.UI
 		{
 			using (var dlg = new LoadingDlg())
 			{
-				dlg.StartPosition = FormStartPosition.CenterScreen;
-				dlg.Show();
-				Application.DoEvents();
-				base.SetComponentFile(file);
-				_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
+				dlg.Show(this);
+				_tableLayoutError.Visible = false;
+				_oralAnnotationWaveViewer.Visible = true;
+				_buttonHelp.Enabled = _buttonPlay.Enabled = _buttonStop.Enabled = false;
+
+				try
+				{
+					base.SetComponentFile(file);
+					_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
+					_buttonHelp.Enabled = _buttonPlay.Enabled = true;
+				}
+				catch (Exception e)
+				{
+					_tableLayoutError.Visible = true;
+					_oralAnnotationWaveViewer.Visible = false;
+					_textBoxError.Text = Palaso.Reporting.ExceptionHelper.GetAllExceptionMessages(e);
+					_textBoxError.Text = _textBoxError.Text.Replace("\n", "\r\n");
+				}
+
 				dlg.Close();
 			}
 		}
@@ -93,6 +110,17 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnEditorAndChildrenLostFocus();
 			_oralAnnotationWaveViewer.Stop();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleRegenerateFileButtonClick(object sender, EventArgs e)
+		{
+			var oralAnnotationfile = (OralAnnotationComponentFile)_file;
+			var textAnnotationFile = oralAnnotationfile.AssociatedComponentFile.GetAnnotationFile();
+			var tier = (TimeOrderTier)textAnnotationFile.Tiers.FirstOrDefault(t => t is TimeOrderTier);
+			OralAnnotationFileGenerator.Generate(tier);
+			SetComponentFile(_file);
+			_oralAnnotationWaveViewer.Invalidate(true);
 		}
 	}
 }

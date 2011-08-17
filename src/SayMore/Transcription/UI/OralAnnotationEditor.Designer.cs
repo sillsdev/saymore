@@ -36,10 +36,17 @@ namespace SayMore.Transcription.UI
 			this._buttonPlay = new System.Windows.Forms.ToolStripButton();
 			this._buttonStop = new System.Windows.Forms.ToolStripButton();
 			this._panelOralAnnotationWaveViewer = new SilTools.Controls.SilPanel();
+			this._tableLayoutError = new System.Windows.Forms.TableLayoutPanel();
+			this._buttonRegenerate = new System.Windows.Forms.Button();
+			this._textBoxError = new System.Windows.Forms.TextBox();
+			this._pictureBoxError = new System.Windows.Forms.PictureBox();
+			this._labelError = new System.Windows.Forms.Label();
 			this._oralAnnotationWaveViewer = new SayMore.Transcription.UI.OralAnnotationWaveViewer();
 			this._tableLayout.SuspendLayout();
 			this._toolStrip.SuspendLayout();
 			this._panelOralAnnotationWaveViewer.SuspendLayout();
+			this._tableLayoutError.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._pictureBoxError)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _tableLayout
@@ -109,6 +116,7 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._panelOralAnnotationWaveViewer.ClipTextForChildControls = true;
 			this._panelOralAnnotationWaveViewer.ControlReceivingFocusOnMnemonic = null;
+			this._panelOralAnnotationWaveViewer.Controls.Add(this._tableLayoutError);
 			this._panelOralAnnotationWaveViewer.Controls.Add(this._oralAnnotationWaveViewer);
 			this._panelOralAnnotationWaveViewer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._panelOralAnnotationWaveViewer.DoubleBuffered = true;
@@ -124,16 +132,86 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer.Size = new System.Drawing.Size(488, 313);
 			this._panelOralAnnotationWaveViewer.TabIndex = 2;
 			// 
+			// _tableLayoutError
+			// 
+			this._tableLayoutError.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._tableLayoutError.ColumnCount = 3;
+			this._tableLayoutError.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutError.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutError.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutError.Controls.Add(this._textBoxError, 1, 1);
+			this._tableLayoutError.Controls.Add(this._pictureBoxError, 0, 0);
+			this._tableLayoutError.Controls.Add(this._labelError, 1, 0);
+			this._tableLayoutError.Controls.Add(this._buttonRegenerate, 2, 0);
+			this._tableLayoutError.Location = new System.Drawing.Point(19, 31);
+			this._tableLayoutError.Margin = new System.Windows.Forms.Padding(0);
+			this._tableLayoutError.Name = "_tableLayoutError";
+			this._tableLayoutError.RowCount = 2;
+			this._tableLayoutError.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutError.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutError.Size = new System.Drawing.Size(282, 208);
+			this._tableLayoutError.TabIndex = 2;
+			// 
+			// _buttonRegenerate
+			// 
+			this._buttonRegenerate.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._buttonRegenerate.AutoSize = true;
+			this._buttonRegenerate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._buttonRegenerate.Location = new System.Drawing.Point(172, 46);
+			this._buttonRegenerate.Margin = new System.Windows.Forms.Padding(5, 0, 10, 0);
+			this._buttonRegenerate.MinimumSize = new System.Drawing.Size(100, 26);
+			this._buttonRegenerate.Name = "_buttonRegenerate";
+			this._buttonRegenerate.Size = new System.Drawing.Size(100, 26);
+			this._buttonRegenerate.TabIndex = 3;
+			this._buttonRegenerate.Text = "Regenerate File";
+			this._buttonRegenerate.UseVisualStyleBackColor = true;
+			this._buttonRegenerate.Click += new System.EventHandler(this.HandleRegenerateFileButtonClick);
+			// 
+			// _textBoxError
+			// 
+			this._textBoxError.BackColor = System.Drawing.SystemColors.Window;
+			this._tableLayoutError.SetColumnSpan(this._textBoxError, 2);
+			this._textBoxError.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._textBoxError.Location = new System.Drawing.Point(87, 118);
+			this._textBoxError.Margin = new System.Windows.Forms.Padding(5, 0, 10, 10);
+			this._textBoxError.Multiline = true;
+			this._textBoxError.Name = "_textBoxError";
+			this._textBoxError.ReadOnly = true;
+			this._textBoxError.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this._textBoxError.Size = new System.Drawing.Size(185, 80);
+			this._textBoxError.TabIndex = 3;
+			// 
+			// _pictureBoxError
+			// 
+			this._pictureBoxError.Location = new System.Drawing.Point(10, 10);
+			this._pictureBoxError.Margin = new System.Windows.Forms.Padding(10, 10, 3, 3);
+			this._pictureBoxError.Name = "_pictureBoxError";
+			this._pictureBoxError.Size = new System.Drawing.Size(69, 51);
+			this._pictureBoxError.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._pictureBoxError.TabIndex = 3;
+			this._pictureBoxError.TabStop = false;
+			// 
+			// _labelError
+			// 
+			this._labelError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelError.AutoSize = true;
+			this._labelError.Location = new System.Drawing.Point(87, 20);
+			this._labelError.Margin = new System.Windows.Forms.Padding(5, 20, 20, 20);
+			this._labelError.Name = "_labelError";
+			this._labelError.Size = new System.Drawing.Size(60, 78);
+			this._labelError.TabIndex = 0;
+			this._labelError.Text = "There was an error reading generated annotation file.";
+			// 
 			// _oralAnnotationWaveViewer
 			// 
 			this._oralAnnotationWaveViewer.BackColor = System.Drawing.Color.Transparent;
-			this._oralAnnotationWaveViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._oralAnnotationWaveViewer.Location = new System.Drawing.Point(0, 0);
+			this._oralAnnotationWaveViewer.Location = new System.Drawing.Point(290, 72);
 			this._oralAnnotationWaveViewer.Margin = new System.Windows.Forms.Padding(0);
 			this._oralAnnotationWaveViewer.Name = "_oralAnnotationWaveViewer";
-			this._oralAnnotationWaveViewer.Size = new System.Drawing.Size(486, 311);
+			this._oralAnnotationWaveViewer.Size = new System.Drawing.Size(182, 180);
 			this._oralAnnotationWaveViewer.TabIndex = 0;
 			this._oralAnnotationWaveViewer.VirtualWaveWidth = 0;
+			this._oralAnnotationWaveViewer.Visible = false;
 			// 
 			// OralAnnotationEditor
 			// 
@@ -148,6 +226,9 @@ namespace SayMore.Transcription.UI
 			this._toolStrip.ResumeLayout(false);
 			this._toolStrip.PerformLayout();
 			this._panelOralAnnotationWaveViewer.ResumeLayout(false);
+			this._tableLayoutError.ResumeLayout(false);
+			this._tableLayoutError.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._pictureBoxError)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -161,6 +242,11 @@ namespace SayMore.Transcription.UI
 		private OralAnnotationWaveViewer _oralAnnotationWaveViewer;
 		private System.Windows.Forms.ToolStripButton _buttonPlay;
 		private System.Windows.Forms.ToolStripButton _buttonStop;
+		private System.Windows.Forms.TableLayoutPanel _tableLayoutError;
+		private System.Windows.Forms.TextBox _textBoxError;
+		private System.Windows.Forms.PictureBox _pictureBoxError;
+		private System.Windows.Forms.Label _labelError;
+		private System.Windows.Forms.Button _buttonRegenerate;
 
 
 	}

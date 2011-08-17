@@ -171,7 +171,7 @@ namespace SayMore.AudioUtils
 				if (_recordingState != RecordingState.Stopped)
 				{
 					throw new InvalidOperationException("Can't begin monitoring while we are in this state: " +
-					_recordingState.ToString());
+						_recordingState.ToString());
 				}
 
 				Debug.Assert(_waveIn == null);
@@ -269,9 +269,25 @@ namespace SayMore.AudioUtils
 			int bytesRecorded = e.BytesRecorded;
 			WriteToFile(buffer, bytesRecorded);
 
-			for (int index = 0; index < e.BytesRecorded; index += 2)
+			var bytesPerSample = _waveIn.WaveFormat.BitsPerSample / 8;
+
+			//byte[] floatBuff = new byte[4];
+
+			for (int index = 0; index < e.BytesRecorded; index += 4)
 			{
-				var sample = (short)((buffer[index + 1] << 8) | buffer[index + 0]);
+				//Array.ConstrainedCopy(e.Buffer, index, floatBuff, 0, bytesPerSample);
+
+
+				//var sample = BitConverter.ToSingle(floatBuff, 0);
+
+
+				//var sample = (short)((0 << 8) | buffer[index + 0]);
+				//var sample = (short)((buffer[index + 1] << 8) | buffer[index + 0]);
+
+				var sample = (short)((buffer[index + 1] << 8) | buffer[index + 0] << 16);
+				sample |= (short)((buffer[index + 3] << 8) | buffer[index + 2]);
+
+
 				var sample32 = sample / 32768f;
 				SampleAggregator.Add(sample32);
 			}

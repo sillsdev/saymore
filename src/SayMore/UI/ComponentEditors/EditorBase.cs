@@ -32,7 +32,7 @@ namespace SayMore.UI.ComponentEditors
 		string ImageKey { get; }
 		void Initialize(string tabText, string imageKey);
 		void SetComponentFile(ComponentFile file);
-		Action ComponentFileListRefreshAction { set; }
+		Action<string> ComponentFileListRefreshAction { set; }
 		void Deactivated();
 		void Activated();
 		bool IsOKSToLeaveEditor { get; }
@@ -51,7 +51,7 @@ namespace SayMore.UI.ComponentEditors
 
 		public event Action<string> TabTextChanged;
 		public string ImageKey { get; protected set; }
-		public Action ComponentFileListRefreshAction { protected get; set; }
+		public Action<string> ComponentFileListRefreshAction { protected get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public EditorBase()

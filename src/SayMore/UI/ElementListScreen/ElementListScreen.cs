@@ -302,7 +302,7 @@ namespace SayMore.UI.ElementListScreen
 				_tabControlHostControl.Controls.Add(tabCtrl);
 
 				foreach (var editor in editorProviders)
-					editor.ComponentFileListRefreshAction = (() => ComponentFileListRefreshFromEditor());
+					editor.ComponentFileListRefreshAction = (f => ComponentFileListRefreshFromEditor(f));
 			}
 
 			// Don't do anything if the selected tab control hasn't changed.
@@ -319,10 +319,13 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void ComponentFileListRefreshFromEditor()
+		private void ComponentFileListRefreshFromEditor(string fileToSelectAfterRefresh)
 		{
 			_model.RefreshSelectedElementComponentFileList();
 			UpdateComponentFileList();
+
+			if (fileToSelectAfterRefresh != null)
+				_componentFilesControl.TrySetComponent(fileToSelectAfterRefresh);
 		}
 
 		/// ------------------------------------------------------------------------------------

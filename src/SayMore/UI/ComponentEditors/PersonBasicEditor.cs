@@ -292,7 +292,7 @@ namespace SayMore.UI.ComponentEditors
 			if (error == null)
 			{
 				if (ComponentFileListRefreshAction != null)
-					ComponentFileListRefreshAction();
+					ComponentFileListRefreshAction(null);
 			}
 			else
 			{

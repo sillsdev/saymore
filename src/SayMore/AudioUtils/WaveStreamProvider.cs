@@ -53,23 +53,27 @@ namespace SayMore.AudioUtils
 				return;
 			}
 
-			// First, check if media file is a video file. If it is, then, using ffmpeg,
-			// extract the audio in the desired format.
-			if (Settings.Default.VideoFileExtensions.Contains(Path.GetExtension(MediaFileName).ToLower()))
+			WaveStream stream;
+
+			try
+			{
+				// First, just try to open the file as a wave file. If that fails, use
+				// ffmpeg in an attempt to get wave audio out of the file.
+				stream = new WaveFileReader(MediaFileName);
+			}
+			catch
 			{
 				var execResult = CreateFFmpegGeneratedAudioFile();
 				if (execResult.ExitCode == 0)
 					Stream = new WaveFileReader(_temporaryWavFile);
 				else
 				{
-					var msg = "There was an error extracting audio from the video file '{0}'\n\n{1}";
+					var msg = "There was an error extracting audio from the media file '{0}'\n\n{1}";
 					Error = new Exception(string.Format(msg, execResult.StandardError));
 				}
 
 				return;
 			}
-
-			WaveStream stream = new WaveFileReader(MediaFileName);
 
 			if (stream.WaveFormat.BitsPerSample != OutputFormat.BitsPerSample ||
 				stream.WaveFormat.SampleRate != OutputFormat.SampleRate ||

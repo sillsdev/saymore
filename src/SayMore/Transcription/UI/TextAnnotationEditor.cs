@@ -258,8 +258,11 @@ namespace SayMore.Transcription.UI
 
 			var oralAnnotationFile = OralAnnotationFileGenerator.Generate(tier, this);
 
-			if (!oralAnnotationFileAlreadyExist && ComponentFileListRefreshAction != null)
+			if (oralAnnotationFile != null && !oralAnnotationFileAlreadyExist &&
+				ComponentFileListRefreshAction != null)
+			{
 				ComponentFileListRefreshAction(oralAnnotationFile);
+			}
 		}
 	}
 }

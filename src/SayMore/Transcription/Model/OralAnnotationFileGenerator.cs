@@ -30,6 +30,9 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public static string Generate(TimeOrderTier originalRecodingTier, Control parentControlForDialog)
 		{
+			if (!CanGenerate(originalRecodingTier))
+				return null;
+
 			using (var generator = new OralAnnotationFileGenerator(originalRecodingTier))
 			{
 				LoadingDlg dlg = null;
@@ -52,6 +55,22 @@ namespace SayMore.Transcription.Model
 
 				return generator._outputFileName;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static bool CanGenerate(TimeOrderTier originalRecodingTier)
+		{
+			var pathToAnnotationsFolder = originalRecodingTier.MediaFileName +
+				Settings.Default.OralAnnotationsFolderAffix;
+
+			// First, look for the folder that stores the oral annotation segment files.
+			if (!Directory.Exists(pathToAnnotationsFolder))
+				return false;
+
+			// Now look in that folder to see if any segment files actually exist.
+			return (Directory.GetFiles(pathToAnnotationsFolder).Any(f =>
+				f.ToLower().EndsWith(Settings.Default.OralAnnotationCarefulSegmentFileAffix.ToLower()) ||
+				f.ToLower().EndsWith(Settings.Default.OralAnnotationTranslationSegmentFileAffix.ToLower())));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -131,11 +150,15 @@ namespace SayMore.Transcription.Model
 		private WaveStreamProvider GetWaveStreamForOralAnnotationSegment(ITimeOrderSegment segment,
 			OralAnnotationType annotationType)
 		{
-			var pathToAnnotationsFolder = _origRecordingTier.MediaFileName + "_Annotations";
+			var pathToAnnotationsFolder = _origRecordingTier.MediaFileName + Settings.Default.OralAnnotationsFolderAffix;
+
+			var affix = (annotationType == OralAnnotationType.Careful ?
+				Settings.Default.OralAnnotationCarefulSegmentFileAffix :
+				Settings.Default.OralAnnotationTranslationSegmentFileAffix);
 
 			var filename = Path.Combine(pathToAnnotationsFolder,
-				string.Format(Settings.Default.OralAnnotationSegmentFileAffix,
-					segment.Start, segment.Stop, annotationType));
+				string.Format(Settings.Default.OralAnnotationSegmentFileFormat,
+					segment.Start, segment.Stop, affix));
 
 			var provider = WaveStreamProvider.Create(_output1ChannelAudioFormat, filename);
 			if (provider.Error != null && !(provider.Error is FileNotFoundException))

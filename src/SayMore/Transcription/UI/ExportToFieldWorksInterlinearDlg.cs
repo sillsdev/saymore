@@ -87,14 +87,14 @@ namespace SayMore.Transcription.UI
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
 					"In order to export, we need to find a writing system ID that FLEx will accept. SayMore tried to find a list of writing systems which FLEx knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of FLEx.",
 					globalPath);
-				yield return WritingSystemDefinition.FromLanguage("en");
+				yield return WritingSystemDefinition.Parse("en");
 			}
 			else
 			{
 				foreach (string path in Directory.GetFiles(globalPath, "*.ldml"))
 				{
 					var name = Path.GetFileNameWithoutExtension(path);
-					yield return WritingSystemDefinition.FromLanguage(name);
+					yield return WritingSystemDefinition.Parse(name);
 				}
 			}
 		}

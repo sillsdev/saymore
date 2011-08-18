@@ -350,11 +350,17 @@
     <Setting Name="OralAnnotationGeneratedFileAffix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.oralAnnotations.wav</Value>
     </Setting>
-    <Setting Name="OralAnnotationSegmentFileAffix" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">{0}_to_{1}_{2}.wav</Value>
-    </Setting>
     <Setting Name="OralAnnotationsFolderAffix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">_Annotations</Value>
+    </Setting>
+    <Setting Name="OralAnnotationCarefulSegmentFileAffix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">_Careful.wav</Value>
+    </Setting>
+    <Setting Name="OralAnnotationTranslationSegmentFileAffix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">_Translation.wav</Value>
+    </Setting>
+    <Setting Name="OralAnnotationSegmentFileFormat" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{0}_to_{1}{2}</Value>
     </Setting>
   </Settings>
 </SettingsFile>

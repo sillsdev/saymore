@@ -1154,19 +1154,37 @@ namespace SayMore.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{0}_to_{1}_{2}.wav")]
-        public string OralAnnotationSegmentFileAffix {
+        [global::System.Configuration.DefaultSettingValueAttribute("_Annotations")]
+        public string OralAnnotationsFolderAffix {
             get {
-                return ((string)(this["OralAnnotationSegmentFileAffix"]));
+                return ((string)(this["OralAnnotationsFolderAffix"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("_Annotations")]
-        public string OralAnnotationsFolderAffix {
+        [global::System.Configuration.DefaultSettingValueAttribute("_Careful.wav")]
+        public string OralAnnotationCarefulSegmentFileAffix {
             get {
-                return ((string)(this["OralAnnotationsFolderAffix"]));
+                return ((string)(this["OralAnnotationCarefulSegmentFileAffix"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("_Translation.wav")]
+        public string OralAnnotationTranslationSegmentFileAffix {
+            get {
+                return ((string)(this["OralAnnotationTranslationSegmentFileAffix"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{0}_to_{1}{2}")]
+        public string OralAnnotationSegmentFileFormat {
+            get {
+                return ((string)(this["OralAnnotationSegmentFileFormat"]));
             }
         }
     }

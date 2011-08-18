@@ -92,9 +92,13 @@ namespace SayMore.Transcription.UI
 		{
 			var segment = _segments[segmentNumber];
 
+			var affix = (_annotationType == OralAnnotationType.Careful ?
+				Settings.Default.OralAnnotationCarefulSegmentFileAffix :
+				Settings.Default.OralAnnotationTranslationSegmentFileAffix);
+
 			return Path.Combine(_pathToAnnotationsFolder,
-				string.Format(Settings.Default.OralAnnotationSegmentFileAffix,
-					segment.Start, segment.Stop, _annotationType));
+				string.Format(Settings.Default.OralAnnotationSegmentFileFormat,
+					segment.Start, segment.Stop, affix));
 		}
 
 		/// ------------------------------------------------------------------------------------

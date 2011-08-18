@@ -24,7 +24,6 @@ namespace SayMore.Transcription.UI
 		private OralAnnotationRecorderViewModel _viewModel;
 		private readonly string _recordingButtonText;
 		private readonly Color _recordingButtonForeColor;
-		private string _annotationType;
 		private Timer _startTimer;
 		private bool _alreadyShutdown;
 
@@ -67,8 +66,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(OralAnnotationRecorderViewModel viewModel, string annotationType)
 		{
-			_annotationType = annotationType;
-
 			_viewModel = viewModel;
 			_viewModel.MicLevelChangeControl = _trackBarMicLevel;
 			_viewModel.MicLevelDisplayControl = _panelMicorphoneLevel;
@@ -77,6 +74,8 @@ namespace SayMore.Transcription.UI
 			_buttonPlayOriginal.Initialize(" Playing...", "", _viewModel.PlayOriginalRecording, _viewModel.Stop );
 			_buttonPlayAnnotation.Initialize(" Playing...", "Check Annotation", _viewModel.PlayAnnotation, _viewModel.Stop);
 			_buttonRecord.Initialize(" Recording...", "", _viewModel.BeginRecording, HandleRecordingStopped);
+
+			_buttonRecord.Tag = string.Format("{0} - {1}: ", Name, annotationType);
 
 			_trackBarSegment.Minimum = 1;
 			_trackBarSegment.Maximum = _viewModel.SegmentCount;
@@ -114,7 +113,6 @@ namespace SayMore.Transcription.UI
 				_viewModel.Dispose();
 			}
 
-			ReportUsage();
 			_alreadyShutdown = true;
 		}
 
@@ -123,30 +121,6 @@ namespace SayMore.Transcription.UI
 		{
 			Shutdown();
 			base.OnHandleDestroyed(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void ReportUsage()
-		{
-			UsageReporter.SendEvent(Name, _annotationType, "Dialog Opened", null, 0);
-
-			UsageReporter.SendNavigationNotice("{0} - {1}: Playback original invoked {2} times.",
-				Name, _annotationType, _buttonPlayOriginal.ActionStartedCount);
-
-			UsageReporter.SendNavigationNotice("{0} - {1}: Playback annotation invoked {2} times.",
-				Name, _annotationType, _buttonPlayAnnotation.ActionStartedCount);
-
-			UsageReporter.SendNavigationNotice("{0} - {1}: Record annotation invoked {2} times.",
-				Name, _annotationType, _buttonRecord.ActionStartedCount);
-
-			UsageReporter.SendNavigationNotice("{0} - {1}: Stop playback original invoked {2} times.",
-				Name, _annotationType, _buttonPlayOriginal.ActionStoppedCount);
-
-			UsageReporter.SendNavigationNotice("{0} - {1}: Stop playback annotation invoked {2} times.",
-				Name, _annotationType, _buttonPlayAnnotation.ActionStoppedCount);
-
-			UsageReporter.SendNavigationNotice("{0} - {1}: Erase annotation invoked {2} times.",
-				Name, _annotationType, _buttonEraseAnnotation.ActionInvokedCount);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -184,6 +158,7 @@ namespace SayMore.Transcription.UI
 							_buttonRecord.InvokeStopAction();
 						else if (m.Msg == WM_KEYDOWN && !_buttonRecord.ActionInProgress)
 						{
+							UsageReporter.SendNavigationNotice(_buttonRecord.Tag + "Record started using SPACE key.");
 							Activate(_buttonRecord);
 							_buttonRecord.InvokeStartAction();
 							UpdateDisplay();
@@ -394,6 +369,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
+			UsageReporter.SendNavigationNotice(Tag + "Record started using mouse.");
 			if (e.Button == MouseButtons.Left)
 				InvokeStartAction();
 

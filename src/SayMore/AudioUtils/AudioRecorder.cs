@@ -271,23 +271,17 @@ namespace SayMore.AudioUtils
 
 			var bytesPerSample = _waveIn.WaveFormat.BitsPerSample / 8;
 
-			//byte[] floatBuff = new byte[4];
-
-			for (int index = 0; index < e.BytesRecorded; index += 2)
+			// It appears the data only occupies 2 bytes of those in a sample and that
+			// those 2 are always the last two in each sample. The other bytes are zero
+			// filled. Therefore, when getting those two bytes, the first index into a
+			// sample needs to be 0 for 16 bit samples, 1 for 24 bit samples and 2 for
+			// 32 bit samples. I'm not sure what to do for 8 bit samples. I could never
+			// figure out the correct conversion of a byte in an 8 bit per sample buffer
+			// to a float sample value. However, I doubt folks are going to be recording
+			// at 8 bits/sample so I'm ignoring that problem.
+			for (var index = bytesPerSample - 2; index < bytesRecorded - 1; index += bytesPerSample)
 			{
-				//Array.ConstrainedCopy(e.Buffer, index, floatBuff, 0, bytesPerSample);
-
-
-				//var sample = BitConverter.ToSingle(floatBuff, 0);
-
-
-				//var sample = (short)((0 << 8) | buffer[index + 0]);
-				var sample = (short)((buffer[index + 1] << 8) | buffer[index + 0]);
-
-				//var sample = (short)((buffer[index + 1] << 8) | buffer[index + 0] << 16);
-				//sample |= (short)((buffer[index + 3] << 8) | buffer[index + 2]);
-
-
+				var sample = (short)((buffer[index + 1] << 8) | buffer[index]);
 				var sample32 = sample / 32768f;
 				SampleAggregator.Add(sample32);
 			}

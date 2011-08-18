@@ -113,7 +113,6 @@ namespace SayMore.Transcription.UI
 			CurrentSegmentNumber = segmentNumber;
 
 			_annotationRecorder = new AudioRecorder(WaveFileUtils.GetDefaultWaveFormat(1));
-			//_annotationRecorder = new AudioRecorder(44100, 32, 1);
 			_annotationRecorder.SetRecordingLevelChangeControl(MicLevelChangeControl);
 			_annotationRecorder.SetRecordingLevelDisplayControl(MicLevelDisplayControl);
 

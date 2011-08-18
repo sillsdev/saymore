@@ -7,6 +7,7 @@ using NAudio.Wave;
 using SayMore.AudioUtils;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
+using SayMore.UI;
 
 namespace SayMore.Transcription.Model
 {
@@ -27,16 +28,27 @@ namespace SayMore.Transcription.Model
 		private string _outputFileName;
 
 		/// ------------------------------------------------------------------------------------
-		public static string Generate(TimeOrderTier originalRecodingTier)
+		public static string Generate(TimeOrderTier originalRecodingTier, Control parentControlForDialog)
 		{
 			using (var generator = new OralAnnotationFileGenerator(originalRecodingTier))
 			{
+				LoadingDlg dlg = null;
+
+				if (parentControlForDialog != null)
+				{
+					dlg = new LoadingDlg("Generating Oral Annotation file...");
+					dlg.Show(parentControlForDialog);
+				}
+
 				var worker = new BackgroundWorker();
 				worker.DoWork += generator.CreateInterleavedAudioFile;
 				worker.RunWorkerAsync();
 
 				while (worker.IsBusy)
 					Application.DoEvents();
+
+				dlg.Close();
+				dlg.Dispose();
 
 				return generator._outputFileName;
 			}

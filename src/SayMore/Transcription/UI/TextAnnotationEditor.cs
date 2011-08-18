@@ -256,17 +256,10 @@ namespace SayMore.Transcription.UI
 			bool oralAnnotationFileAlreadyExist =
 				(file.AssociatedComponentFile.GetOralAnnotationFile() != null);
 
-			using (var dlg = new LoadingDlg("Generating Oral Annotation file..."))
-			{
-				dlg.Show(this);
+			var oralAnnotationFile = OralAnnotationFileGenerator.Generate(tier, this);
 
-				var oralAnnotationFile = OralAnnotationFileGenerator.Generate(tier);
-
-				if (!oralAnnotationFileAlreadyExist && ComponentFileListRefreshAction != null)
-					ComponentFileListRefreshAction(oralAnnotationFile);
-
-				dlg.Close();
-			}
+			if (!oralAnnotationFileAlreadyExist && ComponentFileListRefreshAction != null)
+				ComponentFileListRefreshAction(oralAnnotationFile);
 		}
 	}
 }

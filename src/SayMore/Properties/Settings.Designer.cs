@@ -1143,29 +1143,30 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(".oralAnnotations.wav")]
         public string OralAnnotationGeneratedFileAffix {
             get {
                 return ((string)(this["OralAnnotationGeneratedFileAffix"]));
             }
-            set {
-                this["OralAnnotationGeneratedFileAffix"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("{0}_to_{1}_{2}.wav")]
         public string OralAnnotationSegmentFileAffix {
             get {
                 return ((string)(this["OralAnnotationSegmentFileAffix"]));
             }
-            set {
-                this["OralAnnotationSegmentFileAffix"] = value;
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("_Annotations")]
+        public string OralAnnotationsFolderAffix {
+            get {
+                return ((string)(this["OralAnnotationsFolderAffix"]));
             }
         }
     }

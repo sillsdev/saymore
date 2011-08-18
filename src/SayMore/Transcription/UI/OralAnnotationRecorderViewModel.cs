@@ -52,7 +52,7 @@ namespace SayMore.Transcription.UI
 			_annotationType = annotationType;
 			_originalRecordingPath = tier.MediaFileName;
 			_segments = tier.GetAllSegments().Cast<ITimeOrderSegment>().ToArray();
-			_pathToAnnotationsFolder = tier.MediaFileName + "_Annotations";
+			_pathToAnnotationsFolder = tier.MediaFileName + Settings.Default.OralAnnotationsFolderAffix;
 			SetCurrentSegmentNumber(0);
 		}
 

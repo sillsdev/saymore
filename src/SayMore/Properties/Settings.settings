@@ -347,11 +347,14 @@
     <Setting Name="OralAnnotationDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="OralAnnotationGeneratedFileAffix" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="User">
+    <Setting Name="OralAnnotationGeneratedFileAffix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.oralAnnotations.wav</Value>
     </Setting>
-    <Setting Name="OralAnnotationSegmentFileAffix" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="User">
+    <Setting Name="OralAnnotationSegmentFileAffix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">{0}_to_{1}_{2}.wav</Value>
+    </Setting>
+    <Setting Name="OralAnnotationsFolderAffix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">_Annotations</Value>
     </Setting>
   </Settings>
 </SettingsFile>

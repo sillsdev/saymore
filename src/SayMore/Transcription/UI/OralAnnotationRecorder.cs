@@ -26,6 +26,7 @@ namespace SayMore.Transcription.UI
 		private readonly Color _recordingButtonForeColor;
 		private string _annotationType;
 		private Timer _startTimer;
+		private bool _alreadyShutdown;
 
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationRecorder()
@@ -99,8 +100,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleDestroyed(EventArgs e)
+		public void Shutdown()
 		{
+			if (_alreadyShutdown)
+				return;
+
 			Application.RemoveMessageFilter(this);
 
 			if (_viewModel != null)
@@ -111,6 +115,13 @@ namespace SayMore.Transcription.UI
 			}
 
 			ReportUsage();
+			_alreadyShutdown = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			Shutdown();
 			base.OnHandleDestroyed(e);
 		}
 

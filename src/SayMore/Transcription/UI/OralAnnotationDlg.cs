@@ -51,6 +51,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+		{
+			_oralAnnotationRecorder.Shutdown();
+			base.OnClosing(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleCloseClick(object sender, EventArgs e)
 		{
 			Close();

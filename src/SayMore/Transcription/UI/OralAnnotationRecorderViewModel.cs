@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
+using Palaso.Reporting;
 using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -168,9 +169,17 @@ namespace SayMore.Transcription.UI
 		{
 			Stop();
 			CloseAnnotationPlayer();
-			var filename = GetPathToCurrentAnnotationFile();
-			ComponentFile.WaitForFileRelease(filename);
-			File.Delete(filename);
+			var path = GetPathToCurrentAnnotationFile();
+			ComponentFile.WaitForFileRelease(path);
+			try
+			{
+				if(File.Exists(path))
+				File.Delete(path);
+			}
+			catch(Exception error)
+			{
+				ErrorReport.NotifyUserOfProblem(error, "Could not remove that annotation.  If this problem persists, try restarting your computer.");
+			}
 			InitializeAnnotationPlayerModel();
 		}
 

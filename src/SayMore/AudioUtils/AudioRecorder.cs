@@ -273,7 +273,7 @@ namespace SayMore.AudioUtils
 
 			//byte[] floatBuff = new byte[4];
 
-			for (int index = 0; index < e.BytesRecorded; index += 4)
+			for (int index = 0; index < e.BytesRecorded; index += 2)
 			{
 				//Array.ConstrainedCopy(e.Buffer, index, floatBuff, 0, bytesPerSample);
 
@@ -282,10 +282,10 @@ namespace SayMore.AudioUtils
 
 
 				//var sample = (short)((0 << 8) | buffer[index + 0]);
-				//var sample = (short)((buffer[index + 1] << 8) | buffer[index + 0]);
+				var sample = (short)((buffer[index + 1] << 8) | buffer[index + 0]);
 
-				var sample = (short)((buffer[index + 1] << 8) | buffer[index + 0] << 16);
-				sample |= (short)((buffer[index + 3] << 8) | buffer[index + 2]);
+				//var sample = (short)((buffer[index + 1] << 8) | buffer[index + 0] << 16);
+				//sample |= (short)((buffer[index + 3] << 8) | buffer[index + 2]);
 
 
 				var sample32 = sample / 32768f;

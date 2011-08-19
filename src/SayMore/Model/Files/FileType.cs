@@ -521,9 +521,20 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool IsAudio
+		/// <summary>
+		/// These are fields which are always available for files of this type
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<FieldDefinition> FactoryFields
 		{
-			get { return true; }
+			get
+			{
+				yield return new FieldDefinition("Duration") { ReadOnly = true };
+				yield return new FieldDefinition("Channels") { ReadOnly = true };
+				yield return new FieldDefinition("Bit_Depth") { ReadOnly = true };
+				yield return new FieldDefinition("Sample_Rate") { ReadOnly = true };
+				yield return new FieldDefinition("Audio_Bit_Rate") { ReadOnly = true };
+			}
 		}
 	}
 

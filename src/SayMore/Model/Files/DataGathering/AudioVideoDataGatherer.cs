@@ -23,19 +23,13 @@ namespace SayMore.Model.Files.DataGathering
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void CollectDataForFile(string path)
+		protected override bool GetDoIncludeFile(string path)
 		{
-			path = path.ToLower();
-
+			// Don't collect info. on oral annotation segment files.
 			var isOralAnnotationSegmentFile =
-				Path.GetDirectoryName(path).EndsWith(Settings.Default.OralAnnotationsFolderAffix.ToLower());
+				Path.GetDirectoryName(path.ToLower()).EndsWith(Settings.Default.OralAnnotationsFolderAffix.ToLower());
 
-			// Don't collect info. on oral annotation files.
-			if (!isOralAnnotationSegmentFile &&
-				!path.EndsWith(Settings.Default.OralAnnotationGeneratedFileAffix.ToLower()))
-			{
-				base.CollectDataForFile(path);
-			}
+			return (!isOralAnnotationSegmentFile && base.GetDoIncludeFile(path));
 		}
 	}
 }

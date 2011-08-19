@@ -237,6 +237,17 @@ namespace SayMore.AudioUtils
 			// Check for Vista OS or newer.
 			if (Environment.OSVersion.Version.Major >= 6)
 			{
+				// This is a bit of a kludge, but it would seem there may be a bug in the NAudio
+				// library having to do with some static values being initialized the first
+				// time GetMixerLine() is called. If after that, the user goes to the Windows
+				// control panel to change the default recording format, the first subsequent
+				// WaveIn that is created throws an exception. Therefore, if that is going
+				// to happen, we get that one exception out of the program's system and then
+				// carry on normally. An exception thrown after that is one we want to handle.
+				// See SP-268
+				try { _waveIn.GetMixerLine(); }
+				catch { }
+
 				var mixerLine = _waveIn.GetMixerLine();
 				foreach (var control in mixerLine.Controls.Where(c => c.ControlType == MixerControlType.Volume))
 				{

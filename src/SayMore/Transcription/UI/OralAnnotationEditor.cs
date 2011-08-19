@@ -99,6 +99,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override bool IsOKSToLeaveEditor
+		{
+			get { return !_oralAnnotationWaveViewer.IsBusyLoading && base.IsOKSToLeaveEditor; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnFormLostFocus()
 		{
 			base.OnFormLostFocus();

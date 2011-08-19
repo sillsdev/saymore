@@ -103,6 +103,7 @@ namespace SayMore.Transcription.UI
 		{
 			_worker = new BackgroundWorker();
 			_worker.WorkerReportsProgress = true;
+			_worker.WorkerSupportsCancellation = true;
 			_worker.ProgressChanged += HandleWorkerProgressChanged;
 			_worker.DoWork += InternalLoadAnnotationAudioFile;
 			_worker.RunWorkerAsync(filename);
@@ -112,6 +113,12 @@ namespace SayMore.Transcription.UI
 
 			_worker.Dispose();
 			_worker = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsBusyLoading
+		{
+			get { return _worker != null; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -140,6 +147,9 @@ namespace SayMore.Transcription.UI
 						orginalSamples[i] = buffer[0];
 						carefulSamples[i] = buffer[1];
 						translationSamples[i] = buffer[2];
+
+						if (_worker.CancellationPending)
+							return;
 					}
 
 					_wavePanelOriginal.Initialize(orginalSamples, threeChannelStream.TotalTime);
@@ -208,6 +218,9 @@ namespace SayMore.Transcription.UI
 
 					i++;
 				}
+
+				if (_worker.CancellationPending)
+					return;
 			}
 
 			var memStream = new MemoryStream(buffer);

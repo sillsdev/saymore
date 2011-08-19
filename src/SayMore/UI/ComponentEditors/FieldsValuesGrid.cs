@@ -31,7 +31,7 @@ namespace SayMore.UI.ComponentEditors
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 
 			_focusedSelectionBackColor = ColorHelper.CalculateColor(Color.White,
-					 DefaultCellStyle.SelectionBackColor, 140);
+				DefaultCellStyle.SelectionBackColor, 140);
 
 			SetSelectionColors(false);
 
@@ -46,10 +46,10 @@ namespace SayMore.UI.ComponentEditors
 
 			_model.ComponentFileChanged = HandleComponentFileChanged;
 
-			if (!string.IsNullOrEmpty(_model.GridSettingsName))
+			if (!string.IsNullOrEmpty(_model.GridSettingsName) &&
+				Settings.Default[_model.GridSettingsName] != null)
 			{
-				if (Settings.Default[_model.GridSettingsName] != null)
-					((GridSettings)Settings.Default[_model.GridSettingsName]).InitializeGrid(this);
+				((GridSettings)Settings.Default[_model.GridSettingsName]).InitializeGrid(this);
 			}
 		}
 

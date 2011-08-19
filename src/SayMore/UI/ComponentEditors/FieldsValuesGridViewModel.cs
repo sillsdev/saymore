@@ -9,10 +9,6 @@ using SayMore.Model.Files.DataGathering;
 namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class FieldsValuesGridViewModel
 	{
 		private readonly FieldGatherer _fieldGatherer;
@@ -62,8 +58,11 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void LoadFields()
 		{
-			var factoryFields = _file.FileType.FactoryFields;
-			_fieldDefsForFile = factoryFields.Union(_fieldGatherer.GetAllFieldsForFileType(_file.FileType).Where(f => !factoryFields.Any(e => e.Key == f.Key)));
+			var factoryFields = _file.FileType.FactoryFields.ToArray();
+
+			_fieldDefsForFile = factoryFields
+				.Union(_fieldGatherer.GetAllFieldsForFileType(_file.FileType)
+				.Where(f => !factoryFields.Any(e => e.Key == f.Key)));
 
 			foreach (var field in _fieldDefsForFile)
 			{

@@ -50,9 +50,9 @@ namespace SayMore.Model.Files.DataGathering
 		public IEnumerable<KeyValuePair<string, Dictionary<string, string>>> GetPresets()
 		{
 			var suggestor = new UniqueCombinationsFinder(_fileToDataDictionary.Values.Select(d => d.Dictionary));
-			var suggestions = suggestor.GetSuggestions();
+			var suggestions = suggestor.GetSuggestions().ToArray();
 
-			if (suggestions.Count() == 0)
+			if (suggestions.Length == 0)
 			{
 				yield return new KeyValuePair<string, Dictionary<string, string>>(
 					"No presets yet", new Dictionary<string, string>());

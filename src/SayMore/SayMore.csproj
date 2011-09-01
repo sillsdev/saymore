@@ -155,6 +155,12 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
+    <Compile Include="Transcription\UI\AutoSegmenterDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\AutoSegmenterDlg.Designer.cs">
+      <DependentUpon>AutoSegmenterDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transcription\Model\AnnotationFileHelper.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelper.cs" />
     <Compile Include="Transcription\Model\AudioTier.cs" />
@@ -528,6 +534,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Transcription\UI\AutoSegmenterDlg.resx">
+      <DependentUpon>AutoSegmenterDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\OralAnnotationDlg.resx">
       <DependentUpon>OralAnnotationDlg.cs</DependentUpon>
     </EmbeddedResource>

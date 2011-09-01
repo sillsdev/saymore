@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.UI;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.MediaPlayer;
 using SilTools;
@@ -263,6 +262,15 @@ namespace SayMore.Transcription.UI
 			{
 				ComponentFileListRefreshAction(oralAnnotationFile);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleResegmentButtonClick(object sender, EventArgs e)
+		{
+			Deactivated();
+			var file = ((AnnotationComponentFile)_file);
+			file.AssociatedComponentFile.CreateAnnotationFile(null);
+			SetComponentFile(_file);
 		}
 	}
 }

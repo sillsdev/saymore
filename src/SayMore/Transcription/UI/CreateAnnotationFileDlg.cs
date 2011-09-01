@@ -8,6 +8,7 @@ namespace SayMore.Transcription.UI
 	public partial class CreateAnnotationFileDlg : Form
 	{
 		public string FileName { get; private set; }
+		public bool AutoSegment { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public CreateAnnotationFileDlg(string mediaFilePath) : this()
@@ -31,6 +32,14 @@ namespace SayMore.Transcription.UI
 
 			_buttonELANFileHelp.Click += (s, e) =>
 				Program.ShowHelpTopic("/Using_Tools/Events_tab/Create_Annotation_File.htm");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleAutoSegmentClick(object sender, EventArgs e)
+		{
+			AutoSegment = true;
+			DialogResult = DialogResult.OK;
+			Close();
 		}
 
 		/// ------------------------------------------------------------------------------------

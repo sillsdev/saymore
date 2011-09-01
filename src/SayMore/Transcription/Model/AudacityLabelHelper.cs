@@ -20,13 +20,18 @@ namespace SayMore.Transcription.Model
 		public IEnumerable<AudacityLabelInfo> LabelInfo { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public AudacityLabelHelper(IEnumerable<string> allLabelLines, string mediaFile)
+		public AudacityLabelHelper(IEnumerable<string> allLabelLines, string mediaFile) :
+			this(allLabelLines, '\t', mediaFile)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public AudacityLabelHelper(IEnumerable<string> allLabelLines, char delimiter, string mediaFile)
 		{
 			_mediaFile = mediaFile;
 
-			// Parse each line (using tabs as the delimiter) into an array of strings.
-			// Only keep lines having two or more pieces.
-			var lines = allLabelLines.Select(ln => ln.Split('\t')).Where(p => p.Length >= 2).ToList();
+			// Parse each line (using the specified delimiter) into an array of strings.
+			var lines = allLabelLines.Select(ln => ln.Split(delimiter)).Where(p => p.Length >= 1).ToList();
 
 			// Create an easier to use (i.e. than string arrays) list of objects for each label.
 			var labelInfo = lines.Select(l => CreateSingleLabelInfo(l)).Where(ali => ali.Start > -1).ToList();
@@ -44,7 +49,7 @@ namespace SayMore.Transcription.Model
 
 				// At this point, we know the stop location is zero. For all labels but the
 				// last label, the stop position will be the start position of the next label.
-				// For the last label, the stop position to be the end of the file.
+				// For the last label, the stop position is assumed to be the end of the file.
 				if (i < labelInfo.Count - 1)
 					labelInfo[i].Stop = labelInfo[i + 1].Start;
 				else if (i == labelInfo.Count - 1 && _mediaFile != null)
@@ -70,14 +75,15 @@ namespace SayMore.Transcription.Model
 			if (labelInfo.Length >= 3)
 				ali.Text = labelInfo[2];
 
-			float start;
-			float stop;
+			float value;
 
-			if (float.TryParse(labelInfo[0], out start) && float.TryParse(labelInfo[1], out stop))
-			{
-				ali.Start = start;
-				ali.Stop = stop;
-			}
+			if (float.TryParse(labelInfo[0].Trim(), out value))
+				ali.Start = value;
+
+			if (labelInfo.Length > 1 && float.TryParse(labelInfo[1].Trim(), out value))
+				ali.Stop = value;
+			else
+				ali.Stop = ali.Start;
 
 			return ali;
 		}

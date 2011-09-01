@@ -44,6 +44,7 @@ namespace SayMore.Transcription.UI
 			this._labelOverview = new System.Windows.Forms.Label();
 			this._labelAnnoatationType1 = new System.Windows.Forms.Label();
 			this._labelAnnoatationType2 = new System.Windows.Forms.Label();
+			this._buttonAutoSegment = new System.Windows.Forms.Button();
 			this._tableLayout.SuspendLayout();
 			this._tableLayoutReadAudacityFileButton.SuspendLayout();
 			this._tableLayoutCopyELANFileButton.SuspendLayout();
@@ -59,6 +60,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayout.Controls.Add(this._tableLayoutReadAudacityFileButton, 0, 4);
+			this._tableLayout.Controls.Add(this._buttonAutoSegment, 0, 7);
 			this._tableLayout.Controls.Add(this._tableLayoutCopyELANFileButton, 0, 6);
 			this._tableLayout.Controls.Add(this._labelElanOverview, 0, 5);
 			this._tableLayout.Controls.Add(this._labelAudacityOverview, 0, 3);
@@ -77,7 +79,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(450, 285);
+			this._tableLayout.Size = new System.Drawing.Size(450, 291);
 			this._tableLayout.TabIndex = 0;
 			// 
 			// _tableLayoutReadAudacityFileButton
@@ -125,11 +127,13 @@ namespace SayMore.Transcription.UI
 			this._buttonAudacityHelp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
 			this._buttonAudacityHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonAudacityHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this._buttonAudacityHelp.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonAudacityHelp.Image = null;
 			this._buttonAudacityHelp.ImageMargin = new System.Drawing.Size(2, 2);
 			this._buttonAudacityHelp.Location = new System.Drawing.Point(183, 3);
 			this._buttonAudacityHelp.Name = "_buttonAudacityHelp";
-			this._buttonAudacityHelp.Size = new System.Drawing.Size(26, 20);
+			this._buttonAudacityHelp.ShowFocusRectangle = true;
+			this._buttonAudacityHelp.Size = new System.Drawing.Size(20, 20);
 			this._buttonAudacityHelp.TabIndex = 1;
 			this._buttonAudacityHelp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonAudacityHelp.UseVisualStyleBackColor = false;
@@ -166,11 +170,13 @@ namespace SayMore.Transcription.UI
 			this._buttonELANFileHelp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
 			this._buttonELANFileHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonELANFileHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this._buttonELANFileHelp.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonELANFileHelp.Image = null;
 			this._buttonELANFileHelp.ImageMargin = new System.Drawing.Size(2, 2);
 			this._buttonELANFileHelp.Location = new System.Drawing.Point(123, 3);
 			this._buttonELANFileHelp.Name = "_buttonELANFileHelp";
-			this._buttonELANFileHelp.Size = new System.Drawing.Size(26, 20);
+			this._buttonELANFileHelp.ShowFocusRectangle = true;
+			this._buttonELANFileHelp.Size = new System.Drawing.Size(20, 20);
 			this._buttonELANFileHelp.TabIndex = 1;
 			this._buttonELANFileHelp.UseVisualStyleBackColor = false;
 			// 
@@ -219,7 +225,7 @@ namespace SayMore.Transcription.UI
 			this._buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonCancel.AutoSize = true;
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._buttonCancel.Location = new System.Drawing.Point(375, 259);
+			this._buttonCancel.Location = new System.Drawing.Point(375, 262);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(0);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
@@ -267,13 +273,24 @@ namespace SayMore.Transcription.UI
 			this._labelAnnoatationType2.TabIndex = 2;
 			this._labelAnnoatationType2.Text = "· Translation";
 			// 
+			// _buttonAutoSegment
+			// 
+			this._buttonAutoSegment.Location = new System.Drawing.Point(0, 262);
+			this._buttonAutoSegment.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+			this._buttonAutoSegment.Name = "_buttonAutoSegment";
+			this._buttonAutoSegment.Size = new System.Drawing.Size(115, 26);
+			this._buttonAutoSegment.TabIndex = 8;
+			this._buttonAutoSegment.Text = "Auto. Segment";
+			this._buttonAutoSegment.UseVisualStyleBackColor = true;
+			this._buttonAutoSegment.Click += new System.EventHandler(this.HandleAutoSegmentClick);
+			// 
 			// CreateAnnotationFileDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.CancelButton = this._buttonCancel;
-			this.ClientSize = new System.Drawing.Size(486, 292);
+			this.ClientSize = new System.Drawing.Size(486, 300);
 			this.Controls.Add(this._tableLayout);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
@@ -310,5 +327,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutCopyELANFileButton;
 		private ImageButton _buttonAudacityHelp;
 		private ImageButton _buttonELANFileHelp;
+		private System.Windows.Forms.Button _buttonAutoSegment;
 	}
 }

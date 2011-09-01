@@ -319,6 +319,8 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ITier> CreateDependentTextTiers(IEnumerable<string> transcriptionAnnotationIds)
 		{
+			var annotationIds = transcriptionAnnotationIds.ToArray();
+
 			foreach (var dependentTierElement in GetDependentTiersElements())
 			{
 				var depAnnotations = GetDependentTierAnnotationElements(dependentTierElement);
@@ -332,7 +334,7 @@ namespace SayMore.Transcription.Model
 				// Go through all the annotations in the transcription tier looking for
 				// annotations in the dependent tier that reference the annotations in
 				// the transcription tier.
-				foreach (var id in transcriptionAnnotationIds)
+				foreach (var id in annotationIds)
 				{
 					XElement depElement;
 					if (depAnnotations.TryGetValue(id, out depElement))
@@ -438,6 +440,17 @@ namespace SayMore.Transcription.Model
 		#endregion
 
 		#region Methods for creating an annotation file.
+		/// ------------------------------------------------------------------------------------
+		public static string CreateFromSegments(string mediaFileName, string[] segments)
+		{
+			var newAnnotationFileName = mediaFileName + ".annotations.eaf";
+			File.Copy(FileLocator.GetFileDistributedWithApplication("annotationTemplate.etf"), newAnnotationFileName, true);
+			ChangeMediaFileName(newAnnotationFileName, mediaFileName);
+			var helper = new AudacityLabelHelper(segments, mediaFileName);
+			CreateFromAudacityInfo(newAnnotationFileName, mediaFileName, helper.LabelInfo);
+			return newAnnotationFileName;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public static string Create(string segmentFileName, string mediaFileName)
 		{

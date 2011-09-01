@@ -261,7 +261,9 @@ namespace SayMore.Model.Files
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return;
 
-				var newAnnotationFile = AnnotationFileHelper.Create(dlg.FileName, PathToAnnotatedFile);
+				var newAnnotationFile = (dlg.AutoSegment ?
+					AutoSegmenterDlg.CreateAnnotationFile(PathToAnnotatedFile) :
+					AnnotationFileHelper.Create(dlg.FileName, PathToAnnotatedFile));
 
 				if (refreshAction != null)
 					refreshAction(newAnnotationFile);

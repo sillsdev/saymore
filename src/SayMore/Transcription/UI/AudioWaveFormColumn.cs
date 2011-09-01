@@ -11,7 +11,7 @@ namespace SayMore.Transcription.UI
 	{
 		protected bool _mediaFileNeedsLoading = true;
 
-		private CheckBoxColumnHeaderHandler _chkBoxColHdrHandler;
+		//private CheckBoxColumnHeaderHandler _chkBoxColHdrHandler;
 		//private DateTime _lastShiftKeyPress;
 		//private Control _gridEditControl;
 
@@ -42,27 +42,27 @@ namespace SayMore.Transcription.UI
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public bool IsColumnChecked
-		{
-			get { return _chkBoxColHdrHandler.HeadersCheckState == CheckState.Checked; }
-		}
+		///// ------------------------------------------------------------------------------------
+		//public bool IsColumnChecked
+		//{
+		//    get { return _chkBoxColHdrHandler.HeadersCheckState == CheckState.Checked; }
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		protected override void OnDataGridViewChanged()
-		{
-			base.OnDataGridViewChanged();
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnDataGridViewChanged()
+		//{
+		//    base.OnDataGridViewChanged();
 
-			if (_chkBoxColHdrHandler != null)
-				_chkBoxColHdrHandler.Dispose();
+		//    if (_chkBoxColHdrHandler != null)
+		//        _chkBoxColHdrHandler.Dispose();
 
-			if (DataGridView != null)
-			{
-				_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(DataGridView, Index);
-				_chkBoxColHdrHandler.CheckBoxAlignment = System.Windows.Forms.VisualStyles.ContentAlignment.Right;
-				_chkBoxColHdrHandler.HeadersCheckState = CheckState.Checked;
-			}
-		}
+		//    if (DataGridView != null)
+		//    {
+		//        _chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(DataGridView, Index);
+		//        _chkBoxColHdrHandler.CheckBoxAlignment = System.Windows.Forms.VisualStyles.ContentAlignment.Right;
+		//        _chkBoxColHdrHandler.HeadersCheckState = CheckState.Checked;
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void SubscribeToGridEvents()

@@ -30,6 +30,7 @@ namespace SayMore.Transcription.UI
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextAnnotationEditor));
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._splitter = new System.Windows.Forms.SplitContainer();
 			this._toolStrip = new System.Windows.Forms.ToolStrip();
@@ -38,6 +39,7 @@ namespace SayMore.Transcription.UI
 			this._buttonRecordings = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonCarefulSpeech = new System.Windows.Forms.ToolStripMenuItem();
 			this._buttonOralTranslation = new System.Windows.Forms.ToolStripMenuItem();
+			this._buttonResegment = new System.Windows.Forms.ToolStripButton();
 			this._tableLayoutPlaybackSpeed = new System.Windows.Forms.TableLayoutPanel();
 			this._comboPlaybackSpeed = new System.Windows.Forms.ComboBox();
 			this._labelPlaybackSpeed = new System.Windows.Forms.Label();
@@ -88,7 +90,8 @@ namespace SayMore.Transcription.UI
 			this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._buttonHelp,
             this._buttonExport,
-            this._buttonRecordings});
+            this._buttonRecordings,
+            this._buttonResegment});
 			this._toolStrip.Location = new System.Drawing.Point(191, 0);
 			this._toolStrip.Name = "_toolStrip";
 			this._toolStrip.Size = new System.Drawing.Size(302, 25);
@@ -146,6 +149,19 @@ namespace SayMore.Transcription.UI
 			this._buttonOralTranslation.Size = new System.Drawing.Size(163, 22);
 			this._buttonOralTranslation.Text = "&Oral Translation...";
 			this._buttonOralTranslation.Click += new System.EventHandler(this.HandleRecordedAnnotationButtonClick);
+			// 
+			// _buttonResegment
+			// 
+			this._buttonResegment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._buttonResegment.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this._buttonResegment.Image = ((System.Drawing.Image)(resources.GetObject("_buttonResegment.Image")));
+			this._buttonResegment.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this._buttonResegment.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
+			this._buttonResegment.Name = "_buttonResegment";
+			this._buttonResegment.Size = new System.Drawing.Size(77, 22);
+			this._buttonResegment.Text = "Resegment...";
+			this._buttonResegment.ToolTipText = "Regenerate Segments";
+			this._buttonResegment.Click += new System.EventHandler(this.HandleResegmentButtonClick);
 			// 
 			// _tableLayoutPlaybackSpeed
 			// 
@@ -218,6 +234,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripMenuItem _buttonCarefulSpeech;
 		private System.Windows.Forms.ToolStripMenuItem _buttonOralTranslation;
 		private System.Windows.Forms.ToolStripButton _buttonHelp;
+		private System.Windows.Forms.ToolStripButton _buttonResegment;
 
 
 	}

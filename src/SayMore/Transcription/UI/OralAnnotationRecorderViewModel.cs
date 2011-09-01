@@ -54,6 +54,13 @@ namespace SayMore.Transcription.UI
 			_segments = tier.GetAllSegments().Cast<ITimeOrderSegment>().ToArray();
 			_pathToAnnotationsFolder = tier.MediaFileName + Settings.Default.OralAnnotationsFolderAffix;
 			SetCurrentSegmentNumber(0);
+
+			UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting);
+		}
+
+		private string ProgramAreaForUsageReporting
+		{
+			get { return "Annotations/Oral/" + _annotationType.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -178,6 +185,7 @@ namespace SayMore.Transcription.UI
 			{
 				if(File.Exists(path))
 				File.Delete(path);
+				UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting+"/EraseAnnotation");
 			}
 			catch(Exception error)
 			{
@@ -198,6 +206,7 @@ namespace SayMore.Transcription.UI
 		{
 			Stop();
 			_annotationPlayer.Play();
+			UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting+"/PlayAnnotation");
 		}
 
 		/// ------------------------------------------------------------------------------------

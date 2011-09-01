@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Palaso.Reporting;
 
 namespace SayMore.Transcription.Model
 {
@@ -111,6 +112,8 @@ namespace SayMore.Transcription.Model
 				transcriptionTier, wsTranscriptionId, wsFreeTranslationId);
 
 			helper.GetPopulatedRootElement().Save(filename);
+
+			UsageReporter.SendNavigationNotice("Export to FieldWorks.");
 		}
 	}
 }

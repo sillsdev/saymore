@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Palaso.IO;
+using Palaso.Reporting;
 using SayMore.Properties;
 
 namespace SayMore.Transcription.Model
@@ -466,6 +467,11 @@ namespace SayMore.Transcription.Model
 			{
 				var helper = new AudacityLabelHelper(File.ReadAllLines(segmentFileName), mediaFileName);
 				CreateFromAudacityInfo(newAnnotationFileName, mediaFileName, helper.LabelInfo);
+				UsageReporter.SendNavigationNotice("Annotations/Import segment file");
+			}
+			else
+			{
+				UsageReporter.SendNavigationNotice("Annotations/Import ELAN file");
 			}
 
 			return newAnnotationFileName;

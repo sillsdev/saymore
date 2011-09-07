@@ -65,6 +65,7 @@
   &lt;string&gt;.asf&lt;/string&gt;
   &lt;string&gt;.mov&lt;/string&gt;
   &lt;string&gt;.mp4&lt;/string&gt;
+  &lt;string&gt;.mts&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="ImageFileExtensions" Type="System.Collections.Specialized.StringCollection" Scope="Application">

@@ -192,6 +192,7 @@ namespace SayMore.Properties {
   <string>.asf</string>
   <string>.mov</string>
   <string>.mp4</string>
+  <string>.mts</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection VideoFileExtensions {
             get {

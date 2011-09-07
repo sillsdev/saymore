@@ -267,6 +267,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
+			var msg = "Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?";
+			if (MessageBox.Show(msg, Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
+				return;
+
+			// TODO: delete oral annoations
+
 			Deactivated();
 			var file = ((AnnotationComponentFile)_file);
 			file.AssociatedComponentFile.CreateAnnotationFile(null);

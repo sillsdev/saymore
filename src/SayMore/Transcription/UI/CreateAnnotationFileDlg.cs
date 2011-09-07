@@ -34,13 +34,13 @@ namespace SayMore.Transcription.UI
 				Program.ShowHelpTopic("/Using_Tools/Events_tab/Create_Annotation_File.htm");
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void HandleAutoSegmentClick(object sender, EventArgs e)
-		{
-			AutoSegment = true;
-			DialogResult = DialogResult.OK;
-			Close();
-		}
+		///// ------------------------------------------------------------------------------------
+		//private void HandleAutoSegmentClick(object sender, EventArgs e)
+		//{
+		//    AutoSegment = true;
+		//    DialogResult = DialogResult.OK;
+		//    Close();
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleLoadAudacityLabelFileClick(object sender, EventArgs e)

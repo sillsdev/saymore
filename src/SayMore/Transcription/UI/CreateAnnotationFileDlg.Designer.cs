@@ -44,7 +44,6 @@ namespace SayMore.Transcription.UI
 			this._labelOverview = new System.Windows.Forms.Label();
 			this._labelAnnoatationType1 = new System.Windows.Forms.Label();
 			this._labelAnnoatationType2 = new System.Windows.Forms.Label();
-			this._buttonAutoSegment = new System.Windows.Forms.Button();
 			this._tableLayout.SuspendLayout();
 			this._tableLayoutReadAudacityFileButton.SuspendLayout();
 			this._tableLayoutCopyELANFileButton.SuspendLayout();
@@ -60,7 +59,6 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayout.Controls.Add(this._tableLayoutReadAudacityFileButton, 0, 4);
-			this._tableLayout.Controls.Add(this._buttonAutoSegment, 0, 7);
 			this._tableLayout.Controls.Add(this._tableLayoutCopyELANFileButton, 0, 6);
 			this._tableLayout.Controls.Add(this._labelElanOverview, 0, 5);
 			this._tableLayout.Controls.Add(this._labelAudacityOverview, 0, 3);
@@ -273,17 +271,6 @@ namespace SayMore.Transcription.UI
 			this._labelAnnoatationType2.TabIndex = 2;
 			this._labelAnnoatationType2.Text = "· Translation";
 			// 
-			// _buttonAutoSegment
-			// 
-			this._buttonAutoSegment.Location = new System.Drawing.Point(0, 262);
-			this._buttonAutoSegment.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
-			this._buttonAutoSegment.Name = "_buttonAutoSegment";
-			this._buttonAutoSegment.Size = new System.Drawing.Size(115, 26);
-			this._buttonAutoSegment.TabIndex = 8;
-			this._buttonAutoSegment.Text = "Auto. Segment";
-			this._buttonAutoSegment.UseVisualStyleBackColor = true;
-			this._buttonAutoSegment.Click += new System.EventHandler(this.HandleAutoSegmentClick);
-			// 
 			// CreateAnnotationFileDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -327,6 +314,5 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutCopyELANFileButton;
 		private ImageButton _buttonAudacityHelp;
 		private ImageButton _buttonELANFileHelp;
-		private System.Windows.Forms.Button _buttonAutoSegment;
 	}
 }

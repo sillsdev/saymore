@@ -309,6 +309,7 @@ namespace SayMore.UI.MediaPlayer
 		public float StartTime { get; private set; }
 		public Size PictureSize { get; private set; }
 		public Image FullSizedThumbnail { get; private set; }
+		public float DigitalAspectRatio { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public MPlayerMediaInfo(string filename)
@@ -388,7 +389,19 @@ namespace SayMore.UI.MediaPlayer
 			try
 			{
 				var dimensions = ffmpeginfo.Video.Resolution.Split('x');
-				PictureSize = new Size(int.Parse(dimensions[0]), int.Parse(dimensions[1]));
+				int dx = int.Parse(dimensions[0]);
+				int dy = int.Parse(dimensions[1]);
+
+				if (ffmpeginfo.RawData.Contains("DAR 16:9]"))
+				{
+					DigitalAspectRatio = 16f / 9;
+					PictureSize = new Size((int)(DigitalAspectRatio * dy), dy);
+				}
+				else
+				{
+					DigitalAspectRatio = (float)dx / dy;
+					PictureSize = new Size(dx, dy);
+				}
 			}
 			catch { }
 

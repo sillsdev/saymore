@@ -39,6 +39,7 @@ namespace SayMore.UI.ComponentEditors
 		bool IsOKSToShow { get; }
 		event Action<string> TabTextChanged;
 		IEnumerable<Control> ChildControls { get; }
+		ComponentFile ComponentFile { get; }
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -118,6 +119,12 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_binder != null && _file != null)
 				_binder.SetComponentFile(_file);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public ComponentFile ComponentFile
+		{
+			get { return _file; }
 		}
 
 		/// ------------------------------------------------------------------------------------

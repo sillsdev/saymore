@@ -356,8 +356,20 @@ namespace SayMore.UI.ElementListScreen
 			// After a new element is added, then give focus to the first editor. This will
 			// assume the first field in the editor is the desired one to give focus.
 			var firstEditor = _model.GetComponentEditorProviders().ElementAtOrDefault(0);
-			if (firstEditor != null)
-				firstEditor.Control.Focus();
+			if (firstEditor == null)
+				return;
+
+			// When the index in the list of the new element is the same as the index of
+			// the previously selected element, then the component editor won't get
+			// updated with the new element's component file because the element grid's
+			// row enter event doesn't get fired because the row index hasn't changed.
+			// Therefore, we check to see if the first component editor's file is the
+			// new one. If not then set it to the new file.
+			var newComponentFile = _model.GetComponentFile(0);
+			if (newComponentFile != firstEditor.ComponentFile)
+				firstEditor.SetComponentFile(newComponentFile);
+
+			firstEditor.Control.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Palaso.IO;
+using Palaso.Progress.LogBox;
 using SayMore.Transcription.Model;
 
 namespace SayMore.Transcription.UI
@@ -63,24 +65,48 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void GetSegments(object sender, DoWorkEventArgs e)
 		{
-			var prs = new Process();
-
-			prs.StartInfo.CreateNoWindow = true;
-			prs.StartInfo.UseShellExecute = false;
-			prs.StartInfo.RedirectStandardOutput = true;
-			prs.StartInfo.FileName = FileLocator.GetFileDistributedWithApplication("AutoSegmenter", "Ruby", "ruby.exe");
-
 			var script = FileLocator.GetFileDistributedWithApplication("AutoSegmenter", "segment.rb");
 
-			prs.StartInfo.Arguments = string.Format("\"{0}\" \"{1}\" {2} {3} 0 {4}", script,
-				_mediaFileName, (int)_upDnSilenceThreshold.Value,
-				(float)_upDownClusterDuration.Value, (float)_upDnOnsetAlgorithmThreshold.Value);
+			var args = string.Format("\"{0}\" \"{1}\" {2} {3} 0 {4}", script,
+									 _mediaFileName, (int) _upDnSilenceThreshold.Value,
+									 (float) _upDownClusterDuration.Value, (float) _upDnOnsetAlgorithmThreshold.Value);
 
-			if (prs.Start())
+			var result =
+				Palaso.CommandLineProcessing.CommandLineRunner.Run(
+					FileLocator.GetFileDistributedWithApplication("AutoSegmenter", "Ruby", "ruby.exe"),
+					args, null, 100, new NullProgress());
+
+
+			var output = result.StandardOutput.Replace("\r", string.Empty);
+			var pairs = new List<KeyValuePair<float, float>>();
+			foreach (var line in output.Split('\n'))
 			{
-				var output = prs.StandardOutput.ReadToEnd().Replace("\r", string.Empty);
-				prs.WaitForExit();
-				_segments = output.Split('\n').Select(line => line.Split(',')[0]).ToArray();
+				string[] parts = line.Split(',');
+				if (parts.Length == 2 && !string.IsNullOrEmpty(parts[0]) && !string.IsNullOrEmpty(parts[1]))
+					pairs.Add(new KeyValuePair<float, float>(float.Parse(parts[0]), float.Parse(parts[1])));
+			}
+			_segments = (from s in ChooseSegments(pairs) select s.ToString()).ToArray();
+		}
+
+
+		private IEnumerable<float> ChooseSegments(List<KeyValuePair<float, float>> pairs)
+		{
+			var p = pairs.ToArray();
+			float last = 0.0f;
+			for (int i = 0; i < p.Length; i++)
+			{
+				float time = p[i].Key;
+				float probability = p[i].Value; //TODO: this would be really helpful, we're just being dumb at the moment
+				if (time - last > 2)
+				{
+					last = time;
+					Debug.WriteLine(string.Format("{0} {1}*", time, probability));
+					yield return time;
+				}
+				else
+				{
+					Debug.WriteLine(string.Format("{0} {1}", time, probability));
+				}
 			}
 		}
 	}

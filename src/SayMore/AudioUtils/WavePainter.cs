@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
-using SilTools;
 
 namespace SayMore.AudioUtils
 {
@@ -22,28 +21,53 @@ namespace SayMore.AudioUtils
 		/// </summary>
 		public double SamplesPerPixel { get; private set; }
 
-		private int _cursorX;
-		private int _playbackCursorX;
+		private IEnumerable<TimeSpan> _segmentBoundaries;
 		private double _pixelPerMillisecond;
 		private int _offsetOfLeftEdge;
 		private readonly TimeSpan _totalTime;
 		private readonly float[] _samples = new float[0];
 		private KeyValuePair<float, float>[] _samplesToDraw = new KeyValuePair<float,float>[0];
 
+		public Control Control { get; set; }
+
 		public Color ForeColor { get; set; }
 		public Color BackColor { get; set; }
-		public int SelectionStartX  { get; set; }
-		public int SelectionEndX { get; set; }
+
 		public Rectangle PreviousCursorRectangle { get; private set; }
+		public Rectangle PreviousPlaybackCursorRectangle { get; private set; }
+		public Rectangle PreviousSelectedRegionRectangle { get; private set; }
+
+		public TimeSpan CursorTime { get; private set; }
+		public TimeSpan PlaybackCursorTime { get; private set; }
+		public TimeSpan SelectedRegionStartTime { get; private set; }
+		public TimeSpan SelectedRegionEndTime { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public WavePainter(IEnumerable<float> samples, TimeSpan totalTime)
+		public WavePainter(IEnumerable<float> samples, TimeSpan totalTime) : this(null, samples, totalTime)
 		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public WavePainter(Control ctrl, IEnumerable<float> samples, TimeSpan totalTime)
+		{
+			Control = ctrl;
 			_samples = samples.ToArray();
 			_totalTime = totalTime;
 
 			BackColor = Color.CornflowerBlue;
 			ForeColor = Color.LightGray;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<TimeSpan> SegmentBoundaries
+		{
+			get { return _segmentBoundaries; }
+			set
+			{
+				_segmentBoundaries = value;
+				if (Control != null)
+					Control.Invalidate();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -118,11 +142,11 @@ namespace SayMore.AudioUtils
 			// Now draw the selected region, if there is one.
 			DrawSelectedRegion(e.Graphics, rc);
 
-			if (_cursorX > 0)
-				DrawCursor(e.Graphics, rc);
+			if (_segmentBoundaries != null)
+				DrawSegmentBoundaries(e.Graphics, rc);
 
-			if (_playbackCursorX > 0)
-				DrawPlaybackProgressShading(e.Graphics, rc);
+			DrawCursor(e.Graphics, rc);
+			//DrawPlaybackCursor(e.Graphics, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -170,121 +194,130 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		private void DrawSelectedRegion(Graphics g, Rectangle rc)
 		{
-			int regionStartX = Math.Min(SelectionStartX, SelectionEndX);
-			int regionEndX = Math.Max(SelectionStartX, SelectionEndX);
+			var startX = ConvertTimeToXCoordinate(SelectedRegionStartTime);
+			var endX = ConvertTimeToXCoordinate(SelectedRegionEndTime);
 
-			if (regionStartX == regionEndX)
+			var x1 = Math.Min(startX, endX);
+			var x2 = Math.Max(startX, endX);
+
+			if (x1 == x2)
 				return;
 
-			using (var br = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
-				g.FillRectangle(br, regionStartX, 0, regionEndX - regionStartX, rc.Height);
+			var regionRect = new Rectangle(x1, 0, x2 - x1, rc.Height);
+
+			using (var br = new SolidBrush(Color.FromArgb(110, SystemColors.Highlight)))
+				g.FillRectangle(br, regionRect);
+
+			PreviousSelectedRegionRectangle = regionRect;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawSegmentBoundaries(Graphics g, Rectangle rc)
+		{
+			using (var pen = new Pen(Color.FromArgb(50, ForeColor)))
+			{
+				foreach (var dx in _segmentBoundaries.Select(b => ConvertTimeToXCoordinate(b)))
+					g.DrawLine(pen, dx, 0, dx, rc.Height);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void DrawCursor(Graphics g, Rectangle rc)
 		{
-			using (var pen = new Pen(Color.FromArgb(255, Color.Red)))
-				g.DrawLine(pen, _cursorX, 0, _cursorX, rc.Height);
+			var dx = ConvertTimeToXCoordinate(CursorTime);
 
-			PreviousCursorRectangle = new Rectangle(_cursorX, 0, 1, rc.Height);
+			using (var pen = new Pen(Color.FromArgb(255, Color.DarkGreen)))
+				g.DrawLine(pen, dx, 0, dx, rc.Height);
+
+			PreviousCursorRectangle = new Rectangle(dx, 0, 1, rc.Height);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawPlaybackProgressShading(Graphics g, Rectangle rc)
+		private void DrawPlaybackCursor(Graphics g, Rectangle rc)
 		{
-			rc.X = _cursorX;
-			rc.Width = _playbackCursorX - _cursorX;
+			var dx = ConvertTimeToXCoordinate(PlaybackCursorTime);
 
-			using (var br = new SolidBrush(Color.FromArgb(110, SystemColors.Highlight)))
-				g.FillRectangle(br, rc);
+			using (var pen = new Pen(Color.FromArgb(255, Color.DarkBlue)))
+				g.DrawLine(pen, dx, 0, dx, rc.Height);
+
+			PreviousPlaybackCursorRectangle = new Rectangle(dx, 0, 1, rc.Height);
 		}
 
+		///// ------------------------------------------------------------------------------------
+		//private void DrawPlaybackProgressShading(Graphics g, Rectangle rc)
+		//{
+		//    rc.X = _cursorX;
+		//    rc.Width = _playbackCursorX - _cursorX;
+
+		//    using (var br = new SolidBrush(Color.FromArgb(110, SystemColors.Highlight)))
+		//        g.FillRectangle(br, rc);
+		//}
+
 		/// ------------------------------------------------------------------------------------
-		public void SetCursor(Control ctrl, TimeSpan cursorTime)
+		public void SetSelectionTimes(TimeSpan selStartTime, TimeSpan selEndTime)
 		{
-			SetCursor(ctrl, ConvertTimeToXCoordinate(cursorTime));
+			var rc = PreviousSelectedRegionRectangle;
+			if (rc != Rectangle.Empty)
+				Control.Invalidate(rc);
+
+			SelectedRegionStartTime = selStartTime;
+			SelectedRegionEndTime = selEndTime;
+			var startX = ConvertTimeToXCoordinate(selStartTime);
+			var endX = ConvertTimeToXCoordinate(selEndTime);
+
+			PreviousSelectedRegionRectangle = new Rectangle(startX, 0, endX - startX, Control.ClientSize.Height);
+			Control.Invalidate(PreviousSelectedRegionRectangle);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetCursor(Control ctrl, int cursorX)
+		public void SetCursor(TimeSpan cursorTime)
 		{
-			if (_playbackCursorX > 0)
-				SetPlaybackCursor(ctrl, cursorX);
-			else
-			{
-				var rc = PreviousCursorRectangle;
-				if (rc != Rectangle.Empty)
-					ctrl.Invalidate(rc);
-
-				_cursorX = cursorX;
-				ctrl.Invalidate(new Rectangle(_cursorX, 0, _cursorX, ctrl.ClientSize.Height));
-			}
+			CursorTime = cursorTime;
+			SetCursor(ConvertTimeToXCoordinate(cursorTime));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetPlaybackCursor(Control ctrl, TimeSpan cursorTime)
+		public void SetCursor(int cursorX)
 		{
-			SetPlaybackCursor(ctrl, ConvertTimeToXCoordinate(cursorTime));
+			var rc = PreviousCursorRectangle;
+			if (rc != Rectangle.Empty)
+				Control.Invalidate(rc);
+
+			CursorTime = ConvertXCoordinateToTime(cursorX);
+			var dx = ConvertTimeToXCoordinate(CursorTime);
+			Control.Invalidate(new Rectangle(dx, 0, dx, Control.ClientSize.Height));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetPlaybackCursor(Control ctrl, int cursorX)
+		public void SetPlaybackCursor(TimeSpan cursorTime)
 		{
-			_playbackCursorX = cursorX;
-
-			if (cursorX > 0)
-			{
-				ctrl.Invalidate(new Rectangle(_playbackCursorX - 10, 0,
-					_playbackCursorX + 10, ctrl.ClientSize.Height));
-			}
-			else
-			{
-				Utils.SetWindowRedraw(ctrl, false);
-				ctrl.Invalidate();
-				Utils.SetWindowRedraw(ctrl, true);
-			}
+			PlaybackCursorTime = cursorTime;
+			SetPlaybackCursor(ConvertTimeToXCoordinate(cursorTime));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private int ConvertTimeToXCoordinate(TimeSpan time)
+		public void SetPlaybackCursor(int cursorX)
+		{
+			var rc = PreviousPlaybackCursorRectangle;
+			if (rc != Rectangle.Empty)
+				Control.Invalidate(rc);
+
+
+			PlaybackCursorTime = ConvertXCoordinateToTime(cursorX);
+			var dx = ConvertTimeToXCoordinate(PlaybackCursorTime);
+			Control.Invalidate(new Rectangle(dx, 0, dx, Control.ClientSize.Height));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int ConvertTimeToXCoordinate(TimeSpan time)
 		{
 			return (int)(time.TotalMilliseconds * _pixelPerMillisecond) - _offsetOfLeftEdge;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Converts the x-coordinate of the cursor to a time. The calculation is approximate.
-		/// This *does* factors in whether or not the auto scroll position of the client area
-		/// is not zero.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public TimeSpan GetCursorTime()
+		public TimeSpan ConvertXCoordinateToTime(int x)
 		{
-			return TimeSpan.FromMilliseconds((_cursorX + _offsetOfLeftEdge) / _pixelPerMillisecond);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the x-coordinate of the cursor within the client rectangle. Therefore, this
-		/// does not factor in whether or not the auto scroll position of the client area
-		/// is not zero.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public int GetCursor()
-		{
-			return _cursorX;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the x-coordinate of the playback cursor within the client rectangle.
-		/// Therefore, this does not factor in whether or not the auto scroll position of
-		/// the client area is not zero.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public int GetPlaybackCursor()
-		{
-			return _playbackCursorX;
+			return TimeSpan.FromMilliseconds((x + _offsetOfLeftEdge) / _pixelPerMillisecond);
 		}
 	}
 }

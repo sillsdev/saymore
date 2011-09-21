@@ -1,23 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 
 namespace SayMore.AudioUtils
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Summary description for WaveControl.
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class WaveControl : UserControl
 	{
-		/// <summary>This is the starting x value of a mouse drag</summary>
-		private int _selectedRegionStartX = 0;
-
-		/// <summary>This is the ending x value of a mouse drag</summary>
-		private int _selectedRegionEndX;
-
-		/// <summary>This is the value of the previous mouse move event</summary>
-		private int _prevMouseX;
+		public Action<TimeSpan, TimeSpan> Stopped;
+		public Action PlaybackStarted;
+		public Action<TimeSpan, TimeSpan> PlaybackUpdate;
 
 		/// <summary>
 		/// This boolean value gets rid of the currently active region and also refreshes the wave
@@ -25,7 +26,14 @@ namespace SayMore.AudioUtils
 		private bool _resetRegion;
 
 		private WavePainter _painter;
+		private WaveStream _waveStream;
+		private WaveOut _waveOut;
+		private bool _wasStreamCreatedHere;
+		private TimeSpan _playbackStartTime;
+		private TimeSpan _playbackEndTime;
+		private float _zoomPercentage;
 
+		/// ------------------------------------------------------------------------------------
 		public WaveControl()
 		{
 			// REVIEW: This class assumes the audio data is in 16 bit samples.
@@ -40,15 +48,88 @@ namespace SayMore.AudioUtils
 			ResizeRedraw = true;
 
 			AutoScroll = true;
+
+			ForeColor = SystemColors.WindowText;
+			BackColor = SystemColors.Window;
+			_zoomPercentage = 100f;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (_waveOut != null)
+				Stop();
+
+			if (_wasStreamCreatedHere && _waveStream != null)
+			{
+				_waveStream.Close();
+				_waveStream.Dispose();
+			}
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Initialize(string audioFileName)
+		{
+			_wasStreamCreatedHere = true;
+			Initialize(new WaveFileReader(audioFileName));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Initialize(WaveStream stream)
+		{
+			_waveStream = stream;
+
+			// We'll handle a file with any number of channels, but for now, we'll assume
+			// all channels contain the same data. Therefore, we'll just store the samples
+			// from the first channel.
+
+			// REVIEW: Instead of guessing how big to make the list, calculate
+			// the number of samples in the stream.
+			var samples = new List<float>(100000);
+			var provider = new SampleChannel(stream);
+			var buffer = new float[stream.WaveFormat.Channels];
+
+			while (provider.Read(buffer, 0, stream.WaveFormat.Channels) > 0)
+				samples.Add(buffer[0]);
+
+			Initialize(samples, stream.TotalTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
 		{
-			_painter = new WavePainter(samples, totalTime);
+			_painter = new WavePainter(this, samples, totalTime);
 			_painter.ForeColor = ForeColor;
 			_painter.BackColor = BackColor;
+			_painter.SetVirtualWidth(Math.Max(ClientSize.Width, AutoScrollMinSize.Width));
 		}
+
+		#region Properties
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool IsPlaying
+		{
+			get { return _waveOut != null; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public IEnumerable<TimeSpan> SegmentBoundaries
+		{
+			get { return (_painter != null ? _painter.SegmentBoundaries : null); }
+			set
+			{
+				if (_painter != null)
+					_painter.SegmentBoundaries = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool ShadePlaybackAreaDuringPlayback { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public override Color ForeColor
@@ -92,65 +173,158 @@ namespace SayMore.AudioUtils
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public new Point AutoScrollPosition
-		{
-			get { return base.AutoScrollPosition; }
-			set
-			{
-				base.AutoScrollPosition = value;
-
-				if (_painter != null)
-				{
-					_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
-					Invalidate();
-				}
-			}
-		}
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public void SetVirtualWidth(int width)
 		{
-			AutoScrollMinSize = new Size(Math.Max(width, ClientSize.Width), ClientSize.Height);
-		}
+			var percentage = _zoomPercentage / 100;
+			var adjustedWidth = (int)(Math.Round(width * percentage, MidpointRounding.AwayFromZero));
+			AutoScrollMinSize = new Size(Math.Max(adjustedWidth, ClientSize.Width), ClientSize.Height);
 
-		/// ------------------------------------------------------------------------------------
-		//public void SetCursor(double cursorTimeInMilliseconds)
-		//{
-		//    SetCursor(TimeSpan.FromMilliseconds(cursorTimeInMilliseconds));
-		//}
+			if (AutoScrollMinSize.Width == 0 || AutoScrollMinSize.Width == ClientSize.Width)
+				_zoomPercentage = 100;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetCursor(TimeSpan cursorTime)
 		{
-			_painter.SetCursor(this, cursorTime);
+			_painter.SetCursor(cursorTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetCursor(int cursorX)
 		{
-			_painter.SetCursor(this, cursorX);
+			_painter.SetCursor(cursorX);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetPlaybackCursor(TimeSpan cursorTime)
 		{
-			_painter.SetPlaybackCursor(this, cursorTime);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public int GetCursor()
-		{
-			return _painter.GetCursor();
+			_painter.SetPlaybackCursor(cursorTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetCursorTime()
 		{
-			return _painter.GetCursorTime();
+			return _painter.CursorTime;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public void SetSelectionTimes(TimeSpan selStartTime, TimeSpan selEndTime)
+		{
+			_painter.SetSelectionTimes(selStartTime, selEndTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ClearSelectedRegion()
+		{
+			_painter.SetSelectionTimes(TimeSpan.Zero, TimeSpan.Zero);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetTimeFromX(int dx)
+		{
+			return _painter.ConvertXCoordinateToTime(dx);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void EnsureXIsVisible(int dx)
+		{
+			if (dx < 0 || dx > ClientSize.Width)
+			{
+				var newX = -AutoScrollPosition.X + (dx < 0 ? dx : (dx - ClientSize.Width));
+				AutoScrollPosition = new Point(newX, AutoScrollPosition.Y);
+				_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+				Invalidate();
+			}
+		}
+
+		#region Playback methods
+		/// ------------------------------------------------------------------------------------
+		public void Play(TimeSpan playbackStartTime)
+		{
+			Play(playbackStartTime, TimeSpan.Zero);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Play(TimeSpan playbackStartTime, TimeSpan playbackEndTime)
+		{
+			_playbackStartTime = playbackStartTime;
+			_playbackEndTime = playbackEndTime;
+
+			if (_playbackStartTime < TimeSpan.Zero)
+				_playbackStartTime = TimeSpan.Zero;
+
+			if (_playbackEndTime <= _playbackStartTime)
+				_playbackEndTime = TimeSpan.Zero;
+
+			var waveOutProvider = new SampleChannel(_playbackEndTime == TimeSpan.Zero ?
+				new WaveSegmentStream(_waveStream, playbackStartTime) :
+				new WaveSegmentStream(_waveStream, playbackStartTime, playbackEndTime - playbackStartTime));
+
+			waveOutProvider.PreVolumeMeter += HandlePlaybackMetering;
+
+			_waveOut = new WaveOut();
+			_waveOut.DesiredLatency = 100;
+			_waveOut.Init(new SampleToWaveProvider(waveOutProvider));
+			_waveOut.PlaybackStopped += delegate { Stop(); };
+			_waveOut.Play();
+
+			if (PlaybackStarted != null)
+				PlaybackStarted();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePlaybackMetering(object sender, StreamVolumeEventArgs e)
+		{
+			// We're using a WaveSegmentStream which never gets a PlaybackStopped
+			// event on the WaveOut, so we have to force it here.
+			if (_waveStream.CurrentTime == (_playbackEndTime > TimeSpan.Zero ? _playbackEndTime : _waveStream.TotalTime))
+			{
+				_waveOut.Stop();
+				return;
+			}
+
+			if (ShadePlaybackAreaDuringPlayback)
+				SetSelectionTimes(_playbackStartTime, _waveStream.CurrentTime);
+
+			SetCursor(_waveStream.CurrentTime);
+
+			var dx = _painter.ConvertTimeToXCoordinate(_waveStream.CurrentTime);
+			dx += (dx < 0 ? -10 : 10);
+			EnsureXIsVisible(dx);
+
+			if (PlaybackUpdate != null)
+				PlaybackUpdate(_waveStream.CurrentTime, _waveStream.TotalTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Stop()
+		{
+			if (_waveOut == null)
+				return;
+
+			_waveOut.Stop();
+			_waveOut.Dispose();
+			_waveOut = null;
+
+			if (Stopped != null)
+				Stopped(_playbackStartTime, _waveStream.CurrentTime);
+		}
+
+		#endregion
+
 		#region Overridden methods
+		/// ------------------------------------------------------------------------------------
+		protected override void OnScroll(ScrollEventArgs se)
+		{
+			if (se.OldValue != se.NewValue && _painter != null && se.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+				_painter.SetOffsetOfLeftEdge(se.NewValue);
+
+			base.OnScroll(se);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnResize(EventArgs e)
 		{
@@ -187,39 +361,44 @@ namespace SayMore.AudioUtils
 
 		#endregion
 
-		#region Zooming methods
+		#region Zooming property/methods
 		/// ------------------------------------------------------------------------------------
-		public void ZoomIn()
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public float ZoomPercentage
 		{
-			// Zoom in by 10%
-			Zoom(0.1f);
+			get { return _zoomPercentage; }
+			set
+			{
+				if (value.Equals(_zoomPercentage) ||
+					(value < _zoomPercentage && AutoScrollMinSize.Width == ClientSize.Width))
+				{
+					return;
+				}
+
+				_zoomPercentage = value;
+				SetZoom();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void ZoomIn(float percentage)
+		public void ZoomIn()
 		{
-			Zoom(percentage);
+			ZoomPercentage += 10;
+			SetZoom();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void ZoomOut()
 		{
-			// Zoom out by 10%
-			ZoomOut(-0.1f);
+			ZoomPercentage -= 10;
+			SetZoom();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void ZoomOut(float percentage)
+		private void SetZoom()
 		{
-			if (AutoScrollMinSize.Width != ClientSize.Width)
-				Zoom(-percentage);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void Zoom(float percentage)
-		{
-			if (_painter != null)
-				_painter.SetVirtualWidth((int)(AutoScrollMinSize.Width + (ClientSize.Width * percentage)));
+			SetVirtualWidth(Math.Max(ClientSize.Width, AutoScrollPosition.X));
 		}
 
 		//private void ZoomToRegion()
@@ -269,7 +448,7 @@ namespace SayMore.AudioUtils
 				//}
 				//else
 				{
-					_selectedRegionStartX = e.X;
+					//_selectedRegionStartX = e.X;
 					_resetRegion = true;
 				}
 			}
@@ -287,9 +466,9 @@ namespace SayMore.AudioUtils
 			if (e.Button != MouseButtons.Left)
 				return;
 
-			_selectedRegionEndX = e.X;
+			//_selectedRegionEndX = e.X;
 			_resetRegion = false;
-			_prevMouseX = e.X;
+			//_prevMouseX = e.X;
 			Refresh();
 		}
 
@@ -297,13 +476,13 @@ namespace SayMore.AudioUtils
 		{
 			if (_resetRegion)
 			{
-				_selectedRegionStartX = 0;
-				_selectedRegionEndX = 0;
+				//_selectedRegionStartX = 0;
+				//_selectedRegionEndX = 0;
 				Refresh();
 			}
 			else
 			{
-				_selectedRegionEndX = e.X;
+				//_selectedRegionEndX = e.X;
 			}
 		}
 	}

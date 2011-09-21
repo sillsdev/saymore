@@ -34,13 +34,14 @@ namespace SayMore.Transcription.Model
 				return null;
 
 			using (var generator = new OralAnnotationFileGenerator(originalRecodingTier))
+			using (var dlg = new LoadingDlg("Generating Oral Annotation file..."))
 			{
-				LoadingDlg dlg = null;
-
 				if (parentControlForDialog != null)
-				{
-					dlg = new LoadingDlg("Generating Oral Annotation file...");
 					dlg.Show(parentControlForDialog);
+				else
+				{
+					dlg.StartPosition = FormStartPosition.CenterScreen;
+					dlg.Show();
 				}
 
 				var worker = new BackgroundWorker();
@@ -51,7 +52,6 @@ namespace SayMore.Transcription.Model
 					Application.DoEvents();
 
 				dlg.Close();
-				dlg.Dispose();
 
 				return generator._outputFileName;
 			}

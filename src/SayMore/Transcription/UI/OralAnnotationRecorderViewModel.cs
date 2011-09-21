@@ -58,9 +58,10 @@ namespace SayMore.Transcription.UI
 			UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		private string ProgramAreaForUsageReporting
 		{
-			get { return "Annotations/Oral/" + _annotationType.ToString(); }
+			get { return "Annotations/Oral/" + _annotationType; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,13 +130,13 @@ namespace SayMore.Transcription.UI
 
 			var segment = _segments[CurrentSegmentNumber];
 			_origPlayerViewModel.LoadFile(_originalRecordingPath, segment.Start, segment.GetLength());
-			InitializeAnnotationPlayerModel();
+			InitializeAnnotationPlayer();
 
 			return incremented;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeAnnotationPlayerModel()
+		private void InitializeAnnotationPlayer()
 		{
 			CloseAnnotationPlayer();
 
@@ -181,17 +182,20 @@ namespace SayMore.Transcription.UI
 			CloseAnnotationPlayer();
 			var path = GetPathToCurrentAnnotationFile();
 			ComponentFile.WaitForFileRelease(path);
+
 			try
 			{
-				if(File.Exists(path))
-				File.Delete(path);
-				UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting+"/EraseAnnotation");
+				if (File.Exists(path))
+					File.Delete(path);
+
+				UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting + "/EraseAnnotation");
 			}
 			catch(Exception error)
 			{
-				ErrorReport.NotifyUserOfProblem(error, "Could not remove that annotation.  If this problem persists, try restarting your computer.");
+				ErrorReport.NotifyUserOfProblem(error, "Could not remove that annotation. If this problem persists, try restarting your computer.");
 			}
-			InitializeAnnotationPlayerModel();
+
+			InitializeAnnotationPlayer();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -206,7 +210,7 @@ namespace SayMore.Transcription.UI
 		{
 			Stop();
 			_annotationPlayer.Play();
-			UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting+"/PlayAnnotation");
+			UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting + "/PlayAnnotation");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -222,7 +226,7 @@ namespace SayMore.Transcription.UI
 			if (_annotationRecorder != null && _annotationRecorder.RecordingState == RecordingState.Recording)
 			{
 				_annotationRecorder.Stop();
-				InitializeAnnotationPlayerModel();
+				InitializeAnnotationPlayer();
 			}
 
 			if (_annotationPlayer != null && _annotationPlayer.PlaybackState != PlaybackState.Stopped)

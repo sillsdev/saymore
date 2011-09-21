@@ -516,7 +516,7 @@ namespace SayMore.Transcription.Model
 
 			timeOrderElement.Add(new XElement("TIME_SLOT",
 				new XAttribute("TIME_SLOT_ID", string.Format("ts{0}", ++lastTimeSlotId)),
-				new XAttribute("TIME_VALUE", (int)(time * 1000))));
+				new XAttribute("TIME_VALUE", (int)Math.Round(time * 1000))));
 
 			return string.Format("ts{0}", lastTimeSlotId);
 		}

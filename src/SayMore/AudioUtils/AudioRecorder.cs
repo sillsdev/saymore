@@ -61,6 +61,7 @@ namespace SayMore.AudioUtils
 		private float _peakLevel;
 
 		public event EventHandler Stopped = delegate { };
+		public event EventHandler RecordingStarted = delegate { };
 
 		public TimeSpan RecordedTime { get; set; }
 		public SampleAggregator SampleAggregator { get; private set; }
@@ -160,6 +161,7 @@ namespace SayMore.AudioUtils
 
 			_writer = new WaveFileWriter(waveFileName, _recordingFormat);
 			RecordingState = RecordingState.Recording;
+			RecordingStarted(this, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

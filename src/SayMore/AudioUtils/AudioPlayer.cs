@@ -19,7 +19,8 @@ namespace SayMore.AudioUtils
 	#region AudioPlayer class
 	public class AudioPlayer : IAudioPlayer
 	{
-		public event EventHandler Stopped;
+		public event EventHandler Stopped = delegate { };
+		public event EventHandler PlaybackStarted = delegate { };
 
 		private WaveOut _waveOut;
 		private TrimWaveStream _inStream;
@@ -40,19 +41,27 @@ namespace SayMore.AudioUtils
 
 			AudioFilePath = path;
 
-			_inStream = path.ToLower().EndsWith(".mp3") ?
-				new TrimWaveStream(new Mp3FileReader(path)) :
-				new TrimWaveStream(new WaveFileReader(path));
+			try
+			{
+				_inStream = path.ToLower().EndsWith(".mp3") ?
+					new TrimWaveStream(new Mp3FileReader(path)) :
+					new TrimWaveStream(new WaveFileReader(path));
+			}
+			catch (Exception e)
+			{
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("There was a problem loading file '{0}' for playback. Perhaps another program has a lock on it.", path);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Play()
 		{
-			if (PlaybackState == PlaybackState.Stopped)
+			if (PlaybackState == PlaybackState.Stopped && _inStream != null)
 			{
 				CreateWaveOut();
 				_inStream.Position = 0;
 				_waveOut.Play();
+				PlaybackStarted(this, EventArgs.Empty);
 			}
 		}
 
@@ -61,6 +70,8 @@ namespace SayMore.AudioUtils
 		{
 			_waveOut.Stop();
 			_inStream.Position = 0;
+			if (Stopped != null)
+				Stopped.Invoke(_waveOut, EventArgs.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

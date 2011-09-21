@@ -270,6 +270,29 @@ namespace SayMore.Model.Files
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public void ManuallySegmentFile(Action<string> refreshAction)
+		{
+			using (var dlg = new ManualSegmenterDlg(this))
+			{
+				if (dlg.ShowDialog() != DialogResult.OK)
+					return;
+
+				var newAnnotationFile = (!dlg.SegmentBoundariesChanged ? null :
+					AnnotationFileHelper.CreateFromSegments(PathToAnnotatedFile, dlg.GetSegments().ToArray()));
+
+				if (dlg.AnnotationRecordingsChanged)
+				{
+					var helper = AnnotationFileHelper.Load(newAnnotationFile);
+					var tier = (TimeOrderTier)helper.GetTiers().FirstOrDefault(t => t is TimeOrderTier);
+					OralAnnotationFileGenerator.Generate(tier, null);
+				}
+
+				if (refreshAction != null && newAnnotationFile != null)
+					refreshAction(newAnnotationFile);
+			}
+		}
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -611,6 +634,9 @@ namespace SayMore.Model.Files
 
 				yield return new ToolStripMenuItem("Create Annotation File...", null,
 					(s, e) => CreateAnnotationFile(refreshAction)) { Enabled = !GetDoesHaveAnnotationFile() };
+
+				yield return new ToolStripMenuItem("Manually Segment...", null,
+					(s, e) => ManuallySegmentFile(refreshAction));
 			}
 		}
 

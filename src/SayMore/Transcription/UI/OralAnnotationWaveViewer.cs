@@ -41,12 +41,6 @@ namespace SayMore.Transcription.UI
 			_labelCareful.Font = _labelOriginal.Font;
 			_labelTranslation.Font = _labelOriginal.Font;
 
-			_wavePanelOriginal.ForeColor = _wavePanelCareful.ForeColor =
-				_wavePanelTranslation.ForeColor = SystemColors.WindowText;
-
-			_wavePanelOriginal.BackColor = _wavePanelCareful.BackColor =
-				_wavePanelTranslation.BackColor = SystemColors.Window;
-
 			_wavePanelOriginal.MouseClick += HandleWavePanelMouseClick;
 			_wavePanelCareful.MouseClick += HandleWavePanelMouseClick;
 			_wavePanelTranslation.MouseClick += HandleWavePanelMouseClick;
@@ -289,7 +283,7 @@ namespace SayMore.Transcription.UI
 		{
 			var stream = MonoWaveStream;
 
-			if (_wavePanelOriginal.GetCursor() > 0)
+			if (_wavePanelOriginal.GetCursorTime() > TimeSpan.Zero)
 			{
 				var cursorTime = _wavePanelOriginal.GetCursorTime();
 				stream = new WaveSegmentStream(MonoWaveStream, cursorTime);

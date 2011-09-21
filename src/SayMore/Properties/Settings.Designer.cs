@@ -1188,5 +1188,44 @@ namespace SayMore.Properties {
                 return ((string)(this["OralAnnotationSegmentFileFormat"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int MillisecondsToAdvanceInManualSegmentation {
+            get {
+                return ((int)(this["MillisecondsToAdvanceInManualSegmentation"]));
+            }
+            set {
+                this["MillisecondsToAdvanceInManualSegmentation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int MillisecondsToBackupInManualSegmentation {
+            get {
+                return ((int)(this["MillisecondsToBackupInManualSegmentation"]));
+            }
+            set {
+                this["MillisecondsToBackupInManualSegmentation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1800")]
+        public int MillisecondsToRePlayAfterAdjustingManualSegmentBoundary {
+            get {
+                return ((int)(this["MillisecondsToRePlayAfterAdjustingManualSegmentBoundary"]));
+            }
+            set {
+                this["MillisecondsToRePlayAfterAdjustingManualSegmentBoundary"] = value;
+            }
+        }
     }
 }

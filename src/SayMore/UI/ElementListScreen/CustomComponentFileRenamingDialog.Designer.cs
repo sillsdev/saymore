@@ -28,6 +28,7 @@ namespace SayMore.UI.ElementListScreen
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._labelMessage = new System.Windows.Forms.Label();
@@ -35,7 +36,9 @@ namespace SayMore.UI.ElementListScreen
 			this._labelPrefix = new System.Windows.Forms.Label();
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._labelExtension = new System.Windows.Forms.Label();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _tableLayout
@@ -69,6 +72,9 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._buttonCancel.AutoSize = true;
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
+			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
+			this.locExtender.SetLocalizingId(this._buttonCancel, "CustomComponentFileRenamingDialog._buttonCancel");
 			this._buttonCancel.Location = new System.Drawing.Point(258, 67);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
@@ -82,6 +88,10 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._labelMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayout.SetColumnSpan(this._labelMessage, 4);
+			this.locExtender.SetLocalizableToolTip(this._labelMessage, null);
+			this.locExtender.SetLocalizationComment(this._labelMessage, null);
+			this.locExtender.SetLocalizationPriority(this._labelMessage, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelMessage, "CustomComponentFileRenamingDialog._labelMessage");
 			this._labelMessage.Location = new System.Drawing.Point(0, 34);
 			this._labelMessage.Margin = new System.Windows.Forms.Padding(0, 8, 3, 20);
 			this._labelMessage.Name = "_labelMessage";
@@ -93,6 +103,9 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._textBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayout.SetColumnSpan(this._textBox, 2);
+			this.locExtender.SetLocalizableToolTip(this._textBox, null);
+			this.locExtender.SetLocalizationComment(this._textBox, null);
+			this.locExtender.SetLocalizingId(this._textBox, "CustomComponentFileRenamingDialog._textBox");
 			this._textBox.Location = new System.Drawing.Point(38, 3);
 			this._textBox.Name = "_textBox";
 			this._textBox.Size = new System.Drawing.Size(213, 20);
@@ -103,6 +116,10 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._labelPrefix.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._labelPrefix.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelPrefix, null);
+			this.locExtender.SetLocalizationComment(this._labelPrefix, null);
+			this.locExtender.SetLocalizationPriority(this._labelPrefix, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelPrefix, "CustomComponentFileRenamingDialog._labelPrefix");
 			this._labelPrefix.Location = new System.Drawing.Point(0, 6);
 			this._labelPrefix.Margin = new System.Windows.Forms.Padding(0);
 			this._labelPrefix.Name = "_labelPrefix";
@@ -114,6 +131,9 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._buttonOK.AutoSize = true;
 			this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
+			this.locExtender.SetLocalizationComment(this._buttonOK, null);
+			this.locExtender.SetLocalizingId(this._buttonOK, "CustomComponentFileRenamingDialog._buttonOK");
 			this._buttonOK.Location = new System.Drawing.Point(175, 67);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
@@ -127,12 +147,21 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this._labelExtension.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelExtension.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelExtension, null);
+			this.locExtender.SetLocalizationComment(this._labelExtension, null);
+			this.locExtender.SetLocalizationPriority(this._labelExtension, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelExtension, "CustomComponentFileRenamingDialog._labelExtension");
 			this._labelExtension.Location = new System.Drawing.Point(254, 6);
 			this._labelExtension.Margin = new System.Windows.Forms.Padding(0);
 			this._labelExtension.Name = "_labelExtension";
 			this._labelExtension.Size = new System.Drawing.Size(79, 13);
 			this._labelExtension.TabIndex = 3;
 			this._labelExtension.Text = "label2";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// CustomComponentFileRenamingDialog
 			// 
@@ -144,6 +173,9 @@ namespace SayMore.UI.ElementListScreen
 			this.ControlBox = false;
 			this.Controls.Add(this._tableLayout);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "CustomComponentFileRenamingDialog.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "CustomComponentFileRenamingDialog";
@@ -152,6 +184,7 @@ namespace SayMore.UI.ElementListScreen
 			this.Text = "Rename";
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -166,5 +199,6 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.Label _labelPrefix;
 		private System.Windows.Forms.Label _labelMessage;
 		private System.Windows.Forms.Label _labelExtension;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

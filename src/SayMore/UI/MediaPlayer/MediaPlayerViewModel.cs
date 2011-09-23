@@ -22,10 +22,6 @@ namespace SayMore.UI.MediaPlayer
 		public event EventHandler PlaybackStarted;
 		public event EventHandler MediaQueued;
 
-		private const string kFmtRangeTimeDisplay = "{0} - {1}";
-		private const string kFmtTimeDisplay = "{0} / {1}";
-		//private const string kFmtTime = "{0}.{1:0}";
-
 		private readonly StringBuilder _mplayerStartInfo = new StringBuilder();
 		private MPlayerProcess _mplayerProcess;
 		private StreamWriter _stdIn;
@@ -142,13 +138,15 @@ namespace SayMore.UI.MediaPlayer
 		{
 			if (string.IsNullOrEmpty(filename))
 			{
-				ErrorReport.NotifyUserOfProblem("Media player file name has not been specified.");
+				ErrorReport.NotifyUserOfProblem(
+					Program.GetString("MediaPlayer.MediaFileNotSpecifiedMsg", "Media player file name has not been specified."));
 				return;
 			}
 
 			if (!File.Exists(filename))
 			{
-				ErrorReport.NotifyUserOfProblem("Media file '{0}' not found.", filename);
+				ErrorReport.NotifyUserOfProblem(
+					Program.GetString("MediaPlayer.MediaFileNotFoundMsg", "Media file '{0}' not found."), filename);
 				return;
 			}
 
@@ -441,7 +439,7 @@ namespace SayMore.UI.MediaPlayer
 			if (position > endPosition)
 				position = endPosition;
 
-			return string.Format(kFmtTimeDisplay,
+			return string.Format(Program.GetString("MediaPlayer.TimeCurrentOfTotalDisplayFormat", "{0} / {1}"),
 				MakeTimeString(position), MakeTimeString(endPosition));
 		}
 
@@ -459,7 +457,7 @@ namespace SayMore.UI.MediaPlayer
 			if (startPosition > endPosition)
 				startPosition = endPosition;
 
-			return string.Format(kFmtRangeTimeDisplay,
+			return string.Format(Program.GetString("MediaPlayer.TimeRangeDisplayFormat", "{0} - {1}"),
 				MakeTimeString(startPosition), MakeTimeString(endPosition));
 		}
 

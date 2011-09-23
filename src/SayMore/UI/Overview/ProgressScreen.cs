@@ -22,18 +22,20 @@ namespace SayMore.UI.Overview
 
 			_mnuProgress = new ToolStripMenuItem("Pr&ogress");
 
-			var menu = new ToolStripMenuItem("&Copy", Resources.Copy,
-				_statsView.HandleCopyToClipboardClick);
+			var menu = new ToolStripMenuItem("&Copy", Resources.Copy, _statsView.HandleCopyToClipboardClick);
 			menu.ToolTipText = "Copy entire view to clipboard";
 			_mnuProgress.DropDown.Items.Add(menu);
 
-			menu = new ToolStripMenuItem("&Save...", Resources.Save,
-				_statsView.HandleSaveButtonClicked);
+			menu = new ToolStripMenuItem("&Save...", Resources.Save, _statsView.HandleSaveButtonClicked);
 			menu.ToolTipText = "Save view to file";
 			_mnuProgress.DropDown.Items.Add(menu);
 
-			_mnuProgress.DropDown.Items.Add("&Print...", Resources.Print,
-				_statsView.HandlePrintButtonClicked);
+			_mnuProgress.DropDown.Items.Add("&Print...", Resources.Print, _statsView.HandlePrintButtonClicked);
+
+			Program.RegisterForLocalization(_mnuProgress, "ProgressView._menuProgress");
+			Program.RegisterForLocalization(_mnuProgress.DropDown.Items[0], "ProgressView._menuProgressCopy");
+			Program.RegisterForLocalization(_mnuProgress.DropDown.Items[1], "ProgressView._menuProgressSave");
+			Program.RegisterForLocalization(_mnuProgress.DropDown.Items[2], "ProgressView._menuProgressPrint");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -52,7 +54,7 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return "Progress"; }
+			get { return Program.GetString("ProgressView.ProgressTabText", "Progress"); }
 			set { }
 		}
 

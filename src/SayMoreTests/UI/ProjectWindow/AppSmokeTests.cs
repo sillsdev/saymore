@@ -29,7 +29,6 @@ namespace SayMoreTests.UI.ProjectWindow
 		public void TestSetup()
 		{
 			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
-			LocalizationManager.Enabled = false;
 
 			_projectsFolder = new TemporaryFolder("SayMoreSmokeTest");
 			PortableSettingsProvider.SettingsFileFolder = _projectsFolder.Combine("Settings");

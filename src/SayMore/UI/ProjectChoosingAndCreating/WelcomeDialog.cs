@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
-using Localization;
 using Localization.UI;
 using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
@@ -89,35 +88,27 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		private void LocalizationInitiated()
 		{
-			lblVersionInfo.Text = ApplicationContainer.GetVersionInfo(lblVersionInfo.Text);
+			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
 
-			LocalizationManager.LocalizeObject(lnkWebSites, "WelcomeDialog.lnkWebSites",
-			   "SayMore is brought to you by SIL International.  Visit the SayMore web site.",
-				locExtender.LocalizationGroup);
+			var entireLink = _linkWebSites.Text;
 
-			var entireLink = LocalizationManager.GetString(lnkWebSites);
+			var silPortion = Program.GetString("WelcomeDialog._linkWebSites_SILPortion",
+				"SIL International", "This is the portion of the text that is underlined, indicating the link to the SIL web site.");
 
-			var silPortion = LocalizationManager.LocalizeString(
-				"WelcomeDialog.lnkWebSites.SILLinkPortion", "SIL International",
-				"This is the portion of the text that is underlined, indicating the link " +
-				"to the SIL web site.", locExtender.LocalizationGroup);
+			var appPortion = Program.GetString("WelcomeDialog._linkWebSites_ApplicationPortion", "SayMore web site",
+				"This is the portion of the text that is underlined, indicating the link to the application's web site.");
 
-			var appPortion = LocalizationManager.LocalizeString(
-				"WelcomeDialog.lnkWebSites.ApplicationLinkPortion", "SayMore web site",
-				"This is the portion of the text that is underlined, indicating the link " +
-				"to the application's web site.", locExtender.LocalizationGroup);
-
-			lnkWebSites.Links.Clear();
+			_linkWebSites.Links.Clear();
 
 			// Add the underline and link for SIL's website.
 			int i = entireLink.IndexOf(silPortion);
 			if (i >= 0)
-				lnkWebSites.Links.Add(i, silPortion.Length, Settings.Default.SilWebSite);
+				_linkWebSites.Links.Add(i, silPortion.Length, Settings.Default.SilWebSite);
 
 			// Add the underline and link for application's website.
 			i = entireLink.IndexOf(appPortion);
 			if (i >= 0)
-				lnkWebSites.Links.Add(i, appPortion.Length, Settings.Default.ProgramsWebSite);
+				_linkWebSites.Links.Add(i, appPortion.Length, Settings.Default.ProgramsWebSite);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,13 +140,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			using (var dlg = new OpenFileDialog())
 			{
-				dlg.Title = LocalizationManager.LocalizeString(
-					"WelcomeDialog.OpenFileDlgCaption", "Open SayMore Project",
-					locExtender.LocalizationGroup);
-
-				var prjFilterText = LocalizationManager.LocalizeString(
-					"WelcomeDialog.ProjectFileType", "SayMore Project (*.sprj)",
-					locExtender.LocalizationGroup);
+				dlg.Title = Program.GetString("WelcomeDialog.OpenFileDlgCaption", "Open SayMore Project");
+				var prjFilterText = Program.GetString("WelcomeDialog.ProjectFileType", "SayMore Project (*.sprj)");
 
 				// TODO: This should really be a static or at least in a class that is accessible
 				// from anywhere because this is the second place it's used. I'm hesitant to use
@@ -224,7 +210,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			using (var pen = new Pen(AppColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
 
-			rc = new Rectangle(new Point(lblSubTitle.Left - 6, 18), Resources.SayMoreText.Size);
+			rc = new Rectangle(new Point(_labelSubTitle.Left - 6, 18), Resources.SayMoreText.Size);
 			//rc.Inflate(-4, -4);
 			e.Graphics.DrawImage(Resources.SayMoreText, rc);
 

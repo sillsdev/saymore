@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
-using Localization;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -112,8 +111,8 @@ namespace SayMore.UI.ComponentEditors
 		public string GetPictureFile()
 		{
 			var files = Directory.GetFiles(PersonFolder, PictureFileWithoutExt + ".*");
-			var picFiles = files.Where(x => _imgFileType.IsMatch(x));
-			return (picFiles.Count() == 0 ? null : picFiles.ElementAt(0));
+			var picFiles = files.Where(x => _imgFileType.IsMatch(x)).ToArray();
+			return (picFiles.Length == 0 ? null : picFiles[0]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -202,15 +201,23 @@ namespace SayMore.UI.ComponentEditors
 
 			if (pb.ParentType == ParentType.Father)
 			{
-				_tooltip.SetToolTip(pb, pb.Selected ?
-					"Indicates this is the father's primary language" :
+				var tipSelected = Program.GetString("PersonMetadataEditor.FatherSelectorToolTipWhenSelected",
+					"Indicates this is the father's primary language");
+
+				var tipNotSelected = Program.GetString("PersonMetadataEditor.FatherSelectorToolTipWhenNotSelected",
 					"Click to indicate this is the father's primary language");
+
+				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
 			}
 			else
 			{
-				_tooltip.SetToolTip(pb, pb.Selected ?
-					"Indicates this is the mother's primary language" :
-					"Click to indicate this is the mother's primary language");
+				var tipSelected = Program.GetString("PersonMetadataEditor.MotherSelectorToolTipWhenSelected",
+					"Indicates this is the mothers's primary language");
+
+				var tipNotSelected = Program.GetString("PersonMetadataEditor.MotherSelectorToolTipWhenNotSelected",
+					"Click to indicate this is the mothers's primary language");
+
+				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
 			}
 		}
 
@@ -222,16 +229,16 @@ namespace SayMore.UI.ComponentEditors
 		{
 			using (var dlg = new OpenFileDialog())
 			{
-				var caption = LocalizationManager.LocalizeString(
-					"PeopleView.ChangePictureDlgCaption", "Change Picture", "Views");
+				var caption = Program.GetString("PersonMetadataEditor.ChangePictureDlgCaption", "Change Picture");
+
+				var imageFileTypes = Program.GetString("PersonMetadataEditor.ImageFileTypes",
+					"JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*");
 
 				dlg.Title = caption;
 				dlg.CheckFileExists = true;
 				dlg.CheckPathExists = true;
 				dlg.Multiselect = false;
-				dlg.Filter = "JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|" +
-					"TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|" +
-					"Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*";
+				dlg.Filter = imageFileTypes;
 
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 					ChangePersonsPicture(dlg.FileName);
@@ -296,8 +303,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			else
 			{
-				var msg = LocalizationManager.LocalizeString(
-					"PersonView.ErrorChangingPersonsPhotoMsg",
+				var msg = Program.GetString("PersonMetadataEditor.ErrorChangingPersonsPhotoMsg",
 					"There was an error changing the person's photo.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
@@ -328,7 +334,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			catch (Exception e)
 			{
-				var msg = LocalizationManager.LocalizeString("PersonView.ErrorLoadingPersonsPhotoMsg",
+				var msg = Program.GetString("PersonMetadataEditor.ErrorLoadingPersonsPhotoMsg",
 					"There was an error loading the person's photo.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Media;
 using System.Reflection;
 using System.Windows.Forms;
-using Localization;
 using Localization.UI;
 using Palaso.IO;
 using Palaso.Media;
@@ -61,22 +60,26 @@ namespace SayMore.UI.ProjectWindow
 			_viewTabGroup.AddTab("Progress", progressScreen);
 			//_viewTabGroup.AddTab("Send/Receive", new SendReceiveScreen());
 
+			Program.RegisterForLocalization(_viewTabGroup.Tabs[0], "ProjectWindow.EventsTab");
+			Program.RegisterForLocalization(_viewTabGroup.Tabs[1], "ProjectWindow.PeopleTab");
+			Program.RegisterForLocalization(_viewTabGroup.Tabs[2], "ProjectWindow.ProgressTab");
+
 			if (eventsScreen.MainMenuItem != null)
 			{
 				eventsScreen.MainMenuItem.Enabled = false;
-				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), eventsScreen.MainMenuItem);
+				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_mainMenuHelp), eventsScreen.MainMenuItem);
 			}
 
 			if (personsScreen.MainMenuItem != null)
 			{
 				personsScreen.MainMenuItem.Enabled = false;
-				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), personsScreen.MainMenuItem);
+				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_mainMenuHelp), personsScreen.MainMenuItem);
 			}
 
 			if (progressScreen.MainMenuItem != null)
 			{
 				progressScreen.MainMenuItem.Enabled = false;
-				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_menuHelp), progressScreen.MainMenuItem);
+				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_mainMenuHelp), progressScreen.MainMenuItem);
 			}
 
 			SetWindowText();
@@ -91,7 +94,7 @@ namespace SayMore.UI.ProjectWindow
 		private void SetWindowText()
 		{
 			var ver = Assembly.GetExecutingAssembly().GetName().Version;
-			var fmt = LocalizationManager.GetString(this);
+			var fmt = Program.GetString("ProjectWindow.WindowTitleWithProject", "{0} - SayMore {1}.{2}.{3}");
 			Text = string.Format(fmt, _projectName, ver.Major, ver.Minor, ver.Build);
 		}
 

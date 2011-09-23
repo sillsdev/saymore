@@ -73,11 +73,11 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, string>> GetElementStatisticsPairs()
 		{
-			yield return new KeyValuePair<string, string>("Events:",
-				EventInformant.NumberOfEvents.ToString());
+			var eventsLabel = Program.GetString("ProgressView.EventsLabel", "Events:");
+			var peopleLabel = Program.GetString("ProgressView.PeopleLabel", "People:");
 
-			yield return new KeyValuePair<string, string>("People:",
-				PersonInformant.NumberOfPeople.ToString());
+			yield return new KeyValuePair<string, string>(eventsLabel ,EventInformant.NumberOfEvents.ToString());
+			yield return new KeyValuePair<string, string>(peopleLabel, PersonInformant.NumberOfPeople.ToString());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ namespace SayMore.UI.Overview.Statistics
 		private long GetTotalComponentRoleFileSizes(ComponentRole role)
 		{
 			long bytes = 0;
-			foreach (MediaFileInfo info in _backgroundStatisticsGather.GetAllFileData())
+			foreach (var info in _backgroundStatisticsGather.GetAllFileData())
 			{
 				if (role.IsMatch(info.MediaFilePath))
 					bytes += info.LengthInBytes;

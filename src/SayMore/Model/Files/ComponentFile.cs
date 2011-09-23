@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.FileSystem;
@@ -632,7 +631,10 @@ namespace SayMore.Model.Files
 				if (addSeparator)
 					yield return new ToolStripSeparator();
 
-				yield return new ToolStripMenuItem("Create Annotation File...", null,
+				var menuText = Program.GetString("ComponentFile.CreateAnnotationFileMenuItemText",
+					"Create Annotation File...");
+
+				yield return new ToolStripMenuItem(menuText, null,
 					(s, e) => CreateAnnotationFile(refreshAction)) { Enabled = !GetDoesHaveAnnotationFile() };
 
 				yield return new ToolStripMenuItem("Manually Segment...", null,
@@ -674,9 +676,12 @@ namespace SayMore.Model.Files
 			// Commands which rename for assigning to roles
 			foreach (var role in GetRelevantComponentRoles().Where(role => role.IsPotential(PathToAnnotatedFile)))
 			{
-				string label = string.Format("Rename For {0}", role.Name);
+				string menuText = string.Format(
+					Program.GetString("ComponentFile.RenameMenuItemFormatString", "Rename For {0}"), role.Name);
+
 				var role1 = role;
-				var toolStripMenuItem = new ToolStripMenuItem(label, null, (s, e) =>
+				// Disable if the file is already named appropriately for this role
+				var menu = new ToolStripMenuItem(menuText, null, (s, e) =>
 				{
 					if (PreRenameAction != null)
 						PreRenameAction();
@@ -689,16 +694,14 @@ namespace SayMore.Model.Files
 					if (PostRenameAction != null)
 						PostRenameAction();
 
-				}) { Tag = "rename" };
+				}) { Tag = "rename", Enabled = !role.IsMatch(PathToAnnotatedFile) };
 
-				//disable if the file is already named appropriately for this role
-				toolStripMenuItem.Enabled = !role.IsMatch(PathToAnnotatedFile);
-				yield return toolStripMenuItem;
+				yield return menu;
 			}
 
 			if (GetCanBeCustomRenamed())
 			{
-				yield return new ToolStripMenuItem("Custom Rename...", null, (s, e) =>
+				var menu = new ToolStripMenuItem("Custom Rename...", null, (s, e) =>
 				{
 					if (PreRenameAction != null)
 						PreRenameAction();
@@ -712,6 +715,9 @@ namespace SayMore.Model.Files
 						PostRenameAction();
 
 				}) { Tag = "rename" };
+
+				Program.RegisterForLocalization(menu, "ComponentFile.CustomRenameMenu");
+				yield return menu;
 			}
 		}
 
@@ -756,7 +762,7 @@ namespace SayMore.Model.Files
 
 				if (File.Exists(newPath))
 				{
-					var msg = LocalizationManager.LocalizeString("ComponentFile.CannotRenameMsg",
+					var msg = Program.GetString("ComponentFile.CannotRenameFileErrorMsg",
 						"{0} could not rename the file to '{1}' because there is already a file with that name.");
 
 					ErrorReport.NotifyUserOfProblem(msg, Application.ProductName, newPath);
@@ -765,7 +771,7 @@ namespace SayMore.Model.Files
 
 				if (renameMetaFile && File.Exists(newMetaPath))
 				{
-					var msg = LocalizationManager.LocalizeString("ComponentFile.CannotRenameMetadataFileMsg",
+					var msg = Program.GetString("ComponentFile.CannotRenameMetadataFileErrorMsg",
 						"{0} could not rename the meta data file to '{1}' because there is already a file with that name.");
 
 					ErrorReport.NotifyUserOfProblem(msg, Application.ProductName, newMetaPath);
@@ -783,7 +789,10 @@ namespace SayMore.Model.Files
 			}
 			catch (Exception e)
 			{
-				ErrorReport.NotifyUserOfProblem(e, "Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.");
+				var msg = Program.GetString("ComponentFile.CannotRenameFileGenericErrorMsg",
+					"Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.");
+
+				ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 		}
 
@@ -834,10 +843,21 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public static string GetDisplayableFileSize(long fileSize, bool abbreviateFileSizeUnits)
 		{
-			var fmtBytes = "{0} " + (abbreviateFileSizeUnits ? "B" : "Bytes");
-			var fmtKilobytes = "{0} " + (abbreviateFileSizeUnits ? "KB" : "Kilobytes");
-			var fmtMegabytes = "{0} " + (abbreviateFileSizeUnits ? "MB" : "Megabytes");
-			var fmtGigabytes = "{0} " + (abbreviateFileSizeUnits ? "GB" : "Gigabytes");
+			var fmtBytes = (abbreviateFileSizeUnits ?
+				Program.GetString("ComponentFile.FileSizeBytesAbbreviation", "{0} B") :
+				Program.GetString("ComponentFile.FileSizeBytes", "{0} Bytes"));
+
+			var fmtKilobytes = (abbreviateFileSizeUnits ?
+				Program.GetString("ComponentFile.FileSizeKilobytesAbbreviation", "{0} KB") :
+				Program.GetString("ComponentFile.FileSizeKilobytes", "{0} Kilobytes"));
+
+			var fmtMegabytes = (abbreviateFileSizeUnits ?
+				Program.GetString("ComponentFile.FileSizeMegabytesAbbreviation", "{0} MB") :
+				Program.GetString("ComponentFile.FileSizeMegabytes", "{0} Megabytes"));
+
+			var fmtGigabytes = (abbreviateFileSizeUnits ?
+				Program.GetString("ComponentFile.FileSizeGigabytesAbbreviation", "{0} GB") :
+				Program.GetString("ComponentFile.FileSizeGigabytes", "{0} Gigabytes"));
 
 			if (fileSize < 1000)
 				return string.Format(fmtBytes, fileSize);

@@ -31,24 +31,27 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this._linkFindFiles = new System.Windows.Forms.LinkLabel();
-			this._createEventsButton = new System.Windows.Forms.Button();
-			this._cancelButton = new System.Windows.Forms.Button();
+			this._buttonCreateEvents = new System.Windows.Forms.Button();
+			this._buttonCancel = new System.Windows.Forms.Button();
 			this._labelSourceFolder = new System.Windows.Forms.Label();
 			this._labelIncomingFiles = new System.Windows.Forms.Label();
 			this._labelInstructions = new System.Windows.Forms.Label();
 			this._mediaPlayerPanel = new SilTools.Controls.SilPanel();
 			this._panelProgress = new System.Windows.Forms.Panel();
-			this._progressLabel = new System.Windows.Forms.Label();
+			this._labelProgress = new System.Windows.Forms.Label();
 			this._progressBar = new System.Windows.Forms.ProgressBar();
 			this._outerTableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
 			this._gridFiles = new SayMore.UI.ElementListScreen.ComponentFileGrid();
-			this._metadataPanel = new System.Windows.Forms.Panel();
+			this._panelMetadata = new System.Windows.Forms.Panel();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._mediaPlayerPanel.SuspendLayout();
 			this._panelProgress.SuspendLayout();
 			this._outerTableLayout.SuspendLayout();
 			this._tableLayoutButtons.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			//
 			// _linkFindFiles
@@ -57,6 +60,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this._linkFindFiles.AutoSize = true;
 			this._linkFindFiles.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._linkFindFiles, null);
+			this.locExtender.SetLocalizationComment(this._linkFindFiles, null);
+			this.locExtender.SetLocalizingId(this._linkFindFiles, "NewEventsFromFilesDlg._linkFindFiles");
 			this._linkFindFiles.Location = new System.Drawing.Point(3, 10);
 			this._linkFindFiles.Margin = new System.Windows.Forms.Padding(3, 10, 7, 20);
 			this._linkFindFiles.Name = "_linkFindFiles";
@@ -66,33 +72,39 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._linkFindFiles.Text = "Find Files on Recorder/Card...";
 			this._linkFindFiles.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleFindFilesLinkClicked);
 			//
-			// _createEventsButton
+			// _buttonCreateEvents
 			//
-			this._createEventsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this._createEventsButton.AutoSize = true;
-			this._createEventsButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this._createEventsButton.Location = new System.Drawing.Point(0, 0);
-			this._createEventsButton.Margin = new System.Windows.Forms.Padding(0);
-			this._createEventsButton.MinimumSize = new System.Drawing.Size(130, 26);
-			this._createEventsButton.Name = "_createEventsButton";
-			this._createEventsButton.Size = new System.Drawing.Size(142, 26);
-			this._createEventsButton.TabIndex = 3;
-			this._createEventsButton.Text = "Create {0} Events";
-			this._createEventsButton.UseVisualStyleBackColor = true;
-			this._createEventsButton.Click += new System.EventHandler(this.HandleCreateEventsButtonClick);
+			this._buttonCreateEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._buttonCreateEvents.AutoSize = true;
+			this._buttonCreateEvents.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.locExtender.SetLocalizableToolTip(this._buttonCreateEvents, null);
+			this.locExtender.SetLocalizationComment(this._buttonCreateEvents, null);
+			this.locExtender.SetLocalizingId(this._buttonCreateEvents, "NewEventsFromFilesDlg._buttonCreateEvents");
+			this._buttonCreateEvents.Location = new System.Drawing.Point(0, 0);
+			this._buttonCreateEvents.Margin = new System.Windows.Forms.Padding(0);
+			this._buttonCreateEvents.MinimumSize = new System.Drawing.Size(130, 26);
+			this._buttonCreateEvents.Name = "_buttonCreateEvents";
+			this._buttonCreateEvents.Size = new System.Drawing.Size(142, 26);
+			this._buttonCreateEvents.TabIndex = 3;
+			this._buttonCreateEvents.Text = "Create {0} Events";
+			this._buttonCreateEvents.UseVisualStyleBackColor = true;
+			this._buttonCreateEvents.Click += new System.EventHandler(this.HandleCreateEventsButtonClick);
 			//
-			// _cancelButton
+			// _buttonCancel
 			//
-			this._cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this._cancelButton.AutoSize = true;
-			this._cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._cancelButton.Location = new System.Drawing.Point(150, 0);
-			this._cancelButton.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
-			this._cancelButton.Name = "_cancelButton";
-			this._cancelButton.Size = new System.Drawing.Size(80, 26);
-			this._cancelButton.TabIndex = 4;
-			this._cancelButton.Text = "Cancel";
-			this._cancelButton.UseVisualStyleBackColor = true;
+			this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._buttonCancel.AutoSize = true;
+			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
+			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
+			this.locExtender.SetLocalizingId(this._buttonCancel, "NewEventsFromFilesDlg._buttonCancel");
+			this._buttonCancel.Location = new System.Drawing.Point(150, 0);
+			this._buttonCancel.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
+			this._buttonCancel.Name = "_buttonCancel";
+			this._buttonCancel.Size = new System.Drawing.Size(80, 26);
+			this._buttonCancel.TabIndex = 4;
+			this._buttonCancel.Text = "Cancel";
+			this._buttonCancel.UseVisualStyleBackColor = true;
 			//
 			// _labelSourceFolder
 			//
@@ -101,6 +113,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelSourceFolder.AutoSize = true;
 			this._labelSourceFolder.BackColor = System.Drawing.Color.Transparent;
 			this._outerTableLayout.SetColumnSpan(this._labelSourceFolder, 2);
+			this.locExtender.SetLocalizableToolTip(this._labelSourceFolder, null);
+			this.locExtender.SetLocalizationComment(this._labelSourceFolder, null);
+			this.locExtender.SetLocalizingId(this._labelSourceFolder, "NewEventsFromFilesDlg._labelSourceFolder");
 			this._labelSourceFolder.Location = new System.Drawing.Point(162, 10);
 			this._labelSourceFolder.Margin = new System.Windows.Forms.Padding(3, 10, 3, 20);
 			this._labelSourceFolder.Name = "_labelSourceFolder";
@@ -113,6 +128,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelIncomingFiles.AutoSize = true;
 			this._labelIncomingFiles.BackColor = System.Drawing.Color.Transparent;
 			this._outerTableLayout.SetColumnSpan(this._labelIncomingFiles, 2);
+			this.locExtender.SetLocalizableToolTip(this._labelIncomingFiles, null);
+			this.locExtender.SetLocalizationComment(this._labelIncomingFiles, null);
+			this.locExtender.SetLocalizingId(this._labelIncomingFiles, "NewEventsFromFilesDlg._labelIncomingFiles");
 			this._labelIncomingFiles.Location = new System.Drawing.Point(3, 43);
 			this._labelIncomingFiles.Margin = new System.Windows.Forms.Padding(3, 0, 3, 5);
 			this._labelIncomingFiles.Name = "_labelIncomingFiles";
@@ -128,6 +146,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelInstructions.AutoSize = true;
 			this._labelInstructions.BackColor = System.Drawing.Color.Transparent;
 			this._outerTableLayout.SetColumnSpan(this._labelInstructions, 2);
+			this.locExtender.SetLocalizableToolTip(this._labelInstructions, null);
+			this.locExtender.SetLocalizationComment(this._labelInstructions, null);
+			this.locExtender.SetLocalizingId(this._labelInstructions, "NewEventsFromFilesDlg._labelInstructions");
 			this._labelInstructions.Location = new System.Drawing.Point(3, 266);
 			this._labelInstructions.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this._labelInstructions.Name = "_labelInstructions";
@@ -149,6 +170,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._mediaPlayerPanel.DrawOnlyTopBorder = false;
 			this._mediaPlayerPanel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this._mediaPlayerPanel.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this._mediaPlayerPanel, null);
+			this.locExtender.SetLocalizationComment(this._mediaPlayerPanel, null);
+			this.locExtender.SetLocalizingId(this._mediaPlayerPanel, "NewEventsFromFilesDlg._mediaPlayerPanel");
 			this._mediaPlayerPanel.Location = new System.Drawing.Point(414, 61);
 			this._mediaPlayerPanel.Margin = new System.Windows.Forms.Padding(20, 0, 0, 0);
 			this._mediaPlayerPanel.MnemonicGeneratesClick = false;
@@ -162,25 +186,28 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._panelProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this._panelProgress.BackColor = System.Drawing.Color.Transparent;
-			this._panelProgress.Controls.Add(this._progressLabel);
+			this._panelProgress.Controls.Add(this._labelProgress);
 			this._panelProgress.Controls.Add(this._progressBar);
 			this._panelProgress.Location = new System.Drawing.Point(14, 102);
 			this._panelProgress.Name = "_panelProgress";
 			this._panelProgress.Size = new System.Drawing.Size(198, 41);
 			this._panelProgress.TabIndex = 7;
 			//
-			// _progressLabel
+			// _labelProgress
 			//
-			this._progressLabel.AutoEllipsis = true;
-			this._progressLabel.BackColor = System.Drawing.Color.Transparent;
-			this._progressLabel.Dock = System.Windows.Forms.DockStyle.Top;
-			this._progressLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._progressLabel.Location = new System.Drawing.Point(0, 0);
-			this._progressLabel.Name = "_progressLabel";
-			this._progressLabel.Size = new System.Drawing.Size(198, 18);
-			this._progressLabel.TabIndex = 0;
-			this._progressLabel.Text = "Reading Files...";
-			this._progressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._labelProgress.AutoEllipsis = true;
+			this._labelProgress.BackColor = System.Drawing.Color.Transparent;
+			this._labelProgress.Dock = System.Windows.Forms.DockStyle.Top;
+			this._labelProgress.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.locExtender.SetLocalizableToolTip(this._labelProgress, null);
+			this.locExtender.SetLocalizationComment(this._labelProgress, null);
+			this.locExtender.SetLocalizingId(this._labelProgress, "NewEventsFromFilesDlg._labelProgress");
+			this._labelProgress.Location = new System.Drawing.Point(0, 0);
+			this._labelProgress.Name = "_labelProgress";
+			this._labelProgress.Size = new System.Drawing.Size(198, 18);
+			this._labelProgress.TabIndex = 0;
+			this._labelProgress.Text = "Reading Files...";
+			this._labelProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			//
 			// _progressBar
 			//
@@ -203,7 +230,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._outerTableLayout.Controls.Add(this._labelInstructions, 0, 3);
 			this._outerTableLayout.Controls.Add(this._mediaPlayerPanel, 2, 2);
 			this._outerTableLayout.Controls.Add(this._labelIncomingFiles, 0, 1);
-			this._outerTableLayout.Controls.Add(this._metadataPanel, 0, 4);
+			this._outerTableLayout.Controls.Add(this._panelMetadata, 0, 4);
 			this._outerTableLayout.Controls.Add(this._linkFindFiles, 0, 0);
 			this._outerTableLayout.Controls.Add(this._labelSourceFolder, 1, 0);
 			this._outerTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -227,8 +254,8 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._tableLayoutButtons.ColumnCount = 2;
 			this._tableLayoutButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutButtons.Controls.Add(this._createEventsButton, 0, 0);
-			this._tableLayoutButtons.Controls.Add(this._cancelButton, 1, 0);
+			this._tableLayoutButtons.Controls.Add(this._buttonCreateEvents, 0, 0);
+			this._tableLayoutButtons.Controls.Add(this._buttonCancel, 1, 0);
 			this._tableLayoutButtons.Location = new System.Drawing.Point(412, 356);
 			this._tableLayoutButtons.Margin = new System.Windows.Forms.Padding(5, 5, 0, 0);
 			this._tableLayoutButtons.Name = "_tableLayoutButtons";
@@ -248,6 +275,10 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._gridFiles.ConvertButtonVisible = false;
 			this._gridFiles.CreateAnnotationFileButtonVisible = false;
 			this._gridFiles.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
+			this.locExtender.SetLocalizableToolTip(this._gridFiles, null);
+			this.locExtender.SetLocalizationComment(this._gridFiles, null);
+			this.locExtender.SetLocalizationPriority(this._gridFiles, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._gridFiles, "NewEventsFromFilesDlg.ComponentFileGrid");
 			this._gridFiles.Location = new System.Drawing.Point(0, 61);
 			this._gridFiles.Margin = new System.Windows.Forms.Padding(0);
 			this._gridFiles.Name = "_gridFiles";
@@ -256,14 +287,19 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._gridFiles.Size = new System.Drawing.Size(394, 200);
 			this._gridFiles.TabIndex = 0;
 			//
-			// _metadataPanel
+			// _panelMetadata
 			//
-			this._outerTableLayout.SetColumnSpan(this._metadataPanel, 2);
-			this._metadataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._metadataPanel.Location = new System.Drawing.Point(3, 298);
-			this._metadataPanel.Name = "_metadataPanel";
-			this._metadataPanel.Size = new System.Drawing.Size(388, 81);
-			this._metadataPanel.TabIndex = 3;
+			this._outerTableLayout.SetColumnSpan(this._panelMetadata, 2);
+			this._panelMetadata.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._panelMetadata.Location = new System.Drawing.Point(3, 298);
+			this._panelMetadata.Name = "_panelMetadata";
+			this._panelMetadata.Size = new System.Drawing.Size(388, 81);
+			this._panelMetadata.TabIndex = 3;
+			//
+			// locExtender
+			//
+			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationManagerId = "SayMore";
 			//
 			// NewEventsFromFilesDlg
 			//
@@ -271,6 +307,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(672, 412);
 			this.Controls.Add(this._outerTableLayout);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "NewEventsFromFilesDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(650, 380);
@@ -286,6 +325,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._outerTableLayout.PerformLayout();
 			this._tableLayoutButtons.ResumeLayout(false);
 			this._tableLayoutButtons.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -293,18 +333,19 @@ namespace SayMore.UI.NewEventsFromFiles
 		#endregion
 
 		private System.Windows.Forms.LinkLabel _linkFindFiles;
-		private System.Windows.Forms.Button _createEventsButton;
-		private System.Windows.Forms.Button _cancelButton;
+		private System.Windows.Forms.Button _buttonCreateEvents;
+		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Label _labelSourceFolder;
 		private System.Windows.Forms.Label _labelIncomingFiles;
 		private System.Windows.Forms.Label _labelInstructions;
 		private SilTools.Controls.SilPanel _mediaPlayerPanel;
 		private System.Windows.Forms.Panel _panelProgress;
 		private System.Windows.Forms.TableLayoutPanel _outerTableLayout;
-		private System.Windows.Forms.Label _progressLabel;
+		private System.Windows.Forms.Label _labelProgress;
 		private System.Windows.Forms.ProgressBar _progressBar;
-		private System.Windows.Forms.Panel _metadataPanel;
+		private System.Windows.Forms.Panel _panelMetadata;
 		private SayMore.UI.ElementListScreen.ComponentFileGrid _gridFiles;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.MediaPlayer;
@@ -168,25 +167,21 @@ namespace SayMore.UI.NewEventsFromFiles
 		private void UpdateCreateButton()
 		{
 			var selectedCount = _viewModel.NumberOfSelectedFiles;
-			_createEventsButton.Enabled = (selectedCount > 0 && !_panelProgress.Visible);
+			_buttonCreateEvents.Enabled = (selectedCount > 0 && !_panelProgress.Visible);
 
 			if (selectedCount == 0)
 			{
-				var text = LocalizationManager.LocalizeString(
-					"NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText",
-					"Create Events", "Text in create button when no files are selected.",
-					"Dialog Boxes", LocalizationCategory.Button, LocalizationPriority.High);
+				var text = Program.GetString("NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText",
+					"Create Events", "Text in create button when no files are selected.");
 
-				_createEventsButton.Text = text;
+				_buttonCreateEvents.Text = text;
 			}
 			else
 			{
-				var fmt = LocalizationManager.LocalizeString(
-					"NewEventsFromFilesDlg.FilesSelectedCreateButtonText",
-					"Create {0} Events", "Format text in create button when one or more files are selected.",
-					"Dialog Boxes", LocalizationCategory.Button, LocalizationPriority.High);
+				var fmt = Program.GetString("NewEventsFromFilesDlg.FilesSelectedCreateButtonText",
+					"Create {0} Events", "Format text in create button when one or more files are selected.");
 
-				_createEventsButton.Text = string.Format(fmt, selectedCount);
+				_buttonCreateEvents.Text = string.Format(fmt, selectedCount);
 			}
 		}
 

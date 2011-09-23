@@ -48,6 +48,8 @@ namespace SayMore.UI.ElementListScreen
 			_tableLayout.RowStyles.Clear();
 			_tableLayout.RowCount = _componentRoles.Count();
 
+			var compRoles = completedRoles.ToArray();
+
 			foreach (var role in _componentRoles)
 			{
 				_tableLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
@@ -56,7 +58,10 @@ namespace SayMore.UI.ElementListScreen
 				var text = role.Name + ":";
 				_tableLayout.Controls.Add(GetNewRoleLabel(_nameTemplate, text), 1, row);
 
-				text = (role.IsContainedIn(completedRoles) ? "Complete" : "Incomplete");
+				text = (role.IsContainedIn(compRoles) ?
+					Program.GetString("StagesControlToolTip.StageCompletedText", "Complete") :
+					Program.GetString("StagesControlToolTip.StageIncompletedText", "Incomplete"));
+
 				_tableLayout.Controls.Add(GetNewRoleLabel(_compltedTemplate, text), 2, row);
 
 				row++;

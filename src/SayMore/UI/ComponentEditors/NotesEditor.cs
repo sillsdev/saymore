@@ -10,8 +10,8 @@ namespace SayMore.UI.ComponentEditors
 		private readonly string _origTabText;
 
 		/// ------------------------------------------------------------------------------------
-		public NotesEditor(ComponentFile file, string tabText, string imageKey)
-			: base(file, tabText, imageKey)
+		public NotesEditor(ComponentFile file, string tabText)
+			: base(file, tabText, "Notes")
 		{
 			_origTabText = tabText;
 

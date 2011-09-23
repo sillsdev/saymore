@@ -372,5 +372,8 @@
     <Setting Name="MillisecondsToRePlayAfterAdjustingManualSegmentBoundary" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1800</Value>
     </Setting>
+    <Setting Name="UserInterfaceLanguage" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">en</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

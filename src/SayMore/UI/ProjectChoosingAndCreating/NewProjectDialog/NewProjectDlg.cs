@@ -18,8 +18,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		{
 			InitializeComponent();
 			_buttonOK.Enabled = false;
-			_newProjectPathLabel.Text = string.Empty;
-			_newProjectPathLabel.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8f, GraphicsUnit.Point);
+			_labelNewProjectPath.Text = string.Empty;
+			_labelNewProjectPath.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, 8f, GraphicsUnit.Point);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		protected void txtName_TextChanged(object sender, EventArgs e)
 		{
 			_buttonOK.Enabled = _viewModel.IsNewProjectNameValid(
-				_nameTextBox.Text.Trim(), _newProjectPathLabel);
+				_textBoxName.Text.Trim(), _labelNewProjectPath);
 		}
 	}
 }

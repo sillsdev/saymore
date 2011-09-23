@@ -31,7 +31,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		private void InitializeComponent()
 		{
 			this._progressBar = new System.Windows.Forms.ProgressBar();
-			this._statusLabel = new Palaso.UI.WindowsForms.Widgets.BetterLabel();
+			this._labelStatus = new Palaso.UI.WindowsForms.Widgets.BetterLabel();
 			this.SuspendLayout();
 			// 
 			// _progressBar
@@ -44,29 +44,29 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this._progressBar.TabIndex = 2;
 			// 
-			// _statusLabel
+			// _labelStatus
 			// 
-			this._statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._statusLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._statusLabel.Font = new System.Drawing.Font("Segoe UI", 9F);
-			this._statusLabel.Location = new System.Drawing.Point(3, 20);
-			this._statusLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
-			this._statusLabel.Multiline = true;
-			this._statusLabel.Name = "_statusLabel";
-			this._statusLabel.ReadOnly = true;
-			this._statusLabel.Size = new System.Drawing.Size(298, 58);
-			this._statusLabel.TabIndex = 4;
-			this._statusLabel.TabStop = false;
-			this._statusLabel.Text = "Status";
+			this._labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._labelStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
+			this._labelStatus.Location = new System.Drawing.Point(3, 20);
+			this._labelStatus.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+			this._labelStatus.Multiline = true;
+			this._labelStatus.Name = "_labelStatus";
+			this._labelStatus.ReadOnly = true;
+			this._labelStatus.Size = new System.Drawing.Size(298, 58);
+			this._labelStatus.TabIndex = 4;
+			this._labelStatus.TabStop = false;
+			this._labelStatus.Text = "Status";
 			// 
 			// CopyFilesControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._progressBar);
-			this.Controls.Add(this._statusLabel);
+			this.Controls.Add(this._labelStatus);
 			this.Name = "CopyFilesControl";
 			this.Size = new System.Drawing.Size(307, 83);
 			this.ResumeLayout(false);
@@ -77,6 +77,6 @@ namespace SayMore.UI.NewEventsFromFiles
 		#endregion
 
 		private System.Windows.Forms.ProgressBar _progressBar;
-		private BetterLabel _statusLabel;
+		private BetterLabel _labelStatus;
 	}
 }

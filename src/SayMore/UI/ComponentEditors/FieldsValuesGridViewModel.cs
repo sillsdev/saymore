@@ -139,6 +139,27 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public string GetDisplayableFieldName(int index)
+		{
+			var id = GetIdForIndex(index);
+
+			switch (id)
+			{
+				case "Device": return Program.GetString("FieldsAndValuesGrid.Device", "Device");
+				case "Microphone": return Program.GetString("FieldsAndValuesGrid.Microphone", "Microphone");
+				case "Duration": return Program.GetString("FieldsAndValuesGrid.Duration", "Duration");
+				case "Audio_Bit_Rate": return Program.GetString("FieldsAndValuesGrid.AudioBitRate", "Audio Bit Rate");
+				case "Video_Bit_Rate": return Program.GetString("FieldsAndValuesGrid.VideoBitRate", "Video Bit Rate");
+				case "Sample_Rate": return Program.GetString("FieldsAndValuesGrid.SampleRate", "Sample Rate");
+				case "Bit_Depth": return Program.GetString("FieldsAndValuesGrid.BitDepth", "Bit Depth");
+				case "Channels": return Program.GetString("FieldsAndValuesGrid.Channels", "Channels");
+				case "Resolution": return Program.GetString("FieldsAndValuesGrid.Resolution", "Resolution");
+				case "Frame_Rate": return Program.GetString("FieldsAndValuesGrid.FrameRate", "Frame Rate");
+				default: return id;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string GetValueForIndex(int index)
 		{
 			return (index < RowData.Count ? RowData[index].ValueAsString : null);

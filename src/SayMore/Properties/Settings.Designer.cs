@@ -1227,5 +1227,18 @@ namespace SayMore.Properties {
                 this["MillisecondsToRePlayAfterAdjustingManualSegmentBoundary"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en")]
+        public string UserInterfaceLanguage {
+            get {
+                return ((string)(this["UserInterfaceLanguage"]));
+            }
+            set {
+                this["UserInterfaceLanguage"] = value;
+            }
+        }
     }
 }

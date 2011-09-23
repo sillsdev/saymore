@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
@@ -52,23 +51,23 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string DefaultElementNamePrefix
 		{
-			get
-			{
-				return LocalizationManager.LocalizeString(
-					"PersonView.NewPersonNamePrefix", "New Person");
-			}
+			get { return Program.GetString("MiscPeopleViewMessages.NewPersonNamePrefix", "New Person"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string NoIdSaveFailureMessage
 		{
-			get { return "You must specify a name."; }
+			get { return Program.GetString("MiscPeopleViewMessages.NoIdSaveFailureMessage", "You must specify a name."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string AlreadyExistsSaveFailureMessage
 		{
-			get { return "Could not rename from {0} to {1} because there is already a person by that name."; }
+			get
+			{
+				return Program.GetString("MiscPeopleViewMessages.AlreadyExistsSaveFailureMessage",
+					"Could not rename from {0} to {1} because there is already a person by that name.");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,16 +113,17 @@ namespace SayMore.Model
 		public string GetToolTipForInformedConsentType()
 		{
 			var componentFile = GetInformedConsentComponentFile();
+
 			if (componentFile == null)
-				return "No Informed Consent";
+				return Program.GetString("MiscPeopleViewMessages.InformedConsent-None", "No Informed Consent");
 
 			if (componentFile.FileType.IsAudio)
-				return "Informed Consent is Audio File";
+				return Program.GetString("MiscPeopleViewMessages.InformedConsent-Audio", "Informed Consent is Audio File");
 
 			if (componentFile.FileType.IsVideo)
-				return "Informed Consent is Video File";
+				return Program.GetString("MiscPeopleViewMessages.InformedConsent-Video", "Informed Consent is Video File");
 
-			return "Informed Consent is Written";
+			return Program.GetString("MiscPeopleViewMessages.InformedConsent-Written", "Informed Consent is Written");
 		}
 
 		/// ------------------------------------------------------------------------------------

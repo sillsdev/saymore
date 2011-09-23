@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Localization;
 using SilTools;
 using SilTools.Controls;
 
@@ -192,11 +191,8 @@ namespace SayMore.UI.ProjectWindow
 			_buttonRight.Location = new Point(22, top);
 			_panelScroll.Controls.Add(_buttonRight);
 
-			_tooltip.SetToolTip(_buttonLeft, LocalizationManager.LocalizeString(
-				"ViewTabsScrollLeftToolTipText", "Scroll Left"));
-
-			_tooltip.SetToolTip(_buttonRight, LocalizationManager.LocalizeString(
-				"ViewTabsScrollRightToolTipText", "Scroll Right"));
+			_tooltip.SetToolTip(_buttonLeft, Program.GetString("ProjectWindow.ViewTabsScrollLeftToolTipText", "Scroll Left"));
+			_tooltip.SetToolTip(_buttonRight, Program.GetString("ProjectWindow.ViewTabsScrollRightToolTipText", "Scroll Right"));
 		}
 
 		/// ------------------------------------------------------------------------------------

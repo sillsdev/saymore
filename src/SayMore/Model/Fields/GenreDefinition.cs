@@ -1,15 +1,10 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using Localization;
 using Palaso.IO;
 using SilTools;
 
 namespace SayMore.Model.Fields
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("type")]
 	public class GenreDefinition
@@ -41,10 +36,8 @@ namespace SayMore.Model.Fields
 				{
 					s_unknownType = new GenreDefinition();
 					s_unknownType.Id = "unknown";
-					s_unknownType.Name = LocalizationManager.LocalizeString(
-						"UnknownEventType", "<Unknown>",
-						"Unknown genre displayed in the genre drop-down list.",
-						"Misc. Strings");
+					s_unknownType.Name = Program.GetString("GenreDefinition.UnknownEventType", "<Unknown>",
+						"Unknown genre displayed in the genre drop-down list.");
 				}
 
 				return s_unknownType;
@@ -78,19 +71,11 @@ namespace SayMore.Model.Fields
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the tooltip.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public string Tooltip
 		{
 			get { return null; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns a <see cref="System.String"/> that represents this instance.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

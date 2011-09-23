@@ -23,10 +23,11 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			Initialize(_componentsSplitter.Panel2, _personComponentFileGrid, _peopleListPanel);
-			_personComponentFileGrid.InitializeGrid("PersonScreen", "Add Files for the Person");
+			_personComponentFileGrid.InitializeGrid("PersonScreen",
+				Program.GetString("PeopleView.AddPersonButtonToolTip", "Add Files for the Person"));
 
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
-				_labelHelp.Visible = false;
+				_labelClickNewHelpPrompt.Visible = false;
 			else
 				_componentsSplitter.Panel2.ControlAdded += HandleFirstSetOfComponentEditorsAdded;
 
@@ -45,7 +46,7 @@ namespace SayMore.UI.ElementListScreen
 		void HandleFirstSetOfComponentEditorsAdded(object sender, ControlEventArgs e)
 		{
 			_componentsSplitter.Panel2.ControlAdded -= HandleFirstSetOfComponentEditorsAdded;
-			_labelHelp.Visible = false;
+			_labelClickNewHelpPrompt.Visible = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -53,7 +54,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (_componentsSplitter.Panel2.Controls.Count == 1)
 			{
-				_labelHelp.Visible = true;
+				_labelClickNewHelpPrompt.Visible = true;
 				_componentsSplitter.Panel2.ControlAdded += HandleFirstSetOfComponentEditorsAdded;
 			}
 		}
@@ -61,7 +62,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return "People"; }
+			get { return Program.GetString("PeopleView.PeopleTabText", "People"); }
 			set { }
 		}
 

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Localization;
 using SayMore.UI.ComponentEditors;
 
 namespace SayMore.Model.Files
@@ -56,17 +55,12 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = LocalizationManager.LocalizeString("MiscFileInfoEditor.ViewTabText", "View");
+			var text = Program.GetString("UnknownFileType.ViewTabText", "View");
 			yield return new BrowserEditor(file, text, null);
 
-			text = LocalizationManager.LocalizeString("MiscFileInfoEditor.PropertiesTabText", "Properties");
-			yield return _basicFieldGridEditorFactoryLazy()(file, text, null);
-
-			text = LocalizationManager.LocalizeString("MiscFileInfoEditor.Contributors", "Contributors");
-			yield return _contributorsEditorFactoryLazy()(file, text, null);
-
-			text = LocalizationManager.LocalizeString("MiscFileInfoEditor.NotesTabText", "Notes");
-			yield return new NotesEditor(file, text, "Notes");
+			yield return _basicFieldGridEditorFactoryLazy()(file, GetPropertiesTabText(), null);
+			yield return _contributorsEditorFactoryLazy()(file, GetContributionsTabText(), null);
+			yield return new NotesEditor(file, GetNotesTabText());
 		}
 	}
 }

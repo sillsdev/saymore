@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
-using Localization;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
 using SilTools;
@@ -119,14 +118,12 @@ namespace SayMore.UI.ComponentEditors
 			var col = CreateTextBoxColumn("Field");
 			col.Width = 125;
 			Columns.Add(col);
-			LocalizationManager.LocalizeObject(Columns["Field"],
-				"FieldsAndValuesGrid.FieldColumnHdg", "Field", "Views");
+			Program.RegisterForLocalization(Columns["Field"], "FieldsAndValuesGrid.FieldColumnHdg");
 
 			col = CreateTextBoxColumn("Value");
 			col.Width = 175;
 			Columns.Add(col);
-			LocalizationManager.LocalizeObject(Columns["Value"],
-				"FieldsAndValuesGrid.ValueColumnHdg", "Value", "Views");
+			Program.RegisterForLocalization(Columns["Value"], "FieldsAndValuesGrid.ValueColumnHdg");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -295,7 +292,7 @@ namespace SayMore.UI.ComponentEditors
 			if (e.RowIndex != NewRowIndex && e.RowIndex < _model.RowData.Count)
 			{
 				e.Value = e.ColumnIndex == 0 ?
-					_model.GetIdForIndex(e.RowIndex) : _model.GetValueForIndex(e.RowIndex);
+					_model.GetDisplayableFieldName(e.RowIndex) : _model.GetValueForIndex(e.RowIndex);
 			}
 
 			base.OnCellValueNeeded(e);
@@ -385,8 +382,10 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private static bool AskUserToVerifyRemovingFieldEverywhere(string id)
 		{
-			var msg = string.Format("Do you want to delete the field '{0}' and its contents from the entire project?", id);
-			using (var dlg = new DeleteMessageBox(msg))
+			var msg = Program.GetString("FieldsAndValuesGrid.VerifyDeleteFieldQuestion",
+				"Do you want to delete the field '{0}' and its contents from the entire project?");
+
+			using (var dlg = new DeleteMessageBox(string.Format(msg, id)))
 				return (dlg.ShowDialog() == DialogResult.OK);
 		}
 	}

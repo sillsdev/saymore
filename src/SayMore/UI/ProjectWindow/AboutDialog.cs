@@ -1,7 +1,6 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using Localization;
 using Localization.UI;
 using Palaso.Reporting;
 using SayMore.Properties;
@@ -17,8 +16,6 @@ namespace SayMore.UI.ProjectWindow
 	/// ----------------------------------------------------------------------------------------
 	public partial class AboutDialog : Form
 	{
-		private const int kLogoTextImageTop = 10;
-
 		/// ------------------------------------------------------------------------------------
 		public AboutDialog()
 		{
@@ -42,26 +39,14 @@ namespace SayMore.UI.ProjectWindow
 		{
 			_labelVersionInfo.Text = ApplicationContainer.GetVersionInfo(_labelVersionInfo.Text);
 
-			LocalizationManager.LocalizeObject(_linkSayMoreWebSite, "AboutDialog.lnkSayMoreWebSite",
-			   "Visit the SayMore web site.",
-			   locExtender.LocalizationGroup);
+			var entireSayMoreLink = _linkSayMoreWebSite.Text;
+			var entireSilLink = _linkSiLWebSite.Text;
 
-			LocalizationManager.LocalizeObject(_linkSiLWebSite, "AboutDialog.lnkSilWebSite",
-			   "SayMore is brought to you by SIL International.",
-			   locExtender.LocalizationGroup);
+			var silWebSiteUnderlinedPortion = Program.GetString("AboutDialog._linkSilWebSite_LinkPortion",
+				"SIL International", "This is the portion of the text that is underlined, indicating the link to the SIL web site.");
 
-			var entireSayMoreLink = LocalizationManager.GetString(_linkSayMoreWebSite);
-			var entireSilLink = LocalizationManager.GetString(_linkSiLWebSite);
-
-			var silWebSiteUnderlinedPortion = LocalizationManager.LocalizeString(
-				"AboutDialog.lnkSilWebSite.LinkPortion", "SIL International",
-				"This is the portion of the text that is underlined, indicating the link " +
-				"to the SIL web site.", locExtender.LocalizationGroup);
-
-			var appWebSiteUnderlinedPortion = LocalizationManager.LocalizeString(
-				"AboutDialog.lnkSayMoreWebSite.LinkPortion", "SayMore web site",
-				"This is the portion of the text that is underlined, indicating the link " +
-				"to the application's web site.", locExtender.LocalizationGroup);
+			var appWebSiteUnderlinedPortion = Program.GetString("AboutDialog._linkSayMoreWebSite_LinkPortion",
+				"SayMore web site", "This is the portion of the text that is underlined, indicating the link to the application's web site.");
 
 			_linkSayMoreWebSite.Links.Clear();
 			_linkSiLWebSite.Links.Clear();
@@ -117,7 +102,7 @@ namespace SayMore.UI.ProjectWindow
 			using (var pen = new Pen(AppColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, rc.Bottom, rc.Right, rc.Bottom);
 
-			rc = new Rectangle(new Point(lblSubTitle.Left - 6, 10), Resources.SayMoreText.Size);
+			rc = new Rectangle(new Point(_labelSubTitle.Left - 6, 10), Resources.SayMoreText.Size);
 			//rc = new Rectangle(new Point(lblSubTitle.Left - 6, 15), Resources.SayMoreText.Size);
 			//rc.Inflate(-4, -4);
 			e.Graphics.DrawImage(Resources.SayMoreText, rc);

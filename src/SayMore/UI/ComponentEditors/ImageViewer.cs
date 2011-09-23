@@ -15,8 +15,8 @@ namespace SayMore.UI.ComponentEditors
 		private ImageViewerViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public ImageViewer(ComponentFile file, string tabText, string imageKey)
-			: base(file, tabText, imageKey)
+		public ImageViewer(ComponentFile file, string tabText)
+			: base(file, tabText, "Image")
 		{
 			InitializeComponent();
 			Name = "ImageViewer";

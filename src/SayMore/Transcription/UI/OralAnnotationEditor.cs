@@ -18,8 +18,8 @@ namespace SayMore.Transcription.UI
 		private bool _isFirstTimeActivated = true;
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationEditor(ComponentFile file, string tabText, string imageKey)
-			: base(file, tabText, imageKey)
+		public OralAnnotationEditor(ComponentFile file, string tabText)
+			: base(file, tabText, "Audio")
 		{
 			InitializeComponent();
 			Name = "OralAnnotations";

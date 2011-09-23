@@ -29,7 +29,8 @@ namespace SayMore.UI.ElementListScreen
 				return;
 
 			Initialize(_componentsSplitter.Panel2, _eventComponentFileGrid, _eventsListPanel);
-			_eventComponentFileGrid.InitializeGrid("EventScreen", "Add Files to the Event");
+			_eventComponentFileGrid.InitializeGrid("EventScreen",
+				Program.GetString("EventsView.AddEventsButtonToolTip", "Add Files to the Event"));
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 
@@ -38,11 +39,15 @@ namespace SayMore.UI.ElementListScreen
 			MainMenuItem.DropDownItems.Add(_buttonNewFromFiles.Text, null, HandleButtonNewFromFilesClick);
 			MainMenuItem.DropDownItems.Add(new ToolStripSeparator());
 
+			Program.RegisterForLocalization(MainMenuItem, "EventsView._menuEvents");
+			Program.RegisterForLocalization(MainMenuItem.DropDownItems[0], "EventsView._menuAddNewEvent");
+			Program.RegisterForLocalization(MainMenuItem.DropDownItems[1], "EventsView._menuAddNewEventsFromFiles");
+
 			foreach (var eventMenuItem in _elementsGrid.GetMenuCommands())
 				MainMenuItem.DropDownItems.Add(eventMenuItem);
 
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
-				_labelHelp.Visible = false;
+				_labelClickNewHelpPrompt.Visible = false;
 			else
 				_componentsSplitter.Panel2.ControlAdded += HandleFirstSetOfComponentEditorsAdded;
 
@@ -61,7 +66,7 @@ namespace SayMore.UI.ElementListScreen
 		void HandleFirstSetOfComponentEditorsAdded(object sender, ControlEventArgs e)
 		{
 			_componentsSplitter.Panel2.ControlAdded -= HandleFirstSetOfComponentEditorsAdded;
-			_labelHelp.Visible = false;
+			_labelClickNewHelpPrompt.Visible = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,7 +74,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (_componentsSplitter.Panel2.Controls.Count == 1)
 			{
-				_labelHelp.Visible = true;
+				_labelClickNewHelpPrompt.Visible = true;
 				_componentsSplitter.Panel2.ControlAdded += HandleFirstSetOfComponentEditorsAdded;
 			}
 		}
@@ -99,7 +104,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return "Events"; }
+			get { return Program.GetString("ProjectWindow.EventsTabText", "Events"); }
 			set { }
 		}
 

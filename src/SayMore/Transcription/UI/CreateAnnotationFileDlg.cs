@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Localization;
 
 namespace SayMore.Transcription.UI
 {
@@ -45,20 +44,26 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleLoadAudacityLabelFileClick(object sender, EventArgs e)
 		{
-			var caption = LocalizationManager.LocalizeString(
+			var caption = Program.GetString(
 				"CreateAnnotationFileDlg.LoadAudacityLabelFileDlgCaption", "Select Audacity Label File");
 
-			if (ShowOpenFileDialog(caption, "Audacity Label File (*.txt)|*.txt"))
+			var filetype = Program.GetString("CreateAnnotationFileDlg.AudacityLabelFileTypeString",
+				"Audacity Label File (*.txt)|*.txt");
+
+			if (ShowOpenFileDialog(caption, filetype))
 				Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleLoadSegmentFileClick(object sender, EventArgs e)
 		{
-			var caption = LocalizationManager.LocalizeString(
+			var caption = Program.GetString(
 				"CreateAnnotationFileDlg.LoadSegmentFileDlgCaption", "Select Segment File");
 
-			if (ShowOpenFileDialog(caption, "ELAN File (*.eaf)|*.eaf"))
+			var filetype = Program.GetString("CreateAnnotationFileDlg.ElanFileTypeString",
+				"ELAN File (*.eaf)|*.eaf");
+
+			if (ShowOpenFileDialog(caption, filetype))
 				Close();
 		}
 
@@ -71,7 +76,8 @@ namespace SayMore.Transcription.UI
 				dlg.CheckFileExists = true;
 				dlg.CheckPathExists = true;
 				dlg.Multiselect = false;
-				dlg.Filter = filter + "|All Files (*.*)|*.*";
+				dlg.Filter = filter + "|" +
+					Program.GetString("CreateAnnotationFileDlg.AllFileTypeString", "All Files (*.*)|*.*");
 
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return false;

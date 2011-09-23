@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
-using Localization;
 using SilTools;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -174,8 +173,11 @@ namespace SayMore.UI.ElementListScreen
 			if (_grid.RowCount == 1)
 			{
 				var rcRow = _grid.GetRowDisplayRectangle(0, false);
-				_grid.DrawMessageInCenterOfGrid(e.Graphics, "Add additional files related to this event by\n" +
-					"dragging them here or clicking the 'Add Files' button.", rcRow.Height);
+
+				var msg = Program.GetString("ComponentFileGrid.AddFilesPrompt",
+					"Add additional files related to this event by\ndragging them here or clicking the 'Add Files' button.");
+
+				_grid.DrawMessageInCenterOfGrid(e.Graphics, msg, rcRow.Height);
 			}
 		}
 
@@ -432,7 +434,7 @@ namespace SayMore.UI.ElementListScreen
 			// previously higher than the new value.
 			_grid.CellValueNeeded -= HandleFileGridCellValueNeeded;
 			_grid.CurrentCell = null;
-			_grid.RowCount = componentFiles.Count();
+			_grid.RowCount = _files.Count();
 			_grid.CellValueNeeded += HandleFileGridCellValueNeeded;
 			_grid.Invalidate();
 
@@ -497,11 +499,8 @@ namespace SayMore.UI.ElementListScreen
 
 			using (var dlg = new OpenFileDialog())
 			{
-				dlg.Title = LocalizationManager.LocalizeString(
-					"ComponentFileGrid.AddFilesDlgCaption", "Add Files");
-
-				var prjFilterText = LocalizationManager.LocalizeString(
-					"ComponentFileGrid.AddFilesFileType", "All Files (*.*)");
+				dlg.Title = Program.GetString("ComponentFileGrid.AddFilesDlgCaption", "Add Files");
+				var prjFilterText = Program.GetString("ComponentFileGrid.AddFilesFileType", "All Files (*.*)");
 
 				var folder = Settings.Default.LastFolderForComponentFileAdd;
 				if (folder == null || !Directory.Exists(folder))

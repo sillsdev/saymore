@@ -15,7 +15,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		public CopyFilesControl(CopyFilesViewModel model)
 		{
 			InitializeComponent();
-			_statusLabel.Font = new Font(SystemFonts.IconTitleFont, FontStyle.Bold);
+			_labelStatus.Font = new Font(SystemFonts.IconTitleFont, FontStyle.Bold);
 			_model = model;
 			_model.OnFinished += HandleCopyFinished;
 			_model.OnUpdateProgress += HandleCopyProgressUpdate;
@@ -26,7 +26,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// ------------------------------------------------------------------------------------
 		void HandleCopyStatusUpdate(object sender, EventArgs e)
 		{
-			_statusLabel.Text = _model.StatusString;
+			_labelStatus.Text = _model.StatusString;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		void HandleCopyFinished(object sender, EventArgs e)
 		{
 			_progressBar.Value = _progressBar.Maximum;
-			_statusLabel.Text = _model.StatusString;
+			_labelStatus.Text = _model.StatusString;
 
 			if (sender == null)
 			{

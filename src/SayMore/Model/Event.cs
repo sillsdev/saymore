@@ -85,23 +85,23 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string DefaultElementNamePrefix
 		{
-			get
-			{
-				return LocalizationManager.LocalizeString(
-					"EventsView.NewEventNamePrefix", "New Event");
-			}
+			get { return Program.GetString("MiscEventViewMessages.NewEventNamePrefix", "New Event"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string NoIdSaveFailureMessage
 		{
-			get { return "You must specify a event id."; }
+			get { return Program.GetString("MiscEventViewMessages.NoIdSaveFailureMessage", "You must specify an event id."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string AlreadyExistsSaveFailureMessage
 		{
-			get { return "Could not rename from {0} to {1} because there is already a event by that name."; }
+			get
+			{
+				return Program.GetString("MiscEventViewMessages.EventAlreadyExistsSaveFailureMessage",
+					"Could not rename from {0} to {1} because there is already a event by that name.");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -58,9 +58,7 @@ namespace SayMore
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
-			LocalizationManager.Enabled = true;
-			LocalizationManager.Initialize();
-
+			SetUpLocalization();
 			SetUpErrorHandling();
 			SetUpReporting();
 
@@ -251,5 +249,143 @@ namespace SayMore
 #endif
 );
 		}
+
+		#region Localization Manager Methods/Properties
+		/// ------------------------------------------------------------------------------------
+		public static void SetUpLocalization()
+		{
+			SetUILanguage();
+
+			// Copy the localization file to where the settings file is located.
+			var localizationFilePath = Path.Combine(PortableSettingsProvider.SettingsFileFolder, "SayMore.tmx");
+			if (!File.Exists(localizationFilePath))
+			{
+				var srcLocalizationFilePath = FileLocator.GetFileDistributedWithApplication("SayMore.tmx");
+				File.Copy(srcLocalizationFilePath, localizationFilePath);
+			}
+
+			L10NMngr = LocalizationManager.Create("SayMore", "SayMore", PortableSettingsProvider.SettingsFileFolder);
+
+			//LocalizeItemDlg.SaveDialogSplitterPosition += (pos =>
+			//    Settings.Default.LocalizeDlgSplitterPos = pos);
+
+			//LocalizeItemDlg.SetDialogSplitterPosition += (currPos =>
+			//    (Settings.Default.LocalizeDlgSplitterPos > 0 ? Settings.Default.LocalizeDlgSplitterPos : currPos));
+
+			//LocalizeItemDlg.SaveDialogBounds += (dlg =>
+			//    Settings.Default.LocalizeDlgBounds = dlg.Bounds);
+
+			//LocalizeItemDlg.SetDialogBounds += (dlg =>
+			//{
+			//    if (!Settings.Default.LocalizeDlgBounds.IsEmpty)
+			//        dlg.Bounds = Settings.Default.LocalizeDlgBounds;
+			//});
+
+			//LocalizeItemDlg.StringsLocalized += (() =>
+			//{
+			//});
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void SetUILanguage()
+		{
+			string langId = Settings.Default.UserInterfaceLanguage;
+
+			// Specifying the UI language on the command-line trumps the one in
+			// the settings file (i.e. the one set in the options dialog box).
+			foreach (var arg in Environment.GetCommandLineArgs()
+				.Where(arg => arg.ToLower().StartsWith("/uilang:") || arg.ToLower().StartsWith("-uilang:")))
+			{
+				langId = arg.Substring(8);
+				break;
+			}
+
+			LocalizationManager.UILanguageId = (string.IsNullOrEmpty(langId) ?
+				LocalizationManager.kDefaultLang : langId);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static LocalizationManager L10NMngr { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		internal static void SaveOnTheFlyLocalizations()
+		{
+			if (L10NMngr != null)
+				L10NMngr.SaveOnTheFlyLocalizations();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void ReapplyLocalizationsToAllObjects()
+		{
+			if (L10NMngr != null)
+				L10NMngr.ReapplyLocalizationsToAllObjects();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void RefreshToolTipsOnLocalizationManager()
+		{
+			if (L10NMngr != null)
+				L10NMngr.RefreshToolTips();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetUILanguageId()
+		{
+			return LocalizationManager.UILanguageId;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetString(string id, string defaultText)
+		{
+			return (L10NMngr == null ? defaultText : L10NMngr.LocalizeString(id, defaultText));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetString(string id, string defaultText, string comment)
+		{
+			return (L10NMngr == null ? defaultText : L10NMngr.LocalizeString(id, defaultText, comment, null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetStringForObject(object obj)
+		{
+			return GetStringForObject(obj, "????");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetStringForObject(object obj, string defaultText)
+		{
+			return (L10NMngr == null ? defaultText : (L10NMngr.GetString(obj) ?? defaultText));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void RegisterForLocalization(object obj, string id)
+		{
+			if (L10NMngr != null)
+				L10NMngr.LocalizeObject(obj, id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void RegisterForLocalization(object obj, string id, string defaultText)
+		{
+			if (L10NMngr == null)
+				return;
+
+			L10NMngr.LocalizeString(id, defaultText);
+			L10NMngr.LocalizeObject(obj, id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void RegisterForLocalization(object obj, string id,
+			string defaultText, string comment)
+		{
+			if (L10NMngr == null)
+				return;
+
+			L10NMngr.LocalizeObject(obj, id, defaultText, null, comment);
+			L10NMngr.LocalizeObject(obj, id);
+		}
+
+		#endregion
 	}
 }

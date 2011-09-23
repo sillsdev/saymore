@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
@@ -70,7 +69,7 @@ namespace SayMore.UI.ComponentEditors
 			_browser.DocumentCompleted += HandleBrowserLoadCompleted;
 			_browser.Navigate("about:blank");
 
-			var msg = LocalizationManager.LocalizeString("BrowserEditor.FileNameMsg",
+			var msg = Program.GetString("BrowserEditor.FileNameMsg",
 				"<HTML>SayMore attempted to load:<br /><br /><b>File:</b> {0}<br /><nobr><b>Folder:</b> {1}</nobr></HTML>");
 
 			msg = msg.Replace("\n", "<br />");
@@ -94,7 +93,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void DisplayInfoForFileNotShownInBrowser(string filePath)
 		{
-			var msg = LocalizationManager.LocalizeString("BrowserEditor.FileLinkMsg",
+			var msg = Program.GetString("BrowserEditor.FileLinkMsg",
 				"<HTML><BODY>Click <a href=\"file:///{0}\"><b>here to open '{1}'</b></a> in its associated program.</BODY></HTML>");
 			msg = msg.Replace("\n", "<br />");
 

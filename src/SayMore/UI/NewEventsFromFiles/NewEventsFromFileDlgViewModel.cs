@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Localization;
 using Palaso.Reporting;
 using SayMore.Model;
 using SayMore.Properties;
@@ -292,9 +291,8 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			using (var dlg = new FolderBrowserDialog())
 			{
-				dlg.Description = LocalizationManager.LocalizeString(
-					"NewEventsFromFilesDlg.FolderBrowserDlgDescription",
-					"Choose a Folder of Medial Files.", "Dialog Boxes");
+				dlg.Description = Program.GetString("NewEventsFromFilesDlg.FolderBrowserDlgDescription",
+					"Choose a Folder of Medial Files.");
 
 				if (SelectedFolder != null && Directory.Exists(SelectedFolder))
 					dlg.SelectedPath = SelectedFolder;
@@ -438,11 +436,11 @@ namespace SayMore.UI.NewEventsFromFiles
 		{
 			var pairs = GetAllSourceAndDestinationPairs();
 
-			var existing = from kvp in GetAllSourceAndDestinationPairs()
+			var existing = (from kvp in GetAllSourceAndDestinationPairs()
 						   where File.Exists(kvp.Value)
-						   select kvp.Key;
+						   select kvp.Key).ToList();
 
-			if (existing.Count() > 0)
+			if (existing.Count > 0)
 			{
 				// Remove the pairs for which events already exist.
 				pairs = pairs.Where(kvp => !existing.Contains(kvp.Key));
@@ -452,7 +450,9 @@ namespace SayMore.UI.NewEventsFromFiles
 				foreach (var file in existing)
 					bldr.AppendLine(Path.GetFileNameWithoutExtension(file));
 
-				var msg = "Events already exist for the following Ids. These will be skipped.\n\n{0}";
+				var msg = Program.GetString("NewEventsFromFilesDlg.EventsAlreadyExistMsg",
+					"Events already exist for the following Ids. These will be skipped.\n\n{0}");
+
 				ErrorReport.NotifyUserOfProblem(msg, bldr);
 			}
 

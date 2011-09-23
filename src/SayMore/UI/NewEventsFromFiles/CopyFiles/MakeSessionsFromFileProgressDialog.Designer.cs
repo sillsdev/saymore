@@ -28,9 +28,12 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _buttonOK
@@ -40,6 +43,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._buttonOK.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this._buttonOK.Enabled = false;
+			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
+			this.locExtender.SetLocalizationComment(this._buttonOK, null);
+			this.locExtender.SetLocalizingId(this._buttonOK, "MakeEventsFromFileProgressDialog._buttonOK");
 			this._buttonOK.Location = new System.Drawing.Point(285, 82);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
@@ -63,6 +69,11 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._tableLayout.Size = new System.Drawing.Size(360, 108);
 			this._tableLayout.TabIndex = 1;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
 			// MakeEventsFromFileProgressDialog
 			// 
 			this.AcceptButton = this._buttonOK;
@@ -71,6 +82,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this.ClientSize = new System.Drawing.Size(390, 143);
 			this.ControlBox = false;
 			this.Controls.Add(this._tableLayout);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "MakeEventsFromFileProgressDialog.WindowTitle");
 			this.Name = "MakeEventsFromFileProgressDialog";
 			this.Padding = new System.Windows.Forms.Padding(15, 20, 15, 15);
 			this.ShowIcon = false;
@@ -79,6 +93,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this.Text = "Making Events...";
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -87,5 +102,6 @@ namespace SayMore.UI.NewEventsFromFiles
 
 		private System.Windows.Forms.Button _buttonOK;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

@@ -33,11 +33,13 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public CopyFilesViewModel(IEnumerable<KeyValuePair<string, string>> sourceDestinationPathPairs)
 		{
-			Guard.Against(sourceDestinationPathPairs.Count() == 0, "No Files To Copy");
+			var notFilesToCopyMsg = Program.GetString("CopyFilesControl.NoFilesToCopyMsg", "No Files To Copy");
+
+			Guard.Against(sourceDestinationPathPairs.Count() == 0, notFilesToCopyMsg);
 			_sourceDestinationPathPairs = sourceDestinationPathPairs.ToArray();
 			_totalBytes = 0;
 
-			foreach (var pair in sourceDestinationPathPairs)
+			foreach (var pair in _sourceDestinationPathPairs)
 				_totalBytes += new FileInfo(pair.Key).Length;
 
 			IndexOfCurrentFile = -1;
@@ -76,17 +78,21 @@ namespace SayMore.UI.NewEventsFromFiles
 			{
 				if (_encounteredError != null)
 				{
-					return string.Format("Copying failed: {0}", _encounteredError.Message);//todo: these won't be user friendly
+					// TODO: these won't be user friendly
+					return string.Format(Program.GetString("CopyFilesControl.CopyFailedMsg", "Copying failed: {0}"),
+						_encounteredError.Message);
 				}
 
 				if (Copying)
 				{
-					return string.Format("Copying {0} of {1} Files, ({2} of {3} Megabytes)",
+					return string.Format(Program.GetString("CopyFilesControl.CopyingProgressMsg",
+						"Copying {0} of {1} Files, ({2} of {3} Megabytes)"),
 						1 + IndexOfCurrentFile, _sourceDestinationPathPairs.Count(),
 						Megs(_totalBytesCopied), Megs(_totalBytes));
 				}
 
-				return (Finished ? "Finished" : "Waiting to start...");
+				return (Finished ? Program.GetString("CopyFilesControl.CopyingFinishedMsg", "Finished") :
+					Program.GetString("CopyFilesControl.CopyWaitingMsg", "Waiting to start..."));
 			}
 
 			set { throw new NotImplementedException(); }
@@ -180,16 +186,17 @@ namespace SayMore.UI.NewEventsFromFiles
 			{
 				// enhance.. would be better if we have a reporting method we could talk to,
 				// that this would be up to the UI how/when/whether to display something.
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-					"The file {0} appears unchanged since it was copied before, so it will be skipped.",
-					Path.GetFileName(dstFile));
+				var msg = Program.GetString("CopyFilesControl.UnchangedFileMsg",
+					"The file {0} appears unchanged since it was copied before, so it will be skipped.");
 
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(dstFile));
 				_totalBytesCopied += finfo.Length;
 				_worker.ReportProgress(1);
 				return true;
 			}
 
-			_encounteredError = new ApplicationException(string.Format("The file '{0}' already exists", dstFile));
+			var fmt = Program.GetString("CopyFilesControl.FileExistsMsg", "The file '{0}' already exists");
+			_encounteredError = new ApplicationException(string.Format(fmt, dstFile));
 			_worker.CancelAsync();
 			return false;
 		}

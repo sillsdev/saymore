@@ -104,8 +104,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (index < 0 || index >= RowCount)
 			{
-				var msg = string.Format(
-					"{0} must be greater than or equal to 0 and less than {1}.", index, RowCount);
+				var msg = string.Format("{0} must be greater than or equal to 0 and less than {1}.", index, RowCount);
 				throw new IndexOutOfRangeException(msg);
 			}
 
@@ -139,8 +138,10 @@ namespace SayMore.UI.ElementListScreen
 
 			if (i == _items.Count())
 			{
-				var msg = string.Format("'{0}' doesn't exist in elements collection.", element.Id);
-				throw new ArgumentException(msg);
+				var msg = Program.GetString("ProjectWindow.ElementNoLongerExistsMsg",
+					"'{0}' doesn't exist in elements collection.");
+
+				throw new ArgumentException(string.Format(msg, element.Id));
 			}
 		}
 
@@ -256,8 +257,10 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ToolStripMenuItem> GetMenuCommands()
 		{
+			var menuText = Program.GetString("ProjectWindow.DeleteElementMenuText", "Delete");
+
 			yield return (DeleteAction == null ? null :
-				new ToolStripMenuItem("Delete", null, (s, e) => DeleteAction()));
+				new ToolStripMenuItem(menuText, null, (s, e) => DeleteAction()));
 		}
 
 		/// ------------------------------------------------------------------------------------

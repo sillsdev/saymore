@@ -20,15 +20,15 @@ namespace SayMore.UI.NewEventsFromFiles
 			InitializeComponent();
 			Dock = DockStyle.Fill;
 
-			_msg2TextForFormat = _possibleProblemsMsg2Label.Text;
+			_msg2TextForFormat = _labelPossibleProblemsMsg2.Text;
 
-			_problemOverviewMsgLabel.Text =
-				string.Format(_problemOverviewMsgLabel.Text, Application.ProductName);
+			_labelProblemOverviewMsg.Text =
+				string.Format(_labelProblemOverviewMsg.Text, Application.ProductName);
 
-			_possibleProblemsMsg1Label.LeftMargin = _problemOverviewMsgLabel.TextsXOffset;
-			_possibleProblemsMsg2Label.LeftMargin = _problemOverviewMsgLabel.TextsXOffset;
-			_possibleProblemsMsg3Label.LeftMargin = _problemOverviewMsgLabel.TextsXOffset;
-			_driveLetterHintMsgLabel.LeftMargin = _problemOverviewMsgLabel.TextsXOffset + 30;
+			_labelPossibleProblemsMsg1.LeftMargin = _labelProblemOverviewMsg.TextsXOffset;
+			_labelPossibleProblemsMsg2.LeftMargin = _labelProblemOverviewMsg.TextsXOffset;
+			_labelPossibleProblemsMsg3.LeftMargin = _labelProblemOverviewMsg.TextsXOffset;
+			_labelDriveLetterHintMsg.LeftMargin = _labelProblemOverviewMsg.TextsXOffset + 30;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		{
 			var driveLetter = (string.IsNullOrEmpty(path) ? string.Empty : Path.GetPathRoot(path));
 			driveLetter = driveLetter.TrimEnd(Path.DirectorySeparatorChar, Path.VolumeSeparatorChar);
-			_possibleProblemsMsg2Label.Text = string.Format(_msg2TextForFormat, driveLetter);
+			_labelPossibleProblemsMsg2.Text = string.Format(_msg2TextForFormat, driveLetter);
 		}
 	}
 }

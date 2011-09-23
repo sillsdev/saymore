@@ -55,10 +55,11 @@ namespace SayMore
 				Settings.Default.Save();
 			}
 
+			SetUpLocalization();
+
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
-			SetUpLocalization();
 			SetUpErrorHandling();
 			SetUpReporting();
 
@@ -166,8 +167,10 @@ namespace SayMore
 
 			_applicationContainer.CloseSplashScreen();
 
-			ErrorReport.NotifyUserOfProblem(new ShowAlwaysPolicy(), error,
-				"{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.",
+			var msg = GetString("ProjectWindow.LoadingProjectErrorMsg",
+				"{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.");
+
+			ErrorReport.NotifyUserOfProblem(new ShowAlwaysPolicy(), error, msg,
 				Application.ProductName, Path.GetFileNameWithoutExtension(projectPath));
 
 			Settings.Default.MRUList.Remove(projectPath);

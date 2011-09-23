@@ -44,13 +44,18 @@ namespace SayMore.Transcription.Model
 		public static AnnotationFileHelper Load(string annotationFileName)
 		{
 			if (!File.Exists(annotationFileName))
-				throw new FileNotFoundException("File not found: " + annotationFileName);
+			{
+				throw new FileNotFoundException(string.Format(Program.GetString(
+					"AnnotationFileHelper.AnnotationFileNotFoundMsg", "File not found: '{0}'"),
+					annotationFileName));
+			}
 
 			if (!GetIsElanFile(annotationFileName))
 			{
-				throw new Exception(
-					string.Format("File '{0}' is not a SayMore annotation file. It is possibly corrupt.",
-					annotationFileName));
+				var msg = Program.GetString("AnnotationFileHelper.BadAnnotationFileMsg",
+					"File '{0}' is not a SayMore annotation file. It is possibly corrupt.");
+
+				throw new Exception(string.Format(msg, annotationFileName));
 			}
 
 			var helper = new AnnotationFileHelper(annotationFileName);

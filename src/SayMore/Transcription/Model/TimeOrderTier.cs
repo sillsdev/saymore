@@ -7,7 +7,8 @@ namespace SayMore.Transcription.Model
 		public string MediaFileName { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
-		public TimeOrderTier(string filename) : this("Original", filename)
+		public TimeOrderTier(string filename) :
+			this(Program.GetString("TierNames.OriginalRecording", "Original"), filename)
 		{
 		}
 

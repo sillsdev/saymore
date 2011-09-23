@@ -178,11 +178,11 @@ namespace SayMore.Model
 		public void Load()
 		{
 			XElement project = XElement.Load(SettingsFilePath);
-			var elements = project.Descendants("Iso639Code");
-			if(elements.Count()==0)
-			{
-				elements = project.Descendants("IsoCode"); //old value when we were called "Sponge"
-			}
+			var elements = project.Descendants("Iso639Code").ToArray();
+
+			if (elements.Length == 0)
+				elements = project.Descendants("IsoCode").ToArray(); //old value when we were called "Sponge"
+
 			Iso639Code = elements.First().Value;
 		}
 

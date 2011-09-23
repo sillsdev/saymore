@@ -45,7 +45,7 @@ namespace SayMore.Model
 			if (xval is string)
 				return string.Compare((string)xval, (string)yval, StringComparison.CurrentCulture);
 
-			if (xval.GetType() == typeof(int))
+			if (xval is int)
 				return (int)xval - (int)yval;
 
 			if (xval is DateTime)

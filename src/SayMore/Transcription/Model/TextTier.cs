@@ -9,8 +9,10 @@ namespace SayMore.Transcription.Model
 	public class TextTier : TierBase
 	{
 		public const string TranscriptionTierName = "Transcription";
-		public const string SayMoreFreeTranslationTierName = "Free Translation";
 		public const string ElanFreeTranslationTierName = "Phrase Free Translation";
+
+		public static string SayMoreFreeTranslationTierName =
+			Program.GetString("TierNames.OriginalRecording","Free Translation");
 
 		/// ------------------------------------------------------------------------------------
 		public TextTier(string displayName) : base(displayName)

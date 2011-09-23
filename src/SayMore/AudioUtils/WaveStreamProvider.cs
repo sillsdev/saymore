@@ -3,7 +3,6 @@ using System.IO;
 using NAudio.Wave;
 using Palaso.CommandLineProcessing;
 using Palaso.Progress.LogBox;
-using SayMore.Properties;
 
 namespace SayMore.AudioUtils
 {
@@ -68,7 +67,10 @@ namespace SayMore.AudioUtils
 					Stream = new WaveFileReader(_temporaryWavFile);
 				else
 				{
-					var msg = "There was an error extracting audio from the media file '{0}'\n\n{1}";
+					var msg = Program.GetString("WaveStreamProvider.ExtractingAudioError",
+						"There was an error extracting audio from the media file '{0}'\n\n{1}",
+						"Second parameter is the error message.");
+
 					Error = new Exception(string.Format(msg, execResult.StandardError));
 				}
 
@@ -91,7 +93,10 @@ namespace SayMore.AudioUtils
 					else
 					{
 						stream = null;
-						var msg = "There was an error converting the audio file '{0}' to the correct format.\n\n{1}";
+						var msg = Program.GetString("WaveStreamProvider.ConvertingAudioError",
+							"There was an error converting the audio file '{0}' to the correct format.\n\n{1}",
+							"Second parameter is the error message.");
+
 						Error = new Exception(string.Format(msg, execResult.StandardError), e);
 						return;
 					}

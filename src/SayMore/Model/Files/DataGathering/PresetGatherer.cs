@@ -54,8 +54,10 @@ namespace SayMore.Model.Files.DataGathering
 
 			if (suggestions.Length == 0)
 			{
+				var msg = Program.GetString("PresetGatherer.NoPresetsYetMsg", "No presets yet");
+
 				yield return new KeyValuePair<string, Dictionary<string, string>>(
-					"No presets yet", new Dictionary<string, string>());
+					msg, new Dictionary<string, string>());
 			}
 			else
 			{

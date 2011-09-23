@@ -33,8 +33,11 @@ namespace SayMore.Transcription.Model
 			if (!CanGenerate(originalRecodingTier))
 				return null;
 
+			var msg = Program.GetString("OralAnnotationFileGenerator.GeneratingOralAnnotationFileMsg",
+				"Generating Oral Annotation file...");
+
 			using (var generator = new OralAnnotationFileGenerator(originalRecodingTier))
-			using (var dlg = new LoadingDlg("Generating Oral Annotation file..."))
+			using (var dlg = new LoadingDlg(msg))
 			{
 				if (parentControlForDialog != null)
 					dlg.Show(parentControlForDialog);
@@ -103,9 +106,10 @@ namespace SayMore.Transcription.Model
 		{
 			if (_origRecStreamProvider.Error != null)
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-					"There was an error processing the original recording.", _origRecStreamProvider.Error);
+				var msg = Program.GetString("OralAnnotationFileGenerator.ProcessingOriginalRecordingErrorMsg",
+					"There was an error processing the original recording.");
 
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, _origRecStreamProvider.Error);
 				return;
 			}
 
@@ -163,7 +167,10 @@ namespace SayMore.Transcription.Model
 			var provider = WaveStreamProvider.Create(_output1ChannelAudioFormat, filename);
 			if (provider.Error != null && !(provider.Error is FileNotFoundException))
 			{
-				var msg = "There was an error processing a {0} annotation file.";
+				var msg = Program.GetString("OralAnnotationFileGenerator.ProcessingAnnotationFileErrorMsg",
+					"There was an error processing a {0} annotation file.",
+					"The parameter is the annotation type (i.e. careful, translation).");
+
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
 					string.Format(msg, annotationType.ToString().ToLower()),
 					_origRecStreamProvider.Error);

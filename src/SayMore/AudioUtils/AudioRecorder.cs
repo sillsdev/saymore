@@ -151,8 +151,11 @@ namespace SayMore.AudioUtils
 		{
 			if (_recordingState != RecordingState.Monitoring)
 			{
-				throw new InvalidOperationException(
-					"Can't begin recording while we are in this state: " + _recordingState);
+				var msg = Program.GetString("AudioRecorder.CantBeginRecordingMsg",
+					"Can't begin recording while we are in this state: {0}");
+
+				ErrorReport.NotifyUserOfProblem(msg, _recordingState);
+				return;
 			}
 
 			var folder = Path.GetDirectoryName(waveFileName);
@@ -172,8 +175,11 @@ namespace SayMore.AudioUtils
 			{
 				if (_recordingState != RecordingState.Stopped)
 				{
-					throw new InvalidOperationException("Can't begin monitoring while we are in this state: " +
-						_recordingState.ToString());
+					var msg = Program.GetString("AudioRecorder.CantBeginMonitoringMsg",
+						"Can't begin monitoring while we are in this state: {0}");
+
+					ErrorReport.NotifyUserOfProblem(msg, _recordingState);
+					return;
 				}
 
 				Debug.Assert(_waveIn == null);
@@ -191,6 +197,9 @@ namespace SayMore.AudioUtils
 			}
 			catch (Exception e)
 			{
+				var msg = Program.GetString("AudioRecorder.MonitoringErrorMsg",
+					"There was a problem starting up volume monitoring.");
+
 				ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(),
 					e, "There was a problem starting up volume monitoring.");
 

@@ -40,7 +40,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ToolStripMenuItem> GetContextMenuCommands()
 		{
-			string text = string.Format("Copy {0} to clipboard", HeaderText);
+			var fmt = Program.GetString("TextAnnotationEditor.CopyColumnTextToClipboardMenuText",
+				"Copy {0} to clipboard");
+
+			string text = string.Format(fmt, HeaderText);
 
 			yield return new ToolStripMenuItem(text, null, delegate
 			{

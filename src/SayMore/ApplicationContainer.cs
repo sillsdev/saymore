@@ -105,41 +105,47 @@ namespace SayMore
 			get
 			{
 				yield return new
-					ComponentRole(typeof(Event), Settings.Default.OriginalRecordingComponentRoleId, "Original Recording",
+					ComponentRole(typeof(Event), Settings.Default.OriginalRecordingComponentRoleId,
+						Program.GetString("ComponentFileRoles.OriginalRecording", "Original Recording"),
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Original",
 						Settings.Default.WorkflowStageColor1,
 						Settings.Default.WorkflowStageTextColor1);//todo... but maybe we dont' show this as a stage?
 
 				yield return
-					new ComponentRole(typeof(Person), "consent", "Informed Consent",
+					new ComponentRole(typeof(Person), "consent",
+						Program.GetString("ComponentFileRoles.InformedConsent", "Informed Consent"),
 						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
 						Settings.Default.WorkflowStageColor2,
 						Settings.Default.WorkflowStageTextColor2);
 
 				yield return
-					new ComponentRole(typeof(Event), "carefulSpeech", "Careful Speech",
+					new ComponentRole(typeof(Event), "carefulSpeech",
+						Program.GetString("ComponentFileRoles.CarefulSpeech", "Careful Speech"),
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful",
 						Settings.Default.WorkflowStageColor3,
 						Settings.Default.WorkflowStageTextColor3);
 
 				yield return
-					new ComponentRole(typeof(Event), "oralTranslation", "Oral Translation",
+					new ComponentRole(typeof(Event), "oralTranslation",
+						Program.GetString("ComponentFileRoles.OralTranslation", "Oral Translation"),
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation",
 						Settings.Default.WorkflowStageColor4,
 						Settings.Default.WorkflowStageTextColor4);
 
 				yield return
-					new ComponentRole(typeof(Event), "transcription", "Transcription",
+					new ComponentRole(typeof(Event), "transcription",
+						Program.GetString("ComponentFileRoles.Transcription", "Transcription"),
 						ComponentRole.MeasurementTypes.Words,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Transcription",
 						Settings.Default.WorkflowStageColor5,
 						Settings.Default.WorkflowStageTextColor5);
 
 				yield return
-					new ComponentRole(typeof(Event), "transcriptionN", "Written Translation",
+					new ComponentRole(typeof(Event), "transcriptionN",
+						Program.GetString("ComponentFileRoles.WrittenTranslation", "Written Translation"),
 						ComponentRole.MeasurementTypes.Words,
 						ComponentRole.GetIsText, "$ElementId$_Translation",
 						Settings.Default.WorkflowStageColor6,

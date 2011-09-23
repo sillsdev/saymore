@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -70,9 +71,10 @@ namespace SayMore.Transcription.UI
 			var exception = annotationFile.TryLoadAndReturnException();
 			if (exception != null)
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(exception,
-					"There was an error loading the annotation file '{0}'.",
-					file.PathToAnnotatedFile);
+				var msg = Program.GetString("TextAnnotationEditor.LoadingAnnotationFileErrorMsg",
+					"There was an error loading the annotation file '{0}'.");
+
+				ErrorReport.NotifyUserOfProblem(exception, msg, file.PathToAnnotatedFile);
 			}
 
 			_grid.Load(annotationFile);
@@ -245,7 +247,10 @@ namespace SayMore.Transcription.UI
 			var annotationType = (sender == _buttonCarefulSpeech ?
 				OralAnnotationType.Careful : OralAnnotationType.Translation);
 
-			var caption = (sender == _buttonCarefulSpeech ? "Careful Speech" : "Oral Translation");
+			var caption = (sender == _buttonCarefulSpeech ?
+				Program.GetString("TextAnnotationEditor.RecordCarefulSpeechMenuText", "Careful Speech") :
+				Program.GetString("TextAnnotationEditor.RecordOralTranslationMenuText", "Oral Translation"));
+
 			var file = ((AnnotationComponentFile)_file);
 			var tier = (TimeOrderTier)file.Tiers.FirstOrDefault(t => t is TimeOrderTier);
 
@@ -267,7 +272,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
-			var msg = "Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?";
+			var msg = Program.GetString("TextAnnotationEditor.RegeneratingSegmentsWarningMsg",
+				"Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?");
+
 			if (MessageBox.Show(msg, Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 

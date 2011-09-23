@@ -71,7 +71,8 @@ namespace SayMore.UI.Utilities
 			IsBusy = true;
 			_incrementProgressBarAction = incrementProgressBarAction;
 
-			LogBox.WriteMessage("Searching for the RAMP program...");
+			var text = Program.GetString("ArchivingDlg.SearchingForRampMsg", "Searching for the RAMP program...");
+			LogBox.WriteMessage(text);
 			Application.DoEvents();
 			_rampProgramPath = FileLocator.GetFromRegistryProgramThatOpensFileType(".ramp") ??
 				FileLocator.LocateInProgramFiles("ramp.exe", true, "ramp");
@@ -79,7 +80,10 @@ namespace SayMore.UI.Utilities
 			LogBox.Clear();
 
 			if (_rampProgramPath == null)
-				LogBox.WriteMessageWithColor("Red", "The RAMP pogram cannot be found!{0}", Environment.NewLine);
+			{
+				text = Program.GetString("ArchivingDlg.RampNotFoundMsg", "The RAMP pogram cannot be found!{0}");
+				LogBox.WriteMessageWithColor("Red", text, Environment.NewLine);
+			}
 
 			_fileLists = GetFilesToArchive();
 			DisplayInitialSummary();
@@ -102,11 +106,14 @@ namespace SayMore.UI.Utilities
 		{
 			var filesInDir = Directory.GetFiles(_event.FolderPath);
 
+			var fmt = Program.GetString("ArchivingDlg.AddingEventFilesProgressMsg", "Adding Files for Event '{0}'");
 			var msgKey = Path.GetFileName(filesInDir[0]);
-			_progressMessages[msgKey] = string.Format("Adding Files for Event '{0}'", _eventTitle);
+			_progressMessages[msgKey] = string.Format(fmt, _eventTitle);
 
 			var fileList = new Dictionary<string, IEnumerable<string>>();
 			fileList[string.Empty] = filesInDir.Where(f => IncludeFileInArchive(f));
+
+			fmt = Program.GetString("ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
 
 			foreach (var person in _event.GetAllParticipants()
 				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
@@ -116,7 +123,8 @@ namespace SayMore.UI.Utilities
 
 				msgKey = GetPathToContributorFileInArchive(person.Id, filesInDir[0]);
 				msgKey = Path.Combine(Path.Combine("Contributors", person.Id), Path.GetFileName(filesInDir[0]));
-				_progressMessages[msgKey] = string.Format("Adding Files for Contributor '{0}'", person.Id);
+
+				_progressMessages[msgKey] = string.Format(fmt, person.Id);
 			}
 
 			return fileList;
@@ -132,17 +140,29 @@ namespace SayMore.UI.Utilities
 		private void DisplayInitialSummary()
 		{
 			if (_fileLists.Count > 1)
-				LogBox.WriteMessage("The following event and contributor files will be added to your archive.");
+			{
+				LogBox.WriteMessage(Program.GetString("ArchivingDlg.PrearchivingStatusMsg1",
+					"The following event and contributor files will be added to your archive."));
+			}
 			else
 			{
-				LogBox.WriteWarning("There are no contributors for this event.");
-				LogBox.WriteMessage(Environment.NewLine + "The following event files will be added to your archive.");
+				LogBox.WriteWarning(Program.GetString("ArchivingDlg.NoContributorsForEventMsg",
+					"There are no contributors for this event."));
+
+				LogBox.WriteMessage(Environment.NewLine +
+					Program.GetString("ArchivingDlg.PrearchivingStatusMsg2",
+						"The following event files will be added to your archive."));
 			}
+
+			var fmt = Program.GetString("ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}");
 
 			foreach (var kvp in _fileLists)
 			{
-				LogBox.WriteMessage(string.Format("{0}     {1}: {2}", Environment.NewLine,
-					(kvp.Key == string.Empty ? "Event" : "Contributor"),
+				var element = (kvp.Key == string.Empty ?
+					Program.GetString("ArchivingDlg.EventElementName", "Event") :
+					Program.GetString("ArchivingDlg.ContributorElementName", "Contributor"));
+
+				LogBox.WriteMessage(Environment.NewLine + string.Format(fmt, element,
 					(kvp.Key == string.Empty ? _eventTitle : kvp.Key)));
 
 				foreach (var file in kvp.Value)
@@ -177,7 +197,9 @@ namespace SayMore.UI.Utilities
 			}
 			catch (Exception e)
 			{
-				ReportError(e, "There was an error attempting to open the archive package in RAMP.");
+				ReportError(e, Program.GetString("ArchivingDlg.StartingRampErrorMsg",
+					"There was an error attempting to open the archive package in RAMP."));
+
 				return false;
 			}
 		}
@@ -225,8 +247,8 @@ namespace SayMore.UI.Utilities
 
 			if (success)
 			{
-				LogBox.WriteMessageWithColor(Color.DarkGreen,
-					Environment.NewLine + "Ready to hand the package to RAMP");
+				LogBox.WriteMessageWithColor(Color.DarkGreen, Environment.NewLine +
+					Program.GetString("ArchivingDlg.ReadyToCallRampMsg", "Ready to hand the package to RAMP"));
 			}
 
 			IsBusy = false;
@@ -252,7 +274,9 @@ namespace SayMore.UI.Utilities
 			}
 			catch (Exception e)
 			{
-				ReportError(e, "There was an error attempting to create a RAMP/REAP mets file for the event '{0}'.");
+				ReportError(e, Program.GetString("ArchivingDlg.CreatingInternalReapMetsFileErrorMsg",
+					"There was an error attempting to create a RAMP/REAP mets file for the event '{0}'."));
+
 				return false;
 			}
 
@@ -437,7 +461,9 @@ namespace SayMore.UI.Utilities
 			}
 			catch (Exception e)
 			{
-				ReportError(e, "There was a problem starting process to create zip file.");
+				ReportError(e, Program.GetString("ArchivingDlg.CreatingZipFileErrorMsg",
+					"There was a problem starting process to create zip file."));
+
 				return false;
 			}
 			finally
@@ -475,7 +501,8 @@ namespace SayMore.UI.Utilities
 			catch (Exception exception)
 			{
 				_worker.ReportProgress(0, new KeyValuePair<Exception, string>(exception,
-					"There was an error attempting to create an archive for the event '{0}'."));
+					Program.GetString("ArchivingDlg.CreatingArchiveErrorMsg",
+						"There was an error attempting to create an archive for the event '{0}'.")));
 
 				_workerException = true;
 			}
@@ -531,7 +558,9 @@ namespace SayMore.UI.Utilities
 
 			if (_worker != null)
 			{
-				LogBox.WriteMessageWithColor(Color.Red, Environment.NewLine + "Canceling...");
+				LogBox.WriteMessageWithColor(Color.Red, Environment.NewLine +
+					Program.GetString("ArchivingDlg.CancellingMsg", "Canceling..."));
+
 				_worker.CancelAsync();
 				while (_worker.IsBusy)
 					Application.DoEvents();

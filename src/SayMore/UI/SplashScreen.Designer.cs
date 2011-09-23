@@ -28,10 +28,13 @@ namespace SayMore.UI
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this._labelLoading = new System.Windows.Forms.Label();
 			this._labelVersionInfo = new System.Windows.Forms.Label();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.m_panel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// m_panel
@@ -40,11 +43,51 @@ namespace SayMore.UI
 			this.m_panel.Location = new System.Drawing.Point(14, 67);
 			this.m_panel.Size = new System.Drawing.Size(82, 74);
 			// 
+			// pictureBox1
+			// 
+			this.locExtender.SetLocalizableToolTip(this.pictureBox1, null);
+			this.locExtender.SetLocalizationComment(this.pictureBox1, null);
+			this.locExtender.SetLocalizationPriority(this.pictureBox1, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pictureBox1, "SplashScreenForm.pictureBox1");
+			// 
+			// lblVersion
+			// 
+			this.locExtender.SetLocalizableToolTip(this.lblVersion, null);
+			this.locExtender.SetLocalizationComment(this.lblVersion, null);
+			this.locExtender.SetLocalizingId(this.lblVersion, "SplashScreenForm.lblVersion");
+			// 
+			// lblMessage
+			// 
+			this.locExtender.SetLocalizableToolTip(this.lblMessage, null);
+			this.locExtender.SetLocalizationComment(this.lblMessage, null);
+			this.locExtender.SetLocalizingId(this.lblMessage, "SplashScreenForm.lblMessage");
+			// 
+			// lblCopyright
+			// 
+			this.locExtender.SetLocalizableToolTip(this.lblCopyright, null);
+			this.locExtender.SetLocalizationComment(this.lblCopyright, null);
+			this.locExtender.SetLocalizingId(this.lblCopyright, "SplashScreenForm.lblCopyright");
+			// 
+			// lblProductName
+			// 
+			this.locExtender.SetLocalizableToolTip(this.lblProductName, null);
+			this.locExtender.SetLocalizationComment(this.lblProductName, null);
+			this.locExtender.SetLocalizingId(this.lblProductName, "SplashScreenForm.lblProductName");
+			// 
+			// lblBuildNumber
+			// 
+			this.locExtender.SetLocalizableToolTip(this.lblBuildNumber, null);
+			this.locExtender.SetLocalizationComment(this.lblBuildNumber, null);
+			this.locExtender.SetLocalizingId(this.lblBuildNumber, "SplashScreenForm.lblBuildNumber");
+			// 
 			// _labelLoading
 			// 
 			this._labelLoading.AutoSize = true;
 			this._labelLoading.BackColor = System.Drawing.Color.Transparent;
 			this._labelLoading.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.locExtender.SetLocalizableToolTip(this._labelLoading, null);
+			this.locExtender.SetLocalizationComment(this._labelLoading, null);
+			this.locExtender.SetLocalizingId(this._labelLoading, "SplashScreenForm._labelLoading");
 			this._labelLoading.Location = new System.Drawing.Point(121, 130);
 			this._labelLoading.Name = "_labelLoading";
 			this._labelLoading.Size = new System.Drawing.Size(59, 15);
@@ -57,11 +100,19 @@ namespace SayMore.UI
 			this._labelVersionInfo.AutoSize = true;
 			this._labelVersionInfo.BackColor = System.Drawing.Color.Transparent;
 			this._labelVersionInfo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.locExtender.SetLocalizableToolTip(this._labelVersionInfo, null);
+			this.locExtender.SetLocalizationComment(this._labelVersionInfo, null);
+			this.locExtender.SetLocalizingId(this._labelVersionInfo, "SplashScreenForm._labelVersionInfo");
 			this._labelVersionInfo.Location = new System.Drawing.Point(11, 168);
 			this._labelVersionInfo.Name = "_labelVersionInfo";
 			this._labelVersionInfo.Size = new System.Drawing.Size(159, 13);
 			this._labelVersionInfo.TabIndex = 5;
 			this._labelVersionInfo.Text = "Version {0}.{1}.{2}    Built on {3}";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// SplashScreenForm
 			// 
@@ -71,6 +122,10 @@ namespace SayMore.UI
 			this.ClientSize = new System.Drawing.Size(408, 189);
 			this.Controls.Add(this._labelVersionInfo);
 			this.Controls.Add(this._labelLoading);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "SplashScreenForm.WindowTitle");
 			this.Name = "SplashScreenForm";
 			this.Padding = new System.Windows.Forms.Padding(0);
 			this.Text = "SplashScreen";
@@ -81,6 +136,7 @@ namespace SayMore.UI
 			this.m_panel.ResumeLayout(false);
 			this.m_panel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -90,6 +146,7 @@ namespace SayMore.UI
 
 		private System.Windows.Forms.Label _labelLoading;
 		private System.Windows.Forms.Label _labelVersionInfo;
+		private Localization.UI.LocalizationExtender locExtender;
 
 	}
 }

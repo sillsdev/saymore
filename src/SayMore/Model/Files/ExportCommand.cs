@@ -55,10 +55,10 @@ namespace SayMore.Model.Files
 			using(var dlg = new SaveFileDialog())
 			{
 				dlg.RestoreDirectory = true;
-				dlg.Title = "Export Data";
+				dlg.Title = Program.GetString("ExportCommand.ExportFileSaveDlgCaption", "Export Data");
 				dlg.AddExtension = true;
 				dlg.AutoUpgradeEnabled = true;
-				dlg.Filter = "CSV (Comma delimited) (*.csv)|*.csv";
+				dlg.Filter = Program.GetString("ExportCommand.CSVFileFormatText", "CSV (Comma delimited) (*.csv)|*.csv");
 				if (DialogResult.OK == dlg.ShowDialog())
 					DoExport(elements, dlg.FileName);
 			}
@@ -72,7 +72,9 @@ namespace SayMore.Model.Files
 			}
 			catch(Exception e)
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, "Something went wrong with the export.");
+				var msg = Program.GetString("ExportCommand.ExportFailureMsg",
+					"Something went wrong with the export.");
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 		}
 

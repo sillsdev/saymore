@@ -134,7 +134,9 @@ namespace SayMore.Transcription.UI
 			if (ColumnCount > 0)
 				return;
 
-			var hint = "There are no transcription annotations found in\n'{0}'";
+			var hint = Program.GetString("TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg",
+				"There are no transcription annotations found in\n'{0}'", "Parameter is file name.");
+
 			DrawMessageInCenterOfGrid(e.Graphics, string.Format(hint,
 				Path.GetFileName(_annotationFile.PathToAnnotatedFile)), 0);
 		}

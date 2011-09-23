@@ -1,6 +1,7 @@
 using System.Linq;
 using NAudio.Wave;
 using NAudio.Wave.Compression;
+using Palaso.Reporting;
 
 namespace SayMore.AudioUtils
 {
@@ -31,14 +32,20 @@ namespace SayMore.AudioUtils
 				}
 				else
 				{
-					Palaso.Reporting.ErrorReport.NotifyUserOfProblem("There was an error trying to find PCM audio conversion capabilities on this computer. Ensure that you have a PCM sound driver installed.");
+					var msg = Program.GetString("WaveFileUtils.ErrorFindingPcmConversionCapabilitiesMsg",
+						"There was an error trying to find PCM audio conversion capabilities on this computer. Ensure that you have a PCM sound driver installed.");
+
+					ErrorReport.NotifyUserOfProblem(msg);
 				}
 
 				pcmDriver.Close();
 			}
 			else
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem("There was an error trying to find a PCM audio driver on this computer. Ensure that you have a PCM sound driver installed.");
+				var msg = Program.GetString("WaveFileUtils.ErrorFindingPcmAudioDriverMsg",
+					"There was an error trying to find a PCM audio driver on this computer. Ensure that you have a PCM sound driver installed.");
+
+				ErrorReport.NotifyUserOfProblem(msg);
 			}
 
 			return new WaveFormat(bestFormat.SampleRate, bestFormat.BitsPerSample, channels);

@@ -55,7 +55,7 @@ namespace SayMore
 				Settings.Default.Save();
 			}
 
-			SetUpLocalization();
+			//SetUpLocalization();
 
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);

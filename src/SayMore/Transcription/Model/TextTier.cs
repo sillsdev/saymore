@@ -12,7 +12,7 @@ namespace SayMore.Transcription.Model
 		public const string ElanFreeTranslationTierName = "Phrase Free Translation";
 
 		public static string SayMoreFreeTranslationTierName =
-			Program.GetString("TierNames.OriginalRecording","Free Translation");
+			Program.GetString("Model.TierNames.OriginalRecording", "Free Translation");
 
 		/// ------------------------------------------------------------------------------------
 		public TextTier(string displayName) : base(displayName)

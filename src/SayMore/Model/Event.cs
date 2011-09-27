@@ -84,13 +84,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string DefaultElementNamePrefix
 		{
-			get { return Program.GetString("MiscEventViewMessages.NewEventNamePrefix", "New Event"); }
+			get { return Program.GetString("Model.MiscEventViewMessages.NewEventNamePrefix", "New Event"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string NoIdSaveFailureMessage
 		{
-			get { return Program.GetString("MiscEventViewMessages.NoIdSaveFailureMessage", "You must specify an event id."); }
+			get { return Program.GetString("Model.MiscEventViewMessages.NoIdSaveFailureMessage", "You must specify an event id."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ namespace SayMore.Model
 		{
 			get
 			{
-				return Program.GetString("MiscEventViewMessages.EventAlreadyExistsSaveFailureMessage",
+				return Program.GetString("Model.MiscEventViewMessages.EventAlreadyExistsSaveFailureMessage",
 					"Could not rename from {0} to {1} because there is already a event by that name.");
 			}
 		}

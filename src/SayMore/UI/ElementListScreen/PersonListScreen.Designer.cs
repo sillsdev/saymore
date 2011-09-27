@@ -141,7 +141,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.PeopleView";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// PersonListScreen

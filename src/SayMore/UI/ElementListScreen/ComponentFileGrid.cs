@@ -81,6 +81,12 @@ namespace SayMore.UI.ElementListScreen
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 
 			_menuDeleteFile.Click += ((s, e) => DeleteFile());
+
+			Program.RegisterForLocalization(colName, "_grid.colName", "Name", null, "UI.ComponentFileGrid");
+			Program.RegisterForLocalization(colType, "_grid.colType", "Type", null, "UI.ComponentFileGrid");
+			Program.RegisterForLocalization(colDataModified, "_grid.colDataModified", "Date Modified", null, "UI.ComponentFileGrid");
+			Program.RegisterForLocalization(colSize, "_grid.colSize", "Size", null, "UI.ComponentFileGrid");
+			Program.RegisterForLocalization(colDuration, "_grid.colDuration", "Duration", null, "UI.ComponentFileGrid");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -174,7 +180,7 @@ namespace SayMore.UI.ElementListScreen
 			{
 				var rcRow = _grid.GetRowDisplayRectangle(0, false);
 
-				var msg = Program.GetString("ComponentFileGrid.AddFilesPrompt",
+				var msg = Program.GetString("UI.ComponentFileGrid.AddFilesPrompt",
 					"Add additional files related to this event by\ndragging them here or clicking the 'Add Files' button.");
 
 				_grid.DrawMessageInCenterOfGrid(e.Graphics, msg, rcRow.Height);
@@ -499,8 +505,8 @@ namespace SayMore.UI.ElementListScreen
 
 			using (var dlg = new OpenFileDialog())
 			{
-				dlg.Title = Program.GetString("ComponentFileGrid.AddFilesDlgCaption", "Add Files");
-				var prjFilterText = Program.GetString("ComponentFileGrid.AddFilesFileType", "All Files (*.*)");
+				dlg.Title = Program.GetString("UI.ComponentFileGrid.AddFilesDlgCaption", "Add Files");
+				var prjFilterText = Program.GetString("UI.ComponentFileGrid.AddFilesFileType", "All Files (*.*)");
 
 				var folder = Settings.Default.LastFolderForComponentFileAdd;
 				if (folder == null || !Directory.Exists(folder))

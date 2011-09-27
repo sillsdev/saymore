@@ -30,7 +30,7 @@ namespace SayMore.UI.ElementListScreen
 
 			Initialize(_componentsSplitter.Panel2, _eventComponentFileGrid, _eventsListPanel);
 			_eventComponentFileGrid.InitializeGrid("EventScreen",
-				Program.GetString("EventsView.AddEventsButtonToolTip", "Add Files to the Event"));
+				Program.GetString("UI.EventsView.AddEventsButtonToolTip", "Add Files to the Event"));
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 
@@ -39,9 +39,9 @@ namespace SayMore.UI.ElementListScreen
 			MainMenuItem.DropDownItems.Add(_buttonNewFromFiles.Text, null, HandleButtonNewFromFilesClick);
 			MainMenuItem.DropDownItems.Add(new ToolStripSeparator());
 
-			Program.RegisterForLocalization(MainMenuItem, "EventsView._menuEvents");
-			Program.RegisterForLocalization(MainMenuItem.DropDownItems[0], "EventsView._menuAddNewEvent");
-			Program.RegisterForLocalization(MainMenuItem.DropDownItems[1], "EventsView._menuAddNewEventsFromFiles");
+			Program.RegisterForLocalization(MainMenuItem, "UI.EventsView._menuEvents");
+			Program.RegisterForLocalization(MainMenuItem.DropDownItems[0], "UI.EventsView._menuAddNewEvent");
+			Program.RegisterForLocalization(MainMenuItem.DropDownItems[1], "UI.EventsView._menuAddNewEventsFromFiles");
 
 			foreach (var eventMenuItem in _elementsGrid.GetMenuCommands())
 				MainMenuItem.DropDownItems.Add(eventMenuItem);
@@ -104,7 +104,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return Program.GetString("ProjectWindow.EventsTabText", "Events"); }
+			get { return Program.GetString("UI.ProjectWindow.EventsTabText", "Events"); }
 			set { }
 		}
 

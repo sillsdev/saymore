@@ -29,18 +29,11 @@ namespace SayMore.UI.ElementListScreen
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
-			this._grid = new SayMore.UI.ElementListScreen.InternalComponentFileGrid();
-			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
-			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._menuDeleteFile = new System.Windows.Forms.ToolStripMenuItem();
 			this._panelOuter = new SilTools.Controls.SilPanel();
@@ -52,123 +45,19 @@ namespace SayMore.UI.ElementListScreen
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._buttonCreateAnnotationFile = new System.Windows.Forms.ToolStripButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
+			this._grid = new SayMore.UI.ElementListScreen.InternalComponentFileGrid();
+			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
+			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._contextMenuStrip.SuspendLayout();
 			this._panelOuter.SuspendLayout();
 			this._toolStripActions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// _grid
-			// 
-			this._grid.AllowUserToAddRows = false;
-			this._grid.AllowUserToDeleteRows = false;
-			this._grid.AllowUserToOrderColumns = true;
-			this._grid.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			this._grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-			this._grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-			this._grid.BackgroundColor = System.Drawing.SystemColors.Window;
-			this._grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-			this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colIcon,
-            this.colName,
-            this.colType,
-            this.colDataModified,
-            this.colSize,
-            this.colDuration});
-			this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._grid.DrawTextBoxEditControlBorder = false;
-			this._grid.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
-			this._grid.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
-			this._grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(219)))), ((int)(((byte)(180)))));
-			this._grid.IsDirty = false;
-			this.locExtender.SetLocalizableToolTip(this._grid, null);
-			this.locExtender.SetLocalizationComment(this._grid, null);
-			this.locExtender.SetLocalizingId(this._grid, "ComponentFileGrid._grid");
-			this._grid.Location = new System.Drawing.Point(0, 25);
-			this._grid.Margin = new System.Windows.Forms.Padding(0);
-			this._grid.MultiSelect = false;
-			this._grid.Name = "_grid";
-			this._grid.PaintFullRowFocusRectangle = true;
-			this._grid.PaintHeaderAcrossFullGridWidth = true;
-			this._grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			this._grid.RowHeadersVisible = false;
-			this._grid.RowHeadersWidth = 22;
-			this._grid.SelectedCellBackColor = System.Drawing.Color.Empty;
-			this._grid.SelectedCellForeColor = System.Drawing.Color.Empty;
-			this._grid.SelectedRowBackColor = System.Drawing.Color.Empty;
-			this._grid.SelectedRowForeColor = System.Drawing.Color.Empty;
-			this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this._grid.ShowWaterMarkWhenDirty = false;
-			this._grid.Size = new System.Drawing.Size(468, 228);
-			this._grid.StandardTab = true;
-			this._grid.TabIndex = 1;
-			this._grid.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
-			this._grid.VirtualMode = true;
-			this._grid.WaterMark = "!";
-			this._grid.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.HandleFileGridColumnWidthChanged);
-			this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleFileGridKeyDown);
-			// 
-			// colIcon
-			// 
-			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.colIcon.DataPropertyName = "SmallIcon";
-			this.colIcon.HeaderText = "";
-			this.colIcon.Name = "colIcon";
-			this.colIcon.ReadOnly = true;
-			this.colIcon.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.colIcon.Width = 5;
-			// 
-			// colName
-			// 
-			this.colName.DataPropertyName = "FileName";
-			this.colName.HeaderText = "Name";
-			this.colName.Name = "colName";
-			this.colName.ReadOnly = true;
-			// 
-			// colType
-			// 
-			this.colType.DataPropertyName = "FileTypeDescription";
-			this.colType.HeaderText = "Type";
-			this.colType.Name = "colType";
-			this.colType.ReadOnly = true;
-			// 
-			// colDataModified
-			// 
-			this.colDataModified.DataPropertyName = "DateModified";
-			this.colDataModified.HeaderText = "Date Modified";
-			this.colDataModified.Name = "colDataModified";
-			this.colDataModified.ReadOnly = true;
-			this.colDataModified.Width = 107;
-			// 
-			// colSize
-			// 
-			this.colSize.DataPropertyName = "FileSize";
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
-			this.colSize.HeaderText = "Size";
-			this.colSize.Name = "colSize";
-			this.colSize.ReadOnly = true;
-			this.colSize.Width = 52;
-			// 
-			// colDuration
-			// 
-			this.colDuration.DataPropertyName = "DurationString";
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colDuration.DefaultCellStyle = dataGridViewCellStyle4;
-			this.colDuration.HeaderText = "Duration";
-			this.colDuration.Name = "colDuration";
-			this.colDuration.ReadOnly = true;
 			// 
 			// _contextMenuStrip
 			// 
@@ -179,7 +68,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizationPriority(this._contextMenuStrip, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._contextMenuStrip, "ComponentFileGrid._contextMenuStrip");
 			this._contextMenuStrip.Name = "_contextMenuStrip";
-			this._contextMenuStrip.Size = new System.Drawing.Size(153, 48);
+			this._contextMenuStrip.Size = new System.Drawing.Size(129, 26);
 			// 
 			// _menuDeleteFile
 			// 
@@ -320,8 +209,119 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.ComponentFileGrid";
 			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
+			// _grid
+			// 
+			this._grid.AllowUserToAddRows = false;
+			this._grid.AllowUserToDeleteRows = false;
+			this._grid.AllowUserToOrderColumns = true;
+			this._grid.AllowUserToResizeRows = false;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			this._grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			this._grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			this._grid.BackgroundColor = System.Drawing.SystemColors.Window;
+			this._grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+			this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colIcon,
+            this.colName,
+            this.colType,
+            this.colDataModified,
+            this.colSize,
+            this.colDuration});
+			this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._grid.DrawTextBoxEditControlBorder = false;
+			this._grid.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
+			this._grid.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
+			this._grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(219)))), ((int)(((byte)(180)))));
+			this._grid.IsDirty = false;
+			this.locExtender.SetLocalizableToolTip(this._grid, null);
+			this.locExtender.SetLocalizationComment(this._grid, null);
+			this.locExtender.SetLocalizingId(this._grid, "ComponentFileGrid._grid");
+			this._grid.Location = new System.Drawing.Point(0, 25);
+			this._grid.Margin = new System.Windows.Forms.Padding(0);
+			this._grid.MultiSelect = false;
+			this._grid.Name = "_grid";
+			this._grid.PaintFullRowFocusRectangle = true;
+			this._grid.PaintHeaderAcrossFullGridWidth = true;
+			this._grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this._grid.RowHeadersVisible = false;
+			this._grid.RowHeadersWidth = 22;
+			this._grid.SelectedCellBackColor = System.Drawing.Color.Empty;
+			this._grid.SelectedCellForeColor = System.Drawing.Color.Empty;
+			this._grid.SelectedRowBackColor = System.Drawing.Color.Empty;
+			this._grid.SelectedRowForeColor = System.Drawing.Color.Empty;
+			this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this._grid.ShowWaterMarkWhenDirty = false;
+			this._grid.Size = new System.Drawing.Size(468, 228);
+			this._grid.StandardTab = true;
+			this._grid.TabIndex = 1;
+			this._grid.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
+			this._grid.VirtualMode = true;
+			this._grid.WaterMark = "!";
+			this._grid.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.HandleFileGridColumnWidthChanged);
+			this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleFileGridKeyDown);
+			// 
+			// colIcon
+			// 
+			this.colIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this.colIcon.DataPropertyName = "SmallIcon";
+			this.colIcon.HeaderText = "";
+			this.colIcon.Name = "colIcon";
+			this.colIcon.ReadOnly = true;
+			this.colIcon.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.colIcon.Width = 5;
+			// 
+			// colName
+			// 
+			this.colName.DataPropertyName = "FileName";
+			this.colName.HeaderText = "Name";
+			this.colName.Name = "colName";
+			this.colName.ReadOnly = true;
+			// 
+			// colType
+			// 
+			this.colType.DataPropertyName = "FileTypeDescription";
+			this.colType.HeaderText = "Type";
+			this.colType.Name = "colType";
+			this.colType.ReadOnly = true;
+			// 
+			// colDataModified
+			// 
+			this.colDataModified.DataPropertyName = "DateModified";
+			this.colDataModified.HeaderText = "Date Modified";
+			this.colDataModified.Name = "colDataModified";
+			this.colDataModified.ReadOnly = true;
+			this.colDataModified.Width = 107;
+			// 
+			// colSize
+			// 
+			this.colSize.DataPropertyName = "FileSize";
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
+			this.colSize.HeaderText = "Size";
+			this.colSize.Name = "colSize";
+			this.colSize.ReadOnly = true;
+			this.colSize.Width = 52;
+			// 
+			// colDuration
+			// 
+			this.colDuration.DataPropertyName = "DurationString";
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colDuration.DefaultCellStyle = dataGridViewCellStyle4;
+			this.colDuration.HeaderText = "Duration";
+			this.colDuration.Name = "colDuration";
+			this.colDuration.ReadOnly = true;
 			// 
 			// ComponentFileGrid
 			// 
@@ -332,13 +332,13 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizingId(this, "SayMore");
 			this.Name = "ComponentFileGrid";
 			this.Size = new System.Drawing.Size(470, 255);
-			((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
 			this._contextMenuStrip.ResumeLayout(false);
 			this._panelOuter.ResumeLayout(false);
 			this._panelOuter.PerformLayout();
 			this._toolStripActions.ResumeLayout(false);
 			this._toolStripActions.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
 			this.ResumeLayout(false);
 
 		}

@@ -181,7 +181,7 @@ namespace SayMore.Transcription.UI
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.ExportToFieldWorks";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// ExportToFieldWorksInterlinearDlg

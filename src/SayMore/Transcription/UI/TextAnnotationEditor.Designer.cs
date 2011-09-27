@@ -236,7 +236,7 @@ namespace SayMore.Transcription.UI
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.TextAnnotationEditor";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// TextAnnotationEditor

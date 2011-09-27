@@ -298,7 +298,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			//
 			// locExtender
 			//
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.NewEventsFromFilesDlg";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			//
 			// NewEventsFromFilesDlg

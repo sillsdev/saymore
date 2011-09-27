@@ -162,7 +162,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.EventsView";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// EventsListScreen

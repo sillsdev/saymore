@@ -171,14 +171,14 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			if (selectedCount == 0)
 			{
-				var text = Program.GetString("NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText",
+				var text = Program.GetString("UI.NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText",
 					"Create Events", "Text in create button when no files are selected.");
 
 				_buttonCreateEvents.Text = text;
 			}
 			else
 			{
-				var fmt = Program.GetString("NewEventsFromFilesDlg.FilesSelectedCreateButtonText",
+				var fmt = Program.GetString("UI.NewEventsFromFilesDlg.FilesSelectedCreateButtonText",
 					"Create {0} Events", "Format text in create button when one or more files are selected.");
 
 				_buttonCreateEvents.Text = string.Format(fmt, selectedCount);

@@ -59,8 +59,8 @@ namespace SayMore.UI.ElementListScreen
 				_tableLayout.Controls.Add(GetNewRoleLabel(_nameTemplate, text), 1, row);
 
 				text = (role.IsContainedIn(compRoles) ?
-					Program.GetString("StagesControlToolTip.StageCompletedText", "Complete") :
-					Program.GetString("StagesControlToolTip.StageIncompletedText", "Incomplete"));
+					Program.GetString("UI.StagesControlToolTip.StageCompletedText", "Complete") :
+					Program.GetString("UI.StagesControlToolTip.StageIncompletedText", "Incomplete"));
 
 				_tableLayout.Controls.Add(GetNewRoleLabel(_compltedTemplate, text), 2, row);
 

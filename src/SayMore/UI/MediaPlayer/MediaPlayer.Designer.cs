@@ -208,7 +208,7 @@ namespace SayMore.UI.MediaPlayer
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.MediaPlayer";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// MediaPlayer

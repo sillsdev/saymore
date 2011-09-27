@@ -40,7 +40,7 @@ namespace SayMore.UI.Charts
 
 			OpenHtml();
 
-			var text = Program.GetString("ProgressView.HeadingText", "SayMore statistics for {0}", "Parameter is project name.");
+			var text = Program.GetString("UI.ProgressView.HeadingText", "SayMore statistics for {0}", "Parameter is project name.");
 			WriteHtmlHead(string.Format(text, _statsViewModel.ProjectName));
 
 			OpenBody();
@@ -49,7 +49,7 @@ namespace SayMore.UI.Charts
 
 			var backColors = GetStatusSegmentColors();
 			var textColors = backColors.ToDictionary(kvp => kvp.Key, kvp => Color.Empty);
-			text = Program.GetString("ProgressView.ByGenreHeadingText", "By Genre");
+			text = Program.GetString("UI.ProgressView.ByGenreHeadingText", "By Genre");
 			WriteChartByFieldPair(text, "genre", "status", backColors, textColors);
 
 			CloseBody();
@@ -68,7 +68,7 @@ namespace SayMore.UI.Charts
 				x => new ChartBarInfo(x.Key.Name, x.Value, x.Key.Color, x.Key.TextColor))).ToList();
 
 			ChartBarInfo.CalculateBarSizes(barInfoList);
-			var text = Program.GetString("ProgressView.ByStagesHeadingText", "By Stages");
+			var text = Program.GetString("UI.ProgressView.ByStagesHeadingText", "By Stages");
 			WriteChartForList(text, barInfoList, null, false);
 		}
 
@@ -89,7 +89,7 @@ namespace SayMore.UI.Charts
 		/// ------------------------------------------------------------------------------------
 		protected void WriteOverviewSection()
 		{
-			var text = Program.GetString("ProgressView.OverviewHeadingText", "Overview");
+			var text = Program.GetString("UI.ProgressView.OverviewHeadingText", "Overview");
 			WriteHeading(text);
 			OpenTable("overview");
 			OpenTableHead();
@@ -187,7 +187,7 @@ namespace SayMore.UI.Charts
 					WriteBarSegment(seg);
 			}
 
-			var text = Program.GetString("ProgressView.SummaryTotalsTextForOneBar", "{0} events totaling {1} minutes");
+			var text = Program.GetString("UI.ProgressView.SummaryTotalsTextForOneBar", "{0} events totaling {1} minutes");
 			return string.Format(text, barInfo.TotalEvents, barInfo.TotalTime);
 		}
 
@@ -199,8 +199,8 @@ namespace SayMore.UI.Charts
 				barSegInfo.TotalTime.ToString() : kNonBreakingSpace);
 
 			var fmt = (string.IsNullOrEmpty(barSegInfo.FieldValue) ?
-				Program.GetString("ProgressView.SummaryTotalsTextForSegment1", "{0}{1} events totaling {2} minutes") :
-				Program.GetString("ProgressView.SummaryTotalsTextForSegment2", "{0}: {1} events totaling {2} minutes"));
+				Program.GetString("UI.ProgressView.SummaryTotalsTextForSegment1", "{0}{1} events totaling {2} minutes") :
+				Program.GetString("UI.ProgressView.SummaryTotalsTextForSegment2", "{0}: {1} events totaling {2} minutes"));
 
 			var tooltipText = string.Format(fmt, barSegInfo.FieldValue,
 				barSegInfo.Events.Count(), barSegInfo.TotalTime);

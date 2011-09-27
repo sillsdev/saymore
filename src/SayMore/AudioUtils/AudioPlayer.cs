@@ -49,7 +49,7 @@ namespace SayMore.AudioUtils
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("AudioPlayer.LoadFileErrorMsg",
+				var msg = Program.GetString("AudioUtils.AudioPlayer.LoadFileErrorMsg",
 					"There was a problem loading file '{0}' for playback. Perhaps another program has a lock on it.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg, path);

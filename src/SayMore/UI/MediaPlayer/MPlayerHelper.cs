@@ -91,7 +91,7 @@ namespace SayMore.UI.MediaPlayer
 			if (!StartProcess(prs))
 			{
 				prs = null;
-				var msg = Program.GetString("MediaPlayer.UnableToStartMplayerProcessMsg", "Unable to start mplayer.");
+				var msg = Program.GetString("UI.MediaPlayer.UnableToStartMplayerProcessMsg", "Unable to start mplayer.");
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg);
 			}
 

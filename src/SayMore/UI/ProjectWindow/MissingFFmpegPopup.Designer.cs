@@ -67,7 +67,7 @@ namespace SayMore.UI.ProjectWindow
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialogs";
+			this.locExtender.LocalizationGroup = "UI.MissingFFmpegPopup";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// MissingFFmpegPopup

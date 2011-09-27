@@ -138,7 +138,7 @@ namespace SayMore.UI.ElementListScreen
 
 			if (i == _items.Count())
 			{
-				var msg = Program.GetString("ProjectWindow.ElementNoLongerExistsMsg",
+				var msg = Program.GetString("UI.ProjectWindow.ElementNoLongerExistsMsg",
 					"'{0}' doesn't exist in elements collection.");
 
 				throw new ArgumentException(string.Format(msg, element.Id));
@@ -257,7 +257,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ToolStripMenuItem> GetMenuCommands()
 		{
-			var menuText = Program.GetString("ProjectWindow.DeleteElementMenuText", "Delete");
+			var menuText = Program.GetString("UI.ProjectWindow.DeleteElementMenuText", "Delete");
 
 			yield return (DeleteAction == null ? null :
 				new ToolStripMenuItem(menuText, null, (s, e) => DeleteAction()));

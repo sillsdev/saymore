@@ -8,7 +8,7 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		public TimeOrderTier(string filename) :
-			this(Program.GetString("TierNames.OriginalRecording", "Original"), filename)
+			this(Program.GetString("Model.TierNames.OriginalRecording", "Original"), filename)
 		{
 		}
 

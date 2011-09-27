@@ -382,7 +382,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private static bool AskUserToVerifyRemovingFieldEverywhere(string id)
 		{
-			var msg = Program.GetString("FieldsAndValuesGrid.VerifyDeleteFieldQuestion",
+			var msg = Program.GetString("UI.FieldsAndValuesGrid.VerifyDeleteFieldQuestion",
 				"Do you want to delete the field '{0}' and its contents from the entire project?");
 
 			using (var dlg = new DeleteMessageBox(string.Format(msg, id)))

@@ -42,7 +42,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this._labelMessage.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
 			this.locExtender.SetLocalizableToolTip(this._labelMessage, null);
 			this.locExtender.SetLocalizationComment(this._labelMessage, null);
-			this.locExtender.SetLocalizingId(this._labelMessage, "NewProjectDialog._labelMessage");
+			this.locExtender.SetLocalizingId(this._labelMessage, "NewProjectDlg._labelMessage");
 			this._labelMessage.Location = new System.Drawing.Point(12, 22);
 			this._labelMessage.Name = "_labelMessage";
 			this._labelMessage.Size = new System.Drawing.Size(258, 17);
@@ -55,7 +55,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
 			this.locExtender.SetLocalizationComment(this._buttonOK, null);
-			this.locExtender.SetLocalizingId(this._buttonOK, "NewProjectDialog._buttonOK");
+			this.locExtender.SetLocalizingId(this._buttonOK, "NewProjectDlg._buttonOK");
 			this._buttonOK.Location = new System.Drawing.Point(181, 120);
 			this._buttonOK.Name = "_buttonOK";
 			this._buttonOK.Size = new System.Drawing.Size(80, 26);
@@ -69,7 +69,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "NewProjectDialog._buttonCancel");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "NewProjectDlg._buttonCancel");
 			this._buttonCancel.Location = new System.Drawing.Point(267, 120);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._buttonCancel.Size = new System.Drawing.Size(80, 26);
@@ -103,7 +103,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this.locExtender.SetLocalizableToolTip(this._labelNewProjectPath, null);
 			this.locExtender.SetLocalizationComment(this._labelNewProjectPath, "This text is displayed under the project name and includes where it will be creat" +
         "ed.");
-			this.locExtender.SetLocalizingId(this._labelNewProjectPath, "NewProjectDialog._labelNewProjectPath");
+			this.locExtender.SetLocalizingId(this._labelNewProjectPath, "NewProjectDlg._labelNewProjectPath");
 			this._labelNewProjectPath.Location = new System.Drawing.Point(12, 73);
 			this._labelNewProjectPath.Name = "_labelNewProjectPath";
 			this._labelNewProjectPath.Size = new System.Drawing.Size(335, 44);
@@ -112,7 +112,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationGroup = "UI.NewProjectDlg";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// NewProjectDlg
@@ -132,7 +132,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "NewProjectDialog.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "NewProjectDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "NewProjectDlg";

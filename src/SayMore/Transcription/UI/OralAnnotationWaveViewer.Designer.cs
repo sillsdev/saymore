@@ -156,7 +156,7 @@ namespace SayMore.Transcription.UI
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.OralAnnotationWaveViewer";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// OralAnnotationWaveViewer

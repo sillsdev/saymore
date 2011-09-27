@@ -71,31 +71,31 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetNotesTabText()
 		{
-			return Program.GetString("FileType.NotesTabText", "Notes");
+			return Program.GetString("Model.FileType.NotesTabText", "Notes");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetPropertiesTabText()
 		{
-			return Program.GetString("FileType.PropertiesTabText", "Properties");
+			return Program.GetString("Model.FileType.PropertiesTabText", "Properties");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetContributionsTabText()
 		{
-			return Program.GetString("FileType.ContributorsTabText", "Contributors");
+			return Program.GetString("Model.FileType.ContributorsTabText", "Contributors");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetShowInFileExplorerMenuText()
 		{
-			return Program.GetString("FileType.ShowInFileExplorerMenuText", "Show in File Explorer...");
+			return Program.GetString("Model.FileType.ShowInFileExplorerMenuText", "Show in File Explorer...");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetOpenInAssociatedProgramMenuText()
 		{
-			return Program.GetString("FileType.OpenInAssociatedProgramMenuText", "Open in Program Associated with this File ...");
+			return Program.GetString("Model.FileType.OpenInAssociatedProgramMenuText", "Open in Program Associated with this File ...");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -282,14 +282,14 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
-			var col = SilGrid.CreateTextBoxColumn(Program.GetString("PersonFileType.IdColumnHeadingText", "Id"));
+			var col = SilGrid.CreateTextBoxColumn(Program.GetString("Model.PersonFileType.IdColumnHeadingText", "Id"));
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.Frozen = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateImageColumn(Program.GetString("PersonFileType.ConsentColumnHeadingText", "Consent"));
+			col = SilGrid.CreateImageColumn(Program.GetString("Model.PersonFileType.ConsentColumnHeadingText", "Consent"));
 			col.DataPropertyName = "consent";
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
@@ -304,7 +304,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("PersonFileType.PersonTabText", "Person");
+			var text = Program.GetString("Model.PersonFileType.PersonTabText", "Person");
 			yield return _personBasicEditorFactoryLazy()(file, text, "Person");
 
 			yield return new NotesEditor(file, GetNotesTabText());
@@ -384,46 +384,46 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
-			var col = SilGrid.CreateTextBoxColumn(Program.GetString("EventFileType.IdColumnHeadingText", "Id"));
+			var col = SilGrid.CreateTextBoxColumn(Program.GetString("Model.EventFileType.IdColumnHeadingText", "Id"));
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			//col.Frozen = true;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn(Program.GetString("EventFileType.TitleColumnHeadingText", "Title"));
+			col = SilGrid.CreateTextBoxColumn(Program.GetString("Model.EventFileType.TitleColumnHeadingText", "Title"));
 			col.DataPropertyName = "title";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateImageColumn(Program.GetString("EventFileType.StagesColumnHeadingText", "Stages"));
+			col = SilGrid.CreateImageColumn(Program.GetString("Model.EventFileType.StagesColumnHeadingText", "Stages"));
 			col.DataPropertyName = "stages";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateImageColumn(Program.GetString("EventFileType.StatusColumnHeadingText", "Status"));
+			col = SilGrid.CreateImageColumn(Program.GetString("Model.EventFileType.StatusColumnHeadingText", "Status"));
 			col.DataPropertyName = "status";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn(Program.GetString("EventFileType.DateColumnHeadingText", "Date"));
+			col = SilGrid.CreateTextBoxColumn(Program.GetString("Model.EventFileType.DateColumnHeadingText", "Date"));
 			col.DataPropertyName = "date";
 			col.ReadOnly = true;
 			col.Visible = false;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn(Program.GetString("EventFileType.GenreColumnHeadingText", "Genre"));
+			col = SilGrid.CreateTextBoxColumn(Program.GetString("Model.EventFileType.GenreColumnHeadingText", "Genre"));
 			col.DataPropertyName = "genre";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			col.Visible = false;
 			yield return col;
 
-			col = SilGrid.CreateTextBoxColumn(Program.GetString("EventFileType.LocationColumnHeadingText", "Location"));
+			col = SilGrid.CreateTextBoxColumn(Program.GetString("Model.EventFileType.LocationColumnHeadingText", "Location"));
 			col.DataPropertyName = "location";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -434,7 +434,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("EventFileType.EventTabText", "Event");
+			var text = Program.GetString("Model.EventFileType.EventTabText", "Event");
 			yield return _eventBasicEditorFactoryLazy()(file, text, "Event");
 
 			yield return new NotesEditor(file, GetNotesTabText());
@@ -494,7 +494,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("AnnotationFileType.AnnotationTabText", "Annotations");
+			var text = Program.GetString("Model.AnnotationFileType.AnnotationTabText", "Annotations");
 			yield return new TextAnnotationEditor(file, text, "Annotation");
 
 			yield return _contributorsEditorFactoryLazy()(file, GetContributionsTabText(), null);
@@ -532,7 +532,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("OralAnnotationFileType.OralAnnotationTabText", "Generated Audio");
+			var text = Program.GetString("Model.OralAnnotationFileType.OralAnnotationTabText", "Generated Audio");
 			yield return new OralAnnotationEditor(file, text);
 
 			yield return _audioComponentEditorFactoryLazy()(file, GetPropertiesTabText(), null);
@@ -584,7 +584,7 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Audio_Bit_Rate",
-				Suffix = Program.GetString("AudioVideoFileType.AudioBitRateSuffix", "kbps"),
+				Suffix = Program.GetString("Model.AudioVideoFileType.AudioBitRateSuffix", "kbps"),
 				DataItemChooser = (info => info.AudioBitRate),
 				GetFormatedStatProvider = GetStringStatistic
 			};
@@ -592,7 +592,7 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Video_Bit_Rate",
-				Suffix = Program.GetString("AudioVideoFileType.VideoBitRateSuffix", "kbps"),
+				Suffix = Program.GetString("Model.AudioVideoFileType.VideoBitRateSuffix", "kbps"),
 				DataItemChooser = (info => info.VideoBitRate),
 				GetFormatedStatProvider = GetStringStatistic
 			};
@@ -600,7 +600,7 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Sample_Rate",
-				Suffix = Program.GetString("AudioVideoFileType.SampleRateSuffix", "Hz"),
+				Suffix = Program.GetString("Model.AudioVideoFileType.SampleRateSuffix", "Hz"),
 				DataItemChooser = (info => info.SamplesPerSecond),
 				GetFormatedStatProvider = GetStringStatistic
 			};
@@ -608,7 +608,7 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Bit_Depth",
-				Suffix = Program.GetString("AudioVideoFileType.BitDepthSuffix", "bits"),
+				Suffix = Program.GetString("Model.AudioVideoFileType.BitDepthSuffix", "bits"),
 				DataItemChooser = (info => info.BitDepth == 0 ? null : info.BitDepth.ToString()),
 				GetFormatedStatProvider = GetStringStatistic
 			};
@@ -630,7 +630,7 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Frame_Rate",
-				Suffix = Program.GetString("AudioVideoFileType.FrameRateSuffix", "frames/second"),
+				Suffix = Program.GetString("Model.AudioVideoFileType.FrameRateSuffix", "frames/second"),
 				DataItemChooser = (info => info.FramesPerSecond),
 				GetFormatedStatProvider = GetStringStatistic
 			};
@@ -660,8 +660,8 @@ namespace SayMore.Model.Files
 			{
 				case "-1": return string.Empty;
 				case "0": return string.Empty;
-				case "1": return Program.GetString("AudioVideoFileType.MonoLabel", "mono");
-				case "2": return Program.GetString("AudioVideoFileType.StereoLabel", "stereo");
+				case "1": return Program.GetString("Model.AudioVideoFileType.MonoLabel", "mono");
+				case "2": return Program.GetString("Model.AudioVideoFileType.StereoLabel", "stereo");
 			}
 
 			return channels;
@@ -787,7 +787,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("AudioFileType.AudioTabText", "Audio");
+			var text = Program.GetString("Model.AudioFileType.AudioTabText", "Audio");
 			yield return new AudioVideoPlayer(file, text, "Audio");
 
 			yield return _audioComponentEditorFactoryLazy()(file, GetPropertiesTabText(), null);
@@ -867,12 +867,12 @@ namespace SayMore.Model.Files
 			{
 				commands.Add(null); // Separator
 
-				var menuText = Program.GetString("VideoFileType.ExtractMp3AudioMenuText",
+				var menuText = Program.GetString("Model.VideoFileType.ExtractMp3AudioMenuText",
 					"Extract Audio to mono MP3 File (low quality)");
 
 				commands.Add(new FileCommand(menuText, ExtractMp3Audio, "convert"));
 
-				menuText = Program.GetString("VideoFileType.ExtractWavAudioMenuText",
+				menuText = Program.GetString("Model.VideoFileType.ExtractWavAudioMenuText",
 					"Extract Audio to Wave File");
 
 				commands.Add(new FileCommand(menuText, ExtractWavAudio, "convert"));
@@ -923,7 +923,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private string GetFFmpegConversionError()
 		{
-			return Program.GetString("VideoFileType.FFmpegReturnErrorMsg",
+			return Program.GetString("Model.VideoFileType.FFmpegReturnErrorMsg",
 				"Something didn't work out. FFmpeg said (start reading from the end): {0}\n\n");
 
 		}
@@ -932,7 +932,7 @@ namespace SayMore.Model.Files
 		{
 			if (!MediaInfo.HaveNecessaryComponents)
 			{
-				var msg = Program.GetString("VideoFileType.FFmpegMissingErrorMsg",
+				var msg = Program.GetString("Model.VideoFileType.FFmpegMissingErrorMsg",
 					"SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
 
 				ErrorReport.NotifyUserOfProblem(msg);
@@ -944,7 +944,7 @@ namespace SayMore.Model.Files
 				//todo ask the user (or don't offer this in the first place)
 				//File.Delete(outputPath);
 
-				var msg = Program.GetString("VideoFileType.FileAlreadyExistsDuringFFmpegConversionErrorMsg",
+				var msg = Program.GetString("Model.VideoFileType.FileAlreadyExistsDuringFFmpegConversionErrorMsg",
 					"Sorry, the file '{0}' already exists.");
 
 				ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(outputPath));
@@ -959,7 +959,7 @@ namespace SayMore.Model.Files
 		{
 			// TODO: Localize these strings.
 
-			var text = Program.GetString("VideoFileType.VideoTabText", "Video");
+			var text = Program.GetString("Model.VideoFileType.VideoTabText", "Video");
 			yield return new AudioVideoPlayer(file, text, "Video");
 
 			yield return _videoComponentEditorFactoryLazy()(file, GetPropertiesTabText(), null);
@@ -1001,7 +1001,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("ImageFileType.ImageTabText", "Image");
+			var text = Program.GetString("Model.ImageFileType.ImageTabText", "Image");
 			yield return new ImageViewer(file, text);
 
 			yield return _basicFieldGridEditorFactoryLazy()(file, GetPropertiesTabText(), null);

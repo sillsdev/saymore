@@ -39,7 +39,7 @@ namespace SayMore.UI.ProjectWindow
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Main Window";
+			this.locExtender.LocalizationGroup = "UI.ProjectWindow";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// _mainMenuStrip

@@ -147,7 +147,7 @@ namespace SayMore.UI.LowLevelControls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.DeleteMessageBox";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// DeleteMessageBox

@@ -94,7 +94,7 @@ namespace SayMore.UI.ProjectWindow
 		private void SetWindowText()
 		{
 			var ver = Assembly.GetExecutingAssembly().GetName().Version;
-			var fmt = Program.GetString("ProjectWindow.WindowTitleWithProject", "{0} - SayMore {1}.{2}.{3}");
+			var fmt = Program.GetString("UI.ProjectWindow.WindowTitleWithProject", "{0} - SayMore {1}.{2}.{3}");
 			Text = string.Format(fmt, _projectName, ver.Major, ver.Minor, ver.Build);
 		}
 

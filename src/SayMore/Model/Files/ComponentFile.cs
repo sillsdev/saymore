@@ -631,7 +631,7 @@ namespace SayMore.Model.Files
 				if (addSeparator)
 					yield return new ToolStripSeparator();
 
-				var menuText = Program.GetString("ComponentFile.CreateAnnotationFileMenuItemText",
+				var menuText = Program.GetString("Model.ComponentFile.CreateAnnotationFileMenuItemText",
 					"Create Annotation File...");
 
 				yield return new ToolStripMenuItem(menuText, null,
@@ -677,7 +677,7 @@ namespace SayMore.Model.Files
 			foreach (var role in GetRelevantComponentRoles().Where(role => role.IsPotential(PathToAnnotatedFile)))
 			{
 				string menuText = string.Format(
-					Program.GetString("ComponentFile.RenameMenuItemFormatString", "Rename For {0}"), role.Name);
+					Program.GetString("Model.ComponentFile.RenameMenuItemFormatString", "Rename For {0}"), role.Name);
 
 				var role1 = role;
 				// Disable if the file is already named appropriately for this role
@@ -762,7 +762,7 @@ namespace SayMore.Model.Files
 
 				if (File.Exists(newPath))
 				{
-					var msg = Program.GetString("ComponentFile.CannotRenameFileErrorMsg",
+					var msg = Program.GetString("Model.ComponentFile.CannotRenameFileErrorMsg",
 						"{0} could not rename the file to '{1}' because there is already a file with that name.");
 
 					ErrorReport.NotifyUserOfProblem(msg, Application.ProductName, newPath);
@@ -771,7 +771,7 @@ namespace SayMore.Model.Files
 
 				if (renameMetaFile && File.Exists(newMetaPath))
 				{
-					var msg = Program.GetString("ComponentFile.CannotRenameMetadataFileErrorMsg",
+					var msg = Program.GetString("Model.ComponentFile.CannotRenameMetadataFileErrorMsg",
 						"{0} could not rename the meta data file to '{1}' because there is already a file with that name.");
 
 					ErrorReport.NotifyUserOfProblem(msg, Application.ProductName, newMetaPath);
@@ -789,7 +789,7 @@ namespace SayMore.Model.Files
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("ComponentFile.CannotRenameFileGenericErrorMsg",
+				var msg = Program.GetString("Model.ComponentFile.CannotRenameFileGenericErrorMsg",
 					"Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.");
 
 				ErrorReport.NotifyUserOfProblem(e, msg);
@@ -844,20 +844,20 @@ namespace SayMore.Model.Files
 		public static string GetDisplayableFileSize(long fileSize, bool abbreviateFileSizeUnits)
 		{
 			var fmtBytes = (abbreviateFileSizeUnits ?
-				Program.GetString("ComponentFile.FileSizeBytesAbbreviation", "{0} B") :
-				Program.GetString("ComponentFile.FileSizeBytes", "{0} Bytes"));
+				Program.GetString("Model.ComponentFile.FileSizeBytesAbbreviation", "{0} B") :
+				Program.GetString("Model.ComponentFile.FileSizeBytes", "{0} Bytes"));
 
 			var fmtKilobytes = (abbreviateFileSizeUnits ?
-				Program.GetString("ComponentFile.FileSizeKilobytesAbbreviation", "{0} KB") :
-				Program.GetString("ComponentFile.FileSizeKilobytes", "{0} Kilobytes"));
+				Program.GetString("Model.ComponentFile.FileSizeKilobytesAbbreviation", "{0} KB") :
+				Program.GetString("Model.ComponentFile.FileSizeKilobytes", "{0} Kilobytes"));
 
 			var fmtMegabytes = (abbreviateFileSizeUnits ?
-				Program.GetString("ComponentFile.FileSizeMegabytesAbbreviation", "{0} MB") :
-				Program.GetString("ComponentFile.FileSizeMegabytes", "{0} Megabytes"));
+				Program.GetString("Model.ComponentFile.FileSizeMegabytesAbbreviation", "{0} MB") :
+				Program.GetString("Model.ComponentFile.FileSizeMegabytes", "{0} Megabytes"));
 
 			var fmtGigabytes = (abbreviateFileSizeUnits ?
-				Program.GetString("ComponentFile.FileSizeGigabytesAbbreviation", "{0} GB") :
-				Program.GetString("ComponentFile.FileSizeGigabytes", "{0} Gigabytes"));
+				Program.GetString("Model.ComponentFile.FileSizeGigabytesAbbreviation", "{0} GB") :
+				Program.GetString("Model.ComponentFile.FileSizeGigabytes", "{0} Gigabytes"));
 
 			if (fileSize < 1000)
 				return string.Format(fmtBytes, fileSize);

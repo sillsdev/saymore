@@ -67,7 +67,7 @@ namespace SayMore.UI
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.LoadingDlg";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// LoadingDlg

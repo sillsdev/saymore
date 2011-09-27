@@ -274,7 +274,7 @@ namespace SayMore.Model
 				// directory itself will fail, and find that out *before* we do the file renamings
 				if (!CanPerformRename())
 				{
-					failureMessage = Program.GetString("ProjectElement.ChangeIdFailureMsg",
+					failureMessage = Program.GetString("Model.ProjectElement.ChangeIdFailureMsg",
 						"Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.");
 
 					return false;

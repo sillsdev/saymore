@@ -94,7 +94,7 @@ namespace SayMore.UI.ElementListScreen
 			var cmds = base.GetMenuCommands().ToList();
 
 			cmds.Insert(0, new ToolStripMenuItem(
-				Program.GetString("EventsView.RampArchiveMenuText", "Archive with RAMP (SIL)..."),
+				Program.GetString("UI.EventsView.RampArchiveMenuText", "Archive with RAMP (SIL)..."),
 				Resources.RampIcon, (s, e) => ((Event)GetCurrentElement()).CreateArchiveFile()));
 
 			return cmds;
@@ -133,7 +133,7 @@ namespace SayMore.UI.ElementListScreen
 				var value = base.GetValueForField(_items.ElementAt(e.RowIndex), "status");
 
 				e.ToolTipText = string.Format(
-					Program.GetString("EventsView.EventStatusTooltipFormatText", "Status: {0}"), value);
+					Program.GetString("UI.EventsView.EventStatusTooltipFormatText", "Status: {0}"), value);
 			}
 
 			base.OnCellToolTipTextNeeded(e);

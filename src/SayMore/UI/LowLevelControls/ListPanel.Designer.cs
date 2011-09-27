@@ -36,7 +36,7 @@ namespace SayMore.UI.LowLevelControls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "";
+			this.locExtender.LocalizationGroup = "UI.ListPanel";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// _outerPanel

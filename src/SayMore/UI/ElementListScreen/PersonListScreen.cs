@@ -24,7 +24,7 @@ namespace SayMore.UI.ElementListScreen
 
 			Initialize(_componentsSplitter.Panel2, _personComponentFileGrid, _peopleListPanel);
 			_personComponentFileGrid.InitializeGrid("PersonScreen",
-				Program.GetString("PeopleView.AddPersonButtonToolTip", "Add Files for the Person"));
+				Program.GetString("UI.PeopleView.AddPersonButtonToolTip", "Add Files for the Person"));
 
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
 				_labelClickNewHelpPrompt.Visible = false;
@@ -62,7 +62,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return Program.GetString("PeopleView.PeopleTabText", "People"); }
+			get { return Program.GetString("UI.PeopleView.PeopleTabText", "People"); }
 			set { }
 		}
 

@@ -167,7 +167,7 @@ namespace SayMore
 
 			_applicationContainer.CloseSplashScreen();
 
-			var msg = GetString("ProjectWindow.LoadingProjectErrorMsg",
+			var msg = GetString("UI.ProjectWindow.LoadingProjectErrorMsg",
 				"{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.");
 
 			ErrorReport.NotifyUserOfProblem(new ShowAlwaysPolicy(), error, msg,
@@ -380,12 +380,12 @@ namespace SayMore
 
 		/// ------------------------------------------------------------------------------------
 		internal static void RegisterForLocalization(object obj, string id,
-			string defaultText, string comment)
+			string defaultText, string comment, string group)
 		{
 			if (L10NMngr == null)
 				return;
 
-			L10NMngr.LocalizeObject(obj, id, defaultText, null, comment);
+			L10NMngr.LocalizeObject(obj, id, defaultText, null, comment, group);
 			L10NMngr.LocalizeObject(obj, id);
 		}
 

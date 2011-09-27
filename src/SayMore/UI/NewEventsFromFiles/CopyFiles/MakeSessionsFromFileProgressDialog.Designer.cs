@@ -71,7 +71,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.MakeEventsFromFileProgressDlg";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// MakeEventsFromFileProgressDialog

@@ -308,7 +308,7 @@ namespace SayMore.Transcription.UI
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationGroup = "UI.CreateAnnotationFileDlg";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// CreateAnnotationFileDlg

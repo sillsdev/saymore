@@ -54,7 +54,7 @@ namespace SayMore.UI.Overview
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return Program.GetString("ProgressView.ProgressTabText", "Progress"); }
+			get { return Program.GetString("UI.ProgressView.ProgressTabText", "Progress"); }
 			set { }
 		}
 

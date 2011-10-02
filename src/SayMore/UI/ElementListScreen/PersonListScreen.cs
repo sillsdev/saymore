@@ -60,13 +60,6 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string Text
-		{
-			get { return Program.GetString("UI.PeopleView.PeopleTabText", "People"); }
-			set { }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public Image Image
 		{
 			get { return Resources.People; }
@@ -94,6 +87,15 @@ namespace SayMore.UI.ElementListScreen
 		protected override Color ComponentEditorBorderColor
 		{
 			get { return Settings.Default.PersonEditorsBorderColor; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void AddTabToTabGroup(ViewTabGroup viewTabGroup)
+		{
+			var tab = viewTabGroup.AddTab(this);
+			tab.Name = "PeopleViewTab"; // for tests
+			tab.Text = Program.GetString("UI.PeopleView.TabText", "People", null, "People View", null, tab);
+			Text = tab.Text;
 		}
 
 		/// ------------------------------------------------------------------------------------

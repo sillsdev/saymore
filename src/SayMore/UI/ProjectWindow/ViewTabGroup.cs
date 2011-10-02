@@ -19,8 +19,6 @@ namespace SayMore.UI.ProjectWindow
 		private const TextFormatFlags kTxtFmtFlags = TextFormatFlags.VerticalCenter |
 			TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
-		//private SilGradientPanel _panelCaption;
-		//private string m_captionText;
 		private Panel _panelHdrBand;
 		private Panel _panelTabs;
 		private Panel _panelUndock;
@@ -63,10 +61,6 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -79,12 +73,6 @@ namespace SayMore.UI.ProjectWindow
 							Tabs[i].Dispose();
 					}
 				}
-
-				//if (_panelCaption != null && !_panelCaption.IsDisposed)
-				//{
-				//    _panelCaption.Paint -= m_pnlCaption_Paint;
-				//    _panelCaption.Dispose();
-				//}
 			}
 
 			base.Dispose(disposing);
@@ -105,7 +93,7 @@ namespace SayMore.UI.ProjectWindow
 			_panelHdrBand.Paint += m_pnlHdrBand_Paint;
 			_panelHdrBand.Resize += m_pnlHdrBand_Resize;
 
-			using (Graphics g = CreateGraphics())
+			using (var g = CreateGraphics())
 			{
 				_panelHdrBand.Height = TextRenderer.MeasureText(g, "X",
 					TabFont, Size.Empty, kTxtFmtFlags).Height + 27;
@@ -155,10 +143,6 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetupScrollPanel()
 		{
 			// Create the panel that will hold the close button
@@ -202,7 +186,7 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		public void CloseAllViews()
 		{
-			foreach (ViewTab tab in Tabs)
+			foreach (var tab in Tabs)
 				tab.CloseView();
 
 			AdjustTabContainerWidth(true);
@@ -225,114 +209,44 @@ namespace SayMore.UI.ProjectWindow
 
 		#region Tab managment methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ViewTab AddTab(string tooltip, Control view)
+		public ViewTab AddTab(Control view)
 		{
 			if (_panelTabs.Left > 0)
 				_panelTabs.Left = 0;
 
-			var tab = new ViewTab(this, view);
+			var tab = new ViewTab(this, view, TabTextChanged);
 			tab.Click += HandleTabClick;
-
-			// Get the text's width.
-			using (Graphics g = CreateGraphics())
-			{
-				tab.Width = TextRenderer.MeasureText(g, tab.Text, tab.Font,
-					Size.Empty, kTxtFmtFlags).Width;
-
-				if (view is ISayMoreView && ((ISayMoreView)view).Image != null)
-					tab.Width += (((ISayMoreView)view).Image.Width + 5);
-			}
-
-			tab.Width += 6;
+			Tabs.Add(tab);
 			_panelTabs.Controls.Add(tab);
 			tab.BringToFront();
-			Tabs.Add(tab);
-			AdjustTabContainerWidth(true);
-
-			if (tooltip != null)
-				_tooltip.SetToolTip(tab, tooltip);
-
 			return tab;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
+		private void TabTextChanged(ViewTab tab)
+		{
+			// Get the text's width.
+			using (var g = CreateGraphics())
+			{
+				tab.Width = TextRenderer.MeasureText(g, tab.Text, tab.Font,
+					Size.Empty, kTxtFmtFlags).Width;
+
+				if (tab.View is ISayMoreView && ((ISayMoreView)tab.View).Image != null)
+					tab.Width += (((ISayMoreView)tab.View).Image.Width + 5);
+			}
+
+			tab.Width += 6;
+			AdjustTabContainerWidth(true);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void AdjustTabContainerWidth(bool includeInVisibleTabs)
 		{
-			int totalWidth = 0;
-			foreach (ViewTab tab in Tabs)
-			{
-				if (tab.Visible || includeInVisibleTabs)
-					totalWidth += tab.Width;
-			}
-
+			int totalWidth = Tabs.Where(tab => tab.Visible || includeInVisibleTabs).Sum(tab => tab.Width);
 			_panelTabs.Width = totalWidth + _panelTabs.Padding.Left + _panelTabs.Padding.Right;
 			RefreshScrollButtonPanel();
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		/////
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//internal void SetActiveView(ITabView view, bool activateViewsForm)
-		//{
-			//if (view == null)
-			//    return;
-
-			//foreach (ViewTab tab in m_tabs)
-			//{
-			//    if (tab.View is ITabView)
-			//    {
-			//        ITabView tabsView = tab.View as ITabView;
-			//        bool active = (tabsView == view);
-			//        tabsView.SetViewActive(active, tab.IsViewDocked);
-			//    }
-			//}
-
-			//App.CurrentView = view;
-			//App.CurrentViewType = view.GetType();
-
-			//Control ctrl = view as Control;
-			//if (activateViewsForm && ctrl != null && ctrl.FindForm() != null)
-			//{
-			//    if (ctrl.FindForm().WindowState == FormWindowState.Minimized)
-			//        ctrl.FindForm().WindowState = FormWindowState.Normal;
-
-			//    ctrl.FindForm().Activate();
-			//}
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Activates the tab whose view is the specified type.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public Control ActivateView(Type viewType)
-		//{
-		//    //ViewTab tab = GetTab(viewType);
-		//    //if (tab != null)
-		//    //{
-		//    //    SelectTab(tab);
-		//    //    SetActiveView(tab.View as ITabView, true);
-		//    //    return tab.View;
-		//    //}
-
-		//    return null;
-		//}
-
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void EnsureTabVisible(ViewTab tab)
 		{
@@ -360,10 +274,6 @@ namespace SayMore.UI.ProjectWindow
 			RefreshScrollButtonPanel();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleTabClick(object sender, EventArgs e)
 		{
@@ -424,56 +334,6 @@ namespace SayMore.UI.ProjectWindow
 			Utils.SetWindowRedraw(this, true);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Handles the undock view message from the global message mediator.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnUnDockView(object args)
-		//{
-		//    int visibleCount = 0;
-
-		//    foreach (Control ctrl in m_pnlTabs.Controls)
-		//    {
-		//        if (ctrl.Visible)
-		//            visibleCount++;
-		//    }
-
-		//    // Don't undock the last tab.
-		//    if (m_currTab != null && visibleCount > 1)
-		//        m_currTab.IsViewDocked = false;
-
-		//    return true;
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void ViewWasDocked(ViewTab tab)
-		{
-			AdjustTabContainerWidth(false);
-		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// This method will make sure that, when a view is undocked, one of the other
-		///// remaining docked views is made active.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//internal void ViewWasUnDocked(ViewTab tab)
-		//{
-		//    Application.DoEvents();
-
-		//    // One of these has to succeed.
-		//    ViewTab newTab = FindFirstVisibleTabToLeft(tab) ?? FindFirstVisibleTabToRight(tab);
-		//    if (newTab != null)
-		//        SelectTab(newTab);
-
-		//    AdjustTabContainerWidth(false);
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns the first visible tab to the left of the specified tab.
@@ -518,27 +378,19 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		public bool IsRightAdjacentTabSelected(ViewTab tab)
 		{
-			ViewTab adjacentTab = FindFirstVisibleTabToRight(tab);
-			return (adjacentTab == null ? false : adjacentTab.Selected);
+			var adjacentTab = FindFirstVisibleTabToRight(tab);
+			return (adjacentTab != null && adjacentTab.Selected);
 		}
 
 		#endregion
 
 		#region Methods for managing scrolling of the tabs
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_pnlHdrBand_Resize(object sender, EventArgs e)
 		{
 			RefreshScrollButtonPanel();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void RefreshScrollButtonPanel()
 		{
@@ -575,7 +427,7 @@ namespace SayMore.UI.ProjectWindow
 
 			// Find the furthest right tab that is partially
 			// obscurred and needs to be scrolled into view.
-			foreach (ViewTab tab in Tabs)
+			foreach (var tab in Tabs)
 			{
 				if (left < 0 && left + tab.Width >= 0)
 				{
@@ -599,7 +451,7 @@ namespace SayMore.UI.ProjectWindow
 
 			// Find the furthest left tab that is partially
 			// obscurred and needs to be scrolled into view.
-			foreach (ViewTab tab in Tabs)
+			foreach (var tab in Tabs)
 			{
 				if (left <= _panelScroll.Left && left + tab.Width > _panelScroll.Left)
 				{
@@ -621,7 +473,7 @@ namespace SayMore.UI.ProjectWindow
 		{
 			float dx = Math.Abs(_panelTabs.Left - newLeft);
 			int pixelsPerIncrement = (int)Math.Ceiling(dx / 75f);
-			bool slidingLeft = (newLeft < _panelTabs.Left);
+			var slidingLeft = (newLeft < _panelTabs.Left);
 
 			while (_panelTabs.Left != newLeft)
 			{
@@ -649,41 +501,14 @@ namespace SayMore.UI.ProjectWindow
 		#endregion
 
 		#region Painting methods
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Draw the current view's text in the caption bar.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//void m_pnlCaption_Paint(object sender, PaintEventArgs e)
-		//{
-		//    if (string.IsNullOrEmpty(m_captionText))
-		//        return;
-
-		//    Rectangle rc = _panelCaption.ClientRectangle;
-		//    rc.X += 6;
-		//    rc.Width -= 6;
-
-		//    const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
-		//        TextFormatFlags.SingleLine | TextFormatFlags.Left |
-		//        TextFormatFlags.HidePrefix | TextFormatFlags.EndEllipsis |
-		//        TextFormatFlags.PreserveGraphicsClipping;
-
-		//    TextRenderer.DrawText(e.Graphics, m_captionText, _panelCaption.Font,
-		//        rc, SystemColors.ActiveCaptionText, kFlags);
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void m_pnlHdrBand_Paint(object sender, PaintEventArgs e)
 		{
-			Rectangle rc = _panelHdrBand.ClientRectangle;
+			var rc = _panelHdrBand.ClientRectangle;
 			int y = rc.Bottom - 6;
 			e.Graphics.DrawLine(SystemPens.ControlDark, rc.Left, y, rc.Right, y);
 
-			using (SolidBrush br = new SolidBrush(Color.White))
+			using (var br = new SolidBrush(Color.White))
 				e.Graphics.FillRectangle(br, rc.Left, y + 1, rc.Right, rc.Bottom);
 		}
 
@@ -694,12 +519,12 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		static void HandleLinePaint(object sender, PaintEventArgs e)
 		{
-			Panel pnl = sender as Panel;
+			var pnl = sender as Panel;
 
 			if (pnl == null)
 				return;
 
-			Rectangle rc = pnl.ClientRectangle;
+			var rc = pnl.ClientRectangle;
 			int y = rc.Bottom - 1;
 			e.Graphics.DrawLine(SystemPens.ControlDark, rc.Left, y, rc.Right, y);
 		}

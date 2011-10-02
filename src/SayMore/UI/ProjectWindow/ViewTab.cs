@@ -12,14 +12,15 @@ namespace SayMore.UI.ProjectWindow
 		private bool _mouseOver;
 		private bool _selected;
 		private readonly Image _image;
-		private Control _viewControl;
 		private bool _hasBeenActivated;
+		private readonly Action<ViewTab> _tabTextChangedAction;
 
 		/// ------------------------------------------------------------------------------------
 		public ViewTabGroup OwningTabGroup { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public ViewTab(ViewTabGroup owningTabControl, Control viewControl)
+		public ViewTab(ViewTabGroup owningTabControl, Control viewControl,
+			Action<ViewTab> tabTextChangedAction)
 		{
 			base.DoubleBuffered = true;
 			base.AutoSize = false;
@@ -27,31 +28,33 @@ namespace SayMore.UI.ProjectWindow
 			base.Dock = DockStyle.Left;
 			base.Text = Utils.RemoveAcceleratorPrefix(viewControl.Text);
 			Name = base.Text.Replace(" ", string.Empty) + "ViewTab";
+			Text = "Set This Tab's Text";
 
 			OwningTabGroup = owningTabControl;
+			_tabTextChangedAction = tabTextChangedAction;
 
 			if (viewControl is ISayMoreView)
 				_image = ((ISayMoreView)viewControl).Image;
 
-			_viewControl = viewControl;
-			_viewControl.Dock = DockStyle.Fill;
-			OwningTabGroup.Controls.Add(_viewControl);
-			_viewControl.PerformLayout();
-			_viewControl.BringToFront();
+			View = viewControl;
+			View.Dock = DockStyle.Fill;
+			OwningTabGroup.Controls.Add(View);
+			View.PerformLayout();
+			View.BringToFront();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void ActivateView()
 		{
-			if (_viewControl == null)
+			if (View == null)
 				return;
 
 			_selected = true;
-			_viewControl.Visible = true;
-			_viewControl.BringToFront();
+			View.Visible = true;
+			View.BringToFront();
 
-			if (_viewControl is ISayMoreView)
-				((ISayMoreView)_viewControl).ViewActivated(!_hasBeenActivated);
+			if (View is ISayMoreView)
+				((ISayMoreView)View).ViewActivated(!_hasBeenActivated);
 
 			_hasBeenActivated = true;
 			Invalidate();
@@ -60,19 +63,19 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		public bool DeactivateView(bool showMsgWhenNotOK)
 		{
-			if (_viewControl == null)
+			if (View == null)
 				return true;
 
-			if (_viewControl is ISayMoreView)
+			if (View is ISayMoreView)
 			{
-				if (!((ISayMoreView)_viewControl).IsOKToLeaveView(showMsgWhenNotOK))
+				if (!((ISayMoreView)View).IsOKToLeaveView(showMsgWhenNotOK))
 					return false;
 
-				((ISayMoreView)_viewControl).ViewDeactivated();
+				((ISayMoreView)View).ViewDeactivated();
 			}
 
 			_selected = false;
-			_viewControl.Visible = false;
+			View.Visible = false;
 			Invalidate();
 			return true;
 		}
@@ -80,31 +83,29 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		public void CloseView()
 		{
-			if (_viewControl == null)
+			if (View == null)
 				return;
 
 			Visible = true;
 
-			if (!_viewControl.IsDisposed)
+			if (!View.IsDisposed)
 			{
-				if (OwningTabGroup != null && OwningTabGroup.Controls.Contains(_viewControl))
-					OwningTabGroup.Controls.Remove(_viewControl);
+				if (OwningTabGroup != null && OwningTabGroup.Controls.Contains(View))
+					OwningTabGroup.Controls.Remove(View);
 
-				_viewControl.Dispose();
-				_viewControl = null;
+				View.Dispose();
+				View = null;
 			}
 		}
 
 		#region Properties
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the tab's control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control View
-		{
-			get { return _viewControl; }
-		}
+		public Control View { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public bool Selected
@@ -121,12 +122,24 @@ namespace SayMore.UI.ProjectWindow
 
 				// Invalidate the tab to the left of this one in
 				// case it needs to redraw its etched right border.
-				ViewTab adjacentTab = OwningTabGroup.FindFirstVisibleTabToLeft(this);
+				var adjacentTab = OwningTabGroup.FindFirstVisibleTabToLeft(this);
 				if (adjacentTab != null)
 				{
 					adjacentTab.Invalidate();
 					Utils.UpdateWindow(adjacentTab.Handle);
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string Text
+		{
+			get { return base.Text; }
+			set
+			{
+				base.Text = value;
+				if (_tabTextChangedAction != null)
+					_tabTextChangedAction(this);
 			}
 		}
 

@@ -11,9 +11,9 @@ namespace SayMore.UI.ProjectWindow
 	/// ----------------------------------------------------------------------------------------
 	public interface ISayMoreView
 	{
+		void AddTabToTabGroup(ViewTabGroup viewTabGroup);
 		void ViewActivated(bool firstTime);
 		void ViewDeactivated();
-		//bool IsViewActive { get; }
 		bool IsOKToLeaveView(bool showMsgWhenNotOK);
 		Image Image { get; }
 		ToolStripMenuItem MainMenuItem { get; }

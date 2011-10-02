@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model;
-using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.NewEventsFromFiles;
 using SayMore.UI.ProjectWindow;
@@ -34,14 +33,14 @@ namespace SayMore.UI.ElementListScreen
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 
-			MainMenuItem = new ToolStripMenuItem("E&vent");
+			MainMenuItem = new ToolStripMenuItem();
+
+			MainMenuItem.Text = Program.GetString("UI.EventsView.EventsMainMenuItemText",
+				"E&vent", null, MainMenuItem);
+
 			MainMenuItem.DropDownItems.Add(_elementsListPanel._buttonNew.Text, null, HandleAddingNewElement);
 			MainMenuItem.DropDownItems.Add(_buttonNewFromFiles.Text, null, HandleButtonNewFromFilesClick);
 			MainMenuItem.DropDownItems.Add(new ToolStripSeparator());
-
-			Program.RegisterForLocalization(MainMenuItem, "UI.EventsView._menuEvents");
-			Program.RegisterForLocalization(MainMenuItem.DropDownItems[0], "UI.EventsView._menuAddNewEvent");
-			Program.RegisterForLocalization(MainMenuItem.DropDownItems[1], "UI.EventsView._menuAddNewEventsFromFiles");
 
 			foreach (var eventMenuItem in _elementsGrid.GetMenuCommands())
 				MainMenuItem.DropDownItems.Add(eventMenuItem);
@@ -87,6 +86,15 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void AddTabToTabGroup(ViewTabGroup viewTabGroup)
+		{
+			var tab = viewTabGroup.AddTab(this);
+			tab.Name = "EventsViewTab"; // for tests
+			tab.Text = Program.GetString("UI.EventsView.TabText", "Events", null, "Events View", null, tab);
+			Text = tab.Text;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override void ViewActivated(bool firstTime)
 		{
 			base.ViewActivated(firstTime);
@@ -99,13 +107,6 @@ namespace SayMore.UI.ElementListScreen
 				if (Settings.Default.EventScreenComponentsSplitterPos > 0)
 					_componentsSplitter.SplitterDistance = Settings.Default.EventScreenComponentsSplitterPos;
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override string Text
-		{
-			get { return Program.GetString("UI.ProjectWindow.EventsTabText", "Events"); }
-			set { }
 		}
 
 		/// ------------------------------------------------------------------------------------

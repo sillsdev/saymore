@@ -12,8 +12,6 @@ using Palaso.IO;
 using Palaso.Media;
 using Palaso.Reporting;
 using SayMore.Properties;
-using SayMore.UI.ElementListScreen;
-using SayMore.UI.Overview;
 using SilTools;
 
 namespace SayMore.UI.ProjectWindow
@@ -25,7 +23,7 @@ namespace SayMore.UI.ProjectWindow
 	/// ----------------------------------------------------------------------------------------
 	public partial class ProjectWindow : Form
 	{
-		public delegate ProjectWindow Factory(string projectPath); //autofac uses this
+		public delegate ProjectWindow Factory(string projectPath, IEnumerable<ISayMoreView> views); //autofac uses this
 
 		private readonly string _projectName;
 		private readonly IEnumerable<ICommand> _commands;
@@ -39,8 +37,7 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ProjectWindow(string projectPath, EventsListScreen eventsScreen,
-			PersonListScreen personsScreen, ProgressScreen progressScreen,
+		public ProjectWindow(string projectPath, IEnumerable<ISayMoreView> views,
 			IEnumerable<ICommand> commands) : this()
 		{
 			if (Settings.Default.ProjectWindow == null)
@@ -55,31 +52,14 @@ namespace SayMore.UI.ProjectWindow
 			_projectName = Path.GetFileNameWithoutExtension(projectPath);
 			_commands = commands;
 
-			_viewTabGroup.AddTab("Events", eventsScreen);
-			_viewTabGroup.AddTab("People", personsScreen);
-			_viewTabGroup.AddTab("Progress", progressScreen);
-			//_viewTabGroup.AddTab("Send/Receive", new SendReceiveScreen());
-
-			Program.RegisterForLocalization(_viewTabGroup.Tabs[0], "ProjectWindow.EventsTab");
-			Program.RegisterForLocalization(_viewTabGroup.Tabs[1], "ProjectWindow.PeopleTab");
-			Program.RegisterForLocalization(_viewTabGroup.Tabs[2], "ProjectWindow.ProgressTab");
-
-			if (eventsScreen.MainMenuItem != null)
+			foreach (var vw in views)
 			{
-				eventsScreen.MainMenuItem.Enabled = false;
-				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_mainMenuHelp), eventsScreen.MainMenuItem);
-			}
-
-			if (personsScreen.MainMenuItem != null)
-			{
-				personsScreen.MainMenuItem.Enabled = false;
-				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_mainMenuHelp), personsScreen.MainMenuItem);
-			}
-
-			if (progressScreen.MainMenuItem != null)
-			{
-				progressScreen.MainMenuItem.Enabled = false;
-				_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_mainMenuHelp), progressScreen.MainMenuItem);
+				vw.AddTabToTabGroup(_viewTabGroup);
+				if (vw.MainMenuItem != null)
+				{
+					vw.MainMenuItem.Enabled = false;
+					_mainMenuStrip.Items.Insert(_mainMenuStrip.Items.IndexOf(_mainMenuHelp), vw.MainMenuItem);
+				}
 			}
 
 			SetWindowText();

@@ -20,22 +20,27 @@ namespace SayMore.UI.Overview
 			_statsView.Dock = DockStyle.Fill;
 			Controls.Add(_statsView);
 
-			_mnuProgress = new ToolStripMenuItem("Pr&ogress");
+			_mnuProgress = new ToolStripMenuItem();
+			_mnuProgress.Text = Program.GetString("UI.ProgressView.ProgressMainMenuItemText",
+				"Pr&ogress", null, MainMenuItem);
 
-			var menu = new ToolStripMenuItem("&Copy", Resources.Copy, _statsView.HandleCopyToClipboardClick);
-			menu.ToolTipText = "Copy entire view to clipboard";
+			var menu = new ToolStripMenuItem(null, Resources.Copy, _statsView.HandleCopyToClipboardClick);
+			menu.Text = Program.GetString("UI.ProgressView.CopyMenuItemText",
+				"&Copy", null, "Copy entire view to clipboard", null, menu);
+
 			_mnuProgress.DropDown.Items.Add(menu);
 
-			menu = new ToolStripMenuItem("&Save...", Resources.Save, _statsView.HandleSaveButtonClicked);
-			menu.ToolTipText = "Save view to file";
+			menu = new ToolStripMenuItem(null, Resources.Save, _statsView.HandleSaveButtonClicked);
+			menu.Text = Program.GetString("UI.ProgressView.SaveMenuItemText",
+				"&Save...", null, "Save view to file", null, menu);
+
 			_mnuProgress.DropDown.Items.Add(menu);
 
-			_mnuProgress.DropDown.Items.Add("&Print...", Resources.Print, _statsView.HandlePrintButtonClicked);
+			menu = new ToolStripMenuItem(null, Resources.Print, _statsView.HandlePrintButtonClicked);
+			menu.Text = Program.GetString("UI.ProgressView.PrintMenuItemText",
+				"&Print...", null, null, null, menu);
 
-			Program.RegisterForLocalization(_mnuProgress, "ProgressView._menuProgress");
-			Program.RegisterForLocalization(_mnuProgress.DropDown.Items[0], "ProgressView._menuProgressCopy");
-			Program.RegisterForLocalization(_mnuProgress.DropDown.Items[1], "ProgressView._menuProgressSave");
-			Program.RegisterForLocalization(_mnuProgress.DropDown.Items[2], "ProgressView._menuProgressPrint");
+			_mnuProgress.DropDown.Items.Add(menu);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -51,14 +56,15 @@ namespace SayMore.UI.Overview
 			base.Dispose(disposing);
 		}
 
+		#region ISayMoreView Members
 		/// ------------------------------------------------------------------------------------
-		public override string Text
+		public void AddTabToTabGroup(ViewTabGroup viewTabGroup)
 		{
-			get { return Program.GetString("UI.ProgressView.ProgressTabText", "Progress"); }
-			set { }
+			var tab = viewTabGroup.AddTab(this);
+			tab.Text = Program.GetString("UI.ProgressView.TabText", "Progress", null, "Progress View", null, tab);
+			Text = tab.Text;
 		}
 
-		#region ISayMoreView Members
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ToolStripMenuItem> GetMainMenuCommands()
 		{

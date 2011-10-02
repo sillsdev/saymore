@@ -81,7 +81,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.tsOptions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.locExtender.SetLocalizableToolTip(this.tsOptions, null);
 			this.locExtender.SetLocalizationComment(this.tsOptions, null);
-			this.locExtender.SetLocalizingId(this.tsOptions, "WelcomeDlg.tsOptions");
+			this.locExtender.SetLocalizingId(this.tsOptions, "UI.WelcomeDlg.tsOptions");
 			this.tsOptions.Location = new System.Drawing.Point(0, 0);
 			this.tsOptions.Name = "tsOptions";
 			this.tsOptions.Size = new System.Drawing.Size(418, 231);
@@ -93,7 +93,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._labelOpen.ForeColor = System.Drawing.Color.DarkOliveGreen;
 			this.locExtender.SetLocalizableToolTip(this._labelOpen, null);
 			this.locExtender.SetLocalizationComment(this._labelOpen, null);
-			this.locExtender.SetLocalizingId(this._labelOpen, "WelcomeDlg._labelOpen");
+			this.locExtender.SetLocalizingId(this._labelOpen, "UI.WelcomeDlg._labelOpen");
 			this._labelOpen.Name = "_labelOpen";
 			this._labelOpen.Size = new System.Drawing.Size(416, 20);
 			this._labelOpen.Text = "Open";
@@ -113,7 +113,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.locExtender.SetLocalizableToolTip(this._buttonMru0, null);
 			this.locExtender.SetLocalizationComment(this._buttonMru0, null);
 			this.locExtender.SetLocalizationPriority(this._buttonMru0, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._buttonMru0, "WelcomeDlg._buttonMru0");
+			this.locExtender.SetLocalizingId(this._buttonMru0, "UI.WelcomeDlg._buttonMru0");
 			this._buttonMru0.Margin = new System.Windows.Forms.Padding(4, 1, 4, 2);
 			this._buttonMru0.Name = "_buttonMru0";
 			this._buttonMru0.Size = new System.Drawing.Size(408, 21);
@@ -129,7 +129,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._buttonBrowse.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonBrowse, null);
 			this.locExtender.SetLocalizationComment(this._buttonBrowse, null);
-			this.locExtender.SetLocalizingId(this._buttonBrowse, "WelcomeDlg._buttonBrowse");
+			this.locExtender.SetLocalizingId(this._buttonBrowse, "UI.WelcomeDlg._buttonBrowse");
 			this._buttonBrowse.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
 			this._buttonBrowse.Name = "_buttonBrowse";
 			this._buttonBrowse.Size = new System.Drawing.Size(408, 21);
@@ -143,7 +143,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._labelCreate.ForeColor = System.Drawing.Color.DarkOliveGreen;
 			this.locExtender.SetLocalizableToolTip(this._labelCreate, null);
 			this.locExtender.SetLocalizationComment(this._labelCreate, null);
-			this.locExtender.SetLocalizingId(this._labelCreate, "WelcomeDlg._labelCreate");
+			this.locExtender.SetLocalizingId(this._labelCreate, "UI.WelcomeDlg._labelCreate");
 			this._labelCreate.Name = "_labelCreate";
 			this._labelCreate.Size = new System.Drawing.Size(416, 20);
 			this._labelCreate.Text = "Create";
@@ -162,7 +162,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._buttonCreate.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonCreate, null);
 			this.locExtender.SetLocalizationComment(this._buttonCreate, null);
-			this.locExtender.SetLocalizingId(this._buttonCreate, "WelcomeDlg._buttonCreate");
+			this.locExtender.SetLocalizingId(this._buttonCreate, "UI.WelcomeDlg._buttonCreate");
 			this._buttonCreate.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
 			this._buttonCreate.Name = "_buttonCreate";
 			this._buttonCreate.Size = new System.Drawing.Size(408, 21);
@@ -180,7 +180,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._linkWebSites.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
 			this.locExtender.SetLocalizableToolTip(this._linkWebSites, null);
 			this.locExtender.SetLocalizationComment(this._linkWebSites, null);
-			this.locExtender.SetLocalizingId(this._linkWebSites, "WelcomeDlg._linkWebSites");
+			this.locExtender.SetLocalizingId(this._linkWebSites, "UI.WelcomeDlg._linkWebSites");
 			this._linkWebSites.Location = new System.Drawing.Point(31, 357);
 			this._linkWebSites.Name = "_linkWebSites";
 			this._linkWebSites.Size = new System.Drawing.Size(393, 13);
@@ -196,7 +196,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._labelVersionInfo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._labelVersionInfo, null);
 			this.locExtender.SetLocalizationComment(this._labelVersionInfo, null);
-			this.locExtender.SetLocalizingId(this._labelVersionInfo, "WelcomeDlg._labelVersionInfo");
+			this.locExtender.SetLocalizingId(this._labelVersionInfo, "UI.WelcomeDlg._labelVersionInfo");
 			this._labelVersionInfo.Location = new System.Drawing.Point(31, 341);
 			this._labelVersionInfo.Name = "_labelVersionInfo";
 			this._labelVersionInfo.Size = new System.Drawing.Size(159, 13);
@@ -212,7 +212,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._labelSubTitle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._labelSubTitle, null);
 			this.locExtender.SetLocalizationComment(this._labelSubTitle, null);
-			this.locExtender.SetLocalizingId(this._labelSubTitle, "WelcomeDlg._labelSubTitle");
+			this.locExtender.SetLocalizingId(this._labelSubTitle, "UI.WelcomeDlg._labelSubTitle");
 			this._labelSubTitle.Location = new System.Drawing.Point(141, 68);
 			this._labelSubTitle.Name = "_labelSubTitle";
 			this._labelSubTitle.Size = new System.Drawing.Size(307, 21);
@@ -221,7 +221,6 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "UI.WelcomeDlg";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// WelcomeDialog
@@ -237,7 +236,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "WelcomeDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "UI.WelcomeDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(450, 400);

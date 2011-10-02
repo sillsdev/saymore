@@ -12,8 +12,8 @@ namespace SayMore.UI.ComponentEditors
 		public string ProviderKey { get; private set; }
 		public IEnumerable<IEditorProvider> EditorProviders { get; private set; }
 
-		private Color _componentEditorBackColor;
-		private Color _componentEditorBorderColor;
+		private readonly Color _componentEditorBackColor;
+		private readonly Color _componentEditorBorderColor;
 
 		/// ------------------------------------------------------------------------------------
 		public ComponentEditorsTabControl(string providerKey, ImageList imgList,

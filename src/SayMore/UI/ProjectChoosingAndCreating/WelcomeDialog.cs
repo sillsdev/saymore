@@ -8,6 +8,7 @@ using SayMore.Properties;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 using SayMore.UI.Utilities;
 using SilTools;
+using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
 
 namespace SayMore.UI.ProjectChoosingAndCreating
 {

@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization.UI;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SilTools;
+using ColorHelper = SilTools.ColorHelper;
 
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
-	public class ElementGrid : SilGrid
+	public class ElementGrid : LmGrid
 	{
 		public delegate void SelectedElementChangedHandler(object sender,
 			ProjectElement oldElement, ProjectElement newElement);
@@ -23,6 +25,7 @@ namespace SayMore.UI.ElementListScreen
 		protected FileType _fileType;
 		protected IEnumerable<ProjectElement> _items = new ProjectElement[] { };
 		protected ContextMenuStrip _contextMenuStrip = new ContextMenuStrip();
+		protected readonly LocalizationExtender _locExtender;
 
 		/// ------------------------------------------------------------------------------------
 		public ElementGrid()
@@ -45,6 +48,10 @@ namespace SayMore.UI.ElementListScreen
 			FullRowFocusRectangleColor = DefaultCellStyle.SelectionBackColor;
 			DefaultCellStyle.SelectionBackColor = clr;
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
+
+			_locExtender = new LocalizationExtender();
+			_locExtender.LocalizationManagerId = "SayMore";
+			_locExtender.SetLocalizingId(this, "ElementGrid");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,6 +84,8 @@ namespace SayMore.UI.ElementListScreen
 
 				Columns.Add(col);
 			}
+
+			_locExtender.EndInit();
 
 			if (!DesignMode && GridSettings != null)
 				GridSettings.InitializeGrid(this);
@@ -257,10 +266,12 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ToolStripMenuItem> GetMenuCommands()
 		{
-			var menuText = Program.GetString("UI.ProjectWindow.DeleteElementMenuText", "Delete");
+			if (DeleteAction == null)
+				yield return null;
 
-			yield return (DeleteAction == null ? null :
-				new ToolStripMenuItem(menuText, null, (s, e) => DeleteAction()));
+			var menu = new ToolStripMenuItem(string.Empty, null, (s, e) => DeleteAction());
+			menu.Text = Program.GetString("UI.ProjectWindow.DeleteElementMenuText", "Delete", null, menu);
+			yield return menu;
 		}
 
 		/// ------------------------------------------------------------------------------------

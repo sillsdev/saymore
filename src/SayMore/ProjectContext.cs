@@ -8,6 +8,7 @@ using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.ElementListScreen;
+using SayMore.UI.Overview;
 using SayMore.UI.ProjectWindow;
 
 namespace SayMore
@@ -60,7 +61,14 @@ namespace SayMore
 			_audioVideoDataGatherer.Start();
 			_fieldGatherer.Start();
 
-			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath);
+			var views = new ISayMoreView[]
+			{
+				_scope.Resolve<EventsListScreen>(),
+				_scope.Resolve<PersonListScreen>(),
+				_scope.Resolve<ProgressScreen>()
+			};
+
+			ProjectWindow = _scope.Resolve<ProjectWindow.Factory>()(projectSettingsPath, views);
 		}
 
 		/// ------------------------------------------------------------------------------------

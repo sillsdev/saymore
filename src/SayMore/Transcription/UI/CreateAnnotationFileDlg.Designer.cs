@@ -109,7 +109,7 @@ namespace SayMore.Transcription.UI
 			this._buttonLoadAudacityLabelFile.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonLoadAudacityLabelFile, null);
 			this.locExtender.SetLocalizationComment(this._buttonLoadAudacityLabelFile, null);
-			this.locExtender.SetLocalizingId(this._buttonLoadAudacityLabelFile, "CreateAnnotationFileDlg._buttonLoadAudacityLabelFile");
+			this.locExtender.SetLocalizingId(this._buttonLoadAudacityLabelFile, "Transcription.UI.CreateAnnotationFileDlg._buttonLoadAudacityLabelFile");
 			this._buttonLoadAudacityLabelFile.Location = new System.Drawing.Point(0, 0);
 			this._buttonLoadAudacityLabelFile.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
 			this._buttonLoadAudacityLabelFile.Name = "_buttonLoadAudacityLabelFile";
@@ -137,7 +137,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._buttonAudacityHelp, null);
 			this.locExtender.SetLocalizationComment(this._buttonAudacityHelp, null);
 			this.locExtender.SetLocalizationPriority(this._buttonAudacityHelp, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._buttonAudacityHelp, "CreateAnnotationFileDlg._buttonAudacityHelp");
+			this.locExtender.SetLocalizingId(this._buttonAudacityHelp, "Transcription.UI.CreateAnnotationFileDlg._buttonAudacityHelp");
 			this._buttonAudacityHelp.Location = new System.Drawing.Point(183, 3);
 			this._buttonAudacityHelp.Name = "_buttonAudacityHelp";
 			this._buttonAudacityHelp.ShowFocusRectangle = true;
@@ -184,7 +184,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._buttonELANFileHelp, null);
 			this.locExtender.SetLocalizationComment(this._buttonELANFileHelp, null);
 			this.locExtender.SetLocalizationPriority(this._buttonELANFileHelp, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._buttonELANFileHelp, "CreateAnnotationFileDlg._buttonELANFileHelp");
+			this.locExtender.SetLocalizingId(this._buttonELANFileHelp, "Transcription.UI.CreateAnnotationFileDlg._buttonELANFileHelp");
 			this._buttonELANFileHelp.Location = new System.Drawing.Point(123, 3);
 			this._buttonELANFileHelp.Name = "_buttonELANFileHelp";
 			this._buttonELANFileHelp.ShowFocusRectangle = true;
@@ -198,7 +198,7 @@ namespace SayMore.Transcription.UI
 			this._buttonLoadELANFile.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonLoadELANFile, null);
 			this.locExtender.SetLocalizationComment(this._buttonLoadELANFile, null);
-			this.locExtender.SetLocalizingId(this._buttonLoadELANFile, "CreateAnnotationFileDlg._buttonLoadELANFile");
+			this.locExtender.SetLocalizingId(this._buttonLoadELANFile, "Transcription.UI.CreateAnnotationFileDlg._buttonLoadELANFile");
 			this._buttonLoadELANFile.Location = new System.Drawing.Point(0, 0);
 			this._buttonLoadELANFile.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
 			this._buttonLoadELANFile.Name = "_buttonLoadELANFile";
@@ -216,7 +216,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.SetColumnSpan(this._labelElanOverview, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelElanOverview, null);
 			this.locExtender.SetLocalizationComment(this._labelElanOverview, null);
-			this.locExtender.SetLocalizingId(this._labelElanOverview, "CreateAnnotationFileDlg._labelElanOverview");
+			this.locExtender.SetLocalizingId(this._labelElanOverview, "Transcription.UI.CreateAnnotationFileDlg._labelElanOverview");
 			this._labelElanOverview.Location = new System.Drawing.Point(0, 194);
 			this._labelElanOverview.Margin = new System.Windows.Forms.Padding(0, 20, 0, 8);
 			this._labelElanOverview.Name = "_labelElanOverview";
@@ -233,7 +233,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.SetColumnSpan(this._labelAudacityOverview, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelAudacityOverview, null);
 			this.locExtender.SetLocalizationComment(this._labelAudacityOverview, null);
-			this.locExtender.SetLocalizingId(this._labelAudacityOverview, "CreateAnnotationFileDlg._labelAudacityOverview");
+			this.locExtender.SetLocalizingId(this._labelAudacityOverview, "Transcription.UI.CreateAnnotationFileDlg._labelAudacityOverview");
 			this._labelAudacityOverview.Location = new System.Drawing.Point(0, 75);
 			this._labelAudacityOverview.Margin = new System.Windows.Forms.Padding(0, 15, 0, 8);
 			this._labelAudacityOverview.Name = "_labelAudacityOverview";
@@ -248,7 +248,7 @@ namespace SayMore.Transcription.UI
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "CreateAnnotationFileDlg._buttonCancel");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "Transcription.UI.CreateAnnotationFileDlg._buttonCancel");
 			this._buttonCancel.Location = new System.Drawing.Point(375, 262);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(0);
 			this._buttonCancel.Name = "_buttonCancel";
@@ -265,7 +265,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.SetColumnSpan(this._labelOverview, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelOverview, null);
 			this.locExtender.SetLocalizationComment(this._labelOverview, null);
-			this.locExtender.SetLocalizingId(this._labelOverview, "CreateAnnotationFileDlg._labelOverview");
+			this.locExtender.SetLocalizingId(this._labelOverview, "Transcription.UI.CreateAnnotationFileDlg._labelOverview");
 			this._labelOverview.Location = new System.Drawing.Point(0, 0);
 			this._labelOverview.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._labelOverview.Name = "_labelOverview";
@@ -282,7 +282,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.SetColumnSpan(this._labelAnnoatationType1, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelAnnoatationType1, null);
 			this.locExtender.SetLocalizationComment(this._labelAnnoatationType1, null);
-			this.locExtender.SetLocalizingId(this._labelAnnoatationType1, "CreateAnnotationFileDlg._labelAnnoatationType1");
+			this.locExtender.SetLocalizingId(this._labelAnnoatationType1, "Transcription.UI.CreateAnnotationFileDlg._labelAnnoatationType1");
 			this._labelAnnoatationType1.Location = new System.Drawing.Point(15, 31);
 			this._labelAnnoatationType1.Margin = new System.Windows.Forms.Padding(15, 0, 0, 3);
 			this._labelAnnoatationType1.Name = "_labelAnnoatationType1";
@@ -298,7 +298,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.SetColumnSpan(this._labelAnnoatationType2, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelAnnoatationType2, null);
 			this.locExtender.SetLocalizationComment(this._labelAnnoatationType2, null);
-			this.locExtender.SetLocalizingId(this._labelAnnoatationType2, "CreateAnnotationFileDlg._labelAnnoatationType2");
+			this.locExtender.SetLocalizingId(this._labelAnnoatationType2, "Transcription.UI.CreateAnnotationFileDlg._labelAnnoatationType2");
 			this._labelAnnoatationType2.Location = new System.Drawing.Point(15, 47);
 			this._labelAnnoatationType2.Margin = new System.Windows.Forms.Padding(15, 0, 0, 0);
 			this._labelAnnoatationType2.Name = "_labelAnnoatationType2";
@@ -308,7 +308,6 @@ namespace SayMore.Transcription.UI
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "UI.CreateAnnotationFileDlg";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// CreateAnnotationFileDlg
@@ -322,7 +321,7 @@ namespace SayMore.Transcription.UI
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "CreateAnnotationFileDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "Transcription.UI.CreateAnnotationFileDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "CreateAnnotationFileDlg";

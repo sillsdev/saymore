@@ -78,7 +78,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this._peopleListPanel, null);
 			this.locExtender.SetLocalizationComment(this._peopleListPanel, null);
 			this.locExtender.SetLocalizationPriority(this._peopleListPanel, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._peopleListPanel, "PeopleView.ListPanel");
+			this.locExtender.SetLocalizingId(this._peopleListPanel, "UI.PeopleView.ListPanel");
 			this._peopleListPanel.Location = new System.Drawing.Point(0, 0);
 			this._peopleListPanel.MinimumSize = new System.Drawing.Size(165, 0);
 			this._peopleListPanel.Name = "_peopleListPanel";
@@ -117,7 +117,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this._personComponentFileGrid, null);
 			this.locExtender.SetLocalizationComment(this._personComponentFileGrid, null);
 			this.locExtender.SetLocalizationPriority(this._personComponentFileGrid, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._personComponentFileGrid, "PeopleView.ComponentFileGrid");
+			this.locExtender.SetLocalizingId(this._personComponentFileGrid, "UI.PeopleView.ComponentFileGrid");
 			this._personComponentFileGrid.Location = new System.Drawing.Point(0, 0);
 			this._personComponentFileGrid.Name = "_personComponentFileGrid";
 			this._personComponentFileGrid.RenameButtonVisible = true;
@@ -131,7 +131,7 @@ namespace SayMore.UI.ElementListScreen
 			this._labelClickNewHelpPrompt.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelClickNewHelpPrompt, null);
 			this.locExtender.SetLocalizationComment(this._labelClickNewHelpPrompt, null);
-			this.locExtender.SetLocalizingId(this._labelClickNewHelpPrompt, "PeopleView._labelClickNewHelpPrompt");
+			this.locExtender.SetLocalizingId(this._labelClickNewHelpPrompt, "UI.PeopleView._labelClickNewHelpPrompt");
 			this._labelClickNewHelpPrompt.Location = new System.Drawing.Point(0, 0);
 			this._labelClickNewHelpPrompt.Name = "_labelClickNewHelpPrompt";
 			this._labelClickNewHelpPrompt.Size = new System.Drawing.Size(315, 197);
@@ -141,7 +141,6 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "UI.PeopleView";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// PersonListScreen
@@ -152,7 +151,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "PeopleView.PersonListScreen");
+			this.locExtender.SetLocalizingId(this, "UI.PeopleView.PersonListScreen");
 			this.Name = "PersonListScreen";
 			this.Size = new System.Drawing.Size(503, 350);
 			this._elementListSplitter.Panel1.ResumeLayout(false);

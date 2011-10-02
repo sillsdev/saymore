@@ -26,17 +26,24 @@ namespace SayMore.UI.ComponentEditors
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this._zoomTrackBar = new System.Windows.Forms.TrackBar();
 			this._tableLayoutZoom = new System.Windows.Forms.TableLayoutPanel();
 			this._labelZoom = new System.Windows.Forms.Label();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this._zoomTrackBar)).BeginInit();
 			this._tableLayoutZoom.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _zoomTrackBar
 			// 
 			this._zoomTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
 			this._zoomTrackBar.LargeChange = 25;
+			this.locExtender.SetLocalizableToolTip(this._zoomTrackBar, null);
+			this.locExtender.SetLocalizationComment(this._zoomTrackBar, null);
+			this.locExtender.SetLocalizationPriority(this._zoomTrackBar, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._zoomTrackBar, "");
 			this._zoomTrackBar.Location = new System.Drawing.Point(1, 16);
 			this._zoomTrackBar.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this._zoomTrackBar.Maximum = 1000;
@@ -72,6 +79,9 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._labelZoom.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this._labelZoom.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelZoom, null);
+			this.locExtender.SetLocalizationComment(this._labelZoom, null);
+			this.locExtender.SetLocalizingId(this._labelZoom, "UI.ImageViewer._labelZoom");
 			this._labelZoom.Location = new System.Drawing.Point(7, 0);
 			this._labelZoom.Name = "_labelZoom";
 			this._labelZoom.Size = new System.Drawing.Size(34, 13);
@@ -79,16 +89,25 @@ namespace SayMore.UI.ComponentEditors
 			this._labelZoom.Text = "Zoom";
 			this._labelZoom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
 			// ImageViewer
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayoutZoom);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "");
 			this.Name = "ImageViewer";
 			this.Size = new System.Drawing.Size(449, 279);
 			((System.ComponentModel.ISupportInitialize)(this._zoomTrackBar)).EndInit();
 			this._tableLayoutZoom.ResumeLayout(false);
 			this._tableLayoutZoom.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -98,5 +117,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TrackBar _zoomTrackBar;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutZoom;
 		private System.Windows.Forms.Label _labelZoom;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

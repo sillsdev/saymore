@@ -32,7 +32,9 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._presetMenuButton = new System.Windows.Forms.Button();
 			this._presetMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _tableLayout
@@ -55,6 +57,9 @@ namespace SayMore.UI.ComponentEditors
 			this._presetMenuButton.AutoSize = true;
 			this._presetMenuButton.Image = global::SayMore.Properties.Resources.DropDownArrow;
 			this._presetMenuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.locExtender.SetLocalizableToolTip(this._presetMenuButton, null);
+			this.locExtender.SetLocalizationComment(this._presetMenuButton, null);
+			this.locExtender.SetLocalizingId(this._presetMenuButton, "UI.MediaInfoEditor._presetMenuButton");
 			this._presetMenuButton.Location = new System.Drawing.Point(0, 0);
 			this._presetMenuButton.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
 			this._presetMenuButton.MinimumSize = new System.Drawing.Size(73, 23);
@@ -67,18 +72,31 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _presetMenu
 			// 
+			this.locExtender.SetLocalizableToolTip(this._presetMenu, null);
+			this.locExtender.SetLocalizationComment(this._presetMenu, null);
+			this.locExtender.SetLocalizationPriority(this._presetMenu, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._presetMenu, "");
 			this._presetMenu.Name = "_presetMenu";
-			this._presetMenu.Size = new System.Drawing.Size(61, 4);
+			this._presetMenu.Size = new System.Drawing.Size(153, 26);
 			// 
-			// AudioComponentEditor
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
+			// MediaComponentEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayout);
-			this.Name = "AudioComponentEditor";
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "");
+			this.Name = "MediaComponentEditor";
 			this.Size = new System.Drawing.Size(449, 208);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -87,7 +105,8 @@ namespace SayMore.UI.ComponentEditors
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private System.Windows.Forms.Button _presetMenuButton;
-		private System.Windows.Forms.ContextMenuStrip _presetMenu;
+		private Localization.UI.LocalizationExtender locExtender;
+		protected System.Windows.Forms.Button _presetMenuButton;
+		protected System.Windows.Forms.ContextMenuStrip _presetMenu;
 	}
 }

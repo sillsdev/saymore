@@ -201,20 +201,20 @@ namespace SayMore.UI.ComponentEditors
 
 			if (pb.ParentType == ParentType.Father)
 			{
-				var tipSelected = Program.GetString("UI.PersonMetadataEditor.FatherSelectorToolTipWhenSelected",
+				var tipSelected = Program.GetString("UI.PersonEditor.FatherSelectorToolTipWhenSelected",
 					"Indicates this is the father's primary language");
 
-				var tipNotSelected = Program.GetString("UI.PersonMetadataEditor.FatherSelectorToolTipWhenNotSelected",
+				var tipNotSelected = Program.GetString("UI.PersonEditor.FatherSelectorToolTipWhenNotSelected",
 					"Click to indicate this is the father's primary language");
 
 				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
 			}
 			else
 			{
-				var tipSelected = Program.GetString("UI.PersonMetadataEditor.MotherSelectorToolTipWhenSelected",
+				var tipSelected = Program.GetString("UI.PersonEditor.MotherSelectorToolTipWhenSelected",
 					"Indicates this is the mothers's primary language");
 
-				var tipNotSelected = Program.GetString("UI.PersonMetadataEditor.MotherSelectorToolTipWhenNotSelected",
+				var tipNotSelected = Program.GetString("UI.PersonEditor.MotherSelectorToolTipWhenNotSelected",
 					"Click to indicate this is the mothers's primary language");
 
 				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
@@ -229,9 +229,9 @@ namespace SayMore.UI.ComponentEditors
 		{
 			using (var dlg = new OpenFileDialog())
 			{
-				var caption = Program.GetString("UI.PersonMetadataEditor.ChangePictureDlgCaption", "Change Picture");
+				var caption = Program.GetString("UI.PersonEditor.ChangePictureDlgCaption", "Change Picture");
 
-				var imageFileTypes = Program.GetString("UI.PersonMetadataEditor.ImageFileTypes",
+				var imageFileTypes = Program.GetString("UI.PersonEditor.ImageFileTypes",
 					"JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*");
 
 				dlg.Title = caption;
@@ -303,7 +303,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			else
 			{
-				var msg = Program.GetString("UI.PersonMetadataEditor.ErrorChangingPersonsPhotoMsg",
+				var msg = Program.GetString("UI.PersonEditor.ErrorChangingPersonsPhotoMsg",
 					"There was an error changing the person's photo.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
@@ -334,7 +334,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("UI.PersonMetadataEditor.ErrorLoadingPersonsPhotoMsg",
+				var msg = Program.GetString("UI.PersonEditor.ErrorLoadingPersonsPhotoMsg",
 					"There was an error loading the person's photo.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);

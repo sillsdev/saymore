@@ -45,7 +45,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._buttonOK.Enabled = false;
 			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
 			this.locExtender.SetLocalizationComment(this._buttonOK, null);
-			this.locExtender.SetLocalizingId(this._buttonOK, "MakeEventsFromFileProgressDialog._buttonOK");
+			this.locExtender.SetLocalizingId(this._buttonOK, "UI.MakeEventsFromFileProgressDialog._buttonOK");
 			this._buttonOK.Location = new System.Drawing.Point(285, 82);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
@@ -71,7 +71,6 @@ namespace SayMore.UI.NewEventsFromFiles
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "UI.MakeEventsFromFileProgressDlg";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// MakeEventsFromFileProgressDialog
@@ -84,7 +83,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this.Controls.Add(this._tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "MakeEventsFromFileProgressDialog.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "UI.MakeEventsFromFileProgressDialog.WindowTitle");
 			this.Name = "MakeEventsFromFileProgressDialog";
 			this.Padding = new System.Windows.Forms.Padding(15, 20, 15, 15);
 			this.ShowIcon = false;

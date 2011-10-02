@@ -70,16 +70,21 @@ namespace SayMore.UI.ComponentEditors
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this._tooltip = new System.Windows.Forms.ToolTip(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._panelPicture.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._picture)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _labelFullName
 			// 
 			this._labelFullName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelFullName.AutoSize = true;
-			this._tableLayout.SetColumnSpan(this._labelFullName, 2);
+			this._tableLayout.SetColumnSpan(this._labelFullName, 4);
+			this.locExtender.SetLocalizableToolTip(this._labelFullName, null);
+			this.locExtender.SetLocalizationComment(this._labelFullName, null);
+			this.locExtender.SetLocalizingId(this._labelFullName, "UI.PersonEditor._labelFullName");
 			this._labelFullName.Location = new System.Drawing.Point(0, 0);
 			this._labelFullName.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelFullName.Name = "_labelFullName";
@@ -89,12 +94,16 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _id
 			// 
-			this._id.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._id.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._id, "");
 			this._tableLayout.SetColumnSpan(this._id, 2);
 			this._binder.SetIsBound(this._id, true);
 			this._binder.SetIsComponentFileId(this._id, true);
+			this.locExtender.SetLocalizableToolTip(this._id, null);
+			this.locExtender.SetLocalizationComment(this._id, null);
+			this.locExtender.SetLocalizationPriority(this._id, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._id, "");
 			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._id.Name = "_id";
@@ -107,6 +116,9 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._labelBirthYear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelBirthYear.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelBirthYear, null);
+			this.locExtender.SetLocalizationComment(this._labelBirthYear, null);
+			this.locExtender.SetLocalizingId(this._labelBirthYear, "UI.PersonEditor._labelBirthYear");
 			this._labelBirthYear.Location = new System.Drawing.Point(252, 0);
 			this._labelBirthYear.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
 			this._labelBirthYear.Name = "_labelBirthYear";
@@ -120,6 +132,10 @@ namespace SayMore.UI.ComponentEditors
 			this._birthYear.Dock = System.Windows.Forms.DockStyle.Top;
 			this._binder.SetIsBound(this._birthYear, true);
 			this._binder.SetIsComponentFileId(this._birthYear, false);
+			this.locExtender.SetLocalizableToolTip(this._birthYear, null);
+			this.locExtender.SetLocalizationComment(this._birthYear, null);
+			this.locExtender.SetLocalizationPriority(this._birthYear, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._birthYear, "");
 			this._birthYear.Location = new System.Drawing.Point(252, 16);
 			this._birthYear.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
 			this._birthYear.Name = "_birthYear";
@@ -201,6 +217,10 @@ namespace SayMore.UI.ComponentEditors
 			// _pbOtherLangMother3
 			// 
 			this._pbOtherLangMother3.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._pbOtherLangMother3, null);
+			this.locExtender.SetLocalizationComment(this._pbOtherLangMother3, null);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother3, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pbOtherLangMother3, "");
 			this._pbOtherLangMother3.Location = new System.Drawing.Point(207, 211);
 			this._pbOtherLangMother3.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._pbOtherLangMother3.Name = "_pbOtherLangMother3";
@@ -213,13 +233,17 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _primaryLanguageLearnedIn
 			// 
-			this._primaryLanguageLearnedIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._primaryLanguageLearnedIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._primaryLanguageLearnedIn, "primaryLanguageLearnedIn");
 			this._primaryLanguageLearnedIn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._primaryLanguageLearnedIn.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._binder.SetIsBound(this._primaryLanguageLearnedIn, true);
 			this._binder.SetIsComponentFileId(this._primaryLanguageLearnedIn, false);
+			this.locExtender.SetLocalizableToolTip(this._primaryLanguageLearnedIn, null);
+			this.locExtender.SetLocalizationComment(this._primaryLanguageLearnedIn, null);
+			this.locExtender.SetLocalizationPriority(this._primaryLanguageLearnedIn, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._primaryLanguageLearnedIn, "");
 			this._primaryLanguageLearnedIn.Location = new System.Drawing.Point(64, 86);
 			this._primaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
 			this._primaryLanguageLearnedIn.Name = "_primaryLanguageLearnedIn";
@@ -230,6 +254,9 @@ namespace SayMore.UI.ComponentEditors
 			// _labelPrimaryLanguageLearnedIn
 			// 
 			this._labelPrimaryLanguageLearnedIn.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelPrimaryLanguageLearnedIn, null);
+			this.locExtender.SetLocalizationComment(this._labelPrimaryLanguageLearnedIn, null);
+			this.locExtender.SetLocalizingId(this._labelPrimaryLanguageLearnedIn, "UI.PersonEditor._labelPrimaryLanguageLearnedIn");
 			this._labelPrimaryLanguageLearnedIn.Location = new System.Drawing.Point(0, 90);
 			this._labelPrimaryLanguageLearnedIn.Margin = new System.Windows.Forms.Padding(0, 7, 3, 7);
 			this._labelPrimaryLanguageLearnedIn.Name = "_labelPrimaryLanguageLearnedIn";
@@ -240,6 +267,10 @@ namespace SayMore.UI.ComponentEditors
 			// _pbOtherLangMother1
 			// 
 			this._pbOtherLangMother1.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._pbOtherLangMother1, null);
+			this.locExtender.SetLocalizationComment(this._pbOtherLangMother1, null);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother1, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pbOtherLangMother1, "");
 			this._pbOtherLangMother1.Location = new System.Drawing.Point(207, 155);
 			this._pbOtherLangMother1.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
 			this._pbOtherLangMother1.Name = "_pbOtherLangMother1";
@@ -253,6 +284,10 @@ namespace SayMore.UI.ComponentEditors
 			// _pbOtherLangFather3
 			// 
 			this._pbOtherLangFather3.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._pbOtherLangFather3, null);
+			this.locExtender.SetLocalizationComment(this._pbOtherLangFather3, null);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather3, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pbOtherLangFather3, "");
 			this._pbOtherLangFather3.Location = new System.Drawing.Point(183, 211);
 			this._pbOtherLangFather3.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._pbOtherLangFather3.Name = "_pbOtherLangFather3";
@@ -266,6 +301,10 @@ namespace SayMore.UI.ComponentEditors
 			// _pbOtherLangFather2
 			// 
 			this._pbOtherLangFather2.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._pbOtherLangFather2, null);
+			this.locExtender.SetLocalizationComment(this._pbOtherLangFather2, null);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather2, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pbOtherLangFather2, "");
 			this._pbOtherLangFather2.Location = new System.Drawing.Point(183, 183);
 			this._pbOtherLangFather2.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
 			this._pbOtherLangFather2.Name = "_pbOtherLangFather2";
@@ -279,6 +318,10 @@ namespace SayMore.UI.ComponentEditors
 			// _pbOtherLangFather1
 			// 
 			this._pbOtherLangFather1.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._pbOtherLangFather1, null);
+			this.locExtender.SetLocalizationComment(this._pbOtherLangFather1, null);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather1, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pbOtherLangFather1, "");
 			this._pbOtherLangFather1.Location = new System.Drawing.Point(183, 155);
 			this._pbOtherLangFather1.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
 			this._pbOtherLangFather1.Name = "_pbOtherLangFather1";
@@ -292,6 +335,10 @@ namespace SayMore.UI.ComponentEditors
 			// _pbOtherLangMother0
 			// 
 			this._pbOtherLangMother0.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._pbOtherLangMother0, null);
+			this.locExtender.SetLocalizationComment(this._pbOtherLangMother0, null);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother0, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pbOtherLangMother0, "");
 			this._pbOtherLangMother0.Location = new System.Drawing.Point(207, 129);
 			this._pbOtherLangMother0.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._pbOtherLangMother0.Name = "_pbOtherLangMother0";
@@ -305,6 +352,10 @@ namespace SayMore.UI.ComponentEditors
 			// _pbOtherLangFather0
 			// 
 			this._pbOtherLangFather0.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._pbOtherLangFather0, null);
+			this.locExtender.SetLocalizationComment(this._pbOtherLangFather0, null);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangFather0, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pbOtherLangFather0, "");
 			this._pbOtherLangFather0.Location = new System.Drawing.Point(183, 129);
 			this._pbOtherLangFather0.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._pbOtherLangFather0.Name = "_pbOtherLangFather0";
@@ -317,14 +368,18 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _otherLanguage3
 			// 
-			this._otherLanguage3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._otherLanguage3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._otherLanguage3, "language");
 			this._otherLanguage3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._otherLanguage3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tableLayout.SetColumnSpan(this._otherLanguage3, 2);
 			this._binder.SetIsBound(this._otherLanguage3, true);
 			this._binder.SetIsComponentFileId(this._otherLanguage3, false);
+			this.locExtender.SetLocalizableToolTip(this._otherLanguage3, null);
+			this.locExtender.SetLocalizationComment(this._otherLanguage3, null);
+			this.locExtender.SetLocalizationPriority(this._otherLanguage3, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._otherLanguage3, "");
 			this._otherLanguage3.Location = new System.Drawing.Point(0, 213);
 			this._otherLanguage3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage3.Name = "_otherLanguage3";
@@ -334,14 +389,18 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _otherLanguage0
 			// 
-			this._otherLanguage0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._otherLanguage0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._otherLanguage0, "language");
 			this._otherLanguage0.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._otherLanguage0.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tableLayout.SetColumnSpan(this._otherLanguage0, 2);
 			this._binder.SetIsBound(this._otherLanguage0, true);
 			this._binder.SetIsComponentFileId(this._otherLanguage0, false);
+			this.locExtender.SetLocalizableToolTip(this._otherLanguage0, null);
+			this.locExtender.SetLocalizationComment(this._otherLanguage0, null);
+			this.locExtender.SetLocalizationPriority(this._otherLanguage0, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._otherLanguage0, "");
 			this._otherLanguage0.Location = new System.Drawing.Point(0, 131);
 			this._otherLanguage0.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage0.Name = "_otherLanguage0";
@@ -351,14 +410,18 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _otherLanguage1
 			// 
-			this._otherLanguage1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._otherLanguage1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._otherLanguage1, "language");
 			this._otherLanguage1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._otherLanguage1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tableLayout.SetColumnSpan(this._otherLanguage1, 2);
 			this._binder.SetIsBound(this._otherLanguage1, true);
 			this._binder.SetIsComponentFileId(this._otherLanguage1, false);
+			this.locExtender.SetLocalizableToolTip(this._otherLanguage1, null);
+			this.locExtender.SetLocalizationComment(this._otherLanguage1, null);
+			this.locExtender.SetLocalizationPriority(this._otherLanguage1, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._otherLanguage1, "");
 			this._otherLanguage1.Location = new System.Drawing.Point(0, 157);
 			this._otherLanguage1.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage1.Name = "_otherLanguage1";
@@ -368,14 +431,18 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _otherLanguage2
 			// 
-			this._otherLanguage2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._otherLanguage2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._otherLanguage2, "language");
 			this._otherLanguage2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._otherLanguage2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tableLayout.SetColumnSpan(this._otherLanguage2, 2);
 			this._binder.SetIsBound(this._otherLanguage2, true);
 			this._binder.SetIsComponentFileId(this._otherLanguage2, false);
+			this.locExtender.SetLocalizableToolTip(this._otherLanguage2, null);
+			this.locExtender.SetLocalizationComment(this._otherLanguage2, null);
+			this.locExtender.SetLocalizationPriority(this._otherLanguage2, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._otherLanguage2, "");
 			this._otherLanguage2.Location = new System.Drawing.Point(0, 185);
 			this._otherLanguage2.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._otherLanguage2.Name = "_otherLanguage2";
@@ -385,14 +452,18 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _primaryLanguage
 			// 
-			this._primaryLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._primaryLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._primaryLanguage, "language");
 			this._primaryLanguage.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._primaryLanguage.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tableLayout.SetColumnSpan(this._primaryLanguage, 2);
 			this._binder.SetIsBound(this._primaryLanguage, true);
 			this._binder.SetIsComponentFileId(this._primaryLanguage, false);
+			this.locExtender.SetLocalizableToolTip(this._primaryLanguage, null);
+			this.locExtender.SetLocalizationComment(this._primaryLanguage, null);
+			this.locExtender.SetLocalizationPriority(this._primaryLanguage, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._primaryLanguage, "");
 			this._primaryLanguage.Location = new System.Drawing.Point(0, 60);
 			this._primaryLanguage.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._primaryLanguage.Name = "_primaryLanguage";
@@ -404,6 +475,9 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._labelPrimaryLanguage.AutoSize = true;
 			this._tableLayout.SetColumnSpan(this._labelPrimaryLanguage, 4);
+			this.locExtender.SetLocalizableToolTip(this._labelPrimaryLanguage, null);
+			this.locExtender.SetLocalizationComment(this._labelPrimaryLanguage, null);
+			this.locExtender.SetLocalizingId(this._labelPrimaryLanguage, "UI.PersonEditor._labelPrimaryLanguage");
 			this._labelPrimaryLanguage.Location = new System.Drawing.Point(0, 44);
 			this._labelPrimaryLanguage.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelPrimaryLanguage.Name = "_labelPrimaryLanguage";
@@ -414,6 +488,10 @@ namespace SayMore.UI.ComponentEditors
 			// _pbPrimaryLangMother
 			// 
 			this._pbPrimaryLangMother.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._pbPrimaryLangMother, null);
+			this.locExtender.SetLocalizationComment(this._pbPrimaryLangMother, null);
+			this.locExtender.SetLocalizationPriority(this._pbPrimaryLangMother, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pbPrimaryLangMother, "");
 			this._pbPrimaryLangMother.Location = new System.Drawing.Point(207, 58);
 			this._pbPrimaryLangMother.Margin = new System.Windows.Forms.Padding(0, 1, 14, 0);
 			this._pbPrimaryLangMother.Name = "_pbPrimaryLangMother";
@@ -426,6 +504,10 @@ namespace SayMore.UI.ComponentEditors
 			// _pbPrimaryLangFather
 			// 
 			this._pbPrimaryLangFather.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._pbPrimaryLangFather, null);
+			this.locExtender.SetLocalizationComment(this._pbPrimaryLangFather, null);
+			this.locExtender.SetLocalizationPriority(this._pbPrimaryLangFather, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pbPrimaryLangFather, "");
 			this._pbPrimaryLangFather.Location = new System.Drawing.Point(183, 58);
 			this._pbPrimaryLangFather.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._pbPrimaryLangFather.Name = "_pbPrimaryLangFather";
@@ -440,6 +522,9 @@ namespace SayMore.UI.ComponentEditors
 			this._labelOtherLanguages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelOtherLanguages.AutoSize = true;
 			this._tableLayout.SetColumnSpan(this._labelOtherLanguages, 4);
+			this.locExtender.SetLocalizableToolTip(this._labelOtherLanguages, null);
+			this.locExtender.SetLocalizationComment(this._labelOtherLanguages, null);
+			this.locExtender.SetLocalizingId(this._labelOtherLanguages, "UI.PersonEditor._labelOtherLanguages");
 			this._labelOtherLanguages.Location = new System.Drawing.Point(0, 115);
 			this._labelOtherLanguages.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelOtherLanguages.Name = "_labelOtherLanguages";
@@ -451,6 +536,10 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._pbOtherLangMother2.AllowDrop = true;
 			this._pbOtherLangMother2.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._pbOtherLangMother2, null);
+			this.locExtender.SetLocalizationComment(this._pbOtherLangMother2, null);
+			this.locExtender.SetLocalizationPriority(this._pbOtherLangMother2, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pbOtherLangMother2, "");
 			this._pbOtherLangMother2.Location = new System.Drawing.Point(207, 183);
 			this._pbOtherLangMother2.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
 			this._pbOtherLangMother2.Name = "_pbOtherLangMother2";
@@ -464,7 +553,10 @@ namespace SayMore.UI.ComponentEditors
 			// _labelEducation
 			// 
 			this._labelEducation.AutoSize = true;
-			this._tableLayout.SetColumnSpan(this._labelEducation, 2);
+			this._tableLayout.SetColumnSpan(this._labelEducation, 4);
+			this.locExtender.SetLocalizableToolTip(this._labelEducation, null);
+			this.locExtender.SetLocalizationComment(this._labelEducation, null);
+			this.locExtender.SetLocalizingId(this._labelEducation, "UI.PersonEditor._labelEducation");
 			this._labelEducation.Location = new System.Drawing.Point(0, 241);
 			this._labelEducation.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelEducation.Name = "_labelEducation";
@@ -474,14 +566,18 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _education
 			// 
-			this._education.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._education.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._education, "education");
 			this._education.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this._education.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this._tableLayout.SetColumnSpan(this._education, 2);
 			this._binder.SetIsBound(this._education, true);
 			this._binder.SetIsComponentFileId(this._education, false);
+			this.locExtender.SetLocalizableToolTip(this._education, null);
+			this.locExtender.SetLocalizationComment(this._education, null);
+			this.locExtender.SetLocalizationPriority(this._education, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._education, "");
 			this._education.Location = new System.Drawing.Point(0, 257);
 			this._education.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._education.Name = "_education";
@@ -492,7 +588,10 @@ namespace SayMore.UI.ComponentEditors
 			// _labelPrimaryOccupation
 			// 
 			this._labelPrimaryOccupation.AutoSize = true;
-			this._tableLayout.SetColumnSpan(this._labelPrimaryOccupation, 2);
+			this._tableLayout.SetColumnSpan(this._labelPrimaryOccupation, 4);
+			this.locExtender.SetLocalizableToolTip(this._labelPrimaryOccupation, null);
+			this.locExtender.SetLocalizationComment(this._labelPrimaryOccupation, null);
+			this.locExtender.SetLocalizingId(this._labelPrimaryOccupation, "UI.PersonEditor._labelPrimaryOccupation");
 			this._labelPrimaryOccupation.Location = new System.Drawing.Point(0, 285);
 			this._labelPrimaryOccupation.Margin = new System.Windows.Forms.Padding(0, 5, 3, 0);
 			this._labelPrimaryOccupation.Name = "_labelPrimaryOccupation";
@@ -502,12 +601,16 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _primaryOccupation
 			// 
-			this._primaryOccupation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._primaryOccupation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._autoCompleteHelper.SetAutoCompleteKey(this._primaryOccupation, "");
 			this._tableLayout.SetColumnSpan(this._primaryOccupation, 2);
 			this._binder.SetIsBound(this._primaryOccupation, true);
 			this._binder.SetIsComponentFileId(this._primaryOccupation, false);
+			this.locExtender.SetLocalizableToolTip(this._primaryOccupation, null);
+			this.locExtender.SetLocalizationComment(this._primaryOccupation, null);
+			this.locExtender.SetLocalizationPriority(this._primaryOccupation, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._primaryOccupation, "");
 			this._primaryOccupation.Location = new System.Drawing.Point(0, 301);
 			this._primaryOccupation.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this._primaryOccupation.Name = "_primaryOccupation";
@@ -520,6 +623,9 @@ namespace SayMore.UI.ComponentEditors
 			this._labelgender.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelgender.AutoEllipsis = true;
 			this._labelgender.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelgender, null);
+			this.locExtender.SetLocalizationComment(this._labelgender, null);
+			this.locExtender.SetLocalizingId(this._labelgender, "UI.PersonEditor._labelgender");
 			this._labelgender.Location = new System.Drawing.Point(252, 44);
 			this._labelgender.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
 			this._labelgender.MinimumSize = new System.Drawing.Size(42, 0);
@@ -537,6 +643,9 @@ namespace SayMore.UI.ComponentEditors
 			this._gender.Items.AddRange(new object[] {
             "Male",
             "Female"});
+			this.locExtender.SetLocalizableToolTip(this._gender, null);
+			this.locExtender.SetLocalizationComment(this._gender, null);
+			this.locExtender.SetLocalizingId(this._gender, "UI.PersonEditor._genderDropDownList");
 			this._gender.Location = new System.Drawing.Point(252, 60);
 			this._gender.Margin = new System.Windows.Forms.Padding(7, 3, 3, 0);
 			this._gender.Name = "_gender";
@@ -547,6 +656,9 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._labelHowToContact.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelHowToContact.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelHowToContact, null);
+			this.locExtender.SetLocalizationComment(this._labelHowToContact, null);
+			this.locExtender.SetLocalizingId(this._labelHowToContact, "UI.PersonEditor._labelHowToContact");
 			this._labelHowToContact.Location = new System.Drawing.Point(252, 115);
 			this._labelHowToContact.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
 			this._labelHowToContact.Name = "_labelHowToContact";
@@ -561,6 +673,10 @@ namespace SayMore.UI.ComponentEditors
 			this._howToContact.Dock = System.Windows.Forms.DockStyle.Top;
 			this._binder.SetIsBound(this._howToContact, true);
 			this._binder.SetIsComponentFileId(this._howToContact, false);
+			this.locExtender.SetLocalizableToolTip(this._howToContact, null);
+			this.locExtender.SetLocalizationComment(this._howToContact, null);
+			this.locExtender.SetLocalizationPriority(this._howToContact, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._howToContact, "");
 			this._howToContact.Location = new System.Drawing.Point(252, 131);
 			this._howToContact.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
 			this._howToContact.Multiline = true;
@@ -575,6 +691,9 @@ namespace SayMore.UI.ComponentEditors
 			this._labelCustomFields.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._labelCustomFields.AutoSize = true;
 			this._tableLayout.SetColumnSpan(this._labelCustomFields, 2);
+			this.locExtender.SetLocalizableToolTip(this._labelCustomFields, null);
+			this.locExtender.SetLocalizationComment(this._labelCustomFields, null);
+			this.locExtender.SetLocalizingId(this._labelCustomFields, "UI.PersonEditor._labelCustomFields");
 			this._labelCustomFields.Location = new System.Drawing.Point(252, 223);
 			this._labelCustomFields.Margin = new System.Windows.Forms.Padding(7, 5, 3, 0);
 			this._labelCustomFields.Name = "_labelCustomFields";
@@ -584,8 +703,8 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			// _panelGrid
 			// 
-			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._panelGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayout.SetColumnSpan(this._panelGrid, 2);
 			this._panelGrid.Location = new System.Drawing.Point(252, 239);
 			this._panelGrid.Margin = new System.Windows.Forms.Padding(7, 3, 0, 3);
@@ -597,8 +716,8 @@ namespace SayMore.UI.ComponentEditors
 			// _panelPicture
 			// 
 			this._panelPicture.AllowDrop = true;
-			this._panelPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._panelPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._panelPicture.Controls.Add(this._picture);
 			this._panelPicture.Location = new System.Drawing.Point(350, 0);
 			this._panelPicture.Margin = new System.Windows.Forms.Padding(14, 0, 0, 0);
@@ -607,8 +726,8 @@ namespace SayMore.UI.ComponentEditors
 			this._panelPicture.Size = new System.Drawing.Size(152, 124);
 			this._panelPicture.TabIndex = 33;
 			this._panelPicture.DragDrop += new System.Windows.Forms.DragEventHandler(this.HandlePictureDragDrop);
-			this._panelPicture.DragLeave += new System.EventHandler(this.HandlePictureDragLeave);
 			this._panelPicture.DragEnter += new System.Windows.Forms.DragEventHandler(this.HandlePictureDragEnter);
+			this._panelPicture.DragLeave += new System.EventHandler(this.HandlePictureDragLeave);
 			// 
 			// _picture
 			// 
@@ -617,6 +736,9 @@ namespace SayMore.UI.ComponentEditors
 			this._picture.ErrorImage = null;
 			this._picture.Image = global::SayMore.Properties.Resources.kimidNoPhoto;
 			this._picture.InitialImage = null;
+			this.locExtender.SetLocalizableToolTip(this._picture, "Click to Change Picture");
+			this.locExtender.SetLocalizationComment(this._picture, null);
+			this.locExtender.SetLocalizingId(this._picture, "UI.PersonEditor._picture");
 			this._picture.Location = new System.Drawing.Point(0, 0);
 			this._picture.Margin = new System.Windows.Forms.Padding(14, 0, 0, 0);
 			this._picture.Name = "_picture";
@@ -624,10 +746,14 @@ namespace SayMore.UI.ComponentEditors
 			this._picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this._picture.TabIndex = 9;
 			this._picture.TabStop = false;
-			this._picture.MouseLeave += new System.EventHandler(this.HandlePersonPictureMouseEnterLeave);
-			this._picture.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandlePersonPictureMouseClick);
 			this._picture.Paint += new System.Windows.Forms.PaintEventHandler(this.HandlePersonPicturePaint);
+			this._picture.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HandlePersonPictureMouseClick);
 			this._picture.MouseEnter += new System.EventHandler(this.HandlePersonPictureMouseEnterLeave);
+			this._picture.MouseLeave += new System.EventHandler(this.HandlePersonPictureMouseEnterLeave);
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// PersonBasicEditor
 			// 
@@ -635,12 +761,17 @@ namespace SayMore.UI.ComponentEditors
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(207)))), ((int)(((byte)(219)))));
 			this.Controls.Add(this._tableLayout);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "");
 			this.Name = "PersonBasicEditor";
 			this.Size = new System.Drawing.Size(516, 347);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			this._panelPicture.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this._picture)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -687,5 +818,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.ToolTip _tooltip;
 		private System.Windows.Forms.PictureBox _picture;
 		private System.Windows.Forms.Panel _panelPicture;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

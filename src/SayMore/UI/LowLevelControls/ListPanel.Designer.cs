@@ -36,7 +36,6 @@ namespace SayMore.UI.LowLevelControls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "UI.ListPanel";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// _outerPanel
@@ -57,7 +56,7 @@ namespace SayMore.UI.LowLevelControls
 			this.locExtender.SetLocalizableToolTip(this._outerPanel, null);
 			this.locExtender.SetLocalizationComment(this._outerPanel, null);
 			this.locExtender.SetLocalizationPriority(this._outerPanel, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._outerPanel, "ListPanel._outerPanel");
+			this.locExtender.SetLocalizingId(this._outerPanel, "UI.ListPanel._outerPanel");
 			this._outerPanel.Location = new System.Drawing.Point(0, 0);
 			this._outerPanel.MnemonicGeneratesClick = false;
 			this._outerPanel.Name = "_outerPanel";
@@ -86,7 +85,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonNew.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonNew, null);
 			this.locExtender.SetLocalizationComment(this._buttonNew, null);
-			this.locExtender.SetLocalizingId(this._buttonNew, "ListPanel._buttonNew");
+			this.locExtender.SetLocalizingId(this._buttonNew, "UI.ListPanel._buttonNew");
 			this._buttonNew.Location = new System.Drawing.Point(5, 5);
 			this._buttonNew.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonNew.Name = "_buttonNew";
@@ -102,7 +101,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonDelete, null);
 			this.locExtender.SetLocalizationComment(this._buttonDelete, null);
-			this.locExtender.SetLocalizingId(this._buttonDelete, "ListPanel._buttonDelete");
+			this.locExtender.SetLocalizingId(this._buttonDelete, "UI.ListPanel._buttonDelete");
 			this._buttonDelete.Location = new System.Drawing.Point(86, 5);
 			this._buttonDelete.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonDelete.Name = "_buttonDelete";
@@ -127,7 +126,7 @@ namespace SayMore.UI.LowLevelControls
 			this.locExtender.SetLocalizableToolTip(this._headerLabel, null);
 			this.locExtender.SetLocalizationComment(this._headerLabel, "Localized in controls that host this one.");
 			this.locExtender.SetLocalizationPriority(this._headerLabel, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._headerLabel, "ListPanel._headerLabel");
+			this.locExtender.SetLocalizingId(this._headerLabel, "UI.ListPanel._headerLabel");
 			this._headerLabel.Location = new System.Drawing.Point(0, 0);
 			this._headerLabel.MinimumSize = new System.Drawing.Size(165, 0);
 			this._headerLabel.MnemonicGeneratesClick = false;
@@ -152,7 +151,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonColChooser.Image = ((System.Drawing.Image)(resources.GetObject("_buttonColChooser.Image")));
 			this.locExtender.SetLocalizableToolTip(this._buttonColChooser, "Choose Columns");
 			this.locExtender.SetLocalizationComment(this._buttonColChooser, null);
-			this.locExtender.SetLocalizingId(this._buttonColChooser, "ListPanel._buttonColChooser");
+			this.locExtender.SetLocalizingId(this._buttonColChooser, "UI.ListPanel._buttonColChooser");
 			this._buttonColChooser.Location = new System.Drawing.Point(147, 1);
 			this._buttonColChooser.Name = "_buttonColChooser";
 			this._buttonColChooser.Size = new System.Drawing.Size(20, 20);

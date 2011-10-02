@@ -76,7 +76,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonNewFromFiles, null);
 			this.locExtender.SetLocalizationComment(this._buttonNewFromFiles, null);
-			this.locExtender.SetLocalizingId(this._buttonNewFromFiles, "EventsView._buttonNewFromFiles");
+			this.locExtender.SetLocalizingId(this._buttonNewFromFiles, "UI.EventsView._buttonNewFromFiles");
 			this._buttonNewFromFiles.Location = new System.Drawing.Point(33, 161);
 			this._buttonNewFromFiles.MinimumSize = new System.Drawing.Size(117, 26);
 			this._buttonNewFromFiles.Name = "_buttonNewFromFiles";
@@ -98,7 +98,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this._eventsListPanel, null);
 			this.locExtender.SetLocalizationComment(this._eventsListPanel, null);
 			this.locExtender.SetLocalizationPriority(this._eventsListPanel, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._eventsListPanel, "EventsView.ListPanel");
+			this.locExtender.SetLocalizingId(this._eventsListPanel, "UI.EventsView.ListPanel");
 			this._eventsListPanel.Location = new System.Drawing.Point(0, 0);
 			this._eventsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
 			this._eventsListPanel.Name = "_eventsListPanel";
@@ -138,7 +138,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this._eventComponentFileGrid, null);
 			this.locExtender.SetLocalizationComment(this._eventComponentFileGrid, null);
 			this.locExtender.SetLocalizationPriority(this._eventComponentFileGrid, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._eventComponentFileGrid, "EventsView.ComponentFileGrid");
+			this.locExtender.SetLocalizingId(this._eventComponentFileGrid, "UI.EventsView.ComponentFileGrid");
 			this._eventComponentFileGrid.Location = new System.Drawing.Point(0, 0);
 			this._eventComponentFileGrid.Name = "_eventComponentFileGrid";
 			this._eventComponentFileGrid.RenameButtonVisible = true;
@@ -152,7 +152,7 @@ namespace SayMore.UI.ElementListScreen
 			this._labelClickNewHelpPrompt.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelClickNewHelpPrompt, null);
 			this.locExtender.SetLocalizationComment(this._labelClickNewHelpPrompt, null);
-			this.locExtender.SetLocalizingId(this._labelClickNewHelpPrompt, "EventsView._labelClickNewHelpPrompt");
+			this.locExtender.SetLocalizingId(this._labelClickNewHelpPrompt, "UI.EventsView._labelClickNewHelpPrompt");
 			this._labelClickNewHelpPrompt.Location = new System.Drawing.Point(0, 0);
 			this._labelClickNewHelpPrompt.Name = "_labelClickNewHelpPrompt";
 			this._labelClickNewHelpPrompt.Size = new System.Drawing.Size(315, 197);
@@ -162,7 +162,6 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "UI.EventsView";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// EventsListScreen
@@ -173,7 +172,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "EventsView.EventsListScreen");
+			this.locExtender.SetLocalizingId(this, "UI.EventsView.EventsListScreen");
 			this.Name = "EventsListScreen";
 			this.Size = new System.Drawing.Size(503, 350);
 			this._elementListSplitter.Panel1.ResumeLayout(false);

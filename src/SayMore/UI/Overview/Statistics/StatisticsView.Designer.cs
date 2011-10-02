@@ -59,7 +59,7 @@ namespace SayMore.UI.Overview.Statistics
 			this.locExtender.SetLocalizableToolTip(this._webBrowser, null);
 			this.locExtender.SetLocalizationComment(this._webBrowser, null);
 			this.locExtender.SetLocalizationPriority(this._webBrowser, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._webBrowser, "ProgressView._webBrowser");
+			this.locExtender.SetLocalizingId(this._webBrowser, "UI.ProgressView._webBrowser");
 			this._webBrowser.Location = new System.Drawing.Point(0, 0);
 			this._webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
 			this._webBrowser.Name = "_webBrowser";
@@ -75,7 +75,7 @@ namespace SayMore.UI.Overview.Statistics
 			this.locExtender.SetLocalizableToolTip(this._toolStripActions, null);
 			this.locExtender.SetLocalizationComment(this._toolStripActions, null);
 			this.locExtender.SetLocalizationPriority(this._toolStripActions, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._toolStripActions, "ProgressView._toolStripActions");
+			this.locExtender.SetLocalizingId(this._toolStripActions, "UI.ProgressView._toolStripActions");
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
 			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
@@ -91,7 +91,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonRefresh, null);
 			this.locExtender.SetLocalizationComment(this._buttonRefresh, null);
-			this.locExtender.SetLocalizingId(this._buttonRefresh, "ProgressView._buttonRefresh");
+			this.locExtender.SetLocalizingId(this._buttonRefresh, "UI.ProgressView._buttonRefresh");
 			this._buttonRefresh.Name = "_buttonRefresh";
 			this._buttonRefresh.Size = new System.Drawing.Size(65, 20);
 			this._buttonRefresh.Text = "Refresh";
@@ -115,7 +115,7 @@ namespace SayMore.UI.Overview.Statistics
 			this.locExtender.SetLocalizableToolTip(this._panelBrowser, null);
 			this.locExtender.SetLocalizationComment(this._panelBrowser, null);
 			this.locExtender.SetLocalizationPriority(this._panelBrowser, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._panelBrowser, "ProgressView._panelBrowser");
+			this.locExtender.SetLocalizingId(this._panelBrowser, "UI.ProgressView._panelBrowser");
 			this._panelBrowser.Location = new System.Drawing.Point(0, 25);
 			this._panelBrowser.Margin = new System.Windows.Forms.Padding(0);
 			this._panelBrowser.MnemonicGeneratesClick = false;
@@ -143,7 +143,7 @@ namespace SayMore.UI.Overview.Statistics
 			this.locExtender.SetLocalizableToolTip(this._panelWorking, null);
 			this.locExtender.SetLocalizationComment(this._panelWorking, null);
 			this.locExtender.SetLocalizationPriority(this._panelWorking, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._panelWorking, "ProgressView._panelWorking");
+			this.locExtender.SetLocalizingId(this._panelWorking, "UI.ProgressView._panelWorking");
 			this._panelWorking.Location = new System.Drawing.Point(176, 104);
 			this._panelWorking.MnemonicGeneratesClick = false;
 			this._panelWorking.Name = "_panelWorking";
@@ -177,7 +177,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._labelWorking.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelWorking, null);
 			this.locExtender.SetLocalizationComment(this._labelWorking, null);
-			this.locExtender.SetLocalizingId(this._labelWorking, "ProgressView._labelWorking");
+			this.locExtender.SetLocalizingId(this._labelWorking, "UI.ProgressView._labelWorking");
 			this._labelWorking.Location = new System.Drawing.Point(57, 16);
 			this._labelWorking.Name = "_labelWorking";
 			this._labelWorking.Size = new System.Drawing.Size(88, 21);
@@ -191,7 +191,7 @@ namespace SayMore.UI.Overview.Statistics
 			this.locExtender.SetLocalizableToolTip(this._pictureWorking, null);
 			this.locExtender.SetLocalizationComment(this._pictureWorking, null);
 			this.locExtender.SetLocalizationPriority(this._pictureWorking, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._pictureWorking, "ProgressView._pictureWorking");
+			this.locExtender.SetLocalizingId(this._pictureWorking, "UI.ProgressView._pictureWorking");
 			this._pictureWorking.Location = new System.Drawing.Point(3, 3);
 			this._pictureWorking.Name = "_pictureWorking";
 			this._pictureWorking.Size = new System.Drawing.Size(48, 48);
@@ -201,7 +201,6 @@ namespace SayMore.UI.Overview.Statistics
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "UI.ProgressView";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// StatisticsView

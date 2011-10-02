@@ -58,7 +58,7 @@ namespace SayMore.Transcription.UI
 			this._labelTranslation.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelTranslation, null);
 			this.locExtender.SetLocalizationComment(this._labelTranslation, null);
-			this.locExtender.SetLocalizingId(this._labelTranslation, "OralAnnotationWaveViewer._labelTranslation");
+			this.locExtender.SetLocalizingId(this._labelTranslation, "Transcription.UI.OralAnnotationWaveViewer._labelTranslation");
 			this._labelTranslation.Location = new System.Drawing.Point(0, 136);
 			this._labelTranslation.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._labelTranslation.Name = "_labelTranslation";
@@ -72,7 +72,7 @@ namespace SayMore.Transcription.UI
 			this._labelCareful.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelCareful, null);
 			this.locExtender.SetLocalizationComment(this._labelCareful, null);
-			this.locExtender.SetLocalizingId(this._labelCareful, "OralAnnotationWaveViewer._labelCareful");
+			this.locExtender.SetLocalizingId(this._labelCareful, "Transcription.UI.OralAnnotationWaveViewer._labelCareful");
 			this._labelCareful.Location = new System.Drawing.Point(0, 79);
 			this._labelCareful.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._labelCareful.Name = "_labelCareful";
@@ -92,7 +92,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._wavePanelOriginal, null);
 			this.locExtender.SetLocalizationComment(this._wavePanelOriginal, null);
 			this.locExtender.SetLocalizationPriority(this._wavePanelOriginal, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._wavePanelOriginal, "OralAnnotationWaveViewer._wavePanelOriginal");
+			this.locExtender.SetLocalizingId(this._wavePanelOriginal, "Transcription.UI.OralAnnotationWaveViewer._wavePanelOriginal");
 			this._wavePanelOriginal.Location = new System.Drawing.Point(64, 0);
 			this._wavePanelOriginal.Margin = new System.Windows.Forms.Padding(0);
 			this._wavePanelOriginal.Name = "_wavePanelOriginal";
@@ -112,7 +112,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._wavePanelTranslation, null);
 			this.locExtender.SetLocalizationComment(this._wavePanelTranslation, null);
 			this.locExtender.SetLocalizationPriority(this._wavePanelTranslation, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._wavePanelTranslation, "OralAnnotationWaveViewer._wavePanelTranslation");
+			this.locExtender.SetLocalizingId(this._wavePanelTranslation, "Transcription.UI.OralAnnotationWaveViewer._wavePanelTranslation");
 			this._wavePanelTranslation.Location = new System.Drawing.Point(64, 114);
 			this._wavePanelTranslation.Margin = new System.Windows.Forms.Padding(0);
 			this._wavePanelTranslation.Name = "_wavePanelTranslation";
@@ -132,7 +132,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._wavePanelCareful, null);
 			this.locExtender.SetLocalizationComment(this._wavePanelCareful, null);
 			this.locExtender.SetLocalizationPriority(this._wavePanelCareful, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._wavePanelCareful, "OralAnnotationWaveViewer._wavePanelCareful");
+			this.locExtender.SetLocalizingId(this._wavePanelCareful, "Transcription.UI.OralAnnotationWaveViewer._wavePanelCareful");
 			this._wavePanelCareful.Location = new System.Drawing.Point(64, 57);
 			this._wavePanelCareful.Margin = new System.Windows.Forms.Padding(0);
 			this._wavePanelCareful.Name = "_wavePanelCareful";
@@ -146,7 +146,7 @@ namespace SayMore.Transcription.UI
 			this._labelOriginal.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelOriginal, null);
 			this.locExtender.SetLocalizationComment(this._labelOriginal, null);
-			this.locExtender.SetLocalizingId(this._labelOriginal, "OralAnnotationWaveViewer._labelOriginal");
+			this.locExtender.SetLocalizingId(this._labelOriginal, "Transcription.UI.OralAnnotationWaveViewer._labelOriginal");
 			this._labelOriginal.Location = new System.Drawing.Point(0, 22);
 			this._labelOriginal.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._labelOriginal.Name = "_labelOriginal";
@@ -156,7 +156,6 @@ namespace SayMore.Transcription.UI
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "UI.OralAnnotationWaveViewer";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// OralAnnotationWaveViewer
@@ -168,7 +167,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "OralAnnotationWaveViewer.OralAnnotationWaveViewer");
+			this.locExtender.SetLocalizingId(this, "Transcription.UI.OralAnnotationWaveViewer.OralAnnotationWaveViewer");
 			this.Name = "OralAnnotationWaveViewer";
 			this.Size = new System.Drawing.Size(383, 171);
 			this._tableLayout.ResumeLayout(false);

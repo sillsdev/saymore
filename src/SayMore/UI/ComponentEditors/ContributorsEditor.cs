@@ -32,6 +32,7 @@ namespace SayMore.UI.ComponentEditors
 			_contributorsControl.ContributorDeleted += HandleContributorDeleted;
 			Controls.Add(_contributorsControl);
 
+
 			SetComponentFile(file);
 		}
 
@@ -77,12 +78,17 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (contribution != null)
 			{
-				// TODO: Localize
 				if (string.IsNullOrEmpty(contribution.ContributorName))
-					return new KeyValuePair<string, string>("name", "Enter a name.");
+				{
+					return new KeyValuePair<string, string>("name",
+						Program.GetString("UI.ContributorsEditor.MissingContributorNameMsg", "Enter a name."));
+				}
 
 				if (contribution.Role == null)
-					return new KeyValuePair<string, string>("role", "Choose a role.");
+				{
+					return new KeyValuePair<string, string>("role",
+						Program.GetString("UI.ContributorsEditor.MissingContributorRoleMsg", "Choose a role."));
+				}
 			}
 
 			return new KeyValuePair<string, string>();

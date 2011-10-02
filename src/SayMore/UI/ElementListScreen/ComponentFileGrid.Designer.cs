@@ -66,7 +66,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this._contextMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._contextMenuStrip, null);
 			this.locExtender.SetLocalizationPriority(this._contextMenuStrip, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._contextMenuStrip, "ComponentFileGrid._contextMenuStrip");
+			this.locExtender.SetLocalizingId(this._contextMenuStrip, "UI.ComponentFileGrid._contextMenuStrip");
 			this._contextMenuStrip.Name = "_contextMenuStrip";
 			this._contextMenuStrip.Size = new System.Drawing.Size(129, 26);
 			// 
@@ -74,7 +74,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this.locExtender.SetLocalizableToolTip(this._menuDeleteFile, null);
 			this.locExtender.SetLocalizationComment(this._menuDeleteFile, null);
-			this.locExtender.SetLocalizingId(this._menuDeleteFile, "ComponentFileGrid._menuDeleteFile");
+			this.locExtender.SetLocalizingId(this._menuDeleteFile, "UI.ComponentFileGrid._menuDeleteFile");
 			this._menuDeleteFile.Name = "_menuDeleteFile";
 			this._menuDeleteFile.Size = new System.Drawing.Size(128, 22);
 			this._menuDeleteFile.Text = "Delete File";
@@ -96,7 +96,7 @@ namespace SayMore.UI.ElementListScreen
 			this._panelOuter.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelOuter, null);
 			this.locExtender.SetLocalizationComment(this._panelOuter, null);
-			this.locExtender.SetLocalizingId(this._panelOuter, "ComponentFileGrid._panelOuter");
+			this.locExtender.SetLocalizingId(this._panelOuter, "UI.ComponentFileGrid._panelOuter");
 			this._panelOuter.Location = new System.Drawing.Point(0, 0);
 			this._panelOuter.Margin = new System.Windows.Forms.Padding(0);
 			this._panelOuter.MnemonicGeneratesClick = false;
@@ -119,7 +119,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this._toolStripActions, null);
 			this.locExtender.SetLocalizationComment(this._toolStripActions, null);
 			this.locExtender.SetLocalizationPriority(this._toolStripActions, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._toolStripActions, "ComponentFileGrid._toolStripActions");
+			this.locExtender.SetLocalizingId(this._toolStripActions, "UI.ComponentFileGrid._toolStripActions");
 			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
 			this._toolStripActions.Name = "_toolStripActions";
 			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
@@ -135,7 +135,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonOpen, null);
 			this.locExtender.SetLocalizationComment(this._buttonOpen, null);
-			this.locExtender.SetLocalizingId(this._buttonOpen, "ComponentFileGrid._buttonOpen");
+			this.locExtender.SetLocalizingId(this._buttonOpen, "UI.ComponentFileGrid._buttonOpen");
 			this._buttonOpen.Name = "_buttonOpen";
 			this._buttonOpen.Size = new System.Drawing.Size(47, 20);
 			this._buttonOpen.Text = "Open";
@@ -150,7 +150,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonRename, null);
 			this.locExtender.SetLocalizationComment(this._buttonRename, null);
-			this.locExtender.SetLocalizingId(this._buttonRename, "ComponentFileGrid._buttonRename");
+			this.locExtender.SetLocalizingId(this._buttonRename, "UI.ComponentFileGrid._buttonRename");
 			this._buttonRename.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
 			this._buttonRename.Name = "_buttonRename";
 			this._buttonRename.Size = new System.Drawing.Size(61, 20);
@@ -166,7 +166,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonConvert.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonConvert, null);
 			this.locExtender.SetLocalizationComment(this._buttonConvert, null);
-			this.locExtender.SetLocalizingId(this._buttonConvert, "ComponentFileGrid._buttonConvert");
+			this.locExtender.SetLocalizingId(this._buttonConvert, "UI.ComponentFileGrid._buttonConvert");
 			this._buttonConvert.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
 			this._buttonConvert.Name = "_buttonConvert";
 			this._buttonConvert.Size = new System.Drawing.Size(60, 20);
@@ -181,7 +181,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonAddFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonAddFiles, null);
 			this.locExtender.SetLocalizationComment(this._buttonAddFiles, null);
-			this.locExtender.SetLocalizingId(this._buttonAddFiles, "ComponentFileGrid._buttonAddFiles");
+			this.locExtender.SetLocalizingId(this._buttonAddFiles, "UI.ComponentFileGrid._buttonAddFiles");
 			this._buttonAddFiles.Name = "_buttonAddFiles";
 			this._buttonAddFiles.Size = new System.Drawing.Size(83, 20);
 			this._buttonAddFiles.Text = "Add Files...";
@@ -200,7 +200,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonCreateAnnotationFile.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonCreateAnnotationFile, null);
 			this.locExtender.SetLocalizationComment(this._buttonCreateAnnotationFile, null);
-			this.locExtender.SetLocalizingId(this._buttonCreateAnnotationFile, "ComponentFileGrid._buttonCreateAnnotationFile");
+			this.locExtender.SetLocalizingId(this._buttonCreateAnnotationFile, "UI.ComponentFileGrid._buttonCreateAnnotationFile");
 			this._buttonCreateAnnotationFile.Name = "_buttonCreateAnnotationFile";
 			this._buttonCreateAnnotationFile.Size = new System.Drawing.Size(133, 20);
 			this._buttonCreateAnnotationFile.Text = "Create Annotation File...";
@@ -209,7 +209,6 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "UI.ComponentFileGrid";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// _grid
@@ -247,7 +246,7 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this._grid, null);
 			this.locExtender.SetLocalizationComment(this._grid, null);
-			this.locExtender.SetLocalizingId(this._grid, "ComponentFileGrid._grid");
+			this.locExtender.SetLocalizingId(this._grid, "UI.ComponentFileGrid._grid");
 			this._grid.Location = new System.Drawing.Point(0, 25);
 			this._grid.Margin = new System.Windows.Forms.Padding(0);
 			this._grid.MultiSelect = false;
@@ -285,21 +284,21 @@ namespace SayMore.UI.ElementListScreen
 			// colName
 			// 
 			this.colName.DataPropertyName = "FileName";
-			this.colName.HeaderText = "Name";
+			this.colName.HeaderText = "L10N:UI.ComponentFileGrid._grid.FileNameColHdgText!Name";
 			this.colName.Name = "colName";
 			this.colName.ReadOnly = true;
 			// 
 			// colType
 			// 
 			this.colType.DataPropertyName = "FileTypeDescription";
-			this.colType.HeaderText = "Type";
+			this.colType.HeaderText = "L10N:UI.ComponentFileGrid._grid.FileTypeColHdgText!Type";
 			this.colType.Name = "colType";
 			this.colType.ReadOnly = true;
 			// 
 			// colDataModified
 			// 
 			this.colDataModified.DataPropertyName = "DateModified";
-			this.colDataModified.HeaderText = "Date Modified";
+			this.colDataModified.HeaderText = "L10N:UI.ComponentFileGrid._grid.FileDateColHdgText!Date Modified";
 			this.colDataModified.Name = "colDataModified";
 			this.colDataModified.ReadOnly = true;
 			this.colDataModified.Width = 107;
@@ -309,7 +308,7 @@ namespace SayMore.UI.ElementListScreen
 			this.colSize.DataPropertyName = "FileSize";
 			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
-			this.colSize.HeaderText = "Size";
+			this.colSize.HeaderText = "L10N:UI.ComponentFileGrid._grid.FileSizeColHdgText!Size";
 			this.colSize.Name = "colSize";
 			this.colSize.ReadOnly = true;
 			this.colSize.Width = 52;
@@ -319,7 +318,7 @@ namespace SayMore.UI.ElementListScreen
 			this.colDuration.DataPropertyName = "DurationString";
 			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			this.colDuration.DefaultCellStyle = dataGridViewCellStyle4;
-			this.colDuration.HeaderText = "Duration";
+			this.colDuration.HeaderText = "L10N:UI.ComponentFileGrid._grid.FileDurationColHdgText!Duration";
 			this.colDuration.Name = "colDuration";
 			this.colDuration.ReadOnly = true;
 			// 

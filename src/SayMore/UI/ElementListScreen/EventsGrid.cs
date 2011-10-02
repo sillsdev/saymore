@@ -93,9 +93,13 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var cmds = base.GetMenuCommands().ToList();
 
-			cmds.Insert(0, new ToolStripMenuItem(
-				Program.GetString("UI.EventsView.RampArchiveMenuText", "Archive with RAMP (SIL)..."),
-				Resources.RampIcon, (s, e) => ((Event)GetCurrentElement()).CreateArchiveFile()));
+			var menu = new ToolStripMenuItem(string.Empty,
+				Resources.RampIcon, (s, e) => ((Event)GetCurrentElement()).CreateArchiveFile());
+
+			menu.Text = Program.GetString("UI.EventsView.RampArchiveMenuText",
+				"Archive with RAMP (SIL)...", null, menu);
+
+			cmds.Insert(0, menu);
 
 			return cmds;
 		}
@@ -131,9 +135,10 @@ namespace SayMore.UI.ElementListScreen
 				Columns[e.ColumnIndex].DataPropertyName == "status")
 			{
 				var value = base.GetValueForField(_items.ElementAt(e.RowIndex), "status");
+				var statusText = Event.GetLocalizedStatus(value as string);
 
 				e.ToolTipText = string.Format(
-					Program.GetString("UI.EventsView.EventStatusTooltipFormatText", "Status: {0}"), value);
+					Program.GetString("UI.EventsView.EventStatusTooltipFormatText", "Status: {0}"), statusText);
 			}
 
 			base.OnCellToolTipTextNeeded(e);

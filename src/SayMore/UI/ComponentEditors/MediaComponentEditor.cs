@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Files;
@@ -12,6 +14,16 @@ namespace SayMore.UI.ComponentEditors
 	{
 		protected FieldsValuesGrid _grid;
 		protected FieldsValuesGridViewModel _gridViewModel;
+
+		/// ------------------------------------------------------------------------------------
+		public MediaComponentEditor()
+		{
+			var moreReliableDesignMode = (base.DesignMode || GetService(typeof(IDesignerHost)) != null) ||
+				(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+
+			if (!moreReliableDesignMode)
+				throw new NotImplementedException("Parameterless constructor should not be used.");
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public MediaComponentEditor(ComponentFile file, string tabText, string imageKey,

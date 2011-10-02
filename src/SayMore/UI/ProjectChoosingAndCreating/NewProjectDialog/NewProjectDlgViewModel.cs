@@ -23,7 +23,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		/// ------------------------------------------------------------------------------------
 		public bool IsNewProjectNameValid(string newName, Label newProjectPathLabel)
 		{
-			var invalidPathMsg = Program.GetString("UI.NewProjectDialog.InvalidPathMsg",
+			var invalidPathMsg = Program.GetString("UI.NewProjectDlg.InvalidPathMsg",
 				"Unable to create a new project by that name.",
 				"This text is displayed under the project name when it is invalid.");
 

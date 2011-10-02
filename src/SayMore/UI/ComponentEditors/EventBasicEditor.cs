@@ -31,7 +31,9 @@ namespace SayMore.UI.ComponentEditors
 
 			_personInformant = personInformant;
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
-			_status.Items.AddRange(Event.GetStatusNames().ToArray());
+
+			_status.Items.AddRange(Enum.GetNames(typeof(Event.Status))
+				.Select(x => x.ToString().Replace('_', ' ')).ToArray());
 
 			//LoadGenreList(autoCompleteProvider, null);
 			autoCompleteProvider.NewDataAvailable += LoadGenreList;
@@ -123,8 +125,8 @@ namespace SayMore.UI.ComponentEditors
 		{
 			e.DrawBackground();
 
-			var text = (e.Index < 0 ? string.Empty : _status.Items[e.Index] as string);
-			var img = (Image)Properties.Resources.ResourceManager.GetObject("Status" + text.Replace(' ', '_'));
+			var enumText = (e.Index < 0 ? string.Empty : _status.Items[e.Index] as string).Replace(' ', '_');
+			var img = (Image)Properties.Resources.ResourceManager.GetObject("Status" + enumText);
 			int dy = (int)Math.Round((e.Bounds.Height - img.Height) / 2f, MidpointRounding.AwayFromZero);
 
 			// Draw image
@@ -138,8 +140,8 @@ namespace SayMore.UI.ComponentEditors
 			rc = e.Bounds;
 			rc.X += (img.Width + 3);
 			rc.Width -= (img.Width + 3);
-			TextRenderer.DrawText(e.Graphics, text, e.Font, rc, e.ForeColor,
-				TextFormatFlags.VerticalCenter | TextFormatFlags.WordEllipsis);
+			TextRenderer.DrawText(e.Graphics, Event.GetLocalizedStatus(enumText), e.Font,
+				rc, e.ForeColor, TextFormatFlags.VerticalCenter | TextFormatFlags.WordEllipsis);
 		}
 	}
 }

@@ -71,7 +71,7 @@ namespace SayMore.Transcription.UI
 			var exception = annotationFile.TryLoadAndReturnException();
 			if (exception != null)
 			{
-				var msg = Program.GetString("UI.TextAnnotationEditor.LoadingAnnotationFileErrorMsg",
+				var msg = Program.GetString("Transcription.UI.TextAnnotationEditor.LoadingAnnotationFileErrorMsg",
 					"There was an error loading the annotation file '{0}'.");
 
 				ErrorReport.NotifyUserOfProblem(exception, msg, file.PathToAnnotatedFile);
@@ -248,8 +248,8 @@ namespace SayMore.Transcription.UI
 				OralAnnotationType.Careful : OralAnnotationType.Translation);
 
 			var caption = (sender == _buttonCarefulSpeech ?
-				Program.GetString("UI.TextAnnotationEditor.RecordCarefulSpeechMenuText", "Careful Speech") :
-				Program.GetString("UI.TextAnnotationEditor.RecordOralTranslationMenuText", "Oral Translation"));
+				Program.GetString("Transcription.UI.TextAnnotationEditor.RecordCarefulSpeechMenuText", "Careful Speech") :
+				Program.GetString("Transcription.UI.TextAnnotationEditor.RecordOralTranslationMenuText", "Oral Translation"));
 
 			var file = ((AnnotationComponentFile)_file);
 			var tier = (TimeOrderTier)file.Tiers.FirstOrDefault(t => t is TimeOrderTier);
@@ -272,7 +272,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
-			var msg = Program.GetString("UI.TextAnnotationEditor.RegeneratingSegmentsWarningMsg",
+			var msg = Program.GetString("Transcription.UI.TextAnnotationEditor.RegeneratingSegmentsWarningMsg",
 				"Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?");
 
 			if (MessageBox.Show(msg, Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)

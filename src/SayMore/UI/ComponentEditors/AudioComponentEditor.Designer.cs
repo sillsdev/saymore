@@ -50,26 +50,6 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayout.Size = new System.Drawing.Size(435, 194);
 			this._tableLayout.TabIndex = 0;
 			// 
-			// _presetMenuButton
-			// 
-			this._presetMenuButton.AutoSize = true;
-			this._presetMenuButton.Image = global::SayMore.Properties.Resources.DropDownArrow;
-			this._presetMenuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this._presetMenuButton.Location = new System.Drawing.Point(0, 0);
-			this._presetMenuButton.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
-			this._presetMenuButton.MinimumSize = new System.Drawing.Size(73, 23);
-			this._presetMenuButton.Name = "_presetMenuButton";
-			this._presetMenuButton.Size = new System.Drawing.Size(73, 23);
-			this._presetMenuButton.TabIndex = 16;
-			this._presetMenuButton.Text = "Presets";
-			this._presetMenuButton.UseVisualStyleBackColor = true;
-			this._presetMenuButton.Click += new System.EventHandler(this.HandlePresetMenuButtonClick);
-			// 
-			// _presetMenu
-			// 
-			this._presetMenu.Name = "_presetMenu";
-			this._presetMenu.Size = new System.Drawing.Size(61, 4);
-			// 
 			// AudioComponentEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -87,7 +67,5 @@ namespace SayMore.UI.ComponentEditors
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private System.Windows.Forms.Button _presetMenuButton;
-		private System.Windows.Forms.ContextMenuStrip _presetMenu;
 	}
 }

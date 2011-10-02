@@ -84,7 +84,9 @@ namespace SayMore.UI.LowLevelControls
 						_msgWindow = new FadingMessageWindow();
 
 					var pt = PointToScreen(new Point(Width / 2, Height / 3));
-					_msgWindow.Show("One column must be visible.", pt);
+					_msgWindow.Show(Program.GetString("UI.ProjectWindow.OneColumnMustBeVisibleMsg",
+						"One column must be visible."), pt);
+
 					SystemSounds.Beep.Play();
 					return;
 				}

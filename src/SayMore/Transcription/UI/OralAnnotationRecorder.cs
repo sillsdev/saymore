@@ -242,7 +242,7 @@ namespace SayMore.Transcription.UI
 				_viewModel.EraseAnnotation();
 				UpdateDisplay();
 				_buttonRecord.ForeColor = Color.Red;
-				_buttonRecord.Text = Program.GetString("UI.OralAnnotationRecorder.RecordingTooShortMsg",
+				_buttonRecord.Text = Program.GetString("Transcription.UI.OralAnnotationRecorder.RecordingTooShortMsg",
 					"Whoops. You need to hold down the SPACE bar or mouse button while talking.");
 			}
 			else if (!MoveToNextSegment())

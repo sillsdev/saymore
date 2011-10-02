@@ -1,6 +1,4 @@
-
 using System;
-using Palaso.Extensions;
 
 namespace SayMore.Model.Files
 {
@@ -12,7 +10,7 @@ namespace SayMore.Model.Files
 	/// ----------------------------------------------------------------------------------------
 	public class ProjectElementComponentFile : ComponentFile
 	{
-		public new delegate ProjectElementComponentFile Factory(ProjectElement parentElement,
+		public delegate ProjectElementComponentFile Factory(ProjectElement parentElement,
 			FileType fileType, FileSerializer fileSerializer, string rootElementName);
 
 		//protected readonly ProjectElement _parentElement;

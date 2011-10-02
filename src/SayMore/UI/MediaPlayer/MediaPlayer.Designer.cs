@@ -61,7 +61,7 @@ namespace SayMore.UI.MediaPlayer
 			this.locExtender.SetLocalizableToolTip(this._videoPanel, null);
 			this.locExtender.SetLocalizationComment(this._videoPanel, null);
 			this.locExtender.SetLocalizationPriority(this._videoPanel, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._videoPanel, "MediaPlayer._videoPanel");
+			this.locExtender.SetLocalizingId(this._videoPanel, "UI.MediaPlayer._videoPanel");
 			this._videoPanel.Location = new System.Drawing.Point(0, 0);
 			this._videoPanel.MnemonicGeneratesClick = false;
 			this._videoPanel.Name = "_videoPanel";
@@ -74,7 +74,7 @@ namespace SayMore.UI.MediaPlayer
 			this.locExtender.SetLocalizableToolTip(this._volumePopup, null);
 			this.locExtender.SetLocalizationComment(this._volumePopup, null);
 			this.locExtender.SetLocalizationPriority(this._volumePopup, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._volumePopup, "MediaPlayer.VolumePopup");
+			this.locExtender.SetLocalizingId(this._volumePopup, "UI.MediaPlayer.VolumePopup");
 			this._volumePopup.Location = new System.Drawing.Point(260, 31);
 			this._volumePopup.Name = "_volumePopup";
 			this._volumePopup.OwningDropDown = null;
@@ -98,7 +98,7 @@ namespace SayMore.UI.MediaPlayer
 			this.locExtender.SetLocalizableToolTip(this._toolbarButtons, null);
 			this.locExtender.SetLocalizationComment(this._toolbarButtons, null);
 			this.locExtender.SetLocalizationPriority(this._toolbarButtons, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._toolbarButtons, "MediaPlayer._toolbarButtons");
+			this.locExtender.SetLocalizingId(this._toolbarButtons, "UI.MediaPlayer._toolbarButtons");
 			this._toolbarButtons.Location = new System.Drawing.Point(0, 217);
 			this._toolbarButtons.Name = "_toolbarButtons";
 			this._toolbarButtons.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -116,7 +116,7 @@ namespace SayMore.UI.MediaPlayer
 			this._buttonPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonPlay, null);
 			this.locExtender.SetLocalizationComment(this._buttonPlay, null);
-			this.locExtender.SetLocalizingId(this._buttonPlay, "MediaPlayer._buttonPlay");
+			this.locExtender.SetLocalizingId(this._buttonPlay, "UI.MediaPlayer._buttonPlay");
 			this._buttonPlay.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._buttonPlay.Name = "_buttonPlay";
 			this._buttonPlay.Size = new System.Drawing.Size(33, 33);
@@ -132,7 +132,7 @@ namespace SayMore.UI.MediaPlayer
 			this._buttonPause.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonPause, null);
 			this.locExtender.SetLocalizationComment(this._buttonPause, null);
-			this.locExtender.SetLocalizingId(this._buttonPause, "MediaPlayer._buttonPause");
+			this.locExtender.SetLocalizingId(this._buttonPause, "UI.MediaPlayer._buttonPause");
 			this._buttonPause.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._buttonPause.Name = "_buttonPause";
 			this._buttonPause.Size = new System.Drawing.Size(33, 34);
@@ -148,7 +148,7 @@ namespace SayMore.UI.MediaPlayer
 			this._buttonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonStop, null);
 			this.locExtender.SetLocalizationComment(this._buttonStop, null);
-			this.locExtender.SetLocalizingId(this._buttonStop, "MediaPlayer._buttonStop");
+			this.locExtender.SetLocalizingId(this._buttonStop, "UI.MediaPlayer._buttonStop");
 			this._buttonStop.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonStop.Name = "_buttonStop";
 			this._buttonStop.Size = new System.Drawing.Size(28, 33);
@@ -165,7 +165,7 @@ namespace SayMore.UI.MediaPlayer
 			this._buttonVolume.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonVolume, null);
 			this.locExtender.SetLocalizationComment(this._buttonVolume, null);
-			this.locExtender.SetLocalizingId(this._buttonVolume, "MediaPlayer._buttonVolume");
+			this.locExtender.SetLocalizingId(this._buttonVolume, "UI.MediaPlayer._buttonVolume");
 			this._buttonVolume.Margin = new System.Windows.Forms.Padding(3, 2, 0, 0);
 			this._buttonVolume.Name = "_buttonVolume";
 			this._buttonVolume.Size = new System.Drawing.Size(42, 32);
@@ -181,7 +181,7 @@ namespace SayMore.UI.MediaPlayer
 			this.locExtender.SetLocalizableToolTip(this._labelTime, null);
 			this.locExtender.SetLocalizationComment(this._labelTime, null);
 			this.locExtender.SetLocalizationPriority(this._labelTime, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelTime, "MediaPlayer._labelTime");
+			this.locExtender.SetLocalizingId(this._labelTime, "UI.MediaPlayer._labelTime");
 			this._labelTime.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._labelTime.Name = "_labelTime";
 			this._labelTime.Size = new System.Drawing.Size(14, 29);
@@ -197,7 +197,7 @@ namespace SayMore.UI.MediaPlayer
 			this.locExtender.SetLocalizableToolTip(this._sliderTime, null);
 			this.locExtender.SetLocalizationComment(this._sliderTime, null);
 			this.locExtender.SetLocalizationPriority(this._sliderTime, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._sliderTime, "MediaPlayer._sliderTime");
+			this.locExtender.SetLocalizingId(this._sliderTime, "UI.MediaPlayer._sliderTime");
 			this._sliderTime.Location = new System.Drawing.Point(0, 208);
 			this._sliderTime.Name = "_sliderTime";
 			this._sliderTime.ShowTooltip = false;
@@ -208,7 +208,6 @@ namespace SayMore.UI.MediaPlayer
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "UI.MediaPlayer";
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// MediaPlayer

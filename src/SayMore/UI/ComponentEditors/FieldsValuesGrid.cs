@@ -2,9 +2,11 @@ using System;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
+using Localization.UI;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
 using SilTools;
+using ColorHelper = SilTools.ColorHelper;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -15,10 +17,15 @@ namespace SayMore.UI.ComponentEditors
 		private readonly Font _factoryFieldFont;
 		private readonly Color _focusedSelectionBackColor;
 		private bool _adjustHeightToFitRows = true;
+		private readonly LocalizationExtender _locExtender;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldsValuesGrid(FieldsValuesGridViewModel model)
 		{
+			_locExtender = new LocalizationExtender();
+			_locExtender.LocalizationManagerId = "SayMore";
+			_locExtender.SetLocalizingId(this, "FieldsAndValuesGrid");
+
 			VirtualMode = true;
 			Font = SystemFonts.IconTitleFont;
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
@@ -115,15 +122,17 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void AddColumns()
 		{
-			var col = CreateTextBoxColumn("Field");
+			var col = CreateTextBoxColumn("colField");
+			col.HeaderText = "L10N:UI.FieldsAndValuesGrid.FieldColumnHeadingText!Field";
 			col.Width = 125;
 			Columns.Add(col);
-			Program.RegisterForLocalization(Columns["Field"], "FieldsAndValuesGrid.FieldColumnHdg");
 
-			col = CreateTextBoxColumn("Value");
+			col = CreateTextBoxColumn("colValue");
+			col.HeaderText = "L10N:UI.FieldsAndValuesGrid.ValueColumnHeadingText!Value";
 			col.Width = 175;
 			Columns.Add(col);
-			Program.RegisterForLocalization(Columns["Value"], "FieldsAndValuesGrid.ValueColumnHdg");
+
+			_locExtender.EndInit();
 		}
 
 		/// ------------------------------------------------------------------------------------

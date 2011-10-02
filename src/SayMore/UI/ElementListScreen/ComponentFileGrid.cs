@@ -81,12 +81,6 @@ namespace SayMore.UI.ElementListScreen
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
 
 			_menuDeleteFile.Click += ((s, e) => DeleteFile());
-
-			Program.RegisterForLocalization(colName, "_grid.colName", "Name", null, "UI.ComponentFileGrid");
-			Program.RegisterForLocalization(colType, "_grid.colType", "Type", null, "UI.ComponentFileGrid");
-			Program.RegisterForLocalization(colDataModified, "_grid.colDataModified", "Date Modified", null, "UI.ComponentFileGrid");
-			Program.RegisterForLocalization(colSize, "_grid.colSize", "Size", null, "UI.ComponentFileGrid");
-			Program.RegisterForLocalization(colDuration, "_grid.colDuration", "Duration", null, "UI.ComponentFileGrid");
 		}
 
 		/// ------------------------------------------------------------------------------------

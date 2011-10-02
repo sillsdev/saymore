@@ -55,7 +55,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("Model.UnknownFileType.ViewTabText", "View");
+			var text = Program.GetString("Model.Files.UnknownFileType.ViewTabText", "View");
 			yield return new BrowserEditor(file, text, null);
 
 			yield return _basicFieldGridEditorFactoryLazy()(file, GetPropertiesTabText(), null);

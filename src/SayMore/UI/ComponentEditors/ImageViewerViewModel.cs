@@ -16,7 +16,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			try
 			{
-
 				// Do this instead of using the Load method because Load keeps a lock on the file.
 				using (var fs = new FileStream(pathToImage, FileMode.Open, FileAccess.Read))
 				{
@@ -25,11 +24,13 @@ namespace SayMore.UI.ComponentEditors
 				}
 
 			}
-			catch (Exception error)
+			catch (Exception e)
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, "Could not open that picture");
-			   Image = new Bitmap(100, 100);
+				var msg = Program.GetString("UI.ImageViewer.OpeningPictureFileErrorMsg", "Could not open that picture");
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
+				Image = new Bitmap(100, 100);
 			}
+
 			ClickZoomPercentages = clickZoomPercentages;
 		}
 

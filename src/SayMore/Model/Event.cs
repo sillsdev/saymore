@@ -84,13 +84,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string DefaultElementNamePrefix
 		{
-			get { return Program.GetString("Model.MiscEventViewMessages.NewEventNamePrefix", "New Event"); }
+			get { return Program.GetString("Model.Event.NewEventNamePrefix", "New Event"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string NoIdSaveFailureMessage
 		{
-			get { return Program.GetString("Model.MiscEventViewMessages.NoIdSaveFailureMessage", "You must specify an event id."); }
+			get { return Program.GetString("Model.Event.NoIdSaveFailureMessage", "You must specify an event id."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ namespace SayMore.Model
 		{
 			get
 			{
-				return Program.GetString("Model.MiscEventViewMessages.EventAlreadyExistsSaveFailureMessage",
+				return Program.GetString("Model.Event.EventAlreadyExistsSaveFailureMessage",
 					"Could not rename from {0} to {1} because there is already a event by that name.");
 			}
 		}
@@ -110,6 +110,23 @@ namespace SayMore.Model
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetLocalizedStatus(string statusAsText)
+		{
+			statusAsText = statusAsText.Replace(' ', '_');
+
+			if (statusAsText == Status.Incoming.ToString())
+				return Program.GetString("Model.Event.StatusNames.Incoming", "Incoming");
+
+			if (statusAsText == Status.In_Progress.ToString())
+				return Program.GetString("Model.Event.StatusNames.InProgress", "In Progress");
+
+			if (statusAsText == Status.Finished.ToString())
+				return Program.GetString("Model.Event.StatusNames.Finished", "Finished");
+
+			return Program.GetString("Model.Event.StatusNames.Skipped", "Skipped");
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ComponentRole> GetCompletedStages()
@@ -168,15 +185,6 @@ namespace SayMore.Model
 			using (var dlg = new ArchivingDlg(helper))
 				dlg.ShowDialog();
 		}
-
-		#region Static methods
-		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetStatusNames()
-		{
-			return Enum.GetNames(typeof(Status)).Select(x => x.ToString().Replace('_', ' '));
-		}
-
-		#endregion
 	}
 
 	/// ----------------------------------------------------------------------------------------

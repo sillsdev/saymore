@@ -35,31 +35,6 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public int LocalizationDlgSplitterPos {
-            get {
-                return ((int)(this["LocalizationDlgSplitterPos"]));
-            }
-            set {
-                this["LocalizationDlgSplitterPos"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle LocalizationDlgBounds {
-            get {
-                return ((global::System.Drawing.Rectangle)(this["LocalizationDlgBounds"]));
-            }
-            set {
-                this["LocalizationDlgBounds"] = value;
-            }
-        }
-        
         /// <summary>
         /// Character used to replace invalid path characters in a person&apos;s name when building a safe name to store in file system.
         /// </summary>
@@ -1218,7 +1193,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1800")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1500")]
         public int MillisecondsToRePlayAfterAdjustingManualSegmentBoundary {
             get {
                 return ((int)(this["MillisecondsToRePlayAfterAdjustingManualSegmentBoundary"]));
@@ -1238,6 +1213,18 @@ namespace SayMore.Properties {
             }
             set {
                 this["UserInterfaceLanguage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string LocalizationDlgSettings {
+            get {
+                return ((string)(this["LocalizationDlgSettings"]));
+            }
+            set {
+                this["LocalizationDlgSettings"] = value;
             }
         }
     }

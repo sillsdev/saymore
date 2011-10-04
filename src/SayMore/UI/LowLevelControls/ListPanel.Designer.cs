@@ -84,7 +84,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonNew.AutoSize = true;
 			this._buttonNew.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonNew, null);
-			this.locExtender.SetLocalizationComment(this._buttonNew, null);
+			this.locExtender.SetLocalizationComment(this._buttonNew, "Button for adding new events and people");
 			this.locExtender.SetLocalizingId(this._buttonNew, "UI.ListPanel._buttonNew");
 			this._buttonNew.Location = new System.Drawing.Point(5, 5);
 			this._buttonNew.MinimumSize = new System.Drawing.Size(75, 26);
@@ -100,7 +100,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonDelete.AutoSize = true;
 			this._buttonDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonDelete, null);
-			this.locExtender.SetLocalizationComment(this._buttonDelete, null);
+			this.locExtender.SetLocalizationComment(this._buttonDelete, "Button for deleting events and people");
 			this.locExtender.SetLocalizingId(this._buttonDelete, "UI.ListPanel._buttonDelete");
 			this._buttonDelete.Location = new System.Drawing.Point(86, 5);
 			this._buttonDelete.MinimumSize = new System.Drawing.Size(75, 26);
@@ -165,7 +165,8 @@ namespace SayMore.UI.LowLevelControls
 			this.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "SayMore");
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "ListPanel.ListPanel");
 			this.MinimumSize = new System.Drawing.Size(125, 0);
 			this.Name = "ListPanel";
 			this.Size = new System.Drawing.Size(170, 277);

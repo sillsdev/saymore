@@ -71,9 +71,14 @@ namespace SayMore.Transcription.UI
 			_viewModel.MicLevelDisplayControl = _panelMicorphoneLevel;
 			_viewModel.PlaybackEnded += HandlePlaybackEnded;
 
-			_buttonPlayOriginal.Initialize(" Playing...", "", _viewModel.PlayOriginalRecording, _viewModel.Stop );
-			_buttonPlayAnnotation.Initialize(" Playing...", "Check Annotation", _viewModel.PlayAnnotation, _viewModel.Stop);
-			_buttonRecord.Initialize(" Recording...", "", _viewModel.BeginRecording, HandleRecordingStopped);
+			var textWhenActive = Program.GetString("Transcription.UI.OralAnnotationDlg._buttonPlayOriginal.WhenPlaying", " Playing...");
+			_buttonPlayOriginal.Initialize(textWhenActive, "", _viewModel.PlayOriginalRecording, _viewModel.Stop);
+
+			textWhenActive = Program.GetString("Transcription.UI.OralAnnotationDlg._buttonPlayAnnotation.WhenPlaying", " Playing...");
+			_buttonPlayAnnotation.Initialize(textWhenActive, "Check Annotation", _viewModel.PlayAnnotation, _viewModel.Stop);
+
+			textWhenActive = Program.GetString("Transcription.UI.OralAnnotationDlg._buttonRecord.WhenRecording", " Recording...");
+			_buttonRecord.Initialize(textWhenActive, "", _viewModel.BeginRecording, HandleRecordingStopped);
 
 			_buttonRecord.Tag = string.Format("{0} - {1}: ", Name, annotationType);
 
@@ -242,7 +247,7 @@ namespace SayMore.Transcription.UI
 				_viewModel.EraseAnnotation();
 				UpdateDisplay();
 				_buttonRecord.ForeColor = Color.Red;
-				_buttonRecord.Text = Program.GetString("Transcription.UI.OralAnnotationRecorder.RecordingTooShortMsg",
+				_buttonRecord.Text = Program.GetString("Transcription.UI.OralAnnotationDlg._buttonRecord.WhenRecordingTooShort",
 					"Whoops. You need to hold down the SPACE bar or mouse button while talking.");
 			}
 			else if (!MoveToNextSegment())

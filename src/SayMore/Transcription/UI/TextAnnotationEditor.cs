@@ -247,14 +247,10 @@ namespace SayMore.Transcription.UI
 			var annotationType = (sender == _buttonCarefulSpeech ?
 				OralAnnotationType.Careful : OralAnnotationType.Translation);
 
-			var caption = (sender == _buttonCarefulSpeech ?
-				Program.GetString("Transcription.UI.TextAnnotationEditor.RecordCarefulSpeechMenuText", "Careful Speech") :
-				Program.GetString("Transcription.UI.TextAnnotationEditor.RecordOralTranslationMenuText", "Oral Translation"));
-
 			var file = ((AnnotationComponentFile)_file);
 			var tier = (TimeOrderTier)file.Tiers.FirstOrDefault(t => t is TimeOrderTier);
 
-			using (var dlg = new OralAnnotationDlg(caption, annotationType, tier))
+			using (var dlg = new OralAnnotationDlg(annotationType, tier))
 				dlg.ShowDialog();
 
 			bool oralAnnotationFileAlreadyExist =

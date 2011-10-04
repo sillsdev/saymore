@@ -1,1743 +1,1723 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="en" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4286.15908" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="en" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4294.28998" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-ampersandreplacement">|amp|</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
     <tu tuid="AudioUtils.AudioPlayer.LoadFileErrorMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There was a problem loading file '{0}' for playback. Perhaps another program has a lock on it.</seg>
       </tuv>
     </tu>
     <tu tuid="AudioUtils.AudioRecorder.CantBeginMonitoringMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Can't begin monitoring while we are in this state: {0}</seg>
       </tuv>
     </tu>
     <tu tuid="AudioUtils.AudioRecorder.CantBeginRecordingMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Can't begin recording while we are in this state: {0}</seg>
       </tuv>
     </tu>
     <tu tuid="AudioUtils.AudioRecorder.MonitoringErrorMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There was a problem starting up volume monitoring.</seg>
       </tuv>
     </tu>
     <tu tuid="AudioUtils.WaveFileUtils.ErrorFindingPcmAudioDriverMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There was an error trying to find a PCM audio driver on this computer. Ensure that you have a PCM sound driver installed.</seg>
       </tuv>
     </tu>
     <tu tuid="AudioUtils.WaveFileUtils.ErrorFindingPcmConversionCapabilitiesMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There was an error trying to find PCM audio conversion capabilities on this computer. Ensure that you have a PCM sound driver installed.</seg>
       </tuv>
     </tu>
     <tu tuid="AudioUtils.WaveStreamProvider.ConvertingAudioError">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There was an error converting the audio file '{0}' to the correct format.\n\n{1}</seg>
       </tuv>
     </tu>
     <tu tuid="AudioUtils.WaveStreamProvider.ExtractingAudioError">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There was an error extracting audio from the media file '{0}'\n\n{1}</seg>
       </tuv>
     </tu>
-    <tu tuid="ComponentFileRoles.CarefulSpeech">
-      <prop type="x-group" />
+    <tu tuid="Model.Event.EventAlreadyExistsSaveFailureMessage">
       <tuv xml:lang="en">
-        <seg>Careful Speech</seg>
+        <seg>Could not rename from {0} to {1} because there is already a event by that name.</seg>
       </tuv>
     </tu>
-    <tu tuid="ComponentFileRoles.InformedConsent">
-      <prop type="x-group" />
+    <tu tuid="Model.Event.NewEventNamePrefix">
       <tuv xml:lang="en">
-        <seg>Informed Consent</seg>
+        <seg>New Event</seg>
       </tuv>
     </tu>
-    <tu tuid="ComponentFileRoles.OralTranslation">
-      <prop type="x-group" />
+    <tu tuid="Model.Event.NoIdSaveFailureMessage">
       <tuv xml:lang="en">
-        <seg>Oral Translation</seg>
+        <seg>You must specify an event id.</seg>
       </tuv>
     </tu>
-    <tu tuid="ComponentFileRoles.OriginalRecording">
-      <prop type="x-group" />
+    <tu tuid="Model.Event.StatusNames.Finished">
       <tuv xml:lang="en">
-        <seg>Original Recording</seg>
+        <seg>Finished</seg>
       </tuv>
     </tu>
-    <tu tuid="ComponentFileRoles.Transcription">
-      <prop type="x-group" />
+    <tu tuid="Model.Event.StatusNames.Incoming">
       <tuv xml:lang="en">
-        <seg>Transcription</seg>
+        <seg>Incoming</seg>
       </tuv>
     </tu>
-    <tu tuid="ComponentFileRoles.WrittenTranslation">
-      <prop type="x-group" />
+    <tu tuid="Model.Event.StatusNames.InProgress">
       <tuv xml:lang="en">
-        <seg>Written Translation</seg>
+        <seg>In Progress</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.AnnotationFileHelper.AnnotationFileNotFoundMsg">
-      <prop type="x-group" />
+    <tu tuid="Model.Event.StatusNames.Skipped">
       <tuv xml:lang="en">
-        <seg>File not found: '{0}'</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.AnnotationFileHelper.BadAnnotationFileMsg">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>File '{0}' is not a SayMore annotation file. It is possibly corrupt.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.AnnotationFileType.AnnotationTabText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Annotations</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.AudioFileType.AudioTabText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Audio</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.AudioVideoFileType.AudioBitRateSuffix">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>kbps</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.AudioVideoFileType.BitDepthSuffix">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>bits</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.AudioVideoFileType.FrameRateSuffix">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>frames/second</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.AudioVideoFileType.MonoLabel">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>mono</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.AudioVideoFileType.SampleRateSuffix">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Hz</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.AudioVideoFileType.StereoLabel">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>stereo</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.AudioVideoFileType.VideoBitRateSuffix">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>kbps</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.CannotRenameFileErrorMsg">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>{0} could not rename the file to '{1}' because there is already a file with that name.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.CannotRenameFileGenericErrorMsg">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.CannotRenameMetadataFileErrorMsg">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>{0} could not rename the meta data file to '{1}' because there is already a file with that name.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.CreateAnnotationFileMenuItemText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Create Annotation File...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.FileSizeBytes">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>{0} Bytes</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.FileSizeBytesAbbreviation">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>{0} B</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.FileSizeGigabytes">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>{0} Gigabytes</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.FileSizeGigabytesAbbreviation">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>{0} GB</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.FileSizeKilobytes">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>{0} Kilobytes</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.FileSizeKilobytesAbbreviation">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>{0} KB</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.FileSizeMegabytes">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>{0} Megabytes</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.FileSizeMegabytesAbbreviation">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>{0} MB</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ComponentFile.RenameMenuItemFormatString">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Rename For {0}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.EventFileType.DateColumnHeadingText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Date</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.EventFileType.EventTabText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Event</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.EventFileType.GenreColumnHeadingText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Genre</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.EventFileType.IdColumnHeadingText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Id</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.EventFileType.LocationColumnHeadingText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Location</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.EventFileType.StagesColumnHeadingText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Stages</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.EventFileType.StatusColumnHeadingText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Status</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.EventFileType.TitleColumnHeadingText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Title</seg>
+        <seg>Skipped</seg>
       </tuv>
     </tu>
     <tu tuid="Model.ExportCommand.CSVFileFormatText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>CSV (Comma delimited) (*.csv)|*.csv</seg>
       </tuv>
     </tu>
     <tu tuid="Model.ExportCommand.ExportFailureMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Something went wrong with the export.</seg>
       </tuv>
     </tu>
     <tu tuid="Model.ExportCommand.ExportFileSaveDlgCaption">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Export Data</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.FileType.ContributorsTabText">
-      <prop type="x-group" />
+    <tu tuid="Model.Files.AnnotationFileType.AnnotationTabText">
+      <tuv xml:lang="en">
+        <seg>Annotations</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.AudioFileType.AudioTabText">
+      <tuv xml:lang="en">
+        <seg>Audio</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.AudioVideoFileType.AudioBitRateSuffix">
+      <tuv xml:lang="en">
+        <seg>kbps</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.AudioVideoFileType.BitDepthSuffix">
+      <tuv xml:lang="en">
+        <seg>bits</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.AudioVideoFileType.FrameRateSuffix">
+      <tuv xml:lang="en">
+        <seg>frames/second</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.AudioVideoFileType.MonoLabel">
+      <tuv xml:lang="en">
+        <seg>mono</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.AudioVideoFileType.SampleRateSuffix">
+      <tuv xml:lang="en">
+        <seg>Hz</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.AudioVideoFileType.StereoLabel">
+      <tuv xml:lang="en">
+        <seg>stereo</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.AudioVideoFileType.VideoBitRateSuffix">
+      <tuv xml:lang="en">
+        <seg>kbps</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.CannotRenameFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>{0} could not rename the file to '{1}' because there is already a file with that name.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.CannotRenameFileGenericErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.CannotRenameMetadataFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>{0} could not rename the meta data file to '{1}' because there is already a file with that name.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.CreateAnnotationFileMenuItemText">
+      <tuv xml:lang="en">
+        <seg>Create Annotation File...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.CustomRenameMenu">
+      <tuv xml:lang="en">
+        <seg>Custom Rename...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.FileSizeBytes">
+      <tuv xml:lang="en">
+        <seg>{0} Bytes</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.FileSizeBytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} B</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.FileSizeGigabytes">
+      <tuv xml:lang="en">
+        <seg>{0} Gigabytes</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.FileSizeGigabytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} GB</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.FileSizeKilobytes">
+      <tuv xml:lang="en">
+        <seg>{0} Kilobytes</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.FileSizeKilobytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} KB</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.FileSizeMegabytes">
+      <tuv xml:lang="en">
+        <seg>{0} Megabytes</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.FileSizeMegabytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} MB</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFile.RenameMenuItemFormatString">
+      <tuv xml:lang="en">
+        <seg>Rename For {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFileRoles.CarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFileRoles.InformedConsent">
+      <tuv xml:lang="en">
+        <seg>Informed Consent</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFileRoles.OralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFileRoles.OriginalRecording">
+      <tuv xml:lang="en">
+        <seg>Original Recording</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFileRoles.Transcription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.ComponentFileRoles.WrittenTranslation">
+      <tuv xml:lang="en">
+        <seg>Written Translation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.EventFileType.DateColumnHeadingText">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.EventFileType.EventTabText">
+      <tuv xml:lang="en">
+        <seg>Event</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.EventFileType.GenreColumnHeadingText">
+      <tuv xml:lang="en">
+        <seg>Genre</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.EventFileType.IdColumnHeadingText">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.EventFileType.LocationColumnHeadingText">
+      <tuv xml:lang="en">
+        <seg>Location</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.EventFileType.StagesColumnHeadingText">
+      <tuv xml:lang="en">
+        <seg>Stages</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.EventFileType.StatusColumnHeadingText">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.EventFileType.TitleColumnHeadingText">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.FileType.ContributorsTabText">
       <tuv xml:lang="en">
         <seg>Contributors</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.FileType.NotesTabText">
-      <prop type="x-group" />
+    <tu tuid="Model.Files.FileType.NotesTabText">
       <tuv xml:lang="en">
         <seg>Notes</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.FileType.OpenInAssociatedProgramMenuText">
-      <prop type="x-group" />
+    <tu tuid="Model.Files.FileType.OpenInAssociatedProgramMenuText">
       <tuv xml:lang="en">
         <seg>Open in Program Associated with this File ...</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.FileType.PropertiesTabText">
-      <prop type="x-group" />
+    <tu tuid="Model.Files.FileType.PropertiesTabText">
       <tuv xml:lang="en">
         <seg>Properties</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.FileType.ShowInFileExplorerMenuText">
-      <prop type="x-group" />
+    <tu tuid="Model.Files.FileType.ShowInFileExplorerMenuText">
       <tuv xml:lang="en">
         <seg>Show in File Explorer...</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.GenreDefinition.UnknownGenreType">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>&lt;Unknown&gt;</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ImageFileType.ImageTabText">
-      <prop type="x-group" />
+    <tu tuid="Model.Files.ImageFileType.ImageTabText">
       <tuv xml:lang="en">
         <seg>Image</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.MiscEventViewMessages.EventAlreadyExistsSaveFailureMessage">
-      <prop type="x-group" />
+    <tu tuid="Model.Files.OralAnnotationFileType.OralAnnotationTabText">
       <tuv xml:lang="en">
-        <seg>Could not rename from {0} to {1} because there is already a event by that name.</seg>
+        <seg>Generated Audio</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.MiscEventViewMessages.NewEventNamePrefix">
-      <prop type="x-group" />
+    <tu tuid="Model.Files.PersonFileType.ConsentColumnHeadingText">
       <tuv xml:lang="en">
-        <seg>New Event</seg>
+        <seg>Consent</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.MiscEventViewMessages.NoIdSaveFailureMessage">
-      <prop type="x-group" />
+    <tu tuid="Model.Files.PersonFileType.IdColumnHeadingText">
       <tuv xml:lang="en">
-        <seg>You must specify an event id.</seg>
+        <seg>Id</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.PersonFileType.PersonTabText">
+      <tuv xml:lang="en">
+        <seg>Person</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.UnknownFileType.ViewTabText">
+      <tuv xml:lang="en">
+        <seg>View</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.VideoFileType.ExtractMp3AudioMenuText">
+      <tuv xml:lang="en">
+        <seg>Extract Audio to mono MP3 File (low quality)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.VideoFileType.ExtractWavAudioMenuText">
+      <tuv xml:lang="en">
+        <seg>Extract Audio to Wave File</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.VideoFileType.FFmpegMissingErrorMsg">
+      <tuv xml:lang="en">
+        <seg>SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.VideoFileType.FFmpegReturnErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Something didn't work out. FFmpeg said (start reading from the end): {0}\n\n</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.VideoFileType.FileAlreadyExistsDuringFFmpegConversionErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, the file '{0}' already exists.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.Files.VideoFileType.VideoTabText">
+      <tuv xml:lang="en">
+        <seg>Video</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Model.GenreDefinition.UnknownGenreType">
+      <tuv xml:lang="en">
+        <seg>&lt;Unknown&gt;</seg>
       </tuv>
     </tu>
     <tu tuid="Model.MiscPeopleViewMessages.AlreadyExistsSaveFailureMessage">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Could not rename from {0} to {1} because there is already a person by that name.</seg>
       </tuv>
     </tu>
     <tu tuid="Model.MiscPeopleViewMessages.InformedConsent-Audio">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Informed Consent is Audio File</seg>
       </tuv>
     </tu>
     <tu tuid="Model.MiscPeopleViewMessages.InformedConsent-None">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>No Informed Consent</seg>
       </tuv>
     </tu>
     <tu tuid="Model.MiscPeopleViewMessages.InformedConsent-Video">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Informed Consent is Video File</seg>
       </tuv>
     </tu>
     <tu tuid="Model.MiscPeopleViewMessages.InformedConsent-Written">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Informed Consent is Written</seg>
       </tuv>
     </tu>
     <tu tuid="Model.MiscPeopleViewMessages.NewPersonNamePrefix">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>New Person</seg>
       </tuv>
     </tu>
     <tu tuid="Model.MiscPeopleViewMessages.NoIdSaveFailureMessage">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>You must specify a name.</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.OralAnnotationFileGenerator.GeneratingOralAnnotationFileMsg">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Generating Oral Annotation file...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.OralAnnotationFileGenerator.ProcessingAnnotationFileErrorMsg">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>There was an error processing a {0} annotation file.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.OralAnnotationFileGenerator.ProcessingOriginalRecordingErrorMsg">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>There was an error processing the original recording.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.OralAnnotationFileType.OralAnnotationTabText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Generated Audio</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.PersonFileType.ConsentColumnHeadingText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Consent</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.PersonFileType.IdColumnHeadingText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Id</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.PersonFileType.PersonTabText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Person</seg>
-      </tuv>
-    </tu>
     <tu tuid="Model.PresetGatherer.NoPresetsYetMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>No presets yet</seg>
       </tuv>
     </tu>
     <tu tuid="Model.ProjectElement.ChangeIdFailureMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.TierNames.OriginalRecording">
-      <prop type="x-group" />
+    <tu tuid="Transcription.Model.AnnotationFileHelper.AnnotationFileNotFoundMsg">
+      <tuv xml:lang="en">
+        <seg>File not found: '{0}'</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.Model.AnnotationFileHelper.BadAnnotationFileMsg">
+      <tuv xml:lang="en">
+        <seg>File '{0}' is not a SayMore annotation file. It is possibly corrupt.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.Model.OralAnnotationFileGenerator.GeneratingOralAnnotationFileMsg">
+      <tuv xml:lang="en">
+        <seg>Generating Oral Annotation file...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.Model.OralAnnotationFileGenerator.ProcessingAnnotationFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error processing a {0} annotation file.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.Model.OralAnnotationFileGenerator.ProcessingOriginalRecordingErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error processing the original recording.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.Model.TierNames.FreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Free Translation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.Model.TierNames.OriginalRecording">
       <tuv xml:lang="en">
         <seg>Original</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.UnknownFileType.ViewTabText">
-      <prop type="x-group" />
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg._buttonCancel">
       <tuv xml:lang="en">
-        <seg>View</seg>
+        <seg>Cancel</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.VideoFileType.ExtractMp3AudioMenuText">
-      <prop type="x-group" />
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg._buttonLoadAudacityLabelFile">
       <tuv xml:lang="en">
-        <seg>Extract Audio to mono MP3 File (low quality)</seg>
+        <seg>Read Audacity Label Track File...</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.VideoFileType.ExtractWavAudioMenuText">
-      <prop type="x-group" />
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg._buttonLoadELANFile">
       <tuv xml:lang="en">
-        <seg>Extract Audio to Wave File</seg>
+        <seg>Copy an ELAN File...</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.VideoFileType.FFmpegMissingErrorMsg">
-      <prop type="x-group" />
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg._labelAnnoatationType1">
       <tuv xml:lang="en">
-        <seg>SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.</seg>
+        <seg>· Transcription</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.VideoFileType.FFmpegReturnErrorMsg">
-      <prop type="x-group" />
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg._labelAnnoatationType2">
       <tuv xml:lang="en">
-        <seg>Something didn't work out. FFmpeg said (start reading from the end): {0}\n\n</seg>
+        <seg>· Translation</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.VideoFileType.FileAlreadyExistsDuringFFmpegConversionErrorMsg">
-      <prop type="x-group" />
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg._labelElanOverview">
       <tuv xml:lang="en">
-        <seg>Sorry, the file '{0}' already exists.</seg>
+        <seg>Alternatively, you can add an ELAN \"eaf\" file which already contains segments and</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.VideoFileType.VideoTabText">
-      <prop type="x-group" />
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg._labelOverview">
       <tuv xml:lang="en">
-        <seg>Video</seg>
+        <seg>This will create a file to hold annotations of the media file \'{0}\'. SayMore curr</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg.AllFileTypeString">
+      <tuv xml:lang="en">
+        <seg>All Files (*.*)|*.*</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg.AudacityLabelFileTypeString">
+      <tuv xml:lang="en">
+        <seg>Audacity Label File (*.txt)|*.txt</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg.ElanFileTypeString">
+      <tuv xml:lang="en">
+        <seg>ELAN File (*.eaf)|*.eaf</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg.LoadAudacityLabelFileDlgCaption">
+      <tuv xml:lang="en">
+        <seg>Select Audacity Label File</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption">
+      <tuv xml:lang="en">
+        <seg>Select Segment File</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Create Annotation File</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg._buttonExport">
+      <tuv xml:lang="en">
+        <seg>Export...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg._labelOverview">
+      <tuv xml:lang="en">
+        <seg>Specify the writing systems for the transcriptions and free translations.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg._labelTranscriptionWs">
+      <tuv xml:lang="en">
+        <seg>{0}:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg._labelTranslationWs">
+      <tuv xml:lang="en">
+        <seg>{0}:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Export Annotations For FieldWorks Interlinear</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._buttonClose">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._buttonEraseAnnotation">
+      <tuv xml:lang="en">
+        <seg>Erase Annotation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._buttonPlayAnnotation.WhenPlaying">
+      <tuv xml:lang="en">
+        <seg> Playing...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._buttonPlayAnnotation.WhenStopped">
+      <tuv xml:lang="en">
+        <seg>Check Annotation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._buttonPlayOriginal.WhenPlaying">
+      <tuv xml:lang="en">
+        <seg> Playing...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._buttonPlayOriginal.WhenStopped">
+      <tuv xml:lang="en">
+        <seg>Listen</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._buttonRecord.WhenRecording">
+      <tuv xml:lang="en">
+        <seg> Recording...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._buttonRecord.WhenRecordingTooShort">
+      <tuv xml:lang="en">
+        <seg>Whoops. You need to hold down the SPACE bar or mouse button while talking.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._buttonRecord.WhenStopped">
+      <tuv xml:lang="en">
+        <seg>Hold the Space Bar down and talk</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._labelRecordingFormat">
+      <tuv xml:lang="en">
+        <seg>Format: {0} bits, {1} Hz</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._labelRecordingType.CarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._labelRecordingType.OralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Annotation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg._labelSegmentNumber">
+      <tuv xml:lang="en">
+        <seg>{0}/{1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg.ErasingAnnotationSegmentErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Could not remove that annotation. If this problem persists, try restarting your computer.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Record</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationWaveViewer._labelCareful">
+      <tuv xml:lang="en">
+        <seg>Careful</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationWaveViewer._labelOriginal">
+      <tuv xml:lang="en">
+        <seg>Original</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.OralAnnotationWaveViewer._labelTranslation">
+      <tuv xml:lang="en">
+        <seg>Translation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._buttonCarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>&amp;Careful Speech...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._buttonExport">
+      <tuv xml:lang="en">
+        <seg>Export...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._buttonHelp">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._buttonOralTranslation">
+      <tuv xml:lang="en">
+        <seg>&amp;Oral Translation...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._buttonRecordings">
+      <tuv xml:lang="en">
+        <seg>Record</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._buttonResegment">
+      <tuv xml:lang="en">
+        <seg>Resegment...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._labelPlaybackSpeed">
+      <tuv xml:lang="en">
+        <seg>Playback &amp;Speed:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
+      <tuv xml:lang="en">
+        <seg>Copy {0} to clipboard</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error loading the annotation file '{0}'.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
+      <tuv xml:lang="en">
+        <seg>There are no transcription annotations found in\n'{0}'</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor.RegeneratingSegmentsWarningMsg">
+      <tuv xml:lang="en">
+        <seg>Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.AboutDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.AboutDlg._labelSubTitle">
+      <tuv xml:lang="en">
+        <seg>Language Documentation Project Management</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.AboutDlg._labelVersionInfo">
+      <tuv xml:lang="en">
+        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.AboutDlg._linkSayMoreWebSite">
+      <tuv xml:lang="en">
+        <seg>Visit the SayMore web site.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.AboutDlg._linkSayMoreWebSite_LinkPortion">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>SayMore web site</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.AboutDlg._linkSiLWebSite">
+      <tuv xml:lang="en">
+        <seg>SayMore is brought to you by SIL International.</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.AboutDlg._linkSilWebSite_LinkPortion">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>SIL International</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.AboutDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>About SayMore</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ArchivingDlg.AddingContributorFilesProgressMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Adding Files for Contributor '{0}'</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.AddingEventFilesProgressMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Adding Files for Event '{0}'</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.ArchivingProgressMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>     {0}: {1}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.CancellingMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Canceling...</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.ContributorElementName">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Contributor</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.CreatingArchiveErrorMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There was an error attempting to create an archive for the event '{0}'.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There was an error attempting to create a RAMP/REAP mets file for the event '{0}'.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.CreatingZipFileErrorMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There was a problem starting process to create zip file.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.EventElementName">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Event</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.NoContributorsForEventMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There are no contributors for this event.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.PrearchivingStatusMsg1">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>The following event and contributor files will be added to your archive.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.PrearchivingStatusMsg2">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>The following event files will be added to your archive.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.RampNotFoundMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>The RAMP pogram cannot be found!{0}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.ReadyToCallRampMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Ready to hand the package to RAMP</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.SearchingForRampMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Searching for the RAMP program...</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.StartingRampErrorMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>There was an error attempting to open the archive package in RAMP.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.BrowserEditor.FileLinkMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>&lt;HTML&gt;&lt;BODY&gt;Click &lt;a href=\"file:///{0}\"&gt;&lt;b&gt;here to open '{1}'&lt;/b&gt;&lt;/a&gt; in its associated program.&lt;/BODY&gt;&lt;/HTML&gt;</seg>
       </tuv>
     </tu>
     <tu tuid="UI.BrowserEditor.FileNameMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>&lt;HTML&gt;SayMore attempted to load:&lt;br /&gt;&lt;br /&gt;&lt;b&gt;File:&lt;/b&gt; {0}&lt;br /&gt;&lt;nobr&gt;&lt;b&gt;Folder:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/HTML&gt;</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ComponentFileGrid._buttonAddFiles">
+      <tuv xml:lang="en">
+        <seg>Add Files...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._buttonConvert">
+      <tuv xml:lang="en">
+        <seg>Convert</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._buttonCreateAnnotationFile">
+      <tuv xml:lang="en">
+        <seg>Create Annotation File...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._buttonOpen">
+      <tuv xml:lang="en">
+        <seg>Open</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._buttonRename">
+      <tuv xml:lang="en">
+        <seg>Rename</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._grid.FileDateColHdgText">
+      <tuv xml:lang="en">
+        <seg>Date Modified</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._grid.FileDurationColHdgText">
+      <tuv xml:lang="en">
+        <seg>Duration</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._grid.FileNameColHdgText">
+      <tuv xml:lang="en">
+        <seg>Name</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._grid.FileSizeColHdgText">
+      <tuv xml:lang="en">
+        <seg>Size</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._grid.FileTypeColHdgText">
+      <tuv xml:lang="en">
+        <seg>Type</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._menuDeleteFile">
+      <tuv xml:lang="en">
+        <seg>Delete File</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ComponentFileGrid.AddFilesDlgCaption">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Add Files</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ComponentFileGrid.AddFilesFileType">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>All Files (*.*)</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ComponentFileGrid.AddFilesPrompt">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Add additional files related to this event by\ndragging them here or clicking the 'Add Files' button.</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ContributorsEditor.MissingContributorNameMsg">
+      <tuv xml:lang="en">
+        <seg>Enter a name.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ContributorsEditor.MissingContributorRoleMsg">
+      <tuv xml:lang="en">
+        <seg>Choose a role.</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.CopyFilesControl.CopyFailedMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Copying failed: {0}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.CopyFilesControl.CopyingFinishedMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Finished</seg>
       </tuv>
     </tu>
     <tu tuid="UI.CopyFilesControl.CopyingProgressMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Copying {0} of {1} Files, ({2} of {3} Megabytes)</seg>
       </tuv>
     </tu>
     <tu tuid="UI.CopyFilesControl.CopyWaitingMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Waiting to start...</seg>
       </tuv>
     </tu>
     <tu tuid="UI.CopyFilesControl.FileExistsMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>The file '{0}' already exists</seg>
       </tuv>
     </tu>
     <tu tuid="UI.CopyFilesControl.NoFilesToCopyMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>No Files To Copy</seg>
       </tuv>
     </tu>
     <tu tuid="UI.CopyFilesControl.UnchangedFileMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>The file {0} appears unchanged since it was copied before, so it will be skipped.</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.CreateAnnotationFileDlg.AllFileTypeString">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>All Files (*.*)|*.*</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.CreateAnnotationFileDlg.AudacityLabelFileTypeString">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Audacity Label File (*.txt)|*.txt</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.CreateAnnotationFileDlg.ElanFileTypeString">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>ELAN File (*.eaf)|*.eaf</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.CreateAnnotationFileDlg.LoadAudacityLabelFileDlgCaption">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Select Audacity Label File</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Select Segment File</seg>
-      </tuv>
-    </tu>
     <tu tuid="UI.CustomComponentFileRenamingDialog.FileAlreadyExistsMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>A file by that name already exists or the name is invalid.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.CustomComponentFileRenamingDialog.NewFileNameMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>New file: {0}</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.CustomComponentFileRenamingDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.CustomComponentFileRenamingDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.CustomComponentFileRenamingDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Rename</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.DeleteMessageBox._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.DeleteMessageBox._buttonDelete">
+      <tuv xml:lang="en">
+        <seg>Delete</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.DeleteMessageBox.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Confirm Delete</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelAbstract">
+      <tuv xml:lang="en">
+        <seg>Abstract</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelAccess">
+      <tuv xml:lang="en">
+        <seg>Access</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelCustomFields">
+      <tuv xml:lang="en">
+        <seg>Custom Fields</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelDate">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelGenre">
+      <tuv xml:lang="en">
+        <seg>Genre</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelId">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelLocation">
+      <tuv xml:lang="en">
+        <seg>Location</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelParticipants">
+      <tuv xml:lang="en">
+        <seg>Participants</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelSetting">
+      <tuv xml:lang="en">
+        <seg>Setting</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelSituation">
+      <tuv xml:lang="en">
+        <seg>Situation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelStatus">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor._labelTitle">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventsView._buttonNewFromFiles">
+      <tuv xml:lang="en">
+        <seg>Ne&amp;w From Device...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventsView._labelClickNewHelpPrompt">
+      <tuv xml:lang="en">
+        <seg>Click \'New\' to add a new event.</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.EventsView.AddEventsButtonToolTip">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Add Files to the Event</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.EventsView.EventsMainMenuItemText">
+      <tuv xml:lang="en">
+        <seg>E&amp;vent</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.EventsView.EventStatusTooltipFormatText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Status: {0}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.EventsView.RampArchiveMenuText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Archive with RAMP (SIL)...</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.EventsView.TabText">
+      <tuv xml:lang="en">
+        <seg>Events</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.FieldsAndValuesGrid.AudioBitRate">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Audio Bit Rate</seg>
       </tuv>
     </tu>
     <tu tuid="UI.FieldsAndValuesGrid.BitDepth">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Bit Depth</seg>
       </tuv>
     </tu>
     <tu tuid="UI.FieldsAndValuesGrid.Channels">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Channels</seg>
       </tuv>
     </tu>
     <tu tuid="UI.FieldsAndValuesGrid.Device">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Device</seg>
       </tuv>
     </tu>
     <tu tuid="UI.FieldsAndValuesGrid.Duration">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Duration</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.FieldsAndValuesGrid.FieldColumnHeadingText">
+      <tuv xml:lang="en">
+        <seg>Field</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.FieldsAndValuesGrid.FrameRate">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Frame Rate</seg>
       </tuv>
     </tu>
     <tu tuid="UI.FieldsAndValuesGrid.Microphone">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Microphone</seg>
       </tuv>
     </tu>
     <tu tuid="UI.FieldsAndValuesGrid.Resolution">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Resolution</seg>
       </tuv>
     </tu>
     <tu tuid="UI.FieldsAndValuesGrid.SampleRate">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Sample Rate</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.FieldsAndValuesGrid.ValueColumnHeadingText">
+      <tuv xml:lang="en">
+        <seg>Value</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.FieldsAndValuesGrid.VerifyDeleteFieldQuestion">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Do you want to delete the field '{0}' and its contents from the entire project?</seg>
       </tuv>
     </tu>
     <tu tuid="UI.FieldsAndValuesGrid.VideoBitRate">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Video Bit Rate</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ImageViewer._labelZoom">
+      <tuv xml:lang="en">
+        <seg>Zoom</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ImageViewer.OpeningPictureFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Could not open that picture</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ListPanel._buttonColChooser.ToolTip">
+      <tuv xml:lang="en">
+        <seg>Choose Columns</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ListPanel._buttonDelete">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ListPanel._buttonNew">
+      <tuv xml:lang="en">
+        <seg>&amp;New</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.LoadingDlg._labelLoading">
+      <tuv xml:lang="en">
+        <seg>Loading...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MakeEventsFromFileProgressDialog._buttonOK">
+      <tuv xml:lang="en">
+        <seg>&amp;OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MakeEventsFromFileProgressDialog.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Making Events...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MediaInfoEditor._presetMenuButton">
+      <tuv xml:lang="en">
+        <seg>Presets</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MediaPlayer._buttonPause">
+      <tuv xml:lang="en">
+        <seg>Pause</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MediaPlayer._buttonPlay">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MediaPlayer._buttonStop">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MediaPlayer._buttonVolume">
+      <tuv xml:lang="en">
+        <seg>Volume</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.MediaPlayer.MediaFileNotFoundMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Media file '{0}' not found.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.MediaPlayer.MediaFileNotSpecifiedMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Media player file name has not been specified.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.MediaPlayer.TimeCurrentOfTotalDisplayFormat">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>{0} / {1}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.MediaPlayer.TimeRangeDisplayFormat">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>{0} - {1}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.MediaPlayer.UnableToStartMplayerProcessMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Unable to start mplayer.</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.MissingFFmpegPopup._labelMessage">
+      <tuv xml:lang="en">
+        <seg>If you install FFmpeg, SayMore can automatically report technical details of your</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MissingFFmpegPopup._linkSayMoreDownloadPage">
+      <tuv xml:lang="en">
+        <seg>Visit SayMore Download Page</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MissingFFmpegPopup.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Could not locate FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlg._buttonCreateEvents">
+      <tuv xml:lang="en">
+        <seg>Create {0} Events</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlg._labelIncomingFiles">
+      <tuv xml:lang="en">
+        <seg>Incoming &amp;Files</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlg._labelInstructions">
+      <tuv xml:lang="en">
+        <seg>Mark each file which represents an original recording of an event. For each one, </seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlg._labelProgress">
+      <tuv xml:lang="en">
+        <seg>Reading Files...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlg._labelSourceFolder">
+      <tuv xml:lang="en">
+        <seg>#</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlg._linkFindFiles">
+      <tuv xml:lang="en">
+        <seg>Find Files on Recorder/Card...</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.NewEventsFromFilesDlg.EventsAlreadyExistMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Events already exist for the following Ids. These will be skipped.\n\n{0}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.NewEventsFromFilesDlg.FilesSelectedCreateButtonText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Create {0} Events</seg>
       </tuv>
     </tu>
     <tu tuid="UI.NewEventsFromFilesDlg.FolderBrowserDlgDescription">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Choose a Folder of Medial Files.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Create Events</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.NewProjectDialog.InvalidPathMsg">
-      <prop type="x-group" />
+    <tu tuid="UI.NewEventsFromFilesDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>New Events From Device</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlgFolderNotFoundMsg._labelDriveLetterHintMsg">
+      <tuv xml:lang="en">
+        <seg>In Windows, if you assign the device to a letter closer to \'z\', it is more likely</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlgFolderNotFoundMsg._labelPossibleProblemsMsg1">
+      <tuv xml:lang="en">
+        <seg>1) The device is not yet plugged in.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlgFolderNotFoundMsg._labelPossibleProblemsMsg2">
+      <tuv xml:lang="en">
+        <seg>2) The device is plugged in, but is currently assigned a different drive letter f</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlgFolderNotFoundMsg._labelPossibleProblemsMsg3">
+      <tuv xml:lang="en">
+        <seg>3) Some part of the above path has  changed (e.g. a folder name).</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewEventsFromFilesDlgFolderNotFoundMsg._labelProblemOverviewMsg">
+      <tuv xml:lang="en">
+        <seg>{0} cannot reach the folder where your files were last time. One of the following</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewProjectDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>&amp;Cancel</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewProjectDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>&amp;OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewProjectDlg._labelMessage">
+      <tuv xml:lang="en">
+        <seg>What would you like to call this project?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewProjectDlg._labelNewProjectPath">
+      <tuv xml:lang="en">
+        <seg>Project will be created in: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.NewProjectDlg.InvalidPathMsg">
       <tuv xml:lang="en">
         <seg>Unable to create a new project by that name.</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.OralAnnotationRecorder.RecordingTooShortMsg">
-      <prop type="x-group" />
+    <tu tuid="UI.NewProjectDlg.WindowTitle">
       <tuv xml:lang="en">
-        <seg>Whoops. You need to hold down the SPACE bar or mouse button while talking.</seg>
+        <seg>New SayMore Project</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PeopleView._labelClickNewHelpPrompt">
+      <tuv xml:lang="en">
+        <seg>Click \'New\' to add a new person.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.PeopleView.AddPersonButtonToolTip">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Add Files for the Person</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PeopleView.PeopleTabText">
-      <prop type="x-group" />
+    <tu tuid="UI.PeopleView.TabText">
       <tuv xml:lang="en">
         <seg>People</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonMetadataEditor.ChangePictureDlgCaption">
-      <prop type="x-group" />
+    <tu tuid="UI.PersonEditor._labelBirthYear">
+      <tuv xml:lang="en">
+        <seg>&amp;Birth Year</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor._labelCustomFields">
+      <tuv xml:lang="en">
+        <seg>&amp;Custom Fields</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor._labelEducation">
+      <tuv xml:lang="en">
+        <seg>&amp;Education</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor._labelFullName">
+      <tuv xml:lang="en">
+        <seg>&amp;Full Name</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor._labelgender">
+      <tuv xml:lang="en">
+        <seg>&amp;Gender</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor._labelHowToContact">
+      <tuv xml:lang="en">
+        <seg>&amp;How to Contact</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor._labelOtherLanguages">
+      <tuv xml:lang="en">
+        <seg>Other L&amp;anguages</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor._labelPrimaryLanguage">
+      <tuv xml:lang="en">
+        <seg>Primary &amp;Language</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor._labelPrimaryLanguageLearnedIn">
+      <tuv xml:lang="en">
+        <seg>Learned &amp;In:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor._labelPrimaryOccupation">
+      <tuv xml:lang="en">
+        <seg>Primary &amp;Occupation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor._picture.ToolTip">
+      <tuv xml:lang="en">
+        <seg>Click to Change Picture</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor.ChangePictureDlgCaption">
       <tuv xml:lang="en">
         <seg>Change Picture</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonMetadataEditor.ErrorChangingPersonsPhotoMsg">
-      <prop type="x-group" />
+    <tu tuid="UI.PersonEditor.ErrorChangingPersonsPhotoMsg">
       <tuv xml:lang="en">
         <seg>There was an error changing the person's photo.</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonMetadataEditor.ErrorLoadingPersonsPhotoMsg">
-      <prop type="x-group" />
+    <tu tuid="UI.PersonEditor.ErrorLoadingPersonsPhotoMsg">
       <tuv xml:lang="en">
         <seg>There was an error loading the person's photo.</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonMetadataEditor.FatherSelectorToolTipWhenNotSelected">
-      <prop type="x-group" />
+    <tu tuid="UI.PersonEditor.FatherSelectorToolTipWhenNotSelected">
       <tuv xml:lang="en">
         <seg>Click to indicate this is the father's primary language</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonMetadataEditor.FatherSelectorToolTipWhenSelected">
-      <prop type="x-group" />
+    <tu tuid="UI.PersonEditor.FatherSelectorToolTipWhenSelected">
       <tuv xml:lang="en">
         <seg>Indicates this is the father's primary language</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonMetadataEditor.ImageFileTypes">
-      <prop type="x-group" />
+    <tu tuid="UI.PersonEditor.ImageFileTypes">
       <tuv xml:lang="en">
         <seg>JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonMetadataEditor.MotherSelectorToolTipWhenNotSelected">
-      <prop type="x-group" />
+    <tu tuid="UI.PersonEditor.MotherSelectorToolTipWhenNotSelected">
       <tuv xml:lang="en">
         <seg>Click to indicate this is the mothers's primary language</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonMetadataEditor.MotherSelectorToolTipWhenSelected">
-      <prop type="x-group" />
+    <tu tuid="UI.PersonEditor.MotherSelectorToolTipWhenSelected">
       <tuv xml:lang="en">
         <seg>Indicates this is the mothers's primary language</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ProgressView._buttonRefresh">
+      <tuv xml:lang="en">
+        <seg>Refresh</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProgressView._labelWorking">
+      <tuv xml:lang="en">
+        <seg>Working...</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ProgressView.ByGenreHeadingText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>By Genre</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProgressView.ByStagesHeadingText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>By Stages</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ProgressView.CopyMenuItemText">
+      <tuv xml:lang="en">
+        <seg>&amp;Copy</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ProgressView.EventsLabel">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Events:</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProgressView.HeadingText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>SayMore statistics for {0}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProgressView.OverviewHeadingText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Overview</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProgressView.PeopleLabel">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>People:</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ProgressView.ProgressTabText">
-      <prop type="x-group" />
+    <tu tuid="UI.ProgressView.PrintMenuItemText">
       <tuv xml:lang="en">
-        <seg>Progress</seg>
+        <seg>&amp;Print...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProgressView.ProgressMainMenuItemText">
+      <tuv xml:lang="en">
+        <seg>Pr&amp;ogress</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProgressView.SaveMenuItemText">
+      <tuv xml:lang="en">
+        <seg>&amp;Save...</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProgressView.SummaryTotalsTextForOneBar">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>{0} events totaling {1} minutes</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProgressView.SummaryTotalsTextForSegment1">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>{0}{1} events totaling {2} minutes</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProgressView.SummaryTotalsTextForSegment2">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>{0}: {1} events totaling {2} minutes</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ProgressView.TabText">
+      <tuv xml:lang="en">
+        <seg>Progress</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProjectWindow._mainMenuHelp">
+      <tuv xml:lang="en">
+        <seg>&amp;Help</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProjectWindow._menuAbout">
+      <tuv xml:lang="en">
+        <seg>&amp;About...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProjectWindow._menuExit">
+      <tuv xml:lang="en">
+        <seg>E&amp;xit</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProjectWindow._menuExportEvents">
+      <tuv xml:lang="en">
+        <seg>Export Events...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProjectWindow._menuExportPeople">
+      <tuv xml:lang="en">
+        <seg>Export People...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProjectWindow._menuHelp">
+      <tuv xml:lang="en">
+        <seg>&amp;Help...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProjectWindow._menuOpenProject">
+      <tuv xml:lang="en">
+        <seg>&amp;Open Project...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProjectWindow._menuProject">
+      <tuv xml:lang="en">
+        <seg>&amp;Project</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProjectWindow._menuReleaseNotes">
+      <tuv xml:lang="en">
+        <seg>Release Notes...</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ProjectWindow.DeleteElementMenuText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Delete</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProjectWindow.DeleteMultipleItemsMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>{0} items</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProjectWindow.DeleteOneItemMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>{0}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProjectWindow.ElementNoLongerExistsMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>'{0}' doesn't exist in elements collection.</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ProjectWindow.EventsTabText">
-      <prop type="x-group" />
-      <tuv xml:lang="en">
-        <seg>Events</seg>
-      </tuv>
-    </tu>
     <tu tuid="UI.ProjectWindow.LoadingProjectErrorMsg">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ProjectWindow.OneColumnMustBeVisibleMsg">
+      <tuv xml:lang="en">
+        <seg>One column must be visible.</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ProjectWindow.ViewTabsScrollLeftToolTipText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Scroll Left</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProjectWindow.ViewTabsScrollRightToolTipText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Scroll Right</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ProjectWindow.WindowTitleWithProject">
-      <prop type="x-group" />
+    <tu tuid="UI.ProjectWindow.WindowTitle">
       <tuv xml:lang="en">
         <seg>{0} - SayMore {1}.{2}.{3}</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ProjectWindow.WindowTitleWithProject">
+      <tuv xml:lang="en">
+        <seg>{0} - SayMore {1}.{2}.{3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.SplashScreen._labelLoading">
+      <tuv xml:lang="en">
+        <seg>Loading...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.SplashScreen._labelVersionInfo">
+      <tuv xml:lang="en">
+        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.StagesControlToolTip.StageCompletedText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Complete</seg>
       </tuv>
     </tu>
     <tu tuid="UI.StagesControlToolTip.StageIncompletedText">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Incomplete</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
-      <prop type="x-group" />
+    <tu tuid="UI.WelcomeDlg._buttonBrowse">
       <tuv xml:lang="en">
-        <seg>Copy {0} to clipboard</seg>
+        <seg>Browse for project...</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
-      <prop type="x-group" />
+    <tu tuid="UI.WelcomeDlg._buttonCreate">
       <tuv xml:lang="en">
-        <seg>There was an error loading the annotation file '{0}'.</seg>
+        <seg>Create new, blank project...</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
-      <prop type="x-group" />
+    <tu tuid="UI.WelcomeDlg._labelCreate">
       <tuv xml:lang="en">
-        <seg>There are no transcription annotations found in\n'{0}'</seg>
+        <seg>Create</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.TextAnnotationEditor.RecordCarefulSpeechMenuText">
-      <prop type="x-group" />
+    <tu tuid="UI.WelcomeDlg._labelOpen">
       <tuv xml:lang="en">
-        <seg>Careful Speech</seg>
+        <seg>Open</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.TextAnnotationEditor.RecordOralTranslationMenuText">
-      <prop type="x-group" />
+    <tu tuid="UI.WelcomeDlg._labelSubTitle">
       <tuv xml:lang="en">
-        <seg>Oral Translation</seg>
+        <seg>Language Documentation Project Management</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.TextAnnotationEditor.RegeneratingSegmentsWarningMsg">
-      <prop type="x-group" />
+    <tu tuid="UI.WelcomeDlg._labelVersionInfo">
       <tuv xml:lang="en">
-        <seg>Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?</seg>
+        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.WelcomeDlg._linkWebSites">
+      <tuv xml:lang="en">
+        <seg>SayMore is brought to you by SIL International.  Visit the SayMore web site.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.WelcomeDlg._linkWebSites_ApplicationPortion">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>SayMore web site</seg>
       </tuv>
     </tu>
     <tu tuid="UI.WelcomeDlg._linkWebSites_SILPortion">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>SIL International</seg>
       </tuv>
     </tu>
     <tu tuid="UI.WelcomeDlg.OpenFileDlgCaption">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>Open SayMore Project</seg>
       </tuv>
     </tu>
     <tu tuid="UI.WelcomeDlg.ProjectFileType">
-      <prop type="x-group" />
       <tuv xml:lang="en">
         <seg>SayMore Project (*.sprj)</seg>
       </tuv>
     </tu>
-    <tu tuid="AboutDlg._buttonOK">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>OK</seg>
-      </tuv>
-    </tu>
-    <tu tuid="AboutDlg._labelSubTitle">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Language Documentation Project Management</seg>
-      </tuv>
-    </tu>
-    <tu tuid="AboutDlg._labelVersionInfo">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="AboutDlg._linkSayMoreWebSite">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Visit the SayMore web site.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="AboutDlg._linkSiLWebSite">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>SayMore is brought to you by SIL International.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="AboutDlg.WindowTitle">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>About SayMore</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ComponentFileGrid._buttonAddFiles">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Add Files...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ComponentFileGrid._buttonConvert">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Convert</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ComponentFileGrid._buttonCreateAnnotationFile">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Create Annotation File...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ComponentFileGrid._buttonOpen">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Open</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ComponentFileGrid._buttonRename">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Rename</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ComponentFileGrid._menuDeleteFile">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Delete File</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CreateAnnotationFileDlg._buttonCancel">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Cancel</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CreateAnnotationFileDlg._buttonLoadAudacityLabelFile">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Read Audacity Label Track File...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CreateAnnotationFileDlg._buttonLoadELANFile">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Copy an ELAN File...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CreateAnnotationFileDlg._labelAnnoatationType1">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>· Transcription</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CreateAnnotationFileDlg._labelAnnoatationType2">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>· Translation</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CreateAnnotationFileDlg._labelElanOverview">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Alternatively, you can add an ELAN \"eaf\" file which already contains segments and</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CreateAnnotationFileDlg._labelOverview">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>This will create a file to hold annotations of the media file \'{0}\'. SayMore curr</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CreateAnnotationFileDlg.WindowTitle">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Create Annotation File</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CustomComponentFileRenamingDlg._buttonCancel">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Cancel</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CustomComponentFileRenamingDlg._buttonOK">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>OK</seg>
-      </tuv>
-    </tu>
-    <tu tuid="CustomComponentFileRenamingDlg.WindowTitle">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Rename</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DeleteMessageBox._buttonCancel">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Cancel</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DeleteMessageBox._buttonDelete">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Delete</seg>
-      </tuv>
-    </tu>
-    <tu tuid="DeleteMessageBox.WindowTitle">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Confirm Delete</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView._buttonNewFromFiles">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Ne&amp;w From Device...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="EventsView._labelClickNewHelpPrompt">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Click \'New\' to add a new event.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ListPanel._buttonColChooser.ToolTip">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Choose Columns</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ListPanel._buttonDelete">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;Delete</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ListPanel._buttonNew">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;New</seg>
-      </tuv>
-    </tu>
-    <tu tuid="LoadingDlg._labelLoading">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Loading...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MediaPlayer._buttonPause">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Pause</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MediaPlayer._buttonPlay">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Play</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MediaPlayer._buttonStop">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Stop</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MediaPlayer._buttonVolume">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Volume</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MissingFFmpegPopup._labelMessage">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>If you install FFmpeg, SayMore can automatically report technical details of your</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MissingFFmpegPopup._linkSayMoreDownloadPage">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Visit SayMore Download Page</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MissingFFmpegPopup.WindowTitle">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Could not locate FFmpeg</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlg._buttonCancel">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Cancel</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlg._buttonCreateEvents">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Create {0} Events</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlg._labelIncomingFiles">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Incoming &amp;Files</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlg._labelInstructions">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Mark each file which represents an original recording of an event. For each one, </seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlg._labelProgress">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Reading Files...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlg._labelSourceFolder">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>#</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlg._linkFindFiles">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Find Files on Recorder/Card...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlg.WindowTitle">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>New Events From Device</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewProjectDlg._buttonCancel">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;Cancel</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewProjectDlg._buttonOK">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;OK</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewProjectDlg._labelMessage">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>What would you like to call this project?</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewProjectDlg._labelNewProjectPath">
-      <note>This text is displayed under the project name and includes where it will be created.</note>
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Project will be created in: {0}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewProjectDlg.WindowTitle">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>New SayMore Project</seg>
-      </tuv>
-    </tu>
-    <tu tuid="OralAnnotationWaveViewer._labelCareful">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Careful</seg>
-      </tuv>
-    </tu>
-    <tu tuid="OralAnnotationWaveViewer._labelOriginal">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Original</seg>
-      </tuv>
-    </tu>
-    <tu tuid="OralAnnotationWaveViewer._labelTranslation">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Translation</seg>
-      </tuv>
-    </tu>
-    <tu tuid="PeopleView._labelClickNewHelpPrompt">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Click \'New\' to add a new person.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProgressView._buttonRefresh">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Refresh</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProgressView._labelWorking">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Working...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProjectWindow._mainMenuHelp">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;Help</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProjectWindow._menuAbout">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;About...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProjectWindow._menuExit">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>E&amp;xit</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProjectWindow._menuExportEvents">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Export Events...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProjectWindow._menuExportPeople">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Export People...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProjectWindow._menuHelp">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;Help...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProjectWindow._menuOpenProject">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;Open Project...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProjectWindow._menuProject">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;Project</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProjectWindow._menuReleaseNotes">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Release Notes...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ProjectWindow.WindowTitle">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>{0} - SayMore {1}.{2}.{3}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SplashScreen._labelLoading">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Loading...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="SplashScreen._labelVersionInfo">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="TextAnnotationEditor._buttonCarefulSpeech">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;Careful Speech...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="TextAnnotationEditor._buttonExport">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Export...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="TextAnnotationEditor._buttonHelp">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Help</seg>
-      </tuv>
-    </tu>
-    <tu tuid="TextAnnotationEditor._buttonOralTranslation">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;Oral Translation...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="TextAnnotationEditor._buttonRecordings">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Record</seg>
-      </tuv>
-    </tu>
-    <tu tuid="TextAnnotationEditor._buttonResegment">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Resegment...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="TextAnnotationEditor._labelPlaybackSpeed">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Playback &amp;Speed:</seg>
-      </tuv>
-    </tu>
-    <tu tuid="WelcomeDlg._buttonBrowse">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Browse for project...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="WelcomeDlg._buttonCreate">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Create new, blank project...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="WelcomeDlg._labelCreate">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Create</seg>
-      </tuv>
-    </tu>
-    <tu tuid="WelcomeDlg._labelOpen">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Open</seg>
-      </tuv>
-    </tu>
-    <tu tuid="WelcomeDlg._labelSubTitle">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Language Documentation Project Management</seg>
-      </tuv>
-    </tu>
-    <tu tuid="WelcomeDlg._labelVersionInfo">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="WelcomeDlg._linkWebSites">
-      <prop type="x-group">UI</prop>
-      <tuv xml:lang="en">
-        <seg>SayMore is brought to you by SIL International.  Visit the SayMore web site.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="WelcomeDlg.WindowTitle">
-      <prop type="x-group">UI</prop>
+    <tu tuid="UI.WelcomeDlg.WindowTitle">
       <tuv xml:lang="en">
         <seg>SayMore</seg>
-      </tuv>
-    </tu>
-    <tu tuid="_grid.colDataModified">
-      <prop type="x-group">UI.ComponentFileGrid</prop>
-      <tuv xml:lang="en">
-        <seg>Date Modified</seg>
-      </tuv>
-    </tu>
-    <tu tuid="_grid.colDuration">
-      <prop type="x-group">UI.ComponentFileGrid</prop>
-      <tuv xml:lang="en">
-        <seg>Duration</seg>
-      </tuv>
-    </tu>
-    <tu tuid="_grid.colName">
-      <prop type="x-group">UI.ComponentFileGrid</prop>
-      <tuv xml:lang="en">
-        <seg>Name</seg>
-      </tuv>
-    </tu>
-    <tu tuid="_grid.colSize">
-      <prop type="x-group">UI.ComponentFileGrid</prop>
-      <tuv xml:lang="en">
-        <seg>Size</seg>
-      </tuv>
-    </tu>
-    <tu tuid="_grid.colType">
-      <prop type="x-group">UI.ComponentFileGrid</prop>
-      <tuv xml:lang="en">
-        <seg>Type</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ExportToFieldWorksInterlinearDlg._buttonCancel">
-      <prop type="x-group">UI.ExportToFieldWorks</prop>
-      <tuv xml:lang="en">
-        <seg>Cancel</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ExportToFieldWorksInterlinearDlg._buttonExport">
-      <prop type="x-group">UI.ExportToFieldWorks</prop>
-      <tuv xml:lang="en">
-        <seg>Export...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ExportToFieldWorksInterlinearDlg._labelOverview">
-      <prop type="x-group">UI.ExportToFieldWorks</prop>
-      <tuv xml:lang="en">
-        <seg>Specify the writing systems for the transcriptions and free translations.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ExportToFieldWorksInterlinearDlg._labelTranscriptionWs">
-      <prop type="x-group">UI.ExportToFieldWorks</prop>
-      <tuv xml:lang="en">
-        <seg>{0}:</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ExportToFieldWorksInterlinearDlg._labelTranslationWs">
-      <prop type="x-group">UI.ExportToFieldWorks</prop>
-      <tuv xml:lang="en">
-        <seg>{0}:</seg>
-      </tuv>
-    </tu>
-    <tu tuid="ExportToFieldWorksInterlinearDlg.WindowTitle">
-      <prop type="x-group">UI.ExportToFieldWorks</prop>
-      <tuv xml:lang="en">
-        <seg>Export Annotations For FieldWorks Interlinear</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MakeEventsFromFileProgressDialog._buttonOK">
-      <prop type="x-group">UI.MakeEventsFromFileProgressDlg</prop>
-      <tuv xml:lang="en">
-        <seg>&amp;OK</seg>
-      </tuv>
-    </tu>
-    <tu tuid="MakeEventsFromFileProgressDialog.WindowTitle">
-      <prop type="x-group">UI.MakeEventsFromFileProgressDlg</prop>
-      <tuv xml:lang="en">
-        <seg>Making Events...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlgFolderNotFoundMsg._labelDriveLetterHintMsg">
-      <prop type="x-group">UI.NewEventsFromFilesDlg</prop>
-      <tuv xml:lang="en">
-        <seg>In Windows, if you assign the device to a letter closer to \'z\', it is more likely</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlgFolderNotFoundMsg._labelPossibleProblemsMsg1">
-      <prop type="x-group">UI.NewEventsFromFilesDlg</prop>
-      <tuv xml:lang="en">
-        <seg>1) The device is not yet plugged in.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlgFolderNotFoundMsg._labelPossibleProblemsMsg2">
-      <prop type="x-group">UI.NewEventsFromFilesDlg</prop>
-      <tuv xml:lang="en">
-        <seg>2) The device is plugged in, but is currently assigned a different drive letter f</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlgFolderNotFoundMsg._labelPossibleProblemsMsg3">
-      <prop type="x-group">UI.NewEventsFromFilesDlg</prop>
-      <tuv xml:lang="en">
-        <seg>3) Some part of the above path has  changed (e.g. a folder name).</seg>
-      </tuv>
-    </tu>
-    <tu tuid="NewEventsFromFilesDlgFolderNotFoundMsg._labelProblemOverviewMsg">
-      <prop type="x-group">UI.NewEventsFromFilesDlg</prop>
-      <tuv xml:lang="en">
-        <seg>{0} cannot reach the folder where your files were last time. One of the following</seg>
       </tuv>
     </tu>
   </body>

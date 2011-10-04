@@ -18,7 +18,7 @@ namespace SayMore.Transcription.UI
 
 			DoubleBuffered = true;
 
-			_labelRecordingType.Font = new Font(SystemFonts.IconTitleFont.FontFamily,
+			_labelRecordingTypeOralAnnotation.Font = new Font(SystemFonts.IconTitleFont.FontFamily,
 				10f, FontStyle.Bold, GraphicsUnit.Point);
 
 			_labelRecordingFormat.Font = SystemFonts.IconTitleFont;
@@ -36,11 +36,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationDlg(string caption,
-			OralAnnotationType annotationType, TimeOrderTier tier) : this()
+		public OralAnnotationDlg(OralAnnotationType annotationType, TimeOrderTier tier) : this()
 		{
-			_labelRecordingType.Text = caption;
-			_oralAnnotationRecorder.Initialize(new OralAnnotationRecorderViewModel(annotationType, tier), caption);
+			_labelRecordingTypeCarefulSpeech.Visible = (annotationType == OralAnnotationType.Careful);
+			_labelRecordingTypeOralAnnotation.Visible = (annotationType == OralAnnotationType.Translation);
+			_oralAnnotationRecorder.Initialize(new OralAnnotationRecorderViewModel(annotationType, tier), annotationType.ToString());
 		}
 
 		/// ------------------------------------------------------------------------------------

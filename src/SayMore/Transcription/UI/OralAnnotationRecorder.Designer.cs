@@ -31,6 +31,7 @@ namespace SayMore.Transcription.UI
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this._trackBarSegment = new System.Windows.Forms.TrackBar();
 			this._labelSegmentNumber = new System.Windows.Forms.Label();
 			this._trackBarMicLevel = new System.Windows.Forms.TrackBar();
@@ -41,10 +42,12 @@ namespace SayMore.Transcription.UI
 			this._buttonRecord = new SayMore.Transcription.UI.RecordButton();
 			this._panelLevelMeter = new System.Windows.Forms.Panel();
 			this._panelMicorphoneLevel = new SilTools.Controls.SilPanel();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this._trackBarSegment)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._trackBarMicLevel)).BeginInit();
 			this._tableLayout.SuspendLayout();
 			this._panelLevelMeter.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _trackBarSegment
@@ -52,6 +55,10 @@ namespace SayMore.Transcription.UI
 			this._trackBarSegment.AutoSize = false;
 			this._trackBarSegment.Dock = System.Windows.Forms.DockStyle.Top;
 			this._trackBarSegment.LargeChange = 1;
+			this.locExtender.SetLocalizableToolTip(this._trackBarSegment, null);
+			this.locExtender.SetLocalizationComment(this._trackBarSegment, null);
+			this.locExtender.SetLocalizationPriority(this._trackBarSegment, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._trackBarSegment, "OralAnnotationRecorder._trackBarSegment");
 			this._trackBarSegment.Location = new System.Drawing.Point(0, 0);
 			this._trackBarSegment.Margin = new System.Windows.Forms.Padding(0);
 			this._trackBarSegment.Maximum = 1000;
@@ -69,6 +76,9 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentNumber.AutoEllipsis = true;
 			this._labelSegmentNumber.AutoSize = true;
 			this._labelSegmentNumber.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._labelSegmentNumber, null);
+			this.locExtender.SetLocalizationComment(this._labelSegmentNumber, null);
+			this.locExtender.SetLocalizingId(this._labelSegmentNumber, "Transcription.UI.OralAnnotationDlg._labelSegmentNumber");
 			this._labelSegmentNumber.Location = new System.Drawing.Point(8, 3);
 			this._labelSegmentNumber.Margin = new System.Windows.Forms.Padding(8, 3, 5, 15);
 			this._labelSegmentNumber.Name = "_labelSegmentNumber";
@@ -81,6 +91,10 @@ namespace SayMore.Transcription.UI
 			this._trackBarMicLevel.AutoSize = false;
 			this._trackBarMicLevel.Dock = System.Windows.Forms.DockStyle.Left;
 			this._trackBarMicLevel.LargeChange = 20;
+			this.locExtender.SetLocalizableToolTip(this._trackBarMicLevel, null);
+			this.locExtender.SetLocalizationComment(this._trackBarMicLevel, null);
+			this.locExtender.SetLocalizationPriority(this._trackBarMicLevel, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._trackBarMicLevel, "OralAnnotationRecorder._trackBarMicLevel");
 			this._trackBarMicLevel.Location = new System.Drawing.Point(0, 10);
 			this._trackBarMicLevel.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this._trackBarMicLevel.Maximum = 100;
@@ -132,6 +146,9 @@ namespace SayMore.Transcription.UI
 			this._buttonEraseAnnotation.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonEraseAnnotation.Image = global::SayMore.Properties.Resources.RecordErase;
 			this._buttonEraseAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.locExtender.SetLocalizableToolTip(this._buttonEraseAnnotation, null);
+			this.locExtender.SetLocalizationComment(this._buttonEraseAnnotation, null);
+			this.locExtender.SetLocalizingId(this._buttonEraseAnnotation, "Transcription.UI.OralAnnotationDlg._buttonEraseAnnotation");
 			this._buttonEraseAnnotation.Location = new System.Drawing.Point(30, 161);
 			this._buttonEraseAnnotation.Margin = new System.Windows.Forms.Padding(30, 0, 10, 0);
 			this._buttonEraseAnnotation.Name = "_buttonEraseAnnotation";
@@ -158,6 +175,9 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayAnnotation.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonPlayAnnotation.Image = global::SayMore.Properties.Resources.RecordingPlaybackAnnotation;
 			this._buttonPlayAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.locExtender.SetLocalizableToolTip(this._buttonPlayAnnotation, null);
+			this.locExtender.SetLocalizationComment(this._buttonPlayAnnotation, null);
+			this.locExtender.SetLocalizingId(this._buttonPlayAnnotation, "Transcription.UI.OralAnnotationDlg._buttonPlayAnnotation.WhenStopped");
 			this._buttonPlayAnnotation.Location = new System.Drawing.Point(0, 121);
 			this._buttonPlayAnnotation.Margin = new System.Windows.Forms.Padding(0, 5, 10, 0);
 			this._buttonPlayAnnotation.Name = "_buttonPlayAnnotation";
@@ -183,6 +203,9 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayOriginal.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonPlayOriginal.Image = global::SayMore.Properties.Resources.RecordingPlayback;
 			this._buttonPlayOriginal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.locExtender.SetLocalizableToolTip(this._buttonPlayOriginal, null);
+			this.locExtender.SetLocalizationComment(this._buttonPlayOriginal, null);
+			this.locExtender.SetLocalizingId(this._buttonPlayOriginal, "Transcription.UI.OralAnnotationDlg._buttonPlayOriginal.WhenStopped");
 			this._buttonPlayOriginal.Location = new System.Drawing.Point(0, 31);
 			this._buttonPlayOriginal.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonPlayOriginal.Name = "_buttonPlayOriginal";
@@ -208,6 +231,9 @@ namespace SayMore.Transcription.UI
 			this._buttonRecord.FocusBackColor = System.Drawing.Color.Empty;
 			this._buttonRecord.Image = global::SayMore.Properties.Resources.RecordStart;
 			this._buttonRecord.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.locExtender.SetLocalizableToolTip(this._buttonRecord, null);
+			this.locExtender.SetLocalizationComment(this._buttonRecord, null);
+			this.locExtender.SetLocalizingId(this._buttonRecord, "Transcription.UI.OralAnnotationDlg._buttonRecord.WhenStopped");
 			this._buttonRecord.Location = new System.Drawing.Point(0, 76);
 			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0, 5, 10, 0);
 			this._buttonRecord.Name = "_buttonRecord";
@@ -245,6 +271,9 @@ namespace SayMore.Transcription.UI
 			this._panelMicorphoneLevel.DrawOnlyTopBorder = false;
 			this._panelMicorphoneLevel.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World, ((byte)(0)));
 			this._panelMicorphoneLevel.ForeColor = System.Drawing.Color.LightGreen;
+			this.locExtender.SetLocalizableToolTip(this._panelMicorphoneLevel, null);
+			this.locExtender.SetLocalizationComment(this._panelMicorphoneLevel, null);
+			this.locExtender.SetLocalizingId(this._panelMicorphoneLevel, "OralAnnotationRecorder._panelMicorphoneLevel");
 			this._panelMicorphoneLevel.Location = new System.Drawing.Point(32, 10);
 			this._panelMicorphoneLevel.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this._panelMicorphoneLevel.MnemonicGeneratesClick = false;
@@ -252,6 +281,10 @@ namespace SayMore.Transcription.UI
 			this._panelMicorphoneLevel.PaintExplorerBarBackground = false;
 			this._panelMicorphoneLevel.Size = new System.Drawing.Size(15, 211);
 			this._panelMicorphoneLevel.TabIndex = 7;
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// OralAnnotationRecorder
 			// 
@@ -261,6 +294,10 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this._tableLayout);
 			this.Controls.Add(this._panelLevelMeter);
 			this.Controls.Add(this._trackBarSegment);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "OralAnnotationRecorder.OralAnnotationRecorder");
 			this.Name = "OralAnnotationRecorder";
 			this.Size = new System.Drawing.Size(263, 249);
 			((System.ComponentModel.ISupportInitialize)(this._trackBarSegment)).EndInit();
@@ -268,6 +305,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			this._panelLevelMeter.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -285,5 +323,6 @@ namespace SayMore.Transcription.UI
 		private TableLayoutPanel _tableLayout;
 		private ActionTrackerButton _buttonEraseAnnotation;
 		private Panel _panelLevelMeter;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

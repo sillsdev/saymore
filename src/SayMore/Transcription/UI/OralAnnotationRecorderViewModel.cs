@@ -192,7 +192,10 @@ namespace SayMore.Transcription.UI
 			}
 			catch(Exception error)
 			{
-				ErrorReport.NotifyUserOfProblem(error, "Could not remove that annotation. If this problem persists, try restarting your computer.");
+				var msg = Program.GetString("Transcription.UI.OralAnnotationDlg.ErasingAnnotationSegmentErrorMsg",
+					"Could not remove that annotation. If this problem persists, try restarting your computer.");
+
+				ErrorReport.NotifyUserOfProblem(error, msg);
 			}
 
 			InitializeAnnotationPlayer();

@@ -23,15 +23,27 @@ namespace SayMore.UI.ComponentEditors
 		private readonly Func<Control, string> MakeIdFromControlName = (ctrl => ctrl.Name.TrimStart('_'));
 		private readonly Func<string, string> MakeControlNameFromId = (id => "_" + id);
 
-		public delegate bool GetBoundControlValueHandler(BindingHelper helper,
+		public delegate bool TranslateBoundValueBeingSavedHandler(BindingHelper helper,
 			Control boundControl, out string newValue);
 
-		public event GetBoundControlValueHandler GetBoundControlValue;
+		/// <summary>
+		/// When this method returns true, it means the delegate updated the control so nothing
+		/// further is needed for the binder to do, even if the newValue comes back different
+		/// from the valueFromFile. If false is returned and newValue is null, then the
+		/// valueFromFile is used. If false is returned and newValue is not null, it will be
+		/// used in place of valueFromFile.
+		/// </summary>
+		public delegate bool TranslateBoundValueBeingRetrievedHandler(BindingHelper helper,
+			Control boundControl, string valueFromFile, out string newValue);
+
+		public event TranslateBoundValueBeingSavedHandler TranslateBoundValueBeingSaved;
+		public event TranslateBoundValueBeingRetrievedHandler TranslateBoundValueBeingRetrieved;
+
+		public ComponentFile ComponentFile { get; private set; }
 
 		private Container components;
 		private readonly Dictionary<Control, bool> _extendedControls = new Dictionary<Control, bool>();
 		private List<Control> _boundControls;
-		private ComponentFile _file;
 		private Control _componentFileIdControl;
 
 		#region Constructors
@@ -92,7 +104,7 @@ namespace SayMore.UI.ComponentEditors
 		public bool GetIsBound(Control ctrl)
 		{
 			bool isBound;
-			return (ctrl != null && _extendedControls.TryGetValue(ctrl, out isBound) ? isBound : false);
+			return (ctrl != null && _extendedControls.TryGetValue(ctrl, out isBound) && isBound);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -132,11 +144,11 @@ namespace SayMore.UI.ComponentEditors
 			if (DesignMode)
 				return;
 
-			if (_file != null)
-				_file.MetadataValueChanged -= HandleValueChangedOutsideBinder;
+			if (ComponentFile != null)
+				ComponentFile.MetadataValueChanged -= HandleValueChangedOutsideBinder;
 
-			_file = file;
-			_file.MetadataValueChanged += HandleValueChangedOutsideBinder;
+			ComponentFile = file;
+			ComponentFile.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
 			// First, collect only the extended controls that are bound.
 			_boundControls = _extendedControls.Where(x => x.Value).Select(x => x.Key).ToList();
@@ -205,9 +217,19 @@ namespace SayMore.UI.ComponentEditors
 		private void UpdateControlValueFromField(Control ctrl)
 		{
 			var key = MakeIdFromControlName(ctrl);
-			var stringValue = _file.GetStringValue(key, string.Empty);
+			var stringValue = ComponentFile.GetStringValue(key, string.Empty);
+
 			try
 			{
+				if (TranslateBoundValueBeingRetrieved != null)
+				{
+					string translatedValue;
+					if (TranslateBoundValueBeingRetrieved(this, ctrl, stringValue, out translatedValue))
+						return;
+
+					stringValue = (translatedValue ?? stringValue);
+				}
+
 				ctrl.Text = stringValue;
 			}
 			catch (Exception error)
@@ -229,22 +251,22 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public string GetValue(string key)
 		{
-			return _file.GetStringValue(key, string.Empty);
+			return ComponentFile.GetStringValue(key, string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string SetValue(string key, string value)
 		{
 			string failureMessage;
-			_file.MetadataValueChanged -= HandleValueChangedOutsideBinder;
-			var modifiedValue = _file.SetStringValue(key, value, out failureMessage);
-			_file.MetadataValueChanged += HandleValueChangedOutsideBinder;
+			ComponentFile.MetadataValueChanged -= HandleValueChangedOutsideBinder;
+			var modifiedValue = ComponentFile.SetStringValue(key, value, out failureMessage);
+			ComponentFile.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
 			if (failureMessage != null)
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
 
 			//enchance: don't save so often, leave it to some higher level
-			_file.Save();
+			ComponentFile.Save();
 
 			return modifiedValue;
 		}
@@ -263,20 +285,20 @@ namespace SayMore.UI.ComponentEditors
 
 			string newValue = null;
 
-			var gotNewValueFromDelegate = (GetBoundControlValue != null &&
-				GetBoundControlValue(this, ctrl, out newValue));
+			var gotNewValueFromDelegate = (TranslateBoundValueBeingSaved != null &&
+				TranslateBoundValueBeingSaved(this, ctrl, out newValue));
 
 			if (!gotNewValueFromDelegate)
 				newValue = ctrl.Text.Trim();
 
 			// Don't bother doing anything if the old value is the same as the new value.
-			var oldValue = _file.GetStringValue(key, null);
+			var oldValue = ComponentFile.GetStringValue(key, null);
 			if (oldValue != null && oldValue == newValue)
 				return;
 
 			string failureMessage;
 
-			_file.MetadataValueChanged -= HandleValueChangedOutsideBinder;
+			ComponentFile.MetadataValueChanged -= HandleValueChangedOutsideBinder;
 
 			if (key == "date")
 			{
@@ -287,10 +309,10 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			newValue = (_componentFileIdControl == ctrl ?
-				_file.TryChangeChangeId(newValue, out failureMessage) :
-				_file.SetStringValue(key, newValue, out failureMessage));
+				ComponentFile.TryChangeChangeId(newValue, out failureMessage) :
+				ComponentFile.SetStringValue(key, newValue, out failureMessage));
 
-			_file.MetadataValueChanged += HandleValueChangedOutsideBinder;
+			ComponentFile.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
 			if (!gotNewValueFromDelegate)
 				ctrl.Text = newValue;
@@ -300,7 +322,7 @@ namespace SayMore.UI.ComponentEditors
 
 			//enchance: don't save so often, leave it to some higher level
 			if (_componentFileIdControl != ctrl)
-				_file.Save();
+				ComponentFile.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------

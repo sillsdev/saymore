@@ -62,6 +62,10 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\dotnet\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="LocalizationManager, Version=1.0.4296.25308, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
+    </Reference>
     <Reference Include="NAudio, Version=1.5.1.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\NAudio.dll</HintPath>
@@ -668,15 +672,19 @@
     <Compile Include="UI\ProjectWindow\ShowHtmlDialog.Designer.cs">
       <DependentUpon>ShowHtmlDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ProjectWindow\UILanguageDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ProjectWindow\UILanguageDlg.Designer.cs">
+      <DependentUpon>UILanguageDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProjectWindow\ViewTab.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ProjectWindow\ViewTabGroup.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\SendReceive\SendReceiveScreen.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="UI\SendReceive\SendReceiveScreen.cs" />
     <Compile Include="UI\SplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -760,6 +768,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectWindow\ShowHtmlDialog.resx">
       <DependentUpon>ShowHtmlDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProjectWindow\UILanguageDlg.resx">
+      <DependentUpon>UILanguageDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
@@ -867,12 +878,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\LocalizationManager\LocalizationManager.csproj">
-      <Project>{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}</Project>
-      <Name>LocalizationManager</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

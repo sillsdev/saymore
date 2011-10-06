@@ -54,7 +54,10 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("UI.MediaPlayer.TabText", "Audio");
+			TabText = (_file.FileType.IsVideo ?
+				Program.GetString("UI.MediaPlayer.TabText-Video", "Video") :
+				Program.GetString("UI.MediaPlayer.TabText-Audio", "Audio"));
+
 			base.HandleStringsLocalized();
 		}
 

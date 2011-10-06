@@ -42,6 +42,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="LocalizationManager, Version=1.0.4296.25308, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
+    </Reference>
     <Reference Include="Moq, Version=4.0.812.4, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\common\Moq.dll</HintPath>
@@ -142,10 +146,6 @@
     <Compile Include="UI\Utilities\JSONUtilsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LocalizationManager\LocalizationManager.csproj">
-      <Project>{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}</Project>
-      <Name>LocalizationManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SayMore\SayMore.csproj">
       <Project>{A61F5E06-CACD-40FA-BBAD-8744212AF14E}</Project>
       <Name>SayMore</Name>

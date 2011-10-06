@@ -33,6 +33,8 @@ namespace SayMore.UI.ProjectWindow
 			this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this._viewTabGroup = new SayMore.UI.ProjectWindow.ViewTabGroup();
+			this._menuChangeUILanguage = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._mainMenuStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -65,6 +67,8 @@ namespace SayMore.UI.ProjectWindow
             this._menuExportEvents,
             this._menuExportPeople,
             this._toolStripSeparator1,
+            this._menuChangeUILanguage,
+            this.toolStripMenuItem1,
             this._menuExit});
 			this.locExtender.SetLocalizableToolTip(this._menuProject, null);
 			this.locExtender.SetLocalizationComment(this._menuProject, null);
@@ -79,14 +83,14 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuOpenProject, null);
 			this.locExtender.SetLocalizingId(this._menuOpenProject, "UI.ProjectWindow._menuOpenProject");
 			this._menuOpenProject.Name = "_menuOpenProject";
-			this._menuOpenProject.Size = new System.Drawing.Size(155, 22);
+			this._menuOpenProject.Size = new System.Drawing.Size(246, 22);
 			this._menuOpenProject.Text = "&Open Project...";
 			this._menuOpenProject.Click += new System.EventHandler(this.HandleOpenProjectClick);
 			// 
 			// _toolStripSeparator0
 			// 
 			this._toolStripSeparator0.Name = "_toolStripSeparator0";
-			this._toolStripSeparator0.Size = new System.Drawing.Size(152, 6);
+			this._toolStripSeparator0.Size = new System.Drawing.Size(243, 6);
 			// 
 			// _menuExportEvents
 			// 
@@ -94,7 +98,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuExportEvents, null);
 			this.locExtender.SetLocalizingId(this._menuExportEvents, "UI.ProjectWindow._menuExportEvents");
 			this._menuExportEvents.Name = "_menuExportEvents";
-			this._menuExportEvents.Size = new System.Drawing.Size(155, 22);
+			this._menuExportEvents.Size = new System.Drawing.Size(246, 22);
 			this._menuExportEvents.Tag = "exportEvents";
 			this._menuExportEvents.Text = "Export Events...";
 			this._menuExportEvents.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
@@ -105,7 +109,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuExportPeople, null);
 			this.locExtender.SetLocalizingId(this._menuExportPeople, "UI.ProjectWindow._menuExportPeople");
 			this._menuExportPeople.Name = "_menuExportPeople";
-			this._menuExportPeople.Size = new System.Drawing.Size(155, 22);
+			this._menuExportPeople.Size = new System.Drawing.Size(246, 22);
 			this._menuExportPeople.Tag = "exportPeople";
 			this._menuExportPeople.Text = "Export People...";
 			this._menuExportPeople.Click += new System.EventHandler(this.HandleCommandMenuItemClick);
@@ -113,7 +117,7 @@ namespace SayMore.UI.ProjectWindow
 			// _toolStripSeparator1
 			// 
 			this._toolStripSeparator1.Name = "_toolStripSeparator1";
-			this._toolStripSeparator1.Size = new System.Drawing.Size(152, 6);
+			this._toolStripSeparator1.Size = new System.Drawing.Size(243, 6);
 			// 
 			// _menuExit
 			// 
@@ -121,7 +125,7 @@ namespace SayMore.UI.ProjectWindow
 			this.locExtender.SetLocalizationComment(this._menuExit, null);
 			this.locExtender.SetLocalizingId(this._menuExit, "UI.ProjectWindow._menuExit");
 			this._menuExit.Name = "_menuExit";
-			this._menuExit.Size = new System.Drawing.Size(155, 22);
+			this._menuExit.Size = new System.Drawing.Size(246, 22);
 			this._menuExit.Text = "E&xit";
 			this._menuExit.Click += new System.EventHandler(this.HandleExitClick);
 			// 
@@ -189,6 +193,21 @@ namespace SayMore.UI.ProjectWindow
 			this._viewTabGroup.ViewActivated += new SayMore.UI.ProjectWindow.ViewTabGroup.ViewTabChangedHandler(this.HandleViewActivated);
 			this._viewTabGroup.ViewDeactivated += new SayMore.UI.ProjectWindow.ViewTabGroup.ViewTabChangedHandler(this.HandleViewDeactivated);
 			// 
+			// _menuChangeUILanguage
+			// 
+			this.locExtender.SetLocalizableToolTip(this._menuChangeUILanguage, null);
+			this.locExtender.SetLocalizationComment(this._menuChangeUILanguage, null);
+			this.locExtender.SetLocalizingId(this._menuChangeUILanguage, "UI.ProjectWindow.changeUserInterfaceLanguageToolStripMenuItem");
+			this._menuChangeUILanguage.Name = "_menuChangeUILanguage";
+			this._menuChangeUILanguage.Size = new System.Drawing.Size(246, 22);
+			this._menuChangeUILanguage.Text = "Change User Interface Language...";
+			this._menuChangeUILanguage.Click += new System.EventHandler(this.HandleChangeUILanguageMenuClick);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(243, 6);
+			// 
 			// ProjectWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -228,6 +247,8 @@ namespace SayMore.UI.ProjectWindow
 		private System.Windows.Forms.ToolStripMenuItem _menuReleaseNotes;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem _menuHelp;
+		private System.Windows.Forms.ToolStripMenuItem _menuChangeUILanguage;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 	}
 }
 

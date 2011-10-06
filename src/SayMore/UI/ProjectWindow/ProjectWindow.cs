@@ -153,6 +153,20 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleChangeUILanguageMenuClick(object sender, EventArgs e)
+		{
+			using (var dlg = new UILanguageDlg())
+			{
+				if (dlg.ShowDialog(this) != DialogResult.OK)
+					return;
+
+				Settings.Default.UserInterfaceLanguage = dlg.UILanguage;
+				Program.SetUILanguage(null);
+				Program.ReapplyLocalizationsToAllObjects();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Draw a subtle line at the bottom of the main menu to visually separate
 		/// the main tabs from the main menu.

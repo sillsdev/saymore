@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Diagnostics;
@@ -258,7 +259,7 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static void SetUpLocalization()
 		{
-			SetUILanguage();
+			SetUILanguage(Environment.GetCommandLineArgs());
 
 			// Copy the localization file to where the settings file is located.
 			var localizationFilePath = Path.Combine(PortableSettingsProvider.SettingsFileFolder, "SayMore.tmx");
@@ -283,17 +284,20 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void SetUILanguage()
+		public static void SetUILanguage(IEnumerable<string> commandLineArgs)
 		{
-			string langId = "ru"; // Settings.Default.UserInterfaceLanguage;
+			string langId = Settings.Default.UserInterfaceLanguage;
 
-			// Specifying the UI language on the command-line trumps the one in
-			// the settings file (i.e. the one set in the options dialog box).
-			foreach (var arg in Environment.GetCommandLineArgs()
-				.Where(arg => arg.ToLower().StartsWith("/uilang:") || arg.ToLower().StartsWith("-uilang:")))
+			if (commandLineArgs != null)
 			{
-				langId = arg.Substring(8);
-				break;
+				// Specifying the UI language on the command-line trumps the one in
+				// the settings file (i.e. the one set in the options dialog box).
+				foreach (var arg in commandLineArgs
+					.Where(arg => arg.ToLower().StartsWith("/uilang:") || arg.ToLower().StartsWith("-uilang:")))
+				{
+					langId = arg.Substring(8);
+					break;
+				}
 			}
 
 			LocalizationManager.UILanguageId = (string.IsNullOrEmpty(langId) ?
@@ -303,12 +307,12 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private static LocalizationManager L10NMngr { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		internal static void SaveOnTheFlyLocalizations()
-		{
-			if (L10NMngr != null)
-				L10NMngr.SaveOnTheFlyLocalizations();
-		}
+		///// ------------------------------------------------------------------------------------
+		//internal static void SaveOnTheFlyLocalizations()
+		//{
+		//    if (L10NMngr != null)
+		//        L10NMngr.SaveOnTheFlyLocalizations();
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		internal static void ReapplyLocalizationsToAllObjects()
@@ -317,12 +321,12 @@ namespace SayMore
 				L10NMngr.ReapplyLocalizationsToAllObjects();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		internal static void RefreshToolTipsOnLocalizationManager()
-		{
-			if (L10NMngr != null)
-				L10NMngr.RefreshToolTips();
-		}
+		///// ------------------------------------------------------------------------------------
+		//internal static void RefreshToolTipsOnLocalizationManager()
+		//{
+		//    if (L10NMngr != null)
+		//        L10NMngr.RefreshToolTips();
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		internal static string GetUILanguageId()

@@ -123,12 +123,12 @@ namespace SayMore.UI.ComponentEditors
 		private void AddColumns()
 		{
 			var col = CreateTextBoxColumn("colField");
-			col.HeaderText = "L10N:UI.FieldsAndValuesGrid.FieldColumnHeadingText!Field";
+			col.HeaderText = "L10N:UI.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
 			col.Width = 125;
 			Columns.Add(col);
 
 			col = CreateTextBoxColumn("colValue");
-			col.HeaderText = "L10N:UI.FieldsAndValuesGrid.ValueColumnHeadingText!Value";
+			col.HeaderText = "L10N:UI.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
 			col.Width = 175;
 			Columns.Add(col);
 
@@ -172,17 +172,15 @@ namespace SayMore.UI.ComponentEditors
 				return;
 			}
 
-			var fieldId = _model.GetIdForIndex(e.RowIndex);
 			var isReadOnly = _model.IsIndexForReadOnlyField(e.RowIndex);
 			var isCustom = _model.IsIndexForCustomField(e.RowIndex);
 
-			if (string.IsNullOrEmpty(fieldId))
+			if (string.IsNullOrEmpty(_model.GetIdForIndex(e.RowIndex)))
 				this[1, e.RowIndex].ReadOnly = true;
 			else if (e.RowIndex < NewRowIndex)
 			{
 				if (e.ColumnIndex == 0)
 				{
-					e.Value = fieldId.Replace('_', ' ');
 					this[0, e.RowIndex].ReadOnly = !isCustom;
 					if (!isCustom)
 						e.CellStyle.Font = _factoryFieldFont;
@@ -301,7 +299,8 @@ namespace SayMore.UI.ComponentEditors
 			if (e.RowIndex != NewRowIndex && e.RowIndex < _model.RowData.Count)
 			{
 				e.Value = e.ColumnIndex == 0 ?
-					_model.GetDisplayableFieldName(e.RowIndex) : _model.GetValueForIndex(e.RowIndex);
+					_model.GetDisplayableFieldName(e.RowIndex).Replace('_', ' ') :
+					_model.GetValueForIndex(e.RowIndex);
 			}
 
 			base.OnCellValueNeeded(e);

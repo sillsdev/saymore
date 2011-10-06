@@ -71,14 +71,14 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetShowInFileExplorerMenuText()
 		{
-			return Program.GetString("Model.Files.FileType.ShowInFileExplorerMenuText",
+			return Program.GetString("UI.ComponentFileList.MenuCommands.ShowInFileExplorerMenuText",
 				"Show in File Explorer...");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetOpenInAssociatedProgramMenuText()
 		{
-			return Program.GetString("Model.Files.FileType.OpenInAssociatedProgramMenuText",
+			return Program.GetString("UI.ComponentFileList.MenuCommands.OpenInAssociatedProgramMenuText",
 				"Open in Program Associated with this File ...");
 		}
 
@@ -267,7 +267,7 @@ namespace SayMore.Model.Files
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			var col = SilGrid.CreateTextBoxColumn("id");
-			col.HeaderText = "L10N:Model.Files.PersonFileType.IdColumnHeadingText!Id";
+			col.HeaderText = "L10N:UI.PeopleView.PeopleListColumnHeadings.Id!Id";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.Frozen = true;
@@ -275,7 +275,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("consent");
-			col.HeaderText = "L10N:Model.Files.PersonFileType.ConsentColumnHeadingText!Consent";
+			col.HeaderText = "L10N:UI.PeopleView.PeopleListColumnHeadings.Consent!Consent";
 			col.DataPropertyName = "consent";
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
@@ -369,35 +369,35 @@ namespace SayMore.Model.Files
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			var col = SilGrid.CreateTextBoxColumn("id");
-			col.HeaderText = "L10N:Model.Files.EventFileType.IdColumnHeadingText!Id";
+			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Id!Id";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("title");
-			col.HeaderText = "L10N:Model.Files.EventFileType.TitleColumnHeadingText!Title";
+			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Title!Title";
 			col.DataPropertyName = "title";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("stages");
-			col.HeaderText = "L10N:Model.Files.EventFileType.StagesColumnHeadingText!Stages";
+			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Stages!Stages";
 			col.DataPropertyName = "stages";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("status");
-			col.HeaderText = "L10N:Model.Files.EventFileType.StatusColumnHeadingText!Status";
+			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Status!Status";
 			col.DataPropertyName = "status";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("date");
-			col.HeaderText = "L10N:Model.Files.EventFileType.DateColumnHeadingText!Date";
+			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Date!Date";
 			col.DataPropertyName = "date";
 			col.ReadOnly = true;
 			col.Visible = false;
@@ -405,7 +405,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("genre");
-			col.HeaderText = "L10N:Model.Files.EventFileType.GenreColumnHeadingText!Genre";
+			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Genre!Genre";
 			col.DataPropertyName = "genre";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -413,7 +413,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("location");
-			col.HeaderText = "L10N:Model.Files.EventFileType.LocationColumnHeadingText!Location";
+			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Location!Location";
 			col.DataPropertyName = "location";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -531,14 +531,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FieldDefinition> FactoryFields
 		{
-			get
-			{
-				yield return new FieldDefinition("Duration") { ReadOnly = true };
-				yield return new FieldDefinition("Channels") { ReadOnly = true };
-				yield return new FieldDefinition("Bit_Depth") { ReadOnly = true };
-				yield return new FieldDefinition("Sample_Rate") { ReadOnly = true };
-				yield return new FieldDefinition("Audio_Bit_Rate") { ReadOnly = true };
-			}
+			get { return GetBaseAudioFields(); }
 		}
 	}
 
@@ -558,6 +551,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ComputedFieldInfo> GetComputedFields()
 		{
+			// TODO: Figure out how to localize the suffixes so english is saved in
+			// the metadata file but the user sees them in their UI language.
+
 			yield return new ComputedFieldInfo
 			{
 				Key = "Duration",
@@ -568,7 +564,8 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Audio_Bit_Rate",
-				Suffix = Program.GetString("Model.Files.AudioVideoFileType.AudioBitRateSuffix", "kbps"),
+				Suffix = "kbps",
+				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.AudioBitRateSuffix", "kbps"),
 				DataItemChooser = (info => info.AudioBitRate),
 				GetFormatedStatProvider = GetStringStatistic
 			};
@@ -576,7 +573,8 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Video_Bit_Rate",
-				Suffix = Program.GetString("Model.Files.AudioVideoFileType.VideoBitRateSuffix", "kbps"),
+				Suffix = "kbps",
+				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.VideoBitRateSuffix", "kbps"),
 				DataItemChooser = (info => info.VideoBitRate),
 				GetFormatedStatProvider = GetStringStatistic
 			};
@@ -584,7 +582,8 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Sample_Rate",
-				Suffix = Program.GetString("Model.Files.AudioVideoFileType.SampleRateSuffix", "Hz"),
+				Suffix = "Hz",
+				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.SampleRateSuffix", "Hz"),
 				DataItemChooser = (info => info.SamplesPerSecond),
 				GetFormatedStatProvider = GetStringStatistic
 			};
@@ -592,7 +591,8 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Bit_Depth",
-				Suffix = Program.GetString("Model.Files.AudioVideoFileType.BitDepthSuffix", "bits"),
+				Suffix = "bits",
+				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.BitDepthSuffix", "bits"),
 				DataItemChooser = (info => info.BitDepth == 0 ? null : info.BitDepth.ToString()),
 				GetFormatedStatProvider = GetStringStatistic
 			};
@@ -614,7 +614,8 @@ namespace SayMore.Model.Files
 			yield return new ComputedFieldInfo
 			{
 				Key = "Frame_Rate",
-				Suffix = Program.GetString("Model.Files.AudioVideoFileType.FrameRateSuffix", "frames/second"),
+				Suffix = "frames/second",
+				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.FrameRateSuffix", "frames/second"),
 				DataItemChooser = (info => info.FramesPerSecond),
 				GetFormatedStatProvider = GetStringStatistic
 			};
@@ -640,12 +641,17 @@ namespace SayMore.Model.Files
 		{
 			var channels = GetStringStatistic(info, dataItemChooser, string.Empty);
 
+			// TODO: Figure out how to localize these so english is saved in the
+			// metadata file but the user sees them in their UI language.
+
 			switch (channels)
 			{
 				case "-1": return string.Empty;
 				case "0": return string.Empty;
-				case "1": return Program.GetString("Model.Files.AudioVideoFileType.MonoLabel", "mono");
-				case "2": return Program.GetString("Model.Files.AudioVideoFileType.StereoLabel", "stereo");
+				case "1": return "mono";
+				case "2": return "stereo";
+				//case "1": return Program.Get____String("Model.Files.AudioVideoFileType.MonoLabel", "mono");
+				//case "2": return Program.Get____String("Model.Files.AudioVideoFileType.StereoLabel", "stereo");
 			}
 
 			return channels;
@@ -740,6 +746,16 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		internal static IEnumerable<FieldDefinition> GetBaseAudioFields()
+		{
+			yield return new FieldDefinition("Duration") { ReadOnly = true };
+			yield return new FieldDefinition("Channels") { ReadOnly = true };
+			yield return new FieldDefinition("Bit_Depth") { ReadOnly = true };
+			yield return new FieldDefinition("Sample_Rate") { ReadOnly = true };
+			yield return new FieldDefinition("Audio_Bit_Rate") { ReadOnly = true };
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This is separated out so that video can reuse it.
 		/// </summary>
@@ -748,11 +764,12 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				foreach (var key in new[] { "Device", "Microphone", "contributions" })
-					yield return new FieldDefinition(key);
+				yield return new FieldDefinition("Device");
+				yield return new FieldDefinition("Microphone");
+				yield return new FieldDefinition("contributions");
 
-				foreach (var key in new[] { "Duration", "Channels", "Bit_Depth", "Sample_Rate", "Audio_Bit_Rate"})
-					yield return new FieldDefinition(key) { ReadOnly = true };
+				foreach (var fld in GetBaseAudioFields())
+					yield return fld;
 			}
 		}
 
@@ -821,8 +838,9 @@ namespace SayMore.Model.Files
 					yield return field;
 
 				// Add video only fields
-				foreach (var key in new[] { "Video_Bit_Rate", "Resolution", "Frame_Rate" })
-					yield return new FieldDefinition(key) { ReadOnly = true };
+				yield return new FieldDefinition("Video_Bit_Rate") { ReadOnly = true };
+				yield return new FieldDefinition("Resolution") { ReadOnly = true };
+				yield return new FieldDefinition("Frame_Rate") { ReadOnly = true };
 			}
 		}
 

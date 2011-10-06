@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="en" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4295.19823" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="en" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4296.25308" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-ampersandreplacement">|amp|</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -36,11 +36,13 @@
       </tuv>
     </tu>
     <tu tuid="AudioUtils.WaveStreamProvider.ConvertingAudioError">
+      <note>Second parameter is the error message.</note>
       <tuv xml:lang="en">
         <seg>There was an error converting the audio file '{0}' to the correct format.\n\n{1}</seg>
       </tuv>
     </tu>
     <tu tuid="AudioUtils.WaveStreamProvider.ExtractingAudioError">
+      <note>Second parameter is the error message.</note>
       <tuv xml:lang="en">
         <seg>There was an error extracting audio from the media file '{0}'\n\n{1}</seg>
       </tuv>
@@ -93,41 +95,6 @@
     <tu tuid="Model.ExportCommand.ExportFileSaveDlgCaption">
       <tuv xml:lang="en">
         <seg>Export Data</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.AudioVideoFileType.AudioBitRateSuffix">
-      <tuv xml:lang="en">
-        <seg>kbps</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.AudioVideoFileType.BitDepthSuffix">
-      <tuv xml:lang="en">
-        <seg>bits</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.AudioVideoFileType.FrameRateSuffix">
-      <tuv xml:lang="en">
-        <seg>frames/second</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.AudioVideoFileType.MonoLabel">
-      <tuv xml:lang="en">
-        <seg>mono</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.AudioVideoFileType.SampleRateSuffix">
-      <tuv xml:lang="en">
-        <seg>Hz</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.AudioVideoFileType.StereoLabel">
-      <tuv xml:lang="en">
-        <seg>stereo</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.AudioVideoFileType.VideoBitRateSuffix">
-      <tuv xml:lang="en">
-        <seg>kbps</seg>
       </tuv>
     </tu>
     <tu tuid="Model.Files.ComponentFile.CannotRenameFileErrorMsg">
@@ -230,61 +197,6 @@
         <seg>Written Translation</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.Files.EventFileType.DateColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Date</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.EventFileType.GenreColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Genre</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.EventFileType.IdColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Id</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.EventFileType.LocationColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Location</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.EventFileType.StagesColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Stages</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.EventFileType.StatusColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Status</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.EventFileType.TitleColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Title</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.FileType.OpenInAssociatedProgramMenuText">
-      <tuv xml:lang="en">
-        <seg>Open in Program Associated with this File ...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.FileType.ShowInFileExplorerMenuText">
-      <tuv xml:lang="en">
-        <seg>Show in File Explorer...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.PersonFileType.ConsentColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Consent</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.PersonFileType.IdColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Id</seg>
-      </tuv>
-    </tu>
     <tu tuid="Model.Files.VideoFileType.ExtractMp3AudioMenuText">
       <tuv xml:lang="en">
         <seg>Extract Audio to mono MP3 File (low quality)</seg>
@@ -311,43 +223,9 @@
       </tuv>
     </tu>
     <tu tuid="Model.GenreDefinition.UnknownGenreType">
+      <note>Unknown genre displayed in the genre drop-down list.</note>
       <tuv xml:lang="en">
         <seg>&lt;Unknown&gt;</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.MiscPeopleViewMessages.AlreadyExistsSaveFailureMessage">
-      <tuv xml:lang="en">
-        <seg>Could not rename from {0} to {1} because there is already a person by that name.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.MiscPeopleViewMessages.InformedConsent-Audio">
-      <tuv xml:lang="en">
-        <seg>Informed Consent is Audio File</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.MiscPeopleViewMessages.InformedConsent-None">
-      <tuv xml:lang="en">
-        <seg>No Informed Consent</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.MiscPeopleViewMessages.InformedConsent-Video">
-      <tuv xml:lang="en">
-        <seg>Informed Consent is Video File</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.MiscPeopleViewMessages.InformedConsent-Written">
-      <tuv xml:lang="en">
-        <seg>Informed Consent is Written</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.MiscPeopleViewMessages.NewPersonNamePrefix">
-      <tuv xml:lang="en">
-        <seg>New Person</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.MiscPeopleViewMessages.NoIdSaveFailureMessage">
-      <tuv xml:lang="en">
-        <seg>You must specify a name.</seg>
       </tuv>
     </tu>
     <tu tuid="Model.PresetGatherer.NoPresetsYetMsg">
@@ -376,6 +254,7 @@
       </tuv>
     </tu>
     <tu tuid="Transcription.Model.OralAnnotationFileGenerator.ProcessingAnnotationFileErrorMsg">
+      <note>The parameter is the annotation type (i.e. careful, translation).</note>
       <tuv xml:lang="en">
         <seg>There was an error processing a {0} annotation file.</seg>
       </tuv>
@@ -422,17 +301,17 @@
     </tu>
     <tu tuid="Transcription.UI.CreateAnnotationFileDlg._labelAudacityOverview">
       <tuv xml:lang="en">
-        <seg>Annotation requires that the media stream first be segmented into small pieces. Currently, you need to use another program to specify the segment boundaries. The easiest way is to use Audacity. Open your media file there, choose \"Tracks:Create New:Label Track\". At each point where you want a segment, choose \"Tracks:Add label at selection\". Finally, choose \"File:Export Labels...\", then click this button and select the file you created.</seg>
+        <seg>Annotation requires that the media stream first be segmented into small pieces. Currently, you need to use another program to specify the segment boundaries. The easiest way is to use Audacity. Open your media file there, choose "Tracks:Create New:Label Track". At each point where you want a segment, choose "Tracks:Add label at selection". Finally, choose "File:Export Labels...", then click this button and select the file you created.</seg>
       </tuv>
     </tu>
     <tu tuid="Transcription.UI.CreateAnnotationFileDlg._labelElanOverview">
       <tuv xml:lang="en">
-        <seg>Alternatively, you can add an ELAN \"eaf\" file which already contains segments and</seg>
+        <seg>Alternatively, you can add an ELAN "eaf" file which already contains segments and</seg>
       </tuv>
     </tu>
     <tu tuid="Transcription.UI.CreateAnnotationFileDlg._labelOverview">
       <tuv xml:lang="en">
-        <seg>This will create a file to hold annotations of the media file \'{0}\'. SayMore cur</seg>
+        <seg>This will create a file to hold annotations of the media file '{0}'. SayMore cur</seg>
       </tuv>
     </tu>
     <tu tuid="Transcription.UI.CreateAnnotationFileDlg.AllFileTypeString">
@@ -656,6 +535,7 @@
       </tuv>
     </tu>
     <tu tuid="Transcription.UI.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
+      <note>Parameter is file name.</note>
       <tuv xml:lang="en">
         <seg>There are no transcription annotations found in\n'{0}'</seg>
       </tuv>
@@ -691,6 +571,7 @@
       </tuv>
     </tu>
     <tu tuid="UI.AboutDlg._linkSayMoreWebSite_LinkPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the application's web site.</note>
       <tuv xml:lang="en">
         <seg>SayMore web site</seg>
       </tuv>
@@ -701,6 +582,7 @@
       </tuv>
     </tu>
     <tu tuid="UI.AboutDlg._linkSilWebSite_LinkPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the SIL web site.</note>
       <tuv xml:lang="en">
         <seg>SIL International</seg>
       </tuv>
@@ -736,6 +618,7 @@
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.ArchivingProgressMsg">
+      <note>The first parameter (in English, that is) is 'Event' or 'Contributor'. The second parameter is the even or contributor name.</note>
       <tuv xml:lang="en">
         <seg>     {0}: {1}</seg>
       </tuv>
@@ -776,6 +659,7 @@
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.OverviewText">
+      <note>The first occurance of the word 'RAMP' will be made a hyperlink to the RAMP website. If the word 'RAMP' is not found, the text will not contain that hyperlink.</note>
       <tuv xml:lang="en">
         <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore events. It will gather up all the files and data related to an event and its contributors, then launch RAMP so that you can fill out more information and do the actual submission.</seg>
       </tuv>
@@ -791,6 +675,7 @@
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.RampNotFoundMsg">
+      <note>The parameter is for a newline</note>
       <tuv xml:lang="en">
         <seg>The RAMP pogram cannot be found!{0}</seg>
       </tuv>
@@ -812,97 +697,107 @@
     </tu>
     <tu tuid="UI.ArchivingDlg.WindowTitle">
       <tuv xml:lang="en">
-        <seg>SayMore: Archive with RAMP (SIL Only</seg>
+        <seg>SayMore: Archive with RAMP (SIL Only)</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid._buttonAddFiles">
+    <tu tuid="UI.ComponentFileList._buttonAddFiles">
       <tuv xml:lang="en">
         <seg>Add Files...</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid._buttonConvert">
+    <tu tuid="UI.ComponentFileList._buttonConvert">
       <tuv xml:lang="en">
         <seg>Convert</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid._buttonConvert_ToolTip_">
+    <tu tuid="UI.ComponentFileList._buttonConvert_ToolTip_">
       <tuv xml:lang="en">
         <seg>Convert Selected File</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid._buttonCreateAnnotationFile">
+    <tu tuid="UI.ComponentFileList._buttonCreateAnnotationFile">
       <tuv xml:lang="en">
         <seg>Create Annotation File...</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid._buttonCreateAnnotationFile_ToolTip_">
+    <tu tuid="UI.ComponentFileList._buttonCreateAnnotationFile_ToolTip_">
       <tuv xml:lang="en">
         <seg>Create an annotation file</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid._buttonOpen">
+    <tu tuid="UI.ComponentFileList._buttonOpen">
       <tuv xml:lang="en">
         <seg>Open</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid._buttonOpen_ToolTip_">
+    <tu tuid="UI.ComponentFileList._buttonOpen_ToolTip_">
       <tuv xml:lang="en">
         <seg>Open Selected File</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid._buttonRename">
+    <tu tuid="UI.ComponentFileList._buttonRename">
       <tuv xml:lang="en">
         <seg>Rename</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid._buttonRename_ToolTip_">
+    <tu tuid="UI.ComponentFileList._buttonRename_ToolTip_">
       <tuv xml:lang="en">
         <seg>Rename Selected File</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid._grid.FileDateColHdgText">
-      <tuv xml:lang="en">
-        <seg>Date Modified</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.ComponentFileGrid._grid.FileDurationColHdgText">
-      <tuv xml:lang="en">
-        <seg>Duration</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.ComponentFileGrid._grid.FileNameColHdgText">
-      <tuv xml:lang="en">
-        <seg>Name</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.ComponentFileGrid._grid.FileSizeColHdgText">
-      <tuv xml:lang="en">
-        <seg>Size</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.ComponentFileGrid._grid.FileTypeColHdgText">
-      <tuv xml:lang="en">
-        <seg>Type</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.ComponentFileGrid._menuDeleteFile">
+    <tu tuid="UI.ComponentFileList._menuDeleteFile">
       <tuv xml:lang="en">
         <seg>Delete File</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid.AddFilesDlgCaption">
+    <tu tuid="UI.ComponentFileList.AddFilesDlgCaption">
       <tuv xml:lang="en">
         <seg>Add Files</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid.AddFilesFileType">
+    <tu tuid="UI.ComponentFileList.AddFilesFileType">
       <tuv xml:lang="en">
         <seg>All Files (*.*)</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ComponentFileGrid.AddFilesPrompt">
+    <tu tuid="UI.ComponentFileList.AddFilesPrompt">
       <tuv xml:lang="en">
         <seg>Add additional files related to this event by\ndragging them here or clicking the 'Add Files' button.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileList.ColumnHeadings.FileDate">
+      <tuv xml:lang="en">
+        <seg>Date Modified</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileList.ColumnHeadings.FileDuration">
+      <tuv xml:lang="en">
+        <seg>Duration</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileList.ColumnHeadings.FileName">
+      <tuv xml:lang="en">
+        <seg>Name</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileList.ColumnHeadings.FileSize">
+      <tuv xml:lang="en">
+        <seg>Size</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileList.ColumnHeadings.FileType">
+      <tuv xml:lang="en">
+        <seg>Type</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileList.MenuCommands.OpenInAssociatedProgramMenuText">
+      <tuv xml:lang="en">
+        <seg>Open in Program Associated with this File ...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileList.MenuCommands.ShowInFileExplorerMenuText">
+      <tuv xml:lang="en">
+        <seg>Show in File Explorer...</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ContributorsEditor.MissingContributorNameMsg">
@@ -950,16 +845,6 @@
         <seg>The file {0} appears unchanged since it was copied before, so it will be skipped.</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.CustomComponentFileRenamingDialog.FileAlreadyExistsMsg">
-      <tuv xml:lang="en">
-        <seg>A file by that name already exists or the name is invalid.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.CustomComponentFileRenamingDialog.NewFileNameMsg">
-      <tuv xml:lang="en">
-        <seg>New file: {0}</seg>
-      </tuv>
-    </tu>
     <tu tuid="UI.CustomComponentFileRenamingDlg._buttonCancel">
       <tuv xml:lang="en">
         <seg>Cancel</seg>
@@ -968,6 +853,17 @@
     <tu tuid="UI.CustomComponentFileRenamingDlg._buttonOK">
       <tuv xml:lang="en">
         <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.CustomComponentFileRenamingDlg.FileAlreadyExistsMsg">
+      <tuv xml:lang="en">
+        <seg>A file by that name already exists or the name is invalid.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.CustomComponentFileRenamingDlg.NewFileNameMsg">
+      <note>Displayed under the text box.</note>
+      <tuv xml:lang="en">
+        <seg>New file: {0}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.CustomComponentFileRenamingDlg.WindowTitle">
@@ -1077,12 +973,47 @@
     </tu>
     <tu tuid="UI.EventsView._labelClickNewHelpPrompt">
       <tuv xml:lang="en">
-        <seg>Click \'New\' to add a new event.</seg>
+        <seg>Click 'New' to add a new event.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.EventsView.AddEventsButtonToolTip">
       <tuv xml:lang="en">
         <seg>Add Files to the Event</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventsView.EventListColumnHeadings.Date">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventsView.EventListColumnHeadings.Genre">
+      <tuv xml:lang="en">
+        <seg>Genre</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventsView.EventListColumnHeadings.Id">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventsView.EventListColumnHeadings.Location">
+      <tuv xml:lang="en">
+        <seg>Location</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventsView.EventListColumnHeadings.Stages">
+      <tuv xml:lang="en">
+        <seg>Stages</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventsView.EventListColumnHeadings.Status">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventsView.EventListColumnHeadings.Title">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
       </tuv>
     </tu>
     <tu tuid="UI.EventsView.EventsMainMenuItemText">
@@ -1120,6 +1051,16 @@
         <seg>Channels</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.FieldsAndValuesGrid.ColumnHeadings.Field">
+      <tuv xml:lang="en">
+        <seg>Field</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.FieldsAndValuesGrid.ColumnHeadings.Value">
+      <tuv xml:lang="en">
+        <seg>Value</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.FieldsAndValuesGrid.Device">
       <tuv xml:lang="en">
         <seg>Device</seg>
@@ -1128,11 +1069,6 @@
     <tu tuid="UI.FieldsAndValuesGrid.Duration">
       <tuv xml:lang="en">
         <seg>Duration</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.FieldsAndValuesGrid.FieldColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Field</seg>
       </tuv>
     </tu>
     <tu tuid="UI.FieldsAndValuesGrid.FrameRate">
@@ -1155,11 +1091,6 @@
         <seg>Sample Rate</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.FieldsAndValuesGrid.ValueColumnHeadingText">
-      <tuv xml:lang="en">
-        <seg>Value</seg>
-      </tuv>
-    </tu>
     <tu tuid="UI.FieldsAndValuesGrid.VerifyDeleteFieldQuestion">
       <tuv xml:lang="en">
         <seg>Do you want to delete the field '{0}' and its contents from the entire project?</seg>
@@ -1172,7 +1103,7 @@
     </tu>
     <tu tuid="UI.GenericFileTypeViewer.FileLinkMsg">
       <tuv xml:lang="en">
-        <seg>&lt;HTML&gt;&lt;BODY&gt;Click &lt;a href=\"file:///{0}\"&gt;&lt;b&gt;here to open '{1}'&lt;/b&gt;&lt;/a&gt; in its associated program.&lt;/BODY&gt;&lt;/HTML&gt;</seg>
+        <seg>&lt;HTML&gt;&lt;BODY&gt;Click &lt;a href="file:///{0}"&gt;&lt;b&gt;here to open '{1}'&lt;/b&gt;&lt;/a&gt; in its associated program.&lt;/BODY&gt;&lt;/HTML&gt;</seg>
       </tuv>
     </tu>
     <tu tuid="UI.GenericFileTypeViewer.FileNameMsg">
@@ -1206,11 +1137,13 @@
       </tuv>
     </tu>
     <tu tuid="UI.ListPanel._buttonDelete">
+      <note>Button for deleting events and people</note>
       <tuv xml:lang="en">
         <seg>&amp;Delete</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ListPanel._buttonNew">
+      <note>Button for adding new events and people</note>
       <tuv xml:lang="en">
         <seg>&amp;New</seg>
       </tuv>
@@ -1228,11 +1161,6 @@
     <tu tuid="UI.MakeEventsFromFileProgressDialog.WindowTitle">
       <tuv xml:lang="en">
         <seg>Making Events...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.MediaInfoEditor._presetMenuButton">
-      <tuv xml:lang="en">
-        <seg>Presets</seg>
       </tuv>
     </tu>
     <tu tuid="UI.MediaPlayer._buttonPause">
@@ -1285,9 +1213,14 @@
         <seg>Media player file name has not been specified.</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.MediaPlayer.TabText">
+    <tu tuid="UI.MediaPlayer.TabText-Audio">
       <tuv xml:lang="en">
         <seg>Audio</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MediaPlayer.TabText-Video">
+      <tuv xml:lang="en">
+        <seg>Video</seg>
       </tuv>
     </tu>
     <tu tuid="UI.MediaPlayer.TimeCurrentOfTotalDisplayFormat">
@@ -1303,6 +1236,11 @@
     <tu tuid="UI.MediaPlayer.UnableToStartMplayerProcessMsg">
       <tuv xml:lang="en">
         <seg>Unable to start mplayer.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MediaPropertiesEditor._presetMenuButton">
+      <tuv xml:lang="en">
+        <seg>Presets</seg>
       </tuv>
     </tu>
     <tu tuid="UI.MissingFFmpegPopup._labelMessage">
@@ -1326,6 +1264,7 @@
       </tuv>
     </tu>
     <tu tuid="UI.NewEventsFromFilesDlg._buttonCreateEvents">
+      <note>Parameter is for the number of events that will be created.</note>
       <tuv xml:lang="en">
         <seg>Create {0} Events</seg>
       </tuv>
@@ -1356,6 +1295,7 @@
       </tuv>
     </tu>
     <tu tuid="UI.NewEventsFromFilesDlg.FilesSelectedCreateButtonText">
+      <note>Format text in create button when one or more files are selected.</note>
       <tuv xml:lang="en">
         <seg>Create {0} Events</seg>
       </tuv>
@@ -1366,6 +1306,7 @@
       </tuv>
     </tu>
     <tu tuid="UI.NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText">
+      <note>Text in create button when no files are selected.</note>
       <tuv xml:lang="en">
         <seg>Create Events</seg>
       </tuv>
@@ -1377,7 +1318,7 @@
     </tu>
     <tu tuid="UI.NewEventsFromFilesDlgFolderNotFoundMsg._labelDriveLetterHintMsg">
       <tuv xml:lang="en">
-        <seg>In Windows, if you assign the device to a letter closer to \'z\', it is more likely</seg>
+        <seg>In Windows, if you assign the device to a letter closer to 'z', it is more likely</seg>
       </tuv>
     </tu>
     <tu tuid="UI.NewEventsFromFilesDlgFolderNotFoundMsg._labelPossibleProblemsMsg1">
@@ -1416,11 +1357,13 @@
       </tuv>
     </tu>
     <tu tuid="UI.NewProjectDlg._labelNewProjectPath">
+      <note>This text is displayed under the project name and includes where it will be created.</note>
       <tuv xml:lang="en">
         <seg>Project will be created in: {0}</seg>
       </tuv>
     </tu>
     <tu tuid="UI.NewProjectDlg.InvalidPathMsg">
+      <note>This text is displayed under the project name when it is invalid.</note>
       <tuv xml:lang="en">
         <seg>Unable to create a new project by that name.</seg>
       </tuv>
@@ -1432,12 +1375,57 @@
     </tu>
     <tu tuid="UI.PeopleView._labelClickNewHelpPrompt">
       <tuv xml:lang="en">
-        <seg>Click \'New\' to add a new person.</seg>
+        <seg>Click 'New' to add a new person.</seg>
       </tuv>
     </tu>
     <tu tuid="UI.PeopleView.AddPersonButtonToolTip">
       <tuv xml:lang="en">
         <seg>Add Files for the Person</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PeopleView.InformedConsentTypes.Audio">
+      <tuv xml:lang="en">
+        <seg>Informed Consent is Audio File</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PeopleView.InformedConsentTypes.None">
+      <tuv xml:lang="en">
+        <seg>No Informed Consent</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PeopleView.InformedConsentTypes.Video">
+      <tuv xml:lang="en">
+        <seg>Informed Consent is Video File</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PeopleView.InformedConsentTypes.Written">
+      <tuv xml:lang="en">
+        <seg>Informed Consent is Written</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PeopleView.MiscMessages.AlreadyExistsSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>Could not rename from {0} to {1} because there is already a person by that name.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PeopleView.MiscMessages.NewPersonNamePrefix">
+      <tuv xml:lang="en">
+        <seg>New Person</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PeopleView.MiscMessages.NoIdSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>You must specify a name.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PeopleView.PeopleListColumnHeadings.Consent">
+      <tuv xml:lang="en">
+        <seg>Consent</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PeopleView.PeopleListColumnHeadings.Id">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
       </tuv>
     </tu>
     <tu tuid="UI.PeopleView.TabText">
@@ -1591,6 +1579,7 @@
       </tuv>
     </tu>
     <tu tuid="UI.ProgressView.HeadingText">
+      <note>Parameter is project name.</note>
       <tuv xml:lang="en">
         <seg>SayMore statistics for {0}</seg>
       </tuv>
@@ -1685,17 +1674,24 @@
         <seg>Release Notes...</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ProjectWindow.changeUserInterfaceLanguageToolStripMenuItem">
+      <tuv xml:lang="en">
+        <seg>Change User Interface Language...</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ProjectWindow.DeleteElementMenuText">
       <tuv xml:lang="en">
         <seg>Delete</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProjectWindow.DeleteMultipleItemsMsg">
+      <note>For deleting events and people items</note>
       <tuv xml:lang="en">
         <seg>{0} items</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProjectWindow.DeleteOneItemMsg">
+      <note>For deleting events and people items</note>
       <tuv xml:lang="en">
         <seg>{0}</seg>
       </tuv>
@@ -1841,11 +1837,13 @@
       </tuv>
     </tu>
     <tu tuid="UI.WelcomeDlg._linkWebSites_ApplicationPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the application's web site.</note>
       <tuv xml:lang="en">
         <seg>SayMore web site</seg>
       </tuv>
     </tu>
     <tu tuid="UI.WelcomeDlg._linkWebSites_SILPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the SIL web site.</note>
       <tuv xml:lang="en">
         <seg>SIL International</seg>
       </tuv>

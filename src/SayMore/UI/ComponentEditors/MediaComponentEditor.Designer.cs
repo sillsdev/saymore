@@ -59,12 +59,12 @@ namespace SayMore.UI.ComponentEditors
 			this._presetMenuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.locExtender.SetLocalizableToolTip(this._presetMenuButton, null);
 			this.locExtender.SetLocalizationComment(this._presetMenuButton, null);
-			this.locExtender.SetLocalizingId(this._presetMenuButton, "UI.MediaInfoEditor._presetMenuButton");
+			this.locExtender.SetLocalizingId(this._presetMenuButton, "UI.MediaPropertiesEditor._presetMenuButton");
 			this._presetMenuButton.Location = new System.Drawing.Point(0, 0);
 			this._presetMenuButton.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
-			this._presetMenuButton.MinimumSize = new System.Drawing.Size(73, 23);
+			this._presetMenuButton.MinimumSize = new System.Drawing.Size(73, 26);
 			this._presetMenuButton.Name = "_presetMenuButton";
-			this._presetMenuButton.Size = new System.Drawing.Size(73, 23);
+			this._presetMenuButton.Size = new System.Drawing.Size(73, 26);
 			this._presetMenuButton.TabIndex = 16;
 			this._presetMenuButton.Text = "Presets";
 			this._presetMenuButton.UseVisualStyleBackColor = true;
@@ -75,9 +75,9 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._presetMenu, null);
 			this.locExtender.SetLocalizationComment(this._presetMenu, null);
 			this.locExtender.SetLocalizationPriority(this._presetMenu, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._presetMenu, "");
+			this.locExtender.SetLocalizingId(this._presetMenu, "_presetMenu._presetMenu");
 			this._presetMenu.Name = "_presetMenu";
-			this._presetMenu.Size = new System.Drawing.Size(153, 26);
+			this._presetMenu.Size = new System.Drawing.Size(61, 4);
 			// 
 			// locExtender
 			// 
@@ -91,7 +91,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "");
+			this.locExtender.SetLocalizingId(this, "MediaComponentEditor.EditorBase");
 			this.Name = "MediaComponentEditor";
 			this.Size = new System.Drawing.Size(449, 208);
 			this._tableLayout.ResumeLayout(false);

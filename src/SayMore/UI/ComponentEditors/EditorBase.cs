@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization.UI;
 using SayMore.Model.Files;
 using SayMore.UI.Utilities;
 
@@ -50,6 +51,9 @@ namespace SayMore.UI.ComponentEditors
 			ControlAdded += HandleControlAdded;
 			ControlRemoved += HandleControlRemoved;
 			Layout += HandleLayout;
+
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+			HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -62,7 +66,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(string tabText, string imageKey)
 		{
-			TabText = tabText;
+			TabText = tabText ?? TabText;
 			ImageKey = imageKey;
 		}
 
@@ -137,6 +141,36 @@ namespace SayMore.UI.ComponentEditors
 		{
 			SetLabelFonts(this, new Font(SystemFonts.IconTitleFont, FontStyle.Bold));
 			base.OnLoad(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			base.OnHandleDestroyed(e);
+			LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleStringsLocalized()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected string GetNotesTabText()
+		{
+			return Program.GetString("UI.EditorBase.FileType.NotesTabText", "Notes");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected string GetPropertiesTabText()
+		{
+			return Program.GetString("UI.EditorBase.FileType.PropertiesTabText", "Properties");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected string GetContributionsTabText()
+		{
+			return Program.GetString("UI.EditorBase.ContributorsTabText", "Contributors");
 		}
 
 		/// ------------------------------------------------------------------------------------

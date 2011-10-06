@@ -16,8 +16,7 @@ namespace SayMore.UI.ComponentEditors
 		private readonly MediaPlayer.MediaPlayer _mediaPlayer;
 
 		/// ------------------------------------------------------------------------------------
-		public AudioVideoPlayer(ComponentFile file, string tabText, string imageKey)
-			: base(file, tabText, imageKey)
+		public AudioVideoPlayer(ComponentFile file, string imageKey) : base(file, null, imageKey)
 		{
 			InitializeComponent();
 			Name = "AudioVideoPlayer";
@@ -46,6 +45,17 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update the tab text in case it was localized.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			TabText = Program.GetString("UI.MediaPlayer.TabText", "Audio");
+			base.HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------

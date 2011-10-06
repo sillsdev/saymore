@@ -14,17 +14,17 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class EventBasicEditor : EditorBase
 	{
-		public delegate EventBasicEditor Factory(ComponentFile file, string tabText, string imageKey);
+		public delegate EventBasicEditor Factory(ComponentFile file, string imageKey);
 
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
 		private readonly PersonInformant _personInformant;
 
 		/// ------------------------------------------------------------------------------------
-		public EventBasicEditor(ComponentFile file, string tabText, string imageKey,
+		public EventBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
 			PersonInformant personInformant)
-			: base(file, tabText, imageKey)
+			: base(file, null, imageKey)
 		{
 			InitializeComponent();
 			Name = "EventEditor";
@@ -142,6 +142,17 @@ namespace SayMore.UI.ComponentEditors
 			rc.Width -= (img.Width + 3);
 			TextRenderer.DrawText(e.Graphics, Event.GetLocalizedStatus(enumText), e.Font,
 				rc, e.ForeColor, TextFormatFlags.VerticalCenter | TextFormatFlags.WordEllipsis);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update the tab text in case it was localized.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			TabText = Program.GetString("UI.EventEditor.TabText", "Event");
+			base.HandleStringsLocalized();
 		}
 	}
 }

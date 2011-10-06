@@ -7,14 +7,11 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class NotesEditor : EditorBase
 	{
-		private readonly string _origTabText;
+		private string _origTabText;
 
 		/// ------------------------------------------------------------------------------------
-		public NotesEditor(ComponentFile file, string tabText)
-			: base(file, tabText, "Notes")
+		public NotesEditor(ComponentFile file) : base(file, null, "Notes")
 		{
-			_origTabText = tabText;
-
 			InitializeComponent();
 			Name = "Notes";
 			_binder.SetComponentFile(file);
@@ -35,6 +32,17 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (e.KeyCode == Keys.Pause && e.Alt)
 				throw new ApplicationException("User-invoked test crash.");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update the tab text in case it was localized.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			_origTabText = TabText = GetNotesTabText();
+			base.HandleStringsLocalized();
 		}
 	}
 }

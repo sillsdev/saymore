@@ -15,8 +15,7 @@ namespace SayMore.UI.ComponentEditors
 		private ImageViewerViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public ImageViewer(ComponentFile file, string tabText)
-			: base(file, tabText, "Image")
+		public ImageViewer(ComponentFile file) : base(file, null, "Image")
 		{
 			InitializeComponent();
 			Name = "ImageViewer";
@@ -115,6 +114,17 @@ namespace SayMore.UI.ComponentEditors
 
 			_panelImage.AutoScrollMinSize = _model.GetScaledSize(_zoomTrackBar.Value);
 			_panelImage.Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update the tab text in case it was localized.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			TabText = Program.GetString("UI.ImageViewer.TabText", "Image");
+			base.HandleStringsLocalized();
 		}
 	}
 }

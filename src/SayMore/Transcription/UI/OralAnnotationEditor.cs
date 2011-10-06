@@ -13,13 +13,12 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class OralAnnotationEditor : EditorBase
 	{
-		public delegate OralAnnotationEditor Factory(ComponentFile file, string tabText, string imageKey);
+		//public delegate OralAnnotationEditor Factory(ComponentFile file, string imageKey);
 
 		private bool _isFirstTimeActivated = true;
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationEditor(ComponentFile file, string tabText)
-			: base(file, tabText, "Audio")
+		public OralAnnotationEditor(ComponentFile file) : base(file, null, "Audio")
 		{
 			InitializeComponent();
 			Name = "OralAnnotations";
@@ -127,6 +126,17 @@ namespace SayMore.Transcription.UI
 			OralAnnotationFileGenerator.Generate(tier, this);
 			SetComponentFile(_file);
 			_oralAnnotationWaveViewer.Invalidate(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update the tab text in case it was localized.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			TabText = Program.GetString("Transcription.UI.OralAnnotationViewer.TabText", "Generated Audio");
+			base.HandleStringsLocalized();
 		}
 	}
 }

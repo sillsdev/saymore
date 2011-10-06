@@ -7,15 +7,15 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class BasicFieldGridEditor : EditorBase
 	{
-		public delegate BasicFieldGridEditor Factory(ComponentFile file, string tabText, string imageKey);
+		public delegate BasicFieldGridEditor Factory(ComponentFile file, string imageKey);
 
 		private FieldsValuesGrid _grid;
 		private FieldsValuesGridViewModel _gridViewModel;
 
 		/// ------------------------------------------------------------------------------------
-		public BasicFieldGridEditor(ComponentFile file, string tabText, string imageKey,
+		public BasicFieldGridEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer)
-			: base(file, tabText, imageKey)
+			: base(file, null, imageKey)
 		{
 			InitializeComponent();
 			Name = "BasicFieldGridEditor";
@@ -41,6 +41,17 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update the tab text in case it was localized.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			TabText = GetPropertiesTabText();
+			base.HandleStringsLocalized();
 		}
 	}
 }

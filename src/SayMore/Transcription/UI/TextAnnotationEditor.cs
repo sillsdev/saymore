@@ -16,7 +16,7 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class TextAnnotationEditor : EditorBase
 	{
-		public delegate TextAnnotationEditor Factory(ComponentFile file, string tabText, string imageKey);
+		//public delegate TextAnnotationEditor Factory(ComponentFile file, string imageKey);
 
 		private readonly TextAnnotationEditorGrid _grid;
 		private readonly VideoPanel _videoPanel;
@@ -24,8 +24,7 @@ namespace SayMore.Transcription.UI
 		private bool _isFirstTimeActivated = true;
 
 		/// ------------------------------------------------------------------------------------
-		public TextAnnotationEditor(ComponentFile file, string tabText, string imageKey)
-			: base(file, tabText, imageKey)
+		public TextAnnotationEditor(ComponentFile file, string imageKey) : base(file, null, imageKey)
 		{
 			InitializeComponent();
 			Name = "Annotations";
@@ -280,6 +279,17 @@ namespace SayMore.Transcription.UI
 			var file = ((AnnotationComponentFile)_file);
 			file.AssociatedComponentFile.CreateAnnotationFile(null);
 			SetComponentFile(_file);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update the tab text in case it was localized.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			TabText = Program.GetString("Transcription.UI.TextAnnotationEditor.TabText", "Annotations");
+			base.HandleStringsLocalized();
 		}
 	}
 }

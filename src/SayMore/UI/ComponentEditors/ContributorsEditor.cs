@@ -11,15 +11,14 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class ContributorsEditor : EditorBase
 	{
-		public delegate ContributorsEditor Factory(ComponentFile file, string tabText, string imageKey);
+		public delegate ContributorsEditor Factory(ComponentFile file, string imageKey);
 
 		protected ContributorsListControl _contributorsControl;
 		protected ContributorsListControlViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public ContributorsEditor(ComponentFile file, string tabText, string imageKey,
-			AutoCompleteValueGatherer autoCompleteProvider)
-			: base(file, tabText, imageKey)
+		public ContributorsEditor(ComponentFile file, string imageKey,
+			AutoCompleteValueGatherer autoCompleteProvider) : base(file, null, imageKey)
 		{
 			InitializeComponent();
 			Name = "Contributors";
@@ -108,6 +107,17 @@ namespace SayMore.UI.ComponentEditors
 			_file.Save();
 			if (failureMessage != null)
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(failureMessage);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update the tab text in case it was localized.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
+		{
+			TabText = GetContributionsTabText();
+			base.HandleStringsLocalized();
 		}
 	}
 }

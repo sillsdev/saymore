@@ -69,24 +69,6 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string GetNotesTabText()
-		{
-			return Program.GetString("Model.Files.FileType.NotesTabText", "Notes");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual string GetPropertiesTabText()
-		{
-			return Program.GetString("Model.Files.FileType.PropertiesTabText", "Properties");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual string GetContributionsTabText()
-		{
-			return Program.GetString("Model.Files.FileType.ContributorsTabText", "Contributors");
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public virtual string GetShowInFileExplorerMenuText()
 		{
 			return Program.GetString("Model.Files.FileType.ShowInFileExplorerMenuText",
@@ -308,9 +290,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("Model.Files.PersonFileType.PersonTabText", "Person");
-			yield return _personBasicEditorFactoryLazy()(file, text, "Person");
-			yield return new NotesEditor(file, GetNotesTabText());
+			yield return _personBasicEditorFactoryLazy()(file, "Person");
+			yield return new NotesEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -443,9 +424,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("Model.Files.EventFileType.EventTabText", "Event");
-			yield return _eventBasicEditorFactoryLazy()(file, text, "Event");
-			yield return new NotesEditor(file, GetNotesTabText());
+			yield return _eventBasicEditorFactoryLazy()(file, "Event");
+			yield return new NotesEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -502,11 +482,9 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("Model.Files.AnnotationFileType.AnnotationTabText", "Annotations");
-			yield return new TextAnnotationEditor(file, text, "Annotation");
-
-			yield return _contributorsEditorFactoryLazy()(file, GetContributionsTabText(), null);
-			yield return new NotesEditor(file, GetNotesTabText());
+			yield return new TextAnnotationEditor(file, "Annotation");
+			yield return _contributorsEditorFactoryLazy()(file, null);
+			yield return new NotesEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -540,12 +518,10 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("Model.Files.OralAnnotationFileType.OralAnnotationTabText", "Generated Audio");
-			yield return new OralAnnotationEditor(file, text);
-
-			yield return _audioComponentEditorFactoryLazy()(file, GetPropertiesTabText(), null);
-			yield return _contributorsEditorFactoryLazy()(file, GetContributionsTabText(), null);
-			yield return new NotesEditor(file, GetNotesTabText());
+			yield return new OralAnnotationEditor(file);
+			yield return _audioComponentEditorFactoryLazy()(file, null);
+			yield return _contributorsEditorFactoryLazy()(file, null);
+			yield return new NotesEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -795,12 +771,10 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("Model.Files.AudioFileType.AudioTabText", "Audio");
-			yield return new AudioVideoPlayer(file, text, "Audio");
-
-			yield return _audioComponentEditorFactoryLazy()(file, GetPropertiesTabText(), null);
-			yield return _contributorsEditorFactoryLazy()(file, GetContributionsTabText(), null);
-			yield return new NotesEditor(file, GetNotesTabText());
+			yield return new AudioVideoPlayer(file, "Audio");
+			yield return _audioComponentEditorFactoryLazy()(file, null);
+			yield return _contributorsEditorFactoryLazy()(file, null);
+			yield return new NotesEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -965,14 +939,10 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			// TODO: Localize these strings.
-
-			var text = Program.GetString("Model.Files.VideoFileType.VideoTabText", "Video");
-			yield return new AudioVideoPlayer(file, text, "Video");
-
-			yield return _videoComponentEditorFactoryLazy()(file, GetPropertiesTabText(), null);
-			yield return _contributorsEditorFactoryLazy()(file, GetContributionsTabText(), null);
-			yield return new NotesEditor(file, GetNotesTabText());
+			yield return new AudioVideoPlayer(file, "Video");
+			yield return _videoComponentEditorFactoryLazy()(file, null);
+			yield return _contributorsEditorFactoryLazy()(file, null);
+			yield return new NotesEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1009,12 +979,10 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("Model.Files.ImageFileType.ImageTabText", "Image");
-			yield return new ImageViewer(file, text);
-
-			yield return _basicFieldGridEditorFactoryLazy()(file, GetPropertiesTabText(), null);
-			yield return _contributorsEditorFactoryLazy()(file, GetContributionsTabText(), null);
-			yield return new NotesEditor(file, GetNotesTabText());
+			yield return new ImageViewer(file);
+			yield return _basicFieldGridEditorFactoryLazy()(file, null);
+			yield return _contributorsEditorFactoryLazy()(file, null);
+			yield return new NotesEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------

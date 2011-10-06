@@ -27,40 +27,13 @@ namespace SayMore.Model.Files
 			get { return true; }
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public override IEnumerable<IEditorProvider> GetEditorProviders(ComponentFile file)
-		//{
-		//    if (_editors.Count > 0)
-		//    {
-		//        foreach (var editor in _editors)
-		//            editor.SetComponentFile(file);
-		//    }
-		//    else
-		//    {
-		//        var text = LocalizationManager.LocalizeString("MiscFileInfoEditor.ViewTabText", "View");
-		//        _editors.Add(new BrowserEditor(file, text, null));
-
-		//        text = LocalizationManager.LocalizeString("MiscFileInfoEditor.PropertiesTabText", "Properties");
-		//        _editors.Add(_basicFieldGridEditorFactoryLazy()(file, text, null));
-
-		//        text = LocalizationManager.LocalizeString("MiscFileInfoEditor.NotesTabText", "Notes");
-		//        _editors.Add(new NotesEditor(file, text, "Notes"));
-
-		//        //_editors.Add(new ContributorsEditor(file, "Contributors", "Contributors"));
-		//    }
-
-		//    return _editors;
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
-			var text = Program.GetString("Model.Files.UnknownFileType.ViewTabText", "View");
-			yield return new BrowserEditor(file, text, null);
-
-			yield return _basicFieldGridEditorFactoryLazy()(file, GetPropertiesTabText(), null);
-			yield return _contributorsEditorFactoryLazy()(file, GetContributionsTabText(), null);
-			yield return new NotesEditor(file, GetNotesTabText());
+			yield return new BrowserEditor(file, null);
+			yield return _basicFieldGridEditorFactoryLazy()(file, null);
+			yield return _contributorsEditorFactoryLazy()(file, null);
+			yield return new NotesEditor(file);
 		}
 	}
 }

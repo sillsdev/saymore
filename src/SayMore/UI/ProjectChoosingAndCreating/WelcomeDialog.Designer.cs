@@ -127,7 +127,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._buttonBrowse.Image = global::SayMore.Properties.Resources.kimidBrowseForProject;
 			this._buttonBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonBrowse.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonBrowse, null);
+			this.locExtender.SetLocalizableToolTip(this._buttonBrowse, "Browse the file system for a project");
 			this.locExtender.SetLocalizationComment(this._buttonBrowse, null);
 			this.locExtender.SetLocalizingId(this._buttonBrowse, "UI.WelcomeDlg._buttonBrowse");
 			this._buttonBrowse.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);
@@ -160,7 +160,7 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 			this._buttonCreate.Image = global::SayMore.Properties.Resources.kimidNewProject;
 			this._buttonCreate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonCreate.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonCreate, null);
+			this.locExtender.SetLocalizableToolTip(this._buttonCreate, "Create a blank project");
 			this.locExtender.SetLocalizationComment(this._buttonCreate, null);
 			this.locExtender.SetLocalizingId(this._buttonCreate, "UI.WelcomeDlg._buttonCreate");
 			this._buttonCreate.Margin = new System.Windows.Forms.Padding(4, 1, 4, 15);

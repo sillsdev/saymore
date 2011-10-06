@@ -23,10 +23,28 @@ namespace SayMore.UI.Utilities
 			}
 
 			_progressBar.Visible = false;
+			_buttonLaunchRamp.Enabled = false;
+
+			// Visual Studio's designer insists on putting long strings of text in the resource
+			// file, even though the dialog's Localizable property is false. So, localized
+			// controls having a lot of text in their Text property have to have it set this
+			// way rather than in the designer. Otherwise, the code string scanner won't find
+			// the control's text.
+			_linkOverview.Text = Program.GetString("UI.ArchivingDlg.OverviewText",
+				"RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, " +
+				"REAP. If you have access to this archive, this tool will help you use RAMP to archive your " +
+				"SayMore events. It will gather up all the files and data related to an event and its " +
+				"contributors, then launch RAMP so that you can fill out more information and do the actual submission.",
+				"The first occurance of the word 'RAMP' will be made a hyperlink to the RAMP website. " +
+				"If the word 'RAMP' is not found, the text will not contain that hyperlink.",
+				null, null, _linkOverview);
+
 			_linkOverview.Font = Program.DialogFont;
 			_linkOverview.Links.Clear();
-			_linkOverview.Links.Add(0, 4, Settings.Default.RampWebSite);
-			_buttonLaunchRamp.Enabled = false;
+
+			int i = _linkOverview.Text.IndexOf("RAMP");
+			if (i >= 0)
+				_linkOverview.Links.Add(i, 4, Settings.Default.RampWebSite);
 		}
 
 		/// ------------------------------------------------------------------------------------

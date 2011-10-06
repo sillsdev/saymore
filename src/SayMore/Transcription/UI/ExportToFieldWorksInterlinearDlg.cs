@@ -43,15 +43,15 @@ namespace SayMore.Transcription.UI
 		{
 			InitializeComponent();
 
-			_labelTranscriptionWs.Text =
-				string.Format(_labelTranscriptionWs.Text, TextTier.TranscriptionTierName);
+			_labelTranscriptionColumnHeadingText.Text =
+				string.Format(_labelTranscriptionColumnHeadingText.Text, TextTier.TranscriptionTierName);
 
-			_labelTranslationWs.Text =
-				string.Format(_labelTranslationWs.Text, TextTier.SayMoreFreeTranslationTierName);
+			_labelFreeTranslationColumnHeadingText.Text =
+				string.Format(_labelFreeTranslationColumnHeadingText.Text, TextTier.SayMoreFreeTranslationTierName);
 
 			_labelOverview.Font = SystemFonts.IconTitleFont;
-			_labelTranscriptionWs.Font = SystemFonts.IconTitleFont;
-			_labelTranslationWs.Font = SystemFonts.IconTitleFont;
+			_labelTranscriptionColumnHeadingText.Font = SystemFonts.IconTitleFont;
+			_labelFreeTranslationColumnHeadingText.Font = SystemFonts.IconTitleFont;
 			_comboTranscriptionWs.Font = SystemFonts.IconTitleFont;
 			_comboTranslationWs.Font = SystemFonts.IconTitleFont;
 

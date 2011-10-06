@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="en" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4294.28998" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="en" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4295.19823" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-ampersandreplacement">|amp|</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -93,16 +93,6 @@
     <tu tuid="Model.ExportCommand.ExportFileSaveDlgCaption">
       <tuv xml:lang="en">
         <seg>Export Data</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.AnnotationFileType.AnnotationTabText">
-      <tuv xml:lang="en">
-        <seg>Annotations</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.AudioFileType.AudioTabText">
-      <tuv xml:lang="en">
-        <seg>Audio</seg>
       </tuv>
     </tu>
     <tu tuid="Model.Files.AudioVideoFileType.AudioBitRateSuffix">
@@ -245,11 +235,6 @@
         <seg>Date</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.Files.EventFileType.EventTabText">
-      <tuv xml:lang="en">
-        <seg>Event</seg>
-      </tuv>
-    </tu>
     <tu tuid="Model.Files.EventFileType.GenreColumnHeadingText">
       <tuv xml:lang="en">
         <seg>Genre</seg>
@@ -280,39 +265,14 @@
         <seg>Title</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.Files.FileType.ContributorsTabText">
-      <tuv xml:lang="en">
-        <seg>Contributors</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.FileType.NotesTabText">
-      <tuv xml:lang="en">
-        <seg>Notes</seg>
-      </tuv>
-    </tu>
     <tu tuid="Model.Files.FileType.OpenInAssociatedProgramMenuText">
       <tuv xml:lang="en">
         <seg>Open in Program Associated with this File ...</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.Files.FileType.PropertiesTabText">
-      <tuv xml:lang="en">
-        <seg>Properties</seg>
-      </tuv>
-    </tu>
     <tu tuid="Model.Files.FileType.ShowInFileExplorerMenuText">
       <tuv xml:lang="en">
         <seg>Show in File Explorer...</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.ImageFileType.ImageTabText">
-      <tuv xml:lang="en">
-        <seg>Image</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.OralAnnotationFileType.OralAnnotationTabText">
-      <tuv xml:lang="en">
-        <seg>Generated Audio</seg>
       </tuv>
     </tu>
     <tu tuid="Model.Files.PersonFileType.ConsentColumnHeadingText">
@@ -323,16 +283,6 @@
     <tu tuid="Model.Files.PersonFileType.IdColumnHeadingText">
       <tuv xml:lang="en">
         <seg>Id</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.PersonFileType.PersonTabText">
-      <tuv xml:lang="en">
-        <seg>Person</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.UnknownFileType.ViewTabText">
-      <tuv xml:lang="en">
-        <seg>View</seg>
       </tuv>
     </tu>
     <tu tuid="Model.Files.VideoFileType.ExtractMp3AudioMenuText">
@@ -358,11 +308,6 @@
     <tu tuid="Model.Files.VideoFileType.FileAlreadyExistsDuringFFmpegConversionErrorMsg">
       <tuv xml:lang="en">
         <seg>Sorry, the file '{0}' already exists.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.Files.VideoFileType.VideoTabText">
-      <tuv xml:lang="en">
-        <seg>Video</seg>
       </tuv>
     </tu>
     <tu tuid="Model.GenreDefinition.UnknownGenreType">
@@ -475,6 +420,11 @@
         <seg>· Translation</seg>
       </tuv>
     </tu>
+    <tu tuid="Transcription.UI.CreateAnnotationFileDlg._labelAudacityOverview">
+      <tuv xml:lang="en">
+        <seg>Annotation requires that the media stream first be segmented into small pieces. Currently, you need to use another program to specify the segment boundaries. The easiest way is to use Audacity. Open your media file there, choose \"Tracks:Create New:Label Track\". At each point where you want a segment, choose \"Tracks:Add label at selection\". Finally, choose \"File:Export Labels...\", then click this button and select the file you created.</seg>
+      </tuv>
+    </tu>
     <tu tuid="Transcription.UI.CreateAnnotationFileDlg._labelElanOverview">
       <tuv xml:lang="en">
         <seg>Alternatively, you can add an ELAN \"eaf\" file which already contains segments and</seg>
@@ -482,7 +432,7 @@
     </tu>
     <tu tuid="Transcription.UI.CreateAnnotationFileDlg._labelOverview">
       <tuv xml:lang="en">
-        <seg>This will create a file to hold annotations of the media file \'{0}\'. SayMore curr</seg>
+        <seg>This will create a file to hold annotations of the media file \'{0}\'. SayMore cur</seg>
       </tuv>
     </tu>
     <tu tuid="Transcription.UI.CreateAnnotationFileDlg.AllFileTypeString">
@@ -525,17 +475,17 @@
         <seg>Export...</seg>
       </tuv>
     </tu>
+    <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg._labelFreeTranslationColumnHeadingText">
+      <tuv xml:lang="en">
+        <seg>{0}:</seg>
+      </tuv>
+    </tu>
     <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg._labelOverview">
       <tuv xml:lang="en">
         <seg>Specify the writing systems for the transcriptions and free translations.</seg>
       </tuv>
     </tu>
-    <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg._labelTranscriptionWs">
-      <tuv xml:lang="en">
-        <seg>{0}:</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg._labelTranslationWs">
+    <tu tuid="Transcription.UI.ExportToFieldWorksInterlinearDlg._labelTranscriptionColumnHeadingText">
       <tuv xml:lang="en">
         <seg>{0}:</seg>
       </tuv>
@@ -620,6 +570,11 @@
         <seg>Record</seg>
       </tuv>
     </tu>
+    <tu tuid="Transcription.UI.OralAnnotationViewer.TabText">
+      <tuv xml:lang="en">
+        <seg>Generated Audio</seg>
+      </tuv>
+    </tu>
     <tu tuid="Transcription.UI.OralAnnotationWaveViewer._labelCareful">
       <tuv xml:lang="en">
         <seg>Careful</seg>
@@ -645,7 +600,17 @@
         <seg>Export...</seg>
       </tuv>
     </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._buttonExport_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Export to FieldWorks Interlinear</seg>
+      </tuv>
+    </tu>
     <tu tuid="Transcription.UI.TextAnnotationEditor._buttonHelp">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._buttonHelp_ToolTip_">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
@@ -660,9 +625,19 @@
         <seg>Record</seg>
       </tuv>
     </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._buttonRecordings_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Record Oral Annotations</seg>
+      </tuv>
+    </tu>
     <tu tuid="Transcription.UI.TextAnnotationEditor._buttonResegment">
       <tuv xml:lang="en">
         <seg>Resegment...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor._buttonResegment_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Regenerate Segments</seg>
       </tuv>
     </tu>
     <tu tuid="Transcription.UI.TextAnnotationEditor._labelPlaybackSpeed">
@@ -688,6 +663,11 @@
     <tu tuid="Transcription.UI.TextAnnotationEditor.RegeneratingSegmentsWarningMsg">
       <tuv xml:lang="en">
         <seg>Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Transcription.UI.TextAnnotationEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Annotations</seg>
       </tuv>
     </tu>
     <tu tuid="UI.AboutDlg._buttonOK">
@@ -728,6 +708,21 @@
     <tu tuid="UI.AboutDlg.WindowTitle">
       <tuv xml:lang="en">
         <seg>About SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ArchivingDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ArchivingDlg._buttonCreatePackage">
+      <tuv xml:lang="en">
+        <seg>&amp;1) Create Package</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ArchivingDlg._buttonLaunchRamp">
+      <tuv xml:lang="en">
+        <seg>&amp;2) Launch RAMP</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ArchivingDlg.AddingContributorFilesProgressMsg">
@@ -780,6 +775,11 @@
         <seg>There are no contributors for this event.</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ArchivingDlg.OverviewText">
+      <tuv xml:lang="en">
+        <seg>RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, REAP. If you have access to this archive, this tool will help you use RAMP to archive your SayMore events. It will gather up all the files and data related to an event and its contributors, then launch RAMP so that you can fill out more information and do the actual submission.</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ArchivingDlg.PrearchivingStatusMsg1">
       <tuv xml:lang="en">
         <seg>The following event and contributor files will be added to your archive.</seg>
@@ -810,14 +810,9 @@
         <seg>There was an error attempting to open the archive package in RAMP.</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.BrowserEditor.FileLinkMsg">
+    <tu tuid="UI.ArchivingDlg.WindowTitle">
       <tuv xml:lang="en">
-        <seg>&lt;HTML&gt;&lt;BODY&gt;Click &lt;a href=\"file:///{0}\"&gt;&lt;b&gt;here to open '{1}'&lt;/b&gt;&lt;/a&gt; in its associated program.&lt;/BODY&gt;&lt;/HTML&gt;</seg>
-      </tuv>
-    </tu>
-    <tu tuid="UI.BrowserEditor.FileNameMsg">
-      <tuv xml:lang="en">
-        <seg>&lt;HTML&gt;SayMore attempted to load:&lt;br /&gt;&lt;br /&gt;&lt;b&gt;File:&lt;/b&gt; {0}&lt;br /&gt;&lt;nobr&gt;&lt;b&gt;Folder:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/HTML&gt;</seg>
+        <seg>SayMore: Archive with RAMP (SIL Only</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ComponentFileGrid._buttonAddFiles">
@@ -830,9 +825,19 @@
         <seg>Convert</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ComponentFileGrid._buttonConvert_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Convert Selected File</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ComponentFileGrid._buttonCreateAnnotationFile">
       <tuv xml:lang="en">
         <seg>Create Annotation File...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._buttonCreateAnnotationFile_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Create an annotation file</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ComponentFileGrid._buttonOpen">
@@ -840,9 +845,19 @@
         <seg>Open</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.ComponentFileGrid._buttonOpen_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Open Selected File</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ComponentFileGrid._buttonRename">
       <tuv xml:lang="en">
         <seg>Rename</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ComponentFileGrid._buttonRename_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Rename Selected File</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ComponentFileGrid._grid.FileDateColHdgText">
@@ -975,6 +990,21 @@
         <seg>Confirm Delete</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.EditorBase.ContributorsTabText">
+      <tuv xml:lang="en">
+        <seg>Contributors</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EditorBase.FileType.NotesTabText">
+      <tuv xml:lang="en">
+        <seg>Notes</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EditorBase.FileType.PropertiesTabText">
+      <tuv xml:lang="en">
+        <seg>Properties</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.EventEditor._labelAbstract">
       <tuv xml:lang="en">
         <seg>Abstract</seg>
@@ -1033,6 +1063,11 @@
     <tu tuid="UI.EventEditor._labelTitle">
       <tuv xml:lang="en">
         <seg>Title</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.EventEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Event</seg>
       </tuv>
     </tu>
     <tu tuid="UI.EventsView._buttonNewFromFiles">
@@ -1135,6 +1170,21 @@
         <seg>Video Bit Rate</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.GenericFileTypeViewer.FileLinkMsg">
+      <tuv xml:lang="en">
+        <seg>&lt;HTML&gt;&lt;BODY&gt;Click &lt;a href=\"file:///{0}\"&gt;&lt;b&gt;here to open '{1}'&lt;/b&gt;&lt;/a&gt; in its associated program.&lt;/BODY&gt;&lt;/HTML&gt;</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.GenericFileTypeViewer.FileNameMsg">
+      <tuv xml:lang="en">
+        <seg>&lt;HTML&gt;SayMore attempted to load:&lt;br /&gt;&lt;br /&gt;&lt;b&gt;File:&lt;/b&gt; {0}&lt;br /&gt;&lt;nobr&gt;&lt;b&gt;Folder:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/HTML&gt;</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.GenericFileTypeViewer.TabText">
+      <tuv xml:lang="en">
+        <seg>View</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.ImageViewer._labelZoom">
       <tuv xml:lang="en">
         <seg>Zoom</seg>
@@ -1145,7 +1195,12 @@
         <seg>Could not open that picture</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.ListPanel._buttonColChooser.ToolTip">
+    <tu tuid="UI.ImageViewer.TabText">
+      <tuv xml:lang="en">
+        <seg>Image</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ListPanel._buttonColChooser_ToolTip_">
       <tuv xml:lang="en">
         <seg>Choose Columns</seg>
       </tuv>
@@ -1185,7 +1240,17 @@
         <seg>Pause</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.MediaPlayer._buttonPause_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Pause</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.MediaPlayer._buttonPlay">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MediaPlayer._buttonPlay_ToolTip_">
       <tuv xml:lang="en">
         <seg>Play</seg>
       </tuv>
@@ -1195,7 +1260,17 @@
         <seg>Stop</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.MediaPlayer._buttonStop_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.MediaPlayer._buttonVolume">
+      <tuv xml:lang="en">
+        <seg>Volume</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MediaPlayer._buttonVolume_ToolTip_">
       <tuv xml:lang="en">
         <seg>Volume</seg>
       </tuv>
@@ -1208,6 +1283,11 @@
     <tu tuid="UI.MediaPlayer.MediaFileNotSpecifiedMsg">
       <tuv xml:lang="en">
         <seg>Media player file name has not been specified.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.MediaPlayer.TabText">
+      <tuv xml:lang="en">
+        <seg>Audio</seg>
       </tuv>
     </tu>
     <tu tuid="UI.MediaPlayer.TimeCurrentOfTotalDisplayFormat">
@@ -1265,11 +1345,6 @@
         <seg>Reading Files...</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.NewEventsFromFilesDlg._labelSourceFolder">
-      <tuv xml:lang="en">
-        <seg>#</seg>
-      </tuv>
-    </tu>
     <tu tuid="UI.NewEventsFromFilesDlg._linkFindFiles">
       <tuv xml:lang="en">
         <seg>Find Files on Recorder/Card...</seg>
@@ -1322,7 +1397,7 @@
     </tu>
     <tu tuid="UI.NewEventsFromFilesDlgFolderNotFoundMsg._labelProblemOverviewMsg">
       <tuv xml:lang="en">
-        <seg>{0} cannot reach the folder where your files were last time. One of the following</seg>
+        <seg>SayMore cannot reach the folder where your files were last time. One of the follo</seg>
       </tuv>
     </tu>
     <tu tuid="UI.NewProjectDlg._buttonCancel">
@@ -1420,7 +1495,7 @@
         <seg>Primary &amp;Occupation</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonEditor._picture.ToolTip">
+    <tu tuid="UI.PersonEditor._personsPicture_ToolTip_">
       <tuv xml:lang="en">
         <seg>Click to Change Picture</seg>
       </tuv>
@@ -1440,14 +1515,24 @@
         <seg>There was an error loading the person's photo.</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonEditor.FatherSelectorToolTipWhenNotSelected">
+    <tu tuid="UI.PersonEditor.FatherSelectorToolTip.WhenNotSelected">
       <tuv xml:lang="en">
         <seg>Click to indicate this is the father's primary language</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonEditor.FatherSelectorToolTipWhenSelected">
+    <tu tuid="UI.PersonEditor.FatherSelectorToolTip.WhenSelected">
       <tuv xml:lang="en">
         <seg>Indicates this is the father's primary language</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor.GenderSelector.Female">
+      <tuv xml:lang="en">
+        <seg>Female</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor.GenderSelector.Male">
+      <tuv xml:lang="en">
+        <seg>Male</seg>
       </tuv>
     </tu>
     <tu tuid="UI.PersonEditor.ImageFileTypes">
@@ -1455,19 +1540,29 @@
         <seg>JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonEditor.MotherSelectorToolTipWhenNotSelected">
+    <tu tuid="UI.PersonEditor.MotherSelectorToolTip.WhenNotSelected">
       <tuv xml:lang="en">
         <seg>Click to indicate this is the mothers's primary language</seg>
       </tuv>
     </tu>
-    <tu tuid="UI.PersonEditor.MotherSelectorToolTipWhenSelected">
+    <tu tuid="UI.PersonEditor.MotherSelectorToolTip.WhenSelected">
       <tuv xml:lang="en">
         <seg>Indicates this is the mothers's primary language</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.PersonEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Person</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProgressView._buttonRefresh">
       <tuv xml:lang="en">
         <seg>Refresh</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.ProgressView._buttonRefresh_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Refresh View</seg>
       </tuv>
     </tu>
     <tu tuid="UI.ProgressView._labelWorking">
@@ -1660,14 +1755,64 @@
         <seg>Incomplete</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.Transcription.GeneratedOralAnnotationView._buttonHelp">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.Transcription.GeneratedOralAnnotationView._buttonHelp_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.Transcription.GeneratedOralAnnotationView._buttonPlay">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.Transcription.GeneratedOralAnnotationView._buttonPlay_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.Transcription.GeneratedOralAnnotationView._buttonRegenerate">
+      <tuv xml:lang="en">
+        <seg>Regenerate File</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.Transcription.GeneratedOralAnnotationView._buttonStop">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.Transcription.GeneratedOralAnnotationView._buttonStop_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.Transcription.GeneratedOralAnnotationView._labelError">
+      <tuv xml:lang="en">
+        <seg>There was an error reading generated annotation file.</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.WelcomeDlg._buttonBrowse">
       <tuv xml:lang="en">
         <seg>Browse for project...</seg>
       </tuv>
     </tu>
+    <tu tuid="UI.WelcomeDlg._buttonBrowse_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Browse the file system for a project</seg>
+      </tuv>
+    </tu>
     <tu tuid="UI.WelcomeDlg._buttonCreate">
       <tuv xml:lang="en">
         <seg>Create new, blank project...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="UI.WelcomeDlg._buttonCreate_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Create a blank project</seg>
       </tuv>
     </tu>
     <tu tuid="UI.WelcomeDlg._labelCreate">

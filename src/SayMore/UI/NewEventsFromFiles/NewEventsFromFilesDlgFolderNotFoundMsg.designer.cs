@@ -57,8 +57,8 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelProblemOverviewMsg.Name = "_labelProblemOverviewMsg";
 			this._labelProblemOverviewMsg.Size = new System.Drawing.Size(390, 32);
 			this._labelProblemOverviewMsg.TabIndex = 1;
-			this._labelProblemOverviewMsg.Text = "{0} cannot reach the folder where your files were last time. One of the following" +
-	" may be true:";
+			this._labelProblemOverviewMsg.Text = "SayMore cannot reach the folder where your files were last time. One of the follo" +
+	"wing may be true:";
 			//
 			// _labelPossibleProblemsMsg1
 			//

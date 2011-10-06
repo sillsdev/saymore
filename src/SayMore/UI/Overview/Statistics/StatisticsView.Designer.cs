@@ -89,7 +89,7 @@ namespace SayMore.UI.Overview.Statistics
 			this._buttonRefresh.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this._buttonRefresh.Image = global::SayMore.Properties.Resources.Refresh;
 			this._buttonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonRefresh, null);
+			this.locExtender.SetLocalizableToolTip(this._buttonRefresh, "Refresh View");
 			this.locExtender.SetLocalizationComment(this._buttonRefresh, null);
 			this.locExtender.SetLocalizingId(this._buttonRefresh, "UI.ProgressView._buttonRefresh");
 			this._buttonRefresh.Name = "_buttonRefresh";

@@ -78,7 +78,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._buttonCreateEvents.AutoSize = true;
 			this._buttonCreateEvents.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this._buttonCreateEvents, null);
-			this.locExtender.SetLocalizationComment(this._buttonCreateEvents, null);
+			this.locExtender.SetLocalizationComment(this._buttonCreateEvents, "Parameter is for the number of events that will be created.");
 			this.locExtender.SetLocalizingId(this._buttonCreateEvents, "UI.NewEventsFromFilesDlg._buttonCreateEvents");
 			this._buttonCreateEvents.Location = new System.Drawing.Point(0, 0);
 			this._buttonCreateEvents.Margin = new System.Windows.Forms.Padding(0);
@@ -115,6 +115,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._outerTableLayout.SetColumnSpan(this._labelSourceFolder, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelSourceFolder, null);
 			this.locExtender.SetLocalizationComment(this._labelSourceFolder, null);
+			this.locExtender.SetLocalizationPriority(this._labelSourceFolder, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelSourceFolder, "UI.NewEventsFromFilesDlg._labelSourceFolder");
 			this._labelSourceFolder.Location = new System.Drawing.Point(162, 10);
 			this._labelSourceFolder.Margin = new System.Windows.Forms.Padding(3, 10, 3, 20);
@@ -155,7 +156,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._labelInstructions.Size = new System.Drawing.Size(388, 26);
 			this._labelInstructions.TabIndex = 2;
 			this._labelInstructions.Text = "Mark each file which represents an original recording of an event. For each one, " +
-	"{0} will create a new event and copy the file into it.";
+	"SayMore will create a new event and copy the file into it.";
 			//
 			// _mediaPlayerPanel
 			//

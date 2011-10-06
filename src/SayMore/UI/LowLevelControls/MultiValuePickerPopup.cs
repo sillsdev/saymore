@@ -154,12 +154,14 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		public void LoadValues(IEnumerable<PickerPopupItem> pickerList)
 		{
+			var list = pickerList.ToArray();
+
 			_panelItems.AutoScrollPosition = new Point(0, 0);
 			_panelCheckboxes.Controls.Clear();
 			_toolStripItems.Items.Clear();
-			_toolStripItems.Items.AddRange(pickerList.ToArray());
+			_toolStripItems.Items.AddRange(list);
 
-			foreach (var item in pickerList)
+			foreach (var item in list)
 			{
 				_panelCheckboxes.Controls.Add(item.CheckBox);
 				_tooltip.SetToolTip(item.CheckBox, item.ToolTipText);

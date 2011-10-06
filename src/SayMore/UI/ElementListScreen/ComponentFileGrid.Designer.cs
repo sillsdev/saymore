@@ -29,14 +29,21 @@ namespace SayMore.UI.ElementListScreen
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
 			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._menuDeleteFile = new System.Windows.Forms.ToolStripMenuItem();
 			this._panelOuter = new SilTools.Controls.SilPanel();
+			this._grid = new SayMore.UI.ElementListScreen.InternalComponentFileGrid();
+			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
+			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
 			this._buttonOpen = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonRename = new System.Windows.Forms.ToolStripDropDownButton();
@@ -45,18 +52,11 @@ namespace SayMore.UI.ElementListScreen
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._buttonCreateAnnotationFile = new System.Windows.Forms.ToolStripButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this._grid = new SayMore.UI.ElementListScreen.InternalComponentFileGrid();
-			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
-			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colDataModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._contextMenuStrip.SuspendLayout();
 			this._panelOuter.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this._toolStripActions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _contextMenuStrip
@@ -104,112 +104,6 @@ namespace SayMore.UI.ElementListScreen
 			this._panelOuter.PaintExplorerBarBackground = false;
 			this._panelOuter.Size = new System.Drawing.Size(470, 255);
 			this._panelOuter.TabIndex = 2;
-			// 
-			// _toolStripActions
-			// 
-			this._toolStripActions.BackColor = System.Drawing.SystemColors.Control;
-			this._toolStripActions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this._toolStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._buttonOpen,
-            this._buttonRename,
-            this._buttonConvert,
-            this._buttonAddFiles,
-            this.toolStripSeparator1,
-            this._buttonCreateAnnotationFile});
-			this.locExtender.SetLocalizableToolTip(this._toolStripActions, null);
-			this.locExtender.SetLocalizationComment(this._toolStripActions, null);
-			this.locExtender.SetLocalizationPriority(this._toolStripActions, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._toolStripActions, "UI.ComponentFileGrid._toolStripActions");
-			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
-			this._toolStripActions.Name = "_toolStripActions";
-			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
-			this._toolStripActions.Size = new System.Drawing.Size(468, 25);
-			this._toolStripActions.TabIndex = 4;
-			this._toolStripActions.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleToolStripActionsPaint);
-			// 
-			// _buttonOpen
-			// 
-			this._buttonOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonOpen.Enabled = false;
-			this._buttonOpen.Image = ((System.Drawing.Image)(resources.GetObject("_buttonOpen.Image")));
-			this._buttonOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonOpen, null);
-			this.locExtender.SetLocalizationComment(this._buttonOpen, null);
-			this.locExtender.SetLocalizingId(this._buttonOpen, "UI.ComponentFileGrid._buttonOpen");
-			this._buttonOpen.Name = "_buttonOpen";
-			this._buttonOpen.Size = new System.Drawing.Size(47, 20);
-			this._buttonOpen.Text = "Open";
-			this._buttonOpen.ToolTipText = "Open Selected File";
-			this._buttonOpen.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
-			// 
-			// _buttonRename
-			// 
-			this._buttonRename.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonRename.Enabled = false;
-			this._buttonRename.Image = ((System.Drawing.Image)(resources.GetObject("_buttonRename.Image")));
-			this._buttonRename.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonRename, null);
-			this.locExtender.SetLocalizationComment(this._buttonRename, null);
-			this.locExtender.SetLocalizingId(this._buttonRename, "UI.ComponentFileGrid._buttonRename");
-			this._buttonRename.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
-			this._buttonRename.Name = "_buttonRename";
-			this._buttonRename.Size = new System.Drawing.Size(61, 20);
-			this._buttonRename.Text = "Rename";
-			this._buttonRename.ToolTipText = "Rename Selected File";
-			this._buttonRename.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
-			// 
-			// _buttonConvert
-			// 
-			this._buttonConvert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonConvert.Enabled = false;
-			this._buttonConvert.Image = ((System.Drawing.Image)(resources.GetObject("_buttonConvert.Image")));
-			this._buttonConvert.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonConvert, null);
-			this.locExtender.SetLocalizationComment(this._buttonConvert, null);
-			this.locExtender.SetLocalizingId(this._buttonConvert, "UI.ComponentFileGrid._buttonConvert");
-			this._buttonConvert.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
-			this._buttonConvert.Name = "_buttonConvert";
-			this._buttonConvert.Size = new System.Drawing.Size(60, 20);
-			this._buttonConvert.Text = "Convert";
-			this._buttonConvert.ToolTipText = "Convert Selected File";
-			this._buttonConvert.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
-			// 
-			// _buttonAddFiles
-			// 
-			this._buttonAddFiles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._buttonAddFiles.Image = global::SayMore.Properties.Resources.Add;
-			this._buttonAddFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonAddFiles, null);
-			this.locExtender.SetLocalizationComment(this._buttonAddFiles, null);
-			this.locExtender.SetLocalizingId(this._buttonAddFiles, "UI.ComponentFileGrid._buttonAddFiles");
-			this._buttonAddFiles.Name = "_buttonAddFiles";
-			this._buttonAddFiles.Size = new System.Drawing.Size(83, 20);
-			this._buttonAddFiles.Text = "Add Files...";
-			this._buttonAddFiles.Click += new System.EventHandler(this.HandleAddButtonClick);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
-			// 
-			// _buttonCreateAnnotationFile
-			// 
-			this._buttonCreateAnnotationFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonCreateAnnotationFile.Enabled = false;
-			this._buttonCreateAnnotationFile.Image = ((System.Drawing.Image)(resources.GetObject("_buttonCreateAnnotationFile.Image")));
-			this._buttonCreateAnnotationFile.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonCreateAnnotationFile, null);
-			this.locExtender.SetLocalizationComment(this._buttonCreateAnnotationFile, null);
-			this.locExtender.SetLocalizingId(this._buttonCreateAnnotationFile, "UI.ComponentFileGrid._buttonCreateAnnotationFile");
-			this._buttonCreateAnnotationFile.Name = "_buttonCreateAnnotationFile";
-			this._buttonCreateAnnotationFile.Size = new System.Drawing.Size(133, 20);
-			this._buttonCreateAnnotationFile.Text = "Create Annotation File...";
-			this._buttonCreateAnnotationFile.ToolTipText = "Create an annotation file";
-			this._buttonCreateAnnotationFile.Click += new System.EventHandler(this.HandleCreateAnnotationFileButtonClick);
-			// 
-			// locExtender
-			// 
-			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// _grid
 			// 
@@ -322,6 +216,108 @@ namespace SayMore.UI.ElementListScreen
 			this.colDuration.Name = "colDuration";
 			this.colDuration.ReadOnly = true;
 			// 
+			// _toolStripActions
+			// 
+			this._toolStripActions.BackColor = System.Drawing.SystemColors.Control;
+			this._toolStripActions.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this._toolStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._buttonOpen,
+            this._buttonRename,
+            this._buttonConvert,
+            this._buttonAddFiles,
+            this.toolStripSeparator1,
+            this._buttonCreateAnnotationFile});
+			this.locExtender.SetLocalizableToolTip(this._toolStripActions, null);
+			this.locExtender.SetLocalizationComment(this._toolStripActions, null);
+			this.locExtender.SetLocalizationPriority(this._toolStripActions, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._toolStripActions, "UI.ComponentFileGrid._toolStripActions");
+			this._toolStripActions.Location = new System.Drawing.Point(0, 0);
+			this._toolStripActions.Name = "_toolStripActions";
+			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
+			this._toolStripActions.Size = new System.Drawing.Size(468, 25);
+			this._toolStripActions.TabIndex = 4;
+			this._toolStripActions.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleToolStripActionsPaint);
+			// 
+			// _buttonOpen
+			// 
+			this._buttonOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this._buttonOpen.Enabled = false;
+			this._buttonOpen.Image = ((System.Drawing.Image)(resources.GetObject("_buttonOpen.Image")));
+			this._buttonOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonOpen, "Open Selected File");
+			this.locExtender.SetLocalizationComment(this._buttonOpen, null);
+			this.locExtender.SetLocalizingId(this._buttonOpen, "UI.ComponentFileGrid._buttonOpen");
+			this._buttonOpen.Name = "_buttonOpen";
+			this._buttonOpen.Size = new System.Drawing.Size(47, 20);
+			this._buttonOpen.Text = "Open";
+			this._buttonOpen.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
+			// 
+			// _buttonRename
+			// 
+			this._buttonRename.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this._buttonRename.Enabled = false;
+			this._buttonRename.Image = ((System.Drawing.Image)(resources.GetObject("_buttonRename.Image")));
+			this._buttonRename.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonRename, "Rename Selected File");
+			this.locExtender.SetLocalizationComment(this._buttonRename, null);
+			this.locExtender.SetLocalizingId(this._buttonRename, "UI.ComponentFileGrid._buttonRename");
+			this._buttonRename.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
+			this._buttonRename.Name = "_buttonRename";
+			this._buttonRename.Size = new System.Drawing.Size(61, 20);
+			this._buttonRename.Text = "Rename";
+			this._buttonRename.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
+			// 
+			// _buttonConvert
+			// 
+			this._buttonConvert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this._buttonConvert.Enabled = false;
+			this._buttonConvert.Image = ((System.Drawing.Image)(resources.GetObject("_buttonConvert.Image")));
+			this._buttonConvert.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonConvert, "Convert Selected File");
+			this.locExtender.SetLocalizationComment(this._buttonConvert, null);
+			this.locExtender.SetLocalizingId(this._buttonConvert, "UI.ComponentFileGrid._buttonConvert");
+			this._buttonConvert.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
+			this._buttonConvert.Name = "_buttonConvert";
+			this._buttonConvert.Size = new System.Drawing.Size(60, 20);
+			this._buttonConvert.Text = "Convert";
+			this._buttonConvert.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
+			// 
+			// _buttonAddFiles
+			// 
+			this._buttonAddFiles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._buttonAddFiles.Image = global::SayMore.Properties.Resources.Add;
+			this._buttonAddFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonAddFiles, null);
+			this.locExtender.SetLocalizationComment(this._buttonAddFiles, null);
+			this.locExtender.SetLocalizingId(this._buttonAddFiles, "UI.ComponentFileGrid._buttonAddFiles");
+			this._buttonAddFiles.Name = "_buttonAddFiles";
+			this._buttonAddFiles.Size = new System.Drawing.Size(83, 20);
+			this._buttonAddFiles.Text = "Add Files...";
+			this._buttonAddFiles.Click += new System.EventHandler(this.HandleAddButtonClick);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+			// 
+			// _buttonCreateAnnotationFile
+			// 
+			this._buttonCreateAnnotationFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this._buttonCreateAnnotationFile.Enabled = false;
+			this._buttonCreateAnnotationFile.Image = ((System.Drawing.Image)(resources.GetObject("_buttonCreateAnnotationFile.Image")));
+			this._buttonCreateAnnotationFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonCreateAnnotationFile, "Create an annotation file");
+			this.locExtender.SetLocalizationComment(this._buttonCreateAnnotationFile, null);
+			this.locExtender.SetLocalizingId(this._buttonCreateAnnotationFile, "UI.ComponentFileGrid._buttonCreateAnnotationFile");
+			this._buttonCreateAnnotationFile.Name = "_buttonCreateAnnotationFile";
+			this._buttonCreateAnnotationFile.Size = new System.Drawing.Size(133, 20);
+			this._buttonCreateAnnotationFile.Text = "Create Annotation File...";
+			this._buttonCreateAnnotationFile.Click += new System.EventHandler(this.HandleCreateAnnotationFileButtonClick);
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
 			// ComponentFileGrid
 			// 
 			this.Controls.Add(this._panelOuter);
@@ -334,10 +330,10 @@ namespace SayMore.UI.ElementListScreen
 			this._contextMenuStrip.ResumeLayout(false);
 			this._panelOuter.ResumeLayout(false);
 			this._panelOuter.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
 			this._toolStripActions.ResumeLayout(false);
 			this._toolStripActions.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
 			this.ResumeLayout(false);
 
 		}

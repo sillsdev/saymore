@@ -31,6 +31,21 @@ namespace SayMore.Transcription.UI
 
 			_buttonELANFileHelp.Click += (s, e) =>
 				Program.ShowHelpTopic("/Using_Tools/Events_tab/Create_Annotation_File.htm");
+
+			// Visual Studio's designer insists on putting long strings of text in the resource
+			// file, even though the dialog's Localizable property is false. So, localized
+			// controls having a lot of text in their Text property have to have it set this
+			// way rather than in the designer. Otherwise, the code string scanner won't find
+			// the control's text.
+			_labelAudacityOverview.Text = Program.GetString(
+				"Transcription.UI.CreateAnnotationFileDlg._labelAudacityOverview",
+				"Annotation requires that the media stream first be segmented into small pieces. " +
+				"Currently, you need to use another program to specify the segment boundaries. " +
+				"The easiest way is to use Audacity. Open your media file there, choose " +
+				"\"Tracks:Create New:Label Track\". At each point where you want a segment, " +
+				"choose \"Tracks:Add label at selection\". Finally, choose \"File:Export Labels...\", " +
+				"then click this button and select the file you created.",
+				null, null, null, _labelAudacityOverview);
 		}
 
 		///// ------------------------------------------------------------------------------------

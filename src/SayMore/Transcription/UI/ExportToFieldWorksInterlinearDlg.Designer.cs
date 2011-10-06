@@ -32,9 +32,9 @@ namespace SayMore.Transcription.UI
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._buttonExport = new System.Windows.Forms.Button();
-			this._labelTranscriptionWs = new System.Windows.Forms.Label();
+			this._labelTranscriptionColumnHeadingText = new System.Windows.Forms.Label();
 			this._comboTranscriptionWs = new System.Windows.Forms.ComboBox();
-			this._labelTranslationWs = new System.Windows.Forms.Label();
+			this._labelFreeTranslationColumnHeadingText = new System.Windows.Forms.Label();
 			this._comboTranslationWs = new System.Windows.Forms.ComboBox();
 			this._labelOverview = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
@@ -54,9 +54,9 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayout.Controls.Add(this._buttonCancel, 3, 3);
 			this._tableLayout.Controls.Add(this._buttonExport, 2, 3);
-			this._tableLayout.Controls.Add(this._labelTranscriptionWs, 0, 1);
+			this._tableLayout.Controls.Add(this._labelTranscriptionColumnHeadingText, 0, 1);
 			this._tableLayout.Controls.Add(this._comboTranscriptionWs, 1, 1);
-			this._tableLayout.Controls.Add(this._labelTranslationWs, 0, 2);
+			this._tableLayout.Controls.Add(this._labelFreeTranslationColumnHeadingText, 0, 2);
 			this._tableLayout.Controls.Add(this._comboTranslationWs, 1, 2);
 			this._tableLayout.Controls.Add(this._labelOverview, 0, 0);
 			this._tableLayout.Location = new System.Drawing.Point(18, 18);
@@ -101,19 +101,20 @@ namespace SayMore.Transcription.UI
 			this._buttonExport.UseVisualStyleBackColor = true;
 			this._buttonExport.Click += new System.EventHandler(this.HandleExportButtonClick);
 			// 
-			// _labelTranscriptionWs
+			// _labelTranscriptionColumnHeadingText
 			// 
-			this._labelTranscriptionWs.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._labelTranscriptionWs.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelTranscriptionWs, null);
-			this.locExtender.SetLocalizationComment(this._labelTranscriptionWs, null);
-			this.locExtender.SetLocalizingId(this._labelTranscriptionWs, "Transcription.UI.ExportToFieldWorksInterlinearDlg._labelTranscriptionWs");
-			this._labelTranscriptionWs.Location = new System.Drawing.Point(0, 45);
-			this._labelTranscriptionWs.Margin = new System.Windows.Forms.Padding(0);
-			this._labelTranscriptionWs.Name = "_labelTranscriptionWs";
-			this._labelTranscriptionWs.Size = new System.Drawing.Size(24, 13);
-			this._labelTranscriptionWs.TabIndex = 3;
-			this._labelTranscriptionWs.Text = "{0}:";
+			this._labelTranscriptionColumnHeadingText.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._labelTranscriptionColumnHeadingText.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelTranscriptionColumnHeadingText, null);
+			this.locExtender.SetLocalizationComment(this._labelTranscriptionColumnHeadingText, null);
+			this.locExtender.SetLocalizingId(this._labelTranscriptionColumnHeadingText, "Transcription.UI.ExportToFieldWorksInterlinearDlg._labelTranscriptionColumnHeadin" +
+        "gText");
+			this._labelTranscriptionColumnHeadingText.Location = new System.Drawing.Point(0, 45);
+			this._labelTranscriptionColumnHeadingText.Margin = new System.Windows.Forms.Padding(0);
+			this._labelTranscriptionColumnHeadingText.Name = "_labelTranscriptionColumnHeadingText";
+			this._labelTranscriptionColumnHeadingText.Size = new System.Drawing.Size(24, 13);
+			this._labelTranscriptionColumnHeadingText.TabIndex = 3;
+			this._labelTranscriptionColumnHeadingText.Text = "{0}:";
 			// 
 			// _comboTranscriptionWs
 			// 
@@ -132,19 +133,20 @@ namespace SayMore.Transcription.UI
 			this._comboTranscriptionWs.TabIndex = 4;
 			this._comboTranscriptionWs.SelectionChangeCommitted += new System.EventHandler(this.HandleWritingSystemChanged);
 			// 
-			// _labelTranslationWs
+			// _labelFreeTranslationColumnHeadingText
 			// 
-			this._labelTranslationWs.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._labelTranslationWs.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelTranslationWs, null);
-			this.locExtender.SetLocalizationComment(this._labelTranslationWs, null);
-			this.locExtender.SetLocalizingId(this._labelTranslationWs, "Transcription.UI.ExportToFieldWorksInterlinearDlg._labelTranslationWs");
-			this._labelTranslationWs.Location = new System.Drawing.Point(0, 76);
-			this._labelTranslationWs.Margin = new System.Windows.Forms.Padding(0);
-			this._labelTranslationWs.Name = "_labelTranslationWs";
-			this._labelTranslationWs.Size = new System.Drawing.Size(24, 13);
-			this._labelTranslationWs.TabIndex = 5;
-			this._labelTranslationWs.Text = "{0}:";
+			this._labelFreeTranslationColumnHeadingText.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._labelFreeTranslationColumnHeadingText.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelFreeTranslationColumnHeadingText, null);
+			this.locExtender.SetLocalizationComment(this._labelFreeTranslationColumnHeadingText, null);
+			this.locExtender.SetLocalizingId(this._labelFreeTranslationColumnHeadingText, "Transcription.UI.ExportToFieldWorksInterlinearDlg._labelFreeTranslationColumnHead" +
+        "ingText");
+			this._labelFreeTranslationColumnHeadingText.Location = new System.Drawing.Point(0, 76);
+			this._labelFreeTranslationColumnHeadingText.Margin = new System.Windows.Forms.Padding(0);
+			this._labelFreeTranslationColumnHeadingText.Name = "_labelFreeTranslationColumnHeadingText";
+			this._labelFreeTranslationColumnHeadingText.Size = new System.Drawing.Size(24, 13);
+			this._labelFreeTranslationColumnHeadingText.TabIndex = 5;
+			this._labelFreeTranslationColumnHeadingText.Text = "{0}:";
 			// 
 			// _comboTranslationWs
 			// 
@@ -216,9 +218,9 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Button _buttonExport;
-		private System.Windows.Forms.Label _labelTranscriptionWs;
+		private System.Windows.Forms.Label _labelTranscriptionColumnHeadingText;
 		private System.Windows.Forms.ComboBox _comboTranscriptionWs;
-		private System.Windows.Forms.Label _labelTranslationWs;
+		private System.Windows.Forms.Label _labelFreeTranslationColumnHeadingText;
 		private System.Windows.Forms.ComboBox _comboTranslationWs;
 		private System.Windows.Forms.Label _labelOverview;
 		private Localization.UI.LocalizationExtender locExtender;

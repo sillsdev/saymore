@@ -81,7 +81,9 @@ namespace SayMore.UI.Utilities
 
 			if (_rampProgramPath == null)
 			{
-				text = Program.GetString("UI.ArchivingDlg.RampNotFoundMsg", "The RAMP pogram cannot be found!{0}");
+				text = Program.GetString("UI.ArchivingDlg.RampNotFoundMsg",
+					"The RAMP pogram cannot be found!{0}", "The parameter is for a newline");
+
 				LogBox.WriteMessageWithColor("Red", text, Environment.NewLine);
 			}
 
@@ -154,7 +156,8 @@ namespace SayMore.UI.Utilities
 						"The following event files will be added to your archive."));
 			}
 
-			var fmt = Program.GetString("UI.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}");
+			var fmt = Program.GetString("UI.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
+				"The first parameter (in English, that is) is 'Event' or 'Contributor'. The second parameter is the even or contributor name.");
 
 			foreach (var kvp in _fileLists)
 			{

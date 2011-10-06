@@ -114,7 +114,7 @@ namespace SayMore.UI.MediaPlayer
 			this._buttonPlay.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
 			this._buttonPlay.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this._buttonPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonPlay, null);
+			this.locExtender.SetLocalizableToolTip(this._buttonPlay, "Play");
 			this.locExtender.SetLocalizationComment(this._buttonPlay, null);
 			this.locExtender.SetLocalizingId(this._buttonPlay, "UI.MediaPlayer._buttonPlay");
 			this._buttonPlay.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -130,14 +130,13 @@ namespace SayMore.UI.MediaPlayer
 			this._buttonPause.Image = global::SayMore.Properties.Resources.Pause;
 			this._buttonPause.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this._buttonPause.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonPause, null);
+			this.locExtender.SetLocalizableToolTip(this._buttonPause, "Pause");
 			this.locExtender.SetLocalizationComment(this._buttonPause, null);
 			this.locExtender.SetLocalizingId(this._buttonPause, "UI.MediaPlayer._buttonPause");
 			this._buttonPause.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._buttonPause.Name = "_buttonPause";
 			this._buttonPause.Size = new System.Drawing.Size(33, 34);
 			this._buttonPause.Text = "Pause";
-			this._buttonPause.ToolTipText = "Pause";
 			this._buttonPause.Click += new System.EventHandler(this.HandleButtonPauseClick);
 			// 
 			// _buttonStop
@@ -146,7 +145,7 @@ namespace SayMore.UI.MediaPlayer
 			this._buttonStop.Image = global::SayMore.Properties.Resources.Stop;
 			this._buttonStop.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this._buttonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonStop, null);
+			this.locExtender.SetLocalizableToolTip(this._buttonStop, "Stop");
 			this.locExtender.SetLocalizationComment(this._buttonStop, null);
 			this.locExtender.SetLocalizingId(this._buttonStop, "UI.MediaPlayer._buttonStop");
 			this._buttonStop.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
@@ -163,7 +162,7 @@ namespace SayMore.UI.MediaPlayer
 			this._buttonVolume.Image = global::SayMore.Properties.Resources.Volume;
 			this._buttonVolume.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this._buttonVolume.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonVolume, null);
+			this.locExtender.SetLocalizableToolTip(this._buttonVolume, "Volume");
 			this.locExtender.SetLocalizationComment(this._buttonVolume, null);
 			this.locExtender.SetLocalizingId(this._buttonVolume, "UI.MediaPlayer._buttonVolume");
 			this._buttonVolume.Margin = new System.Windows.Forms.Padding(3, 2, 0, 0);

@@ -31,7 +31,6 @@ namespace SayMore.Transcription.UI
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateAnnotationFileDlg));
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutReadAudacityFileButton = new System.Windows.Forms.TableLayoutPanel();
 			this._buttonLoadAudacityLabelFile = new System.Windows.Forms.Button();
@@ -95,7 +94,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutReadAudacityFileButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutReadAudacityFileButton.Controls.Add(this._buttonLoadAudacityLabelFile, 0, 0);
 			this._tableLayoutReadAudacityFileButton.Controls.Add(this._buttonAudacityHelp, 1, 0);
-			this._tableLayoutReadAudacityFileButton.Location = new System.Drawing.Point(0, 148);
+			this._tableLayoutReadAudacityFileButton.Location = new System.Drawing.Point(0, 96);
 			this._tableLayoutReadAudacityFileButton.Margin = new System.Windows.Forms.Padding(0);
 			this._tableLayoutReadAudacityFileButton.Name = "_tableLayoutReadAudacityFileButton";
 			this._tableLayoutReadAudacityFileButton.RowCount = 1;
@@ -158,7 +157,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutCopyELANFileButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutCopyELANFileButton.Controls.Add(this._buttonELANFileHelp, 0, 0);
 			this._tableLayoutCopyELANFileButton.Controls.Add(this._buttonLoadELANFile, 0, 0);
-			this._tableLayoutCopyELANFileButton.Location = new System.Drawing.Point(0, 228);
+			this._tableLayoutCopyELANFileButton.Location = new System.Drawing.Point(0, 176);
 			this._tableLayoutCopyELANFileButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._tableLayoutCopyELANFileButton.Name = "_tableLayoutCopyELANFileButton";
 			this._tableLayoutCopyELANFileButton.RowCount = 1;
@@ -217,13 +216,13 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelElanOverview, null);
 			this.locExtender.SetLocalizationComment(this._labelElanOverview, null);
 			this.locExtender.SetLocalizingId(this._labelElanOverview, "Transcription.UI.CreateAnnotationFileDlg._labelElanOverview");
-			this._labelElanOverview.Location = new System.Drawing.Point(0, 194);
+			this._labelElanOverview.Location = new System.Drawing.Point(0, 142);
 			this._labelElanOverview.Margin = new System.Windows.Forms.Padding(0, 20, 0, 8);
 			this._labelElanOverview.Name = "_labelElanOverview";
 			this._labelElanOverview.Size = new System.Drawing.Size(450, 26);
 			this._labelElanOverview.TabIndex = 5;
 			this._labelElanOverview.Text = "Alternatively, you can add an ELAN \"eaf\" file which already contains segments and" +
-    " annotations for this media file:";
+    " annotations for this media file.";
 			// 
 			// _labelAudacityOverview
 			// 
@@ -233,13 +232,14 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.SetColumnSpan(this._labelAudacityOverview, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelAudacityOverview, null);
 			this.locExtender.SetLocalizationComment(this._labelAudacityOverview, null);
+			this.locExtender.SetLocalizationPriority(this._labelAudacityOverview, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelAudacityOverview, "Transcription.UI.CreateAnnotationFileDlg._labelAudacityOverview");
 			this._labelAudacityOverview.Location = new System.Drawing.Point(0, 75);
 			this._labelAudacityOverview.Margin = new System.Windows.Forms.Padding(0, 15, 0, 8);
 			this._labelAudacityOverview.Name = "_labelAudacityOverview";
-			this._labelAudacityOverview.Size = new System.Drawing.Size(450, 65);
+			this._labelAudacityOverview.Size = new System.Drawing.Size(450, 13);
 			this._labelAudacityOverview.TabIndex = 3;
-			this._labelAudacityOverview.Text = resources.GetString("_labelAudacityOverview.Text");
+			this._labelAudacityOverview.Text = "#";
 			// 
 			// _buttonCancel
 			// 
@@ -249,7 +249,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
 			this.locExtender.SetLocalizingId(this._buttonCancel, "Transcription.UI.CreateAnnotationFileDlg._buttonCancel");
-			this._buttonCancel.Location = new System.Drawing.Point(375, 262);
+			this._buttonCancel.Location = new System.Drawing.Point(375, 236);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(0);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
@@ -271,8 +271,8 @@ namespace SayMore.Transcription.UI
 			this._labelOverview.Name = "_labelOverview";
 			this._labelOverview.Size = new System.Drawing.Size(450, 26);
 			this._labelOverview.TabIndex = 0;
-			this._labelOverview.Text = "This will create a file to hold annotations of the media file \'{0}\'. SayMore curr" +
-    "ently supports the following annotations:";
+			this._labelOverview.Text = "This will create a file to hold annotations of the media file \'{0}\'. SayMore cur" +
+    "rently supports the following annotations:";
 			// 
 			// _labelAnnoatationType1
 			// 

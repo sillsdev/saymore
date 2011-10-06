@@ -28,14 +28,16 @@ namespace SayMore.UI.Utilities
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArchivingDlg));
+			this.components = new System.ComponentModel.Container();
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this._buttonCreatePackage = new System.Windows.Forms.Button();
 			this._buttonLaunchRamp = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._linkOverview = new System.Windows.Forms.LinkLabel();
 			this._progressBar = new System.Windows.Forms.ProgressBar();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayoutPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _tableLayoutPanel
@@ -64,6 +66,9 @@ namespace SayMore.UI.Utilities
 			// 
 			this._buttonCreatePackage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonCreatePackage.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._buttonCreatePackage, null);
+			this.locExtender.SetLocalizationComment(this._buttonCreatePackage, null);
+			this.locExtender.SetLocalizingId(this._buttonCreatePackage, "UI.ArchivingDlg._buttonCreatePackage");
 			this._buttonCreatePackage.Location = new System.Drawing.Point(48, 351);
 			this._buttonCreatePackage.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._buttonCreatePackage.Name = "_buttonCreatePackage";
@@ -77,6 +82,9 @@ namespace SayMore.UI.Utilities
 			this._buttonLaunchRamp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonLaunchRamp.AutoSize = true;
 			this._buttonLaunchRamp.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.locExtender.SetLocalizableToolTip(this._buttonLaunchRamp, null);
+			this.locExtender.SetLocalizationComment(this._buttonLaunchRamp, null);
+			this.locExtender.SetLocalizingId(this._buttonLaunchRamp, "UI.ArchivingDlg._buttonLaunchRamp");
 			this._buttonLaunchRamp.Location = new System.Drawing.Point(162, 351);
 			this._buttonLaunchRamp.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._buttonLaunchRamp.Name = "_buttonLaunchRamp";
@@ -90,6 +98,9 @@ namespace SayMore.UI.Utilities
 			this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonCancel.AutoSize = true;
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
+			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
+			this.locExtender.SetLocalizingId(this._buttonCancel, "UI.ArchivingDlg._buttonCancel");
 			this._buttonCancel.Location = new System.Drawing.Point(280, 351);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._buttonCancel.Name = "_buttonCancel";
@@ -105,11 +116,15 @@ namespace SayMore.UI.Utilities
 			this._linkOverview.AutoSize = true;
 			this._tableLayoutPanel.SetColumnSpan(this._linkOverview, 3);
 			this._linkOverview.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
+			this.locExtender.SetLocalizableToolTip(this._linkOverview, null);
+			this.locExtender.SetLocalizationComment(this._linkOverview, "");
+			this.locExtender.SetLocalizationPriority(this._linkOverview, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._linkOverview, "UI.ArchivingDlg.OverviewText");
 			this._linkOverview.Location = new System.Drawing.Point(3, 0);
 			this._linkOverview.Name = "_linkOverview";
-			this._linkOverview.Size = new System.Drawing.Size(349, 78);
+			this._linkOverview.Size = new System.Drawing.Size(349, 13);
 			this._linkOverview.TabIndex = 3;
-			this._linkOverview.Text = resources.GetString("_linkOverview.Text");
+			this._linkOverview.Text = "#";
 			this._linkOverview.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleRampLinkClicked);
 			// 
 			// _progressBar
@@ -123,6 +138,10 @@ namespace SayMore.UI.Utilities
 			this._progressBar.Size = new System.Drawing.Size(355, 15);
 			this._progressBar.TabIndex = 4;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
 			// ArchivingDlg
 			// 
 			this.AcceptButton = this._buttonLaunchRamp;
@@ -131,6 +150,9 @@ namespace SayMore.UI.Utilities
 			this.CancelButton = this._buttonCancel;
 			this.ClientSize = new System.Drawing.Size(379, 401);
 			this.Controls.Add(this._tableLayoutPanel);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "UI.ArchivingDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(355, 320);
@@ -142,6 +164,7 @@ namespace SayMore.UI.Utilities
 			this.Text = "SayMore: Archive with RAMP (SIL Only)";
 			this._tableLayoutPanel.ResumeLayout(false);
 			this._tableLayoutPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -154,5 +177,6 @@ namespace SayMore.UI.Utilities
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.LinkLabel _linkOverview;
 		private System.Windows.Forms.ProgressBar _progressBar;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

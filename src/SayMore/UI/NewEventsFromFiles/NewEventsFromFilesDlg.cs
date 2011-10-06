@@ -49,8 +49,6 @@ namespace SayMore.UI.NewEventsFromFiles
 			_labelInstructions.Font = SystemFonts.IconTitleFont;
 			_linkFindFiles.Font = SystemFonts.IconTitleFont;
 			_labelSourceFolder.Font = new Font(SystemFonts.IconTitleFont, FontStyle.Bold);
-
-			_labelInstructions.Text = string.Format(_labelInstructions.Text, Application.ProductName);
 			_panelProgress.Visible = false;
 
 			if (Settings.Default.NewEventsFromFilesDlg == null)

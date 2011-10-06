@@ -22,9 +22,6 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			_msg2TextForFormat = _labelPossibleProblemsMsg2.Text;
 
-			_labelProblemOverviewMsg.Text =
-				string.Format(_labelProblemOverviewMsg.Text, Application.ProductName);
-
 			_labelPossibleProblemsMsg1.LeftMargin = _labelProblemOverviewMsg.TextsXOffset;
 			_labelPossibleProblemsMsg2.LeftMargin = _labelProblemOverviewMsg.TextsXOffset;
 			_labelPossibleProblemsMsg3.LeftMargin = _labelProblemOverviewMsg.TextsXOffset;

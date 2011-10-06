@@ -15,7 +15,7 @@ namespace SayMore.UI.ComponentEditors
 	/// ----------------------------------------------------------------------------------------
 	public partial class PersonBasicEditor : EditorBase
 	{
-		public delegate PersonBasicEditor Factory(ComponentFile file, string tabText, string imageKey);
+		public delegate PersonBasicEditor Factory(ComponentFile file, string imageKey);
 
 		private readonly List<ParentButton> _fatherButtons = new List<ParentButton>();
 		private readonly List<ParentButton> _motherButtons = new List<ParentButton>();
@@ -25,10 +25,10 @@ namespace SayMore.UI.ComponentEditors
 		private readonly ImageFileType _imgFileType;
 
 		/// ------------------------------------------------------------------------------------
-		public PersonBasicEditor(ComponentFile file, string tabText, string imageKey,
+		public PersonBasicEditor(ComponentFile file, string imageKey,
 			AutoCompleteValueGatherer autoCompleteProvider, FieldGatherer fieldGatherer,
 			ImageFileType imgFileType)
-			: base(file, tabText, imageKey)
+			: base(file, null, imageKey)
 		{
 			InitializeComponent();
 			Name = "PersonEditor";
@@ -52,6 +52,9 @@ namespace SayMore.UI.ComponentEditors
 			_pbOtherLangFather3.Tag = _otherLanguage3;
 			_pbOtherLangMother3.Tag = _otherLanguage3;
 
+			HandleStringsLocalized();
+			_binder.TranslateBoundValueBeingSaved += HandleBinderTranslateBoundValueBeingSaved;
+			_binder.TranslateBoundValueBeingRetrieved += HandleBinderTranslateBoundValueBeingRetrieved;
 			_binder.SetComponentFile(file);
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
 			SetBindingHelper(_binder);
@@ -59,6 +62,20 @@ namespace SayMore.UI.ComponentEditors
 
 			LoadPersonsPicture();
 			LoadParentLanguages();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set values for unbound controls that need special handling.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			// Check that the person still exists.
+			if (Directory.Exists(Path.GetDirectoryName(_file.PathToAnnotatedFile)))
+				SaveParentLanguages();
+
+			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -128,17 +145,10 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set values for unbound controls that need special handling.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleDestroyed(EventArgs e)
+		private void HandleIdEnter(object sender, EventArgs e)
 		{
-			// Check that the person still exists.
-			if (Directory.Exists(Path.GetDirectoryName(_file.PathToAnnotatedFile)))
-				SaveParentLanguages();
-
-			base.OnHandleDestroyed(e);
+			// Makes sure the id's label is also visible when the id field gains focus.
+			AutoScrollPosition = new Point(0, 0);
 		}
 
 		#region Methods for handling parents' language
@@ -201,20 +211,20 @@ namespace SayMore.UI.ComponentEditors
 
 			if (pb.ParentType == ParentType.Father)
 			{
-				var tipSelected = Program.GetString("UI.PersonEditor.FatherSelectorToolTipWhenSelected",
+				var tipSelected = Program.GetString("UI.PersonEditor.FatherSelectorToolTip.WhenSelected",
 					"Indicates this is the father's primary language");
 
-				var tipNotSelected = Program.GetString("UI.PersonEditor.FatherSelectorToolTipWhenNotSelected",
+				var tipNotSelected = Program.GetString("UI.PersonEditor.FatherSelectorToolTip.WhenNotSelected",
 					"Click to indicate this is the father's primary language");
 
 				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
 			}
 			else
 			{
-				var tipSelected = Program.GetString("UI.PersonEditor.MotherSelectorToolTipWhenSelected",
+				var tipSelected = Program.GetString("UI.PersonEditor.MotherSelectorToolTip.WhenSelected",
 					"Indicates this is the mothers's primary language");
 
-				var tipNotSelected = Program.GetString("UI.PersonEditor.MotherSelectorToolTipWhenNotSelected",
+				var tipNotSelected = Program.GetString("UI.PersonEditor.MotherSelectorToolTip.WhenNotSelected",
 					"Click to indicate this is the mothers's primary language");
 
 				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
@@ -313,7 +323,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void LoadPersonsPicture()
 		{
-			if (_picture == null)
+			if (_personsPicture == null)
 				return;
 
 			try
@@ -321,13 +331,13 @@ namespace SayMore.UI.ComponentEditors
 				var picFile = GetPictureFile();
 
 				if (picFile == null)
-					_picture.Image = Resources.kimidNoPhoto;
+					_personsPicture.Image = Resources.kimidNoPhoto;
 				else
 				{
 					// Do this instead of using the Load method because Load keeps a lock on the file.
 					using (var fs = new FileStream(picFile, FileMode.Open, FileAccess.Read))
 					{
-						_picture.Image = Image.FromStream(fs);
+						_personsPicture.Image = Image.FromStream(fs);
 						fs.Close();
 					}
 				}
@@ -344,27 +354,27 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void HandlePersonPictureMouseEnterLeave(object sender, EventArgs e)
 		{
-			_picture.Invalidate();
+			_personsPicture.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandlePersonPicturePaint(object sender, PaintEventArgs e)
 		{
-			if (!_picture.ClientRectangle.Contains(_picture.PointToClient(MousePosition)))
+			if (!_personsPicture.ClientRectangle.Contains(_personsPicture.PointToClient(MousePosition)))
 				return;
 
 			var img = Resources.kimidChangePicture;
-			var rc = _picture.ClientRectangle;
+			var rc = _personsPicture.ClientRectangle;
 
 			if (rc.Width > rc.Height)
 			{
 				rc.Width = rc.Height;
-				rc.X = (_picture.ClientRectangle.Width - rc.Width) / 2;
+				rc.X = (_personsPicture.ClientRectangle.Width - rc.Width) / 2;
 			}
 			else if (rc.Height > rc.Width)
 			{
 				rc.Height = rc.Width;
-				rc.Y = (_picture.ClientRectangle.Height - rc.Height) / 2;
+				rc.Y = (_personsPicture.ClientRectangle.Height - rc.Height) / 2;
 			}
 
 			e.Graphics.DrawImage(img, rc);
@@ -379,14 +389,14 @@ namespace SayMore.UI.ComponentEditors
 			if (picFile != null)
 			{
 				e.Effect = DragDropEffects.Copy;
-				_picture.Invalidate();
+				_personsPicture.Invalidate();
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandlePictureDragLeave(object sender, EventArgs e)
 		{
-			_picture.Invalidate();
+			_personsPicture.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -412,15 +422,72 @@ namespace SayMore.UI.ComponentEditors
 
 		#endregion
 
+		#region Methods for handling localized gender names
 		/// ------------------------------------------------------------------------------------
-		private void HandleIdEnter(object sender, EventArgs e)
+		/// <summary>
+		/// Update the tab text and gender names in case they were localized.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleStringsLocalized()
 		{
-			// Makes sure the id's label is also visible when the id field gains focus.
-			AutoScrollPosition = new Point(0, 0);
+			TabText = Program.GetString("UI.PersonEditor.TabText", "Person");
+
+			if (_gender != null)
+			{
+				int i = _gender.SelectedIndex;
+				_gender.Items.Clear();
+				_gender.Items.Add(Program.GetString("UI.PersonEditor.GenderSelector.Male", "Male"));
+				_gender.Items.Add(Program.GetString("UI.PersonEditor.GenderSelector.Female", "Female"));
+				_gender.SelectedIndex = i;
+			}
+
+			base.HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void _tblLayoutOuter_Paint(object sender, PaintEventArgs e)
+		/// <summary>
+		/// Instead of letting the binding helper set the gender combo box value from the
+		/// value in the file (which will be the English text for male or female), we'll
+		/// intercept the process since the text in the gender combo box may have been
+		/// localized to non English text.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool HandleBinderTranslateBoundValueBeingRetrieved(BindingHelper helper,
+			Control boundControl, string valueFromFile, out string translatedValue)
+		{
+			translatedValue = null;
+
+			if (boundControl != _gender)
+				return false;
+
+			_gender.SelectedIndex = (valueFromFile == "Male" ? 0 : 1);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When the binding helper gets to writing field values to the metadata file, we need
+		/// to make sure the English values for male and female are written to the file, not
+		/// the localized values for male and female (which is what is in the gender combo box).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool HandleBinderTranslateBoundValueBeingSaved(BindingHelper helper,
+			Control boundControl, out string newValue)
+		{
+			newValue = null;
+
+			if (boundControl != _gender)
+				return false;
+
+			newValue = (_gender.SelectedIndex == 0 ? "Male" : "Female");
+			return true;
+		}
+
+		#endregion
+
+		#region Painting methods
+		/// ------------------------------------------------------------------------------------
+		private void HandleTableLayoutPaint(object sender, PaintEventArgs e)
 		{
 			DrawUnderlineBelowLabel(e.Graphics, _labelPrimaryLanguage);
 			DrawUnderlineBelowLabel(e.Graphics, _labelOtherLanguages);
@@ -441,7 +508,7 @@ namespace SayMore.UI.ComponentEditors
 			lineWidth -= lbl.Margin.Right;
 			lineWidth -= _pbPrimaryLangMother.Margin.Right;
 
-			using (Pen pen = new Pen(SystemColors.ControlDark, 1))
+			using (var pen = new Pen(SystemColors.ControlDark, 1))
 			{
 				pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
 				var pt1 = new Point(lbl.Left, lbl.Bottom + 1);
@@ -449,5 +516,7 @@ namespace SayMore.UI.ComponentEditors
 				g.DrawLine(pen, pt1, pt2);
 			}
 		}
+
+		#endregion
 	}
 }

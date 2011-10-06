@@ -62,7 +62,7 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\dotnet\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="LocalizationManager, Version=1.0.4296.25308, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="LocalizationManager, Version=1.0.4296.27854, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\LocalizationManager.dll</HintPath>
     </Reference>

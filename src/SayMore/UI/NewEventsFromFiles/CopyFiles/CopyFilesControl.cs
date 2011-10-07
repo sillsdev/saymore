@@ -49,9 +49,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			else
 			{
 				if (InvokeRequired)
-					Invoke(new EventHandler(delegate { _progressBar.ForeColor = Color.Red; }));
+					Invoke(new EventHandler(delegate { _labelStatus.ForeColor = Color.Red; }));
 				else
-					_progressBar.ForeColor = Color.Red;
+					_labelStatus.ForeColor = Color.Red;
 
 				//enhance...  play an error sound.
 			}

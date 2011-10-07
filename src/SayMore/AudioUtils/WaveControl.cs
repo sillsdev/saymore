@@ -88,9 +88,11 @@ namespace SayMore.AudioUtils
 			// the number of samples in the stream.
 			var samples = new List<float>(100000);
 			var provider = new SampleChannel(stream);
-			var buffer = new float[stream.WaveFormat.Channels];
+			var buffer = new float[provider.WaveFormat.Channels];
 
-			while (provider.Read(buffer, 0, stream.WaveFormat.Channels) > 0)
+			// TODO: This assumes all channels contain the same data. Figure out how to
+			// combine the samples from each channel into a single float value.
+			while (provider.Read(buffer, 0, provider.WaveFormat.Channels) > 0)
 				samples.Add(buffer[0]);
 
 			Initialize(samples, stream.TotalTime);

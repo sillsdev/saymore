@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using Palaso.WritingSystems;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -55,23 +56,6 @@ namespace SayMore.Transcription.UI
 			_comboTranscriptionWs.Font = SystemFonts.IconTitleFont;
 			_comboTranslationWs.Font = SystemFonts.IconTitleFont;
 
-			var wsList = GetAvailableWritingSystems().Select(ws =>
-				new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.LanguageName }).ToArray();
-
-			_comboTranscriptionWs.Items.AddRange(wsList);
-			_comboTranslationWs.Items.AddRange(wsList);
-
-			if (wsList.Length > 0)
-			{
-				IntializeWritingSystemCombo(_comboTranscriptionWs,
-					Settings.Default.TranscriptionWsForFWInterlinearExport);
-
-				IntializeWritingSystemCombo(_comboTranslationWs,
-					string.IsNullOrEmpty(Settings.Default.FreeTranslationWsForFWInterlinearExport) ?
-					"en" : Settings.Default.FreeTranslationWsForFWInterlinearExport);
-			}
-
-			HandleWritingSystemChanged(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -81,7 +65,7 @@ namespace SayMore.Transcription.UI
 			//return (new LdmlInFolderWritingSystemRepository()).AllWritingSystems;
 
 			var globalPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).CombineForPath(
-				"SIL", "WritingSystemStore");
+				"SIL", "WritingSystemStore"); //NB: flex 7.1 is using this.  Palaso head has WritingSystemRepository/2 instead. Sigh...
 			if (!Directory.Exists(globalPath))
 			{
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
@@ -142,6 +126,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleWritingSystemChanged(object sender, EventArgs e)
 		{
+			if (_comboTranscriptionWs.SelectedItem == null || _comboTranslationWs.SelectedItem == null)
+			{
+				UpdateDisplay();
+				return;
+			}
+
 			TranscriptionWs = _comboTranscriptionWs.SelectedItem as DisplayFriendlyWritingSystem;
 			FreeTranslationWs = _comboTranslationWs.SelectedItem as DisplayFriendlyWritingSystem;
 
@@ -155,6 +145,34 @@ namespace SayMore.Transcription.UI
 		private void UpdateDisplay()
 		{
 			_buttonExport.Enabled = (TranscriptionWs != null && FreeTranslationWs != null);
+		}
+
+		private void ExportToFieldWorksInterlinearDlg_Load(object sender, EventArgs e)
+		{
+
+			var wsList = GetAvailableWritingSystems().Select(ws =>
+															 new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.LanguageName }).ToArray();
+
+			if (wsList.Length == 0)
+			{
+			   ErrorReport.NotifyUserOfProblem("SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is installed as has been run at least once. For now, you can export as English, and fix that up after you have imported into FLEx.");
+				wsList = new DisplayFriendlyWritingSystem[1];
+				wsList[0] = new DisplayFriendlyWritingSystem(){Id = "en", Name = "English" };
+			}
+			_comboTranscriptionWs.Items.AddRange(wsList);
+			_comboTranslationWs.Items.AddRange(wsList);
+
+
+			IntializeWritingSystemCombo(_comboTranscriptionWs,
+										Settings.Default.TranscriptionWsForFWInterlinearExport);
+
+			IntializeWritingSystemCombo(_comboTranslationWs,
+										string.IsNullOrEmpty(Settings.Default.FreeTranslationWsForFWInterlinearExport)
+											? "en"
+											: Settings.Default.FreeTranslationWsForFWInterlinearExport);
+
+
+			HandleWritingSystemChanged(null, null);
 		}
 	}
 }

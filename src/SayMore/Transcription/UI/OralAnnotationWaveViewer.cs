@@ -320,9 +320,9 @@ namespace SayMore.Transcription.UI
 				_waveOut.Stop();
 			else
 			{
-				_wavePanelOriginal.SetPlaybackCursor(MonoWaveStream.CurrentTime);
-				_wavePanelCareful.SetPlaybackCursor(MonoWaveStream.CurrentTime);
-				_wavePanelTranslation.SetPlaybackCursor(MonoWaveStream.CurrentTime);
+				_wavePanelOriginal.SetCursor(MonoWaveStream.CurrentTime);
+				_wavePanelCareful.SetCursor(MonoWaveStream.CurrentTime);
+				_wavePanelTranslation.SetCursor(MonoWaveStream.CurrentTime);
 			}
 		}
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Diagnostics;
 using System.IO;
@@ -57,13 +58,13 @@ namespace SayMore
 				Settings.Default.Save();
 			}
 
-			SetUpLocalization();
 
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
 			SetUpErrorHandling();
 			SetUpReporting();
+			SetUpLocalization();
 
 			var args = Environment.GetCommandLineArgs();
 			var firstTimeArg = args.FirstOrDefault(x => x.ToLower().StartsWith("-i"));
@@ -283,6 +284,21 @@ namespace SayMore
 
 			LocalizeItemDlg.SaveDialogSettings += ((dlg, settings) =>
 				Settings.Default.LocalizationDlgSettings = settings);
+
+			var ci = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);
+			if (!LocalizationManager.GetUILanguages(true).Contains(ci))
+			{
+				var defaultCultureInfo = CultureInfo.GetCultureInfo(LocalizationManager.kDefaultLang);
+				var msg = "Your user interface language was previously set to {0} but there " +
+					"are no localziations found for that language. Therefore, your user interface " +
+					"language will revert to {1}. It's possible the file that contains your " +
+					"localized strings is corrupt or missing.";
+
+				ErrorReport.NotifyUserOfProblem(msg, ci.DisplayName, defaultCultureInfo.DisplayName);
+
+				LocalizationManager.UILanguageId = LocalizationManager.kDefaultLang;
+				Settings.Default.UserInterfaceLanguage = LocalizationManager.kDefaultLang;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

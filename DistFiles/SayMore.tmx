@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="en" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4297.38119" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="en" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4297.42459" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-ampersandreplacement">|amp|</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
   <body>
-    <tu tuid="AudioRecorder.CantBeginMonitoringMsg">
+    <tu tuid="CommonToMultipleViews.ChangeIdFailureMsg">
+      <note>Message displayed when attempt failed to change an event id or a person's name (i.e. id)</note>
       <tuv xml:lang="en">
-        <seg>Can't begin monitoring while we are in this state: {0}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="AudioRecorder.CantBeginRecordingMsg">
-      <tuv xml:lang="en">
-        <seg>Can't begin recording while we are in this state: {0}</seg>
-      </tuv>
-    </tu>
-    <tu tuid="AudioRecorder.MonitoringErrorMsg">
-      <tuv xml:lang="en">
-        <seg>There was a problem starting up volume monitoring.</seg>
+        <seg>Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</seg>
       </tuv>
     </tu>
     <tu tuid="CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg">
@@ -980,6 +971,26 @@
         <seg>Record</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.LanguageLabel">
+      <tuv xml:lang="en">
+        <seg>&amp;Language:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.OKButton">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>User Interface Lanaguage</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.WelcomeDlg._buttonBrowse">
       <tuv xml:lang="en">
         <seg>Browse for project...</seg>
@@ -1481,6 +1492,16 @@
         <seg>Annotations</seg>
       </tuv>
     </tu>
+    <tu tuid="EventsView.Transcription.TierNames.FreeTranslation">
+      <tuv xml:lang="en">
+        <seg>Free Translation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TierNames.OriginalRecording">
+      <tuv xml:lang="en">
+        <seg>Original</seg>
+      </tuv>
+    </tu>
     <tu tuid="EventsView.ViewTabText">
       <tuv xml:lang="en">
         <seg>Events</seg>
@@ -1558,6 +1579,21 @@
         <seg>'{0}' doesn't exist in elements collection.</seg>
       </tuv>
     </tu>
+    <tu tuid="MainWindow.Export.ExportFailureMsg">
+      <tuv xml:lang="en">
+        <seg>Something went wrong with the export.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Export Data</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.CSVFileTypeText">
+      <tuv xml:lang="en">
+        <seg>CSV (Comma delimited) (*.csv)|*.csv</seg>
+      </tuv>
+    </tu>
     <tu tuid="MainWindow.LoadingProjectErrorMsg">
       <tuv xml:lang="en">
         <seg>{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.</seg>
@@ -1581,6 +1617,21 @@
     <tu tuid="MainWindow.WindowTitleWithProject">
       <tuv xml:lang="en">
         <seg>{0} - SayMore {1}.{2}.{3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.AudioRecorder.CantBeginMonitoringMsg">
+      <tuv xml:lang="en">
+        <seg>Can't begin monitoring while we are in this state: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.AudioRecorder.CantBeginRecordingMsg">
+      <tuv xml:lang="en">
+        <seg>Can't begin recording while we are in this state: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.AudioRecorder.MonitoringErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was a problem starting up volume monitoring.</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.CopyFilesControl.CopyFailedMsg">
@@ -1618,29 +1669,9 @@
         <seg>The file {0} appears unchanged since it was copied before, so it will be skipped.</seg>
       </tuv>
     </tu>
-    <tu tuid="Model.ExportCommand.CSVFileFormatText">
-      <tuv xml:lang="en">
-        <seg>CSV (Comma delimited) (*.csv)|*.csv</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ExportCommand.ExportFailureMsg">
-      <tuv xml:lang="en">
-        <seg>Something went wrong with the export.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ExportCommand.ExportFileSaveDlgCaption">
-      <tuv xml:lang="en">
-        <seg>Export Data</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.PresetGatherer.NoPresetsYetMsg">
+    <tu tuid="Miscellaneous.PresetGathererNoPresetsYetMsg">
       <tuv xml:lang="en">
         <seg>No presets yet</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Model.ProjectElement.ChangeIdFailureMsg">
-      <tuv xml:lang="en">
-        <seg>Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</seg>
       </tuv>
     </tu>
     <tu tuid="PeopleView.FileList.AddPersonButtonToolTip">
@@ -1924,16 +1955,6 @@
     <tu tuid="SoundFileUtils.MediaFileDoesNotExistErrorMsg">
       <tuv xml:lang="en">
         <seg>Media file does not exist.</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Transcription.Model.TierNames.FreeTranslation">
-      <tuv xml:lang="en">
-        <seg>Free Translation</seg>
-      </tuv>
-    </tu>
-    <tu tuid="Transcription.Model.TierNames.OriginalRecording">
-      <tuv xml:lang="en">
-        <seg>Original</seg>
       </tuv>
     </tu>
   </body>

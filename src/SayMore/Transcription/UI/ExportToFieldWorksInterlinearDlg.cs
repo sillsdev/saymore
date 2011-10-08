@@ -78,7 +78,18 @@ namespace SayMore.Transcription.UI
 				foreach (string path in Directory.GetFiles(globalPath, "*.ldml"))
 				{
 					var name = Path.GetFileNameWithoutExtension(path);
-					yield return WritingSystemDefinition.Parse(name);
+					WritingSystemDefinition x=null;
+					try
+					{
+						x = WritingSystemDefinition.Parse(name);
+					}
+					catch (Exception e)
+					{
+						ErrorReport.NotifyUserOfProblem(
+							"Sorry, the writing system {0} does not conform to current standards. Please first upgrade to FLEx 7.1 or greater.", name);
+					}
+					if(x!=null)
+						yield return x;
 				}
 			}
 		}

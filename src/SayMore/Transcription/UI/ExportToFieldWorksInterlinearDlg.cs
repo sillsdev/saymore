@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using Palaso.WritingSystems;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -55,23 +56,6 @@ namespace SayMore.Transcription.UI
 			_comboTranscriptionWs.Font = SystemFonts.IconTitleFont;
 			_comboTranslationWs.Font = SystemFonts.IconTitleFont;
 
-			var wsList = GetAvailableWritingSystems().Select(ws =>
-				new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.LanguageName }).ToArray();
-
-			_comboTranscriptionWs.Items.AddRange(wsList);
-			_comboTranslationWs.Items.AddRange(wsList);
-
-			if (wsList.Length > 0)
-			{
-				IntializeWritingSystemCombo(_comboTranscriptionWs,
-					Settings.Default.TranscriptionWsForFWInterlinearExport);
-
-				IntializeWritingSystemCombo(_comboTranslationWs,
-					string.IsNullOrEmpty(Settings.Default.FreeTranslationWsForFWInterlinearExport) ?
-					"en" : Settings.Default.FreeTranslationWsForFWInterlinearExport);
-			}
-
-			HandleWritingSystemChanged(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,9 +64,8 @@ namespace SayMore.Transcription.UI
 			//TODO: someday, this may be safe to call. But not yet.
 			//return (new LdmlInFolderWritingSystemRepository()).AllWritingSystems;
 
-			var globalPath = Environment.GetFolderPath(
-				Environment.SpecialFolder.CommonApplicationData).CombineForPath("SIL", "WritingSystemStore");
-
+			var globalPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).CombineForPath(
+				"SIL", "WritingSystemStore"); //NB: flex 7.1 is using this.  Palaso head has WritingSystemRepository/2 instead. Sigh...
 			if (!Directory.Exists(globalPath))
 			{
 				var msg = Program.GetString(
@@ -100,7 +83,18 @@ namespace SayMore.Transcription.UI
 				foreach (string path in Directory.GetFiles(globalPath, "*.ldml"))
 				{
 					var name = Path.GetFileNameWithoutExtension(path);
-					yield return WritingSystemDefinition.Parse(name);
+					WritingSystemDefinition x=null;
+					try
+					{
+						x = WritingSystemDefinition.Parse(name);
+					}
+					catch (Exception e)
+					{
+						ErrorReport.NotifyUserOfProblem(
+							"Sorry, the writing system {0} does not conform to current standards. Please first upgrade to FLEx 7.1 or greater.", name);
+					}
+					if(x!=null)
+						yield return x;
 				}
 			}
 		}
@@ -154,6 +148,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleWritingSystemChanged(object sender, EventArgs e)
 		{
+			if (_comboTranscriptionWs.SelectedItem == null || _comboTranslationWs.SelectedItem == null)
+			{
+				UpdateDisplay();
+				return;
+			}
+
 			TranscriptionWs = _comboTranscriptionWs.SelectedItem as DisplayFriendlyWritingSystem;
 			FreeTranslationWs = _comboTranslationWs.SelectedItem as DisplayFriendlyWritingSystem;
 
@@ -167,6 +167,34 @@ namespace SayMore.Transcription.UI
 		private void UpdateDisplay()
 		{
 			_buttonExport.Enabled = (TranscriptionWs != null && FreeTranslationWs != null);
+		}
+
+		private void ExportToFieldWorksInterlinearDlg_Load(object sender, EventArgs e)
+		{
+
+			var wsList = GetAvailableWritingSystems().Select(ws =>
+															 new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.LanguageName }).ToArray();
+
+			if (wsList.Length == 0)
+			{
+			   ErrorReport.NotifyUserOfProblem("SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is installed as has been run at least once. For now, you can export as English, and fix that up after you have imported into FLEx.");
+				wsList = new DisplayFriendlyWritingSystem[1];
+				wsList[0] = new DisplayFriendlyWritingSystem(){Id = "en", Name = "English" };
+			}
+			_comboTranscriptionWs.Items.AddRange(wsList);
+			_comboTranslationWs.Items.AddRange(wsList);
+
+
+			IntializeWritingSystemCombo(_comboTranscriptionWs,
+										Settings.Default.TranscriptionWsForFWInterlinearExport);
+
+			IntializeWritingSystemCombo(_comboTranslationWs,
+										string.IsNullOrEmpty(Settings.Default.FreeTranslationWsForFWInterlinearExport)
+											? "en"
+											: Settings.Default.FreeTranslationWsForFWInterlinearExport);
+
+
+			HandleWritingSystemChanged(null, null);
 		}
 	}
 }

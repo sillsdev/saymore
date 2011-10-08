@@ -83,9 +83,12 @@ namespace SayMore.UI.LowLevelControls
 					if (_msgWindow == null)
 						_msgWindow = new FadingMessageWindow();
 
+					var msg = Program.GetString("CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg",
+						"One column must be visible.",
+						"Displayed when user unchecks all columns for display in events or people list");
+
 					var pt = PointToScreen(new Point(Width / 2, Height / 3));
-					_msgWindow.Show(Program.GetString("UI.ProjectWindow.OneColumnMustBeVisibleMsg",
-						"One column must be visible."), pt);
+					_msgWindow.Show(msg, pt);
 
 					SystemSounds.Beep.Play();
 					return;

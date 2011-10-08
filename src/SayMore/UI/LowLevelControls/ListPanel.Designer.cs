@@ -85,7 +85,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonNew.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonNew, null);
 			this.locExtender.SetLocalizationComment(this._buttonNew, "Button for adding new events and people");
-			this.locExtender.SetLocalizingId(this._buttonNew, "UI.ListPanel._buttonNew");
+			this.locExtender.SetLocalizingId(this._buttonNew, "CommonToMultipleViews.ElementList.NewButtonText");
 			this._buttonNew.Location = new System.Drawing.Point(5, 5);
 			this._buttonNew.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonNew.Name = "_buttonNew";
@@ -101,7 +101,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonDelete, null);
 			this.locExtender.SetLocalizationComment(this._buttonDelete, "Button for deleting events and people");
-			this.locExtender.SetLocalizingId(this._buttonDelete, "UI.ListPanel._buttonDelete");
+			this.locExtender.SetLocalizingId(this._buttonDelete, "CommonToMultipleViews.ElementList.DeleteButtonText");
 			this._buttonDelete.Location = new System.Drawing.Point(86, 5);
 			this._buttonDelete.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonDelete.Name = "_buttonDelete";
@@ -151,7 +151,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonColChooser.Image = ((System.Drawing.Image)(resources.GetObject("_buttonColChooser.Image")));
 			this.locExtender.SetLocalizableToolTip(this._buttonColChooser, "Choose Columns");
 			this.locExtender.SetLocalizationComment(this._buttonColChooser, null);
-			this.locExtender.SetLocalizingId(this._buttonColChooser, "UI.ListPanel._buttonColChooser");
+			this.locExtender.SetLocalizingId(this._buttonColChooser, "CommonToMultipleViews.ElementList.ColumnChooserButton");
 			this._buttonColChooser.Location = new System.Drawing.Point(147, 1);
 			this._buttonColChooser.Name = "_buttonColChooser";
 			this._buttonColChooser.Size = new System.Drawing.Size(20, 20);

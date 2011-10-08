@@ -1048,13 +1048,13 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public int AnnotationEditorPlaybackSpeed {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AnnotationEditorPlaybackSpeedIndex {
             get {
-                return ((int)(this["AnnotationEditorPlaybackSpeed"]));
+                return ((int)(this["AnnotationEditorPlaybackSpeedIndex"]));
             }
             set {
-                this["AnnotationEditorPlaybackSpeed"] = value;
+                this["AnnotationEditorPlaybackSpeedIndex"] = value;
             }
         }
         

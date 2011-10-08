@@ -30,7 +30,7 @@ namespace SayMore.UI.Utilities
 			// controls having a lot of text in their Text property have to have it set this
 			// way rather than in the designer. Otherwise, the code string scanner won't find
 			// the control's text.
-			_linkOverview.Text = Program.GetString("UI.ArchivingDlg.OverviewText",
+			_linkOverview.Text = Program.GetString("DialogBoxes.ArchivingDlg.OverviewText",
 				"RAMP is a utility for entering metadata and uploading submissions to SIL's internal archive, " +
 				"REAP. If you have access to this archive, this tool will help you use RAMP to archive your " +
 				"SayMore events. It will gather up all the files and data related to an event and its " +

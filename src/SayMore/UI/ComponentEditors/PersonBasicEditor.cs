@@ -211,20 +211,20 @@ namespace SayMore.UI.ComponentEditors
 
 			if (pb.ParentType == ParentType.Father)
 			{
-				var tipSelected = Program.GetString("UI.PersonEditor.FatherSelectorToolTip.WhenSelected",
+				var tipSelected = Program.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected",
 					"Indicates this is the father's primary language");
 
-				var tipNotSelected = Program.GetString("UI.PersonEditor.FatherSelectorToolTip.WhenNotSelected",
+				var tipNotSelected = Program.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenNotSelected",
 					"Click to indicate this is the father's primary language");
 
 				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
 			}
 			else
 			{
-				var tipSelected = Program.GetString("UI.PersonEditor.MotherSelectorToolTip.WhenSelected",
+				var tipSelected = Program.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected",
 					"Indicates this is the mothers's primary language");
 
-				var tipNotSelected = Program.GetString("UI.PersonEditor.MotherSelectorToolTip.WhenNotSelected",
+				var tipNotSelected = Program.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected",
 					"Click to indicate this is the mothers's primary language");
 
 				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
@@ -239,9 +239,9 @@ namespace SayMore.UI.ComponentEditors
 		{
 			using (var dlg = new OpenFileDialog())
 			{
-				var caption = Program.GetString("UI.PersonEditor.ChangePictureDlgCaption", "Change Picture");
+				var caption = Program.GetString("PeopleView.MetadataEditor.ChangePictureDlgCaption", "Change Picture");
 
-				var imageFileTypes = Program.GetString("UI.PersonEditor.ImageFileTypes",
+				var imageFileTypes = Program.GetString("PeopleView.MetadataEditor.ImageFileTypes",
 					"JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*");
 
 				dlg.Title = caption;
@@ -313,7 +313,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			else
 			{
-				var msg = Program.GetString("UI.PersonEditor.ErrorChangingPersonsPhotoMsg",
+				var msg = Program.GetString("PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg",
 					"There was an error changing the person's photo.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
@@ -344,7 +344,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("UI.PersonEditor.ErrorLoadingPersonsPhotoMsg",
+				var msg = Program.GetString("PeopleView.MetadataEditor.ErrorLoadingPersonsPhotoMsg",
 					"There was an error loading the person's photo.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
@@ -430,14 +430,14 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("UI.PersonEditor.TabText", "Person");
+			TabText = Program.GetString("PeopleView.MetadataEditor.TabText", "Person");
 
 			if (_gender != null)
 			{
 				int i = _gender.SelectedIndex;
 				_gender.Items.Clear();
-				_gender.Items.Add(Program.GetString("UI.PersonEditor.GenderSelector.Male", "Male"));
-				_gender.Items.Add(Program.GetString("UI.PersonEditor.GenderSelector.Female", "Female"));
+				_gender.Items.Add(Program.GetString("PeopleView.MetadataEditor.GenderSelector.Male", "Male"));
+				_gender.Items.Add(Program.GetString("PeopleView.MetadataEditor.GenderSelector.Female", "Female"));
 				_gender.SelectedIndex = i;
 			}
 

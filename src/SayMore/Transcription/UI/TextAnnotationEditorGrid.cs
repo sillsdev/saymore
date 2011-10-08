@@ -40,7 +40,7 @@ namespace SayMore.Transcription.UI
 
 			PlayerViewModel = new MediaPlayerViewModel();
 			PlayerViewModel.SetVolume(100);
-			PlayerViewModel.SetSpeed(Settings.Default.AnnotationEditorPlaybackSpeed);
+			PlayerViewModel.SetSpeed(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
 			PlayerViewModel.Loop = true;
 
 			SetPlaybackProgressReportAction(null);
@@ -134,7 +134,7 @@ namespace SayMore.Transcription.UI
 			if (ColumnCount > 0)
 				return;
 
-			var hint = Program.GetString("Transcription.UI.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg",
+			var hint = Program.GetString("EventsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg",
 				"There are no transcription annotations found in\n'{0}'", "Parameter is file name.");
 
 			DrawMessageInCenterOfGrid(e.Graphics, string.Format(hint,

@@ -78,7 +78,7 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentNumber.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._labelSegmentNumber, null);
 			this.locExtender.SetLocalizationComment(this._labelSegmentNumber, null);
-			this.locExtender.SetLocalizingId(this._labelSegmentNumber, "Transcription.UI.OralAnnotationDlg._labelSegmentNumber");
+			this.locExtender.SetLocalizingId(this._labelSegmentNumber, "DialogBoxes.Transcription.OralAnnotationDlg.SegmentNumberLabel");
 			this._labelSegmentNumber.Location = new System.Drawing.Point(8, 3);
 			this._labelSegmentNumber.Margin = new System.Windows.Forms.Padding(8, 3, 5, 15);
 			this._labelSegmentNumber.Name = "_labelSegmentNumber";
@@ -148,7 +148,7 @@ namespace SayMore.Transcription.UI
 			this._buttonEraseAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.locExtender.SetLocalizableToolTip(this._buttonEraseAnnotation, null);
 			this.locExtender.SetLocalizationComment(this._buttonEraseAnnotation, null);
-			this.locExtender.SetLocalizingId(this._buttonEraseAnnotation, "Transcription.UI.OralAnnotationDlg._buttonEraseAnnotation");
+			this.locExtender.SetLocalizingId(this._buttonEraseAnnotation, "DialogBoxes.Transcription.OralAnnotationDlg.EraseAnnotationButton");
 			this._buttonEraseAnnotation.Location = new System.Drawing.Point(30, 161);
 			this._buttonEraseAnnotation.Margin = new System.Windows.Forms.Padding(30, 0, 10, 0);
 			this._buttonEraseAnnotation.Name = "_buttonEraseAnnotation";
@@ -177,7 +177,7 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayAnnotation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.locExtender.SetLocalizableToolTip(this._buttonPlayAnnotation, null);
 			this.locExtender.SetLocalizationComment(this._buttonPlayAnnotation, null);
-			this.locExtender.SetLocalizingId(this._buttonPlayAnnotation, "Transcription.UI.OralAnnotationDlg._buttonPlayAnnotation.WhenStopped");
+			this.locExtender.SetLocalizingId(this._buttonPlayAnnotation, "DialogBoxes.Transcription.OralAnnotationDlg.PlayAnnotationButton.WhenStopped");
 			this._buttonPlayAnnotation.Location = new System.Drawing.Point(0, 121);
 			this._buttonPlayAnnotation.Margin = new System.Windows.Forms.Padding(0, 5, 10, 0);
 			this._buttonPlayAnnotation.Name = "_buttonPlayAnnotation";
@@ -205,7 +205,7 @@ namespace SayMore.Transcription.UI
 			this._buttonPlayOriginal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.locExtender.SetLocalizableToolTip(this._buttonPlayOriginal, null);
 			this.locExtender.SetLocalizationComment(this._buttonPlayOriginal, null);
-			this.locExtender.SetLocalizingId(this._buttonPlayOriginal, "Transcription.UI.OralAnnotationDlg._buttonPlayOriginal.WhenStopped");
+			this.locExtender.SetLocalizingId(this._buttonPlayOriginal, "DialogBoxes.Transcription.OralAnnotationDlg.PlayOriginalButton.WhenStopped");
 			this._buttonPlayOriginal.Location = new System.Drawing.Point(0, 31);
 			this._buttonPlayOriginal.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
 			this._buttonPlayOriginal.Name = "_buttonPlayOriginal";
@@ -233,7 +233,7 @@ namespace SayMore.Transcription.UI
 			this._buttonRecord.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.locExtender.SetLocalizableToolTip(this._buttonRecord, null);
 			this.locExtender.SetLocalizationComment(this._buttonRecord, null);
-			this.locExtender.SetLocalizingId(this._buttonRecord, "Transcription.UI.OralAnnotationDlg._buttonRecord.WhenStopped");
+			this.locExtender.SetLocalizingId(this._buttonRecord, "DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenStopped");
 			this._buttonRecord.Location = new System.Drawing.Point(0, 76);
 			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0, 5, 10, 0);
 			this._buttonRecord.Name = "_buttonRecord";
@@ -273,6 +273,7 @@ namespace SayMore.Transcription.UI
 			this._panelMicorphoneLevel.ForeColor = System.Drawing.Color.LightGreen;
 			this.locExtender.SetLocalizableToolTip(this._panelMicorphoneLevel, null);
 			this.locExtender.SetLocalizationComment(this._panelMicorphoneLevel, null);
+			this.locExtender.SetLocalizationPriority(this._panelMicorphoneLevel, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._panelMicorphoneLevel, "OralAnnotationRecorder._panelMicorphoneLevel");
 			this._panelMicorphoneLevel.Location = new System.Drawing.Point(32, 10);
 			this._panelMicorphoneLevel.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);

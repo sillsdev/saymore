@@ -377,8 +377,8 @@ namespace SayMore.UI.ElementListScreen
 			int itemCount = _elementsGrid.SelectedRows.Count;
 
 			var msg = (itemCount == 1 ?
-				Program.GetString("UI.ProjectWindow.DeleteOneItemMsg", "{0}", "For deleting events and people items") :
-				Program.GetString("UI.ProjectWindow.DeleteMultipleItemsMsg", "{0} items", "For deleting events and people items"));
+				Program.GetString("MainWindow.DeleteOneItemMsg", "{0}", "For deleting events and people items") :
+				Program.GetString("MainWindow.DeleteMultipleItemsMsg", "{0} items", "For deleting events and people items"));
 
 			msg = (itemCount > 1 ? string.Format(msg, itemCount) :
 				string.Format(msg, _elementsGrid.GetCurrentElement().Id));

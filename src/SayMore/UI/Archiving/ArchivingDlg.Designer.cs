@@ -68,7 +68,7 @@ namespace SayMore.UI.Utilities
 			this._buttonCreatePackage.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonCreatePackage, null);
 			this.locExtender.SetLocalizationComment(this._buttonCreatePackage, null);
-			this.locExtender.SetLocalizingId(this._buttonCreatePackage, "UI.ArchivingDlg._buttonCreatePackage");
+			this.locExtender.SetLocalizingId(this._buttonCreatePackage, "DialogBoxes.ArchivingDlg._buttonCreatePackage");
 			this._buttonCreatePackage.Location = new System.Drawing.Point(48, 351);
 			this._buttonCreatePackage.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._buttonCreatePackage.Name = "_buttonCreatePackage";
@@ -84,7 +84,7 @@ namespace SayMore.UI.Utilities
 			this._buttonLaunchRamp.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this._buttonLaunchRamp, null);
 			this.locExtender.SetLocalizationComment(this._buttonLaunchRamp, null);
-			this.locExtender.SetLocalizingId(this._buttonLaunchRamp, "UI.ArchivingDlg._buttonLaunchRamp");
+			this.locExtender.SetLocalizingId(this._buttonLaunchRamp, "DialogBoxes.ArchivingDlg._buttonLaunchRamp");
 			this._buttonLaunchRamp.Location = new System.Drawing.Point(162, 351);
 			this._buttonLaunchRamp.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._buttonLaunchRamp.Name = "_buttonLaunchRamp";
@@ -100,7 +100,7 @@ namespace SayMore.UI.Utilities
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "UI.ArchivingDlg._buttonCancel");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.ArchivingDlg._buttonCancel");
 			this._buttonCancel.Location = new System.Drawing.Point(280, 351);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
 			this._buttonCancel.Name = "_buttonCancel";
@@ -119,7 +119,7 @@ namespace SayMore.UI.Utilities
 			this.locExtender.SetLocalizableToolTip(this._linkOverview, null);
 			this.locExtender.SetLocalizationComment(this._linkOverview, "");
 			this.locExtender.SetLocalizationPriority(this._linkOverview, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._linkOverview, "UI.ArchivingDlg.OverviewText");
+			this.locExtender.SetLocalizingId(this._linkOverview, "DialogBoxes.ArchivingDlg.OverviewText");
 			this._linkOverview.Location = new System.Drawing.Point(3, 0);
 			this._linkOverview.Name = "_linkOverview";
 			this._linkOverview.Size = new System.Drawing.Size(349, 13);
@@ -152,7 +152,7 @@ namespace SayMore.UI.Utilities
 			this.Controls.Add(this._tableLayoutPanel);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "UI.ArchivingDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.ArchivingDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(355, 320);

@@ -21,23 +21,23 @@ namespace SayMore.UI.Overview
 			Controls.Add(_statsView);
 
 			_mnuProgress = new ToolStripMenuItem();
-			_mnuProgress.Text = Program.GetString("UI.ProgressView.ProgressMainMenuItemText",
+			_mnuProgress.Text = Program.GetString("ProgressView.ProgressMainMenuItemText",
 				"Pr&ogress", null, MainMenuItem);
 
 			var menu = new ToolStripMenuItem(null, Resources.Copy, _statsView.HandleCopyToClipboardClick);
-			menu.Text = Program.GetString("UI.ProgressView.CopyMenuItemText",
+			menu.Text = Program.GetString("ProgressView.CopyMenuItemText",
 				"&Copy", null, "Copy entire view to clipboard", null, menu);
 
 			_mnuProgress.DropDown.Items.Add(menu);
 
 			menu = new ToolStripMenuItem(null, Resources.Save, _statsView.HandleSaveButtonClicked);
-			menu.Text = Program.GetString("UI.ProgressView.SaveMenuItemText",
+			menu.Text = Program.GetString("ProgressView.SaveMenuItemText",
 				"&Save...", null, "Save view to file", null, menu);
 
 			_mnuProgress.DropDown.Items.Add(menu);
 
 			menu = new ToolStripMenuItem(null, Resources.Print, _statsView.HandlePrintButtonClicked);
-			menu.Text = Program.GetString("UI.ProgressView.PrintMenuItemText",
+			menu.Text = Program.GetString("ProgressView.PrintMenuItemText",
 				"&Print...", null, null, null, menu);
 
 			_mnuProgress.DropDown.Items.Add(menu);
@@ -61,7 +61,7 @@ namespace SayMore.UI.Overview
 		public void AddTabToTabGroup(ViewTabGroup viewTabGroup)
 		{
 			var tab = viewTabGroup.AddTab(this);
-			tab.Text = Program.GetString("UI.ProgressView.TabText", "Progress", null, "Progress View", null, tab);
+			tab.Text = Program.GetString("ProgressView.TabText", "Progress", null, "Progress View", null, tab);
 			Text = tab.Text;
 		}
 

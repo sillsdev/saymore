@@ -65,7 +65,7 @@ namespace SayMore.UI.LowLevelControls
 			this.locExtender.SetLocalizableToolTip(this._pictureDeleteX, null);
 			this.locExtender.SetLocalizationComment(this._pictureDeleteX, null);
 			this.locExtender.SetLocalizationPriority(this._pictureDeleteX, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._pictureDeleteX, "UI.DeleteMessageBox._pictureDeleteX");
+			this.locExtender.SetLocalizingId(this._pictureDeleteX, "DialogBoxes.DeleteMessageBox._pictureDeleteX");
 			this._pictureDeleteX.Location = new System.Drawing.Point(0, 0);
 			this._pictureDeleteX.Margin = new System.Windows.Forms.Padding(0, 0, 15, 3);
 			this._pictureDeleteX.Name = "_pictureDeleteX";
@@ -83,7 +83,7 @@ namespace SayMore.UI.LowLevelControls
 			this.locExtender.SetLocalizableToolTip(this._labelMessage, null);
 			this.locExtender.SetLocalizationComment(this._labelMessage, null);
 			this.locExtender.SetLocalizationPriority(this._labelMessage, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelMessage, "UI.DeleteMessageBox._labelMessage");
+			this.locExtender.SetLocalizingId(this._labelMessage, "DialogBoxes.DeleteMessageBox._labelMessage");
 			this._labelMessage.Location = new System.Drawing.Point(39, 0);
 			this._labelMessage.Margin = new System.Windows.Forms.Padding(0);
 			this._labelMessage.Name = "_labelMessage";
@@ -99,7 +99,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonDelete.Image = global::SayMore.Properties.Resources.DeleteMessageBoxButtonImage;
 			this.locExtender.SetLocalizableToolTip(this._buttonDelete, null);
 			this.locExtender.SetLocalizationComment(this._buttonDelete, null);
-			this.locExtender.SetLocalizingId(this._buttonDelete, "UI.DeleteMessageBox._buttonDelete");
+			this.locExtender.SetLocalizingId(this._buttonDelete, "DialogBoxes.DeleteMessageBox._buttonDelete");
 			this._buttonDelete.Location = new System.Drawing.Point(90, 20);
 			this._buttonDelete.Margin = new System.Windows.Forms.Padding(0, 20, 4, 0);
 			this._buttonDelete.MinimumSize = new System.Drawing.Size(75, 26);
@@ -118,7 +118,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "UI.DeleteMessageBox._buttonCancel");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.DeleteMessageBox._buttonCancel");
 			this._buttonCancel.Location = new System.Drawing.Point(173, 20);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(4, 20, 0, 0);
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
@@ -165,7 +165,7 @@ namespace SayMore.UI.LowLevelControls
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "UI.DeleteMessageBox.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.DeleteMessageBox.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(375, 100);

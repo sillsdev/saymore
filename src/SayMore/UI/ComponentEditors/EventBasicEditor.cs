@@ -151,7 +151,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("UI.EventEditor.TabText", "Event");
+			TabText = Program.GetString("EventsView.MetadataEditor.TabText", "Event");
 			base.HandleStringsLocalized();
 		}
 	}

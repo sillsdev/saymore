@@ -71,14 +71,14 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetShowInFileExplorerMenuText()
 		{
-			return Program.GetString("UI.ComponentFileList.MenuCommands.ShowInFileExplorerMenuText",
+			return Program.GetString("CommonToMultipleViews.FileList.Open.ShowInFileExplorerMenuText",
 				"Show in File Explorer...");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetOpenInAssociatedProgramMenuText()
 		{
-			return Program.GetString("UI.ComponentFileList.MenuCommands.OpenInAssociatedProgramMenuText",
+			return Program.GetString("CommonToMultipleViews.FileList.Open.OpenInAssociatedProgramMenuText",
 				"Open in Program Associated with this File ...");
 		}
 
@@ -267,7 +267,7 @@ namespace SayMore.Model.Files
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			var col = SilGrid.CreateTextBoxColumn("id");
-			col.HeaderText = "L10N:UI.PeopleView.PeopleListColumnHeadings.Id!Id";
+			col.HeaderText = "L10N:PeopleView.PeopleList.ColumnHeadings.Id!Id";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.Frozen = true;
@@ -275,7 +275,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("consent");
-			col.HeaderText = "L10N:UI.PeopleView.PeopleListColumnHeadings.Consent!Consent";
+			col.HeaderText = "L10N:PeopleView.PeopleList.ColumnHeadings.Consent!Consent";
 			col.DataPropertyName = "consent";
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
@@ -369,35 +369,35 @@ namespace SayMore.Model.Files
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			var col = SilGrid.CreateTextBoxColumn("id");
-			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Id!Id";
+			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Id!Id";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("title");
-			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Title!Title";
+			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Title!Title";
 			col.DataPropertyName = "title";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("stages");
-			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Stages!Stages";
+			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Stages!Stages";
 			col.DataPropertyName = "stages";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("status");
-			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Status!Status";
+			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Status!Status";
 			col.DataPropertyName = "status";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("date");
-			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Date!Date";
+			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Date!Date";
 			col.DataPropertyName = "date";
 			col.ReadOnly = true;
 			col.Visible = false;
@@ -405,7 +405,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("genre");
-			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Genre!Genre";
+			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Genre!Genre";
 			col.DataPropertyName = "genre";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -413,7 +413,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("location");
-			col.HeaderText = "L10N:UI.EventsView.EventListColumnHeadings.Location!Location";
+			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Location!Location";
 			col.DataPropertyName = "location";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -867,12 +867,12 @@ namespace SayMore.Model.Files
 			{
 				commands.Add(null); // Separator
 
-				var menuText = Program.GetString("Model.Files.VideoFileType.ExtractMp3AudioMenuText",
+				var menuText = Program.GetString("CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText",
 					"Extract Audio to mono MP3 File (low quality)");
 
 				commands.Add(new FileCommand(menuText, ExtractMp3Audio, "convert"));
 
-				menuText = Program.GetString("Model.Files.VideoFileType.ExtractWavAudioMenuText",
+				menuText = Program.GetString("CommonToMultipleViews.FileList.Convert.ExtractWavAudioMenuText",
 					"Extract Audio to Wave File");
 
 				commands.Add(new FileCommand(menuText, ExtractWavAudio, "convert"));
@@ -923,7 +923,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private string GetFFmpegConversionError()
 		{
-			return Program.GetString("Model.Files.VideoFileType.FFmpegReturnErrorMsg",
+			return Program.GetString("CommonToMultipleViews.FileList.Convert.FailureMsg",
 				"Something didn't work out. FFmpeg said (start reading from the end): {0}\n\n");
 
 		}
@@ -932,7 +932,7 @@ namespace SayMore.Model.Files
 		{
 			if (!MediaInfo.HaveNecessaryComponents)
 			{
-				var msg = Program.GetString("Model.Files.VideoFileType.FFmpegMissingErrorMsg",
+				var msg = Program.GetString("CommonToMultipleViews.FileList.Convert.FFmpegMissingErrorMsg",
 					"SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
 
 				ErrorReport.NotifyUserOfProblem(msg);
@@ -944,7 +944,7 @@ namespace SayMore.Model.Files
 				//todo ask the user (or don't offer this in the first place)
 				//File.Delete(outputPath);
 
-				var msg = Program.GetString("Model.Files.VideoFileType.FileAlreadyExistsDuringFFmpegConversionErrorMsg",
+				var msg = Program.GetString("CommonToMultipleViews.FileList.Convert.FileAlreadyExistsDuringConversionErrorMsg",
 					"Sorry, the file '{0}' already exists.");
 
 				ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(outputPath));

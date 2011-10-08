@@ -74,7 +74,7 @@ namespace SayMore.Transcription.UI
 			this.tableLayoutPanel1.SetColumnSpan(this._labelRecordingTypeCarefulSpeech, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelRecordingTypeCarefulSpeech, null);
 			this.locExtender.SetLocalizationComment(this._labelRecordingTypeCarefulSpeech, null);
-			this.locExtender.SetLocalizingId(this._labelRecordingTypeCarefulSpeech, "Transcription.UI.OralAnnotationDlg._labelRecordingType.CarefulSpeech");
+			this.locExtender.SetLocalizingId(this._labelRecordingTypeCarefulSpeech, "DialogBoxes.Transcription.OralAnnotationDlg.RecordingTypeLabel.CarefulSpeech");
 			this._labelRecordingTypeCarefulSpeech.Location = new System.Drawing.Point(3, 0);
 			this._labelRecordingTypeCarefulSpeech.Name = "_labelRecordingTypeCarefulSpeech";
 			this._labelRecordingTypeCarefulSpeech.Size = new System.Drawing.Size(300, 13);
@@ -91,7 +91,7 @@ namespace SayMore.Transcription.UI
 			this._labelRecordingFormat.ForeColor = System.Drawing.Color.DarkRed;
 			this.locExtender.SetLocalizableToolTip(this._labelRecordingFormat, null);
 			this.locExtender.SetLocalizationComment(this._labelRecordingFormat, null);
-			this.locExtender.SetLocalizingId(this._labelRecordingFormat, "Transcription.UI.OralAnnotationDlg._labelRecordingFormat");
+			this.locExtender.SetLocalizingId(this._labelRecordingFormat, "DialogBoxes.Transcription.OralAnnotationDlg.RecordingFormatLabel");
 			this._labelRecordingFormat.Location = new System.Drawing.Point(3, 273);
 			this._labelRecordingFormat.Name = "_labelRecordingFormat";
 			this._labelRecordingFormat.Size = new System.Drawing.Size(225, 13);
@@ -105,7 +105,7 @@ namespace SayMore.Transcription.UI
 			this.tableLayoutPanel1.SetColumnSpan(this._labelRecordingTypeOralAnnotation, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelRecordingTypeOralAnnotation, null);
 			this.locExtender.SetLocalizationComment(this._labelRecordingTypeOralAnnotation, null);
-			this.locExtender.SetLocalizingId(this._labelRecordingTypeOralAnnotation, "Transcription.UI.OralAnnotationDlg._labelRecordingType.OralTranslation");
+			this.locExtender.SetLocalizingId(this._labelRecordingTypeOralAnnotation, "DialogBoxes.Transcription.OralAnnotationDlg.RecordingType.OralTranslationLabel");
 			this._labelRecordingTypeOralAnnotation.Location = new System.Drawing.Point(3, 13);
 			this._labelRecordingTypeOralAnnotation.Name = "_labelRecordingTypeOralAnnotation";
 			this._labelRecordingTypeOralAnnotation.Size = new System.Drawing.Size(300, 13);
@@ -136,7 +136,7 @@ namespace SayMore.Transcription.UI
 			this._buttonClose.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonClose, null);
 			this.locExtender.SetLocalizationComment(this._buttonClose, null);
-			this.locExtender.SetLocalizingId(this._buttonClose, "Transcription.UI.OralAnnotationDlg._buttonClose");
+			this.locExtender.SetLocalizingId(this._buttonClose, "DialogBoxes.Transcription.OralAnnotationDlg.CloseButtonText");
 			this._buttonClose.Location = new System.Drawing.Point(231, 260);
 			this._buttonClose.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this._buttonClose.Name = "_buttonClose";
@@ -158,7 +158,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "Transcription.UI.OralAnnotationDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.OralAnnotationDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(330, 300);

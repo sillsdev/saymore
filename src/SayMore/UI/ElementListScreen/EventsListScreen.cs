@@ -29,13 +29,13 @@ namespace SayMore.UI.ElementListScreen
 
 			Initialize(_componentsSplitter.Panel2, _eventComponentFileGrid, _eventsListPanel);
 			_eventComponentFileGrid.InitializeGrid("EventScreen",
-				Program.GetString("UI.EventsView.AddEventsButtonToolTip", "Add Files to the Event"));
+				Program.GetString("EventsView.FileList.AddEventsButtonToolTip", "Add Files to the Event"));
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 
 			MainMenuItem = new ToolStripMenuItem();
 
-			MainMenuItem.Text = Program.GetString("UI.EventsView.EventsMainMenuItemText",
+			MainMenuItem.Text = Program.GetString("EventsView.EventsMainMenuText",
 				"E&vent", null, MainMenuItem);
 
 			MainMenuItem.DropDownItems.Add(_elementsListPanel._buttonNew.Text, null, HandleAddingNewElement);
@@ -90,7 +90,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var tab = viewTabGroup.AddTab(this);
 			tab.Name = "EventsViewTab"; // for tests
-			tab.Text = Program.GetString("UI.EventsView.TabText", "Events", null, "Events View", null, tab);
+			tab.Text = Program.GetString("EventsView.ViewTabText", "Events", null, "Events View", null, tab);
 			Text = tab.Text;
 		}
 

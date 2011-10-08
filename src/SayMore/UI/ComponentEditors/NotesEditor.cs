@@ -41,7 +41,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			_origTabText = TabText = GetNotesTabText();
+			_origTabText = TabText = Program.GetString("CommonToMultipleViews.NotesEditor.TabText", "Notes");
 			base.HandleStringsLocalized();
 		}
 	}

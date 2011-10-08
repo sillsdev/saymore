@@ -43,7 +43,7 @@ namespace SayMore.UI
 			this._labelLoading.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelLoading, null);
 			this.locExtender.SetLocalizationComment(this._labelLoading, null);
-			this.locExtender.SetLocalizingId(this._labelLoading, "UI.LoadingDlg._labelLoading");
+			this.locExtender.SetLocalizingId(this._labelLoading, "DialogBoxes.LoadingDlg._labelLoading");
 			this._labelLoading.Location = new System.Drawing.Point(94, 31);
 			this._labelLoading.Name = "_labelLoading";
 			this._labelLoading.Size = new System.Drawing.Size(72, 16);
@@ -57,7 +57,7 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizableToolTip(this._pictureLoading, null);
 			this.locExtender.SetLocalizationComment(this._pictureLoading, null);
 			this.locExtender.SetLocalizationPriority(this._pictureLoading, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._pictureLoading, "UI.LoadingDlg._pictureLoading");
+			this.locExtender.SetLocalizingId(this._pictureLoading, "DialogBoxes.LoadingDlg._pictureLoading");
 			this._pictureLoading.Location = new System.Drawing.Point(28, 15);
 			this._pictureLoading.Name = "_pictureLoading";
 			this._pictureLoading.Size = new System.Drawing.Size(48, 48);
@@ -81,7 +81,7 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "UI.LoadingDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.LoadingDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "LoadingDlg";

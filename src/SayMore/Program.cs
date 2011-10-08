@@ -169,7 +169,7 @@ namespace SayMore
 
 			_applicationContainer.CloseSplashScreen();
 
-			var msg = GetString("UI.ProjectWindow.LoadingProjectErrorMsg",
+			var msg = GetString("MainWindow.LoadingProjectErrorMsg",
 				"{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.");
 
 			ErrorReport.NotifyUserOfProblem(new ShowAlwaysPolicy(), error, msg,
@@ -262,25 +262,27 @@ namespace SayMore
 			SetUILanguage(Environment.GetCommandLineArgs());
 
 			// Copy the localization file to where the settings file is located.
-			var localizationFilePath = Path.Combine(PortableSettingsProvider.SettingsFileFolder, "SayMore.tmx");
+			var localizationFileFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+			localizationFileFolder = Path.Combine(localizationFileFolder, "SIL");
+			localizationFileFolder = Path.Combine(localizationFileFolder, "SayMore");
+			var localizationFilePath = Path.Combine(localizationFileFolder, "SayMore.tmx");
+
 			if (!File.Exists(localizationFilePath))
 			{
+				if (!Directory.Exists(localizationFileFolder))
+					Directory.CreateDirectory(localizationFileFolder);
+
 				var srcLocalizationFilePath = FileLocator.GetFileDistributedWithApplication("SayMore.tmx");
 				File.Copy(srcLocalizationFilePath, localizationFilePath);
 			}
 
-			L10NMngr = LocalizationManager.Create("SayMore", "SayMore",
-				PortableSettingsProvider.SettingsFileFolder);
+			L10NMngr = LocalizationManager.Create("SayMore", "SayMore", localizationFileFolder);
 
 			LocalizeItemDlg.SetDialogSettings += (dlg =>
 				Settings.Default.LocalizationDlgSettings);
 
 			LocalizeItemDlg.SaveDialogSettings += ((dlg, settings) =>
 				Settings.Default.LocalizationDlgSettings = settings);
-
-			//LocalizeItemDlg.StringsLocalized += (() =>
-			//{
-			//});
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -307,26 +309,12 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private static LocalizationManager L10NMngr { get; set; }
 
-		///// ------------------------------------------------------------------------------------
-		//internal static void SaveOnTheFlyLocalizations()
-		//{
-		//    if (L10NMngr != null)
-		//        L10NMngr.SaveOnTheFlyLocalizations();
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		internal static void ReapplyLocalizationsToAllObjects()
 		{
 			if (L10NMngr != null)
 				L10NMngr.ReapplyLocalizationsToAllObjects();
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//internal static void RefreshToolTipsOnLocalizationManager()
-		//{
-		//    if (L10NMngr != null)
-		//        L10NMngr.RefreshToolTips();
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		internal static string GetUILanguageId()
@@ -374,25 +362,6 @@ namespace SayMore
 
 			return defaultText;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//internal static string GetStringForObject(object obj)
-		//{
-		//    return GetStringForObject(obj, "????");
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//internal static string GetStringForObject(object obj, string defaultText)
-		//{
-		//    return (L10NMngr == null ? defaultText : (L10NMngr.GetString(obj) ?? defaultText));
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//internal static void RegisterForLocalization(object obj, string id)
-		//{
-		//    if (L10NMngr != null)
-		//        L10NMngr.LocalizeObject(obj, id);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		internal static string GetStringForObject(object obj, string defaultText)

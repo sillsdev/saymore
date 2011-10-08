@@ -80,13 +80,13 @@ namespace SayMore.UI.ComponentEditors
 				if (string.IsNullOrEmpty(contribution.ContributorName))
 				{
 					return new KeyValuePair<string, string>("name",
-						Program.GetString("UI.ContributorsEditor.MissingContributorNameMsg", "Enter a name."));
+						Program.GetString("CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg", "Enter a name."));
 				}
 
 				if (contribution.Role == null)
 				{
 					return new KeyValuePair<string, string>("role",
-						Program.GetString("UI.ContributorsEditor.MissingContributorRoleMsg", "Choose a role."));
+						Program.GetString("CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg", "Choose a role."));
 				}
 			}
 
@@ -116,7 +116,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = GetContributionsTabText();
+			TabText = Program.GetString("CommonToMultipleViews.ContributorsEditor.TabText", "Contributors");
 			base.HandleStringsLocalized();
 		}
 	}

@@ -174,7 +174,7 @@ namespace SayMore.UI.ElementListScreen
 			{
 				var rcRow = _grid.GetRowDisplayRectangle(0, false);
 
-				var msg = Program.GetString("UI.ComponentFileList.AddFilesPrompt",
+				var msg = Program.GetString("CommonToMultipleViews.FileList.AddFilesPrompt",
 					"Add additional files related to this event by\ndragging them here or clicking the 'Add Files' button.");
 
 				_grid.DrawMessageInCenterOfGrid(e.Graphics, msg, rcRow.Height);
@@ -499,8 +499,8 @@ namespace SayMore.UI.ElementListScreen
 
 			using (var dlg = new OpenFileDialog())
 			{
-				dlg.Title = Program.GetString("UI.ComponentFileList.AddFilesDlgCaption", "Add Files");
-				var prjFilterText = Program.GetString("UI.ComponentFileList.AddFilesFileType", "All Files (*.*)");
+				dlg.Title = Program.GetString("CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption", "Add Files");
+				var prjFilterText = Program.GetString("CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.FileTypeString", "All Files (*.*)");
 
 				var folder = Settings.Default.LastFolderForComponentFileAdd;
 				if (folder == null || !Directory.Exists(folder))

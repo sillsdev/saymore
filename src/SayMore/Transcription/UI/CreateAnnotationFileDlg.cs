@@ -38,7 +38,7 @@ namespace SayMore.Transcription.UI
 			// way rather than in the designer. Otherwise, the code string scanner won't find
 			// the control's text.
 			_labelAudacityOverview.Text = Program.GetString(
-				"Transcription.UI.CreateAnnotationFileDlg._labelAudacityOverview",
+				"DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityOverviewLabel",
 				"Annotation requires that the media stream first be segmented into small pieces. " +
 				"Currently, you need to use another program to specify the segment boundaries. " +
 				"The easiest way is to use Audacity. Open your media file there, choose " +
@@ -60,9 +60,9 @@ namespace SayMore.Transcription.UI
 		private void HandleLoadAudacityLabelFileClick(object sender, EventArgs e)
 		{
 			var caption = Program.GetString(
-				"Transcription.UI.CreateAnnotationFileDlg.LoadAudacityLabelFileDlgCaption", "Select Audacity Label File");
+				"DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption", "Select Audacity Label File");
 
-			var filetype = Program.GetString("Transcription.UI.CreateAnnotationFileDlg.AudacityLabelFileTypeString",
+			var filetype = Program.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString",
 				"Audacity Label File (*.txt)|*.txt");
 
 			if (ShowOpenFileDialog(caption, filetype))
@@ -73,9 +73,9 @@ namespace SayMore.Transcription.UI
 		private void HandleLoadSegmentFileClick(object sender, EventArgs e)
 		{
 			var caption = Program.GetString(
-				"Transcription.UI.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption", "Select Segment File");
+				"DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption", "Select Segment File");
 
-			var filetype = Program.GetString("Transcription.UI.CreateAnnotationFileDlg.ElanFileTypeString",
+			var filetype = Program.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString",
 				"ELAN File (*.eaf)|*.eaf");
 
 			if (ShowOpenFileDialog(caption, filetype))
@@ -92,7 +92,7 @@ namespace SayMore.Transcription.UI
 				dlg.CheckPathExists = true;
 				dlg.Multiselect = false;
 				dlg.Filter = filter + "|" +
-					Program.GetString("Transcription.UI.CreateAnnotationFileDlg.AllFileTypeString", "All Files (*.*)|*.*");
+					Program.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString", "All Files (*.*)|*.*");
 
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return false;

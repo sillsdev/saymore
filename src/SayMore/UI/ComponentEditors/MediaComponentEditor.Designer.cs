@@ -59,7 +59,7 @@ namespace SayMore.UI.ComponentEditors
 			this._presetMenuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.locExtender.SetLocalizableToolTip(this._presetMenuButton, null);
 			this.locExtender.SetLocalizationComment(this._presetMenuButton, null);
-			this.locExtender.SetLocalizingId(this._presetMenuButton, "UI.MediaPropertiesEditor._presetMenuButton");
+			this.locExtender.SetLocalizingId(this._presetMenuButton, "CommonToMultipleViews.MediaPropertiesEditor.PresetsButton");
 			this._presetMenuButton.Location = new System.Drawing.Point(0, 0);
 			this._presetMenuButton.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
 			this._presetMenuButton.MinimumSize = new System.Drawing.Size(73, 26);

@@ -76,7 +76,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonNewFromFiles, null);
 			this.locExtender.SetLocalizationComment(this._buttonNewFromFiles, null);
-			this.locExtender.SetLocalizingId(this._buttonNewFromFiles, "UI.EventsView._buttonNewFromFiles");
+			this.locExtender.SetLocalizingId(this._buttonNewFromFiles, "EventsView.EventsList.NewFilesFromDeviceButtonText");
 			this._buttonNewFromFiles.Location = new System.Drawing.Point(33, 161);
 			this._buttonNewFromFiles.MinimumSize = new System.Drawing.Size(117, 26);
 			this._buttonNewFromFiles.Name = "_buttonNewFromFiles";
@@ -152,7 +152,7 @@ namespace SayMore.UI.ElementListScreen
 			this._labelClickNewHelpPrompt.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelClickNewHelpPrompt, null);
 			this.locExtender.SetLocalizationComment(this._labelClickNewHelpPrompt, null);
-			this.locExtender.SetLocalizingId(this._labelClickNewHelpPrompt, "UI.EventsView._labelClickNewHelpPrompt");
+			this.locExtender.SetLocalizingId(this._labelClickNewHelpPrompt, "EventsView.EventsList.ClickNewButtonHelpPrompt");
 			this._labelClickNewHelpPrompt.Location = new System.Drawing.Point(0, 0);
 			this._labelClickNewHelpPrompt.Name = "_labelClickNewHelpPrompt";
 			this._labelClickNewHelpPrompt.Size = new System.Drawing.Size(315, 197);

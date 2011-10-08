@@ -29,8 +29,8 @@ namespace SayMore.UI.ProjectWindow
 		private void InitializeComponent()
 		{
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this._labelLanguage = new System.Windows.Forms.Label();
 			this._comboUILanguage = new Localization.UI.UILanguageComboBox();
+			this._labelLanguage = new System.Windows.Forms.Label();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._buttonOK = new System.Windows.Forms.Button();
 			this.tableLayoutPanel1.SuspendLayout();
@@ -55,17 +55,6 @@ namespace SayMore.UI.ProjectWindow
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(266, 84);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
-			// _labelLanguage
-			// 
-			this._labelLanguage.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._labelLanguage.AutoSize = true;
-			this._labelLanguage.Location = new System.Drawing.Point(0, 15);
-			this._labelLanguage.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
-			this._labelLanguage.Name = "_labelLanguage";
-			this._labelLanguage.Size = new System.Drawing.Size(58, 13);
-			this._labelLanguage.TabIndex = 1;
-			this._labelLanguage.Text = "&Language:";
-			// 
 			// _comboUILanguage
 			// 
 			this._comboUILanguage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -78,8 +67,20 @@ namespace SayMore.UI.ProjectWindow
 			this._comboUILanguage.Location = new System.Drawing.Point(63, 11);
 			this._comboUILanguage.Margin = new System.Windows.Forms.Padding(0);
 			this._comboUILanguage.Name = "_comboUILanguage";
+			this._comboUILanguage.ShowOnlyLanguagesHavingLocalizations = true;
 			this._comboUILanguage.Size = new System.Drawing.Size(203, 21);
 			this._comboUILanguage.TabIndex = 1;
+			// 
+			// _labelLanguage
+			// 
+			this._labelLanguage.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._labelLanguage.AutoSize = true;
+			this._labelLanguage.Location = new System.Drawing.Point(0, 15);
+			this._labelLanguage.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+			this._labelLanguage.Name = "_labelLanguage";
+			this._labelLanguage.Size = new System.Drawing.Size(58, 13);
+			this._labelLanguage.TabIndex = 1;
+			this._labelLanguage.Text = "&Language:";
 			// 
 			// _buttonCancel
 			// 

@@ -74,7 +74,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "UI.CustomComponentFileRenamingDlg._buttonCancel");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.CustomFileRenamingDlg.CancelButton");
 			this._buttonCancel.Location = new System.Drawing.Point(258, 67);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
@@ -91,7 +91,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this._labelMessage, null);
 			this.locExtender.SetLocalizationComment(this._labelMessage, null);
 			this.locExtender.SetLocalizationPriority(this._labelMessage, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelMessage, "UI.CustomComponentFileRenamingDlg._labelMessage");
+			this.locExtender.SetLocalizingId(this._labelMessage, "_labelMessage");
 			this._labelMessage.Location = new System.Drawing.Point(0, 34);
 			this._labelMessage.Margin = new System.Windows.Forms.Padding(0, 8, 3, 20);
 			this._labelMessage.Name = "_labelMessage";
@@ -133,7 +133,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
 			this.locExtender.SetLocalizationComment(this._buttonOK, null);
-			this.locExtender.SetLocalizingId(this._buttonOK, "UI.CustomComponentFileRenamingDlg._buttonOK");
+			this.locExtender.SetLocalizingId(this._buttonOK, "DialogBoxes.CustomFileRenamingDlg.OKButton");
 			this._buttonOK.Location = new System.Drawing.Point(175, 67);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
@@ -174,7 +174,7 @@ namespace SayMore.UI.ElementListScreen
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "UI.CustomComponentFileRenamingDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.CustomFileRenamingDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "CustomComponentFileRenamingDialog";

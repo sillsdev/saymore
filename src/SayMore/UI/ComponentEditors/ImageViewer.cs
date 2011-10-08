@@ -123,7 +123,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("UI.ImageViewer.TabText", "Image");
+			TabText = Program.GetString("CommonToMultipleViews.ImageViewer.TabText", "Image");
 			base.HandleStringsLocalized();
 		}
 	}

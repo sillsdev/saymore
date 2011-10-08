@@ -41,7 +41,7 @@ namespace SayMore.UI.ProjectWindow
 			this._linkSayMoreDownloadPage.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._linkSayMoreDownloadPage, null);
 			this.locExtender.SetLocalizationComment(this._linkSayMoreDownloadPage, null);
-			this.locExtender.SetLocalizingId(this._linkSayMoreDownloadPage, "UI.MissingFFmpegPopup._linkSayMoreDownloadPage");
+			this.locExtender.SetLocalizingId(this._linkSayMoreDownloadPage, "DialogBoxes.MissingFFmpegPopup.SayMoreDownloadPageLink");
 			this._linkSayMoreDownloadPage.Location = new System.Drawing.Point(21, 101);
 			this._linkSayMoreDownloadPage.Name = "_linkSayMoreDownloadPage";
 			this._linkSayMoreDownloadPage.Size = new System.Drawing.Size(150, 13);
@@ -55,7 +55,7 @@ namespace SayMore.UI.ProjectWindow
 			this._labelMessage.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelMessage, null);
 			this.locExtender.SetLocalizationComment(this._labelMessage, null);
-			this.locExtender.SetLocalizingId(this._labelMessage, "UI.MissingFFmpegPopup._labelMessage");
+			this.locExtender.SetLocalizingId(this._labelMessage, "DialogBoxes.MissingFFmpegPopup.MessageLabel");
 			this._labelMessage.Location = new System.Drawing.Point(21, 22);
 			this._labelMessage.MaximumSize = new System.Drawing.Size(250, 0);
 			this._labelMessage.Name = "_labelMessage";
@@ -81,7 +81,7 @@ namespace SayMore.UI.ProjectWindow
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "UI.MissingFFmpegPopup.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.MissingFFmpegPopup.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MissingFFmpegPopup";

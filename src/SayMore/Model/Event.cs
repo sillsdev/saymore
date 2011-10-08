@@ -84,13 +84,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string DefaultElementNamePrefix
 		{
-			get { return Program.GetString("Model.Event.NewEventNamePrefix", "New Event"); }
+			get { return Program.GetString("EventsView.Miscellaneous.NewEventNamePrefix", "New Event"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string NoIdSaveFailureMessage
 		{
-			get { return Program.GetString("Model.Event.NoIdSaveFailureMessage", "You must specify an event id."); }
+			get { return Program.GetString("EventsView.Miscellaneous.NoIdSaveFailureMessage", "You must specify an event id."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ namespace SayMore.Model
 		{
 			get
 			{
-				return Program.GetString("Model.Event.EventAlreadyExistsSaveFailureMessage",
+				return Program.GetString("EventsView.Miscellaneous.EventAlreadyExistsSaveFailureMessage",
 					"Could not rename from {0} to {1} because there is already a event by that name.");
 			}
 		}
@@ -117,15 +117,15 @@ namespace SayMore.Model
 			statusAsText = statusAsText.Replace(' ', '_');
 
 			if (statusAsText == Status.Incoming.ToString())
-				return Program.GetString("Model.Event.StatusNames.Incoming", "Incoming");
+				return Program.GetString("EventsView.EventStatus.Incoming", "Incoming");
 
 			if (statusAsText == Status.In_Progress.ToString())
-				return Program.GetString("Model.Event.StatusNames.InProgress", "In Progress");
+				return Program.GetString("EventsView.EventStatus.InProgress", "In Progress");
 
 			if (statusAsText == Status.Finished.ToString())
-				return Program.GetString("Model.Event.StatusNames.Finished", "Finished");
+				return Program.GetString("EventsView.EventStatus.Finished", "Finished");
 
-			return Program.GetString("Model.Event.StatusNames.Skipped", "Skipped");
+			return Program.GetString("EventsView.EventStatus.Skipped", "Skipped");
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -106,7 +106,7 @@ namespace SayMore
 			{
 				yield return new
 					ComponentRole(typeof(Event), Settings.Default.OriginalRecordingComponentRoleId,
-						Program.GetString("Model.Files.ComponentFileRoles.OriginalRecording", "Original Recording"),
+						Program.GetString("EventsView.EventsList.Stages.OriginalRecording", "Original Recording"),
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Original",
 						Settings.Default.WorkflowStageColor1,
@@ -114,14 +114,14 @@ namespace SayMore
 
 				yield return
 					new ComponentRole(typeof(Person), "consent",
-						Program.GetString("Model.Files.ComponentFileRoles.InformedConsent", "Informed Consent"),
+						Program.GetString("EventsView.EventsList.Stages.InformedConsent", "Informed Consent"),
 						ComponentRole.MeasurementTypes.None, (p => true), "$ElementId$_Consent",
 						Settings.Default.WorkflowStageColor2,
 						Settings.Default.WorkflowStageTextColor2);
 
 				yield return
 					new ComponentRole(typeof(Event), "carefulSpeech",
-						Program.GetString("Model.Files.ComponentFileRoles.CarefulSpeech", "Careful Speech"),
+						Program.GetString("EventsView.EventsList.Stages.CarefulSpeech", "Careful Speech"),
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Careful",
 						Settings.Default.WorkflowStageColor3,
@@ -129,7 +129,7 @@ namespace SayMore
 
 				yield return
 					new ComponentRole(typeof(Event), "oralTranslation",
-						Program.GetString("Model.Files.ComponentFileRoles.OralTranslation", "Oral Translation"),
+						Program.GetString("EventsView.EventsList.Stages.OralTranslation", "Oral Translation"),
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_OralTranslation",
 						Settings.Default.WorkflowStageColor4,
@@ -137,7 +137,7 @@ namespace SayMore
 
 				yield return
 					new ComponentRole(typeof(Event), "transcription",
-						Program.GetString("Model.Files.ComponentFileRoles.Transcription", "Transcription"),
+						Program.GetString("EventsView.EventsList.Stages.Transcription", "Transcription"),
 						ComponentRole.MeasurementTypes.Words,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Transcription",
 						Settings.Default.WorkflowStageColor5,
@@ -145,7 +145,7 @@ namespace SayMore
 
 				yield return
 					new ComponentRole(typeof(Event), "transcriptionN",
-						Program.GetString("Model.Files.ComponentFileRoles.WrittenTranslation", "Written Translation"),
+						Program.GetString("EventsView.EventsList.Stages.WrittenTranslation", "Written Translation"),
 						ComponentRole.MeasurementTypes.Words,
 						ComponentRole.GetIsText, "$ElementId$_Translation",
 						Settings.Default.WorkflowStageColor6,

@@ -1,9 +1,7 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using Palaso.Media;
-using SayMore.UI.Utilities;
 
 namespace SayMore.Model.Files
 {

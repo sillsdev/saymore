@@ -42,10 +42,10 @@ namespace SayMore.UI.ProjectWindow
 			var entireSayMoreLink = _linkSayMoreWebSite.Text;
 			var entireSilLink = _linkSiLWebSite.Text;
 
-			var silWebSiteUnderlinedPortion = Program.GetString("UI.AboutDlg._linkSilWebSite_LinkPortion",
+			var silWebSiteUnderlinedPortion = Program.GetString("DialogBoxes.AboutDlg._linkSilWebSite_LinkPortion",
 				"SIL International", "This is the portion of the text that is underlined, indicating the link to the SIL web site.");
 
-			var appWebSiteUnderlinedPortion = Program.GetString("UI.AboutDlg._linkSayMoreWebSite_LinkPortion",
+			var appWebSiteUnderlinedPortion = Program.GetString("DialogBoxes.AboutDlg._linkSayMoreWebSite_LinkPortion",
 				"SayMore web site", "This is the portion of the text that is underlined, indicating the link to the application's web site.");
 
 			_linkSayMoreWebSite.Links.Clear();

@@ -139,14 +139,18 @@ namespace SayMore.UI.MediaPlayer
 			if (string.IsNullOrEmpty(filename))
 			{
 				ErrorReport.NotifyUserOfProblem(
-					Program.GetString("UI.MediaPlayer.MediaFileNotSpecifiedMsg", "Media player file name has not been specified."));
+					Program.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotSpecifiedMsg",
+					"Media player file name has not been specified."));
+
 				return;
 			}
 
 			if (!File.Exists(filename))
 			{
 				ErrorReport.NotifyUserOfProblem(
-					Program.GetString("UI.MediaPlayer.MediaFileNotFoundMsg", "Media file '{0}' not found."), filename);
+					Program.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg",
+					"Media file '{0}' not found."), filename);
+
 				return;
 			}
 
@@ -439,7 +443,8 @@ namespace SayMore.UI.MediaPlayer
 			if (position > endPosition)
 				position = endPosition;
 
-			return string.Format(Program.GetString("UI.MediaPlayer.TimeCurrentOfTotalDisplayFormat", "{0} / {1}"),
+			return string.Format(Program.GetString(
+				"CommonToMultipleViews.MediaPlayer.TimeCurrentOfTotalDisplayFormat", "{0} / {1}"),
 				MakeTimeString(position), MakeTimeString(endPosition));
 		}
 
@@ -457,7 +462,8 @@ namespace SayMore.UI.MediaPlayer
 			if (startPosition > endPosition)
 				startPosition = endPosition;
 
-			return string.Format(Program.GetString("UI.MediaPlayer.TimeRangeDisplayFormat", "{0} - {1}"),
+			return string.Format(Program.GetString(
+				"CommonToMultipleViews.MediaPlayer.TimeRangeDisplayFormat", "{0} - {1}"),
 				MakeTimeString(startPosition), MakeTimeString(endPosition));
 		}
 

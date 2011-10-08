@@ -87,7 +87,7 @@ namespace SayMore.UI
 			this._labelLoading.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelLoading, null);
 			this.locExtender.SetLocalizationComment(this._labelLoading, null);
-			this.locExtender.SetLocalizingId(this._labelLoading, "UI.SplashScreen._labelLoading");
+			this.locExtender.SetLocalizingId(this._labelLoading, "DialogBoxes.SplashScreen.LoadingLabel");
 			this._labelLoading.Location = new System.Drawing.Point(121, 130);
 			this._labelLoading.Name = "_labelLoading";
 			this._labelLoading.Size = new System.Drawing.Size(59, 15);
@@ -102,7 +102,7 @@ namespace SayMore.UI
 			this._labelVersionInfo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelVersionInfo, null);
 			this.locExtender.SetLocalizationComment(this._labelVersionInfo, null);
-			this.locExtender.SetLocalizingId(this._labelVersionInfo, "UI.SplashScreen._labelVersionInfo");
+			this.locExtender.SetLocalizingId(this._labelVersionInfo, "DialogBoxes.SplashScreen.VersionInfoLabel");
 			this._labelVersionInfo.Location = new System.Drawing.Point(11, 168);
 			this._labelVersionInfo.Name = "_labelVersionInfo";
 			this._labelVersionInfo.Size = new System.Drawing.Size(159, 13);
@@ -124,7 +124,7 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "UI.SplashScreen.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.SplashScreen.WindowTitle");
 			this.Name = "SplashScreenForm";
 			this.Padding = new System.Windows.Forms.Padding(0);
 			this.Text = "SplashScreen";

@@ -66,7 +66,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizableToolTip(this._contextMenuStrip, null);
 			this.locExtender.SetLocalizationComment(this._contextMenuStrip, null);
 			this.locExtender.SetLocalizationPriority(this._contextMenuStrip, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._contextMenuStrip, "UI.ComponentFileList._contextMenuStrip");
+			this.locExtender.SetLocalizingId(this._contextMenuStrip, "CommonToMultipleViews.FileList._contextMenuStrip");
 			this._contextMenuStrip.Name = "_contextMenuStrip";
 			this._contextMenuStrip.Size = new System.Drawing.Size(129, 26);
 			// 
@@ -74,7 +74,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			this.locExtender.SetLocalizableToolTip(this._menuDeleteFile, null);
 			this.locExtender.SetLocalizationComment(this._menuDeleteFile, null);
-			this.locExtender.SetLocalizingId(this._menuDeleteFile, "UI.ComponentFileList._menuDeleteFile");
+			this.locExtender.SetLocalizingId(this._menuDeleteFile, "CommonToMultipleViews.FileList.DeleteFileMenuText");
 			this._menuDeleteFile.Name = "_menuDeleteFile";
 			this._menuDeleteFile.Size = new System.Drawing.Size(128, 22);
 			this._menuDeleteFile.Text = "Delete File";
@@ -179,21 +179,21 @@ namespace SayMore.UI.ElementListScreen
 			// colName
 			// 
 			this.colName.DataPropertyName = "FileName";
-			this.colName.HeaderText = "L10N:UI.ComponentFileList.ColumnHeadings.FileName!Name";
+			this.colName.HeaderText = "L10N:CommonToMultipleViews.FileList.ColumnHeadings.FileName!Name";
 			this.colName.Name = "colName";
 			this.colName.ReadOnly = true;
 			// 
 			// colType
 			// 
 			this.colType.DataPropertyName = "FileTypeDescription";
-			this.colType.HeaderText = "L10N:UI.ComponentFileList.ColumnHeadings.FileType!Type";
+			this.colType.HeaderText = "L10N:CommonToMultipleViews.FileList.ColumnHeadings.FileType!Type";
 			this.colType.Name = "colType";
 			this.colType.ReadOnly = true;
 			// 
 			// colDataModified
 			// 
 			this.colDataModified.DataPropertyName = "DateModified";
-			this.colDataModified.HeaderText = "L10N:UI.ComponentFileList.ColumnHeadings.FileDate!Date Modified";
+			this.colDataModified.HeaderText = "L10N:CommonToMultipleViews.FileList.ColumnHeadings.FileDate!Date Modified";
 			this.colDataModified.Name = "colDataModified";
 			this.colDataModified.ReadOnly = true;
 			this.colDataModified.Width = 107;
@@ -203,7 +203,7 @@ namespace SayMore.UI.ElementListScreen
 			this.colSize.DataPropertyName = "FileSize";
 			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
-			this.colSize.HeaderText = "L10N:UI.ComponentFileList.ColumnHeadings.FileSize!Size";
+			this.colSize.HeaderText = "L10N:CommonToMultipleViews.FileList.ColumnHeadings.FileSize!Size";
 			this.colSize.Name = "colSize";
 			this.colSize.ReadOnly = true;
 			this.colSize.Width = 52;
@@ -213,7 +213,7 @@ namespace SayMore.UI.ElementListScreen
 			this.colDuration.DataPropertyName = "DurationString";
 			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			this.colDuration.DefaultCellStyle = dataGridViewCellStyle4;
-			this.colDuration.HeaderText = "L10N:UI.ComponentFileList.ColumnHeadings.FileDuration!Duration";
+			this.colDuration.HeaderText = "L10N:CommonToMultipleViews.FileList.ColumnHeadings.FileDuration!Duration";
 			this.colDuration.Name = "colDuration";
 			this.colDuration.ReadOnly = true;
 			// 
@@ -247,7 +247,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonOpen, "Open Selected File");
 			this.locExtender.SetLocalizationComment(this._buttonOpen, null);
-			this.locExtender.SetLocalizingId(this._buttonOpen, "UI.ComponentFileList._buttonOpen");
+			this.locExtender.SetLocalizingId(this._buttonOpen, "CommonToMultipleViews.FileList.Open.ButtonText");
 			this._buttonOpen.Name = "_buttonOpen";
 			this._buttonOpen.Size = new System.Drawing.Size(47, 20);
 			this._buttonOpen.Text = "Open";
@@ -261,7 +261,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonRename, "Rename Selected File");
 			this.locExtender.SetLocalizationComment(this._buttonRename, null);
-			this.locExtender.SetLocalizingId(this._buttonRename, "UI.ComponentFileList._buttonRename");
+			this.locExtender.SetLocalizingId(this._buttonRename, "CommonToMultipleViews.FileList.RenameButtonText");
 			this._buttonRename.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
 			this._buttonRename.Name = "_buttonRename";
 			this._buttonRename.Size = new System.Drawing.Size(61, 20);
@@ -276,7 +276,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonConvert.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonConvert, "Convert Selected File");
 			this.locExtender.SetLocalizationComment(this._buttonConvert, null);
-			this.locExtender.SetLocalizingId(this._buttonConvert, "UI.ComponentFileList._buttonConvert");
+			this.locExtender.SetLocalizingId(this._buttonConvert, "CommonToMultipleViews.FileList.Convert.ButtonText");
 			this._buttonConvert.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
 			this._buttonConvert.Name = "_buttonConvert";
 			this._buttonConvert.Size = new System.Drawing.Size(60, 20);
@@ -290,7 +290,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonAddFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonAddFiles, null);
 			this.locExtender.SetLocalizationComment(this._buttonAddFiles, null);
-			this.locExtender.SetLocalizingId(this._buttonAddFiles, "UI.ComponentFileList._buttonAddFiles");
+			this.locExtender.SetLocalizingId(this._buttonAddFiles, "CommonToMultipleViews.FileList.AddFilesButtonText");
 			this._buttonAddFiles.Name = "_buttonAddFiles";
 			this._buttonAddFiles.Size = new System.Drawing.Size(83, 20);
 			this._buttonAddFiles.Text = "Add Files...";
@@ -309,7 +309,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonCreateAnnotationFile.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonCreateAnnotationFile, "Create an annotation file");
 			this.locExtender.SetLocalizationComment(this._buttonCreateAnnotationFile, null);
-			this.locExtender.SetLocalizingId(this._buttonCreateAnnotationFile, "UI.ComponentFileList._buttonCreateAnnotationFile");
+			this.locExtender.SetLocalizingId(this._buttonCreateAnnotationFile, "CommonToMultipleViews.FileList.CreateAnnotationFileButtonText");
 			this._buttonCreateAnnotationFile.Name = "_buttonCreateAnnotationFile";
 			this._buttonCreateAnnotationFile.Size = new System.Drawing.Size(133, 20);
 			this._buttonCreateAnnotationFile.Text = "Create Annotation File...";

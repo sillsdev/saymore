@@ -51,7 +51,7 @@ namespace SayMore.UI.ProjectWindow
 			this._linkSayMoreWebSite.LinkArea = new System.Windows.Forms.LinkArea(28, 17);
 			this.locExtender.SetLocalizableToolTip(this._linkSayMoreWebSite, null);
 			this.locExtender.SetLocalizationComment(this._linkSayMoreWebSite, null);
-			this.locExtender.SetLocalizingId(this._linkSayMoreWebSite, "UI.AboutDlg._linkSayMoreWebSite");
+			this.locExtender.SetLocalizingId(this._linkSayMoreWebSite, "DialogBoxes.AboutDlg._linkSayMoreWebSite");
 			this._linkSayMoreWebSite.Location = new System.Drawing.Point(139, 146);
 			this._linkSayMoreWebSite.Name = "_linkSayMoreWebSite";
 			this._linkSayMoreWebSite.Size = new System.Drawing.Size(162, 21);
@@ -68,7 +68,7 @@ namespace SayMore.UI.ProjectWindow
 			this._labelVersionInfo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._labelVersionInfo, null);
 			this.locExtender.SetLocalizationComment(this._labelVersionInfo, null);
-			this.locExtender.SetLocalizingId(this._labelVersionInfo, "UI.AboutDlg._labelVersionInfo");
+			this.locExtender.SetLocalizingId(this._labelVersionInfo, "DialogBoxes.AboutDlg._labelVersionInfo");
 			this._labelVersionInfo.Location = new System.Drawing.Point(136, 108);
 			this._labelVersionInfo.Name = "_labelVersionInfo";
 			this._labelVersionInfo.Size = new System.Drawing.Size(167, 15);
@@ -85,7 +85,7 @@ namespace SayMore.UI.ProjectWindow
 			this._labelSubTitle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._labelSubTitle, null);
 			this.locExtender.SetLocalizationComment(this._labelSubTitle, null);
-			this.locExtender.SetLocalizingId(this._labelSubTitle, "UI.AboutDlg._labelSubTitle");
+			this.locExtender.SetLocalizingId(this._labelSubTitle, "DialogBoxes.AboutDlg._labelSubTitle");
 			this._labelSubTitle.Location = new System.Drawing.Point(136, 87);
 			this._labelSubTitle.Name = "_labelSubTitle";
 			this._labelSubTitle.Size = new System.Drawing.Size(307, 21);
@@ -102,7 +102,7 @@ namespace SayMore.UI.ProjectWindow
 			this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
 			this.locExtender.SetLocalizationComment(this._buttonOK, null);
-			this.locExtender.SetLocalizingId(this._buttonOK, "UI.AboutDlg._buttonOK");
+			this.locExtender.SetLocalizingId(this._buttonOK, "DialogBoxes.AboutDlg._buttonOK");
 			this._buttonOK.Location = new System.Drawing.Point(373, 184);
 			this._buttonOK.Name = "_buttonOK";
 			this._buttonOK.Size = new System.Drawing.Size(75, 26);
@@ -121,7 +121,7 @@ namespace SayMore.UI.ProjectWindow
 			this._linkSiLWebSite.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
 			this.locExtender.SetLocalizableToolTip(this._linkSiLWebSite, null);
 			this.locExtender.SetLocalizationComment(this._linkSiLWebSite, null);
-			this.locExtender.SetLocalizingId(this._linkSiLWebSite, "UI.AboutDlg._linkSiLWebSite");
+			this.locExtender.SetLocalizingId(this._linkSiLWebSite, "DialogBoxes.AboutDlg._linkSiLWebSite");
 			this._linkSiLWebSite.Location = new System.Drawing.Point(12, 192);
 			this._linkSiLWebSite.Name = "_linkSiLWebSite";
 			this._linkSiLWebSite.Size = new System.Drawing.Size(227, 13);
@@ -144,7 +144,7 @@ namespace SayMore.UI.ProjectWindow
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "UI.AboutDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.AboutDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "AboutDialog";

@@ -31,11 +31,9 @@ namespace SayMore.Transcription.UI
 			_toolStrip.Renderer = new NoToolStripBorderRenderer();
 
 			_comboPlaybackSpeed.Font = SystemFonts.IconTitleFont;
-			// TODO: Internationalize
-			_comboPlaybackSpeed.Items.AddRange(new[] { "100% (Normal)",
-				"90%", "80%", "70%", "60%", "50%", "40%", "30%", "20%", "10%" });
 
-			SetSpeedPercentageString(Settings.Default.AnnotationEditorPlaybackSpeed);
+			LoadPlaybackSpeedCombo();
+			SetSpeedPercentage(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
 			_comboPlaybackSpeed.SelectedValueChanged += HandlePlaybackSpeedValueChanged;
 
 			_grid = new TextAnnotationEditorGrid();
@@ -57,6 +55,31 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void LoadPlaybackSpeedCombo()
+		{
+			_comboPlaybackSpeed.Items.Add(Program.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct", "100% (Normal)"));
+			_comboPlaybackSpeed.Items.Add(Program.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct", "90%"));
+			_comboPlaybackSpeed.Items.Add(Program.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct", "80%"));
+			_comboPlaybackSpeed.Items.Add(Program.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct", "70%"));
+			_comboPlaybackSpeed.Items.Add(Program.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct", "60%"));
+			_comboPlaybackSpeed.Items.Add(Program.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct", "50%"));
+			_comboPlaybackSpeed.Items.Add(Program.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct", "40%"));
+			_comboPlaybackSpeed.Items.Add(Program.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct", "30%"));
+			_comboPlaybackSpeed.Items.Add(Program.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct", "20%"));
+			_comboPlaybackSpeed.Items.Add(Program.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct", "10%"));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
 			Deactivated();
@@ -70,7 +93,7 @@ namespace SayMore.Transcription.UI
 			var exception = annotationFile.TryLoadAndReturnException();
 			if (exception != null)
 			{
-				var msg = Program.GetString("Transcription.UI.TextAnnotationEditor.LoadingAnnotationFileErrorMsg",
+				var msg = Program.GetString("EventsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg",
 					"There was an error loading the annotation file '{0}'.");
 
 				ErrorReport.NotifyUserOfProblem(exception, msg, file.PathToAnnotatedFile);
@@ -141,28 +164,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandlePlaybackSpeedValueChanged(object sender, EventArgs e)
 		{
-			int percentage = GetSpeedPercentageFromText(_comboPlaybackSpeed.SelectedItem as string);
-			Settings.Default.AnnotationEditorPlaybackSpeed = percentage;
-			_grid.SetPlaybackSpeed(percentage);
+			Settings.Default.AnnotationEditorPlaybackSpeedIndex = _comboPlaybackSpeed.SelectedIndex;
+			_grid.SetPlaybackSpeed(Math.Abs(_comboPlaybackSpeed.SelectedIndex - 10));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private int GetSpeedPercentageFromText(string text)
+		private void SetSpeedPercentage(int index)
 		{
-			text = text ?? string.Empty;
-			text = text.Replace("%", string.Empty).Trim();
-			int percentage;
-			return (int.TryParse(text, out percentage) ? percentage : 100);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SetSpeedPercentageString(int percentage)
-		{
-			var text = (percentage == 0 || percentage == 100 ?
-				_comboPlaybackSpeed.Items[0] as string : string.Format("{0}%", percentage));
-
-			int i = _comboPlaybackSpeed.FindStringExact(text);
-			_comboPlaybackSpeed.SelectedIndex = (i >= 0 ? i : 0);
+			_comboPlaybackSpeed.SelectedIndex = (index >= 10 ? 0 : index);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -267,7 +276,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
-			var msg = Program.GetString("Transcription.UI.TextAnnotationEditor.RegeneratingSegmentsWarningMsg",
+			var msg = Program.GetString("EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarningMsg",
 				"Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?");
 
 			if (MessageBox.Show(msg, Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
@@ -288,7 +297,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("Transcription.UI.TextAnnotationEditor.TabText", "Annotations");
+			TabText = Program.GetString("EventsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
 			base.HandleStringsLocalized();
 		}
 	}

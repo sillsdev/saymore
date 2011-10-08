@@ -81,7 +81,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelZoom.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelZoom, null);
 			this.locExtender.SetLocalizationComment(this._labelZoom, null);
-			this.locExtender.SetLocalizingId(this._labelZoom, "UI.ImageViewer._labelZoom");
+			this.locExtender.SetLocalizingId(this._labelZoom, "CommonToMultipleViews.ImageViewer.ZoomLabel");
 			this._labelZoom.Location = new System.Drawing.Point(7, 0);
 			this._labelZoom.Name = "_labelZoom";
 			this._labelZoom.Size = new System.Drawing.Size(34, 13);

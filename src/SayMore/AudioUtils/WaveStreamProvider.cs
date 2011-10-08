@@ -48,7 +48,10 @@ namespace SayMore.AudioUtils
 		{
 			if (!File.Exists(MediaFileName))
 			{
-				Error = new FileNotFoundException("Media file does not exist.", MediaFileName);
+				Error = new FileNotFoundException(
+					Program.GetString("SoundFileUtils.MediaFileDoesNotExistErrorMsg", "Media file does not exist."),
+					MediaFileName);
+
 				return;
 			}
 
@@ -67,7 +70,7 @@ namespace SayMore.AudioUtils
 					Stream = new WaveFileReader(_temporaryWavFile);
 				else
 				{
-					var msg = Program.GetString("AudioUtils.WaveStreamProvider.ExtractingAudioError",
+					var msg = Program.GetString("SoundFileUtils.ExtractingAudioError",
 						"There was an error extracting audio from the media file '{0}'\n\n{1}",
 						"Second parameter is the error message.");
 
@@ -93,7 +96,7 @@ namespace SayMore.AudioUtils
 					else
 					{
 						stream = null;
-						var msg = Program.GetString("AudioUtils.WaveStreamProvider.ConvertingAudioError",
+						var msg = Program.GetString("SoundFileUtils.ConvertingAudioError",
 							"There was an error converting the audio file '{0}' to the correct format.\n\n{1}",
 							"Second parameter is the error message.");
 

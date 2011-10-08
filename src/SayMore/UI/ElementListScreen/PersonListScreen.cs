@@ -24,7 +24,7 @@ namespace SayMore.UI.ElementListScreen
 
 			Initialize(_componentsSplitter.Panel2, _personComponentFileGrid, _peopleListPanel);
 			_personComponentFileGrid.InitializeGrid("PersonScreen",
-				Program.GetString("UI.PeopleView.AddPersonButtonToolTip", "Add Files for the Person"));
+				Program.GetString("PeopleView.FileList.AddPersonButtonToolTip", "Add Files for the Person"));
 
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
 				_labelClickNewHelpPrompt.Visible = false;
@@ -94,7 +94,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var tab = viewTabGroup.AddTab(this);
 			tab.Name = "PeopleViewTab"; // for tests
-			tab.Text = Program.GetString("UI.PeopleView.TabText", "People", null, "People View", null, tab);
+			tab.Text = Program.GetString("PeopleView.ViewTabText", "People", null, "People View", null, tab);
 			Text = tab.Text;
 		}
 

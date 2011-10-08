@@ -25,7 +25,7 @@ namespace SayMore.UI.ElementListScreen
 
 			_pathValidator = new PathValidator(_labelMessage, null)
 			{
-				InvalidMessage = Program.GetString("UI.CustomComponentFileRenamingDlg.FileAlreadyExistsMsg",
+				InvalidMessage = Program.GetString("DialogBoxes.CustomFileRenamingDlg.FileAlreadyExistsMsg",
 					"A file by that name already exists or the name is invalid.")
 			};
 		}
@@ -67,8 +67,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleTextBoxTextChanged(object sender, EventArgs e)
 		{
-			var fmt = Program.GetString("UI.CustomComponentFileRenamingDlg.NewFileNameMsg",
-				"New file: {0}", "Displayed under the text box.");
+			var fmt = Program.GetString("DialogBoxes.CustomFileRenamingDlg.NewFileNameMsg",
+				"New file: {0}", "Displayed under the text box.", "Parameter is file name.");
 
 			var validMsg = (_textBox.Text.Trim() == string.Empty ?
 				string.Empty : string.Format(fmt, NewFilePath));

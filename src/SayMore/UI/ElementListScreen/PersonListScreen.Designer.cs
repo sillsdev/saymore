@@ -131,7 +131,7 @@ namespace SayMore.UI.ElementListScreen
 			this._labelClickNewHelpPrompt.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelClickNewHelpPrompt, null);
 			this.locExtender.SetLocalizationComment(this._labelClickNewHelpPrompt, null);
-			this.locExtender.SetLocalizingId(this._labelClickNewHelpPrompt, "UI.PeopleView._labelClickNewHelpPrompt");
+			this.locExtender.SetLocalizingId(this._labelClickNewHelpPrompt, "PeopleView.PeopleList.ClickNewButtonHelpPrompt");
 			this._labelClickNewHelpPrompt.Location = new System.Drawing.Point(0, 0);
 			this._labelClickNewHelpPrompt.Name = "_labelClickNewHelpPrompt";
 			this._labelClickNewHelpPrompt.Size = new System.Drawing.Size(315, 197);

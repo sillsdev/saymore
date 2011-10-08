@@ -291,7 +291,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			using (var dlg = new FolderBrowserDialog())
 			{
-				dlg.Description = Program.GetString("UI.NewEventsFromFilesDlg.FolderBrowserDlgDescription",
+				dlg.Description = Program.GetString("DialogBoxes.NewEventsFromFilesDlg.FolderBrowserDlgDescription",
 					"Choose a Folder of Medial Files.");
 
 				if (SelectedFolder != null && Directory.Exists(SelectedFolder))
@@ -450,7 +450,7 @@ namespace SayMore.UI.NewEventsFromFiles
 				foreach (var file in existing)
 					bldr.AppendLine(Path.GetFileNameWithoutExtension(file));
 
-				var msg = Program.GetString("UI.NewEventsFromFilesDlg.EventsAlreadyExistMsg",
+				var msg = Program.GetString("DialogBoxes.NewEventsFromFilesDlg.EventsAlreadyExistMsg",
 					"Events already exist for the following Ids. These will be skipped.\n\n{0}");
 
 				ErrorReport.NotifyUserOfProblem(msg, bldr);

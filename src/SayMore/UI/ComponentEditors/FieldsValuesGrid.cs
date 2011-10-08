@@ -123,12 +123,12 @@ namespace SayMore.UI.ComponentEditors
 		private void AddColumns()
 		{
 			var col = CreateTextBoxColumn("colField");
-			col.HeaderText = "L10N:UI.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
+			col.HeaderText = "L10N:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
 			col.Width = 125;
 			Columns.Add(col);
 
 			col = CreateTextBoxColumn("colValue");
-			col.HeaderText = "L10N:UI.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
+			col.HeaderText = "L10N:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
 			col.Width = 175;
 			Columns.Add(col);
 
@@ -390,7 +390,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private static bool AskUserToVerifyRemovingFieldEverywhere(string id)
 		{
-			var msg = Program.GetString("UI.FieldsAndValuesGrid.VerifyDeleteFieldQuestion",
+			var msg = Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.VerifyDeleteFieldQuestion",
 				"Do you want to delete the field '{0}' and its contents from the entire project?");
 
 			using (var dlg = new DeleteMessageBox(string.Format(msg, id)))

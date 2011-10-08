@@ -93,10 +93,10 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 
 			var entireLink = _linkWebSites.Text;
 
-			var silPortion = Program.GetString("UI.WelcomeDlg._linkWebSites_SILPortion",
+			var silPortion = Program.GetString("DialogBoxes.WelcomeDlg._linkWebSites_SILPortion",
 				"SIL International", "This is the portion of the text that is underlined, indicating the link to the SIL web site.");
 
-			var appPortion = Program.GetString("UI.WelcomeDlg._linkWebSites_ApplicationPortion", "SayMore web site",
+			var appPortion = Program.GetString("DialogBoxes.WelcomeDlg._linkWebSites_ApplicationPortion", "SayMore web site",
 				"This is the portion of the text that is underlined, indicating the link to the application's web site.");
 
 			_linkWebSites.Links.Clear();
@@ -141,8 +141,8 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		{
 			using (var dlg = new OpenFileDialog())
 			{
-				dlg.Title = Program.GetString("UI.WelcomeDlg.OpenFileDlgCaption", "Open SayMore Project");
-				var prjFilterText = Program.GetString("UI.WelcomeDlg.ProjectFileType", "SayMore Project (*.sprj)");
+				dlg.Title = Program.GetString("DialogBoxes.WelcomeDlg.OpenFileDlgCaption", "Open SayMore Project");
+				var prjFilterText = Program.GetString("DialogBoxes.WelcomeDlg.ProjectFileType", "SayMore Project (*.sprj)");
 
 				// TODO: This should really be a static or at least in a class that is accessible
 				// from anywhere because this is the second place it's used. I'm hesitant to use

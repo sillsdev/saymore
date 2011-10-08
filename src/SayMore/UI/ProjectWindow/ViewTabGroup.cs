@@ -175,8 +175,8 @@ namespace SayMore.UI.ProjectWindow
 			_buttonRight.Location = new Point(22, top);
 			_panelScroll.Controls.Add(_buttonRight);
 
-			_tooltip.SetToolTip(_buttonLeft, Program.GetString("UI.ProjectWindow.ViewTabsScrollLeftToolTipText", "Scroll Left"));
-			_tooltip.SetToolTip(_buttonRight, Program.GetString("UI.ProjectWindow.ViewTabsScrollRightToolTipText", "Scroll Right"));
+			_tooltip.SetToolTip(_buttonLeft, Program.GetString("MainWindow.ViewTabsScrollLeftToolTipText", "Scroll Left"));
+			_tooltip.SetToolTip(_buttonRight, Program.GetString("MainWindow.ViewTabsScrollRightToolTipText", "Scroll Right"));
 		}
 
 		/// ------------------------------------------------------------------------------------

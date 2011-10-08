@@ -156,21 +156,9 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected string GetNotesTabText()
-		{
-			return Program.GetString("UI.EditorBase.FileType.NotesTabText", "Notes");
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected string GetPropertiesTabText()
 		{
-			return Program.GetString("UI.EditorBase.FileType.PropertiesTabText", "Properties");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected string GetContributionsTabText()
-		{
-			return Program.GetString("UI.EditorBase.ContributorsTabText", "Contributors");
+			return Program.GetString("CommonToMultipleViews.PropertiesEditor.TabText", "Properties");
 		}
 
 		/// ------------------------------------------------------------------------------------

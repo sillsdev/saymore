@@ -80,13 +80,19 @@ namespace SayMore.Transcription.UI
 			//TODO: someday, this may be safe to call. But not yet.
 			//return (new LdmlInFolderWritingSystemRepository()).AllWritingSystems;
 
-			var globalPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).CombineForPath(
-				"SIL", "WritingSystemStore");
+			var globalPath = Environment.GetFolderPath(
+				Environment.SpecialFolder.CommonApplicationData).CombineForPath("SIL", "WritingSystemStore");
+
 			if (!Directory.Exists(globalPath))
 			{
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-					"In order to export, we need to find a writing system ID that FLEx will accept. SayMore tried to find a list of writing systems which FLEx knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of FLEx.",
-					globalPath);
+				var msg = Program.GetString(
+					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg",
+					"In order to export, we need to find a writing system ID that FLEx will accept. SayMore " +
+					"tried to find a list of writing systems which FLEx knows about by looking in {0}, but it " +
+					"doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of FLEx.",
+					"The parameter is a folder path");
+
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, globalPath);
 				yield return WritingSystemDefinition.Parse("en");
 			}
 			else
@@ -124,11 +130,17 @@ namespace SayMore.Transcription.UI
 		{
 			using (var dlg = new SaveFileDialog())
 			{
-				dlg.Title = "Export to File";
+				dlg.Title = Program.GetString(
+					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.Caption",
+					"Export to File");
+
+				dlg.Filter = Program.GetString(
+					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.FileTypeString",
+					"FLEx Interlinear XML (*.xml)|*.xml|All Files (*.*)|*.*");
+
 				dlg.FileName = FileName;
 				dlg.OverwritePrompt = true;
 				dlg.CheckPathExists = true;
-				dlg.Filter = "FLEx Interlinear XML (*.xml)|*.xml|All Files (*.*)|*.*";
 
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{

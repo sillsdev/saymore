@@ -51,13 +51,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string DefaultElementNamePrefix
 		{
-			get { return Program.GetString("UI.PeopleView.MiscMessages.NewPersonNamePrefix", "New Person"); }
+			get { return Program.GetString("PeopleView.Miscellaneous.NewPersonNamePrefix", "New Person"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string NoIdSaveFailureMessage
 		{
-			get { return Program.GetString("UI.PeopleView.MiscMessages.NoIdSaveFailureMessage", "You must specify a name."); }
+			get { return Program.GetString("PeopleView.Miscellaneous.NoIdSaveFailureMessage", "You must specify a name."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace SayMore.Model
 		{
 			get
 			{
-				return Program.GetString("UI.PeopleView.MiscMessages.AlreadyExistsSaveFailureMessage",
+				return Program.GetString("PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage",
 					"Could not rename from {0} to {1} because there is already a person by that name.");
 			}
 		}
@@ -115,15 +115,15 @@ namespace SayMore.Model
 			var componentFile = GetInformedConsentComponentFile();
 
 			if (componentFile == null)
-				return Program.GetString("UI.PeopleView.InformedConsentTypes.None", "No Informed Consent");
+				return Program.GetString("PeopleView.InformedConsentTypes.None", "No Informed Consent");
 
 			if (componentFile.FileType.IsAudio)
-				return Program.GetString("UI.PeopleView.InformedConsentTypes.Audio", "Informed Consent is Audio File");
+				return Program.GetString("PeopleView.InformedConsentTypes.Audio", "Informed Consent is Audio File");
 
 			if (componentFile.FileType.IsVideo)
-				return Program.GetString("UI.PeopleView.InformedConsentTypes.Video", "Informed Consent is Video File");
+				return Program.GetString("PeopleView.InformedConsentTypes.Video", "Informed Consent is Video File");
 
-			return Program.GetString("UI.PeopleView.InformedConsentTypes.Written", "Informed Consent is Written");
+			return Program.GetString("PeopleView.InformedConsentTypes.Written", "Informed Consent is Written");
 		}
 
 		/// ------------------------------------------------------------------------------------

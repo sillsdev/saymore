@@ -112,7 +112,7 @@ namespace SayMore.Transcription.UI
 			this._buttonHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonHelp, "Help");
 			this.locExtender.SetLocalizationComment(this._buttonHelp, null);
-			this.locExtender.SetLocalizingId(this._buttonHelp, "Transcription.UI.TextAnnotationEditor._buttonHelp");
+			this.locExtender.SetLocalizingId(this._buttonHelp, "EventsView.Transcription.TextAnnotationEditor.HelpButton");
 			this._buttonHelp.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonHelp.Name = "_buttonHelp";
 			this._buttonHelp.Size = new System.Drawing.Size(23, 22);
@@ -125,7 +125,7 @@ namespace SayMore.Transcription.UI
 			this._buttonExport.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonExport, "Export to FieldWorks Interlinear");
 			this.locExtender.SetLocalizationComment(this._buttonExport, null);
-			this.locExtender.SetLocalizingId(this._buttonExport, "Transcription.UI.TextAnnotationEditor._buttonExport");
+			this.locExtender.SetLocalizingId(this._buttonExport, "EventsView.Transcription.TextAnnotationEditor.ExportButton");
 			this._buttonExport.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonExport.Name = "_buttonExport";
 			this._buttonExport.Size = new System.Drawing.Size(70, 22);
@@ -142,7 +142,7 @@ namespace SayMore.Transcription.UI
 			this._buttonRecordings.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonRecordings, "Record Oral Annotations");
 			this.locExtender.SetLocalizationComment(this._buttonRecordings, null);
-			this.locExtender.SetLocalizingId(this._buttonRecordings, "Transcription.UI.TextAnnotationEditor._buttonRecordings");
+			this.locExtender.SetLocalizingId(this._buttonRecordings, "EventsView.Transcription.TextAnnotationEditor.RecordButton");
 			this._buttonRecordings.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonRecordings.Name = "_buttonRecordings";
 			this._buttonRecordings.Size = new System.Drawing.Size(72, 22);
@@ -153,7 +153,7 @@ namespace SayMore.Transcription.UI
 			this._buttonCarefulSpeech.Image = global::SayMore.Properties.Resources.CarefulSpeech;
 			this.locExtender.SetLocalizableToolTip(this._buttonCarefulSpeech, null);
 			this.locExtender.SetLocalizationComment(this._buttonCarefulSpeech, null);
-			this.locExtender.SetLocalizingId(this._buttonCarefulSpeech, "Transcription.UI.TextAnnotationEditor._buttonCarefulSpeech");
+			this.locExtender.SetLocalizingId(this._buttonCarefulSpeech, "EventsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText");
 			this._buttonCarefulSpeech.Name = "_buttonCarefulSpeech";
 			this._buttonCarefulSpeech.Size = new System.Drawing.Size(163, 22);
 			this._buttonCarefulSpeech.Text = "&Careful Speech...";
@@ -164,7 +164,7 @@ namespace SayMore.Transcription.UI
 			this._buttonOralTranslation.Image = global::SayMore.Properties.Resources.OralTranslation;
 			this.locExtender.SetLocalizableToolTip(this._buttonOralTranslation, null);
 			this.locExtender.SetLocalizationComment(this._buttonOralTranslation, null);
-			this.locExtender.SetLocalizingId(this._buttonOralTranslation, "Transcription.UI.TextAnnotationEditor._buttonOralTranslation");
+			this.locExtender.SetLocalizingId(this._buttonOralTranslation, "EventsView.Transcription.TextAnnotationEditor.OralTranslationMenu");
 			this._buttonOralTranslation.Name = "_buttonOralTranslation";
 			this._buttonOralTranslation.Size = new System.Drawing.Size(163, 22);
 			this._buttonOralTranslation.Text = "&Oral Translation...";
@@ -178,7 +178,7 @@ namespace SayMore.Transcription.UI
 			this._buttonResegment.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonResegment, "Regenerate Segments");
 			this.locExtender.SetLocalizationComment(this._buttonResegment, null);
-			this.locExtender.SetLocalizingId(this._buttonResegment, "Transcription.UI.TextAnnotationEditor._buttonResegment");
+			this.locExtender.SetLocalizingId(this._buttonResegment, "EventsView.Transcription.TextAnnotationEditor.ResegmentButton");
 			this._buttonResegment.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonResegment.Name = "_buttonResegment";
 			this._buttonResegment.Size = new System.Drawing.Size(77, 22);
@@ -224,7 +224,7 @@ namespace SayMore.Transcription.UI
 			this._labelPlaybackSpeed.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelPlaybackSpeed, null);
 			this.locExtender.SetLocalizationComment(this._labelPlaybackSpeed, null);
-			this.locExtender.SetLocalizingId(this._labelPlaybackSpeed, "Transcription.UI.TextAnnotationEditor._labelPlaybackSpeed");
+			this.locExtender.SetLocalizingId(this._labelPlaybackSpeed, "EventsView.Transcription.TextAnnotationEditor.PlaybackSpeedLabel");
 			this._labelPlaybackSpeed.Location = new System.Drawing.Point(0, 4);
 			this._labelPlaybackSpeed.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelPlaybackSpeed.Name = "_labelPlaybackSpeed";

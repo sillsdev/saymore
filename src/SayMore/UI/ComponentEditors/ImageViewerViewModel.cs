@@ -26,7 +26,9 @@ namespace SayMore.UI.ComponentEditors
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("UI.ImageViewer.OpeningPictureFileErrorMsg", "Could not open that picture");
+				var msg = Program.GetString("CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg",
+					"Could not open that picture");
+
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 				Image = new Bitmap(100, 100);
 			}

@@ -95,7 +95,7 @@ namespace SayMore.Transcription.UI
 			this._buttonHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonHelp, "Help");
 			this.locExtender.SetLocalizationComment(this._buttonHelp, null);
-			this.locExtender.SetLocalizingId(this._buttonHelp, "UI.Transcription.GeneratedOralAnnotationView._buttonHelp");
+			this.locExtender.SetLocalizingId(this._buttonHelp, "EventsView.Transcription.GeneratedOralAnnotationView.HelpButton");
 			this._buttonHelp.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonHelp.Name = "_buttonHelp";
 			this._buttonHelp.Size = new System.Drawing.Size(23, 22);
@@ -108,7 +108,7 @@ namespace SayMore.Transcription.UI
 			this._buttonPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonPlay, "Play");
 			this.locExtender.SetLocalizationComment(this._buttonPlay, null);
-			this.locExtender.SetLocalizingId(this._buttonPlay, "UI.Transcription.GeneratedOralAnnotationView._buttonPlay");
+			this.locExtender.SetLocalizingId(this._buttonPlay, "EventsView.Transcription.GeneratedOralAnnotationView.PlayButton");
 			this._buttonPlay.Margin = new System.Windows.Forms.Padding(0, 1, 4, 2);
 			this._buttonPlay.Name = "_buttonPlay";
 			this._buttonPlay.Size = new System.Drawing.Size(48, 22);
@@ -121,7 +121,7 @@ namespace SayMore.Transcription.UI
 			this._buttonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonStop, "Stop");
 			this.locExtender.SetLocalizationComment(this._buttonStop, null);
-			this.locExtender.SetLocalizingId(this._buttonStop, "UI.Transcription.GeneratedOralAnnotationView._buttonStop");
+			this.locExtender.SetLocalizingId(this._buttonStop, "EventsView.Transcription.GeneratedOralAnnotationView.StopButton");
 			this._buttonStop.Name = "_buttonStop";
 			this._buttonStop.Size = new System.Drawing.Size(51, 22);
 			this._buttonStop.Text = "Stop";
@@ -142,6 +142,7 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelOralAnnotationWaveViewer, null);
 			this.locExtender.SetLocalizationComment(this._panelOralAnnotationWaveViewer, null);
+			this.locExtender.SetLocalizationPriority(this._panelOralAnnotationWaveViewer, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._panelOralAnnotationWaveViewer, "OralAnnotationEditor._panelOralAnnotationWaveViewer");
 			this._panelOralAnnotationWaveViewer.Location = new System.Drawing.Point(0, 33);
 			this._panelOralAnnotationWaveViewer.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
@@ -209,7 +210,7 @@ namespace SayMore.Transcription.UI
 			this._labelError.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelError, null);
 			this.locExtender.SetLocalizationComment(this._labelError, null);
-			this.locExtender.SetLocalizingId(this._labelError, "UI.Transcription.GeneratedOralAnnotationView._labelError");
+			this.locExtender.SetLocalizingId(this._labelError, "EventsView.Transcription.GeneratedOralAnnotationView.ErrorLabel");
 			this._labelError.Location = new System.Drawing.Point(87, 20);
 			this._labelError.Margin = new System.Windows.Forms.Padding(5, 20, 20, 20);
 			this._labelError.Name = "_labelError";
@@ -224,7 +225,7 @@ namespace SayMore.Transcription.UI
 			this._buttonRegenerate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.locExtender.SetLocalizableToolTip(this._buttonRegenerate, null);
 			this.locExtender.SetLocalizationComment(this._buttonRegenerate, null);
-			this.locExtender.SetLocalizingId(this._buttonRegenerate, "UI.Transcription.GeneratedOralAnnotationView._buttonRegenerate");
+			this.locExtender.SetLocalizingId(this._buttonRegenerate, "EventsView.Transcription.GeneratedOralAnnotationView.RegenerateButton");
 			this._buttonRegenerate.Location = new System.Drawing.Point(172, 46);
 			this._buttonRegenerate.Margin = new System.Windows.Forms.Padding(5, 0, 10, 0);
 			this._buttonRegenerate.MinimumSize = new System.Drawing.Size(100, 26);

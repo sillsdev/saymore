@@ -151,7 +151,7 @@ namespace SayMore.AudioUtils
 		{
 			if (_recordingState != RecordingState.Monitoring)
 			{
-				var msg = Program.GetString("AudioUtils.AudioRecorder.CantBeginRecordingMsg",
+				var msg = Program.GetString("AudioRecorder.CantBeginRecordingMsg",
 					"Can't begin recording while we are in this state: {0}");
 
 				ErrorReport.NotifyUserOfProblem(msg, _recordingState);
@@ -175,7 +175,7 @@ namespace SayMore.AudioUtils
 			{
 				if (_recordingState != RecordingState.Stopped)
 				{
-					var msg = Program.GetString("AudioUtils.AudioRecorder.CantBeginMonitoringMsg",
+					var msg = Program.GetString("AudioRecorder.CantBeginMonitoringMsg",
 						"Can't begin monitoring while we are in this state: {0}");
 
 					ErrorReport.NotifyUserOfProblem(msg, _recordingState);
@@ -197,7 +197,7 @@ namespace SayMore.AudioUtils
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("AudioUtils.AudioRecorder.MonitoringErrorMsg",
+				var msg = Program.GetString("AudioRecorder.MonitoringErrorMsg",
 					"There was a problem starting up volume monitoring.");
 
 				ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(),

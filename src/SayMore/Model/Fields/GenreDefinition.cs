@@ -36,7 +36,7 @@ namespace SayMore.Model.Fields
 				{
 					s_unknownType = new GenreDefinition();
 					s_unknownType.Id = "unknown";
-					s_unknownType.Name = Program.GetString("Model.GenreDefinition.UnknownGenreType", "<Unknown>",
+					s_unknownType.Name = Program.GetString("EventsView.MetadataEditor.UnknownGenre", "<Unknown>",
 						"Unknown genre displayed in the genre drop-down list.");
 				}
 

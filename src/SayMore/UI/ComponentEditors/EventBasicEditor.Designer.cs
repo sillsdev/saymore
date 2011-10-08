@@ -412,7 +412,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelParticipants.Name = "_labelParticipants";
 			this._labelParticipants.Size = new System.Drawing.Size(67, 13);
 			this._labelParticipants.TabIndex = 10;
-			this._labelParticipants.Text = "Participants";
+			this._labelParticipants.Text = "People";
 			// 
 			// _labelSetting
 			// 

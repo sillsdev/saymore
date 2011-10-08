@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tmx version="1.4">
-  <header srclang="en" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4297.42459" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+  <header srclang="en" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4297.43049" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
     <prop type="x-ampersandreplacement">|amp|</prop>
     <prop type="x-hardlinebreakreplacement">\n</prop>
   </header>
@@ -855,10 +855,15 @@
         <seg>Cancel</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg">
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1">
       <note>The parameter is a folder path</note>
       <tuv xml:lang="en">
         <seg>In order to export, we need to find a writing system ID that FLEx will accept. SayMore tried to find a list of writing systems which FLEx knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of FLEx.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2">
+      <tuv xml:lang="en">
+        <seg>SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is installed as has been run at least once. For now, you can export as English, and fix that up after you have imported into FLEx.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportButton">
@@ -876,9 +881,14 @@
         <seg>FLEx Interlinear XML (*.xml)|*.xml|All Files (*.*)|*.*</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationColumnHeadingTextLabel">
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">
       <tuv xml:lang="en">
         <seg>{0}:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.OldWritingSystemsFoundMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, the writing system {0} does not conform to current standards. Please first upgrade to FLEx 7.1 or greater.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.OverviewLabel">
@@ -886,7 +896,7 @@
         <seg>Specify the writing systems for the transcriptions and free translations.</seg>
       </tuv>
     </tu>
-    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.TranscriptionColumnHeadingTextLabel">
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.TranscriptionLabel">
       <tuv xml:lang="en">
         <seg>{0}:</seg>
       </tuv>
@@ -1240,7 +1250,7 @@
     </tu>
     <tu tuid="EventsView.MetadataEditor._labelParticipants">
       <tuv xml:lang="en">
-        <seg>Participants</seg>
+        <seg>People</seg>
       </tuv>
     </tu>
     <tu tuid="EventsView.MetadataEditor._labelSetting">

@@ -66,16 +66,17 @@ namespace SayMore.Transcription.UI
 
 			var globalPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData).CombineForPath(
 				"SIL", "WritingSystemStore"); //NB: flex 7.1 is using this.  Palaso head has WritingSystemRepository/2 instead. Sigh...
+
 			if (!Directory.Exists(globalPath))
 			{
 				var msg = Program.GetString(
-					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg",
+					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1",
 					"In order to export, we need to find a writing system ID that FLEx will accept. SayMore " +
 					"tried to find a list of writing systems which FLEx knows about by looking in {0}, but it " +
 					"doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of FLEx.",
 					"The parameter is a folder path");
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, globalPath);
+				ErrorReport.NotifyUserOfProblem(msg, globalPath);
 				yield return WritingSystemDefinition.Parse("en");
 			}
 			else
@@ -90,10 +91,14 @@ namespace SayMore.Transcription.UI
 					}
 					catch (Exception e)
 					{
-						ErrorReport.NotifyUserOfProblem(
-							"Sorry, the writing system {0} does not conform to current standards. Please first upgrade to FLEx 7.1 or greater.", name);
+						var msg = Program.GetString(
+							"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.OldWritingSystemsFoundMsg",
+							"Sorry, the writing system {0} does not conform to current standards. Please first upgrade to FLEx 7.1 or greater.");
+
+						ErrorReport.NotifyUserOfProblem(e, msg, name);
 					}
-					if(x!=null)
+
+					if (x != null)
 						yield return x;
 				}
 			}
@@ -171,15 +176,19 @@ namespace SayMore.Transcription.UI
 
 		private void ExportToFieldWorksInterlinearDlg_Load(object sender, EventArgs e)
 		{
-
-			var wsList = GetAvailableWritingSystems().Select(ws =>
-															 new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.LanguageName }).ToArray();
+			var wsList = GetAvailableWritingSystems()
+				.Select(ws => new DisplayFriendlyWritingSystem { Id = ws.Id, Name = ws.LanguageName }).ToArray();
 
 			if (wsList.Length == 0)
 			{
-			   ErrorReport.NotifyUserOfProblem("SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is installed as has been run at least once. For now, you can export as English, and fix that up after you have imported into FLEx.");
+				var msg = Program.GetString("DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2",
+					"SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is " +
+					"installed as has been run at least once. For now, you can export as English, and fix that up after you " +
+					"have imported into FLEx.");
+
+				ErrorReport.NotifyUserOfProblem(msg);
 				wsList = new DisplayFriendlyWritingSystem[1];
-				wsList[0] = new DisplayFriendlyWritingSystem(){Id = "en", Name = "English" };
+				wsList[0] = new DisplayFriendlyWritingSystem {Id = "en", Name = "English" };
 			}
 			_comboTranscriptionWs.Items.AddRange(wsList);
 			_comboTranslationWs.Items.AddRange(wsList);

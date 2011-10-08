@@ -107,7 +107,7 @@ namespace SayMore.Transcription.UI
             this._labelTranscriptionColumnHeadingText.AutoSize = true;
             this.locExtender.SetLocalizableToolTip(this._labelTranscriptionColumnHeadingText, null);
             this.locExtender.SetLocalizationComment(this._labelTranscriptionColumnHeadingText, null);
-			this.locExtender.SetLocalizingId(this._labelTranscriptionColumnHeadingText, "DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.TranscriptionColumnHeadingTextLabel");
+			this.locExtender.SetLocalizingId(this._labelTranscriptionColumnHeadingText, "DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.TranscriptionLabel");
             this._labelTranscriptionColumnHeadingText.Location = new System.Drawing.Point(0, 45);
             this._labelTranscriptionColumnHeadingText.Margin = new System.Windows.Forms.Padding(0);
             this._labelTranscriptionColumnHeadingText.Name = "_labelTranscriptionColumnHeadingText";
@@ -138,7 +138,7 @@ namespace SayMore.Transcription.UI
             this._labelFreeTranslationColumnHeadingText.AutoSize = true;
             this.locExtender.SetLocalizableToolTip(this._labelFreeTranslationColumnHeadingText, null);
             this.locExtender.SetLocalizationComment(this._labelFreeTranslationColumnHeadingText, null);
-			this.locExtender.SetLocalizingId(this._labelFreeTranslationColumnHeadingText, "DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationColumnHeadingTextLabel");
+			this.locExtender.SetLocalizingId(this._labelFreeTranslationColumnHeadingText, "DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel");
             this._labelFreeTranslationColumnHeadingText.Location = new System.Drawing.Point(0, 76);
             this._labelFreeTranslationColumnHeadingText.Margin = new System.Windows.Forms.Padding(0);
             this._labelFreeTranslationColumnHeadingText.Name = "_labelFreeTranslationColumnHeadingText";

@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace SayMore.UI.ProjectWindow
@@ -20,9 +14,18 @@ namespace SayMore.UI.ProjectWindow
 			InitializeComponent();
 
 			_labelLanguage.Font = SystemFonts.IconTitleFont;
+			_linkIWantToLocalize.Font = SystemFonts.IconTitleFont;
+			_linkHelpOnLocalizing.Font = SystemFonts.IconTitleFont;
 			_comboUILanguage.Font = SystemFonts.IconTitleFont;
 			_comboUILanguage.SelectedItem = CultureInfo.GetCultureInfo(Program.GetUILanguageId());
 			DialogResult = DialogResult.Cancel;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleIWantToLocalizeLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Program.ShowLocalizationDialogBox();
+			_comboUILanguage.RefreshList();
 		}
 
 		/// ------------------------------------------------------------------------------------

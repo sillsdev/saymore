@@ -339,6 +339,13 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		internal static void ShowLocalizationDialogBox()
+		{
+			if (L10NMngr != null)
+				L10NMngr.ShowLocalizationDialogBox();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		internal static string GetString(string id, string defaultText)
 		{
 			return (L10NMngr == null ? defaultText :

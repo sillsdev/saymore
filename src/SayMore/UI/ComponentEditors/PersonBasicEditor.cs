@@ -222,10 +222,10 @@ namespace SayMore.UI.ComponentEditors
 			else
 			{
 				var tipSelected = Program.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected",
-					"Indicates this is the mothers's primary language");
+					"Indicates this is the mother's primary language");
 
 				var tipNotSelected = Program.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected",
-					"Click to indicate this is the mothers's primary language");
+					"Click to indicate this is the mother's primary language");
 
 				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
 			}

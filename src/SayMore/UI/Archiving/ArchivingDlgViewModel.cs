@@ -71,7 +71,9 @@ namespace SayMore.UI.Utilities
 			IsBusy = true;
 			_incrementProgressBarAction = incrementProgressBarAction;
 
-			var text = Program.GetString("DialogBoxes.ArchivingDlg.SearchingForRampMsg", "Searching for the RAMP program...");
+			var text = Program.GetString("DialogBoxes.ArchivingDlg.SearchingForRampMsg",
+				"Searching for the RAMP program...");
+
 			LogBox.WriteMessage(text);
 			Application.DoEvents();
 			_rampProgramPath = FileLocator.GetFromRegistryProgramThatOpensFileType(".ramp") ??
@@ -82,9 +84,9 @@ namespace SayMore.UI.Utilities
 			if (_rampProgramPath == null)
 			{
 				text = Program.GetString("DialogBoxes.ArchivingDlg.RampNotFoundMsg",
-					"The RAMP pogram cannot be found!{0}", "The parameter is for a newline");
+					"The RAMP pogram cannot be found!");
 
-				LogBox.WriteMessageWithColor("Red", text, Environment.NewLine);
+				LogBox.WriteMessageWithColor("Red", text + Environment.NewLine);
 			}
 
 			_fileLists = GetFilesToArchive();

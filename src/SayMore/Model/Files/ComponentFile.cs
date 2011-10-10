@@ -637,8 +637,8 @@ namespace SayMore.Model.Files
 				yield return new ToolStripMenuItem(menuText, null,
 					(s, e) => CreateAnnotationFile(refreshAction)) { Enabled = !GetDoesHaveAnnotationFile() };
 
-				yield return new ToolStripMenuItem("Manually Segment...", null,
-					(s, e) => ManuallySegmentFile(refreshAction));
+				//yield return new ToolStripMenuItem("Manually Segment...", null,
+				//    (s, e) => ManuallySegmentFile(refreshAction));
 			}
 		}
 

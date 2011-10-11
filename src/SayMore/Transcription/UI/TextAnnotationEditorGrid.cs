@@ -220,6 +220,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void Play()
 		{
+			if (RowCount == 0)
+				return;
+
 			DisableTimer();
 
 			if (PlayerViewModel.HasPlaybackStarted)

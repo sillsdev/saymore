@@ -33,13 +33,13 @@ namespace SayMore.Transcription.UI
 
 			_comboPlaybackSpeed.Font = SystemFonts.IconTitleFont;
 
-			LoadPlaybackSpeedCombo();
-			SetSpeedPercentage(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
-			_comboPlaybackSpeed.SelectedValueChanged += HandlePlaybackSpeedValueChanged;
-
 			_grid = new TextAnnotationEditorGrid();
 			_grid.Dock = DockStyle.Fill;
 			_splitter.Panel2.Controls.Add(_grid);
+
+			LoadPlaybackSpeedCombo();
+			_comboPlaybackSpeed.SelectedValueChanged += HandlePlaybackSpeedValueChanged;
+			SetSpeedPercentage(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
 
 			_videoPanel = new VideoPanel();
 			_videoPanel.BackColor = Color.Black;
@@ -101,6 +101,11 @@ namespace SayMore.Transcription.UI
 			}
 
 			_grid.Load(annotationFile);
+
+			_buttonRecordings.Enabled = (_grid.RowCount > 0);
+			_buttonResegment.Enabled = (_grid.RowCount > 0);
+			_buttonExport.Enabled = (_grid.RowCount > 0);
+
 			SetupWatchingForFileChanges();
 			Utils.SetWindowRedraw(this, true);
 			_videoPanel.ShowVideoThumbnailNow();
@@ -166,7 +171,7 @@ namespace SayMore.Transcription.UI
 		private void HandlePlaybackSpeedValueChanged(object sender, EventArgs e)
 		{
 			Settings.Default.AnnotationEditorPlaybackSpeedIndex = _comboPlaybackSpeed.SelectedIndex;
-			_grid.SetPlaybackSpeed(Math.Abs(_comboPlaybackSpeed.SelectedIndex - 10));
+			_grid.SetPlaybackSpeed(Math.Abs(_comboPlaybackSpeed.SelectedIndex - 10) * 10);
 		}
 
 		/// ------------------------------------------------------------------------------------

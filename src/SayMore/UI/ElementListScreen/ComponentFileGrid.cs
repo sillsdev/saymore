@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
+using Localization;
 using SilTools;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -174,7 +175,7 @@ namespace SayMore.UI.ElementListScreen
 			{
 				var rcRow = _grid.GetRowDisplayRectangle(0, false);
 
-				var msg = Program.GetString("CommonToMultipleViews.FileList.AddFilesPrompt",
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.AddFilesPrompt",
 					"Add additional files related to this event by\ndragging them here or clicking the 'Add Files' button.");
 
 				_grid.DrawMessageInCenterOfGrid(e.Graphics, msg, rcRow.Height);
@@ -499,8 +500,8 @@ namespace SayMore.UI.ElementListScreen
 
 			using (var dlg = new OpenFileDialog())
 			{
-				dlg.Title = Program.GetString("CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption", "Add Files");
-				var prjFilterText = Program.GetString("CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.FileTypeString", "All Files (*.*)");
+				dlg.Title = LocalizationManager.GetString("CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption", "Add Files");
+				var prjFilterText = LocalizationManager.GetString("CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.FileTypeString", "All Files (*.*)");
 
 				var folder = Settings.Default.LastFolderForComponentFileAdd;
 				if (folder == null || !Directory.Exists(folder))

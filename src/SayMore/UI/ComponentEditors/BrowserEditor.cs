@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
@@ -68,7 +69,7 @@ namespace SayMore.UI.ComponentEditors
 			_browser.DocumentCompleted += HandleBrowserLoadCompleted;
 			_browser.Navigate("about:blank");
 
-			var msg = Program.GetString("CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg",
+			var msg = LocalizationManager.GetString("CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg",
 				"<HTML>SayMore attempted to load:<br /><br /><b>File:</b> {0}<br /><nobr><b>Folder:</b> {1}</nobr></HTML>");
 
 			msg = msg.Replace("\n", "<br />");
@@ -92,7 +93,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void DisplayInfoForFileNotShownInBrowser(string filePath)
 		{
-			var msg = Program.GetString("CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg",
+			var msg = LocalizationManager.GetString("CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg",
 				"<HTML><BODY>Click <a href=\"file:///{0}\"><b>here to open '{1}'</b></a> in its associated program.</BODY></HTML>");
 			msg = msg.Replace("\n", "<br />");
 
@@ -138,7 +139,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("CommonToMultipleViews.GenericFileTypeViewer.TabText", "View");
+			TabText = LocalizationManager.GetString("CommonToMultipleViews.GenericFileTypeViewer.TabText", "View");
 			base.HandleStringsLocalized();
 		}
 	}

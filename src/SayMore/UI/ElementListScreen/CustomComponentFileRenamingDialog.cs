@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Localization;
 using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
 
 namespace SayMore.UI.ElementListScreen
@@ -25,7 +26,7 @@ namespace SayMore.UI.ElementListScreen
 
 			_pathValidator = new PathValidator(_labelMessage, null)
 			{
-				InvalidMessage = Program.GetString("DialogBoxes.CustomFileRenamingDlg.FileAlreadyExistsMsg",
+				InvalidMessage = LocalizationManager.GetString("DialogBoxes.CustomFileRenamingDlg.FileAlreadyExistsMsg",
 					"A file by that name already exists or the name is invalid.")
 			};
 		}
@@ -67,7 +68,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleTextBoxTextChanged(object sender, EventArgs e)
 		{
-			var fmt = Program.GetString("DialogBoxes.CustomFileRenamingDlg.NewFileNameMsg",
+			var fmt = LocalizationManager.GetString("DialogBoxes.CustomFileRenamingDlg.NewFileNameMsg",
 				"New file: {0}", "Displayed under the text box.", "Parameter is file name.");
 
 			var validMsg = (_textBox.Text.Trim() == string.Empty ?

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Palaso.ClearShare;
 using Palaso.Media;
 using Palaso.Progress.LogBox;
@@ -71,14 +72,14 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetShowInFileExplorerMenuText()
 		{
-			return Program.GetString("CommonToMultipleViews.FileList.Open.ShowInFileExplorerMenuText",
+			return LocalizationManager.GetString("CommonToMultipleViews.FileList.Open.ShowInFileExplorerMenuText",
 				"Show in File Explorer...");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetOpenInAssociatedProgramMenuText()
 		{
-			return Program.GetString("CommonToMultipleViews.FileList.Open.OpenInAssociatedProgramMenuText",
+			return LocalizationManager.GetString("CommonToMultipleViews.FileList.Open.OpenInAssociatedProgramMenuText",
 				"Open in Program Associated with this File ...");
 		}
 
@@ -867,12 +868,12 @@ namespace SayMore.Model.Files
 			{
 				commands.Add(null); // Separator
 
-				var menuText = Program.GetString("CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText",
+				var menuText = LocalizationManager.GetString("CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText",
 					"Extract Audio to mono MP3 File (low quality)");
 
 				commands.Add(new FileCommand(menuText, ExtractMp3Audio, "convert"));
 
-				menuText = Program.GetString("CommonToMultipleViews.FileList.Convert.ExtractWavAudioMenuText",
+				menuText = LocalizationManager.GetString("CommonToMultipleViews.FileList.Convert.ExtractWavAudioMenuText",
 					"Extract Audio to Wave File");
 
 				commands.Add(new FileCommand(menuText, ExtractWavAudio, "convert"));
@@ -923,7 +924,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private string GetFFmpegConversionError()
 		{
-			return Program.GetString("CommonToMultipleViews.FileList.Convert.FailureMsg",
+			return LocalizationManager.GetString("CommonToMultipleViews.FileList.Convert.FailureMsg",
 				"Something didn't work out. FFmpeg said (start reading from the end): {0}\n\n");
 
 		}
@@ -932,7 +933,7 @@ namespace SayMore.Model.Files
 		{
 			if (!MediaInfo.HaveNecessaryComponents)
 			{
-				var msg = Program.GetString("CommonToMultipleViews.FileList.Convert.FFmpegMissingErrorMsg",
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.Convert.FFmpegMissingErrorMsg",
 					"SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
 
 				ErrorReport.NotifyUserOfProblem(msg);
@@ -944,7 +945,7 @@ namespace SayMore.Model.Files
 				//todo ask the user (or don't offer this in the first place)
 				//File.Delete(outputPath);
 
-				var msg = Program.GetString("CommonToMultipleViews.FileList.Convert.FileAlreadyExistsDuringConversionErrorMsg",
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.Convert.FileAlreadyExistsDuringConversionErrorMsg",
 					"Sorry, the file '{0}' already exists.");
 
 				ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(outputPath));

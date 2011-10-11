@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -134,7 +135,7 @@ namespace SayMore.Transcription.UI
 			if (ColumnCount > 0)
 				return;
 
-			var hint = Program.GetString("EventsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg",
+			var hint = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg",
 				"There are no transcription annotations found in\n'{0}'", "Parameter is file name.");
 
 			DrawMessageInCenterOfGrid(e.Graphics, string.Format(hint,

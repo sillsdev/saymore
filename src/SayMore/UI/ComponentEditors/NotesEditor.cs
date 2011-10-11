@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
 
 namespace SayMore.UI.ComponentEditors
@@ -41,7 +42,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			_origTabText = TabText = Program.GetString("CommonToMultipleViews.NotesEditor.TabText", "Notes");
+			_origTabText = TabText = LocalizationManager.GetString("CommonToMultipleViews.NotesEditor.TabText", "Notes");
 			base.HandleStringsLocalized();
 		}
 	}

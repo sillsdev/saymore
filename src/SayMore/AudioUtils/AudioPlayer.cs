@@ -1,4 +1,5 @@
 using System;
+using Localization;
 using NAudio.Wave;
 
 namespace SayMore.AudioUtils
@@ -49,7 +50,7 @@ namespace SayMore.AudioUtils
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("CommonToMultipleViews.MediaPlayer.LoadFileErrorMsg",
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.LoadFileErrorMsg",
 					"There was a problem loading file '{0}' for playback. Perhaps another program has a lock on it.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg, path);

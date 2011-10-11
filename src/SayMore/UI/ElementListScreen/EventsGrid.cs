@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Reporting;
 using SayMore.Model;
 using SayMore.Properties;
@@ -96,7 +97,7 @@ namespace SayMore.UI.ElementListScreen
 			var menu = new ToolStripMenuItem(string.Empty,
 				Resources.RampIcon, (s, e) => ((Event)GetCurrentElement()).CreateArchiveFile());
 
-			menu.Text = Program.GetString("EventsView.EventsList.RampArchiveMenuText",
+			menu.Text = LocalizationManager.GetString("EventsView.EventsList.RampArchiveMenuText",
 				"Archive with RAMP (SIL)...", null, menu);
 
 			cmds.Insert(0, menu);
@@ -138,7 +139,7 @@ namespace SayMore.UI.ElementListScreen
 				var statusText = Event.GetLocalizedStatus(value as string);
 
 				e.ToolTipText = string.Format(
-					Program.GetString("EventsView.EventStatus.TooltipFormatText", "Status: {0}"), statusText);
+					LocalizationManager.GetString("EventsView.EventStatus.TooltipFormatText", "Status: {0}"), statusText);
 			}
 
 			base.OnCellToolTipTextNeeded(e);

@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.UI;
@@ -135,7 +136,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("EventsView.Transcription.GeneratedOralAnnotationView.TabText", "Generated Audio");
+			TabText = LocalizationManager.GetString("EventsView.Transcription.GeneratedOralAnnotationView.TabText", "Generated Audio");
 			base.HandleStringsLocalized();
 		}
 	}

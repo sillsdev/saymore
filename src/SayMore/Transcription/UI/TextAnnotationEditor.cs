@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -57,25 +58,25 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void LoadPlaybackSpeedCombo()
 		{
-			_comboPlaybackSpeed.Items.Add(Program.GetString(
+			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct", "100% (Normal)"));
-			_comboPlaybackSpeed.Items.Add(Program.GetString(
+			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct", "90%"));
-			_comboPlaybackSpeed.Items.Add(Program.GetString(
+			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct", "80%"));
-			_comboPlaybackSpeed.Items.Add(Program.GetString(
+			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct", "70%"));
-			_comboPlaybackSpeed.Items.Add(Program.GetString(
+			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct", "60%"));
-			_comboPlaybackSpeed.Items.Add(Program.GetString(
+			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct", "50%"));
-			_comboPlaybackSpeed.Items.Add(Program.GetString(
+			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct", "40%"));
-			_comboPlaybackSpeed.Items.Add(Program.GetString(
+			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct", "30%"));
-			_comboPlaybackSpeed.Items.Add(Program.GetString(
+			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct", "20%"));
-			_comboPlaybackSpeed.Items.Add(Program.GetString(
+			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct", "10%"));
 		}
 
@@ -93,7 +94,7 @@ namespace SayMore.Transcription.UI
 			var exception = annotationFile.TryLoadAndReturnException();
 			if (exception != null)
 			{
-				var msg = Program.GetString("EventsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg",
+				var msg = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg",
 					"There was an error loading the annotation file '{0}'.");
 
 				ErrorReport.NotifyUserOfProblem(exception, msg, file.PathToAnnotatedFile);
@@ -276,7 +277,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
-			var msg = Program.GetString("EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarningMsg",
+			var msg = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarningMsg",
 				"Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?");
 
 			if (MessageBox.Show(msg, Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
@@ -297,7 +298,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("EventsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
+			TabText = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
 			base.HandleStringsLocalized();
 		}
 	}

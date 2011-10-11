@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Reporting;
 using SayMore.UI.Utilities;
 using SilTools;
@@ -71,13 +72,13 @@ namespace SayMore.Transcription.UI
 			_viewModel.MicLevelDisplayControl = _panelMicorphoneLevel;
 			_viewModel.PlaybackEnded += HandlePlaybackEnded;
 
-			var textWhenActive = Program.GetString("DialogBoxes.Transcription.OralAnnotationDlg.PlayOriginalButton.WhenPlaying", " Playing...");
+			var textWhenActive = LocalizationManager.GetString("DialogBoxes.Transcription.OralAnnotationDlg.PlayOriginalButton.WhenPlaying", " Playing...");
 			_buttonPlayOriginal.Initialize(textWhenActive, "", _viewModel.PlayOriginalRecording, _viewModel.Stop);
 
-			textWhenActive = Program.GetString("DialogBoxes.Transcription.OralAnnotationDlg.PlayAnnotationButton.WhenPlaying", " Playing...");
+			textWhenActive = LocalizationManager.GetString("DialogBoxes.Transcription.OralAnnotationDlg.PlayAnnotationButton.WhenPlaying", " Playing...");
 			_buttonPlayAnnotation.Initialize(textWhenActive, "Check Annotation", _viewModel.PlayAnnotation, _viewModel.Stop);
 
-			textWhenActive = Program.GetString("DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenRecording", " Recording...");
+			textWhenActive = LocalizationManager.GetString("DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenRecording", " Recording...");
 			_buttonRecord.Initialize(textWhenActive, "", _viewModel.BeginRecording, HandleRecordingStopped);
 
 			_buttonRecord.Tag = string.Format("{0} - {1}: ", Name, annotationType);
@@ -247,7 +248,7 @@ namespace SayMore.Transcription.UI
 				_viewModel.EraseAnnotation();
 				UpdateDisplay();
 				_buttonRecord.ForeColor = Color.Red;
-				_buttonRecord.Text = Program.GetString("DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenRecordingTooShort",
+				_buttonRecord.Text = LocalizationManager.GetString("DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenRecordingTooShort",
 					"Whoops. You need to hold down the SPACE bar or mouse button while talking.");
 			}
 			else if (!MoveToNextSegment())

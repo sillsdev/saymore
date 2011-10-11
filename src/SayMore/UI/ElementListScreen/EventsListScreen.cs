@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.NewEventsFromFiles;
@@ -29,13 +30,13 @@ namespace SayMore.UI.ElementListScreen
 
 			Initialize(_componentsSplitter.Panel2, _eventComponentFileGrid, _eventsListPanel);
 			_eventComponentFileGrid.InitializeGrid("EventScreen",
-				Program.GetString("EventsView.FileList.AddEventsButtonToolTip", "Add Files to the Event"));
+				LocalizationManager.GetString("EventsView.FileList.AddEventsButtonToolTip", "Add Files to the Event"));
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 
 			MainMenuItem = new ToolStripMenuItem();
 
-			MainMenuItem.Text = Program.GetString("EventsView.EventsMainMenuText",
+			MainMenuItem.Text = LocalizationManager.GetString("EventsView.EventsMainMenuText",
 				"E&vent", null, MainMenuItem);
 
 			MainMenuItem.DropDownItems.Add(_elementsListPanel._buttonNew.Text, null, HandleAddingNewElement);
@@ -90,7 +91,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var tab = viewTabGroup.AddTab(this);
 			tab.Name = "EventsViewTab"; // for tests
-			tab.Text = Program.GetString("EventsView.ViewTabText", "Events", null, "Events View", null, tab);
+			tab.Text = LocalizationManager.GetString("EventsView.ViewTabText", "Events", null, "Events View", null, tab);
 			Text = tab.Text;
 		}
 

@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 
 namespace SayMore.Transcription.UI
 {
@@ -37,7 +38,7 @@ namespace SayMore.Transcription.UI
 			// controls having a lot of text in their Text property have to have it set this
 			// way rather than in the designer. Otherwise, the code string scanner won't find
 			// the control's text.
-			_labelAudacityOverview.Text = Program.GetString(
+			_labelAudacityOverview.Text = LocalizationManager.GetString(
 				"DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityOverviewLabel",
 				"Annotation requires that the media stream first be segmented into small pieces. " +
 				"Currently, you need to use another program to specify the segment boundaries. " +
@@ -59,10 +60,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleLoadAudacityLabelFileClick(object sender, EventArgs e)
 		{
-			var caption = Program.GetString(
+			var caption = LocalizationManager.GetString(
 				"DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption", "Select Audacity Label File");
 
-			var filetype = Program.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString",
+			var filetype = LocalizationManager.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString",
 				"Audacity Label File (*.txt)|*.txt");
 
 			if (ShowOpenFileDialog(caption, filetype))
@@ -72,10 +73,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleLoadSegmentFileClick(object sender, EventArgs e)
 		{
-			var caption = Program.GetString(
+			var caption = LocalizationManager.GetString(
 				"DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption", "Select Segment File");
 
-			var filetype = Program.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString",
+			var filetype = LocalizationManager.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString",
 				"ELAN File (*.eaf)|*.eaf");
 
 			if (ShowOpenFileDialog(caption, filetype))
@@ -92,7 +93,7 @@ namespace SayMore.Transcription.UI
 				dlg.CheckPathExists = true;
 				dlg.Multiselect = false;
 				dlg.Filter = filter + "|" +
-					Program.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString", "All Files (*.*)|*.*");
+					LocalizationManager.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString", "All Files (*.*)|*.*");
 
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return false;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
@@ -151,7 +152,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("EventsView.MetadataEditor.TabText", "Event");
+			TabText = LocalizationManager.GetString("EventsView.MetadataEditor.TabText", "Event");
 			base.HandleStringsLocalized();
 		}
 	}

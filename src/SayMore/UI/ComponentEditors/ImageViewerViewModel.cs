@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Drawing;
+using Localization;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -26,7 +27,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg",
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg",
 					"Could not open that picture");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using Localization;
 using System.Windows.Forms;
 using SayMore.Properties;
 using SayMore.UI.Overview.Statistics;
@@ -21,23 +22,23 @@ namespace SayMore.UI.Overview
 			Controls.Add(_statsView);
 
 			_mnuProgress = new ToolStripMenuItem();
-			_mnuProgress.Text = Program.GetString("ProgressView.ProgressMainMenuItemText",
+			_mnuProgress.Text = LocalizationManager.GetString("ProgressView.ProgressMainMenuItemText",
 				"Pr&ogress", null, MainMenuItem);
 
 			var menu = new ToolStripMenuItem(null, Resources.Copy, _statsView.HandleCopyToClipboardClick);
-			menu.Text = Program.GetString("ProgressView.CopyMenuItemText",
+			menu.Text = LocalizationManager.GetString("ProgressView.CopyMenuItemText",
 				"&Copy", null, "Copy entire view to clipboard", null, menu);
 
 			_mnuProgress.DropDown.Items.Add(menu);
 
 			menu = new ToolStripMenuItem(null, Resources.Save, _statsView.HandleSaveButtonClicked);
-			menu.Text = Program.GetString("ProgressView.SaveMenuItemText",
+			menu.Text = LocalizationManager.GetString("ProgressView.SaveMenuItemText",
 				"&Save...", null, "Save view to file", null, menu);
 
 			_mnuProgress.DropDown.Items.Add(menu);
 
 			menu = new ToolStripMenuItem(null, Resources.Print, _statsView.HandlePrintButtonClicked);
-			menu.Text = Program.GetString("ProgressView.PrintMenuItemText",
+			menu.Text = LocalizationManager.GetString("ProgressView.PrintMenuItemText",
 				"&Print...", null, null, null, menu);
 
 			_mnuProgress.DropDown.Items.Add(menu);
@@ -61,7 +62,7 @@ namespace SayMore.UI.Overview
 		public void AddTabToTabGroup(ViewTabGroup viewTabGroup)
 		{
 			var tab = viewTabGroup.AddTab(this);
-			tab.Text = Program.GetString("ProgressView.TabText", "Progress", null, "Progress View", null, tab);
+			tab.Text = LocalizationManager.GetString("ProgressView.TabText", "Progress", null, "Progress View", null, tab);
 			Text = tab.Text;
 		}
 

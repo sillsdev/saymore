@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.MediaPlayer;
@@ -55,8 +56,8 @@ namespace SayMore.UI.ComponentEditors
 		protected override void HandleStringsLocalized()
 		{
 			TabText = (_file.FileType.IsVideo ?
-				Program.GetString("CommonToMultipleViews.MediaPlayer.TabText-Video", "Video") :
-				Program.GetString("CommonToMultipleViews.MediaPlayer.TabText-Audio", "Audio"));
+				LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.TabText-Video", "Video") :
+				LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.TabText-Audio", "Audio"));
 
 			base.HandleStringsLocalized();
 		}

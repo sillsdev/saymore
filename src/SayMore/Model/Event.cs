@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Localization;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -84,13 +85,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string DefaultElementNamePrefix
 		{
-			get { return Program.GetString("EventsView.Miscellaneous.NewEventNamePrefix", "New Event"); }
+			get { return LocalizationManager.GetString("EventsView.Miscellaneous.NewEventNamePrefix", "New Event"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string NoIdSaveFailureMessage
 		{
-			get { return Program.GetString("EventsView.Miscellaneous.NoIdSaveFailureMessage", "You must specify an event id."); }
+			get { return LocalizationManager.GetString("EventsView.Miscellaneous.NoIdSaveFailureMessage", "You must specify an event id."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,7 +99,7 @@ namespace SayMore.Model
 		{
 			get
 			{
-				return Program.GetString("EventsView.Miscellaneous.EventAlreadyExistsSaveFailureMessage",
+				return LocalizationManager.GetString("EventsView.Miscellaneous.EventAlreadyExistsSaveFailureMessage",
 					"Could not rename from {0} to {1} because there is already a event by that name.");
 			}
 		}
@@ -117,15 +118,15 @@ namespace SayMore.Model
 			statusAsText = statusAsText.Replace(' ', '_');
 
 			if (statusAsText == Status.Incoming.ToString())
-				return Program.GetString("EventsView.EventStatus.Incoming", "Incoming");
+				return LocalizationManager.GetString("EventsView.EventStatus.Incoming", "Incoming");
 
 			if (statusAsText == Status.In_Progress.ToString())
-				return Program.GetString("EventsView.EventStatus.InProgress", "In Progress");
+				return LocalizationManager.GetString("EventsView.EventStatus.InProgress", "In Progress");
 
 			if (statusAsText == Status.Finished.ToString())
-				return Program.GetString("EventsView.EventStatus.Finished", "Finished");
+				return LocalizationManager.GetString("EventsView.EventStatus.Finished", "Finished");
 
-			return Program.GetString("EventsView.EventStatus.Skipped", "Skipped");
+			return LocalizationManager.GetString("EventsView.EventStatus.Skipped", "Skipped");
 		}
 
 		/// ------------------------------------------------------------------------------------

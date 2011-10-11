@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Ionic.Zip;
+using Localization;
 using Palaso.ClearShare;
 using Palaso.IO;
 using Palaso.Progress;
@@ -71,7 +72,7 @@ namespace SayMore.UI.Utilities
 			IsBusy = true;
 			_incrementProgressBarAction = incrementProgressBarAction;
 
-			var text = Program.GetString("DialogBoxes.ArchivingDlg.SearchingForRampMsg",
+			var text = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.SearchingForRampMsg",
 				"Searching for the RAMP program...");
 
 			LogBox.WriteMessage(text);
@@ -83,7 +84,7 @@ namespace SayMore.UI.Utilities
 
 			if (_rampProgramPath == null)
 			{
-				text = Program.GetString("DialogBoxes.ArchivingDlg.RampNotFoundMsg",
+				text = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.RampNotFoundMsg",
 					"The RAMP pogram cannot be found!");
 
 				LogBox.WriteMessageWithColor("Red", text + Environment.NewLine);
@@ -110,14 +111,14 @@ namespace SayMore.UI.Utilities
 		{
 			var filesInDir = Directory.GetFiles(_event.FolderPath);
 
-			var fmt = Program.GetString("DialogBoxes.ArchivingDlg.AddingEventFilesProgressMsg", "Adding Files for Event '{0}'");
+			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingEventFilesProgressMsg", "Adding Files for Event '{0}'");
 			var msgKey = Path.GetFileName(filesInDir[0]);
 			_progressMessages[msgKey] = string.Format(fmt, _eventTitle);
 
 			var fileList = new Dictionary<string, IEnumerable<string>>();
 			fileList[string.Empty] = filesInDir.Where(f => IncludeFileInArchive(f));
 
-			fmt = Program.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
+			fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
 
 			foreach (var person in _event.GetAllParticipants()
 				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
@@ -145,27 +146,27 @@ namespace SayMore.UI.Utilities
 		{
 			if (_fileLists.Count > 1)
 			{
-				LogBox.WriteMessage(Program.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
+				LogBox.WriteMessage(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1",
 					"The following event and contributor files will be added to your archive."));
 			}
 			else
 			{
-				LogBox.WriteWarning(Program.GetString("DialogBoxes.ArchivingDlg.NoContributorsForEventMsg",
+				LogBox.WriteWarning(LocalizationManager.GetString("DialogBoxes.ArchivingDlg.NoContributorsForEventMsg",
 					"There are no contributors for this event."));
 
 				LogBox.WriteMessage(Environment.NewLine +
-					Program.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2",
 						"The following event files will be added to your archive."));
 			}
 
-			var fmt = Program.GetString("DialogBoxes.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
+			var fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ArchivingProgressMsg", "     {0}: {1}",
 				"The first parameter (in English, that is) is 'Event' or 'Contributor'. The second parameter is the even or contributor name.");
 
 			foreach (var kvp in _fileLists)
 			{
 				var element = (kvp.Key == string.Empty ?
-					Program.GetString("DialogBoxes.ArchivingDlg.EventElementName", "Event") :
-					Program.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor"));
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.EventElementName", "Event") :
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ContributorElementName", "Contributor"));
 
 				LogBox.WriteMessage(Environment.NewLine + string.Format(fmt, element,
 					(kvp.Key == string.Empty ? _eventTitle : kvp.Key)));
@@ -202,7 +203,7 @@ namespace SayMore.UI.Utilities
 			}
 			catch (Exception e)
 			{
-				ReportError(e, Program.GetString("DialogBoxes.ArchivingDlg.StartingRampErrorMsg",
+				ReportError(e, LocalizationManager.GetString("DialogBoxes.ArchivingDlg.StartingRampErrorMsg",
 					"There was an error attempting to open the archive package in RAMP."));
 
 				return false;
@@ -253,7 +254,7 @@ namespace SayMore.UI.Utilities
 			if (success)
 			{
 				LogBox.WriteMessageWithColor(Color.DarkGreen, Environment.NewLine +
-					Program.GetString("DialogBoxes.ArchivingDlg.ReadyToCallRampMsg", "Ready to hand the package to RAMP"));
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ReadyToCallRampMsg", "Ready to hand the package to RAMP"));
 			}
 
 			IsBusy = false;
@@ -279,7 +280,7 @@ namespace SayMore.UI.Utilities
 			}
 			catch (Exception e)
 			{
-				ReportError(e, Program.GetString("DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg",
+				ReportError(e, LocalizationManager.GetString("DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg",
 					"There was an error attempting to create a RAMP/REAP mets file for the event '{0}'."));
 
 				return false;
@@ -466,7 +467,7 @@ namespace SayMore.UI.Utilities
 			}
 			catch (Exception e)
 			{
-				ReportError(e, Program.GetString("DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg",
+				ReportError(e, LocalizationManager.GetString("DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg",
 					"There was a problem starting process to create zip file."));
 
 				return false;
@@ -506,7 +507,7 @@ namespace SayMore.UI.Utilities
 			catch (Exception exception)
 			{
 				_worker.ReportProgress(0, new KeyValuePair<Exception, string>(exception,
-					Program.GetString("DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg",
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg",
 						"There was an error attempting to create an archive for the event '{0}'.")));
 
 				_workerException = true;
@@ -564,7 +565,7 @@ namespace SayMore.UI.Utilities
 			if (_worker != null)
 			{
 				LogBox.WriteMessageWithColor(Color.Red, Environment.NewLine +
-					Program.GetString("DialogBoxes.ArchivingDlg.CancellingMsg", "Canceling..."));
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.CancellingMsg", "Canceling..."));
 
 				_worker.CancelAsync();
 				while (_worker.IsBusy)

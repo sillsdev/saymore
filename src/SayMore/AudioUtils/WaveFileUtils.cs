@@ -1,4 +1,5 @@
 using System.Linq;
+using Localization;
 using NAudio.Wave;
 using NAudio.Wave.Compression;
 using Palaso.Reporting;
@@ -32,7 +33,7 @@ namespace SayMore.AudioUtils
 				}
 				else
 				{
-					var msg = Program.GetString("SoundFileUtils.ErrorFindingPcmConversionCapabilitiesMsg",
+					var msg = LocalizationManager.GetString("SoundFileUtils.ErrorFindingPcmConversionCapabilitiesMsg",
 						"There was an error trying to find PCM audio conversion capabilities on this computer. Ensure that you have a PCM sound driver installed.");
 
 					ErrorReport.NotifyUserOfProblem(msg);
@@ -42,7 +43,7 @@ namespace SayMore.AudioUtils
 			}
 			else
 			{
-				var msg = Program.GetString("SoundFileUtils.ErrorFindingPcmAudioDriverMsg",
+				var msg = LocalizationManager.GetString("SoundFileUtils.ErrorFindingPcmAudioDriverMsg",
 					"There was an error trying to find a PCM audio driver on this computer. Ensure that you have a PCM sound driver installed.");
 
 				ErrorReport.NotifyUserOfProblem(msg);

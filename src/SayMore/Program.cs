@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using Localization;
-using Localization.UI;
 using Palaso.IO;
 using Palaso.Reporting;
 using SayMore.Properties;
@@ -62,9 +59,9 @@ namespace SayMore
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
 
+			SetUpLocalization();
 			SetUpErrorHandling();
 			SetUpReporting();
-			SetUpLocalization();
 
 			var args = Environment.GetCommandLineArgs();
 			var firstTimeArg = args.FirstOrDefault(x => x.ToLower().StartsWith("-i"));
@@ -170,8 +167,9 @@ namespace SayMore
 
 			_applicationContainer.CloseSplashScreen();
 
-			var msg = GetString("MainWindow.LoadingProjectErrorMsg",
-				"{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.");
+			var msg = LocalizationManager.GetString("MainWindow.LoadingProjectErrorMsg",
+				"{0} had a problem loading the {1} project. Please report this problem " +
+				"to the developers by clicking 'Details' below.");
 
 			ErrorReport.NotifyUserOfProblem(new ShowAlwaysPolicy(), error, msg,
 				Application.ProductName, Path.GetFileNameWithoutExtension(projectPath));
@@ -227,6 +225,18 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static void SetUpLocalization()
+		{
+			var installedSayMoreStringsFile =
+				FileLocator.GetFileDistributedWithApplication("SayMore.tmx");
+
+			LocalizationManager.Create(Settings.Default.UserInterfaceLanguage,
+				"SayMore", "SayMore", installedSayMoreStringsFile);
+
+			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static void SetUpErrorHandling()
 		{
 			Application.ApplicationExit += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
@@ -255,143 +265,5 @@ namespace SayMore
 #endif
 );
 		}
-
-		#region Localization Manager Methods/Properties
-		/// ------------------------------------------------------------------------------------
-		public static void SetUpLocalization()
-		{
-			SetUILanguage(Environment.GetCommandLineArgs());
-
-			// Copy the localization file to where the settings file is located.
-			var localizationFileFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-			localizationFileFolder = Path.Combine(localizationFileFolder, "SIL");
-			localizationFileFolder = Path.Combine(localizationFileFolder, "SayMore");
-			var localizationFilePath = Path.Combine(localizationFileFolder, "SayMore.tmx");
-
-			if (!File.Exists(localizationFilePath))
-			{
-				if (!Directory.Exists(localizationFileFolder))
-					Directory.CreateDirectory(localizationFileFolder);
-
-				var srcLocalizationFilePath = FileLocator.GetFileDistributedWithApplication("SayMore.tmx");
-				File.Copy(srcLocalizationFilePath, localizationFilePath);
-			}
-
-			L10NMngr = LocalizationManager.Create("SayMore", "SayMore", localizationFileFolder);
-
-			LocalizeItemDlg.SetDialogSettings += (dlg =>
-				Settings.Default.LocalizationDlgSettings);
-
-			LocalizeItemDlg.SaveDialogSettings += ((dlg, settings) =>
-				Settings.Default.LocalizationDlgSettings = settings);
-
-			var ci = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);
-			if (!LocalizationManager.GetUILanguages(true).Contains(ci))
-			{
-				var defaultCultureInfo = CultureInfo.GetCultureInfo(LocalizationManager.kDefaultLang);
-				var msg = "Your user interface language was previously set to {0} but there " +
-					"are no localziations found for that language. Therefore, your user interface " +
-					"language will revert to {1}. It's possible the file that contains your " +
-					"localized strings is corrupt or missing.";
-
-				ErrorReport.NotifyUserOfProblem(msg, ci.DisplayName, defaultCultureInfo.DisplayName);
-
-				LocalizationManager.UILanguageId = LocalizationManager.kDefaultLang;
-				Settings.Default.UserInterfaceLanguage = LocalizationManager.kDefaultLang;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static void SetUILanguage(IEnumerable<string> commandLineArgs)
-		{
-			string langId = Settings.Default.UserInterfaceLanguage;
-
-			if (commandLineArgs != null)
-			{
-				// Specifying the UI language on the command-line trumps the one in
-				// the settings file (i.e. the one set in the options dialog box).
-				foreach (var arg in commandLineArgs
-					.Where(arg => arg.ToLower().StartsWith("/uilang:") || arg.ToLower().StartsWith("-uilang:")))
-				{
-					langId = arg.Substring(8);
-					break;
-				}
-			}
-
-			LocalizationManager.UILanguageId = (string.IsNullOrEmpty(langId) ?
-				LocalizationManager.kDefaultLang : langId);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static LocalizationManager L10NMngr { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		internal static void ReapplyLocalizationsToAllObjects()
-		{
-			if (L10NMngr != null)
-				L10NMngr.ReapplyLocalizationsToAllObjects();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string GetUILanguageId()
-		{
-			return LocalizationManager.UILanguageId;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static void ShowLocalizationDialogBox()
-		{
-			if (L10NMngr != null)
-				L10NMngr.ShowLocalizationDialogBox();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string GetString(string id, string defaultText)
-		{
-			return (L10NMngr == null ? defaultText :
-				L10NMngr.GetLocalizedString(id, defaultText, null));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string GetString(string id, string defaultText, string comment)
-		{
-			return (L10NMngr == null ? defaultText :
-				L10NMngr.GetLocalizedString(id, defaultText, comment));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string GetString(string id, string defaultText, string comment, object obj)
-		{
-			if (L10NMngr != null)
-			{
-				L10NMngr.RegisterObjectForLocalizing(obj, id, defaultText, null, null, comment);
-				return L10NMngr.GetLocalizedString(id, defaultText, comment);
-			}
-
-			return defaultText;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string GetString(string id, string defaultText, string comment,
-			string defaultToolTipText, string defaultShortcutKey, object obj)
-		{
-			if (L10NMngr != null)
-			{
-				L10NMngr.RegisterObjectForLocalizing(obj, id, defaultText,
-					defaultToolTipText, defaultShortcutKey, comment);
-
-				return L10NMngr.GetLocalizedString(id, defaultText, comment);
-			}
-
-			return defaultText;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string GetStringForObject(object obj, string defaultText)
-		{
-			return (L10NMngr == null ? defaultText : L10NMngr.GetStringForObject(obj, defaultText));
-		}
-
-		#endregion
 	}
 }

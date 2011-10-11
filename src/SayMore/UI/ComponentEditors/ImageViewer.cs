@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SilTools;
@@ -123,7 +124,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("CommonToMultipleViews.ImageViewer.TabText", "Image");
+			TabText = LocalizationManager.GetString("CommonToMultipleViews.ImageViewer.TabText", "Image");
 			base.HandleStringsLocalized();
 		}
 	}

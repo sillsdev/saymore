@@ -7,6 +7,7 @@ using System.Linq;
 using System.Media;
 using System.Reflection;
 using System.Windows.Forms;
+using Localization;
 using Localization.UI;
 using Palaso.IO;
 using Palaso.Media;
@@ -74,7 +75,7 @@ namespace SayMore.UI.ProjectWindow
 		private void SetWindowText()
 		{
 			var ver = Assembly.GetExecutingAssembly().GetName().Version;
-			var fmt = Program.GetString("MainWindow.WindowTitleWithProject", "{0} - SayMore {1}.{2}.{3}");
+			var fmt = LocalizationManager.GetString("MainWindow.WindowTitleWithProject", "{0} - SayMore {1}.{2}.{3}");
 			Text = string.Format(fmt, _projectName, ver.Major, ver.Minor, ver.Build);
 		}
 
@@ -161,8 +162,7 @@ namespace SayMore.UI.ProjectWindow
 					return;
 
 				Settings.Default.UserInterfaceLanguage = dlg.UILanguage;
-				Program.SetUILanguage(null);
-				Program.ReapplyLocalizationsToAllObjects();
+				LocalizationManager.SetUILanguage(dlg.UILanguage, true);
 			}
 		}
 

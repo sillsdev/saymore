@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Localization;
 using Palaso.IO;
 using Palaso.Reporting;
 using SayMore.Properties;
@@ -45,14 +46,14 @@ namespace SayMore.Transcription.Model
 		{
 			if (!File.Exists(annotationFileName))
 			{
-				throw new FileNotFoundException(string.Format(Program.GetString(
+				throw new FileNotFoundException(string.Format(LocalizationManager.GetString(
 					"EventsView.Transcription.AnnotationFileNotFoundMsg", "File not found: '{0}'"),
 					annotationFileName));
 			}
 
 			if (!GetIsElanFile(annotationFileName))
 			{
-				var msg = Program.GetString("EventsView.Transcription.AnnotationFileHelper.BadAnnotationFileMsg",
+				var msg = LocalizationManager.GetString("EventsView.Transcription.AnnotationFileHelper.BadAnnotationFileMsg",
 					"File '{0}' is not a SayMore annotation file. It is possibly corrupt.");
 
 				throw new Exception(string.Format(msg, annotationFileName));

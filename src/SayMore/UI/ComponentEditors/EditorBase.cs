@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Localization.UI;
 using SayMore.Model.Files;
 using SayMore.UI.Utilities;
@@ -158,7 +159,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected string GetPropertiesTabText()
 		{
-			return Program.GetString("CommonToMultipleViews.PropertiesEditor.TabText", "Properties");
+			return LocalizationManager.GetString("CommonToMultipleViews.PropertiesEditor.TabText", "Properties");
 		}
 
 		/// ------------------------------------------------------------------------------------

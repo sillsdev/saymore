@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Properties;
 
 namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
@@ -23,14 +24,14 @@ namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 		/// ------------------------------------------------------------------------------------
 		public bool IsNewProjectNameValid(string newName, Label newProjectPathLabel)
 		{
-			var invalidPathMsg = Program.GetString("DialogBoxes.NewProjectDlg.InvalidPathMsg",
+			var invalidPathMsg = LocalizationManager.GetString("DialogBoxes.NewProjectDlg.InvalidPathMsg",
 				"Unable to create a new project by that name.",
 				"This text is displayed under the project name when it is invalid.");
 
 			if (_pathValidator == null)
 				_pathValidator = new PathValidator(newProjectPathLabel, _tooltip) { InvalidMessage = invalidPathMsg };
 
-			var validPathMsg = Program.GetStringForObject(newProjectPathLabel, newProjectPathLabel.Text);
+			var validPathMsg = LocalizationManager.GetStringForObject(newProjectPathLabel, newProjectPathLabel.Text);
 
 			NewProjectName = newName;
 

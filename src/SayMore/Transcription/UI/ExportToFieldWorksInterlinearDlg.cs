@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Reporting;
 using Palaso.WritingSystems;
 using SayMore.Properties;
@@ -69,7 +70,7 @@ namespace SayMore.Transcription.UI
 
 			if (!Directory.Exists(globalPath))
 			{
-				var msg = Program.GetString(
+				var msg = LocalizationManager.GetString(
 					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1",
 					"In order to export, we need to find a writing system ID that FLEx will accept. SayMore " +
 					"tried to find a list of writing systems which FLEx knows about by looking in {0}, but it " +
@@ -91,7 +92,7 @@ namespace SayMore.Transcription.UI
 					}
 					catch (Exception e)
 					{
-						var msg = Program.GetString(
+						var msg = LocalizationManager.GetString(
 							"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.OldWritingSystemsFoundMsg",
 							"Sorry, the writing system {0} does not conform to current standards. Please first upgrade to FLEx 7.1 or greater.");
 
@@ -129,11 +130,11 @@ namespace SayMore.Transcription.UI
 		{
 			using (var dlg = new SaveFileDialog())
 			{
-				dlg.Title = Program.GetString(
+				dlg.Title = LocalizationManager.GetString(
 					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.Caption",
 					"Export to File");
 
-				dlg.Filter = Program.GetString(
+				dlg.Filter = LocalizationManager.GetString(
 					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.FileTypeString",
 					"FLEx Interlinear XML (*.xml)|*.xml|All Files (*.*)|*.*");
 
@@ -181,7 +182,7 @@ namespace SayMore.Transcription.UI
 
 			if (wsList.Length == 0)
 			{
-				var msg = Program.GetString("DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2",
+				var msg = LocalizationManager.GetString("DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2",
 					"SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is " +
 					"installed as has been run at least once. For now, you can export as English, and fix that up after you " +
 					"have imported into FLEx.");

@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Palaso.IO;
+using Localization;
 using SayMore.Model.Files;
 
 namespace SayMore.UI.MediaPlayer
@@ -91,7 +92,7 @@ namespace SayMore.UI.MediaPlayer
 			if (!StartProcess(prs))
 			{
 				prs = null;
-				var msg = Program.GetString("CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg", "Unable to start mplayer.");
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg", "Unable to start mplayer.");
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg);
 			}
 

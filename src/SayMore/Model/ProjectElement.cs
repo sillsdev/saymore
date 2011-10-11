@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
 using SayMore.Model.Fields;
@@ -274,7 +275,7 @@ namespace SayMore.Model
 				// directory itself will fail, and find that out *before* we do the file renamings
 				if (!CanPerformRename())
 				{
-					failureMessage = Program.GetString("CommonToMultipleViews.ChangeIdFailureMsg",
+					failureMessage = LocalizationManager.GetString("CommonToMultipleViews.ChangeIdFailureMsg",
 						"Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.",
 						"Message displayed when attempt failed to change an event id or a person's name (i.e. id)");
 

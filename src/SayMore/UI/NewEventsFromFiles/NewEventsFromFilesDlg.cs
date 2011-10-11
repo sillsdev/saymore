@@ -3,6 +3,7 @@ using System.Linq;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.MediaPlayer;
@@ -169,14 +170,14 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			if (selectedCount == 0)
 			{
-				var text = Program.GetString("DialogBoxes.NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText",
+				var text = LocalizationManager.GetString("DialogBoxes.NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText",
 					"Create Events", "Text in create button when no files are selected.");
 
 				_buttonCreateEvents.Text = text;
 			}
 			else
 			{
-				var fmt = Program.GetString("DialogBoxes.NewEventsFromFilesDlg.FilesSelectedCreateButtonText",
+				var fmt = LocalizationManager.GetString("DialogBoxes.NewEventsFromFilesDlg.FilesSelectedCreateButtonText",
 					"Create {0} Events", "Format text in create button when one or more files are selected.");
 
 				_buttonCreateEvents.Text = string.Format(fmt, selectedCount);

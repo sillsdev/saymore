@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Reporting;
 using SayMore.Model;
 using SayMore.Properties;
@@ -291,7 +292,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			using (var dlg = new FolderBrowserDialog())
 			{
-				dlg.Description = Program.GetString("DialogBoxes.NewEventsFromFilesDlg.FolderBrowserDlgDescription",
+				dlg.Description = LocalizationManager.GetString("DialogBoxes.NewEventsFromFilesDlg.FolderBrowserDlgDescription",
 					"Choose a Folder of Medial Files.");
 
 				if (SelectedFolder != null && Directory.Exists(SelectedFolder))
@@ -450,7 +451,7 @@ namespace SayMore.UI.NewEventsFromFiles
 				foreach (var file in existing)
 					bldr.AppendLine(Path.GetFileNameWithoutExtension(file));
 
-				var msg = Program.GetString("DialogBoxes.NewEventsFromFilesDlg.EventsAlreadyExistMsg",
+				var msg = LocalizationManager.GetString("DialogBoxes.NewEventsFromFilesDlg.EventsAlreadyExistMsg",
 					"Events already exist for the following Ids. These will be skipped.\n\n{0}");
 
 				ErrorReport.NotifyUserOfProblem(msg, bldr);

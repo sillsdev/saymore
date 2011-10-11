@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using Palaso.Reporting;
+using Localization;
 using SayMore.Model.Files;
 
 namespace SayMore.UI.MediaPlayer
@@ -139,7 +140,7 @@ namespace SayMore.UI.MediaPlayer
 			if (string.IsNullOrEmpty(filename))
 			{
 				ErrorReport.NotifyUserOfProblem(
-					Program.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotSpecifiedMsg",
+					LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotSpecifiedMsg",
 					"Media player file name has not been specified."));
 
 				return;
@@ -148,7 +149,7 @@ namespace SayMore.UI.MediaPlayer
 			if (!File.Exists(filename))
 			{
 				ErrorReport.NotifyUserOfProblem(
-					Program.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg",
+					LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg",
 					"Media file '{0}' not found."), filename);
 
 				return;
@@ -443,7 +444,7 @@ namespace SayMore.UI.MediaPlayer
 			if (position > endPosition)
 				position = endPosition;
 
-			return string.Format(Program.GetString(
+			return string.Format(LocalizationManager.GetString(
 				"CommonToMultipleViews.MediaPlayer.TimeCurrentOfTotalDisplayFormat", "{0} / {1}"),
 				MakeTimeString(position), MakeTimeString(endPosition));
 		}
@@ -462,7 +463,7 @@ namespace SayMore.UI.MediaPlayer
 			if (startPosition > endPosition)
 				startPosition = endPosition;
 
-			return string.Format(Program.GetString(
+			return string.Format(LocalizationManager.GetString(
 				"CommonToMultipleViews.MediaPlayer.TimeRangeDisplayFormat", "{0} - {1}"),
 				MakeTimeString(startPosition), MakeTimeString(endPosition));
 		}

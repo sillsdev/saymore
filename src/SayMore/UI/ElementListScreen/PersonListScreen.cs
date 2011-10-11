@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.ProjectWindow;
@@ -24,7 +25,7 @@ namespace SayMore.UI.ElementListScreen
 
 			Initialize(_componentsSplitter.Panel2, _personComponentFileGrid, _peopleListPanel);
 			_personComponentFileGrid.InitializeGrid("PersonScreen",
-				Program.GetString("PeopleView.FileList.AddPersonButtonToolTip", "Add Files for the Person"));
+				LocalizationManager.GetString("PeopleView.FileList.AddPersonButtonToolTip", "Add Files for the Person"));
 
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
 				_labelClickNewHelpPrompt.Visible = false;
@@ -94,7 +95,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var tab = viewTabGroup.AddTab(this);
 			tab.Name = "PeopleViewTab"; // for tests
-			tab.Text = Program.GetString("PeopleView.ViewTabText", "People", null, "People View", null, tab);
+			tab.Text = LocalizationManager.GetString("PeopleView.ViewTabText", "People", null, "People View", null, tab);
 			Text = tab.Text;
 		}
 

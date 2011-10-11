@@ -5,6 +5,7 @@ using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using Palaso.ClearShare;
+using Localization;
 using SilTools;
 using SilTools.Controls;
 
@@ -83,7 +84,7 @@ namespace SayMore.UI.LowLevelControls
 					if (_msgWindow == null)
 						_msgWindow = new FadingMessageWindow();
 
-					var msg = Program.GetString("CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg",
+					var msg = LocalizationManager.GetString("CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg",
 						"One column must be visible.",
 						"Displayed when user unchecks all columns for display in events or people list");
 

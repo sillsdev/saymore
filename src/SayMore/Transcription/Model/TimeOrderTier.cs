@@ -1,3 +1,4 @@
+using Localization;
 using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model
@@ -8,7 +9,7 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		public TimeOrderTier(string filename) :
-			this(Program.GetString("EventsView.Transcription.TierNames.OriginalRecording", "Original"), filename)
+			this(LocalizationManager.GetString("EventsView.Transcription.TierNames.OriginalRecording", "Original"), filename)
 		{
 		}
 

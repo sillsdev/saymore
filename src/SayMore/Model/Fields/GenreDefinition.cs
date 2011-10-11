@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Localization;
 using Palaso.IO;
 using SilTools;
 
@@ -36,7 +37,7 @@ namespace SayMore.Model.Fields
 				{
 					s_unknownType = new GenreDefinition();
 					s_unknownType.Id = "unknown";
-					s_unknownType.Name = Program.GetString("EventsView.MetadataEditor.UnknownGenre", "<Unknown>",
+					s_unknownType.Name = LocalizationManager.GetString("EventsView.MetadataEditor.UnknownGenre", "<Unknown>",
 						"Unknown genre displayed in the genre drop-down list.");
 				}
 

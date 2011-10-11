@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
@@ -145,16 +146,16 @@ namespace SayMore.UI.ComponentEditors
 
 			switch (id)
 			{
-				case "Device": return Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Device", "Device");
-				case "Microphone": return Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Microphone", "Microphone");
-				case "Duration": return Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Duration", "Duration");
-				case "Audio_Bit_Rate": return Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.AudioBitRate", "Audio Bit Rate");
-				case "Video_Bit_Rate": return Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.VideoBitRate", "Video Bit Rate");
-				case "Sample_Rate": return Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.SampleRate", "Sample Rate");
-				case "Bit_Depth": return Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.BitDepth", "Bit Depth");
-				case "Channels": return Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Channels", "Channels");
-				case "Resolution": return Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Resolution", "Resolution");
-				case "Frame_Rate": return Program.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.FrameRate", "Frame Rate");
+				case "Device": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Device", "Device");
+				case "Microphone": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Microphone", "Microphone");
+				case "Duration": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Duration", "Duration");
+				case "Audio_Bit_Rate": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.AudioBitRate", "Audio Bit Rate");
+				case "Video_Bit_Rate": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.VideoBitRate", "Video Bit Rate");
+				case "Sample_Rate": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.SampleRate", "Sample Rate");
+				case "Bit_Depth": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.BitDepth", "Bit Depth");
+				case "Channels": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Channels", "Channels");
+				case "Resolution": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Resolution", "Resolution");
+				case "Frame_Rate": return LocalizationManager.GetString("CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.FrameRate", "Frame Rate");
 				default: return id;
 			}
 		}

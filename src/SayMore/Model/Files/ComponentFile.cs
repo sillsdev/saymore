@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.FileSystem;
@@ -631,7 +632,7 @@ namespace SayMore.Model.Files
 				if (addSeparator)
 					yield return new ToolStripSeparator();
 
-				var menuText = Program.GetString("CommonToMultipleViews.FileList.CreateAnnotationFileMenu",
+				var menuText = LocalizationManager.GetString("CommonToMultipleViews.FileList.CreateAnnotationFileMenu",
 					"Create Annotation File...");
 
 				yield return new ToolStripMenuItem(menuText, null,
@@ -693,7 +694,7 @@ namespace SayMore.Model.Files
 					// Disable if the file is already named appropriately for this role
 				}) { Tag = "rename", Enabled = !role.IsMatch(PathToAnnotatedFile) };
 
-				var menuText = Program.GetString("CommonToMultipleViews.FileList.RenameMenuTextFormatString",
+				var menuText = LocalizationManager.GetString("CommonToMultipleViews.FileList.RenameMenuTextFormatString",
 					"Rename For {0}", null, menu);
 
 				menu.Text = string.Format(menuText, role.Name);
@@ -717,7 +718,7 @@ namespace SayMore.Model.Files
 
 				}) { Tag = "rename" };
 
-				Program.GetString("CommonToMultipleViews.FileList.CustomRenameMenu",
+				LocalizationManager.GetString("CommonToMultipleViews.FileList.CustomRenameMenu",
 					"Custom Rename...", null, menu);
 
 				yield return menu;
@@ -765,7 +766,7 @@ namespace SayMore.Model.Files
 
 				if (File.Exists(newPath))
 				{
-					var msg = Program.GetString("CommonToMultipleViews.FileList.CannotRenameFileErrorMsg",
+					var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.CannotRenameFileErrorMsg",
 						"{0} could not rename the file to '{1}' because there is already a file with that name.");
 
 					ErrorReport.NotifyUserOfProblem(msg, Application.ProductName, newPath);
@@ -774,7 +775,7 @@ namespace SayMore.Model.Files
 
 				if (renameMetaFile && File.Exists(newMetaPath))
 				{
-					var msg = Program.GetString("CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg",
+					var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg",
 						"{0} could not rename the meta data file to '{1}' because there is already a file with that name.");
 
 					ErrorReport.NotifyUserOfProblem(msg, Application.ProductName, newMetaPath);
@@ -792,7 +793,7 @@ namespace SayMore.Model.Files
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg",
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg",
 					"Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.");
 
 				ErrorReport.NotifyUserOfProblem(e, msg);
@@ -847,20 +848,20 @@ namespace SayMore.Model.Files
 		public static string GetDisplayableFileSize(long fileSize, bool abbreviateFileSizeUnits)
 		{
 			var fmtBytes = (abbreviateFileSizeUnits ?
-				Program.GetString("CommonToMultipleViews.FileList.FileSizeBytesAbbreviation", "{0} B") :
-				Program.GetString("CommonToMultipleViews.FileList.FileSizeBytes", "{0} Bytes"));
+				LocalizationManager.GetString("CommonToMultipleViews.FileList.FileSizeBytesAbbreviation", "{0} B") :
+				LocalizationManager.GetString("CommonToMultipleViews.FileList.FileSizeBytes", "{0} Bytes"));
 
 			var fmtKilobytes = (abbreviateFileSizeUnits ?
-				Program.GetString("CommonToMultipleViews.FileList.FileSizeKilobytesAbbreviation", "{0} KB") :
-				Program.GetString("CommonToMultipleViews.FileList.FileSizeKilobytes", "{0} Kilobytes"));
+				LocalizationManager.GetString("CommonToMultipleViews.FileList.FileSizeKilobytesAbbreviation", "{0} KB") :
+				LocalizationManager.GetString("CommonToMultipleViews.FileList.FileSizeKilobytes", "{0} Kilobytes"));
 
 			var fmtMegabytes = (abbreviateFileSizeUnits ?
-				Program.GetString("CommonToMultipleViews.FileList.FileSizeMegabytesAbbreviation", "{0} MB") :
-				Program.GetString("CommonToMultipleViews.FileList.FileSizeMegabytes", "{0} Megabytes"));
+				LocalizationManager.GetString("CommonToMultipleViews.FileList.FileSizeMegabytesAbbreviation", "{0} MB") :
+				LocalizationManager.GetString("CommonToMultipleViews.FileList.FileSizeMegabytes", "{0} Megabytes"));
 
 			var fmtGigabytes = (abbreviateFileSizeUnits ?
-				Program.GetString("CommonToMultipleViews.FileList.FileSizeGigabytesAbbreviation", "{0} GB") :
-				Program.GetString("CommonToMultipleViews.FileList.FileSizeGigabytes", "{0} Gigabytes"));
+				LocalizationManager.GetString("CommonToMultipleViews.FileList.FileSizeGigabytesAbbreviation", "{0} GB") :
+				LocalizationManager.GetString("CommonToMultipleViews.FileList.FileSizeGigabytes", "{0} Gigabytes"));
 
 			if (fileSize < 1000)
 				return string.Format(fmtBytes, fileSize);

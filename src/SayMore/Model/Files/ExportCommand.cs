@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files
@@ -55,10 +56,10 @@ namespace SayMore.Model.Files
 			using(var dlg = new SaveFileDialog())
 			{
 				dlg.RestoreDirectory = true;
-				dlg.Title = Program.GetString("MainWindow.Export.ExportFileSaveFileDlg.Caption", "Export Data");
+				dlg.Title = LocalizationManager.GetString("MainWindow.Export.ExportFileSaveFileDlg.Caption", "Export Data");
 				dlg.AddExtension = true;
 				dlg.AutoUpgradeEnabled = true;
-				dlg.Filter = Program.GetString("MainWindow.Export.ExportFileSaveFileDlg.CSVFileTypeText", "CSV (Comma delimited) (*.csv)|*.csv");
+				dlg.Filter = LocalizationManager.GetString("MainWindow.Export.ExportFileSaveFileDlg.CSVFileTypeText", "CSV (Comma delimited) (*.csv)|*.csv");
 				if (DialogResult.OK == dlg.ShowDialog())
 					DoExport(elements, dlg.FileName);
 			}
@@ -72,7 +73,7 @@ namespace SayMore.Model.Files
 			}
 			catch(Exception e)
 			{
-				var msg = Program.GetString("MainWindow.Export.ExportFailureMsg",
+				var msg = LocalizationManager.GetString("MainWindow.Export.ExportFailureMsg",
 					"Something went wrong with the export.");
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}

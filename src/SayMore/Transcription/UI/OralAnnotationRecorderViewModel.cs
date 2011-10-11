@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using NAudio.Wave;
 using Palaso.Reporting;
 using SayMore.AudioUtils;
@@ -192,7 +193,7 @@ namespace SayMore.Transcription.UI
 			}
 			catch(Exception error)
 			{
-				var msg = Program.GetString("DialogBoxes.Transcription.OralAnnotationDlg.ErasingAnnotationSegmentErrorMsg",
+				var msg = LocalizationManager.GetString("DialogBoxes.Transcription.OralAnnotationDlg.ErasingAnnotationSegmentErrorMsg",
 					"Could not remove that annotation. If this problem persists, try restarting your computer.");
 
 				ErrorReport.NotifyUserOfProblem(error, msg);

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
@@ -51,13 +52,13 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override string DefaultElementNamePrefix
 		{
-			get { return Program.GetString("PeopleView.Miscellaneous.NewPersonNamePrefix", "New Person"); }
+			get { return LocalizationManager.GetString("PeopleView.Miscellaneous.NewPersonNamePrefix", "New Person"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string NoIdSaveFailureMessage
 		{
-			get { return Program.GetString("PeopleView.Miscellaneous.NoIdSaveFailureMessage", "You must specify a name."); }
+			get { return LocalizationManager.GetString("PeopleView.Miscellaneous.NoIdSaveFailureMessage", "You must specify a name."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,7 +66,7 @@ namespace SayMore.Model
 		{
 			get
 			{
-				return Program.GetString("PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage",
+				return LocalizationManager.GetString("PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage",
 					"Could not rename from {0} to {1} because there is already a person by that name.");
 			}
 		}
@@ -115,15 +116,15 @@ namespace SayMore.Model
 			var componentFile = GetInformedConsentComponentFile();
 
 			if (componentFile == null)
-				return Program.GetString("PeopleView.InformedConsentTypes.None", "No Informed Consent");
+				return LocalizationManager.GetString("PeopleView.InformedConsentTypes.None", "No Informed Consent");
 
 			if (componentFile.FileType.IsAudio)
-				return Program.GetString("PeopleView.InformedConsentTypes.Audio", "Informed Consent is Audio File");
+				return LocalizationManager.GetString("PeopleView.InformedConsentTypes.Audio", "Informed Consent is Audio File");
 
 			if (componentFile.FileType.IsVideo)
-				return Program.GetString("PeopleView.InformedConsentTypes.Video", "Informed Consent is Video File");
+				return LocalizationManager.GetString("PeopleView.InformedConsentTypes.Video", "Informed Consent is Video File");
 
-			return Program.GetString("PeopleView.InformedConsentTypes.Written", "Informed Consent is Written");
+			return LocalizationManager.GetString("PeopleView.InformedConsentTypes.Written", "Informed Consent is Written");
 		}
 
 		/// ------------------------------------------------------------------------------------

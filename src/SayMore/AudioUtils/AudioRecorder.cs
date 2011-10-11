@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using NAudio.Wave;
 using NAudio.Mixer;
 using Palaso.Reporting;
@@ -151,7 +152,7 @@ namespace SayMore.AudioUtils
 		{
 			if (_recordingState != RecordingState.Monitoring)
 			{
-				var msg = Program.GetString("Miscellaneous.AudioRecorder.CantBeginRecordingMsg",
+				var msg = LocalizationManager.GetString("Miscellaneous.AudioRecorder.CantBeginRecordingMsg",
 					"Can't begin recording while we are in this state: {0}");
 
 				ErrorReport.NotifyUserOfProblem(msg, _recordingState);
@@ -175,7 +176,7 @@ namespace SayMore.AudioUtils
 			{
 				if (_recordingState != RecordingState.Stopped)
 				{
-					var msg = Program.GetString("Miscellaneous.AudioRecorder.CantBeginMonitoringMsg",
+					var msg = LocalizationManager.GetString("Miscellaneous.AudioRecorder.CantBeginMonitoringMsg",
 						"Can't begin monitoring while we are in this state: {0}");
 
 					ErrorReport.NotifyUserOfProblem(msg, _recordingState);
@@ -197,7 +198,7 @@ namespace SayMore.AudioUtils
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("Miscellaneous.AudioRecorder.MonitoringErrorMsg",
+				var msg = LocalizationManager.GetString("Miscellaneous.AudioRecorder.MonitoringErrorMsg",
 					"There was a problem starting up volume monitoring.");
 
 				ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(),

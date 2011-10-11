@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Localization;
 using Palaso.ClearShare;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
@@ -80,13 +81,13 @@ namespace SayMore.UI.ComponentEditors
 				if (string.IsNullOrEmpty(contribution.ContributorName))
 				{
 					return new KeyValuePair<string, string>("name",
-						Program.GetString("CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg", "Enter a name."));
+						LocalizationManager.GetString("CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg", "Enter a name."));
 				}
 
 				if (contribution.Role == null)
 				{
 					return new KeyValuePair<string, string>("role",
-						Program.GetString("CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg", "Choose a role."));
+						LocalizationManager.GetString("CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg", "Choose a role."));
 				}
 			}
 
@@ -116,7 +117,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("CommonToMultipleViews.ContributorsEditor.TabText", "Contributors");
+			TabText = LocalizationManager.GetString("CommonToMultipleViews.ContributorsEditor.TabText", "Contributors");
 			base.HandleStringsLocalized();
 		}
 	}

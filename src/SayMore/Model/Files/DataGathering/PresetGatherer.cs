@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Localization;
 
 namespace SayMore.Model.Files.DataGathering
 {
@@ -54,7 +55,7 @@ namespace SayMore.Model.Files.DataGathering
 
 			if (suggestions.Length == 0)
 			{
-				var msg = Program.GetString("Miscellaneous.PresetGathererNoPresetsYetMsg", "No presets yet");
+				var msg = LocalizationManager.GetString("Miscellaneous.PresetGathererNoPresetsYetMsg", "No presets yet");
 
 				yield return new KeyValuePair<string, Dictionary<string, string>>(
 					msg, new Dictionary<string, string>());

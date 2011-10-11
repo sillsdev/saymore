@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -377,8 +378,8 @@ namespace SayMore.UI.ElementListScreen
 			int itemCount = _elementsGrid.SelectedRows.Count;
 
 			var msg = (itemCount == 1 ?
-				Program.GetString("MainWindow.DeleteOneItemMsg", "{0}", "For deleting events and people items") :
-				Program.GetString("MainWindow.DeleteMultipleItemsMsg", "{0} items", "For deleting events and people items"));
+				LocalizationManager.GetString("MainWindow.DeleteOneItemMsg", "{0}", "For deleting events and people items") :
+				LocalizationManager.GetString("MainWindow.DeleteMultipleItemsMsg", "{0} items", "For deleting events and people items"));
 
 			msg = (itemCount > 1 ? string.Format(msg, itemCount) :
 				string.Format(msg, _elementsGrid.GetCurrentElement().Id));

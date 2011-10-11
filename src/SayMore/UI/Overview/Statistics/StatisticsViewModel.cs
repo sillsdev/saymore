@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Localization;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
@@ -73,8 +74,8 @@ namespace SayMore.UI.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<KeyValuePair<string, string>> GetElementStatisticsPairs()
 		{
-			var eventsLabel = Program.GetString("ProgressView.EventsLabel", "Events:");
-			var peopleLabel = Program.GetString("ProgressView.PeopleLabel", "People:");
+			var eventsLabel = LocalizationManager.GetString("ProgressView.EventsLabel", "Events:");
+			var peopleLabel = LocalizationManager.GetString("ProgressView.PeopleLabel", "People:");
 
 			yield return new KeyValuePair<string, string>(eventsLabel ,EventInformant.NumberOfEvents.ToString());
 			yield return new KeyValuePair<string, string>(peopleLabel, PersonInformant.NumberOfPeople.ToString());

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -211,20 +212,20 @@ namespace SayMore.UI.ComponentEditors
 
 			if (pb.ParentType == ParentType.Father)
 			{
-				var tipSelected = Program.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected",
+				var tipSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected",
 					"Indicates this is the father's primary language");
 
-				var tipNotSelected = Program.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenNotSelected",
+				var tipNotSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.FatherSelectorToolTip.WhenNotSelected",
 					"Click to indicate this is the father's primary language");
 
 				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
 			}
 			else
 			{
-				var tipSelected = Program.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected",
+				var tipSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected",
 					"Indicates this is the mother's primary language");
 
-				var tipNotSelected = Program.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected",
+				var tipNotSelected = LocalizationManager.GetString("PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected",
 					"Click to indicate this is the mother's primary language");
 
 				_tooltip.SetToolTip(pb, pb.Selected ? tipSelected : tipNotSelected);
@@ -239,9 +240,9 @@ namespace SayMore.UI.ComponentEditors
 		{
 			using (var dlg = new OpenFileDialog())
 			{
-				var caption = Program.GetString("PeopleView.MetadataEditor.ChangePictureDlgCaption", "Change Picture");
+				var caption = LocalizationManager.GetString("PeopleView.MetadataEditor.ChangePictureDlgCaption", "Change Picture");
 
-				var imageFileTypes = Program.GetString("PeopleView.MetadataEditor.ImageFileTypes",
+				var imageFileTypes = LocalizationManager.GetString("PeopleView.MetadataEditor.ImageFileTypes",
 					"JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*");
 
 				dlg.Title = caption;
@@ -313,7 +314,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			else
 			{
-				var msg = Program.GetString("PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg",
+				var msg = LocalizationManager.GetString("PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg",
 					"There was an error changing the person's photo.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
@@ -344,7 +345,7 @@ namespace SayMore.UI.ComponentEditors
 			}
 			catch (Exception e)
 			{
-				var msg = Program.GetString("PeopleView.MetadataEditor.ErrorLoadingPersonsPhotoMsg",
+				var msg = LocalizationManager.GetString("PeopleView.MetadataEditor.ErrorLoadingPersonsPhotoMsg",
 					"There was an error loading the person's photo.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
@@ -430,14 +431,14 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = Program.GetString("PeopleView.MetadataEditor.TabText", "Person");
+			TabText = LocalizationManager.GetString("PeopleView.MetadataEditor.TabText", "Person");
 
 			if (_gender != null)
 			{
 				int i = _gender.SelectedIndex;
 				_gender.Items.Clear();
-				_gender.Items.Add(Program.GetString("PeopleView.MetadataEditor.GenderSelector.Male", "Male"));
-				_gender.Items.Add(Program.GetString("PeopleView.MetadataEditor.GenderSelector.Female", "Female"));
+				_gender.Items.Add(LocalizationManager.GetString("PeopleView.MetadataEditor.GenderSelector.Male", "Male"));
+				_gender.Items.Add(LocalizationManager.GetString("PeopleView.MetadataEditor.GenderSelector.Female", "Female"));
 				_gender.SelectedIndex = i;
 			}
 

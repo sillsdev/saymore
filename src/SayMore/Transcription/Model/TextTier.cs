@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model
@@ -12,7 +13,7 @@ namespace SayMore.Transcription.Model
 		public const string ElanFreeTranslationTierName = "Phrase Free Translation";
 
 		public static string SayMoreFreeTranslationTierName =
-			Program.GetString("EventsView.Transcription.TierNames.FreeTranslation", "Free Translation");
+			LocalizationManager.GetString("EventsView.Transcription.TierNames.FreeTranslation", "Free Translation");
 
 		/// ------------------------------------------------------------------------------------
 		public TextTier(string displayName) : base(displayName)

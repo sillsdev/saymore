@@ -2322,15 +2322,20 @@
         <seg>Grabar anotaciones orales</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarningMsg">
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Message">
       <tuv xml:lang="en">
-        <seg>Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?</seg>
+        <seg>Regenerating segments will cause all oral and written annotations to be lost.\n\nAre you sure you want to continue?</seg>
       </tuv>
       <tuv xml:lang="es">
-        <seg>Regeneración de segmentos hará que todas las anotaciones escritas y orales se pierdan.\n¿Está seguro de que desea continuar?</seg>
+        <seg>Regeneración de segmentos hará que todas las anotaciones escritas y orales se pierdan.\n\n¿Está seguro de que desea continuar?</seg>
       </tuv>
     </tu>
-    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ResegmentButton">
+     <tu tuid="EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Caption">
+      <tuv xml:lang="en">
+        <seg>Regenerate Segments</seg>
+      </tuv>
+    </tu>
+   <tu tuid="EventsView.Transcription.TextAnnotationEditor.ResegmentButton">
       <tuv xml:lang="en">
         <seg>Resegment...</seg>
       </tuv>

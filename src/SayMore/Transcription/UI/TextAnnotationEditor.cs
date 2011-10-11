@@ -282,11 +282,18 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
-			var msg = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarningMsg",
-				"Regenerating segments will cause all oral and written annotations to be lost.\nAre you sure you want to continue?");
+			var msg = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Message",
+				"Regenerating segments will cause all oral and written annotations to be lost.\n\nAre you sure you want to continue?");
 
-			if (MessageBox.Show(msg, Application.ProductName, MessageBoxButtons.YesNo) == DialogResult.No)
+			var caption = LocalizationManager.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Caption",
+				"Regenerate Segments");
+
+			if (MessageBox.Show(msg, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
+				MessageBoxDefaultButton.Button2) == DialogResult.No)
+			{
 				return;
+			}
 
 			// TODO: delete oral annoations
 

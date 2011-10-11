@@ -63,7 +63,7 @@ namespace SayMore.Transcription.Model
 
 			// Esure there is a dependent free translation tier.
 			var elements = helper.GetDependentTiersElements();
-			if (elements.SingleOrDefault(e =>
+			if (elements.FirstOrDefault(e =>
 				e.Attribute("TIER_ID").Value.ToLower() == TextTier.ElanFreeTranslationTierName.ToLower()) == null)
 			{
 				helper.Root.Add(new XElement("TIER",

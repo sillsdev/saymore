@@ -221,7 +221,7 @@ namespace SayMore
 		{
 			var path = FileLocator.GetFileDistributedWithApplication("SayMore.chm");
 			Help.ShowHelp(new Label(), path, topicLink);
-			UsageReporter.SendNavigationNotice("Help: "+topicLink);
+			UsageReporter.SendNavigationNotice("Help: " + topicLink);
 		}
 
 		/// ------------------------------------------------------------------------------------

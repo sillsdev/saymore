@@ -63,7 +63,7 @@ namespace SayMore.Transcription.Model
 		{
 			// TODO: This will need refactoring when display name is localizable.
 			var translationTier =
-				tier.DependentTiers.SingleOrDefault(t => t.DisplayName.ToLower() == TextTier.SayMoreFreeTranslationTierName.ToLower());
+				tier.DependentTiers.FirstOrDefault(t => t.DisplayName.ToLower() == TextTier.SayMoreFreeTranslationTierName.ToLower());
 
 			var segmentList = tier.GetAllSegments().Cast<ITextSegment>().ToArray();
 

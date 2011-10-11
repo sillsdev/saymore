@@ -133,7 +133,9 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			var fileCount = _viewModel.Files.Count;
 
-			if (_gridFiles.Grid.RowCount != fileCount)
+			if (_gridFiles.Grid.RowCount == fileCount)
+				_mediaPlayerPanel.Enabled = (_gridFiles.Grid.RowCount > 0);
+			else
 			{
 				_gridFiles.UpdateComponentFileList(_viewModel.Files.Cast<ComponentFile>());
 

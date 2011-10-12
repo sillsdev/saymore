@@ -77,13 +77,13 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizableToolTip(this._linkCancel, null);
 			this.locExtender.SetLocalizationComment(this._linkCancel, null);
 			this.locExtender.SetLocalizingId(this._linkCancel, "DialogBoxes.LoadingDlg.CancelLink");
-			this._linkCancel.Location = new System.Drawing.Point(0, 58);
+			this._linkCancel.Location = new System.Drawing.Point(0, 51);
 			this._linkCancel.Name = "_linkCancel";
-			this._linkCancel.Size = new System.Drawing.Size(240, 13);
+			this._linkCancel.Size = new System.Drawing.Size(240, 20);
 			this._linkCancel.TabIndex = 3;
 			this._linkCancel.TabStop = true;
 			this._linkCancel.Text = "Cancel";
-			this._linkCancel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this._linkCancel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// LoadingDlg
 			// 

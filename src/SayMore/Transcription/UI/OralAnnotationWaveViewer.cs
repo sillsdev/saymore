@@ -327,13 +327,14 @@ namespace SayMore.Transcription.UI
 			// when using that kind of stream, we never get a  PlaybackStopped event on
 			// the WaveOut, so we have to force it here.
 			if (MonoWaveStream.CurrentTime == MonoWaveStream.TotalTime)
-				_waveOut.Stop();
-			else
 			{
-				_wavePanelOriginal.SetCursor(MonoWaveStream.CurrentTime);
-				_wavePanelCareful.SetCursor(MonoWaveStream.CurrentTime);
-				_wavePanelTranslation.SetCursor(MonoWaveStream.CurrentTime);
+				_waveOut.Stop();
+				MonoWaveStream.CurrentTime = TimeSpan.Zero;
 			}
+
+			_wavePanelOriginal.SetCursor(MonoWaveStream.CurrentTime);
+			_wavePanelCareful.SetCursor(MonoWaveStream.CurrentTime);
+			_wavePanelTranslation.SetCursor(MonoWaveStream.CurrentTime);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -237,6 +237,7 @@ namespace SayMore.UI.ElementListScreen
 			this._toolStripActions.Padding = new System.Windows.Forms.Padding(7, 0, 7, 2);
 			this._toolStripActions.Size = new System.Drawing.Size(468, 25);
 			this._toolStripActions.TabIndex = 4;
+			this._toolStripActions.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.HandleToolStripItemClicked);
 			this._toolStripActions.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleToolStripActionsPaint);
 			// 
 			// _buttonOpen
@@ -249,7 +250,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizationComment(this._buttonOpen, null);
 			this.locExtender.SetLocalizingId(this._buttonOpen, "CommonToMultipleViews.FileList.Open.ButtonText");
 			this._buttonOpen.Name = "_buttonOpen";
-			this._buttonOpen.Size = new System.Drawing.Size(47, 20);
+			this._buttonOpen.Size = new System.Drawing.Size(49, 20);
 			this._buttonOpen.Text = "Open";
 			this._buttonOpen.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
 			// 
@@ -264,7 +265,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizingId(this._buttonRename, "CommonToMultipleViews.FileList.RenameButtonText");
 			this._buttonRename.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
 			this._buttonRename.Name = "_buttonRename";
-			this._buttonRename.Size = new System.Drawing.Size(61, 20);
+			this._buttonRename.Size = new System.Drawing.Size(63, 20);
 			this._buttonRename.Text = "Rename";
 			this._buttonRename.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
 			// 
@@ -279,7 +280,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizingId(this._buttonConvert, "CommonToMultipleViews.FileList.Convert.ButtonText");
 			this._buttonConvert.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
 			this._buttonConvert.Name = "_buttonConvert";
-			this._buttonConvert.Size = new System.Drawing.Size(60, 20);
+			this._buttonConvert.Size = new System.Drawing.Size(62, 20);
 			this._buttonConvert.Text = "Convert";
 			this._buttonConvert.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
 			// 
@@ -292,7 +293,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizationComment(this._buttonAddFiles, null);
 			this.locExtender.SetLocalizingId(this._buttonAddFiles, "CommonToMultipleViews.FileList.AddFilesButtonText");
 			this._buttonAddFiles.Name = "_buttonAddFiles";
-			this._buttonAddFiles.Size = new System.Drawing.Size(83, 20);
+			this._buttonAddFiles.Size = new System.Drawing.Size(84, 20);
 			this._buttonAddFiles.Text = "Add Files...";
 			this._buttonAddFiles.Click += new System.EventHandler(this.HandleAddButtonClick);
 			// 
@@ -311,7 +312,7 @@ namespace SayMore.UI.ElementListScreen
 			this.locExtender.SetLocalizationComment(this._buttonCreateAnnotationFile, null);
 			this.locExtender.SetLocalizingId(this._buttonCreateAnnotationFile, "CommonToMultipleViews.FileList.CreateAnnotationFileButtonText");
 			this._buttonCreateAnnotationFile.Name = "_buttonCreateAnnotationFile";
-			this._buttonCreateAnnotationFile.Size = new System.Drawing.Size(133, 20);
+			this._buttonCreateAnnotationFile.Size = new System.Drawing.Size(138, 20);
 			this._buttonCreateAnnotationFile.Text = "Create Annotation File...";
 			this._buttonCreateAnnotationFile.Click += new System.EventHandler(this.HandleCreateAnnotationFileButtonClick);
 			// 

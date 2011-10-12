@@ -20,9 +20,7 @@ namespace SayMore.UI.ElementListScreen
 		private IEnumerable<ComponentFile> _files;
 		private string _gridColSettingPrefix;
 
-		/// <summary>
-		/// When the user selects a different component, this is called
-		/// </summary>
+		/// <summary>When the user selects a different component, this is called</summary>
 		public Action<int> AfterComponentSelected;
 
 		/// <summary>
@@ -527,6 +525,18 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleToolStripItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			// Clicking on a ToolStripItem doesn't take focus from whatever control had
+			// focus, but there are times in SayMore where it is important for a component
+			// editor to loose focus when one of these component file grid buttons is
+			// clicked. Therefore, pass on focus to the grid if any of our ToolStripItems
+			// are clicked. See SP-285.
+			if (!_grid.Focused)
+				_grid.Focus();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void DeleteFile()
 		{
 			var index = _grid.CurrentCellAddress.Y;
@@ -574,6 +584,7 @@ namespace SayMore.UI.ElementListScreen
 		}
 	}
 
+	#region InternalComponentFileGrid class
 	/// ----------------------------------------------------------------------------------------
 	internal class InternalComponentFileGrid : SilGrid
 	{
@@ -594,4 +605,6 @@ namespace SayMore.UI.ElementListScreen
 			base.OnCellMouseDown(e);
 		}
 	}
+
+	#endregion
 }

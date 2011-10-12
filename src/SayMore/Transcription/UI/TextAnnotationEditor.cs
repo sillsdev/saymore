@@ -17,8 +17,6 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class TextAnnotationEditor : EditorBase
 	{
-		//public delegate TextAnnotationEditor Factory(ComponentFile file, string imageKey);
-
 		private readonly TextAnnotationEditorGrid _grid;
 		private readonly VideoPanel _videoPanel;
 		private FileSystemWatcher _watcher;

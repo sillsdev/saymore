@@ -131,6 +131,13 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleAfterComponentFileSelected(int index)
 		{
+			// Fixes SP-288: Problem was that while the generated annotation file was loading
+			// in its editor, clicking on another component file triggers a reentrant
+			// problem. Disabling the component file grid prevents the user from being able
+			// to select another component file until we enable the grid again when we're
+			// done with everything we need to do in this method.
+			_componentFilesControl.Enabled = false;
+
 			_model.DeactivateComponentEditors();
 			_model.SetSelectedComponentFile(index);
 			ShowSelectedComponentFileEditors();
@@ -138,6 +145,8 @@ namespace SayMore.UI.ElementListScreen
 
 			if (AfterComponentFileSelected != null)
 				AfterComponentFileSelected(_model.SelectedComponentFile);
+
+			_componentFilesControl.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

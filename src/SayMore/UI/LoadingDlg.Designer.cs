@@ -32,6 +32,7 @@ namespace SayMore.UI
 			this._labelLoading = new System.Windows.Forms.Label();
 			this._pictureLoading = new System.Windows.Forms.PictureBox();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this._linkCancel = new System.Windows.Forms.LinkLabel();
 			((System.ComponentModel.ISupportInitialize)(this._pictureLoading)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -69,14 +70,30 @@ namespace SayMore.UI
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
+			// _linkCancel
+			// 
+			this._linkCancel.BackColor = System.Drawing.Color.Transparent;
+			this._linkCancel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.locExtender.SetLocalizableToolTip(this._linkCancel, null);
+			this.locExtender.SetLocalizationComment(this._linkCancel, null);
+			this.locExtender.SetLocalizingId(this._linkCancel, "DialogBoxes.LoadingDlg.CancelLink");
+			this._linkCancel.Location = new System.Drawing.Point(0, 58);
+			this._linkCancel.Name = "_linkCancel";
+			this._linkCancel.Size = new System.Drawing.Size(240, 13);
+			this._linkCancel.TabIndex = 3;
+			this._linkCancel.TabStop = true;
+			this._linkCancel.Text = "Cancel";
+			this._linkCancel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
 			// LoadingDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.White;
+			this.BackColor = System.Drawing.Color.LightGray;
 			this.ClientSize = new System.Drawing.Size(245, 78);
 			this.Controls.Add(this._labelLoading);
 			this.Controls.Add(this._pictureLoading);
+			this.Controls.Add(this._linkCancel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
@@ -85,6 +102,7 @@ namespace SayMore.UI
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "LoadingDlg";
+			this.Padding = new System.Windows.Forms.Padding(0, 0, 5, 7);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -100,5 +118,6 @@ namespace SayMore.UI
 		private System.Windows.Forms.Label _labelLoading;
 		private System.Windows.Forms.PictureBox _pictureLoading;
 		private Localization.UI.LocalizationExtender locExtender;
+		private System.Windows.Forms.LinkLabel _linkCancel;
 	}
 }

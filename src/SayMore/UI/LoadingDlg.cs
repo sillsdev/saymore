@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.UI.Utilities;
@@ -6,20 +7,42 @@ namespace SayMore.UI
 {
 	public partial class LoadingDlg : Form
 	{
+		public Action CancelClicked;
+
 		/// ------------------------------------------------------------------------------------
 		public LoadingDlg()
 		{
 			InitializeComponent();
+			_linkCancel.Font = SystemFonts.IconTitleFont;
+			BackColor = Color.White;
+			_linkCancel.Visible = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public LoadingDlg(string message) : this()
+		public LoadingDlg(string message) : this(message, false)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public LoadingDlg(bool showCancel) : this(null, showCancel)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public LoadingDlg(string message, bool showCancel) : this()
 		{
 			if (message != null)
 				_labelLoading.Text = message;
 
 			if (_labelLoading.Right - 20 > Right)
 				Width += ((_labelLoading.Right + 20) - Right);
+
+			_linkCancel.Visible = showCancel;
+			_linkCancel.LinkClicked += delegate
+			{
+				if (CancelClicked != null)
+					CancelClicked();
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -110,6 +110,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void CancelLoading()
+		{
+			if (_worker != null && _worker.IsBusy)
+				_worker.CancelAsync();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool IsBusyLoading
 		{
 			get { return _worker != null; }
@@ -211,6 +218,9 @@ namespace SayMore.Transcription.UI
 						buffer[i] |= singleBlock[byteInSample + (channel * bytesPerSample)];
 
 					i++;
+
+					if (_worker.CancellationPending)
+						return;
 				}
 
 				if (_worker.CancellationPending)

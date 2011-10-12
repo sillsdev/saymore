@@ -14,8 +14,6 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class OralAnnotationEditor : EditorBase
 	{
-		//public delegate OralAnnotationEditor Factory(ComponentFile file, string imageKey);
-
 		private bool _isFirstTimeActivated = true;
 
 		/// ------------------------------------------------------------------------------------
@@ -28,8 +26,8 @@ namespace SayMore.Transcription.UI
 			_oralAnnotationWaveViewer.Dock = DockStyle.Fill;
 			_tableLayoutError.Dock = DockStyle.Fill;
 			_labelError.Font = new Font(SystemFonts.IconTitleFont.FontFamily, 11, FontStyle.Bold);
+			_labelLoadingCancelled.Font = _labelError.Font;
 			_textBoxError.Font = SystemFonts.IconTitleFont;
-			_pictureBoxError.Image = SystemIcons.Exclamation.ToBitmap();
 
 			_buttonPlay.Click += delegate
 			{
@@ -60,8 +58,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
-			using (var dlg = new LoadingDlg())
+			using (var dlg = new LoadingDlg(true))
 			{
+				dlg.TopMost = true;
+				dlg.CancelClicked = LoadingCancelled;
 				dlg.Show(this);
 				_tableLayoutError.Visible = false;
 				_oralAnnotationWaveViewer.Visible = true;
@@ -75,14 +75,28 @@ namespace SayMore.Transcription.UI
 				}
 				catch (Exception e)
 				{
+					_pictureBoxError.Image = SystemIcons.Exclamation.ToBitmap();
 					_tableLayoutError.Visible = true;
+					_labelError.Visible = true;
+					_labelLoadingCancelled.Visible = false;
 					_oralAnnotationWaveViewer.Visible = false;
 					_textBoxError.Text = Palaso.Reporting.ExceptionHelper.GetAllExceptionMessages(e);
-					_textBoxError.Text = _textBoxError.Text.Replace("\n", "\r\n");
+					_textBoxError.Text = _textBoxError.Text.Replace("\n", Environment.NewLine);
 				}
 
 				dlg.Close();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LoadingCancelled()
+		{
+			_pictureBoxError.Image = SystemIcons.Information.ToBitmap();
+			_oralAnnotationWaveViewer.CancelLoading();
+			_tableLayoutError.Visible = true;
+			_labelError.Visible = false;
+			_labelLoadingCancelled.Visible = true;
+			_oralAnnotationWaveViewer.Visible = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

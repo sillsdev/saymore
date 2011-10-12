@@ -14,7 +14,7 @@ namespace SayMoreTests.Transcription.Model
 		[SetUp]
 		public void Setup()
 		{
-			_helper = new InterlinearXmlHelper("Homer", null, "en", "fr");
+			_helper = new InterlinearXmlHelper(null, "Homer", null, "en", "fr");
 		}
 
 		/// ------------------------------------------------------------------------------------

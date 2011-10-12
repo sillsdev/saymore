@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Code;
+using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.NewEventsFromFiles
 {
@@ -15,7 +16,7 @@ namespace SayMore.UI.NewEventsFromFiles
 	/// Used with a view which does the actual
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class CopyFilesViewModel : IDisposable
+	public class CopyFilesViewModel : IProgressViewModel, IDisposable
 	{
 		private const int kUpdateStatus = -1;
 
@@ -34,10 +35,11 @@ namespace SayMore.UI.NewEventsFromFiles
 		/// ------------------------------------------------------------------------------------
 		public CopyFilesViewModel(IEnumerable<KeyValuePair<string, string>> sourceDestinationPathPairs)
 		{
-			var notFilesToCopyMsg = LocalizationManager.GetString("Miscellaneous.CopyFilesControl.NoFilesToCopyMsg", "No Files To Copy");
+			var notFilesToCopyMsg = LocalizationManager.GetString(
+				"Miscellaneous.CopyFilesControl.NoFilesToCopyMsg", "No Files To Copy");
 
-			Guard.Against(sourceDestinationPathPairs.Count() == 0, notFilesToCopyMsg);
 			_sourceDestinationPathPairs = sourceDestinationPathPairs.ToArray();
+			Guard.Against(_sourceDestinationPathPairs.Length == 0, notFilesToCopyMsg);
 			_totalBytes = 0;
 
 			foreach (var pair in _sourceDestinationPathPairs)
@@ -55,9 +57,15 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public int TotalPercentage
+		public int CurrentProgressValue
 		{
 			get { return (int)(_totalBytes == 0 ? 0 : 100 * (_totalBytesCopied/(double)_totalBytes)); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int MaximumProgressValue
+		{
+			get { return 100; }
 		}
 
 		/// ------------------------------------------------------------------------------------

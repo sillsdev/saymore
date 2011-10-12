@@ -1,26 +1,24 @@
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
+using SayMore.UI.LowLevelControls;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.UI
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class MakeEventsFromFileProgressDialog : Form
+	public partial class ProgressDlg : Form
 	{
-		private readonly CopyFilesViewModel _model;
+		private readonly IProgressViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public MakeEventsFromFileProgressDialog(
-			IEnumerable<KeyValuePair<string, string>> sourceDestinationPathPairs,
-			Action<string> eventCreatingMethod)
+		public ProgressDlg(IProgressViewModel model, string caption)
 		{
+			_model = model;
 			InitializeComponent();
-			_model = new CopyFilesViewModel(sourceDestinationPathPairs);
-			_model.BeforeFileCopiedAction = eventCreatingMethod;
 			_model.OnFinished += HandleCopyFinished;
-			var copyControl = new CopyFilesControl(_model);
+			var copyControl = new ProgressControl(_model);
 			copyControl.Dock = DockStyle.Fill;
 			_tableLayout.Controls.Add(copyControl, 0, 0);
+			Text = caption;
 		}
 
 		/// ------------------------------------------------------------------------------------

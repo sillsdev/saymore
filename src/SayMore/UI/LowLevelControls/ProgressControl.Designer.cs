@@ -1,8 +1,8 @@
 using Palaso.UI.WindowsForms.Widgets;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.UI.LowLevelControls
 {
-	partial class CopyFilesControl
+	partial class ProgressControl
 	{
 		/// <summary> 
 		/// Required designer variable.

@@ -253,7 +253,14 @@ namespace SayMore.UI.NewEventsFromFiles
 			if (pairs.Length == 0)
 				return;
 
-			using (var dlg = new MakeEventsFromFileProgressDialog(pairs, _viewModel.CreateSingleEvent))
+			var model = new CopyFilesViewModel(pairs);
+			model.BeforeFileCopiedAction = _viewModel.CreateSingleEvent;
+
+			var caption = LocalizationManager.GetString(
+				"DialogBoxes.NewEventsFromFilesDlg.CreatingEvents.ProgressDlg.Caption",
+				"Creating Events");
+
+			using (var dlg = new ProgressDlg(model, caption))
 			{
 				dlg.StartPosition = FormStartPosition.CenterScreen;
 				dlg.ShowDialog();

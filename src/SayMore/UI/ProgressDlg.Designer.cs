@@ -1,6 +1,6 @@
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.UI
 {
-	partial class MakeEventsFromFileProgressDialog
+	partial class ProgressDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -73,7 +73,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
-			// MakeEventsFromFileProgressDialog
+			// ProgressDlg
 			// 
 			this.AcceptButton = this._buttonOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -83,8 +83,9 @@ namespace SayMore.UI.NewEventsFromFiles
 			this.Controls.Add(this._tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.NewEventsFromFileProgressDlg.WindowTitle");
-			this.Name = "MakeEventsFromFileProgressDialog";
+			this.Name = "ProgressDlg";
 			this.Padding = new System.Windows.Forms.Padding(15, 20, 15, 15);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;

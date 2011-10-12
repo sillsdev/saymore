@@ -4,15 +4,27 @@ using System.Media;
 using System.Windows.Forms;
 using SayMore.Properties;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.UI.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class CopyFilesControl : UserControl
+	public interface IProgressViewModel
 	{
-		private readonly CopyFilesViewModel _model;
+		int CurrentProgressValue { get; }
+		int MaximumProgressValue { get; }
+		string StatusString { get; }
+		void Start();
+		event EventHandler OnFinished;
+		event EventHandler OnUpdateProgress;
+		event EventHandler OnUpdateStatus;
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	public partial class ProgressControl : UserControl
+	{
+		private readonly IProgressViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public CopyFilesControl(CopyFilesViewModel model)
+		public ProgressControl(IProgressViewModel model)
 		{
 			InitializeComponent();
 			_labelStatus.Font = new Font(SystemFonts.IconTitleFont, FontStyle.Bold);
@@ -20,19 +32,25 @@ namespace SayMore.UI.NewEventsFromFiles
 			_model.OnFinished += HandleCopyFinished;
 			_model.OnUpdateProgress += HandleCopyProgressUpdate;
 			_model.OnUpdateStatus += HandleCopyStatusUpdate;
-			_progressBar.Maximum = 100;
+			_progressBar.Maximum = _model.MaximumProgressValue;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleCopyStatusUpdate(object sender, EventArgs e)
 		{
-			_labelStatus.Text = _model.StatusString;
+			if (InvokeRequired)
+				Invoke((Action)(() => _labelStatus.Text = _model.StatusString));
+			else
+				_labelStatus.Text = _model.StatusString;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		void HandleCopyProgressUpdate(object sender, EventArgs e)
 		{
-			_progressBar.Value = _model.TotalPercentage;
+			if (InvokeRequired)
+				Invoke((Action)(() => _progressBar.Value = _model.CurrentProgressValue));
+			else
+				_progressBar.Value = _model.CurrentProgressValue;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -49,7 +67,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			else
 			{
 				if (InvokeRequired)
-					Invoke(new EventHandler(delegate { _labelStatus.ForeColor = Color.Red; }));
+					Invoke((Action)(() => _labelStatus.ForeColor = Color.Red));
 				else
 					_labelStatus.ForeColor = Color.Red;
 

@@ -411,6 +411,12 @@
     <Compile Include="UI\LowLevelControls\PickerPopupItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\LowLevelControls\ProgressControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LowLevelControls\ProgressControl.designer.cs">
+      <DependentUpon>ProgressControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\LowLevelControls\PromptTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -433,6 +439,12 @@
     <Compile Include="UI\MediaPlayer\VideoPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ProgressDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ProgressDlg.designer.cs">
+      <DependentUpon>ProgressDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommand.cs" />
     <Compile Include="UI\LowLevelControls\DeleteMessageBox.cs">
       <SubType>Form</SubType>
@@ -443,19 +455,7 @@
     <Compile Include="UI\LowLevelControls\ParentButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesControl.Designer.cs">
-      <DependentUpon>CopyFilesControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesViewModel.cs" />
-    <Compile Include="UI\NewEventsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\NewEventsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.Designer.cs">
-      <DependentUpon>MakeSessionsFromFileProgressDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\NewEventsFromFiles\NewComponentFile.cs" />
     <Compile Include="UI\NewEventsFromFiles\NewEventsFromFileDlgViewModel.cs" />
     <Compile Include="UI\NewEventsFromFiles\NewEventsFromFilesDlg.cs">
@@ -623,17 +623,17 @@
     <EmbeddedResource Include="UI\LoadingDlg.resx">
       <DependentUpon>LoadingDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewEventsFromFiles\CopyFiles\CopyFilesControl.resx">
-      <DependentUpon>CopyFilesControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewEventsFromFiles\CopyFiles\MakeSessionsFromFileProgressDialog.resx">
-      <DependentUpon>MakeSessionsFromFileProgressDialog.cs</DependentUpon>
+    <EmbeddedResource Include="UI\LowLevelControls\ProgressControl.resx">
+      <DependentUpon>ProgressControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\NewEventsFromFiles\NewEventsFromFilesDlg.resx">
       <DependentUpon>NewEventsFromFilesDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\NewEventsFromFiles\NewEventsFromFilesDlgFolderNotFoundMsg.resx">
       <DependentUpon>NewEventsFromFilesDlgFolderNotFoundMsg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProgressDlg.resx">
+      <DependentUpon>ProgressDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlg.resx">
       <DependentUpon>NewProjectDlg.cs</DependentUpon>

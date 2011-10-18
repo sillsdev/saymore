@@ -1053,10 +1053,7 @@
     </tu>
     <tu tuid="DialogBoxes.NewEventsFromFilesDlg._labelInstructions">
       <tuv xml:lang="en">
-        <seg>Mark each file which represents an original recording of an event. For each one, </seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Marcar cada archivo que representa una grabación original de un evento. Para cada uno,</seg>
+        <seg>Mark each file which represents an original recording of an event. For each one, SayMore will create a new event and copy the file into it.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewEventsFromFilesDlg._labelProgress">
@@ -1119,10 +1116,7 @@
     </tu>
     <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.DriveLetterHintMsgLabel">
       <tuv xml:lang="en">
-        <seg>In Windows, if you assign the device to a letter closer to 'z', it is more likely</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>En Windows, si asigna el dispositivo a una carta más cerca a la 'z', es más probable</seg>
+        <seg>In Windows, if you assign the device to a letter closer to 'z', it is more likely to use that letter each time.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1">
@@ -1151,10 +1145,7 @@
     </tu>
     <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.ProblemOverviewMsgLabel">
       <tuv xml:lang="en">
-        <seg>SayMore cannot reach the folder where your files were last time. One of the follo</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>SayMore no puede llegar a la carpeta donde los archivos fueron la última vez. Uno de los follo</seg>
+        <seg>SayMore cannot reach the folder where your files were last time. One of the following may be true:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.NewProjectDlg._buttonCancel">
@@ -1283,10 +1274,7 @@
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanOverviewLabel">
       <tuv xml:lang="en">
-        <seg>Alternatively, you can add an ELAN "eaf" file which already contains segments and</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Alternativamente, puede agregar un archivo de "eaf" ELAN que ya contiene segmentos y</seg>
+        <seg>Alternatively, you can add an ELAN "eaf" file which already contains segments and annotations for this media file.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadAudacityLabelFileButtonText">
@@ -1315,10 +1303,7 @@
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.OverviewLabel">
       <tuv xml:lang="en">
-        <seg>This will create a file to hold annotations of the media file '{0}'. SayMore cur</seg>
-      </tuv>
-      <tuv xml:lang="es">
-        <seg>Esto creará un archivo de anotaciones del archivo '{0}'. SayMore cur</seg>
+        <seg>This will create a file to hold annotations of the media file '{0}'. SayMore currently supports the following annotations:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.WindowTitle">

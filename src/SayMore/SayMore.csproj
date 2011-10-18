@@ -159,6 +159,7 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
+    <Compile Include="Transcription\Model\CreateAnnotationFileViewModel.cs" />
     <Compile Include="Transcription\UI\AutoSegmenterDlg.cs">
       <SubType>Form</SubType>
     </Compile>

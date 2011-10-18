@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using Localization;
 using Palaso.IO;
 using Palaso.Reporting;
 using SayMore.Properties;
+using SayMore.UI;
 
 namespace SayMore.Transcription.Model
 {
@@ -491,10 +493,22 @@ namespace SayMore.Transcription.Model
 			var eafFile = Load(newAnnotationFile);
 			eafFile.SetMediaFile(mediaFileName);
 
-			foreach (var label in audacityLabels)
-				eafFile.AddNewTranscriptionAnnotationElement(label);
+			var viewModel = new CreateAnnotationFileViewModel(eafFile, audacityLabels);
 
-			eafFile.Save();
+			var caption = LocalizationManager.GetString(
+					"EventsView.Transcription.AnnotationFileHelper.CreateAnnotationFileFromAudacity.ProgressDlgCaption",
+					"Creating Annotation File");
+
+			using (var dlg = new ProgressDlg(viewModel, caption))
+			{
+				dlg.StartPosition = FormStartPosition.CenterScreen;
+				dlg.ShowDialog();
+			}
+
+			//foreach (var label in audacityLabels)
+			//    eafFile.AddNewTranscriptionAnnotationElement(label);
+
+			//eafFile.Save();
 			return newAnnotationFile;
 		}
 

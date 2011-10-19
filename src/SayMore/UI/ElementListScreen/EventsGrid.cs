@@ -47,9 +47,7 @@ namespace SayMore.UI.ElementListScreen
 			if (fieldName == "date")
 			{
 				var date = base.GetValueForField(element, fieldName);
-				// We have this permsissive business because we released versions of SayMore (prior to 1.1.120) which used the local
-				// format, rather than a universal one.
-				return date; //: DateTimeExtensions.ParseDateTimePermissively(date as string).ToShortDateString());
+				return date;
 			}
 
 			return base.GetValueForField(element, fieldName);
@@ -75,7 +73,7 @@ namespace SayMore.UI.ElementListScreen
 				try
 				{
 					//we parse it and then generate it because we're trying to migrate old, locale-specific dates to ISO8601 dates
-					return DateTimeExtensions.ParseDateTimePermissively(dateString).ToISO8601DateOnlyString();
+					return DateTimeExtensions.ParseDateTimePermissivelyWithException(dateString).ToISO8601DateOnlyString();
 				}
 				catch (Exception e)
 				{

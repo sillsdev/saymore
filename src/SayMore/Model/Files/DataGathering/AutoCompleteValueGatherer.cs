@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Palaso.ClearShare;
+using Palaso.UI.WindowsForms.ClearShare;
 using SayMore.Model.Fields;
 
 namespace SayMore.Model.Files.DataGathering

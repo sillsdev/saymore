@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using NUnit.Framework;
-using Palaso.ClearShare;
+using Palaso.UI.WindowsForms.ClearShare;
 using SayMore.Model.Fields;
 using Palaso.Extensions;
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using Localization;
-using Palaso.ClearShare;
+using Palaso.UI.WindowsForms.ClearShare;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 

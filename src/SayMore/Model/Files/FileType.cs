@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
-using Palaso.ClearShare;
+using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.Media;
 using Palaso.Progress.LogBox;
 using Palaso.Reporting;

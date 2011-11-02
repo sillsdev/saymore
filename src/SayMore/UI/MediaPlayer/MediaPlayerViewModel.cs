@@ -553,7 +553,9 @@ namespace SayMore.UI.MediaPlayer
 					PlaybackResumed();
 			}
 
-			CurrentPosition = float.Parse(data.Substring(3, 5));
+			CurrentPosition = float.Parse(
+				data.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[1],
+					System.Globalization.NumberStyles.AllowDecimalPoint);
 
 			if (CurrentPosition < 0f)
 			{

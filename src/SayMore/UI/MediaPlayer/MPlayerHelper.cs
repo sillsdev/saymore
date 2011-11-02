@@ -385,7 +385,10 @@ namespace SayMore.UI.MediaPlayer
 			{
 				match = Regex.Match(ffmpeginfo.RawData.Substring(match.Index + match.Value.Length), ".+,");
 				if (match.Success)
-					StartTime = float.Parse(match.Value.TrimEnd(','));
+				{
+					StartTime = float.Parse(match.Value.TrimEnd(','),
+						System.Globalization.NumberStyles.AllowDecimalPoint);
+				}
 			}
 
 			try

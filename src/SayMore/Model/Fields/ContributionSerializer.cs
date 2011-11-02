@@ -1,7 +1,11 @@
+using System;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
-using Palaso.ClearShare;
 using Palaso.Extensions;
+using Palaso.Progress.LogBox;
+using Palaso.Reporting;
+using Palaso.UI.WindowsForms.ClearShare;
 
 namespace SayMore.Model.Fields
 {
@@ -39,8 +43,17 @@ namespace SayMore.Model.Fields
 				var contrib = new Contribution(e.Element("name").Value, role);
 				// We have this permsissive business because we released versions of SayMore (prior to 1.1.120) which used the local
 				// format, rather than a universal one.
-				contrib.Date = DateTimeExtensions.ParseDateTimePermissively(e.Element("date").Value);
-				contrib.Comments = e.Element("notes").Value;
+				var when = e.Element("date").Value;
+				try
+				{
+					contrib.Date = DateTimeExtensions.ParseDateTimePermissivelyWithException(when);
+				}
+				catch(Exception error)
+				{
+					contrib.Date = DateTime.MinValue;
+					// looked  like it would take hours to change scores of methods to propogate a progress thing (e.g. ErrorCollector) down this far. Sigh...  progress.WriteError("SayMore had trouble understanding the date '{0}', on a contribution by {1}. For now, it was replaced by {2}", d, contrib.ContributorName, contrib.Date.ToString(CultureInfo.CurrentCulture));
+				}
+				contrib.Comments = e.Element(@"notes").Value;
 				return contrib;
 			});
 

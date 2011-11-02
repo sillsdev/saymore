@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
-using Palaso.ClearShare;
+using Palaso.UI.WindowsForms.ClearShare;
 using Localization;
 using SilTools;
 using SilTools.Controls;

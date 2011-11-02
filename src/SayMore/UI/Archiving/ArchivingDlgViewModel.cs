@@ -11,7 +11,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Ionic.Zip;
 using Localization;
-using Palaso.ClearShare;
+using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.IO;
 using Palaso.Progress;
 using Palaso.Progress.LogBox;

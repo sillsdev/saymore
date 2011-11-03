@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -555,7 +556,7 @@ namespace SayMore.UI.MediaPlayer
 
 			CurrentPosition = float.Parse(
 				data.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[1],
-					System.Globalization.NumberStyles.AllowDecimalPoint);
+					CultureInfo.InvariantCulture.NumberFormat);
 
 			if (CurrentPosition < 0f)
 			{

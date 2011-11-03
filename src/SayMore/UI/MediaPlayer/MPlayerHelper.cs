@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -387,7 +388,7 @@ namespace SayMore.UI.MediaPlayer
 				if (match.Success)
 				{
 					StartTime = float.Parse(match.Value.TrimEnd(','),
-						System.Globalization.NumberStyles.AllowDecimalPoint);
+						CultureInfo.InvariantCulture.NumberFormat);
 				}
 			}
 

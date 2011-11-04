@@ -6,6 +6,7 @@ using System.Media;
 using System.Windows.Forms;
 using Palaso.UI.WindowsForms.ClearShare;
 using Localization;
+using Palaso.UI.WindowsForms.ClearShare.WinFormsUI;
 using SilTools;
 using SilTools.Controls;
 

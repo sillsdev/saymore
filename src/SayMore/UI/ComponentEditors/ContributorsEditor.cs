@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Localization;
 using Palaso.UI.WindowsForms.ClearShare;
+using Palaso.UI.WindowsForms.ClearShare.WinFormsUI;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 

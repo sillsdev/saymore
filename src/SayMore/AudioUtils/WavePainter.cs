@@ -29,7 +29,6 @@ namespace SayMore.AudioUtils
 		private KeyValuePair<float, float>[] _samplesToDraw = new KeyValuePair<float,float>[0];
 
 		public Control Control { get; set; }
-
 		public Color ForeColor { get; set; }
 		public Color BackColor { get; set; }
 
@@ -51,6 +50,8 @@ namespace SayMore.AudioUtils
 		public WavePainter(Control ctrl, IEnumerable<float> samples, TimeSpan totalTime)
 		{
 			Control = ctrl;
+			ctrl.Paint += (s, e) => Draw(e, ctrl.ClientRectangle);
+
 			_samples = samples.ToArray();
 			_totalTime = totalTime;
 
@@ -104,10 +105,10 @@ namespace SayMore.AudioUtils
 
 			while (firstSampleInPixel < _samples.Length)
 			{
-				float maxVal = float.MinValue;
-				float minVal = float.MaxValue;
+				var maxVal = float.MinValue;
+				var minVal = float.MaxValue;
 
-				// Find the max & min peaks for this pixel
+				// Find the max and min peaks for this pixel
 				for (int i = 0; i < SamplesPerPixel && firstSampleInPixel + i< _samples.Length; i++)
 				{
 					maxVal = Math.Max(maxVal, _samples[firstSampleInPixel + i]);
@@ -139,20 +140,19 @@ namespace SayMore.AudioUtils
 			if (SamplesPerPixel > 0.0000000001d)
 				DrawWave(e.Graphics, rc);
 
-			// Now draw the selected region, if there is one.
-			DrawSelectedRegion(e.Graphics, rc);
-
 			if (_segmentBoundaries != null)
 				DrawSegmentBoundaries(e.Graphics, rc);
 
+			// Now draw the selected region, if there is one.
+			DrawSelectedRegion(e.Graphics);
+
 			DrawCursor(e.Graphics, rc);
-			//DrawPlaybackCursor(e.Graphics, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void DrawWave(Graphics g, Rectangle rc)
 		{
-			// Samples will span from some value between 0 and +1 to some value between 0 and -1.
+			// Samples will span from some value <= +1 to >= -1.
 			// The top of the client area represents +1 and the bottom represents -1.
 
 			var blend = new Blend();
@@ -192,18 +192,11 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawSelectedRegion(Graphics g, Rectangle rc)
+		private void DrawSelectedRegion(Graphics g)
 		{
-			var startX = ConvertTimeToXCoordinate(SelectedRegionStartTime);
-			var endX = ConvertTimeToXCoordinate(SelectedRegionEndTime);
-
-			var x1 = Math.Min(startX, endX);
-			var x2 = Math.Max(startX, endX);
-
-			if (x1 == x2)
+			var regionRect = GetRectangleForTimeRange(SelectedRegionStartTime, SelectedRegionEndTime);
+			if (regionRect == Rectangle.Empty)
 				return;
-
-			var regionRect = new Rectangle(x1, 0, x2 - x1, rc.Height);
 
 			using (var br = new SolidBrush(Color.FromArgb(110, SystemColors.Highlight)))
 				g.FillRectangle(br, regionRect);
@@ -212,10 +205,28 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public Rectangle GetRectangleForTimeRange(TimeSpan startTime, TimeSpan endTime)
+		{
+			var startX = ConvertTimeToXCoordinate(startTime);
+			var endX = ConvertTimeToXCoordinate(endTime);
+
+			var x1 = Math.Min(startX, endX);
+			var x2 = Math.Max(startX, endX);
+
+			if (x1 >= x2)
+				return Rectangle.Empty;
+
+			return new Rectangle(x1, 0, x2 - x1 + 1,
+				(Control == null ? 0 : Control.ClientRectangle.Height));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void DrawSegmentBoundaries(Graphics g, Rectangle rc)
 		{
-			using (var pen = new Pen(Color.FromArgb(50, ForeColor)))
+			using (var pen = new Pen(Color.FromArgb(120, ForeColor)))
 			{
+				pen.DashStyle = DashStyle.Dot;
+
 				foreach (var dx in _segmentBoundaries.Select(b => ConvertTimeToXCoordinate(b)))
 					g.DrawLine(pen, dx, 0, dx, rc.Height);
 			}
@@ -226,22 +237,22 @@ namespace SayMore.AudioUtils
 		{
 			var dx = ConvertTimeToXCoordinate(CursorTime);
 
-			using (var pen = new Pen(Color.FromArgb(255, Color.DarkGreen)))
+			using (var pen = new Pen(Color.Green))
 				g.DrawLine(pen, dx, 0, dx, rc.Height);
 
 			PreviousCursorRectangle = new Rectangle(dx, 0, 1, rc.Height);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void DrawPlaybackCursor(Graphics g, Rectangle rc)
-		{
-			var dx = ConvertTimeToXCoordinate(PlaybackCursorTime);
+		///// ------------------------------------------------------------------------------------
+		//private void DrawPlaybackCursor(Graphics g, Rectangle rc)
+		//{
+		//    var dx = ConvertTimeToXCoordinate(PlaybackCursorTime);
 
-			using (var pen = new Pen(Color.FromArgb(255, Color.DarkBlue)))
-				g.DrawLine(pen, dx, 0, dx, rc.Height);
+		//    using (var pen = new Pen(Color.FromArgb(255, Color.DarkBlue)))
+		//        g.DrawLine(pen, dx, 0, dx, rc.Height);
 
-			PreviousPlaybackCursorRectangle = new Rectangle(dx, 0, 1, rc.Height);
-		}
+		//    PreviousPlaybackCursorRectangle = new Rectangle(dx, 0, 1, rc.Height);
+		//}
 
 		///// ------------------------------------------------------------------------------------
 		//private void DrawPlaybackProgressShading(Graphics g, Rectangle rc)
@@ -273,17 +284,23 @@ namespace SayMore.AudioUtils
 		public void SetCursor(TimeSpan cursorTime)
 		{
 			CursorTime = cursorTime;
-			SetCursor(ConvertTimeToXCoordinate(cursorTime));
+			RepaintAfterCursorIsSet();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetCursor(int cursorX)
 		{
+			CursorTime = ConvertXCoordinateToTime(cursorX);
+			RepaintAfterCursorIsSet();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void RepaintAfterCursorIsSet()
+		{
 			var rc = PreviousCursorRectangle;
 			if (rc != Rectangle.Empty)
 				Control.Invalidate(rc);
 
-			CursorTime = ConvertXCoordinateToTime(cursorX);
 			var dx = ConvertTimeToXCoordinate(CursorTime);
 			Control.Invalidate(new Rectangle(dx, 0, dx, Control.ClientSize.Height));
 		}

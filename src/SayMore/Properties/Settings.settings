@@ -357,20 +357,26 @@
     <Setting Name="OralAnnotationSegmentFileFormat" Type="System.String" Scope="Application">
       <Value Profile="(Default)">{0}_to_{1}{2}</Value>
     </Setting>
-    <Setting Name="MillisecondsToAdvanceInManualSegmentation" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+    <Setting Name="MillisecondsToAdvanceSegmentBoundaryOnRightArrow" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="MillisecondsToBackupInManualSegmentation" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+    <Setting Name="MillisecondsToBackupSegmentBoundaryOnLeftArrow" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="MillisecondsToRePlayAfterAdjustingManualSegmentBoundary" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1500</Value>
+    <Setting Name="MillisecondsToRePlayAfterAdjustingSegmentBoundary" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
     </Setting>
     <Setting Name="UserInterfaceLanguage" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">en</Value>
     </Setting>
     <Setting Name="LocalizationDlgSettings" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
+    <Setting Name="ZoomPercentageInCarefulSpeechRecordingDlg" Provider="SilTools.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">100</Value>
     </Setting>
   </Settings>
 </SettingsFile>

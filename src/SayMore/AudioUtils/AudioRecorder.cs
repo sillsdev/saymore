@@ -201,8 +201,7 @@ namespace SayMore.AudioUtils
 				var msg = LocalizationManager.GetString("Miscellaneous.AudioRecorder.MonitoringErrorMsg",
 					"There was a problem starting up volume monitoring.");
 
-				ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(),
-					e, "There was a problem starting up volume monitoring.");
+				ErrorReport.NotifyUserOfProblem(new ShowOncePerSessionBasedOnExactMessagePolicy(), e, msg);
 
 				if (_waveIn != null)
 				{

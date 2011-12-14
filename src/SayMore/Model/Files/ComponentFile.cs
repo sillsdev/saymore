@@ -256,32 +256,35 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void CreateAnnotationFile(Action<string> refreshAction)
 		{
-			using (var dlg = new CreateAnnotationFileDlg(Path.GetFileName(PathToAnnotatedFile)))
-			{
-				if (dlg.ShowDialog() != DialogResult.OK)
-					return;
+			ManuallySegmentFile(refreshAction);
 
-				var newAnnotationFile = (dlg.AutoSegment ?
-					AutoSegmenterDlg.CreateAnnotationFile(PathToAnnotatedFile) :
-					AnnotationFileHelper.Create(dlg.FileName, PathToAnnotatedFile));
+			//using (var dlg = new CreateAnnotationFileDlg(Path.GetFileName(PathToAnnotatedFile)))
+			//{
+			//    if (dlg.ShowDialog() != DialogResult.OK)
+			//        return;
 
-				if (refreshAction != null)
-					refreshAction(newAnnotationFile);
-			}
+			//    var newAnnotationFile = (dlg.AutoSegment ?
+			//        AutoSegmenterDlg.CreateAnnotationFile(PathToAnnotatedFile) :
+			//        AnnotationFileHelper.Create(dlg.FileName, PathToAnnotatedFile));
+
+			//    if (refreshAction != null)
+			//        refreshAction(newAnnotationFile);
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void ManuallySegmentFile(Action<string> refreshAction)
 		{
-			using (var dlg = new ManualSegmenterDlg(this))
+			using (var viewModel = new ManualSegmenterDlgViewModel(this))
+			using (var dlg = new ManualSegmenterDlg(viewModel))
 			{
 				if (dlg.ShowDialog() != DialogResult.OK)
 					return;
 
-				var newAnnotationFile = (!dlg.SegmentBoundariesChanged ? null :
-					AnnotationFileHelper.CreateFromSegments(PathToAnnotatedFile, dlg.GetSegments().ToArray()));
+				var newAnnotationFile = (!viewModel.SegmentBoundariesChanged ? null :
+					AnnotationFileHelper.CreateFromSegments(PathToAnnotatedFile, viewModel.GetSegments().ToArray()));
 
-				if (dlg.AnnotationRecordingsChanged)
+				if (viewModel.AnnotationRecordingsChanged)
 				{
 					var helper = AnnotationFileHelper.Load(newAnnotationFile);
 					var tier = (TimeOrderTier)helper.GetTiers().FirstOrDefault(t => t is TimeOrderTier);

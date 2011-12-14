@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
@@ -9,20 +10,17 @@ using NAudio.Wave.SampleProviders;
 namespace SayMore.AudioUtils
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// Summary description for WaveControl.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class WaveControl : UserControl
 	{
 		public Action<TimeSpan, TimeSpan> Stopped;
 		public Action PlaybackStarted;
 		public Action<TimeSpan, TimeSpan> PlaybackUpdate;
 
-		/// <summary>
-		/// This boolean value gets rid of the currently active region and also refreshes the wave
-		/// </summary>
-		private bool _resetRegion;
+		public delegate void SegmentBoundaryMovedHandler(WaveControl ctrl, TimeSpan oldEndTime, TimeSpan newEndTime);
+		public event SegmentBoundaryMovedHandler SegmentBoundaryMoved;
+
+		public delegate void SegmentClickedHandler(WaveControl ctrl, int segmentNumber);
+		public event SegmentClickedHandler SegmentClicked;
 
 		private WavePainter _painter;
 		private WaveStream _waveStream;
@@ -31,15 +29,15 @@ namespace SayMore.AudioUtils
 		private TimeSpan _playbackStartTime;
 		private TimeSpan _playbackEndTime;
 		private float _zoomPercentage;
+		private TimeSpan _boundaryBeingMoved;
+		private TimeSpan _leftBoundaryOfSegmentBeingResized;
+
+		public bool IsSegmentMovingInProgress { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControl()
 		{
-			// REVIEW: This class assumes the audio data is in 16 bit samples.
-
-			//this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WaveControl_MouseUp);
-			//this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WaveControl_MouseMove);
-			//this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WaveControl_MouseDown);
+			// ENHANCE: This class assumes the audio data is in 16 bit samples.
 
 			SetStyle(ControlStyles.UserPaint, true);
 			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
@@ -85,7 +83,7 @@ namespace SayMore.AudioUtils
 			// from the first channel.
 
 			// REVIEW: Instead of guessing how big to make the list, calculate
-			// the number of samples in the stream.
+			// the number of samples in the stream exactly.
 			var samples = new List<float>(100000);
 			var provider = new SampleChannel(stream);
 			var buffer = new float[provider.WaveFormat.Channels];
@@ -121,7 +119,7 @@ namespace SayMore.AudioUtils
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public IEnumerable<TimeSpan> SegmentBoundaries
 		{
-			get { return (_painter != null ? _painter.SegmentBoundaries : null); }
+			get { return (_painter != null ? _painter.SegmentBoundaries : new TimeSpan[] { }); }
 			set
 			{
 				if (_painter != null)
@@ -241,6 +239,35 @@ namespace SayMore.AudioUtils
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public int GetSegmentForX(int dx)
+		{
+			var timeAtX = GetTimeFromX(dx);
+			int segNumber = 0;
+
+			foreach (var seg in SegmentBoundaries)
+			{
+				if (timeAtX <= seg)
+					return segNumber;
+
+				segNumber++;
+			}
+
+			return -1;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<Rectangle> GetSegmentRectangles()
+		{
+			var startTime = TimeSpan.Zero;
+
+			foreach (var endTime in SegmentBoundaries)
+			{
+				yield return _painter.GetRectangleForTimeRange(startTime, endTime);
+				startTime = endTime;
+			}
+		}
+
 		#region Playback methods
 		/// ------------------------------------------------------------------------------------
 		public void Play(TimeSpan playbackStartTime)
@@ -341,12 +368,67 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnPaint(PaintEventArgs e)
+		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			base.OnPaint(e);
+			base.OnMouseMove(e);
 
-			if (_painter != null)
-				_painter.Draw(e, ClientRectangle);
+			if (IsSegmentMovingInProgress)
+				SetSelectionTimes(_leftBoundaryOfSegmentBeingResized, GetTimeFromX(e.X));
+			else if (e.Button == MouseButtons.None)
+			{
+				var timeAtMouseA = (e.X <= 2 ? TimeSpan.Zero : GetTimeFromX(e.X - 2));
+				var timeAtMouseB = GetTimeFromX(e.X + 2);
+				_boundaryBeingMoved = SegmentBoundaries.FirstOrDefault(b => b >= timeAtMouseA && b <= timeAtMouseB);
+				Cursor = (_boundaryBeingMoved == default(TimeSpan) ? Cursors.Default : Cursors.SizeWE);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
+
+			int segmentClicked = -1;
+
+			if (Cursor != Cursors.SizeWE || _boundaryBeingMoved == default(TimeSpan))
+				segmentClicked = GetSegmentForX(e.X);
+			else
+			{
+				IsSegmentMovingInProgress = true;
+				var segs = SegmentBoundaries.ToArray();
+				for (int i = 0; i < segs.Length - 1; i++)
+				{
+					if (segs[i + 1] == _boundaryBeingMoved)
+					{
+						_leftBoundaryOfSegmentBeingResized = segs[i];
+						segmentClicked = i + 1;
+						break;
+					}
+				}
+			}
+
+			if (SegmentClicked != null)
+				SegmentClicked(this, segmentClicked);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseUp(MouseEventArgs e)
+		{
+			base.OnMouseUp(e);
+
+			if (!IsSegmentMovingInProgress)
+				return;
+
+			IsSegmentMovingInProgress = false;
+
+			if (SegmentBoundaryMoved != null)
+			{
+				SegmentBoundaryMoved(this, _boundaryBeingMoved, GetTimeFromX(e.X));
+				Invalidate();
+			}
+
+			_leftBoundaryOfSegmentBeingResized = default(TimeSpan);
+			_boundaryBeingMoved = default(TimeSpan);
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -402,89 +484,6 @@ namespace SayMore.AudioUtils
 			SetVirtualWidth(Math.Max(ClientSize.Width, AutoScrollPosition.X));
 		}
 
-		//private void ZoomToRegion()
-		//{
-		//    int regionStartX = Math.Min(_selectedRegionStartX, _selectedRegionEndX);
-		//    int regionEndX = Math.Max(_selectedRegionStartX, _selectedRegionEndX);
-
-		//    // if they are negative, make them zero
-		//    regionStartX = Math.Max(0, regionStartX);
-		//    regionEndX = Math.Max(0, regionEndX);
-
-		//    _offsetInSamples += (int)(regionStartX * _samplesPerPixel);
-
-		//    int numSamplesToShow = (int)((regionEndX - regionStartX) * _samplesPerPixel);
-
-		//    if (numSamplesToShow > 0)
-		//    {
-		//        SamplesPerPixel = (double)numSamplesToShow / ClientSize.Width;
-		//        _resetRegion = true;
-		//    }
-		//}
-
-		//private void ZoomOutFull()
-		//{
-		//    SamplesPerPixel = (_numSamples / (double)ClientSize.Width);
-		//    _offsetInSamples = 0;
-		//    _resetRegion = true;
-		//}
-
 		#endregion
-
-		//private void Scroll(int newXValue)
-		//{
-		//    _offsetInSamples -= (int)((newXValue - _prevMouseX) * _samplesPerPixel);
-
-		//    if (_offsetInSamples < 0)
-		//        _offsetInSamples = 0;
-		//}
-
-		private void WaveControl_MouseDown(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-			{
-				//if (m_AltKeyDown)
-				//{
-				//    _prevMouseX = e.X;
-				//}
-				//else
-				{
-					//_selectedRegionStartX = e.X;
-					_resetRegion = true;
-				}
-			}
-			//else if (e.Button == MouseButtons.Right)
-			//{
-			//    if (e.Clicks == 2)
-			//        ZoomOutFull();
-			//    else
-			//        ZoomToRegion();
-			//}
-		}
-
-		private void WaveControl_MouseMove(object sender, MouseEventArgs e)
-		{
-			if (e.Button != MouseButtons.Left)
-				return;
-
-			//_selectedRegionEndX = e.X;
-			_resetRegion = false;
-			//_prevMouseX = e.X;
-			Refresh();
-		}
-
-		private void WaveControl_MouseUp(object sender, MouseEventArgs e)
-		{
-			if (_resetRegion)
-			{
-				//_selectedRegionStartX = 0;
-				//_selectedRegionEndX = 0;
-				Refresh();
-			}
-			else
-			{
-				//_selectedRegionEndX = e.X;
-			}
-		}
 	}
 }

@@ -101,7 +101,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonAutoSegmenter.Margin = new System.Windows.Forms.Padding(25, 3, 3, 3);
 			this._radioButtonAutoSegmenter.Name = "_radioButtonAutoSegmenter";
 			this._radioButtonAutoSegmenter.Size = new System.Drawing.Size(188, 17);
-			this._radioButtonAutoSegmenter.TabIndex = 7;
+			this._radioButtonAutoSegmenter.TabIndex = 11;
 			this._radioButtonAutoSegmenter.TabStop = true;
 			this._radioButtonAutoSegmenter.Text = "Use auto segmenter (experimental)";
 			this._radioButtonAutoSegmenter.UseVisualStyleBackColor = true;
@@ -117,7 +117,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonAudacity.Margin = new System.Windows.Forms.Padding(25, 3, 3, 3);
 			this._radioButtonAudacity.Name = "_radioButtonAudacity";
 			this._radioButtonAudacity.Size = new System.Drawing.Size(155, 17);
-			this._radioButtonAudacity.TabIndex = 6;
+			this._radioButtonAudacity.TabIndex = 9;
 			this._radioButtonAudacity.TabStop = true;
 			this._radioButtonAudacity.Text = "Read an Audacity Label file";
 			this._radioButtonAudacity.UseVisualStyleBackColor = true;
@@ -133,7 +133,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonElan.Margin = new System.Windows.Forms.Padding(25, 3, 3, 3);
 			this._radioButtonElan.Name = "_radioButtonElan";
 			this._radioButtonElan.Size = new System.Drawing.Size(149, 17);
-			this._radioButtonElan.TabIndex = 5;
+			this._radioButtonElan.TabIndex = 7;
 			this._radioButtonElan.TabStop = true;
 			this._radioButtonElan.Text = "Copy an existing ELAN file";
 			this._radioButtonElan.UseVisualStyleBackColor = true;
@@ -149,7 +149,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonCarefulSpeech.Margin = new System.Windows.Forms.Padding(25, 3, 3, 3);
 			this._radioButtonCarefulSpeech.Name = "_radioButtonCarefulSpeech";
 			this._radioButtonCarefulSpeech.Size = new System.Drawing.Size(144, 17);
-			this._radioButtonCarefulSpeech.TabIndex = 4;
+			this._radioButtonCarefulSpeech.TabIndex = 5;
 			this._radioButtonCarefulSpeech.TabStop = true;
 			this._radioButtonCarefulSpeech.Text = "Use Careful Speech Tool";
 			this._radioButtonCarefulSpeech.UseVisualStyleBackColor = true;
@@ -183,7 +183,7 @@ namespace SayMore.Transcription.UI
 			this._labelIntroduction.Margin = new System.Windows.Forms.Padding(15, 10, 15, 15);
 			this._labelIntroduction.Name = "_labelIntroduction";
 			this._labelIntroduction.Size = new System.Drawing.Size(458, 26);
-			this._labelIntroduction.TabIndex = 1;
+			this._labelIntroduction.TabIndex = 0;
 			this._labelIntroduction.Text = "You can add transcription, translation, careful speech and audio translation to t" +
     "his media file. But first...";
 			// 
@@ -200,7 +200,7 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentationMethodQuestion.Margin = new System.Windows.Forms.Padding(15, 0, 15, 10);
 			this._labelSegmentationMethodQuestion.Name = "_labelSegmentationMethodQuestion";
 			this._labelSegmentationMethodQuestion.Size = new System.Drawing.Size(458, 26);
-			this._labelSegmentationMethodQuestion.TabIndex = 0;
+			this._labelSegmentationMethodQuestion.TabIndex = 1;
 			this._labelSegmentationMethodQuestion.Text = "Each annotation will be linked to a single time segment of media. How would you l" +
     "ike to identify those segments?";
 			// 
@@ -243,7 +243,7 @@ namespace SayMore.Transcription.UI
 			this._buttonAudacityHelp.Name = "_buttonAudacityHelp";
 			this._buttonAudacityHelp.ShowFocusRectangle = true;
 			this._buttonAudacityHelp.Size = new System.Drawing.Size(20, 20);
-			this._buttonAudacityHelp.TabIndex = 9;
+			this._buttonAudacityHelp.TabIndex = 10;
 			this._buttonAudacityHelp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this._buttonAudacityHelp.UseVisualStyleBackColor = false;
 			// 
@@ -270,7 +270,7 @@ namespace SayMore.Transcription.UI
 			this._buttonELANFileHelp.Name = "_buttonELANFileHelp";
 			this._buttonELANFileHelp.ShowFocusRectangle = true;
 			this._buttonELANFileHelp.Size = new System.Drawing.Size(20, 20);
-			this._buttonELANFileHelp.TabIndex = 10;
+			this._buttonELANFileHelp.TabIndex = 8;
 			this._buttonELANFileHelp.UseVisualStyleBackColor = false;
 			// 
 			// _buttonAutoSegmenterHelp
@@ -296,7 +296,7 @@ namespace SayMore.Transcription.UI
 			this._buttonAutoSegmenterHelp.Name = "_buttonAutoSegmenterHelp";
 			this._buttonAutoSegmenterHelp.ShowFocusRectangle = true;
 			this._buttonAutoSegmenterHelp.Size = new System.Drawing.Size(20, 20);
-			this._buttonAutoSegmenterHelp.TabIndex = 11;
+			this._buttonAutoSegmenterHelp.TabIndex = 13;
 			this._buttonAutoSegmenterHelp.UseVisualStyleBackColor = false;
 			// 
 			// _buttonCarefulSpeechToolHelp
@@ -322,7 +322,7 @@ namespace SayMore.Transcription.UI
 			this._buttonCarefulSpeechToolHelp.Name = "_buttonCarefulSpeechToolHelp";
 			this._buttonCarefulSpeechToolHelp.ShowFocusRectangle = true;
 			this._buttonCarefulSpeechToolHelp.Size = new System.Drawing.Size(20, 20);
-			this._buttonCarefulSpeechToolHelp.TabIndex = 12;
+			this._buttonCarefulSpeechToolHelp.TabIndex = 6;
 			this._buttonCarefulSpeechToolHelp.UseVisualStyleBackColor = false;
 			// 
 			// _buttonManualSegmentationHelp
@@ -348,7 +348,7 @@ namespace SayMore.Transcription.UI
 			this._buttonManualSegmentationHelp.Name = "_buttonManualSegmentationHelp";
 			this._buttonManualSegmentationHelp.ShowFocusRectangle = true;
 			this._buttonManualSegmentationHelp.Size = new System.Drawing.Size(20, 20);
-			this._buttonManualSegmentationHelp.TabIndex = 13;
+			this._buttonManualSegmentationHelp.TabIndex = 4;
 			this._buttonManualSegmentationHelp.UseVisualStyleBackColor = false;
 			// 
 			// _buttonGetStarted
@@ -363,7 +363,7 @@ namespace SayMore.Transcription.UI
 			this._buttonGetStarted.MinimumSize = new System.Drawing.Size(100, 26);
 			this._buttonGetStarted.Name = "_buttonGetStarted";
 			this._buttonGetStarted.Size = new System.Drawing.Size(100, 26);
-			this._buttonGetStarted.TabIndex = 8;
+			this._buttonGetStarted.TabIndex = 0;
 			this._buttonGetStarted.Text = "Get Started...";
 			this._buttonGetStarted.UseVisualStyleBackColor = true;
 			this._buttonGetStarted.Click += new System.EventHandler(this.HandleGetStartedButtonClick);

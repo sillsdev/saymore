@@ -13,6 +13,8 @@ using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
+using SayMore.Transcription.UI;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Utilities;
 
@@ -696,6 +698,30 @@ namespace SayMore.Model.Files
 				PathToAnnotatedFile);
 
 			RenameAnnotatedFile(newPath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// If user clicks OK and recordings were made or changed, the full path to the EAF
+		/// file is returned. Otherwise null is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string RecordAnnotations(OralAnnotationType annotationType)
+		{
+			using (var viewModel = new OralAnnotationRecorderDlgViewModel(this, annotationType))
+			using (var dlg = new OralAnnotationRecorderDlg(viewModel))
+			{
+				if (dlg.ShowDialog() != DialogResult.OK || !viewModel.WereChangesMade)
+					return null;
+
+				var annotationFileName = AnnotationFileHelper.CreateFromSegments(PathToAnnotatedFile,
+					viewModel.GetSegments().ToArray());
+
+				var helper = AnnotationFileHelper.Load(annotationFileName);
+				var tier = (TimeOrderTier)helper.GetTiers().FirstOrDefault(t => t is TimeOrderTier);
+				OralAnnotationFileGenerator.Generate(tier, null);
+				return annotationFileName;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

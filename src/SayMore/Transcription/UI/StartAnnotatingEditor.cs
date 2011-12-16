@@ -72,18 +72,12 @@ namespace SayMore.Transcription.UI
 			if (_radioButtonManual.Checked)
 			{
 				Settings.Default.DefaultSegmentationMethod = 0;
-				newAnnotationFile = CreateAnnotationsFromSegments(ManuallySegmentFile());
+				newAnnotationFile = ManuallySegmentFile();
 			}
 			else if (_radioButtonCarefulSpeech.Checked)
 			{
 				Settings.Default.DefaultSegmentationMethod = 1;
-				newAnnotationFile = CreateAnnotationsFromSegments(RecordCarefulSpeechSegments());
-				if (newAnnotationFile != null)
-				{
-					var helper = AnnotationFileHelper.Load(newAnnotationFile);
-					var tier = (TimeOrderTier)helper.GetTiers().FirstOrDefault(t => t is TimeOrderTier);
-					OralAnnotationFileGenerator.Generate(tier, null);
-				}
+				newAnnotationFile = _file.RecordAnnotations(OralAnnotationType.Careful);
 			}
 			else if (_radioButtonElan.Checked)
 			{
@@ -119,32 +113,15 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string[] ManuallySegmentFile()
+		private string ManuallySegmentFile()
 		{
 			using (var viewModel = new SegmenterDlgBaseViewModel(_file))
 			using (var dlg = new ManualSegmenterDlg(viewModel))
 			{
-				return (dlg.ShowDialog() == DialogResult.OK &&
-					viewModel.SegmentBoundariesChanged ? viewModel.GetSegments().ToArray() : null);
+				return (dlg.ShowDialog() != DialogResult.OK || !viewModel.WereChangesMade ? null :
+					AnnotationFileHelper.CreateFromSegments(_file.PathToAnnotatedFile,
+					viewModel.GetSegments().ToArray()));
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string[] RecordCarefulSpeechSegments()
-		{
-			using (var viewModel = new OralAnnotationRecorderDlgViewModel(_file, OralAnnotationType.Careful))
-			using (var dlg = new OralAnnotationRecorderDlg(viewModel))
-			{
-				return (dlg.ShowDialog() == DialogResult.OK && viewModel.WereChangesMade ?
-					viewModel.GetSegments().ToArray() : null);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string CreateAnnotationsFromSegments(string[] segments)
-		{
-			return (segments == null ? null :
-				AnnotationFileHelper.CreateFromSegments(_file.PathToAnnotatedFile, segments));
 		}
 
 		/// ------------------------------------------------------------------------------------

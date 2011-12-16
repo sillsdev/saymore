@@ -7,6 +7,7 @@ using Localization;
 using Localization.UI;
 using SayMore.Model.Files;
 using SayMore.UI.Utilities;
+using SilTools;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -140,7 +141,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			SetLabelFonts(this, new Font(SystemFonts.IconTitleFont, FontStyle.Bold));
+			SetLabelFonts(this, FontHelper.MakeFont(SystemFonts.IconTitleFont, FontStyle.Bold));
 			base.OnLoad(e);
 		}
 

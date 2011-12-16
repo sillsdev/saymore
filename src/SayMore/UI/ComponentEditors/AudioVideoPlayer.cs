@@ -81,6 +81,9 @@ namespace SayMore.UI.ComponentEditors
 				_mediaPlayerViewModel.SetVolume(Settings.Default.MediaPlayerVolume);
 
 			_mediaPlayerViewModel.VolumeChanged = delegate { Invoke((Action)HandleMediaPlayerVolumeChanged); };
+
+			UseWaitCursor = false;
+			Cursor = Cursors.Default;
 		}
 
 		/// ------------------------------------------------------------------------------------

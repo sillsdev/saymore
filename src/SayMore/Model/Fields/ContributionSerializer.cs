@@ -48,7 +48,7 @@ namespace SayMore.Model.Fields
 				{
 					contrib.Date = DateTimeExtensions.ParseDateTimePermissivelyWithException(when);
 				}
-				catch(Exception error)
+				catch
 				{
 					contrib.Date = DateTime.MinValue;
 					// looked  like it would take hours to change scores of methods to propogate a progress thing (e.g. ErrorCollector) down this far. Sigh...  progress.WriteError("SayMore had trouble understanding the date '{0}', on a contribution by {1}. For now, it was replaced by {2}", d, contrib.ContributorName, contrib.Date.ToString(CultureInfo.CurrentCulture));

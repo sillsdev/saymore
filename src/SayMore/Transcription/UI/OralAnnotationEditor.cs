@@ -25,7 +25,7 @@ namespace SayMore.Transcription.UI
 
 			_oralAnnotationWaveViewer.Dock = DockStyle.Fill;
 			_tableLayoutError.Dock = DockStyle.Fill;
-			_labelError.Font = new Font(SystemFonts.IconTitleFont.FontFamily, 11, FontStyle.Bold);
+			_labelError.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 11, FontStyle.Bold);
 			_labelLoadingCancelled.Font = _labelError.Font;
 			_textBoxError.Font = SystemFonts.IconTitleFont;
 

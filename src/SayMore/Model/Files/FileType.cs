@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
+using Palaso.Progress;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.Media;
 using Palaso.Progress.LogBox;
@@ -793,6 +794,7 @@ namespace SayMore.Model.Files
 			yield return _audioComponentEditorFactoryLazy()(file, null);
 			yield return _contributorsEditorFactoryLazy()(file, null);
 			yield return new NotesEditor(file);
+			yield return new StartAnnotatingEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -891,12 +893,12 @@ namespace SayMore.Model.Files
 			if (!CheckConversionIsPossible(outputPath))
 				return;
 
-			Cursor.Current = Cursors.WaitCursor;
+			WaitCursor.Show();
 			//TODO...provide some progress
 
 			// REVIEW: At some point, we should probably switch to using MPlayer/MEncoder to do this.
 			var results = FFmpegRunner.ExtractMp3Audio(path, outputPath, 1 /*mono*/, new NullProgress());
-			Cursor.Current = Cursors.Default;
+			WaitCursor.Hide();
 
 			if (results.ExitCode != 0)
 				ErrorReport.NotifyUserOfProblem(GetFFmpegConversionError(), results.StandardError);

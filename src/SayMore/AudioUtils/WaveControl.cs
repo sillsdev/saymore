@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using SilTools;
 
 namespace SayMore.AudioUtils
 {
@@ -166,8 +167,10 @@ namespace SayMore.AudioUtils
 
 				if (_painter != null)
 				{
+					Utils.SetWindowRedraw(this, false);
 					_painter.SetVirtualWidth(Math.Max(ClientSize.Width, value.Width));
 					Invalidate();
+					Utils.SetWindowRedraw(this, true);
 				}
 			}
 		}

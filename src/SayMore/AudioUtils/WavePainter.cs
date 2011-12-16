@@ -49,6 +49,8 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public WavePainter(Control ctrl, IEnumerable<float> samples, TimeSpan totalTime)
 		{
+			_segmentBoundaries = new TimeSpan[0];
+
 			Control = ctrl;
 			ctrl.Paint += (s, e) => Draw(e, ctrl.ClientRectangle);
 
@@ -65,7 +67,7 @@ namespace SayMore.AudioUtils
 			get { return _segmentBoundaries; }
 			set
 			{
-				_segmentBoundaries = value;
+				_segmentBoundaries = (value ?? new TimeSpan[0]);
 				if (Control != null)
 					Control.Invalidate();
 			}
@@ -163,7 +165,7 @@ namespace SayMore.AudioUtils
 
 			var clipRect = g.VisibleClipBounds;
 
-			for (int x = (int)clipRect.X; x < clipRect.X + clipRect.Width; x++)
+			for (int x = (int)clipRect.X; x < clipRect.X + clipRect.Width && x + _offsetOfLeftEdge < _samplesToDraw.Length; x++)
 			{
 				var sampleAmplitudes = _samplesToDraw[x + _offsetOfLeftEdge];
 

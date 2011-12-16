@@ -120,13 +120,6 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool CreateAnnotationFileButtonVisible
-		{
-			get { return _buttonCreateAnnotationFile.Visible; }
-			set { _buttonCreateAnnotationFile.Visible = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public bool RenameButtonVisible
 		{
 			get { return _buttonRename.Visible; }
@@ -335,9 +328,6 @@ namespace SayMore.UI.ElementListScreen
 			var file = (_files.Count() > 0 && _grid.CurrentCellAddress.Y >= 0 ?
 				_files.ElementAt(_grid.CurrentCellAddress.Y) : null);
 
-			_buttonCreateAnnotationFile.Enabled = (file != null &&
-				file.GetCanHaveAnnotationFile() && !file.GetDoesHaveAnnotationFile());
-
 			if (null != AfterComponentSelected && _grid.CurrentCellAddress.Y >= 0)
 				AfterComponentSelected(_grid.CurrentCellAddress.Y);
 		}
@@ -482,12 +472,6 @@ namespace SayMore.UI.ElementListScreen
 			var dropdown = sender as ToolStripDropDownButton;
 			foreach (ToolStripItem item in dropdown.DropDownItems)
 				item.Visible = operationOK;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleCreateAnnotationFileButtonClick(object sender, EventArgs e)
-		{
-			_files.ElementAt(_grid.CurrentCellAddress.Y).CreateAnnotationFile(PostMenuCommandRefreshAction);
 		}
 
 		/// ------------------------------------------------------------------------------------

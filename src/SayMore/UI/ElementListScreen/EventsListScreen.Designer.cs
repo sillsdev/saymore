@@ -132,7 +132,6 @@ namespace SayMore.UI.ElementListScreen
 			this._eventComponentFileGrid.AddButtonEnabled = false;
 			this._eventComponentFileGrid.AddButtonVisible = true;
 			this._eventComponentFileGrid.ConvertButtonVisible = true;
-			this._eventComponentFileGrid.CreateAnnotationFileButtonVisible = false;
 			this._eventComponentFileGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._eventComponentFileGrid.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
 			this.locExtender.SetLocalizableToolTip(this._eventComponentFileGrid, null);

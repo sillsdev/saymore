@@ -274,7 +274,6 @@ namespace SayMore.UI.NewEventsFromFiles
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this._outerTableLayout.SetColumnSpan(this._gridFiles, 2);
 			this._gridFiles.ConvertButtonVisible = false;
-			this._gridFiles.CreateAnnotationFileButtonVisible = false;
 			this._gridFiles.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
 			this.locExtender.SetLocalizableToolTip(this._gridFiles, null);
 			this.locExtender.SetLocalizationComment(this._gridFiles, null);

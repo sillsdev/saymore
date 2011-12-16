@@ -49,8 +49,6 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonConvert = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this._buttonCreateAnnotationFile = new System.Windows.Forms.ToolStripButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._contextMenuStrip.SuspendLayout();
 			this._panelOuter.SuspendLayout();
@@ -225,9 +223,7 @@ namespace SayMore.UI.ElementListScreen
             this._buttonOpen,
             this._buttonRename,
             this._buttonConvert,
-            this._buttonAddFiles,
-            this.toolStripSeparator1,
-            this._buttonCreateAnnotationFile});
+            this._buttonAddFiles});
 			this.locExtender.SetLocalizableToolTip(this._toolStripActions, null);
 			this.locExtender.SetLocalizationComment(this._toolStripActions, null);
 			this.locExtender.SetLocalizationPriority(this._toolStripActions, Localization.LocalizationPriority.NotLocalizable);
@@ -297,25 +293,6 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonAddFiles.Text = "Add Files...";
 			this._buttonAddFiles.Click += new System.EventHandler(this.HandleAddButtonClick);
 			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
-			// 
-			// _buttonCreateAnnotationFile
-			// 
-			this._buttonCreateAnnotationFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonCreateAnnotationFile.Enabled = false;
-			this._buttonCreateAnnotationFile.Image = ((System.Drawing.Image)(resources.GetObject("_buttonCreateAnnotationFile.Image")));
-			this._buttonCreateAnnotationFile.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonCreateAnnotationFile, "Create an annotation file");
-			this.locExtender.SetLocalizationComment(this._buttonCreateAnnotationFile, null);
-			this.locExtender.SetLocalizingId(this._buttonCreateAnnotationFile, "CommonToMultipleViews.FileList.CreateAnnotationFileButtonText");
-			this._buttonCreateAnnotationFile.Name = "_buttonCreateAnnotationFile";
-			this._buttonCreateAnnotationFile.Size = new System.Drawing.Size(138, 20);
-			this._buttonCreateAnnotationFile.Text = "Create Annotation File...";
-			this._buttonCreateAnnotationFile.Click += new System.EventHandler(this.HandleCreateAnnotationFileButtonClick);
-			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
@@ -357,8 +334,6 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDataModified;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDuration;
-		private System.Windows.Forms.ToolStripButton _buttonCreateAnnotationFile;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private Localization.UI.LocalizationExtender locExtender;
 
 	}

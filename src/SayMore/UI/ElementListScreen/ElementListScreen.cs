@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
+using Palaso.Progress;
 using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -131,7 +132,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleAfterComponentFileSelected(int index)
 		{
-			SilTools.Utils.WaitCursors(true);
+			WaitCursor.Show();
 
 			// Fixes SP-288: Problem was that while the generated annotation file was loading
 			// in its editor, clicking on another component file triggers a reentrant
@@ -150,7 +151,7 @@ namespace SayMore.UI.ElementListScreen
 
 			_componentFilesControl.Enabled = true;
 
-			SilTools.Utils.WaitCursors(false);
+			WaitCursor.Hide();
 		}
 
 		/// ------------------------------------------------------------------------------------

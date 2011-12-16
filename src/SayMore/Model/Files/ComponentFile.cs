@@ -13,8 +13,6 @@ using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
-using SayMore.Transcription.Model;
-using SayMore.Transcription.UI;
 using SayMore.UI.ElementListScreen;
 using SayMore.UI.Utilities;
 
@@ -251,49 +249,6 @@ namespace SayMore.Model.Files
 		{
 			_oralAnnotationFile = (oralAnnotationFile != null &&
 				File.Exists(oralAnnotationFile.PathToAnnotatedFile) ? oralAnnotationFile : null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void CreateAnnotationFile(Action<string> refreshAction)
-		{
-			ManuallySegmentFile(refreshAction);
-
-			//using (var dlg = new CreateAnnotationFileDlg(Path.GetFileName(PathToAnnotatedFile)))
-			//{
-			//    if (dlg.ShowDialog() != DialogResult.OK)
-			//        return;
-
-			//    var newAnnotationFile = (dlg.AutoSegment ?
-			//        AutoSegmenterDlg.CreateAnnotationFile(PathToAnnotatedFile) :
-			//        AnnotationFileHelper.Create(dlg.FileName, PathToAnnotatedFile));
-
-			//    if (refreshAction != null)
-			//        refreshAction(newAnnotationFile);
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void ManuallySegmentFile(Action<string> refreshAction)
-		{
-			using (var viewModel = new ManualSegmenterDlgViewModel(this))
-			using (var dlg = new ManualSegmenterDlg(viewModel))
-			{
-				if (dlg.ShowDialog() != DialogResult.OK)
-					return;
-
-				var newAnnotationFile = (!viewModel.SegmentBoundariesChanged ? null :
-					AnnotationFileHelper.CreateFromSegments(PathToAnnotatedFile, viewModel.GetSegments().ToArray()));
-
-				if (viewModel.AnnotationRecordingsChanged)
-				{
-					var helper = AnnotationFileHelper.Load(newAnnotationFile);
-					var tier = (TimeOrderTier)helper.GetTiers().FirstOrDefault(t => t is TimeOrderTier);
-					OralAnnotationFileGenerator.Generate(tier, null);
-				}
-
-				if (refreshAction != null && newAnnotationFile != null)
-					refreshAction(newAnnotationFile);
-			}
 		}
 
 		#endregion
@@ -628,21 +583,6 @@ namespace SayMore.Model.Files
 			{
 				addSeparator = true;
 				yield return cmd;
-			}
-
-			if (GetCanHaveAnnotationFile())
-			{
-				if (addSeparator)
-					yield return new ToolStripSeparator();
-
-				var menuText = LocalizationManager.GetString("CommonToMultipleViews.FileList.CreateAnnotationFileMenu",
-					"Create Annotation File...");
-
-				yield return new ToolStripMenuItem(menuText, null,
-					(s, e) => CreateAnnotationFile(refreshAction)) { Enabled = !GetDoesHaveAnnotationFile() };
-
-				//yield return new ToolStripMenuItem("Manually Segment...", null,
-				//    (s, e) => ManuallySegmentFile(refreshAction));
 			}
 		}
 

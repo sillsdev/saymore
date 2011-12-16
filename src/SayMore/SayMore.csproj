@@ -78,15 +78,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\Palaso.Media.dll</HintPath>
     </Reference>
-    <Reference Include="Palaso.TestUtilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnet\Palaso.TestUtilities.dll</HintPath>
-    </Reference>
     <Reference Include="PalasoUIWindowsForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="SilTools, Version=2.0.4174.26699, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SilTools, Version=2.0.4232.29079, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SilTools.dll</HintPath>
     </Reference>
@@ -186,21 +182,8 @@
     <Compile Include="Transcription\UI\ManualSegmenterDlg.designer.cs">
       <DependentUpon>ManualSegmenterDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\ManualSegmenterDlgViewModel.cs" />
-    <Compile Include="Transcription\UI\OralAnnotationDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\OralAnnotationDlg.designer.cs">
-      <DependentUpon>OralAnnotationDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="Transcription\UI\AudioWaveFormCell.cs" />
     <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
-    <Compile Include="Transcription\UI\CreateAnnotationFileDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\CreateAnnotationFileDlg.Designer.cs">
-      <DependentUpon>CreateAnnotationFileDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -213,18 +196,31 @@
     <Compile Include="Transcription\UI\OralAnnotationEditor.designer.cs">
       <DependentUpon>OralAnnotationEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\OralAnnotationRecorder.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Transcription\UI\OralAnnotationRecorderDlg.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Transcription\UI\OralAnnotationRecorder.Designer.cs">
-      <DependentUpon>OralAnnotationRecorder.cs</DependentUpon>
+    <Compile Include="Transcription\UI\OralAnnotationRecorderDlg.designer.cs">
+      <DependentUpon>OralAnnotationRecorderDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\OralAnnotationRecorderViewModel.cs" />
+    <Compile Include="Transcription\UI\OralAnnotationRecorderDlgViewModel.cs" />
     <Compile Include="Transcription\UI\OralAnnotationWaveViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Transcription\UI\OralAnnotationWaveViewer.designer.cs">
       <DependentUpon>OralAnnotationWaveViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\SegmenterDlgBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\SegmenterDlgBase.designer.cs">
+      <DependentUpon>SegmenterDlgBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\SegmenterDlgBaseViewModel.cs" />
+    <Compile Include="Transcription\UI\StartAnnotatingEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\StartAnnotatingEditor.designer.cs">
+      <DependentUpon>StartAnnotatingEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Transcription\UI\TextAnnotationColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
@@ -556,23 +552,23 @@
       <DependentUpon>ManualSegmenterDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\OralAnnotationDlg.resx">
-      <DependentUpon>OralAnnotationDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\CreateAnnotationFileDlg.resx">
-      <DependentUpon>CreateAnnotationFileDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.resx">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\OralAnnotationEditor.resx">
       <DependentUpon>OralAnnotationEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\OralAnnotationRecorder.resx">
-      <DependentUpon>OralAnnotationRecorder.cs</DependentUpon>
+    <EmbeddedResource Include="Transcription\UI\OralAnnotationRecorderDlg.resx">
+      <DependentUpon>OralAnnotationRecorderDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\OralAnnotationWaveViewer.resx">
       <DependentUpon>OralAnnotationWaveViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\SegmenterDlgBase.resx">
+      <DependentUpon>SegmenterDlgBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\StartAnnotatingEditor.resx">
+      <DependentUpon>StartAnnotatingEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\TextAnnotationEditor.resx">
       <DependentUpon>TextAnnotationEditor.cs</DependentUpon>

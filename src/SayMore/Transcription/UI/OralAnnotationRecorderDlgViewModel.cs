@@ -8,25 +8,44 @@ using SayMore.Properties;
 
 namespace SayMore.Transcription.UI
 {
-	public class ManualSegmenterDlgViewModel : SegmenterDlgBaseViewModel
+	public enum OralAnnotationType
+	{
+		Careful,
+		Translation
+	}
+
+	public class OralAnnotationRecorderDlgViewModel : SegmenterDlgBaseViewModel
 	{
 		private readonly string _pathToAnnotationsFolder;
+		private AudioPlayer _annotationPlayer;
+		private AudioRecorder _annotationRecorder;
+
+		public OralAnnotationType AnnotationType { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public ManualSegmenterDlgViewModel(ComponentFile file) : base(file)
+		public OralAnnotationRecorderDlgViewModel(ComponentFile file,
+			OralAnnotationType annotationType) : base(file)
 		{
+			AnnotationType = annotationType;
+
 			_pathToAnnotationsFolder = ComponentFile.PathToAnnotatedFile +
 				Settings.Default.OralAnnotationsFolderAffix;
 		}
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
+		protected override string ProgramAreaForUsageReporting
+		{
+			get { return "Annotations/Oral/" + AnnotationType; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool AnnotationRecordingsChanged { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public bool DoesAnnotationExistForCurrentSegment
 		{
-			get { return (File.Exists(GetPathToCurrentAnnotationFile())); }
+			get { return File.Exists(GetPathToCurrentAnnotationFile()); }
 		}
 
 		/// ------------------------------------------------------------------------------------

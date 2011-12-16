@@ -494,16 +494,17 @@ namespace SayMore.Transcription.Model
 			eafFile.SetMediaFile(mediaFileName);
 
 			var viewModel = new CreateAnnotationFileViewModel(eafFile, audacityLabels);
+			viewModel.Start();
 
-			var caption = LocalizationManager.GetString(
-					"EventsView.Transcription.AnnotationFileHelper.CreateAnnotationFileFromAudacity.ProgressDlgCaption",
-					"Creating Annotation File");
+			//var caption = LocalizationManager.GetString(
+			//        "EventsView.Transcription.AnnotationFileHelper.CreateAnnotationFileFromAudacity.ProgressDlgCaption",
+			//        "Creating Annotation File");
 
-			using (var dlg = new ProgressDlg(viewModel, caption))
-			{
-				dlg.StartPosition = FormStartPosition.CenterScreen;
-				dlg.ShowDialog();
-			}
+			//using (var dlg = new ProgressDlg(viewModel, caption))
+			//{
+			//    dlg.StartPosition = FormStartPosition.CenterScreen;
+			//    dlg.ShowDialog();
+			//}
 
 			//foreach (var label in audacityLabels)
 			//    eafFile.AddNewTranscriptionAnnotationElement(label);

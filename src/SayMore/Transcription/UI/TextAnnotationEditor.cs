@@ -260,45 +260,33 @@ namespace SayMore.Transcription.UI
 				OralAnnotationType.Careful : OralAnnotationType.Translation);
 
 			var file = ((AnnotationComponentFile)_file);
-			var tier = (TimeOrderTier)file.Tiers.FirstOrDefault(t => t is TimeOrderTier);
 
-			using (var dlg = new OralAnnotationDlg(annotationType, tier))
-				dlg.ShowDialog();
-
-			bool oralAnnotationFileAlreadyExist =
-				(file.AssociatedComponentFile.GetOralAnnotationFile() != null);
-
-			var oralAnnotationFile = OralAnnotationFileGenerator.Generate(tier, this);
-
-			if (oralAnnotationFile != null && !oralAnnotationFileAlreadyExist &&
-				ComponentFileListRefreshAction != null)
-			{
-				ComponentFileListRefreshAction(oralAnnotationFile);
-			}
+			if (file.AssociatedComponentFile.RecordAnnotations(annotationType) != null && ComponentFileListRefreshAction != null)
+				ComponentFileListRefreshAction(_file.PathToAnnotatedFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
-			var msg = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Message",
-				"Regenerating segments will cause all oral and written annotations to be lost.\n\nAre you sure you want to continue?");
+			//var msg = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Message",
+			//    "Regenerating segments will cause all oral and written annotations to be lost.\n\nAre you sure you want to continue?");
 
-			var caption = LocalizationManager.GetString(
-				"EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Caption",
-				"Regenerate Segments");
+			//var caption = LocalizationManager.GetString(
+			//    "EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Caption",
+			//    "Regenerate Segments");
 
-			if (MessageBox.Show(msg, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
-				MessageBoxDefaultButton.Button2) == DialogResult.No)
-			{
-				return;
-			}
+			//if (MessageBox.Show(msg, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
+			//    MessageBoxDefaultButton.Button2) == DialogResult.No)
+			//{
+			//    return;
+			//}
 
-			// TODO: delete oral annoations
+			//// TODO: delete oral annoations
 
-			Deactivated();
-			var file = ((AnnotationComponentFile)_file);
-			file.AssociatedComponentFile.CreateAnnotationFile(null);
-			SetComponentFile(_file);
+			//Deactivated();
+			//var file = ((AnnotationComponentFile)_file);
+			//file.AssociatedComponentFile.CreateAnnotationFile(null);
+			//SetComponentFile(_file);
 		}
 
 		/// ------------------------------------------------------------------------------------

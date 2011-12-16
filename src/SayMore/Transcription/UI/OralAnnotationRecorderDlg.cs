@@ -30,6 +30,8 @@ namespace SayMore.Transcription.UI
 			toolStrip1.Dispose();
 			toolStrip1 = null;
 
+			_buttonRecordAnnotation.MouseDown += HandleRecordAnnotationMouseDown;
+			_buttonRecordAnnotation.MouseUp += HandleRecordAnnotationMouseUp;
 			_buttonListenToAnnotation.Click += delegate { ViewModel.StartAnnotationPlayback(); };
 
 			_buttonEraseAnnotation.Click += delegate
@@ -92,16 +94,17 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
-			_buttonListenToAnnotation.Visible = (ViewModel.DoesAnnotationExistForCurrentSegment && !ViewModel.GetIsRecording());
+			if (ViewModel.GetIsRecording())
+				return;
+
+			_buttonListenToAnnotation.Visible = ViewModel.DoesAnnotationExistForCurrentSegment;
 			_buttonListenToAnnotation.Enabled = ViewModel.IsIdle && ViewModel.DoesAnnotationExistForCurrentSegment;
 
 			_buttonRecordAnnotation.Checked = ViewModel.HaveSegmentBoundaries;
-			_buttonRecordAnnotation.Visible = (!ViewModel.DoesAnnotationExistForCurrentSegment || ViewModel.GetIsRecording());
-			_buttonRecordAnnotation.Enabled = !ViewModel.DoesAnnotationExistForCurrentSegment &&
-				ViewModel.HaveSegmentBoundaries && (ViewModel.IsIdle || ViewModel.GetIsRecording());
+			_buttonRecordAnnotation.Visible = !ViewModel.DoesAnnotationExistForCurrentSegment;
 
-			_buttonEraseAnnotation.Visible = (ViewModel.DoesAnnotationExistForCurrentSegment && !ViewModel.GetIsRecording());
-			_buttonEraseAnnotation.Enabled = ViewModel.IsIdle && ViewModel.DoesAnnotationExistForCurrentSegment;
+			_buttonEraseAnnotation.Visible = ViewModel.DoesAnnotationExistForCurrentSegment;
+			_buttonEraseAnnotation.Enabled = (ViewModel.IsIdle && ViewModel.DoesAnnotationExistForCurrentSegment);
 
 			base.UpdateDisplay();
 		}
@@ -157,7 +160,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordAnnotationMouseDown(object sender, MouseEventArgs e)
 		{
-			if (_buttonRecordAnnotation.Enabled && ViewModel.BeginAnnotationRecording())
+			if (!ViewModel.GetIsRecording() && ViewModel.BeginAnnotationRecording())
 			{
 				_buttonRecordAnnotation.Text = LocalizationManager.GetString(
 					"DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.RecordingButtonText.WhenRecording",
@@ -168,7 +171,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordAnnotationMouseUp(object sender, MouseEventArgs e)
 		{
-			if (!_buttonRecordAnnotation.Enabled && !ViewModel.GetIsRecording())
+			if (!ViewModel.GetIsRecording())
 				return;
 
 			if (ViewModel.StopAnnotationRecording())

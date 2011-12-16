@@ -59,8 +59,6 @@ namespace SayMore.Transcription.UI
 			this._buttonRecordAnnotation.Size = new System.Drawing.Size(240, 24);
 			this._buttonRecordAnnotation.Text = "Record (hold SPACE key down and talk)";
 			this._buttonRecordAnnotation.ToolTipText = "Record oral annotation";
-			this._buttonRecordAnnotation.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleRecordAnnotationMouseDown);
-			this._buttonRecordAnnotation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HandleRecordAnnotationMouseUp);
 			//
 			// _buttonListenToAnnotation
 			//
@@ -114,16 +112,18 @@ namespace SayMore.Transcription.UI
 			this.toolStrip1.TabIndex = 7;
 			this.toolStrip1.Text = "toolStrip1";
 			//
-			// ManualSegmenterDlg
+			// OralAnnotationRecorderDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(682, 338);
 			this.Controls.Add(this.toolStrip1);
+			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
-			this.Name = "ManualSegmenterDlg";
+			this.Name = "OralAnnotationRecorderDlg";
+			this.Opacity = 1D;
 			this.Text = "Careful Speech Recorder";
 			this.Controls.SetChildIndex(this.toolStrip1, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

@@ -1110,12 +1110,12 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.FormSettings OralAnnotationDlg {
+        public global::SilTools.FormSettings OralAnnotationRecorderDlg {
             get {
-                return ((global::SilTools.FormSettings)(this["OralAnnotationDlg"]));
+                return ((global::SilTools.FormSettings)(this["OralAnnotationRecorderDlg"]));
             }
             set {
-                this["OralAnnotationDlg"] = value;
+                this["OralAnnotationRecorderDlg"] = value;
             }
         }
         
@@ -1245,12 +1245,49 @@ namespace SayMore.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public float ZoomPercentageInCarefulSpeechRecordingDlg {
+        public float ZoomPercentageInAnnotationRecordingDlg {
             get {
-                return ((float)(this["ZoomPercentageInCarefulSpeechRecordingDlg"]));
+                return ((float)(this["ZoomPercentageInAnnotationRecordingDlg"]));
             }
             set {
-                this["ZoomPercentageInCarefulSpeechRecordingDlg"] = value;
+                this["ZoomPercentageInAnnotationRecordingDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.FormSettings ManualSegmenterDlg {
+            get {
+                return ((global::SilTools.FormSettings)(this["ManualSegmenterDlg"]));
+            }
+            set {
+                this["ManualSegmenterDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public float ZoomPercentageInManualSegmenterDlg {
+            get {
+                return ((float)(this["ZoomPercentageInManualSegmenterDlg"]));
+            }
+            set {
+                this["ZoomPercentageInManualSegmenterDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int DefaultSegmentationMethod {
+            get {
+                return ((int)(this["DefaultSegmentationMethod"]));
+            }
+            set {
+                this["DefaultSegmentationMethod"] = value;
             }
         }
     }

@@ -339,7 +339,7 @@
     <Setting Name="FreeTranslationWsForFWInterlinearExport" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="OralAnnotationDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="OralAnnotationRecorderDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="OralAnnotationGeneratedFileAffix" Type="System.String" Scope="Application">
@@ -375,8 +375,17 @@
     <Setting Name="MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">600</Value>
     </Setting>
-    <Setting Name="ZoomPercentageInCarefulSpeechRecordingDlg" Provider="SilTools.PortableSettingsProvider" Type="System.Single" Scope="User">
+    <Setting Name="ZoomPercentageInAnnotationRecordingDlg" Provider="SilTools.PortableSettingsProvider" Type="System.Single" Scope="User">
       <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="ManualSegmenterDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ZoomPercentageInManualSegmenterDlg" Provider="SilTools.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="DefaultSegmentationMethod" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Progress;
 using SayMore.AudioUtils;
 using SayMore.Properties;
@@ -32,6 +33,7 @@ namespace SayMore.Transcription.UI
 			Opacity = 0f;
 
 			InitializeComponent();
+			InitializeZoomComboItems();
 
 			DialogResult = DialogResult.OK;
 			DoubleBuffered = true;
@@ -74,6 +76,31 @@ namespace SayMore.Transcription.UI
 				_waveControl.ShadePlaybackAreaDuringPlayback = _viewModel.IsCurrentSegmentConfirmed;
 				UpdateDisplay();
 			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeZoomComboItems()
+		{
+			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.100Pct", "100%"));
+			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.125Pct", "125%"));
+			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.150Pct", "150%"));
+			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.175Pct", "175%"));
+			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.200Pct", "200%"));
+			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.250Pct", "250%"));
+			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.300Pct", "300%"));
+			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.500Pct", "500%"));
+			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.750Pct", "750%"));
+			_comboBoxZoom.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ZoomPercentages.1000Pct", "1000%"));
 		}
 
 		/// ------------------------------------------------------------------------------------

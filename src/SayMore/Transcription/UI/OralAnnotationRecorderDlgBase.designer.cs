@@ -2,7 +2,7 @@ using SilTools.Controls;
 
 namespace SayMore.Transcription.UI
 {
-	partial class OralAnnotationRecorderDlg
+	partial class OralAnnotationRecorderBaseDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -108,11 +108,11 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this.toolStrip1, "toolStrip1.toolStrip1");
 			this.toolStrip1.Location = new System.Drawing.Point(3, 305);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(557, 36);
+			this.toolStrip1.Size = new System.Drawing.Size(526, 36);
 			this.toolStrip1.TabIndex = 7;
 			this.toolStrip1.Text = "toolStrip1";
 			//
-			// OralAnnotationRecorderDlg
+			// OralAnnotationRecorderBaseDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -120,11 +120,12 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this.toolStrip1);
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.locExtender.SetLocalizableToolTip(this, null);
-			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationComment(this, "Localized in subclass");
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
-			this.Name = "OralAnnotationRecorderDlg";
+			this.Name = "OralAnnotationRecorderBaseDlg";
 			this.Opacity = 1D;
-			this.Text = "Careful Speech Recorder";
+			this.Text = "Change my text";
 			this.Controls.SetChildIndex(this.toolStrip1, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.toolStrip1.ResumeLayout(false);
@@ -136,25 +137,10 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		//private AudioUtils.WaveControl _waveControl;
-		//private SilPanel _panelWaveControl;
-		//private System.Windows.Forms.ToolStripButton _buttonListenToOriginal;
 		private System.Windows.Forms.ToolStripButton _buttonRecordAnnotation;
 		private System.Windows.Forms.ToolStripButton _buttonListenToAnnotation;
 		private System.Windows.Forms.ToolStripButton _buttonEraseAnnotation;
-		//private System.Windows.Forms.Label _labelTimeDisplay;
-		//private System.Windows.Forms.Label _labelOriginalRecording;
-		//private System.Windows.Forms.ComboBox _comboBoxZoom;
-		//private System.Windows.Forms.Label _labelZoom;
-		//private System.Windows.Forms.Button _buttonClose;
-		//private System.Windows.Forms.Button _buttonCancel;
-		//private System.Windows.Forms.TableLayoutPanel _tableLayoutTop;
-		//private System.Windows.Forms.TableLayoutPanel _tableLayoutStatus;
-		//private System.Windows.Forms.Label _labelSegment;
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolStrip toolStrip1;
-		//private System.Windows.Forms.Label _labelSegmentCount;
-		//protected System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
-		//protected System.Windows.Forms.ToolStrip _toolStripButtons;
 	}
 }

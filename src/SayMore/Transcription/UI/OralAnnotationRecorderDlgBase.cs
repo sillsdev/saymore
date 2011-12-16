@@ -8,13 +8,23 @@ using SilTools;
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class OralAnnotationRecorderDlg : SegmenterDlgBase
+	public partial class OralAnnotationRecorderBaseDlg : SegmenterDlgBase
 	{
 		private readonly string _normalRecordButtonText;
 		private readonly ToolTip _tooltip = new ToolTip();
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationRecorderDlg(OralAnnotationRecorderDlgViewModel viewModel)
+		/// <summary>
+		/// This constructor is only for the designer.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public OralAnnotationRecorderBaseDlg()
+		{
+			InitializeComponent();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public OralAnnotationRecorderBaseDlg(OralAnnotationRecorderDlgViewModel viewModel)
 			: base(viewModel)
 		{
 			InitializeComponent();
@@ -120,7 +130,7 @@ namespace SayMore.Transcription.UI
 				if (_tooltip.GetToolTip(_waveControl) == string.Empty)
 				{
 					_tooltip.SetToolTip(_waveControl, LocalizationManager.GetString(
-						"DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.NoAnnotationToolTipMsg",
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.NoAnnotationToolTipMsg",
 						"This segment does not have a recorded annotaton."));
 				}
 

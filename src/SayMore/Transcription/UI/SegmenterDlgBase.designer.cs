@@ -215,8 +215,7 @@ namespace SayMore.Transcription.UI
 			this._labelOriginalRecording.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._labelOriginalRecording, null);
 			this.locExtender.SetLocalizationComment(this._labelOriginalRecording, null);
-			this.locExtender.SetLocalizingId(this._labelOriginalRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlgDlg._labelOriginalRecording" +
-		"");
+			this.locExtender.SetLocalizingId(this._labelOriginalRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlgDlg._labelOriginalRecording");
 			this._labelOriginalRecording.Location = new System.Drawing.Point(0, 5);
 			this._labelOriginalRecording.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelOriginalRecording.Name = "_labelOriginalRecording";
@@ -242,17 +241,6 @@ namespace SayMore.Transcription.UI
 			//
 			this._comboBoxZoom.BackColor = System.Drawing.Color.White;
 			this._comboBoxZoom.FormattingEnabled = true;
-			this._comboBoxZoom.Items.AddRange(new object[] {
-			"100%",
-			"125%",
-			"150%",
-			"175%",
-			"200%",
-			"250%",
-			"300%",
-			"500%",
-			"750%",
-			"1000%"});
 			this.locExtender.SetLocalizableToolTip(this._comboBoxZoom, null);
 			this.locExtender.SetLocalizationComment(this._comboBoxZoom, null);
 			this.locExtender.SetLocalizationPriority(this._comboBoxZoom, Localization.LocalizationPriority.NotLocalizable);

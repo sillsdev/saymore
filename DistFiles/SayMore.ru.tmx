@@ -1,0 +1,3014 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+  <header srclang="ru" adminlang="en" creationtool="Palaso Localization Manager" creationtoolversion="1.0.4370.25820" segtype="block" datatype="unknown" o-tmf="PalasoTMXUtils">
+    <prop type="x-appversion">1.1.1.1</prop>
+    <prop type="x-hardlinebreakreplacement">\n</prop>
+    <prop type="x-hardlinebreakreplacement">\n</prop>
+  </header>
+  <body>
+    <tu tuid="CommonToMultipleViews.ChangeIdFailureMsg">
+      <note>Message displayed when attempt failed to change an event id or a person's name (i.e. id)</note>
+      <tuv xml:lang="en">
+        <seg>Something is holding onto that folder or a file in it, so it cannot be renamed. You can try restarting this program, or restarting the computer.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Эта папка или файл используется другой программой, поэтому он не может быть переименован. Вы можете попробовать перезапустить SayMore или компьютер.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ContributorsEditor.MissingContributorNameMsg">
+      <tuv xml:lang="en">
+        <seg>Enter a name.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Введите имя.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ContributorsEditor.MissingContributorRoleMsg">
+      <tuv xml:lang="en">
+        <seg>Choose a role.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выберите должность.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ContributorsEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Contributors</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Составители</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ElementList.ColumnChooserButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Choose Columns</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выбор столбцов</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ElementList.DeleteButtonText">
+      <note>Button for deleting events and people</note>
+      <tuv xml:lang="en">
+        <seg>&amp;Delete</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удалить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ElementList.NewButtonText">
+      <note>Button for adding new events and people</note>
+      <tuv xml:lang="en">
+        <seg>&amp;New</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ElementList.OneColumnMustBeVisibleMsg">
+      <note>Displayed when user unchecks all columns for display in events or people list</note>
+      <tuv xml:lang="en">
+        <seg>One column must be visible.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Один столбец должен быть виден.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field">
+      <tuv xml:lang="en">
+        <seg>Field</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Поле</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value">
+      <tuv xml:lang="en">
+        <seg>Value</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Значение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.AudioBitRate">
+      <tuv xml:lang="en">
+        <seg>Audio Bit Rate</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Аудио битрейт</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.BitDepth">
+      <tuv xml:lang="en">
+        <seg>Bit Depth</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Битовая глубина</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Channels">
+      <tuv xml:lang="en">
+        <seg>Channels</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Каналы</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Device">
+      <tuv xml:lang="en">
+        <seg>Device</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Устройство</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Duration">
+      <tuv xml:lang="en">
+        <seg>Duration</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Продолжительность</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.FrameRate">
+      <tuv xml:lang="en">
+        <seg>Frame Rate</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Частота кадров</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Microphone">
+      <tuv xml:lang="en">
+        <seg>Microphone</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Микрофон</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.Resolution">
+      <tuv xml:lang="en">
+        <seg>Resolution</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Разрешение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.SampleRate">
+      <tuv xml:lang="en">
+        <seg>Sample Rate</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Частота дискретизации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.MediaPropertyNames.VideoBitRate">
+      <tuv xml:lang="en">
+        <seg>Video Bit Rate</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Видео битрейт</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FieldsAndValuesGrid.VerifyDeleteFieldQuestion">
+      <tuv xml:lang="en">
+        <seg>Do you want to delete the field '{0}' and its contents from the entire project?</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вы хотите удалить поле «{0}» и его содержимое из всего проекта?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Add Files</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление файлов</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.AddFiles.OpenFileDlg.FileTypeString">
+      <tuv xml:lang="en">
+        <seg>All Files (*.*)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Все файлы (*. *)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.AddFilesButtonText">
+      <tuv xml:lang="en">
+        <seg>Add Files...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление файлов...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.AddFilesPrompt">
+      <tuv xml:lang="en">
+        <seg>Add additional files related to this event by\ndragging them here or clicking the 'Add Files' button.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавьте дополнительные файлы, относящиеся к \nэтому событию перетаскивая их здесь или нажав кнопку «Добавление файлов».</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileErrorMsg">
+      <tuv xml:lang="ru">
+        <seg>{0} не смог переименовать файл «{1}» потому, что файл с таким именем уже существует.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CannotRenameFileGenericErrorMsg">
+      <tuv xml:lang="ru">
+        <seg>К сожалению SayMore не может переименовать файл, потому что другая программа (или другая часть SayMore) читает его. Пожалуйста, попробуйте еще раз позже.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CannotRenameMetadataFileErrorMsg">
+      <tuv xml:lang="ru">
+        <seg>{0} не может переименовать метаданных файла «{1}», потому что файл с таким именем уже существует.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileDate">
+      <tuv xml:lang="en">
+        <seg>Date Modified</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Дата изменена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileDuration">
+      <tuv xml:lang="en">
+        <seg>Duration</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Продолжительность</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileName">
+      <tuv xml:lang="en">
+        <seg>Name</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Название</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileSize">
+      <tuv xml:lang="en">
+        <seg>Size</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Размер</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.ColumnHeadings.FileType">
+      <tuv xml:lang="en">
+        <seg>Type</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Тип</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.ButtonText">
+      <tuv xml:lang="en">
+        <seg>Convert</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Конвертировать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.ButtonText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Convert Selected File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Преобразование выбранного файла</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText">
+      <tuv xml:lang="en">
+        <seg>Extract Audio to mono MP3 File (low quality)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Извлечение аудио в формате моно MP3 (низкое качество)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.ExtractWavAudioMenuText">
+      <tuv xml:lang="en">
+        <seg>Extract Audio to Wave File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Извлечение аудио формате Wave</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.FailureMsg">
+      <tuv xml:lang="en">
+        <seg>Something didn't work out. FFmpeg said (start reading from the end): {0}\n\n</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Что-то не работает. FFmpeg доложил (начало чтения из конца): {0}\n(-999)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.FFmpegMissingErrorMsg">
+      <tuv xml:lang="en">
+        <seg>SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore не может найти надлежащего FFmpeg на этом компьютере. FFmpeg требуется чтобы выполнить преобразование.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Convert.FileAlreadyExistsDuringConversionErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, the file '{0}' already exists.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Извините, файл «{0}» уже существует.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileButtonText">
+      <tuv xml:lang="ru">
+        <seg>Создайте файл аннотации...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileButtonText_ToolTip_">
+      <tuv xml:lang="ru">
+        <seg>Создание файла аннотации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CreateAnnotationFileMenu">
+      <tuv xml:lang="ru">
+        <seg>Создайте файл аннотации...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.CustomRenameMenu">
+      <tuv xml:lang="en">
+        <seg>Custom Rename...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Переименовать...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.DeleteFileMenuText">
+      <tuv xml:lang="en">
+        <seg>Delete File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удалить файл</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeBytes">
+      <tuv xml:lang="en">
+        <seg>{0} Bytes</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} Байт</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeBytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} B</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} Б</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeGigabytes">
+      <tuv xml:lang="en">
+        <seg>{0} Gigabytes</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} Гигабайт</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeGigabytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} GB</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} ГБ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeKilobytes">
+      <tuv xml:lang="en">
+        <seg>{0} Kilobytes</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} Килобайт</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeKilobytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} KB</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} КБ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeMegabytes">
+      <tuv xml:lang="en">
+        <seg>{0} Megabytes</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} Мегабайт</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.FileSizeMegabytesAbbreviation">
+      <tuv xml:lang="en">
+        <seg>{0} MB</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} MБ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Open.ButtonText">
+      <tuv xml:lang="en">
+        <seg>Open</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Открыть</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Open.ButtonText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Open Selected File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Открыть выбранный файл</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Open.OpenInAssociatedProgramMenuText">
+      <tuv xml:lang="en">
+        <seg>Open in Program Associated with this File ...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Открыть в программе, связанной с этим файлом...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.Open.ShowInFileExplorerMenuText">
+      <tuv xml:lang="en">
+        <seg>Show in File Explorer...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Показать в проводнике...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.RenameButtonText">
+      <tuv xml:lang="en">
+        <seg>Rename</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Переименовать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.RenameButtonText_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Rename Selected File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Переименовать выбранный файл</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.FileList.RenameMenuTextFormatString">
+      <tuv xml:lang="en">
+        <seg>Rename For {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Переименовать в {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileLinkMsg">
+      <tuv xml:lang="en">
+        <seg>&lt;HTML&gt;&lt;BODY&gt;Click &lt;a href="file:///{0}"&gt;&lt;b&gt;here to open '{1}'&lt;/b&gt;&lt;/a&gt; in its associated program.&lt;/BODY&gt;&lt;/HTML&gt;</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>&lt;html&gt;&lt;body&gt;Нажмите &lt;a href="file:///{0}"&gt;&lt;b&gt;здесь, чтобы открыть «{1}»&lt;/b&gt;&lt;/a&gt; в связанной с ним программе.&lt;/body&gt;&lt;/html&gt;</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.FileNameMsg">
+      <tuv xml:lang="en">
+        <seg>&lt;HTML&gt;SayMore attempted to load:&lt;br /&gt;&lt;br /&gt;&lt;b&gt;File:&lt;/b&gt; {0}&lt;br /&gt;&lt;nobr&gt;&lt;b&gt;Folder:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/HTML&gt;</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>&lt;html&gt;SayMore пытался загрузить:&lt;br&gt;&lt;br&gt;&lt;b&gt;Файл:&lt;/b&gt; {0}&lt;br&gt;&lt;nobr&gt;&lt;b&gt;Папку:&lt;/b&gt; {1}&lt;/nobr&gt;&lt;/html&gt;</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.GenericFileTypeViewer.TabText">
+      <tuv xml:lang="en">
+        <seg>View</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Вид</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ImageViewer.OpeningPictureFileErrorMsg">
+      <tuv xml:lang="ru">
+        <seg>Не удалось открыть это изображение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ImageViewer.TabText">
+      <tuv xml:lang="en">
+        <seg>Image</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Изображение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.ImageViewer.ZoomLabel">
+      <tuv xml:lang="en">
+        <seg>Zoom</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Масштаб</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.LoadFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was a problem loading file '{0}' for playback. Perhaps another program has a lock on it.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Существует проблема загрузки файла «{0}» для воспроизведения. Возможно другая программа исползует его.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg">
+      <tuv xml:lang="en">
+        <seg>Media file '{0}' not found.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Мультимедийный файл «{0}» не найден.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.MediaFileNotSpecifiedMsg">
+      <tuv xml:lang="en">
+        <seg>Media player file name has not been specified.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Название файла проигрывателя не указано.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.PauseButton">
+      <tuv xml:lang="en">
+        <seg>Pause</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пауза</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.PauseButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Pause</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пауза</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.PlayButton">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Воспроизвести</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.PlayButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Играть</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.StopButton">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остановить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.StopButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остановка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.TabText-Audio">
+      <tuv xml:lang="en">
+        <seg>Audio</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Аудио</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.TabText-Video">
+      <tuv xml:lang="en">
+        <seg>Video</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Видео</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.TimeCurrentOfTotalDisplayFormat">
+      <tuv xml:lang="en">
+        <seg>{0} / {1}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} / {1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.TimeRangeDisplayFormat">
+      <tuv xml:lang="en">
+        <seg>{0} - {1}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} - {1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg">
+      <tuv xml:lang="en">
+        <seg>Unable to start mplayer.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не удается запустить mplayer.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.VolumeButton">
+      <tuv xml:lang="en">
+        <seg>Volume</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Уровень</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPlayer.VolumeButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Volume</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Объем</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.MediaPropertiesEditor.PresetsButton">
+      <tuv xml:lang="en">
+        <seg>Presets</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Предустановка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.NotesEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Notes</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Примечания</seg>
+      </tuv>
+    </tu>
+    <tu tuid="CommonToMultipleViews.PropertiesEditor.TabText">
+      <tuv xml:lang="ru">
+        <seg>Свойства</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._labelSubTitle">
+      <tuv xml:lang="en">
+        <seg>Language Documentation Project Management</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Управление проектом документации языка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._labelVersionInfo">
+      <tuv xml:lang="en">
+        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebSite">
+      <tuv xml:lang="en">
+        <seg>Visit the SayMore web site.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Посетите веб-сайт SayMore.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._linkSayMoreWebSite_LinkPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the application's web site.</note>
+      <tuv xml:lang="en">
+        <seg>SayMore web site</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore веб-сайт</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._linkSiLWebSite">
+      <tuv xml:lang="en">
+        <seg>SayMore is brought to you by SIL International.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore предоставлен вам SIL International.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg._linkSilWebSite_LinkPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the SIL web site.</note>
+      <tuv xml:lang="en">
+        <seg>SIL International</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SIL International</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.AboutDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>About SayMore</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>О программе SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg._buttonCreatePackage">
+      <tuv xml:lang="en">
+        <seg>&amp;1) Create Package</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>1) Создать пакет</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg._buttonLaunchRamp">
+      <tuv xml:lang="en">
+        <seg>&amp;2) Launch RAMP</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>2) Загрузить программу RAMP</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Files for Contributor '{0}'</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление файлов от составителя «{0}»</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.AddingEventFilesProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Adding Files for Event '{0}'</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Добавление файлов для события «{0}»</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ArchivingProgressMsg">
+      <note>The first parameter (in English, that is) is 'Event' or 'Contributor'. The second parameter is the even or contributor name.</note>
+      <tuv xml:lang="en">
+        <seg>     {0}: {1}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0}: {1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CancellingMsg">
+      <tuv xml:lang="en">
+        <seg>Canceling...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ContributorElementName">
+      <tuv xml:lang="en">
+        <seg>Contributor</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Составитель</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CreatingArchiveErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to create an archive for the event '{0}'.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при попытке создания архива для события «{0}».</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CreatingInternalReapMetsFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to create a RAMP/REAP mets file for the event '{0}'.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при попытке создания файла метаданных RAMP/REAP для события «{0}».</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was a problem starting process to create zip file.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Существует проблема c созданием zip-файла.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.EventElementName">
+      <tuv xml:lang="en">
+        <seg>Event</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Событие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.NoContributorsForEventMsg">
+      <tuv xml:lang="en">
+        <seg>There are no contributors for this event.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не существуют составители этого события.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.OverviewText">
+      <tuv xml:lang="ru">
+        <seg>RAMP - утилита для ввода метаданных и их загрузки в внутренний архив SIL, REAP. Если у вас есть доступ к этому архиву, этот инструмент поможет вам использовать RAMP для архивирования вашего проекта SayMore. Эта утилита будет собирать все файлы и данные, связанные с событием и его составителями, затем запустит RAMP чтобы вы могли добавить более подробную информацию и загрузить данные.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg1">
+      <tuv xml:lang="en">
+        <seg>The following event and contributor files will be added to your archive.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Следующие события и файлы составителей будут добавлены в ваш архив.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.PrearchivingStatusMsg2">
+      <tuv xml:lang="en">
+        <seg>The following event files will be added to your archive.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Следующие файлы событий будут добавлены в ваш архив.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.RampNotFoundMsg">
+      <tuv xml:lang="en">
+        <seg>The RAMP pogram cannot be found!</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не удается найти программу RAMP!</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.ReadyToCallRampMsg">
+      <tuv xml:lang="en">
+        <seg>Ready to hand the package to RAMP</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Готов передать пакет программе RAMP</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.SearchingForRampMsg">
+      <tuv xml:lang="en">
+        <seg>Searching for the RAMP program...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Поиск программы RAMP ...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.StartingRampErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error attempting to open the archive package in RAMP.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при попытке открыть архив пакета в программе RAMP.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ArchivingDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>SayMore: Archive with RAMP (SIL Only)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore: Архивизировать программой RAMP (только SIL)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.CustomFileRenamingDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.CustomFileRenamingDlg.FileAlreadyExistsMsg">
+      <tuv xml:lang="ru">
+        <seg>Файл с таким именем уже существует или это имя является недопустимым.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.CustomFileRenamingDlg.NewFileNameMsg">
+      <note>Displayed under the text box.</note>
+      <tuv xml:lang="en">
+        <seg>New file: {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Новый файл: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.CustomFileRenamingDlg.OKButton">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.CustomFileRenamingDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Rename</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Переименовать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DeleteMessageBox._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DeleteMessageBox._buttonDelete">
+      <tuv xml:lang="en">
+        <seg>Delete</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удалить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DeleteMessageBox.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Confirm Delete</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Подтверждение удаления</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.LoadingDlg._labelLoading">
+      <tuv xml:lang="en">
+        <seg>Loading...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Загрузка...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MissingFFmpegPopup.MessageLabel">
+      <tuv xml:lang="en">
+        <seg>If you install FFmpeg, SayMore can automatically report technical details of your media files, and offer some handy conversion functions.  FFmpeg is (free, open source).\n</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Если вы устанавливаете FFmpeg, SayMore может автоматически сообщать технические детали.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MissingFFmpegPopup.SayMoreDownloadPageLink">
+      <tuv xml:lang="en">
+        <seg>Visit SayMore Download Page</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Посетите сайт загрузки SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.MissingFFmpegPopup.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Could not locate FFmpeg</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не удалось найти FFmpeg</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFileProgressDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>&amp;OK</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFileProgressDlg.WindowTitle">
+      <tuv xml:lang="ru">
+        <seg>Создаются события...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._buttonCreateEvents">
+      <note>Parameter is for the number of events that will be created.</note>
+      <tuv xml:lang="en">
+        <seg>Create {0} Events</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать событие {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._labelIncomingFiles">
+      <tuv xml:lang="en">
+        <seg>Incoming &amp;Files</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Входящие файлы</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._labelInstructions">
+      <tuv xml:lang="en">
+        <seg>Mark each file which represents an original recording of an event. For each one, SayMore will create a new event and copy the file into it.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отметь каждый файл, который представляет оригинальную запись событии. Для каждого из них SayMore создаст новое событие, копируя туда ваш файл.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._labelProgress">
+      <tuv xml:lang="en">
+        <seg>Reading Files...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Чтение файлов...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg._linkFindFiles">
+      <tuv xml:lang="en">
+        <seg>Find Files on Recorder/Card...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Поиск файлов на устройсве/карте...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.EventsAlreadyExistMsg">
+      <tuv xml:lang="en">
+        <seg>Events already exist for the following Ids. These will be skipped.\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Для следующего идентификатора события уже существуют. Они будут пропущены.\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.FilesSelectedCreateButtonText">
+      <note>Format text in create button when one or more files are selected.</note>
+      <tuv xml:lang="en">
+        <seg>Create {0} Events</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать события {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.FolderBrowserDlgDescription">
+      <tuv xml:lang="en">
+        <seg>Choose a Folder of Medial Files.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выберите папку с мультимедийными файлами.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.NoFilesSelectedCreateButtonText">
+      <note>Text in create button when no files are selected.</note>
+      <tuv xml:lang="en">
+        <seg>Create Events</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать события</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>New Events From Device</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать новое событие с устройства</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.DriveLetterHintMsgLabel">
+      <tuv xml:lang="en">
+        <seg>In Windows, if you assign the device to a letter closer to 'z', it is more likely to use that letter each time.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>В Windows если назначить устройству букву ближе «z», более вероятно, что она будет использоваться каждый раз. </seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel1">
+      <tuv xml:lang="en">
+        <seg>1) The device is not yet plugged in.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>1) Устройство еще не подключено.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel2">
+      <tuv xml:lang="en">
+        <seg>2) The device is plugged in, but is currently assigned a different drive letter from '{0}'.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>2) Устройство подключено, но в настоящее время получило другую букву диска f</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.PossibleProblemsMsgLabel3">
+      <tuv xml:lang="en">
+        <seg>3) Some part of the above path has  changed (e.g. a folder name).</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>3) Часть выше указаной пути была изменена (например название папки).</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewEventsFromFilesDlgFolderNotFoundMesssageBox.ProblemOverviewMsgLabel">
+      <tuv xml:lang="en">
+        <seg>SayMore cannot reach the folder where your files were last time. One of the following may be true:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore не может достичь папку, где файлы были помещены последний раз. Возможно что:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._buttonCancel">
+      <tuv xml:lang="en">
+        <seg>&amp;Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._buttonOK">
+      <tuv xml:lang="en">
+        <seg>&amp;OK</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._labelMessage">
+      <tuv xml:lang="en">
+        <seg>What would you like to call this project?</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Как назвать этот проект?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg._labelNewProjectPath">
+      <note>This text is displayed under the project name and includes where it will be created.</note>
+      <tuv xml:lang="en">
+        <seg>Project will be created in: {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Проект будет создан в: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg.InvalidPathMsg">
+      <note>This text is displayed under the project name when it is invalid.</note>
+      <tuv xml:lang="en">
+        <seg>Unable to create a new project by that name.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не удается создать новый проект с таким именем.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.NewProjectDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>New SayMore Project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Новый проект SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SplashScreen.LoadingLabel">
+      <tuv xml:lang="en">
+        <seg>Loading...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Загрузка...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SplashScreen.VersionInfoLabel">
+      <tuv xml:lang="en">
+        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString">
+      <tuv xml:lang="en">
+        <seg>All Files (*.*)|*.*</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Все файлы (*. *) | *. *</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AnnoatationTypeLabel1">
+      <tuv xml:lang="ru">
+        <seg>· Транскрипция</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AnnoatationTypeLabel2">
+      <tuv xml:lang="ru">
+        <seg>· Перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Select Audacity Label File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выберите файл Audacity с заметками</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString">
+      <tuv xml:lang="en">
+        <seg>Audacity Label File (*.txt)|*.txt</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл Audacity с заметками (*.txt) | * .txt</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityOverviewLabel">
+      <tuv xml:lang="ru">
+        <seg>Аннотация требует, чтобы сначала поделить поток данных на более мелкие куски. Вам нужно использовать другую программу, чтобы это сделать. Проще всего использовать Audacity. Откройте ваш звуковой файл в Audacity , выберите "Проект: Создать новую дорожку для заметок". В каждой точке, где вы хотите сделать раздел выберите "Проект: добавить заметку к выделению". Потом выберите "Файл: экспортировать заметки...», а затем нажмите эту кнопку и выберите файл, который вы создали.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.CancelButton">
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString">
+      <tuv xml:lang="en">
+        <seg>ELAN File (*.eaf)|*.eaf</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>ELAN файл (*.eaf) | * .eaf</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanOverviewLabel">
+      <tuv xml:lang="ru">
+        <seg>Кроме того, можно добавить файл «.eaf» ELAN, который уже содержит разделы и аннотации к этому мультимедийному файлу. </seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadAudacityLabelFileButtonText">
+      <tuv xml:lang="ru">
+        <seg>Чтение файла Audacity с заметками...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadELANFileButtonText">
+      <tuv xml:lang="ru">
+        <seg>Скопируйте файл, ELAN...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption">
+      <tuv xml:lang="en">
+        <seg>Select Segment File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выберите файл с разделами</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.OverviewLabel">
+      <tuv xml:lang="ru">
+        <seg>Это создаст файл для хранения аннотации мультимедийного файла «{0}». SayMore в данный момент поддерживает аннотации следующих видов:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.CreateAnnotationFileDlg.WindowTitle">
+      <tuv xml:lang="ru">
+        <seg>Создайте файл аннотации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg1">
+      <note>The parameter is a folder path</note>
+      <tuv xml:lang="en">
+        <seg>In order to export, we need to find a writing system ID that FLEx will accept. SayMore tried to find a list of writing systems which FLEx knows about by looking in {0}, but it doesn't exist. We recommend that you let the code be 'en' (English), then change it inside of FLEx.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Для того чтобы экспортировать, нам необходимо найти идентификатор языка, который принимает программа FLEx. SayMore пытался найти список идентификаторов языка программы FLEx посмотрев в {0}, но они не существуют. Мы рекомендуем чтобы Вы использовали идентификатор 'en' (английский), и потом изменили его в установках программы FLEx.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.CannotFindFLExWritingSystemsMsg2">
+      <tuv xml:lang="en">
+        <seg>SayMore was unable to find any Writing Systems on this computer. Make sure FLEx version 7.1 or greater is installed as has been run at least once. For now, you can export as English, and fix that up after you have imported into FLEx.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore не удалось найти каких-либо идентификаторов языка на этом компьютере. Убедитесь что установлен FLEx версии 7.1 или выше и он был запущен хотябы один раз. В настоящее время можно экспортировать как английский и потом исправить это в установках FLEx.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportButton">
+      <tuv xml:lang="en">
+        <seg>Export...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспорт...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Export to File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспорт в файл</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.FileTypeString">
+      <tuv xml:lang="en">
+        <seg>FLEx Interlinear XML (*.xml)|*.xml|All Files (*.*)|*.*</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>FLEx подстрочник XML (*.xml) | *. xml|Все файлы (*. *) | *. *</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.FreeTranslationLabel">
+      <tuv xml:lang="en">
+        <seg>{0}:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0}:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.OldWritingSystemsFoundMsg">
+      <tuv xml:lang="en">
+        <seg>Sorry, the writing system {0} does not conform to current standards. Please first upgrade to FLEx 7.1 or greater.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Извините идентификатор языка {0} не соответствует существующим стандартам. Пожалуйста, сначала обновите FLEx до версии 7.1,  или выше.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.OverviewLabel">
+      <tuv xml:lang="en">
+        <seg>Specify the writing systems for the transcriptions and free translations.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Укажите идентификатор языка для транскрипции и перевода.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.TranscriptionLabel">
+      <tuv xml:lang="en">
+        <seg>{0}:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0}:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Export Annotations For FieldWorks Interlinear</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспорт аннотации в FieldWorks Interlinear</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.CloseButtonText">
+      <tuv xml:lang="ru">
+        <seg>Закрыть</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.EraseAnnotationButton">
+      <tuv xml:lang="ru">
+        <seg>Стереть аннотацию.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.ErasingAnnotationSegmentErrorMsg">
+      <tuv xml:lang="ru">
+        <seg>Не удалось удалить эту аннотацию. Если неполадка продолжается, попробуйте перезагрузить ваш компьютер.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayAnnotationButton.WhenPlaying">
+      <tuv xml:lang="ru">
+        <seg>Воспроизводит...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayAnnotationButton.WhenStopped">
+      <tuv xml:lang="ru">
+        <seg>Проверьте аннотацию</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayOriginalButton.WhenPlaying">
+      <tuv xml:lang="ru">
+        <seg>Воспроизводит...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.PlayOriginalButton.WhenStopped">
+      <tuv xml:lang="ru">
+        <seg>Слушать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenRecording">
+      <tuv xml:lang="ru">
+        <seg>Запись...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenRecordingTooShort">
+      <tuv xml:lang="ru">
+        <seg>Вам нужно удерживайть пробел или кнопку мыши во время записи.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordButton.WhenStopped">
+      <tuv xml:lang="ru">
+        <seg>Удерживайте пробел и говорите</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordingFormatLabel">
+      <tuv xml:lang="ru">
+        <seg>Формат: {0} {1} битов, Гц</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordingType.OralTranslationLabel">
+      <tuv xml:lang="ru">
+        <seg>Устная аннотация</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.RecordingTypeLabel.CarefulSpeech">
+      <tuv xml:lang="ru">
+        <seg>Аккуратная речь</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.SegmentNumberLabel">
+      <tuv xml:lang="ru">
+        <seg>{0} / {1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Transcription.OralAnnotationDlg.WindowTitle">
+      <tuv xml:lang="ru">
+        <seg>Запись</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.CancelButton">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Отмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.HelpOnLocalizingLink">
+      <tuv xml:lang="en">
+        <seg>Help on localization</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Справка по локализации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.IWantToLocalizeLink">
+      <tuv xml:lang="en">
+        <seg>I want to localize SayMore for another language...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Я хочу локализовать SayMore для другого языка...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.LanguageLabel">
+      <tuv xml:lang="en">
+        <seg>&amp;Language:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Язык:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.OKButton">
+      <tuv xml:lang="en">
+        <seg>OK</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.UserInterfaceLanguageDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>User Interface Lanaguage</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Язык пользовательского интерфейса</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._buttonBrowse">
+      <tuv xml:lang="en">
+        <seg>Browse for project...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Поиск проекта...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._buttonBrowse_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Browse the file system for a project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Просмотр файловой системы для проекта</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._buttonCreate">
+      <tuv xml:lang="en">
+        <seg>Create new, blank project...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать новый, пустой проект...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._buttonCreate_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Create a blank project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать пустой проект</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._labelCreate">
+      <tuv xml:lang="en">
+        <seg>Create</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._labelOpen">
+      <tuv xml:lang="en">
+        <seg>Open</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Открыть</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._labelSubTitle">
+      <tuv xml:lang="en">
+        <seg>Language Documentation Project Management</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Управление проектом документации языка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._labelVersionInfo">
+      <tuv xml:lang="en">
+        <seg>Version {0}.{1}.{2}    Built on {3}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Версия {0}.{1}.{2}, Построенный на {3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._linkWebSites">
+      <tuv xml:lang="en">
+        <seg>SayMore is brought to you by SIL International.  Visit the SayMore web site.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore предоставлен вам SIL International.  Посетите веб-сайт SayMore.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._linkWebSites_ApplicationPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the application's web site.</note>
+      <tuv xml:lang="en">
+        <seg>SayMore web site</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore веб-сайт</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg._linkWebSites_SILPortion">
+      <note>This is the portion of the text that is underlined, indicating the link to the SIL web site.</note>
+      <tuv xml:lang="en">
+        <seg>SIL International</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SIL International</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg.OpenFileDlgCaption">
+      <tuv xml:lang="en">
+        <seg>Open SayMore Project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Откройте проект SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg.ProjectFileType">
+      <tuv xml:lang="en">
+        <seg>SayMore Project (*.sprj)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Проект SayMore (*.sprj)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.WelcomeDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>SayMore</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>SayMore</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.ClickNewButtonHelpPrompt">
+      <tuv xml:lang="en">
+        <seg>Click 'New' to add a new event.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Нажмите кнопку «Создать», чтобы добавить новое событие.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.ColumnHeadings.Date">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Число</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.ColumnHeadings.Genre">
+      <tuv xml:lang="en">
+        <seg>Genre</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Жанр</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.ColumnHeadings.Id">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>ID</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.ColumnHeadings.Location">
+      <tuv xml:lang="en">
+        <seg>Location</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Местонахождение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.ColumnHeadings.Stages">
+      <tuv xml:lang="en">
+        <seg>Stages</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Этапы</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.ColumnHeadings.Status">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Статус</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.ColumnHeadings.Title">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Название</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.NewFilesFromDeviceButtonText">
+      <tuv xml:lang="en">
+        <seg>Ne&amp;w From Device...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создать с устройства...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.RampArchiveMenuText">
+      <tuv xml:lang="en">
+        <seg>Archive with RAMP (SIL)...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Архивировать с помощью RAMP (SIL)...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.Stages.CarefulSpeech">
+      <tuv xml:lang="en">
+        <seg>Careful Speech</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Аккуратная речь</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.Stages.CompleteToolTipText">
+      <tuv xml:lang="en">
+        <seg>Complete</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Завершенный</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.Stages.IncompleteToolTipText">
+      <tuv xml:lang="en">
+        <seg>Incomplete</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Незавершенный</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.Stages.InformedConsent">
+      <tuv xml:lang="en">
+        <seg>Informed Consent</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Писменное согласие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.Stages.OralTranslation">
+      <tuv xml:lang="en">
+        <seg>Oral Translation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Устный перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.Stages.OriginalRecording">
+      <tuv xml:lang="en">
+        <seg>Original Recording</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Оригинальная запись</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.Stages.Transcription">
+      <tuv xml:lang="en">
+        <seg>Transcription</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Транскрипция</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsList.Stages.WrittenTranslation">
+      <tuv xml:lang="en">
+        <seg>Written Translation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Письменный перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventsMainMenuText">
+      <tuv xml:lang="ru">
+        <seg>События</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventStatus.Finished">
+      <tuv xml:lang="en">
+        <seg>Finished</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Закончил</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventStatus.Incoming">
+      <tuv xml:lang="en">
+        <seg>Incoming</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Входящие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventStatus.InProgress">
+      <tuv xml:lang="en">
+        <seg>In Progress</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Обрабатывается</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventStatus.Skipped">
+      <tuv xml:lang="en">
+        <seg>Skipped</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пропущен</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.EventStatus.TooltipFormatText">
+      <tuv xml:lang="en">
+        <seg>Status: {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Состояние: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.FileList.AddEventsButtonToolTip">
+      <tuv xml:lang="ru">
+        <seg>Добавление файлов к событию</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.GeneratedOralAnnotationView.CarefulLabel">
+      <tuv xml:lang="en">
+        <seg>Careful</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Точная заметка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.GeneratedOralAnnotationView.OriginalLabel">
+      <tuv xml:lang="en">
+        <seg>Original</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Исходный текст</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.GeneratedOralAnnotationView.TranslationLabel">
+      <tuv xml:lang="en">
+        <seg>Translation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelAbstract">
+      <tuv xml:lang="en">
+        <seg>Abstract</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Краткий обзор</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelAccess">
+      <tuv xml:lang="en">
+        <seg>Access</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Доступ</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelCustomFields">
+      <tuv xml:lang="en">
+        <seg>Custom Fields</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Настраиваемые поля</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelDate">
+      <tuv xml:lang="en">
+        <seg>Date</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Число</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelGenre">
+      <tuv xml:lang="en">
+        <seg>Genre</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Жанр</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelId">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>ID</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelLocation">
+      <tuv xml:lang="en">
+        <seg>Location</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Местонахoждение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelParticipants">
+      <tuv xml:lang="en">
+        <seg>People</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Участники</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelSetting">
+      <tuv xml:lang="en">
+        <seg>Setting</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Обстановка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelSituation">
+      <tuv xml:lang="en">
+        <seg>Situation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ситуация</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelStatus">
+      <tuv xml:lang="en">
+        <seg>Status</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Состаяние</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor._labelTitle">
+      <tuv xml:lang="en">
+        <seg>Title</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Название</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Event</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Событие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.MetadataEditor.UnknownGenre">
+      <note>Unknown genre displayed in the genre drop-down list.</note>
+      <tuv xml:lang="en">
+        <seg>&lt;Unknown&gt;</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>&lt;Неизвестный&gt;</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Miscellaneous.EventAlreadyExistsSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>Could not rename from {0} to {1} because there is already a event by that name.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не возможна переименовать из {0} в {1}, поскольку событие с указанным именем уже существует.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Miscellaneous.NewEventNamePrefix">
+      <tuv xml:lang="en">
+        <seg>New Event</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Новое событие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Miscellaneous.NoIdSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>You must specify an event id.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Необходимо указать идентификатор (ID) события.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.AnnotationFileHelper.BadAnnotationFileMsg">
+      <tuv xml:lang="en">
+        <seg>File '{0}' is not a SayMore annotation file. It is possibly corrupt.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл «{0}» не является файлом аннотации SayMore. Возможно файл поврежден.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.AnnotationFileNotFoundMsg">
+      <tuv xml:lang="en">
+        <seg>File not found: '{0}'</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл не найден: «{0}»</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.ErrorLabel">
+      <tuv xml:lang="en">
+        <seg>There was an error reading generated annotation file.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка чтения файла аннотации.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg">
+      <tuv xml:lang="en">
+        <seg>Generating Oral Annotation file...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Создание файла устной аннотации...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.HelpButton">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Справка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.HelpButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Справка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.PlayButton">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Воспроизвести</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.PlayButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Play</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Воспроизвести</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.ProcessingAnnotationFileErrorMsg">
+      <note>The parameter is the annotation type (i.e. careful, translation).</note>
+      <tuv xml:lang="en">
+        <seg>There was an error processing a {0} annotation file.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при обработке файла аннотации {0}.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.ProcessingOriginalRecordingErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error processing the original recording.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при обработке оригинальной записи.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.RegenerateButton">
+      <tuv xml:lang="en">
+        <seg>Regenerate File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Востанавить файл</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.StopButton">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остановить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.StopButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Stop</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Остановить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.GeneratedOralAnnotationView.TabText">
+      <tuv xml:lang="en">
+        <seg>Generated Audio</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Созданный аудио файл</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.CarefulSpeechMenuText">
+      <tuv xml:lang="en">
+        <seg>&amp;Careful Speech...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Аккуратная речь...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.CopyColumnTextToClipboardMenuText">
+      <note>Parameter is column (i.e. tier) name</note>
+      <tuv xml:lang="en">
+        <seg>Copy {0} to clipboard</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Скопировать {0} в буфер обмена</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ExportButton">
+      <tuv xml:lang="en">
+        <seg>Export...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспортировать...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ExportButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Export to FieldWorks Interlinear</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспортировать в FieldWorks Interlinear</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.HelpButton">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Справка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.HelpButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Справка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.LoadingAnnotationFileErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error loading the annotation file '{0}'.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Возникла ошибка при загрузке файла аннотации «{0}».</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.NoTranscriptionAnnotationsFoundMsg">
+      <note>Parameter is file name.</note>
+      <tuv xml:lang="en">
+        <seg>There are no transcription annotations found in\n'{0}'</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>В «{0}» не существует никаких транскрипции аннотаций</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.OralTranslationMenu">
+      <tuv xml:lang="en">
+        <seg>&amp;Oral Translation...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Устный перевод...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeedLabel">
+      <tuv xml:lang="en">
+        <seg>Playback &amp;Speed:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Скорость воспроизведения:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.100Pct">
+      <tuv xml:lang="en">
+        <seg>100% (Normal)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>100% (Нормальный)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct">
+      <tuv xml:lang="en">
+        <seg>10%</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>10 %</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct">
+      <tuv xml:lang="en">
+        <seg>20%</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>20 %</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.30Pct">
+      <tuv xml:lang="en">
+        <seg>30%</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>30 %</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.40Pct">
+      <tuv xml:lang="en">
+        <seg>40%</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>40 %</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.50Pct">
+      <tuv xml:lang="en">
+        <seg>50%</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>50 %</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.60Pct">
+      <tuv xml:lang="en">
+        <seg>60%</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>60 %</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.70Pct">
+      <tuv xml:lang="en">
+        <seg>70%</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>70 %</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.80Pct">
+      <tuv xml:lang="en">
+        <seg>80%</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>80 %</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.90Pct">
+      <tuv xml:lang="en">
+        <seg>90%</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>90 %</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RecordButton">
+      <tuv xml:lang="en">
+        <seg>Record</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Записать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RecordButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Record Oral Annotations</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Запись устных аннотации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Caption">
+      <tuv xml:lang="ru">
+        <seg>Повторное создание разделов</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Message">
+      <tuv xml:lang="ru">
+        <seg>Пересоздание разделов приведет к тому, что все устные и письменные аннотации будут потеряны.\n\nВы уверены, что хотите продолжить?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ResegmentButton">
+      <tuv xml:lang="en">
+        <seg>Resegment...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пересоздание разделов...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.ResegmentButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Regenerate Segments</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Повторное создание разделов</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TextAnnotationEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Annotations</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Аннотации</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TierNames.FreeTranslation">
+      <tuv xml:lang="ru">
+        <seg>Свободный перевод</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.Transcription.TierNames.OriginalRecording">
+      <tuv xml:lang="ru">
+        <seg>Исходный текст</seg>
+      </tuv>
+    </tu>
+    <tu tuid="EventsView.ViewTabText">
+      <tuv xml:lang="en">
+        <seg>Events</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>События</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._mainMenuHelp">
+      <tuv xml:lang="en">
+        <seg>&amp;Help</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Справка</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuAbout">
+      <tuv xml:lang="en">
+        <seg>&amp;About...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>О программе...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuChangeUILanguage">
+      <tuv xml:lang="en">
+        <seg>Change User Interface Language...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Изменить язык интерфейса пользователя...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuExit">
+      <tuv xml:lang="en">
+        <seg>E&amp;xit</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Выход</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuExportEvents">
+      <tuv xml:lang="en">
+        <seg>Export Events...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспортировать события...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuExportPeople">
+      <tuv xml:lang="en">
+        <seg>Export People...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспортировать участников...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuHelp">
+      <tuv xml:lang="en">
+        <seg>&amp;Help...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Справка...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuOpenProject">
+      <tuv xml:lang="en">
+        <seg>&amp;Open Project...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Открыть проект...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuProject">
+      <tuv xml:lang="en">
+        <seg>&amp;Project</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Проект</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow._menuReleaseNotes">
+      <tuv xml:lang="en">
+        <seg>Release Notes...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Заметки к версии программы...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.DeleteElementMenuText">
+      <tuv xml:lang="en">
+        <seg>Delete</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Удалить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.DeleteMultipleItemsMsg">
+      <note>For deleting events and people items</note>
+      <tuv xml:lang="en">
+        <seg>{0} items</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>элементы {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.DeleteOneItemMsg">
+      <note>For deleting events and people items</note>
+      <tuv xml:lang="en">
+        <seg>{0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.ElementNoLongerExistsMsg">
+      <tuv xml:lang="en">
+        <seg>'{0}' doesn't exist in elements collection.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>«{0}» не существует в списке событии и участников.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.Export.ExportFailureMsg">
+      <tuv xml:lang="en">
+        <seg>Something went wrong with the export.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Операция экспортирования не получилась.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.Caption">
+      <tuv xml:lang="en">
+        <seg>Export Data</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Экспорт данных</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.Export.ExportFileSaveFileDlg.CSVFileTypeText">
+      <tuv xml:lang="en">
+        <seg>CSV (Comma delimited) (*.csv)|*.csv</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>CSV (разделен запятыми) (*.csv) | * .csv</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.LoadingProjectErrorMsg">
+      <tuv xml:lang="en">
+        <seg>{0} had a problem loading the {1} project. Please report this problem to the developers by clicking 'Details' below.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} не смог загрузить проект {1}. Сообщите об этой проблеме разработчикам SayMore, нажав кнопку «Информация».</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.ViewTabsScrollLeftToolTipText">
+      <tuv xml:lang="en">
+        <seg>Scroll Left</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Прокрутка влево</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.ViewTabsScrollRightToolTipText">
+      <tuv xml:lang="en">
+        <seg>Scroll Right</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Прокрутка вправо</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>{0} - SayMore {1}.{2}.{3}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} - SayMore {1}.{2}.{3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="MainWindow.WindowTitleWithProject">
+      <tuv xml:lang="en">
+        <seg>{0} - SayMore {1}.{2}.{3}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} - SayMore {1}.{2}.{3}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.AudioRecorder.CantBeginMonitoringMsg">
+      <tuv xml:lang="en">
+        <seg>Can't begin monitoring while we are in this state: {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не удается начать отслеживание, пока процесс на текущей стадии: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.AudioRecorder.CantBeginRecordingMsg">
+      <tuv xml:lang="en">
+        <seg>Can't begin recording while we are in this state: {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не удается начать запись, пока процесс на текущей стадии: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.AudioRecorder.MonitoringErrorMsg">
+      <tuv xml:lang="en">
+        <seg>There was a problem starting up volume monitoring.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Существует проблема запуска отслеживания уровня.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.CopyFailedMsg">
+      <tuv xml:lang="en">
+        <seg>Copying failed: {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Копирование не получилось: {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.CopyingFinishedMsg">
+      <tuv xml:lang="en">
+        <seg>Finished</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Закончил</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.CopyingProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Copying {0} of {1} Files, ({2} of {3} Megabytes)</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Копирование {0} из {1} файлов, ({2} из {3} МБ)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.CopyWaitingMsg">
+      <tuv xml:lang="en">
+        <seg>Waiting to start...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ожидание начала...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.FileExistsMsg">
+      <tuv xml:lang="en">
+        <seg>The file '{0}' already exists</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл «{0}» уже существует</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.NoFilesToCopyMsg">
+      <tuv xml:lang="ru">
+        <seg>Нет файлов для копирования</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.CopyFilesControl.UnchangedFileMsg">
+      <tuv xml:lang="en">
+        <seg>The file {0} appears unchanged since it was copied before, so it will be skipped.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Файл {0} кажется неизмененным так, как он был раньше скопирован, поэтому он будет пропущен.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.PresetGathererNoPresetsYetMsg">
+      <tuv xml:lang="en">
+        <seg>No presets yet</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Предустановки еще не введены</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.FileList.AddPersonButtonToolTip">
+      <tuv xml:lang="ru">
+        <seg>Добавление файлов для участника</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.InformedConsentTypes.Audio">
+      <tuv xml:lang="en">
+        <seg>Informed Consent is Audio File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Согласие является аудио файлом</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.InformedConsentTypes.None">
+      <tuv xml:lang="en">
+        <seg>No Informed Consent</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Нет писменного согласия</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.InformedConsentTypes.Video">
+      <tuv xml:lang="en">
+        <seg>Informed Consent is Video File</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Согласие является видео файлом</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.InformedConsentTypes.Written">
+      <tuv xml:lang="en">
+        <seg>Informed Consent is Written</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Согласие в письменной форме</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelBirthYear">
+      <tuv xml:lang="en">
+        <seg>&amp;Birth Year</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Год рождения</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelCustomFields">
+      <tuv xml:lang="en">
+        <seg>&amp;Custom Fields</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Настраиваемые поля</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelEducation">
+      <tuv xml:lang="en">
+        <seg>&amp;Education</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Образование</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelFullName">
+      <tuv xml:lang="en">
+        <seg>&amp;Full Name</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Полное имя</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelgender">
+      <tuv xml:lang="en">
+        <seg>&amp;Gender</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Пол</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelHowToContact">
+      <tuv xml:lang="en">
+        <seg>&amp;How to Contact</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Как связаться</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelOtherLanguages">
+      <tuv xml:lang="en">
+        <seg>Other L&amp;anguages</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Другие языки</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrimaryLanguage">
+      <tuv xml:lang="en">
+        <seg>Primary &amp;Language</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Основной язык</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrimaryLanguageLearnedIn">
+      <tuv xml:lang="en">
+        <seg>Learned &amp;In:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Где выучен:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._labelPrimaryOccupation">
+      <tuv xml:lang="en">
+        <seg>Primary &amp;Occupation</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Основное занятие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor._personsPicture_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Click to Change Picture</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Щелкните, чтобы изменить изображение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.ChangePictureDlgCaption">
+      <tuv xml:lang="en">
+        <seg>Change Picture</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Изменить изображение</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error changing the person's photo.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при изменении фотографии.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.ErrorLoadingPersonsPhotoMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error loading the person's photo.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при загрузке фотографии.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.FatherSelectorToolTip.WhenNotSelected">
+      <tuv xml:lang="en">
+        <seg>Click to indicate this is the father's primary language</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Щелкните, чтобы указать, что это основной язык его/её отца</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.FatherSelectorToolTip.WhenSelected">
+      <tuv xml:lang="en">
+        <seg>Indicates this is the father's primary language</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Указывает, что это основной язык его/её отца</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.GenderSelector.Female">
+      <tuv xml:lang="en">
+        <seg>Female</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Женский</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.GenderSelector.Male">
+      <tuv xml:lang="en">
+        <seg>Male</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Мужской</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.ImageFileTypes">
+      <tuv xml:lang="en">
+        <seg>JPEG Images (*.jpg)|*.jpg|GIF Images (*.gif)|*.gif|TIFF Images (*.tif)|*.tif|PNG Images (*.png)|*.png|Bitmaps (*.bmp;*.dib)|*.bmp;*.dib|All Files (*.*)|*.*</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Изображения в формате JPEG (*.jpg) | *. jpg|Изображения в формате GIF (*.gif) | *. gif|Изображения TIFF (*.tif) | *. tif|Изображения PNG (*.png) | *. png|Растровые изображения (*.bmp; *.dib) | * .bmp; *. dib|Все файлы (*. *) | *. *</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenNotSelected">
+      <tuv xml:lang="en">
+        <seg>Click to indicate this is the mother's primary language</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Щелкните, чтобы указать, что это основной язык его/её матери</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.MotherSelectorToolTip.WhenSelected">
+      <tuv xml:lang="en">
+        <seg>Indicates this is the mother's primary language</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Указывает, что это основной язык его/её матери</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.MetadataEditor.TabText">
+      <tuv xml:lang="en">
+        <seg>Person</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Лицо</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.Miscellaneous.AlreadyExistsSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>Could not rename from {0} to {1} because there is already a person by that name.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Не может переименовать из {0} в {1}, потому что человек с таким именем уже существует.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.Miscellaneous.NewPersonNamePrefix">
+      <tuv xml:lang="en">
+        <seg>New Person</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Новое лицо</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.Miscellaneous.NoIdSaveFailureMessage">
+      <tuv xml:lang="en">
+        <seg>You must specify a name.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Необходимо указать имя.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleList.ClickNewButtonHelpPrompt">
+      <tuv xml:lang="en">
+        <seg>Click 'New' to add a new person.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Нажмите кнопку "Создать" для добавления нового пользователя.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleList.ColumnHeadings.Consent">
+      <tuv xml:lang="en">
+        <seg>Consent</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Согласие</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.PeopleList.ColumnHeadings.Id">
+      <tuv xml:lang="en">
+        <seg>Id</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>ID</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PeopleView.ViewTabText">
+      <tuv xml:lang="en">
+        <seg>People</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Люди</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView._buttonRefresh">
+      <tuv xml:lang="en">
+        <seg>Refresh</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Обновить</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView._buttonRefresh_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Refresh View</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Обновить представление</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView._labelWorking">
+      <tuv xml:lang="en">
+        <seg>Working...</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Работает...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.ByGenreHeadingText">
+      <tuv xml:lang="en">
+        <seg>By Genre</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>По жанрам</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.ByStagesHeadingText">
+      <tuv xml:lang="en">
+        <seg>By Stages</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>По этапам</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.CopyMenuItemText">
+      <tuv xml:lang="ru">
+        <seg>Скопировать</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.EventsLabel">
+      <tuv xml:lang="en">
+        <seg>Events:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>События:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.HeadingText">
+      <note>Parameter is project name.</note>
+      <tuv xml:lang="en">
+        <seg>SayMore statistics for {0}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Статистика SayMore для {0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.OverviewHeadingText">
+      <tuv xml:lang="en">
+        <seg>Overview</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Обзор</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.PeopleLabel">
+      <tuv xml:lang="en">
+        <seg>People:</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Люди:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.PrintMenuItemText">
+      <tuv xml:lang="ru">
+        <seg>Печать...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.ProgressMainMenuItemText">
+      <tuv xml:lang="ru">
+        <seg>Прогресс</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SaveMenuItemText">
+      <tuv xml:lang="ru">
+        <seg>Сохраните...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SummaryTotalsTextForOneBar">
+      <tuv xml:lang="en">
+        <seg>{0} events totaling {1} minutes</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} события, общей продолжительности {1} мин.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SummaryTotalsTextForSegment1">
+      <tuv xml:lang="en">
+        <seg>{0}{1} events totaling {2} minutes</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0} {1} событии, общей продолжительности {2} мин.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.SummaryTotalsTextForSegment2">
+      <tuv xml:lang="en">
+        <seg>{0}: {1} events totaling {2} minutes</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>{0}: {1} события общей продолжительности {2} мин.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProgressView.TabText">
+      <tuv xml:lang="en">
+        <seg>Progress</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Прогресс</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ConvertingAudioError">
+      <note>Second parameter is the error message.</note>
+      <tuv xml:lang="en">
+        <seg>There was an error converting the audio file '{0}' to the correct format.\n\n{1}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при преобразовании звукового файла '{0}' в нужный формат.\n\n{1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ErrorFindingPcmAudioDriverMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error trying to find a PCM audio driver on this computer. Ensure that you have a PCM sound driver installed.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при попытке найти PCM аудио драйвер на этом компьютере. Убедитесь, что у вас установлен драйвер звука PCM.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ErrorFindingPcmConversionCapabilitiesMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error trying to find PCM audio conversion capabilities on this computer. Ensure that you have a PCM sound driver installed.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Произошла ошибка при попытке найти средства аудио преобразования PCM на этом компьютере. Убедитесь, что у вас установлен драйвер звука PCM.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.ExtractingAudioError">
+      <note>Second parameter is the error message.</note>
+      <tuv xml:lang="en">
+        <seg>There was an error extracting audio from the media file '{0}'\n\n{1}</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Ошибка извлечения аудио из файла '{0}' \n\n{1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="SoundFileUtils.MediaFileDoesNotExistErrorMsg">
+      <tuv xml:lang="en">
+        <seg>Media file does not exist.</seg>
+      </tuv>
+      <tuv xml:lang="ru">
+        <seg>Медиа-файл не существует.</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>

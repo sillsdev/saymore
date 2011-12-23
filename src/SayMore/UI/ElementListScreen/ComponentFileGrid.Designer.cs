@@ -177,21 +177,21 @@ namespace SayMore.UI.ElementListScreen
 			// colName
 			// 
 			this.colName.DataPropertyName = "FileName";
-			this.colName.HeaderText = "L10N:CommonToMultipleViews.FileList.ColumnHeadings.FileName!Name";
+			this.colName.HeaderText = "_L10N_:CommonToMultipleViews.FileList.ColumnHeadings.FileName!Name";
 			this.colName.Name = "colName";
 			this.colName.ReadOnly = true;
 			// 
 			// colType
 			// 
 			this.colType.DataPropertyName = "FileTypeDescription";
-			this.colType.HeaderText = "L10N:CommonToMultipleViews.FileList.ColumnHeadings.FileType!Type";
+			this.colType.HeaderText = "_L10N_:CommonToMultipleViews.FileList.ColumnHeadings.FileType!Type";
 			this.colType.Name = "colType";
 			this.colType.ReadOnly = true;
 			// 
 			// colDataModified
 			// 
 			this.colDataModified.DataPropertyName = "DateModified";
-			this.colDataModified.HeaderText = "L10N:CommonToMultipleViews.FileList.ColumnHeadings.FileDate!Date Modified";
+			this.colDataModified.HeaderText = "_L10N_:CommonToMultipleViews.FileList.ColumnHeadings.FileDate!Date Modified";
 			this.colDataModified.Name = "colDataModified";
 			this.colDataModified.ReadOnly = true;
 			this.colDataModified.Width = 107;
@@ -201,7 +201,7 @@ namespace SayMore.UI.ElementListScreen
 			this.colSize.DataPropertyName = "FileSize";
 			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
-			this.colSize.HeaderText = "L10N:CommonToMultipleViews.FileList.ColumnHeadings.FileSize!Size";
+			this.colSize.HeaderText = "_L10N_:CommonToMultipleViews.FileList.ColumnHeadings.FileSize!Size";
 			this.colSize.Name = "colSize";
 			this.colSize.ReadOnly = true;
 			this.colSize.Width = 52;
@@ -211,7 +211,7 @@ namespace SayMore.UI.ElementListScreen
 			this.colDuration.DataPropertyName = "DurationString";
 			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			this.colDuration.DefaultCellStyle = dataGridViewCellStyle4;
-			this.colDuration.HeaderText = "L10N:CommonToMultipleViews.FileList.ColumnHeadings.FileDuration!Duration";
+			this.colDuration.HeaderText = "_L10N_:CommonToMultipleViews.FileList.ColumnHeadings.FileDuration!Duration";
 			this.colDuration.Name = "colDuration";
 			this.colDuration.ReadOnly = true;
 			// 

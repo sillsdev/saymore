@@ -124,12 +124,12 @@ namespace SayMore.UI.ComponentEditors
 		private void AddColumns()
 		{
 			var col = CreateTextBoxColumn("colField");
-			col.HeaderText = "L10N:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
+			col.HeaderText = "_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Field!Field";
 			col.Width = 125;
 			Columns.Add(col);
 
 			col = CreateTextBoxColumn("colValue");
-			col.HeaderText = "L10N:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
+			col.HeaderText = "_L10N_:CommonToMultipleViews.FieldsAndValuesGrid.ColumnHeadings.Value!Value";
 			col.Width = 175;
 			Columns.Add(col);
 

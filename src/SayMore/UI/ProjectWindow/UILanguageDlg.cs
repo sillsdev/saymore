@@ -33,7 +33,7 @@ namespace SayMore.UI.ProjectWindow
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			if (DialogResult == DialogResult.OK)
-				UILanguage = ((CultureInfo)_comboUILanguage.SelectedItem).TwoLetterISOLanguageName;
+				UILanguage = ((CultureInfo)_comboUILanguage.SelectedItem).Name;
 
 			base.OnFormClosing(e);
 		}

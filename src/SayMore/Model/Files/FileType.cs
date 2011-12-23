@@ -269,7 +269,7 @@ namespace SayMore.Model.Files
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			var col = SilGrid.CreateTextBoxColumn("id");
-			col.HeaderText = "L10N:PeopleView.PeopleList.ColumnHeadings.Id!Id";
+			col.HeaderText = "_L10N_:PeopleView.PeopleList.ColumnHeadings.Id!Id";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.Frozen = true;
@@ -277,7 +277,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("consent");
-			col.HeaderText = "L10N:PeopleView.PeopleList.ColumnHeadings.Consent!Consent";
+			col.HeaderText = "_L10N_:PeopleView.PeopleList.ColumnHeadings.Consent!Consent";
 			col.DataPropertyName = "consent";
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
@@ -371,35 +371,35 @@ namespace SayMore.Model.Files
 		public override IEnumerable<DataGridViewColumn> GetFieldsShownInGrid()
 		{
 			var col = SilGrid.CreateTextBoxColumn("id");
-			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Id!Id";
+			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Id!Id";
 			col.DataPropertyName = "id";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("title");
-			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Title!Title";
+			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Title!Title";
 			col.DataPropertyName = "title";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("stages");
-			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Stages!Stages";
+			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Stages!Stages";
 			col.DataPropertyName = "stages";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateImageColumn("status");
-			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Status!Status";
+			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Status!Status";
 			col.DataPropertyName = "status";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("date");
-			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Date!Date";
+			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Date!Date";
 			col.DataPropertyName = "date";
 			col.ReadOnly = true;
 			col.Visible = false;
@@ -407,7 +407,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("genre");
-			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Genre!Genre";
+			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Genre!Genre";
 			col.DataPropertyName = "genre";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;
@@ -415,7 +415,7 @@ namespace SayMore.Model.Files
 			yield return col;
 
 			col = SilGrid.CreateTextBoxColumn("location");
-			col.HeaderText = "L10N:EventsView.EventsList.ColumnHeadings.Location!Location";
+			col.HeaderText = "_L10N_:EventsView.EventsList.ColumnHeadings.Location!Location";
 			col.DataPropertyName = "location";
 			col.ReadOnly = true;
 			col.SortMode = DataGridViewColumnSortMode.Programmatic;

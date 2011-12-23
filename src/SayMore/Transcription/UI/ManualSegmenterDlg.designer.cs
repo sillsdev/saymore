@@ -39,6 +39,7 @@ namespace SayMore.Transcription.UI
 			this._waveControl.AutoScrollMinSize = new System.Drawing.Size(0, 99);
 			this.locExtender.SetLocalizableToolTip(this._waveControl, null);
 			this.locExtender.SetLocalizationComment(this._waveControl, null);
+			this.locExtender.SetLocalizationPriority(this._waveControl, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._waveControl, "ManualSegmenterDlg._waveControl");
 			this._waveControl.Size = new System.Drawing.Size(650, 99);
 			//
@@ -72,7 +73,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this.toolStrip1, "toolStrip1.toolStrip1");
 			this.toolStrip1.Location = new System.Drawing.Point(3, 305);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(277, 31);
+			this.toolStrip1.Size = new System.Drawing.Size(246, 31);
 			this.toolStrip1.TabIndex = 7;
 			this.toolStrip1.Text = "toolStrip1";
 			//
@@ -100,23 +101,8 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		//private AudioUtils.WaveControl _waveControl;
-		//private SilPanel _panelWaveControl;
-		//private System.Windows.Forms.ToolStripButton _buttonListenToOriginal;
 		private System.Windows.Forms.ToolStripButton _buttonAddSegmentBoundary;
-		//private System.Windows.Forms.Label _labelTimeDisplay;
-		//private System.Windows.Forms.Label _labelOriginalRecording;
-		//private System.Windows.Forms.ComboBox _comboBoxZoom;
-		//private System.Windows.Forms.Label _labelZoom;
-		//private System.Windows.Forms.Button _buttonClose;
-		//private System.Windows.Forms.Button _buttonCancel;
-		//private System.Windows.Forms.TableLayoutPanel _tableLayoutTop;
-		//private System.Windows.Forms.TableLayoutPanel _tableLayoutStatus;
-		//private System.Windows.Forms.Label _labelSegment;
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolStrip toolStrip1;
-		//private System.Windows.Forms.Label _labelSegmentCount;
-		//protected System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
-		//protected System.Windows.Forms.ToolStrip _toolStripButtons;
 	}
 }

@@ -30,6 +30,7 @@ namespace SayMore.UI.ProjectWindow
 			LocalizeItemDlg.StringsLocalized += LocalizationInitiated;
 			LocalizationInitiated();
 		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Setups the link label with proper localizations. This method gets called from the

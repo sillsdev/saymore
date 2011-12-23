@@ -54,6 +54,7 @@ namespace SayMore.Transcription.UI
 			// _waveControl
 			//
 			this._waveControl.AutoScroll = true;
+			this._waveControl.AutoScrollMinSize = new System.Drawing.Size(0, 101);
 			this._waveControl.BackColor = System.Drawing.SystemColors.Window;
 			this._waveControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._waveControl.ForeColor = System.Drawing.SystemColors.WindowText;
@@ -104,12 +105,13 @@ namespace SayMore.Transcription.UI
 			this._toolStripButtons.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.locExtender.SetLocalizableToolTip(this._toolStripButtons, null);
 			this.locExtender.SetLocalizationComment(this._toolStripButtons, null);
-			this.locExtender.SetLocalizingId(this._toolStripButtons, "ManualSegmenterDlg.toolStrip1");
+			this.locExtender.SetLocalizationPriority(this._toolStripButtons, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._toolStripButtons, "SegmenterDlgBase._toolStripButtons");
 			this._toolStripButtons.Location = new System.Drawing.Point(0, 140);
 			this._toolStripButtons.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this._toolStripButtons.Name = "_toolStripButtons";
 			this._tableLayoutOuter.SetRowSpan(this._toolStripButtons, 2);
-			this._toolStripButtons.Size = new System.Drawing.Size(183, 29);
+			this._toolStripButtons.Size = new System.Drawing.Size(183, 48);
 			this._toolStripButtons.TabIndex = 2;
 			this._toolStripButtons.Text = "toolStrip1";
 			//
@@ -215,7 +217,8 @@ namespace SayMore.Transcription.UI
 			this._labelOriginalRecording.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._labelOriginalRecording, null);
 			this.locExtender.SetLocalizationComment(this._labelOriginalRecording, null);
-			this.locExtender.SetLocalizingId(this._labelOriginalRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlgDlg._labelOriginalRecording");
+			this.locExtender.SetLocalizingId(this._labelOriginalRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlgDlg._labelOriginalRecording" +
+		"");
 			this._labelOriginalRecording.Location = new System.Drawing.Point(0, 5);
 			this._labelOriginalRecording.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelOriginalRecording.Name = "_labelOriginalRecording";

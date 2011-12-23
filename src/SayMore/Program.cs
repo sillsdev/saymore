@@ -227,11 +227,12 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static void SetUpLocalization()
 		{
-			var installedSayMoreStringsFile =
-				FileLocator.GetFileDistributedWithApplication("SayMore.tmx");
+			var installedStringFileFolder = FileLocator.GetDirectoryDistributedWithApplication("mplayer");
+			installedStringFileFolder = Path.GetDirectoryName(installedStringFileFolder);
 
 			LocalizationManager.Create(Settings.Default.UserInterfaceLanguage,
-				"SayMore", "SayMore", installedSayMoreStringsFile);
+				"SayMore", "SayMore", Application.ProductVersion,
+				installedStringFileFolder, null, "SayMore");
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 		}

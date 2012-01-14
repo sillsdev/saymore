@@ -1290,5 +1290,18 @@ namespace SayMore.Properties {
                 this["DefaultSegmentationMethod"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1250")]
+        public int MinimumAnnotationSegmentLengthInMilliseconds {
+            get {
+                return ((int)(this["MinimumAnnotationSegmentLengthInMilliseconds"]));
+            }
+            set {
+                this["MinimumAnnotationSegmentLengthInMilliseconds"] = value;
+            }
+        }
     }
 }

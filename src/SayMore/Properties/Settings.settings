@@ -387,5 +387,8 @@
     <Setting Name="DefaultSegmentationMethod" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="MinimumAnnotationSegmentLengthInMilliseconds" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1250</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

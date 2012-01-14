@@ -67,6 +67,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap AddBoundary {
+            get {
+                object obj = ResourceManager.GetObject("AddBoundary", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap AudioComponentFileImage {
             get {
                 object obj = ResourceManager.GetObject("AudioComponentFileImage", resourceCulture);

@@ -108,14 +108,23 @@
     <Compile Include="AudioUtils\AudioPlayer.cs" />
     <Compile Include="AudioUtils\AudioRecorder.cs" />
     <Compile Include="AudioUtils\SampleAggregator.cs" />
-    <Compile Include="AudioUtils\TrimWaveStream.cs" />
-    <Compile Include="AudioUtils\WaveControl.cs">
+    <Compile Include="AudioUtils\WaveControls\WaveControlBasic.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AudioUtils\WaveFileUtils.cs" />
-    <Compile Include="AudioUtils\WavePainter.cs">
-      <SubType>Code</SubType>
+    <Compile Include="AudioUtils\WaveControls\WaveControlWithBoundarySelection.cs">
+      <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="AudioUtils\WaveControls\WaveControlWithMovableBoundaries.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AudioUtils\WaveControls\WaveControlWithRangeSelection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AudioUtils\WavePainting\WavePainterWithBoundarySelection.cs" />
+    <Compile Include="AudioUtils\TrimWaveStream.cs" />
+    <Compile Include="AudioUtils\WaveFileUtils.cs" />
+    <Compile Include="AudioUtils\WavePainting\WavePainterBasic.cs" />
+    <Compile Include="AudioUtils\WavePainting\WavePainterWithRangeSelection.cs" />
     <Compile Include="AudioUtils\WaveSegmentStream.cs" />
     <Compile Include="AudioUtils\WaveStreamProvider.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
@@ -228,6 +237,7 @@
       <DependentUpon>SegmenterDlgBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Transcription\UI\SegmenterDlgBaseViewModel.cs" />
+    <Compile Include="Transcription\UI\SegmentingAndRecording\ManualSegmenterDlgViewModel.cs" />
     <Compile Include="Transcription\UI\StartAnnotatingEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -854,6 +864,7 @@
     <None Include="Resources\OralTranslation.png" />
     <None Include="Resources\RecordedOralAnnotations.png" />
     <None Include="Resources\MissingAnnotation.png" />
+    <None Include="Resources\AddBoundary.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />
@@ -897,6 +908,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -309,9 +309,9 @@ namespace SayMore.Transcription.UI
 			{
 				_waveOut.Dispose();
 				_waveOut = null;
-				_wavePanelOriginal.SetPlaybackCursor(TimeSpan.Zero);
-				_wavePanelCareful.SetPlaybackCursor(TimeSpan.Zero);
-				_wavePanelTranslation.SetPlaybackCursor(TimeSpan.Zero);
+				_wavePanelOriginal.SetCursor(TimeSpan.Zero);
+				_wavePanelCareful.SetCursor(TimeSpan.Zero);
+				_wavePanelTranslation.SetCursor(TimeSpan.Zero);
 
 				if (PlaybackStopped != null)
 					PlaybackStopped(this, EventArgs.Empty);

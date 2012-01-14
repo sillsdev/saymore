@@ -55,7 +55,11 @@ namespace SayMore.Transcription.Model
 				else if (i == labelInfo.Count - 1 && _mediaFile != null)
 				{
 					var mediaInfo = new MPlayerMediaInfo(_mediaFile);
-					labelInfo[i].Stop = mediaInfo.Duration;
+
+					if (labelInfo[i].Start.Equals(mediaInfo.Duration))
+						labelInfo.RemoveAt(i);
+					else
+						labelInfo[i].Stop = mediaInfo.Duration;
 				}
 			}
 

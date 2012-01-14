@@ -31,18 +31,11 @@ namespace SayMore.Transcription.UI
 			this._buttonListenToAnnotation = new System.Windows.Forms.ToolStripButton();
 			this._buttonEraseAnnotation = new System.Windows.Forms.ToolStripButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this._buttonListenToOriginal = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtons = new System.Windows.Forms.ToolStrip();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
-			this.toolStrip1.SuspendLayout();
+			this.toolStripButtons.SuspendLayout();
 			this.SuspendLayout();
-			//
-			// _waveControl
-			//
-			this._waveControl.AutoScrollMinSize = new System.Drawing.Size(0, 99);
-			this.locExtender.SetLocalizableToolTip(this._waveControl, null);
-			this.locExtender.SetLocalizationComment(this._waveControl, null);
-			this.locExtender.SetLocalizingId(this._waveControl, "ManualSegmenterDlg._waveControl");
-			this._waveControl.Size = new System.Drawing.Size(650, 99);
 			//
 			// _buttonRecordAnnotation
 			//
@@ -53,10 +46,10 @@ namespace SayMore.Transcription.UI
 			this._buttonRecordAnnotation.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonRecordAnnotation, null);
 			this.locExtender.SetLocalizationComment(this._buttonRecordAnnotation, null);
-			this.locExtender.SetLocalizingId(this._buttonRecordAnnotation, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg._buttonRecordAnnotation");
+			this.locExtender.SetLocalizingId(this._buttonRecordAnnotation, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._buttonRecordAnnotation");
 			this._buttonRecordAnnotation.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
 			this._buttonRecordAnnotation.Name = "_buttonRecordAnnotation";
-			this._buttonRecordAnnotation.Size = new System.Drawing.Size(240, 24);
+			this._buttonRecordAnnotation.Size = new System.Drawing.Size(239, 24);
 			this._buttonRecordAnnotation.Text = "Record (hold SPACE key down and talk)";
 			this._buttonRecordAnnotation.ToolTipText = "Record oral annotation";
 			//
@@ -69,11 +62,12 @@ namespace SayMore.Transcription.UI
 			this._buttonListenToAnnotation.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonListenToAnnotation, null);
 			this.locExtender.SetLocalizationComment(this._buttonListenToAnnotation, null);
-			this.locExtender.SetLocalizingId(this._buttonListenToAnnotation, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg._buttonListenToAnnotation");
+			this.locExtender.SetLocalizingId(this._buttonListenToAnnotation, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._buttonListenToAnnotation" +
+		"");
 			this._buttonListenToAnnotation.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
 			this._buttonListenToAnnotation.Name = "_buttonListenToAnnotation";
 			this._buttonListenToAnnotation.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-			this._buttonListenToAnnotation.Size = new System.Drawing.Size(127, 24);
+			this._buttonListenToAnnotation.Size = new System.Drawing.Size(239, 24);
 			this._buttonListenToAnnotation.Text = "Check Annotation";
 			//
 			// _buttonEraseAnnotation
@@ -85,51 +79,70 @@ namespace SayMore.Transcription.UI
 			this._buttonEraseAnnotation.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonEraseAnnotation, null);
 			this.locExtender.SetLocalizationComment(this._buttonEraseAnnotation, null);
-			this.locExtender.SetLocalizingId(this._buttonEraseAnnotation, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg._buttonEraseAnnotation");
+			this.locExtender.SetLocalizingId(this._buttonEraseAnnotation, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._buttonEraseAnnotation");
 			this._buttonEraseAnnotation.Margin = new System.Windows.Forms.Padding(24, 5, 0, 2);
 			this._buttonEraseAnnotation.Name = "_buttonEraseAnnotation";
-			this._buttonEraseAnnotation.Size = new System.Drawing.Size(123, 29);
+			this._buttonEraseAnnotation.Size = new System.Drawing.Size(215, 26);
 			this._buttonEraseAnnotation.Text = "Erase Annotation";
 			//
 			// locExtender
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
 			//
-			// toolStrip1
+			// _buttonListenToOriginal
 			//
-			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this._buttonListenToOriginal.BackColor = System.Drawing.Color.Transparent;
+			this._buttonListenToOriginal.Image = global::SayMore.Properties.Resources.RecordingPlayback;
+			this._buttonListenToOriginal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonListenToOriginal.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this._buttonListenToOriginal.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonListenToOriginal, null);
+			this.locExtender.SetLocalizationComment(this._buttonListenToOriginal, null);
+			this.locExtender.SetLocalizingId(this._buttonListenToOriginal, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._buttonListenToOriginal");
+			this._buttonListenToOriginal.Name = "_buttonListenToOriginal";
+			this._buttonListenToOriginal.Size = new System.Drawing.Size(239, 24);
+			this._buttonListenToOriginal.Text = "Listen (hold CTRL key down)";
+			this._buttonListenToOriginal.ToolTipText = "Listen to original recording";
+			this._buttonListenToOriginal.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleListenToOriginalMouseDown);
+			//
+			// toolStripButtons
+			//
+			this.toolStripButtons.BackColor = System.Drawing.Color.Transparent;
+			this.toolStripButtons.Dock = System.Windows.Forms.DockStyle.None;
+			this.toolStripButtons.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.toolStripButtons.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this._buttonListenToOriginal,
 			this._buttonRecordAnnotation,
 			this._buttonListenToAnnotation,
 			this._buttonEraseAnnotation});
-			this.locExtender.SetLocalizableToolTip(this.toolStrip1, null);
-			this.locExtender.SetLocalizationComment(this.toolStrip1, null);
-			this.locExtender.SetLocalizationPriority(this.toolStrip1, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.toolStrip1, "toolStrip1.toolStrip1");
-			this.toolStrip1.Location = new System.Drawing.Point(3, 305);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(526, 36);
-			this.toolStrip1.TabIndex = 7;
-			this.toolStrip1.Text = "toolStrip1";
+			this.toolStripButtons.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+			this.locExtender.SetLocalizableToolTip(this.toolStripButtons, null);
+			this.locExtender.SetLocalizationComment(this.toolStripButtons, null);
+			this.locExtender.SetLocalizationPriority(this.toolStripButtons, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.toolStripButtons, "toolStrip1.toolStrip1");
+			this.toolStripButtons.Location = new System.Drawing.Point(0, 158);
+			this.toolStripButtons.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
+			this.toolStripButtons.Name = "toolStripButtons";
+			this.toolStripButtons.Size = new System.Drawing.Size(241, 153);
+			this.toolStripButtons.TabIndex = 7;
 			//
 			// OralAnnotationRecorderBaseDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(682, 338);
-			this.Controls.Add(this.toolStrip1);
+			this.Controls.Add(this.toolStripButtons);
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, "Localized in subclass");
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
 			this.Name = "OralAnnotationRecorderBaseDlg";
-			this.Opacity = 1D;
 			this.Text = "Change my text";
-			this.Controls.SetChildIndex(this.toolStrip1, 0);
+			this.Controls.SetChildIndex(this.toolStripButtons, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
+			this.toolStripButtons.ResumeLayout(false);
+			this.toolStripButtons.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -141,6 +154,8 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripButton _buttonListenToAnnotation;
 		private System.Windows.Forms.ToolStripButton _buttonEraseAnnotation;
 		private Localization.UI.LocalizationExtender locExtender;
-		private System.Windows.Forms.ToolStrip toolStrip1;
+		private System.Windows.Forms.ToolStrip toolStripButtons;
+
+		protected System.Windows.Forms.ToolStripButton _buttonListenToOriginal;
 	}
 }

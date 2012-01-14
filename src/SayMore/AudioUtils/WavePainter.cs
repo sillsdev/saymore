@@ -15,6 +15,8 @@ namespace SayMore.AudioUtils
 		///// </summary>
 		//private double _zoomFactor;
 
+		//public const int kMarkerHalfWidth = 4;
+
 		/// <summary>
 		/// Each pixel value (X direction) represents this many samples in the wavefile
 		/// Starting value is based on control width so that the .WAV will cover the entire width.
@@ -22,11 +24,14 @@ namespace SayMore.AudioUtils
 		public double SamplesPerPixel { get; private set; }
 
 		private IEnumerable<TimeSpan> _segmentBoundaries;
+		private TimeSpan _achoredSegment;
+		//private TimeSpan _boundaryMouseOver;
+		//private Rectangle _highlightedBoundaryRectMouseOver;
 		private double _pixelPerMillisecond;
 		private int _offsetOfLeftEdge;
 		private readonly TimeSpan _totalTime;
 		private readonly float[] _samples = new float[0];
-		private KeyValuePair<float, float>[] _samplesToDraw = new KeyValuePair<float,float>[0];
+		private KeyValuePair<float, float>[] _samplesToDraw = new KeyValuePair<float, float>[0];
 
 		public Control Control { get; set; }
 		public Color ForeColor { get; set; }
@@ -72,6 +77,27 @@ namespace SayMore.AudioUtils
 					Control.Invalidate();
 			}
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//public void HighlightBoundaryMouseOver(TimeSpan boundary)
+		//{
+		//    if (_boundaryMouseOver == boundary)
+		//        return;
+
+		//    _boundaryMouseOver = boundary;
+
+		//    if (_highlightedBoundaryRectMouseOver != Rectangle.Empty)
+		//        Control.Invalidate(_highlightedBoundaryRectMouseOver);
+
+		//    if (Control == null || boundary == TimeSpan.Zero)
+		//        return;
+
+		//    int dx = ConvertTimeToXCoordinate(_boundaryMouseOver);
+		//    _highlightedBoundaryRectMouseOver = new Rectangle(dx - kMarkerHalfWidth, 0,
+		//        kMarkerHalfWidth * 2 + 1, Control.ClientSize.Height);
+
+		//    Control.Invalidate(_highlightedBoundaryRectMouseOver);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetVirtualWidth(int width)
@@ -143,10 +169,16 @@ namespace SayMore.AudioUtils
 				DrawWave(e.Graphics, rc);
 
 			if (_segmentBoundaries != null)
-				DrawSegmentBoundaries(e.Graphics, rc);
+				DrawSegmentBoundaries(e.Graphics, rc.Height);
 
 			// Now draw the selected region, if there is one.
-			DrawSelectedRegion(e.Graphics);
+			if (_segmentBoundaries == null || SelectedRegionStartTime >= TimeSpan.Zero)
+				DrawSelectedRegion(e.Graphics);
+			else
+			{
+				//DrawSelectedBoundary(e.Graphics);
+				//DrawHighlightedSegmentBoundaryMouseIsOver(e.Graphics, rc.Height);
+			}
 
 			DrawCursor(e.Graphics, rc);
 		}
@@ -206,11 +238,59 @@ namespace SayMore.AudioUtils
 			PreviousSelectedRegionRectangle = regionRect;
 		}
 
+		///// ------------------------------------------------------------------------------------
+		//private void DrawSelectedBoundary(Graphics g)
+		//{
+		//    var dx = ConvertTimeToXCoordinate(SelectedRegionEndTime);
+
+		//    if (dx == 0)
+		//        return;
+
+		//    int clientHeight = (Control == null ? 0 : Control.ClientSize.Height);
+		//    //var lineColor = Color.MidnightBlue;
+		//    //var fillColor = Color.CornflowerBlue;
+		//    var lineColor = Color.FromArgb(220, 121, 0);
+		//    var fillColor = Color.Orange;
+
+		//    using (var pen = new Pen(lineColor))
+		//    {
+		//        g.DrawLine(pen, dx, 0, dx, clientHeight + 1);
+
+		//        int regionHeight = Math.Min(30, clientHeight / 6);
+		//        int arrowHeight = kMarkerHalfWidth;
+
+		//        var path = new GraphicsPath();
+		//        path.AddLine(dx - kMarkerHalfWidth, 0, dx - kMarkerHalfWidth, regionHeight - arrowHeight);
+		//        path.AddLine(dx - kMarkerHalfWidth, regionHeight - arrowHeight, dx, regionHeight);
+		//        path.AddLine(dx, regionHeight, dx + kMarkerHalfWidth, regionHeight - arrowHeight);
+		//        path.AddLine(dx + kMarkerHalfWidth, regionHeight - arrowHeight, dx + kMarkerHalfWidth, 0);
+
+		//        using (var br = new LinearGradientBrush(path.GetBounds(), fillColor, lineColor, 90f))
+		//        {
+		//            g.FillRegion(br, new Region(path));
+		//            g.DrawPath(pen, path);
+		//        }
+
+		//        path.Reset();
+
+		//        path.AddLine(dx - kMarkerHalfWidth, clientHeight, dx - kMarkerHalfWidth, (clientHeight - 1) - (regionHeight - arrowHeight));
+		//        path.AddLine(dx - kMarkerHalfWidth, (clientHeight - 1) - (regionHeight - arrowHeight), dx, (clientHeight - 1) - regionHeight);
+		//        path.AddLine(dx, (clientHeight - 1) - regionHeight, dx + kMarkerHalfWidth, (clientHeight - 1) - (regionHeight - arrowHeight));
+		//        path.AddLine(dx + kMarkerHalfWidth, (clientHeight - 1) - (regionHeight - arrowHeight), dx + kMarkerHalfWidth, clientHeight);
+
+		//        using (var br = new LinearGradientBrush(path.GetBounds(), lineColor, fillColor, 90f))
+		//        {
+		//            g.FillRegion(br, new Region(path));
+		//            g.DrawPath(pen, path);
+		//        }
+		//    }
+		//}
+
 		/// ------------------------------------------------------------------------------------
 		public Rectangle GetRectangleForTimeRange(TimeSpan startTime, TimeSpan endTime)
 		{
-			var startX = ConvertTimeToXCoordinate(startTime);
 			var endX = ConvertTimeToXCoordinate(endTime);
+			var startX = ConvertTimeToXCoordinate(startTime);
 
 			var x1 = Math.Min(startX, endX);
 			var x2 = Math.Max(startX, endX);
@@ -223,16 +303,44 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawSegmentBoundaries(Graphics g, Rectangle rc)
+		private void DrawSegmentBoundaries(Graphics g, int clientHeight)
 		{
-			using (var pen = new Pen(Color.FromArgb(120, ForeColor)))
+			//using (var pen = new Pen(Color.MidnightBlue))
+			using (var pen = new Pen(Color.FromArgb(220, 121, 0)))
+			{
+				foreach (var dx in _segmentBoundaries.Where(b => b != _achoredSegment).Select(b => ConvertTimeToXCoordinate(b)))
+					g.DrawLine(pen, dx, 0, dx, clientHeight);
+			}
+
+			if (_segmentBoundaries.All(b => b != _achoredSegment))
+				return;
+
+			using (var pen = new Pen(ForeColor))
 			{
 				pen.DashStyle = DashStyle.Dot;
-
-				foreach (var dx in _segmentBoundaries.Select(b => ConvertTimeToXCoordinate(b)))
-					g.DrawLine(pen, dx, 0, dx, rc.Height);
+				var dx = ConvertTimeToXCoordinate(_achoredSegment);
+				g.DrawLine(pen, dx, 0, dx, clientHeight);
 			}
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//private void DrawHighlightedSegmentBoundaryMouseIsOver(Graphics g, int clientHeight)
+		//{
+		//    if (_boundaryMouseOver == TimeSpan.Zero || _segmentBoundaries == null ||
+		//        SelectedRegionStartTime >= TimeSpan.Zero || SelectedRegionEndTime == _boundaryMouseOver)
+		//    {
+		//        return;
+		//    }
+
+		//    int dx = ConvertTimeToXCoordinate(_boundaryMouseOver);
+
+		//    var rcHighlight = new Rectangle(dx - (kMarkerHalfWidth + 15), 0, kMarkerHalfWidth * 2 + 30, clientHeight);
+		//    using (var br = new SolidBrush(Color.FromArgb(100, Color.DarkSlateBlue)))
+		//        g.FillRectangle(br, rcHighlight);
+
+		//    //g.DrawLine(Pens.DarkSlateBlue, rcHighlight.Left, 0, rcHighlight.Left, clientHeight);
+		//    //g.DrawLine(Pens.DarkSlateBlue, rcHighlight.Right, 0, rcHighlight.Right, clientHeight);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void DrawCursor(Graphics g, Rectangle rc)
@@ -267,19 +375,60 @@ namespace SayMore.AudioUtils
 		//}
 
 		/// ------------------------------------------------------------------------------------
+		public void BeginBoundaryMove(TimeSpan boundary)
+		{
+			_achoredSegment = boundary;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void EndBoundaryMove()
+		{
+			_achoredSegment = TimeSpan.Zero;
+		}
+
+		///// ------------------------------------------------------------------------------------
+		//public void SetSelectedBoundary(TimeSpan selTime)
+		//{
+		//    InvalidatePreviouslySelectedRegion();
+
+		//    SelectedRegionStartTime = TimeSpan.FromSeconds(1).Negate();
+		//    SelectedRegionEndTime = selTime;
+
+		//    var dx = ConvertTimeToXCoordinate(selTime);
+
+		//    if (dx == 0)
+		//        PreviousSelectedRegionRectangle = Rectangle.Empty;
+		//    else
+		//    {
+		//        PreviousSelectedRegionRectangle = new Rectangle(dx - kMarkerHalfWidth, 0,
+		//            kMarkerHalfWidth * 2 + 1, Control.ClientSize.Height);
+		//    }
+
+		//    Control.Invalidate(PreviousSelectedRegionRectangle);
+		//}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeSpan selStartTime, TimeSpan selEndTime)
 		{
-			var rc = PreviousSelectedRegionRectangle;
-			if (rc != Rectangle.Empty)
-				Control.Invalidate(rc);
+			InvalidatePreviouslySelectedRegion();
 
 			SelectedRegionStartTime = selStartTime;
 			SelectedRegionEndTime = selEndTime;
-			var startX = ConvertTimeToXCoordinate(selStartTime);
-			var endX = ConvertTimeToXCoordinate(selEndTime);
 
-			PreviousSelectedRegionRectangle = new Rectangle(startX, 0, endX - startX, Control.ClientSize.Height);
+			var endX = ConvertTimeToXCoordinate(selEndTime);
+			var startX = ConvertTimeToXCoordinate(selStartTime);
+
+			PreviousSelectedRegionRectangle = new Rectangle(startX, 0,
+				endX - startX, Control.ClientSize.Height);
+
 			Control.Invalidate(PreviousSelectedRegionRectangle);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InvalidatePreviouslySelectedRegion()
+		{
+			if (PreviousSelectedRegionRectangle != Rectangle.Empty)
+				Control.Invalidate(PreviousSelectedRegionRectangle);
 		}
 
 		/// ------------------------------------------------------------------------------------

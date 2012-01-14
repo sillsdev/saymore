@@ -1,7 +1,9 @@
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Localization;
+using SayMore.AudioUtils;
 using SayMore.Properties;
+using SayMore.Transcription.UI.SegmentingAndRecording;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -10,33 +12,53 @@ namespace SayMore.Transcription.UI
 	public partial class ManualSegmenterDlg : SegmenterDlgBase
 	{
 		private readonly string _origAddSegBoundaryButtonText;
+		private WaveControlWithBoundarySelection _waveControl;
 
 		/// ------------------------------------------------------------------------------------
-		public ManualSegmenterDlg(SegmenterDlgBaseViewModel viewModel) : base(viewModel)
+		public ManualSegmenterDlg(ManualSegmenterDlgViewModel viewModel) : base(viewModel)
 		{
 			InitializeComponent();
 
-			toolStrip1.Items.Clear();
-
-			_toolStripButtons.Items.Add(_buttonAddSegmentBoundary);
-
-			Controls.Remove(toolStrip1);
-			toolStrip1.Dispose();
-			toolStrip1 = null;
+			Controls.Remove(toolStripButtons);
+			_tableLayoutOuter.Controls.Add(toolStripButtons);
 
 			_origAddSegBoundaryButtonText = _buttonAddSegmentBoundary.Text;
+
+			_buttonListenToOriginal.Click += delegate
+			{
+				if (!_waveControl.IsPlaying)
+					_waveControl.Play(_waveControl.GetCursorTime());
+			};
+
+			_buttonStopOriginal.Click += delegate { _waveControl.Stop(); };
+
 			_buttonAddSegmentBoundary.Click += delegate
 			{
-				if (_viewModel.IsSegmentLongEnough)
-					_waveControl.SegmentBoundaries = _viewModel.SaveNewSegmentBoundary();
+				if (_viewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
+					_waveControl.SegmentBoundaries = ViewModel.SaveNewSegment(_waveControl.GetCursorTime());
 				else
 				{
 					_buttonAddSegmentBoundary.ForeColor = Color.Red;
-					_buttonAddSegmentBoundary.Text = LocalizationManager.GetString(
-						"DialogBoxes.Transcription.ManualSegmenterDlg._buttonAddSegmentBoundary.WhenSegmentTooShort",
-						"Whoops! The segment will be too short (press ESC to reset)");
+					_buttonAddSegmentBoundary.Text = GetSegmentTooShortText();
 				}
 			};
+
+			_waveControl.BoundaryMoved += HandleSegmentBoundaryMoved;
+			_waveControl.CursorTimeChanged += delegate { UpdateDisplay(); };
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private ManualSegmenterDlgViewModel ViewModel
+		{
+			get { return _viewModel as ManualSegmenterDlgViewModel; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override WaveControlBasic CreateWaveControl()
+		{
+			_waveControl = new WaveControlWithBoundarySelection();
+			return _waveControl;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -54,27 +76,84 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override bool ShouldShadePlaybackAreaDuringPlayback
+		{
+			get { return false; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override int GetHeightOfTableLayoutButtonRow()
 		{
-			return _buttonListenToOriginal.Height + _buttonListenToOriginal.Margin.Top +
-				_buttonListenToOriginal.Margin.Bottom + _buttonAddSegmentBoundary.Height +
-				_buttonAddSegmentBoundary.Margin.Top + _buttonAddSegmentBoundary.Margin.Bottom + 3;
+			return (_buttonListenToOriginal.Height * 2) + 5 +
+				_buttonListenToOriginal.Margin.Top + _buttonListenToOriginal.Margin.Bottom +
+				_buttonAddSegmentBoundary.Margin.Top + _buttonAddSegmentBoundary.Margin.Bottom +
+				toolStripButtons.Margin.Top + toolStripButtons.Margin.Bottom;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
+			_buttonListenToOriginal.Visible = !_waveControl.IsPlaying;
+			_buttonStopOriginal.Visible = _waveControl.IsPlaying;
+
 			_buttonAddSegmentBoundary.ForeColor = _buttonListenToOriginal.ForeColor;
 			_buttonAddSegmentBoundary.Text = _origAddSegBoundaryButtonText;
-			_buttonAddSegmentBoundary.Enabled = _viewModel.HaveUnconfirmedSegmentBoundariesBeenEstablished;
+			_buttonAddSegmentBoundary.Enabled = _waveControl.GetCursorTime() > TimeSpan.Zero;
+
 			base.UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override TimeSpan GetCurrentTimeForTimeDisplay()
+		{
+			return (_waveControl.GetCursorTime() == TimeSpan.Zero ?
+				_waveControl.GetSelectedBoundary() : base.GetCurrentTimeForTimeDisplay());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override TimeSpan GetSubSegmentReplayEndTime()
+		{
+			return _waveControl.GetSelectedBoundary();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override TimeSpan GetBoundaryToAdjustOnArrowKeys()
+		{
+			return _waveControl.GetSelectedBoundary();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void PlaybackShortPortionUpToBoundary(WaveControlBasic ctrl,
+			TimeSpan time1, TimeSpan time2)
+		{
+			base.PlaybackShortPortionUpToBoundary(ctrl, time1, time2);
+			_waveControl.SetCursor(TimeSpan.Zero);
 		}
 
 		#region Low level keyboard handling
 		/// ------------------------------------------------------------------------------------
+		protected override bool OnLowLevelKeyDown(Keys key)
+		{
+			// Check that SHIFT is not down too, because Ctrl+Shift on a UI item brings up
+			// the localization dialog box. We don't want it to also start playback.
+			if (key == Keys.ControlKey && (ModifierKeys & Keys.Shift) != Keys.Shift)
+			{
+				if (_waveControl.IsPlaying)
+					_buttonStopOriginal.PerformClick();
+				else
+					_buttonListenToOriginal.PerformClick();
+			}
+
+			return base.OnLowLevelKeyDown(key);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyUp(Keys key)
 		{
-			if (key != Keys.Enter || !_viewModel.IsIdle)
+			if (key == Keys.ControlKey && (ModifierKeys & Keys.Shift) != Keys.Shift)
+				return false;
+
+			if (key != Keys.Enter)
 				return base.OnLowLevelKeyUp(key);
 
 			_buttonAddSegmentBoundary.PerformClick();

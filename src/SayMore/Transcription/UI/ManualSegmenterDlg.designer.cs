@@ -29,23 +29,17 @@ namespace SayMore.Transcription.UI
 			this.components = new System.ComponentModel.Container();
 			this._buttonAddSegmentBoundary = new System.Windows.Forms.ToolStripButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.toolStripButtons = new System.Windows.Forms.ToolStrip();
+			this._buttonListenToOriginal = new System.Windows.Forms.ToolStripButton();
+			this._buttonStopOriginal = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
-			this.toolStrip1.SuspendLayout();
+			this.toolStripButtons.SuspendLayout();
 			this.SuspendLayout();
-			//
-			// _waveControl
-			//
-			this._waveControl.AutoScrollMinSize = new System.Drawing.Size(0, 99);
-			this.locExtender.SetLocalizableToolTip(this._waveControl, null);
-			this.locExtender.SetLocalizationComment(this._waveControl, null);
-			this.locExtender.SetLocalizationPriority(this._waveControl, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._waveControl, "ManualSegmenterDlg._waveControl");
-			this._waveControl.Size = new System.Drawing.Size(650, 99);
 			//
 			// _buttonAddSegmentBoundary
 			//
 			this._buttonAddSegmentBoundary.BackColor = System.Drawing.Color.Transparent;
+			this._buttonAddSegmentBoundary.Image = global::SayMore.Properties.Resources.AddBoundary;
 			this._buttonAddSegmentBoundary.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonAddSegmentBoundary.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this._buttonAddSegmentBoundary.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -54,7 +48,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonAddSegmentBoundary, "DialogBoxes.Transcription.ManualSegmenterDlg._buttonAddSegmentBoundary.Normal");
 			this._buttonAddSegmentBoundary.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
 			this._buttonAddSegmentBoundary.Name = "_buttonAddSegmentBoundary";
-			this._buttonAddSegmentBoundary.Size = new System.Drawing.Size(234, 19);
+			this._buttonAddSegmentBoundary.Size = new System.Drawing.Size(253, 24);
 			this._buttonAddSegmentBoundary.Text = "Add Segment Boundary (press ENTER key)";
 			this._buttonAddSegmentBoundary.ToolTipText = "Add segment boundary";
 			//
@@ -62,27 +56,60 @@ namespace SayMore.Transcription.UI
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
 			//
-			// toolStrip1
+			// toolStripButtons
 			//
-			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripButtons.BackColor = System.Drawing.Color.Transparent;
+			this.toolStripButtons.Dock = System.Windows.Forms.DockStyle.None;
+			this.toolStripButtons.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.toolStripButtons.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this._buttonListenToOriginal,
+			this._buttonStopOriginal,
 			this._buttonAddSegmentBoundary});
-			this.locExtender.SetLocalizableToolTip(this.toolStrip1, null);
-			this.locExtender.SetLocalizationComment(this.toolStrip1, null);
-			this.locExtender.SetLocalizationPriority(this.toolStrip1, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.toolStrip1, "toolStrip1.toolStrip1");
-			this.toolStrip1.Location = new System.Drawing.Point(3, 305);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(246, 31);
-			this.toolStrip1.TabIndex = 7;
-			this.toolStrip1.Text = "toolStrip1";
+			this.toolStripButtons.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+			this.locExtender.SetLocalizableToolTip(this.toolStripButtons, null);
+			this.locExtender.SetLocalizationComment(this.toolStripButtons, null);
+			this.locExtender.SetLocalizationPriority(this.toolStripButtons, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.toolStripButtons, "toolStrip1.toolStrip1");
+			this.toolStripButtons.Location = new System.Drawing.Point(7, 162);
+			this.toolStripButtons.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
+			this.toolStripButtons.Name = "toolStripButtons";
+			this.toolStripButtons.Size = new System.Drawing.Size(255, 92);
+			this.toolStripButtons.TabIndex = 7;
+			this.toolStripButtons.Text = "toolStrip1";
+			//
+			// _buttonListenToOriginal
+			//
+			this._buttonListenToOriginal.BackColor = System.Drawing.Color.Transparent;
+			this._buttonListenToOriginal.Image = global::SayMore.Properties.Resources.RecordingPlayback;
+			this._buttonListenToOriginal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonListenToOriginal.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this._buttonListenToOriginal.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonListenToOriginal, null);
+			this.locExtender.SetLocalizationComment(this._buttonListenToOriginal, null);
+			this.locExtender.SetLocalizingId(this._buttonListenToOriginal, "DialogBoxes.Transcription.ManualSegmenterDlgBase._buttonListenToOriginal");
+			this._buttonListenToOriginal.Name = "_buttonListenToOriginal";
+			this._buttonListenToOriginal.Size = new System.Drawing.Size(253, 24);
+			this._buttonListenToOriginal.Text = "Listen (press CTRL key)";
+			this._buttonListenToOriginal.ToolTipText = "Listen to original recording";
+			//
+			// _buttonStopOriginal
+			//
+			this._buttonStopOriginal.Image = global::SayMore.Properties.Resources.RecordStop;
+			this._buttonStopOriginal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonStopOriginal.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.locExtender.SetLocalizableToolTip(this._buttonStopOriginal, null);
+			this.locExtender.SetLocalizationComment(this._buttonStopOriginal, null);
+			this.locExtender.SetLocalizingId(this._buttonStopOriginal, "ManualSegmenterDlg._buttonStopOriginal");
+			this._buttonStopOriginal.Name = "_buttonStopOriginal";
+			this._buttonStopOriginal.Size = new System.Drawing.Size(253, 24);
+			this._buttonStopOriginal.Text = "Stop (press CTRL key)";
 			//
 			// ManualSegmenterDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(682, 338);
-			this.Controls.Add(this.toolStrip1);
+			this.Controls.Add(this.toolStripButtons);
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
@@ -90,10 +117,10 @@ namespace SayMore.Transcription.UI
 			this.Name = "ManualSegmenterDlg";
 			this.Opacity = 1D;
 			this.Text = "Manual Segmenter";
-			this.Controls.SetChildIndex(this.toolStrip1, 0);
+			this.Controls.SetChildIndex(this.toolStripButtons, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
+			this.toolStripButtons.ResumeLayout(false);
+			this.toolStripButtons.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -103,6 +130,8 @@ namespace SayMore.Transcription.UI
 
 		private System.Windows.Forms.ToolStripButton _buttonAddSegmentBoundary;
 		private Localization.UI.LocalizationExtender locExtender;
-		private System.Windows.Forms.ToolStrip toolStrip1;
+		private System.Windows.Forms.ToolStrip toolStripButtons;
+		private System.Windows.Forms.ToolStripButton _buttonListenToOriginal;
+		private System.Windows.Forms.ToolStripButton _buttonStopOriginal;
 	}
 }

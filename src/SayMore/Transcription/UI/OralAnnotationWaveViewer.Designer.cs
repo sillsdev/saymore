@@ -19,9 +19,9 @@ namespace SayMore.Transcription.UI
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._labelTranslation = new System.Windows.Forms.Label();
 			this._labelCareful = new System.Windows.Forms.Label();
-			this._wavePanelOriginal = new SayMore.AudioUtils.WaveControl();
-			this._wavePanelTranslation = new SayMore.AudioUtils.WaveControl();
-			this._wavePanelCareful = new SayMore.AudioUtils.WaveControl();
+			this._wavePanelOriginal = new SayMore.AudioUtils.WaveControlBasic();
+			this._wavePanelTranslation = new SayMore.AudioUtils.WaveControlBasic();
+			this._wavePanelCareful = new SayMore.AudioUtils.WaveControlBasic();
 			this._labelOriginal = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
@@ -96,7 +96,6 @@ namespace SayMore.Transcription.UI
 			this._wavePanelOriginal.Location = new System.Drawing.Point(64, 0);
 			this._wavePanelOriginal.Margin = new System.Windows.Forms.Padding(0);
 			this._wavePanelOriginal.Name = "_wavePanelOriginal";
-			this._wavePanelOriginal.ShadePlaybackAreaDuringPlayback = false;
 			this._wavePanelOriginal.Size = new System.Drawing.Size(319, 57);
 			this._wavePanelOriginal.TabIndex = 0;
 			// 
@@ -116,7 +115,6 @@ namespace SayMore.Transcription.UI
 			this._wavePanelTranslation.Location = new System.Drawing.Point(64, 114);
 			this._wavePanelTranslation.Margin = new System.Windows.Forms.Padding(0);
 			this._wavePanelTranslation.Name = "_wavePanelTranslation";
-			this._wavePanelTranslation.ShadePlaybackAreaDuringPlayback = false;
 			this._wavePanelTranslation.Size = new System.Drawing.Size(319, 57);
 			this._wavePanelTranslation.TabIndex = 3;
 			// 
@@ -136,7 +134,6 @@ namespace SayMore.Transcription.UI
 			this._wavePanelCareful.Location = new System.Drawing.Point(64, 57);
 			this._wavePanelCareful.Margin = new System.Windows.Forms.Padding(0);
 			this._wavePanelCareful.Name = "_wavePanelCareful";
-			this._wavePanelCareful.ShadePlaybackAreaDuringPlayback = false;
 			this._wavePanelCareful.Size = new System.Drawing.Size(319, 57);
 			this._wavePanelCareful.TabIndex = 2;
 			// 
@@ -180,9 +177,9 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private SayMore.AudioUtils.WaveControl _wavePanelOriginal;
-		private SayMore.AudioUtils.WaveControl _wavePanelTranslation;
-		private SayMore.AudioUtils.WaveControl _wavePanelCareful;
+		private SayMore.AudioUtils.WaveControlBasic _wavePanelOriginal;
+		private SayMore.AudioUtils.WaveControlBasic _wavePanelTranslation;
+		private SayMore.AudioUtils.WaveControlBasic _wavePanelCareful;
 		private System.Windows.Forms.Label _labelOriginal;
 		private System.Windows.Forms.Label _labelTranslation;
 		private System.Windows.Forms.Label _labelCareful;

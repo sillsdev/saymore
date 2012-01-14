@@ -721,8 +721,10 @@ namespace SayMore.Model.Files
 					if (dlg.ShowDialog() != DialogResult.OK || !viewModel.WereChangesMade)
 						return null;
 
-					var annotationFileName = AnnotationFileHelper.CreateFromSegments(PathToAnnotatedFile,
-						viewModel.GetSegments().ToArray());
+					viewModel.SaveNewOralAnnoationsInPermanentLocation();
+
+					var annotationFileName = AnnotationFileHelper.CreateFromSegments(
+						PathToAnnotatedFile, viewModel.GetSegments().ToArray());
 
 					var helper = AnnotationFileHelper.Load(annotationFileName);
 					var tier = (TimeOrderTier)helper.GetTiers().FirstOrDefault(t => t is TimeOrderTier);

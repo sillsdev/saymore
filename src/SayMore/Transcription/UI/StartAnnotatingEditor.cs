@@ -5,6 +5,7 @@ using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SayMore.Transcription.UI.SegmentingAndRecording;
 using SayMore.UI.ComponentEditors;
 using SilTools;
 
@@ -115,10 +116,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private string ManuallySegmentFile()
 		{
-			using (var viewModel = new SegmenterDlgBaseViewModel(_file))
+			using (var viewModel = new ManualSegmenterDlgViewModel(_file))
 			using (var dlg = new ManualSegmenterDlg(viewModel))
 			{
-				return (dlg.ShowDialog() != DialogResult.OK || !viewModel.WereChangesMade ? null :
+				return (dlg.ShowDialog(this) != DialogResult.OK || !viewModel.WereChangesMade ? null :
 					AnnotationFileHelper.CreateFromSegments(_file.PathToAnnotatedFile,
 					viewModel.GetSegments().ToArray()));
 			}

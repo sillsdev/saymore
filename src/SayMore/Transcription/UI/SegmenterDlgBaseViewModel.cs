@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using NAudio.Wave;
-using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -11,41 +11,31 @@ namespace SayMore.Transcription.UI
 {
 	public class SegmenterDlgBaseViewModel : IDisposable
 	{
-		protected class SegBoundary
+		protected class SegmentBoundaries
 		{
 			public TimeSpan start;
 			public TimeSpan end;
-			public SegBoundary(TimeSpan s, TimeSpan e) { start = s; end = e; }
+			public SegmentBoundaries(TimeSpan s, TimeSpan e) { start = s; end = e; }
 			public override string ToString() { return start + " - " + end; }
 		}
 
-		protected readonly List<SegBoundary> _segments;
-
-		public int CurrentSegmentNumber { get; private set; }
-		public bool IsIdle { get; protected set; }
-		public ComponentFile ComponentFile { get; private set; }
-		public WaveStream OrigWaveStream { get; private set; }
-		public TimeSpan PlaybackStartPosition { get; set; }
-		public TimeSpan PlaybackEndPosition { get; set; }
+		public ComponentFile ComponentFile { get; protected set; }
+		public WaveStream OrigWaveStream { get; protected set; }
 		public bool HaveSegmentBoundaries { get; set; }
 		public Action UpdateDisplayProvider { get; set; }
-		public Action SegmentNumberChangedHandler { get; set; }
+
+		protected readonly List<SegmentBoundaries> _segments;
 
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBaseViewModel(ComponentFile file)
 		{
-			IsIdle = true;
 			ComponentFile = file;
 			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile);
-
-			_segments = (InitializeSegments(ComponentFile) ?? new List<SegBoundary>()).ToList();
-
-			PlaybackStartPosition = TimeSpan.Zero;
-			PlaybackEndPosition = TimeSpan.Zero;
+			_segments = (InitializeSegments(ComponentFile) ?? new List<SegmentBoundaries>()).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			if (OrigWaveStream != null)
 			{
@@ -56,35 +46,12 @@ namespace SayMore.Transcription.UI
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		public bool SegmentBoundariesChanged { get; private set; }
+		public bool SegmentBoundariesChanged { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
 		public bool DoSegmentsExist
 		{
 			get { return _segments.Count > 0; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not the current segment's boundaries have
-		/// been saved.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsCurrentSegmentConfirmed
-		{
-			get { return CurrentSegmentNumber < _segments.Count; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool HaveUnconfirmedSegmentBoundariesBeenEstablished
-		{
-			get { return (!IsCurrentSegmentConfirmed && PlaybackEndPosition > PlaybackStartPosition); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool IsSegmentLongEnough
-		{
-			get { return (PlaybackEndPosition.TotalSeconds - PlaybackStartPosition.TotalSeconds >= 1); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -102,7 +69,7 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		protected IEnumerable<SegBoundary> InitializeSegments(ComponentFile file)
+		protected IEnumerable<SegmentBoundaries> InitializeSegments(ComponentFile file)
 		{
 			if (file.GetAnnotationFile() == null)
 				return null;
@@ -112,7 +79,7 @@ namespace SayMore.Transcription.UI
 				return null;
 
 			return from seg in toTier.GetAllSegments().Cast<ITimeOrderSegment>()
-				   select new SegBoundary(TimeSpan.FromSeconds(seg.Start), TimeSpan.FromSeconds(seg.Stop));
+				select new SegmentBoundaries(TimeSpan.FromSeconds(seg.Start), TimeSpan.FromSeconds(seg.Stop));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -124,78 +91,60 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> GetSegments()
 		{
-			return GetSegmentBoundaries().Select(b => b.TotalSeconds.ToString());
+			return GetSegmentBoundaries().Select(b => b.TotalSeconds.ToString(CultureInfo.InvariantCulture));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void GotoEndOfSegments()
+		public TimeSpan GetEndOfLastSegment()
 		{
-			SelectSegment(_segments.Count);
+			return (_segments.Count == 0 ? TimeSpan.Zero : _segments[_segments.Count - 1].end);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SelectSegmentFromTime(TimeSpan time)
+		/// <summary>
+		/// Determines whether or not the time between the proposed end time and the closest
+		/// boundary to it's left will make a long enough segment.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual bool GetIsSegmentLongEnough(TimeSpan proposedEndTime)
 		{
-			int i = 0;
-			for (; i < _segments.Count; i++)
+			for (int i = _segments.Count - 1; i >= 0; i--)
 			{
-				if (time >= _segments[i].start && time <= _segments[i].end)
-					break;
+				if (_segments[i].end < proposedEndTime)
+					return (proposedEndTime.TotalMilliseconds - _segments[i].end.TotalMilliseconds >= Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
 			}
 
-			SelectSegment(i);
+			return (proposedEndTime.TotalMilliseconds >= Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void SelectSegment(int segmentNumber)
+		public virtual bool MoveExistingSegmentBoundary(TimeSpan boundaryToAdjust, int millisecondsToMove)
 		{
-			if (segmentNumber < 0)
-				segmentNumber = _segments.Count;
-
-			CurrentSegmentNumber = segmentNumber;
-			HaveSegmentBoundaries = (segmentNumber < _segments.Count);
-
-			if (segmentNumber == _segments.Count)
-			{
-				PlaybackStartPosition = (!DoSegmentsExist ? TimeSpan.Zero : _segments[segmentNumber - 1].end);
-				PlaybackEndPosition = PlaybackStartPosition;
-			}
-			else
-			{
-				PlaybackStartPosition = _segments[segmentNumber].start;
-				PlaybackEndPosition = _segments[segmentNumber].end;
-			}
-
-			if (SegmentNumberChangedHandler != null)
-				SegmentNumberChangedHandler();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool MoveExistingSegmentBoundary(int millisecondsToMove)
-		{
-			var timeAdjustment = TimeSpan.FromMilliseconds(Math.Abs(millisecondsToMove));
-			var newEndPosition = PlaybackEndPosition + (millisecondsToMove < 0 ? -timeAdjustment : timeAdjustment);
-
-			if (newEndPosition <= PlaybackStartPosition)
+			int i = GetSegmentBoundaries().ToList().IndexOf(boundaryToAdjust);
+			if (i < 0)
 				return false;
 
-			PlaybackEndPosition = (newEndPosition >= OrigWaveStream.TotalTime ?
-				OrigWaveStream.TotalTime : newEndPosition);
+			var newBoundary = boundaryToAdjust + TimeSpan.FromMilliseconds(millisecondsToMove);
+			var minSegLength = TimeSpan.FromMilliseconds(Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
 
-			return true;
-		}
+			// Check if moving the existing boundary left will make the segment too short.
+			if (newBoundary <= _segments[i].start || (i > 0 && newBoundary - _segments[i].start < minSegLength))
+				return false;
 
-		/// ------------------------------------------------------------------------------------
-		public IEnumerable<TimeSpan> SaveNewSegmentBoundary()
-		{
-			if (CurrentSegmentNumber == _segments.Count)
+			if (i == _segments.Count - 1)
 			{
-				_segments.Add(new SegBoundary(PlaybackStartPosition, PlaybackEndPosition));
-				SegmentBoundariesChanged = true;
+				// Check if the moved boundary will go beyond the end of the audio's length.
+				if (newBoundary > OrigWaveStream.TotalTime - minSegLength)
+					return false;
+			}
+			else if	(_segments[i + 1].end - newBoundary < minSegLength)
+			{
+				// The moved boundary will make the next segment too short.
+				return false;
 			}
 
-			SelectSegment(_segments.Count);
-			return _segments.Select(s => s.end);
+			ChangeSegmentsEndBoundary(i, newBoundary);
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,69 +154,35 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TimeSpan GetStartPositionOfSubSegmentAtEndOfCurrentSegment()
+		public void SegmentBoundaryMoved(TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
-			if (!IsIdle || !HaveSegmentBoundaries)
-				return TimeSpan.MaxValue;
-
-			var subSegStartPosition = PlaybackEndPosition -
-				TimeSpan.FromMilliseconds(Settings.Default.MillisecondsToRePlayAfterAdjustingSegmentBoundary);
-
-			return (subSegStartPosition < PlaybackStartPosition ?
-				PlaybackStartPosition : subSegStartPosition);
+			if (oldEndTime != newEndTime)
+				ChangeSegmentsEndBoundary(GetSegmentBoundaries().ToList().IndexOf(oldEndTime), newEndTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void PlaybackOfOriginalRecordingStarted()
+		protected virtual void ChangeSegmentsEndBoundary(int index, TimeSpan newBoundary)
 		{
-			IsIdle = false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public TimeSpan PlaybackOfOriginalRecordingStopped(TimeSpan start, TimeSpan end)
-		{
-			IsIdle = true;
-
-			if (!HaveSegmentBoundaries)
-			{
-				HaveSegmentBoundaries = true;
-				PlaybackEndPosition = end;
-			}
-
-			return (IsCurrentSegmentConfirmed ? PlaybackStartPosition : PlaybackEndPosition);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void HandleSegmentBoundaryMoved(WaveControl waveCtrl, TimeSpan oldEndTime, TimeSpan newEndTime)
-		{
-			if (oldEndTime == newEndTime)
+			if (index < 0 || index >= _segments.Count)
 				return;
 
-			for (int i = 0; i < _segments.Count; i++)
+			if (index < _segments.Count - 1)
 			{
-				if (_segments[i].end != oldEndTime)
-					continue;
-
-				if (i + 1 < _segments.Count)
-				{
-					RenameAnnotationForResizedSegment(_segments[i + 1],
-						new SegBoundary(newEndTime, _segments[i + 1].end));
-					_segments[i + 1].start = newEndTime;
-				}
-
-				RenameAnnotationForResizedSegment(_segments[i],
-					new SegBoundary(_segments[i].start, newEndTime));
-
-				_segments[i].end = newEndTime;
-				SelectSegment(CurrentSegmentNumber);
-				waveCtrl.SetSelectionTimes(PlaybackStartPosition, PlaybackEndPosition);
-				SegmentBoundariesChanged = true;
-				break;
+				RenameAnnotationForResizedSegment(_segments[index + 1],
+					new SegmentBoundaries(newBoundary, _segments[index + 1].end));
+				_segments[index + 1].start = newBoundary;
 			}
+
+			RenameAnnotationForResizedSegment(_segments[index],
+				new SegmentBoundaries(_segments[index].start, newBoundary));
+
+			_segments[index].end = newBoundary;
+			SegmentBoundariesChanged = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void RenameAnnotationForResizedSegment(SegBoundary oldSegment, SegBoundary newSegment)
+		protected virtual void RenameAnnotationForResizedSegment(SegmentBoundaries oldSegment,
+			SegmentBoundaries newSegment)
 		{
 		}
 

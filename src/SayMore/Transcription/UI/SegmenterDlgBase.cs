@@ -2,13 +2,16 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Localization;
+using Localization.UI;
 using Palaso.Progress;
 using SayMore.AudioUtils;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
 using SayMore.UI.MediaPlayer;
+using SayMore.UI.Utilities;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -16,11 +19,12 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class SegmenterDlgBase : MonitorKeyPressDlg
 	{
-		private readonly string _segmentXofYFormat;
-		private readonly string _segmentCountFormat;
-		private Timer _timer;
 		protected readonly SegmenterDlgBaseViewModel _viewModel;
+		protected string _segmentXofYFormat;
+		protected string _segmentCountFormat;
+		protected Timer _timer;
 		protected bool _moreReliableDesignMode;
+		private readonly WaveControlBasic _waveControl;
 
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBase()
@@ -30,25 +34,34 @@ namespace SayMore.Transcription.UI
 			_moreReliableDesignMode = (DesignMode || GetService(typeof(IDesignerHost)) != null) ||
 				(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
 
-			Opacity = 0f;
-
 			InitializeComponent();
 			InitializeZoomComboItems();
 
-			DialogResult = DialogResult.OK;
+			_toolStripStatus.Renderer = new SilTools.NoToolStripBorderRenderer();
+			_waveControl = CreateWaveControl();
+			_waveControl.Dock = DockStyle.Fill;
+			_panelWaveControl.Controls.Add(_waveControl);
+
 			DoubleBuffered = true;
-			_segmentCountFormat = _labelSegmentCount.Text;
-			_segmentXofYFormat = _labelSegment.Text;
 			_comboBoxZoom.Text = _comboBoxZoom.Items[0] as string;
-			_comboBoxZoom.Font = SystemFonts.IconTitleFont;
-			_labelZoom.Font = SystemFonts.IconTitleFont;
-			_labelSegmentCount.Font = SystemFonts.IconTitleFont;
-			_labelSegment.Font = SystemFonts.IconTitleFont;
-			_labelTimeDisplay.Font = SystemFonts.IconTitleFont;
-			_labelOriginalRecording.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, FontStyle.Bold);
+			_comboBoxZoom.Font = SystemFonts.MenuFont;
+			_labelZoom.Font = SystemFonts.MenuFont;
+			_labelSegmentCount.Font = SystemFonts.MenuFont;
+			_labelSegment.Font = SystemFonts.MenuFont;
+			_labelTimeDisplay.Font = SystemFonts.MenuFont;
+			_labelOriginalRecording.Font = FontHelper.MakeFont(SystemFonts.MenuFont, FontStyle.Bold);
 
 			_buttonCancel.Click += delegate { Close(); };
 			_buttonOK.Click += delegate { Close(); };
+
+			_segmentCountFormat = _labelSegmentCount.Text;
+			_segmentXofYFormat = _labelSegment.Text;
+
+			LocalizeItemDlg.StringsLocalized += delegate
+			{
+				_segmentCountFormat = _labelSegmentCount.Text;
+				_segmentXofYFormat = _labelSegment.Text;
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,15 +80,12 @@ namespace SayMore.Transcription.UI
 
 			_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(0f,
 				(float)_viewModel.OrigWaveStream.TotalTime.TotalSeconds);
+		}
 
-			_buttonListenToOriginal.MouseUp += delegate { _waveControl.Stop(); };
-
-			_viewModel.SegmentNumberChangedHandler = () =>
-			{
-				_waveControl.Stop();
-				_waveControl.ShadePlaybackAreaDuringPlayback = _viewModel.IsCurrentSegmentConfirmed;
-				UpdateDisplay();
-			};
+		/// ------------------------------------------------------------------------------------
+		protected virtual WaveControlBasic CreateWaveControl()
+		{
+			return new WaveControlBasic();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -104,32 +114,21 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected string GetSegmentTooShortText()
+		{
+			return LocalizationManager.GetString(
+				"DialogBoxes.Transcription.SegmenterDlgBase.ButtonTextWhenSegmentTooShort",
+				"Whoops! The segment will be too short. Continue playing.");
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void InitializeWaveControl()
 		{
 			_waveControl.Initialize(_viewModel.OrigWaveStream);
 			_waveControl.SegmentBoundaries = _viewModel.GetSegmentBoundaries();
-
-			_waveControl.PlaybackStarted = () =>
-			{
-				_viewModel.PlaybackOfOriginalRecordingStarted();
-				UpdateDisplay();
-				_waveControl.PlaybackUpdate = (position, totalTime) =>
-				{
-					_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(
-						(float)position.TotalSeconds, (float)totalTime.TotalSeconds);
-				};
-			};
-
-			_waveControl.Stopped = (start, end) =>
-			{
-				_waveControl.PlaybackUpdate = null;
-				var newCursorPosition = _viewModel.PlaybackOfOriginalRecordingStopped(start, end);
-				_waveControl.SetCursor(newCursorPosition);
-				UpdateDisplay();
-			};
-
-			_waveControl.SegmentClicked += HandleWaveControlSegmentClicked;
-			_waveControl.SegmentBoundaryMoved += _viewModel.HandleSegmentBoundaryMoved;
+			_waveControl.PlaybackStarted += OnPlaybackStarted;
+			_waveControl.PlaybackUpdate += OnPlayingback;
+			_waveControl.PlaybackStopped += OnPlaybackStopped;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -172,13 +171,16 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected virtual bool ShouldShadePlaybackAreaDuringPlayback
+		{
+			get { return true; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			if (!_moreReliableDesignMode)
-			{
 				FormSettings.InitializeForm(this);
-				_viewModel.SelectSegment(0);
-			}
 
 			base.OnShown(e);
 			Opacity = 1f;
@@ -188,44 +190,124 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
+			e.Cancel = true;
 			StopAllMedia();
 
 			if (!_moreReliableDesignMode)
 				ZoomPercentage = _waveControl.ZoomPercentage;
 
-			if (DialogResult != DialogResult.Cancel)
-				DialogResult = (_viewModel.WereChangesMade ? DialogResult.OK : DialogResult.Cancel);
+			// Cancel means the user closed the form using the X or Alt+F4. In that
+			// case whether they want to save changes is ambiguous. So ask them.
+			if (DialogResult == DialogResult.Cancel && _viewModel.WereChangesMade)
+			{
+				DialogResult = DialogResult.OK;
+
+				var msg = LocalizationManager.GetString(
+					"DialogBoxes.Transcription.SegmenterDlgBase.SaveChangesQuestion",
+					"Would you like to save your changes?");
+
+				DialogResult = Utils.MsgBox(msg, MessageBoxButtons.YesNoCancel);
+				if (DialogResult == DialogResult.Cancel)
+					return;
+			}
+
+			e.Cancel = false;
+
+			if (DialogResult == DialogResult.OK || DialogResult == DialogResult.Yes)
+				SaveChanges();
 
 			base.OnFormClosing(e);
 		}
 
-		#region Methods for adjusting/saving/playing within segment boundaries
 		/// ------------------------------------------------------------------------------------
-		private void AdjustSegmentEndBoundary(int milliseconds)
+		protected virtual void SaveChanges()
 		{
-			if (_timer != null)
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleTableLayoutButtonsPaint(object sender, PaintEventArgs e)
+		{
+			using (var br = new LinearGradientBrush(_tableLayoutButtons.ClientRectangle,
+				AppColors.BarEnd, AppColors.BarBegin, 0f))
 			{
-				_timer.Stop();
-				_timer.Dispose();
-				_timer = null;
+					e.Graphics.FillRectangle(br, _tableLayoutButtons.ClientRectangle);
 			}
 
-			if (_viewModel.IsCurrentSegmentConfirmed)
-				return;
+			using (var pen = new Pen(AppColors.BarBorder))
+				e.Graphics.DrawLine(pen, 0, 0, _tableLayoutButtons.Width, 0);
+		}
 
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnPlaybackStarted(WaveControlBasic ctrl, TimeSpan start, TimeSpan end)
+		{
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnPlayingback(WaveControlBasic ctrl, TimeSpan current, TimeSpan total)
+		{
+			_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(
+				(float)current.TotalSeconds, (float)total.TotalSeconds);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnPlaybackStopped(WaveControlBasic ctrl, TimeSpan start, TimeSpan end)
+		{
+			UpdateDisplay();
+		}
+
+		#region Methods for adjusting/saving/playing within segment boundaries
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool OnAdjustSegmentBoundaryOnArrowKey(int milliseconds)
+		{
 			StopAllMedia();
 
-			if (!_viewModel.MoveExistingSegmentBoundary(milliseconds))
+			var boundary = GetBoundaryToAdjustOnArrowKeys();
+			if (boundary == TimeSpan.Zero || !_viewModel.MoveExistingSegmentBoundary(boundary, milliseconds))
+				return false;
+
+			_waveControl.SegmentBoundaries = _viewModel.GetSegmentBoundaries();
+			PlaybackShortPortionUpToBoundary(boundary);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual TimeSpan GetBoundaryToAdjustOnArrowKeys()
+		{
+			return TimeSpan.Zero;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void HandleSegmentBoundaryMoved(WaveControlWithMovableBoundaries waveCtrl,
+			TimeSpan oldEndTime, TimeSpan newEndTime)
+		{
+			StopAllMedia();
+			_viewModel.SegmentBoundaryMoved(oldEndTime, newEndTime);
+			UpdateDisplay();
+			PlaybackShortPortionUpToBoundary(newEndTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void PlaybackShortPortionUpToBoundary(TimeSpan boundary)
+		{
+			if (boundary == TimeSpan.Zero)
 				return;
 
-			UpdateDisplay();
+			var playbackStartTime = boundary.Subtract(TimeSpan.FromMilliseconds(
+				Settings.Default.MillisecondsToRePlayAfterAdjustingSegmentBoundary));
+
+			if (playbackStartTime < TimeSpan.Zero)
+				playbackStartTime = TimeSpan.Zero;
 
 			_timer = new Timer();
 			_timer.Interval = Settings.Default.MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary;
 			_timer.Tick += delegate
 			{
-				if (_viewModel.IsIdle && !_waveControl.IsPlaying)
-					ReplaySegmentPortionAfterAdjustingEndBoundary();
+				if (!_waveControl.IsPlaying)
+				{
+					_waveControl.Play(playbackStartTime, boundary);
+					_waveControl.PlaybackStopped += PlaybackShortPortionUpToBoundary;
+				}
 
 				_timer.Stop();
 				_timer.Dispose();
@@ -236,101 +318,69 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected virtual void PlaybackShortPortionUpToBoundary(WaveControlBasic ctrl,
+			TimeSpan time1, TimeSpan time2)
+		{
+			_waveControl.PlaybackStopped -= PlaybackShortPortionUpToBoundary;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected virtual void StopAllMedia()
 		{
+			if (_timer != null)
+			{
+				_timer.Stop();
+				_timer.Dispose();
+				_timer = null;
+			}
+
 			_waveControl.Stop();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void ReplaySegmentPortionAfterAdjustingEndBoundary()
+		protected virtual TimeSpan GetSubSegmentReplayEndTime()
 		{
-			if (!_viewModel.IsCurrentSegmentConfirmed)
-			{
-				_waveControl.ShadePlaybackAreaDuringPlayback = false;
-				var subSegStartPosition = _viewModel.GetStartPositionOfSubSegmentAtEndOfCurrentSegment();
-				if (subSegStartPosition < TimeSpan.MaxValue)
-					_waveControl.Play(subSegStartPosition, _viewModel.PlaybackEndPosition);
-			}
+			return TimeSpan.Zero;
 		}
 
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleListenToOriginalMouseDown(object sender, MouseEventArgs e)
-		{
-			if (_viewModel.IsIdle)
-			{
-				_waveControl.ShadePlaybackAreaDuringPlayback = !_viewModel.IsCurrentSegmentConfirmed;
-				_waveControl.Play(_viewModel.PlaybackStartPosition, _viewModel.PlaybackEndPosition);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void HandleWaveControlSegmentClicked(WaveControl ctrl, int segmentNumber)
-		{
-			_viewModel.SelectSegment(segmentNumber);
-			UpdateDisplay();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected virtual void UpdateDisplay()
 		{
-			_buttonListenToOriginal.Checked = _waveControl.IsPlaying || !_viewModel.HaveSegmentBoundaries;
+			UpdateStatusLabelsDisplay();
+		}
 
-			if (_viewModel.IsCurrentSegmentConfirmed)
-			{
-				_labelSegment.Visible = true;
-				_labelSegmentCount.Visible = false;
-				_labelSegment.Text = string.Format(_segmentXofYFormat,
-					_viewModel.CurrentSegmentNumber + 1, _viewModel.GetSegmentCount());
-			}
-			else
-			{
-				_labelSegment.Visible = false;
-				_labelSegmentCount.Visible = true;
-				_labelSegmentCount.Text = string.Format(_segmentCountFormat, _viewModel.GetSegmentCount());
-			}
+		/// ------------------------------------------------------------------------------------
+		protected virtual void UpdateStatusLabelsDisplay()
+		{
+			_labelSegment.Visible = false;
+			_labelSegmentCount.Visible = true;
+			_labelSegmentCount.Text = string.Format(_segmentCountFormat, _viewModel.GetSegmentCount());
 
 			_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(
-				(float)_waveControl.GetCursorTime().TotalSeconds,
+				(float)GetCurrentTimeForTimeDisplay().TotalSeconds,
 				(float)_viewModel.OrigWaveStream.TotalTime.TotalSeconds);
+		}
 
-			if (_viewModel.IsIdle)
-			{
-				_waveControl.SetSelectionTimes(_viewModel.PlaybackStartPosition, _viewModel.PlaybackEndPosition);
-				_waveControl.SetCursor(_viewModel.IsCurrentSegmentConfirmed ?
-					_viewModel.PlaybackStartPosition : _viewModel.PlaybackEndPosition);
-			}
+		/// ------------------------------------------------------------------------------------
+		protected virtual TimeSpan GetCurrentTimeForTimeDisplay()
+		{
+			return _waveControl.GetCursorTime();
 		}
 
 		#region Low level keyboard handling
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
 		{
-			// Check that SHIFT is not down too, because Ctrl+Shift on a UI item brings up
-			// the localization dialog box. We don't want it to also start playback.
-			if (key == Keys.ControlKey && (ModifierKeys & Keys.Shift) != Keys.Shift)
-			{
-				HandleListenToOriginalMouseDown(null, null);
-				return true;
-			}
-
-			if (!_viewModel.HaveSegmentBoundaries || _waveControl.IsPlaying)
-				return false;
-
 			switch (key)
 			{
 				case Keys.Right:
-					AdjustSegmentEndBoundary(Settings.Default.MillisecondsToAdvanceSegmentBoundaryOnRightArrow);
+					OnAdjustSegmentBoundaryOnArrowKey(Settings.Default.MillisecondsToAdvanceSegmentBoundaryOnRightArrow);
 					return true;
 
 				case Keys.Left:
-					AdjustSegmentEndBoundary(-Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow);
-					return true;
-
-				case Keys.End:
-				case Keys.Escape:
-					_viewModel.GotoEndOfSegments();
+					OnAdjustSegmentBoundaryOnArrowKey(-Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow);
 					return true;
 			}
 
@@ -343,7 +393,6 @@ namespace SayMore.Transcription.UI
 			if (key == Keys.ControlKey)
 			{
 				_waveControl.Stop();
-				_waveControl.ShadePlaybackAreaDuringPlayback = false;
 				return true;
 			}
 

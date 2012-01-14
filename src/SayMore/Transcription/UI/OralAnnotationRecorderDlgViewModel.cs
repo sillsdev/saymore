@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NAudio.Wave;
 using Palaso.Reporting;
 using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.UI.NewEventsFromFiles;
 
 namespace SayMore.Transcription.UI
 {
@@ -16,20 +19,32 @@ namespace SayMore.Transcription.UI
 
 	public class OralAnnotationRecorderDlgViewModel : SegmenterDlgBaseViewModel
 	{
-		private readonly string _pathToAnnotationsFolder;
+		public int CurrentSegmentNumber { get; private set; }
+		public OralAnnotationType AnnotationType { get; private set; }
+
+		private readonly string _tempOralAnnotationsFolder;
+		private readonly string _oralAnnotationsFolder;
 		private AudioPlayer _annotationPlayer;
 		private AudioRecorder _annotationRecorder;
-
-		public OralAnnotationType AnnotationType { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationRecorderDlgViewModel(ComponentFile file,
 			OralAnnotationType annotationType) : base(file)
 		{
 			AnnotationType = annotationType;
+			CurrentSegmentNumber = -1;
 
-			_pathToAnnotationsFolder = ComponentFile.PathToAnnotatedFile +
+			_oralAnnotationsFolder = ComponentFile.PathToAnnotatedFile +
 				Settings.Default.OralAnnotationsFolderAffix;
+
+			_tempOralAnnotationsFolder = CopyOralAnnotationsToTempLocation();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Dispose()
+		{
+			RemoveAllOralAnnotationFilesFromFolder(_tempOralAnnotationsFolder);
+			base.Dispose();
 		}
 
 		#region Properties
@@ -43,18 +58,6 @@ namespace SayMore.Transcription.UI
 		public bool AnnotationRecordingsChanged { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public bool DoesAnnotationExistForCurrentSegment
-		{
-			get { return File.Exists(GetPathToCurrentAnnotationFile()); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool IsRecordingTooShort
-		{
-			get { return (_annotationRecorder.RecordedTime <= TimeSpan.FromMilliseconds(500)); }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public override bool WereChangesMade
 		{
 			get { return base.WereChangesMade || AnnotationRecordingsChanged; }
@@ -63,16 +66,96 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		public string CopyOralAnnotationsToTempLocation()
+		{
+			var tmpFolder = Path.Combine(Path.GetTempPath(), "SayMoreOralAnnotations");
+
+			if (Directory.Exists(_oralAnnotationsFolder))
+				CopyAnnotationFiles(_oralAnnotationsFolder, tmpFolder);
+
+			return tmpFolder;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void RemoveAllOralAnnotationFilesFromFolder(string folder)
+		{
+			if (!Directory.Exists(folder))
+				return;
+
+			for (int i = 0; i < 20; i++)
+			{
+				try
+				{
+					Directory.Delete(folder, true);
+					return;
+				}
+				catch { }
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool SaveNewOralAnnoationsInPermanentLocation()
+		{
+			return CopyAnnotationFiles(_tempOralAnnotationsFolder, _oralAnnotationsFolder);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool CopyAnnotationFiles(string sourceFolder, string targetFolder)
+		{
+			RemoveAllOralAnnotationFilesFromFolder(targetFolder);
+
+			try
+			{
+				if (!Directory.Exists(targetFolder))
+					Directory.CreateDirectory(targetFolder);
+
+				var pairs = Directory.GetFiles(sourceFolder, "*.wav", SearchOption.TopDirectoryOnly)
+					.Select(f => new KeyValuePair<string, string>(f, Path.Combine(targetFolder, Path.GetFileName(f))));
+
+				var model = new CopyFilesViewModel(pairs);
+				model.Start();
+				return true;
+			}
+			catch (Exception e)
+			{
+				ErrorReport.NotifyUserOfProblem(e,
+					"Error trying to copy oral annotation files from '{0}' to '{1}'", sourceFolder, targetFolder);
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsRecordingTooShort()
+		{
+			return (_annotationRecorder != null &&
+				_annotationRecorder.RecordedTime <= TimeSpan.FromMilliseconds(500));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool GetIsSegmentLongEnough(TimeSpan proposedEndTime)
+		{
+			var segEndTime = (CurrentSegmentNumber < 0 ? proposedEndTime : GetEndOfCurrentSegment());
+			return base.GetIsSegmentLongEnough(segEndTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetDoesAnnotationExistForCurrentSegment()
+		{
+			return File.Exists(GetPathToCurrentAnnotationFile());
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string GetPathToAnnotationFileForSegment(int segmentNumber)
 		{
-			if (segmentNumber == _segments.Count)
+			if (segmentNumber < 0 || segmentNumber == _segments.Count)
 				return string.Empty;
 
 			return GetPathToAnnotationFileForSegment(_segments[segmentNumber]);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetPathToAnnotationFileForSegment(SegBoundary segment)
+		private string GetPathToAnnotationFileForSegment(SegmentBoundaries segment)
 		{
 			return GetPathToAnnotationFileForSegment(segment.start, segment.end);
 		}
@@ -84,7 +167,7 @@ namespace SayMore.Transcription.UI
 				Settings.Default.OralAnnotationCarefulSegmentFileAffix :
 				Settings.Default.OralAnnotationTranslationSegmentFileAffix);
 
-			return Path.Combine(_pathToAnnotationsFolder,
+			return Path.Combine(_tempOralAnnotationsFolder,
 				string.Format(Settings.Default.OralAnnotationSegmentFileFormat,
 				(float)start.TotalSeconds, (float)end.TotalSeconds, affix));
 		}
@@ -102,35 +185,63 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override void SelectSegment(int segmentNumber)
+		public TimeSpan GetTimeWherePlaybackShouldStart(TimeSpan proposedTime)
+		{
+			var start = GetStartOfCurrentSegment();
+			return (start < proposedTime ? proposedTime : start);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetStartOfCurrentSegment()
+		{
+			return (CurrentSegmentNumber < 0 ? GetEndOfLastSegment()  :
+				_segments[CurrentSegmentNumber].start);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetEndOfCurrentSegment()
+		{
+			return (CurrentSegmentNumber < 0 ? TimeSpan.Zero : _segments[CurrentSegmentNumber].end);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void GotoEndOfSegments()
+		{
+			SelectSegment(_segments.Count);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetDoesHaveSegments()
+		{
+			return (_segments.Count > 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SelectSegmentFromTime(TimeSpan time)
+		{
+			int i = 0;
+			for (; i < _segments.Count; i++)
+			{
+				if (time >= _segments[i].start && time <= _segments[i].end)
+					break;
+			}
+
+			SelectSegment(i);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SelectSegment(int segmentNumber)
 		{
 			CloseAnnotationRecorder();
 
 			if (_annotationPlayer != null && _annotationPlayer.PlaybackState == PlaybackState.Playing)
 				_annotationPlayer.Stop();
 
-			InitializeAnnotationRecorder();
-			base.SelectSegment(segmentNumber);
+			CurrentSegmentNumber = (segmentNumber >= 0 && segmentNumber < _segments.Count ? segmentNumber : -1);
+			InvokeUpdateDisplayAction();
 		}
 
 		#region Annotation record/player methods
-		/// ------------------------------------------------------------------------------------
-		private void InitializeAnnotationRecorder()
-		{
-			_annotationRecorder = new AudioRecorder(WaveFileUtils.GetDefaultWaveFormat(1));
-			_annotationRecorder.RecordingStarted += delegate
-			{
-				IsIdle = false;
-				InvokeUpdateDisplayAction();
-			};
-
-			_annotationRecorder.Stopped += delegate
-			{
-				IsIdle = true;
-				InvokeUpdateDisplayAction();
-			};
-		}
-
 		/// ------------------------------------------------------------------------------------
 		public bool InitializeAnnotationPlayer()
 		{
@@ -149,17 +260,8 @@ namespace SayMore.Transcription.UI
 
 			_annotationPlayer = new AudioPlayer();
 			_annotationPlayer.LoadFile(filename);
-			_annotationPlayer.PlaybackStarted += delegate
-			{
-				IsIdle = false;
-				InvokeUpdateDisplayAction();
-			};
-
-			_annotationPlayer.Stopped += delegate
-			{
-				IsIdle = true;
-				InvokeUpdateDisplayAction();
-			};
+			_annotationPlayer.PlaybackStarted += (sender, args) => InvokeUpdateDisplayAction();
+			_annotationPlayer.Stopped += (sender, args) => InvokeUpdateDisplayAction();
 
 			return true;
 		}
@@ -183,13 +285,23 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool BeginAnnotationRecording()
+		public bool BeginAnnotationRecording(TimeSpan cursorTime)
 		{
-			if (!IsIdle || DoesAnnotationExistForCurrentSegment || !HaveSegmentBoundaries)
+			if (GetIsRecording())
 				return false;
 
-			var path = GetPathToAnnotationFileForSegment(PlaybackStartPosition, PlaybackEndPosition);
+			var segEndTime = (CurrentSegmentNumber < 0 ? cursorTime : GetEndOfCurrentSegment());
+
+			if (GetDoesAnnotationExistForCurrentSegment())
+				return false;
+
+			var path = GetPathToAnnotationFileForSegment(GetStartOfCurrentSegment(), segEndTime);
+
+			_annotationRecorder = new AudioRecorder(WaveFileUtils.GetDefaultWaveFormat(1));
+			_annotationRecorder.RecordingStarted += (sender, args) => InvokeUpdateDisplayAction();
+			_annotationRecorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
 			_annotationRecorder.BeginRecording(path);
+
 			return true;
 		}
 
@@ -197,14 +309,28 @@ namespace SayMore.Transcription.UI
 		public bool StopAnnotationRecording()
 		{
 			_annotationRecorder.Stop();
-			AnnotationRecordingsChanged = (AnnotationRecordingsChanged || !IsRecordingTooShort);
-			return !IsRecordingTooShort;
+			AnnotationRecordingsChanged = (AnnotationRecordingsChanged || !GetIsRecordingTooShort());
+			return !GetIsRecordingTooShort();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<TimeSpan> SaveNewSegment(TimeSpan endTime)
+		{
+			if (CurrentSegmentNumber < 0)
+			{
+				var start = GetStartOfCurrentSegment();
+				_segments.Add(new SegmentBoundaries(start, endTime));
+				_segments.Sort((x, y) => x.start.CompareTo(y.start));
+				SegmentBoundariesChanged = true;
+			}
+
+			return _segments.Select(s => s.end);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void StartAnnotationPlayback()
 		{
-			if (!IsIdle || !DoesAnnotationExistForCurrentSegment)
+			if (!GetDoesAnnotationExistForCurrentSegment())
 				return;
 
 			if (InitializeAnnotationPlayer())
@@ -218,6 +344,13 @@ namespace SayMore.Transcription.UI
 		{
 			if (_annotationPlayer != null)
 				_annotationPlayer.Stop();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsAnnotationPlaying()
+		{
+			return (_annotationPlayer != null &&
+				_annotationPlayer.PlaybackState == PlaybackState.Playing);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -252,7 +385,7 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		protected override void RenameAnnotationForResizedSegment(SegBoundary oldSegment, SegBoundary newSegment)
+		protected override void RenameAnnotationForResizedSegment(SegmentBoundaries oldSegment, SegmentBoundaries newSegment)
 		{
 			try
 			{

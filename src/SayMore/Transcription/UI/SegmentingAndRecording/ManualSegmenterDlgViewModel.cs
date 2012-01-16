@@ -14,7 +14,7 @@ namespace SayMore.Transcription.UI.SegmentingAndRecording
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<TimeSpan> SaveNewSegment(TimeSpan newBoundary)
+		public IEnumerable<TimeSpan> SaveNewBoundary(TimeSpan newBoundary)
 		{
 			if (_segments.All(sb => sb.end != newBoundary))
 			{

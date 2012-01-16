@@ -180,6 +180,25 @@ namespace SayMore.Transcription.UI
 			SegmentBoundariesChanged = true;
 		}
 
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void DeleteBoundary(TimeSpan boundary)
+		{
+			var i = _segments.Select(s => s.end).ToList().IndexOf(boundary);
+			if (i < 0)
+				return;
+
+			_segments.RemoveAt(i);
+
+			if (_segments.Count == 0 || i == _segments.Count)
+				return;
+
+			if (i == 0)
+				_segments[0].start = TimeSpan.Zero;
+			else
+				_segments[i].start = _segments[i - 1].end;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected virtual void RenameAnnotationForResizedSegment(SegmentBoundaries oldSegment,
 			SegmentBoundaries newSegment)

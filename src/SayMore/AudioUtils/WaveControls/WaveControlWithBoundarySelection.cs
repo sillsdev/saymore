@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace SayMore.AudioUtils
 {
@@ -21,6 +22,24 @@ namespace SayMore.AudioUtils
 		public TimeSpan GetSelectedBoundary()
 		{
 			return Painter.SelectedBoundaryTime;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ClearSelectedBoundary()
+		{
+			Painter.SetSelectedBoundary(TimeSpan.Zero);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Rectangle GetSelectedBoundaryRectangle()
+		{
+			var boundary = GetSelectedBoundary();
+			if (boundary == TimeSpan.Zero)
+				return Rectangle.Empty;
+
+			return _painter.GetRectangleForTimeRange(
+				boundary.Subtract(TimeSpan.FromSeconds(1)),
+				boundary.Add(TimeSpan.FromSeconds(1)));
 		}
 
 		/// ------------------------------------------------------------------------------------

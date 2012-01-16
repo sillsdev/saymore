@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using SayMore.AudioUtils;
 using SayMore.Properties;
@@ -35,7 +34,7 @@ namespace SayMore.Transcription.UI
 			_buttonAddSegmentBoundary.Click += delegate
 			{
 				//if (_viewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
-					_waveControl.SegmentBoundaries = ViewModel.SaveNewSegment(_waveControl.GetCursorTime());
+					_waveControl.SegmentBoundaries = ViewModel.SaveNewBoundary(_waveControl.GetCursorTime());
 				//else
 				//{
 				//	_buttonAddSegmentBoundary.ForeColor = Color.Red;
@@ -43,7 +42,16 @@ namespace SayMore.Transcription.UI
 				//}
 			};
 
+			_buttonDeleteSegment.Click += delegate
+			{
+				var boundary = _waveControl.GetSelectedBoundary();
+				_waveControl.ClearSelectedBoundary();
+				ViewModel.DeleteBoundary(boundary);
+				UpdateDisplay();
+			};
+
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMoved;
+			_waveControl.BoundaryMouseDown += delegate { UpdateDisplay(); };
 			_waveControl.CursorTimeChanged += delegate { UpdateDisplay(); };
 			UpdateDisplay();
 		}
@@ -84,9 +92,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override int GetHeightOfTableLayoutButtonRow()
 		{
-			return (_buttonListenToOriginal.Height * 2) + 5 +
+			return (_buttonListenToOriginal.Height * 3) + 5 +
 				_buttonListenToOriginal.Margin.Top + _buttonListenToOriginal.Margin.Bottom +
 				_buttonAddSegmentBoundary.Margin.Top + _buttonAddSegmentBoundary.Margin.Bottom +
+				_buttonDeleteSegment.Margin.Top + _buttonDeleteSegment.Margin.Bottom +
 				toolStripButtons.Margin.Top + toolStripButtons.Margin.Bottom;
 		}
 
@@ -99,6 +108,7 @@ namespace SayMore.Transcription.UI
 			_buttonAddSegmentBoundary.ForeColor = _buttonListenToOriginal.ForeColor;
 			_buttonAddSegmentBoundary.Text = _origAddSegBoundaryButtonText;
 			_buttonAddSegmentBoundary.Enabled = _waveControl.GetCursorTime() > TimeSpan.Zero;
+			_buttonDeleteSegment.Enabled = _waveControl.GetSelectedBoundary() > TimeSpan.Zero;
 
 			base.UpdateDisplay();
 		}
@@ -134,10 +144,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
 		{
-			// Check that SHIFT is not down too, because Ctrl+Shift on a UI item brings up
-			// the localization dialog box. We don't want it to also start playback.
-			if (key == Keys.ControlKey && (ModifierKeys & Keys.Shift) != Keys.Shift)
+			if (key == Keys.Delete)
+				_buttonDeleteSegment.PerformClick();
+			else if (key == Keys.ControlKey && (ModifierKeys & Keys.Shift) != Keys.Shift)
 			{
+				// Check that SHIFT is not down too, because Ctrl+Shift on a UI item brings up
+				// the localization dialog box. We don't want it to also start playback.
 				if (_waveControl.IsPlaying)
 					_buttonStopOriginal.PerformClick();
 				else

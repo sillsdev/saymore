@@ -32,6 +32,7 @@ namespace SayMore.Transcription.UI
 			this.toolStripButtons = new System.Windows.Forms.ToolStrip();
 			this._buttonListenToOriginal = new System.Windows.Forms.ToolStripButton();
 			this._buttonStopOriginal = new System.Windows.Forms.ToolStripButton();
+			this._buttonDeleteSegment = new System.Windows.Forms.ToolStripButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.toolStripButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -46,7 +47,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._buttonAddSegmentBoundary, null);
 			this.locExtender.SetLocalizationComment(this._buttonAddSegmentBoundary, null);
 			this.locExtender.SetLocalizingId(this._buttonAddSegmentBoundary, "DialogBoxes.Transcription.ManualSegmenterDlg._buttonAddSegmentBoundary.Normal");
-			this._buttonAddSegmentBoundary.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
+			this._buttonAddSegmentBoundary.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._buttonAddSegmentBoundary.Name = "_buttonAddSegmentBoundary";
 			this._buttonAddSegmentBoundary.Size = new System.Drawing.Size(253, 24);
 			this._buttonAddSegmentBoundary.Text = "Add Segment Boundary (press ENTER key)";
@@ -64,7 +65,8 @@ namespace SayMore.Transcription.UI
 			this.toolStripButtons.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this._buttonListenToOriginal,
 			this._buttonStopOriginal,
-			this._buttonAddSegmentBoundary});
+			this._buttonAddSegmentBoundary,
+			this._buttonDeleteSegment});
 			this.toolStripButtons.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.locExtender.SetLocalizableToolTip(this.toolStripButtons, null);
 			this.locExtender.SetLocalizationComment(this.toolStripButtons, null);
@@ -73,7 +75,7 @@ namespace SayMore.Transcription.UI
 			this.toolStripButtons.Location = new System.Drawing.Point(7, 162);
 			this.toolStripButtons.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this.toolStripButtons.Name = "toolStripButtons";
-			this.toolStripButtons.Size = new System.Drawing.Size(255, 92);
+			this.toolStripButtons.Size = new System.Drawing.Size(255, 141);
 			this.toolStripButtons.TabIndex = 7;
 			this.toolStripButtons.Text = "toolStrip1";
 			//
@@ -87,6 +89,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._buttonListenToOriginal, null);
 			this.locExtender.SetLocalizationComment(this._buttonListenToOriginal, null);
 			this.locExtender.SetLocalizingId(this._buttonListenToOriginal, "DialogBoxes.Transcription.ManualSegmenterDlgBase._buttonListenToOriginal");
+			this._buttonListenToOriginal.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonListenToOriginal.Name = "_buttonListenToOriginal";
 			this._buttonListenToOriginal.Size = new System.Drawing.Size(253, 24);
 			this._buttonListenToOriginal.Text = "Listen (press CTRL key)";
@@ -100,9 +103,24 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._buttonStopOriginal, null);
 			this.locExtender.SetLocalizationComment(this._buttonStopOriginal, null);
 			this.locExtender.SetLocalizingId(this._buttonStopOriginal, "ManualSegmenterDlg._buttonStopOriginal");
+			this._buttonStopOriginal.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonStopOriginal.Name = "_buttonStopOriginal";
 			this._buttonStopOriginal.Size = new System.Drawing.Size(253, 24);
 			this._buttonStopOriginal.Text = "Stop (press CTRL key)";
+			//
+			// _buttonDeleteSegment
+			//
+			this._buttonDeleteSegment.Image = global::SayMore.Properties.Resources.RecordErase;
+			this._buttonDeleteSegment.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonDeleteSegment.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this._buttonDeleteSegment.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonDeleteSegment, null);
+			this.locExtender.SetLocalizationComment(this._buttonDeleteSegment, null);
+			this.locExtender.SetLocalizingId(this._buttonDeleteSegment, "DialogBoxes.Transcription.ManualSegmenterDlg._buttonDeleteBoundary");
+			this._buttonDeleteSegment.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+			this._buttonDeleteSegment.Name = "_buttonDeleteSegment";
+			this._buttonDeleteSegment.Size = new System.Drawing.Size(253, 26);
+			this._buttonDeleteSegment.Text = "Delete Selected Boundary (press DEL key)";
 			//
 			// ManualSegmenterDlg
 			//
@@ -133,5 +151,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStrip toolStripButtons;
 		private System.Windows.Forms.ToolStripButton _buttonListenToOriginal;
 		private System.Windows.Forms.ToolStripButton _buttonStopOriginal;
+		private System.Windows.Forms.ToolStripButton _buttonDeleteSegment;
 	}
 }

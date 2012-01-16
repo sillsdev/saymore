@@ -199,7 +199,9 @@
     <Compile Include="Transcription\UI\OralAnnotationEditor.designer.cs">
       <DependentUpon>OralAnnotationEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\OralAnnotationRecorderDlgBase.cs" />
+    <Compile Include="Transcription\UI\OralAnnotationRecorderDlgBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transcription\UI\OralAnnotationRecorderDlgBase.designer.cs">
       <DependentUpon>OralAnnotationRecorderDlgBase.cs</DependentUpon>
     </Compile>
@@ -216,7 +218,9 @@
     <Compile Include="Transcription\UI\SegmentingAndRecording\CarefulSpeechRecorderDlg.designer.cs">
       <DependentUpon>CarefulSpeechRecorderDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\SegmentingAndRecording\ManualSegmenterDlg.cs" />
+    <Compile Include="Transcription\UI\SegmentingAndRecording\ManualSegmenterDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transcription\UI\SegmentingAndRecording\ManualSegmenterDlg.designer.cs">
       <DependentUpon>ManualSegmenterDlg.cs</DependentUpon>
     </Compile>

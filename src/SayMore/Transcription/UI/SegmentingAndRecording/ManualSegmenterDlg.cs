@@ -34,13 +34,13 @@ namespace SayMore.Transcription.UI
 
 			_buttonAddSegmentBoundary.Click += delegate
 			{
-				if (_viewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
+				//if (_viewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
 					_waveControl.SegmentBoundaries = ViewModel.SaveNewSegment(_waveControl.GetCursorTime());
-				else
-				{
-					_buttonAddSegmentBoundary.ForeColor = Color.Red;
-					_buttonAddSegmentBoundary.Text = GetSegmentTooShortText();
-				}
+				//else
+				//{
+				//	_buttonAddSegmentBoundary.ForeColor = Color.Red;
+				//	_buttonAddSegmentBoundary.Text = GetSegmentTooShortText();
+				//}
 			};
 
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMoved;

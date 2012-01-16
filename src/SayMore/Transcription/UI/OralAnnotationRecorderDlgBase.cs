@@ -185,9 +185,9 @@ namespace SayMore.Transcription.UI
 
 			if (ViewModel.CurrentSegmentNumber >= 0)
 			{
-				_labelSegmentCount.Visible = false;
-				_labelSegment.Visible = true;
-				_labelSegment.Text = string.Format(_segmentXofYFormat,
+				_labelSegmentNumber.Visible = false;
+				_labelSegmentXofY.Visible = true;
+				_labelSegmentXofY.Text = string.Format(_segmentXofYFormat,
 					ViewModel.CurrentSegmentNumber + 1, _viewModel.GetSegmentCount());
 			}
 		}

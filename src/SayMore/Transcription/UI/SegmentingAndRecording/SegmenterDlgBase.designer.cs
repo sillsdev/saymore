@@ -34,13 +34,13 @@ namespace SayMore.Transcription.UI
 			this._labelZoom = new System.Windows.Forms.Label();
 			this._comboBoxZoom = new System.Windows.Forms.ComboBox();
 			this._toolStripStatus = new System.Windows.Forms.ToolStrip();
-			this._labelSegmentCount = new System.Windows.Forms.ToolStripLabel();
+			this._labelTimeDisplay = new System.Windows.Forms.ToolStripLabel();
+			this._labelSegmentXofY = new System.Windows.Forms.ToolStripLabel();
+			this._labelSegmentNumber = new System.Windows.Forms.ToolStripLabel();
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
-			this._labelSegment = new System.Windows.Forms.ToolStripLabel();
-			this._labelTimeDisplay = new System.Windows.Forms.ToolStripLabel();
 			this._tableLayoutOuter.SuspendLayout();
 			this._tableLayoutTop.SuspendLayout();
 			this._toolStripStatus.SuspendLayout();
@@ -172,28 +172,50 @@ namespace SayMore.Transcription.UI
 			this._toolStripStatus.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this._toolStripStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this._labelTimeDisplay,
-			this._labelSegmentCount,
-			this._labelSegment});
+			this._labelSegmentXofY,
+			this._labelSegmentNumber});
 			this._toolStripStatus.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.locExtender.SetLocalizableToolTip(this._toolStripStatus, null);
 			this.locExtender.SetLocalizationComment(this._toolStripStatus, null);
 			this.locExtender.SetLocalizationPriority(this._toolStripStatus, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._toolStripStatus, "toolStrip1.toolStrip1");
-			this._toolStripStatus.Location = new System.Drawing.Point(425, 123);
+			this._toolStripStatus.Location = new System.Drawing.Point(394, 123);
 			this._toolStripStatus.Name = "_toolStripStatus";
 			this._toolStripStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this._toolStripStatus.Size = new System.Drawing.Size(233, 25);
+			this._toolStripStatus.Size = new System.Drawing.Size(264, 25);
 			this._toolStripStatus.TabIndex = 10;
 			//
-			// _labelSegmentCount
+			// _labelTimeDisplay
 			//
-			this._labelSegmentCount.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.locExtender.SetLocalizableToolTip(this._labelSegmentCount, null);
-			this.locExtender.SetLocalizationComment(this._labelSegmentCount, null);
-			this.locExtender.SetLocalizingId(this._labelSegmentCount, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentCount");
-			this._labelSegmentCount.Name = "_labelSegmentCount";
-			this._labelSegmentCount.Size = new System.Drawing.Size(102, 22);
-			this._labelSegmentCount.Text = "Segment {0} of {1}";
+			this._labelTimeDisplay.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.locExtender.SetLocalizableToolTip(this._labelTimeDisplay, null);
+			this.locExtender.SetLocalizationComment(this._labelTimeDisplay, null);
+			this.locExtender.SetLocalizationPriority(this._labelTimeDisplay, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelTimeDisplay, ".toolStripLabel1");
+			this._labelTimeDisplay.Margin = new System.Windows.Forms.Padding(35, 1, 0, 2);
+			this._labelTimeDisplay.Name = "_labelTimeDisplay";
+			this._labelTimeDisplay.Size = new System.Drawing.Size(14, 22);
+			this._labelTimeDisplay.Text = "#";
+			//
+			// _labelSegmentXofY
+			//
+			this._labelSegmentXofY.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.locExtender.SetLocalizableToolTip(this._labelSegmentXofY, null);
+			this.locExtender.SetLocalizationComment(this._labelSegmentXofY, null);
+			this.locExtender.SetLocalizingId(this._labelSegmentXofY, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentXofY");
+			this._labelSegmentXofY.Name = "_labelSegmentXofY";
+			this._labelSegmentXofY.Size = new System.Drawing.Size(102, 22);
+			this._labelSegmentXofY.Text = "Segment {0} of {1}";
+			//
+			// _labelSegmentNumber
+			//
+			this._labelSegmentNumber.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.locExtender.SetLocalizableToolTip(this._labelSegmentNumber, null);
+			this.locExtender.SetLocalizationComment(this._labelSegmentNumber, null);
+			this.locExtender.SetLocalizingId(this._labelSegmentNumber, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegmentNumber");
+			this._labelSegmentNumber.Name = "_labelSegmentNumber";
+			this._labelSegmentNumber.Size = new System.Drawing.Size(79, 22);
+			this._labelSegmentNumber.Text = "Segments: {0}";
 			//
 			// _buttonOK
 			//
@@ -249,28 +271,6 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutButtons.TabIndex = 7;
 			this._tableLayoutButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleTableLayoutButtonsPaint);
 			//
-			// _labelSegment
-			//
-			this._labelSegment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.locExtender.SetLocalizableToolTip(this._labelSegment, null);
-			this.locExtender.SetLocalizationComment(this._labelSegment, null);
-			this.locExtender.SetLocalizingId(this._labelSegment, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelSegment");
-			this._labelSegment.Name = "_labelSegment";
-			this._labelSegment.Size = new System.Drawing.Size(79, 22);
-			this._labelSegment.Text = "Segments: {0}";
-			//
-			// _labelTimeDisplay
-			//
-			this._labelTimeDisplay.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.locExtender.SetLocalizableToolTip(this._labelTimeDisplay, null);
-			this.locExtender.SetLocalizationComment(this._labelTimeDisplay, null);
-			this.locExtender.SetLocalizationPriority(this._labelTimeDisplay, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelTimeDisplay, ".toolStripLabel1");
-			this._labelTimeDisplay.Margin = new System.Windows.Forms.Padding(35, 1, 0, 2);
-			this._labelTimeDisplay.Name = "_labelTimeDisplay";
-			this._labelTimeDisplay.Size = new System.Drawing.Size(14, 22);
-			this._labelTimeDisplay.Text = "#";
-			//
 			// SegmenterDlgBase
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -320,7 +320,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
 		private System.Windows.Forms.ToolStrip _toolStripStatus;
 		private System.Windows.Forms.ToolStripLabel _labelTimeDisplay;
-		protected System.Windows.Forms.ToolStripLabel _labelSegmentCount;
-		protected System.Windows.Forms.ToolStripLabel _labelSegment;
+		protected System.Windows.Forms.ToolStripLabel _labelSegmentXofY;
+		protected System.Windows.Forms.ToolStripLabel _labelSegmentNumber;
 	}
 }

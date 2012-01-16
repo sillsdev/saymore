@@ -21,8 +21,8 @@ namespace SayMore.Transcription.UI
 	public partial class SegmenterDlgBase : MonitorKeyPressDlg
 	{
 		protected readonly SegmenterDlgBaseViewModel _viewModel;
+		protected string _segmentNumberFormat;
 		protected string _segmentXofYFormat;
-		protected string _segmentCountFormat;
 		protected Timer _timer;
 		protected bool _moreReliableDesignMode;
 		private readonly WaveControlBasic _waveControl;
@@ -47,21 +47,21 @@ namespace SayMore.Transcription.UI
 			_comboBoxZoom.Text = _comboBoxZoom.Items[0] as string;
 			_comboBoxZoom.Font = SystemFonts.MenuFont;
 			_labelZoom.Font = SystemFonts.MenuFont;
-			_labelSegmentCount.Font = SystemFonts.MenuFont;
-			_labelSegment.Font = SystemFonts.MenuFont;
+			_labelSegmentXofY.Font = SystemFonts.MenuFont;
+			_labelSegmentNumber.Font = SystemFonts.MenuFont;
 			_labelTimeDisplay.Font = SystemFonts.MenuFont;
 			_labelOriginalRecording.Font = FontHelper.MakeFont(SystemFonts.MenuFont, FontStyle.Bold);
 
 			_buttonCancel.Click += delegate { Close(); };
 			_buttonOK.Click += delegate { Close(); };
 
-			_segmentCountFormat = _labelSegmentCount.Text;
-			_segmentXofYFormat = _labelSegment.Text;
+			_segmentXofYFormat = _labelSegmentXofY.Text;
+			_segmentNumberFormat = _labelSegmentNumber.Text;
 
 			LocalizeItemDlg.StringsLocalized += delegate
 			{
-				_segmentCountFormat = _labelSegmentCount.Text;
-				_segmentXofYFormat = _labelSegment.Text;
+				_segmentXofYFormat = _labelSegmentXofY.Text;
+				_segmentNumberFormat = _labelSegmentNumber.Text;
 			};
 		}
 
@@ -361,9 +361,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void UpdateStatusLabelsDisplay()
 		{
-			_labelSegment.Visible = false;
-			_labelSegmentCount.Visible = true;
-			_labelSegmentCount.Text = string.Format(_segmentCountFormat, _viewModel.GetSegmentCount());
+			_labelSegmentXofY.Visible = false;
+			_labelSegmentNumber.Visible = true;
+			_labelSegmentNumber.Text = string.Format(_segmentNumberFormat, _viewModel.GetSegmentCount());
 
 			_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(
 				(float)GetCurrentTimeForTimeDisplay().TotalSeconds,

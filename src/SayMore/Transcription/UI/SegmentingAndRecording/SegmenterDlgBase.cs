@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
@@ -298,6 +299,12 @@ namespace SayMore.Transcription.UI
 
 			if (playbackStartTime < TimeSpan.Zero)
 				playbackStartTime = TimeSpan.Zero;
+
+			// Make sure the playback doesn't start before the beginning of the segment.
+			var boundaries = _viewModel.GetSegmentBoundaries().ToList();
+			var i = boundaries.IndexOf(boundary);
+			if (i > 0 && playbackStartTime < boundaries[i - 1])
+				playbackStartTime = boundaries[i - 1];
 
 			_timer = new Timer();
 			_timer.Interval = Settings.Default.MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary;

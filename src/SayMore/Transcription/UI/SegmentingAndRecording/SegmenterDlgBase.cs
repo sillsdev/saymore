@@ -394,18 +394,6 @@ namespace SayMore.Transcription.UI
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected override bool OnLowLevelKeyUp(Keys key)
-		{
-			if (key == Keys.ControlKey)
-			{
-				_waveControl.Stop();
-				return true;
-			}
-
-			return false;
-		}
-
 		#endregion
 
 		#region Methods for handling zoom

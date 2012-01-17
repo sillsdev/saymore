@@ -364,9 +364,15 @@ namespace SayMore.Transcription.UI
 		{
 			// Check that SHIFT is not down too, because Ctrl+Shift on a UI item brings up
 			// the localization dialog box. We don't want it to also start playback.
-			if (key == Keys.ControlKey && (ModifierKeys & Keys.Shift) != Keys.Shift)
+			if (key == Keys.Space)
 			{
 				HandleListenToOriginalMouseDown(null, null);
+				return true;
+			}
+
+			if (key == Keys.Enter)
+			{
+				HandleRecordAnnotationMouseDown(null, null);
 				return true;
 			}
 
@@ -378,21 +384,25 @@ namespace SayMore.Transcription.UI
 				return true;
 			}
 
-			if (key != Keys.Space)
-				return base.OnLowLevelKeyDown(key);
-
-			HandleRecordAnnotationMouseDown(null, null);
-			return true;
+			return base.OnLowLevelKeyDown(key);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyUp(Keys key)
 		{
-			if (key != Keys.Space)
-				return base.OnLowLevelKeyUp(key);
+			if (key == Keys.Space)
+			{
+				HandleRecordAnnotationMouseUp(null, null);
+				return true;
+			}
 
-			HandleRecordAnnotationMouseUp(null, null);
-			return true;
+			if (key == Keys.Enter)
+			{
+				_waveControl.Stop();
+				return true;
+			}
+
+			return base.OnLowLevelKeyUp(key);
 		}
 
 		#endregion

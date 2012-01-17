@@ -146,10 +146,8 @@ namespace SayMore.Transcription.UI
 		{
 			if (key == Keys.Delete)
 				_buttonDeleteSegment.PerformClick();
-			else if (key == Keys.ControlKey && (ModifierKeys & Keys.Shift) != Keys.Shift)
+			else if (key == Keys.Space)
 			{
-				// Check that SHIFT is not down too, because Ctrl+Shift on a UI item brings up
-				// the localization dialog box. We don't want it to also start playback.
 				if (_waveControl.IsPlaying)
 					_buttonStopOriginal.PerformClick();
 				else
@@ -162,14 +160,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyUp(Keys key)
 		{
-			if (key == Keys.ControlKey && (ModifierKeys & Keys.Shift) != Keys.Shift)
+			if (key == Keys.Space)
 				return false;
 
-			if (key != Keys.Enter)
-				return base.OnLowLevelKeyUp(key);
+			if (key == Keys.Enter)
+			{
+				_buttonAddSegmentBoundary.PerformClick();
+				return true;
+			}
 
-			_buttonAddSegmentBoundary.PerformClick();
-			return true;
+			return base.OnLowLevelKeyUp(key);
 		}
 
 		#endregion

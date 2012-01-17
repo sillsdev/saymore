@@ -92,7 +92,7 @@ namespace SayMore.Transcription.UI
 			this._buttonListenToOriginal.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonListenToOriginal.Name = "_buttonListenToOriginal";
 			this._buttonListenToOriginal.Size = new System.Drawing.Size(253, 24);
-			this._buttonListenToOriginal.Text = "Listen (press CTRL key)";
+			this._buttonListenToOriginal.Text = "Listen (press SPACE key)";
 			this._buttonListenToOriginal.ToolTipText = "Listen to original recording";
 			//
 			// _buttonStopOriginal
@@ -106,7 +106,7 @@ namespace SayMore.Transcription.UI
 			this._buttonStopOriginal.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._buttonStopOriginal.Name = "_buttonStopOriginal";
 			this._buttonStopOriginal.Size = new System.Drawing.Size(253, 24);
-			this._buttonStopOriginal.Text = "Stop (press CTRL key)";
+			this._buttonStopOriginal.Text = "Stop (press SPACE key)";
 			//
 			// _buttonDeleteSegment
 			//

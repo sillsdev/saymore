@@ -50,7 +50,7 @@ namespace SayMore.Transcription.UI
 			this._buttonRecordAnnotation.Margin = new System.Windows.Forms.Padding(0, 10, 0, 2);
 			this._buttonRecordAnnotation.Name = "_buttonRecordAnnotation";
 			this._buttonRecordAnnotation.Size = new System.Drawing.Size(239, 24);
-			this._buttonRecordAnnotation.Text = "Record (hold SPACE key down and talk)";
+			this._buttonRecordAnnotation.Text = "Record (hold ENTER key down and talk)";
 			this._buttonRecordAnnotation.ToolTipText = "Record oral annotation";
 			//
 			// _buttonListenToAnnotation
@@ -101,7 +101,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._buttonListenToOriginal, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._buttonListenToOriginal");
 			this._buttonListenToOriginal.Name = "_buttonListenToOriginal";
 			this._buttonListenToOriginal.Size = new System.Drawing.Size(239, 24);
-			this._buttonListenToOriginal.Text = "Listen (hold CTRL key down)";
+			this._buttonListenToOriginal.Text = "Listen (hold SPACE key down)";
 			this._buttonListenToOriginal.ToolTipText = "Listen to original recording";
 			this._buttonListenToOriginal.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleListenToOriginalMouseDown);
 			//
@@ -138,6 +138,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
 			this.Name = "OralAnnotationRecorderBaseDlg";
+			this.Opacity = 1D;
 			this.Text = "Change my text";
 			this.Controls.SetChildIndex(this.toolStripButtons, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

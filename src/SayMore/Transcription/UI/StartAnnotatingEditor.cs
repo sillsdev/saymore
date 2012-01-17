@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -54,7 +55,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override bool IsOKSToShow
 		{
-			get { return _file != null && !_file.GetDoesHaveAnnotationFile(); }
+			get
+			{
+				return (_file != null && !_file.GetDoesHaveAnnotationFile() &&
+					Path.GetExtension(_file.PathToAnnotatedFile).ToLower() == ".wav");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -79,6 +79,32 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set the initial width of text annotation columns so they fill the available,
+		/// visible, grid space.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void FirstTimeColumnInitialization()
+		{
+			// If the grid already has settings saved, then don't
+			// adjust the column widths to fit the available width.
+			if (Settings.Default.SegmentGrid != null)
+				return;
+
+			var annotationCols = Columns.OfType<TextAnnotationColumn>().ToArray();
+
+			var widthOfOtherCols = Columns.Cast<DataGridViewColumn>()
+				.Where(col => !(col is TextAnnotationColumn)).Sum(col => col.Width);
+
+			var availableWidthForAnnotationCols = ClientSize.Width - widthOfOtherCols -
+				RowHeadersWidth - SystemInformation.VerticalScrollBarWidth;
+
+			// Distribute the annotation columns evenly within the available space.
+			foreach (var col in annotationCols)
+				col.Width = availableWidthForAnnotationCols / annotationCols.Length - 1;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private int AddColumnForTier(ITier tier)
 		{
 			Columns.Add(tier.GridColumn);

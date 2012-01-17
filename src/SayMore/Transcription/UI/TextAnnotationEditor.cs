@@ -119,6 +119,8 @@ namespace SayMore.Transcription.UI
 
 			_isFirstTimeActivated = false;
 
+			_grid.FirstTimeColumnInitialization();
+
 			if (Settings.Default.AnnotationEditorSpiltterPos > 0)
 				_splitter.SplitterDistance = Settings.Default.AnnotationEditorSpiltterPos;
 

@@ -392,13 +392,13 @@ namespace SayMore.Transcription.UI
 		{
 			if (key == Keys.Space)
 			{
-				HandleRecordAnnotationMouseUp(null, null);
+				_waveControl.Stop();
 				return true;
 			}
 
 			if (key == Keys.Enter)
 			{
-				_waveControl.Stop();
+				HandleRecordAnnotationMouseUp(null, null);
 				return true;
 			}
 

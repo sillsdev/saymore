@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace SayMore.AudioUtils
 {
@@ -27,7 +28,14 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public void ClearSelectedBoundary()
 		{
-			Painter.SetSelectedBoundary(TimeSpan.Zero);
+			SetSelectedBoundary(TimeSpan.Zero);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetSelectedBoundary(TimeSpan boundary)
+		{
+			if (boundary == TimeSpan.Zero || SegmentBoundaries.Any(b => b == boundary))
+				Painter.SetSelectedBoundary(boundary);
 		}
 
 		/// ------------------------------------------------------------------------------------

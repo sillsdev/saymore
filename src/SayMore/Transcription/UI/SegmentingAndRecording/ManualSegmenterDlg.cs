@@ -35,6 +35,8 @@ namespace SayMore.Transcription.UI
 			{
 				//if (_viewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
 					_waveControl.SegmentBoundaries = ViewModel.SaveNewBoundary(_waveControl.GetCursorTime());
+					_waveControl.SetSelectedBoundary(_waveControl.GetCursorTime());
+					_waveControl.SetCursor(TimeSpan.Zero);
 				//else
 				//{
 				//	_buttonAddSegmentBoundary.ForeColor = Color.Red;

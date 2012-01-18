@@ -33,12 +33,12 @@ namespace SayMore.Transcription.UI
 			//
 			// _waveControl
 			//
-			this._waveControl.AutoScrollMinSize = new System.Drawing.Size(0, 99);
+			this._waveControl.AutoScrollMinSize = new System.Drawing.Size(0, 90);
 			this.locExtender.SetLocalizableToolTip(this._waveControl, null);
 			this.locExtender.SetLocalizationComment(this._waveControl, null);
 			this.locExtender.SetLocalizationPriority(this._waveControl, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._waveControl, "CarefulSpeechRecorderDlg._waveControl");
-			this._waveControl.Size = new System.Drawing.Size(650, 99);
+			this._waveControl.Size = new System.Drawing.Size(656, 90);
 			//
 			// locExtender
 			//
@@ -48,11 +48,12 @@ namespace SayMore.Transcription.UI
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(682, 338);
+			this.ClientSize = new System.Drawing.Size(703, 338);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechRecorderDlg.WindowTitle");
 			this.Name = "CarefulSpeechRecorderDlg";
+			this.Text = "Careful Speech Recorder";
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

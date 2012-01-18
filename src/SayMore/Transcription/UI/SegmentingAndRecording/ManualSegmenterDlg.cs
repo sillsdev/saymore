@@ -144,6 +144,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
 		{
+			if (!ContainsFocus)
+				return true;
+
 			if (key == Keys.Delete)
 				_buttonDeleteSegment.PerformClick();
 			else if (key == Keys.Space)
@@ -160,6 +163,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyUp(Keys key)
 		{
+			if (!ContainsFocus)
+				return true;
+
 			if (key == Keys.Space)
 				return false;
 

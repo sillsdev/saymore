@@ -50,6 +50,7 @@ namespace SayMore.Transcription.UI
 			_labelSegmentXofY.Font = SystemFonts.MenuFont;
 			_labelSegmentNumber.Font = SystemFonts.MenuFont;
 			_labelTimeDisplay.Font = SystemFonts.MenuFont;
+			_labelMultiChannelSupportMsg.Font = SystemFonts.MenuFont;
 			_labelOriginalRecording.Font = FontHelper.MakeFont(SystemFonts.MenuFont, FontStyle.Bold);
 
 			_buttonCancel.Click += delegate { Close(); };
@@ -361,6 +362,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void UpdateStatusLabelsDisplay()
 		{
+			_labelMultiChannelSupportMsg.Visible = (_viewModel.OrigWaveStream.WaveFormat.Channels > 1);
 			_labelSegmentXofY.Visible = false;
 			_labelSegmentNumber.Visible = true;
 			_labelSegmentNumber.Text = string.Format(_segmentNumberFormat, _viewModel.GetSegmentCount());
@@ -380,6 +382,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
 		{
+			if (!ContainsFocus)
+				return true;
+
 			switch (key)
 			{
 				case Keys.Right:

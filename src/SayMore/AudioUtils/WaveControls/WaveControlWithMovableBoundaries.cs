@@ -32,8 +32,11 @@ namespace SayMore.AudioUtils
 			_minXForBoundaryMove =
 				_painter.ConvertTimeToXCoordinate(SegmentBoundaries.LastOrDefault(b => b < boundaryBeingMoved));
 
-			_maxXForBoundaryMove =
-				_painter.ConvertTimeToXCoordinate(SegmentBoundaries.FirstOrDefault(b => b > boundaryBeingMoved));
+			var nextBoundary = SegmentBoundaries.FirstOrDefault(b => b > boundaryBeingMoved);
+			if (nextBoundary == default(TimeSpan))
+				nextBoundary = _waveStream.TotalTime;
+
+			_maxXForBoundaryMove = _painter.ConvertTimeToXCoordinate(nextBoundary);
 
 			if (_minXForBoundaryMove > 0)
 				_minXForBoundaryMove += WavePainterBasic.kBoundaryHotZoneHalfWidth;
@@ -65,8 +68,8 @@ namespace SayMore.AudioUtils
 			// 2) The mouse has been moved too far to the left or right (i.e. beyond an
 			// adjacent boundary).
 			if ((_mouseXAtBeginningOfSegmentMove > -1 && e.X >= _mouseXAtBeginningOfSegmentMove - 2 &&
-				e.X <= _mouseXAtBeginningOfSegmentMove + 2) || (e.X < _minXForBoundaryMove ||
-				e.X > _maxXForBoundaryMove))
+				e.X <= _mouseXAtBeginningOfSegmentMove + 2) || e.X < _minXForBoundaryMove ||
+				e.X > _maxXForBoundaryMove || e.X <= 0 || e.X >= ClientSize.Width - 1)
 			{
 				return;
 			}

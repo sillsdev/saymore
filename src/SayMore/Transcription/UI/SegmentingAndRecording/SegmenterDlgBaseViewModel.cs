@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using NAudio.Wave;
+using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -30,7 +31,7 @@ namespace SayMore.Transcription.UI
 		public SegmenterDlgBaseViewModel(ComponentFile file)
 		{
 			ComponentFile = file;
-			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile);
+			OrigWaveStream = GetStreamFromAudio(ComponentFile.PathToAnnotatedFile);
 			_segments = (InitializeSegments(ComponentFile) ?? new List<SegmentBoundaries>()).ToList();
 		}
 
@@ -67,6 +68,15 @@ namespace SayMore.Transcription.UI
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual WaveStream GetStreamFromAudio(string audioFilePath)
+		{
+			Exception error;
+
+			return (WaveFileUtils.GetOneChannelStreamFromAudio(audioFilePath, out error) ??
+				new WaveFileReader(audioFilePath));
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected IEnumerable<SegmentBoundaries> InitializeSegments(ComponentFile file)

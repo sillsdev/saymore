@@ -1,7 +1,11 @@
+using System;
+using System.IO;
 using System.Linq;
 using Localization;
 using NAudio.Wave;
 using NAudio.Wave.Compression;
+using Palaso.Media;
+using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 
 namespace SayMore.AudioUtils
@@ -50,6 +54,68 @@ namespace SayMore.AudioUtils
 			}
 
 			return new WaveFormat(bestFormat.SampleRate, bestFormat.BitsPerSample, channels);
+		}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// It's up to the caller to close and dispose of the stream.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static WaveStream GetOneChannelStreamFromAudio(string audioFilePath,
+			 out Exception error)
+		{
+			return GetOneChannelStreamFromAudio(audioFilePath, out error, new NullProgress());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// It's up to the caller to close and dispose of the stream.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static WaveStream GetOneChannelStreamFromAudio(string audioFilePath,
+			 out Exception error, IProgress progress)
+		{
+			error = null;
+
+			try
+			{
+				var stream = new WaveFileReader(audioFilePath);
+				if (stream.WaveFormat.Channels == 1 || !FFmpegRunner.HaveNecessaryComponents)
+					return stream;
+			}
+			catch (Exception e)
+			{
+				error = e;
+				return null;
+			}
+
+			var tmpFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(audioFilePath));
+
+			if (File.Exists(tmpFile))
+				File.Delete(tmpFile);
+
+			try
+			{
+				FFmpegRunner.ChangeNumberOfAudioChannels(audioFilePath, tmpFile, 1, progress);
+
+				// WaveFileReader does not read the entire file into a buffer right away. Therefore,
+				// the file will remain open but we want to delete it right away. So read it
+				// into our own stream and pass that to WaveFileReader so the file is no longer
+				// needed and can be deleted.
+				return new WaveFileReader(new MemoryStream(File.ReadAllBytes(tmpFile)));
+			}
+			catch (Exception e)
+			{
+				error = e;
+				return null;
+			}
+			finally
+			{
+				if (File.Exists(tmpFile))
+				{
+					try { File.Delete(tmpFile); }
+					catch { }
+				}
+			}
 		}
 
 		///// ------------------------------------------------------------------------------------

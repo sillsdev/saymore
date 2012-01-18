@@ -30,6 +30,7 @@ namespace SayMore.Transcription.UI
 			this._panelWaveControl = new SilTools.Controls.SilPanel();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutTop = new System.Windows.Forms.TableLayoutPanel();
+			this._labelMultiChannelSupportMsg = new System.Windows.Forms.Label();
 			this._labelOriginalRecording = new System.Windows.Forms.Label();
 			this._labelZoom = new System.Windows.Forms.Label();
 			this._comboBoxZoom = new System.Windows.Forms.ComboBox();
@@ -66,12 +67,12 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._panelWaveControl, null);
 			this.locExtender.SetLocalizationComment(this._panelWaveControl, null);
 			this.locExtender.SetLocalizingId(this._panelWaveControl, "ManualSegmenterDlg._panelWaveControl");
-			this._panelWaveControl.Location = new System.Drawing.Point(0, 24);
-			this._panelWaveControl.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
+			this._panelWaveControl.Location = new System.Drawing.Point(0, 29);
+			this._panelWaveControl.Margin = new System.Windows.Forms.Padding(0, 5, 0, 3);
 			this._panelWaveControl.MnemonicGeneratesClick = false;
 			this._panelWaveControl.Name = "_panelWaveControl";
 			this._panelWaveControl.PaintExplorerBarBackground = false;
-			this._panelWaveControl.Size = new System.Drawing.Size(658, 94);
+			this._panelWaveControl.Size = new System.Drawing.Size(679, 91);
 			this._panelWaveControl.TabIndex = 1;
 			//
 			// _tableLayoutOuter
@@ -92,35 +93,50 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-			this._tableLayoutOuter.Size = new System.Drawing.Size(658, 273);
+			this._tableLayoutOuter.Size = new System.Drawing.Size(679, 273);
 			this._tableLayoutOuter.TabIndex = 6;
 			//
 			// _tableLayoutTop
 			//
 			this._tableLayoutTop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._tableLayoutTop.AutoSize = true;
-			this._tableLayoutTop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._tableLayoutTop.ColumnCount = 3;
+			this._tableLayoutTop.ColumnCount = 4;
 			this._tableLayoutOuter.SetColumnSpan(this._tableLayoutTop, 2);
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutTop.Controls.Add(this._labelMultiChannelSupportMsg, 1, 0);
 			this._tableLayoutTop.Controls.Add(this._labelOriginalRecording, 0, 0);
-			this._tableLayoutTop.Controls.Add(this._labelZoom, 1, 0);
-			this._tableLayoutTop.Controls.Add(this._comboBoxZoom, 2, 0);
+			this._tableLayoutTop.Controls.Add(this._labelZoom, 2, 0);
+			this._tableLayoutTop.Controls.Add(this._comboBoxZoom, 3, 0);
 			this._tableLayoutTop.Location = new System.Drawing.Point(0, 0);
 			this._tableLayoutTop.Margin = new System.Windows.Forms.Padding(0);
 			this._tableLayoutTop.Name = "_tableLayoutTop";
 			this._tableLayoutTop.RowCount = 1;
 			this._tableLayoutTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutTop.Size = new System.Drawing.Size(658, 24);
+			this._tableLayoutTop.Size = new System.Drawing.Size(679, 24);
 			this._tableLayoutTop.TabIndex = 9;
+			//
+			// _labelMultiChannelSupportMsg
+			//
+			this._labelMultiChannelSupportMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelMultiChannelSupportMsg.AutoEllipsis = true;
+			this.locExtender.SetLocalizableToolTip(this._labelMultiChannelSupportMsg, null);
+			this.locExtender.SetLocalizationComment(this._labelMultiChannelSupportMsg, null);
+			this.locExtender.SetLocalizingId(this._labelMultiChannelSupportMsg, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelMultiChannelSupportM" +
+		"sg");
+			this._labelMultiChannelSupportMsg.Location = new System.Drawing.Point(97, 5);
+			this._labelMultiChannelSupportMsg.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+			this._labelMultiChannelSupportMsg.Name = "_labelMultiChannelSupportMsg";
+			this._labelMultiChannelSupportMsg.Size = new System.Drawing.Size(435, 13);
+			this._labelMultiChannelSupportMsg.TabIndex = 0;
+			this._labelMultiChannelSupportMsg.Text = "(This is a multi-channel recording. Currently SayMore can only playback the first" +
+	".)";
 			//
 			// _labelOriginalRecording
 			//
 			this._labelOriginalRecording.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelOriginalRecording.AutoSize = true;
-			this._labelOriginalRecording.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._labelOriginalRecording, null);
 			this.locExtender.SetLocalizationComment(this._labelOriginalRecording, null);
 			this.locExtender.SetLocalizingId(this._labelOriginalRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlgDlg._labelOriginalRecording" +
@@ -136,11 +152,10 @@ namespace SayMore.Transcription.UI
 			//
 			this._labelZoom.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._labelZoom.AutoSize = true;
-			this._labelZoom.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._labelZoom, null);
 			this.locExtender.SetLocalizationComment(this._labelZoom, null);
 			this.locExtender.SetLocalizingId(this._labelZoom, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelZoom");
-			this._labelZoom.Location = new System.Drawing.Point(519, 5);
+			this._labelZoom.Location = new System.Drawing.Point(540, 5);
 			this._labelZoom.Name = "_labelZoom";
 			this._labelZoom.Size = new System.Drawing.Size(37, 13);
 			this._labelZoom.TabIndex = 6;
@@ -154,8 +169,8 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._comboBoxZoom, null);
 			this.locExtender.SetLocalizationPriority(this._comboBoxZoom, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboBoxZoom, "ManualSegmenterDlg._comboBoxZoom");
-			this._comboBoxZoom.Location = new System.Drawing.Point(562, 0);
-			this._comboBoxZoom.Margin = new System.Windows.Forms.Padding(3, 0, 0, 3);
+			this._comboBoxZoom.Location = new System.Drawing.Point(583, 0);
+			this._comboBoxZoom.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._comboBoxZoom.Name = "_comboBoxZoom";
 			this._comboBoxZoom.Size = new System.Drawing.Size(96, 21);
 			this._comboBoxZoom.TabIndex = 5;
@@ -165,7 +180,7 @@ namespace SayMore.Transcription.UI
 			//
 			// _toolStripStatus
 			//
-			this._toolStripStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this._toolStripStatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this._toolStripStatus.BackColor = System.Drawing.SystemColors.Control;
 			this._toolStripStatus.CanOverflow = false;
 			this._toolStripStatus.Dock = System.Windows.Forms.DockStyle.None;
@@ -179,10 +194,10 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._toolStripStatus, null);
 			this.locExtender.SetLocalizationPriority(this._toolStripStatus, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._toolStripStatus, "toolStrip1.toolStrip1");
-			this._toolStripStatus.Location = new System.Drawing.Point(394, 123);
+			this._toolStripStatus.Location = new System.Drawing.Point(446, 123);
 			this._toolStripStatus.Name = "_toolStripStatus";
 			this._toolStripStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this._toolStripStatus.Size = new System.Drawing.Size(264, 25);
+			this._toolStripStatus.Size = new System.Drawing.Size(233, 25);
 			this._toolStripStatus.TabIndex = 10;
 			//
 			// _labelTimeDisplay
@@ -225,7 +240,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
 			this.locExtender.SetLocalizationComment(this._buttonOK, null);
 			this.locExtender.SetLocalizingId(this._buttonOK, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonClose");
-			this._buttonOK.Location = new System.Drawing.Point(514, 12);
+			this._buttonOK.Location = new System.Drawing.Point(535, 12);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(3, 12, 3, 12);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonOK.Name = "_buttonOK";
@@ -241,7 +256,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
 			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._buttonCancel");
-			this._buttonCancel.Location = new System.Drawing.Point(595, 12);
+			this._buttonCancel.Location = new System.Drawing.Point(616, 12);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 12, 12, 12);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
@@ -267,7 +282,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutButtons.Name = "_tableLayoutButtons";
 			this._tableLayoutButtons.RowCount = 1;
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutButtons.Size = new System.Drawing.Size(682, 50);
+			this._tableLayoutButtons.Size = new System.Drawing.Size(703, 50);
 			this._tableLayoutButtons.TabIndex = 7;
 			this._tableLayoutButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleTableLayoutButtonsPaint);
 			//
@@ -275,7 +290,7 @@ namespace SayMore.Transcription.UI
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(682, 338);
+			this.ClientSize = new System.Drawing.Size(703, 338);
 			this.Controls.Add(this._tableLayoutButtons);
 			this.Controls.Add(this._tableLayoutOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
@@ -322,5 +337,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripLabel _labelTimeDisplay;
 		protected System.Windows.Forms.ToolStripLabel _labelSegmentXofY;
 		protected System.Windows.Forms.ToolStripLabel _labelSegmentNumber;
+		private System.Windows.Forms.Label _labelMultiChannelSupportMsg;
 	}
 }

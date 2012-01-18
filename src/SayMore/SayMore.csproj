@@ -218,7 +218,9 @@
       <DependentUpon>ManualSegmenterDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="Transcription\UI\SegmentingAndRecording\ManualSegmenterDlgViewModel.cs" />
-    <Compile Include="Transcription\UI\SegmentingAndRecording\OralAnnotationRecorderDlgBase.cs" />
+    <Compile Include="Transcription\UI\SegmentingAndRecording\OralAnnotationRecorderDlgBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transcription\UI\SegmentingAndRecording\OralAnnotationRecorderDlgBase.designer.cs">
       <DependentUpon>OralAnnotationRecorderDlgBase.cs</DependentUpon>
     </Compile>
@@ -576,6 +578,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\OralAnnotationWaveViewer.resx">
       <DependentUpon>OralAnnotationWaveViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\SegmentingAndRecording\CarefulSpeechRecorderDlg.resx">
+      <DependentUpon>CarefulSpeechRecorderDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\SegmentingAndRecording\ManualSegmenterDlg.resx">
       <DependentUpon>ManualSegmenterDlg.cs</DependentUpon>

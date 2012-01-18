@@ -362,6 +362,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
 		{
+			if (!ContainsFocus)
+				return true;
+
 			// Check that SHIFT is not down too, because Ctrl+Shift on a UI item brings up
 			// the localization dialog box. We don't want it to also start playback.
 			if (key == Keys.Space)
@@ -390,6 +393,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyUp(Keys key)
 		{
+			if (!ContainsFocus)
+				return true;
+
 			if (key == Keys.Space)
 			{
 				_waveControl.Stop();

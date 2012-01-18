@@ -72,10 +72,10 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this.toolStripButtons, null);
 			this.locExtender.SetLocalizationPriority(this.toolStripButtons, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.toolStripButtons, "toolStrip1.toolStrip1");
-			this.toolStripButtons.Location = new System.Drawing.Point(7, 162);
+			this.toolStripButtons.Location = new System.Drawing.Point(0, 106);
 			this.toolStripButtons.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this.toolStripButtons.Name = "toolStripButtons";
-			this.toolStripButtons.Size = new System.Drawing.Size(255, 141);
+			this.toolStripButtons.Size = new System.Drawing.Size(255, 122);
 			this.toolStripButtons.TabIndex = 7;
 			this.toolStripButtons.Text = "toolStrip1";
 			//
@@ -126,7 +126,7 @@ namespace SayMore.Transcription.UI
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(682, 338);
+			this.ClientSize = new System.Drawing.Size(703, 338);
 			this.Controls.Add(this.toolStripButtons);
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.locExtender.SetLocalizableToolTip(this, null);

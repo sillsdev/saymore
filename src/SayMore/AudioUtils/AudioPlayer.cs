@@ -72,7 +72,9 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public void Stop()
 		{
-			_waveOut.Stop();
+			if (_waveOut != null)
+				_waveOut.Stop();
+
 			_inStream.Position = 0;
 			if (Stopped != null)
 				Stopped.Invoke(_waveOut, EventArgs.Empty);

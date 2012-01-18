@@ -69,13 +69,14 @@ namespace SayMore.AudioUtils
 			// adjacent boundary).
 			if ((_mouseXAtBeginningOfSegmentMove > -1 && e.X >= _mouseXAtBeginningOfSegmentMove - 2 &&
 				e.X <= _mouseXAtBeginningOfSegmentMove + 2) || e.X < _minXForBoundaryMove ||
-				e.X > _maxXForBoundaryMove || e.X <= 0 || e.X >= ClientSize.Width - 1)
+				e.X > _maxXForBoundaryMove)
 			{
 				return;
 			}
 
 			_mouseXAtBeginningOfSegmentMove = -1;
 			OnBoundaryMoving(GetTimeFromX(e.X));
+			EnsureXIsVisible(e.X);
 		}
 
 		/// ------------------------------------------------------------------------------------

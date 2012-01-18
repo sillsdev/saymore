@@ -135,7 +135,8 @@ namespace SayMore.Transcription.UI
 				return false;
 
 			var newBoundary = boundaryToAdjust + TimeSpan.FromMilliseconds(millisecondsToMove);
-			var minSegLength = TimeSpan.FromMilliseconds(Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
+			//var minSegLength = TimeSpan.FromMilliseconds(Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
+			var minSegLength = TimeSpan.Zero;
 
 			// Check if moving the existing boundary left will make the segment too short.
 			if (newBoundary <= _segments[i].start || (i > 0 && newBoundary - _segments[i].start < minSegLength))
@@ -161,6 +162,20 @@ namespace SayMore.Transcription.UI
 		public int GetSegmentCount()
 		{
 			return _segments.Count;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetPreviousBoundary(TimeSpan boundary)
+		{
+			var i = _segments.Select(s => s.end).ToList().IndexOf(boundary);
+			return (i < 0 ? TimeSpan.Zero : _segments[i].start);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan GetNextBoundary(TimeSpan boundary)
+		{
+			var i = _segments.Select(s => s.start).ToList().IndexOf(boundary);
+			return (i < 0 ? TimeSpan.Zero : _segments[i].end);
 		}
 
 		/// ------------------------------------------------------------------------------------

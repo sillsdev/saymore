@@ -135,6 +135,20 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override bool OnAdjustSegmentBoundaryOnArrowKey(int milliseconds)
+		{
+			var currBoundary = _waveControl.GetSelectedBoundary();
+
+			if (base.OnAdjustSegmentBoundaryOnArrowKey(milliseconds))
+			{
+				_waveControl.SetSelectedBoundary(currBoundary + TimeSpan.FromMilliseconds(milliseconds));
+				return true;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void PlaybackShortPortionUpToBoundary(WaveControlBasic ctrl,
 			TimeSpan time1, TimeSpan time2)
 		{
@@ -158,6 +172,14 @@ namespace SayMore.Transcription.UI
 				else
 					_buttonListenToOriginal.PerformClick();
 			}
+			//else if (key == Keys.Left)
+			//{
+			//    if (_viewModel.MoveExistingSegmentBoundary(_waveControl.GetSelectedBoundary(),
+			//        Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow))
+			//    {
+
+			//    }
+			//}
 
 			return base.OnLowLevelKeyDown(key);
 		}

@@ -35,7 +35,11 @@ namespace SayMore.AudioUtils
 		public void SetSelectedBoundary(TimeSpan boundary)
 		{
 			if (boundary == TimeSpan.Zero || SegmentBoundaries.Any(b => b == boundary))
+			{
 				Painter.SetSelectedBoundary(boundary);
+				var dx = Painter.ConvertTimeToXCoordinate(boundary);
+				EnsureXIsVisible(dx);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

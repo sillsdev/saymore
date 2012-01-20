@@ -267,14 +267,20 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		public void Play()
 		{
+			Play(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Play(bool resampleToMono)
+		{
 			if (!HasPlaybackStarted)
-				StartPlayback();
+				StartPlayback(resampleToMono);
 			else if (IsPaused)
 				_stdIn.WriteLine("pause ");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void StartPlayback()
+		private void StartPlayback(bool resampleToMono)
 		{
 			if (_loopDelayTimer != null)
 			{
@@ -294,7 +300,7 @@ namespace SayMore.UI.MediaPlayer
 				videoWindowHandle = (VideoWindowHandle > 0 ? VideoWindowHandle : -1);
 
 			var args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition,
-				PlaybackLength, Volume, Speed, videoWindowHandle);
+				PlaybackLength, Volume, Speed, resampleToMono, videoWindowHandle);
 
 			_mplayerProcess = MPlayerHelper.StartProcessToMonitor(args, HandleErrorDataReceived, HandleErrorDataReceived);
 			_mplayerStartInfo.AppendLine("Command Line:");

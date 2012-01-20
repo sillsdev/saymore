@@ -109,6 +109,13 @@ namespace SayMore.UI.MediaPlayer
 		public static IEnumerable<string> GetPlaybackArguments(float startPosition, float duration,
 			float volume, int speed, int hwndVideo)
 		{
+			return GetPlaybackArguments(startPosition, duration, volume, speed, false, hwndVideo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<string> GetPlaybackArguments(float startPosition, float duration,
+			float volume, int speed, bool resampleToMono, int hwndVideo)
+		{
 			var mplayerConfigPath = Path.Combine(GetPathToThisAssembly(), "MPlayerSettings.conf");
 
 			if (File.Exists(mplayerConfigPath))
@@ -126,7 +133,7 @@ namespace SayMore.UI.MediaPlayer
 				yield return "-priority abovenormal";
 				yield return "-osdlevel 0";
 				yield return string.Format("-volume {0}", volume);
-				yield return "-af scaletempo";
+				yield return (resampleToMono ? "-af pan=1:1:1:1,scaletempo" : "-af scaletempo");
 
 				if (speed != 100)
 					yield return string.Format("-speed {0}", speed / 100d);

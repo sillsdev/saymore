@@ -31,7 +31,7 @@ namespace SayMore.Transcription.UI
 		public SegmenterDlgBaseViewModel(ComponentFile file)
 		{
 			ComponentFile = file;
-			OrigWaveStream = GetStreamFromAudio(ComponentFile.PathToAnnotatedFile);
+			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile); // GetStreamFromAudio(ComponentFile.PathToAnnotatedFile);
 			_segments = (InitializeSegments(ComponentFile) ?? new List<SegmentBoundaries>()).ToList();
 		}
 

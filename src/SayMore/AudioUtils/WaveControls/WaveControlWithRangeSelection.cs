@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using NAudio.Wave;
 
 namespace SayMore.AudioUtils
 {
@@ -14,9 +14,13 @@ namespace SayMore.AudioUtils
 		public event SelectedRegionChangedHandler SelectedRegionChanged;
 
 		/// ------------------------------------------------------------------------------------
-		protected override WavePainterBasic GetNewWavePainter(IEnumerable<float> samples, TimeSpan totalTime)
+		//protected override WavePainterBasic GetNewWavePainter(IEnumerable<float> samples, TimeSpan totalTime)
+		//{
+		//    return new WavePainterWithRangeSelection(this, samples, totalTime);
+		//}
+		protected override WavePainterBasic GetNewWavePainter(WaveFileReader stream)
 		{
-			return new WavePainterWithRangeSelection(this, samples, totalTime);
+			return new WavePainterWithRangeSelection(this, stream);
 		}
 
 		/// ------------------------------------------------------------------------------------

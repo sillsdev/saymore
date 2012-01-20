@@ -17,6 +17,7 @@ namespace SayMore.Transcription.UI
 		public ManualSegmenterDlg(ManualSegmenterDlgViewModel viewModel) : base(viewModel)
 		{
 			InitializeComponent();
+			Opacity = 0D;
 
 			Controls.Remove(toolStripButtons);
 			_tableLayoutOuter.Controls.Add(toolStripButtons);

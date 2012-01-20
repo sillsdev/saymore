@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 
 namespace SayMore.AudioUtils
 {
@@ -17,22 +20,34 @@ namespace SayMore.AudioUtils
 		/// </summary>
 		public virtual double SamplesPerPixel { get; private set; }
 		public virtual TimeSpan CursorTime { get; private set; }
-
-		protected IEnumerable<TimeSpan> _segmentBoundaries;
-		protected double _pixelPerMillisecond;
-		protected int _offsetOfLeftEdge;
-		protected readonly TimeSpan _totalTime;
-		protected readonly float[] _samples = new float[0];
-		protected KeyValuePair<float, float>[] _samplesToDraw = new KeyValuePair<float, float>[0];
-
-		protected TimeSpan _movedBoundary;
-		protected TimeSpan _movedBoundarysOrigTime;
-
 		public virtual Control Control { get; set; }
 		public virtual Color ForeColor { get; set; }
 		public virtual Color BackColor { get; set; }
 		public virtual Color BoundaryColor { get; set; }
 		public virtual Color CursorColor { get; set; }
+
+		protected IEnumerable<TimeSpan> _segmentBoundaries;
+		protected double _pixelPerMillisecond;
+		protected int _offsetOfLeftEdge;
+		protected readonly TimeSpan _totalTime;
+
+		protected float[] _samples = new float[0];
+		protected List<float[]>[] _samplesToDraw;
+		protected int _channels = 1;
+		protected long _numberOfSamples;
+		protected WaveFileReader _waveStream;
+		protected TimeSpan _movedBoundary;
+		protected TimeSpan _movedBoundarysOrigTime;
+		protected bool _allowDrawing = true;
+
+		/// ------------------------------------------------------------------------------------
+		public WavePainterBasic(Control ctrl, WaveFileReader stream) :
+			this(ctrl, new float[0], stream.TotalTime)
+		{
+			_waveStream = stream;
+			_channels = _waveStream.WaveFormat.Channels;
+			_numberOfSamples = _waveStream.SampleCount;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterBasic(IEnumerable<float> samples, TimeSpan totalTime)
@@ -71,10 +86,26 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual bool AllowRedraw
+		{
+			get { return _allowDrawing; }
+			set
+			{
+				if (_allowDrawing == value)
+					return;
+
+				_allowDrawing = value;
+
+				if (_allowDrawing && Control != null)
+					Control.Invalidate();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual void SetVirtualWidth(int width)
 		{
 			_pixelPerMillisecond = width / _totalTime.TotalMilliseconds;
-			SetSamplesPerPixel(_samples.Length / (double)width);
+			SetSamplesPerPixel(_numberOfSamples / (double)width);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -99,26 +130,63 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		protected virtual void LoadBufferOfSamplesToDraw()
 		{
-			var samplesToDraw = new List<KeyValuePair<float, float>>();
-			int firstSampleInPixel = 0;
+			if (!_allowDrawing)
+				return;
 
-			while (firstSampleInPixel < _samples.Length)
+			if (_waveStream != null)
 			{
-				var maxVal = float.MinValue;
-				var minVal = float.MaxValue;
-
-				// Find the max and min peaks for this pixel
-				for (int i = 0; i < SamplesPerPixel && firstSampleInPixel + i < _samples.Length; i++)
-				{
-					maxVal = Math.Max(maxVal, _samples[firstSampleInPixel + i]);
-					minVal = Math.Min(minVal, _samples[firstSampleInPixel + i]);
-				}
-
-				samplesToDraw.Add(new KeyValuePair<float, float>(maxVal, minVal));
-				firstSampleInPixel += (int)SamplesPerPixel;
+				GetSamplesToDrawFromStream();
+				return;
 			}
 
-			_samplesToDraw = samplesToDraw.ToArray();
+			_numberOfSamples = _samples.Length;
+			_samplesToDraw = new[] { new List<float[]>((int)(_numberOfSamples / (long)SamplesPerPixel)) };
+
+			for (int sample = 0; sample < _numberOfSamples; sample += (int)SamplesPerPixel)
+			{
+				var biggestSample = float.MinValue;
+				var smallestSample = float.MaxValue;
+
+				// Find the max and min peaks for this pixel
+				for (int i = 0; i < SamplesPerPixel && sample + i < _numberOfSamples; i++)
+				{
+					biggestSample = Math.Max(biggestSample, _samples[sample + i]);
+					smallestSample = Math.Min(smallestSample, _samples[sample + i]);
+				}
+
+				_samplesToDraw[0].Add(new[] { biggestSample, smallestSample });
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void GetSamplesToDrawFromStream()
+		{
+			_waveStream.Seek(0, SeekOrigin.Begin);
+			var provider = new SampleChannel(_waveStream);
+
+			_samplesToDraw = new List<float[]>[_channels];
+			for (int c = 0; c < _channels; c++)
+				_samplesToDraw[c] = new List<float[]>(Control == null ? 400 : Control.ClientSize.Width);
+
+			int numberSamplesInOnePixel = (int)SamplesPerPixel * _channels;
+			var buffer = new float[numberSamplesInOnePixel];
+
+			while (provider.Read(buffer, 0, numberSamplesInOnePixel) > 0)
+			{
+				for (var c = 0; c < _channels; c++)
+				{
+					var biggestSample = float.MinValue;
+					var smallestSample = float.MaxValue;
+
+					for (int i = 0; i < numberSamplesInOnePixel; i += _channels)
+					{
+						biggestSample = Math.Max(biggestSample, buffer[i + c]);
+						smallestSample = Math.Min(smallestSample, buffer[i + c]);
+					}
+
+					_samplesToDraw[c].Add(new[] { biggestSample, smallestSample });
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -198,8 +266,16 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual void Draw(PaintEventArgs e, Rectangle rc)
 		{
-			if (_samplesToDraw.Length == 0 && _samples.Length > 0)
-				SetVirtualWidth(rc.Width);
+			if (!_allowDrawing)
+				return;
+
+			if ((_samplesToDraw == null || _samplesToDraw[0].Count == 0) && _numberOfSamples > 0)
+			{
+				if (SamplesPerPixel.Equals(0))
+					SetVirtualWidth(rc.Width);
+				else
+					LoadBufferOfSamplesToDraw();
+			}
 
 			DrawWave(e.Graphics, rc);
 			DrawSegmentBoundaries(e.Graphics, rc.Height);
@@ -212,11 +288,24 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		protected virtual void DrawWave(Graphics g, Rectangle rc)
 		{
-			// Draw the X axis through middle of the graph area.
+			var channelRects = new Rectangle[_channels];
+			var dyChannelXAxes = new int[_channels];
+
+			// Calculate the rectangle for each channel.
+			int dy = 0;
+			for (int c = 0; c < _channels; c++)
+			{
+				int height = (int)Math.Floor((float)rc.Height / _channels);
+				channelRects[c] = new Rectangle(rc.X, dy, rc.Width, height);
+				dyChannelXAxes[c] = dy + (int)Math.Ceiling(height / 2f);
+				dy += height;
+			}
+
+			// Draw the X axis through middle of each channel's rectangle.
 			using (var pen = new Pen(ForeColor))
 			{
-				int dy = (int)Math.Round(rc.Height / 2d, MidpointRounding.AwayFromZero);
-				g.DrawLine(pen, 0, dy, rc.Width, dy);
+				foreach (var xAxis in dyChannelXAxes)
+					g.DrawLine(pen, 0, xAxis, rc.Width, xAxis);
 			}
 
 			// If samples per pixel is small or less than zero,
@@ -231,34 +320,32 @@ namespace SayMore.AudioUtils
 			blend.Positions = new[] { 0f, 0.15f, 0.5f, 0.85f, 1.0f };
 			blend.Factors = new[] { 0.65f, 0.85f, 1.0f, 0.85f, 0.65f };
 
-			int verticalMidPoint = rc.Y + (int)Math.Round(rc.Height / 2d, MidpointRounding.AwayFromZero);
-
 			var clipRect = g.VisibleClipBounds;
 
-			for (int x = (int)clipRect.X; x < clipRect.X + clipRect.Width && x + _offsetOfLeftEdge < _samplesToDraw.Length; x++)
+			for (int x = (int)clipRect.X; x < clipRect.X + clipRect.Width && x + _offsetOfLeftEdge < _samplesToDraw[0].Count; x++)
 			{
-				var sampleAmplitudes = _samplesToDraw[x + _offsetOfLeftEdge];
-
-				if (sampleAmplitudes.Key.Equals(0f) && sampleAmplitudes.Value.Equals(0f))
-					continue;
-
-				int y1 = verticalMidPoint -
-					(int)Math.Round(rc.Height * (sampleAmplitudes.Key / 2f), MidpointRounding.AwayFromZero);
-
-				int y2 = verticalMidPoint -
-					(int)Math.Round(rc.Height * (sampleAmplitudes.Value / 2f), MidpointRounding.AwayFromZero);
-
-				if (y2 - y1 <= 1)
-					continue;
-
-				var pt1 = new Point(x, y1);
-				var pt2 = new Point(x, y2);
-
-				using (var br = new LinearGradientBrush(pt1, pt2, BackColor, ForeColor))
+				for (int channel = 0; channel < _channels; channel++)
 				{
-					br.Blend = blend;
-					using (var pen = new Pen(br))
-						g.DrawLine(pen, pt1, pt2);
+					var sampleAmplitudes = _samplesToDraw[channel][x + _offsetOfLeftEdge];
+
+					if (sampleAmplitudes[0].Equals(0f) && sampleAmplitudes[1].Equals(0f))
+						continue;
+
+					int y1 = dyChannelXAxes[channel] - (int)Math.Ceiling(channelRects[channel].Height * (sampleAmplitudes[0] / 2f));
+					int y2 = dyChannelXAxes[channel] - (int)Math.Ceiling(channelRects[channel].Height * (sampleAmplitudes[1] / 2f));
+
+					if (y2 - y1 <= 1)
+						continue;
+
+					var pt1 = new Point(x, y1);
+					var pt2 = new Point(x, y2);
+
+					using (var br = new LinearGradientBrush(pt1, pt2, BackColor, ForeColor))
+					{
+						br.Blend = blend;
+						using (var pen = new Pen(br))
+							g.DrawLine(pen, pt1, pt2);
+					}
 				}
 			}
 		}
@@ -284,6 +371,9 @@ namespace SayMore.AudioUtils
 		{
 			if (_segmentBoundaries == null)
 				return;
+
+//			var boundaries = _segmentBoundaries.ToArray();
+	//		if (boundaries
 
 			using (var solidPen = new Pen(BoundaryColor))
 			using (var translucentPen = new Pen(Color.FromArgb(60, BoundaryColor)))

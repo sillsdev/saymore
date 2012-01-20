@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
+using NAudio.Wave;
 using Palaso.Progress;
 using SayMore.AudioUtils;
 using SayMore.Properties;
@@ -40,6 +41,7 @@ namespace SayMore.Transcription.UI
 
 			_toolStripStatus.Renderer = new SilTools.NoToolStripBorderRenderer();
 			_waveControl = CreateWaveControl();
+			_waveControl.AllowDrawing = false;
 			_waveControl.Dock = DockStyle.Fill;
 			_panelWaveControl.Controls.Add(_waveControl);
 
@@ -50,7 +52,6 @@ namespace SayMore.Transcription.UI
 			_labelSegmentXofY.Font = SystemFonts.MenuFont;
 			_labelSegmentNumber.Font = SystemFonts.MenuFont;
 			_labelTimeDisplay.Font = SystemFonts.MenuFont;
-			_labelMultiChannelSupportMsg.Font = SystemFonts.MenuFont;
 			_labelOriginalRecording.Font = FontHelper.MakeFont(SystemFonts.MenuFont, FontStyle.Bold);
 
 			_buttonCancel.Click += delegate { Close(); };
@@ -126,7 +127,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void InitializeWaveControl()
 		{
-			_waveControl.Initialize(_viewModel.OrigWaveStream);
+			_waveControl.Initialize(_viewModel.OrigWaveStream as WaveFileReader);
 			_waveControl.SegmentBoundaries = _viewModel.GetSegmentBoundaries();
 			_waveControl.PlaybackStarted += OnPlaybackStarted;
 			_waveControl.PlaybackUpdate += OnPlayingback;
@@ -185,6 +186,9 @@ namespace SayMore.Transcription.UI
 				FormSettings.InitializeForm(this);
 
 			base.OnShown(e);
+
+			Application.DoEvents();
+			_waveControl.AllowDrawing = true;
 			Opacity = 1f;
 			WaitCursor.Hide();
 		}
@@ -362,7 +366,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void UpdateStatusLabelsDisplay()
 		{
-			_labelMultiChannelSupportMsg.Visible = (_viewModel.OrigWaveStream.WaveFormat.Channels > 1);
 			_labelSegmentXofY.Visible = false;
 			_labelSegmentNumber.Visible = true;
 			_labelSegmentNumber.Text = string.Format(_segmentNumberFormat, _viewModel.GetSegmentCount());

@@ -31,6 +31,9 @@ namespace SayMore.AudioUtils
 		protected WavePainterBasic _painter;
 		protected WaveStream _waveStream;
 		protected WaveOut _waveOut;
+		protected int _virtualWidth;
+		protected Size _prevClientSize;
+		protected bool _savedAllowDrawingValue = true;
 
 		protected TimeSpan _playbackStartTime;
 		protected TimeSpan _playbackEndTime;
@@ -49,6 +52,7 @@ namespace SayMore.AudioUtils
 			ForeColor = SystemColors.WindowText;
 			BackColor = SystemColors.Window;
 			_zoomPercentage = 100f;
+			_prevClientSize = ClientSize;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -74,32 +78,24 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void Initialize(WaveStream stream)
-		{
-			_waveStream = stream;
-
-			// We'll handle a file with any number of channels, but for now, we'll assume
-			// all channels contain the same data. Therefore, we'll just store the samples
-			// from the first channel.
-
-			// REVIEW: Instead of guessing how big to make the list, calculate
-			// the number of samples in the stream exactly.
-			var samples = new List<float>(100000);
-			var provider = new SampleChannel(stream);
-			var buffer = new float[provider.WaveFormat.Channels];
-
-			// TODO: This assumes all channels contain the same data. Figure out how to
-			// combine the samples from each channel into a single float value.
-			while (provider.Read(buffer, 0, provider.WaveFormat.Channels) > 0)
-				samples.Add(buffer[0]);
-
-			Initialize(samples, stream.TotalTime);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public virtual void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
 		{
 			_painter = GetNewWavePainter(samples, totalTime);
+			InternalInitialize();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void Initialize(WaveFileReader stream)
+		{
+			_waveStream = stream;
+			_painter = GetNewWavePainter(stream);
+			InternalInitialize();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void InternalInitialize()
+		{
+			_painter.AllowRedraw = _savedAllowDrawingValue;
 			_painter.ForeColor = ForeColor;
 			_painter.BackColor = BackColor;
 			_painter.SetVirtualWidth(Math.Max(ClientSize.Width, AutoScrollMinSize.Width));
@@ -111,7 +107,27 @@ namespace SayMore.AudioUtils
 			return new WavePainterBasic(this, samples, totalTime);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected virtual WavePainterBasic GetNewWavePainter(WaveFileReader stream)
+		{
+			return new WavePainterBasic(this, stream);
+		}
+
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public virtual bool AllowDrawing
+		{
+			get { return (_painter == null ? _savedAllowDrawingValue : _painter.AllowRedraw); }
+			set
+			{
+				_savedAllowDrawingValue = value;
+				if (_painter != null)
+					_painter.AllowRedraw = value;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -182,6 +198,8 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetVirtualWidth(int width)
 		{
+			_virtualWidth = width;
+
 			var percentage = _zoomPercentage / 100;
 			var adjustedWidth = (int)(Math.Round(width * percentage, MidpointRounding.AwayFromZero));
 			AutoScrollMinSize = new Size(Math.Max(adjustedWidth, ClientSize.Width), ClientSize.Height);
@@ -397,15 +415,23 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		protected override void OnResize(EventArgs e)
 		{
-			if (AutoScroll)
-				AutoScrollMinSize = new Size(AutoScrollMinSize.Width, ClientSize.Height);
+			if (_prevClientSize != ClientSize)
+			{
+				if (AutoScroll)
+					AutoScrollMinSize = new Size(AutoScrollMinSize.Width, ClientSize.Height);
+			}
 
 			base.OnResize(e);
 
-			if (_painter != null)
-				_painter.SetVirtualWidth(Math.Max(AutoScrollMinSize.Width, ClientSize.Width));
+			if (_prevClientSize != ClientSize)
+			{
+				if (_painter != null)
+					_painter.SetVirtualWidth(Math.Max(AutoScrollMinSize.Width, ClientSize.Width));
 
-			Invalidate();
+				Invalidate();
+			}
+
+			_prevClientSize = ClientSize;
 		}
 
 		/// ------------------------------------------------------------------------------------

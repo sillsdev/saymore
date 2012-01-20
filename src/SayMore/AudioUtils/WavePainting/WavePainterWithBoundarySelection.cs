@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using NAudio.Wave;
 using SilTools;
 
 namespace SayMore.AudioUtils
@@ -14,14 +15,22 @@ namespace SayMore.AudioUtils
 		private TimeSpan _boundaryMouseOver;
 
 		public TimeSpan SelectedBoundaryTime { get; private set; }
-		public virtual Color BoundaryHightlightColor { get; set; }
+		public virtual Color BoundaryHighlightColor { get; set; }
 		public virtual bool HighlightBoundaryMouseIsNear { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public WavePainterWithBoundarySelection(Control ctrl, WaveFileReader stream)
+			: base(ctrl, stream)
+		{
+			BoundaryHighlightColor = Color.FromArgb(100, Color.DarkSlateBlue);
+			HighlightBoundaryMouseIsNear = true;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterWithBoundarySelection(Control ctrl, IEnumerable<float> samples, TimeSpan totalTime) :
 			base(ctrl, samples, totalTime)
 		{
-			BoundaryHightlightColor = Color.FromArgb(100, Color.DarkSlateBlue);
+			BoundaryHighlightColor = Color.FromArgb(100, Color.DarkSlateBlue);
 			HighlightBoundaryMouseIsNear = true;
 		}
 
@@ -73,7 +82,7 @@ namespace SayMore.AudioUtils
 			int dx = ConvertTimeToXCoordinate(_boundaryMouseOver);
 
 			var rcHighlight = new Rectangle(dx - kHighlightHalfWidth, 0, kHighlightHalfWidth * 2 + 1, clientHeight);
-			using (var br = new LinearGradientBrush(rcHighlight, Color.Transparent, BoundaryHightlightColor, 0f))
+			using (var br = new LinearGradientBrush(rcHighlight, Color.Transparent, BoundaryHighlightColor, 0f))
 			{
 				var blend = new Blend();
 				blend.Positions = new[] { 0f, 0.5f, 1.0f };

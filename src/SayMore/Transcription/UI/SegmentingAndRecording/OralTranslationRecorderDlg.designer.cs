@@ -53,7 +53,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.OralTranslationRecorderDlg.WindowTitle");
 			this.Name = "OralTranslationRecorderDlg";
-			this.Opacity = 1D;
+			this.Opacity = 0D;
 			this.Text = "Oral Translation Recorder";
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);

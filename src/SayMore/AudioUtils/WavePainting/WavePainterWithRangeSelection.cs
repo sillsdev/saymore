@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using NAudio.Wave;
 
 namespace SayMore.AudioUtils
 {
@@ -11,6 +12,12 @@ namespace SayMore.AudioUtils
 		public TimeSpan SelectedRegionEndTime { get; private set; }
 
 		private Rectangle _previousSelectedRegionRectangle;
+
+		/// ------------------------------------------------------------------------------------
+		public WavePainterWithRangeSelection(Control ctrl, WaveFileReader stream) :
+			base(ctrl, stream)
+		{
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterWithRangeSelection(Control ctrl, IEnumerable<float> samples, TimeSpan totalTime) :

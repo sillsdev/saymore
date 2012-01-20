@@ -1,17 +1,22 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using NAudio.Wave;
 
 namespace SayMore.AudioUtils
 {
 	public class WaveControlWithBoundarySelection : WaveControlWithMovableBoundaries
 	{
 		/// ------------------------------------------------------------------------------------
-		protected override WavePainterBasic GetNewWavePainter(IEnumerable<float> samples, TimeSpan totalTime)
+		protected override WavePainterBasic GetNewWavePainter(WaveFileReader stream)
 		{
-			return new WavePainterWithBoundarySelection(this, samples, totalTime);
+			return new WavePainterWithBoundarySelection(this, stream);
 		}
+
+		//protected override WavePainterBasic GetNewWavePainter(IEnumerable<float> samples, TimeSpan totalTime)
+		//{
+		//    return new WavePainterWithBoundarySelection(this, samples, totalTime);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private WavePainterWithBoundarySelection Painter

@@ -138,7 +138,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
 			this.Name = "OralAnnotationRecorderBaseDlg";
-			this.Opacity = 1D;
+			this.Opacity = 0D;
 			this.Text = "Change my text";
 			this.Controls.SetChildIndex(this.toolStripButtons, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

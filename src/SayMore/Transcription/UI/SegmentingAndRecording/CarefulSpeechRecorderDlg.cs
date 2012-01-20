@@ -9,6 +9,7 @@ namespace SayMore.Transcription.UI
 			: base(viewModel)
 		{
 			InitializeComponent();
+			Opacity = 0D;
 		}
 	}
 }

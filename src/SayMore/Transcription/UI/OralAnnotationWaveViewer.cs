@@ -153,9 +153,9 @@ namespace SayMore.Transcription.UI
 							return;
 					}
 
-					_wavePanelOriginal.Initialize(orginalSamples, threeChannelStream.TotalTime);
-					_wavePanelCareful.Initialize(carefulSamples, threeChannelStream.TotalTime);
-					_wavePanelTranslation.Initialize(translationSamples, threeChannelStream.TotalTime);
+					//_wavePanelOriginal.Initialize(orginalSamples, threeChannelStream.TotalTime);
+					//_wavePanelCareful.Initialize(carefulSamples, threeChannelStream.TotalTime);
+					//_wavePanelTranslation.Initialize(translationSamples, threeChannelStream.TotalTime);
 
 					CreateMonoStreamFrom3ChannelStream(threeChannelStream);
 					threeChannelStream.Close();

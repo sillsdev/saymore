@@ -30,7 +30,6 @@ namespace SayMore.Transcription.UI
 			this._panelWaveControl = new SilTools.Controls.SilPanel();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutTop = new System.Windows.Forms.TableLayoutPanel();
-			this._labelMultiChannelSupportMsg = new System.Windows.Forms.Label();
 			this._labelOriginalRecording = new System.Windows.Forms.Label();
 			this._labelZoom = new System.Windows.Forms.Label();
 			this._comboBoxZoom = new System.Windows.Forms.ComboBox();
@@ -99,16 +98,15 @@ namespace SayMore.Transcription.UI
 			// _tableLayoutTop
 			//
 			this._tableLayoutTop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._tableLayoutTop.ColumnCount = 4;
+			this._tableLayoutTop.ColumnCount = 3;
 			this._tableLayoutOuter.SetColumnSpan(this._tableLayoutTop, 2);
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutTop.Controls.Add(this._labelMultiChannelSupportMsg, 1, 0);
+			this._tableLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableLayoutTop.Controls.Add(this._labelOriginalRecording, 0, 0);
-			this._tableLayoutTop.Controls.Add(this._labelZoom, 2, 0);
-			this._tableLayoutTop.Controls.Add(this._comboBoxZoom, 3, 0);
+			this._tableLayoutTop.Controls.Add(this._labelZoom, 1, 0);
+			this._tableLayoutTop.Controls.Add(this._comboBoxZoom, 2, 0);
 			this._tableLayoutTop.Location = new System.Drawing.Point(0, 0);
 			this._tableLayoutTop.Margin = new System.Windows.Forms.Padding(0);
 			this._tableLayoutTop.Name = "_tableLayoutTop";
@@ -116,22 +114,6 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutTop.Size = new System.Drawing.Size(679, 24);
 			this._tableLayoutTop.TabIndex = 9;
-			//
-			// _labelMultiChannelSupportMsg
-			//
-			this._labelMultiChannelSupportMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelMultiChannelSupportMsg.AutoEllipsis = true;
-			this.locExtender.SetLocalizableToolTip(this._labelMultiChannelSupportMsg, null);
-			this.locExtender.SetLocalizationComment(this._labelMultiChannelSupportMsg, null);
-			this.locExtender.SetLocalizingId(this._labelMultiChannelSupportMsg, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlg._labelMultiChannelSupportM" +
-		"sg");
-			this._labelMultiChannelSupportMsg.Location = new System.Drawing.Point(97, 5);
-			this._labelMultiChannelSupportMsg.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
-			this._labelMultiChannelSupportMsg.Name = "_labelMultiChannelSupportMsg";
-			this._labelMultiChannelSupportMsg.Size = new System.Drawing.Size(435, 13);
-			this._labelMultiChannelSupportMsg.TabIndex = 0;
-			this._labelMultiChannelSupportMsg.Text = "(This is a multi-channel recording. Currently SayMore can only playback the first" +
-	".)";
 			//
 			// _labelOriginalRecording
 			//
@@ -337,6 +319,5 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripLabel _labelTimeDisplay;
 		protected System.Windows.Forms.ToolStripLabel _labelSegmentXofY;
 		protected System.Windows.Forms.ToolStripLabel _labelSegmentNumber;
-		private System.Windows.Forms.Label _labelMultiChannelSupportMsg;
 	}
 }

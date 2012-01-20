@@ -133,7 +133,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.ManualSegmenterDlg.WindowTitle");
 			this.Name = "ManualSegmenterDlg";
-			this.Opacity = 1D;
+			this.Opacity = 0D;
 			this.Text = "Manual Segmenter";
 			this.Controls.SetChildIndex(this.toolStripButtons, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

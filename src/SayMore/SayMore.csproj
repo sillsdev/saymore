@@ -864,6 +864,7 @@
     <None Include="Resources\RecordedOralAnnotations.png" />
     <None Include="Resources\MissingAnnotation.png" />
     <None Include="Resources\AddBoundary.png" />
+    <None Include="Resources\RegenerateAnnotationFile.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

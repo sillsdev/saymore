@@ -19,9 +19,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._labelTranslation = new System.Windows.Forms.Label();
 			this._labelCareful = new System.Windows.Forms.Label();
-			this._wavePanelOriginal = new SayMore.AudioUtils.WaveControlBasic();
-			this._wavePanelTranslation = new SayMore.AudioUtils.WaveControlBasic();
-			this._wavePanelCareful = new SayMore.AudioUtils.WaveControlBasic();
+			this._waveControl = new SayMore.AudioUtils.WaveControlBasic();
 			this._labelOriginal = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
@@ -38,9 +36,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayout.Controls.Add(this._labelTranslation, 0, 2);
 			this._tableLayout.Controls.Add(this._labelCareful, 0, 1);
-			this._tableLayout.Controls.Add(this._wavePanelOriginal, 1, 0);
-			this._tableLayout.Controls.Add(this._wavePanelTranslation, 1, 2);
-			this._tableLayout.Controls.Add(this._wavePanelCareful, 1, 1);
+			this._tableLayout.Controls.Add(this._waveControl, 1, 0);
 			this._tableLayout.Controls.Add(this._labelOriginal, 0, 0);
 			this._tableLayout.Location = new System.Drawing.Point(0, 0);
 			this._tableLayout.Name = "_tableLayout";
@@ -80,62 +76,25 @@ namespace SayMore.Transcription.UI
 			this._labelCareful.TabIndex = 5;
 			this._labelCareful.Text = "Careful";
 			// 
-			// _wavePanelOriginal
+			// _waveControl
 			// 
-			this._wavePanelOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this._waveControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this._wavePanelOriginal.AutoScroll = true;
-			this._wavePanelOriginal.AutoScrollMinSize = new System.Drawing.Size(0, 57);
-			this._wavePanelOriginal.BackColor = System.Drawing.Color.Snow;
-			this._wavePanelOriginal.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.locExtender.SetLocalizableToolTip(this._wavePanelOriginal, null);
-			this.locExtender.SetLocalizationComment(this._wavePanelOriginal, null);
-			this.locExtender.SetLocalizationPriority(this._wavePanelOriginal, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._wavePanelOriginal, "_wavePanelOriginal");
-			this._wavePanelOriginal.Location = new System.Drawing.Point(64, 0);
-			this._wavePanelOriginal.Margin = new System.Windows.Forms.Padding(0);
-			this._wavePanelOriginal.Name = "_wavePanelOriginal";
-			this._wavePanelOriginal.Size = new System.Drawing.Size(319, 57);
-			this._wavePanelOriginal.TabIndex = 0;
-			// 
-			// _wavePanelTranslation
-			// 
-			this._wavePanelTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._wavePanelTranslation.AutoScroll = true;
-			this._wavePanelTranslation.AutoScrollMinSize = new System.Drawing.Size(0, 57);
-			this._wavePanelTranslation.BackColor = System.Drawing.Color.Snow;
-			this._wavePanelTranslation.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.locExtender.SetLocalizableToolTip(this._wavePanelTranslation, null);
-			this.locExtender.SetLocalizationComment(this._wavePanelTranslation, null);
-			this.locExtender.SetLocalizationPriority(this._wavePanelTranslation, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._wavePanelTranslation, "_wavePanelTranslation");
-			this._wavePanelTranslation.Location = new System.Drawing.Point(64, 114);
-			this._wavePanelTranslation.Margin = new System.Windows.Forms.Padding(0);
-			this._wavePanelTranslation.Name = "_wavePanelTranslation";
-			this._wavePanelTranslation.Size = new System.Drawing.Size(319, 57);
-			this._wavePanelTranslation.TabIndex = 3;
-			// 
-			// _wavePanelCareful
-			// 
-			this._wavePanelCareful.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._wavePanelCareful.AutoScroll = true;
-			this._wavePanelCareful.AutoScrollMinSize = new System.Drawing.Size(0, 57);
-			this._wavePanelCareful.BackColor = System.Drawing.Color.Snow;
-			this._wavePanelCareful.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.locExtender.SetLocalizableToolTip(this._wavePanelCareful, null);
-			this.locExtender.SetLocalizationComment(this._wavePanelCareful, null);
-			this.locExtender.SetLocalizationPriority(this._wavePanelCareful, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._wavePanelCareful, "_wavePanelCareful");
-			this._wavePanelCareful.Location = new System.Drawing.Point(64, 57);
-			this._wavePanelCareful.Margin = new System.Windows.Forms.Padding(0);
-			this._wavePanelCareful.Name = "_wavePanelCareful";
-			this._wavePanelCareful.Size = new System.Drawing.Size(319, 57);
-			this._wavePanelCareful.TabIndex = 2;
+			this._waveControl.AutoScroll = true;
+			this._waveControl.AutoScrollMinSize = new System.Drawing.Size(0, 171);
+			this._waveControl.BackColor = System.Drawing.Color.Snow;
+			this._waveControl.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.locExtender.SetLocalizableToolTip(this._waveControl, null);
+			this.locExtender.SetLocalizationComment(this._waveControl, null);
+			this.locExtender.SetLocalizationPriority(this._waveControl, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._waveControl, "_wavePanelOriginal");
+			this._waveControl.Location = new System.Drawing.Point(64, 0);
+			this._waveControl.Margin = new System.Windows.Forms.Padding(0);
+			this._waveControl.Name = "_waveControl";
+			this._tableLayout.SetRowSpan(this._waveControl, 3);
+			this._waveControl.Size = new System.Drawing.Size(319, 171);
+			this._waveControl.TabIndex = 0;
 			// 
 			// _labelOriginal
 			// 
@@ -177,9 +136,7 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private SayMore.AudioUtils.WaveControlBasic _wavePanelOriginal;
-		private SayMore.AudioUtils.WaveControlBasic _wavePanelTranslation;
-		private SayMore.AudioUtils.WaveControlBasic _wavePanelCareful;
+		private SayMore.AudioUtils.WaveControlBasic _waveControl;
 		private System.Windows.Forms.Label _labelOriginal;
 		private System.Windows.Forms.Label _labelTranslation;
 		private System.Windows.Forms.Label _labelCareful;

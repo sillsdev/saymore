@@ -36,22 +36,13 @@ namespace SayMore.Transcription.UI
 			this._buttonHelp = new System.Windows.Forms.ToolStripButton();
 			this._buttonPlay = new System.Windows.Forms.ToolStripButton();
 			this._buttonStop = new System.Windows.Forms.ToolStripButton();
+			this._buttonRegenerate = new System.Windows.Forms.ToolStripButton();
 			this._panelOralAnnotationWaveViewer = new SilTools.Controls.SilPanel();
-			this._tableLayoutError = new System.Windows.Forms.TableLayoutPanel();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this._labelLoadingCancelled = new System.Windows.Forms.Label();
-			this._labelError = new System.Windows.Forms.Label();
-			this._textBoxError = new System.Windows.Forms.TextBox();
-			this._pictureBoxError = new System.Windows.Forms.PictureBox();
-			this._buttonRegenerate = new System.Windows.Forms.Button();
 			this._oralAnnotationWaveViewer = new SayMore.Transcription.UI.OralAnnotationWaveViewer();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._toolStrip.SuspendLayout();
 			this._panelOralAnnotationWaveViewer.SuspendLayout();
-			this._tableLayoutError.SuspendLayout();
-			this.tableLayoutPanel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this._pictureBoxError)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -80,7 +71,8 @@ namespace SayMore.Transcription.UI
 			this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._buttonHelp,
             this._buttonPlay,
-            this._buttonStop});
+            this._buttonStop,
+            this._buttonRegenerate});
 			this.locExtender.SetLocalizableToolTip(this._toolStrip, null);
 			this.locExtender.SetLocalizationComment(this._toolStrip, null);
 			this.locExtender.SetLocalizationPriority(this._toolStrip, Localization.LocalizationPriority.NotLocalizable);
@@ -109,7 +101,7 @@ namespace SayMore.Transcription.UI
 			this._buttonPlay.Image = global::SayMore.Properties.Resources.PlaySegment;
 			this._buttonPlay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonPlay, "Play");
+			this.locExtender.SetLocalizableToolTip(this._buttonPlay, "Playback Oral Annotation File");
 			this.locExtender.SetLocalizationComment(this._buttonPlay, null);
 			this.locExtender.SetLocalizingId(this._buttonPlay, "EventsView.Transcription.GeneratedOralAnnotationView.PlayButton");
 			this._buttonPlay.Margin = new System.Windows.Forms.Padding(0, 1, 4, 2);
@@ -122,12 +114,24 @@ namespace SayMore.Transcription.UI
 			this._buttonStop.Enabled = false;
 			this._buttonStop.Image = global::SayMore.Properties.Resources.StopSegment;
 			this._buttonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonStop, "Stop");
+			this.locExtender.SetLocalizableToolTip(this._buttonStop, "Stop Playback");
 			this.locExtender.SetLocalizationComment(this._buttonStop, null);
 			this.locExtender.SetLocalizingId(this._buttonStop, "EventsView.Transcription.GeneratedOralAnnotationView.StopButton");
 			this._buttonStop.Name = "_buttonStop";
 			this._buttonStop.Size = new System.Drawing.Size(51, 22);
 			this._buttonStop.Text = "Stop";
+			// 
+			// _buttonRegenerate
+			// 
+			this._buttonRegenerate.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this._buttonRegenerate.Image = global::SayMore.Properties.Resources.RegenerateAnnotationFile;
+			this._buttonRegenerate.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonRegenerate, "Regenerate Oral Annotation File");
+			this.locExtender.SetLocalizationComment(this._buttonRegenerate, null);
+			this.locExtender.SetLocalizingId(this._buttonRegenerate, "EventsView.Transcription.GeneratedOralAnnotationView.RegenerateButton");
+			this._buttonRegenerate.Name = "_buttonRegenerate";
+			this._buttonRegenerate.Size = new System.Drawing.Size(107, 22);
+			this._buttonRegenerate.Text = "Regenerate File";
 			// 
 			// _panelOralAnnotationWaveViewer
 			// 
@@ -137,7 +141,6 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._panelOralAnnotationWaveViewer.ClipTextForChildControls = true;
 			this._panelOralAnnotationWaveViewer.ControlReceivingFocusOnMnemonic = null;
-			this._panelOralAnnotationWaveViewer.Controls.Add(this._tableLayoutError);
 			this._panelOralAnnotationWaveViewer.Controls.Add(this._oralAnnotationWaveViewer);
 			this._panelOralAnnotationWaveViewer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._panelOralAnnotationWaveViewer.DoubleBuffered = true;
@@ -157,137 +160,19 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer.Size = new System.Drawing.Size(488, 313);
 			this._panelOralAnnotationWaveViewer.TabIndex = 2;
 			// 
-			// _tableLayoutError
-			// 
-			this._tableLayoutError.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._tableLayoutError.ColumnCount = 3;
-			this._tableLayoutError.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutError.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutError.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutError.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayoutError.Controls.Add(this.tableLayoutPanel1, 1, 0);
-			this._tableLayoutError.Controls.Add(this._textBoxError, 1, 1);
-			this._tableLayoutError.Controls.Add(this._pictureBoxError, 0, 0);
-			this._tableLayoutError.Controls.Add(this._buttonRegenerate, 2, 0);
-			this._tableLayoutError.Location = new System.Drawing.Point(8, 0);
-			this._tableLayoutError.Margin = new System.Windows.Forms.Padding(0);
-			this._tableLayoutError.Name = "_tableLayoutError";
-			this._tableLayoutError.RowCount = 2;
-			this._tableLayoutError.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutError.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutError.Size = new System.Drawing.Size(325, 300);
-			this._tableLayoutError.TabIndex = 2;
-			// 
-			// tableLayoutPanel1
-			// 
-			this.tableLayoutPanel1.AutoSize = true;
-			this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tableLayoutPanel1.ColumnCount = 1;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this._labelError, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this._labelLoadingCancelled, 0, 1);
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(82, 0);
-			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 2;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(128, 132);
-			this.tableLayoutPanel1.TabIndex = 3;
-			// 
-			// _labelLoadingCancelled
-			// 
-			this._labelLoadingCancelled.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelLoadingCancelled.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelLoadingCancelled, null);
-			this.locExtender.SetLocalizationComment(this._labelLoadingCancelled, null);
-			this.locExtender.SetLocalizingId(this._labelLoadingCancelled, "EventsView.Transcription.GeneratedOralAnnotationView.LoadingCancelledLabel");
-			this._labelLoadingCancelled.Location = new System.Drawing.Point(5, 99);
-			this._labelLoadingCancelled.Margin = new System.Windows.Forms.Padding(5, 20, 20, 20);
-			this._labelLoadingCancelled.Name = "_labelLoadingCancelled";
-			this._labelLoadingCancelled.Size = new System.Drawing.Size(103, 13);
-			this._labelLoadingCancelled.TabIndex = 3;
-			this._labelLoadingCancelled.Text = "Loading Cancelled";
-			this._labelLoadingCancelled.Visible = false;
-			// 
-			// _labelError
-			// 
-			this._labelError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelError.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelError, null);
-			this.locExtender.SetLocalizationComment(this._labelError, null);
-			this.locExtender.SetLocalizingId(this._labelError, "EventsView.Transcription.GeneratedOralAnnotationView.ErrorLabel");
-			this._labelError.Location = new System.Drawing.Point(5, 20);
-			this._labelError.Margin = new System.Windows.Forms.Padding(5, 20, 20, 20);
-			this._labelError.Name = "_labelError";
-			this._labelError.Size = new System.Drawing.Size(103, 39);
-			this._labelError.TabIndex = 0;
-			this._labelError.Text = "There was an error reading generated annotation file.";
-			// 
-			// _textBoxError
-			// 
-			this._textBoxError.BackColor = System.Drawing.SystemColors.Window;
-			this._tableLayoutError.SetColumnSpan(this._textBoxError, 2);
-			this._textBoxError.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.locExtender.SetLocalizableToolTip(this._textBoxError, null);
-			this.locExtender.SetLocalizationComment(this._textBoxError, null);
-			this.locExtender.SetLocalizationPriority(this._textBoxError, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._textBoxError, "OralAnnotationEditor._textBoxError");
-			this._textBoxError.Location = new System.Drawing.Point(87, 132);
-			this._textBoxError.Margin = new System.Windows.Forms.Padding(5, 0, 10, 10);
-			this._textBoxError.Multiline = true;
-			this._textBoxError.Name = "_textBoxError";
-			this._textBoxError.ReadOnly = true;
-			this._textBoxError.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._textBoxError.Size = new System.Drawing.Size(228, 190);
-			this._textBoxError.TabIndex = 3;
-			// 
-			// _pictureBoxError
-			// 
-			this.locExtender.SetLocalizableToolTip(this._pictureBoxError, null);
-			this.locExtender.SetLocalizationComment(this._pictureBoxError, null);
-			this.locExtender.SetLocalizationPriority(this._pictureBoxError, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._pictureBoxError, "OralAnnotationEditor._pictureBoxError");
-			this._pictureBoxError.Location = new System.Drawing.Point(10, 10);
-			this._pictureBoxError.Margin = new System.Windows.Forms.Padding(10, 10, 3, 3);
-			this._pictureBoxError.Name = "_pictureBoxError";
-			this._pictureBoxError.Size = new System.Drawing.Size(69, 51);
-			this._pictureBoxError.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._pictureBoxError.TabIndex = 3;
-			this._pictureBoxError.TabStop = false;
-			// 
-			// _buttonRegenerate
-			// 
-			this._buttonRegenerate.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this._buttonRegenerate.AutoSize = true;
-			this._buttonRegenerate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.locExtender.SetLocalizableToolTip(this._buttonRegenerate, null);
-			this.locExtender.SetLocalizationComment(this._buttonRegenerate, null);
-			this.locExtender.SetLocalizingId(this._buttonRegenerate, "EventsView.Transcription.GeneratedOralAnnotationView.RegenerateButton");
-			this._buttonRegenerate.Location = new System.Drawing.Point(215, 53);
-			this._buttonRegenerate.Margin = new System.Windows.Forms.Padding(5, 0, 10, 0);
-			this._buttonRegenerate.MinimumSize = new System.Drawing.Size(100, 26);
-			this._buttonRegenerate.Name = "_buttonRegenerate";
-			this._buttonRegenerate.Size = new System.Drawing.Size(100, 26);
-			this._buttonRegenerate.TabIndex = 3;
-			this._buttonRegenerate.Text = "Regenerate File";
-			this._buttonRegenerate.UseVisualStyleBackColor = true;
-			this._buttonRegenerate.Click += new System.EventHandler(this.HandleRegenerateFileButtonClick);
-			// 
 			// _oralAnnotationWaveViewer
 			// 
 			this._oralAnnotationWaveViewer.BackColor = System.Drawing.Color.Transparent;
+			this._oralAnnotationWaveViewer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.locExtender.SetLocalizableToolTip(this._oralAnnotationWaveViewer, null);
 			this.locExtender.SetLocalizationComment(this._oralAnnotationWaveViewer, null);
 			this.locExtender.SetLocalizationPriority(this._oralAnnotationWaveViewer, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._oralAnnotationWaveViewer, "OralAnnotationEditor.OralAnnotationWaveViewer");
-			this._oralAnnotationWaveViewer.Location = new System.Drawing.Point(333, 72);
+			this._oralAnnotationWaveViewer.Location = new System.Drawing.Point(0, 0);
 			this._oralAnnotationWaveViewer.Margin = new System.Windows.Forms.Padding(0);
 			this._oralAnnotationWaveViewer.Name = "_oralAnnotationWaveViewer";
-			this._oralAnnotationWaveViewer.Size = new System.Drawing.Size(139, 180);
+			this._oralAnnotationWaveViewer.Size = new System.Drawing.Size(486, 311);
 			this._oralAnnotationWaveViewer.TabIndex = 0;
-			this._oralAnnotationWaveViewer.VirtualWaveWidth = 0;
-			this._oralAnnotationWaveViewer.Visible = false;
 			// 
 			// locExtender
 			// 
@@ -309,11 +194,6 @@ namespace SayMore.Transcription.UI
 			this._toolStrip.ResumeLayout(false);
 			this._toolStrip.PerformLayout();
 			this._panelOralAnnotationWaveViewer.ResumeLayout(false);
-			this._tableLayoutError.ResumeLayout(false);
-			this._tableLayoutError.PerformLayout();
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this._pictureBoxError)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
@@ -328,14 +208,8 @@ namespace SayMore.Transcription.UI
 		private OralAnnotationWaveViewer _oralAnnotationWaveViewer;
 		private System.Windows.Forms.ToolStripButton _buttonPlay;
 		private System.Windows.Forms.ToolStripButton _buttonStop;
-		private System.Windows.Forms.TableLayoutPanel _tableLayoutError;
-		private System.Windows.Forms.TextBox _textBoxError;
-		private System.Windows.Forms.PictureBox _pictureBoxError;
-		private System.Windows.Forms.Label _labelError;
-		private System.Windows.Forms.Button _buttonRegenerate;
 		private Localization.UI.LocalizationExtender locExtender;
-		private System.Windows.Forms.Label _labelLoadingCancelled;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.ToolStripButton _buttonRegenerate;
 
 
 	}

@@ -1,11 +1,9 @@
 using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
-using SayMore.UI;
 using SayMore.UI.ComponentEditors;
 using SilTools;
 
@@ -24,10 +22,9 @@ namespace SayMore.Transcription.UI
 			_toolStrip.Renderer = new NoToolStripBorderRenderer();
 
 			_oralAnnotationWaveViewer.Dock = DockStyle.Fill;
-			_tableLayoutError.Dock = DockStyle.Fill;
-			_labelError.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 11, FontStyle.Bold);
-			_labelLoadingCancelled.Font = _labelError.Font;
-			_textBoxError.Font = SystemFonts.IconTitleFont;
+			_oralAnnotationWaveViewer.ZoomPercentage = 300;
+
+			_buttonRegenerate.Click += HandleRegenerateFileButtonClick;
 
 			_buttonPlay.Click += delegate
 			{
@@ -58,45 +55,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
-			using (var dlg = new LoadingDlg(true))
-			{
-				dlg.TopMost = true;
-				dlg.CancelClicked = LoadingCancelled;
-				dlg.Show(this);
-				_tableLayoutError.Visible = false;
-				_oralAnnotationWaveViewer.Visible = true;
-				_buttonHelp.Enabled = _buttonPlay.Enabled = _buttonStop.Enabled = false;
-
-				try
-				{
-					base.SetComponentFile(file);
-					_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
-					_buttonHelp.Enabled = _buttonPlay.Enabled = true;
-				}
-				catch (Exception e)
-				{
-					_pictureBoxError.Image = SystemIcons.Exclamation.ToBitmap();
-					_tableLayoutError.Visible = true;
-					_labelError.Visible = true;
-					_labelLoadingCancelled.Visible = false;
-					_oralAnnotationWaveViewer.Visible = false;
-					_textBoxError.Text = Palaso.Reporting.ExceptionHelper.GetAllExceptionMessages(e);
-					_textBoxError.Text = _textBoxError.Text.Replace("\n", Environment.NewLine);
-				}
-
-				dlg.Close();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void LoadingCancelled()
-		{
-			_pictureBoxError.Image = SystemIcons.Information.ToBitmap();
-			_oralAnnotationWaveViewer.CancelLoading();
-			_tableLayoutError.Visible = true;
-			_labelError.Visible = false;
-			_labelLoadingCancelled.Visible = true;
-			_oralAnnotationWaveViewer.Visible = false;
+			base.SetComponentFile(file);
+			_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
+			_buttonHelp.Enabled = _buttonPlay.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -108,14 +69,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			SetComponentFile(_file);
-			_oralAnnotationWaveViewer.Invalidate(true);
 			_isFirstTimeActivated = false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override bool IsOKSToLeaveEditor
-		{
-			get { return !_oralAnnotationWaveViewer.IsBusyLoading && base.IsOKSToLeaveEditor; }
 		}
 
 		/// ------------------------------------------------------------------------------------

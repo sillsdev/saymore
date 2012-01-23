@@ -28,9 +28,7 @@ namespace SayMore.Transcription.UI
 			// 
 			// _tableLayout
 			// 
-			this._tableLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this._tableLayout.BackColor = System.Drawing.SystemColors.Window;
 			this._tableLayout.ColumnCount = 2;
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -38,6 +36,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.Controls.Add(this._labelCareful, 0, 1);
 			this._tableLayout.Controls.Add(this._waveControl, 1, 0);
 			this._tableLayout.Controls.Add(this._labelOriginal, 0, 0);
+			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayout.Location = new System.Drawing.Point(0, 0);
 			this._tableLayout.Name = "_tableLayout";
 			this._tableLayout.RowCount = 3;
@@ -83,7 +82,7 @@ namespace SayMore.Transcription.UI
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._waveControl.AutoScroll = true;
 			this._waveControl.AutoScrollMinSize = new System.Drawing.Size(0, 171);
-			this._waveControl.BackColor = System.Drawing.Color.Snow;
+			this._waveControl.BackColor = System.Drawing.SystemColors.Window;
 			this._waveControl.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.locExtender.SetLocalizableToolTip(this._waveControl, null);
 			this.locExtender.SetLocalizationComment(this._waveControl, null);

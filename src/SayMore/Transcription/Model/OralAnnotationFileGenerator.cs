@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using NAudio.Wave;
+using Palaso.Reporting;
 using SayMore.AudioUtils;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
@@ -110,20 +111,45 @@ namespace SayMore.Transcription.Model
 				var msg = LocalizationManager.GetString("EventsView.Transcription.GeneratedOralAnnotationView.ProcessingOriginalRecordingErrorMsg",
 					"There was an error processing the original recording.");
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, _origRecStreamProvider.Error);
+				ErrorReport.NotifyUserOfProblem(msg, _origRecStreamProvider.Error);
 				return;
 			}
 
 			_outputFileName = _origRecordingTier.MediaFileName +
 				Settings.Default.OralAnnotationGeneratedFileAffix;
 
-			using (_audioFileWriter = new WaveFileWriter(_outputFileName, _output3ChannelAudioFormat))
-			{
-				for (int i = 0; i < _origRecordingSegments.Length; i++)
-					InterleaveSegments(i);
-			}
+			var tmpOutputFile = Path.GetFileName(_outputFileName);
+			tmpOutputFile = Path.Combine(Path.GetTempPath(), tmpOutputFile);
 
-			_audioFileWriter = null;
+			try
+			{
+				using (_audioFileWriter = new WaveFileWriter(tmpOutputFile, _output3ChannelAudioFormat))
+				{
+					for (int i = 0; i < _origRecordingSegments.Length; i++)
+						InterleaveSegments(i);
+				}
+
+				if (File.Exists(_outputFileName))
+					File.Delete(_outputFileName);
+
+				File.Move(tmpOutputFile, _outputFileName);
+			}
+			catch (Exception error)
+			{
+				var msg = LocalizationManager.GetString("EventsView.Transcription.GeneratedOralAnnotationView.GenericErrorCreatingOralAnnotationFileMsg",
+					"There was an error generating the oral annotation file.");
+
+				ErrorReport.NotifyUserOfProblem(error, msg);
+			}
+			finally
+			{
+				try { _audioFileWriter.Dispose(); }
+				catch { }
+				_audioFileWriter = null;
+
+				if (File.Exists(tmpOutputFile))
+					File.Delete(tmpOutputFile);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -172,9 +198,8 @@ namespace SayMore.Transcription.Model
 					"There was an error processing a {0} annotation file.",
 					"The parameter is the annotation type (i.e. careful, translation).");
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-					string.Format(msg, annotationType.ToString().ToLower()),
-					_origRecStreamProvider.Error);
+				ErrorReport.NotifyUserOfProblem(_origRecStreamProvider.Error, msg,
+					annotationType.ToString().ToLower());
 			}
 
 			return provider;

@@ -76,19 +76,19 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void CloseAudioStream()
+		{
+			_waveControl.AutoScrollPosition = new Point(0, AutoScrollPosition.Y);
+			_waveControl.SetCursor(0);
+			_waveControl.CloseStream();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public float ZoomPercentage
 		{
 			get { return _waveControl.ZoomPercentage; }
 			set { _waveControl.ZoomPercentage = value; }
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnResize(EventArgs e)
-		//{
-		//    Utils.SetWindowRedraw(this, false);
-		//    base.OnResize(e);
-		//    Utils.SetWindowRedraw(this, true);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleTableLayoutPaint(object sender, PaintEventArgs e)

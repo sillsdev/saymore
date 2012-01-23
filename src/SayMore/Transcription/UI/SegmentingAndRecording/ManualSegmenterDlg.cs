@@ -37,7 +37,7 @@ namespace SayMore.Transcription.UI
 				//if (_viewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
 					_waveControl.SegmentBoundaries = ViewModel.SaveNewBoundary(_waveControl.GetCursorTime());
 					_waveControl.SetSelectedBoundary(_waveControl.GetCursorTime());
-					_waveControl.SetCursor(TimeSpan.Zero);
+					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 				//else
 				//{
 				//	_buttonAddSegmentBoundary.ForeColor = Color.Red;
@@ -154,7 +154,7 @@ namespace SayMore.Transcription.UI
 			TimeSpan time1, TimeSpan time2)
 		{
 			base.PlaybackShortPortionUpToBoundary(ctrl, time1, time2);
-			_waveControl.SetCursor(TimeSpan.Zero);
+			_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 		}
 
 		#region Low level keyboard handling

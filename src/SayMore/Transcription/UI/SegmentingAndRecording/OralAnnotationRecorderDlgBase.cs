@@ -234,7 +234,7 @@ namespace SayMore.Transcription.UI
 			}
 
 			if (ViewModel.CurrentSegmentNumber >= 0)
-				_waveControl.SetCursor(TimeSpan.Zero);
+				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -342,7 +342,7 @@ namespace SayMore.Transcription.UI
 				if (ViewModel.CurrentSegmentNumber < 0)
 					_waveControl.ClearSelection();
 				else
-					_waveControl.SetCursor(TimeSpan.Zero);
+					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 
 				UpdateDisplay();
 			}

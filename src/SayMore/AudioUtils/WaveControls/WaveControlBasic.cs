@@ -78,17 +78,17 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
-		{
-			_painter = GetNewWavePainter(samples, totalTime);
-			InternalInitialize();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public virtual void Initialize(WaveFileReader stream)
 		{
 			_waveStream = stream;
 			_painter = GetNewWavePainter(stream);
+			InternalInitialize();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
+		{
+			_painter = GetNewWavePainter(samples, totalTime);
 			InternalInitialize();
 		}
 
@@ -99,6 +99,19 @@ namespace SayMore.AudioUtils
 			_painter.ForeColor = ForeColor;
 			_painter.BackColor = BackColor;
 			_painter.SetVirtualWidth(Math.Max(ClientSize.Width, AutoScrollMinSize.Width));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void CloseStream()
+		{
+			if (_wasStreamCreatedHere && _waveStream != null)
+			{
+				_painter.Dispose();
+				_painter = null;
+				_waveStream.Close();
+				_waveStream.Dispose();
+				_waveStream = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -211,18 +224,28 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetCursor(int cursorX)
 		{
+			if (_painter == null)
+				return;
+
 			_painter.SetCursor(cursorX);
+			EnsureXIsVisible(cursorX);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetCursor(TimeSpan cursorTime)
 		{
-			OnCursorTimeChanged(cursorTime);
+			OnCursorTimeChanged(cursorTime < TimeSpan.Zero ? TimeSpan.Zero : cursorTime);
+
+			if (cursorTime >= TimeSpan.Zero)
+				EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(cursorTime));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnCursorTimeChanged(TimeSpan cursorTime)
 		{
+			if (_painter == null)
+				return;
+
 			_painter.SetCursor(cursorTime);
 
 			if (CursorTimeChanged != null)
@@ -232,23 +255,39 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan GetCursorTime()
 		{
-			return _painter.CursorTime;
+			return (_painter == null ? TimeSpan.Zero : _painter.CursorTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan GetTimeFromX(int dx)
 		{
-			return _painter.ConvertXCoordinateToTime(dx);
+			return (_painter == null ? TimeSpan.Zero : _painter.ConvertXCoordinateToTime(dx));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void EnsureXIsVisible(int dx)
 		{
-			if (dx < 0 || dx > ClientSize.Width)
+			var newX = -AutoScrollPosition.X;
+
+			if (dx < 10)
+				newX -= 10;
+			else if (dx > (ClientSize.Width - 10))
+				newX += (dx - (ClientSize.Width - 10));
+			else
+				return;
+
+			if (newX < 0)
+				newX = 0;
+			else if (newX > AutoScrollMinSize.Width)
+				newX = AutoScrollMinSize.Width;
+
+			if (newX != -AutoScrollPosition.X)
 			{
-				var newX = -AutoScrollPosition.X + (dx < 0 ? dx : (dx - ClientSize.Width));
 				AutoScrollPosition = new Point(newX, AutoScrollPosition.Y);
-				_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+
+				if (_painter != null)
+					_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+
 				Invalidate();
 			}
 		}
@@ -326,6 +365,9 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual void Play(TimeSpan playbackStartTime, TimeSpan playbackEndTime)
 		{
+			if (_waveStream == null)
+				return;
+
 			_playbackStartTime = playbackStartTime;
 			_playbackEndTime = playbackEndTime;
 
@@ -366,6 +408,7 @@ namespace SayMore.AudioUtils
 				_waveOut.Stop();
 				return;
 			}
+
 			var dx = _painter.ConvertTimeToXCoordinate(_waveStream.CurrentTime);
 			dx += (dx < 0 ? -10 : 10);
 			EnsureXIsVisible(dx);

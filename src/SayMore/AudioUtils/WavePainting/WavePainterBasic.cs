@@ -10,7 +10,7 @@ using NAudio.Wave.SampleProviders;
 
 namespace SayMore.AudioUtils
 {
-	public class WavePainterBasic
+	public class WavePainterBasic : IDisposable
 	{
 		public const int kBoundaryHotZoneHalfWidth = 4;
 
@@ -67,10 +67,27 @@ namespace SayMore.AudioUtils
 			_segmentBoundaries = new TimeSpan[0];
 
 			Control = ctrl;
-			ctrl.Paint += (s, e) => Draw(e, ctrl.ClientRectangle);
+			ctrl.Paint += DrawControl;
 
 			_samples = samples.ToArray();
 			_totalTime = totalTime;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			if (Control != null)
+				Control.Paint -= DrawControl;
+
+			_waveStream = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawControl(object sender, PaintEventArgs e)
+		{
+			var ctrl = sender as Control;
+			if (ctrl != null)
+				Draw(e, ctrl.ClientRectangle);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -371,9 +388,6 @@ namespace SayMore.AudioUtils
 		{
 			if (_segmentBoundaries == null)
 				return;
-
-//			var boundaries = _segmentBoundaries.ToArray();
-	//		if (boundaries
 
 			using (var solidPen = new Pen(BoundaryColor))
 			using (var translucentPen = new Pen(Color.FromArgb(60, BoundaryColor)))

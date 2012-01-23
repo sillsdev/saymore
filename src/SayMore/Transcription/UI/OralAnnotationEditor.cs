@@ -89,6 +89,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRegenerateFileButtonClick(object sender, EventArgs e)
 		{
+			_oralAnnotationWaveViewer.CloseAudioStream();
+
 			var oralAnnotationfile = (OralAnnotationComponentFile)_file;
 			var textAnnotationFile = oralAnnotationfile.AssociatedComponentFile.GetAnnotationFile();
 			var tier = (TimeOrderTier)textAnnotationFile.Tiers.FirstOrDefault(t => t is TimeOrderTier);

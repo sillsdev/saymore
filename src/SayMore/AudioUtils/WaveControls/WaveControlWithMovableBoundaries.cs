@@ -29,8 +29,8 @@ namespace SayMore.AudioUtils
 			// Figure out the limits within which the boundary may be moved. It's not allowed
 			// to be moved to the left of the previous boundary or to the right of the next
 			// boundary.
-			_minXForBoundaryMove =
-				_painter.ConvertTimeToXCoordinate(SegmentBoundaries.LastOrDefault(b => b < boundaryBeingMoved));
+			_minXForBoundaryMove = Math.Max(1,
+				_painter.ConvertTimeToXCoordinate(SegmentBoundaries.LastOrDefault(b => b < boundaryBeingMoved)));
 
 			var nextBoundary = SegmentBoundaries.FirstOrDefault(b => b > boundaryBeingMoved);
 			if (nextBoundary == default(TimeSpan))

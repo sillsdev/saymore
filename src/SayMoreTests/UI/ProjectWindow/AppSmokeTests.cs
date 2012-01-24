@@ -90,7 +90,7 @@ namespace SayMoreTests.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test]
+		[Test, Ignore("broken")]
 		public void Application_WalkThrough_DoesNotCrash()
 		{
 			CopySampleProject();

@@ -363,7 +363,12 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleAddingNewElement(object sender, EventArgs e)
 		{
-			var newItem = _model.CreateNewElement();
+			AddNewItem(_model.CreateNewElement());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void AddNewItem(T newItem)
+		{
 			_model.SetSelectedElement(newItem);
 			LoadElementList(newItem);
 
@@ -384,6 +389,7 @@ namespace SayMore.UI.ElementListScreen
 				firstEditor.SetComponentFile(newComponentFile);
 
 			firstEditor.Control.Focus();
+
 		}
 
 		/// ------------------------------------------------------------------------------------

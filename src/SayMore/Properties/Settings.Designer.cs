@@ -1303,5 +1303,17 @@ namespace SayMore.Properties {
                 this["MinimumAnnotationSegmentLengthInMilliseconds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.FormSettings EventRecorderDlg {
+            get {
+                return ((global::SilTools.FormSettings)(this["EventRecorderDlg"]));
+            }
+            set {
+                this["EventRecorderDlg"] = value;
+            }
+        }
     }
 }

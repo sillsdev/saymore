@@ -390,5 +390,8 @@
     <Setting Name="MinimumAnnotationSegmentLengthInMilliseconds" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1250</Value>
     </Setting>
+    <Setting Name="EventRecorderDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

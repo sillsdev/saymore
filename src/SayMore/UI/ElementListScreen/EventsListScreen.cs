@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model;
 using SayMore.Properties;
+using SayMore.UI.EventRecording;
 using SayMore.UI.NewEventsFromFiles;
 using SayMore.UI.ProjectWindow;
 
@@ -33,6 +34,7 @@ namespace SayMore.UI.ElementListScreen
 				LocalizationManager.GetString("EventsView.FileList.AddEventsButtonToolTip", "Add Files to the Event"));
 
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
+			_elementsListPanel.InsertButton(2, _buttonNewFromRecording);
 
 			MainMenuItem = new ToolStripMenuItem();
 
@@ -150,6 +152,22 @@ namespace SayMore.UI.ElementListScreen
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 					LoadElementList(viewModel.FirstNewEventAdded);
 
+				FindForm().Focus();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleButtonNewFromRecordingsClick(object sender, EventArgs e)
+		{
+			using (var viewModel = new EventRecorderDlgViewModel())
+			using (var dlg = new EventRecorderDlg(viewModel))
+			{
+				if (dlg.ShowDialog(FindForm()) != DialogResult.OK)
+					return;
+
+				var newEvent = _model.CreateNewElement();
+				viewModel.MoveRecordingToEventFolder(newEvent);
+				LoadElementList(newEvent);
 				FindForm().Focus();
 			}
 		}

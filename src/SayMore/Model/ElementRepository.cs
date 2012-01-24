@@ -107,7 +107,7 @@ namespace SayMore.Model
 		public bool Remove(string id)
 		{
 			var item = _items.FirstOrDefault(x => x.Id == id);
-			return (item == null ? false : Remove(item));
+			return (item != null && Remove(item));
 		}
 
 		/// ------------------------------------------------------------------------------------

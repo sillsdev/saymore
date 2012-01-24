@@ -395,6 +395,13 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ElementListScreen\StagesDataProvider.cs" />
+    <Compile Include="UI\EventRecording\EventRecorderDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\EventRecording\EventRecorderDlg.designer.cs">
+      <DependentUpon>EventRecorderDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\EventRecording\EventRecorderDlgViewModel.cs" />
     <Compile Include="UI\LoadingDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -645,6 +652,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\ElementListScreen.resx">
       <DependentUpon>ElementListScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\EventRecording\EventRecorderDlg.resx">
+      <DependentUpon>EventRecorderDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LoadingDlg.resx">
       <DependentUpon>LoadingDlg.cs</DependentUpon>

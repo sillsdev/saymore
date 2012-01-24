@@ -34,6 +34,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			this.components = new System.ComponentModel.Container();
 			this._elementListSplitter = new System.Windows.Forms.SplitContainer();
+			this._buttonNewFromRecording = new System.Windows.Forms.Button();
 			this._buttonNewFromFiles = new System.Windows.Forms.Button();
 			this._eventsListPanel = new SayMore.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
@@ -57,6 +58,7 @@ namespace SayMore.UI.ElementListScreen
 			// 
 			// _elementListSplitter.Panel1
 			// 
+			this._elementListSplitter.Panel1.Controls.Add(this._buttonNewFromRecording);
 			this._elementListSplitter.Panel1.Controls.Add(this._buttonNewFromFiles);
 			this._elementListSplitter.Panel1.Controls.Add(this._eventsListPanel);
 			// 
@@ -68,6 +70,23 @@ namespace SayMore.UI.ElementListScreen
 			this._elementListSplitter.SplitterWidth = 6;
 			this._elementListSplitter.TabIndex = 9;
 			this._elementListSplitter.TabStop = false;
+			// 
+			// _buttonNewFromRecording
+			// 
+			this._buttonNewFromRecording.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._buttonNewFromRecording.AutoSize = true;
+			this._buttonNewFromRecording.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.locExtender.SetLocalizableToolTip(this._buttonNewFromRecording, null);
+			this.locExtender.SetLocalizationComment(this._buttonNewFromRecording, null);
+			this.locExtender.SetLocalizingId(this._buttonNewFromRecording, "EventsView.EventsList.NewFilesFromRecordingButtonText");
+			this._buttonNewFromRecording.Location = new System.Drawing.Point(24, 216);
+			this._buttonNewFromRecording.MinimumSize = new System.Drawing.Size(117, 26);
+			this._buttonNewFromRecording.Name = "_buttonNewFromRecording";
+			this._buttonNewFromRecording.Size = new System.Drawing.Size(126, 26);
+			this._buttonNewFromRecording.TabIndex = 2;
+			this._buttonNewFromRecording.Text = "New From &Recording...";
+			this._buttonNewFromRecording.UseVisualStyleBackColor = true;
+			this._buttonNewFromRecording.Click += new System.EventHandler(this.HandleButtonNewFromRecordingsClick);
 			// 
 			// _buttonNewFromFiles
 			// 
@@ -82,7 +101,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles.Name = "_buttonNewFromFiles";
 			this._buttonNewFromFiles.Size = new System.Drawing.Size(117, 26);
 			this._buttonNewFromFiles.TabIndex = 1;
-			this._buttonNewFromFiles.Text = "Ne&w From Device...";
+			this._buttonNewFromFiles.Text = "New From &Device...";
 			this._buttonNewFromFiles.UseVisualStyleBackColor = true;
 			this._buttonNewFromFiles.Click += new System.EventHandler(this.HandleButtonNewFromFilesClick);
 			// 
@@ -195,6 +214,7 @@ namespace SayMore.UI.ElementListScreen
 		private System.Windows.Forms.Button _buttonNewFromFiles;
 		private System.Windows.Forms.Label _labelClickNewHelpPrompt;
 		private Localization.UI.LocalizationExtender locExtender;
+		private System.Windows.Forms.Button _buttonNewFromRecording;
 
 	    public string NameForUsageReporting
 	    {

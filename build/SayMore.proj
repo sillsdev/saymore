@@ -74,7 +74,7 @@
   <Target Name="Upload" DependsOnTargets="VersionNumbers; Installer" >
 	<Message Text="Attempting rsync of SayMoreInstaller.$(Version).msi" Importance="high"/>
 
-	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vz -p --chmod=ug+rw,o+r -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMoreInstaller.$(Version).msi" bob@palaso.org:/var/www/virtual/palaso.org/saymore/htdocs/downloads/SayMore$(RELEASE_TYPE)Installer.$(Version).msi' />
+	<Exec Command ='"c:\program files\cwRsync\bin\rsync.exe" -vz -p --chmod=ug+rw,o+r -e"\"c:\program files\cwRsync\bin\ssh\" -oUserKnownHostsFile=C:\BuildAgent\conf\known_hosts -oIdentityFile=C:\BuildAgent\conf\bob.key -l bob"  "../output/installer/SayMore$(RELEASE_TYPE)Installer.$(Version).msi" bob@palaso.org:/var/www/virtual/palaso.org/saymore/htdocs/downloads/SayMore$(RELEASE_TYPE)Installer.$(Version).msi' />
 
 	<CallTarget Targets ='MakeDownloadPointers'/>
   </Target>
@@ -97,7 +97,7 @@
 	<Delete Files="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi" TreatErrorsAsWarnings="false" />
 
 	<Copy SourceFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.msi"
-		  DestinationFiles="$(teamcity_build_checkoutDir)\output\installer\SayMoreInstaller.$(Version).msi"
+		  DestinationFiles="$(teamcity_build_checkoutDir)\output\installer\SayMore$(RELEASE_TYPE)Installer.$(Version).msi"
 		  />
 
 	<!-- remove the installer which has no version number (wouldn't need this if the copy above was a move, instead) -->

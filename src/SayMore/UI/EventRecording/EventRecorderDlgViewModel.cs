@@ -19,7 +19,7 @@ namespace SayMore.UI.EventRecording
 		/// ------------------------------------------------------------------------------------
 		public EventRecorderDlgViewModel()
 		{
-			Recorder = new AudioRecorder();
+			Recorder = new AudioRecorder(60); // 1 hour
 			Recorder.SelectedDevice = RecordingDevice.Devices.First();
 			Recorder.Stopped += delegate { UpdateAction(); };
 

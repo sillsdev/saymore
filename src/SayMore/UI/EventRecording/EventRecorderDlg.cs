@@ -60,12 +60,6 @@ namespace SayMore.UI.EventRecording
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-		{
-			base.OnClosing(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void HandleRecordClick(object sender, EventArgs e)
 		{
 			_viewModel.BeginRecording();

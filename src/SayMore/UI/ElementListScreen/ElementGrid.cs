@@ -123,8 +123,11 @@ namespace SayMore.UI.ElementListScreen
 
 			if (index >= 0 && index < _items.Count())
 			{
+				var forceRowChangeEvent = (CurrentCellAddress.Y == index);
 				CurrentCell = this[FirstDisplayedCell.ColumnIndex, index];
 				Rows[index].Selected = true;
+				if (forceRowChangeEvent)
+					OnCurrentRowChanged(EventArgs.Empty);
 			}
 		}
 

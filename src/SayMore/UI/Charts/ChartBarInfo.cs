@@ -68,7 +68,7 @@ namespace SayMore.UI.Charts
 		public static void CalculateBarSizes(IEnumerable<ChartBarInfo> barInfoList)
 		{
 			var barInfo = barInfoList.ToArray();
-			var largestBarTime = barInfo.Max(bi => bi.TotalTime);
+			var largestBarTime = (barInfo.Length == 0 ? 0 : barInfo.Max(bi => bi.TotalTime));
 
 			foreach (var bi in barInfo)
 			{

@@ -144,6 +144,19 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public virtual Func<WaveFormat, string> FormatNotSupportedMessageProvider
+		{
+			get { return (_painter == null ? null : _painter.FormatNotSupportedMessageProvider); }
+			set
+			{
+				if (_painter != null)
+					_painter.FormatNotSupportedMessageProvider = value;
+			}
+		}
+
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual bool IsPlaying
 		{
 			get { return _waveOut != null; }
@@ -267,29 +280,36 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual void EnsureXIsVisible(int dx)
 		{
-			var newX = -AutoScrollPosition.X;
-
-			if (dx < 10)
-				newX -= 10;
-			else if (dx > (ClientSize.Width - 10))
-				newX += (dx - (ClientSize.Width - 10));
-			else
-				return;
-
-			if (newX < 0)
-				newX = 0;
-			else if (newX > AutoScrollMinSize.Width)
-				newX = AutoScrollMinSize.Width;
-
-			if (newX != -AutoScrollPosition.X)
+			if (dx < 0 || dx > ClientSize.Width)
 			{
+				var newX = -AutoScrollPosition.X + (dx < 0 ? dx : (dx - ClientSize.Width));
 				AutoScrollPosition = new Point(newX, AutoScrollPosition.Y);
-
-				if (_painter != null)
-					_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
-
-				Invalidate();
+				_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
 			}
+
+			//var newX = -AutoScrollPosition.X;
+
+			//if (dx < 10)
+			//    newX -= 10;
+			//else if (dx > (ClientSize.Width - 10))
+			//    newX += (dx - (ClientSize.Width - 10));
+			//else
+			//    return;
+
+			//if (newX < 0)
+			//    newX = 0;
+			//else if (newX > AutoScrollMinSize.Width)
+			//    newX = AutoScrollMinSize.Width;
+
+			//if (newX != -AutoScrollPosition.X)
+			//{
+			//    AutoScrollPosition = new Point(newX, AutoScrollPosition.Y);
+
+			//    if (_painter != null)
+			//        _painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+
+			//    Invalidate();
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -365,8 +385,12 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual void Play(TimeSpan playbackStartTime, TimeSpan playbackEndTime)
 		{
-			if (_waveStream == null)
+			if (_waveStream == null || _waveStream.WaveFormat.Channels > 2 ||
+				(_waveStream.WaveFormat.BitsPerSample == 32 &&
+				_waveStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat))
+			{
 				return;
+			}
 
 			_playbackStartTime = playbackStartTime;
 			_playbackEndTime = playbackEndTime;
@@ -405,6 +429,7 @@ namespace SayMore.AudioUtils
 			// event on the WaveOut, so we have to force it here.
 			if (_waveStream.CurrentTime == (_playbackEndTime > TimeSpan.Zero ? _playbackEndTime : _waveStream.TotalTime))
 			{
+				SetCursor(_playbackEndTime);
 				_waveOut.Stop();
 				return;
 			}

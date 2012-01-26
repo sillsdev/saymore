@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using SilTools;
 
 namespace SayMore.AudioUtils
 {
@@ -25,6 +26,7 @@ namespace SayMore.AudioUtils
 		public virtual Color BackColor { get; set; }
 		public virtual Color BoundaryColor { get; set; }
 		public virtual Color CursorColor { get; set; }
+		public virtual Func<WaveFormat, string> FormatNotSupportedMessageProvider { get; set; }
 
 		protected IEnumerable<TimeSpan> _segmentBoundaries;
 		protected double _pixelPerMillisecond;
@@ -178,14 +180,26 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		private void GetSamplesToDrawFromStream()
 		{
-			_waveStream.Seek(0, SeekOrigin.Begin);
-			var provider = new SampleChannel(_waveStream);
+			if (_waveStream.WaveFormat.BitsPerSample == 32 && _waveStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+				return;
 
 			_samplesToDraw = new List<float[]>[_channels];
 			for (int c = 0; c < _channels; c++)
 				_samplesToDraw[c] = new List<float[]>(Control == null ? 400 : Control.ClientSize.Width);
 
-			int numberSamplesInOnePixel = (int)SamplesPerPixel * _channels;
+			//_waveStream.Seek(0, SeekOrigin.Begin);
+			//var prov = new SampleChannel(_waveStream);
+
+			//var buff = new float[prov.WaveFormat.Channels];
+
+			//while (prov.Read(buff, 0, prov.WaveFormat.Channels) > 0)
+			//{
+			//}
+
+			_waveStream.Seek(0, SeekOrigin.Begin);
+			var provider = new SampleChannel(_waveStream);
+
+			int numberSamplesInOnePixel = (int)SamplesPerPixel * provider.WaveFormat.Channels;
 			var buffer = new float[numberSamplesInOnePixel];
 
 			while (provider.Read(buffer, 0, numberSamplesInOnePixel) > 0)
@@ -195,7 +209,7 @@ namespace SayMore.AudioUtils
 					var biggestSample = float.MinValue;
 					var smallestSample = float.MaxValue;
 
-					for (int i = 0; i < numberSamplesInOnePixel; i += _channels)
+					for (int i = 0; i < numberSamplesInOnePixel; i += provider.WaveFormat.Channels)
 					{
 						biggestSample = Math.Max(biggestSample, buffer[i + c]);
 						smallestSample = Math.Min(smallestSample, buffer[i + c]);
@@ -286,6 +300,18 @@ namespace SayMore.AudioUtils
 			if (!_allowDrawing)
 				return;
 
+			if (_waveStream != null && (_waveStream.WaveFormat.Channels > 2 ||
+				_waveStream.WaveFormat.BitsPerSample == 32 && _waveStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat))
+			{
+				var msg = FormatNotSupportedMessageProvider == null ?
+					string.Format("{0} bit, {1} channel, {2} audio files are not supported.",
+						_waveStream.WaveFormat.BitsPerSample, _waveStream.WaveFormat.Channels, _waveStream.WaveFormat.Encoding) :
+					FormatNotSupportedMessageProvider(_waveStream.WaveFormat);
+
+				DrawFormatNotSupportedMessage(e.Graphics, rc, msg);
+				return;
+			}
+
 			if ((_samplesToDraw == null || _samplesToDraw[0].Count == 0) && _numberOfSamples > 0)
 			{
 				if (SamplesPerPixel.Equals(0))
@@ -300,6 +326,23 @@ namespace SayMore.AudioUtils
 
 			if (_movedBoundary > TimeSpan.Zero)
 				DrawMovedBoundary(e.Graphics, rc.Height, ConvertTimeToXCoordinate(_movedBoundary));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void DrawFormatNotSupportedMessage(Graphics g, Rectangle rc, string msg)
+		{
+			if (msg == null)
+			{
+			}
+
+			using (var fnt = FontHelper.MakeFont(SystemFonts.MenuFont, 10, FontStyle.Bold))
+			{
+				const TextFormatFlags fmt = TextFormatFlags.VerticalCenter |
+					TextFormatFlags.HorizontalCenter | TextFormatFlags.WordBreak |
+					TextFormatFlags.EndEllipsis;
+
+				TextRenderer.DrawText(g, msg, fnt, rc, SystemColors.GrayText, fmt);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

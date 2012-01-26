@@ -68,7 +68,8 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public SegmenterDlgBase(SegmenterDlgBaseViewModel viewModel) : this()
+		public SegmenterDlgBase(SegmenterDlgBaseViewModel viewModel)
+			: this()
 		{
 			_viewModel = viewModel;
 			_viewModel.UpdateDisplayProvider = UpdateDisplay;
@@ -83,6 +84,21 @@ namespace SayMore.Transcription.UI
 
 			_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(0f,
 				(float)_viewModel.OrigWaveStream.TotalTime.TotalSeconds);
+
+			_waveControl.FormatNotSupportedMessageProvider = waveFormat =>
+			{
+				if (waveFormat.Channels > 2)
+				{
+					return string.Format(LocalizationManager.GetString(
+						"DialogBoxes.Transcription.SegmenterDlgBase.Segmenting3ChannelAudioFilesNotSupportedMsg",
+						"Segmenting {0} channel audio files is not supported."), waveFormat.Channels);
+				}
+
+				return string.Format(LocalizationManager.GetString(
+					"DialogBoxes.Transcription.SegmenterDlgBase.SegmentingAudioFormatNotSupportedMsg",
+					"Segmenting {0} bit, {1} audio files is not supported."),
+					waveFormat.BitsPerSample, waveFormat.Encoding);
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------

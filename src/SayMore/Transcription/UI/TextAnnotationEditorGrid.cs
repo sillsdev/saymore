@@ -34,6 +34,7 @@ namespace SayMore.Transcription.UI
 			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			AllowUserToResizeRows = false;
 			EditMode = DataGridViewEditMode.EditOnEnter;
+			ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
 			FullRowFocusRectangleColor = DefaultCellStyle.SelectionBackColor;
 			DefaultCellStyle.SelectionForeColor = DefaultCellStyle.ForeColor;
 			DefaultCellStyle.SelectionBackColor =

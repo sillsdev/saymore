@@ -72,6 +72,8 @@ namespace SayMore.UI.ElementListScreen
 			_elementsGrid.DeleteAction = DeleteSelectedElements;
 			_elementsGrid.SelectedElementChanged += HandleSelectedElementChanged;
 			_elementsGrid.SetFileType(_model.ElementFileType);
+			_elementsGrid.RowsAdded += delegate { _elementsListPanel.DeleteButton.Enabled = _elementsGrid.RowCount > 0; };
+			_elementsGrid.RowsRemoved += delegate { _elementsListPanel.DeleteButton.Enabled = _elementsGrid.RowCount > 0; };
 
 			_elementsListPanel = elementsListPanel;
 			_elementsListPanel.NewButtonClicked += HandleAddingNewElement;
@@ -389,7 +391,6 @@ namespace SayMore.UI.ElementListScreen
 				firstEditor.SetComponentFile(newComponentFile);
 
 			firstEditor.Control.Focus();
-
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -416,6 +417,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void DeleteSelectedElements()
 		{
+			if (_elementsGrid.RowCount == 0)
+				return;
+
 			if (!DoesUserConfirmDeletingSelectedElements())
 				return;
 

@@ -47,10 +47,10 @@ namespace SayMore.UI.LowLevelControls
 			if (DesignMode)
 				return;
 
-			if (SystemFonts.IconTitleFont.FontFamily.IsStyleAvailable(FontStyle.Bold))
-				_headerLabel.Font = new Font(SystemFonts.IconTitleFont, FontStyle.Bold);
-			else
-				_headerLabel.Font = SystemFonts.IconTitleFont;
+			DeleteButton.Enabled = false;
+
+			_headerLabel.Font = SystemFonts.MenuFont.FontFamily.IsStyleAvailable(FontStyle.Bold) ?
+				new Font(SystemFonts.MenuFont, FontStyle.Bold) : SystemFonts.MenuFont;
 		}
 
 		/// ------------------------------------------------------------------------------------

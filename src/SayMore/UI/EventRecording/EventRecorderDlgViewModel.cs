@@ -19,6 +19,18 @@ namespace SayMore.UI.EventRecording
 		/// ------------------------------------------------------------------------------------
 		public EventRecorderDlgViewModel()
 		{
+			// This code was used to do some testing of what NAudio returns. At some point,
+			// in general, it may prove to lead to something useful for getting the supported
+			// formats for a recording device.
+			//var devices = new MMDeviceEnumerator();
+			//var defaultDevice = devices.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Console);
+			//var recDev = RecordingDevice.Devices.First();
+			//recDev.Capabilities = WaveIn.GetCapabilities(0);
+			//recDev.GenericName = defaultDevice.FriendlyName;
+			//Recorder = new AudioRecorder();
+			//Recorder.SelectedDevice = recDev;
+
+
 			Recorder = new AudioRecorder(60); // 1 hour
 			Recorder.SelectedDevice = RecordingDevice.Devices.First();
 			Recorder.Stopped += delegate { UpdateAction(); };

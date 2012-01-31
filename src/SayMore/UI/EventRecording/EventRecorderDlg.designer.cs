@@ -40,9 +40,8 @@ namespace SayMore.UI.EventRecording
 			this._peakMeter = new Palaso.Media.Naudio.UI.PeakMeterCtrl();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this._buttonRecord = new System.Windows.Forms.ToolStripButton();
-			this._buttonStopRecording = new System.Windows.Forms.ToolStripButton();
 			this._buttonPlayback = new System.Windows.Forms.ToolStripButton();
-			this._buttonStopPlaying = new System.Windows.Forms.ToolStripButton();
+			this._buttonStop = new System.Windows.Forms.ToolStripButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
 			this._panelPeakMeter.SuspendLayout();
@@ -200,9 +199,8 @@ namespace SayMore.UI.EventRecording
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this._buttonRecord,
-			this._buttonStopRecording,
 			this._buttonPlayback,
-			this._buttonStopPlaying});
+			this._buttonStop});
 			this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
 			this.locExtender.SetLocalizableToolTip(this.toolStrip1, null);
 			this.locExtender.SetLocalizationComment(this.toolStrip1, null);
@@ -210,12 +208,14 @@ namespace SayMore.UI.EventRecording
 			this.locExtender.SetLocalizingId(this.toolStrip1, "toolStrip1.toolStrip1");
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(136, 116);
+			this.toolStrip1.Size = new System.Drawing.Size(226, 106);
 			this.toolStrip1.TabIndex = 12;
 			//
 			// _buttonRecord
 			//
+			this._buttonRecord.AutoSize = false;
 			this._buttonRecord.Image = global::SayMore.Properties.Resources.RecordStart;
+			this._buttonRecord.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonRecord.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this._buttonRecord.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonRecord, null);
@@ -223,27 +223,15 @@ namespace SayMore.UI.EventRecording
 			this.locExtender.SetLocalizingId(this._buttonRecord, "DialogBoxes.EventRecorderDlg.RecordButtonText");
 			this._buttonRecord.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._buttonRecord.Name = "_buttonRecord";
-			this._buttonRecord.Size = new System.Drawing.Size(68, 24);
+			this._buttonRecord.Size = new System.Drawing.Size(225, 24);
 			this._buttonRecord.Text = "Record";
 			this._buttonRecord.Click += new System.EventHandler(this.HandleRecordClick);
 			//
-			// _buttonStopRecording
-			//
-			this._buttonStopRecording.Image = global::SayMore.Properties.Resources.RecordStop;
-			this._buttonStopRecording.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this._buttonStopRecording.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonStopRecording, null);
-			this.locExtender.SetLocalizationComment(this._buttonStopRecording, null);
-			this.locExtender.SetLocalizingId(this._buttonStopRecording, "DialogBoxes.EventRecorderDlg.StopRecordingButtonText");
-			this._buttonStopRecording.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
-			this._buttonStopRecording.Name = "_buttonStopRecording";
-			this._buttonStopRecording.Size = new System.Drawing.Size(112, 24);
-			this._buttonStopRecording.Text = "Stop Recording";
-			this._buttonStopRecording.Click += new System.EventHandler(this.HandleStopRecordingClick);
-			//
 			// _buttonPlayback
 			//
+			this._buttonPlayback.AutoSize = false;
 			this._buttonPlayback.Image = global::SayMore.Properties.Resources.RecordingPlayback;
+			this._buttonPlayback.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonPlayback.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this._buttonPlayback.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.locExtender.SetLocalizableToolTip(this._buttonPlayback, null);
@@ -251,23 +239,25 @@ namespace SayMore.UI.EventRecording
 			this.locExtender.SetLocalizingId(this._buttonPlayback, "DialogBoxes.EventRecorderDlg.PlaybackButtonText");
 			this._buttonPlayback.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._buttonPlayback.Name = "_buttonPlayback";
-			this._buttonPlayback.Size = new System.Drawing.Size(135, 24);
+			this._buttonPlayback.Size = new System.Drawing.Size(225, 24);
 			this._buttonPlayback.Text = "Playback Recording";
 			this._buttonPlayback.Click += new System.EventHandler(this.HandlePlaybackButtonClick);
 			//
-			// _buttonStopPlaying
+			// _buttonStop
 			//
-			this._buttonStopPlaying.Image = global::SayMore.Properties.Resources.RecordStop;
-			this._buttonStopPlaying.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this._buttonStopPlaying.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonStopPlaying, null);
-			this.locExtender.SetLocalizationComment(this._buttonStopPlaying, null);
-			this.locExtender.SetLocalizingId(this._buttonStopPlaying, "DialogBoxes.EventRecorderDlg.StopPlaybackButtonText");
-			this._buttonStopPlaying.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
-			this._buttonStopPlaying.Name = "_buttonStopPlaying";
-			this._buttonStopPlaying.Size = new System.Drawing.Size(105, 24);
-			this._buttonStopPlaying.Text = "Stop Playback";
-			this._buttonStopPlaying.Click += new System.EventHandler(this.HandleStopPlaybackClick);
+			this._buttonStop.AutoSize = false;
+			this._buttonStop.Image = global::SayMore.Properties.Resources.RecordStop;
+			this._buttonStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._buttonStop.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this._buttonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this._buttonStop, "Stop");
+			this.locExtender.SetLocalizationComment(this._buttonStop, null);
+			this.locExtender.SetLocalizingId(this._buttonStop, "DialogBoxes.EventRecorderDlg.StopButtonText");
+			this._buttonStop.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
+			this._buttonStop.Name = "_buttonStop";
+			this._buttonStop.Size = new System.Drawing.Size(225, 24);
+			this._buttonStop.Text = "Stop";
+			this._buttonStop.Click += new System.EventHandler(this.HandleStopClick);
 			//
 			// locExtender
 			//
@@ -313,8 +303,7 @@ namespace SayMore.UI.EventRecording
 		private System.Windows.Forms.Button _buttonCancel;
 		private SilPanel _panelPeakMeter;
 		private Palaso.Media.Naudio.UI.PeakMeterCtrl _peakMeter;
-		private System.Windows.Forms.ToolStripButton _buttonStopPlaying;
-		private System.Windows.Forms.ToolStripButton _buttonStopRecording;
+		private System.Windows.Forms.ToolStripButton _buttonStop;
 		private System.Windows.Forms.Button _buttonOK;
 
 

@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Properties;
@@ -15,6 +17,12 @@ namespace SayMore.UI.EventRecording
 		public EventRecorderDlg()
 		{
 			InitializeComponent();
+
+			if ((DesignMode || GetService(typeof(IDesignerHost)) != null) ||
+				LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+			{
+				return;
+			}
 
 			DoubleBuffered = true;
 
@@ -67,13 +75,6 @@ namespace SayMore.UI.EventRecording
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStopRecordingClick(object sender, EventArgs e)
-		{
-			_viewModel.Recorder.Stop();
-			UpdateDisplay();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void HandlePlaybackButtonClick(object sender, EventArgs e)
 		{
 			_viewModel.BeginPlayback();
@@ -81,9 +82,13 @@ namespace SayMore.UI.EventRecording
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStopPlaybackClick(object sender, EventArgs e)
+		private void HandleStopClick(object sender, EventArgs e)
 		{
-			_viewModel.StopPlayback();
+			if (_viewModel.IsRecording)
+				_viewModel.Recorder.Stop();
+			else
+				_viewModel.StopPlayback();
+
 			UpdateDisplay();
 		}
 
@@ -93,13 +98,9 @@ namespace SayMore.UI.EventRecording
 			_labelRecordingFormat.Text = string.Format(_labelRecordingFormat.Text,
 				_viewModel.Recorder.RecordingFormat.BitsPerSample, _viewModel.Recorder.RecordingFormat.SampleRate);
 
-			_buttonRecord.Visible = !_viewModel.IsRecording;
 			_buttonRecord.Enabled = _viewModel.CanRecordNow;
-			_buttonPlayback.Visible = !_viewModel.IsPlaying;
-			_buttonPlayback.Enabled = _viewModel.CanPlay;
-
-			_buttonStopRecording.Visible = _viewModel.IsRecording;
-			_buttonStopPlaying.Visible = _viewModel.IsPlaying;
+			_buttonPlayback.Enabled = (_viewModel.CanPlay && !_viewModel.IsPlaying);
+			_buttonStop.Enabled = (_viewModel.IsPlaying || _viewModel.IsRecording);
 
 			_buttonOK.Enabled = !_viewModel.IsPlaying && !_viewModel.IsRecording;
 			_buttonCancel.Enabled = !_viewModel.IsPlaying && !_viewModel.IsRecording;

@@ -30,7 +30,6 @@ namespace SayMore.UI.EventRecording
 			//Recorder = new AudioRecorder();
 			//Recorder.SelectedDevice = recDev;
 
-
 			Recorder = new AudioRecorder(60); // 1 hour
 			Recorder.SelectedDevice = RecordingDevice.Devices.First();
 			Recorder.Stopped += delegate { UpdateAction(); };

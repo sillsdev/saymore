@@ -485,8 +485,8 @@ namespace SayMore.Model.Files
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
 			yield return new TextAnnotationEditor(file, "Annotation");
-			yield return _contributorsEditorFactoryLazy()(file, null);
-			yield return new NotesEditor(file);
+			//yield return _contributorsEditorFactoryLazy()(file, null);
+			//yield return new NotesEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -522,8 +522,8 @@ namespace SayMore.Model.Files
 		{
 			yield return new OralAnnotationEditor(file);
 			yield return _audioComponentEditorFactoryLazy()(file, null);
-			yield return _contributorsEditorFactoryLazy()(file, null);
-			yield return new NotesEditor(file);
+			//yield return _contributorsEditorFactoryLazy()(file, null);
+			//yield return new NotesEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------

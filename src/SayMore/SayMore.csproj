@@ -728,6 +728,7 @@
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Archiving\ArchivingDlgViewModel.cs" />
+    <Compile Include="UI\Utilities\FileSystemUtils.cs" />
     <Compile Include="UI\Utilities\IconHelper.cs" />
     <Compile Include="UI\Utilities\AppColors.cs" />
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />

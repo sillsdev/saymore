@@ -81,6 +81,17 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static string AppDataFolder
+		{
+			get
+			{
+				var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+				path = Path.Combine(path, "SIL");
+				return Path.Combine(path, Application.ProductName);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static Font DialogFont
 		{
 			get { return _dialogFont ?? SystemFonts.MessageBoxFont; }
@@ -232,7 +243,7 @@ namespace SayMore
 
 			LocalizationManager.Create(Settings.Default.UserInterfaceLanguage,
 				"SayMore", "SayMore", Application.ProductVersion,
-				installedStringFileFolder, null, "SayMore");
+				installedStringFileFolder, AppDataFolder, "SayMore");
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 		}

@@ -51,21 +51,19 @@ namespace SayMore.UI.ProjectChoosingAndCreating
 		/// ------------------------------------------------------------------------------------
 		public WelcomeDialogViewModel()
 		{
-			if (Settings.Default.FirstTimeRun)
+			if (!Settings.Default.FirstTimeRun)
+				return;
+
+			// If this is the first time the program has been run, then stuff
+			// the sample project(s) into the MRU list.
+			var path = Path.Combine(Program.AppDataFolder, "Samples");
+
+			if (Directory.Exists(path))
 			{
-				// If this is the first time the program has been run, then stuff
-				// the sample project(s) into the MRU list.
-				var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-				path = Path.Combine(path, Application.ProductName);
-				path = Path.Combine(path, "Samples");
+				foreach (var sampleProjectFile in Directory.GetFiles(path, "*.sprj", SearchOption.AllDirectories))
+					MruFiles.AddNewPath(sampleProjectFile);
 
-				if (Directory.Exists(path))
-				{
-					foreach (var sampleProjectFile in Directory.GetFiles(path, "*.sprj", SearchOption.AllDirectories))
-						MruFiles.AddNewPath(sampleProjectFile);
-
-					Settings.Default.FirstTimeRun = false;
-				}
+				Settings.Default.FirstTimeRun = false;
 			}
 		}
 

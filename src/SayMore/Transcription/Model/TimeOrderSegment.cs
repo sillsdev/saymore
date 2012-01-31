@@ -8,14 +8,20 @@ namespace SayMore.Transcription.Model
 {
 	public class TimeOrderSegment : SegmentBase, ITimeOrderSegment
 	{
-		public float Start { get; private set; }
-		public float Stop { get; private set; }
+		public float Start { get; set; }
+		public float Stop { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public TimeOrderSegment(ITier tier, float start, float stop) : base(tier)
 		{
 			Start = start;
 			Stop = stop;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override ISegment GetNewSegmentInstance(ITier owningTier)
+		{
+			return new TimeOrderSegment(owningTier, Start, Stop);
 		}
 
 		/// ------------------------------------------------------------------------------------

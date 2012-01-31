@@ -11,5 +11,17 @@ namespace SayMore.Transcription.Model
 		{
 			Tier = tier;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual ISegment Copy(ITier owningTier)
+		{
+			return GetNewSegmentInstance(owningTier);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual ISegment GetNewSegmentInstance(ITier owningTier)
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }

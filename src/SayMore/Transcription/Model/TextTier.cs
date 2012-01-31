@@ -23,6 +23,12 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override TierBase GetNewTierInstance()
+		{
+			return new TextTier(DisplayName);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public TextSegment AddSegment(string id)
 		{
 			return AddSegment(id, string.Empty);
@@ -34,6 +40,31 @@ namespace SayMore.Transcription.Model
 			var segment = new TextSegment(this, id, text);
 			_segments.Add(segment);
 			return segment;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool RemoveSegment(int index)
+		{
+			if (index >= 0 && index < _segments.Count && _segments.Count > 1)
+			{
+				int joinWithIndex = (index == _segments.Count - 1 ? index - 1 : index + 1);
+				JoinSements(joinWithIndex, index);
+			}
+
+			return base.RemoveSegment(index);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void JoinSements(int fromIndex, int toIndex)
+		{
+			var fromSeg = GetSegment(fromIndex) as ITextSegment;
+			var toSeg = GetSegment(toIndex) as ITextSegment;
+
+			var fromText = (fromSeg.GetText() ?? string.Empty).Trim();
+			var toText = (toSeg.GetText() ?? string.Empty).Trim();
+
+			toSeg.SetText(fromIndex < toIndex ?
+				(fromText + " " + toText).Trim() : (toText + " " + fromText).Trim());
 		}
 
 		/// ------------------------------------------------------------------------------------

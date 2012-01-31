@@ -16,6 +16,12 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override ISegment GetNewSegmentInstance(ITier owningTier)
+		{
+			return new TextSegment(owningTier, Id, _text);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string GetText()
 		{
 			return _text;

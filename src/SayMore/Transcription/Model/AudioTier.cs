@@ -22,5 +22,11 @@ namespace SayMore.Transcription.Model
 			_segments.Add(segment);
 			return segment;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override TierBase GetNewTierInstance()
+		{
+			return new AudioTier(DisplayName, _filename);
+		}
 	}
 }

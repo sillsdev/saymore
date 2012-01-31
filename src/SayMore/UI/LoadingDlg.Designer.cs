@@ -106,6 +106,7 @@ namespace SayMore.UI
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.TopMost = true;
 			((System.ComponentModel.ISupportInitialize)(this._pictureLoading)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);

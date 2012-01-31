@@ -65,7 +65,7 @@ namespace SayMore.UI.ElementListScreen
 			MainMenuItem.DropDownItems.Add(menu);
 			menu.Click += HandleAddingNewElement;
 			menu.Text = LocalizationManager.GetString(
-				"EventsView.EventsMainMenu.NewMenuText", "New", null, menu);
+				"EventsView.EventsMainMenu.NewMenuText", "&New", null, menu);
 
 			menu = new ToolStripMenuItem();
 			MainMenuItem.DropDownItems.Add(menu);

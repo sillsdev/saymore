@@ -89,6 +89,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRegenerateFileButtonClick(object sender, EventArgs e)
 		{
+			_buttonHelp.Enabled = false;
+			_buttonPlay.Enabled = false;
+			_buttonStop.Enabled = false;
+			_buttonRegenerate.Enabled = false;
+
 			_oralAnnotationWaveViewer.CloseAudioStream();
 
 			var oralAnnotationfile = (OralAnnotationComponentFile)_file;
@@ -97,6 +102,8 @@ namespace SayMore.Transcription.UI
 			OralAnnotationFileGenerator.Generate(tier, this);
 			SetComponentFile(_file);
 			_oralAnnotationWaveViewer.Invalidate(true);
+
+			_buttonRegenerate.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

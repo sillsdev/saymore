@@ -101,7 +101,7 @@ namespace SayMore.Transcription.UI
 			this._buttonPlay.Image = global::SayMore.Properties.Resources.PlaySegment;
 			this._buttonPlay.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonPlay, "Playback Oral Annotation File");
+			this.locExtender.SetLocalizableToolTip(this._buttonPlay, "Playback Oral Annotation Audio File");
 			this.locExtender.SetLocalizationComment(this._buttonPlay, null);
 			this.locExtender.SetLocalizingId(this._buttonPlay, "EventsView.Transcription.GeneratedOralAnnotationView.PlayButton");
 			this._buttonPlay.Margin = new System.Windows.Forms.Padding(0, 1, 4, 2);
@@ -126,12 +126,12 @@ namespace SayMore.Transcription.UI
 			this._buttonRegenerate.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this._buttonRegenerate.Image = global::SayMore.Properties.Resources.RegenerateAnnotationFile;
 			this._buttonRegenerate.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonRegenerate, "Regenerate Oral Annotation File");
+			this.locExtender.SetLocalizableToolTip(this._buttonRegenerate, "Regenerate Oral Annotation Aduio File");
 			this.locExtender.SetLocalizationComment(this._buttonRegenerate, null);
 			this.locExtender.SetLocalizingId(this._buttonRegenerate, "EventsView.Transcription.GeneratedOralAnnotationView.RegenerateButton");
 			this._buttonRegenerate.Name = "_buttonRegenerate";
-			this._buttonRegenerate.Size = new System.Drawing.Size(107, 22);
-			this._buttonRegenerate.Text = "Regenerate File";
+			this._buttonRegenerate.Size = new System.Drawing.Size(86, 22);
+			this._buttonRegenerate.Text = "Regenerate";
 			// 
 			// _panelOralAnnotationWaveViewer
 			// 
@@ -173,6 +173,7 @@ namespace SayMore.Transcription.UI
 			this._oralAnnotationWaveViewer.Name = "_oralAnnotationWaveViewer";
 			this._oralAnnotationWaveViewer.Size = new System.Drawing.Size(486, 311);
 			this._oralAnnotationWaveViewer.TabIndex = 0;
+			this._oralAnnotationWaveViewer.ZoomPercentage = 100F;
 			// 
 			// locExtender
 			// 

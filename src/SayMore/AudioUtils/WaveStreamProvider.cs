@@ -13,13 +13,13 @@ namespace SayMore.AudioUtils
 
 		public Exception Error { get; private set; }
 		public string MediaFileName { get; private set; }
-		public WaveFormat OutputFormat { get; private set; }
+		public WaveFormat PreferredOutputFormat { get; private set; }
 		public WaveStream Stream { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public static WaveStreamProvider Create(WaveFormat outputFormat, string mediaFilename)
+		public static WaveStreamProvider Create(WaveFormat preferredOutputFormat, string mediaFilename)
 		{
-			var provider = new WaveStreamProvider(outputFormat, mediaFilename);
+			var provider = new WaveStreamProvider(preferredOutputFormat, mediaFilename);
 			provider.BuildWaveStream();
 			return provider;
 		}
@@ -27,7 +27,7 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public WaveStreamProvider(WaveFormat outputFormat, string mediaFilename)
 		{
-			OutputFormat = outputFormat;
+			PreferredOutputFormat = outputFormat;
 			MediaFileName = mediaFilename;
 		}
 
@@ -81,31 +81,31 @@ namespace SayMore.AudioUtils
 				return;
 			}
 
-			if (stream.WaveFormat.BitsPerSample != OutputFormat.BitsPerSample ||
-				stream.WaveFormat.SampleRate != OutputFormat.SampleRate ||
-				stream.WaveFormat.Channels != OutputFormat.Channels)
-			{
-				try
-				{
-					stream = new WaveFormatConversionStream(OutputFormat, stream);
-				}
-				catch (Exception e)
-				{
-					var execResult = CreateFFmpegGeneratedAudioFile();
-					if (execResult.ExitCode == 0)
-						stream = new WaveFileReader(_temporaryWavFile);
-					else
-					{
-						stream = null;
-						var msg = LocalizationManager.GetString("SoundFileUtils.ConvertingAudioError",
-							"There was an error converting the audio file '{0}' to the correct format.\n\n{1}",
-							"Second parameter is the error message.");
+			//if (stream.WaveFormat.BitsPerSample != OutputFormat.BitsPerSample ||
+			//    stream.WaveFormat.SampleRate != OutputFormat.SampleRate ||
+			//    stream.WaveFormat.Channels != OutputFormat.Channels)
+			//{
+			//    try
+			//    {
+			//        stream = new WaveFormatConversionStream(OutputFormat, stream);
+			//    }
+			//    catch (Exception e)
+			//    {
+			//        var execResult = CreateFFmpegGeneratedAudioFile();
+			//        if (execResult.ExitCode == 0)
+			//            stream = new WaveFileReader(_temporaryWavFile);
+			//        else
+			//        {
+			//            stream = null;
+			//            var msg = LocalizationManager.GetString("SoundFileUtils.ConvertingAudioError",
+			//                "There was an error converting the audio file '{0}' to the correct format.\n\n{1}",
+			//                "Second parameter is the error message.");
 
-						Error = new Exception(string.Format(msg, execResult.StandardError), e);
-						return;
-					}
-				}
-			}
+			//            Error = new Exception(string.Format(msg, execResult.StandardError), e);
+			//            return;
+			//        }
+			//    }
+			//}
 
 			Stream = stream;
 		}
@@ -116,8 +116,8 @@ namespace SayMore.AudioUtils
 			_temporaryWavFile = Path.ChangeExtension(Path.GetTempFileName(), ".wav");
 
 			return Palaso.Media.FFmpegRunner.ExtractPcmAudio(MediaFileName,
-				_temporaryWavFile, OutputFormat.BitsPerSample, OutputFormat.SampleRate,
-				OutputFormat.Channels, new NullProgress());
+				_temporaryWavFile, PreferredOutputFormat.BitsPerSample, PreferredOutputFormat.SampleRate,
+				PreferredOutputFormat.Channels, new NullProgress());
 		}
 
 		/// ------------------------------------------------------------------------------------

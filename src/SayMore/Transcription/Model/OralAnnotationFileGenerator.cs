@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using Palaso.Reporting;
 using SayMore.AudioUtils;
 using SayMore.Properties;
@@ -15,16 +16,25 @@ namespace SayMore.Transcription.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This class generates an oral annotation file by interleaving into a single, 3-channel
-	/// audio file, original recording, careful speech and oral translation segments.
+	/// This class generates an oral annotation file by interleaving into a single audio file
+	/// having one channel for the careful speech, one for the oral translation and one or
+	/// two for the original recording. Therefore, the result is an audio file containing
+	/// 3 or 4 channels, depending on how many are in the original.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class OralAnnotationFileGenerator : IDisposable
 	{
+		private enum AnnotationChannel
+		{
+			Original,
+			Careful,
+			Translation
+		}
+
 		private readonly TimeOrderTier _origRecordingTier;
 		private readonly ITimeOrderSegment[] _origRecordingSegments;
 		private WaveFileWriter _audioFileWriter;
-		private readonly WaveFormat _output3ChannelAudioFormat;
+		private readonly WaveFormat _outputAudioFormat;
 		private readonly WaveFormat _output1ChannelAudioFormat;
 		private WaveStreamProvider _origRecStreamProvider;
 		private string _outputFileName;
@@ -83,11 +93,17 @@ namespace SayMore.Transcription.Model
 		{
 			_origRecordingTier = originalRecodingTier;
 			_origRecordingSegments = _origRecordingTier.GetAllSegments().Cast<ITimeOrderSegment>().ToArray();
-			_output3ChannelAudioFormat = WaveFileUtils.GetDefaultWaveFormat(3);
+			_outputAudioFormat = WaveFileUtils.GetDefaultWaveFormat(3);
 			_output1ChannelAudioFormat = WaveFileUtils.GetDefaultWaveFormat(1);
 
 			_origRecStreamProvider =
 				WaveStreamProvider.Create(_output1ChannelAudioFormat, _origRecordingTier.MediaFileName);
+
+			if (_origRecStreamProvider.Stream.WaveFormat.Channels >= 2)
+			{
+				_outputAudioFormat = new WaveFormat(_outputAudioFormat.SampleRate,
+					_outputAudioFormat.BitsPerSample, _origRecStreamProvider.Stream.WaveFormat.Channels + 2);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -123,7 +139,7 @@ namespace SayMore.Transcription.Model
 
 			try
 			{
-				using (_audioFileWriter = new WaveFileWriter(tmpOutputFile, _output3ChannelAudioFormat))
+				using (_audioFileWriter = new WaveFileWriter(tmpOutputFile, _outputAudioFormat))
 				{
 					for (int i = 0; i < _origRecordingSegments.Length; i++)
 						InterleaveSegments(i);
@@ -160,20 +176,20 @@ namespace SayMore.Transcription.Model
 			// Write a channel for the original recording segment
 			var inputStream = _origRecStreamProvider.GetStreamSubset(segment.Start, segment.GetLength());
 			if (inputStream != null)
-				WriteAudioStreamToChannel(1, inputStream);
+				WriteAudioStreamToChannel(AnnotationChannel.Original, inputStream);
 
 			// Write a channel for the careful speech segment
 			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, OralAnnotationType.Careful))
 			{
 				if (provider.Stream != null)
-					WriteAudioStreamToChannel(2, provider.Stream);
+					WriteAudioStreamToChannel(AnnotationChannel.Careful, provider.Stream);
 			}
 
 			// Write a channel for the oral translation segment
 			using (var provider = GetWaveStreamForOralAnnotationSegment(segment, OralAnnotationType.Translation))
 			{
 				if (provider.Stream != null)
-					WriteAudioStreamToChannel(3, provider.Stream);
+					WriteAudioStreamToChannel(AnnotationChannel.Translation, provider.Stream);
 			}
 		}
 
@@ -206,34 +222,36 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void WriteAudioStreamToChannel(int channel, WaveStream inputStream)
+		private void WriteAudioStreamToChannel(AnnotationChannel channel, WaveStream inputStream)
 		{
-			int bytesPerBlock = (inputStream.WaveFormat.BitsPerSample / 8) * inputStream.WaveFormat.Channels;
-			var oneBlock = new byte[bytesPerBlock];
-			var silentBlock = new byte[bytesPerBlock];
+			var silentBlocksForOrig = new float[_origRecStreamProvider.Stream.WaveFormat.Channels];
+			var totalBlocks = inputStream.Length / inputStream.WaveFormat.BlockAlign;
+			var blocksRead = 0;
+			var provider = new SampleChannel(inputStream);
+			var buffer = new float[provider.WaveFormat.Channels];
 
-			for (long bytesRead = 0; bytesRead < inputStream.Length; bytesRead += bytesPerBlock)
+			while (provider.Read(buffer, 0, provider.WaveFormat.Channels) > 0 && blocksRead < totalBlocks)
 			{
-				inputStream.Read(oneBlock, 0, bytesPerBlock);
+				blocksRead += 1;
 
 				switch (channel)
 				{
-					case 1:
-						_audioFileWriter.Write(oneBlock, 0, bytesPerBlock);
-						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
-						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
+					case AnnotationChannel.Original:
+						_audioFileWriter.WriteSamples(buffer, 0, _origRecStreamProvider.Stream.WaveFormat.Channels);
+						_audioFileWriter.WriteSample(0f);
+						_audioFileWriter.WriteSample(0f);
 						break;
 
-					case 2:
-						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
-						_audioFileWriter.Write(oneBlock, 0, bytesPerBlock);
-						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
+					case AnnotationChannel.Careful:
+						_audioFileWriter.WriteSamples(silentBlocksForOrig, 0, silentBlocksForOrig.Length);
+						_audioFileWriter.WriteSample(buffer[0]);
+						_audioFileWriter.WriteSample(0f);
 						break;
 
-					case 3:
-						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
-						_audioFileWriter.Write(silentBlock, 0, bytesPerBlock);
-						_audioFileWriter.Write(oneBlock, 0, bytesPerBlock);
+					case AnnotationChannel.Translation:
+						_audioFileWriter.WriteSamples(silentBlocksForOrig, 0, silentBlocksForOrig.Length);
+						_audioFileWriter.WriteSample(0f);
+						_audioFileWriter.WriteSample(buffer[0]);
 						break;
 				}
 			}

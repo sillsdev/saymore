@@ -187,15 +187,6 @@ namespace SayMore.AudioUtils
 			for (int c = 0; c < _channels; c++)
 				_samplesToDraw[c] = new List<float[]>(Control == null ? 400 : Control.ClientSize.Width);
 
-			//_waveStream.Seek(0, SeekOrigin.Begin);
-			//var prov = new SampleChannel(_waveStream);
-
-			//var buff = new float[prov.WaveFormat.Channels];
-
-			//while (prov.Read(buff, 0, prov.WaveFormat.Channels) > 0)
-			//{
-			//}
-
 			_waveStream.Seek(0, SeekOrigin.Begin);
 			var provider = new SampleChannel(_waveStream);
 
@@ -300,7 +291,7 @@ namespace SayMore.AudioUtils
 			if (!_allowDrawing)
 				return;
 
-			if (_waveStream != null && (_waveStream.WaveFormat.Channels > 2 ||
+			if (_waveStream != null && (/*_waveStream.WaveFormat.Channels > 2 || */
 				_waveStream.WaveFormat.BitsPerSample == 32 && _waveStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat))
 			{
 				var msg = FormatNotSupportedMessageProvider == null ?
@@ -346,20 +337,31 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public IEnumerable<Rectangle> GetChannelDisplayRectangles(Rectangle clientRectangle)
+		{
+			if (clientRectangle != Rectangle.Empty)
+			{
+				// Calculate the rectangle for each channel.
+				int dy = 0;
+				for (int c = 0; c < _channels; c++)
+				{
+					int height = (int)Math.Floor((float)clientRectangle.Height / _channels);
+					var rc = new Rectangle(clientRectangle.X, dy, clientRectangle.Width, height);
+					dy += height;
+					yield return rc;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected virtual void DrawWave(Graphics g, Rectangle rc)
 		{
-			var channelRects = new Rectangle[_channels];
+			var channelRects = GetChannelDisplayRectangles(rc).ToArray();
 			var dyChannelXAxes = new int[_channels];
 
-			// Calculate the rectangle for each channel.
-			int dy = 0;
+			// Calculate the midpoint of each rectangle.
 			for (int c = 0; c < _channels; c++)
-			{
-				int height = (int)Math.Floor((float)rc.Height / _channels);
-				channelRects[c] = new Rectangle(rc.X, dy, rc.Width, height);
-				dyChannelXAxes[c] = dy + (int)Math.Ceiling(height / 2f);
-				dy += height;
-			}
+				dyChannelXAxes[c] = channelRects[c].Y + (int)Math.Ceiling(channelRects[c].Height / 2f);
 
 			// Draw the X axis through middle of each channel's rectangle.
 			using (var pen = new Pen(ForeColor))

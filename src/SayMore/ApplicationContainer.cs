@@ -9,6 +9,7 @@ using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.UI.ElementListScreen;
 using SayMore.UI.ProjectChoosingAndCreating;
 using SilTools;
 using SplashScreen=SayMore.UI.SplashScreen;
@@ -42,7 +43,7 @@ namespace SayMore
 			//IEnumerable<ICommand> will get a list of *instances*, one each, of each command.
 			builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
 				.As<ICommand>()
-				.Where(t => t.GetInterfaces().Contains(typeof(ICommand)));
+				.Where(t => t.GetInterfaces().Contains(typeof(ICommand))).InstancePerLifetimeScope();
 
 //			var filesTypes = GetFilesTypes(parentContainer);
 //			builder.RegisterInstance(filesTypes).As(typeof(IEnumerable<FileType>));

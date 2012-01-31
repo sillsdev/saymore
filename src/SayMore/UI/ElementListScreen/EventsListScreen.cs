@@ -36,17 +36,7 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.InsertButton(1, _buttonNewFromFiles);
 			_elementsListPanel.InsertButton(2, _buttonNewFromRecording);
 
-			MainMenuItem = new ToolStripMenuItem();
-
-			MainMenuItem.Text = LocalizationManager.GetString("EventsView.EventsMainMenuText",
-				"E&vent", null, MainMenuItem);
-
-			MainMenuItem.DropDownItems.Add(_elementsListPanel._buttonNew.Text, null, HandleAddingNewElement);
-			MainMenuItem.DropDownItems.Add(_buttonNewFromFiles.Text, null, HandleButtonNewFromFilesClick);
-			MainMenuItem.DropDownItems.Add(new ToolStripSeparator());
-
-			foreach (var eventMenuItem in _elementsGrid.GetMenuCommands())
-				MainMenuItem.DropDownItems.Add(eventMenuItem);
+			InitializeMenus();
 
 			if (_componentsSplitter.Panel2.Controls.Count > 1)
 				_labelClickNewHelpPrompt.Visible = false;
@@ -62,6 +52,37 @@ namespace SayMore.UI.ElementListScreen
 			_elementsListPanel.HeaderPanelBackColor1 = Settings.Default.EventEditorsButtonBackgroundColor2;
 			_elementsListPanel.HeaderPanelBackColor2 = Settings.Default.EventEditorsButtonBackgroundColor1;
 			_elementsListPanel.HeaderPanelBottomBorderColor = Settings.Default.EventEditorsBorderColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeMenus()
+		{
+			MainMenuItem = new ToolStripMenuItem();
+			MainMenuItem.Text = LocalizationManager.GetString(
+				"EventsView.EventsMainMenu.TopLevelMenuText", "E&vent", null, MainMenuItem);
+
+			var menu = new ToolStripMenuItem();
+			MainMenuItem.DropDownItems.Add(menu);
+			menu.Click += HandleAddingNewElement;
+			menu.Text = LocalizationManager.GetString(
+				"EventsView.EventsMainMenu.NewMenuText", "New", null, menu);
+
+			menu = new ToolStripMenuItem();
+			MainMenuItem.DropDownItems.Add(menu);
+			menu.Click += HandleButtonNewFromFilesClick;
+			menu.Text = LocalizationManager.GetString(
+				"EventsView.EventsMainMenu.NewFromDeviceMenuText", "New From &Device...", null, menu);
+
+			menu = new ToolStripMenuItem();
+			MainMenuItem.DropDownItems.Add(menu);
+			menu.Click += HandleButtonNewFromRecordingsClick;
+			menu.Text = LocalizationManager.GetString(
+				"EventsView.EventsMainMenu.NewFromDeviceMenuText", "New From &Recording...", null, menu);
+
+			MainMenuItem.DropDownItems.Add(new ToolStripSeparator());
+
+			foreach (var eventMenuItem in _elementsGrid.GetMenuCommands())
+				MainMenuItem.DropDownItems.Add(eventMenuItem);
 		}
 
 		/// ------------------------------------------------------------------------------------

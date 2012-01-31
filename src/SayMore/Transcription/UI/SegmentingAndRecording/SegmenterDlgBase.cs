@@ -99,6 +99,9 @@ namespace SayMore.Transcription.UI
 					"Segmenting {0} bit, {1} audio files is not supported."),
 					waveFormat.BitsPerSample, waveFormat.Encoding);
 			};
+
+			_viewModel.BoundariesUpdated +=
+				delegate { _waveControl.SegmentBoundaries = _viewModel.GetSegmentBoundaries(); };
 		}
 
 		/// ------------------------------------------------------------------------------------

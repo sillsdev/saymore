@@ -20,19 +20,26 @@ namespace SayMore.Transcription.UI
 			public override string ToString() { return start + " - " + end; }
 		}
 
+		public event EventHandler BoundariesUpdated;
+
 		public ComponentFile ComponentFile { get; protected set; }
 		public WaveStream OrigWaveStream { get; protected set; }
 		public bool HaveSegmentBoundaries { get; set; }
 		public Action UpdateDisplayProvider { get; set; }
+		public List<ITier> Tiers { get; protected set; }
 
-		protected readonly List<SegmentBoundaries> _segments;
+		protected List<SegmentBoundaries> _segments;
 
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBaseViewModel(ComponentFile file)
 		{
 			ComponentFile = file;
 			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile); // GetStreamFromAudio(ComponentFile.PathToAnnotatedFile);
-			_segments = (InitializeSegments(ComponentFile) ?? new List<SegmentBoundaries>()).ToList();
+
+			Tiers = file.GetAnnotationFile() != null ?
+				file.GetAnnotationFile().Tiers.Select(t => t.Copy()).ToList() : new List<ITier>();
+
+			_segments = InitializeSegments(Tiers).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -79,17 +86,20 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected IEnumerable<SegmentBoundaries> InitializeSegments(ComponentFile file)
+		protected IEnumerable<SegmentBoundaries> InitializeSegments(IEnumerable<ITier> tiers)
 		{
-			if (file.GetAnnotationFile() == null)
-				return null;
-
-			var toTier = file.GetAnnotationFile().Tiers.FirstOrDefault(t => t is TimeOrderTier);
+			var toTier = tiers.FirstOrDefault(t => t is TimeOrderTier);
 			if (toTier == null)
-				return null;
+				return new List<SegmentBoundaries>();
 
 			return from seg in toTier.GetAllSegments().Cast<ITimeOrderSegment>()
 				select new SegmentBoundaries(TimeSpan.FromSeconds(seg.Start), TimeSpan.FromSeconds(seg.Stop));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected TimeOrderTier GetTierDelinieatingSegments()
+		{
+			return Tiers.FirstOrDefault(t => t is TimeOrderTier) as TimeOrderTier;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -191,20 +201,32 @@ namespace SayMore.Transcription.UI
 			if (index < 0 || index >= _segments.Count)
 				return;
 
+			ITimeOrderSegment segment;
+			var	tier = GetTierDelinieatingSegments();
+
 			if (index < _segments.Count - 1)
 			{
 				RenameAnnotationForResizedSegment(_segments[index + 1],
 					new SegmentBoundaries(newBoundary, _segments[index + 1].end));
-				_segments[index + 1].start = newBoundary;
+
+				segment = tier.GetAllSegments().ElementAt(index + 1) as ITimeOrderSegment;
+				segment.Start = (float)newBoundary.TotalSeconds;
+//				_segments[index + 1].start = newBoundary;
 			}
 
 			RenameAnnotationForResizedSegment(_segments[index],
 				new SegmentBoundaries(_segments[index].start, newBoundary));
 
-			_segments[index].end = newBoundary;
-			SegmentBoundariesChanged = true;
-		}
+			segment = tier.GetAllSegments().ElementAt(index) as ITimeOrderSegment;
+			segment.Stop = (float)newBoundary.TotalSeconds;
+			//_segments[index].end = newBoundary;
 
+			_segments = InitializeSegments(Tiers).ToList();
+			SegmentBoundariesChanged = true;
+
+			if (BoundariesUpdated != null)
+				BoundariesUpdated(this, EventArgs.Empty);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void DeleteBoundary(TimeSpan boundary)
@@ -213,15 +235,27 @@ namespace SayMore.Transcription.UI
 			if (i < 0)
 				return;
 
-			_segments.RemoveAt(i);
+			foreach (var tier in Tiers)
+				tier.RemoveSegment(i);
 
-			if (_segments.Count == 0 || i == _segments.Count)
-				return;
+			_segments = InitializeSegments(Tiers).ToList();
 
-			if (i == 0)
-				_segments[0].start = TimeSpan.Zero;
-			else
-				_segments[i].start = _segments[i - 1].end;
+			if (BoundariesUpdated != null)
+				BoundariesUpdated(this, EventArgs.Empty);
+
+			//var i = _segments.Select(s => s.end).ToList().IndexOf(boundary);
+			//if (i < 0)
+			//    return;
+
+			//_segments.RemoveAt(i);
+
+			//if (_segments.Count == 0 || i == _segments.Count)
+			//    return;
+
+			//if (i == 0)
+			//    _segments[0].start = TimeSpan.Zero;
+			//else
+			//    _segments[i].start = _segments[i - 1].end;
 		}
 
 		/// ------------------------------------------------------------------------------------

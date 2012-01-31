@@ -37,6 +37,12 @@ namespace SayMore.Model.Files
 		public IEnumerable<ITier> Tiers { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
+		public void SetTiers(IEnumerable<ITier> tiers)
+		{
+			Tiers = tiers.ToArray();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string GetPathToAssociatedMediaFile()
 		{
 			return PathToAnnotatedFile.Substring(0,

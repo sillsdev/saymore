@@ -723,12 +723,15 @@ namespace SayMore.Model.Files
 
 					viewModel.SaveNewOralAnnoationsInPermanentLocation();
 
-					var annotationFileName = AnnotationFileHelper.CreateFromSegments(
-						PathToAnnotatedFile, viewModel.GetSegments().ToArray());
-
+					var annotationFileName = AnnotationFileHelper.CreateFromSegments( PathToAnnotatedFile, viewModel.GetSegments().ToArray());
 					var helper = AnnotationFileHelper.Load(annotationFileName);
-					var tier = (TimeOrderTier)helper.GetTiers().FirstOrDefault(t => t is TimeOrderTier);
-					OralAnnotationFileGenerator.Generate(tier, null);
+
+					var textTier = (TextTier)viewModel.Tiers.FirstOrDefault(t => t is TextTier);
+					helper.Save(textTier);
+
+					var timeTier = (TimeOrderTier)helper.GetTiers().FirstOrDefault(t => t is TimeOrderTier);
+					OralAnnotationFileGenerator.Generate(timeTier, null);
+
 					return annotationFileName;
 				}
 				finally

@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using NAudio.Wave;
 using Palaso.Reporting;
 using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.NewEventsFromFiles;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Transcription.UI
 {
@@ -43,7 +45,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override void Dispose()
 		{
-			RemoveAllOralAnnotationFilesFromFolder(_tempOralAnnotationsFolder);
+			FileSystemUtils.RemoveDirectory(_tempOralAnnotationsFolder);
 			base.Dispose();
 		}
 
@@ -77,23 +79,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void RemoveAllOralAnnotationFilesFromFolder(string folder)
-		{
-			if (!Directory.Exists(folder))
-				return;
-
-			for (int i = 0; i < 20; i++)
-			{
-				try
-				{
-					Directory.Delete(folder, true);
-					return;
-				}
-				catch { }
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public bool SaveNewOralAnnoationsInPermanentLocation()
 		{
 			return CopyAnnotationFiles(_tempOralAnnotationsFolder, _oralAnnotationsFolder);
@@ -102,25 +87,34 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private bool CopyAnnotationFiles(string sourceFolder, string targetFolder)
 		{
-			RemoveAllOralAnnotationFilesFromFolder(targetFolder);
+			FileSystemUtils.RemoveDirectory(targetFolder);
 
-			try
+			int retryCount = 0;
+			Exception error = null;
+
+			while (retryCount < 10)
 			{
-				if (!Directory.Exists(targetFolder))
-					Directory.CreateDirectory(targetFolder);
+				try
+				{
+					FileSystemUtils.CreateDirectory(targetFolder);
 
-				var pairs = Directory.GetFiles(sourceFolder, "*.wav", SearchOption.TopDirectoryOnly)
-					.Select(f => new KeyValuePair<string, string>(f, Path.Combine(targetFolder, Path.GetFileName(f))));
+					var pairs = Directory.GetFiles(sourceFolder, "*.wav", SearchOption.TopDirectoryOnly)
+						.Select(f => new KeyValuePair<string, string>(f, Path.Combine(targetFolder, Path.GetFileName(f))));
 
-				var model = new CopyFilesViewModel(pairs);
-				model.Start();
-				return true;
+					var model = new CopyFilesViewModel(pairs);
+					model.Start();
+					return true;
+				}
+				catch (Exception e)
+				{
+					Application.DoEvents();
+					retryCount++;
+					error = e;
+				}
 			}
-			catch (Exception e)
-			{
-				ErrorReport.NotifyUserOfProblem(e,
-					"Error trying to copy oral annotation files from '{0}' to '{1}'", sourceFolder, targetFolder);
-			}
+
+			ErrorReport.NotifyUserOfProblem(error,
+				"Error trying to copy oral annotation files from '{0}' to '{1}'", sourceFolder, targetFolder);
 
 			return false;
 		}
@@ -261,7 +255,11 @@ namespace SayMore.Transcription.UI
 			_annotationPlayer = new AudioPlayer();
 			_annotationPlayer.LoadFile(filename);
 			_annotationPlayer.PlaybackStarted += (sender, args) => InvokeUpdateDisplayAction();
-			_annotationPlayer.Stopped += (sender, args) => InvokeUpdateDisplayAction();
+			_annotationPlayer.Stopped += delegate
+			{
+				InvokeUpdateDisplayAction();
+				CloseAnnotationPlayer();
+			};
 
 			return true;
 		}

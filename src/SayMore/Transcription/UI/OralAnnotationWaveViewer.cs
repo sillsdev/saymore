@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SayMore.UI.MediaPlayer;
@@ -53,6 +54,7 @@ namespace SayMore.Transcription.UI
 		{
 			Application.Idle -= HandleInitialWaveDisplay;
 			_waveControl.AllowDrawing = true;
+			ArrangeLabels();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -78,6 +80,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void CloseAudioStream()
 		{
+			_playerViewModel.ShutdownMPlayerProcess();
 			_waveControl.AutoScrollPosition = new Point(0, AutoScrollPosition.Y);
 			_waveControl.SetCursor(0);
 			_waveControl.CloseStream();
@@ -91,9 +94,44 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleTableLayoutPaint(object sender, PaintEventArgs e)
+		protected override void OnSizeChanged(EventArgs e)
 		{
-			var dx = _waveControl.Left - 1;
+			base.OnSizeChanged(e);
+			ArrangeLabels();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ArrangeLabels()
+		{
+			var rects = _waveControl.GetChannelDisplayRectangles().ToArray();
+
+			if (rects.Length == 0)
+				return;
+
+			int i = 0;
+
+			if (rects.Length == 3)
+			{
+				_labelOriginal.Top = (rects[0].Top + (int)Math.Ceiling(rects[0].Height / 2f)) -
+					(int)Math.Ceiling(_labelOriginal.Height / 2f);
+			}
+			else
+			{
+				_labelOriginal.Top = rects[0].Bottom - (int)Math.Ceiling(_labelOriginal.Height / 2f);
+				i = 2;
+			}
+
+			_labelCareful.Top = (rects[i].Top + (int)Math.Ceiling(rects[i++].Height / 2f)) -
+				(int)Math.Ceiling(_labelCareful.Height / 2f);
+
+			_labelTranslation.Top = (rects[i].Top + (int)Math.Ceiling(rects[i].Height / 2f)) -
+				(int)Math.Ceiling(_labelTranslation.Height / 2f);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleLabelPanelPaint(object sender, PaintEventArgs e)
+		{
+			var dx = _panelLabels.Width - 1;
 
 			using (var pen = new Pen(VisualStyleInformation.TextControlBorder))
 				e.Graphics.DrawLine(pen, dx, 0, dx, _tableLayout.Height);

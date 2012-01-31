@@ -80,6 +80,9 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual void Initialize(WaveFileReader stream)
 		{
+			if (_painter != null)
+				_painter.Dispose();
+
 			_waveStream = stream;
 			_painter = GetNewWavePainter(stream);
 			InternalInitialize();
@@ -88,6 +91,9 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
 		{
+			if (_painter != null)
+				_painter.Dispose();
+
 			_painter = GetNewWavePainter(samples, totalTime);
 			InternalInitialize();
 		}
@@ -322,6 +328,13 @@ namespace SayMore.AudioUtils
 				yield return _painter.GetRectangleForTimeRange(startTime, endTime);
 				startTime = endTime;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<Rectangle> GetChannelDisplayRectangles()
+		{
+			return (_painter == null ? new Rectangle[0] :
+				_painter.GetChannelDisplayRectangles(ClientRectangle));
 		}
 
 		/// ------------------------------------------------------------------------------------

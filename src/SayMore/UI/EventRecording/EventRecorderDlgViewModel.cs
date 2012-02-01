@@ -38,6 +38,12 @@ namespace SayMore.UI.EventRecording
 			_player.Stopped += delegate { UpdateAction(); };
 
 			_path = Path.Combine(Path.GetTempPath(), "tmpSayMoreEvent.wav");
+
+			if (File.Exists(_path))
+			{
+				try { File.Delete(_path); }
+				catch { }
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -51,12 +57,14 @@ namespace SayMore.UI.EventRecording
 				try { File.Delete(_path); }
 				catch { }
 			}
+
+			CloseRecorder();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void BeginRecording()
 		{
-			Recorder.BeginRecording(_path);
+			Recorder.BeginRecording(_path, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,10 +118,21 @@ namespace SayMore.UI.EventRecording
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void CloseRecorder()
+		{
+			if (Recorder != null)
+			{
+				Recorder.Dispose();
+				Recorder = null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void MoveRecordingToEventFolder(Event evnt)
 		{
 			try
 			{
+				CloseRecorder();
 				File.Move(_path, Path.Combine(evnt.FolderPath, evnt.Id + ".wav"));
 			}
 			catch (Exception e)

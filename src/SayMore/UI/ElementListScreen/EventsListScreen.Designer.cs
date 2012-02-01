@@ -116,8 +116,8 @@ namespace SayMore.UI.ElementListScreen
 			this._eventsListPanel.HeaderPanelBottomBorderColor = System.Drawing.SystemColors.ControlDark;
 			this.locExtender.SetLocalizableToolTip(this._eventsListPanel, null);
 			this.locExtender.SetLocalizationComment(this._eventsListPanel, null);
-			this.locExtender.SetLocalizationPriority(this._eventsListPanel, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._eventsListPanel, "UI.EventsView.ListPanel");
+			//this.locExtender.SetLocalizationPriority(this._eventsListPanel, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._eventsListPanel, "EventsView.EventsList.HeadingText");
 			this._eventsListPanel.Location = new System.Drawing.Point(0, 0);
 			this._eventsListPanel.MinimumSize = new System.Drawing.Size(165, 0);
 			this._eventsListPanel.Name = "_eventsListPanel";

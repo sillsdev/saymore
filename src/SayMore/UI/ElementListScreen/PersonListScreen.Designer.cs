@@ -77,8 +77,8 @@ namespace SayMore.UI.ElementListScreen
 			this._peopleListPanel.HeaderPanelBottomBorderColor = System.Drawing.SystemColors.ControlDark;
 			this.locExtender.SetLocalizableToolTip(this._peopleListPanel, null);
 			this.locExtender.SetLocalizationComment(this._peopleListPanel, null);
-			this.locExtender.SetLocalizationPriority(this._peopleListPanel, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._peopleListPanel, "UI.PeopleView.ListPanel");
+			//this.locExtender.SetLocalizationPriority(this._peopleListPanel, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._peopleListPanel, "PeopleView.PeopleList.HeadingText");
 			this._peopleListPanel.Location = new System.Drawing.Point(0, 0);
 			this._peopleListPanel.MinimumSize = new System.Drawing.Size(165, 0);
 			this._peopleListPanel.Name = "_peopleListPanel";

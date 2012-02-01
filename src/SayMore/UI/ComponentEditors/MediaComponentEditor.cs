@@ -18,7 +18,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public MediaComponentEditor()
 		{
-			var moreReliableDesignMode = (base.DesignMode || GetService(typeof(IDesignerHost)) != null) ||
+			var moreReliableDesignMode = (DesignMode || GetService(typeof(IDesignerHost)) != null) ||
 				(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
 
 			if (!moreReliableDesignMode)

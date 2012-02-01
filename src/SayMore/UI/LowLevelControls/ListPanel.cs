@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using SayMore.UI.Utilities;
+using SilTools;
 
 namespace SayMore.UI.LowLevelControls
 {
@@ -48,9 +49,7 @@ namespace SayMore.UI.LowLevelControls
 				return;
 
 			DeleteButton.Enabled = false;
-
-			_headerLabel.Font = SystemFonts.MenuFont.FontFamily.IsStyleAvailable(FontStyle.Bold) ?
-				new Font(SystemFonts.MenuFont, FontStyle.Bold) : SystemFonts.MenuFont;
+			_headerLabel.Font = FontHelper.MakeFont(SystemFonts.MenuFont, FontStyle.Bold);
 		}
 
 		/// ------------------------------------------------------------------------------------

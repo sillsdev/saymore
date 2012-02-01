@@ -67,7 +67,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelTranslation, null);
 			this.locExtender.SetLocalizationComment(this._labelTranslation, null);
 			this.locExtender.SetLocalizingId(this._labelTranslation, "EventsView.GeneratedOralAnnotationView.TranslationLabel");
-			this._labelTranslation.Location = new System.Drawing.Point(0, 105);
+			this._labelTranslation.Location = new System.Drawing.Point(0, 98);
 			this._labelTranslation.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._labelTranslation.Name = "_labelTranslation";
 			this._labelTranslation.Size = new System.Drawing.Size(59, 13);
@@ -81,7 +81,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelCareful, null);
 			this.locExtender.SetLocalizationComment(this._labelCareful, null);
 			this.locExtender.SetLocalizingId(this._labelCareful, "EventsView.GeneratedOralAnnotationView.CarefulLabel");
-			this._labelCareful.Location = new System.Drawing.Point(0, 68);
+			this._labelCareful.Location = new System.Drawing.Point(0, 61);
 			this._labelCareful.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._labelCareful.Name = "_labelCareful";
 			this._labelCareful.Size = new System.Drawing.Size(40, 13);
@@ -95,7 +95,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelOriginal, null);
 			this.locExtender.SetLocalizationComment(this._labelOriginal, null);
 			this.locExtender.SetLocalizingId(this._labelOriginal, "EventsView.GeneratedOralAnnotationView.OriginalLabel");
-			this._labelOriginal.Location = new System.Drawing.Point(0, 38);
+			this._labelOriginal.Location = new System.Drawing.Point(0, 31);
 			this._labelOriginal.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._labelOriginal.Name = "_labelOriginal";
 			this._labelOriginal.Size = new System.Drawing.Size(42, 13);

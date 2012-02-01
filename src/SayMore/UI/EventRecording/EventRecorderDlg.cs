@@ -3,8 +3,11 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization.UI;
 using SayMore.Properties;
+using SayMore.UI.MediaPlayer;
 using SilTools;
+using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
 
 namespace SayMore.UI.EventRecording
 {
@@ -12,11 +15,15 @@ namespace SayMore.UI.EventRecording
 	public partial class EventRecorderDlg : Form
 	{
 		private readonly EventRecorderDlgViewModel _viewModel;
+		private string _recordedLengthLabelFormat;
 
 		/// ------------------------------------------------------------------------------------
 		public EventRecorderDlg()
 		{
 			InitializeComponent();
+
+			_recordedLengthLabelFormat = _labelRecLength.Text;
+			_labelRecLength.Text = string.Format(_recordedLengthLabelFormat, "00.0");
 
 			if ((DesignMode || GetService(typeof(IDesignerHost)) != null) ||
 				LicenseManager.UsageMode == LicenseUsageMode.Designtime)
@@ -26,6 +33,7 @@ namespace SayMore.UI.EventRecording
 
 			DoubleBuffered = true;
 
+			_labelRecLength.Font = SystemFonts.MenuFont;
 			_labelRecordingFormat.Font = SystemFonts.MenuFont;
 			toolStrip1.Renderer = new NoToolStripBorderRenderer();
 			_peakMeter.Start(33); //the number here is how often it updates
@@ -55,7 +63,12 @@ namespace SayMore.UI.EventRecording
 			_viewModel = viewModel;
 			_viewModel.UpdateAction = UpdateDisplay;
 			_viewModel.Recorder.PeakLevelChanged += ((s, e) => _peakMeter.PeakLevel = e.Level);
+			_viewModel.Recorder.RecordingProgress += (s, e) =>
+				_labelRecLength.Text = string.Format(_recordedLengthLabelFormat,
+					MediaPlayerViewModel.MakeTimeString((float)e.RecordedLength.TotalSeconds));
+
 			_recDeviceButton.Recorder = _viewModel.Recorder;
+			LocalizeItemDlg.StringsLocalized += delegate { _recordedLengthLabelFormat = _labelRecLength.Text; };
 		}
 
 		/// ------------------------------------------------------------------------------------

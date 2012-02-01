@@ -42,6 +42,7 @@ namespace SayMore.UI.EventRecording
 			this._buttonRecord = new System.Windows.Forms.ToolStripButton();
 			this._buttonPlayback = new System.Windows.Forms.ToolStripButton();
 			this._buttonStop = new System.Windows.Forms.ToolStripButton();
+			this._labelRecLength = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
 			this._panelPeakMeter.SuspendLayout();
@@ -58,19 +59,21 @@ namespace SayMore.UI.EventRecording
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.Controls.Add(this._buttonOK, 2, 2);
-			this.tableLayoutPanel1.Controls.Add(this._recDeviceButton, 0, 2);
-			this.tableLayoutPanel1.Controls.Add(this._labelRecordingFormat, 1, 2);
-			this.tableLayoutPanel1.Controls.Add(this._buttonCancel, 3, 2);
+			this.tableLayoutPanel1.Controls.Add(this._buttonOK, 2, 3);
+			this.tableLayoutPanel1.Controls.Add(this._recDeviceButton, 0, 3);
+			this.tableLayoutPanel1.Controls.Add(this._labelRecordingFormat, 1, 3);
+			this.tableLayoutPanel1.Controls.Add(this._buttonCancel, 3, 3);
 			this.tableLayoutPanel1.Controls.Add(this._panelPeakMeter, 4, 1);
 			this.tableLayoutPanel1.Controls.Add(this.toolStrip1, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this._labelRecLength, 0, 2);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 3;
+			this.tableLayoutPanel1.RowCount = 4;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(354, 187);
 			this.tableLayoutPanel1.TabIndex = 1;
@@ -164,7 +167,7 @@ namespace SayMore.UI.EventRecording
 			this._panelPeakMeter.Name = "_panelPeakMeter";
 			this._panelPeakMeter.Padding = new System.Windows.Forms.Padding(0, 0, 1, 0);
 			this._panelPeakMeter.PaintExplorerBarBackground = false;
-			this._panelPeakMeter.Size = new System.Drawing.Size(17, 153);
+			this._panelPeakMeter.Size = new System.Drawing.Size(17, 135);
 			this._panelPeakMeter.TabIndex = 4;
 			//
 			// _peakMeter
@@ -187,7 +190,7 @@ namespace SayMore.UI.EventRecording
 			this.locExtender.SetLocalizingId(this._peakMeter, "peakMeterCtrl1.peakMeterCtrl1");
 			this._peakMeter.Location = new System.Drawing.Point(0, 0);
 			this._peakMeter.Name = "_peakMeter";
-			this._peakMeter.Size = new System.Drawing.Size(14, 151);
+			this._peakMeter.Size = new System.Drawing.Size(14, 133);
 			this._peakMeter.TabIndex = 3;
 			this._peakMeter.Text = "peakMeterCtrl1";
 			//
@@ -208,7 +211,7 @@ namespace SayMore.UI.EventRecording
 			this.locExtender.SetLocalizingId(this.toolStrip1, "toolStrip1.toolStrip1");
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(226, 106);
+			this.toolStrip1.Size = new System.Drawing.Size(226, 87);
 			this.toolStrip1.TabIndex = 12;
 			//
 			// _buttonRecord
@@ -259,6 +262,22 @@ namespace SayMore.UI.EventRecording
 			this._buttonStop.Text = "Stop";
 			this._buttonStop.Click += new System.EventHandler(this.HandleStopClick);
 			//
+			// _labelRecLength
+			//
+			this._labelRecLength.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this._labelRecLength.AutoSize = true;
+			this.tableLayoutPanel1.SetColumnSpan(this._labelRecLength, 4);
+			this.locExtender.SetLocalizableToolTip(this._labelRecLength, null);
+			this.locExtender.SetLocalizationComment(this._labelRecLength, null);
+			this.locExtender.SetLocalizingId(this._labelRecLength, "DialogBoxes.EventRecorderDlg.RecordedLengthLabel");
+			this._labelRecLength.Location = new System.Drawing.Point(0, 140);
+			this._labelRecLength.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
+			this._labelRecLength.Name = "_labelRecLength";
+			this._labelRecLength.Size = new System.Drawing.Size(332, 13);
+			this._labelRecLength.TabIndex = 2;
+			this._labelRecLength.Text = "Recorded Length: {0} sec.";
+			//
 			// locExtender
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
@@ -305,6 +324,7 @@ namespace SayMore.UI.EventRecording
 		private Palaso.Media.Naudio.UI.PeakMeterCtrl _peakMeter;
 		private System.Windows.Forms.ToolStripButton _buttonStop;
 		private System.Windows.Forms.Button _buttonOK;
+		private System.Windows.Forms.Label _labelRecLength;
 
 
 

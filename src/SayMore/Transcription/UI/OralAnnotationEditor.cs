@@ -1,10 +1,12 @@
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
+using SayMore.UI.MediaPlayer;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -20,6 +22,7 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 			Name = "OralAnnotations";
 			_toolStrip.Renderer = new NoToolStripBorderRenderer();
+			_labelCursorTime.Text = string.Empty;
 
 			_oralAnnotationWaveViewer.Dock = DockStyle.Fill;
 			_oralAnnotationWaveViewer.ZoomPercentage = 300;
@@ -46,6 +49,10 @@ namespace SayMore.Transcription.UI
 				_buttonPlay.Enabled = true;
 			};
 
+			_oralAnnotationWaveViewer.CursorTimeChanged += (c, time) =>
+				_labelCursorTime.Text = MediaPlayerViewModel.GetTimeDisplay(
+					(float)time.TotalSeconds, (float)_oralAnnotationWaveViewer.AudioLength.TotalSeconds);
+
 			//_buttonHelp.Click += delegate
 			//{
 			//    Program.ShowHelpTopic("/Using_Tools/Events_tab/Create_Annotation_File_overview.htm");
@@ -70,6 +77,7 @@ namespace SayMore.Transcription.UI
 
 			SetComponentFile(_file);
 			_isFirstTimeActivated = false;
+			_labelCursorTime.Font = SystemFonts.MenuFont;
 		}
 
 		/// ------------------------------------------------------------------------------------

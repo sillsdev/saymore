@@ -39,6 +39,7 @@ namespace SayMore.Transcription.UI
 			this._buttonRegenerate = new System.Windows.Forms.ToolStripButton();
 			this._panelOralAnnotationWaveViewer = new SilTools.Controls.SilPanel();
 			this._oralAnnotationWaveViewer = new SayMore.Transcription.UI.OralAnnotationWaveViewer();
+			this._labelCursorTime = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._toolStrip.SuspendLayout();
@@ -50,15 +51,17 @@ namespace SayMore.Transcription.UI
 			// 
 			this._tableLayout.BackColor = System.Drawing.Color.Transparent;
 			this._tableLayout.ColumnCount = 1;
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayout.Controls.Add(this._toolStrip, 0, 0);
 			this._tableLayout.Controls.Add(this._panelOralAnnotationWaveViewer, 0, 1);
+			this._tableLayout.Controls.Add(this._labelCursorTime, 0, 2);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayout.Location = new System.Drawing.Point(12, 6);
 			this._tableLayout.Name = "_tableLayout";
-			this._tableLayout.RowCount = 2;
+			this._tableLayout.RowCount = 3;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.Size = new System.Drawing.Size(488, 346);
 			this._tableLayout.TabIndex = 0;
 			// 
@@ -157,12 +160,12 @@ namespace SayMore.Transcription.UI
 			this._panelOralAnnotationWaveViewer.MnemonicGeneratesClick = false;
 			this._panelOralAnnotationWaveViewer.Name = "_panelOralAnnotationWaveViewer";
 			this._panelOralAnnotationWaveViewer.PaintExplorerBarBackground = false;
-			this._panelOralAnnotationWaveViewer.Size = new System.Drawing.Size(488, 313);
+			this._panelOralAnnotationWaveViewer.Size = new System.Drawing.Size(488, 296);
 			this._panelOralAnnotationWaveViewer.TabIndex = 2;
 			// 
 			// _oralAnnotationWaveViewer
 			// 
-			this._oralAnnotationWaveViewer.BackColor = System.Drawing.Color.Transparent;
+			this._oralAnnotationWaveViewer.BackColor = System.Drawing.SystemColors.Window;
 			this._oralAnnotationWaveViewer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.locExtender.SetLocalizableToolTip(this._oralAnnotationWaveViewer, null);
 			this.locExtender.SetLocalizationComment(this._oralAnnotationWaveViewer, null);
@@ -171,9 +174,26 @@ namespace SayMore.Transcription.UI
 			this._oralAnnotationWaveViewer.Location = new System.Drawing.Point(0, 0);
 			this._oralAnnotationWaveViewer.Margin = new System.Windows.Forms.Padding(0);
 			this._oralAnnotationWaveViewer.Name = "_oralAnnotationWaveViewer";
-			this._oralAnnotationWaveViewer.Size = new System.Drawing.Size(486, 311);
+			this._oralAnnotationWaveViewer.Size = new System.Drawing.Size(486, 294);
 			this._oralAnnotationWaveViewer.TabIndex = 0;
 			this._oralAnnotationWaveViewer.ZoomPercentage = 100F;
+			// 
+			// _labelCursorTime
+			// 
+			this._labelCursorTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelCursorTime.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelCursorTime, null);
+			this.locExtender.SetLocalizationComment(this._labelCursorTime, null);
+			this.locExtender.SetLocalizationPriority(this._labelCursorTime, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelCursorTime, "label1.label1");
+			this._labelCursorTime.Location = new System.Drawing.Point(3, 333);
+			this._labelCursorTime.Margin = new System.Windows.Forms.Padding(3, 4, 0, 0);
+			this._labelCursorTime.Name = "_labelCursorTime";
+			this._labelCursorTime.Size = new System.Drawing.Size(485, 13);
+			this._labelCursorTime.TabIndex = 3;
+			this._labelCursorTime.Text = "#";
+			this._labelCursorTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// locExtender
 			// 
@@ -211,6 +231,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripButton _buttonStop;
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.ToolStripButton _buttonRegenerate;
+		private System.Windows.Forms.Label _labelCursorTime;
 
 
 	}

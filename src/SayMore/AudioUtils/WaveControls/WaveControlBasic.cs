@@ -13,6 +13,8 @@ namespace SayMore.AudioUtils
 	/// ----------------------------------------------------------------------------------------
 	public class WaveControlBasic : UserControl
 	{
+		public Func<WaveStream, WaveStream> PlaybackStreamProvider;
+
 		public delegate TimeSpan SetCurorAtTimeOnMouseClickHandler(WaveControlBasic ctrl, TimeSpan timeAtMouseX);
 		public delegate void PlaybackEventHandler(WaveControlBasic ctrl, TimeSpan time1, TimeSpan time2);
 		public delegate void CursorTimeChangedHandler(WaveControlBasic ctrl, TimeSpan cursorTime);
@@ -30,6 +32,7 @@ namespace SayMore.AudioUtils
 		protected bool _wasStreamCreatedHere;
 		protected WavePainterBasic _painter;
 		protected WaveStream _waveStream;
+		protected WaveStream _playbackStream;
 		protected WaveOut _waveOut;
 		protected int _virtualWidth;
 		protected Size _prevClientSize;
@@ -84,6 +87,10 @@ namespace SayMore.AudioUtils
 				_painter.Dispose();
 
 			_waveStream = stream;
+
+			_playbackStream = (PlaybackStreamProvider == null ?
+				_waveStream : PlaybackStreamProvider(_waveStream));
+
 			_painter = GetNewWavePainter(stream);
 			InternalInitialize();
 		}
@@ -160,7 +167,7 @@ namespace SayMore.AudioUtils
 			}
 		}
 
-
+		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual bool IsPlaying
@@ -398,9 +405,8 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual void Play(TimeSpan playbackStartTime, TimeSpan playbackEndTime)
 		{
-			if (_waveStream == null || _waveStream.WaveFormat.Channels > 2 ||
-				(_waveStream.WaveFormat.BitsPerSample == 32 &&
-				_waveStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat))
+			if (_playbackStream == null || (_playbackStream.WaveFormat.BitsPerSample == 32 &&
+				_playbackStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat))
 			{
 				return;
 			}
@@ -415,8 +421,8 @@ namespace SayMore.AudioUtils
 				_playbackEndTime = TimeSpan.Zero;
 
 			var waveOutProvider = new SampleChannel(_playbackEndTime == TimeSpan.Zero ?
-				new WaveSegmentStream(_waveStream, playbackStartTime) :
-				new WaveSegmentStream(_waveStream, playbackStartTime, playbackEndTime - playbackStartTime));
+				new WaveSegmentStream(_playbackStream, playbackStartTime) :
+				new WaveSegmentStream(_playbackStream, playbackStartTime, playbackEndTime - playbackStartTime));
 
 			waveOutProvider.PreVolumeMeter += HandlePlaybackMetering;
 
@@ -440,19 +446,19 @@ namespace SayMore.AudioUtils
 		{
 			// We're using a WaveSegmentStream which never gets a PlaybackStopped
 			// event on the WaveOut, so we have to force it here.
-			if (_waveStream.CurrentTime == (_playbackEndTime > TimeSpan.Zero ? _playbackEndTime : _waveStream.TotalTime))
+			if (_playbackStream.CurrentTime == (_playbackEndTime > TimeSpan.Zero ? _playbackEndTime : _waveStream.TotalTime))
 			{
 				SetCursor(_playbackEndTime);
 				_waveOut.Stop();
 				return;
 			}
 
-			var dx = _painter.ConvertTimeToXCoordinate(_waveStream.CurrentTime);
+			var dx = _painter.ConvertTimeToXCoordinate(_playbackStream.CurrentTime);
 			dx += (dx < 0 ? -10 : 10);
 			EnsureXIsVisible(dx);
 
-			OnInternalPlaybackUpdate(_waveStream.CurrentTime, _waveStream.TotalTime);
-			SetCursor(_waveStream.CurrentTime);
+			OnInternalPlaybackUpdate(_playbackStream.CurrentTime, _playbackStream.TotalTime);
+			SetCursor(_playbackStream.CurrentTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -471,7 +477,7 @@ namespace SayMore.AudioUtils
 			_waveOut.Stop();
 			_waveOut.Dispose();
 			_waveOut = null;
-			OnPlaybackStopped(_playbackStartTime, _waveStream.CurrentTime);
+			OnPlaybackStopped(_playbackStartTime, _playbackStream.CurrentTime);
 		}
 
 		/// ------------------------------------------------------------------------------------

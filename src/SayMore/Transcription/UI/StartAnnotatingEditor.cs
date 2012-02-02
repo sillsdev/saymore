@@ -8,6 +8,7 @@ using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI.SegmentingAndRecording;
 using SayMore.UI.ComponentEditors;
+using SayMore.UI.MediaPlayer;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -73,6 +74,7 @@ namespace SayMore.Transcription.UI
 		private void HandleGetStartedButtonClick(object sender, System.EventArgs e)
 		{
 			_buttonGetStarted.Enabled = false;
+			MPlayerHelper.CleanUpMPlayerProcesses();
 			string newAnnotationFile = null;
 
 			if (_radioButtonManual.Checked)

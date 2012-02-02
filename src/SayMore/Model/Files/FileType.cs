@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
+using Palaso.CommandLineProcessing;
 using Palaso.Progress;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.Media;
@@ -916,7 +917,15 @@ namespace SayMore.Model.Files
 			//TODO...provide some progress
 
 			// REVIEW: At some point, we should probably switch to using MPlayer/MEncoder to do this.
-			var results = FFmpegRunner.ExtractBestQualityWavAudio(path, outputPath, 0 /* whatever*/, new NullProgress());
+
+			// Using ExtractBestQualityWavAudio does not ensure pcm will be the audio format
+			// extracted, so call ExtractPcmAudio instead. The only problem is that the bits
+			// per sample must be specified. TODO: use ffmpeg to get the info from the video
+			// file and look for the audio's bits per sample. then use that to pass to
+			// ExtractPcmAudio.
+
+			var results = FFmpegRunner.ExtractPcmAudio(path, outputPath, 16, 0, 0, new NullProgress());
+			//var results = FFmpegRunner.ExtractBestQualityWavAudio(path, outputPath, 0 /* whatever*/, new NullProgress());
 			Cursor.Current = Cursors.Default;
 
 			if (results.ExitCode != 0)

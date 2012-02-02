@@ -560,9 +560,16 @@ namespace SayMore.UI.MediaPlayer
 					PlaybackResumed();
 			}
 
-			CurrentPosition = float.Parse(
-				data.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[1],
-					CultureInfo.InvariantCulture.NumberFormat);
+			try
+			{
+				CurrentPosition = float.Parse(
+					data.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[1],
+						CultureInfo.InvariantCulture.NumberFormat);
+			}
+			catch
+			{
+				return;
+			}
 
 			if (CurrentPosition < 0f)
 			{

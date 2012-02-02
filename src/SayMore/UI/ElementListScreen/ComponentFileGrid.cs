@@ -273,8 +273,11 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleFileGridCellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			if (e.Button != MouseButtons.Right || (IsOKToDoFileOperation != null && !IsOKToDoFileOperation()))
+			if (e.RowIndex < 0 || e.ColumnIndex < 0 || e.Button != MouseButtons.Right ||
+				(IsOKToDoFileOperation != null && !IsOKToDoFileOperation()))
+			{
 				return;
+			}
 
 			if (e.RowIndex != _grid.CurrentCellAddress.Y)
 				SelectComponent(e.RowIndex);

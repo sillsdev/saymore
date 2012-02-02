@@ -105,9 +105,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioUtils\AudioPlayer.cs" />
-    <Compile Include="AudioUtils\AudioRecorder.cs" />
-    <Compile Include="AudioUtils\SampleAggregator.cs" />
+    <Compile Include="AudioUtils\OralAnnotationPlaybackWaveStream.cs" />
     <Compile Include="AudioUtils\WaveControls\WaveControlBasic.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -121,7 +119,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="AudioUtils\WavePainting\WavePainterWithBoundarySelection.cs" />
-    <Compile Include="AudioUtils\TrimWaveStream.cs" />
     <Compile Include="AudioUtils\WaveFileUtils.cs" />
     <Compile Include="AudioUtils\WavePainting\WavePainterBasic.cs" />
     <Compile Include="AudioUtils\WavePainting\WavePainterWithRangeSelection.cs" />

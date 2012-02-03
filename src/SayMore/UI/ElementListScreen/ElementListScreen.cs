@@ -203,7 +203,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			_elementsGrid.Items = _model.Elements.OrderBy(x => x.Id);
 
-			if (_model.Elements.Count() > 0)
+			if (_model.Elements.Any())
 			{
 				if (itemToSelectAfterLoad == null)
 					_elementsGrid.SelectElement(0);
@@ -224,6 +224,8 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected void UpdateComponentFileList()
 		{
+			_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
+
 			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement().ToArray();
 			_componentFilesControl.AfterComponentSelected = null;
 			_componentFilesControl.UpdateComponentFileList(componentsOfSelectedElement);
@@ -238,7 +240,7 @@ namespace SayMore.UI.ElementListScreen
 				componentFile.AfterSave += HandleComponentFileSaved;
 			}
 
-			if (componentsOfSelectedElement.Count() == 0)
+			if (!componentsOfSelectedElement.Any())
 			{
 				_selectedEditorsTabControl = null;
 				_componentFilesControl.AddButtonEnabled = false;
@@ -253,6 +255,8 @@ namespace SayMore.UI.ElementListScreen
 				_componentFilesControl.SelectComponent(0);
 				ShowSelectedComponentFileEditors();
 			}
+
+			_elementsGrid.SelectedElementChanged += HandleSelectedElementChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------

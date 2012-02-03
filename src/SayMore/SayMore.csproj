@@ -82,7 +82,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="SilTools, Version=2.0.4232.29079, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SilTools, Version=2.0.4416.18215, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SilTools.dll</HintPath>
     </Reference>

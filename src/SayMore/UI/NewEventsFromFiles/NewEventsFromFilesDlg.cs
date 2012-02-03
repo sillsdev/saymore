@@ -39,7 +39,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			selectedCol.Resizable = DataGridViewTriState.False;
 			selectedCol.SortMode = DataGridViewColumnSortMode.Automatic;
 			_gridFiles.Grid.Columns.Insert(0, selectedCol);
-			_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(_gridFiles.Grid, 0);
+			_chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(selectedCol);
 
 			_gridFiles.InitializeGrid("NewEventsFromFilesDlg", null);
 			_gridFiles.AfterComponentSelected = HandleComponentFileSelected;

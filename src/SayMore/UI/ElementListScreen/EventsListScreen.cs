@@ -77,7 +77,7 @@ namespace SayMore.UI.ElementListScreen
 			MainMenuItem.DropDownItems.Add(menu);
 			menu.Click += HandleButtonNewFromRecordingsClick;
 			menu.Text = LocalizationManager.GetString(
-				"EventsView.EventsMainMenu.NewFromDeviceMenuText", "New From &Recording...", null, menu);
+				"EventsView.EventsMainMenu.NewFromRecordingMenuText", "New From &Recording...", null, menu);
 
 			MainMenuItem.DropDownItems.Add(new ToolStripSeparator());
 

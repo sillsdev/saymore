@@ -170,7 +170,7 @@ namespace SayMore.UI.ElementListScreen
 		private DragDropEffects HandleFilesBeingDraggedOverComponentGrid(string[] files)
 		{
 			var validFiles = _model.SelectedElement.RemoveInvalidFilesFromProspectiveFilesToAdd(files);
-			return (validFiles.Count() > 0 ? DragDropEffects.Copy : DragDropEffects.None);
+			return (validFiles.Any() ? DragDropEffects.Copy : DragDropEffects.None);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -224,8 +224,6 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected void UpdateComponentFileList()
 		{
-			_elementsGrid.SelectedElementChanged -= HandleSelectedElementChanged;
-
 			var componentsOfSelectedElement = _model.GetComponentsOfSelectedElement().ToArray();
 			_componentFilesControl.AfterComponentSelected = null;
 			_componentFilesControl.UpdateComponentFileList(componentsOfSelectedElement);
@@ -255,8 +253,6 @@ namespace SayMore.UI.ElementListScreen
 				_componentFilesControl.SelectComponent(0);
 				ShowSelectedComponentFileEditors();
 			}
-
-			_elementsGrid.SelectedElementChanged += HandleSelectedElementChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -369,14 +365,26 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleAddingNewElement(object sender, EventArgs e)
 		{
-			AddNewItem(_model.CreateNewElement());
+			AfterNewItemAdded(_model.CreateNewElement());
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void AddNewItem(T newItem)
+		protected virtual void AfterNewItemAdded(T newItem)
 		{
 			_model.SetSelectedElement(newItem);
 			LoadElementList(newItem);
+
+			// This doesn't feel completely like the right thing to do. This fixes SP-339,
+			// which is a crash that happens when clicking the New button when the current
+			// component editor is not the one for an .event or .person file. SP-339 was
+			// introduced with the fix for the reentrant call problem (e.g. SP-333). That
+			// fix now causes a lag between when a component file is selected and when all
+			// the editors for that component file are loaded into the view. It is during
+			// that lag that the code below gets executed (i.e the code to get the first
+			// component file editor). But if the editors for the new item's meta data file
+			// (i.e. .event or .person) are not yet loaded, then the first editor gotten
+			// is one left over from those associated with the previous component file.
+			_model.SetSelectedComponentFile(0);
 
 			// After a new element is added, then give focus to the first editor. This will
 			// assume the first field in the editor is the desired one to give focus.

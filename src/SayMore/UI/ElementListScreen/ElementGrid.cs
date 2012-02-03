@@ -13,7 +13,7 @@ using ColorHelper = SilTools.ColorHelper;
 namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
-	public class ElementGrid : LmGrid
+	public class ElementGrid : SilGrid
 	{
 		public delegate void SelectedElementChangedHandler(object sender,
 			ProjectElement oldElement, ProjectElement newElement);

@@ -174,9 +174,12 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnCellMouseClick(e);
 
+			if (e.ColumnIndex < 0 || e.RowIndex < 0 || e.Button != MouseButtons.Right)
+				return;
+
 			var col = Columns[e.ColumnIndex] as TierColumnBase;
 
-			if (e.RowIndex < 0 || e.Button != MouseButtons.Right || col == null)
+			if (col == null)
 				return;
 
 			var menuItems = col.GetContextMenuCommands().ToArray();

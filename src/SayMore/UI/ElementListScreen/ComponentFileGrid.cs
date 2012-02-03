@@ -75,6 +75,7 @@ namespace SayMore.UI.ElementListScreen
 			var clr = ColorHelper.CalculateColor(Color.White,
 				 _grid.DefaultCellStyle.SelectionBackColor, 140);
 
+			_grid.PaintFullRowFocusRectangle = true;
 			_grid.FullRowFocusRectangleColor = _grid.DefaultCellStyle.SelectionBackColor;
 			_grid.DefaultCellStyle.SelectionBackColor = clr;
 			_grid.DefaultCellStyle.SelectionForeColor = _grid.DefaultCellStyle.ForeColor;
@@ -186,8 +187,7 @@ namespace SayMore.UI.ElementListScreen
 			else if (file.DisplayIndentLevel > 0)
 				DrawIndentedFileName(file, e);
 
-			if (_grid.Focused)
-				_grid.DrawFocusRectangle(e);
+			_grid.DrawFocusRectangleIfFocused(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -207,6 +207,9 @@ namespace SayMore.UI.ElementListScreen
 
 			// Draw the icon.
 			var img = _grid[0, e.RowIndex].Value as Image;
+			if (img == null)
+				return;
+
 			rc.X += 8;
 			rc.Y += ((rc.Height - img.Height) / 2);
 			rc.Height = img.Height;
@@ -328,8 +331,8 @@ namespace SayMore.UI.ElementListScreen
 
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
 
-			var file = (_files.Count() > 0 && _grid.CurrentCellAddress.Y >= 0 ?
-				_files.ElementAt(_grid.CurrentCellAddress.Y) : null);
+			//var file = (_files.Any() && _grid.CurrentCellAddress.Y >= 0 ?
+			//    _files.ElementAt(_grid.CurrentCellAddress.Y) : null);
 
 			if (null != AfterComponentSelected && _grid.CurrentCellAddress.Y >= 0)
 				AfterComponentSelected(_grid.CurrentCellAddress.Y);
@@ -414,7 +417,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			if (fileToSelectAfterUpdate == null)
 			{
-				fileToSelectAfterUpdate = (_grid.CurrentCellAddress.Y >= 0 && _files.Count() > 0 ?
+				fileToSelectAfterUpdate = (_grid.CurrentCellAddress.Y >= 0 && _files.Any() ?
 					_files.ElementAt(_grid.CurrentCellAddress.Y) : null);
 			}
 

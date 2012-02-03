@@ -215,7 +215,7 @@ namespace SayMore.Transcription.UI
 
 			base.OnCurrentRowChanged(e);
 
-			if (CurrentCellAddress.Y < 0 || !Focused)
+			if (CurrentCellAddress.Y < 0 || (!Focused && (EditingControl == null || !EditingControl.Focused)))
 				return;
 
 			// Now that we're on a new row, wait a 1/4 of a second before beginning to

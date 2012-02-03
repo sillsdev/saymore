@@ -67,7 +67,7 @@ namespace SayMore.Model.Files
 		private readonly FieldUpdater _fieldUpdater;
 
 		public string RootElementName { get; protected set; }
-		public string PathToAnnotatedFile { get; protected set; }
+		public virtual string PathToAnnotatedFile { get; protected set; }
 		public List<FieldInstance> MetaDataFieldValues { get; protected set; }
 		public FileType FileType { get; protected set; }
 		public string FileTypeDescription { get; protected set; }
@@ -213,7 +213,7 @@ namespace SayMore.Model.Files
 		/// file, then null is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string GetSuggestedPathToOralAnnotationFile()
+		public virtual string GetSuggestedPathToOralAnnotationFile()
 		{
 			return (!GetCanHaveAnnotationFile() ? null :
 				PathToAnnotatedFile + Settings.Default.OralAnnotationGeneratedFileAffix);
@@ -226,14 +226,14 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public AnnotationComponentFile GetAnnotationFile()
+		public virtual AnnotationComponentFile GetAnnotationFile()
 		{
 			return (_annotationFile != null && File.Exists(_annotationFile.PathToAnnotatedFile) ?
 				_annotationFile : null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationComponentFile GetOralAnnotationFile()
+		public virtual OralAnnotationComponentFile GetOralAnnotationFile()
 		{
 			return (_oralAnnotationFile != null && File.Exists(_oralAnnotationFile.PathToAnnotatedFile) ?
 				_oralAnnotationFile : null);

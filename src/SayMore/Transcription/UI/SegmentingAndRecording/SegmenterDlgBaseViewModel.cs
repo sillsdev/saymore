@@ -12,7 +12,7 @@ namespace SayMore.Transcription.UI
 {
 	public class SegmenterDlgBaseViewModel : IDisposable
 	{
-		protected class SegmentBoundaries
+		public class SegmentBoundaries
 		{
 			public TimeSpan start;
 			public TimeSpan end;
@@ -86,7 +86,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected IEnumerable<SegmentBoundaries> InitializeSegments(IEnumerable<ITier> tiers)
+		public IEnumerable<SegmentBoundaries> InitializeSegments(IEnumerable<ITier> tiers)
 		{
 			var toTier = tiers.FirstOrDefault(t => t is TimeOrderTier);
 			if (toTier == null)
@@ -97,7 +97,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected TimeOrderTier GetTierDelinieatingSegments()
+		public TimeOrderTier GetTierForTimeSegments()
 		{
 			return Tiers.FirstOrDefault(t => t is TimeOrderTier) as TimeOrderTier;
 		}
@@ -202,7 +202,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			ITimeOrderSegment segment;
-			var	tier = GetTierDelinieatingSegments();
+			var	tier = GetTierForTimeSegments();
 
 			if (index < _segments.Count - 1)
 			{

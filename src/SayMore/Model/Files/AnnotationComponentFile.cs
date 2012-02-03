@@ -16,6 +16,10 @@ namespace SayMore.Model.Files
 		public ComponentFile AssociatedComponentFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
+		[Obsolete("For Mocking Only")]
+		public AnnotationComponentFile() { }
+
+		/// ------------------------------------------------------------------------------------
 		public AnnotationComponentFile(ProjectElement parentElement,
 			string pathToAnnotationFile, ComponentFile associatedComponentFile,
 			FileType fileType, IEnumerable<ComponentRole> componentRoles)
@@ -34,7 +38,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ITier> Tiers { get; private set; }
+		public virtual IEnumerable<ITier> Tiers { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public void SetTiers(IEnumerable<ITier> tiers)

@@ -27,28 +27,41 @@ namespace SayMoreTests.UI.Utilities
 		/// when finished.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string GetTestAudioFile()
+		public static string GetShortTestAudioFile()
 		{
-			return GetMediaResourceFile("SayMoreTests.Resources.shortSound.wav", "wav");
+			return GetMediaResourceFile(Resources.shortSound, "wav");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates audio file in the temp. folder. It's up to the caller to delete the file
+		/// when finished.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetLongerTestAudioFile()
+		{
+			return GetMediaResourceFile(Resources.longerSound,"wav");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private static string GetMediaResourceFile(string resource, string mediaFileExtension)
 		{
+			var assembly = Assembly.GetExecutingAssembly();
+			return GetMediaResourceFile(assembly.GetManifestResourceStream(resource), mediaFileExtension);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static string GetMediaResourceFile(Stream stream, string mediaFileExtension)
+		{
 			var path = Path.GetTempFileName();
 			var mediaFilePath = Path.ChangeExtension(path, mediaFileExtension);
 			File.Move(path, mediaFilePath);
 
-			var assembly = Assembly.GetExecutingAssembly();
-			using (var stream = assembly.GetManifestResourceStream(resource))
-			{
-				var buffer = new byte[stream.Length];
-				for (int i = 0; i < buffer.Length; i++)
-					buffer[i] = (byte)stream.ReadByte();
-
-				File.WriteAllBytes(mediaFilePath, buffer);
-				stream.Close();
-			}
+			var buffer = new byte[stream.Length];
+			stream.Read(buffer, 0, buffer.Length);
+			File.WriteAllBytes(mediaFilePath, buffer);
+			stream.Close();
+			stream.Dispose();
 
 			return mediaFilePath;
 		}
@@ -58,7 +71,7 @@ namespace SayMoreTests.UI.Utilities
 		[Category("SkipOnTeamCity")]
 		public void MPlayerMediaInfo_CreateAudio_ContainsCorrectInfo()
 		{
-			var tmpfile = GetTestAudioFile();
+			var tmpfile = GetShortTestAudioFile();
 
 			try
 			{

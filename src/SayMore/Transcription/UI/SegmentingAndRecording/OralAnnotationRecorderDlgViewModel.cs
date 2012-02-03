@@ -20,6 +20,7 @@ namespace SayMore.Transcription.UI
 		Translation
 	}
 
+	/// ----------------------------------------------------------------------------------------
 	public class OralAnnotationRecorderDlgViewModel : SegmenterDlgBaseViewModel
 	{
 		public int CurrentSegmentNumber { get; private set; }
@@ -75,6 +76,8 @@ namespace SayMore.Transcription.UI
 
 			if (Directory.Exists(_oralAnnotationsFolder))
 				CopyAnnotationFiles(_oralAnnotationsFolder, tmpFolder);
+			else
+				FileSystemUtils.CreateDirectory(tmpFolder);
 
 			return tmpFolder;
 		}

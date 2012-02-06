@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Localization;
 using SayMore;
 using SayMore.Properties;
 using SayMore.UI.ElementListScreen;
@@ -90,16 +89,18 @@ namespace SayMoreTests.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test, Ignore("broken")]
+		[Test]
 		public void Application_WalkThrough_DoesNotCrash()
 		{
 			CopySampleProject();
 			SetupProjectWindow();
 
 			ClickPeopleTab();
+			Application.DoEvents();
 			WalkThroughElements("PersonEditor", "_peopleListPanel", "_personComponentFileGrid", "PersonListScreen");
 
 			ClickEventTab();
+			Application.DoEvents();
 			WalkThroughElements("EventEditor", "_eventsListPanel", "_eventComponentFileGrid", "EventsListScreen");
 
 			_projectContext.ProjectWindow.Close();
@@ -138,6 +139,7 @@ namespace SayMoreTests.UI.ProjectWindow
 			for (int i = 0; i < list.RowCount; i++)
 			{
 				list.SelectElement(i);
+				Application.DoEvents();
 				Assert.AreEqual(list.GetCurrentElement().Id, idTextBoxTester.Text);
 				WalkThroughComponentFiles(componentGridName, screenName);
 			}
@@ -158,6 +160,7 @@ namespace SayMoreTests.UI.ProjectWindow
 			foreach (DataGridViewRow row in grid.Rows)
 			{
 				grid.CurrentCell = grid[0, row.Index];
+				Application.DoEvents();
 				WalkThroughComponentEditorTabs(screenName);
 			}
 		}

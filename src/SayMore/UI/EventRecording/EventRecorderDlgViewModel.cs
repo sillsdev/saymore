@@ -13,7 +13,7 @@ namespace SayMore.UI.EventRecording
 	{
 		public Action UpdateAction { get; set; }
 		public AudioRecorder Recorder { get; private set; }
-		private readonly AudioPlayer _player;
+		private AudioPlayer _player;
 		private readonly string _path;
 
 		/// ------------------------------------------------------------------------------------
@@ -37,7 +37,9 @@ namespace SayMore.UI.EventRecording
 			_player = new AudioPlayer();
 			_player.Stopped += delegate { UpdateAction(); };
 
-			_path = Path.Combine(Path.GetTempPath(), "tmpSayMoreEvent.wav");
+			_path = Path.Combine(Path.GetTempPath(),
+				string.Format("SayMoreEventRecording_{0}.wav",
+				DateTime.Now.ToString("yyyyMMdd_HHmmss")));
 
 			if (File.Exists(_path))
 			{
@@ -51,12 +53,6 @@ namespace SayMore.UI.EventRecording
 		{
 			if (_player != null)
 				_player.Dispose();
-
-			if (File.Exists(_path))
-			{
-				try { File.Delete(_path); }
-				catch { }
-			}
 
 			CloseRecorder();
 		}
@@ -132,6 +128,12 @@ namespace SayMore.UI.EventRecording
 		{
 			try
 			{
+				if (_player != null)
+				{
+					_player.Dispose();
+					_player = null;
+				}
+
 				CloseRecorder();
 				File.Move(_path, Path.Combine(evnt.FolderPath, evnt.Id + ".wav"));
 			}
@@ -139,9 +141,12 @@ namespace SayMore.UI.EventRecording
 			{
 				var msg = LocalizationManager.GetString(
 					"DialogBoxes.EventRecorderDlg.ErrorMovingRecordingToEventFolder",
-					"There was an error moving your recording to the event folder for '{0}'.");
+					"There was an error moving your recording to the event folder for '{0}'.\r\n\r\n" +
+					"Unexpectedly, SayMore has probably kept a lock on the file, therefore the recording will not " +
+					"be deleted and it may be copied from your temporary folder after closing " +
+					"SayMore.\r\n\r\nThe file is:\r\n\r\n{1}.");
 
-				ErrorReport.NotifyUserOfProblem(e, msg, evnt.Id);
+				ErrorReport.NotifyUserOfProblem(e, msg, evnt.Id, _path);
 			}
 		}
 	}

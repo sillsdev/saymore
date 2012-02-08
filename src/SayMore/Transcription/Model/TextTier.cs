@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -35,7 +36,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public Segment AddSegment(string id, string text)
 		{
-			var segment = new Segment(this, id, text);
+			var segment = new Segment(this, id, text ?? string.Empty);
 			_segments.Add(segment);
 			return segment;
 		}
@@ -45,17 +46,25 @@ namespace SayMore.Transcription.Model
 		{
 			if (index >= 0 && index < _segments.Count && _segments.Count > 1)
 			{
-				int joinWithIndex = (index == _segments.Count - 1 ? index - 1 : index + 1);
-				JoinSements(joinWithIndex, index);
+				// If the segment being removed is the first, then join it with the
+				// next segment. Otherwise, join it with the preceding segment.
+				int joinToIndex = (index == 0 ? 1 : index - 1);
+				JoinSements(index, joinToIndex);
 			}
 
-			base.RemoveSegment(index);
-			return true;
+			return base.RemoveSegment(index);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void JoinSements(int fromIndex, int toIndex)
 		{
+			if (Math.Abs(fromIndex - toIndex) != 1)
+			{
+				throw new ArgumentException(string.Format("The 'from' index ({0}) " +
+					"must be adjacent to the 'to' index ({1}). In other words, the absolute " +
+					"value of the difference between the two indexes must be 1.", fromIndex, toIndex));
+			}
+
 			var fromSeg = _segments[fromIndex];
 			var toSeg = _segments[toIndex];
 

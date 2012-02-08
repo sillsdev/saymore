@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using NUnit.Framework;
 using SayMore.Transcription.Model;
+using SayMore.Transcription.UI;
 
 namespace SayMoreTests.Transcription.Model
 {
@@ -18,17 +19,51 @@ namespace SayMoreTests.Transcription.Model
 			_tier = new TextTier("test tier");
 
 			Assert.AreEqual("test tier", _tier.DisplayName);
+			Assert.IsInstanceOf<TextAnnotationColumn>(_tier.GridColumn);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void AddSegment_AddsSegment()
+		public void AddSegment_PassIdOnly_AddsSegmentAndInitializesId()
+		{
+			Assert.AreEqual(0, _tier.Segments.Count());
+			_tier.AddSegment("C");
+			Assert.AreEqual(1, _tier.Segments.Count());
+			Assert.AreEqual("C", _tier.Segments.ElementAt(0).Id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddSegment_PassIdOnly_AddsSegmentAndInitializesTextToEmptyString()
+		{
+			_tier.AddSegment("C");
+			Assert.IsEmpty(_tier.Segments.ElementAt(0).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddSegment_PassIdAndText_AddsSegmentAndInitializesBoth()
 		{
 			Assert.AreEqual(0, _tier.Segments.Count());
 			_tier.AddSegment("C", "carbon");
 			Assert.AreEqual(1, _tier.Segments.Count());
 			Assert.AreEqual("C", _tier.Segments.ElementAt(0) .Id);
 			Assert.AreEqual("carbon", _tier.Segments.ElementAt(0).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddSegment_ReturnsAddedSegment()
+		{
+			var seg = _tier.AddSegment("C");
+			Assert.AreSame(seg, _tier.Segments.ElementAt(0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddSegment_PassNullText_ReturnsSegmentWithEmptyText()
+		{
+			Assert.IsEmpty(_tier.AddSegment("C", null).Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,6 +157,156 @@ namespace SayMoreTests.Transcription.Model
 			var copy = _tier.Copy();
 			Assert.AreNotSame(_tier, copy);
 			Assert.AreEqual(_tier.DisplayName, copy.DisplayName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void JoinSements_NoSegments_ThrowsArgumentOutOfRangeException()
+		{
+			Assert.Throws<ArgumentOutOfRangeException>(() => _tier.JoinSements(2, 3));
+			Assert.Throws<ArgumentOutOfRangeException>(() => _tier.JoinSements(0, 1));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void JoinSements_FromIndexOutOfRange_ThrowsArgumentOutOfRangeException()
+		{
+			_tier.AddSegment("1");
+			Assert.Throws<ArgumentOutOfRangeException>(() => _tier.JoinSements(1, 0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void JoinSements_IndexDifferenceMoreThanOne_ThrowsArgumentException()
+		{
+			Assert.Throws<ArgumentException>(() => _tier.JoinSements(0, 2));
+			Assert.Throws<ArgumentException>(() => _tier.JoinSements(1, 3));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void JoinSements_ToIndexOutOfRange_ThrowsArgumentOutOfRangeException()
+		{
+			_tier.AddSegment("1");
+			Assert.Throws<ArgumentOutOfRangeException>(() => _tier.JoinSements(0, 1));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void JoinSements_NullSegments_JoinedTextIsEmpty()
+		{
+			_tier.AddSegment("1", null);
+			_tier.AddSegment("2", null);
+			_tier.AddSegment("3", null);
+			_tier.JoinSements(1, 2);
+			Assert.AreEqual(string.Empty, _tier.Segments.ElementAt(2).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void JoinSements_JoinLowerToHigher_JoinedTextIsLowerPlusHigher()
+		{
+			_tier.AddSegment("1", "1");
+			_tier.AddSegment("2", "2");
+			_tier.AddSegment("3", "3");
+			_tier.JoinSements(0, 1);
+			Assert.AreEqual("1 2", _tier.Segments.ElementAt(1).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void JoinSements_JoinLowerEmptyToHigherNotEmpty_JoinedTextIsHigher()
+		{
+			_tier.AddSegment("1");
+			_tier.AddSegment("2", "2");
+			_tier.AddSegment("3", "3");
+			_tier.JoinSements(0, 1);
+			Assert.AreEqual("2", _tier.Segments.ElementAt(1).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void JoinSements_JoinHigherToLower_JoinedTextIsLowerPlusHigher()
+		{
+			_tier.AddSegment("1", "1");
+			_tier.AddSegment("2", "2");
+			_tier.AddSegment("3", "3");
+			_tier.JoinSements(1, 2);
+			Assert.AreEqual("2 3", _tier.Segments.ElementAt(2).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void JoinSements_JoinHigherEmptyToLowerNotEmpty_JoinedTextIsLower()
+		{
+			_tier.AddSegment("1", "1");
+			_tier.AddSegment("2", "2");
+			_tier.AddSegment("3");
+			_tier.JoinSements(1, 2);
+			Assert.AreEqual("2", _tier.Segments.ElementAt(2).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_IndexOutOfRange_ReturnsFalse()
+		{
+			_tier.AddSegment("1");
+			_tier.AddSegment("2");
+			_tier.AddSegment("3");
+			Assert.AreEqual(3, _tier.Segments.Count());
+			Assert.IsFalse(_tier.RemoveSegment(-1));
+			Assert.AreEqual(3, _tier.Segments.Count());
+			Assert.IsFalse(_tier.RemoveSegment(3));
+			Assert.AreEqual(3, _tier.Segments.Count());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_Add3SegmentsRemove2nd_RemovesSegment()
+		{
+			_tier.AddSegment("1");
+			_tier.AddSegment("2");
+			_tier.AddSegment("3");
+			Assert.AreEqual(3, _tier.Segments.Count());
+			Assert.IsTrue(_tier.RemoveSegment(1));
+			Assert.AreEqual(2, _tier.Segments.Count());
+			Assert.IsNull(_tier.Segments.FirstOrDefault(s => s.Id == "2"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_RemoveMiddleSegment_JoinsWithPrecedingSegment()
+		{
+			_tier.AddSegment("1", "1");
+			_tier.AddSegment("2", "2");
+			_tier.AddSegment("3", "3");
+			Assert.IsTrue(_tier.RemoveSegment(1));
+			Assert.AreEqual("1 2", _tier.Segments.ElementAt(0).Text);
+			Assert.AreEqual("3", _tier.Segments.ElementAt(1).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_RemoveFirstSegment_JoinsWithNextSegment()
+		{
+			_tier.AddSegment("1", "1");
+			_tier.AddSegment("2", "2");
+			_tier.AddSegment("3", "3");
+			Assert.IsTrue(_tier.RemoveSegment(0));
+			Assert.AreEqual("1 2", _tier.Segments.ElementAt(0).Text);
+			Assert.AreEqual("3", _tier.Segments.ElementAt(1).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_RemoveLastSegment_JoinsWithPrecedingSegment()
+		{
+			_tier.AddSegment("1", "1");
+			_tier.AddSegment("2", "2");
+			_tier.AddSegment("3", "3");
+			Assert.IsTrue(_tier.RemoveSegment(2));
+			Assert.AreEqual("1", _tier.Segments.ElementAt(0).Text);
+			Assert.AreEqual("2 3", _tier.Segments.ElementAt(1).Text);
 		}
 	}
 }

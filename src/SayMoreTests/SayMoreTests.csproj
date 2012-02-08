@@ -134,6 +134,7 @@
     <Compile Include="Transcription\Model\InterlinearXmlHelperTests.cs" />
     <Compile Include="Transcription\Model\SegmentTests.cs" />
     <Compile Include="Transcription\Model\TextTierTests.cs" />
+    <Compile Include="Transcription\Model\TimeTierTests.cs" />
     <Compile Include="Transcription\UI\OralAnnotationRecorderDlgViewModelTests.cs" />
     <Compile Include="Transcription\UI\SegmenterDlgBaseViewModelTests.cs" />
     <Compile Include="UI\Charts\ChartBarInfoTests.cs" />

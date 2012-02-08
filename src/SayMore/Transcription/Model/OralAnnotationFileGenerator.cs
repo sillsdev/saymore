@@ -31,8 +31,8 @@ namespace SayMore.Transcription.Model
 			Translation
 		}
 
-		private readonly TimeOrderTier _origRecordingTier;
-		private readonly ITimeOrderSegment[] _origRecordingSegments;
+		private readonly TimeTier _origRecordingTier;
+		private readonly Segment[] _origRecordingSegments;
 		private WaveFileWriter _audioFileWriter;
 		private readonly WaveFormat _outputAudioFormat;
 		private readonly WaveFormat _output1ChannelAudioFormat;
@@ -40,7 +40,7 @@ namespace SayMore.Transcription.Model
 		private string _outputFileName;
 
 		/// ------------------------------------------------------------------------------------
-		public static string Generate(TimeOrderTier originalRecodingTier, Control parentControlForDialog)
+		public static string Generate(TimeTier originalRecodingTier, Control parentControlForDialog)
 		{
 			if (!CanGenerate(originalRecodingTier))
 				return null;
@@ -73,7 +73,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static bool CanGenerate(TimeOrderTier originalRecodingTier)
+		private static bool CanGenerate(TimeTier originalRecodingTier)
 		{
 			var pathToAnnotationsFolder = originalRecodingTier.MediaFileName +
 				Settings.Default.OralAnnotationsFolderAffix;
@@ -89,10 +89,10 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private OralAnnotationFileGenerator(TimeOrderTier originalRecodingTier)
+		private OralAnnotationFileGenerator(TimeTier originalRecodingTier)
 		{
 			_origRecordingTier = originalRecodingTier;
-			_origRecordingSegments = _origRecordingTier.GetAllSegments().Cast<ITimeOrderSegment>().ToArray();
+			_origRecordingSegments = _origRecordingTier.Segments.ToArray();
 			_outputAudioFormat = WaveFileUtils.GetDefaultWaveFormat(3);
 			_output1ChannelAudioFormat = WaveFileUtils.GetDefaultWaveFormat(1);
 
@@ -194,7 +194,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private WaveStreamProvider GetWaveStreamForOralAnnotationSegment(ITimeOrderSegment segment,
+		private WaveStreamProvider GetWaveStreamForOralAnnotationSegment(Segment segment,
 			OralAnnotationType annotationType)
 		{
 			var pathToAnnotationsFolder = _origRecordingTier.MediaFileName + Settings.Default.OralAnnotationsFolderAffix;
@@ -205,7 +205,7 @@ namespace SayMore.Transcription.Model
 
 			var filename = Path.Combine(pathToAnnotationsFolder,
 				string.Format(Settings.Default.OralAnnotationSegmentFileFormat,
-					segment.Start, segment.Stop, affix));
+					segment.Start, segment.End, affix));
 
 			var provider = WaveStreamProvider.Create(_output1ChannelAudioFormat, filename);
 			if (provider.Error != null && !(provider.Error is FileNotFoundException))

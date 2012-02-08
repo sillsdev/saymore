@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -61,7 +62,7 @@ namespace SayMore.Transcription.Model
 
 			var helper = new AnnotationFileHelper(annotationFileName);
 
-			// Esure there is a dependent free translation tier.
+			// Ensure there is a dependent free translation tier.
 			var elements = helper.GetDependentTiersElements();
 			if (elements.FirstOrDefault(e =>
 				e.Attribute("TIER_ID").Value.ToLower() == TextTier.ElanFreeTranslationTierName.ToLower()) == null)
@@ -244,16 +245,18 @@ namespace SayMore.Transcription.Model
 
 		#region Methods for creating ITier objects from annotations from the EAF file.
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ITier> GetTiers()
+		public TierCollection GetTiers()
 		{
+			var collection = new TierCollection();
+
 			var timeSlots = GetTimeSlots();
 
 			var transcriptionAnnotations = GetTranscriptionTierAnnotations();
 
 			if (transcriptionAnnotations.Count == 0)
-				return new ITier[] { };
+				return collection;
 
-			var timeOrderTier = new TimeOrderTier(GetFullPathToMediaFile());
+			var timeOrderTier = new TimeTier(GetFullPathToMediaFile());
 			var textTier = new TextTier(TextTier.TranscriptionTierName);
 
 			foreach (var kvp in transcriptionAnnotations)
@@ -264,10 +267,13 @@ namespace SayMore.Transcription.Model
 				textTier.AddSegment(kvp.Key, kvp.Value.Value);
 			}
 
-			var tiers = CreateDependentTextTiers(transcriptionAnnotations.Keys).ToArray();
-			textTier.AddDependentTierRange(tiers);
+			collection.Add(timeOrderTier);
+			collection.Add(textTier);
 
-			return new[] { (ITier)timeOrderTier, textTier };
+			foreach (var tier in CreateDependentTextTiers(transcriptionAnnotations.Keys))
+				collection.Add(tier);
+
+			return collection;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -324,7 +330,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ITier> CreateDependentTextTiers(IEnumerable<string> transcriptionAnnotationIds)
+		public IEnumerable<TierBase> CreateDependentTextTiers(IEnumerable<string> transcriptionAnnotationIds)
 		{
 			var annotationIds = transcriptionAnnotationIds.ToArray();
 
@@ -355,7 +361,7 @@ namespace SayMore.Transcription.Model
 					}
 				}
 
-				if (dependentTier.GetAllSegments().Count() > 0)
+				if (dependentTier.Segments.Any())
 					yield return dependentTier;
 			}
 		}
@@ -364,23 +370,30 @@ namespace SayMore.Transcription.Model
 
 		#region Methods for saving an annotation file
 		/// ------------------------------------------------------------------------------------
-		public void Save(TextTier transcriptionTier)
+		public static string Save(string mediaFileBeingAnnotated, TierCollection collection)
 		{
-			var transcriptionSegments = transcriptionTier.GetAllSegments().Cast<ITextSegment>().ToList();
+			var timeTier = collection.GetTimeTier();
+			var segments = timeTier.Segments.Select(s => s.End.ToString(CultureInfo.InvariantCulture)).ToArray();
+			var eafFile = CreateFromSegments(mediaFileBeingAnnotated, segments);
+			var helper = Load(eafFile);
+			var firstTextTier = collection.GetFirstTextTier();
+			var otherTextTiers = collection.GetDependentTextTiers().ToArray();
 
-			for (int i = 0; i < transcriptionSegments.Count; i++)
+			var textSegments = firstTextTier.Segments.ToList();
+
+			for (int i = 0; i < textSegments.Count; i++)
 			{
-				SetTranscriptionTierAnnotationValue(transcriptionSegments[i].Id,
-					transcriptionSegments[i].GetText());
+				helper.SetTranscriptionTierAnnotationValue(textSegments[i].Id, textSegments[i].Text);
 
-				foreach (var dependentTier in transcriptionTier.DependentTiers.Where(t => t.DataType == TierType.Text))
+				foreach (var dependentTier in otherTextTiers)
 				{
-					SetDependentTierAnnotationValue(dependentTier.DisplayName,
-						transcriptionSegments[i].Id, dependentTier.GetSegment(i) as ITextSegment);
+					helper.SetDependentTierAnnotationValue(dependentTier.DisplayName,
+						textSegments[i].Id, dependentTier.Segments.ElementAt(i));
 				}
 			}
 
-			Save();
+			helper.Save();
+			return eafFile;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -413,7 +426,7 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		public void SetDependentTierAnnotationValue(string dependentTierId,
-			string transcriptionAnnotationId, ITextSegment dependentSegment)
+			string segmentId, Segment dependentSegment)
 		{
 			if (dependentTierId == TextTier.SayMoreFreeTranslationTierName)
 				dependentTierId = TextTier.ElanFreeTranslationTierName.ToLower();
@@ -430,7 +443,7 @@ namespace SayMore.Transcription.Model
 			if (annElement != null)
 			{
 				annElement.Element("REF_ANNOTATION").Element("ANNOTATION_VALUE").SetValue(
-					dependentSegment.GetText() ?? string.Empty);
+					dependentSegment.Text ?? string.Empty);
 			}
 			else
 			{
@@ -439,8 +452,8 @@ namespace SayMore.Transcription.Model
 				tierElement.Add(new XElement("ANNOTATION",
 					new XElement("REF_ANNOTATION",
 					new XAttribute("ANNOTATION_ID", newId),
-					new XAttribute("ANNOTATION_REF", transcriptionAnnotationId),
-					new XElement("ANNOTATION_VALUE", dependentSegment.GetText()))));
+					new XAttribute("ANNOTATION_REF", segmentId),
+					new XElement("ANNOTATION_VALUE", dependentSegment.Text))));
 			}
 		}
 

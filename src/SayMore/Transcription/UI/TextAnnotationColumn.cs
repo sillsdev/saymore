@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using SayMore.Transcription.Model;
@@ -10,21 +10,21 @@ namespace SayMore.Transcription.UI
 	public class TextAnnotationColumn : TierColumnBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public TextAnnotationColumn(ITier tier) : base(tier)
+		public TextAnnotationColumn(TierBase tier) : base(tier)
 		{
-			Debug.Assert(tier.DataType == TierType.Text);
+			//Debug.Assert(tier.DataType == TierType.Text);
 			DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleGridCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
-			ISegment segment;
+			Segment segment;
 
 			if (e.ColumnIndex != Index || !Tier.TryGetSegment(e.RowIndex, out segment))
 				return;
 
-			((ITextSegment)segment).SetText(e.Value as string);
+			segment.Text = e.Value as string;
 
 			base.HandleGridCellValuePushed(sender, e);
 		}
@@ -35,7 +35,7 @@ namespace SayMore.Transcription.UI
 			base.HandleGridCellValueNeeded(sender, e);
 
 			if (e.ColumnIndex == Index)
-				e.Value = ((ITextSegment)Tier.GetSegment(e.RowIndex)).GetText();
+				e.Value = Tier.Segments.ElementAt(e.RowIndex).Text;
 		}
 
 		/// ------------------------------------------------------------------------------------

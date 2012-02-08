@@ -17,6 +17,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,7 +30,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -162,6 +162,7 @@
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
     <Compile Include="Transcription\Model\CreateAnnotationFileViewModel.cs" />
+    <Compile Include="Transcription\Model\TierCollection.cs" />
     <Compile Include="Transcription\UI\AutoSegmenterDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,16 +171,10 @@
     </Compile>
     <Compile Include="Transcription\Model\AnnotationFileHelper.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelper.cs" />
-    <Compile Include="Transcription\Model\AudioTier.cs" />
     <Compile Include="Transcription\Model\InterlinearXmlHelper.cs" />
-    <Compile Include="Transcription\Model\ISegment.cs" />
-    <Compile Include="Transcription\Model\ITier.cs" />
-    <Compile Include="Transcription\Model\AudioSegment.cs" />
     <Compile Include="Transcription\Model\OralAnnotationFileGenerator.cs" />
-    <Compile Include="Transcription\Model\TimeOrderSegment.cs" />
     <Compile Include="Transcription\Model\TimeOrderTier.cs" />
     <Compile Include="Transcription\Model\SegmentBase.cs" />
-    <Compile Include="Transcription\Model\TextSegment.cs" />
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
     <Compile Include="Transcription\UI\AudioWaveFormCell.cs" />

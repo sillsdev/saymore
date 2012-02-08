@@ -3,34 +3,34 @@ using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model
 {
-	public class TimeOrderTier : TierBase
+	/// ----------------------------------------------------------------------------------------
+	public class TimeTier : TierBase
 	{
 		public string MediaFileName { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
-		public TimeOrderTier(string filename) :
+		public TimeTier(string filename) :
 			this(LocalizationManager.GetString("EventsView.Transcription.TierNames.OriginalRecording", "Original"), filename)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TimeOrderTier(string displayName, string filename) : base(displayName)
+		public TimeTier(string displayName, string filename) :
+			base(displayName, tier => new AudioWaveFormColumn(tier))
 		{
-			DataType = TierType.TimeOrder;
 			MediaFileName = filename;
-			GridColumn = new AudioWaveFormColumn(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override TierBase GetNewTierInstance()
 		{
-			return new TimeOrderTier(DisplayName, MediaFileName);
+			return new TimeTier(DisplayName, MediaFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TimeOrderSegment AddSegment(float start, float stop)
+		public Segment AddSegment(float start, float stop)
 		{
-			var segment = new TimeOrderSegment(this, start, stop);
+			var segment = new Segment(this, start, stop);
 			_segments.Add(segment);
 			return segment;
 		}
@@ -40,17 +40,17 @@ namespace SayMore.Transcription.Model
 		{
 			if (_segments.Count > 1 && index >= 0 && index < _segments.Count - 1)
 			{
-				var segToRemove = GetSegment(index) as ITimeOrderSegment;
+				var segToRemove = _segments[index];
 
 				if (index == 0)
 				{
-					var nextSeg = GetSegment(index + 1) as ITimeOrderSegment;
+					var nextSeg = _segments[index + 1];
 					nextSeg.Start = segToRemove.Start;
 				}
 				else
 				{
-					var prevSeg = GetSegment(index - 1) as ITimeOrderSegment;
-					prevSeg.Stop = segToRemove.Stop;
+					var prevSeg = _segments[index - 1];
+					prevSeg.End = segToRemove.End;
 				}
 			}
 

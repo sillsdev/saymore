@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Localization;
@@ -20,26 +21,31 @@ namespace SayMore.Transcription.Model
 		private readonly string _wsTranscriptionId;
 		private readonly string _wsFreeTranslationId;
 		private readonly string _title;
-		private readonly ITier _transcriptionTier;
+		private readonly TierCollection _tierCollection;
 		private readonly string _outputFilePath;
 		private BackgroundWorker _worker;
+		private readonly int _segmentCount;
 
 		/// ------------------------------------------------------------------------------------
 		public InterlinearXmlHelper(string outputFilePath, string title,
-			ITier transcriptionTier, string wsTranscriptionId, string wsFreeTranslationId)
+			TierCollection tierCollection, string wsTranscriptionId, string wsFreeTranslationId)
 		{
 			_outputFilePath = outputFilePath;
 			_title = title;
-			_transcriptionTier = transcriptionTier;
+			_tierCollection = (tierCollection ?? new TierCollection());
 			_wsTranscriptionId = wsTranscriptionId;
 			_wsFreeTranslationId = wsFreeTranslationId;
+
+			var textTier = _tierCollection.GetFirstTextTier();
+			if (textTier != null)
+				_segmentCount = _tierCollection.GetFirstTextTier().Segments.Count();
 		}
 
 		#region IProgressViewModel implementation
 		/// ------------------------------------------------------------------------------------
 		public int MaximumProgressValue
 		{
-			get { return _transcriptionTier.GetAllSegments().Count(); }
+			get { return _segmentCount; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -107,7 +113,7 @@ namespace SayMore.Transcription.Model
 			var rootElement = CreateRootElement();
 
 			rootElement.Element("interlinear-text").Element("paragraphs").Add(
-				CreateParagraphElements(_transcriptionTier));
+				CreateParagraphElements());
 
 			rootElement.Element("interlinear-text").Add(CreateLanguagesElement(
 				new[] { _wsTranscriptionId, _wsFreeTranslationId }));
@@ -121,6 +127,11 @@ namespace SayMore.Transcription.Model
 			return new XElement("document", new XElement("interlinear-text",
 				CreateItemElement(_wsFreeTranslationId, "title", _title),
 				new XElement("paragraphs")));
+
+			//return new XElement("document", new XAttribute("version", "2"),
+			//    new XElement("interlinear-text",
+			//        CreateItemElement(_wsFreeTranslationId, "title", _title),
+			//        new XElement("paragraphs")));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -138,30 +149,33 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<XElement> CreateParagraphElements(ITier tier)
+		public IEnumerable<XElement> CreateParagraphElements()
 		{
-			// TODO: This will need refactoring when display name is localizable.
-			var translationTier =
-				tier.DependentTiers.FirstOrDefault(t => t.DisplayName.ToLower() == TextTier.SayMoreFreeTranslationTierName.ToLower());
+			var transcriptionTier = _tierCollection.GetFirstTextTier();
 
-			var segmentList = tier.GetAllSegments().Cast<ITextSegment>().ToArray();
+			// TODO: This will need refactoring when display name is localizable.
+			var translationTier = _tierCollection.GetDependentTextTiers()
+				.FirstOrDefault(t => t.DisplayName.ToLower() == TextTier.SayMoreFreeTranslationTierName.ToLower());
+
+			var segmentList = transcriptionTier.Segments.ToArray();
 
 			for (int i = 0; i < segmentList.Length; i++)
 			{
 				// _worker will be null during tests.
 				if (_worker != null) _worker.ReportProgress(i + 1);
-				ISegment freeTranslationSegment;
+				Segment freeTranslationSegment;
 				translationTier.TryGetSegment(i, out freeTranslationSegment);
-				var freeTranslation = freeTranslationSegment as ITextSegment;
-
-				yield return CreateSingleParagraphElement(segmentList[i].GetText(),
-					(freeTranslation != null ? freeTranslation.GetText() : null));
+				yield return CreateSingleParagraphElement(segmentList[i].Text,
+					(freeTranslationSegment != null ? freeTranslationSegment.Text : null));
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public XElement CreateSingleParagraphElement(string transcription, string freeTranslation)
 		{
+			//var wordElement = new XElement("words", GetWordElementsFromTranscription(transcription));
+			//var phraseElement = new XElement("phrase", wordElement);
+
 			var transcriptionElement = CreateSingleWordElement(transcription);
 			var phraseElement = new XElement("phrase", transcriptionElement);
 
@@ -172,10 +186,26 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public IEnumerable<XElement> GetWordElementsFromTranscription(string transcription)
+		{
+			var bldr = new StringBuilder();
+			foreach (var chr in transcription)
+			{
+				if (Char.IsSeparator(chr))
+				{
+					yield return CreateSingleWordElement(bldr.ToString());
+					bldr.Length = 0;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public XElement CreateSingleWordElement(string text)
 		{
 			return new XElement("words", new XElement("word",
 				CreateItemElement(_wsTranscriptionId, "txt", text)));
+
+			//return new XElement("word", CreateItemElement(_wsTranscriptionId, "txt", text));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -186,11 +216,11 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static void Save(string outputFilePath, string title, ITier transcriptionTier,
+		public static void Save(string outputFilePath, string title, TierCollection tierCollection,
 			string wsTranscriptionId, string wsFreeTranslationId)
 		{
 			var helper = new InterlinearXmlHelper(outputFilePath, title,
-				transcriptionTier, wsTranscriptionId, wsFreeTranslationId);
+				tierCollection, wsTranscriptionId, wsFreeTranslationId);
 
 			var caption = LocalizationManager.GetString(
 					"EventsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.Caption",

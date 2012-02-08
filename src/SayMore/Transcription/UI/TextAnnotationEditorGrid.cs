@@ -14,7 +14,7 @@ namespace SayMore.Transcription.UI
 {
 	public class TextAnnotationEditorGrid : SilGrid
 	{
-		public Func<ITimeOrderSegment> SegmentProvider;
+		public Func<Segment> SegmentProvider;
 		public Func<string> MediaFileProvider;
 		public MediaPlayerViewModel PlayerViewModel { get; private set; }
 
@@ -106,7 +106,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private int AddColumnForTier(ITier tier)
+		private int AddColumnForTier(TierBase tier)
 		{
 			Columns.Add(tier.GridColumn);
 
@@ -114,10 +114,7 @@ namespace SayMore.Transcription.UI
 			if (col != null)
 				col.SegmentChangedAction = _annotationFile.Save;
 
-			foreach (var dependentTier in tier.DependentTiers)
-				AddColumnForTier(dependentTier);
-
-			return tier.GetAllSegments().Count();
+			return tier.Segments.Count();
 		}
 
 		/// ------------------------------------------------------------------------------------

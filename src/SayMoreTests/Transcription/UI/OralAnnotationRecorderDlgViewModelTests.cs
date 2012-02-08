@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Moq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
@@ -31,14 +26,14 @@ namespace SayMoreTests.Transcription.UI
 			_annotationFileFolder = new TemporaryFolder("OralAnnotationRecorderDlgViewModelTests");
 
 			_tempAudioFile = MPlayerMediaInfoTests.GetLongerTestAudioFile();
-			var tier = new TimeOrderTier(_tempAudioFile);
+			var tier = new TimeTier(_tempAudioFile);
 			tier.AddSegment(0f, 5f);
 			tier.AddSegment(5f, 10f);
 			tier.AddSegment(15f, 20f);
 			tier.AddSegment(25f, 30f);
 
 			var annotationFile = new Mock<AnnotationComponentFile>();
-			annotationFile.Setup(a => a.Tiers).Returns(new[] { tier });
+			annotationFile.Setup(a => a.Tiers).Returns(new TierCollection { tier });
 
 			_componentFile = new Mock<ComponentFile>();
 			_componentFile.Setup(f => f.PathToAnnotatedFile).Returns(_tempAudioFile);

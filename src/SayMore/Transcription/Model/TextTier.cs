@@ -16,10 +16,8 @@ namespace SayMore.Transcription.Model
 			LocalizationManager.GetString("EventsView.Transcription.TierNames.FreeTranslation", "Free Translation");
 
 		/// ------------------------------------------------------------------------------------
-		public TextTier(string displayName) : base(displayName)
+		public TextTier(string displayName) : base(displayName, tier => new TextAnnotationColumn(tier))
 		{
-			DataType = TierType.Text;
-			GridColumn = new TextAnnotationColumn(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -29,15 +27,15 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TextSegment AddSegment(string id)
+		public Segment AddSegment(string id)
 		{
 			return AddSegment(id, string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TextSegment AddSegment(string id, string text)
+		public Segment AddSegment(string id, string text)
 		{
-			var segment = new TextSegment(this, id, text);
+			var segment = new Segment(this, id, text);
 			_segments.Add(segment);
 			return segment;
 		}
@@ -51,19 +49,20 @@ namespace SayMore.Transcription.Model
 				JoinSements(joinWithIndex, index);
 			}
 
-			return base.RemoveSegment(index);
+			base.RemoveSegment(index);
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void JoinSements(int fromIndex, int toIndex)
 		{
-			var fromSeg = GetSegment(fromIndex) as ITextSegment;
-			var toSeg = GetSegment(toIndex) as ITextSegment;
+			var fromSeg = _segments[fromIndex];
+			var toSeg = _segments[toIndex];
 
-			var fromText = (fromSeg.GetText() ?? string.Empty).Trim();
-			var toText = (toSeg.GetText() ?? string.Empty).Trim();
+			var fromText = (fromSeg.Text ?? string.Empty).Trim();
+			var toText = (toSeg.Text ?? string.Empty).Trim();
 
-			toSeg.SetText(fromIndex < toIndex ?
+			toSeg.Text = (fromIndex < toIndex ?
 				(fromText + " " + toText).Trim() : (toText + " " + fromText).Trim());
 		}
 
@@ -72,8 +71,9 @@ namespace SayMore.Transcription.Model
 		{
 			dataFormat = DataFormats.UnicodeText;
 			var bldr = new StringBuilder();
-			foreach (var seg in GetAllSegments().Cast<ITextSegment>())
-				bldr.AppendLine(seg.GetText());
+
+			foreach (var seg in _segments)
+				bldr.AppendLine(seg.Text);
 
 			return bldr.ToString().TrimEnd();
 		}
@@ -85,8 +85,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsComplete()
 		{
-			var segments = GetAllSegments().Cast<ITextSegment>().ToArray();
-			return (segments.Length > 0 && !segments.Any(s => string.IsNullOrEmpty(s.GetText())));
+			return (_segments.Count > 0 && !_segments.Any(s => string.IsNullOrEmpty(s.Text)));
 		}
 	}
 }

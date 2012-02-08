@@ -51,11 +51,11 @@ namespace SayMore.Transcription.UI
 			_labelFreeTranslationColumnHeadingText.Text =
 				string.Format(_labelFreeTranslationColumnHeadingText.Text, TextTier.SayMoreFreeTranslationTierName);
 
-			_labelOverview.Font = SystemFonts.IconTitleFont;
-			_labelTranscriptionColumnHeadingText.Font = SystemFonts.IconTitleFont;
-			_labelFreeTranslationColumnHeadingText.Font = SystemFonts.IconTitleFont;
-			_comboTranscriptionWs.Font = SystemFonts.IconTitleFont;
-			_comboTranslationWs.Font = SystemFonts.IconTitleFont;
+			_labelOverview.Font = SystemFonts.MenuFont;
+			_labelTranscriptionColumnHeadingText.Font = SystemFonts.MenuFont;
+			_labelFreeTranslationColumnHeadingText.Font = SystemFonts.MenuFont;
+			_comboTranscriptionWs.Font = SystemFonts.MenuFont;
+			_comboTranslationWs.Font = SystemFonts.MenuFont;
 
 		}
 
@@ -189,20 +189,18 @@ namespace SayMore.Transcription.UI
 
 				ErrorReport.NotifyUserOfProblem(msg);
 				wsList = new DisplayFriendlyWritingSystem[1];
-				wsList[0] = new DisplayFriendlyWritingSystem {Id = "en", Name = "English" };
+				wsList[0] = new DisplayFriendlyWritingSystem { Id = "en", Name = "English" };
 			}
+
 			_comboTranscriptionWs.Items.AddRange(wsList);
 			_comboTranslationWs.Items.AddRange(wsList);
 
-
 			IntializeWritingSystemCombo(_comboTranscriptionWs,
-										Settings.Default.TranscriptionWsForFWInterlinearExport);
+				Settings.Default.TranscriptionWsForFWInterlinearExport);
 
 			IntializeWritingSystemCombo(_comboTranslationWs,
-										string.IsNullOrEmpty(Settings.Default.FreeTranslationWsForFWInterlinearExport)
-											? "en"
-											: Settings.Default.FreeTranslationWsForFWInterlinearExport);
-
+				string.IsNullOrEmpty(Settings.Default.FreeTranslationWsForFWInterlinearExport) ? "en" :
+				Settings.Default.FreeTranslationWsForFWInterlinearExport);
 
 			HandleWritingSystemChanged(null, null);
 		}

@@ -106,7 +106,7 @@ namespace SayMore.Transcription.UI
 
 			var oralAnnotationfile = (OralAnnotationComponentFile)_file;
 			var textAnnotationFile = oralAnnotationfile.AssociatedComponentFile.GetAnnotationFile();
-			var tier = (TimeOrderTier)textAnnotationFile.Tiers.FirstOrDefault(t => t is TimeOrderTier);
+			var tier = (TimeTier)textAnnotationFile.Tiers.FirstOrDefault(t => t is TimeTier);
 			OralAnnotationFileGenerator.Generate(tier, this);
 			SetComponentFile(_file);
 			_oralAnnotationWaveViewer.Invalidate(true);

@@ -19,6 +19,14 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void CreateRootElement_CreatesDocumentElementWithVersionAttrib()
+		{
+			var element = _helper.CreateRootElement();
+			Assert.AreEqual("document", element.Name.LocalName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void CreateRootElement_CreatesOuterTwoLevels()
 		{
 			var element = _helper.CreateRootElement();
@@ -181,14 +189,16 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void CreateParagraphElements_CreatesCorrectNumberOfElements()
 		{
-			Assert.AreEqual(3, _helper.CreateParagraphElements(CreateTestTier()).Count());
+			CreateTestTier();
+			Assert.AreEqual(3, _helper.CreateParagraphElements().Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void CreateParagraphElements_CreatesCorrectElements()
 		{
-			var elements = _helper.CreateParagraphElements(CreateTestTier()).ToArray();
+			CreateTestTier();
+			var elements = _helper.CreateParagraphElements().ToArray();
 
 			CheckParagraphElement(elements[0], "up", "in");
 			CheckParagraphElement(elements[1], "down", "around");
@@ -196,19 +206,19 @@ namespace SayMoreTests.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private ITier CreateTestTier()
+		private void CreateTestTier()
 		{
 			var tier = new TextTier(TextTier.TranscriptionTierName);
 			tier.AddSegment(null, "up");
 			tier.AddSegment(null, "down");
 			tier.AddSegment(null, "over");
 
-			tier.AddDependentTier(new TextTier(TextTier.SayMoreFreeTranslationTierName));
-			((TextTier)tier.DependentTiers.ElementAt(0)).AddSegment(null, "in");
-			((TextTier)tier.DependentTiers.ElementAt(0)).AddSegment(null, "around");
-			((TextTier)tier.DependentTiers.ElementAt(0)).AddSegment(null, "through");
+			var dependentTier = new TextTier(TextTier.SayMoreFreeTranslationTierName);
+			dependentTier.AddSegment(null, "in");
+			dependentTier.AddSegment(null, "around");
+			dependentTier.AddSegment(null, "through");
 
-			return tier;
+			_helper = new InterlinearXmlHelper(null, "Homer", new TierCollection { tier, dependentTier }, "en", "fr");
 		}
 
 		/// ------------------------------------------------------------------------------------

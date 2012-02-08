@@ -722,17 +722,10 @@ namespace SayMore.Model.Files
 						return null;
 
 					viewModel.SaveNewOralAnnoationsInPermanentLocation();
+					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
+					OralAnnotationFileGenerator.Generate(viewModel.Tiers.GetTimeTier(), null);
 
-					var annotationFileName = AnnotationFileHelper.CreateFromSegments( PathToAnnotatedFile, viewModel.GetSegments().ToArray());
-					var helper = AnnotationFileHelper.Load(annotationFileName);
-
-					var textTier = (TextTier)viewModel.Tiers.FirstOrDefault(t => t is TextTier);
-					helper.Save(textTier);
-
-					var timeTier = (TimeOrderTier)helper.GetTiers().FirstOrDefault(t => t is TimeOrderTier);
-					OralAnnotationFileGenerator.Generate(timeTier, null);
-
-					return annotationFileName;
+					return eafFileName;
 				}
 				finally
 				{
@@ -888,14 +881,13 @@ namespace SayMore.Model.Files
 				return;
 			}
 
-			SHFILEINFO shinfo = new SHFILEINFO();
+			var shinfo = new SHFILEINFO();
 			try
 			{
 				SHGetFileInfo(fullFilePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_TYPENAME |
 						SHGFI_SMALLICON | SHGFI_ICON | SHGFI_DISPLAYNAME);
 			}
-			catch (Exception)
-			{ }
+			catch { }
 
 			// This should only be zero during tests.
 			if (shinfo.hIcon != IntPtr.Zero)

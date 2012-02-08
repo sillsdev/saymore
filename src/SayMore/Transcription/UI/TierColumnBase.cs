@@ -12,10 +12,11 @@ namespace SayMore.Transcription.UI
 		protected TextAnnotationEditorGrid _grid;
 
 		public Action SegmentChangedAction;
-		public ITier Tier { get; private set; }
+		public TierBase Tier { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public TierColumnBase(DataGridViewCell cellTemplate, ITier tier) : base(cellTemplate)
+		public TierColumnBase(DataGridViewCell cellTemplate, TierBase tier)
+			: base(cellTemplate)
 		{
 			DefaultCellStyle.ForeColor = SystemColors.WindowText;
 			DefaultCellStyle.BackColor = SystemColors.Window;
@@ -24,7 +25,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TierColumnBase(ITier tier) : this(new DataGridViewTextBoxCell(), tier)
+		public TierColumnBase(TierBase tier) : this(new DataGridViewTextBoxCell(), tier)
 		{
 		}
 
@@ -80,7 +81,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void SetTier(ITier tier)
+		public virtual void SetTier(TierBase tier)
 		{
 			Tier = tier;
 			Name = Tier.DisplayName.Replace(" ", string.Empty);

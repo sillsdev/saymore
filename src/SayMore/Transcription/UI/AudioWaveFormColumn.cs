@@ -1,6 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SayMore.Transcription.Model;
 using SilTools;
@@ -16,9 +16,9 @@ namespace SayMore.Transcription.UI
 		//private Control _gridEditControl;
 
 		/// ------------------------------------------------------------------------------------
-		public AudioWaveFormColumn(ITier tier) : base(new AudioWaveFormCell(), tier)
+		public AudioWaveFormColumn(TierBase tier) : base(new AudioWaveFormCell(), tier)
 		{
-			Debug.Assert(tier.DataType == TierType.Audio || tier.DataType == TierType.TimeOrder);
+			//Debug.Assert(tier.DataType == TierType.Audio || tier.DataType == TierType.TimeOrder);
 			ReadOnly = true;
 
 			DefaultCellStyle.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 7f);
@@ -103,13 +103,13 @@ namespace SayMore.Transcription.UI
 		private void HandleCurrentRowChanged(object sender, EventArgs e)
 		{
 			_grid.SegmentProvider = GetCurrentSegment;
-			_grid.MediaFileProvider = (() => ((TimeOrderTier)Tier).MediaFileName);
+			_grid.MediaFileProvider = (() => ((TimeTier)Tier).MediaFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public ITimeOrderSegment GetCurrentSegment()
+		public Segment GetCurrentSegment()
 		{
-			return Tier.GetSegment(_grid.CurrentCellAddress.Y) as ITimeOrderSegment;
+			return Tier.Segments.ElementAt(_grid.CurrentCellAddress.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -120,7 +120,7 @@ namespace SayMore.Transcription.UI
 			if (e.ColumnIndex != Index)
 				return;
 
-			e.Value = Tier.GetSegment(e.RowIndex) as ITimeOrderSegment;
+			e.Value = Tier.Segments.ElementAt(e.RowIndex);
 		}
 
 		/// ------------------------------------------------------------------------------------

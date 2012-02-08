@@ -394,7 +394,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			LoadEafFile(false);
 			Assert.AreEqual(3, _helper.CreateDependentTextTiers(
-				new[] { "a1", "a2", "a3" }).ElementAt(0).GetAllSegments().Count());
+				new[] { "a1", "a2", "a3" }).ElementAt(0).Segments.Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -403,9 +403,9 @@ namespace SayMoreTests.Transcription.Model
 		{
 			LoadEafFile(false);
 			var textTier = _helper.CreateDependentTextTiers(new[] { "a1", "a2", "a3" }).ElementAt(0);
-			Assert.AreEqual("FreeTranslation1", ((ITextSegment)textTier.GetSegment(0)).GetText());
-			Assert.AreEqual("FreeTranslation2", ((ITextSegment)textTier.GetSegment(1)).GetText());
-			Assert.IsEmpty(((ITextSegment)textTier.GetSegment(2)).GetText());
+			Assert.AreEqual("FreeTranslation1", textTier.Segments.ElementAt(0).Text);
+			Assert.AreEqual("FreeTranslation2", textTier.Segments.ElementAt(1).Text);
+			Assert.IsEmpty(textTier.Segments.ElementAt(2).Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -414,9 +414,9 @@ namespace SayMoreTests.Transcription.Model
 		{
 			LoadEafFile(false);
 			var textTier = _helper.CreateDependentTextTiers(new[] { "a1", "a2", "a3" }).ElementAt(0);
-			Assert.AreEqual("a4", ((ITextSegment)textTier.GetSegment(0)).Id);
-			Assert.AreEqual("a5", ((ITextSegment)textTier.GetSegment(1)).Id);
-			Assert.IsNull(((ITextSegment)textTier.GetSegment(2)).Id);
+			Assert.AreEqual("a4", textTier.Segments.ElementAt(0).Id);
+			Assert.AreEqual("a5", textTier.Segments.ElementAt(1).Id);
+			Assert.IsNull(textTier.Segments.ElementAt(2).Id);
 		}
 
 		///// ------------------------------------------------------------------------------------

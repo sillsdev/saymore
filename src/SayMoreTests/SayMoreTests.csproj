@@ -132,6 +132,7 @@
     <Compile Include="Transcription\Model\AnnotationFileHelperTests.cs" />
     <Compile Include="Transcription\Model\AudacityLabelHelperTests.cs" />
     <Compile Include="Transcription\Model\InterlinearXmlHelperTests.cs" />
+    <Compile Include="Transcription\Model\SegmentTests.cs" />
     <Compile Include="Transcription\Model\TextTierTests.cs" />
     <Compile Include="Transcription\UI\OralAnnotationRecorderDlgViewModelTests.cs" />
     <Compile Include="Transcription\UI\SegmenterDlgBaseViewModelTests.cs" />

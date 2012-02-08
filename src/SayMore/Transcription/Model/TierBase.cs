@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model
@@ -9,59 +9,51 @@ namespace SayMore.Transcription.Model
 	/// Implements a generic tier used to derive other tier types.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public abstract class TierBase : ITier
+	public abstract class TierBase
 	{
-		protected List<ISegment> _segments = new List<ISegment>();
+		protected List<Segment> _segments = new List<Segment>();
 
 		public virtual string DisplayName { get; protected set; }
-		public virtual TierType DataType { get; protected set; }
 		public virtual string Locale { get; protected set; }
 		public virtual TierColumnBase GridColumn { get; protected set; }
 
-		protected readonly List<ITier> _dependentTiers = new List<ITier>();
-
 		/// ------------------------------------------------------------------------------------
-		protected TierBase(string displayName)
+		protected TierBase(string displayName, Func<TierBase, TierColumnBase> tierColumnProvider)
 		{
 			DisplayName = displayName;
+
+			if (tierColumnProvider != null)
+				GridColumn = tierColumnProvider(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<ITier> DependentTiers
+		public virtual TierBase Copy()
 		{
-			get { return _dependentTiers; }
-		}
+			var copiedTier = GetNewTierInstance();
 
-		/// ------------------------------------------------------------------------------------
-		public virtual ITier Copy()
-		{
-			var copy = GetNewTierInstance();
+			foreach (var seg in _segments)
+				copiedTier._segments.Add(seg.Copy(copiedTier));
 
-			copy.AddDependentTierRange(DependentTiers.Select(dt => dt.Copy()));
-
-			foreach (var segment in _segments)
-				copy._segments.Add(segment.Copy(copy));
-
-			return copy;
+			return copiedTier;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual TierBase GetNewTierInstance()
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void AddDependentTier(ITier tier)
-		{
-			_dependentTiers.Add(tier);
-		}
+		//public virtual void AddDependentTier(ITier tier)
+		//{
+		//    _dependentTiers.Add(tier);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		public virtual void AddDependentTierRange(IEnumerable<ITier> tiers)
-		{
-			_dependentTiers.AddRange(tiers);
-		}
+		///// ------------------------------------------------------------------------------------
+		//public virtual void AddDependentTierRange(IEnumerable<ITier> tiers)
+		//{
+		//    _dependentTiers.AddRange(tiers);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual bool RemoveSegment(int index)
@@ -69,34 +61,25 @@ namespace SayMore.Transcription.Model
 			if (index < 0 || index >= _segments.Count)
 				return false;
 
-			foreach (var tier in DependentTiers)
-				tier.RemoveSegment(index);
-
 			_segments.RemoveAt(index);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<ISegment> GetAllSegments()
+		public virtual IEnumerable<Segment> Segments
 		{
-			return _segments;
+			get { return _segments; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual ISegment GetSegment(int index)
-		{
-			return _segments.ElementAt(index);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual bool TryGetSegment(int index, out ISegment segment)
+		public virtual bool TryGetSegment(int index, out Segment segment)
 		{
 			segment = null;
 
 			if (index < 0 || index >= _segments.Count)
 				return false;
 
-			segment = GetSegment(index);
+			segment = _segments[index];
 			return true;
 		}
 

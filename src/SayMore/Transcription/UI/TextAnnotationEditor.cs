@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
@@ -206,10 +205,8 @@ namespace SayMore.Transcription.UI
 				if (dlg.ShowDialog() == DialogResult.Cancel)
 					return;
 
-				var tier = file.Tiers.FirstOrDefault(t => t is TextTier);
-
 				InterlinearXmlHelper.Save(dlg.FileName, mediaFileName,
-					tier, dlg.TranscriptionWs.Id, dlg.FreeTranslationWs.Id);
+					file.Tiers, dlg.TranscriptionWs.Id, dlg.FreeTranslationWs.Id);
 			}
 		}
 

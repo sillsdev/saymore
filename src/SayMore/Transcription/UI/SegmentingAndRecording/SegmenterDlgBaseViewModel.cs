@@ -26,7 +26,7 @@ namespace SayMore.Transcription.UI
 		public WaveStream OrigWaveStream { get; protected set; }
 		public bool HaveSegmentBoundaries { get; set; }
 		public Action UpdateDisplayProvider { get; set; }
-		public List<ITier> Tiers { get; protected set; }
+		public TierCollection Tiers { get; protected set; }
 
 		protected List<SegmentBoundaries> _segments;
 
@@ -37,7 +37,7 @@ namespace SayMore.Transcription.UI
 			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile); // GetStreamFromAudio(ComponentFile.PathToAnnotatedFile);
 
 			Tiers = file.GetAnnotationFile() != null ?
-				file.GetAnnotationFile().Tiers.Select(t => t.Copy()).ToList() : new List<ITier>();
+				file.GetAnnotationFile().Tiers.Copy() : new TierCollection();
 
 			_segments = InitializeSegments(Tiers).ToList();
 		}
@@ -86,20 +86,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<SegmentBoundaries> InitializeSegments(IEnumerable<ITier> tiers)
+		public IEnumerable<SegmentBoundaries> InitializeSegments(TierCollection tiers)
 		{
-			var toTier = tiers.FirstOrDefault(t => t is TimeOrderTier);
+			var toTier = tiers.GetTimeTier();
 			if (toTier == null)
 				return new List<SegmentBoundaries>();
 
-			return from seg in toTier.GetAllSegments().Cast<ITimeOrderSegment>()
-				select new SegmentBoundaries(TimeSpan.FromSeconds(seg.Start), TimeSpan.FromSeconds(seg.Stop));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public TimeOrderTier GetTierForTimeSegments()
-		{
-			return Tiers.FirstOrDefault(t => t is TimeOrderTier) as TimeOrderTier;
+			return toTier.Segments.Select(s =>
+				new SegmentBoundaries(TimeSpan.FromSeconds(s.Start), TimeSpan.FromSeconds(s.End)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -201,25 +195,20 @@ namespace SayMore.Transcription.UI
 			if (index < 0 || index >= _segments.Count)
 				return;
 
-			ITimeOrderSegment segment;
-			var	tier = GetTierForTimeSegments();
+			var	timeTier = Tiers.GetTimeTier();
 
 			if (index < _segments.Count - 1)
 			{
 				RenameAnnotationForResizedSegment(_segments[index + 1],
 					new SegmentBoundaries(newBoundary, _segments[index + 1].end));
 
-				segment = tier.GetAllSegments().ElementAt(index + 1) as ITimeOrderSegment;
-				segment.Start = (float)newBoundary.TotalSeconds;
-//				_segments[index + 1].start = newBoundary;
+				timeTier.Segments.ElementAt(index + 1).Start = (float)newBoundary.TotalSeconds;
 			}
 
 			RenameAnnotationForResizedSegment(_segments[index],
 				new SegmentBoundaries(_segments[index].start, newBoundary));
 
-			segment = tier.GetAllSegments().ElementAt(index) as ITimeOrderSegment;
-			segment.Stop = (float)newBoundary.TotalSeconds;
-			//_segments[index].end = newBoundary;
+			timeTier.Segments.ElementAt(index).End = (float)newBoundary.TotalSeconds;
 
 			_segments = InitializeSegments(Tiers).ToList();
 			SegmentBoundariesChanged = true;
@@ -242,20 +231,6 @@ namespace SayMore.Transcription.UI
 
 			if (BoundariesUpdated != null)
 				BoundariesUpdated(this, EventArgs.Empty);
-
-			//var i = _segments.Select(s => s.end).ToList().IndexOf(boundary);
-			//if (i < 0)
-			//    return;
-
-			//_segments.RemoveAt(i);
-
-			//if (_segments.Count == 0 || i == _segments.Count)
-			//    return;
-
-			//if (i == 0)
-			//    _segments[0].start = TimeSpan.Zero;
-			//else
-			//    _segments[i].start = _segments[i - 1].end;
 		}
 
 		/// ------------------------------------------------------------------------------------

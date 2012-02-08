@@ -11,8 +11,6 @@ namespace SayMore.Model.Files
 {
 	public class AnnotationComponentFile : ComponentFile
 	{
-		private AnnotationFileHelper _helper;
-
 		public ComponentFile AssociatedComponentFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -25,7 +23,7 @@ namespace SayMore.Model.Files
 			FileType fileType, IEnumerable<ComponentRole> componentRoles)
 			: base(parentElement, pathToAnnotationFile, fileType, null, null, null)
 		{
-			Tiers = new ITier[] { };
+			Tiers = new TierCollection();
 
 			// The annotated file is the same as the annotation file.
 			PathToAnnotatedFile = pathToAnnotationFile;
@@ -38,13 +36,7 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<ITier> Tiers { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		public void SetTiers(IEnumerable<ITier> tiers)
-		{
-			Tiers = tiers.ToArray();
-		}
+		public virtual TierCollection Tiers { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public string GetPathToAssociatedMediaFile()
@@ -71,7 +63,7 @@ namespace SayMore.Model.Files
 			// path is ignored.
 
 			base.OnBeforeSave(this);
-			_helper.Save(Tiers.First(t => t.DataType == TierType.Text) as TextTier);
+			Tiers.Save(AssociatedComponentFile.PathToAnnotatedFile);
 			base.OnAfterSave(this);
 		}
 
@@ -86,12 +78,11 @@ namespace SayMore.Model.Files
 		{
 			try
 			{
-				_helper = AnnotationFileHelper.Load(PathToAnnotatedFile);
-				Tiers = _helper.GetTiers();
+				Tiers = TierCollection.Create(PathToAnnotatedFile);
 			}
 			catch (Exception e)
 			{
-				Tiers = new ITier[] { };
+				Tiers = new TierCollection();
 				return e;
 			}
 
@@ -133,11 +124,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public TextTier GetFreeTranslationTier()
 		{
-			var transcriptionTier = GetTranscriptionTier();
-
-			return (transcriptionTier == null ? null :
-				transcriptionTier.DependentTiers.FirstOrDefault(t =>
-					t.DisplayName == TextTier.SayMoreFreeTranslationTierName) as TextTier);
+			return Tiers.FirstOrDefault(t => t.DisplayName == TextTier.SayMoreFreeTranslationTierName) as TextTier;
 		}
 
 		/// ------------------------------------------------------------------------------------

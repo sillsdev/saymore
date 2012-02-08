@@ -18,47 +18,24 @@ namespace SayMoreTests.Transcription.Model
 			_tier = new TextTier("test tier");
 
 			Assert.AreEqual("test tier", _tier.DisplayName);
-			Assert.AreEqual(TierType.Text, _tier.DataType);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void AddSegment_AddsSegment()
 		{
-			Assert.AreEqual(0, _tier.GetAllSegments().Count());
+			Assert.AreEqual(0, _tier.Segments.Count());
 			_tier.AddSegment("C", "carbon");
-			Assert.AreEqual(1, _tier.GetAllSegments().Count());
-			Assert.AreEqual("C", ((ITextSegment)_tier.GetSegment(0)).Id);
-			Assert.AreEqual("carbon", ((ITextSegment)_tier.GetSegment(0)).GetText());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetSegment_NoSegments_ThrowsException()
-		{
-			Assert.Throws<ArgumentOutOfRangeException>(() => _tier.GetSegment(0));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetSegment_SegmentsExistButIndexOutOfRange_ThrowsException()
-		{
-			_tier.AddSegment("CO2", "carbon dioxide");
-			Assert.Throws<ArgumentOutOfRangeException>(() => _tier.GetSegment(1));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetSegment_SegmentsExistIndexOutOfRange_GetsSegment()
-		{
-			Assert.AreEqual(_tier.AddSegment("F", "fluorine"), _tier.GetSegment(0));
+			Assert.AreEqual(1, _tier.Segments.Count());
+			Assert.AreEqual("C", _tier.Segments.ElementAt(0) .Id);
+			Assert.AreEqual("carbon", _tier.Segments.ElementAt(0).Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void TryGetSegment_NoSegments_ReturnsFalse()
 		{
-			ISegment segment;
+			Segment segment;
 			Assert.IsFalse(_tier.TryGetSegment(0, out segment));
 		}
 
@@ -67,7 +44,7 @@ namespace SayMoreTests.Transcription.Model
 		public void TryGetSegment_SegmentsExistButIndexOutOfRange_ReturnsFalse()
 		{
 			_tier.AddSegment("H", "hydrogen");
-			ISegment segment;
+			Segment segment;
 			Assert.IsFalse(_tier.TryGetSegment(1, out segment));
 		}
 
@@ -76,7 +53,7 @@ namespace SayMoreTests.Transcription.Model
 		public void TryGetSegment_SegmentsExistIndexInRange_ReturnsTrue()
 		{
 			_tier.AddSegment("O", "oxygen");
-			ISegment segment;
+			Segment segment;
 			Assert.IsTrue(_tier.TryGetSegment(0, out segment));
 		}
 
@@ -136,6 +113,15 @@ namespace SayMoreTests.Transcription.Model
 			_tier.AddSegment("O", "oxygen");
 			_tier.AddSegment("H", "hydrogen");
 			Assert.IsTrue(_tier.GetIsComplete());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Copy_ReturnsDifferentInstanceOfTierWithSameDisplayName()
+		{
+			var copy = _tier.Copy();
+			Assert.AreNotSame(_tier, copy);
+			Assert.AreEqual(_tier.DisplayName, copy.DisplayName);
 		}
 	}
 }

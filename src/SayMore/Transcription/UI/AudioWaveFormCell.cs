@@ -125,7 +125,7 @@ namespace SayMore.Transcription.UI
 			if (_grid.CurrentCellAddress.Y != rowIndex || rowIndex < 0)
 				return;
 
-			var segment = value as TimeOrderSegment;
+			var segment = value as Segment;
 			if (segment != null && !_playButtonVisible && _grid.PlayerViewModel.HasPlaybackStarted)
 			{
 				segment.DrawPlaybackProgressBar(g, cellBounds,

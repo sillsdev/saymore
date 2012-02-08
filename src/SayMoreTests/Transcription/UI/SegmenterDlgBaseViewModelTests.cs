@@ -16,7 +16,7 @@ namespace SayMoreTests.Transcription.UI
 		private SegmenterDlgBaseViewModel _model;
 		private string _tempAudioFile;
 		private Mock<ComponentFile> _componentFile;
-		private TimeOrderTier _timeTier;
+		private TimeTier _timeTier;
 		private TextTier _textTier;
 
 		/// ------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ namespace SayMoreTests.Transcription.UI
 		public void Setup()
 		{
 			_tempAudioFile = MPlayerMediaInfoTests.GetLongerTestAudioFile();
-			_timeTier = new TimeOrderTier(_tempAudioFile);
+			_timeTier = new TimeTier(_tempAudioFile);
 			_timeTier.AddSegment(0f, 10f);
 			_timeTier.AddSegment(10f, 20f);
 			_timeTier.AddSegment(20f, 30f);
@@ -35,7 +35,7 @@ namespace SayMoreTests.Transcription.UI
 			_textTier.AddSegment("3", "three");
 
 			var annotationFile = new Mock<AnnotationComponentFile>();
-			annotationFile.Setup(a => a.Tiers).Returns(new ITier[] { _textTier, _timeTier });
+			annotationFile.Setup(a => a.Tiers).Returns(new TierCollection { _textTier, _timeTier });
 
 			_componentFile = new Mock<ComponentFile>();
 			_componentFile.Setup(f => f.PathToAnnotatedFile).Returns(_tempAudioFile);
@@ -74,7 +74,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void InitializeSegments_PassNonTimeOrderTier_ReturnsEmptyBoundaryList()
 		{
-			var list = _model.InitializeSegments(new[] { new TextTier("junk") });
+			var list = _model.InitializeSegments(new TierCollection { new TextTier("junk") });
 			Assert.False(list.Any());
 		}
 
@@ -82,7 +82,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void InitializeSegments_PassTimeOrderTier_ReturnsCorrectBoundariesInList()
 		{
-			var list = _model.InitializeSegments(new[] { _timeTier }).ToArray();
+			var list = _model.InitializeSegments(new TierCollection { _timeTier }).ToArray();
 			Assert.AreEqual(3, list.Length);
 
 			Assert.AreEqual(TimeSpan.Zero, list[0].start);
@@ -93,13 +93,6 @@ namespace SayMoreTests.Transcription.UI
 
 			Assert.AreEqual(TimeSpan.FromSeconds(20), list[2].start);
 			Assert.AreEqual(TimeSpan.FromSeconds(30), list[2].end);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetTierForTimeSegments_ReturnsCorrectTier()
-		{
-			Assert.IsInstanceOf<TimeOrderTier>(_model.GetTierForTimeSegments());
 		}
 
 		/// ------------------------------------------------------------------------------------

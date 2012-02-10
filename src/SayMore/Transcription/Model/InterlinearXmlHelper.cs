@@ -36,9 +36,9 @@ namespace SayMore.Transcription.Model
 			_wsTranscriptionId = wsTranscriptionId;
 			_wsFreeTranslationId = wsFreeTranslationId;
 
-			var textTier = _tierCollection.GetFirstTextTier();
+			var textTier = _tierCollection.GetTranscriptionTier();
 			if (textTier != null)
-				_segmentCount = _tierCollection.GetFirstTextTier().Segments.Count();
+				_segmentCount = _tierCollection.GetTranscriptionTier().Segments.Count();
 		}
 
 		#region IProgressViewModel implementation
@@ -151,7 +151,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<XElement> CreateParagraphElements()
 		{
-			var transcriptionTier = _tierCollection.GetFirstTextTier();
+			var transcriptionTier = _tierCollection.GetTranscriptionTier();
 
 			// TODO: This will need refactoring when display name is localizable.
 			var translationTier = _tierCollection.GetDependentTextTiers()

@@ -5,19 +5,11 @@ using SayMore.UI.MediaPlayer;
 namespace SayMore.Transcription.Model
 {
 	/// ----------------------------------------------------------------------------------------
-	public class AudacityLabelInfo
-	{
-		public float Start = -1;
-		public float Stop = -1;
-		public string Text;
-	}
-
-	/// ----------------------------------------------------------------------------------------
 	public class AudacityLabelHelper
 	{
 		private readonly string _mediaFile;
 
-		public IEnumerable<AudacityLabelInfo> LabelInfo { get; private set; }
+		public IEnumerable<Segment> Segments { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public AudacityLabelHelper(IEnumerable<string> allLabelLines, string mediaFile) :
@@ -34,62 +26,62 @@ namespace SayMore.Transcription.Model
 			var lines = allLabelLines.Select(ln => ln.Split(delimiter)).Where(p => p.Length >= 1).ToList();
 
 			// Create an easier to use (i.e. than string arrays) list of objects for each label.
-			var labelInfo = lines.Select(l => CreateSingleLabelInfo(l)).Where(ali => ali.Start > -1).ToList();
+			var segments = lines.Select(l => CreateSingleSegment(l)).Where(ali => ali.Start > -1).ToList();
 
-			LabelInfo = FixUpLabelInfo(labelInfo);
+			Segments = FixUpLabelInfo(segments);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<AudacityLabelInfo> FixUpLabelInfo(List<AudacityLabelInfo> labelInfo)
+		public IEnumerable<Segment> FixUpLabelInfo(List<Segment> segments)
 		{
-			for (int i = 0; i < labelInfo.Count; i++)
+			for (int i = 0; i < segments.Count; i++)
 			{
-				if (labelInfo[i].Stop > labelInfo[i].Start)
+				if (segments[i].End > segments[i].Start)
 					continue;
 
 				// At this point, we know the stop location is zero. For all labels but the
 				// last label, the stop position will be the start position of the next label.
 				// For the last label, the stop position is assumed to be the end of the file.
-				if (i < labelInfo.Count - 1)
-					labelInfo[i].Stop = labelInfo[i + 1].Start;
-				else if (i == labelInfo.Count - 1 && _mediaFile != null)
+				if (i < segments.Count - 1)
+					segments[i].End = segments[i + 1].Start;
+				else if (i == segments.Count - 1 && _mediaFile != null)
 				{
 					var mediaInfo = new MPlayerMediaInfo(_mediaFile);
 
-					if (labelInfo[i].Start.Equals(mediaInfo.Duration))
-						labelInfo.RemoveAt(i);
+					if (segments[i].Start.Equals(mediaInfo.Duration))
+						segments.RemoveAt(i);
 					else
-						labelInfo[i].Stop = mediaInfo.Duration;
+						segments[i].End = mediaInfo.Duration;
 				}
 			}
 
 			// If the label file didn't have a label at the beginning of the
 			// file (i.e. offset zero), treat offset zero as an implicit label.
-			if (labelInfo.Count > 0 && labelInfo[0].Start > 0)
-				labelInfo.Insert(0, new AudacityLabelInfo { Start = 0, Stop = labelInfo[0].Start });
+			if (segments.Count > 0 && segments[0].Start > 0)
+				segments.Insert(0, new Segment { Start = 0, End = segments[0].Start });
 
-			return labelInfo;
+			return segments;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public AudacityLabelInfo CreateSingleLabelInfo(string[] labelInfo)
+		public Segment CreateSingleSegment(string[] labelInfo)
 		{
-			var ali = new AudacityLabelInfo();
+			var seg = new Segment(null);
 
 			if (labelInfo.Length >= 3)
-				ali.Text = labelInfo[2];
+				seg.Text = labelInfo[2];
 
 			float value;
 
 			if (float.TryParse(labelInfo[0].Trim(), out value))
-				ali.Start = value;
+				seg.Start = value;
 
 			if (labelInfo.Length > 1 && float.TryParse(labelInfo[1].Trim(), out value))
-				ali.Stop = value;
+				seg.End = value;
 			else
-				ali.Stop = ali.Start;
+				seg.End = seg.Start;
 
-			return ali;
+			return seg;
 		}
 	}
 }

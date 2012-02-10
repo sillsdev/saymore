@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +9,12 @@ using SayMore.Transcription.Model;
 
 namespace SayMoreTests.Transcription.Model
 {
+	// Methods still needing tests:
+	//  - SaveAnnotations
+	//  - CreateFileFromFile
+	//  - CreateFileFromTimesAsString
+	//  - CreateFileFromSegments
+
 	[TestFixture]
 	public class AnnotationFileHelperTests
 	{
@@ -286,11 +293,23 @@ namespace SayMoreTests.Transcription.Model
 			LoadEafFile(false);
 
 			var list = _helper.GetTimeSlots();
-			Assert.AreEqual(4, list.Count);
-			Assert.AreEqual(0.75f, list["ts1"]);
-			Assert.AreEqual(1.25f, list["ts2"]);
-			Assert.AreEqual(2.121f, list["ts3"]);
-			Assert.AreEqual(3.131f, list["ts4"]);
+			Assert.AreEqual(6, list.Count);
+			Assert.AreEqual(0f, list["ts1"]);
+			Assert.AreEqual(0.75f, list["ts2"]);
+			Assert.AreEqual(0.75f, list["ts3"]);
+			Assert.AreEqual(1.25f, list["ts4"]);
+			Assert.AreEqual(1.25f, list["ts5"]);
+			Assert.AreEqual(2.121f, list["ts6"]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveTimeSlots_RemovesThem()
+		{
+			LoadEafFile(false);
+			Assert.AreEqual(6, _helper.GetTimeSlots().Count);
+			_helper.RemoveTimeSlots();
+			Assert.AreEqual(0, _helper.GetTimeSlots().Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -376,112 +395,38 @@ namespace SayMoreTests.Transcription.Model
 		{
 			LoadEafFile(false);
 			var list = _helper.GetDependentTiersElements().ToList();
-			Assert.AreEqual(1, list.Count);
+			Assert.AreEqual(2, list.Count);
 			Assert.AreEqual(TextTier.ElanFreeTranslationTierName, list[0].Attribute("TIER_ID").Value);
+			Assert.AreEqual("User Defined Tier", list[1].Attribute("TIER_ID").Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateDependentTextTiers_NoTranscriptionAnnotationIds_ReturnsEmptyList()
+		public void CreateDependentSayMoreTiers_NoTranscriptionAnnotationIds_ReturnsEmptyList()
 		{
 			LoadEafFile(false);
-			Assert.IsEmpty(_helper.CreateDependentTextTiers(new string[] { }).ToList());
+			Assert.IsEmpty(_helper.CreateDependentSayMoreTiers(new string[] { }).ToList());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateDependentTextTiers_MoreTranscriptionAnnotationsThanDependentAnnotations_ReturnsTierWithCorrectAnnotationCount()
+		public void CreateDependentSayMoreTiers_MoreTranscriptionAnnotationsThanDependentAnnotations_ReturnsTierWithCorrectAnnotationCount()
 		{
 			LoadEafFile(false);
-			Assert.AreEqual(3, _helper.CreateDependentTextTiers(
+			Assert.AreEqual(3, _helper.CreateDependentSayMoreTiers(
 				new[] { "a1", "a2", "a3" }).ElementAt(0).Segments.Count());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CreateDependentTextTiers_OneDependentTeir_ReturnsTextTierWithCorrectSegmentTexts()
+		public void CreateDependentSayMoreTiers_OneDependentTeir_ReturnsTextTierWithCorrectSegmentTexts()
 		{
 			LoadEafFile(false);
-			var textTier = _helper.CreateDependentTextTiers(new[] { "a1", "a2", "a3" }).ElementAt(0);
+			var textTier = _helper.CreateDependentSayMoreTiers(new[] { "a1", "a2", "a3" }).ElementAt(0);
 			Assert.AreEqual("FreeTranslation1", textTier.Segments.ElementAt(0).Text);
 			Assert.AreEqual("FreeTranslation2", textTier.Segments.ElementAt(1).Text);
 			Assert.IsEmpty(textTier.Segments.ElementAt(2).Text);
 		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CreateDependentTextTiers_OneDependentTeir_ReturnsTextTierWithCorrectAnnotationIds()
-		{
-			LoadEafFile(false);
-			var textTier = _helper.CreateDependentTextTiers(new[] { "a1", "a2", "a3" }).ElementAt(0);
-			Assert.AreEqual("a4", textTier.Segments.ElementAt(0).Id);
-			Assert.AreEqual("a5", textTier.Segments.ElementAt(1).Id);
-			Assert.IsNull(textTier.Segments.ElementAt(2).Id);
-		}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void GetDependentTierAnnotations_DependentTierPresent_ReturnsCorrectElements()
-		//{
-		//    LoadEafFile(false);
-		//    var list = _eafFile.GetDependentTierAnnotations();
-		//    Assert.AreEqual(2, list.Count);
-		//    Assert.AreEqual("Transcription1", list["a1"].Value);
-		//    Assert.AreEqual("Transcription2", list["a2"].Value);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void GetTimeSlotCollection_HasMediaTierWithNoSegments_ReturnsEmptyCollection()
-		//{
-		//    _mediaTier = new AudioTier("teetering tier", "Fleet Foxes.mp3");
-		//    Assert.AreEqual(0, _eafFile.GetTimeSlotCollection(_mediaTier).Count());
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void GetTimeSlotCollection_HasMediaTierWithSegments_ReturnsCorrectCount()
-		//{
-		//    Assert.AreEqual(4, _eafFile.GetTimeSlotCollection(_mediaTier).Count());
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void GetTimeSlotCollection_NoDuplicateTimes_ReturnsCorrectCollection()
-		//{
-		//    Assert.AreEqual(2f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(0));
-		//    Assert.AreEqual(6f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(1));
-		//    Assert.AreEqual(10f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(2));
-		//    Assert.AreEqual(18f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(3));
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void GetTimeSlotCollection_DuplicateTimes_ReturnsCorrectCollection()
-		//{
-		//    _mediaTier = new AudioTier("teetering tier", null);
-		//    _mediaTier.AddSegment(2f, 4f);
-		//    _mediaTier.AddSegment(6f, 8f);
-
-		//    Assert.AreEqual(3, _eafFile.GetTimeSlotCollection(_mediaTier).Count());
-		//    Assert.AreEqual(2f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(0));
-		//    Assert.AreEqual(6f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(1));
-		//    Assert.AreEqual(14f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(2));
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[Test]
-		//public void GetTimeSlotCollection_OutOfOrderAndOverlappingSegments_ReturnsSortedCollection()
-		//{
-		//    _mediaTier = new AudioTier("teetering tier", null);
-		//    _mediaTier.AddSegment(100f, 50f);
-		//    _mediaTier.AddSegment(70f, 40f);
-
-		//    Assert.AreEqual(70f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(0));
-		//    Assert.AreEqual(100f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(1));
-		//    Assert.AreEqual(110f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(2));
-		//    Assert.AreEqual(150f, _eafFile.GetTimeSlotCollection(_mediaTier).ElementAt(3));
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
@@ -562,6 +507,438 @@ namespace SayMoreTests.Transcription.Model
 			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.wmv").CreateMediaFileMimeType());
 			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.mov").CreateMediaFileMimeType());
 			Assert.AreEqual("video/*", new AnnotationFileHelper(null, "Alathea.avi").CreateMediaFileMimeType());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentsFromTimeStrings_PassNullList_ThrowsException()
+		{
+			Assert.Throws<NullReferenceException>(() =>
+				AnnotationFileHelper.GetSegmentsFromTimeStrings(null).ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentsFromTimeStrings_PassEmptyList_ReturnsEmptySegmentList()
+		{
+			Assert.IsEmpty(AnnotationFileHelper.GetSegmentsFromTimeStrings(new string[0]).ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentsFromTimeStrings_SegmentsOverlap_ThrowsException()
+		{
+			var boundaries = new[] { "2.5", "3.5", "3.0", "4.5" };
+			Assert.Throws<Exception>(() => AnnotationFileHelper.GetSegmentsFromTimeStrings(boundaries).ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentsFromTimeStrings_TwoValuesSame_ThrowsException()
+		{
+			var boundaries = new[] { "2.5", "3.5", "3.5", "4.5" };
+			Assert.Throws<Exception>(() => AnnotationFileHelper.GetSegmentsFromTimeStrings(boundaries).ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentsFromTimeStrings_GoodValues_ReturnsGoodSegments()
+		{
+			var boundaries = new[] { "2.5", "3.5", "4.5" };
+			var segments = AnnotationFileHelper.GetSegmentsFromTimeStrings(boundaries).ToArray();
+			Assert.AreEqual(3, segments.Length);
+			Assert.AreEqual(0f, segments[0].Start);
+			Assert.AreEqual(2.5f, segments[0].End);
+			Assert.AreEqual(2.5f, segments[1].Start);
+			Assert.AreEqual(3.5f, segments[1].End);
+			Assert.AreEqual(3.5f, segments[2].Start);
+			Assert.AreEqual(4.5f, segments[2].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveTiersAnnotations_TierDoesNotExist_DoesNothing()
+		{
+			LoadEafFile(false);
+
+			foreach (var e in _helper.Root.Elements("TIER"))
+				Assert.Greater(e.Elements().Count(), 0);
+
+			_helper.RemoveTiersAnnotations("blahblah");
+
+			foreach (var e in _helper.Root.Elements("TIER"))
+				Assert.Greater(e.Elements().Count(), 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveTiersAnnotations_PassIdOfTranscriptionTier_RemovesItsAnnotations()
+		{
+			LoadEafFile(false);
+
+			foreach (var e in _helper.Root.Elements("TIER"))
+				Assert.Greater(e.Elements().Count(), 0);
+
+			_helper.RemoveTiersAnnotations(TextTier.TranscriptionTierName);
+
+			Assert.IsFalse(_helper.Root.Elements("TIER")
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.TranscriptionTierName).HasElements);
+
+			Assert.IsTrue(_helper.Root.Elements("TIER")
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanFreeTranslationTierName).HasElements);
+
+			Assert.IsTrue(_helper.Root.Elements("TIER")
+				.First(e => e.Attribute("TIER_ID").Value == "User Defined Tier").HasElements);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveTiersAnnotations_PassIdOfFreeTranslationTier_RemovesItsAnnotations()
+		{
+			LoadEafFile(false);
+
+			foreach (var e in _helper.Root.Elements("TIER"))
+				Assert.Greater(e.Elements().Count(), 0);
+
+			_helper.RemoveTiersAnnotations(TextTier.ElanFreeTranslationTierName);
+
+			Assert.IsTrue(_helper.Root.Elements("TIER")
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.TranscriptionTierName).HasElements);
+
+			Assert.IsFalse(_helper.Root.Elements("TIER")
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanFreeTranslationTierName).HasElements);
+
+			Assert.IsTrue(_helper.Root.Elements("TIER")
+				.First(e => e.Attribute("TIER_ID").Value == "User Defined Tier").HasElements);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveTiersAnnotations_PassIdOfUserDefinedTier_RemovesItsAnnotations()
+		{
+			LoadEafFile(false);
+
+			foreach (var e in _helper.Root.Elements("TIER"))
+				Assert.Greater(e.Elements().Count(), 0);
+
+			_helper.RemoveTiersAnnotations("User Defined Tier");
+
+			Assert.IsTrue(_helper.Root.Elements("TIER")
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.TranscriptionTierName).HasElements);
+
+			Assert.IsTrue(_helper.Root.Elements("TIER")
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanFreeTranslationTierName).HasElements);
+
+			Assert.IsFalse(_helper.Root.Elements("TIER")
+				.First(e => e.Attribute("TIER_ID").Value == "User Defined Tier").HasElements);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTranscriptionTierIds_NoTranscriptionAnnotations_ReturnsEmptyList()
+		{
+			LoadEafFile(false);
+			_helper.RemoveTiersAnnotations(TextTier.TranscriptionTierName);
+			Assert.IsEmpty(_helper.GetTranscriptionTierIds().ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTranscriptionTierIds_HasTranscriptionAnnotations_ReturnsIds()
+		{
+			LoadEafFile(false);
+			var list = _helper.GetTranscriptionTierIds().ToArray();
+			Assert.AreEqual("a1", list[0]);
+			Assert.AreEqual("a3", list[1]);
+			Assert.AreEqual("a2", list[2]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SetLastUsedAnnotationId_IdTooSmall_ThrowsException()
+		{
+			LoadEafFile();
+			Assert.Throws<ArgumentOutOfRangeException>(() => _helper.SetLastUsedAnnotationId(0));
+			Assert.Throws<ArgumentOutOfRangeException>(() => _helper.SetLastUsedAnnotationId(-1));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SetLastUsedAnnotationId_NoHeaderExists_CreatesHeaderAndSetsIt()
+		{
+			LoadEafFile();
+			_helper.SetLastUsedAnnotationId(4);
+			Assert.AreEqual("a5", _helper.GetNextAvailableAnnotationIdAndIncrement());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SetLastUsedAnnotationId_HeaderExists_SetsIt()
+		{
+			LoadEafFile();
+			_helper.GetNextAvailableAnnotationIdAndIncrement();
+			_helper.SetLastUsedAnnotationId(9);
+			Assert.AreEqual("a10", _helper.GetNextAvailableAnnotationIdAndIncrement());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CorrectLastUsedAnnotationIdIfNecessary_NoNeedForCorrection_DoesNothing()
+		{
+			LoadEafFile(false);
+
+			int count = _helper.Root.Elements("TIER").Sum(e => e.Elements().Count());
+			_helper.SetLastUsedAnnotationId(count);
+			_helper.CorrectLastUsedAnnotationIdIfNecessary();
+			Assert.AreEqual(string.Format("a{0}", count + 1), _helper.GetNextAvailableAnnotationIdAndIncrement());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CorrectLastUsedAnnotationIdIfNecessary_CorrectionWhenValueIsWrong_MakesCorrection()
+		{
+			LoadEafFile(false);
+
+			int count = _helper.Root.Elements("TIER").Sum(e => e.Elements().Count());
+			_helper.SetLastUsedAnnotationId(count + 5);
+			_helper.CorrectLastUsedAnnotationIdIfNecessary();
+			Assert.AreEqual(string.Format("a{0}", count + 1), _helper.GetNextAvailableAnnotationIdAndIncrement());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CorrectLastUsedAnnotationIdIfNecessary_CorrectionAfterRemovingAnnotations_MakesCorrection()
+		{
+			LoadEafFile(false);
+
+			Assert.AreEqual(7, _helper.Root.Elements("TIER").Sum(e => e.Elements().Count()));
+			Assert.AreEqual("a8", _helper.GetNextAvailableAnnotationIdAndIncrement());
+
+			_helper.RemoveTiersAnnotations("User Defined Tier");
+			Assert.AreEqual(5, _helper.Root.Elements("TIER").Sum(e => e.Elements().Count()));
+			Assert.AreEqual("a9", _helper.GetNextAvailableAnnotationIdAndIncrement());
+
+			_helper.CorrectLastUsedAnnotationIdIfNecessary();
+
+			Assert.AreEqual("a6", _helper.GetNextAvailableAnnotationIdAndIncrement());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateTranscriptionElement_CreatesTimeSlotAndAnnotationElements()
+		{
+			LoadEafFile(false);
+
+			_helper.RemoveTimeSlots();
+			_helper.RemoveTiersAnnotations(TextTier.TranscriptionTierName);
+
+			var elements = _helper.GetTranscriptionTierAnnotations().Select(kvp => kvp.Value).ToArray();
+			Assert.AreEqual(0, elements.Length);
+			Assert.AreEqual(0, _helper.GetTimeSlots().Count);
+
+			_helper.CreateTranscriptionElement(new Segment(null, 3f, 5.4f));
+
+			elements = _helper.GetTranscriptionTierAnnotations().Select(kvp => kvp.Value).ToArray();
+			Assert.AreEqual(1, elements.Length);
+
+			var timeSlots = _helper.GetTimeSlots();
+			Assert.AreEqual(2, timeSlots.Count);
+			Assert.AreEqual("ts1", timeSlots.Keys.ElementAt(0));
+			Assert.AreEqual("ts2", timeSlots.Keys.ElementAt(1));
+			Assert.AreEqual(3f, timeSlots["ts1"]);
+			Assert.AreEqual(5.4f, timeSlots["ts2"]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SaveTranscriptionValue_PassNull_SetsValueToEmptyString()
+		{
+			LoadEafFile(false);
+			var elements = _helper.GetTranscriptionTierAnnotations().Select(kvp => kvp.Value).ToArray();
+			Assert.AreEqual("Transcription3", elements[1].Element("ANNOTATION_VALUE").Value);
+			_helper.SaveTranscriptionValue("a3", null);
+			Assert.AreEqual(string.Empty, elements[1].Element("ANNOTATION_VALUE").Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SaveTranscriptionValue_PassValue_SetsValue()
+		{
+			LoadEafFile(false);
+			var elements = _helper.GetTranscriptionTierAnnotations().Select(kvp => kvp.Value).ToArray();
+			Assert.AreEqual("Transcription3", elements[1].Element("ANNOTATION_VALUE").Value);
+			_helper.SaveTranscriptionValue("a3", "sadie the dog");
+			Assert.AreEqual("sadie the dog", elements[1].Element("ANNOTATION_VALUE").Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SaveDependentAnnotationValue_PassNull_SetsValueToEmptyString()
+		{
+			LoadEafFile(false);
+
+			_helper.RemoveTiersAnnotations(TextTier.ElanFreeTranslationTierName);
+
+			_helper.SaveDependentAnnotationValue(TextTier.TranscriptionTierName,
+				TextTier.ElanFreeTranslationTierName, null);
+
+			var dependents = _helper.GetDependentTiersElements().ToArray();
+			var elements = _helper.GetDependentTierAnnotationElements(dependents[0]);
+			Assert.AreEqual(string.Empty, elements.Values.ElementAt(0).Element("ANNOTATION_VALUE").Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SaveDependentAnnotationValue_PassValue_SetsValue()
+		{
+			LoadEafFile(false);
+
+			_helper.RemoveTiersAnnotations(TextTier.ElanFreeTranslationTierName);
+
+			_helper.SaveDependentAnnotationValue(TextTier.TranscriptionTierName,
+				TextTier.ElanFreeTranslationTierName, "Bear the cat");
+
+			var dependents = _helper.GetDependentTiersElements().ToArray();
+			var elements = _helper.GetDependentTierAnnotationElements(dependents[0]);
+			Assert.AreEqual("Bear the cat", elements.Values.ElementAt(0).Element("ANNOTATION_VALUE").Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateTimeOrderElementAndReturnId_WhenTimeSlotsAlreadyExist_AddsAndReturnsId()
+		{
+			LoadEafFile(false);
+
+			Assert.AreEqual(6, _helper.GetTimeSlots().Count);
+			_helper.CreateTimeOrderElementAndReturnId(33.5f);
+			var timeSlots = _helper.GetTimeSlots();
+			Assert.AreEqual(7, timeSlots.Count);
+			Assert.AreEqual(33.5, timeSlots["ts7"]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateTimeOrderElementAndReturnId_WhenTimeSlotsDoNotExist_AddsAndReturnsId()
+		{
+			LoadEafFile(false);
+
+			Assert.AreEqual(6, _helper.GetTimeSlots().Count);
+			_helper.RemoveTimeSlots();
+			Assert.AreEqual(0, _helper.GetTimeSlots().Count);
+
+			_helper.CreateTimeOrderElementAndReturnId(33.5f);
+			var timeSlots = _helper.GetTimeSlots();
+			Assert.AreEqual(1, timeSlots.Count);
+			Assert.AreEqual(33.5, timeSlots["ts1"]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTierCollection_ReturnsCorrectTiers()
+		{
+			LoadEafFile(false);
+
+			var collection = _helper.GetTierCollection();
+			Assert.AreEqual(4, collection.Count);
+
+			Assert.IsInstanceOf<TimeTier>(collection[0]);
+			Assert.IsInstanceOf<TextTier>(collection[1]);
+			Assert.IsInstanceOf<TextTier>(collection[2]);
+			Assert.IsInstanceOf<TextTier>(collection[3]);
+
+			Assert.AreEqual(TierType.Time, collection[0].TierType);
+			Assert.AreEqual(TierType.Transcription, collection[1].TierType);
+			Assert.AreEqual(TierType.FreeTranslation, collection[2].TierType);
+			Assert.AreEqual(TierType.Other, collection[3].TierType);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTierCollection_ReturnsSameNumberSegmentsInEachTier()
+		{
+			LoadEafFile(false);
+
+			var collection = _helper.GetTierCollection();
+
+			Assert.AreEqual(3, collection[0].Segments.Count());
+			Assert.AreEqual(3, collection[1].Segments.Count());
+			Assert.AreEqual(3, collection[2].Segments.Count());
+			Assert.AreEqual(3, collection[3].Segments.Count());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTierCollection_ReturnsCorrectSegmentTimes()
+		{
+			LoadEafFile(false);
+
+			var collection = _helper.GetTierCollection();
+			var segs = collection[0].Segments.ToArray();
+
+			Assert.AreEqual(0f, segs[0].Start);
+			Assert.AreEqual(.75f, segs[0].End);
+			Assert.AreEqual(.75f, segs[1].Start);
+			Assert.AreEqual(1.25f, segs[1].End);
+			Assert.AreEqual(1.25f, segs[2].Start);
+			Assert.AreEqual(2.121f, segs[2].End);
+
+			Assert.AreEqual(collection[0], segs[0].Tier);
+			Assert.AreEqual(collection[0], segs[1].Tier);
+			Assert.AreEqual(collection[0], segs[2].Tier);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTierCollection_ReturnsCorrectTranscriptionSegments()
+		{
+			LoadEafFile(false);
+
+			var collection = _helper.GetTierCollection();
+			var segs = collection[1].Segments.ToArray();
+
+			Assert.AreEqual("Transcription1", segs[0].Text);
+			Assert.AreEqual("Transcription3", segs[1].Text);
+			Assert.AreEqual("Transcription2", segs[2].Text);
+
+			Assert.AreEqual(collection[1], segs[0].Tier);
+			Assert.AreEqual(collection[1], segs[1].Tier);
+			Assert.AreEqual(collection[1], segs[2].Tier);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTierCollection_ReturnsCorrectFreeTranslationSegments()
+		{
+			LoadEafFile(false);
+
+			var collection = _helper.GetTierCollection();
+			var segs = collection[2].Segments.ToArray();
+
+			Assert.AreEqual("FreeTranslation1", segs[0].Text);
+			Assert.AreEqual(string.Empty, segs[1].Text);
+			Assert.AreEqual("FreeTranslation2", segs[2].Text);
+
+			Assert.AreEqual(collection[2], segs[0].Tier);
+			Assert.AreEqual(collection[2], segs[1].Tier);
+			Assert.AreEqual(collection[2], segs[2].Tier);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTierCollection_ReturnsCorrectUserDefSegments()
+		{
+			LoadEafFile(false);
+
+			var collection = _helper.GetTierCollection();
+			var segs = collection[3].Segments.ToArray();
+
+			Assert.AreEqual("UserAnnotationValue1", segs[0].Text);
+			Assert.AreEqual("UserAnnotationValue2", segs[1].Text);
+			Assert.AreEqual(string.Empty, segs[2].Text);
+
+			Assert.AreEqual(collection[3], segs[0].Tier);
+			Assert.AreEqual(collection[3], segs[1].Tier);
+			Assert.AreEqual(collection[3], segs[2].Tier);
 		}
 	}
 }

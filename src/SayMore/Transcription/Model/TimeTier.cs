@@ -28,6 +28,13 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override TierType TierType
+		{
+			get { return TierType.Time; }
+			set { }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public Segment AddSegment(float start, float stop)
 		{
 			var segment = new Segment(this, start, stop);

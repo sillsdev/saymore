@@ -4,6 +4,14 @@ using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model
 {
+	public enum TierType
+	{
+		Other,
+		Time,
+		Transcription,
+		FreeTranslation,
+	}
+
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Implements a generic tier used to derive other tier types.
@@ -16,11 +24,15 @@ namespace SayMore.Transcription.Model
 		public virtual string DisplayName { get; protected set; }
 		public virtual string Locale { get; protected set; }
 		public virtual TierColumnBase GridColumn { get; protected set; }
+		public virtual TierType TierType { get; set; }
+		public virtual string LinguisticType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		protected TierBase(string displayName, Func<TierBase, TierColumnBase> tierColumnProvider)
 		{
 			DisplayName = displayName;
+			TierType = TierType.Other;
+			Locale = "ipa-ext";
 
 			if (tierColumnProvider != null)
 				GridColumn = tierColumnProvider(this);
@@ -42,6 +54,20 @@ namespace SayMore.Transcription.Model
 		{
 			throw new NotImplementedException();
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//public virtual bool IsTimeTier
+		//{
+		//    get { return false; }
+		//    set { }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		//public virtual bool IsTextTranscriptionTier
+		//{
+		//    get { return false; }
+		//    set { }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		//public virtual void AddDependentTier(ITier tier)
@@ -88,6 +114,12 @@ namespace SayMore.Transcription.Model
 		{
 			dataFormat = null;
 			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return DisplayName;
 		}
 	}
 }

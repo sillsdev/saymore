@@ -24,30 +24,11 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void AddSegment_PassIdOnly_AddsSegmentAndInitializesId()
+		public void AddSegment_PassText_AddsSegmentAndInitializesText()
 		{
 			Assert.AreEqual(0, _tier.Segments.Count());
-			_tier.AddSegment("C");
+			_tier.AddSegment("carbon");
 			Assert.AreEqual(1, _tier.Segments.Count());
-			Assert.AreEqual("C", _tier.Segments.ElementAt(0).Id);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void AddSegment_PassIdOnly_AddsSegmentAndInitializesTextToEmptyString()
-		{
-			_tier.AddSegment("C");
-			Assert.IsEmpty(_tier.Segments.ElementAt(0).Text);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void AddSegment_PassIdAndText_AddsSegmentAndInitializesBoth()
-		{
-			Assert.AreEqual(0, _tier.Segments.Count());
-			_tier.AddSegment("C", "carbon");
-			Assert.AreEqual(1, _tier.Segments.Count());
-			Assert.AreEqual("C", _tier.Segments.ElementAt(0) .Id);
 			Assert.AreEqual("carbon", _tier.Segments.ElementAt(0).Text);
 		}
 
@@ -63,7 +44,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void AddSegment_PassNullText_ReturnsSegmentWithEmptyText()
 		{
-			Assert.IsEmpty(_tier.AddSegment("C", null).Text);
+			Assert.IsEmpty(_tier.AddSegment(null).Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -78,7 +59,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void TryGetSegment_SegmentsExistButIndexOutOfRange_ReturnsFalse()
 		{
-			_tier.AddSegment("H", "hydrogen");
+			_tier.AddSegment("hydrogen");
 			Segment segment;
 			Assert.IsFalse(_tier.TryGetSegment(1, out segment));
 		}
@@ -87,7 +68,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void TryGetSegment_SegmentsExistIndexInRange_ReturnsTrue()
 		{
-			_tier.AddSegment("O", "oxygen");
+			_tier.AddSegment("oxygen");
 			Segment segment;
 			Assert.IsTrue(_tier.TryGetSegment(0, out segment));
 		}
@@ -104,9 +85,9 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void GetTierClipboardData_HasSegments_ReturnsCorrectData()
 		{
-			_tier.AddSegment("O", "oxygen");
-			_tier.AddSegment("H", "hydrogen");
-			_tier.AddSegment("C", "carbon");
+			_tier.AddSegment("oxygen");
+			_tier.AddSegment("hydrogen");
+			_tier.AddSegment("carbon");
 
 			string dataFormat;
 			var data = _tier.GetTierClipboardData(out dataFormat) as string;
@@ -127,8 +108,8 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void GetIsComplete_AllSegmentsAreEmpty_ReturnsFalse()
 		{
-			_tier.AddSegment("O", null);
-			_tier.AddSegment("H", string.Empty);
+			_tier.AddSegment(null);
+			_tier.AddSegment(string.Empty);
 			Assert.IsFalse(_tier.GetIsComplete());
 		}
 
@@ -136,8 +117,8 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void GetIsComplete_SomeButNotAllSegmentsAreEmpty_ReturnsFalse()
 		{
-			_tier.AddSegment("O", "oxygen");
-			_tier.AddSegment("H", string.Empty);
+			_tier.AddSegment("oxygen");
+			_tier.AddSegment(string.Empty);
 			Assert.IsFalse(_tier.GetIsComplete());
 		}
 
@@ -145,8 +126,8 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void GetIsComplete_AllSegmentsContainText_ReturnsTrue()
 		{
-			_tier.AddSegment("O", "oxygen");
-			_tier.AddSegment("H", "hydrogen");
+			_tier.AddSegment("oxygen");
+			_tier.AddSegment("hydrogen");
 			Assert.IsTrue(_tier.GetIsComplete());
 		}
 
@@ -195,9 +176,9 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void JoinSements_NullSegments_JoinedTextIsEmpty()
 		{
-			_tier.AddSegment("1", null);
-			_tier.AddSegment("2", null);
-			_tier.AddSegment("3", null);
+			_tier.AddSegment(null);
+			_tier.AddSegment(null);
+			_tier.AddSegment(null);
 			_tier.JoinSements(1, 2);
 			Assert.AreEqual(string.Empty, _tier.Segments.ElementAt(2).Text);
 		}
@@ -206,9 +187,9 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void JoinSements_JoinLowerToHigher_JoinedTextIsLowerPlusHigher()
 		{
-			_tier.AddSegment("1", "1");
-			_tier.AddSegment("2", "2");
-			_tier.AddSegment("3", "3");
+			_tier.AddSegment("1");
+			_tier.AddSegment("2");
+			_tier.AddSegment("3");
 			_tier.JoinSements(0, 1);
 			Assert.AreEqual("1 2", _tier.Segments.ElementAt(1).Text);
 		}
@@ -217,9 +198,9 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void JoinSements_JoinLowerEmptyToHigherNotEmpty_JoinedTextIsHigher()
 		{
-			_tier.AddSegment("1");
-			_tier.AddSegment("2", "2");
-			_tier.AddSegment("3", "3");
+			_tier.AddSegment(null);
+			_tier.AddSegment("2");
+			_tier.AddSegment("3");
 			_tier.JoinSements(0, 1);
 			Assert.AreEqual("2", _tier.Segments.ElementAt(1).Text);
 		}
@@ -228,9 +209,9 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void JoinSements_JoinHigherToLower_JoinedTextIsLowerPlusHigher()
 		{
-			_tier.AddSegment("1", "1");
-			_tier.AddSegment("2", "2");
-			_tier.AddSegment("3", "3");
+			_tier.AddSegment("1");
+			_tier.AddSegment("2");
+			_tier.AddSegment("3");
 			_tier.JoinSements(1, 2);
 			Assert.AreEqual("2 3", _tier.Segments.ElementAt(2).Text);
 		}
@@ -239,9 +220,9 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void JoinSements_JoinHigherEmptyToLowerNotEmpty_JoinedTextIsLower()
 		{
-			_tier.AddSegment("1", "1");
-			_tier.AddSegment("2", "2");
-			_tier.AddSegment("3");
+			_tier.AddSegment("1");
+			_tier.AddSegment("2");
+			_tier.AddSegment(null);
 			_tier.JoinSements(1, 2);
 			Assert.AreEqual("2", _tier.Segments.ElementAt(2).Text);
 		}
@@ -270,16 +251,16 @@ namespace SayMoreTests.Transcription.Model
 			Assert.AreEqual(3, _tier.Segments.Count());
 			Assert.IsTrue(_tier.RemoveSegment(1));
 			Assert.AreEqual(2, _tier.Segments.Count());
-			Assert.IsNull(_tier.Segments.FirstOrDefault(s => s.Id == "2"));
+			Assert.IsNull(_tier.Segments.FirstOrDefault(s => s.Text == "2"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void RemoveSegment_RemoveMiddleSegment_JoinsWithPrecedingSegment()
 		{
-			_tier.AddSegment("1", "1");
-			_tier.AddSegment("2", "2");
-			_tier.AddSegment("3", "3");
+			_tier.AddSegment("1");
+			_tier.AddSegment("2");
+			_tier.AddSegment("3");
 			Assert.IsTrue(_tier.RemoveSegment(1));
 			Assert.AreEqual("1 2", _tier.Segments.ElementAt(0).Text);
 			Assert.AreEqual("3", _tier.Segments.ElementAt(1).Text);
@@ -289,9 +270,9 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_RemoveFirstSegment_JoinsWithNextSegment()
 		{
-			_tier.AddSegment("1", "1");
-			_tier.AddSegment("2", "2");
-			_tier.AddSegment("3", "3");
+			_tier.AddSegment("1");
+			_tier.AddSegment("2");
+			_tier.AddSegment("3");
 			Assert.IsTrue(_tier.RemoveSegment(0));
 			Assert.AreEqual("1 2", _tier.Segments.ElementAt(0).Text);
 			Assert.AreEqual("3", _tier.Segments.ElementAt(1).Text);
@@ -301,9 +282,9 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void RemoveSegment_RemoveLastSegment_JoinsWithPrecedingSegment()
 		{
-			_tier.AddSegment("1", "1");
-			_tier.AddSegment("2", "2");
-			_tier.AddSegment("3", "3");
+			_tier.AddSegment("1");
+			_tier.AddSegment("2");
+			_tier.AddSegment("3");
 			Assert.IsTrue(_tier.RemoveSegment(2));
 			Assert.AreEqual("1", _tier.Segments.ElementAt(0).Text);
 			Assert.AreEqual("2 3", _tier.Segments.ElementAt(1).Text);

@@ -30,9 +30,9 @@ namespace SayMoreTests.Transcription.UI
 			_timeTier.AddSegment(20f, 30f);
 
 			_textTier = new TextTier("Junk");
-			_textTier.AddSegment("1", "one");
-			_textTier.AddSegment("2", "two");
-			_textTier.AddSegment("3", "three");
+			_textTier.AddSegment("one");
+			_textTier.AddSegment("two");
+			_textTier.AddSegment("three");
 
 			var annotationFile = new Mock<AnnotationComponentFile>();
 			annotationFile.Setup(a => a.Tiers).Returns(new TierCollection { _textTier, _timeTier });

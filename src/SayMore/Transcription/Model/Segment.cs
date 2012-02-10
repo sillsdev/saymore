@@ -11,9 +11,13 @@ namespace SayMore.Transcription.Model
 	{
 		public TierBase Tier { get; private set; }
 		public string Text { get; set; }
-		public string Id { get; set; }
 		public float Start { get; set; }
 		public float End { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public Segment() : this(null)
+		{
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public Segment(TierBase tier)
@@ -30,20 +34,15 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment(TierBase tier, string id, string text) : this(tier)
+		public Segment(TierBase tier, string text) : this(tier)
 		{
-			Id = id;
 			Text = text;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual Segment Copy(TierBase owningTier)
 		{
-			return new Segment(owningTier, Start, End)
-			{
-				Id = Id,
-				Text = Text,
-			};
+			return new Segment(owningTier, Start, End) { Text = Text };
 		}
 
 		/// ------------------------------------------------------------------------------------

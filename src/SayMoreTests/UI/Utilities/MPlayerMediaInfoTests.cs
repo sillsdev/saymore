@@ -59,9 +59,14 @@ namespace SayMoreTests.UI.Utilities
 
 			var buffer = new byte[stream.Length];
 			stream.Read(buffer, 0, buffer.Length);
-			File.WriteAllBytes(mediaFilePath, buffer);
 			stream.Close();
 			stream.Dispose();
+
+			using (var outStream = File.OpenWrite(mediaFilePath))
+			{
+				outStream.Write(buffer, 0, buffer.Length);
+				outStream.Close();
+			}
 
 			return mediaFilePath;
 		}

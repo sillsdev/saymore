@@ -78,7 +78,7 @@ namespace SayMore.Model.Files
 		{
 			try
 			{
-				Tiers = TierCollection.Create(PathToAnnotatedFile);
+				Tiers = TierCollection.LoadFromAnnotationFile(PathToAnnotatedFile);
 			}
 			catch (Exception e)
 			{
@@ -116,18 +116,6 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TextTier GetTranscriptionTier()
-		{
-			return Tiers.FirstOrDefault(t => t.DisplayName == TextTier.TranscriptionTierName) as TextTier;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public TextTier GetFreeTranslationTier()
-		{
-			return Tiers.FirstOrDefault(t => t.DisplayName == TextTier.SayMoreFreeTranslationTierName) as TextTier;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ToolStripItem> GetRenamingMenuCommands(Action<string> refreshAction)
 		{
 			return new ToolStripItem[] { };
@@ -153,11 +141,11 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ComponentRole> GetAssignedRoles(Type elementType)
 		{
-			var tier = GetTranscriptionTier();
+			var tier = Tiers.GetTranscriptionTier();
 			if (tier != null && tier.GetIsComplete())
 				yield return _componentRoles.Single(r => r.Id == "transcription");
 
-			tier = GetFreeTranslationTier();
+			tier = Tiers.GetFreeTranslationTier();
 			if (tier != null && tier.GetIsComplete())
 				yield return _componentRoles.Single(r => r.Id == "transcriptionN");
 		}

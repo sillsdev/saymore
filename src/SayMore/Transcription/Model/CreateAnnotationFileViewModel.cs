@@ -11,7 +11,7 @@ namespace SayMore.Transcription.Model
 	public class CreateAnnotationFileViewModel : IProgressViewModel
 	{
 		private readonly AnnotationFileHelper _helper;
-		private readonly AudacityLabelInfo[] _audacityLabels;
+		private readonly Segment[] _segments;
 
 		public event EventHandler OnFinished;
 		public event EventHandler OnUpdateProgress;
@@ -23,11 +23,11 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		public CreateAnnotationFileViewModel(AnnotationFileHelper helper,
-			IEnumerable<AudacityLabelInfo> audacityLabels)
+			IEnumerable<Segment> segments)
 		{
 			_helper = helper;
-			_audacityLabels = audacityLabels.ToArray();
-			MaximumProgressValue = _audacityLabels.Length;
+			_segments = segments.ToArray();
+			MaximumProgressValue = _segments.Length;
 
 			StatusString = LocalizationManager.GetString(
 				"EventsView.Transcription.AnnotationFileHelper.CreateAnnotationFileFromAudacity.ProgressMsg",
@@ -62,10 +62,10 @@ namespace SayMore.Transcription.Model
 			var worker = sender as BackgroundWorker;
 			int i = 0;
 
-			foreach (var label in _audacityLabels)
+			foreach (var seg in _segments)
 			{
 				worker.ReportProgress(++i);
-				_helper.AddNewTranscriptionAnnotationElement(label);
+				_helper.CreateTranscriptionElement(seg);
 			}
 		}
 

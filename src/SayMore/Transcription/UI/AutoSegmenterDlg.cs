@@ -55,7 +55,7 @@ namespace SayMore.Transcription.UI
 				Application.DoEvents();
 
 			if (_segments != null)
-				_annotationFileName = AnnotationFileHelper.CreateFromSegments(_mediaFileName, _segments);
+				_annotationFileName = AnnotationFileHelper.CreateFileFromTimesAsString(null, _mediaFileName, _segments);
 
 			Close();
 		}

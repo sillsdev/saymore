@@ -19,6 +19,19 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public TextTier(string displayName) : base(displayName, tier => new TextAnnotationColumn(tier))
 		{
+			LinguisticType = "Translation";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override TierType TierType
+		{
+			get { return base.TierType; }
+			set
+			{
+				base.TierType = value;
+				if (value == TierType.Transcription)
+					LinguisticType = "Transcription";
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -27,16 +40,11 @@ namespace SayMore.Transcription.Model
 			return new TextTier(DisplayName);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public Segment AddSegment(string id)
-		{
-			return AddSegment(id, string.Empty);
-		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment AddSegment(string id, string text)
+		public Segment AddSegment(string text)
 		{
-			var segment = new Segment(this, id, text ?? string.Empty);
+			var segment = new Segment(this, text ?? string.Empty);
 			_segments.Add(segment);
 			return segment;
 		}

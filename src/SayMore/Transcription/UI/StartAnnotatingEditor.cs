@@ -127,8 +127,8 @@ namespace SayMore.Transcription.UI
 			using (var dlg = new ManualSegmenterDlg(viewModel))
 			{
 				return (dlg.ShowDialog(this) != DialogResult.OK || !viewModel.WereChangesMade ? null :
-					AnnotationFileHelper.CreateFromSegments(_file.PathToAnnotatedFile,
-					viewModel.GetSegments().ToArray()));
+					AnnotationFileHelper.CreateFileFromTimesAsString(null, _file.PathToAnnotatedFile,
+						viewModel.GetSegments().ToArray()));
 			}
 		}
 
@@ -145,7 +145,7 @@ namespace SayMore.Transcription.UI
 					LocalizationManager.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString", "All Files (*.*)|*.*");
 
 				return (dlg.ShowDialog() != DialogResult.OK ? null :
-					AnnotationFileHelper.Create(dlg.FileName, _file.PathToAnnotatedFile));
+					AnnotationFileHelper.CreateFileFromFile(dlg.FileName, _file.PathToAnnotatedFile));
 			}
 		}
 	}

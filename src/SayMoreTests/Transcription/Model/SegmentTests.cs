@@ -12,9 +12,10 @@ namespace SayMoreTests.Transcription.Model
 		[SetUp]
 		public void Setup()
 		{
-			_segment = new Segment(new TextTier("tier"), "segId", "segText");
+			var tier = new TextTier("tier");
+			_segment = new Segment(tier, "segText");
 
-			Assert.AreEqual("segId", _segment.Id);
+			Assert.AreEqual(tier, _segment.Tier);
 			Assert.AreEqual("segText", _segment.Text);
 		}
 
@@ -30,7 +31,6 @@ namespace SayMoreTests.Transcription.Model
 		public void Copy_CreatesCopyWithSameTextAndId()
 		{
 			var copy = _segment.Copy(new TextTier("newTier"));
-			Assert.AreEqual(_segment.Id, copy.Id);
 			Assert.AreEqual(_segment.Text, copy.Text);
 		}
 

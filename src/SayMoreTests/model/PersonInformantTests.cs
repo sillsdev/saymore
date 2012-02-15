@@ -6,7 +6,7 @@ using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
-namespace SayMoreTests.model
+namespace SayMoreTests.Model
 {
 	[TestFixture]
 	public sealed class PersonInformantTests

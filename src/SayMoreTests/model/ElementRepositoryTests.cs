@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
 
-namespace SayMoreTests.model
+namespace SayMoreTests.Model
 {
 	[TestFixture]
 	public class ElementRepositoryTests

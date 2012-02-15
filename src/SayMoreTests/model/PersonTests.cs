@@ -4,7 +4,7 @@ using Palaso.IO;
 using Palaso.TestUtilities;
 using SayMoreTests.Model;
 
-namespace SayMoreTests.model
+namespace SayMoreTests.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using NUnit.Framework;
 using Palaso.UI.WindowsForms.ClearShare;
 using SayMore.Model.Fields;
-using Palaso.Extensions;
 
-namespace SayMoreTests.model.Fields
+namespace SayMoreTests.Model.Fields
 {
 	[TestFixture]
 	public class ContributionSerializerTests

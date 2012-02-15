@@ -6,7 +6,7 @@ using SayMore;
 using SayMore.Model;
 using SayMore.Model.Files;
 
-namespace SayMoreTests.model
+namespace SayMoreTests.Model
 {
 	[TestFixture]
 	public sealed class EventWorkflowInformantTests

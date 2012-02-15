@@ -6,7 +6,7 @@ using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 
-namespace Sponge2Tests
+namespace SayMoreTests.Export
 {
 	public class ExportTests
 	{

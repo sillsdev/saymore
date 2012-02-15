@@ -1,8 +1,7 @@
 using NUnit.Framework;
 using Palaso.UI.WindowsForms.ClearShare;
-using SayMore.Model.Fields;
 
-namespace SayMoreTests.model.Fields
+namespace SayMoreTests.Model.Fields
 {
 	[TestFixture]
 	public class ContributionCollectionTests

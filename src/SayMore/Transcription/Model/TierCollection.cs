@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace SayMore.Transcription.Model
@@ -8,11 +10,17 @@ namespace SayMore.Transcription.Model
 	public class TierCollection : Collection<TierBase>
 	{
 		/// ------------------------------------------------------------------------------------
-		public static TierCollection LoadFromAnnotationFile(string annotationFile)
+		public static TierCollection LoadFromAnnotationFile(string eafFilePath)
 		{
-			var helper = AnnotationFileHelper.Load(annotationFile);
-			return helper.GetTierCollection();
+			var helper = AnnotationFileHelper.Load(eafFilePath);
+			var collection = helper.GetTierCollection();
+			collection.AnnotatedMediaFile = helper.GetFullPathToMediaFile();
+
+			return collection;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public string AnnotatedMediaFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public TierCollection Copy()
@@ -25,16 +33,40 @@ namespace SayMore.Transcription.Model
 			return copy;
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public string GetPathToCarefulSpeechFileForSegment(TimeSpan start, TimeSpan end)
-		//{
-		//    var segment = this.FirstOrDefault(s => s.Start == start && s.End == end);
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes the segment in each tier at the specified index.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool RemoveTierSegments(int index)
+		{
+			if (Count == 0 || index < 0 || index >= this[0].Segments.Count)
+				return false;
 
-		//    return Path.Combine(_tempOralAnnotationsFolder,
-		//        string.Format(Settings.Default.OralAnnotationSegmentFileFormat,
-		//        (float)start.TotalSeconds, (float)end.TotalSeconds, affix));
-		//}
+			for (int i = 0; i < Count; i++)
+				this[i].RemoveSegment(index);
 
+			return true;
+		}
+
+		#region Methods for Saving tiers to EAF file
+		/// ------------------------------------------------------------------------------------
+		public string Save()
+		{
+			Debug.Assert(AnnotatedMediaFile != null);
+			Debug.Assert(File.Exists(AnnotatedMediaFile));
+			return Save(AnnotatedMediaFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string Save(string annotatedMediaFile)
+		{
+			return AnnotationFileHelper.Save(annotatedMediaFile, this);
+		}
+
+		#endregion
+
+		#region Methods for getting various tiers
 		/// ------------------------------------------------------------------------------------
 		public TimeTier GetTimeTier()
 		{
@@ -74,10 +106,6 @@ namespace SayMore.Transcription.Model
 				t.TierType != TierType.FreeTranslation);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public string Save(string annotatedMediaFile)
-		{
-			return AnnotationFileHelper.Save(annotatedMediaFile, this);
-		}
+		#endregion
 	}
 }

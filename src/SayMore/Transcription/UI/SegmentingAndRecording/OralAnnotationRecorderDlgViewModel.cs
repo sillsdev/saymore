@@ -9,6 +9,7 @@ using Palaso.Reporting;
 using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 using SayMore.UI.NewEventsFromFiles;
 using SayMore.UI.Utilities;
 
@@ -161,13 +162,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public string GetPathToAnnotationFileForSegment(TimeSpan start, TimeSpan end)
 		{
-			var affix = (AnnotationType == OralAnnotationType.Careful ?
-				Settings.Default.OralAnnotationCarefulSegmentFileAffix :
-				Settings.Default.OralAnnotationTranslationSegmentFileAffix);
+			var filename = (AnnotationType == OralAnnotationType.Careful ?
+				TimeTier.ComputeFileNameForCarefulSpeechSegment((float)start.TotalSeconds, (float)end.TotalSeconds) :
+				TimeTier.ComputeFileNameForOralTranslationSegment((float)start.TotalSeconds, (float)end.TotalSeconds));
 
-			return Path.Combine(_tempOralAnnotationsFolder,
-				string.Format(Settings.Default.OralAnnotationSegmentFileFormat,
-				(float)start.TotalSeconds, (float)end.TotalSeconds, affix));
+			return Path.Combine(_tempOralAnnotationsFolder, filename);
 		}
 
 		/// ------------------------------------------------------------------------------------

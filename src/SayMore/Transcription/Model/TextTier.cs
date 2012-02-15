@@ -45,14 +45,14 @@ namespace SayMore.Transcription.Model
 		public Segment AddSegment(string text)
 		{
 			var segment = new Segment(this, text ?? string.Empty);
-			_segments.Add(segment);
+			Segments.Add(segment);
 			return segment;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override bool RemoveSegment(int index)
 		{
-			if (index >= 0 && index < _segments.Count && _segments.Count > 1)
+			if (index >= 0 && index < Segments.Count && Segments.Count > 1)
 			{
 				// If the segment being removed is the first, then join it with the
 				// next segment. Otherwise, join it with the preceding segment.
@@ -73,8 +73,8 @@ namespace SayMore.Transcription.Model
 					"value of the difference between the two indexes must be 1.", fromIndex, toIndex));
 			}
 
-			var fromSeg = _segments[fromIndex];
-			var toSeg = _segments[toIndex];
+			var fromSeg = Segments[fromIndex];
+			var toSeg = Segments[toIndex];
 
 			var fromText = (fromSeg.Text ?? string.Empty).Trim();
 			var toText = (toSeg.Text ?? string.Empty).Trim();
@@ -89,7 +89,7 @@ namespace SayMore.Transcription.Model
 			dataFormat = DataFormats.UnicodeText;
 			var bldr = new StringBuilder();
 
-			foreach (var seg in _segments)
+			foreach (var seg in Segments)
 				bldr.AppendLine(seg.Text);
 
 			return bldr.ToString().TrimEnd();
@@ -102,7 +102,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsComplete()
 		{
-			return (_segments.Count > 0 && !_segments.Any(s => string.IsNullOrEmpty(s.Text)));
+			return (Segments.Count > 0 && !Segments.Any(s => string.IsNullOrEmpty(s.Text)));
 		}
 	}
 }

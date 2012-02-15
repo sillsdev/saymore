@@ -1,5 +1,8 @@
+using System;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Palaso.TestUtilities;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
 
@@ -9,16 +12,34 @@ namespace SayMoreTests.Transcription.Model
 	public class TimeTierTests
 	{
 		private TimeTier _tier;
+		private TemporaryFolder _tempFolder;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
-			_tier = new TimeTier("test tier", "filename");
+			_tempFolder = new TemporaryFolder("TierCollectionTests");
+			_tier = new TimeTier("test tier", Path.Combine(_tempFolder.Path, "mediaFile.wav"));
+			_tier.AddSegment(10f, 20f);
+			_tier.AddSegment(20f, 30f);
+			_tier.AddSegment(30f, 40f);
 
 			Assert.AreEqual("test tier", _tier.DisplayName);
-			Assert.AreEqual("filename", _tier.MediaFileName);
+			Assert.AreEqual(Path.Combine(_tempFolder.Path, "mediaFile.wav"), _tier.MediaFileName);
+			Assert.AreEqual(Path.Combine(_tempFolder.Path, "mediaFile.wav_Annotations"), _tier.SegmentFileFolder);
+
 			Assert.IsInstanceOf<AudioWaveFormColumn>(_tier.GridColumn);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[TearDown]
+		public void TearDown()
+		{
+			if (_tempFolder != null)
+			{
+				_tempFolder.Dispose();
+				_tempFolder = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -34,25 +55,27 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void AddSegment_PassTimes_AddsSegmentAndInitializesTimes()
 		{
-			Assert.AreEqual(0, _tier.Segments.Count());
-			_tier.AddSegment(10f, 20f);
-			Assert.AreEqual(1, _tier.Segments.Count());
-			Assert.AreEqual(10f, _tier.Segments.ElementAt(0).Start);
-			Assert.AreEqual(20f, _tier.Segments.ElementAt(0).End);
+			Assert.AreEqual(3, _tier.Segments.Count);
+			_tier.AddSegment(40f, 50f);
+
+			Assert.AreEqual(4, _tier.Segments.Count);
+			Assert.AreEqual(40f, _tier.Segments[3].Start);
+			Assert.AreEqual(50f, _tier.Segments[3].End);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void AddSegment_ReturnsAddedSegment()
 		{
-			var seg = _tier.AddSegment(0f, 1f);
-			Assert.AreSame(seg, _tier.Segments.ElementAt(0));
+			var seg = _tier.AddSegment(40f, 50f);
+			Assert.AreSame(seg, _tier.Segments[3]);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void TryGetSegment_NoSegments_ReturnsFalse()
 		{
+			_tier.Segments.Clear();
 			Segment segment;
 			Assert.IsFalse(_tier.TryGetSegment(0, out segment));
 		}
@@ -61,91 +84,535 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void TryGetSegment_SegmentsExistButIndexOutOfRange_ReturnsFalse()
 		{
-			_tier.AddSegment(0f, 1f);
 			Segment segment;
-			Assert.IsFalse(_tier.TryGetSegment(1, out segment));
+			Assert.IsFalse(_tier.TryGetSegment(3, out segment));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void TryGetSegment_SegmentsExistIndexInRange_ReturnsTrue()
 		{
-			_tier.AddSegment(0f, 1f);
 			Segment segment;
-			Assert.IsTrue(_tier.TryGetSegment(0, out segment));
+			Assert.IsTrue(_tier.TryGetSegment(1, out segment));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void RemoveSegment_IndexOutOfRange_ReturnsFalse()
+		public void RemoveSegment_ByIndex_IndexOutOfRange_ReturnsFalse()
 		{
-			_tier.AddSegment(0f, 1f);
-			_tier.AddSegment(2f, 3f);
-			_tier.AddSegment(4f, 5f);
-			Assert.AreEqual(3, _tier.Segments.Count());
+			Assert.AreEqual(3, _tier.Segments.Count);
 			Assert.IsFalse(_tier.RemoveSegment(-1));
-			Assert.AreEqual(3, _tier.Segments.Count());
+			Assert.AreEqual(3, _tier.Segments.Count);
 			Assert.IsFalse(_tier.RemoveSegment(3));
-			Assert.AreEqual(3, _tier.Segments.Count());
+			Assert.AreEqual(3, _tier.Segments.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void RemoveSegment_Add3SegmentsRemove2nd_RemovesSegment()
+		public void RemoveSegment_ByIndex_Add3SegmentsRemove2nd_RemovesSegment()
 		{
-			_tier.AddSegment(0f, 1f);
-			_tier.AddSegment(2f, 3f);
-			_tier.AddSegment(4f, 5f);
-			Assert.AreEqual(3, _tier.Segments.Count());
+			Assert.AreEqual(3, _tier.Segments.Count);
 			Assert.IsTrue(_tier.RemoveSegment(1));
-			Assert.AreEqual(2, _tier.Segments.Count());
-			Assert.AreNotEqual(2f, _tier.Segments.ElementAt(1).Start);
-			Assert.AreNotEqual(3f, _tier.Segments.ElementAt(1).End);
+			Assert.AreEqual(2, _tier.Segments.Count);
+			Assert.AreNotEqual(20f, _tier.Segments[1].Start);
+			Assert.AreNotEqual(30f, _tier.Segments[1].End);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void RemoveSegment_RemoveMiddleSegment_JoinsWithPrecedingSegment()
+		public void RemoveSegment_ByIndex_RemoveMiddleSegment_JoinsWithPrecedingSegment()
 		{
-			_tier.AddSegment(0f, 1f);
-			_tier.AddSegment(2f, 3f);
-			_tier.AddSegment(4f, 5f);
 			Assert.IsTrue(_tier.RemoveSegment(1));
-			Assert.AreEqual(2, _tier.Segments.Count());
-			Assert.AreEqual(0f, _tier.Segments.ElementAt(0).Start);
-			Assert.AreEqual(3f, _tier.Segments.ElementAt(0).End);
-			Assert.AreEqual(4f, _tier.Segments.ElementAt(1).Start);
-			Assert.AreEqual(5f, _tier.Segments.ElementAt(1).End);
+			Assert.AreEqual(2, _tier.Segments.Count);
+			Assert.AreEqual(10f, _tier.Segments[0].Start);
+			Assert.AreEqual(30f, _tier.Segments[0].End);
+			Assert.AreEqual(30f, _tier.Segments[1].Start);
+			Assert.AreEqual(40f, _tier.Segments[1].End);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void RemoveSegment_RemoveFirstSegment_JoinsWithNextSegment()
+		public void RemoveSegment_ByIndex_RemoveFirstSegment_JoinsWithNextSegment()
 		{
-			_tier.AddSegment(0f, 1f);
-			_tier.AddSegment(2f, 3f);
-			_tier.AddSegment(4f, 5f);
 			Assert.IsTrue(_tier.RemoveSegment(0));
 			Assert.AreEqual(2, _tier.Segments.Count());
-			Assert.AreEqual(0f, _tier.Segments.ElementAt(0).Start);
-			Assert.AreEqual(3f, _tier.Segments.ElementAt(0).End);
-			Assert.AreEqual(4f, _tier.Segments.ElementAt(1).Start);
-			Assert.AreEqual(5f, _tier.Segments.ElementAt(1).End);
+			Assert.AreEqual(10f, _tier.Segments[0].Start);
+			Assert.AreEqual(30f, _tier.Segments[0].End);
+			Assert.AreEqual(30f, _tier.Segments[1].Start);
+			Assert.AreEqual(40f, _tier.Segments[1].End);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void RemoveSegment_RemoveLastSegment_DoesNotAffectPrecedingSegment()
+		public void RemoveSegment_ByIndex_RemoveLastSegment_DoesNotAffectPrecedingSegment()
 		{
-			_tier.AddSegment(0f, 1f);
-			_tier.AddSegment(2f, 3f);
-			_tier.AddSegment(4f, 5f);
 			Assert.IsTrue(_tier.RemoveSegment(2));
 			Assert.AreEqual(2, _tier.Segments.Count());
-			Assert.AreEqual(0f, _tier.Segments.ElementAt(0).Start);
-			Assert.AreEqual(1f, _tier.Segments.ElementAt(0).End);
-			Assert.AreEqual(2f, _tier.Segments.ElementAt(1).Start);
-			Assert.AreEqual(3f, _tier.Segments.ElementAt(1).End);
+			Assert.AreEqual(10f, _tier.Segments[0].Start);
+			Assert.AreEqual(20f, _tier.Segments[0].End);
+			Assert.AreEqual(20f, _tier.Segments[1].Start);
+			Assert.AreEqual(30f, _tier.Segments[1].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_ByIndex_RemoveFirstSegment_RemovesAndRenamesSegAnnotationFiles()
+		{
+			SetupSegmentFileFoldersForRealSegments();
+
+			Assert.IsTrue(_tier.RemoveSegment(0));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			Assert.AreEqual(4, Directory.GetFiles(_tier.SegmentFileFolder).Length);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_ByIndex_RemoveMiddleSegment_RemovesAndRenamesSegAnnotationFiles()
+		{
+			SetupSegmentFileFoldersForRealSegments();
+
+			Assert.IsTrue(_tier.RemoveSegment(1));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			Assert.AreEqual(4, Directory.GetFiles(_tier.SegmentFileFolder).Length);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_ByIndex_RemoveLastSegment_RemovesSegAnnotationFiles()
+		{
+			SetupSegmentFileFoldersForRealSegments();
+
+			Assert.IsTrue(_tier.RemoveSegment(2));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_BySegment_SegmentDoesNotExist_ReturnsFalse()
+		{
+			Assert.AreEqual(3, _tier.Segments.Count);
+			Assert.IsFalse(_tier.RemoveSegment(new Segment(null, 10f, 19f)));
+			Assert.AreEqual(3, _tier.Segments.Count);
+			Assert.IsFalse(_tier.RemoveSegment(new Segment(null, 20f, 29.99f)));
+			Assert.AreEqual(3, _tier.Segments.Count);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_BySegment_Add3SegmentsRemoveOne_RemovesSegment()
+		{
+			Assert.AreEqual(3, _tier.Segments.Count);
+			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 20f, 30f)));
+			Assert.AreEqual(2, _tier.Segments.Count);
+			Assert.AreNotEqual(20f, _tier.Segments[1].Start);
+			Assert.AreNotEqual(30f, _tier.Segments[1].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_BySegment_RemoveSecondSegment_JoinsWithPrecedingSegment()
+		{
+			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 20f, 30f)));
+			Assert.AreEqual(2, _tier.Segments.Count);
+			Assert.AreEqual(10f, _tier.Segments[0].Start);
+			Assert.AreEqual(30f, _tier.Segments[0].End);
+			Assert.AreEqual(30f, _tier.Segments[1].Start);
+			Assert.AreEqual(40f, _tier.Segments[1].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_BySegment_RemoveFirstSegment_JoinsWithNextSegment()
+		{
+			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 10f, 20f)));
+			Assert.AreEqual(2, _tier.Segments.Count());
+			Assert.AreEqual(10f, _tier.Segments[0].Start);
+			Assert.AreEqual(30f, _tier.Segments[0].End);
+			Assert.AreEqual(30f, _tier.Segments[1].Start);
+			Assert.AreEqual(40f, _tier.Segments[1].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_BySegment_RemoveLastSegment_DoesNotAffectPrecedingSegment()
+		{
+			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 30f, 40f)));
+			Assert.AreEqual(2, _tier.Segments.Count());
+			Assert.AreEqual(10f, _tier.Segments[0].Start);
+			Assert.AreEqual(20f, _tier.Segments[0].End);
+			Assert.AreEqual(20f, _tier.Segments[1].Start);
+			Assert.AreEqual(30f, _tier.Segments[1].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_BySegment_RemoveFirstSegment_RemovesAndRenamesSegAnnotationFiles()
+		{
+			SetupSegmentFileFoldersForRealSegments();
+
+			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 10f, 20f)));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			Assert.AreEqual(4, Directory.GetFiles(_tier.SegmentFileFolder).Length);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_BySegment_RemoveMiddleSegment_RemovesAndRenamesSegAnnotationFiles()
+		{
+			SetupSegmentFileFoldersForRealSegments();
+
+			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 20f, 30f)));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			Assert.AreEqual(4, Directory.GetFiles(_tier.SegmentFileFolder).Length);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_BySegment_RemoveLastSegment_RemovesSegAnnotationFiles()
+		{
+			SetupSegmentFileFoldersForRealSegments();
+
+			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 30f, 40f)));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIndexOfSegment_SegmentDoesNotExist_ReturnsNegOne()
+		{
+			Assert.AreEqual(-1, _tier.GetIndexOfSegment(new Segment(null, 9.99f, 20f)));
+			Assert.AreEqual(-1, _tier.GetIndexOfSegment(new Segment(null, 10f, 19.499f)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIndexOfSegment_SegmentExists_ReturnsIndex()
+		{
+			Assert.AreEqual(0, _tier.GetIndexOfSegment(new Segment(null, 10f, 20f)));
+			Assert.AreEqual(2, _tier.GetIndexOfSegment(new Segment(null, 30f, 40f)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFileNameForCarefulSpeechSegment_PassNullSegment_ThrowsException()
+		{
+			Assert.Throws<NullReferenceException>(() => TimeTier.ComputeFileNameForCarefulSpeechSegment(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ComputeFileNameForCarefulSpeechSegment_PassGoodSegment_ReturnsCorrectFileName()
+		{
+			Assert.AreEqual("0_to_4.75_Careful.wav",
+				TimeTier.ComputeFileNameForCarefulSpeechSegment(new Segment(null, 0f, 4.75f)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ComputeFileNameForCarefulSpeechSegment_PassGoodStartAndEnd_ReturnsCorrectFileName()
+		{
+			Assert.AreEqual("3.456_to_10.321_Careful.wav",
+				TimeTier.ComputeFileNameForCarefulSpeechSegment(3.456f, 10.321f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ComputeFileNameForOralTranslationSegment_PassNullSegment_ThrowsException()
+		{
+			Assert.Throws<NullReferenceException>(() => TimeTier.ComputeFileNameForOralTranslationSegment(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ComputeFileNameForOralTranslationSegment_PassGoodSegment_ReturnsCorrectFileName()
+		{
+			Assert.AreEqual("0_to_4.75_Translation.wav",
+				TimeTier.ComputeFileNameForOralTranslationSegment(new Segment(null, 0f, 4.75f)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFileNameForOralTranslationSegment_PassGoodStartAndEnd_ReturnsCorrectFileName()
+		{
+			Assert.AreEqual("3.456_to_10.321_Translation.wav",
+				TimeTier.ComputeFileNameForOralTranslationSegment(3.456f, 10.321f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetupSegmentFileFolders()
+		{
+			Directory.CreateDirectory(_tier.SegmentFileFolder);
+
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "0_to_2_Careful.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Careful.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "4.5_to_5.35_Careful.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "0_to_2_Translation.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Translation.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "4.5_to_5.35_Translation.wav")).Close();
+
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "0_to_2_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "4.5_to_5.35_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "0_to_2_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "4.5_to_5.35_Translation.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetupSegmentFileFoldersForRealSegments()
+		{
+			Directory.CreateDirectory(_tier.SegmentFileFolder);
+
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")).Close();
+			File.OpenWrite(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")).Close();
+
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RenameAnnotationSegmentFile_CorrectlyRenamesCarefulSpeech()
+		{
+			SetupSegmentFileFolders();
+
+			_tier.RenameAnnotationSegmentFile(new Segment(null, 2f, 4.5f), 6.234f, 10.587f);
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "6.234_to_10.587_Careful.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RenameAnnotationSegmentFile_CorrectlyRenamesTranslations()
+		{
+			SetupSegmentFileFolders();
+
+			_tier.RenameAnnotationSegmentFile(new Segment(null, 2f, 4.5f), 6.234f, 10.587f);
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "6.234_to_10.587_Translation.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DeleteAnnotationSegmentFile_DeleteCarerfulSpeech()
+		{
+			SetupSegmentFileFolders();
+
+			_tier.DeleteAnnotationSegmentFile(new Segment(null, 2f, 4.5f));
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Careful.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DeleteAnnotationSegmentFile_DeleteTranslation()
+		{
+			SetupSegmentFileFolders();
+
+			_tier.DeleteAnnotationSegmentFile(new Segment(null, 6.234f, 10.587f));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Careful.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ChangeSegmentsEndBoundary_WhenSegmentDoesNotExist_ReturnsNotSuccess()
+		{
+			var segment = new Segment(null, 2.5f, 4.5f);
+			Assert.AreEqual(BoundaryModificationResult.SegmentNotFound, _tier.ChangeSegmentsEndBoundary(segment, 25f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ChangeSegmentsEndBoundary_NewBoundaryTooCloseToStart_ReturnsNotSuccess()
+		{
+			var segment = _tier.Segments[1];
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 20.51f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment, 20.5f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ChangeSegmentsEndBoundary_NewBoundaryTooCloseToNextSegEnd_ReturnsNotSuccess()
+		{
+			var segment = _tier.Segments[1];
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 39.49f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment, 39.5f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ChangeSegmentsEndBoundary_WhenSegmentIsLast_ChangesSegAndReturnsSuccess()
+		{
+			var segment = _tier.Segments[2];
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 35f));
+			Assert.AreEqual(35f, segment.End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ChangeSegmentsEndBoundary_WhenSegmentIsNotLast_ChangesSegAndNextSegAndReturnsSuccess()
+		{
+			var segment = _tier.Segments[1];
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 25f));
+			Assert.AreEqual(25f, segment.End);
+			var nextSegment = _tier.Segments[2];
+			Assert.AreEqual(25f, nextSegment.Start);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ChangeSegmentsEndBoundary_WhenSegmentIsLast_RenamesSegAnnotationFiles()
+		{
+			SetupSegmentFileFoldersForRealSegments();
+
+			var segment = _tier.Segments[2];
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 35f));
+
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_35_Careful.wav")));
+
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_35_Translation.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ChangeSegmentsEndBoundary_WhenSegmentIsNotLast_RenamesSegAnnotationFiles()
+		{
+			SetupSegmentFileFoldersForRealSegments();
+
+			var segment = _tier.Segments[1];
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 25f));
+
+			// Check files for the segment whose end boundary changed
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_25_Careful.wav")));
+
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_25_Translation.wav")));
+
+			// Check files for the next segment, whose start boundary changed
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "25_to_40_Careful.wav")));
+
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "25_to_40_Translation.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertSegmentBoundary_NewBoundaryTooCloseToPrecedingBoundary_ReturnsNotSuccess()
+		{
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.InsertSegmentBoundary(20.4f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.InsertSegmentBoundary(20.49f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertSegmentBoundary_NewBoundaryTooCloseToFollowingBoundary_ReturnsNotSuccess()
+		{
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.InsertSegmentBoundary(29.5f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.InsertSegmentBoundary(29.51f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertSegmentBoundary_WhenNoSegmentsAndNewBoundaryTooSmall_ReturnsNotSuccess()
+		{
+			_tier.Segments.Clear();
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.InsertSegmentBoundary(0.5f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertSegmentBoundary_WhenNoSegmentsAndNewBoundaryIsValid_CreatesSegmentAndReturnsSuccess()
+		{
+			_tier.Segments.Clear();
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.InsertSegmentBoundary(0.501f));
+			Assert.AreEqual(1, _tier.Segments.Count);
+			Assert.AreEqual(0f, _tier.Segments[0].Start);
+			Assert.AreEqual(0.501f, _tier.Segments[0].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertSegmentBoundary_NewBoundaryAfterLastSegment_CreatesSegmentAndReturnsSuccess()
+		{
+			Assert.AreEqual(3, _tier.Segments.Count);
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.InsertSegmentBoundary(45f));
+			Assert.AreEqual(4, _tier.Segments.Count);
+			Assert.AreEqual(40f, _tier.Segments[3].Start);
+			Assert.AreEqual(45f, _tier.Segments[3].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertSegmentBoundary_NewBoundaryInsertedInMiddleOfExistingSegment_InsertsSegmentAndReturnsSuccess()
+		{
+			Assert.AreEqual(3, _tier.Segments.Count);
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.InsertSegmentBoundary(35f));
+			Assert.AreEqual(4, _tier.Segments.Count);
+			Assert.AreEqual(30f, _tier.Segments[2].Start);
+			Assert.AreEqual(35f, _tier.Segments[2].End);
+			Assert.AreEqual(35f, _tier.Segments[3].Start);
+			Assert.AreEqual(40f, _tier.Segments[3].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertSegmentBoundary_NewBoundaryInsertedInMiddleOfExistingSegment_RenamesPrecedingSegmentFilesAndReturnsSuccess()
+		{
+			SetupSegmentFileFoldersForRealSegments();
+
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.InsertSegmentBoundary(25f));
+
+			// Check files for the segment whose end boundary changed by the insertion
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_25_Careful.wav")));
+
+			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_25_Translation.wav")));
+
+			// Verify the files for the next segment did not change
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
 		}
 	}
 }

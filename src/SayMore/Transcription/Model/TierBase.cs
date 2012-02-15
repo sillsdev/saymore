@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using SayMore.Transcription.UI;
 
 namespace SayMore.Transcription.Model
@@ -13,14 +13,23 @@ namespace SayMore.Transcription.Model
 	}
 
 	/// ----------------------------------------------------------------------------------------
+	public class SegmentCollection : Collection<Segment>
+	{
+		/// ------------------------------------------------------------------------------------
+		public Segment GetLast()
+		{
+			return (Count == 0 ? null : this[Count - 1]);
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Implements a generic tier used to derive other tier types.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public abstract class TierBase
 	{
-		protected List<Segment> _segments = new List<Segment>();
-
+		public virtual SegmentCollection Segments { get; protected set; }
 		public virtual string DisplayName { get; protected set; }
 		public virtual string Locale { get; protected set; }
 		public virtual TierColumnBase GridColumn { get; protected set; }
@@ -28,7 +37,13 @@ namespace SayMore.Transcription.Model
 		public virtual string LinguisticType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		protected TierBase(string displayName, Func<TierBase, TierColumnBase> tierColumnProvider)
+		protected TierBase()
+		{
+			Segments = new SegmentCollection();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected TierBase(string displayName, Func<TierBase, TierColumnBase> tierColumnProvider) : this()
 		{
 			DisplayName = displayName;
 			TierType = TierType.Other;
@@ -43,8 +58,8 @@ namespace SayMore.Transcription.Model
 		{
 			var copiedTier = GetNewTierInstance();
 
-			foreach (var seg in _segments)
-				copiedTier._segments.Add(seg.Copy(copiedTier));
+			foreach (var seg in Segments)
+				copiedTier.Segments.Add(seg.Copy(copiedTier));
 
 			return copiedTier;
 		}
@@ -84,17 +99,11 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual bool RemoveSegment(int index)
 		{
-			if (index < 0 || index >= _segments.Count)
+			if (index < 0 || index >= Segments.Count)
 				return false;
 
-			_segments.RemoveAt(index);
+			Segments.RemoveAt(index);
 			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<Segment> Segments
-		{
-			get { return _segments; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -102,10 +111,10 @@ namespace SayMore.Transcription.Model
 		{
 			segment = null;
 
-			if (index < 0 || index >= _segments.Count)
+			if (index < 0 || index >= Segments.Count)
 				return false;
 
-			segment = _segments[index];
+			segment = Segments[index];
 			return true;
 		}
 

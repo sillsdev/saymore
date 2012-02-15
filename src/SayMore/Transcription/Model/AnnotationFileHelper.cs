@@ -571,7 +571,7 @@ namespace SayMore.Transcription.Model
 
 		#region Static methods for creating EAF file.
 		/// ------------------------------------------------------------------------------------
-		private static string ComputeEafFileNameFromMediaFileName(string mediaFileName)
+		private static string ComputeEafFileNameFromOralAnnotationFile(string mediaFileName)
 		{
 			return mediaFileName + ".annotations.eaf";
 		}
@@ -586,7 +586,7 @@ namespace SayMore.Transcription.Model
 		{
 			var isElanFile = GetIsElanFile(segmentFileName);
 
-			var eafFile = ComputeEafFileNameFromMediaFileName(mediaFileName);
+			var eafFile = ComputeEafFileNameFromOralAnnotationFile(mediaFileName);
 			File.Copy(isElanFile ? segmentFileName :
 				FileLocator.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile);
 
@@ -642,7 +642,7 @@ namespace SayMore.Transcription.Model
 
 			if (string.IsNullOrEmpty(eafFile))
 			{
-				eafFile = ComputeEafFileNameFromMediaFileName(mediaFileName);
+				eafFile = ComputeEafFileNameFromOralAnnotationFile(mediaFileName);
 				File.Copy(FileLocator.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile, true);
 				ChangeMediaFileName(eafFile, mediaFileName);
 				fileAlreadyExisted = false;

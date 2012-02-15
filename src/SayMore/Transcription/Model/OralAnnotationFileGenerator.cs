@@ -199,13 +199,9 @@ namespace SayMore.Transcription.Model
 		{
 			var pathToAnnotationsFolder = _origRecordingTier.MediaFileName + Settings.Default.OralAnnotationsFolderAffix;
 
-			var affix = (annotationType == OralAnnotationType.Careful ?
-				Settings.Default.OralAnnotationCarefulSegmentFileAffix :
-				Settings.Default.OralAnnotationTranslationSegmentFileAffix);
-
-			var filename = Path.Combine(pathToAnnotationsFolder,
-				string.Format(Settings.Default.OralAnnotationSegmentFileFormat,
-					segment.Start, segment.End, affix));
+			var filename = Path.Combine(pathToAnnotationsFolder, (annotationType == OralAnnotationType.Careful ?
+				TimeTier.ComputeFileNameForCarefulSpeechSegment(segment) :
+				TimeTier.ComputeFileNameForOralTranslationSegment(segment)));
 
 			var provider = WaveStreamProvider.Create(_output1ChannelAudioFormat, filename);
 			if (provider.Error != null && !(provider.Error is FileNotFoundException))

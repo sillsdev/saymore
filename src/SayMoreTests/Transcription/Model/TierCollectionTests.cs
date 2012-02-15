@@ -60,6 +60,43 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void RemoveTierSegments_IndexOutOfRangeLow_ReturnFalse()
+		{
+			Assert.IsFalse(_collection.RemoveTierSegments(-1));
+			_collection.Clear();
+			Assert.IsFalse(_collection.RemoveTierSegments(0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveTierSegments_IndexOutOfRangeHigh_ReturnFalse()
+		{
+			Assert.IsFalse(_collection.RemoveTierSegments(3));
+			_collection.Clear();
+			Assert.IsFalse(_collection.RemoveTierSegments(0));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveTierSegments_IndexInRange_ReturnTrue()
+		{
+			Assert.AreEqual(3, _collection[0].Segments.Count);
+			Assert.AreEqual(3, _collection[1].Segments.Count);
+			Assert.AreEqual(3, _collection[2].Segments.Count);
+
+			Assert.IsTrue(_collection.RemoveTierSegments(2));
+			Assert.AreEqual(2, _collection[0].Segments.Count);
+			Assert.AreEqual(2, _collection[1].Segments.Count);
+			Assert.AreEqual(2, _collection[2].Segments.Count);
+
+			Assert.IsTrue(_collection.RemoveTierSegments(0));
+			Assert.AreEqual(1, _collection[0].Segments.Count);
+			Assert.AreEqual(1, _collection[1].Segments.Count);
+			Assert.AreEqual(1, _collection[2].Segments.Count);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void GetTimeTier_TierExists_ReturnsIt()
 		{
 			var tier = _collection.GetTimeTier();

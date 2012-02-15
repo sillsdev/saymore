@@ -195,7 +195,7 @@ namespace SayMore.Transcription.UI
 			if (index < 0 || index >= _segments.Count)
 				return;
 
-			var	timeTier = Tiers.GetTimeTier();
+			var timeTier = Tiers.GetTimeTier();
 
 			if (index < _segments.Count - 1)
 			{

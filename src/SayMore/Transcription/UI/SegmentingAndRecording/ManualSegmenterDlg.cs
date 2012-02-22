@@ -1,4 +1,6 @@
 using System;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SayMore.AudioUtils;
 using SayMore.Properties;
@@ -34,26 +36,31 @@ namespace SayMore.Transcription.UI
 
 			_buttonAddSegmentBoundary.Click += delegate
 			{
-				//if (_viewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
+				if (_viewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
+				{
 					_waveControl.SegmentBoundaries = ViewModel.SaveNewBoundary(_waveControl.GetCursorTime());
 					_waveControl.SetSelectedBoundary(_waveControl.GetCursorTime());
 					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
-				//else
-				//{
-				//	_buttonAddSegmentBoundary.ForeColor = Color.Red;
-				//	_buttonAddSegmentBoundary.Text = GetSegmentTooShortText();
-				//}
+				}
+				else
+				{
+					_buttonAddSegmentBoundary.ForeColor = Color.Red;
+					_buttonAddSegmentBoundary.Text = GetSegmentTooShortText();
+				}
 			};
 
 			_buttonDeleteSegment.Click += delegate
 			{
 				var boundary = _waveControl.GetSelectedBoundary();
 				_waveControl.ClearSelectedBoundary();
-				ViewModel.DeleteBoundary(boundary);
+				if (!ViewModel.DeleteBoundary(boundary))
+					return;
+
+				_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 				UpdateDisplay();
 			};
 
-			_waveControl.BoundaryMoved += HandleSegmentBoundaryMoved;
+			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 			_waveControl.BoundaryMouseDown += delegate { UpdateDisplay(); };
 			_waveControl.CursorTimeChanged += delegate { UpdateDisplay(); };
 			UpdateDisplay();
@@ -136,17 +143,29 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override bool OnAdjustSegmentBoundaryOnArrowKey(int milliseconds)
+		protected override bool OnAdjustBoundaryUsingArrowKey(int milliseconds)
 		{
-			var currBoundary = _waveControl.GetSelectedBoundary();
+			if (!base.OnAdjustBoundaryUsingArrowKey(milliseconds))
+				return false;
 
-			if (base.OnAdjustSegmentBoundaryOnArrowKey(milliseconds))
-			{
-				_waveControl.SetSelectedBoundary(currBoundary + TimeSpan.FromMilliseconds(milliseconds));
-				return true;
-			}
+			var currBoundary = _waveControl.GetSelectedBoundary() +
+				TimeSpan.FromMilliseconds(milliseconds);
 
-			return false;
+			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries()
+				.Select(b => b == _timeAtBeginningOfboundaryMove ? currBoundary : b);
+
+			_waveControl.SetSelectedBoundary(currBoundary);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void FinalizeBoundaryMovedUsingArrowKeys()
+		{
+			var newBoundary = _waveControl.GetSelectedBoundary();
+			ViewModel.SaveNewBoundaryPosition(_timeAtBeginningOfboundaryMove, newBoundary);
+			PlaybackShortPortionUpToBoundary(newBoundary);
+			base.FinalizeBoundaryMovedUsingArrowKeys();
 		}
 
 		/// ------------------------------------------------------------------------------------

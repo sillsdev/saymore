@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SayMore.Model.Files;
 
 namespace SayMore.Transcription.UI.SegmentingAndRecording
@@ -16,20 +14,20 @@ namespace SayMore.Transcription.UI.SegmentingAndRecording
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<TimeSpan> SaveNewBoundary(TimeSpan newBoundary)
 		{
-			if (_segments.All(sb => sb.end != newBoundary))
-			{
+			if (TimeTier.InsertSegmentBoundary((float)newBoundary.TotalSeconds) == Model.BoundaryModificationResult.Success)
 				SegmentBoundariesChanged = true;
 
-				var segs = _segments.Select(s => s.end).ToList();
-				segs.Add(newBoundary);
-				segs.Sort();
-				_segments.Clear();
+			return GetSegmentEndBoundaries();
+		}
 
-				for (int i = 0; i < segs.Count; i++)
-					_segments.Add(new SegmentBoundaries(i == 0 ? TimeSpan.Zero : segs[i - 1], segs[i]));
-			}
+		/// ------------------------------------------------------------------------------------
+		public void SaveNewBoundaryPosition(TimeSpan oldBoundary, TimeSpan newBoundary)
+		{
+			var oldbndry = (float)oldBoundary.TotalSeconds;
+			var newbndry = (float)newBoundary.TotalSeconds;
 
-			return _segments.Select(s => s.end);
+			if (TimeTier.ChangeSegmentsEndBoundary(oldbndry, newbndry) == Model.BoundaryModificationResult.Success)
+				SegmentBoundariesChanged = true;
 		}
 	}
 }

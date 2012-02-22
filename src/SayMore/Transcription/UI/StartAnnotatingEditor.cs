@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -126,9 +127,13 @@ namespace SayMore.Transcription.UI
 			using (var viewModel = new ManualSegmenterDlgViewModel(_file))
 			using (var dlg = new ManualSegmenterDlg(viewModel))
 			{
-				return (dlg.ShowDialog(this) != DialogResult.OK || !viewModel.WereChangesMade ? null :
-					AnnotationFileHelper.CreateFileFromTimesAsString(null, _file.PathToAnnotatedFile,
-						viewModel.GetSegments().ToArray()));
+				if (dlg.ShowDialog(this) != DialogResult.OK || !viewModel.WereChangesMade)
+					return null;
+
+				var segStrings = viewModel.GetSegmentEndBoundaries()
+					.Select(b => b.TotalSeconds.ToString(CultureInfo.InvariantCulture)).ToArray();
+
+				return AnnotationFileHelper.CreateFileFromTimesAsString(null, _file.PathToAnnotatedFile, segStrings);
 			}
 		}
 

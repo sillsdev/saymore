@@ -1,45 +1,53 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using NAudio.Wave;
+using Palaso.Reporting;
 using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SayMore.UI.NewEventsFromFiles;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Transcription.UI
 {
 	public class SegmenterDlgBaseViewModel : IDisposable
 	{
-		public class SegmentBoundaries
-		{
-			public TimeSpan start;
-			public TimeSpan end;
-			public SegmentBoundaries(TimeSpan s, TimeSpan e) { start = s; end = e; }
-			public override string ToString() { return start + " - " + end; }
-		}
-
-		public event EventHandler BoundariesUpdated;
-
 		public ComponentFile ComponentFile { get; protected set; }
 		public WaveStream OrigWaveStream { get; protected set; }
 		public bool HaveSegmentBoundaries { get; set; }
 		public Action UpdateDisplayProvider { get; set; }
 		public TierCollection Tiers { get; protected set; }
+		public TimeTier TimeTier { get; protected set; }
 
-		protected List<SegmentBoundaries> _segments;
+		public string TempOralAnnotationsFolder { get; protected set; }
+		public string OralAnnotationsFolder { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBaseViewModel(ComponentFile file)
 		{
 			ComponentFile = file;
-			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile); // GetStreamFromAudio(ComponentFile.PathToAnnotatedFile);
+			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile);
 
 			Tiers = file.GetAnnotationFile() != null ?
-				file.GetAnnotationFile().Tiers.Copy() : new TierCollection();
+				file.GetAnnotationFile().Tiers.Copy() : new TierCollection(ComponentFile.PathToAnnotatedFile);
 
-			_segments = InitializeSegments(Tiers).ToList();
+			TimeTier = Tiers.GetTimeTier();
+
+			if (TimeTier == null)
+			{
+				TimeTier = new TimeTier(ComponentFile.PathToAnnotatedFile);
+				Tiers.Insert(0, TimeTier);
+			}
+
+			OralAnnotationsFolder = ComponentFile.PathToAnnotatedFile +
+				Settings.Default.OralAnnotationsFolderAffix;
+
+			TempOralAnnotationsFolder = CopyOralAnnotationsToTempLocation();
+			TimeTier.SetAudioSegmentFileFolder(TempOralAnnotationsFolder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -50,17 +58,75 @@ namespace SayMore.Transcription.UI
 				OrigWaveStream.Close();
 				OrigWaveStream.Dispose();
 			}
+
+			try
+			{
+				Directory.Delete(TempOralAnnotationsFolder, true);
+			}
+			catch { }
 		}
+
+		#region Methods for copying oral annotation recorded segment files to and from temp. location
+		/// ------------------------------------------------------------------------------------
+		public string CopyOralAnnotationsToTempLocation()
+		{
+			var tmpFolder = Path.Combine(Path.GetTempPath(), "SayMoreOralAnnotations");
+
+			if (Directory.Exists(OralAnnotationsFolder))
+				CopyAnnotationFiles(OralAnnotationsFolder, tmpFolder);
+			else
+				FileSystemUtils.CreateDirectory(tmpFolder);
+
+			return tmpFolder;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool CopyAnnotationFiles(string sourceFolder, string targetFolder)
+		{
+			FileSystemUtils.RemoveDirectory(targetFolder);
+
+			int retryCount = 0;
+			Exception error = null;
+
+			while (retryCount < 10)
+			{
+				try
+				{
+					FileSystemUtils.CreateDirectory(targetFolder);
+
+					var pairs = Directory.GetFiles(sourceFolder, "*.wav", SearchOption.TopDirectoryOnly)
+						.Select(f => new KeyValuePair<string, string>(f, Path.Combine(targetFolder, Path.GetFileName(f))));
+
+					var model = new CopyFilesViewModel(pairs);
+					model.Start();
+					return true;
+				}
+				catch (Exception e)
+				{
+					Application.DoEvents();
+					retryCount++;
+					error = e;
+				}
+			}
+
+			ErrorReport.NotifyUserOfProblem(error,
+				"Error trying to copy oral annotation files from '{0}' to '{1}'",
+				sourceFolder, targetFolder);
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool SaveNewOralAnnoationsInPermanentLocation()
+		{
+			return CopyAnnotationFiles(TempOralAnnotationsFolder, OralAnnotationsFolder);
+		}
+
+		#endregion
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		public bool SegmentBoundariesChanged { get; protected set; }
-
-		/// ------------------------------------------------------------------------------------
-		public bool DoSegmentsExist
-		{
-			get { return _segments.Count > 0; }
-		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual string ProgramAreaForUsageReporting
@@ -86,32 +152,16 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<SegmentBoundaries> InitializeSegments(TierCollection tiers)
+		public IEnumerable<TimeSpan> GetSegmentEndBoundaries()
 		{
-			var toTier = tiers.GetTimeTier();
-			if (toTier == null)
-				return new List<SegmentBoundaries>();
-
-			return toTier.Segments.Select(s =>
-				new SegmentBoundaries(TimeSpan.FromSeconds(s.Start), TimeSpan.FromSeconds(s.End)));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public IEnumerable<TimeSpan> GetSegmentBoundaries()
-		{
-			return _segments.Select(s => s.end);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> GetSegments()
-		{
-			return GetSegmentBoundaries().Select(b => b.TotalSeconds.ToString(CultureInfo.InvariantCulture));
+			return   TimeTier.Segments.Select(s => TimeSpan.FromSeconds(s.End));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetEndOfLastSegment()
 		{
-			return (_segments.Count == 0 ? TimeSpan.Zero : _segments[_segments.Count - 1].end);
+			return (TimeTier.Segments.Count == 0 ? TimeSpan.Zero :
+				TimeSpan.FromSeconds(TimeTier.Segments[TimeTier.Segments.Count - 1].End));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,121 +172,76 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public virtual bool GetIsSegmentLongEnough(TimeSpan proposedEndTime)
 		{
-			for (int i = _segments.Count - 1; i >= 0; i--)
+			var propEndTime = (float)proposedEndTime.TotalSeconds;
+			var minSize = Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds / 1000f;
+
+			for (int i = TimeTier.Segments.Count - 1; i >= 0; i--)
 			{
-				if (_segments[i].end < proposedEndTime)
-					return (proposedEndTime.TotalMilliseconds - _segments[i].end.TotalMilliseconds >= Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
+				if (TimeTier.Segments[i].End < propEndTime)
+					return (propEndTime - TimeTier.Segments[i].End >= minSize);
 			}
 
-			return (proposedEndTime.TotalMilliseconds >= Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual bool MoveExistingSegmentBoundary(TimeSpan boundaryToAdjust, int millisecondsToMove)
-		{
-			int i = GetSegmentBoundaries().ToList().IndexOf(boundaryToAdjust);
-			if (i < 0)
-				return false;
-
-			var newBoundary = boundaryToAdjust + TimeSpan.FromMilliseconds(millisecondsToMove);
-			//var minSegLength = TimeSpan.FromMilliseconds(Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
-			var minSegLength = TimeSpan.Zero;
-
-			// Check if moving the existing boundary left will make the segment too short.
-			if (newBoundary <= _segments[i].start || (i > 0 && newBoundary - _segments[i].start < minSegLength))
-				return false;
-
-			if (i == _segments.Count - 1)
-			{
-				// Check if the moved boundary will go beyond the end of the audio's length.
-				if (newBoundary > OrigWaveStream.TotalTime - minSegLength)
-					return false;
-			}
-			else if	(_segments[i + 1].end - newBoundary < minSegLength)
-			{
-				// The moved boundary will make the next segment too short.
-				return false;
-			}
-
-			ChangeSegmentsEndBoundary(i, newBoundary);
-			return true;
+			return (propEndTime >= minSize);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public int GetSegmentCount()
 		{
-			return _segments.Count;
+			return TimeTier.Segments.Count;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TimeSpan GetPreviousBoundary(TimeSpan boundary)
+		public bool SegmentBoundaryMoved(TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
-			var i = _segments.Select(s => s.end).ToList().IndexOf(boundary);
-			return (i < 0 ? TimeSpan.Zero : _segments[i].start);
-		}
+			if (oldEndTime == newEndTime)
+				return false;
 
-		/// ------------------------------------------------------------------------------------
-		public TimeSpan GetNextBoundary(TimeSpan boundary)
-		{
-			var i = _segments.Select(s => s.start).ToList().IndexOf(boundary);
-			return (i < 0 ? TimeSpan.Zero : _segments[i].end);
-		}
+			var result = TimeTier.ChangeSegmentsEndBoundary(
+				(float)oldEndTime.TotalSeconds, (float)newEndTime.TotalSeconds);
 
-		/// ------------------------------------------------------------------------------------
-		public void SegmentBoundaryMoved(TimeSpan oldEndTime, TimeSpan newEndTime)
-		{
-			if (oldEndTime != newEndTime)
-				ChangeSegmentsEndBoundary(GetSegmentBoundaries().ToList().IndexOf(oldEndTime), newEndTime);
-		}
+			if (result != BoundaryModificationResult.Success)
+				return false;
 
-		/// ------------------------------------------------------------------------------------
-		protected virtual void ChangeSegmentsEndBoundary(int index, TimeSpan newBoundary)
-		{
-			if (index < 0 || index >= _segments.Count)
-				return;
-
-			var timeTier = Tiers.GetTimeTier();
-
-			if (index < _segments.Count - 1)
-			{
-				RenameAnnotationForResizedSegment(_segments[index + 1],
-					new SegmentBoundaries(newBoundary, _segments[index + 1].end));
-
-				timeTier.Segments.ElementAt(index + 1).Start = (float)newBoundary.TotalSeconds;
-			}
-
-			RenameAnnotationForResizedSegment(_segments[index],
-				new SegmentBoundaries(_segments[index].start, newBoundary));
-
-			timeTier.Segments.ElementAt(index).End = (float)newBoundary.TotalSeconds;
-
-			_segments = InitializeSegments(Tiers).ToList();
 			SegmentBoundariesChanged = true;
-
-			if (BoundariesUpdated != null)
-				BoundariesUpdated(this, EventArgs.Empty);
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void DeleteBoundary(TimeSpan boundary)
+		public virtual bool DeleteBoundary(TimeSpan boundary)
 		{
-			var i = _segments.Select(s => s.end).ToList().IndexOf(boundary);
-			if (i < 0)
-				return;
+			if (!TimeTier.RemoveSegmentHavingEndBoundary((float)boundary.TotalSeconds))
+				return false;
 
-			foreach (var tier in Tiers)
-				tier.RemoveSegment(i);
-
-			_segments = InitializeSegments(Tiers).ToList();
-
-			if (BoundariesUpdated != null)
-				BoundariesUpdated(this, EventArgs.Empty);
+			SegmentBoundariesChanged = true;
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void RenameAnnotationForResizedSegment(SegmentBoundaries oldSegment,
-			SegmentBoundaries newSegment)
+		public bool CanMoveBoundary(TimeSpan boundaryToAdjust, int millisecondsToMove)
 		{
+			var secondsToMove = Math.Abs(millisecondsToMove) / 1000f;
+			var boundary = (float)boundaryToAdjust.TotalSeconds;
+
+			return (millisecondsToMove < 0 ?
+				TimeTier.CanBoundaryMoveLeft(boundary, secondsToMove) :
+				TimeTier.CanBoundaryMoveRight(boundary, secondsToMove, (float)OrigWaveStream.TotalTime.TotalSeconds));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// If the time tier contains more segments than all the other text tiers, this method
+		/// will add a number of segments to each text tier so each tier contains the same
+		/// number of segments. Added text segments are filled with an empty string.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void CreateMissingTextSegmentsToMatchTimeSegmentCount()
+		{
+			foreach (var textTier in Tiers.OfType<TextTier>()
+				.Where(t => t.Segments.Count < TimeTier.Segments.Count))
+			{
+				while (textTier.Segments.Count < TimeTier.Segments.Count)
+					textTier.AddSegment(string.Empty);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -25,6 +25,7 @@ namespace SayMore.Transcription.UI
 		protected string _segmentNumberFormat;
 		protected string _segmentXofYFormat;
 		protected Timer _timer;
+		protected TimeSpan _timeAtBeginningOfboundaryMove = TimeSpan.FromSeconds(1).Negate();
 		protected bool _moreReliableDesignMode;
 		private readonly WaveControlBasic _waveControl;
 
@@ -99,9 +100,6 @@ namespace SayMore.Transcription.UI
 					"Segmenting {0} bit, {1} audio files is not supported."),
 					waveFormat.BitsPerSample, waveFormat.Encoding);
 			};
-
-			_viewModel.BoundariesUpdated +=
-				delegate { _waveControl.SegmentBoundaries = _viewModel.GetSegmentBoundaries(); };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,7 +145,7 @@ namespace SayMore.Transcription.UI
 		public void InitializeWaveControl()
 		{
 			_waveControl.Initialize(_viewModel.OrigWaveStream as WaveFileReader);
-			_waveControl.SegmentBoundaries = _viewModel.GetSegmentBoundaries();
+			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 			_waveControl.PlaybackStarted += OnPlaybackStarted;
 			_waveControl.PlaybackUpdate += OnPlayingback;
 			_waveControl.PlaybackStopped += OnPlaybackStopped;
@@ -239,14 +237,9 @@ namespace SayMore.Transcription.UI
 			e.Cancel = false;
 
 			if (DialogResult == DialogResult.OK || DialogResult == DialogResult.Yes)
-				SaveChanges();
+				_viewModel.CreateMissingTextSegmentsToMatchTimeSegmentCount();
 
 			base.OnFormClosing(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual void SaveChanges()
-		{
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -283,17 +276,24 @@ namespace SayMore.Transcription.UI
 
 		#region Methods for adjusting/saving/playing within segment boundaries
 		/// ------------------------------------------------------------------------------------
-		protected virtual bool OnAdjustSegmentBoundaryOnArrowKey(int milliseconds)
+		protected virtual bool OnAdjustBoundaryUsingArrowKey(int milliseconds)
 		{
 			StopAllMedia();
 
 			var boundary = GetBoundaryToAdjustOnArrowKeys();
-			if (boundary == TimeSpan.Zero || !_viewModel.MoveExistingSegmentBoundary(boundary, milliseconds))
+			if (boundary == TimeSpan.Zero || !_viewModel.CanMoveBoundary(boundary, milliseconds))
 				return false;
 
-			_waveControl.SegmentBoundaries = _viewModel.GetSegmentBoundaries();
-			PlaybackShortPortionUpToBoundary(boundary);
+			if (_timeAtBeginningOfboundaryMove <= TimeSpan.Zero)
+				_timeAtBeginningOfboundaryMove = boundary;
+
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void FinalizeBoundaryMovedUsingArrowKeys()
+		{
+			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -303,13 +303,24 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void HandleSegmentBoundaryMoved(WaveControlWithMovableBoundaries waveCtrl,
+		public bool HandleSegmentBoundaryMovedInWaveControl(WaveControlWithMovableBoundaries waveCtrl,
 			TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
+			return OnSegmentBoundaryMovedInWaveControl(oldEndTime, newEndTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool OnSegmentBoundaryMovedInWaveControl(TimeSpan oldEndTime, TimeSpan newEndTime)
+		{
 			StopAllMedia();
-			_viewModel.SegmentBoundaryMoved(oldEndTime, newEndTime);
+			var segMoved = (_viewModel.SegmentBoundaryMoved(oldEndTime, newEndTime));
+			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 			UpdateDisplay();
-			PlaybackShortPortionUpToBoundary(newEndTime);
+
+			if (segMoved)
+				PlaybackShortPortionUpToBoundary(newEndTime);
+
+			return segMoved;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -325,7 +336,7 @@ namespace SayMore.Transcription.UI
 				playbackStartTime = TimeSpan.Zero;
 
 			// Make sure the playback doesn't start before the beginning of the segment.
-			var boundaries = _viewModel.GetSegmentBoundaries().ToList();
+			var boundaries = _viewModel.GetSegmentEndBoundaries().ToList();
 			var i = boundaries.IndexOf(boundary);
 			if (i > 0 && playbackStartTime < boundaries[i - 1])
 				playbackStartTime = boundaries[i - 1];
@@ -410,15 +421,29 @@ namespace SayMore.Transcription.UI
 			switch (key)
 			{
 				case Keys.Right:
-					OnAdjustSegmentBoundaryOnArrowKey(Settings.Default.MillisecondsToAdvanceSegmentBoundaryOnRightArrow);
+					OnAdjustBoundaryUsingArrowKey(Settings.Default.MillisecondsToAdvanceSegmentBoundaryOnRightArrow);
 					return true;
 
 				case Keys.Left:
-					OnAdjustSegmentBoundaryOnArrowKey(-Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow);
+					OnAdjustBoundaryUsingArrowKey(-Settings.Default.MillisecondsToBackupSegmentBoundaryOnLeftArrow);
 					return true;
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool OnLowLevelKeyUp(Keys key)
+		{
+			var result = base.OnLowLevelKeyUp(key);
+
+			if (_timeAtBeginningOfboundaryMove >= TimeSpan.Zero)
+			{
+				FinalizeBoundaryMovedUsingArrowKeys();
+				_timeAtBeginningOfboundaryMove = TimeSpan.FromSeconds(1).Negate();
+			}
+
+			return result;
 		}
 
 		#endregion

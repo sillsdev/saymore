@@ -4,6 +4,7 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using SayMore.Model.Files;
+using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
 using SayMoreTests.UI.Utilities;
@@ -23,6 +24,8 @@ namespace SayMoreTests.Transcription.UI
 		[SetUp]
 		public void Setup()
 		{
+			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+
 			_tempAudioFile = MPlayerMediaInfoTests.GetLongerTestAudioFile();
 			_timeTier = new TimeTier(_tempAudioFile);
 			_timeTier.AddSegment(0f, 10f);
@@ -35,23 +38,30 @@ namespace SayMoreTests.Transcription.UI
 			_textTier.AddSegment("three");
 
 			var annotationFile = new Mock<AnnotationComponentFile>();
-			annotationFile.Setup(a => a.Tiers).Returns(new TierCollection { _textTier, _timeTier });
+			annotationFile.Setup(a => a.Tiers).Returns(new TierCollection { _timeTier, _textTier });
 
 			_componentFile = new Mock<ComponentFile>();
 			_componentFile.Setup(f => f.PathToAnnotatedFile).Returns(_tempAudioFile);
 			_componentFile.Setup(f => f.GetAnnotationFile()).Returns(annotationFile.Object);
 
 			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+			Directory.CreateDirectory(_model.OralAnnotationsFolder);
+
+			Assert.IsNotNull(_model.OrigWaveStream);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[TearDown]
 		public void TearDown()
 		{
+			try { Directory.Delete(_model.OralAnnotationsFolder, true); }
+			catch { }
+
 			if (_model != null)
 				_model.Dispose();
 
-			File.Delete(_tempAudioFile);
+			try { File.Delete(_tempAudioFile); }
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,58 +73,69 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void Construction_SetsTimeTier()
+		{
+			Assert.IsNotNull(_model.TimeTier);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void Construction_CreatesTierCopies()
 		{
 			Assert.AreEqual(2, _model.Tiers.Count);
-			Assert.AreNotSame(_textTier, _model.Tiers[0]);
-			Assert.AreNotSame(_timeTier, _model.Tiers[1]);
+			Assert.AreNotSame(_timeTier, _model.Tiers[0]);
+			Assert.AreNotSame(_textTier, _model.Tiers[1]);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void InitializeSegments_PassNonTimeOrderTier_ReturnsEmptyBoundaryList()
+		public void CopyOralAnnotationsToTempLocation_CopiesFilesAndReturnsPath()
 		{
-			var list = _model.InitializeSegments(new TierCollection { new TextTier("junk") });
-			Assert.False(list.Any());
+			File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder, "one.wav")).Close();
+			File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder, "two.wav")).Close();
+
+			var destinationPath = _model.CopyOralAnnotationsToTempLocation();
+
+			Assert.IsTrue(File.Exists(Path.Combine(destinationPath, "one.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(destinationPath, "two.wav")));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void InitializeSegments_PassTimeOrderTier_ReturnsCorrectBoundariesInList()
+		public void CopyOralAnnotationsToTempLocation_CreatesDestinationEvenWhenNoAnnotationFilesToCopy()
 		{
-			var list = _model.InitializeSegments(new TierCollection { _timeTier }).ToArray();
-			Assert.AreEqual(3, list.Length);
-
-			Assert.AreEqual(TimeSpan.Zero, list[0].start);
-			Assert.AreEqual(TimeSpan.FromSeconds(10), list[0].end);
-
-			Assert.AreEqual(TimeSpan.FromSeconds(10), list[1].start);
-			Assert.AreEqual(TimeSpan.FromSeconds(20), list[1].end);
-
-			Assert.AreEqual(TimeSpan.FromSeconds(20), list[2].start);
-			Assert.AreEqual(TimeSpan.FromSeconds(30), list[2].end);
+			Directory.Delete(_model.OralAnnotationsFolder, true);
+			Assert.IsTrue(Directory.Exists(_model.CopyOralAnnotationsToTempLocation()));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetSegmentBoundaries_ReturnsCorrectBoundaries()
+		public void SaveNewOralAnnoationsInPermanentLocation_CopiesFiles()
 		{
-			var list = _model.GetSegmentBoundaries().ToArray();
+			Directory.Delete(_model.OralAnnotationsFolder, true);
+			var destinationPath = _model.CopyOralAnnotationsToTempLocation();
+
+			File.OpenWrite(Path.Combine(destinationPath, "one.wav")).Close();
+			File.OpenWrite(Path.Combine(destinationPath, "two.wav")).Close();
+
+			Assert.IsFalse(File.Exists(Path.Combine(_model.OralAnnotationsFolder, "one.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_model.OralAnnotationsFolder, "two.wav")));
+
+			_model.SaveNewOralAnnoationsInPermanentLocation();
+
+			Assert.IsTrue(File.Exists(Path.Combine(_model.OralAnnotationsFolder, "one.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_model.OralAnnotationsFolder, "two.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentEndBoundaries_ReturnsCorrectBoundaries()
+		{
+			var list = _model.GetSegmentEndBoundaries().ToArray();
 			Assert.AreEqual(3, list.Length);
 			Assert.AreEqual(TimeSpan.FromSeconds(10), list[0]);
 			Assert.AreEqual(TimeSpan.FromSeconds(20), list[1]);
 			Assert.AreEqual(TimeSpan.FromSeconds(30), list[2]);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetSegments_ReturnsCorrectBoundariesAsStrings()
-		{
-			var list = _model.GetSegments().ToArray();
-			Assert.AreEqual(3, list.Length);
-			Assert.AreEqual("10", list[0]);
-			Assert.AreEqual("20", list[1]);
-			Assert.AreEqual("30", list[2]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,64 +154,113 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetPreviousBoundary_PassFirstBoundary_ReturnsZero()
+		public void GetIsSegmentLongEnough_ProposedEndIsNegative_ReturnsFalse()
 		{
-			Assert.AreEqual(TimeSpan.Zero, _model.GetPreviousBoundary(TimeSpan.FromSeconds(10)));
+			Assert.IsFalse(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(20).Negate()));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetPreviousBoundary_PassNegativeReferenceBoundary_ReturnsZero()
+		public void GetIsSegmentLongEnough_ProposedEndTooCloseToPrecedingBoundary_ReturnsFalse()
 		{
-			Assert.AreEqual(TimeSpan.Zero, _model.GetPreviousBoundary(TimeSpan.FromSeconds(10).Negate()));
+			var minSize = Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds / 1000f;
+			Assert.IsFalse(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(20 + minSize / 2)));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetPreviousBoundary_PassNonExistentReferenceBoundary_ReturnsZero()
+		public void GetIsSegmentLongEnough_ProposedEndYieldsMinAllowed_ReturnsTrue()
 		{
-			Assert.AreEqual(TimeSpan.Zero, _model.GetPreviousBoundary(TimeSpan.FromSeconds(45)));
+			var minSize = Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds / 1000f;
+			Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(20 + minSize)));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetPreviousBoundary_PassExistingReferenceBoundary_ReturnsPreviousBoundary()
+		public void GetIsSegmentLongEnough_ProposedEndInRange_ReturnsTrue()
 		{
-			Assert.AreEqual(TimeSpan.FromSeconds(10), _model.GetPreviousBoundary(TimeSpan.FromSeconds(20)));
+			Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(25)));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetNextBoundary_PassLastBoundary_ReturnsZero()
+		public void SegmentBoundaryMoved_OldSameAsNew_ReturnsFalse()
 		{
-			Assert.AreEqual(TimeSpan.Zero, _model.GetNextBoundary(TimeSpan.FromSeconds(30)));
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.IsFalse(_model.SegmentBoundaryMoved(TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(3)));
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetNextBoundary_PassNegativeReferenceBoundary_ReturnsZero()
+		public void SegmentBoundaryMoved_NewIsValid_ReturnsTrue()
 		{
-			Assert.AreEqual(TimeSpan.Zero, _model.GetNextBoundary(TimeSpan.FromSeconds(10).Negate()));
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.IsTrue(_model.SegmentBoundaryMoved(TimeSpan.FromSeconds(20), TimeSpan.FromSeconds(24)));
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetNextBoundary_PassNonExistentReferenceBoundary_ReturnsZero()
+		public void DeleteBoundary_BoundaryDoesNotExist_ReturnsFalse()
 		{
-			Assert.AreEqual(TimeSpan.Zero, _model.GetNextBoundary(TimeSpan.FromSeconds(45)));
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.IsFalse(_model.DeleteBoundary(TimeSpan.FromSeconds(20).Negate()));
+			Assert.IsFalse(_model.DeleteBoundary(TimeSpan.FromSeconds(200)));
+			Assert.IsFalse(_model.DeleteBoundary(TimeSpan.FromSeconds(24)));
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetNextBoundary_PassExistingReferenceBoundary_ReturnsNextBoundary()
+		public void DeleteBoundary_BoundaryExists_ReturnsTrue()
 		{
-			Assert.AreEqual(TimeSpan.FromSeconds(30), _model.GetNextBoundary(TimeSpan.FromSeconds(20)));
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.IsTrue(_model.DeleteBoundary(TimeSpan.FromSeconds(20)));
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
 		}
 
-		// Write tests for these methods.
-		//MoveExistingSegmentBoundary
-		//SegmentBoundaryMoved
-		//ChangeSegmentsEndBoundary
-		//DeleteBoundary
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanMoveBoundary_BoundaryNegative_ReturnsFalse()
+		{
+			Assert.IsFalse(_model.CanMoveBoundary(TimeSpan.FromSeconds(20).Negate(), 2000));
+			Assert.IsFalse(_model.CanMoveBoundary(TimeSpan.FromSeconds(20).Negate(), -2000));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanMoveBoundary_MovedBoundaryWouldBePastEndOfAudio_ReturnsFalse()
+		{
+			var boundary = _model.OrigWaveStream.TotalTime - TimeSpan.FromSeconds(3);
+			Assert.IsFalse(_model.CanMoveBoundary(boundary, 3500));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanMoveBoundary_MovedBoundaryIsValid_ReturnsTrue()
+		{
+			var boundary = _model.OrigWaveStream.TotalTime - TimeSpan.FromSeconds(3);
+			Assert.IsTrue(_model.CanMoveBoundary(boundary, 2500));
+			Assert.IsTrue(_model.CanMoveBoundary(boundary, -2500));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateMissingTextSegmentsForTimeSegments_TiersHaveSameNumberSegments_DoesNothing()
+		{
+			Assert.AreEqual(_timeTier.Segments.Count, _textTier.Segments.Count);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CreateMissingTextSegmentsForTimeSegments_TextTierHasFewerSegments_AddsSegments()
+		{
+			_model.Tiers[1].Segments.RemoveAt(1);
+			Assert.Greater(_model.Tiers[0].Segments.Count, _model.Tiers[1].Segments.Count);
+
+			_model.CreateMissingTextSegmentsToMatchTimeSegmentCount();
+			Assert.AreEqual(_model.Tiers[0].Segments.Count, _model.Tiers[1].Segments.Count);
+		}
 	}
 }

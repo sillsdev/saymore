@@ -161,7 +161,6 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
-    <Compile Include="Transcription\Model\CreateAnnotationFileViewModel.cs" />
     <Compile Include="Transcription\Model\Segment.cs" />
     <Compile Include="Transcription\Model\TierCollection.cs" />
     <Compile Include="Transcription\Model\TimeTier.cs" />

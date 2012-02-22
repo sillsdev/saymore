@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Localization;
@@ -127,11 +126,6 @@ namespace SayMore.Transcription.Model
 			return new XElement("document", new XElement("interlinear-text",
 				CreateItemElement(_wsFreeTranslationId, "title", _title),
 				new XElement("paragraphs")));
-
-			//return new XElement("document", new XAttribute("version", "2"),
-			//    new XElement("interlinear-text",
-			//        CreateItemElement(_wsFreeTranslationId, "title", _title),
-			//        new XElement("paragraphs")));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -162,7 +156,9 @@ namespace SayMore.Transcription.Model
 			for (int i = 0; i < segmentList.Length; i++)
 			{
 				// _worker will be null during tests.
-				if (_worker != null) _worker.ReportProgress(i + 1);
+				if (_worker != null)
+					_worker.ReportProgress(i + 1);
+
 				Segment freeTranslationSegment;
 				translationTier.TryGetSegment(i, out freeTranslationSegment);
 				yield return CreateSingleParagraphElement(segmentList[i].Text,
@@ -173,9 +169,6 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public XElement CreateSingleParagraphElement(string transcription, string freeTranslation)
 		{
-			//var wordElement = new XElement("words", GetWordElementsFromTranscription(transcription));
-			//var phraseElement = new XElement("phrase", wordElement);
-
 			var transcriptionElement = CreateSingleWordElement(transcription);
 			var phraseElement = new XElement("phrase", transcriptionElement);
 
@@ -186,26 +179,10 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<XElement> GetWordElementsFromTranscription(string transcription)
-		{
-			var bldr = new StringBuilder();
-			foreach (var chr in transcription)
-			{
-				if (Char.IsSeparator(chr))
-				{
-					yield return CreateSingleWordElement(bldr.ToString());
-					bldr.Length = 0;
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public XElement CreateSingleWordElement(string text)
 		{
 			return new XElement("words", new XElement("word",
 				CreateItemElement(_wsTranscriptionId, "txt", text)));
-
-			//return new XElement("word", CreateItemElement(_wsTranscriptionId, "txt", text));
 		}
 
 		/// ------------------------------------------------------------------------------------

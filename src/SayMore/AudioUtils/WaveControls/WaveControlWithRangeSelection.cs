@@ -117,10 +117,16 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnBoundaryMoved(TimeSpan oldBoundary, TimeSpan newBoundary)
+		protected override bool OnBoundaryMoved(TimeSpan oldBoundary, TimeSpan newBoundary)
 		{
-			base.OnBoundaryMoved(oldBoundary, newBoundary);
-			SetSelectionTimes(Painter.SelectedRegionStartTime, newBoundary);
+			if (base.OnBoundaryMoved(oldBoundary, newBoundary))
+			{
+				SetSelectionTimes(Painter.SelectedRegionStartTime, newBoundary);
+				return true;
+			}
+
+			SetSelectionTimes(Painter.SelectedRegionStartTime, oldBoundary);
+			return false;
 		}
 	}
 }

@@ -16,14 +16,14 @@ namespace SayMore.AudioUtils
 
 		public TimeSpan SelectedBoundaryTime { get; private set; }
 		public virtual Color BoundaryHighlightColor { get; set; }
-		public virtual bool HighlightBoundaryMouseIsNear { get; set; }
+		public virtual bool HighlightBoundaryWhenMouseIsNear { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterWithBoundarySelection(Control ctrl, WaveFileReader stream)
 			: base(ctrl, stream)
 		{
 			BoundaryHighlightColor = Color.FromArgb(100, Color.DarkSlateBlue);
-			HighlightBoundaryMouseIsNear = true;
+			HighlightBoundaryWhenMouseIsNear = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ namespace SayMore.AudioUtils
 			base(ctrl, samples, totalTime)
 		{
 			BoundaryHighlightColor = Color.FromArgb(100, Color.DarkSlateBlue);
-			HighlightBoundaryMouseIsNear = true;
+			HighlightBoundaryWhenMouseIsNear = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ namespace SayMore.AudioUtils
 		private void DrawHighlightedBoundaryMouseIsOver(Graphics g, int clientHeight)
 		{
 			if (_boundaryMouseOver == TimeSpan.Zero || _segmentBoundaries == null ||
-				SelectedBoundaryTime == _boundaryMouseOver || !HighlightBoundaryMouseIsNear)
+				SelectedBoundaryTime == _boundaryMouseOver || !HighlightBoundaryWhenMouseIsNear)
 			{
 				return;
 			}

@@ -89,7 +89,7 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		protected override void InitiatiateBoundaryMove(int mouseX, TimeSpan boundaryBeingMoved)
 		{
-			Painter.HighlightBoundaryMouseIsNear = false;
+			Painter.HighlightBoundaryWhenMouseIsNear = false;
 			Painter.SetSelectedBoundary(TimeSpan.Zero);
 			base.InitiatiateBoundaryMove(mouseX, boundaryBeingMoved);
 			Painter.SetMovedBoundaryTime(boundaryBeingMoved);
@@ -100,15 +100,21 @@ namespace SayMore.AudioUtils
 		{
 			base.OnBoundaryMovedToOrigin(originalBoundary);
 			Painter.SetSelectedBoundary(originalBoundary);
-			Painter.HighlightBoundaryMouseIsNear = true;
+			Painter.HighlightBoundaryWhenMouseIsNear = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnBoundaryMoved(TimeSpan oldBoundary, TimeSpan newBoundary)
+		protected override bool OnBoundaryMoved(TimeSpan oldBoundary, TimeSpan newBoundary)
 		{
-			base.OnBoundaryMoved(oldBoundary, newBoundary);
-			Painter.SetSelectedBoundary(newBoundary);
-			Painter.HighlightBoundaryMouseIsNear = true;
+			var success = base.OnBoundaryMoved(oldBoundary, newBoundary);
+
+			if (success)
+				Painter.SetSelectedBoundary(newBoundary);
+			else
+				SetSelectedBoundary(oldBoundary);
+
+			Painter.HighlightBoundaryWhenMouseIsNear = true;
+			return success;
 		}
 
 		/// ------------------------------------------------------------------------------------

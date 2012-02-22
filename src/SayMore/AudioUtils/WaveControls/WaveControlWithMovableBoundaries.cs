@@ -6,7 +6,7 @@ namespace SayMore.AudioUtils
 {
 	public abstract class WaveControlWithMovableBoundaries : WaveControlBasic
 	{
-		public delegate void BoundaryMovedHandler(WaveControlWithMovableBoundaries ctrl, TimeSpan oldTime, TimeSpan newTime);
+		public delegate bool BoundaryMovedHandler(WaveControlWithMovableBoundaries ctrl, TimeSpan oldTime, TimeSpan newTime);
 		public event BoundaryMovedHandler BoundaryMoved;
 
 		protected int _mouseXAtBeginningOfSegmentMove;
@@ -123,10 +123,11 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnBoundaryMoved(TimeSpan oldBoundary, TimeSpan newBoundary)
+		protected virtual bool OnBoundaryMoved(TimeSpan oldBoundary, TimeSpan newBoundary)
 		{
-			BoundaryMoved(this, oldBoundary, newBoundary);
+			var success = BoundaryMoved(this, oldBoundary, newBoundary);
 			_painter.InvalidateBoundary(oldBoundary);
+			return success;
 		}
 	}
 }

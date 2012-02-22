@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using Localization;
@@ -18,7 +19,8 @@ namespace SayMore.Transcription.Model
 	public class TimeTier : TierBase
 	{
 		public string MediaFileName { get; protected set; }
-		public string SegmentFileFolder { get; protected set; }
+
+		private string _segmentFileFolder;
 
 		/// ------------------------------------------------------------------------------------
 		public TimeTier(string filename) :
@@ -27,11 +29,16 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The segmentFileFolder is used for renaming (due to segment boundary changes) and
+		/// removing audio segment annotation files that are being created/modified in a
+		/// temp. location.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public TimeTier(string displayName, string filename) :
 			base(displayName, tier => new AudioWaveFormColumn(tier))
 		{
 			MediaFileName = filename;
-			SegmentFileFolder = MediaFileName + Settings.Default.OralAnnotationsFolderAffix;
 		}
 
 		#region Static methods for computing oral annotation segment audio file names.
@@ -70,6 +77,24 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The AudioSegmentFileFolder is used for renaming (due to segment boundary changes)
+		/// and removing audio segment annotation files as they're created or modified. The
+		/// folder must exist or this method does nothing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetAudioSegmentFileFolder(string folder)
+		{
+			_segmentFileFolder = (folder == null || !Directory.Exists(folder) ? null : folder);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string SegmentFileFolder
+		{
+			get { return _segmentFileFolder ?? MediaFileName + Settings.Default.OralAnnotationsFolderAffix; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override TierType TierType
 		{
 			get { return TierType.Time; }
@@ -88,6 +113,18 @@ namespace SayMore.Transcription.Model
 			return -1;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public Segment GetSegmentHavingEndBoundary(float endBoundary)
+		{
+			return Segments.FirstOrDefault(s => s.End.Equals(endBoundary));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Segment GetSegmentEnclosingTime(float time)
+		{
+			return Segments.FirstOrDefault(s => time > s.Start && time <= s.End);
+		}
+
 		#region Methods for Adding and removing segments
 		/// ------------------------------------------------------------------------------------
 		public Segment AddSegment(float start, float stop)
@@ -95,6 +132,13 @@ namespace SayMore.Transcription.Model
 			var segment = new Segment(this, start, stop);
 			Segments.Add(segment);
 			return segment;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool RemoveSegmentHavingEndBoundary(float endBoundary)
+		{
+			var segment = GetSegmentHavingEndBoundary(endBoundary);
+			return segment != null && RemoveSegment(segment);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,17 +154,11 @@ namespace SayMore.Transcription.Model
 			{
 				var segToRemove = Segments[index];
 
-				if (index == 0)
+				if (Segments.Count > 1 && index < Segments.Count - 1)
 				{
 					var nextSeg = Segments[index + 1];
 					RenameAnnotationSegmentFile(nextSeg, segToRemove.Start, nextSeg.End);
 					nextSeg.Start = segToRemove.Start;
-				}
-				else if (index < Segments.Count - 1)
-				{
-					var prevSeg = Segments[index - 1];
-					RenameAnnotationSegmentFile(prevSeg, prevSeg.Start, segToRemove.End);
-					prevSeg.End = segToRemove.End;
 				}
 
 				DeleteAnnotationSegmentFile(segToRemove);
@@ -132,10 +170,19 @@ namespace SayMore.Transcription.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		public BoundaryModificationResult ChangeSegmentsEndBoundary(Segment segment, float newBoundary)
+		public BoundaryModificationResult ChangeSegmentsEndBoundary(float oldEndBoundary, float newEndBoundary)
+		{
+			var segment = GetSegmentHavingEndBoundary(oldEndBoundary);
+
+			return (segment == null ? BoundaryModificationResult.SegmentNotFound :
+				ChangeSegmentsEndBoundary(segment, newEndBoundary));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public BoundaryModificationResult ChangeSegmentsEndBoundary(Segment segment, float newEndBoundary)
 		{
 			// New boundary must be at least 1/2 second greater than the segment's start boundary.
-			if (segment.Start >= newBoundary - 0.5f)
+			if (segment.Start >= newEndBoundary - 0.5f)
 				return BoundaryModificationResult.SegmentWillBeTooShort;
 
 			var segIndex = GetIndexOfSegment(segment);
@@ -146,19 +193,18 @@ namespace SayMore.Transcription.Model
 
 			if (nextSegment != null)
 			{
-				if (newBoundary + 0.5f >= nextSegment.End)
+				if (newEndBoundary + 0.5f >= nextSegment.End)
 					return BoundaryModificationResult.NextSegmentWillBeTooShort;
 
-				RenameAnnotationSegmentFile(nextSegment, newBoundary, nextSegment.End);
-				nextSegment.Start = newBoundary;
+				RenameAnnotationSegmentFile(nextSegment, newEndBoundary, nextSegment.End);
+				nextSegment.Start = newEndBoundary;
 			}
 
-			RenameAnnotationSegmentFile(Segments[segIndex], Segments[segIndex].Start, newBoundary);
-			Segments[segIndex].End = newBoundary;
+			RenameAnnotationSegmentFile(Segments[segIndex], Segments[segIndex].Start, newEndBoundary);
+			Segments[segIndex].End = newEndBoundary;
 
 			return BoundaryModificationResult.Success;
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		public BoundaryModificationResult InsertSegmentBoundary(float newBoundary)
@@ -205,8 +251,8 @@ namespace SayMore.Transcription.Model
 
 				if (File.Exists(oldSegmentFilePath))
 				{
-					File.Move(oldSegmentFilePath,
-						Path.Combine(SegmentFileFolder, ComputeFileNameForCarefulSpeechSegment(newStart, newEnd)));
+					File.Move(oldSegmentFilePath, Path.Combine(SegmentFileFolder,
+						ComputeFileNameForCarefulSpeechSegment(newStart, newEnd)));
 				}
 			}
 			catch { }
@@ -218,8 +264,8 @@ namespace SayMore.Transcription.Model
 
 				if (File.Exists(oldSegmentFilePath))
 				{
-					File.Move(oldSegmentFilePath,
-						Path.Combine(SegmentFileFolder, ComputeFileNameForOralTranslationSegment(newStart, newEnd)));
+					File.Move(oldSegmentFilePath, Path.Combine(SegmentFileFolder,
+						ComputeFileNameForOralTranslationSegment(newStart, newEnd)));
 				}
 			}
 			catch { }
@@ -230,9 +276,7 @@ namespace SayMore.Transcription.Model
 		{
 			try
 			{
-				var path = Path.Combine(SegmentFileFolder,
-					ComputeFileNameForCarefulSpeechSegment(segment));
-
+				var path = Path.Combine(SegmentFileFolder, ComputeFileNameForCarefulSpeechSegment(segment));
 				if (File.Exists(path))
 					File.Delete(path);
 			}
@@ -240,9 +284,7 @@ namespace SayMore.Transcription.Model
 
 			try
 			{
-				var path = Path.Combine(SegmentFileFolder,
-					ComputeFileNameForOralTranslationSegment(segment));
-
+				var path = Path.Combine(SegmentFileFolder, ComputeFileNameForOralTranslationSegment(segment));
 				if (File.Exists(path))
 					File.Delete(path);
 			}
@@ -250,5 +292,32 @@ namespace SayMore.Transcription.Model
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public bool CanBoundaryMoveLeft(float boundaryToMove, float secondsToMove)
+		{
+			var newBoundary = boundaryToMove - secondsToMove;
+			var segment = GetSegmentEnclosingTime(boundaryToMove);
+
+			return (newBoundary > 0 && (segment == null || newBoundary > segment.Start + 0.5f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool CanBoundaryMoveRight(float boundaryToMove, float secondsToMove, float limit)
+		{
+			var newBoundary = boundaryToMove + secondsToMove;
+			if (newBoundary <= 0 || newBoundary > limit)
+				return false;
+
+			var segment = GetSegmentHavingEndBoundary(boundaryToMove);
+			if (segment != null)
+			{
+				int i = GetIndexOfSegment(segment);
+				return (i == Segments.Count - 1 || newBoundary <= Segments[i + 1].End - 0.5f);
+			}
+
+			segment = GetSegmentEnclosingTime(boundaryToMove);
+			return (segment == null || newBoundary <= segment.End - 0.5f);
+		}
 	}
 }

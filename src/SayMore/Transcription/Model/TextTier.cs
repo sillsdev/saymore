@@ -40,7 +40,6 @@ namespace SayMore.Transcription.Model
 			return new TextTier(DisplayName);
 		}
 
-
 		/// ------------------------------------------------------------------------------------
 		public Segment AddSegment(string text)
 		{
@@ -56,7 +55,7 @@ namespace SayMore.Transcription.Model
 			{
 				// If the segment being removed is the first, then join it with the
 				// next segment. Otherwise, join it with the preceding segment.
-				int joinToIndex = (index == 0 ? 1 : index - 1);
+				int joinToIndex = (index == Segments.Count - 1 ? index - 1 : index + 1);
 				JoinSements(index, joinToIndex);
 			}
 

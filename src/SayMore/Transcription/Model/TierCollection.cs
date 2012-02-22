@@ -20,6 +20,20 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public TierCollection()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TierCollection(string annotatedMediaFile)
+		{
+			AnnotatedMediaFile = annotatedMediaFile;
+			Add(new TimeTier(annotatedMediaFile));
+			Add(new TextTier(TextTier.TranscriptionTierName) { TierType = TierType.Transcription });
+			Add(new TextTier(TextTier.SayMoreFreeTranslationTierName) { TierType = TierType.FreeTranslation });
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string AnnotatedMediaFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -27,10 +41,18 @@ namespace SayMore.Transcription.Model
 		{
 			var copy = new TierCollection();
 
+			copy.AnnotatedMediaFile = AnnotatedMediaFile;
+
 			foreach (var tier in this)
 				copy.Add(tier.Copy());
 
 			return copy;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetDoTimeSegmentsExist()
+		{
+			return (GetTimeTier() != null && GetTimeTier().Segments.Count > 0);
 		}
 
 		/// ------------------------------------------------------------------------------------

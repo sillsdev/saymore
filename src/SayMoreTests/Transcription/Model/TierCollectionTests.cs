@@ -15,7 +15,8 @@ namespace SayMoreTests.Transcription.Model
 		[SetUp]
 		public void Setup()
 		{
-			_collection = new TierCollection();
+			_collection = new TierCollection("annotatedBlah");
+			_collection.Clear();
 			_collection.Add(new TimeTier("timeTier", "timeTierFilename"));
 			_collection.Add(new TextTier(TextTier.TranscriptionTierName) { TierType = TierType.Transcription });
 			_collection.Add(new TextTier(TextTier.ElanFreeTranslationTierName) { TierType = TierType.FreeTranslation });
@@ -37,6 +38,7 @@ namespace SayMoreTests.Transcription.Model
 			((TextTier)_collection[3]).AddSegment(null);
 			((TextTier)_collection[3]).AddSegment(null);
 
+			Assert.AreEqual("annotatedBlah", _collection.AnnotatedMediaFile);
 			Assert.AreEqual(4, _collection.Count);
 		}
 
@@ -56,6 +58,30 @@ namespace SayMoreTests.Transcription.Model
 			Assert.AreEqual(copy[1].DisplayName, _collection[1].DisplayName);
 			Assert.AreEqual(copy[2].DisplayName, _collection[2].DisplayName);
 			Assert.AreEqual(copy[3].DisplayName, _collection[3].DisplayName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Copy_ReturnsDifferentInstanceWithSameProperties()
+		{
+			var copy = _collection.Copy();
+			Assert.AreNotSame(_collection, copy);
+			Assert.AreEqual(_collection.AnnotatedMediaFile, copy.AnnotatedMediaFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetDoTimeSegmentsExist_WhenSegmentsDoNotExist_ReturnsFalse()
+		{
+			_collection.GetTimeTier().Segments.Clear();
+			Assert.IsFalse(_collection.GetDoTimeSegmentsExist());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetDoTimeSegmentsExist_WhenSegmentsExist_ReturnsTrue()
+		{
+			Assert.IsTrue(_collection.GetDoTimeSegmentsExist());
 		}
 
 		/// ------------------------------------------------------------------------------------

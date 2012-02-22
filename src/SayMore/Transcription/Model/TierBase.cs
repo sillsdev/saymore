@@ -56,12 +56,15 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual TierBase Copy()
 		{
-			var copiedTier = GetNewTierInstance();
+			var copy = GetNewTierInstance();
+			copy.TierType = TierType;
+			copy.LinguisticType = LinguisticType;
+			copy.Locale = Locale;
 
 			foreach (var seg in Segments)
-				copiedTier.Segments.Add(seg.Copy(copiedTier));
+				copy.Segments.Add(seg.Copy(copy));
 
-			return copiedTier;
+			return copy;
 		}
 
 		/// ------------------------------------------------------------------------------------

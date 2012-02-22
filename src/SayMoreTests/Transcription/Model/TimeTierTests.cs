@@ -50,6 +50,69 @@ namespace SayMoreTests.Transcription.Model
 			Assert.AreEqual(_tier.DisplayName, copy.DisplayName);
 			Assert.AreNotSame(_tier, copy);
 		}
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Copy_ReturnsDifferentInstanceOfTierWithSameProperties()
+		{
+			_tier.TierType = TierType.Time;
+			_tier.LinguisticType = "blah";
+
+			var copy = _tier.Copy();
+			Assert.AreNotSame(_tier, copy);
+			Assert.AreEqual(_tier.DisplayName, copy.DisplayName);
+			Assert.AreEqual(_tier.TierType, copy.TierType);
+			Assert.AreEqual(_tier.Locale, copy.Locale);
+			Assert.AreEqual(_tier.LinguisticType, copy.LinguisticType);
+			Assert.AreEqual(_tier.GridColumn.GetType(), copy.GridColumn.GetType());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentHavingEndBoundary_NoSegmentHasEndBoundary_ReturnsNull()
+		{
+			Assert.IsNull(_tier.GetSegmentHavingEndBoundary(15f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentHavingEndBoundary_SegmentHasEndBoundary_ReturnsSegment()
+		{
+			Assert.AreSame(_tier.Segments[1], _tier.GetSegmentHavingEndBoundary(30f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentEnclosingTime_BoundaryIsNegative_ReturnsNull()
+		{
+			Assert.IsNull(_tier.GetSegmentEnclosingTime(-1f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentEnclosingTime_BoundaryIsAfterAllSegments_ReturnsNull()
+		{
+			Assert.IsNull(_tier.GetSegmentEnclosingTime(50f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentEnclosingTime_IsSameAsBoundary_ReturnsSegmentToLeft()
+		{
+			var seg = _tier.GetSegmentEnclosingTime(20f);
+			Assert.AreEqual(10f, seg.Start);
+			Assert.AreEqual(20f, seg.End);
+			Assert.AreEqual(_tier.Segments[0], seg);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetSegmentEnclosingTime_IsBetweenBoundaries_ReturnsCorrectSegment()
+		{
+			var seg = _tier.GetSegmentEnclosingTime(22.5f);
+			Assert.AreEqual(20f, seg.Start);
+			Assert.AreEqual(30f, seg.End);
+			Assert.AreEqual(_tier.Segments[1], seg);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
@@ -109,24 +172,13 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void RemoveSegment_ByIndex_Add3SegmentsRemove2nd_RemovesSegment()
-		{
-			Assert.AreEqual(3, _tier.Segments.Count);
-			Assert.IsTrue(_tier.RemoveSegment(1));
-			Assert.AreEqual(2, _tier.Segments.Count);
-			Assert.AreNotEqual(20f, _tier.Segments[1].Start);
-			Assert.AreNotEqual(30f, _tier.Segments[1].End);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
 		public void RemoveSegment_ByIndex_RemoveMiddleSegment_JoinsWithPrecedingSegment()
 		{
 			Assert.IsTrue(_tier.RemoveSegment(1));
 			Assert.AreEqual(2, _tier.Segments.Count);
 			Assert.AreEqual(10f, _tier.Segments[0].Start);
-			Assert.AreEqual(30f, _tier.Segments[0].End);
-			Assert.AreEqual(30f, _tier.Segments[1].Start);
+			Assert.AreEqual(20f, _tier.Segments[0].End);
+			Assert.AreEqual(20f, _tier.Segments[1].Start);
 			Assert.AreEqual(40f, _tier.Segments[1].End);
 		}
 
@@ -179,10 +231,10 @@ namespace SayMoreTests.Transcription.Model
 			Assert.IsTrue(_tier.RemoveSegment(1));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Careful.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Translation.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_40_Translation.wav")));
 			Assert.AreEqual(4, Directory.GetFiles(_tier.SegmentFileFolder).Length);
 		}
 
@@ -214,24 +266,13 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void RemoveSegment_BySegment_Add3SegmentsRemoveOne_RemovesSegment()
-		{
-			Assert.AreEqual(3, _tier.Segments.Count);
-			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 20f, 30f)));
-			Assert.AreEqual(2, _tier.Segments.Count);
-			Assert.AreNotEqual(20f, _tier.Segments[1].Start);
-			Assert.AreNotEqual(30f, _tier.Segments[1].End);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
 		public void RemoveSegment_BySegment_RemoveSecondSegment_JoinsWithPrecedingSegment()
 		{
 			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 20f, 30f)));
 			Assert.AreEqual(2, _tier.Segments.Count);
 			Assert.AreEqual(10f, _tier.Segments[0].Start);
-			Assert.AreEqual(30f, _tier.Segments[0].End);
-			Assert.AreEqual(30f, _tier.Segments[1].Start);
+			Assert.AreEqual(20f, _tier.Segments[0].End);
+			Assert.AreEqual(20f, _tier.Segments[1].Start);
 			Assert.AreEqual(40f, _tier.Segments[1].End);
 		}
 
@@ -284,10 +325,10 @@ namespace SayMoreTests.Transcription.Model
 			Assert.IsTrue(_tier.RemoveSegment(new Segment(null, 20f, 30f)));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
 			Assert.IsFalse(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Careful.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_30_Translation.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_40_Careful.wav")));
+			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_40_Translation.wav")));
 			Assert.AreEqual(4, Directory.GetFiles(_tier.SegmentFileFolder).Length);
 		}
 
@@ -304,6 +345,21 @@ namespace SayMoreTests.Transcription.Model
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "10_to_20_Translation.wav")));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Careful.wav")));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "20_to_30_Translation.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegmentHavingEndBoundary_NoSegmentForBoundary_ReturnsFalse()
+		{
+			Assert.IsFalse(_tier.RemoveSegmentHavingEndBoundary(25f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegmentHavingEndBoundary_SegmentHasBoundary_ReturnsTrue()
+		{
+			Assert.IsTrue(_tier.RemoveSegmentHavingEndBoundary(20f));
+			Assert.IsTrue(_tier.RemoveSegmentHavingEndBoundary(40f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -448,6 +504,20 @@ namespace SayMoreTests.Transcription.Model
 
 			_tier.DeleteAnnotationSegmentFile(new Segment(null, 6.234f, 10.587f));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Careful.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ChangeSegmentsEndBoundary_FromBoundary_BoundaryNotFound_ReturnsNotSuccess()
+		{
+			Assert.AreEqual(BoundaryModificationResult.SegmentNotFound, _tier.ChangeSegmentsEndBoundary(12f, 25f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ChangeSegmentsEndBoundary_FromBoundary_BoundaryFound_ReturnsSuccess()
+		{
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(20f, 25f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -613,6 +683,67 @@ namespace SayMoreTests.Transcription.Model
 			// Verify the files for the next segment did not change
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Careful.wav")));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "30_to_40_Translation.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanBoundaryMoveLeft_MoveWillPutNewBoundaryAtZero_ReturnsFalse()
+		{
+			Assert.IsFalse(_tier.CanBoundaryMoveLeft(0.5f, 0.5f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanBoundaryMoveLeft_MoveWillYieldNewNegativeBoundary_ReturnsFalse()
+		{
+			Assert.IsFalse(_tier.CanBoundaryMoveLeft(0.5f, 0.6f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanBoundaryMoveLeft_MoveWillResultInTooShortSegment_ReturnsFalse()
+		{
+			Assert.IsFalse(_tier.CanBoundaryMoveLeft(12f, 2f));
+			Assert.IsFalse(_tier.CanBoundaryMoveLeft(12f, 1.5f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanBoundaryMoveLeft_MoveWillResultInBigEnoughSegment_ReturnsTrue()
+		{
+			Assert.IsTrue(_tier.CanBoundaryMoveLeft(13f, 2f));
+			Assert.IsTrue(_tier.CanBoundaryMoveLeft(12f, 1.49f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanBoundaryMoveRight_MoveWillPutNewBoundaryBeyondLimit_ReturnsFalse()
+		{
+			Assert.IsFalse(_tier.CanBoundaryMoveRight(40f, 2f, 41f));
+			Assert.IsFalse(_tier.CanBoundaryMoveRight(40f, 2f, 41.99f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanBoundaryMoveRight_MoveWillPutNewBoundaryOnLimit_ReturnsTrue()
+		{
+			Assert.IsTrue(_tier.CanBoundaryMoveRight(40f, 2f, 42f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanBoundaryMoveRight_MoveWillResultInTooShortSegment_ReturnsFalse()
+		{
+			Assert.IsFalse(_tier.CanBoundaryMoveRight(28f, 2.01f, 100f));
+			Assert.IsFalse(_tier.CanBoundaryMoveRight(28f, 1.501f, 100f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CanBoundaryMoveRight_MoveWillResultInBigEnoughSegment_ReturnsTrue()
+		{
+			Assert.IsTrue(_tier.CanBoundaryMoveLeft(28f, 0.5f));
+			Assert.IsTrue(_tier.CanBoundaryMoveLeft(28f, 1.5f));
 		}
 	}
 }

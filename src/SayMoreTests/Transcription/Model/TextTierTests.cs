@@ -133,11 +133,18 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void Copy_ReturnsDifferentInstanceOfTierWithSameDisplayName()
+		public void Copy_ReturnsDifferentInstanceOfTierWithSameProperties()
 		{
+			_tier.TierType = TierType.Transcription;
+			_tier.LinguisticType = "blah";
+
 			var copy = _tier.Copy();
 			Assert.AreNotSame(_tier, copy);
 			Assert.AreEqual(_tier.DisplayName, copy.DisplayName);
+			Assert.AreEqual(_tier.TierType, copy.TierType);
+			Assert.AreEqual(_tier.Locale, copy.Locale);
+			Assert.AreEqual(_tier.LinguisticType, copy.LinguisticType);
+			Assert.AreEqual(_tier.GridColumn.GetType(), copy.GridColumn.GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -256,14 +263,14 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void RemoveSegment_RemoveMiddleSegment_JoinsWithPrecedingSegment()
+		public void RemoveSegment_RemoveMiddleSegment_JoinsWithNextSegment()
 		{
 			_tier.AddSegment("1");
 			_tier.AddSegment("2");
 			_tier.AddSegment("3");
 			Assert.IsTrue(_tier.RemoveSegment(1));
-			Assert.AreEqual("1 2", _tier.Segments.ElementAt(0).Text);
-			Assert.AreEqual("3", _tier.Segments.ElementAt(1).Text);
+			Assert.AreEqual("1", _tier.Segments.ElementAt(0).Text);
+			Assert.AreEqual("2 3", _tier.Segments.ElementAt(1).Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -288,6 +295,35 @@ namespace SayMoreTests.Transcription.Model
 			Assert.IsTrue(_tier.RemoveSegment(2));
 			Assert.AreEqual("1", _tier.Segments.ElementAt(0).Text);
 			Assert.AreEqual("2 3", _tier.Segments.ElementAt(1).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_With2SegmentsRemoveFirst_JoinsThem()
+		{
+			_tier.AddSegment("1");
+			_tier.AddSegment("2");
+			Assert.IsTrue(_tier.RemoveSegment(0));
+			Assert.AreEqual("1 2", _tier.Segments.ElementAt(0).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_With2SegmentsRemoveSecond_JoinsThem()
+		{
+			_tier.AddSegment("1");
+			_tier.AddSegment("2");
+			Assert.IsTrue(_tier.RemoveSegment(1));
+			Assert.AreEqual("1 2", _tier.Segments.ElementAt(0).Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RemoveSegment_With1Segments_RemovesIt()
+		{
+			_tier.AddSegment("1");
+			Assert.IsTrue(_tier.RemoveSegment(0));
+			Assert.AreEqual(0, _tier.Segments.Count);
 		}
 	}
 }

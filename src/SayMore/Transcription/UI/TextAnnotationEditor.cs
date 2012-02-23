@@ -1,15 +1,12 @@
 using System;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.Transcription.UI.SegmentingAndRecording;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.MediaPlayer;
 using SilTools;
@@ -78,6 +75,16 @@ namespace SayMore.Transcription.UI
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.20Pct", "20%"));
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(
 				"EventsView.Transcription.TextAnnotationEditor.PlaybackSpeeds.10Pct", "10%"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private ComponentFile AssociatedComponentFile
+		{
+			get
+			{
+				return _file == null ? null :
+					((AnnotationComponentFile)_file).AssociatedComponentFile;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -261,41 +268,19 @@ namespace SayMore.Transcription.UI
 			var annotationType = (sender == _buttonCarefulSpeech ?
 				OralAnnotationType.Careful : OralAnnotationType.Translation);
 
-			var file = ((AnnotationComponentFile)_file);
-
-			if (file.AssociatedComponentFile.RecordAnnotations(annotationType) != null && ComponentFileListRefreshAction != null)
+			if (AssociatedComponentFile.RecordAnnotations(annotationType) != null && ComponentFileListRefreshAction != null)
 				ComponentFileListRefreshAction(_file.PathToAnnotatedFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
-			var file = ((AnnotationComponentFile)_file);
+			HandleBeforeAnnotationFileSaved(null, null);
 
-			using (var viewModel = new ManualSegmenterDlgViewModel(file.AssociatedComponentFile))
-			using (var dlg = new ManualSegmenterDlg(viewModel))
-			{
-				if (dlg.ShowDialog(this) != DialogResult.OK || !viewModel.WereChangesMade)
-					return;
+			if (ManualSegmenterDlg.ShowDialog(AssociatedComponentFile, this) != null)
+				SetComponentFile(_file);
 
-				HandleBeforeAnnotationFileSaved(null, null);
-				AnnotationFileHelper.Save(file.AssociatedComponentFile.PathToAnnotatedFile, viewModel.Tiers);
-				HandleAfterAnnotationFileSaved(null, null);
-
-				var error = file.TryLoadAndReturnException();
-				if (error == null)
-				{
-					SetComponentFile(file);
-					file.AssociatedComponentFile.GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), this);
-					return;
-				}
-
-				var msg = LocalizationManager.GetString(
-					"EventsView.Transcription.TextAnnotationEditor.SavingSegmentModificationsErrorMsg",
-					"There was an error while trying to save your segment modifications.");
-
-				ErrorReport.NotifyUserOfProblem(error, msg);
-			}
+			HandleAfterAnnotationFileSaved(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -305,7 +290,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
+			TabText = LocalizationManager.GetString(
+				"EventsView.Transcription.TextAnnotationEditor.TabText", "Annotations");
+
 			base.HandleStringsLocalized();
 		}
 	}

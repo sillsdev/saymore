@@ -2,8 +2,12 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
+using Palaso.Reporting;
 using SayMore.AudioUtils;
+using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 using SayMore.Transcription.UI.SegmentingAndRecording;
 using SilTools;
 
@@ -14,6 +18,54 @@ namespace SayMore.Transcription.UI
 	{
 		private readonly string _origAddSegBoundaryButtonText;
 		private WaveControlWithBoundarySelection _waveControl;
+
+		/// ------------------------------------------------------------------------------------
+		public static string ShowDialog(ComponentFile file, Control parent)
+		{
+			Exception error;
+			string msg = null;
+
+			using (var viewModel = new ManualSegmenterDlgViewModel(file))
+			using (var dlg = new ManualSegmenterDlg(viewModel))
+			{
+				try
+				{
+					if (dlg.ShowDialog(parent) != DialogResult.OK || !viewModel.WereChangesMade)
+						return null;
+
+					var annotationFile = file.GetAnnotationFile();
+
+					if (annotationFile != null)
+						viewModel.SaveNewOralAnnoationsInPermanentLocation();
+
+					var eafFile = AnnotationFileHelper.Save(file.PathToAnnotatedFile, viewModel.Tiers);
+
+					if (annotationFile == null)
+						return eafFile;
+
+					error = annotationFile.TryLoadAndReturnException();
+					if (error == null)
+					{
+						annotationFile.AssociatedComponentFile.GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), parent);
+						return eafFile;
+					}
+
+					msg = LocalizationManager.GetString(
+						"DialogBoxes.Transcription.ManualSegmenterDlg.SavingSegmentsErrorMsg",
+						"There was an error while trying to save segments for the file '{0}'.");
+				}
+				catch (Exception e)
+				{
+					error = e;
+					msg = LocalizationManager.GetString(
+						"DialogBoxes.Transcription.ManualSegmenterDlg.GeneralSegmentingErrorMsg",
+						"There was an error segmenting the file '{0}'.");
+				}
+			}
+
+			ErrorReport.NotifyUserOfProblem(error, msg, file.PathToAnnotatedFile);
+			return null;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public ManualSegmenterDlg(ManualSegmenterDlgViewModel viewModel) : base(viewModel)

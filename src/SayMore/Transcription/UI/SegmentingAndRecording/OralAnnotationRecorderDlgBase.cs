@@ -156,7 +156,7 @@ namespace SayMore.Transcription.UI
 				_buttonListenToOriginal.Enabled = false;
 				_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
 				_buttonRecordAnnotation.Text = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.RecordingButtonText.WhenRecording",
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingButtonText.WhenRecording",
 					"Recording...");
 				return;
 			}
@@ -397,7 +397,7 @@ namespace SayMore.Transcription.UI
 			{
 				_buttonRecordAnnotation.ForeColor = Color.Red;
 				_buttonRecordAnnotation.Text = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.RecordingButtonText.WhenRecordingTooShort",
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingButtonText.WhenRecordingTooShort",
 					"Whoops! You need to hold down the SPACE bar or mouse button while talking.");
 				_buttonEraseAnnotation.PerformClick();
 			}

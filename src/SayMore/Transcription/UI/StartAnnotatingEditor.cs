@@ -1,13 +1,11 @@
+using System;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.Transcription.UI.SegmentingAndRecording;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.MediaPlayer;
 using SilTools;
@@ -40,7 +38,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnLoad(System.EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
 
@@ -72,7 +70,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleGetStartedButtonClick(object sender, System.EventArgs e)
+		private void HandleGetStartedButtonClick(object sender, EventArgs e)
 		{
 			_buttonGetStarted.Enabled = false;
 			MPlayerHelper.CleanUpMPlayerProcesses();
@@ -81,7 +79,7 @@ namespace SayMore.Transcription.UI
 			if (_radioButtonManual.Checked)
 			{
 				Settings.Default.DefaultSegmentationMethod = 0;
-				newAnnotationFile = ManuallySegmentFile();
+				newAnnotationFile = ManualSegmenterDlg.ShowDialog(_file, this);
 			}
 			else if (_radioButtonCarefulSpeech.Checked)
 			{
@@ -122,22 +120,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string ManuallySegmentFile()
-		{
-			using (var viewModel = new ManualSegmenterDlgViewModel(_file))
-			using (var dlg = new ManualSegmenterDlg(viewModel))
-			{
-				if (dlg.ShowDialog(this) != DialogResult.OK || !viewModel.WereChangesMade)
-					return null;
-
-				var segStrings = viewModel.GetSegmentEndBoundaries()
-					.Select(b => b.TotalSeconds.ToString(CultureInfo.InvariantCulture)).ToArray();
-
-				return AnnotationFileHelper.CreateFileFromTimesAsString(null, _file.PathToAnnotatedFile, segStrings);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private string GetAudacityOrElanFile(string caption, string filter)
 		{
 			using (var dlg = new OpenFileDialog())
@@ -146,8 +128,9 @@ namespace SayMore.Transcription.UI
 				dlg.CheckFileExists = true;
 				dlg.CheckPathExists = true;
 				dlg.Multiselect = false;
-				dlg.Filter = filter + "|" +
-					LocalizationManager.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString", "All Files (*.*)|*.*");
+				dlg.Filter = filter + "|" + LocalizationManager.GetString(
+					"DialogBoxes.Transcription.CreateAnnotationFileDlg.AllFileTypeString",
+					"All Files (*.*)|*.*");
 
 				return (dlg.ShowDialog() != DialogResult.OK ? null :
 					AnnotationFileHelper.CreateFileFromFile(dlg.FileName, _file.PathToAnnotatedFile));

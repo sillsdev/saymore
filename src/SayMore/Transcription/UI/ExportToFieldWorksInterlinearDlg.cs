@@ -37,7 +37,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public ExportToFieldWorksInterlinearDlg(string defaultExportFileName) : this()
 		{
-			FileName = defaultExportFileName + ".xml";
+			FileName = defaultExportFileName + ".flextext";
 		}
 
 		/// ------------------------------------------------------------------------------------

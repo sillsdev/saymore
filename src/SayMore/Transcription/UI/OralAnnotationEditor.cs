@@ -60,11 +60,33 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private ComponentFile AssociatedComponentFile
+		{
+			get
+			{
+				return _file == null ? null :
+					((OralAnnotationComponentFile)_file).AssociatedComponentFile;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override void SetComponentFile(ComponentFile file)
 		{
+			if (AssociatedComponentFile != null)
+			{
+				AssociatedComponentFile.PreGenerateOralAnnotationFileAction = null;
+				AssociatedComponentFile.PostGenerateOralAnnotationFileAction = null;
+			}
+
 			base.SetComponentFile(file);
 			_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
 			_buttonHelp.Enabled = _buttonPlay.Enabled = true;
+
+			AssociatedComponentFile.PreGenerateOralAnnotationFileAction = () =>
+				_oralAnnotationWaveViewer.CloseAudioStream();
+
+			AssociatedComponentFile.PostGenerateOralAnnotationFileAction = () =>
+				_oralAnnotationWaveViewer.LoadAnnotationAudioFile(file.PathToAnnotatedFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,9 +127,9 @@ namespace SayMore.Transcription.UI
 			_oralAnnotationWaveViewer.CloseAudioStream();
 
 			var oralAnnotationfile = (OralAnnotationComponentFile)_file;
-			var textAnnotationFile = oralAnnotationfile.AssociatedComponentFile.GetAnnotationFile();
-			var tier = (TimeTier)textAnnotationFile.Tiers.FirstOrDefault(t => t is TimeTier);
-			OralAnnotationFileGenerator.Generate(tier, this);
+			var eafFile = oralAnnotationfile.AssociatedComponentFile.GetAnnotationFile();
+			var tier = (TimeTier)eafFile.Tiers.FirstOrDefault(t => t is TimeTier);
+			oralAnnotationfile.AssociatedComponentFile.GenerateOralAnnotationFile(tier, this);
 			SetComponentFile(_file);
 			_oralAnnotationWaveViewer.Invalidate(true);
 

@@ -20,8 +20,6 @@ namespace SayMore.Transcription.UI
 
 		public TimeSpan AudioLength { get; private set; }
 
-		//private readonly MediaPlayerViewModel _playerViewModel;
-
 		#region Construction and disposal
 		/// ------------------------------------------------------------------------------------
 		public OralAnnotationWaveViewer()
@@ -30,20 +28,6 @@ namespace SayMore.Transcription.UI
 
 			InitializeComponent();
 			InitializeWaveControl();
-
-			//_playerViewModel = new MediaPlayerViewModel();
-			//_playerViewModel.SetVolume(100);
-
-			//_playerViewModel.PlaybackEnded += delegate
-			//{
-			//    if (PlaybackStopped != null)
-			//    {
-			//        if (InvokeRequired)
-			//            Invoke(PlaybackStopped, this, EventArgs.Empty);
-			//        else
-			//            PlaybackStopped(this, EventArgs.Empty);
-			//    }
-			//};
 
 			Application.Idle += HandleInitialWaveDisplay;
 		}
@@ -94,14 +78,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void LoadAnnotationAudioFile(string filename)
 		{
-			//_playerViewModel.LoadFile(filename);
 			_waveControl.Initialize(filename);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void CloseAudioStream()
 		{
-			//_playerViewModel.ShutdownMPlayerProcess();
 			_waveControl.AutoScrollPosition = new Point(0, AutoScrollPosition.Y);
 			_waveControl.SetCursor(0);
 			_waveControl.CloseStream();
@@ -162,9 +144,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleWavePanelMouseClick(object sender, MouseEventArgs e)
 		{
-			//if (_playerViewModel.HasPlaybackStarted)
-			//    _playerViewModel.Stop();
-
 			if (_waveControl.IsPlaying)
 				_waveControl.Stop();
 
@@ -175,11 +154,6 @@ namespace SayMore.Transcription.UI
 		public void Play()
 		{
 			_waveControl.Play(_waveControl.GetCursorTime());
-
-			////_playerViewModel.SetSpeed(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
-			//_playerViewModel.PlaybackStartPosition = (float)_waveControl.GetCursorTime().TotalSeconds;
-			//_playerViewModel.PlaybackPositionChanged = pos => Invoke((Action<TimeSpan>)(_waveControl.SetCursor), TimeSpan.FromSeconds(pos));
-			//_playerViewModel.Play(true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -187,9 +161,6 @@ namespace SayMore.Transcription.UI
 		{
 			if (_waveControl.IsPlaying)
 				_waveControl.Stop();
-
-			//if (_playerViewModel.HasPlaybackStarted)
-			//    _playerViewModel.Stop();
 		}
 	}
 }

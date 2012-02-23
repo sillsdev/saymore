@@ -286,7 +286,7 @@ namespace SayMore.Transcription.UI
 				if (error == null)
 				{
 					SetComponentFile(file);
-					OralAnnotationFileGenerator.Generate(viewModel.Tiers.GetTimeTier(), this);
+					file.AssociatedComponentFile.GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), this);
 					return;
 				}
 

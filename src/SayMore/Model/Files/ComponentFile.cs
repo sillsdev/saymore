@@ -79,6 +79,8 @@ namespace SayMore.Model.Files
 		public Action PreRenameAction;
 		public Action PostRenameAction;
 		public Action PreDeleteAction;
+		public Action PreGenerateOralAnnotationFileAction;
+		public Action PostGenerateOralAnnotationFileAction;
 
 		protected string _metaDataPath;
 		protected ProjectElement _parentElement;
@@ -723,7 +725,7 @@ namespace SayMore.Model.Files
 
 					viewModel.SaveNewOralAnnoationsInPermanentLocation();
 					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
-					OralAnnotationFileGenerator.Generate(viewModel.Tiers.GetTimeTier(), null);
+					GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), null);
 
 					return eafFileName;
 				}
@@ -733,6 +735,20 @@ namespace SayMore.Model.Files
 						dlg.Dispose();
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GenerateOralAnnotationFile(TimeTier timeTier, Control parentOfProgressPopup)
+		{
+			if (PreGenerateOralAnnotationFileAction != null)
+				PreGenerateOralAnnotationFileAction();
+
+			var filename = OralAnnotationFileGenerator.Generate(timeTier, parentOfProgressPopup);
+
+			if (PostGenerateOralAnnotationFileAction != null)
+				PostGenerateOralAnnotationFileAction();
+
+			return filename;
 		}
 
 		/// ------------------------------------------------------------------------------------

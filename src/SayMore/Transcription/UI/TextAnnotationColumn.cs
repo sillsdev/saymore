@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -12,7 +13,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationColumn(TierBase tier) : base(tier)
 		{
-			//Debug.Assert(tier.DataType == TierType.Text);
+			Debug.Assert(tier is TextTier);
 			DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 		}
 

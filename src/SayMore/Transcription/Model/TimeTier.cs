@@ -104,7 +104,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public int GetIndexOfSegment(Segment segment)
 		{
-			for (int i = 0; i < Segments.Count; i++)
+			for (int i = 0; segment != null && i < Segments.Count; i++)
 			{
 				if (Segments[i].Start.Equals(segment.Start) && Segments[i].End.Equals(segment.End))
 					return i;

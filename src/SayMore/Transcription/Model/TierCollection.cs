@@ -71,6 +71,27 @@ namespace SayMore.Transcription.Model
 			return true;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public BoundaryModificationResult InsertTierSegment(float boundary)
+		{
+			var timeTier = GetTimeTier();
+
+			if (boundary <= 0f || timeTier == null || timeTier.GetSegmentHavingEndBoundary(boundary) != null)
+				return BoundaryModificationResult.SegmentWillBeTooShort;
+
+			var result = timeTier.InsertSegmentBoundary(boundary);
+			if (result == BoundaryModificationResult.Success)
+			{
+				var newSeg = timeTier.GetSegmentHavingEndBoundary(boundary);
+				var i = timeTier.GetIndexOfSegment(newSeg);
+
+				foreach (var tier in this.OfType<TextTier>())
+					tier.Segments.Insert(i, new Segment(tier, string.Empty));
+			}
+
+			return result;
+		}
+
 		#region Methods for Saving tiers to EAF file
 		/// ------------------------------------------------------------------------------------
 		public string Save()

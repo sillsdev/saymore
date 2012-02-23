@@ -76,13 +76,15 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public Exception TryLoadAndReturnException()
 		{
+			var savTiers = Tiers;
+
 			try
 			{
 				Tiers = TierCollection.LoadFromAnnotationFile(PathToAnnotatedFile);
 			}
 			catch (Exception e)
 			{
-				Tiers = new TierCollection();
+				Tiers = savTiers;
 				return e;
 			}
 

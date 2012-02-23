@@ -364,6 +364,13 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void GetIndexOfSegment_SegmentIsNull_ReturnsNegOne()
+		{
+			Assert.AreEqual(-1, _tier.GetIndexOfSegment(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void GetIndexOfSegment_SegmentDoesNotExist_ReturnsNegOne()
 		{
 			Assert.AreEqual(-1, _tier.GetIndexOfSegment(new Segment(null, 9.99f, 20f)));

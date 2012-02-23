@@ -384,7 +384,7 @@ namespace SayMore.Transcription.UI
 
 			if (ViewModel.StopAnnotationRecording())
 			{
-				_waveControl.SegmentBoundaries = ViewModel.SaveNewSegment(_waveControl.GetCursorTime());
+				_waveControl.SegmentBoundaries = ViewModel.InsertNewBoundary(_waveControl.GetCursorTime());
 
 				if (ViewModel.CurrentSegment == null)
 					_waveControl.ClearSelection();

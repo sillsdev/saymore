@@ -38,7 +38,7 @@ namespace SayMore.Transcription.UI
 			{
 				if (_viewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
 				{
-					_waveControl.SegmentBoundaries = ViewModel.SaveNewBoundary(_waveControl.GetCursorTime());
+					_waveControl.SegmentBoundaries = ViewModel.InsertNewBoundary(_waveControl.GetCursorTime());
 					_waveControl.SetSelectedBoundary(_waveControl.GetCursorTime());
 					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 				}
@@ -163,7 +163,7 @@ namespace SayMore.Transcription.UI
 		protected override void FinalizeBoundaryMovedUsingArrowKeys()
 		{
 			var newBoundary = _waveControl.GetSelectedBoundary();
-			ViewModel.SaveNewBoundaryPosition(_timeAtBeginningOfboundaryMove, newBoundary);
+			ViewModel.SaveBoundaryPositionAfterMovedUsingArrowKeys(_timeAtBeginningOfboundaryMove, newBoundary);
 			PlaybackShortPortionUpToBoundary(newBoundary);
 			base.FinalizeBoundaryMovedUsingArrowKeys();
 		}

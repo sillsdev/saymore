@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using SayMore.Model.Files;
 
 namespace SayMore.Transcription.UI.SegmentingAndRecording
@@ -12,16 +11,7 @@ namespace SayMore.Transcription.UI.SegmentingAndRecording
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<TimeSpan> SaveNewBoundary(TimeSpan newBoundary)
-		{
-			if (TimeTier.InsertSegmentBoundary((float)newBoundary.TotalSeconds) == Model.BoundaryModificationResult.Success)
-				SegmentBoundariesChanged = true;
-
-			return GetSegmentEndBoundaries();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SaveNewBoundaryPosition(TimeSpan oldBoundary, TimeSpan newBoundary)
+		public void SaveBoundaryPositionAfterMovedUsingArrowKeys(TimeSpan oldBoundary, TimeSpan newBoundary)
 		{
 			var oldbndry = (float)oldBoundary.TotalSeconds;
 			var newbndry = (float)newBoundary.TotalSeconds;

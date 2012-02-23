@@ -235,15 +235,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<TimeSpan> SaveNewSegment(TimeSpan endTime)
-		{
-			if (TimeTier.InsertSegmentBoundary((float)endTime.TotalSeconds) == BoundaryModificationResult.Success)
-				SegmentBoundariesChanged = true;
-
-			return GetSegmentEndBoundaries();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public void StartAnnotationPlayback()
 		{
 			if (!GetDoesCurrentSegmentHaveAnnotationFile())

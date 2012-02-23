@@ -95,10 +95,15 @@ namespace SayMore.Transcription.UI
 					FileSystemUtils.CreateDirectory(targetFolder);
 
 					var pairs = Directory.GetFiles(sourceFolder, "*.wav", SearchOption.TopDirectoryOnly)
-						.Select(f => new KeyValuePair<string, string>(f, Path.Combine(targetFolder, Path.GetFileName(f))));
+						.Select(f => new KeyValuePair<string, string>(f, Path.Combine(targetFolder, Path.GetFileName(f))))
+						.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-					var model = new CopyFilesViewModel(pairs);
-					model.Start();
+					if (pairs.Count > 0)
+					{
+						var model = new CopyFilesViewModel(pairs);
+						model.Start();
+					}
+
 					return true;
 				}
 				catch (Exception e)
@@ -207,9 +212,20 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public IEnumerable<TimeSpan> InsertNewBoundary(TimeSpan newBoundary)
+		{
+			if (Tiers.InsertTierSegment((float)newBoundary.TotalSeconds) == BoundaryModificationResult.Success)
+				SegmentBoundariesChanged = true;
+
+			return GetSegmentEndBoundaries();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual bool DeleteBoundary(TimeSpan boundary)
 		{
-			if (!TimeTier.RemoveSegmentHavingEndBoundary((float)boundary.TotalSeconds))
+			var seg = TimeTier.GetSegmentHavingEndBoundary((float)boundary.TotalSeconds);
+
+			if (!Tiers.RemoveTierSegments(TimeTier.GetIndexOfSegment(seg)))
 				return false;
 
 			SegmentBoundariesChanged = true;

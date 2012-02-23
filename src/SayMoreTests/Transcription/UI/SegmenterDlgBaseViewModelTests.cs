@@ -222,6 +222,24 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void DeleteBoundary_BoundaryExists_RemovesSegmentFromAllTiers()
+		{
+			var deletedTimeSeg = _model.Tiers[0].Segments[1];
+			var deletedTextSeg = _model.Tiers[1].Segments[1];
+
+			Assert.AreEqual(3, _model.Tiers[0].Segments.Count);
+			Assert.AreEqual(3, _model.Tiers[1].Segments.Count);
+
+			Assert.IsTrue(_model.DeleteBoundary(TimeSpan.FromSeconds(20)));
+
+			Assert.AreEqual(2, _model.Tiers[0].Segments.Count);
+			Assert.AreEqual(2, _model.Tiers[1].Segments.Count);
+			Assert.IsFalse(_model.Tiers[0].Segments.Contains(deletedTimeSeg));
+			Assert.IsFalse(_model.Tiers[1].Segments.Contains(deletedTextSeg));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void CanMoveBoundary_BoundaryNegative_ReturnsFalse()
 		{
 			Assert.IsFalse(_model.CanMoveBoundary(TimeSpan.FromSeconds(20).Negate(), 2000));

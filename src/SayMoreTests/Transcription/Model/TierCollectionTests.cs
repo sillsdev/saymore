@@ -123,6 +123,104 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void InsertTierSegment_BoundaryNegative_ReturnsNotSuccess()
+		{
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(-1f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertTierSegment_BoundaryIsSameAsExisting_ReturnsNotSuccess()
+		{
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(10f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(20f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(30f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(40f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertTierSegment_BoundaryIsTooCloseToPrevious_ReturnsNotSuccess()
+		{
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(10.5f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(30.4f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertTierSegment_BoundaryIsTooCloseToNext_ReturnsNotSuccess()
+		{
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _collection.InsertTierSegment(19.5f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _collection.InsertTierSegment(29.5f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertTierSegment_BoundaryIsBeyonodLast_InsertsAndReturnsSuccess()
+		{
+			var segs = _collection.GetTimeTier().Segments;
+			Assert.AreEqual(3, segs.Count);
+
+			Assert.AreEqual(BoundaryModificationResult.Success, _collection.InsertTierSegment(40.501f));
+			Assert.AreEqual(4, segs.Count);
+			Assert.AreEqual(40f, segs[3].Start);
+			Assert.AreEqual(40.501f, segs[3].End);
+
+			Assert.AreEqual(BoundaryModificationResult.Success, _collection.InsertTierSegment(50f));
+			Assert.AreEqual(5, _collection[0].Segments.Count);
+			Assert.AreEqual(40.501f, segs[4].Start);
+			Assert.AreEqual(50f, segs[4].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertTierSegment_BoundaryIsBetweenExisting_InsertsAndReturnsSuccess()
+		{
+			var segs = _collection.GetTimeTier().Segments;
+			Assert.AreEqual(3, segs.Count);
+			Assert.AreEqual(20f, segs[1].Start);
+			Assert.AreEqual(30f, segs[1].End);
+
+			Assert.AreEqual(BoundaryModificationResult.Success, _collection.InsertTierSegment(25f));
+			Assert.AreEqual(4, segs.Count);
+			Assert.AreEqual(20f, segs[1].Start);
+			Assert.AreEqual(25f, segs[1].End);
+			Assert.AreEqual(25f, segs[2].Start);
+			Assert.AreEqual(30f, segs[2].End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void InsertTierSegment_BoundaryIsBetweenExisting_InsertsInTextTiers()
+		{
+			Assert.AreEqual(3, _collection[0].Segments.Count);
+			Assert.AreEqual(3, _collection[1].Segments.Count);
+			Assert.AreEqual(3, _collection[2].Segments.Count);
+
+			_collection[1].Segments[0].Text = "1a";
+			_collection[1].Segments[1].Text = "2a";
+			_collection[1].Segments[2].Text = "3a";
+			_collection[2].Segments[0].Text = "1b";
+			_collection[2].Segments[1].Text = "2b";
+			_collection[2].Segments[2].Text = "3b";
+
+			Assert.AreEqual(BoundaryModificationResult.Success, _collection.InsertTierSegment(25f));
+
+			Assert.AreEqual(4, _collection[0].Segments.Count);
+			Assert.AreEqual(4, _collection[1].Segments.Count);
+			Assert.AreEqual(4, _collection[2].Segments.Count);
+
+			Assert.AreEqual("1a", _collection[1].Segments[0].Text);
+			Assert.IsEmpty(_collection[1].Segments[1].Text);
+			Assert.AreEqual("2a", _collection[1].Segments[2].Text);
+
+			Assert.AreEqual("1b", _collection[2].Segments[0].Text);
+			Assert.IsEmpty(_collection[2].Segments[1].Text);
+			Assert.AreEqual("2b", _collection[2].Segments[2].Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void GetTimeTier_TierExists_ReturnsIt()
 		{
 			var tier = _collection.GetTimeTier();

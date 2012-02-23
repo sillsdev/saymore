@@ -1,12 +1,15 @@
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
+using SayMore.Transcription.UI.SegmentingAndRecording;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.MediaPlayer;
 using SilTools;
@@ -267,25 +270,32 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleResegmentButtonClick(object sender, EventArgs e)
 		{
-			//var msg = LocalizationManager.GetString("EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Message",
-			//    "Regenerating segments will cause all oral and written annotations to be lost.\n\nAre you sure you want to continue?");
+			var file = ((AnnotationComponentFile)_file);
 
-			//var caption = LocalizationManager.GetString(
-			//    "EventsView.Transcription.TextAnnotationEditor.RegeneratingSegmentsWarning.Caption",
-			//    "Regenerate Segments");
+			using (var viewModel = new ManualSegmenterDlgViewModel(file.AssociatedComponentFile))
+			using (var dlg = new ManualSegmenterDlg(viewModel))
+			{
+				if (dlg.ShowDialog(this) != DialogResult.OK || !viewModel.WereChangesMade)
+					return;
 
-			//if (MessageBox.Show(msg, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
-			//    MessageBoxDefaultButton.Button2) == DialogResult.No)
-			//{
-			//    return;
-			//}
+				HandleBeforeAnnotationFileSaved(null, null);
+				AnnotationFileHelper.Save(file.AssociatedComponentFile.PathToAnnotatedFile, viewModel.Tiers);
+				HandleAfterAnnotationFileSaved(null, null);
 
-			//// TODO: delete oral annoations
+				var error = file.TryLoadAndReturnException();
+				if (error == null)
+				{
+					SetComponentFile(file);
+					OralAnnotationFileGenerator.Generate(viewModel.Tiers.GetTimeTier(), this);
+					return;
+				}
 
-			//Deactivated();
-			//var file = ((AnnotationComponentFile)_file);
-			//file.AssociatedComponentFile.CreateAnnotationFile(null);
-			//SetComponentFile(_file);
+				var msg = LocalizationManager.GetString(
+					"EventsView.Transcription.TextAnnotationEditor.SavingSegmentModificationsErrorMsg",
+					"There was an error while trying to save your segment modifications.");
+
+				ErrorReport.NotifyUserOfProblem(error, msg);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -31,7 +31,6 @@ namespace SayMore.Transcription.UI
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextAnnotationEditor));
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._splitter = new System.Windows.Forms.SplitContainer();
 			this._toolStrip = new System.Windows.Forms.ToolStrip();
@@ -67,7 +66,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayout.RowCount = 2;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayout.Size = new System.Drawing.Size(493, 346);
+			this._tableLayout.Size = new System.Drawing.Size(597, 346);
 			this._tableLayout.TabIndex = 0;
 			// 
 			// _splitter
@@ -79,8 +78,8 @@ namespace SayMore.Transcription.UI
 			this._splitter.Location = new System.Drawing.Point(0, 33);
 			this._splitter.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this._splitter.Name = "_splitter";
-			this._splitter.Size = new System.Drawing.Size(493, 313);
-			this._splitter.SplitterDistance = 160;
+			this._splitter.Size = new System.Drawing.Size(597, 313);
+			this._splitter.SplitterDistance = 193;
 			this._splitter.SplitterWidth = 8;
 			this._splitter.TabIndex = 3;
 			// 
@@ -93,15 +92,15 @@ namespace SayMore.Transcription.UI
 			this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._buttonHelp,
             this._buttonExport,
-            this._buttonRecordings,
-            this._buttonResegment});
+            this._buttonResegment,
+            this._buttonRecordings});
 			this.locExtender.SetLocalizableToolTip(this._toolStrip, null);
 			this.locExtender.SetLocalizationComment(this._toolStrip, null);
 			this.locExtender.SetLocalizationPriority(this._toolStrip, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._toolStrip, "Transcription.UI.TextAnnotationEditor._toolStrip");
 			this._toolStrip.Location = new System.Drawing.Point(191, 0);
 			this._toolStrip.Name = "_toolStrip";
-			this._toolStrip.Size = new System.Drawing.Size(302, 25);
+			this._toolStrip.Size = new System.Drawing.Size(406, 25);
 			this._toolStrip.TabIndex = 1;
 			// 
 			// _buttonHelp
@@ -173,18 +172,16 @@ namespace SayMore.Transcription.UI
 			// _buttonResegment
 			// 
 			this._buttonResegment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this._buttonResegment.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this._buttonResegment.Image = ((System.Drawing.Image)(resources.GetObject("_buttonResegment.Image")));
+			this._buttonResegment.Image = global::SayMore.Properties.Resources.Segment;
 			this._buttonResegment.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.locExtender.SetLocalizableToolTip(this._buttonResegment, "Regenerate Segments");
+			this.locExtender.SetLocalizableToolTip(this._buttonResegment, "Add, remove or move segment boundaries");
 			this.locExtender.SetLocalizationComment(this._buttonResegment, null);
 			this.locExtender.SetLocalizingId(this._buttonResegment, "EventsView.Transcription.TextAnnotationEditor.ResegmentButton");
 			this._buttonResegment.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
 			this._buttonResegment.Name = "_buttonResegment";
-			this._buttonResegment.Size = new System.Drawing.Size(79, 22);
-			this._buttonResegment.Text = "Resegment...";
-			this._buttonResegment.ToolTipText = "Regenerate Segments";
-			this._buttonResegment.Visible = false;
+			this._buttonResegment.Size = new System.Drawing.Size(83, 22);
+			this._buttonResegment.Text = "Segment...";
+			this._buttonResegment.ToolTipText = "Add, remove or move segment boundaries";
 			this._buttonResegment.Click += new System.EventHandler(this.HandleResegmentButtonClick);
 			// 
 			// _tableLayoutPlaybackSpeed
@@ -247,7 +244,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this, "Transcription.UI.TextAnnotationEditor.EditorBase");
 			this.Name = "TextAnnotationEditor";
 			this.Padding = new System.Windows.Forms.Padding(12, 6, 12, 12);
-			this.Size = new System.Drawing.Size(517, 364);
+			this.Size = new System.Drawing.Size(621, 364);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			this._splitter.ResumeLayout(false);

@@ -867,6 +867,7 @@
     <None Include="Resources\MissingAnnotation.png" />
     <None Include="Resources\AddBoundary.png" />
     <None Include="Resources\RegenerateAnnotationFile.png" />
+    <None Include="Resources\Segment.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

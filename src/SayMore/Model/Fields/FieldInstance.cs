@@ -164,7 +164,7 @@ namespace SayMore.Model.Fields
 		/// ------------------------------------------------------------------------------------
 		public bool GetHasMultipleValues()
 		{
-			return (string.IsNullOrEmpty(ValueAsString) ? false : (GetValues().Count() > 1));
+			return (!string.IsNullOrEmpty(ValueAsString) && (GetValues().Count() > 1));
 		}
 
 		/// ------------------------------------------------------------------------------------

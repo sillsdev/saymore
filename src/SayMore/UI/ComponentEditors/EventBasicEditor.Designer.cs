@@ -86,7 +86,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._id, null);
 			this.locExtender.SetLocalizationComment(this._id, null);
 			this.locExtender.SetLocalizationPriority(this._id, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._id, "");
+			this.locExtender.SetLocalizingId(this._id, "EventBasicEditor._id");
 			this._id.Location = new System.Drawing.Point(0, 16);
 			this._id.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._id.Name = "_id";
@@ -120,7 +120,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._title, null);
 			this.locExtender.SetLocalizationComment(this._title, null);
 			this.locExtender.SetLocalizationPriority(this._title, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._title, "");
+			this.locExtender.SetLocalizingId(this._title, "EventBasicEditor._title");
 			this._title.Location = new System.Drawing.Point(0, 63);
 			this._title.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._title.Name = "_title";
@@ -140,7 +140,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._situation, null);
 			this.locExtender.SetLocalizationComment(this._situation, null);
 			this.locExtender.SetLocalizationPriority(this._situation, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._situation, "");
+			this.locExtender.SetLocalizingId(this._situation, "EventBasicEditor._situation");
 			this._situation.Location = new System.Drawing.Point(0, 202);
 			this._situation.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._situation.Multiline = true;
@@ -179,7 +179,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._synopsis, null);
 			this.locExtender.SetLocalizationComment(this._synopsis, null);
 			this.locExtender.SetLocalizationPriority(this._synopsis, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._synopsis, "");
+			this.locExtender.SetLocalizingId(this._synopsis, "EventBasicEditor._synopsis");
 			this._synopsis.Location = new System.Drawing.Point(212, 202);
 			this._synopsis.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._synopsis.Multiline = true;
@@ -255,7 +255,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._participants, null);
 			this.locExtender.SetLocalizationComment(this._participants, null);
 			this.locExtender.SetLocalizationPriority(this._participants, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._participants, "");
+			this.locExtender.SetLocalizingId(this._participants, "EventBasicEditor.MultiValueComboBox");
 			this._participants.Location = new System.Drawing.Point(0, 109);
 			this._participants.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._participants.Name = "_participants";
@@ -305,7 +305,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._access, null);
 			this.locExtender.SetLocalizationComment(this._access, null);
 			this.locExtender.SetLocalizationPriority(this._access, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._access, "");
+			this.locExtender.SetLocalizingId(this._access, "EventBasicEditor._access");
 			this._access.Location = new System.Drawing.Point(212, 156);
 			this._access.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._access.Name = "_access";
@@ -340,7 +340,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._genre, null);
 			this.locExtender.SetLocalizationComment(this._genre, null);
 			this.locExtender.SetLocalizationPriority(this._genre, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._genre, "");
+			this.locExtender.SetLocalizingId(this._genre, "EventBasicEditor._genre");
 			this._genre.Location = new System.Drawing.Point(0, 156);
 			this._genre.Margin = new System.Windows.Forms.Padding(0, 3, 5, 3);
 			this._genre.Name = "_genre";
@@ -375,7 +375,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._location, null);
 			this.locExtender.SetLocalizationComment(this._location, null);
 			this.locExtender.SetLocalizationPriority(this._location, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._location, "");
+			this.locExtender.SetLocalizingId(this._location, "EventBasicEditor._location");
 			this._location.Location = new System.Drawing.Point(212, 109);
 			this._location.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._location.Name = "_location";
@@ -410,7 +410,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelParticipants.Location = new System.Drawing.Point(0, 93);
 			this._labelParticipants.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
 			this._labelParticipants.Name = "_labelParticipants";
-			this._labelParticipants.Size = new System.Drawing.Size(67, 13);
+			this._labelParticipants.Size = new System.Drawing.Size(42, 13);
 			this._labelParticipants.TabIndex = 10;
 			this._labelParticipants.Text = "People";
 			// 
@@ -443,7 +443,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._setting, null);
 			this.locExtender.SetLocalizationComment(this._setting, null);
 			this.locExtender.SetLocalizationPriority(this._setting, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._setting, "");
+			this.locExtender.SetLocalizingId(this._setting, "EventBasicEditor._setting");
 			this._setting.Location = new System.Drawing.Point(212, 63);
 			this._setting.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._setting.Name = "_setting";
@@ -508,7 +508,7 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._status, null);
 			this.locExtender.SetLocalizationComment(this._status, null);
 			this.locExtender.SetLocalizationPriority(this._status, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._status, "");
+			this.locExtender.SetLocalizingId(this._status, "EventBasicEditor._status");
 			this._status.Location = new System.Drawing.Point(314, 16);
 			this._status.Margin = new System.Windows.Forms.Padding(4, 3, 3, 3);
 			this._status.Name = "_status";
@@ -527,10 +527,9 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._date, null);
 			this.locExtender.SetLocalizationComment(this._date, null);
 			this.locExtender.SetLocalizationPriority(this._date, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._date, "");
+			this.locExtender.SetLocalizingId(this._date, "EventBasicEditor._date");
 			this._date.Location = new System.Drawing.Point(212, 16);
 			this._date.Margin = new System.Windows.Forms.Padding(5, 3, 2, 3);
-			this._date.MinDate = new System.DateTime(1960, 1, 1, 0, 0, 0, 0);
 			this._date.Name = "_date";
 			this._date.Size = new System.Drawing.Size(96, 22);
 			this._date.TabIndex = 3;
@@ -546,7 +545,8 @@ namespace SayMore.UI.ComponentEditors
 			this.Controls.Add(this._tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "");
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "EventBasicEditor.EditorBase");
 			this.Name = "EventBasicEditor";
 			this.Size = new System.Drawing.Size(429, 400);
 			this._tableLayout.ResumeLayout(false);

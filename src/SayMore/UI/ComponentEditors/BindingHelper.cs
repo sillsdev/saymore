@@ -168,6 +168,8 @@ namespace SayMore.UI.ComponentEditors
 
 			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
 				((ComboBox)ctrl).SelectedValueChanged -= HandleBoundComboValueChanged;
+			if (ctrl is DateTimePicker)
+				((DateTimePicker)ctrl).ValueChanged -= HandleDateValueChanged;
 			else
 				ctrl.Validating -= HandleValidatingControl;
 
@@ -177,8 +179,11 @@ namespace SayMore.UI.ComponentEditors
 
 			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
 				((ComboBox)ctrl).SelectedValueChanged += HandleBoundComboValueChanged;
+			if (ctrl is DateTimePicker)
+				((DateTimePicker)ctrl).ValueChanged += HandleDateValueChanged;
 			else
 				ctrl.Validating += HandleValidatingControl;
+
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -188,6 +193,8 @@ namespace SayMore.UI.ComponentEditors
 
 			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
 				((ComboBox)ctrl).SelectedValueChanged -= HandleBoundComboValueChanged;
+			if (ctrl is DateTimePicker)
+				((DateTimePicker)ctrl).ValueChanged -= HandleDateValueChanged;
 			else
 				ctrl.Validating -= HandleValidatingControl;
 
@@ -278,6 +285,12 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleDateValueChanged(object sender, EventArgs e)
+		{
+			HandleValidatingControl(sender, new CancelEventArgs());
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleValidatingControl(object sender, CancelEventArgs e)
 		{
 			var ctrl = (Control)sender;
@@ -289,7 +302,15 @@ namespace SayMore.UI.ComponentEditors
 				TranslateBoundValueBeingSaved(this, ctrl, out newValue));
 
 			if (!gotNewValueFromDelegate)
+			{
 				newValue = ctrl.Text.Trim();
+
+				//NB: we're doing a plain old-fashioned "parse" here because the editor is showing
+				// it in the user's local culture, that's fine. But internally, we want to deal
+				// only in DateTimes where possible, and in ISO8601 where strings are necessary.
+				if (key == "date")
+					newValue = DateTime.Parse(newValue, CultureInfo.CurrentCulture).ToISO8601DateOnlyString();
+			}
 
 			// Don't bother doing anything if the old value is the same as the new value.
 			var oldValue = ComponentFile.GetStringValue(key, null);
@@ -299,14 +320,6 @@ namespace SayMore.UI.ComponentEditors
 			string failureMessage;
 
 			ComponentFile.MetadataValueChanged -= HandleValueChangedOutsideBinder;
-
-			if (key == "date")
-			{
-				//NB: we're doing a plain old-fashioned "parse" here because the editor is showing it in the user's local culture,
-				//that's fine.  But internally, we want to deal only in DateTimes where possible, and in ISO8601 where strings
-				//are necessary.
-				newValue = DateTime.Parse(newValue, CultureInfo.CurrentCulture).ToISO8601DateOnlyString();
-			}
 
 			newValue = (_componentFileIdControl == ctrl ?
 				ComponentFile.TryChangeChangeId(newValue, out failureMessage) :

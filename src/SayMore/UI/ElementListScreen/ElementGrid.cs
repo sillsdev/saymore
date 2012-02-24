@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
+using Palaso.Extensions;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SilTools;
@@ -336,7 +337,19 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual object GetValueForField(ProjectElement element, string fieldName)
 		{
-			return element.MetaDataFile.GetStringValue(fieldName, string.Empty);
+			var value = element.MetaDataFile.GetStringValue(fieldName, string.Empty);
+
+			if (fieldName != "date" || string.IsNullOrEmpty(value))
+				return value;
+
+			try
+			{
+				return DateTimeExtensions.ParseDateTimePermissivelyWithException(value).ToShortDateString();
+			}
+			catch
+			{
+				return value;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,3 +1,5 @@
+using SayMore.UI.LowLevelControls;
+
 namespace SayMore.UI.ComponentEditors
 {
 	partial class EventBasicEditor
@@ -53,7 +55,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelDate = new System.Windows.Forms.Label();
 			this._labelStatus = new System.Windows.Forms.Label();
 			this._status = new System.Windows.Forms.ComboBox();
-			this._date = new System.Windows.Forms.DateTimePicker();
+			this._date = new DatePicker();
 			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
 			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
@@ -568,7 +570,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TextBox _synopsis;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private System.Windows.Forms.Label _labelStatus;
-		private System.Windows.Forms.DateTimePicker _date;
+		private DatePicker _date;
 		private System.Windows.Forms.Label _labelParticipants;
 		private System.Windows.Forms.Label _labelSituation;
 		private System.Windows.Forms.Label _labelSetting;

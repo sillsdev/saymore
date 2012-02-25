@@ -90,7 +90,7 @@ namespace SayMore.UI.ComponentEditors
 		private static IEnumerable<Type> GetExtendedTypes()
 		{
 			yield return typeof(TextBox);
-			yield return typeof(DateTimePicker);
+			yield return typeof(DatePicker);
 			yield return typeof(ComboBox);
 			yield return typeof(MultiValueComboBox);
 		}
@@ -118,7 +118,7 @@ namespace SayMore.UI.ComponentEditors
 			// Do this just in case this is being called from outside the initialize
 			// components method and after the component file has been set.
 			if (!bind)
-				UnBindControl(ctrl);
+				UnBindControl(ctrl, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ namespace SayMore.UI.ComponentEditors
 
 			foreach (var ctrl in _boundControls)
 			{
-				ctrl.Font = SystemFonts.IconTitleFont;
+				ctrl.Font = SystemFonts.MenuFont;
 				BindControl(ctrl);
 			}
 		}
@@ -163,49 +163,42 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void BindControl(Control ctrl)
 		{
+			UnBindControl(ctrl, false);
+
 			if (!_boundControls.Contains(ctrl))
 				_boundControls.Add(ctrl);
 
-			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
-				((ComboBox)ctrl).SelectedValueChanged -= HandleBoundComboValueChanged;
-			if (ctrl is DateTimePicker)
-				((DateTimePicker)ctrl).ValueChanged -= HandleDateValueChanged;
-			else
-				ctrl.Validating -= HandleValidatingControl;
-
-			ctrl.Disposed -= HandleDisposed;
 			UpdateControlValueFromField(ctrl);
 			ctrl.Disposed += HandleDisposed;
 
 			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
 				((ComboBox)ctrl).SelectedValueChanged += HandleBoundComboValueChanged;
-			if (ctrl is DateTimePicker)
-				((DateTimePicker)ctrl).ValueChanged += HandleDateValueChanged;
+			else if (ctrl is DatePicker)
+				((DatePicker)ctrl).ValueChanged += HandleDateValueChanged;
 			else
 				ctrl.Validating += HandleValidatingControl;
-
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UnBindControl(Control ctrl)
+		private void UnBindControl(Control ctrl, bool removeFromBoundControlCollection)
 		{
 			ctrl.Disposed -= HandleDisposed;
 
 			if (ctrl is ComboBox && ((ComboBox)ctrl).DropDownStyle == ComboBoxStyle.DropDownList)
 				((ComboBox)ctrl).SelectedValueChanged -= HandleBoundComboValueChanged;
-			if (ctrl is DateTimePicker)
-				((DateTimePicker)ctrl).ValueChanged -= HandleDateValueChanged;
+			else if (ctrl is DatePicker)
+				((DatePicker)ctrl).ValueChanged -= HandleDateValueChanged;
 			else
 				ctrl.Validating -= HandleValidatingControl;
 
-			if (_boundControls != null && _boundControls.Contains(ctrl))
+			if (removeFromBoundControlCollection &&  _boundControls != null && _boundControls.Contains(ctrl))
 				_boundControls.Remove(ctrl);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleDisposed(object sender, EventArgs e)
 		{
-			UnBindControl(sender as Control);
+			UnBindControl(sender as Control, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -243,8 +236,9 @@ namespace SayMore.UI.ComponentEditors
 			{
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
 					new Palaso.Reporting.ShowOncePerSessionBasedOnExactMessagePolicy(), error,
-					"SayMore had a problem displaying the {0}, which had a value of {1}. You should report this problem to the developers by clicking 'Details' below.",
-					key, stringValue);
+						"SayMore had a problem displaying the {0}, which had a value of {1}. " +
+						"You should report this problem to the developers by clicking 'Details' below.",
+						key, stringValue);
 			}
 		}
 
@@ -279,13 +273,13 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleBoundComboValueChanged(object sender, EventArgs e)
+		private void HandleDateValueChanged(object sender, EventArgs e)
 		{
 			HandleValidatingControl(sender, new CancelEventArgs());
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleDateValueChanged(object sender, EventArgs e)
+		private void HandleBoundComboValueChanged(object sender, EventArgs e)
 		{
 			HandleValidatingControl(sender, new CancelEventArgs());
 		}
@@ -303,13 +297,18 @@ namespace SayMore.UI.ComponentEditors
 
 			if (!gotNewValueFromDelegate)
 			{
-				newValue = ctrl.Text.Trim();
-
-				//NB: we're doing a plain old-fashioned "parse" here because the editor is showing
-				// it in the user's local culture, that's fine. But internally, we want to deal
-				// only in DateTimes where possible, and in ISO8601 where strings are necessary.
-				if (key == "date")
-					newValue = DateTime.Parse(newValue, CultureInfo.CurrentCulture).ToISO8601DateOnlyString();
+				if (key != "date")
+					newValue = ctrl.Text.Trim();
+				else
+				{
+					//NB: we're doing a plain old-fashioned "parse" here because the editor is showing
+					// it in the user's local culture, that's fine. But internally, we want to deal
+					// only in DateTimes where possible, and in ISO8601 where strings are necessary.
+					if (ctrl is DatePicker)
+						newValue = ((DatePicker)ctrl).GetISO8601DateValueOrNull();
+					else
+						newValue = DateTime.Parse(newValue, CultureInfo.CurrentCulture).ToISO8601DateOnlyString();
+				}
 			}
 
 			// Don't bother doing anything if the old value is the same as the new value.
@@ -327,7 +326,7 @@ namespace SayMore.UI.ComponentEditors
 
 			ComponentFile.MetadataValueChanged += HandleValueChangedOutsideBinder;
 
-			if (!gotNewValueFromDelegate)
+			if (!gotNewValueFromDelegate && key != "date")
 				ctrl.Text = newValue;
 
 			if (failureMessage != null)

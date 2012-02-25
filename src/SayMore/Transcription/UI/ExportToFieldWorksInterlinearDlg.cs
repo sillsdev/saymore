@@ -136,7 +136,7 @@ namespace SayMore.Transcription.UI
 
 				dlg.Filter = LocalizationManager.GetString(
 					"DialogBoxes.Transcription.ExportToFieldWorksInterlinearDlg.ExportSaveFileDlg.FileTypeString",
-					"FLEx Interlinear XML (*.xml)|*.xml|All Files (*.*)|*.*");
+					"FLEx Interlinear (*.flextext)|*.flextext|All Files (*.*)|*.*");
 
 				dlg.FileName = FileName;
 				dlg.OverwritePrompt = true;

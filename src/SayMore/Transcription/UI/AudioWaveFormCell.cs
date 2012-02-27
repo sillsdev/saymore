@@ -10,24 +10,76 @@ namespace SayMore.Transcription.UI
 	{
 		private static Image s_hotPlayButtonImage;
 		private static Image s_hotStopButtonImage;
-		private readonly Size _buttonSize = Properties.Resources.PlaySegment.Size;
+		private static Image s_playButtonImage;
+		private static Image s_stopButtonImage;
+
 		private TextAnnotationEditorGrid _grid;
 		private bool _mouseIsOverButtonArea;
 		private bool _playButtonVisible;
 
 		/// ------------------------------------------------------------------------------------
+		public AudioWaveFormCell()
+		{
+			if (s_playButtonImage == null)
+				s_playButtonImage = CreateMediaControlImage(Properties.Resources.PlaySegment);
+
+			if (s_stopButtonImage == null)
+				s_stopButtonImage = CreateMediaControlImage(Properties.Resources.StopSegment);
+
+			if (s_hotPlayButtonImage == null)
+				s_hotPlayButtonImage = PaintingHelper.MakeHotImage(s_playButtonImage);
+
+			if (s_hotStopButtonImage == null)
+				s_hotStopButtonImage = PaintingHelper.MakeHotImage(s_stopButtonImage);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Image CreateMediaControlImage(Image img)
+		{
+			var bmp = new Bitmap(img.Width + 6, img.Height + 6);
+
+			using (var br = new SolidBrush(Color.FromArgb(255, Color.White)))
+			using (var g = Graphics.FromImage(bmp))
+			{
+				g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+				g.FillEllipse(br, 0, 0, img.Width + 5, img.Width + 5);
+				g.DrawImage(img, 3, 3, img.Width, img.Height);
+			}
+
+			return bmp;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnDataGridViewChanged()
 		{
 			base.OnDataGridViewChanged();
+
+			if (_grid != null)
+				HandleGridHandleDestoryed(null, null);
+
 			_grid = DataGridView as TextAnnotationEditorGrid;
+
+			if (_grid != null)
+			{
+				_grid.CellMouseLeave += HandleGridCellMouseLeave;
+				_grid.HandleDestroyed += HandleGridHandleDestoryed;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleGridHandleDestoryed(object sender, EventArgs e)
+		{
+			_grid.CellMouseLeave -= HandleGridCellMouseLeave;
+			_grid.HandleDestroyed -= HandleGridHandleDestoryed;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private Rectangle GetButtonRectangle(Rectangle rcCell)
 		{
-			var rc = new Rectangle(new Point(0, 0), _buttonSize);
+			var rc = new Rectangle(new Point(0, 0), s_playButtonImage.Size);
 			rc.X = rcCell.Right - rc.Width - 3;
-			rc.Y = rcCell.Y + (int)Math.Round((rcCell.Height - rc.Height) / 2d, MidpointRounding.AwayFromZero);
+			rc.Y = rcCell.Y + (int)Math.Floor((rcCell.Height - rc.Height) / 2d);
 			return rc;
 		}
 
@@ -42,26 +94,30 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private Image GetButtonImageToDraw()
 		{
-			if (s_hotPlayButtonImage == null)
-				s_hotPlayButtonImage = PaintingHelper.MakeHotImage(Properties.Resources.PlaySegment);
-
-			if (s_hotStopButtonImage == null)
-				s_hotStopButtonImage = PaintingHelper.MakeHotImage(Properties.Resources.StopSegment);
-
-			if (_grid.PlayerViewModel.IsPlayButtonVisible)
+			if (!_grid.PlaybackInProgress)
 			{
 				_playButtonVisible = true;
-				return (_mouseIsOverButtonArea ? s_hotPlayButtonImage : Properties.Resources.PlaySegment);
+				return (_mouseIsOverButtonArea ? s_hotPlayButtonImage : s_playButtonImage);
 			}
 
 			_playButtonVisible = false;
-			return (_mouseIsOverButtonArea ? s_hotStopButtonImage : Properties.Resources.StopSegment);
+			return (_mouseIsOverButtonArea ? s_hotStopButtonImage : s_stopButtonImage);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override object DefaultNewRowValue
 		{
 			get { return null; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleGridCellMouseLeave(object sender, DataGridViewCellEventArgs e)
+		{
+			if (!_grid.Disposing && !_grid.IsDisposed && e.ColumnIndex == ColumnIndex && e.RowIndex == RowIndex)
+			{
+				_mouseIsOverButtonArea = false;
+				_grid.InvalidateCell(this);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

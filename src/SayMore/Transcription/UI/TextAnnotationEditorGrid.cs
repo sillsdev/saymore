@@ -17,9 +17,11 @@ namespace SayMore.Transcription.UI
 		public Func<Segment> SegmentProvider;
 		public Func<string> MediaFileProvider;
 		public MediaPlayerViewModel PlayerViewModel { get; private set; }
+		public bool PlaybackInProgress { get; private set; }
 
 		private AnnotationComponentFile _annotationFile;
 		private bool _mediaFileNeedsLoading = true;
+		private bool _autoResizingRowInProgress;
 		private Action _playbackProgressReportingAction;
 
 		private System.Threading.Timer _delayBeginRowPlayingTimer;
@@ -31,7 +33,7 @@ namespace SayMore.Transcription.UI
 			Margin = new Padding(0);
 			VirtualMode = true;
 			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None; // AllCellsExceptHeaders;
 			AllowUserToResizeRows = false;
 			EditMode = DataGridViewEditMode.EditOnEnter;
 			ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
@@ -46,6 +48,20 @@ namespace SayMore.Transcription.UI
 			PlayerViewModel.Loop = true;
 
 			SetPlaybackProgressReportAction(null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnRowHeightInfoNeeded(DataGridViewRowHeightInfoNeededEventArgs e)
+		{
+			base.OnRowHeightInfoNeeded(e);
+
+			if (_autoResizingRowInProgress)
+				return;
+
+			_autoResizingRowInProgress = true;
+			AutoResizeRow(e.RowIndex);
+			e.Height = Math.Max(Rows[e.RowIndex].Height, 25);
+			_autoResizingRowInProgress = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -267,11 +283,13 @@ namespace SayMore.Transcription.UI
 			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));
 			PlayerViewModel.Play();
+			PlaybackInProgress = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Stop()
 		{
+			PlaybackInProgress = false;
 			DisableTimer();
 			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;

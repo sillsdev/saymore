@@ -22,6 +22,7 @@ namespace SayMore.Transcription.UI
 		private AnnotationComponentFile _annotationFile;
 		private bool _mediaFileNeedsLoading = true;
 		private bool _autoResizingRowInProgress;
+		private int _annotationPlaybackLoopCount;
 		private Action _playbackProgressReportingAction;
 
 		private System.Threading.Timer _delayBeginRowPlayingTimer;
@@ -45,7 +46,6 @@ namespace SayMore.Transcription.UI
 			PlayerViewModel = new MediaPlayerViewModel();
 			PlayerViewModel.SetVolume(100);
 			PlayerViewModel.SetSpeed(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
-			PlayerViewModel.Loop = true;
 
 			SetPlaybackProgressReportAction(null);
 		}
@@ -277,19 +277,22 @@ namespace SayMore.Transcription.UI
 					SegmentProvider().Start, SegmentProvider().GetLength());
 			}
 
+			PlaybackInProgress = true;
+
 			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));
+			PlayerViewModel.Loop = true;
 			PlayerViewModel.Play();
-			PlaybackInProgress = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Stop()
 		{
 			PlaybackInProgress = false;
+
 			DisableTimer();
 			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
@@ -300,6 +303,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlaybackEnded(object sender, bool EndedBecauseEOF)
 		{
+			if (EndedBecauseEOF)
+			{
+				if (_annotationPlaybackLoopCount++ == 4)
+				{
+					PlaybackInProgress = false;
+					_annotationPlaybackLoopCount = 0;
+					PlayerViewModel.Loop = false;
+				}
+			}
+
 			if (InvokeRequired)
 				Invoke(_playbackProgressReportingAction);
 			else

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,19 +14,16 @@ namespace SayMore.Transcription.UI
 
 		//private CheckBoxColumnHeaderHandler _chkBoxColHdrHandler;
 		//private DateTime _lastShiftKeyPress;
-		//private Control _gridEditControl;
+		private Control _gridEditControl;
 
 		/// ------------------------------------------------------------------------------------
 		public AudioWaveFormColumn(TierBase tier) : base(new AudioWaveFormCell(), tier)
 		{
-			//Debug.Assert(tier.DataType == TierType.Audio || tier.DataType == TierType.TimeOrder);
+			Debug.Assert(tier.TierType == TierType.Time);
 			ReadOnly = true;
 
 			DefaultCellStyle.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 7f);
 			DefaultCellStyle.ForeColor = ColorHelper.CalculateColor(Color.White, DefaultCellStyle.ForeColor, 85);
-
-			//if (Tier.GetAllSegments().Count() > 0)
-			//    CurrentSegment = Tier.GetSegment(0) as ITimeOrderSegment;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -48,22 +46,6 @@ namespace SayMore.Transcription.UI
 		//    get { return _chkBoxColHdrHandler.HeadersCheckState == CheckState.Checked; }
 		//}
 
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnDataGridViewChanged()
-		//{
-		//    base.OnDataGridViewChanged();
-
-		//    if (_chkBoxColHdrHandler != null)
-		//        _chkBoxColHdrHandler.Dispose();
-
-		//    if (DataGridView != null)
-		//    {
-		//        _chkBoxColHdrHandler = new CheckBoxColumnHeaderHandler(DataGridView, Index);
-		//        _chkBoxColHdrHandler.CheckBoxAlignment = System.Windows.Forms.VisualStyles.ContentAlignment.Right;
-		//        _chkBoxColHdrHandler.HeadersCheckState = CheckState.Checked;
-		//    }
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		protected override void SubscribeToGridEvents()
 		{
@@ -74,19 +56,19 @@ namespace SayMore.Transcription.UI
 
 			//_grid.PlaybackSpeedChanged += HandlePlaybackSpeedChanged;
 
-			//_grid.KeyDown += HandleKeyDown;
+			_grid.KeyDown += HandleKeyDown;
 
-			//_grid.EditingControlShowing += (s, e) =>
-			//{
-			//    _gridEditControl = e.Control;
-			//    _gridEditControl.KeyDown += HandleKeyDown;
-			//};
+			_grid.EditingControlShowing += (s, e) =>
+			{
+				_gridEditControl = e.Control;
+				_gridEditControl.KeyDown += HandleKeyDown;
+			};
 
-			//_grid.CellEndEdit += (s, e) =>
-			//{
-			//    _gridEditControl.KeyDown -= HandleKeyDown;
-			//    _gridEditControl = null;
-			//};
+			_grid.CellEndEdit += (s, e) =>
+			{
+				_gridEditControl.KeyDown -= HandleKeyDown;
+				_gridEditControl = null;
+			};
 
 			base.SubscribeToGridEvents();
 		}
@@ -94,6 +76,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UnsubscribeToGridEvents()
 		{
+			_grid.KeyDown -= HandleKeyDown;
 			_grid.CurrentRowChanged -= HandleCurrentRowChanged;
 			_grid.SetPlaybackProgressReportAction(null);
 			base.UnsubscribeToGridEvents();
@@ -130,18 +113,18 @@ namespace SayMore.Transcription.UI
 				_grid.InvalidateCell(Index, _grid.CurrentCellAddress.Y);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//void HandleKeyDown(object sender, KeyEventArgs e)
-		//{
-		//    //if (!e.Shift)
-		//    //    return;
+		/// ------------------------------------------------------------------------------------
+		void HandleKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode != Keys.F2)
+				return;
 
-		//    //if (DateTime.Now.Subtract(_lastShiftKeyPress).Milliseconds > 250)
-		//    //    _lastShiftKeyPress = DateTime.Now;
-		//    //else
-		//    //{
-		//    //    _player.Play();
-		//    //}
-		//}
+			if (_grid.PlaybackInProgress)
+				_grid.Stop();
+			else
+				_grid.Play();
+
+			_grid.InvalidateCell(Index, _grid.CurrentCellAddress.Y);
+		}
 	}
 }

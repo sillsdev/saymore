@@ -390,5 +390,11 @@
     <Setting Name="EventRecorderDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="TranscriptionPlaybackType" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="TranslationPlaybackType" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -236,6 +236,7 @@
       <DependentUpon>StartAnnotatingEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Transcription\UI\TextAnnotationColumn.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationColumnWithMenu.cs" />
     <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -246,6 +247,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Transcription\UI\TierColumnBase.cs" />
+    <Compile Include="Transcription\UI\TranscriptionAnnotationColumn.cs" />
+    <Compile Include="Transcription\UI\TranslationAnnotationColumn.cs" />
     <Compile Include="UI\Archiving\ArchivingDlg.cs">
       <SubType>Form</SubType>
     </Compile>

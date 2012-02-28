@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NAudio.Wave;
@@ -12,12 +11,6 @@ using SayMore.UI.Utilities;
 
 namespace SayMore.Transcription.UI
 {
-	public enum OralAnnotationType
-	{
-		Careful,
-		Translation
-	}
-
 	/// ----------------------------------------------------------------------------------------
 	public class OralAnnotationRecorderDlgViewModel : SegmenterDlgBaseViewModel
 	{

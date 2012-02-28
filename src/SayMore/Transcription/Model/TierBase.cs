@@ -12,6 +12,14 @@ namespace SayMore.Transcription.Model
 		FreeTranslation,
 	}
 
+	[FlagsAttribute]
+	public enum OralAnnotationType
+	{
+		Original = 1,
+		Careful = 2,
+		Translation = 4
+	}
+
 	/// ----------------------------------------------------------------------------------------
 	public class SegmentCollection : Collection<Segment>
 	{

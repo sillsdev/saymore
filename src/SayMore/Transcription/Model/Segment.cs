@@ -1,8 +1,7 @@
 
 using System;
-using System.Drawing;
+using System.IO;
 using SayMore.UI.MediaPlayer;
-using SilTools;
 
 namespace SayMore.Transcription.Model
 {
@@ -66,51 +65,25 @@ namespace SayMore.Transcription.Model
 				MidpointRounding.AwayFromZero);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public string GetCarefulSpeechFileName()
-		//{
-		//    return string.Format(Settings.Default.OralAnnotationSegmentFileFormat,
-		//        (float)Start.TotalSeconds, (float)End.TotalSeconds,
-		//        Settings.Default.OralAnnotationCarefulSegmentFileAffix);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//public string GetOralTranslationFileName()
-		//{
-		//    return string.Format(Settings.Default.OralAnnotationSegmentFileFormat,
-		//        (float)Start.TotalSeconds, (float)End.TotalSeconds,
-		//        Settings.Default.OralAnnotationTranslationSegmentFileAffix);
-		//}
-
 		/// ------------------------------------------------------------------------------------
-		public void DrawPlaybackProgressBar(Graphics g, Rectangle rectangle,
-			float playbackPosition, Color baseBackColor)
+		public string GetPathToCarefulSpeechFile()
 		{
-			InternalDrawPlaybackProgressBar(g, rectangle,
-				playbackPosition, baseBackColor, Start, End, GetLength(1));
+			if (Tier == null || Tier.TierType != TierType.Time)
+				return null;
+
+			return Path.Combine(((TimeTier)Tier).SegmentFileFolder,
+				TimeTier.ComputeFileNameForCarefulSpeechSegment(this));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private static void InternalDrawPlaybackProgressBar(Graphics g, Rectangle rectangle,
-			float playbackPosition, Color baseBackColor, float start, float end, float length)
-		{
-			// Draw bar indicating playback progress.
-			var rc = rectangle;
+		///// ------------------------------------------------------------------------------------
+		//public string GetPathToOralTranslationFile()
+		//{
+		//    if (Tier == null || Tier.TierType != TierType.Time)
+		//        return null;
 
-			if (playbackPosition < Math.Round(end, 1, MidpointRounding.AwayFromZero))
-			{
-				var pixelsPerSec = rc.Width / length;
-				rc.Width = (int)Math.Ceiling(pixelsPerSec * (playbackPosition - start));
-			}
-
-			if (rc.Width <= 0)
-				return;
-
-			rc.Height -= 6;
-			rc.Y += 3;
-			using (var br = new SolidBrush(ColorHelper.CalculateColor(Color.White, baseBackColor, 110)))
-				g.FillRectangle(br, rc);
-		}
+		//    return Path.Combine(((TimeTier)Tier).SegmentFileFolder,
+		//        TimeTier.ComputeFileNameForOralTranslationSegment(this));
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()

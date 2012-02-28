@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
+using System.IO;
 using System.Windows.Forms;
 using SayMore.Transcription.Model;
 using SilTools;
@@ -10,6 +11,8 @@ namespace SayMore.Transcription.UI
 {
 	public class AudioWaveFormColumn : TierColumnBase
 	{
+		public OralAnnotationType PlaybackAnnotationType { get; private set; }
+
 		protected bool _mediaFileNeedsLoading = true;
 
 		//private CheckBoxColumnHeaderHandler _chkBoxColHdrHandler;
@@ -24,6 +27,8 @@ namespace SayMore.Transcription.UI
 
 			DefaultCellStyle.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 7f);
 			DefaultCellStyle.ForeColor = ColorHelper.CalculateColor(Color.White, DefaultCellStyle.ForeColor, 85);
+
+			PlaybackAnnotationType = OralAnnotationType.Careful;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,14 +90,44 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleCurrentRowChanged(object sender, EventArgs e)
 		{
-			_grid.SegmentProvider = GetCurrentSegment;
-			_grid.MediaFileProvider = (() => ((TimeTier)Tier).MediaFileName);
+			_grid.AnnotationPlaybackInfoProvider = (() => GetAnnotationMediaInfo());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<AnnotationPlaybackInfo> GetAnnotationMediaInfo()
+		{
+			var carefulSpeechFile = GetCurrentSegment().GetPathToCarefulSpeechFile();
+
+			if ((PlaybackAnnotationType & OralAnnotationType.Original) == OralAnnotationType.Original)
+				yield return GetOriginalAnnotationPlaybackInfo();
+
+			if ((PlaybackAnnotationType & OralAnnotationType.Careful) == OralAnnotationType.Careful &&
+				File.Exists(carefulSpeechFile))
+			{
+				yield return new AnnotationPlaybackInfo { MediaFile = carefulSpeechFile };
+			}
+			else if (PlaybackAnnotationType == OralAnnotationType.Careful)
+				yield return GetOriginalAnnotationPlaybackInfo();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private AnnotationPlaybackInfo GetOriginalAnnotationPlaybackInfo()
+		{
+			var segment = GetCurrentSegment();
+
+			return new AnnotationPlaybackInfo
+			{
+				MediaFile = ((TimeTier)Tier).MediaFileName,
+				Start = segment.Start,
+				End = segment.End,
+				Length = segment.GetLength(1)
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public Segment GetCurrentSegment()
 		{
-			return Tier.Segments.ElementAt(_grid.CurrentCellAddress.Y);
+			return Tier.Segments[_grid.CurrentCellAddress.Y];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,7 +138,7 @@ namespace SayMore.Transcription.UI
 			if (e.ColumnIndex != Index)
 				return;
 
-			e.Value = Tier.Segments.ElementAt(e.RowIndex);
+			e.Value = Tier.Segments[e.RowIndex];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,5 +161,14 @@ namespace SayMore.Transcription.UI
 
 			_grid.InvalidateCell(Index, _grid.CurrentCellAddress.Y);
 		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	public class AnnotationPlaybackInfo
+	{
+		public string MediaFile;
+		public float Start;
+		public float End;
+		public float Length;
 	}
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -15,12 +17,12 @@ namespace SayMore.Transcription.UI
 	public class TextAnnotationEditorGrid : SilGrid
 	{
 		public Func<Segment> SegmentProvider;
-		public Func<string> MediaFileProvider;
+		public Func<IEnumerable<AnnotationPlaybackInfo>> AnnotationPlaybackInfoProvider;
 		public MediaPlayerViewModel PlayerViewModel { get; private set; }
 		public bool PlaybackInProgress { get; private set; }
 
 		private AnnotationComponentFile _annotationFile;
-		private bool _mediaFileNeedsLoading = true;
+		private List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
 		private bool _autoResizingRowInProgress;
 		private int _annotationPlaybackLoopCount;
 		private Action _playbackProgressReportingAction;
@@ -90,9 +92,6 @@ namespace SayMore.Transcription.UI
 
 			AutoResizeColumnHeadersHeight();
 			ColumnHeadersHeight += 8;
-
-			if (MediaFileProvider != null)
-				PlayerViewModel.LoadFile(MediaFileProvider());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -223,9 +222,6 @@ namespace SayMore.Transcription.UI
 		{
 			Stop();
 
-			if (CurrentCellAddress.Y >= 0)
-				_mediaFileNeedsLoading = true;
-
 			base.OnCurrentRowChanged(e);
 
 			if (CurrentCellAddress.Y < 0 || (!Focused && (EditingControl == null || !EditingControl.Focused)))
@@ -263,6 +259,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void Play()
 		{
+			Play(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Play(bool resetLoopCounter)
+		{
 			if (RowCount == 0)
 				return;
 
@@ -271,20 +273,36 @@ namespace SayMore.Transcription.UI
 			if (PlayerViewModel.HasPlaybackStarted)
 				Stop();
 
-			if (_mediaFileNeedsLoading && MediaFileProvider != null && SegmentProvider != null)
-			{
-				PlayerViewModel.LoadFile(MediaFileProvider(),
-					SegmentProvider().Start, SegmentProvider().GetLength());
-			}
+			if (resetLoopCounter)
+				_annotationPlaybackLoopCount = 0;
 
+			Debug.Assert(AnnotationPlaybackInfoProvider != null);
+			_mediaFileQueue = AnnotationPlaybackInfoProvider().ToList();
+			InternalPlay();
 			PlaybackInProgress = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InternalPlay()
+		{
+			if (_mediaFileQueue.Count == 0)
+				return;
 
 			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
-			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
+
+			if (_mediaFileQueue[0].Length > 0f)
+				PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile, _mediaFileQueue[0].Start, _mediaFileQueue[0].Length);
+			else
+			{
+				PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile);
+				_mediaFileQueue[0].End = PlayerViewModel.GetTotalMediaDuration();
+				_mediaFileQueue[0].Length = _mediaFileQueue[0].End;
+			}
+
+			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));
-			PlayerViewModel.Loop = true;
 			PlayerViewModel.Play();
 		}
 
@@ -292,31 +310,41 @@ namespace SayMore.Transcription.UI
 		public void Stop()
 		{
 			PlaybackInProgress = false;
+			_annotationPlaybackLoopCount = 0;
 
 			DisableTimer();
 			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = null;
 			PlayerViewModel.Stop();
+			_mediaFileQueue.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaPlaybackEnded(object sender, bool EndedBecauseEOF)
 		{
-			if (EndedBecauseEOF)
-			{
-				if (_annotationPlaybackLoopCount++ == 4)
-				{
-					PlaybackInProgress = false;
-					_annotationPlaybackLoopCount = 0;
-					PlayerViewModel.Loop = false;
-				}
-			}
-
 			if (InvokeRequired)
 				Invoke(_playbackProgressReportingAction);
 			else
 				_playbackProgressReportingAction();
+
+			if (!EndedBecauseEOF)
+				return;
+
+			_mediaFileQueue.RemoveAt(0);
+
+			if (_mediaFileQueue.Count > 0)
+				InternalPlay();
+			else if (_annotationPlaybackLoopCount++ < 4)
+				Play(false);
+			else
+			{
+				PlaybackInProgress = false;
+				if (InvokeRequired)
+					Invoke(_playbackProgressReportingAction);
+				else
+					_playbackProgressReportingAction();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -326,6 +354,31 @@ namespace SayMore.Transcription.UI
 				Invoke(_playbackProgressReportingAction);
 			else
 				_playbackProgressReportingAction();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DrawPlaybackProgressBar(Graphics g, Rectangle rc, Color baseBackColor)
+		{
+			if (_mediaFileQueue.Count == 0 || !PlaybackInProgress)
+				return;
+
+			var playbackPosition = PlayerViewModel.CurrentPosition;
+			if (playbackPosition.Equals(0f))
+				return;
+
+			var start = _mediaFileQueue[0].Start;
+			var end = _mediaFileQueue[0].End;
+			var length = Math.Round(end - start, 1, MidpointRounding.AwayFromZero);
+			var pixelsPerSec = rc.Width / length;
+			rc.Width = (int)Math.Ceiling(pixelsPerSec * (playbackPosition - start));
+
+			if (rc.Width <= 0)
+				return;
+
+			rc.Height -= 6;
+			rc.Y += 3;
+			using (var br = new SolidBrush(ColorHelper.CalculateColor(Color.White, baseBackColor, 110)))
+				g.FillRectangle(br, rc);
 		}
 
 		#endregion

@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using SayMore.Transcription.Model;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -181,12 +180,7 @@ namespace SayMore.Transcription.UI
 			if (_grid.CurrentCellAddress.Y != rowIndex || rowIndex < 0)
 				return;
 
-			var segment = value as Segment;
-			if (segment != null && !_playButtonVisible && _grid.PlayerViewModel.HasPlaybackStarted)
-			{
-				segment.DrawPlaybackProgressBar(g, cellBounds,
-					_grid.PlayerViewModel.CurrentPosition, cellStyle.SelectionBackColor);
-			}
+			_grid.DrawPlaybackProgressBar(g, cellBounds, cellStyle.SelectionBackColor);
 
 			// Now draw the cell's text.
 			paintParts = DataGridViewPaintParts.ContentForeground;
@@ -197,5 +191,6 @@ namespace SayMore.Transcription.UI
 			// Draw the play or stop button.
 			g.DrawImage(GetButtonImageToDraw(), GetButtonRectangle(cellBounds));
 		}
+
 	}
 }

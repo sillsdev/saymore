@@ -84,7 +84,7 @@ namespace SayMore.Transcription.UI
 		public virtual void SetTier(TierBase tier)
 		{
 			Tier = tier;
-			Name = Tier.DisplayName.Replace(" ", string.Empty);
+			Name = Tier.Id.Replace(" ", string.Empty);
 			HeaderText = Tier.DisplayName;
 		}
 

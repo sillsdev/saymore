@@ -208,12 +208,12 @@ namespace SayMoreTests.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		private void CreateTestTier()
 		{
-			var tier = new TextTier(TextTier.TranscriptionTierName) { TierType = TierType.Transcription };
+			var tier = new TextTier(TextTier.ElanTranscriptionTierId);
 			tier.AddSegment("up");
 			tier.AddSegment("down");
 			tier.AddSegment("over");
 
-			var dependentTier = new TextTier(TextTier.SayMoreFreeTranslationTierName) { TierType = TierType.FreeTranslation };
+			var dependentTier = new TextTier(TextTier.ElanTranslationTierId);
 			dependentTier.AddSegment("in");
 			dependentTier.AddSegment("around");
 			dependentTier.AddSegment("through");

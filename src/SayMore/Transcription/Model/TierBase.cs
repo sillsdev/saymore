@@ -32,13 +32,13 @@ namespace SayMore.Transcription.Model
 
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Implements a generic tier used to derive other tier types.
+	/// Implements a generic tier from which to derive other tier types.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public abstract class TierBase
 	{
 		public virtual SegmentCollection Segments { get; protected set; }
-		public virtual string DisplayName { get; protected set; }
+		public virtual string Id { get; protected set; }
 		public virtual string Locale { get; protected set; }
 		public virtual TierColumnBase GridColumn { get; protected set; }
 		public virtual TierType TierType { get; set; }
@@ -51,14 +51,20 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected TierBase(string displayName, Func<TierBase, TierColumnBase> tierColumnProvider) : this()
+		protected TierBase(string id, Func<TierBase, TierColumnBase> tierColumnProvider) : this()
 		{
-			DisplayName = displayName;
+			Id = id;
 			TierType = TierType.Other;
 			Locale = "ipa-ext";
 
 			if (tierColumnProvider != null)
 				GridColumn = tierColumnProvider(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual string DisplayName
+		{
+			get { return Id; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,32 +86,6 @@ namespace SayMore.Transcription.Model
 		{
 			throw new NotImplementedException();
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//public virtual bool IsTimeTier
-		//{
-		//    get { return false; }
-		//    set { }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//public virtual bool IsTextTranscriptionTier
-		//{
-		//    get { return false; }
-		//    set { }
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		//public virtual void AddDependentTier(ITier tier)
-		//{
-		//    _dependentTiers.Add(tier);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//public virtual void AddDependentTierRange(IEnumerable<ITier> tiers)
-		//{
-		//    _dependentTiers.AddRange(tiers);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual bool RemoveSegment(int index)

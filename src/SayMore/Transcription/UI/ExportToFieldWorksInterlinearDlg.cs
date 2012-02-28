@@ -46,10 +46,10 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 
 			_labelTranscriptionColumnHeadingText.Text =
-				string.Format(_labelTranscriptionColumnHeadingText.Text, TextTier.TranscriptionTierName);
+				string.Format(_labelTranscriptionColumnHeadingText.Text, TextTier.ElanTranscriptionTierId);
 
 			_labelFreeTranslationColumnHeadingText.Text =
-				string.Format(_labelFreeTranslationColumnHeadingText.Text, TextTier.SayMoreFreeTranslationTierName);
+				string.Format(_labelFreeTranslationColumnHeadingText.Text, TextTier.FreeTranslationTierDisplayName);
 
 			_labelOverview.Font = SystemFonts.MenuFont;
 			_labelTranscriptionColumnHeadingText.Font = SystemFonts.MenuFont;

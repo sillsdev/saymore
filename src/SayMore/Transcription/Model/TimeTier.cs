@@ -73,7 +73,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		protected override TierBase GetNewTierInstance()
 		{
-			return new TimeTier(DisplayName, MediaFileName);
+			return new TimeTier(Id, MediaFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------

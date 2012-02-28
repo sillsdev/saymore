@@ -29,8 +29,8 @@ namespace SayMore.Transcription.Model
 		{
 			AnnotatedMediaFile = annotatedMediaFile;
 			Add(new TimeTier(annotatedMediaFile));
-			Add(new TextTier(TextTier.TranscriptionTierName) { TierType = TierType.Transcription });
-			Add(new TextTier(TextTier.SayMoreFreeTranslationTierName) { TierType = TierType.FreeTranslation });
+			Add(new TextTier(TextTier.ElanTranscriptionTierId));
+			Add(new TextTier(TextTier.ElanTranslationTierId));
 		}
 
 		/// ------------------------------------------------------------------------------------

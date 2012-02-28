@@ -10,22 +10,62 @@ namespace SayMore.Transcription.Model
 	/// ----------------------------------------------------------------------------------------
 	public class TextTier : TierBase
 	{
-		public const string TranscriptionTierName = "Transcription";
-		public const string ElanFreeTranslationTierName = "Phrase Free Translation";
+		public const string ElanTranscriptionTierId = "Transcription";
+		public const string ElanTranslationTierId = "Phrase Free Translation";
 
-		public static string SayMoreFreeTranslationTierName =
-			LocalizationManager.GetString("EventsView.Transcription.TierNames.FreeTranslation", "Free Translation");
+		public static string TranscriptionTierDisplayName =
+			LocalizationManager.GetString("EventsView.Transcription.TierDisplayNames.Transcription", "Transcription");
+
+		public static string FreeTranslationTierDisplayName =
+			LocalizationManager.GetString("EventsView.Transcription.TierDisplayNames.FreeTranslation", "Free Translation");
+
+		protected TierColumnBase _gridColumn;
 
 		/// ------------------------------------------------------------------------------------
-		public TextTier(string displayName) : base(displayName, tier => new TextAnnotationColumn(tier))
+		public TextTier(string id) : base(id, tier => AnnotationColumnProvider(id, tier))
 		{
 			LinguisticType = "Translation";
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private static TierColumnBase AnnotationColumnProvider(string id, TierBase tier)
+		{
+			if (id == ElanTranscriptionTierId)
+				return new TranscriptionAnnotationColumn(tier);
+
+			return id == ElanTranslationTierId ?
+				new TranslationAnnotationColumn(tier) :
+				new TextAnnotationColumn(tier);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string DisplayName
+		{
+			get
+			{
+				if (Id == ElanTranscriptionTierId)
+					return TranscriptionTierDisplayName;
+
+				if (Id == ElanTranslationTierId)
+					return FreeTranslationTierDisplayName;
+
+				return base.DisplayName;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override TierType TierType
 		{
-			get { return base.TierType; }
+			get
+			{
+				if (Id == ElanTranscriptionTierId)
+					return TierType.Transcription;
+
+				if (Id == ElanTranslationTierId)
+					return TierType.FreeTranslation;
+
+				return base.TierType;
+			}
 			set
 			{
 				base.TierType = value;
@@ -37,7 +77,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		protected override TierBase GetNewTierInstance()
 		{
-			return new TextTier(DisplayName);
+			return new TextTier(Id);
 		}
 
 		/// ------------------------------------------------------------------------------------

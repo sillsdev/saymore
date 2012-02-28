@@ -385,8 +385,8 @@ namespace SayMoreTests.Transcription.Model
 			LoadEafFile();
 			var tierElements = _helper.GetDependentTiersElements().ToList();
 			Assert.AreEqual(1, tierElements.Count);
-			Assert.AreEqual(TextTier.TranscriptionTierName, tierElements[0].Attribute("PARENT_REF").Value);
-			Assert.AreEqual(TextTier.ElanFreeTranslationTierName, tierElements[0].Attribute("TIER_ID").Value);
+			Assert.AreEqual(TextTier.ElanTranscriptionTierId, tierElements[0].Attribute("PARENT_REF").Value);
+			Assert.AreEqual(TextTier.ElanTranslationTierId, tierElements[0].Attribute("TIER_ID").Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -396,7 +396,7 @@ namespace SayMoreTests.Transcription.Model
 			LoadEafFile(false);
 			var list = _helper.GetDependentTiersElements().ToList();
 			Assert.AreEqual(2, list.Count);
-			Assert.AreEqual(TextTier.ElanFreeTranslationTierName, list[0].Attribute("TIER_ID").Value);
+			Assert.AreEqual(TextTier.ElanTranslationTierId, list[0].Attribute("TIER_ID").Value);
 			Assert.AreEqual("User Defined Tier", list[1].Attribute("TIER_ID").Value);
 		}
 
@@ -579,13 +579,13 @@ namespace SayMoreTests.Transcription.Model
 			foreach (var e in _helper.Root.Elements("TIER"))
 				Assert.Greater(e.Elements().Count(), 0);
 
-			_helper.RemoveTiersAnnotations(TextTier.TranscriptionTierName);
+			_helper.RemoveTiersAnnotations(TextTier.ElanTranscriptionTierId);
 
 			Assert.IsFalse(_helper.Root.Elements("TIER")
-				.First(e => e.Attribute("TIER_ID").Value == TextTier.TranscriptionTierName).HasElements);
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanTranscriptionTierId).HasElements);
 
 			Assert.IsTrue(_helper.Root.Elements("TIER")
-				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanFreeTranslationTierName).HasElements);
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanTranslationTierId).HasElements);
 
 			Assert.IsTrue(_helper.Root.Elements("TIER")
 				.First(e => e.Attribute("TIER_ID").Value == "User Defined Tier").HasElements);
@@ -600,13 +600,13 @@ namespace SayMoreTests.Transcription.Model
 			foreach (var e in _helper.Root.Elements("TIER"))
 				Assert.Greater(e.Elements().Count(), 0);
 
-			_helper.RemoveTiersAnnotations(TextTier.ElanFreeTranslationTierName);
+			_helper.RemoveTiersAnnotations(TextTier.ElanTranslationTierId);
 
 			Assert.IsTrue(_helper.Root.Elements("TIER")
-				.First(e => e.Attribute("TIER_ID").Value == TextTier.TranscriptionTierName).HasElements);
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanTranscriptionTierId).HasElements);
 
 			Assert.IsFalse(_helper.Root.Elements("TIER")
-				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanFreeTranslationTierName).HasElements);
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanTranslationTierId).HasElements);
 
 			Assert.IsTrue(_helper.Root.Elements("TIER")
 				.First(e => e.Attribute("TIER_ID").Value == "User Defined Tier").HasElements);
@@ -624,10 +624,10 @@ namespace SayMoreTests.Transcription.Model
 			_helper.RemoveTiersAnnotations("User Defined Tier");
 
 			Assert.IsTrue(_helper.Root.Elements("TIER")
-				.First(e => e.Attribute("TIER_ID").Value == TextTier.TranscriptionTierName).HasElements);
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanTranscriptionTierId).HasElements);
 
 			Assert.IsTrue(_helper.Root.Elements("TIER")
-				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanFreeTranslationTierName).HasElements);
+				.First(e => e.Attribute("TIER_ID").Value == TextTier.ElanTranslationTierId).HasElements);
 
 			Assert.IsFalse(_helper.Root.Elements("TIER")
 				.First(e => e.Attribute("TIER_ID").Value == "User Defined Tier").HasElements);
@@ -638,7 +638,7 @@ namespace SayMoreTests.Transcription.Model
 		public void GetTranscriptionTierIds_NoTranscriptionAnnotations_ReturnsEmptyList()
 		{
 			LoadEafFile(false);
-			_helper.RemoveTiersAnnotations(TextTier.TranscriptionTierName);
+			_helper.RemoveTiersAnnotations(TextTier.ElanTranscriptionTierId);
 			Assert.IsEmpty(_helper.GetTranscriptionTierIds().ToArray());
 		}
 
@@ -730,7 +730,7 @@ namespace SayMoreTests.Transcription.Model
 			LoadEafFile(false);
 
 			_helper.RemoveTimeSlots();
-			_helper.RemoveTiersAnnotations(TextTier.TranscriptionTierName);
+			_helper.RemoveTiersAnnotations(TextTier.ElanTranscriptionTierId);
 
 			var elements = _helper.GetTranscriptionTierAnnotations().Select(kvp => kvp.Value).ToArray();
 			Assert.AreEqual(0, elements.Length);
@@ -777,10 +777,10 @@ namespace SayMoreTests.Transcription.Model
 		{
 			LoadEafFile(false);
 
-			_helper.RemoveTiersAnnotations(TextTier.ElanFreeTranslationTierName);
+			_helper.RemoveTiersAnnotations(TextTier.ElanTranslationTierId);
 
-			_helper.SaveDependentAnnotationValue(TextTier.TranscriptionTierName,
-				TextTier.ElanFreeTranslationTierName, null);
+			_helper.SaveDependentAnnotationValue(TextTier.ElanTranscriptionTierId,
+				TextTier.ElanTranslationTierId, null);
 
 			var dependents = _helper.GetDependentTiersElements().ToArray();
 			var elements = _helper.GetDependentTierAnnotationElements(dependents[0]);
@@ -793,10 +793,10 @@ namespace SayMoreTests.Transcription.Model
 		{
 			LoadEafFile(false);
 
-			_helper.RemoveTiersAnnotations(TextTier.ElanFreeTranslationTierName);
+			_helper.RemoveTiersAnnotations(TextTier.ElanTranslationTierId);
 
-			_helper.SaveDependentAnnotationValue(TextTier.TranscriptionTierName,
-				TextTier.ElanFreeTranslationTierName, "Bear the cat");
+			_helper.SaveDependentAnnotationValue(TextTier.ElanTranscriptionTierId,
+				TextTier.ElanTranslationTierId, "Bear the cat");
 
 			var dependents = _helper.GetDependentTiersElements().ToArray();
 			var elements = _helper.GetDependentTierAnnotationElements(dependents[0]);

@@ -18,8 +18,8 @@ namespace SayMoreTests.Transcription.Model
 			_collection = new TierCollection("annotatedBlah");
 			_collection.Clear();
 			_collection.Add(new TimeTier("timeTier", "timeTierFilename"));
-			_collection.Add(new TextTier(TextTier.TranscriptionTierName) { TierType = TierType.Transcription });
-			_collection.Add(new TextTier(TextTier.ElanFreeTranslationTierName) { TierType = TierType.FreeTranslation });
+			_collection.Add(new TextTier(TextTier.ElanTranscriptionTierId));
+			_collection.Add(new TextTier(TextTier.ElanTranslationTierId));
 			_collection.Add(new TextTier("otherTextTier"));
 
 			((TimeTier)_collection[0]).AddSegment(10f, 20f);
@@ -241,7 +241,7 @@ namespace SayMoreTests.Transcription.Model
 		public void GetTranscriptionTier_TierExists_ReturnsIt()
 		{
 			var tier = _collection.GetTranscriptionTier();
-			Assert.AreEqual(TextTier.TranscriptionTierName, tier.DisplayName);
+			Assert.AreEqual(TextTier.ElanTranscriptionTierId, tier.DisplayName);
 			Assert.AreEqual(TierType.Transcription, tier.TierType);
 		}
 
@@ -258,7 +258,7 @@ namespace SayMoreTests.Transcription.Model
 		public void GetFreeTranslationTier_TierExists_ReturnsIt()
 		{
 			var tier = _collection.GetFreeTranslationTier();
-			Assert.AreEqual(TextTier.ElanFreeTranslationTierName, tier.DisplayName);
+			Assert.AreEqual(TextTier.ElanTranslationTierId, tier.Id);
 			Assert.AreEqual(TierType.FreeTranslation, tier.TierType);
 		}
 
@@ -294,7 +294,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			var tiers = _collection.GetDependentTextTiers().ToArray();
 			Assert.AreEqual(2, tiers.Length);
-			Assert.AreEqual(TextTier.ElanFreeTranslationTierName, tiers[0].DisplayName);
+			Assert.AreEqual(TextTier.ElanTranslationTierId, tiers[0].Id);
 			Assert.AreEqual("otherTextTier", tiers[1].DisplayName);
 			Assert.AreEqual(TierType.FreeTranslation, tiers[0].TierType);
 			Assert.AreEqual(TierType.Other, tiers[1].TierType);

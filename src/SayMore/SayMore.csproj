@@ -176,8 +176,6 @@
     <Compile Include="Transcription\Model\OralAnnotationFileGenerator.cs" />
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
-    <Compile Include="Transcription\UI\AudioWaveFormCell.cs" />
-    <Compile Include="Transcription\UI\AudioWaveFormColumn.cs" />
     <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -235,20 +233,22 @@
     <Compile Include="Transcription\UI\StartAnnotatingEditor.designer.cs">
       <DependentUpon>StartAnnotatingEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\TextAnnotationColumn.cs" />
-    <Compile Include="Transcription\UI\TextAnnotationColumnWithMenu.cs" />
     <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Transcription\UI\TextAnnotationEditor.designer.cs">
       <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\TextAnnotationEditorGrid.cs">
+    <Compile Include="Transcription\UI\TextAnnotationGrid\AudioWaveFormCell.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationGrid\AudioWaveFormColumn.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationGrid\TextAnnotationColumn.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationGrid\TextAnnotationColumnWithMenu.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationGrid\TextAnnotationEditorGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Transcription\UI\TierColumnBase.cs" />
-    <Compile Include="Transcription\UI\TranscriptionAnnotationColumn.cs" />
-    <Compile Include="Transcription\UI\TranslationAnnotationColumn.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationGrid\TierColumnBase.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationGrid\TranscriptionAnnotationColumn.cs" />
+    <Compile Include="Transcription\UI\TextAnnotationGrid\TranslationAnnotationColumn.cs" />
     <Compile Include="UI\Archiving\ArchivingDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -460,6 +460,12 @@
       <DependentUpon>MediaPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MediaPlayer\MediaPlayerViewModel.cs" />
+    <Compile Include="UI\MediaPlayer\MPlayerDebuggingOutputWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MediaPlayer\MPlayerDebuggingOutputWindow.Designer.cs">
+      <DependentUpon>MPlayerDebuggingOutputWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\MediaPlayer\VideoPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -658,6 +664,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LowLevelControls\ProgressControl.resx">
       <DependentUpon>ProgressControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MediaPlayer\MPlayerDebuggingOutputWindow.resx">
+      <DependentUpon>MPlayerDebuggingOutputWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\NewEventsFromFiles\NewEventsFromFilesDlg.resx">
       <DependentUpon>NewEventsFromFilesDlg.cs</DependentUpon>
@@ -917,6 +926,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

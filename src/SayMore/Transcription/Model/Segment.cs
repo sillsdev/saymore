@@ -75,15 +75,15 @@ namespace SayMore.Transcription.Model
 				TimeTier.ComputeFileNameForCarefulSpeechSegment(this));
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public string GetPathToOralTranslationFile()
-		//{
-		//    if (Tier == null || Tier.TierType != TierType.Time)
-		//        return null;
+		/// ------------------------------------------------------------------------------------
+		public string GetPathToOralTranslationFile()
+		{
+			if (Tier == null || Tier.TierType != TierType.Time)
+				return null;
 
-		//    return Path.Combine(((TimeTier)Tier).SegmentFileFolder,
-		//        TimeTier.ComputeFileNameForOralTranslationSegment(this));
-		//}
+			return Path.Combine(((TimeTier)Tier).SegmentFileFolder,
+				TimeTier.ComputeFileNameForOralTranslationSegment(this));
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()

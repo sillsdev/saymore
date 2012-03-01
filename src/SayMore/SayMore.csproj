@@ -176,17 +176,29 @@
     <Compile Include="Transcription\Model\OralAnnotationFileGenerator.cs" />
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
+    <Compile Include="Transcription\UI\ComponentEditors\OralAnnotationEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\ComponentEditors\OralAnnotationEditor.designer.cs">
+      <DependentUpon>OralAnnotationEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\ComponentEditors\StartAnnotatingEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\ComponentEditors\StartAnnotatingEditor.designer.cs">
+      <DependentUpon>StartAnnotatingEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transcription\UI\ComponentEditors\TextAnnotationEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\ComponentEditors\TextAnnotationEditor.designer.cs">
+      <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.Designer.cs">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Transcription\UI\OralAnnotationEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\OralAnnotationEditor.designer.cs">
-      <DependentUpon>OralAnnotationEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Transcription\UI\OralAnnotationWaveViewer.cs">
       <SubType>UserControl</SubType>
@@ -227,18 +239,6 @@
       <DependentUpon>SegmenterDlgBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Transcription\UI\SegmentingAndRecording\SegmenterDlgBaseViewModel.cs" />
-    <Compile Include="Transcription\UI\StartAnnotatingEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\StartAnnotatingEditor.designer.cs">
-      <DependentUpon>StartAnnotatingEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Transcription\UI\TextAnnotationEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Transcription\UI\TextAnnotationEditor.designer.cs">
-      <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Transcription\UI\TextAnnotationGrid\AudioWaveFormCell.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\AudioWaveFormColumn.cs" />
     <Compile Include="Transcription\UI\TextAnnotationGrid\TextAnnotationColumn.cs" />
@@ -580,11 +580,17 @@
     <EmbeddedResource Include="Transcription\UI\AutoSegmenterDlg.resx">
       <DependentUpon>AutoSegmenterDlg.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\ComponentEditors\OralAnnotationEditor.resx">
+      <DependentUpon>OralAnnotationEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\ComponentEditors\StartAnnotatingEditor.resx">
+      <DependentUpon>StartAnnotatingEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\ComponentEditors\TextAnnotationEditor.resx">
+      <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\ExportToFieldWorksInterlinearDlg.resx">
       <DependentUpon>ExportToFieldWorksInterlinearDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\OralAnnotationEditor.resx">
-      <DependentUpon>OralAnnotationEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\OralAnnotationWaveViewer.resx">
       <DependentUpon>OralAnnotationWaveViewer.cs</DependentUpon>
@@ -603,13 +609,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\SegmentingAndRecording\SegmenterDlgBase.resx">
       <DependentUpon>SegmenterDlgBase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\StartAnnotatingEditor.resx">
-      <DependentUpon>StartAnnotatingEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transcription\UI\TextAnnotationEditor.resx">
-      <DependentUpon>TextAnnotationEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Archiving\ArchivingDlg.resx">
       <DependentUpon>ArchivingDlg.cs</DependentUpon>

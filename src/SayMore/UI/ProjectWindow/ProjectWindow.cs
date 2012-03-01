@@ -13,6 +13,7 @@ using Palaso.IO;
 using Palaso.Media;
 using Palaso.Reporting;
 using SayMore.Properties;
+using SayMore.UI.MediaPlayer;
 using SilTools;
 
 namespace SayMore.UI.ProjectWindow
@@ -28,6 +29,7 @@ namespace SayMore.UI.ProjectWindow
 
 		private readonly string _projectName;
 		private readonly IEnumerable<ICommand> _commands;
+		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
 
 		public bool UserWantsToOpenADifferentProject { get; set; }
 
@@ -164,6 +166,22 @@ namespace SayMore.UI.ProjectWindow
 				Settings.Default.UserInterfaceLanguage = dlg.UILanguage;
 				LocalizationManager.SetUILanguage(dlg.UILanguage, true);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleProjectMenuOpening(object sender, EventArgs e)
+		{
+			_menuShowMPlayerDebugWindow.Visible =
+				(_outputDebuggingWindow == null && (int)(ModifierKeys & Keys.Shift) > 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleShowMPlayerDebugWindowMenuClick(object sender, EventArgs e)
+		{
+			_outputDebuggingWindow = new MPlayerDebuggingOutputWindow();
+			_outputDebuggingWindow.FormClosed += delegate { _outputDebuggingWindow = null; };
+			_outputDebuggingWindow.Disposed += delegate { _outputDebuggingWindow = null; };
+			_outputDebuggingWindow.Show();
 		}
 
 		/// ------------------------------------------------------------------------------------

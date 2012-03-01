@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 using Palaso.Reporting;
 using Localization;
@@ -29,6 +30,8 @@ namespace SayMore.UI.MediaPlayer
 		private StreamWriter _stdIn;
 		private float _prevPostion;
 		private MPlayerOutputLogForm _formMPlayerOutputLog;
+		private MPlayerDebuggingOutputWindow _outputDebuggingWindow;
+
 		private System.Threading.Timer _loopDelayTimer;
 
 		#region Construction and initialization
@@ -282,6 +285,9 @@ namespace SayMore.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		private void StartPlayback(bool resampleToMono)
 		{
+			_outputDebuggingWindow = Application.OpenForms.Cast<Form>()
+				.FirstOrDefault(f => f is MPlayerDebuggingOutputWindow) as MPlayerDebuggingOutputWindow;
+
 			if (_loopDelayTimer != null)
 			{
 				_loopDelayTimer.Dispose();
@@ -302,12 +308,21 @@ namespace SayMore.UI.MediaPlayer
 			var args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition,
 				PlaybackLength, Volume, Speed, resampleToMono, videoWindowHandle);
 
-			_mplayerProcess = MPlayerHelper.StartProcessToMonitor(args, HandleErrorDataReceived, HandleErrorDataReceived);
-			_mplayerStartInfo.AppendLine("Command Line:");
-			_mplayerStartInfo.Append(_mplayerProcess.StartInfo.FileName);
-			_mplayerStartInfo.Append(" ");
-			_mplayerStartInfo.AppendLine(_mplayerProcess.StartInfo.Arguments);
-			_mplayerStartInfo.AppendLine();
+			_mplayerProcess = MPlayerHelper.StartProcessToMonitor(args,
+				HandleErrorDataReceived, HandleErrorDataReceived);
+
+			if (_outputDebuggingWindow != null)
+			{
+				_mplayerStartInfo.Length = 0;
+				_mplayerStartInfo.AppendLine("*** COMMAND LINE:");
+				_mplayerStartInfo.Append(_mplayerProcess.StartInfo.FileName);
+				_mplayerStartInfo.Append(" ");
+				_mplayerStartInfo.AppendLine(_mplayerProcess.StartInfo.Arguments);
+				_mplayerStartInfo.Append("*** MEDIA FILE: ");
+				_mplayerStartInfo.AppendLine(MediaFile);
+				_mplayerStartInfo.AppendLine();
+				_outputDebuggingWindow.AddText(_mplayerStartInfo.ToString());
+			}
 
 			_mplayerProcess.MediaFileName = MediaFile;
 			_stdIn = _mplayerProcess.StandardInput;
@@ -518,8 +533,11 @@ namespace SayMore.UI.MediaPlayer
 			if (_queueingInProgress)
 				return;
 
-			if (_formMPlayerOutputLog != null)
-				_formMPlayerOutputLog.UpdateLogDisplay(data);
+			if (_outputDebuggingWindow != null)
+				_outputDebuggingWindow.AddText(data);
+
+			//if (_formMPlayerOutputLog != null)
+			//    _formMPlayerOutputLog.UpdateLogDisplay(data);
 
 			if (data.StartsWith("A: "))
 			{

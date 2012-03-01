@@ -11,13 +11,8 @@ namespace SayMore.Transcription.UI
 {
 	public class AudioWaveFormColumn : TierColumnBase
 	{
-		public OralAnnotationType PlaybackAnnotationType { get; private set; }
-
 		protected bool _mediaFileNeedsLoading = true;
-
-		//private CheckBoxColumnHeaderHandler _chkBoxColHdrHandler;
-		//private DateTime _lastShiftKeyPress;
-		private Control _gridEditControl;
+		protected Control _gridEditControl;
 
 		/// ------------------------------------------------------------------------------------
 		public AudioWaveFormColumn(TierBase tier) : base(new AudioWaveFormCell(), tier)
@@ -27,8 +22,6 @@ namespace SayMore.Transcription.UI
 
 			DefaultCellStyle.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 7f);
 			DefaultCellStyle.ForeColor = ColorHelper.CalculateColor(Color.White, DefaultCellStyle.ForeColor, 85);
-
-			PlaybackAnnotationType = OralAnnotationType.Careful;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -45,18 +38,12 @@ namespace SayMore.Transcription.UI
 			}
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public bool IsColumnChecked
-		//{
-		//    get { return _chkBoxColHdrHandler.HeadersCheckState == CheckState.Checked; }
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		protected override void SubscribeToGridEvents()
 		{
 			//_grid.Leave += HandleGridLeave;
 			//_grid.Enter += HandleGridEnter;
-			_grid.CurrentRowChanged += HandleCurrentRowChanged;
+			_grid.CellEnter += HandleCellEnter;
 			_grid.SetPlaybackProgressReportAction(() => _grid.InvalidateCell(Index, _grid.CurrentCellAddress.Y));
 
 			//_grid.PlaybackSpeedChanged += HandlePlaybackSpeedChanged;
@@ -82,32 +69,41 @@ namespace SayMore.Transcription.UI
 		protected override void UnsubscribeToGridEvents()
 		{
 			_grid.KeyDown -= HandleKeyDown;
-			_grid.CurrentRowChanged -= HandleCurrentRowChanged;
+			_grid.CellEnter -= HandleCellEnter;
 			_grid.SetPlaybackProgressReportAction(null);
 			base.UnsubscribeToGridEvents();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleCurrentRowChanged(object sender, EventArgs e)
+		private void HandleCellEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			_grid.AnnotationPlaybackInfoProvider = (() => GetAnnotationMediaInfo());
+			_grid.AnnotationPlaybackInfoProvider = (t => GetAnnotationMediaInfo(t));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private IEnumerable<AnnotationPlaybackInfo> GetAnnotationMediaInfo()
+		private IEnumerable<AnnotationPlaybackInfo> GetAnnotationMediaInfo(OralAnnotationType playbackType)
 		{
 			var carefulSpeechFile = GetCurrentSegment().GetPathToCarefulSpeechFile();
+			var oralTranslationFile = GetCurrentSegment().GetPathToOralTranslationFile();
 
-			if ((PlaybackAnnotationType & OralAnnotationType.Original) == OralAnnotationType.Original)
+			if ((playbackType & OralAnnotationType.Original) == OralAnnotationType.Original)
 				yield return GetOriginalAnnotationPlaybackInfo();
 
-			if ((PlaybackAnnotationType & OralAnnotationType.Careful) == OralAnnotationType.Careful &&
-				File.Exists(carefulSpeechFile))
+			if ((playbackType & OralAnnotationType.Careful) == OralAnnotationType.Careful)
 			{
-				yield return new AnnotationPlaybackInfo { MediaFile = carefulSpeechFile };
+				if (File.Exists(carefulSpeechFile))
+					yield return new AnnotationPlaybackInfo { MediaFile = carefulSpeechFile };
+				else if (playbackType == OralAnnotationType.Careful)
+					yield return GetOriginalAnnotationPlaybackInfo();
 			}
-			else if (PlaybackAnnotationType == OralAnnotationType.Careful)
-				yield return GetOriginalAnnotationPlaybackInfo();
+
+			if ((playbackType & OralAnnotationType.Translation) == OralAnnotationType.Translation)
+			{
+				if (File.Exists(oralTranslationFile))
+					yield return new AnnotationPlaybackInfo { MediaFile = oralTranslationFile };
+				else if (playbackType == OralAnnotationType.Translation)
+					yield return GetOriginalAnnotationPlaybackInfo();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -139,13 +135,6 @@ namespace SayMore.Transcription.UI
 				return;
 
 			e.Value = Tier.Segments[e.RowIndex];
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected void RedrawPlayerCell()
-		{
-			if (_grid != null)
-				_grid.InvalidateCell(Index, _grid.CurrentCellAddress.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------

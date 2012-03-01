@@ -17,7 +17,7 @@ namespace SayMore.Transcription.UI
 	public class TextAnnotationEditorGrid : SilGrid
 	{
 		public Func<Segment> SegmentProvider;
-		public Func<IEnumerable<AnnotationPlaybackInfo>> AnnotationPlaybackInfoProvider;
+		public Func<OralAnnotationType, IEnumerable<AnnotationPlaybackInfo>> AnnotationPlaybackInfoProvider;
 		public MediaPlayerViewModel PlayerViewModel { get; private set; }
 		public bool PlaybackInProgress { get; private set; }
 
@@ -218,11 +218,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnCurrentRowChanged(EventArgs e)
+		protected override void OnCellEnter(DataGridViewCellEventArgs e)
 		{
 			Stop();
 
-			base.OnCurrentRowChanged(e);
+			base.OnCellEnter(e);
 
 			if (CurrentCellAddress.Y < 0 || (!Focused && (EditingControl == null || !EditingControl.Focused)))
 				return;
@@ -277,7 +277,13 @@ namespace SayMore.Transcription.UI
 				_annotationPlaybackLoopCount = 0;
 
 			Debug.Assert(AnnotationPlaybackInfoProvider != null);
-			_mediaFileQueue = AnnotationPlaybackInfoProvider().ToList();
+
+			if (AnnotationPlaybackInfoProvider == null)
+				return;
+
+			var currCol = Columns[CurrentCellAddress.X] as TextAnnotationColumnWithMenu;
+			var playbackType = (currCol != null ? currCol.PlaybackType : OralAnnotationType.Original);
+			_mediaFileQueue = AnnotationPlaybackInfoProvider(playbackType).ToList();
 			InternalPlay();
 			PlaybackInProgress = true;
 		}

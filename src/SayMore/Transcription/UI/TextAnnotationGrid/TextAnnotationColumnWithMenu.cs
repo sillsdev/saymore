@@ -11,12 +11,19 @@ namespace SayMore.Transcription.UI
 	public class TextAnnotationColumnWithMenu : TextAnnotationColumn
 	{
 		public OralAnnotationType PlaybackType { get; protected set; }
-		public Action<OralAnnotationType> AnnotationPlaybackTypeChangedAction { get; set; }
+		//public Action<OralAnnotationType> AnnotationPlaybackTypeChangedAction { get; set; }
+
+		private readonly ContextMenuStrip _playbackTypeMenu;
 
 		/// ------------------------------------------------------------------------------------
 		public TextAnnotationColumnWithMenu(TierBase tier) : base(tier)
 		{
 			SortMode = DataGridViewColumnSortMode.Programmatic;
+
+			_playbackTypeMenu = new ContextMenuStrip();
+			_playbackTypeMenu.Items.AddRange(GetPlaybackOptionMenus().ToArray());
+			_playbackTypeMenu.ShowCheckMargin = true;
+			_playbackTypeMenu.ShowImageMargin = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -41,15 +48,16 @@ namespace SayMore.Transcription.UI
 				return;
 
 			_grid.Stop();
+			var audioCol = _grid.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c is AudioWaveFormColumn);
+			if (audioCol != null)
+				_grid.InvalidateCell(audioCol.Index, _grid.CurrentCellAddress.Y);
 
-			var menu = new ContextMenuStrip();
-			menu.Items.AddRange(GetPlaybackOptionMenus().ToArray());
-			menu.ShowCheckMargin = true;
-			menu.ShowImageMargin = false;
+			foreach (var menuItem in _playbackTypeMenu.Items.Cast<ToolStripMenuItem>())
+				menuItem.Checked = ((OralAnnotationType)menuItem.Tag == PlaybackType);
 
 			var rc = _grid.GetCellDisplayRectangle(Index, -1, false);
 			var pt = _grid.PointToScreen(new Point(rc.Left, rc.Bottom));
-			menu.Show(pt);
+			_playbackTypeMenu.Show(pt);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,9 +71,7 @@ namespace SayMore.Transcription.UI
 		{
 			var menuItem = sender as ToolStripMenuItem;
 			PlaybackType = (OralAnnotationType)menuItem.Tag;
-
-			if (AnnotationPlaybackTypeChangedAction != null)
-				AnnotationPlaybackTypeChangedAction(PlaybackType);
+			_grid.Play();
 		}
 
 		/// ------------------------------------------------------------------------------------

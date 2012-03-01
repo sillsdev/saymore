@@ -24,7 +24,8 @@ namespace SayMoreTests.Transcription.Model
 			_tier.AddSegment(20f, 30f);
 			_tier.AddSegment(30f, 40f);
 
-			Assert.AreEqual("test tier", _tier.DisplayName);
+			Assert.AreEqual("test tier", _tier.Id);
+			Assert.AreEqual(string.Empty, _tier.DisplayName);
 			Assert.AreEqual(Path.Combine(_tempFolder.Path, "mediaFile.wav"), _tier.MediaFileName);
 			Assert.AreEqual(Path.Combine(_tempFolder.Path, "mediaFile.wav_Annotations"), _tier.SegmentFileFolder);
 

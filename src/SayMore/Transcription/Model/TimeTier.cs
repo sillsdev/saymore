@@ -23,8 +23,7 @@ namespace SayMore.Transcription.Model
 		private string _segmentFileFolder;
 
 		/// ------------------------------------------------------------------------------------
-		public TimeTier(string filename) :
-			this(LocalizationManager.GetString("EventsView.Transcription.TierNames.OriginalRecording", "Original"), filename)
+		public TimeTier(string filename) : this("Original", filename)
 		{
 		}
 
@@ -35,8 +34,7 @@ namespace SayMore.Transcription.Model
 		/// temp. location.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public TimeTier(string displayName, string filename) :
-			base(displayName, tier => new AudioWaveFormColumn(tier))
+		public TimeTier(string id, string filename) : base(id, tier => new AudioWaveFormColumn(tier))
 		{
 			MediaFileName = filename;
 		}
@@ -69,6 +67,12 @@ namespace SayMore.Transcription.Model
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public override string DisplayName
+		{
+			get { return string.Empty; }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override TierBase GetNewTierInstance()

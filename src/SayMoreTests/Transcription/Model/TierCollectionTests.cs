@@ -224,7 +224,8 @@ namespace SayMoreTests.Transcription.Model
 		public void GetTimeTier_TierExists_ReturnsIt()
 		{
 			var tier = _collection.GetTimeTier();
-			Assert.AreEqual("timeTier", tier.DisplayName);
+			Assert.AreEqual(string.Empty, tier.DisplayName);
+			Assert.AreEqual("timeTier", tier.Id);
 			Assert.AreEqual(TierType.Time, tier.TierType);
 		}
 

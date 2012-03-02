@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This file is generated and then updated by an MSBuild task.  It preserves the automatically-generated guids assigned files that will be installed on user machines. So it should be held in source control.-->
+<InstallerMetadata>
+  <File Id="aubioonset.exe" Guid="B7203BF9-6CB5-4EA2-8F1C-68D27D181682" />
+  <File Id="libaubio_2.dll" Guid="862DEB6E-717F-4A33-B6F7-E6071315982B" />
+  <File Id="libaubioext_2.dll" Guid="03D21336-76AC-4709-B749-154541A81319" />
+  <File Id="libfftw3_3.dll" Guid="4EC00CA2-ECF8-48A1-834A-24DC890CDFA0}" />
+  <File Id="libsamplerate_0.dll" Guid="7BF85820-F74A-4634-9493-D85AE9B33361" />
+  <File Id="libsndfile_1.dll" Guid="C6DF494C-A0AA-4341-B9BB-CFF26D9AF2C5" />
+</InstallerMetadata>

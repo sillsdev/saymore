@@ -77,6 +77,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
+			if (DataGridView == null)
+				return;
+
 			HeaderCell.SortGlyphDirection = SortOrder.Descending;
 			_grid.CellPainting -= HandleGridCellPainting;
 		}

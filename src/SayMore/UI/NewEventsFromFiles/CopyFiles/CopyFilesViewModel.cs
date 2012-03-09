@@ -25,7 +25,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		private BackgroundWorker _worker;
 		private long _totalBytesCopied;
 		private Exception _encounteredError;
-		private bool _overwrite;
+		private readonly bool _overwrite;
 
 		public event EventHandler OnFinished;
 		public event EventHandler OnUpdateProgress;
@@ -99,8 +99,8 @@ namespace SayMore.UI.NewEventsFromFiles
 				if (_encounteredError != null)
 				{
 					// TODO: these won't be user friendly
-					return string.Format(LocalizationManager.GetString("Miscellaneous.CopyFilesControl.CopyFailedMsg", "Copying failed: {0}"),
-						_encounteredError.Message);
+					return string.Format(LocalizationManager.GetString("Miscellaneous.CopyFilesControl.CopyFailedMsg",
+						"Copying failed: {0}"), _encounteredError.Message);
 				}
 
 				if (Copying)
@@ -111,7 +111,8 @@ namespace SayMore.UI.NewEventsFromFiles
 						Megs(_totalBytesCopied), Megs(_totalBytes));
 				}
 
-				return (Finished ? LocalizationManager.GetString("Miscellaneous.CopyFilesControl.CopyingFinishedMsg", "Finished") :
+				return (Finished ?
+					LocalizationManager.GetString("Miscellaneous.CopyFilesControl.CopyingFinishedMsg", "Finished") :
 					LocalizationManager.GetString("Miscellaneous.CopyFilesControl.CopyWaitingMsg", "Waiting to start..."));
 			}
 
@@ -145,17 +146,32 @@ namespace SayMore.UI.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static void Copy(string srcFile, string dstFile)
+		{
+			Copy(srcFile, dstFile, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void Copy(string srcFile, string dstFile, bool overwrite)
+		{
+			var model = new CopyFilesViewModel(
+				new[] { new KeyValuePair<string, string>(srcFile, dstFile) }, overwrite);
+
+			model.DoCopying(null, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void DoCopying(object sender, DoWorkEventArgs args)
 		{
 			try
 			{
 				for (IndexOfCurrentFile = 0; IndexOfCurrentFile < _sourceDestinationPathPairs.Count(); IndexOfCurrentFile++)
 				{
-					if (_worker.CancellationPending)
+					if (_worker != null && _worker.CancellationPending)
 						continue;
 
 					var pair = _sourceDestinationPathPairs[IndexOfCurrentFile];
-					_worker.ReportProgress(kUpdateStatus, pair.Key);
+					ReportProgress(kUpdateStatus, pair.Key);
 					var sourceFileInfo = new FileInfo(pair.Key);
 
 					if (!_overwrite && CheckIfDestFileExists(sourceFileInfo, pair.Value))
@@ -163,7 +179,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 					if (_encounteredError != null)
 					{
-						_worker.CancelAsync();
+						Cancel();
 						return;
 					}
 
@@ -182,15 +198,34 @@ namespace SayMore.UI.NewEventsFromFiles
 
 				IndexOfCurrentFile = -2;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				_encounteredError = e;
-				_worker.CancelAsync();
+				Cancel();
 			}
 			finally
 			{
 				IndexOfCurrentFile = -2;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ReportProgress(int percent, string filename)
+		{
+			if (_worker == null)
+				return;
+
+			if (filename == null)
+				_worker.ReportProgress(percent);
+			else
+				_worker.ReportProgress(percent, filename);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void Cancel()
+		{
+			if (_worker != null)
+				_worker.CancelAsync();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -211,13 +246,14 @@ namespace SayMore.UI.NewEventsFromFiles
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(dstFile));
 				_totalBytesCopied += finfo.Length;
-				_worker.ReportProgress(1);
+				ReportProgress(1, null);
 				return true;
 			}
 
 			var fmt = LocalizationManager.GetString("Miscellaneous.CopyFilesControl.FileExistsMsg", "The file '{0}' already exists");
 			_encounteredError = new ApplicationException(string.Format(fmt, dstFile));
-			_worker.CancelAsync();
+
+			Cancel();
 			return false;
 		}
 
@@ -243,9 +279,9 @@ namespace SayMore.UI.NewEventsFromFiles
 						_totalBytesCopied += bytesRead;
 					}
 
-					_worker.ReportProgress(1);
-
-				} while (bytesRead > 0);
+					ReportProgress(1, null);
+				}
+				while (bytesRead > 0);
 			}
 
 			new FileInfo(dstFile)

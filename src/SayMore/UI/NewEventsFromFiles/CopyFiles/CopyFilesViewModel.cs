@@ -25,15 +25,24 @@ namespace SayMore.UI.NewEventsFromFiles
 		private BackgroundWorker _worker;
 		private long _totalBytesCopied;
 		private Exception _encounteredError;
+		private bool _overwrite;
 
 		public event EventHandler OnFinished;
 		public event EventHandler OnUpdateProgress;
 		public event EventHandler OnUpdateStatus;
 
 		public int IndexOfCurrentFile { get; private set; }
+		public Action<string, string> FileCopyFailedAction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public CopyFilesViewModel(IEnumerable<KeyValuePair<string, string>> sourceDestinationPathPairs)
+			: this(sourceDestinationPathPairs, false)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public CopyFilesViewModel(IEnumerable<KeyValuePair<string, string>> sourceDestinationPathPairs,
+			bool overwrite)
 		{
 			var notFilesToCopyMsg = LocalizationManager.GetString(
 				"Miscellaneous.CopyFilesControl.NoFilesToCopyMsg", "No Files To Copy");
@@ -47,6 +56,8 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			IndexOfCurrentFile = -1;
 			BeforeFileCopiedAction = source => { };
+
+			_overwrite = overwrite;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,7 +158,7 @@ namespace SayMore.UI.NewEventsFromFiles
 					_worker.ReportProgress(kUpdateStatus, pair.Key);
 					var sourceFileInfo = new FileInfo(pair.Key);
 
-					if (CheckIfDestFileExists(sourceFileInfo, pair.Value))
+					if (!_overwrite && CheckIfDestFileExists(sourceFileInfo, pair.Value))
 						continue;
 
 					if (_encounteredError != null)
@@ -162,8 +173,8 @@ namespace SayMore.UI.NewEventsFromFiles
 					}
 					catch (Exception)
 					{
-						if (File.Exists(pair.Value))
-							File.Delete(pair.Value);
+						if (FileCopyFailedAction != null)
+							FileCopyFailedAction(pair.Key, pair.Value);
 
 						throw;
 					}
@@ -219,7 +230,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			var buffer = new byte[1000 * 1024];
 
 			using (var source = new FileStream(srcFile.FullName, FileMode.Open))
-			using (var dest = new FileStream(dstFile, FileMode.CreateNew))
+			using (var dest = new FileStream(dstFile, (_overwrite ? FileMode.Create : FileMode.CreateNew)))
 			{
 				int bytesRead;
 				do

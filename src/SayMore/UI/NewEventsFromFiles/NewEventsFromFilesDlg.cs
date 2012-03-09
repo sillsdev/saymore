@@ -256,6 +256,12 @@ namespace SayMore.UI.NewEventsFromFiles
 			var model = new CopyFilesViewModel(pairs);
 			model.BeforeFileCopiedAction = _viewModel.CreateSingleEvent;
 
+			model.FileCopyFailedAction = (srcFile, dstFile) =>
+			{
+				if (File.Exists(dstFile))
+					File.Delete(dstFile);
+			};
+
 			var caption = LocalizationManager.GetString(
 				"DialogBoxes.NewEventsFromFilesDlg.CreatingEvents.ProgressDlg.Caption",
 				"Creating Events");

@@ -395,6 +395,36 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void GetFullPathToCarefulSpeechFile_PassNullSegment_ThrowsException()
+		{
+			Assert.Throws<NullReferenceException>(() => _tier.GetFullPathToCarefulSpeechFile(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFullPathToCarefulSpeechFile_PassGoodSegment_ReturnsCorrectPath()
+		{
+			var filepath = _tier.GetFullPathToCarefulSpeechFile(new Segment(null, 3f, 5f));
+			Assert.AreEqual(_tier.SegmentFileFolder, Path.GetDirectoryName(filepath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFullPathToOralTranslationFile_PassNullSegment_ThrowsException()
+		{
+			Assert.Throws<NullReferenceException>(() => _tier.GetFullPathToOralTranslationFile(null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFullPathToOralTranslationFile_PassGoodSegment_ReturnsCorrectPath()
+		{
+			var filepath = _tier.GetFullPathToOralTranslationFile(new Segment(null, 3f, 5f));
+			Assert.AreEqual(_tier.SegmentFileFolder, Path.GetDirectoryName(filepath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void ComputeFileNameForCarefulSpeechSegment_PassGoodSegment_ReturnsCorrectFileName()
 		{
 			Assert.AreEqual("0_to_4.75_Careful.wav",
@@ -496,6 +526,30 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void RenameAnnotationSegmentFile_AnnotationFileDoesNotExist_BackupOralAnnotationSegmentFileActionNotCalled()
+		{
+			SetupSegmentFileFolders();
+
+			bool backupCalled = false;
+			_tier.BackupOralAnnotationSegmentFileAction = (f => backupCalled = true);
+			_tier.RenameAnnotationSegmentFile(new Segment(null, 3f, 4.5f), 6.234f, 10.587f);
+			Assert.IsFalse(backupCalled);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RenameAnnotationSegmentFile_AnnotationFileExists_BackupOralAnnotationSegmentFileActionCalled()
+		{
+			SetupSegmentFileFolders();
+
+			bool backupCalled = false;
+			_tier.BackupOralAnnotationSegmentFileAction = (f => backupCalled = true);
+			_tier.RenameAnnotationSegmentFile(new Segment(null, 2f, 4.5f), 6.234f, 10.587f);
+			Assert.IsTrue(backupCalled);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void DeleteAnnotationSegmentFile_DeleteCarerfulSpeech()
 		{
 			SetupSegmentFileFolders();
@@ -512,6 +566,30 @@ namespace SayMoreTests.Transcription.Model
 
 			_tier.DeleteAnnotationSegmentFile(new Segment(null, 6.234f, 10.587f));
 			Assert.IsTrue(File.Exists(Path.Combine(_tier.SegmentFileFolder, "2_to_4.5_Careful.wav")));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DeleteAnnotationSegmentFile_AnnotationFileDoesNotExist_BackupOralAnnotationSegmentFileActionNotCalled()
+		{
+			SetupSegmentFileFolders();
+
+			bool backupCalled = false;
+			_tier.BackupOralAnnotationSegmentFileAction = (f => backupCalled = true);
+			_tier.DeleteAnnotationSegmentFile(new Segment(null, 3f, 4.5f));
+			Assert.IsFalse(backupCalled);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DeleteAnnotationSegmentFile_AnnotationFileExists_BackupOralAnnotationSegmentFileActionCalled()
+		{
+			SetupSegmentFileFolders();
+
+			bool backupCalled = false;
+			_tier.BackupOralAnnotationSegmentFileAction = (f => backupCalled = true);
+			_tier.DeleteAnnotationSegmentFile(new Segment(null, 2f, 4.5f));
+			Assert.IsTrue(backupCalled);
 		}
 
 		/// ------------------------------------------------------------------------------------

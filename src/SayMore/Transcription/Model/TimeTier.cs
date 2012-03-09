@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using Localization;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
 
@@ -19,8 +18,7 @@ namespace SayMore.Transcription.Model
 	public class TimeTier : TierBase
 	{
 		public string MediaFileName { get; protected set; }
-
-		private string _segmentFileFolder;
+		public Action<string> BackupOralAnnotationSegmentFileAction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public TimeTier(string filename) : this("Original", filename)
@@ -38,6 +36,27 @@ namespace SayMore.Transcription.Model
 		{
 			MediaFileName = filename;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override TierBase GetNewTierInstance()
+		{
+			return new TimeTier(Id, MediaFileName);
+		}
+
+		#region Methods for getting segment file paths
+		/// ------------------------------------------------------------------------------------
+		public string GetFullPathToCarefulSpeechFile(Segment segment)
+		{
+			return Path.Combine(SegmentFileFolder, ComputeFileNameForCarefulSpeechSegment(segment));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetFullPathToOralTranslationFile(Segment segment)
+		{
+			return Path.Combine(SegmentFileFolder, ComputeFileNameForOralTranslationSegment(segment));
+		}
+
+		#endregion
 
 		#region Static methods for computing oral annotation segment audio file names.
 		/// ------------------------------------------------------------------------------------
@@ -68,6 +87,7 @@ namespace SayMore.Transcription.Model
 
 		#endregion
 
+		#region Properties
 		/// ------------------------------------------------------------------------------------
 		public override string DisplayName
 		{
@@ -75,27 +95,9 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override TierBase GetNewTierInstance()
-		{
-			return new TimeTier(Id, MediaFileName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The AudioSegmentFileFolder is used for renaming (due to segment boundary changes)
-		/// and removing audio segment annotation files as they're created or modified. The
-		/// folder must exist or this method does nothing.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SetAudioSegmentFileFolder(string folder)
-		{
-			_segmentFileFolder = (folder == null || !Directory.Exists(folder) ? null : folder);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public string SegmentFileFolder
 		{
-			get { return _segmentFileFolder ?? MediaFileName + Settings.Default.OralAnnotationsFolderAffix; }
+			get { return MediaFileName + Settings.Default.OralAnnotationsFolderAffix; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -104,6 +106,8 @@ namespace SayMore.Transcription.Model
 			get { return TierType.Time; }
 			set { }
 		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public int GetIndexOfSegment(Segment segment)
@@ -255,6 +259,9 @@ namespace SayMore.Transcription.Model
 
 				if (File.Exists(oldSegmentFilePath))
 				{
+					if (BackupOralAnnotationSegmentFileAction != null)
+						BackupOralAnnotationSegmentFileAction(oldSegmentFilePath);
+
 					File.Move(oldSegmentFilePath, Path.Combine(SegmentFileFolder,
 						ComputeFileNameForCarefulSpeechSegment(newStart, newEnd)));
 				}
@@ -268,6 +275,9 @@ namespace SayMore.Transcription.Model
 
 				if (File.Exists(oldSegmentFilePath))
 				{
+					if (BackupOralAnnotationSegmentFileAction != null)
+						BackupOralAnnotationSegmentFileAction(oldSegmentFilePath);
+
 					File.Move(oldSegmentFilePath, Path.Combine(SegmentFileFolder,
 						ComputeFileNameForOralTranslationSegment(newStart, newEnd)));
 				}
@@ -282,7 +292,12 @@ namespace SayMore.Transcription.Model
 			{
 				var path = Path.Combine(SegmentFileFolder, ComputeFileNameForCarefulSpeechSegment(segment));
 				if (File.Exists(path))
+				{
+					if (BackupOralAnnotationSegmentFileAction != null)
+						BackupOralAnnotationSegmentFileAction(path);
+
 					File.Delete(path);
+				}
 			}
 			catch { }
 
@@ -290,13 +305,19 @@ namespace SayMore.Transcription.Model
 			{
 				var path = Path.Combine(SegmentFileFolder, ComputeFileNameForOralTranslationSegment(segment));
 				if (File.Exists(path))
+				{
+					if (BackupOralAnnotationSegmentFileAction != null)
+						BackupOralAnnotationSegmentFileAction(path);
+
 					File.Delete(path);
+				}
 			}
 			catch { }
 		}
 
 		#endregion
 
+		#region Methods for determining whether or not a boundary can move left or right
 		/// ------------------------------------------------------------------------------------
 		public bool CanBoundaryMoveLeft(float boundaryToMove, float secondsToMove)
 		{
@@ -323,5 +344,7 @@ namespace SayMore.Transcription.Model
 			segment = GetSegmentEnclosingTime(boundaryToMove);
 			return (segment == null || newBoundary <= segment.End - 0.5f);
 		}
+
+		#endregion
 	}
 }

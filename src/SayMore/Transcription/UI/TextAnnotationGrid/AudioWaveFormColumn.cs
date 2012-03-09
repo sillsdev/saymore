@@ -83,8 +83,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<AnnotationPlaybackInfo> GetAnnotationMediaInfo(OralAnnotationType playbackType)
 		{
-			var carefulSpeechFile = GetCurrentSegment().GetPathToCarefulSpeechFile();
-			var oralTranslationFile = GetCurrentSegment().GetPathToOralTranslationFile();
+			var carefulSpeechFile = GetCurrentSegment().GetFullPathToCarefulSpeechFile();
+			var oralTranslationFile = GetCurrentSegment().GetFullPathToOralTranslationFile();
 
 			if ((playbackType & OralAnnotationType.Original) == OralAnnotationType.Original)
 				yield return GetOriginalAnnotationPlaybackInfo();

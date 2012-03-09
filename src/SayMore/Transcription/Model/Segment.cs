@@ -1,6 +1,5 @@
 
 using System;
-using System.IO;
 using SayMore.UI.MediaPlayer;
 
 namespace SayMore.Transcription.Model

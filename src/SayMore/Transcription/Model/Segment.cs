@@ -66,23 +66,17 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetPathToCarefulSpeechFile()
+		public string GetFullPathToCarefulSpeechFile()
 		{
-			if (Tier == null || Tier.TierType != TierType.Time)
-				return null;
-
-			return Path.Combine(((TimeTier)Tier).SegmentFileFolder,
-				TimeTier.ComputeFileNameForCarefulSpeechSegment(this));
+			return (Tier == null || Tier.TierType != TierType.Time ? null :
+				((TimeTier)Tier).GetFullPathToCarefulSpeechFile(this));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetPathToOralTranslationFile()
+		public string GetFullPathToOralTranslationFile()
 		{
-			if (Tier == null || Tier.TierType != TierType.Time)
-				return null;
-
-			return Path.Combine(((TimeTier)Tier).SegmentFileFolder,
-				TimeTier.ComputeFileNameForOralTranslationSegment(this));
+			return (Tier == null || Tier.TierType != TierType.Time ? null :
+				((TimeTier)Tier).GetFullPathToOralTranslationFile(this));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -14,10 +14,6 @@ namespace SayMore.AudioUtils
 		public event SelectedRegionChangedHandler SelectedRegionChanged;
 
 		/// ------------------------------------------------------------------------------------
-		//protected override WavePainterBasic GetNewWavePainter(IEnumerable<float> samples, TimeSpan totalTime)
-		//{
-		//    return new WavePainterWithRangeSelection(this, samples, totalTime);
-		//}
 		protected override WavePainterBasic GetNewWavePainter(WaveFileReader stream)
 		{
 			return new WavePainterWithRangeSelection(this, stream);

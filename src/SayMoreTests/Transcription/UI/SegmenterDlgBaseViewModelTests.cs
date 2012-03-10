@@ -89,42 +89,164 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CopyOralAnnotationsToTempLocation_CopiesFilesAndReturnsPath()
+		public void BackupOralAnnotationSegmentFile_DestFileAlreadyExists_DoesNotCopy()
 		{
-			File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder, "one.wav")).Close();
-			File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder, "two.wav")).Close();
+			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one.wav");
+			var dstFile = Path.Combine(_model.TempOralAnnotationsFolder, "one.wav");
 
-			var destinationPath = _model.CopyOralAnnotationsToTempLocation();
+			Directory.CreateDirectory(_model.TempOralAnnotationsFolder);
 
-			Assert.IsTrue(File.Exists(Path.Combine(destinationPath, "one.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(destinationPath, "two.wav")));
+			var stream = File.OpenWrite(srcFile);
+			stream.WriteByte(0);
+			stream.Close();
+
+			stream = File.OpenWrite(dstFile);
+			stream.WriteByte(0xFF);
+			stream.Close();
+
+			_model.BackupOralAnnotationSegmentFile(srcFile);
+
+			try
+			{
+				stream = File.OpenRead(dstFile);
+				Assert.AreEqual(0xFF, stream.ReadByte());
+			}
+			finally
+			{
+				stream.Close();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CopyOralAnnotationsToTempLocation_CreatesDestinationEvenWhenNoAnnotationFilesToCopy()
+		public void BackupOralAnnotationSegmentFile_SrcFileDidNotAlreadyExists_DoesNotCopy()
 		{
-			Directory.Delete(_model.OralAnnotationsFolder, true);
-			Assert.IsTrue(Directory.Exists(_model.CopyOralAnnotationsToTempLocation()));
+			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one.wav");
+			var dstFile = Path.Combine(_model.TempOralAnnotationsFolder, "one.wav");
+
+			Directory.CreateDirectory(_model.TempOralAnnotationsFolder);
+
+			Assert.IsFalse(File.Exists(dstFile));
+			_model.BackupOralAnnotationSegmentFile(srcFile);
+			Assert.IsFalse(File.Exists(dstFile));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SaveNewOralAnnoationsInPermanentLocation_CopiesFiles()
+		public void BackupOralAnnotationSegmentFile_SrcFileExistsDestFileDoesNotAlreadyExists_CopiesThem()
 		{
-			Directory.Delete(_model.OralAnnotationsFolder, true);
-			var destinationPath = _model.CopyOralAnnotationsToTempLocation();
+			var srcFile1 = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
+			var srcFile2 = Path.Combine(_model.OralAnnotationsFolder, "one_Translation.wav");
 
-			File.OpenWrite(Path.Combine(destinationPath, "one.wav")).Close();
-			File.OpenWrite(Path.Combine(destinationPath, "two.wav")).Close();
+			File.OpenWrite(srcFile1).Close();
+			File.OpenWrite(srcFile2).Close();
+			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
 
-			Assert.IsFalse(File.Exists(Path.Combine(_model.OralAnnotationsFolder, "one.wav")));
-			Assert.IsFalse(File.Exists(Path.Combine(_model.OralAnnotationsFolder, "two.wav")));
+			Assert.IsFalse(File.Exists(Path.Combine(_model.TempOralAnnotationsFolder, "one_Careful.wav")));
+			_model.BackupOralAnnotationSegmentFile(srcFile1);
+			Assert.IsTrue(File.Exists(Path.Combine(_model.TempOralAnnotationsFolder, "one_Careful.wav")));
 
-			_model.SaveNewOralAnnoationsInPermanentLocation();
+			Assert.IsFalse(File.Exists(Path.Combine(_model.TempOralAnnotationsFolder, "one_Translation.wav")));
+			_model.BackupOralAnnotationSegmentFile(srcFile2);
+			Assert.IsTrue(File.Exists(Path.Combine(_model.TempOralAnnotationsFolder, "one_Translation.wav")));
+		}
 
-			Assert.IsTrue(File.Exists(Path.Combine(_model.OralAnnotationsFolder, "one.wav")));
-			Assert.IsTrue(File.Exists(Path.Combine(_model.OralAnnotationsFolder, "two.wav")));
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetListOfOralAnnotationSegmentFilesBeforeChanges_NoFilesExist_ReturnsEmptyList()
+		{
+			Assert.IsEmpty(_model.GetListOfOralAnnotationSegmentFilesBeforeChanges().ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetListOfOralAnnotationSegmentFilesBeforeChanges_CarefulSpeechFileExists_ReturnsIt()
+		{
+			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
+			File.OpenWrite(srcFile).Close();
+
+			var list = _model.GetListOfOralAnnotationSegmentFilesBeforeChanges().ToArray();
+			Assert.AreEqual(1, list.Length);
+			Assert.AreEqual(srcFile, list[0]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetListOfOralAnnotationSegmentFilesBeforeChanges_BothTypesOfFilesExists_ReturnsThem()
+		{
+			var srcFile1 = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
+			var srcFile2 = Path.Combine(_model.OralAnnotationsFolder, "one_Translation.wav");
+
+			File.OpenWrite(srcFile1).Close();
+			File.OpenWrite(srcFile2).Close();
+
+			var list = _model.GetListOfOralAnnotationSegmentFilesBeforeChanges().ToArray();
+			Assert.AreEqual(2, list.Length);
+			Assert.AreEqual(srcFile1, list[0]);
+			Assert.AreEqual(srcFile2, list[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DiscardRecordedAnnotations_NoFilesToDiscardWhenNoNewRecordings_DoesNothing()
+		{
+			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
+			File.OpenWrite(srcFile).Close();
+			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+
+			Assert.AreEqual(1, Directory.GetFiles(_model.OralAnnotationsFolder, "*.*").Count());
+			_model.DiscardChanges();
+			Assert.AreEqual(1, Directory.GetFiles(_model.OralAnnotationsFolder, "*.*").Count());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DiscardRecordedAnnotations_NewRecordingExists_DeletesIt()
+		{
+			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
+			File.OpenWrite(srcFile).Close();
+			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+
+			var newRecording = Path.Combine(_model.OralAnnotationsFolder, "two_Careful.wav");
+			File.OpenWrite(newRecording).Close();
+
+			Assert.AreEqual(2, Directory.GetFiles(_model.OralAnnotationsFolder, "*.*").Count());
+			_model.DiscardChanges();
+			Assert.AreEqual(1, Directory.GetFiles(_model.OralAnnotationsFolder, "*.*").Count());
+			Assert.IsFalse(File.Exists(newRecording));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RestoreOriginalRecordedAnnotations_NoFilesToRestore_DoesNotThrowException()
+		{
+			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
+			File.OpenWrite(srcFile).Close();
+			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+			_model.RestoreOriginalRecordedAnnotations();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void RestoreOriginalRecordedAnnotations_HasFilesToRestore_RestoresThem()
+		{
+			var file1 = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
+			var file2 = Path.Combine(_model.OralAnnotationsFolder, "one_Translation.wav");
+			File.OpenWrite(file1).Close();
+			File.OpenWrite(file2).Close();
+			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+			_model.BackupOralAnnotationSegmentFile(file1);
+			_model.BackupOralAnnotationSegmentFile(file2);
+			File.Delete(file1);
+			File.Delete(file2);
+
+			Assert.IsFalse(File.Exists(file1));
+			Assert.IsFalse(File.Exists(file2));
+
+			_model.RestoreOriginalRecordedAnnotations();
+
+			Assert.IsTrue(File.Exists(file1));
+			Assert.IsTrue(File.Exists(file2));
 		}
 
 		/// ------------------------------------------------------------------------------------

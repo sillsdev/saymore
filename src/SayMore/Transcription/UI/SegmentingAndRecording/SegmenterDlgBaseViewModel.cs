@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using NAudio.Wave;
 using Palaso.Reporting;
 using SayMore.AudioUtils;
@@ -26,6 +25,9 @@ namespace SayMore.Transcription.UI
 		public string TempOralAnnotationsFolder { get; protected set; }
 		public string OralAnnotationsFolder { get; protected set; }
 
+		protected List<string> _oralAnnotationFilesBeforeChanges = new List<string>();
+
+		#region Construction and disposal
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBaseViewModel(ComponentFile file)
 		{
@@ -46,13 +48,16 @@ namespace SayMore.Transcription.UI
 			OralAnnotationsFolder = ComponentFile.PathToAnnotatedFile +
 				Settings.Default.OralAnnotationsFolderAffix;
 
-			TempOralAnnotationsFolder = CopyOralAnnotationsToTempLocation();
-			TimeTier.SetAudioSegmentFileFolder(TempOralAnnotationsFolder);
+			TempOralAnnotationsFolder = Path.Combine(Path.GetTempPath(), "SayMoreOralAnnotations");
+			_oralAnnotationFilesBeforeChanges = GetListOfOralAnnotationSegmentFilesBeforeChanges().ToList();
+			TimeTier.BackupOralAnnotationSegmentFileAction = BackupOralAnnotationSegmentFile;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void Dispose()
 		{
+			TimeTier.BackupOralAnnotationSegmentFileAction = null;
+
 			if (OrigWaveStream != null)
 			{
 				OrigWaveStream.Close();
@@ -66,65 +71,81 @@ namespace SayMore.Transcription.UI
 			catch { }
 		}
 
-		#region Methods for copying oral annotation recorded segment files to and from temp. location
+		#endregion
+
+		#region Methods for backing up and restoring oral annotation recorded segment files when they're renamed or deleted.
 		/// ------------------------------------------------------------------------------------
-		public string CopyOralAnnotationsToTempLocation()
+		public IEnumerable<string> GetListOfOralAnnotationSegmentFilesBeforeChanges()
 		{
-			var tmpFolder = Path.Combine(Path.GetTempPath(), "SayMoreOralAnnotations");
+			if (!Directory.Exists(OralAnnotationsFolder))
+				return new string[0];
 
-			if (Directory.Exists(OralAnnotationsFolder))
-				CopyAnnotationFiles(OralAnnotationsFolder, tmpFolder);
-			else
-				FileSystemUtils.CreateDirectory(tmpFolder);
-
-			return tmpFolder;
+			return Directory.GetFiles(OralAnnotationsFolder, "*.wav").Where(file =>
+				file.EndsWith(Settings.Default.OralAnnotationCarefulSegmentFileAffix) ||
+				file.EndsWith(Settings.Default.OralAnnotationTranslationSegmentFileAffix));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool CopyAnnotationFiles(string sourceFolder, string targetFolder)
+		public void BackupOralAnnotationSegmentFile(string srcfile)
 		{
-			FileSystemUtils.RemoveDirectory(targetFolder);
+			var dstFile = Path.Combine(TempOralAnnotationsFolder, Path.GetFileName(srcfile));
 
-			int retryCount = 0;
-			Exception error = null;
+			// If the file has already been backed up, then there's no need to do it again.
+			if (File.Exists(dstFile))
+				return;
 
-			while (retryCount < 10)
+			// If the source file is not one of the original oral annotation
+			// segment files, then there's no need to back it up
+			if (_oralAnnotationFilesBeforeChanges.All(f => Path.GetFileName(f) != Path.GetFileName(srcfile)))
+				return;
+
+			if (!Directory.Exists(TempOralAnnotationsFolder))
+				FileSystemUtils.CreateDirectory(TempOralAnnotationsFolder);
+
+			CopyFilesViewModel.Copy(srcfile, dstFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DiscardChanges()
+		{
+			DiscardRecordedAnnotations();
+			RestoreOriginalRecordedAnnotations();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DiscardRecordedAnnotations()
+		{
+			foreach (var file in Directory.GetFiles(OralAnnotationsFolder, "*.wav")
+				.Where(f => !_oralAnnotationFilesBeforeChanges.Contains(f)))
 			{
 				try
 				{
-					FileSystemUtils.CreateDirectory(targetFolder);
-
-					var pairs = Directory.GetFiles(sourceFolder, "*.wav", SearchOption.TopDirectoryOnly)
-						.Select(f => new KeyValuePair<string, string>(f, Path.Combine(targetFolder, Path.GetFileName(f))))
-						.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
-					if (pairs.Count > 0)
-					{
-						var model = new CopyFilesViewModel(pairs);
-						model.Start();
-					}
-
-					return true;
+					File.Delete(file);
 				}
 				catch (Exception e)
 				{
-					Application.DoEvents();
-					retryCount++;
-					error = e;
+					ErrorReport.NotifyUserOfProblem(e,
+						"Error trying to discard the oral annotation recording file '{0}'", file);
 				}
 			}
-
-			ErrorReport.NotifyUserOfProblem(error,
-				"Error trying to copy oral annotation files from '{0}' to '{1}'",
-				sourceFolder, targetFolder);
-
-			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool SaveNewOralAnnoationsInPermanentLocation()
+		public void RestoreOriginalRecordedAnnotations()
 		{
-			return CopyAnnotationFiles(TempOralAnnotationsFolder, OralAnnotationsFolder);
+			if (_oralAnnotationFilesBeforeChanges.Count == 0)
+				return;
+
+			var filesToRestore = (from f in _oralAnnotationFilesBeforeChanges
+								  let srcfile = Path.Combine(TempOralAnnotationsFolder, Path.GetFileName(f))
+								  where File.Exists(srcfile)
+								  select new KeyValuePair<string, string>(srcfile, f)).ToArray();
+
+			if (filesToRestore.Length == 0)
+				return;
+
+			var model = new CopyFilesViewModel(filesToRestore, true);
+			model.Start();
 		}
 
 		#endregion

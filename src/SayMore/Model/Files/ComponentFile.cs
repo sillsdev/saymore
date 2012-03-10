@@ -710,30 +710,18 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public string RecordAnnotations(OralAnnotationType annotationType)
 		{
-			using (var viewModel = new OralAnnotationRecorderDlgViewModel(this, annotationType))
+			using (var viewModel = OralAnnotationRecorderDlgViewModel.Create(this, annotationType))
+			using (var dlg = OralAnnotationRecorderBaseDlg.Create(viewModel, annotationType))
 			{
-				OralAnnotationRecorderBaseDlg dlg = null;
-				try
+				if (dlg.ShowDialog() != DialogResult.OK || !viewModel.WereChangesMade)
 				{
-					if (annotationType == OralAnnotationType.Careful)
-						dlg = new CarefulSpeechRecorderDlg(viewModel);
-					else
-						dlg = new OralTranslationRecorderDlg(viewModel);
-
-					if (dlg.ShowDialog() != DialogResult.OK || !viewModel.WereChangesMade)
-						return null;
-
-					viewModel.SaveNewOralAnnoationsInPermanentLocation();
-					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
-					GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), null);
-
-					return eafFileName;
+					viewModel.DiscardChanges();
+					return null;
 				}
-				finally
-				{
-					if (dlg != null)
-						dlg.Dispose();
-				}
+
+				var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
+				GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), null);
+				return eafFileName;
 			}
 		}
 

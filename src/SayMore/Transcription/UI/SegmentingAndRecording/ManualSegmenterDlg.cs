@@ -31,12 +31,12 @@ namespace SayMore.Transcription.UI
 				try
 				{
 					if (dlg.ShowDialog(parent) != DialogResult.OK || !viewModel.WereChangesMade)
+					{
+						viewModel.DiscardChanges();
 						return null;
+					}
 
 					var annotationFile = file.GetAnnotationFile();
-
-					if (annotationFile != null)
-						viewModel.SaveNewOralAnnoationsInPermanentLocation();
 
 					var eafFile = AnnotationFileHelper.Save(file.PathToAnnotatedFile, viewModel.Tiers);
 

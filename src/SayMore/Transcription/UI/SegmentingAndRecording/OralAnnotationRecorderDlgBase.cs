@@ -5,6 +5,7 @@ using System.Linq;
 using Localization;
 using SayMore.AudioUtils;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -19,6 +20,15 @@ namespace SayMore.Transcription.UI
 		protected WaveControlWithRangeSelection _waveControl;
 
 		/// ------------------------------------------------------------------------------------
+		public static OralAnnotationRecorderBaseDlg Create(
+			OralAnnotationRecorderDlgViewModel viewModel, OralAnnotationType annotationType)
+		{
+			return (annotationType == OralAnnotationType.Careful ?
+				new CarefulSpeechRecorderDlg(viewModel) as OralAnnotationRecorderBaseDlg :
+				new OralTranslationRecorderDlg(viewModel));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This constructor is only for the designer.
 		/// </summary>
@@ -29,7 +39,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public OralAnnotationRecorderBaseDlg(OralAnnotationRecorderDlgViewModel viewModel)
+		protected OralAnnotationRecorderBaseDlg(OralAnnotationRecorderDlgViewModel viewModel)
 			: base(viewModel)
 		{
 			InitializeComponent();

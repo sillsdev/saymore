@@ -78,11 +78,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetDoesSegmentHaveAnnotationFile(Segment segment)
 		{
-			return (segment != null && File.Exists(GetPathToAnnotationFileForSegment(segment)));
+			return (segment != null && File.Exists(GetFullPathToAnnotationFileForSegment(segment)));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string GetPathToAnnotationFileForSegment(Segment segment)
+		public virtual string GetFullPathToAnnotationFileForSegment(Segment segment)
 		{
 			throw new NotImplementedException();
 		}
@@ -142,7 +142,7 @@ namespace SayMore.Transcription.UI
 		{
 			CloseAnnotationPlayer();
 
-			var filename = GetPathToAnnotationFileForSegment(CurrentSegment);
+			var filename = GetFullPathToAnnotationFileForSegment(CurrentSegment);
 			if (!File.Exists(filename))
 				return false;
 
@@ -190,7 +190,7 @@ namespace SayMore.Transcription.UI
 				return false;
 
 			var path = (CurrentSegment != null ?
-				GetPathToAnnotationFileForSegment(CurrentSegment) :
+				GetFullPathToAnnotationFileForSegment(CurrentSegment) :
 				GetFullPathForNewSegmentAnnotationFile(GetStartOfCurrentSegment(), cursorTime));
 
 			_fullPathsToAddedRecordings.Add(path);
@@ -248,7 +248,7 @@ namespace SayMore.Transcription.UI
 		public void EraseAnnotation()
 		{
 			CloseAnnotationPlayer();
-			var path = GetPathToAnnotationFileForSegment(CurrentSegment);
+			var path = GetFullPathToAnnotationFileForSegment(CurrentSegment);
 			ComponentFile.WaitForFileRelease(path);
 
 			try
@@ -295,7 +295,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string GetPathToAnnotationFileForSegment(Segment segment)
+		public override string GetFullPathToAnnotationFileForSegment(Segment segment)
 		{
 			return Path.Combine(OralAnnotationsFolder, segment.GetFullPathToCarefulSpeechFile());
 		}
@@ -326,7 +326,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string GetPathToAnnotationFileForSegment(Segment segment)
+		public override string GetFullPathToAnnotationFileForSegment(Segment segment)
 		{
 			return Path.Combine(OralAnnotationsFolder, segment.GetFullPathToOralTranslationFile());
 		}

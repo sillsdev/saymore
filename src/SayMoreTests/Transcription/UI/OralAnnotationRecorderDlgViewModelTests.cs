@@ -17,13 +17,11 @@ namespace SayMoreTests.Transcription.UI
 		private OralAnnotationRecorderDlgViewModel _model;
 		private string _tempAudioFile;
 		private Mock<ComponentFile> _componentFile;
-		private string _tempAnnotationFolder;
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void Setup()
 		{
-			_tempAnnotationFolder = Path.Combine(Path.GetTempPath(), "SayMoreOralAnnotations");
 			_annotationFileFolder = new TemporaryFolder("OralAnnotationRecorderDlgViewModelTests");
 
 			_tempAudioFile = MPlayerMediaInfoTests.GetLongerTestAudioFile();
@@ -50,14 +48,13 @@ namespace SayMoreTests.Transcription.UI
 			_annotationFileFolder.Dispose();
 			_annotationFileFolder = null;
 
+			if (Directory.Exists(_model.OralAnnotationsFolder))
+				Directory.Delete(_model.OralAnnotationsFolder, true);
+
 			if (_model != null)
 				_model.Dispose();
 
-
 			File.Delete(_tempAudioFile);
-
-			if (Directory.Exists(_tempAnnotationFolder))
-				Directory.Delete(_tempAnnotationFolder, true);
 		}
 
 		#region Helper method
@@ -65,19 +62,24 @@ namespace SayMoreTests.Transcription.UI
 		private void CreateModelAndAnnotationFileForType(OralAnnotationType modelType,
 			OralAnnotationType fileType)
 		{
+			if (Directory.Exists(_model.OralAnnotationsFolder))
+				Directory.Delete(_model.OralAnnotationsFolder, true);
+
 			_model.Dispose();
 			_model = OralAnnotationRecorderDlgViewModel.Create(_componentFile.Object, modelType);
 			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(30f));
 			Assert.IsNotNull(_model.CurrentSegment);
 
+			Directory.CreateDirectory(_model.OralAnnotationsFolder);
+
 			if (fileType == OralAnnotationType.Careful)
 			{
-				File.OpenWrite(Path.Combine(_tempAnnotationFolder,
+				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
 					TimeTier.ComputeFileNameForCarefulSpeechSegment(25f, 30f))).Close();
 			}
 			else
 			{
-				File.OpenWrite(Path.Combine(_tempAnnotationFolder,
+				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
 					TimeTier.ComputeFileNameForOralTranslationSegment(25f, 30f))).Close();
 			}
 		}
@@ -260,16 +262,26 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetPathToAnnotationFileForSegment_ReturnsPathWithCorrectFolder()
+		public void GetFullPathToAnnotationFileForSegment_ReturnsPathWithCorrectFolder()
 		{
-			//// This test only checks for the correct folder because testing for
-			//// correct file name is done in the TimeTier tests.
+			// This test only checks for the correct folder because testing for
+			// correct file name is done in the TimeTier tests.
 
-			//Assert.AreEqual(_tempAnnotationFolder, Path.GetDirectoryName(
-			//    _model.GetPathToAnnotationFileForSegment(TimeSpan.Zero, TimeSpan.Zero)));
+			var tier = new TimeTier(_model.OralAnnotationsFolder.Replace("_Annotations", string.Empty));
 
-			//Assert.AreEqual(_tempAnnotationFolder, Path.GetDirectoryName(
-			//    _model.GetPathToAnnotationFileForSegment(new Segment(null, 1f, 2f))));
+			Assert.AreEqual(_model.OralAnnotationsFolder, Path.GetDirectoryName(
+				_model.GetFullPathToAnnotationFileForSegment(new Segment(tier, 1f, 2f))));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetFullPathForNewSegmentAnnotationFile_ReturnsPathWithCorrectFolder()
+		{
+			// This test only checks for the correct folder because testing for
+			// correct file name is done in the TimeTier tests.
+
+			Assert.AreEqual(_model.OralAnnotationsFolder, Path.GetDirectoryName(
+				_model.GetFullPathForNewSegmentAnnotationFile(TimeSpan.Zero, TimeSpan.Zero)));
 		}
 
 		/// ------------------------------------------------------------------------------------

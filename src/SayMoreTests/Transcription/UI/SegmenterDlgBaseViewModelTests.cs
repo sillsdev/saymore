@@ -44,10 +44,19 @@ namespace SayMoreTests.Transcription.UI
 			_componentFile.Setup(f => f.PathToAnnotatedFile).Returns(_tempAudioFile);
 			_componentFile.Setup(f => f.GetAnnotationFile()).Returns(annotationFile.Object);
 
-			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+			CreateNewModel();
 			Directory.CreateDirectory(_model.OralAnnotationsFolder);
 
 			Assert.IsNotNull(_model.OrigWaveStream);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CreateNewModel()
+		{
+			if (_model != null)
+				_model.Dispose();
+
+			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,6 +65,8 @@ namespace SayMoreTests.Transcription.UI
 		{
 			try { Directory.Delete(_model.OralAnnotationsFolder, true); }
 			catch { }
+
+			_componentFile.Setup(f => f.PathToAnnotatedFile).Returns("");
 
 			if (_model != null)
 				_model.Dispose();
@@ -140,7 +151,7 @@ namespace SayMoreTests.Transcription.UI
 
 			File.OpenWrite(srcFile1).Close();
 			File.OpenWrite(srcFile2).Close();
-			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+			CreateNewModel();
 
 			Assert.IsFalse(File.Exists(Path.Combine(_model.TempOralAnnotationsFolder, "one_Careful.wav")));
 			_model.BackupOralAnnotationSegmentFile(srcFile1);
@@ -192,7 +203,7 @@ namespace SayMoreTests.Transcription.UI
 		{
 			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
 			File.OpenWrite(srcFile).Close();
-			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+			CreateNewModel();
 
 			Assert.AreEqual(1, Directory.GetFiles(_model.OralAnnotationsFolder, "*.*").Count());
 			_model.DiscardChanges();
@@ -205,7 +216,7 @@ namespace SayMoreTests.Transcription.UI
 		{
 			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
 			File.OpenWrite(srcFile).Close();
-			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+			CreateNewModel();
 
 			var newRecording = Path.Combine(_model.OralAnnotationsFolder, "two_Careful.wav");
 			File.OpenWrite(newRecording).Close();
@@ -222,7 +233,7 @@ namespace SayMoreTests.Transcription.UI
 		{
 			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
 			File.OpenWrite(srcFile).Close();
-			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+			CreateNewModel();
 			_model.RestoreOriginalRecordedAnnotations();
 		}
 
@@ -234,7 +245,7 @@ namespace SayMoreTests.Transcription.UI
 			var file2 = Path.Combine(_model.OralAnnotationsFolder, "one_Translation.wav");
 			File.OpenWrite(file1).Close();
 			File.OpenWrite(file2).Close();
-			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
+			CreateNewModel();
 			_model.BackupOralAnnotationSegmentFile(file1);
 			_model.BackupOralAnnotationSegmentFile(file2);
 			File.Delete(file1);

@@ -115,7 +115,7 @@ namespace SayMore.UI.EventRecording
 			_buttonPlayback.Enabled = (_viewModel.CanPlay && !_viewModel.IsPlaying);
 			_buttonStop.Enabled = (_viewModel.IsPlaying || _viewModel.IsRecording);
 
-			_buttonOK.Enabled = !_viewModel.IsPlaying && !_viewModel.IsRecording;
+			_buttonOK.Enabled = !_viewModel.IsPlaying && !_viewModel.IsRecording && _viewModel.CanPlay;
 			_buttonCancel.Enabled = !_viewModel.IsPlaying && !_viewModel.IsRecording;
 		}
 	}

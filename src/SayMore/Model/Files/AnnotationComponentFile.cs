@@ -54,7 +54,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsAnnotatingAudioFile()
 		{
-			return Settings.Default.AudioFileExtensions.Contains(Path.GetExtension(GetPathToAssociatedMediaFile()));
+			return Settings.Default.AudioFileExtensions.Contains(
+				Path.GetExtension(GetPathToAssociatedMediaFile().ToLower()));
 		}
 
 		/// ------------------------------------------------------------------------------------

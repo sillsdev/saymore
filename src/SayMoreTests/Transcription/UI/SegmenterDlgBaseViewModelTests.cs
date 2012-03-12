@@ -199,6 +199,14 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void DiscardRecordedAnnotations_NoAnnotationFolder_DoesNotCrash()
+		{
+			Directory.Delete(_model.OralAnnotationsFolder, true);
+			_model.DiscardRecordedAnnotations();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void DiscardRecordedAnnotations_NoFilesToDiscardWhenNoNewRecordings_DoesNothing()
 		{
 			var srcFile = Path.Combine(_model.OralAnnotationsFolder, "one_Careful.wav");
@@ -206,7 +214,7 @@ namespace SayMoreTests.Transcription.UI
 			CreateNewModel();
 
 			Assert.AreEqual(1, Directory.GetFiles(_model.OralAnnotationsFolder, "*.*").Count());
-			_model.DiscardChanges();
+			_model.DiscardRecordedAnnotations();
 			Assert.AreEqual(1, Directory.GetFiles(_model.OralAnnotationsFolder, "*.*").Count());
 		}
 
@@ -222,7 +230,7 @@ namespace SayMoreTests.Transcription.UI
 			File.OpenWrite(newRecording).Close();
 
 			Assert.AreEqual(2, Directory.GetFiles(_model.OralAnnotationsFolder, "*.*").Count());
-			_model.DiscardChanges();
+			_model.DiscardRecordedAnnotations();
 			Assert.AreEqual(1, Directory.GetFiles(_model.OralAnnotationsFolder, "*.*").Count());
 			Assert.IsFalse(File.Exists(newRecording));
 		}

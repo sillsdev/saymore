@@ -115,6 +115,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void DiscardRecordedAnnotations()
 		{
+			if (!Directory.Exists(OralAnnotationsFolder))
+				return;
+
 			foreach (var file in Directory.GetFiles(OralAnnotationsFolder, "*.wav")
 				.Where(f => !_oralAnnotationFilesBeforeChanges.Contains(f)))
 			{

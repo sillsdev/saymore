@@ -36,8 +36,8 @@ namespace SayMore
 		{
 			// This is pretty annoying: When because .Net doesn't have a font style of SemiBold
 			// (e.g. Segoe UI SemiBold), fonts having that style are assumed to be bold, but
-			// when some controls (e.g. Label) are set to a SemiBold font, the are displayed as
-			// bold, so we'll create our own forcing the style to regular, which seems to work.
+			// when some controls (e.g. Label) are set to a SemiBold font, they are displayed as
+			// bold, so we'll create our own, forcing the style to regular, which seems to work.
 			// Don't use SystemFonts.DefaultFont because that always returns "Microsoft Sans Serif"
 			// and SystemFonts.DialogFont always returns "Tahoma", regardless of OS.
 			// See: http://benhollis.net/blog/2007/04/11/setting-the-correct-default-font-in-net-windows-forms-apps/
@@ -54,7 +54,6 @@ namespace SayMore
 				Settings.Default.NeedUpgrade = false;
 				Settings.Default.Save();
 			}
-
 
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList, 4);
 			_applicationContainer = new ApplicationContainer(false);
@@ -101,7 +100,7 @@ namespace SayMore
 		private static void StartUpShellBasedOnMostRecentUsedIfPossible()
 		{
 			if (MruFiles.Latest == null || !File.Exists(MruFiles.Latest) ||
-				!OpenProjectWindow(MruFiles.Latest))
+				(Control.ModifierKeys == Keys.Shift) || !OpenProjectWindow(MruFiles.Latest))
 			{
 				//since the message pump hasn't started yet, show the UI for choosing when it is
 				Application.Idle += ChooseAnotherProject;

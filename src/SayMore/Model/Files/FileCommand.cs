@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using Localization;
 
 namespace SayMore.Model.Files
 {
@@ -47,10 +49,22 @@ namespace SayMore.Model.Files
 			try
 			{
 				Process.Start(path);
+
+				// I observed a case when an exception was thrown when the file specified by
+				// path doesn't have an associated application. I can only assume the process
+				// threw the exception after leaving this try/catch block. Therefore, we'll
+				// sleep for a second in hopes that any exceptions the process may throw
+				// get caught here.
+				Thread.Sleep(1000);
 			}
 			catch (Exception error)
 			{
-				Palaso.Reporting.ErrorReport.ReportNonFatalException(error);
+				var msg = LocalizationManager.GetString(
+					"CommonToMultipleViews.FileList.CannotOpenFileInApplicationErrorMsg",
+					"There was a problem opening the file\r\n\r\n'{0}'\r\n\r\n" +
+					"Make sure there is an application associated with this type of file.");
+
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error,  msg, path);
 			}
 		}
 

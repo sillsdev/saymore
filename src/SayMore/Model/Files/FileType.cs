@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
-using Palaso.CommandLineProcessing;
 using Palaso.Progress;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.Media;

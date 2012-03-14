@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using Localization;
 using NAudio.Wave;
-using Palaso.CommandLineProcessing;
-using Palaso.Progress.LogBox;
 
 namespace SayMore.AudioUtils
 {
@@ -20,7 +18,7 @@ namespace SayMore.AudioUtils
 		public static WaveStreamProvider Create(WaveFormat preferredOutputFormat, string mediaFilename)
 		{
 			var provider = new WaveStreamProvider(preferredOutputFormat, mediaFilename);
-			provider.BuildWaveStream();
+			provider.BuildWaveStream(mediaFilename);
 			return provider;
 		}
 
@@ -45,79 +43,37 @@ namespace SayMore.AudioUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void BuildWaveStream()
+		private void BuildWaveStream(string mediaFile)
 		{
 			if (!File.Exists(MediaFileName))
 			{
 				Error = new FileNotFoundException(
-					LocalizationManager.GetString("SoundFileUtils.MediaFileDoesNotExistErrorMsg", "Media file does not exist."),
-					MediaFileName);
+					LocalizationManager.GetString("SoundFileUtils.MediaFileDoesNotExistErrorMsg",
+					"Media file does not exist."), mediaFile);
 
 				return;
 			}
-
-			WaveStream stream;
 
 			try
 			{
 				// First, just try to open the file as a wave file. If that fails, use
 				// ffmpeg in an attempt to get wave audio out of the file.
-				stream = new WaveFileReader(MediaFileName);
-			}
-			catch
-			{
-				var execResult = CreateFFmpegGeneratedAudioFile();
-				if (execResult.ExitCode == 0)
-					Stream = new WaveFileReader(_temporaryWavFile);
-				else
+				if (WaveFileUtils.GetIsFilePlainPcm(mediaFile))
 				{
-					var msg = LocalizationManager.GetString("SoundFileUtils.ExtractingAudioError",
-						"There was an error extracting audio from the media file '{0}'\n\n{1}",
-						"Second parameter is the error message.");
-
-					Error = new Exception(string.Format(msg, execResult.StandardError));
+					Stream = new WaveFileReader(mediaFile);
+					return;
 				}
-
-				return;
 			}
+			catch { }
 
-			//if (stream.WaveFormat.BitsPerSample != OutputFormat.BitsPerSample ||
-			//    stream.WaveFormat.SampleRate != OutputFormat.SampleRate ||
-			//    stream.WaveFormat.Channels != OutputFormat.Channels)
-			//{
-			//    try
-			//    {
-			//        stream = new WaveFormatConversionStream(OutputFormat, stream);
-			//    }
-			//    catch (Exception e)
-			//    {
-			//        var execResult = CreateFFmpegGeneratedAudioFile();
-			//        if (execResult.ExitCode == 0)
-			//            stream = new WaveFileReader(_temporaryWavFile);
-			//        else
-			//        {
-			//            stream = null;
-			//            var msg = LocalizationManager.GetString("SoundFileUtils.ConvertingAudioError",
-			//                "There was an error converting the audio file '{0}' to the correct format.\n\n{1}",
-			//                "Second parameter is the error message.");
+			Exception error;
 
-			//            Error = new Exception(string.Format(msg, execResult.StandardError), e);
-			//            return;
-			//        }
-			//    }
-			//}
-
-			Stream = stream;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private ExecutionResult CreateFFmpegGeneratedAudioFile()
-		{
 			_temporaryWavFile = Path.ChangeExtension(Path.GetTempFileName(), ".wav");
 
-			return Palaso.Media.FFmpegRunner.ExtractPcmAudio(MediaFileName,
-				_temporaryWavFile, PreferredOutputFormat.BitsPerSample, PreferredOutputFormat.SampleRate,
-				PreferredOutputFormat.Channels, new NullProgress());
+			Stream = WaveFileUtils.GetPlainPcmStream(mediaFile, _temporaryWavFile,
+				PreferredOutputFormat, out error);
+
+			Error = error;
 		}
 
 		/// ------------------------------------------------------------------------------------

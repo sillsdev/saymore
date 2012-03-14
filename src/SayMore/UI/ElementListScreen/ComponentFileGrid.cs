@@ -331,11 +331,12 @@ namespace SayMore.UI.ElementListScreen
 
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
 
-			//var file = (_files.Any() && _grid.CurrentCellAddress.Y >= 0 ?
-			//    _files.ElementAt(_grid.CurrentCellAddress.Y) : null);
+			_grid.CurrentRowChanged -= HandleFileGridCurrentRowChanged;
 
 			if (null != AfterComponentSelected && _grid.CurrentCellAddress.Y >= 0)
 				AfterComponentSelected(_grid.CurrentCellAddress.Y);
+
+			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -355,7 +356,7 @@ namespace SayMore.UI.ElementListScreen
 		public void SelectComponent(int index)
 		{
 			_grid.CurrentCell = (index >= 0 && index < _files.Count() ? _grid[0, index] : null);
-			BuildMenuCommands(index);
+			HandleFileGridCurrentRowChanged(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -386,10 +387,10 @@ namespace SayMore.UI.ElementListScreen
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void TrySetComponent(string file)
+		public bool TrySetComponent(string file)
 		{
 			if (string.IsNullOrEmpty(file))
-				return;
+				return false;
 
 			file = Path.GetFileName(file);
 			int i = 0;
@@ -398,11 +399,13 @@ namespace SayMore.UI.ElementListScreen
 				if (Path.GetFileName(f.PathToAnnotatedFile) == file)
 				{
 					SelectComponent(i);
-					return;
+					return true;
 				}
 
 				i++;
 			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------

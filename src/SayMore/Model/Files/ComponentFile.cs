@@ -10,6 +10,7 @@ using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.FileSystem;
+using SayMore.AudioUtils;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -193,6 +194,13 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual bool GetNeedsConvertingToStandardAudio()
+		{
+			return (GetCanHaveAnnotationFile() &&
+				!WaveFileUtils.GetIsFilePlainPcm(PathToAnnotatedFile));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the full path of to the component file's annotation file, even if the file
 		/// doesn't exist. If the component file is not of a type that can have an annotation
@@ -218,7 +226,16 @@ namespace SayMore.Model.Files
 		public virtual string GetSuggestedPathToOralAnnotationFile()
 		{
 			return (!GetCanHaveAnnotationFile() ? null :
-				PathToAnnotatedFile + Settings.Default.OralAnnotationGeneratedFileAffix);
+				PathToAnnotatedFile + Settings.Default.OralAnnotationGeneratedFileSuffix);
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		public virtual string GetSuggestedPathToStandardAudioFile()
+		{
+			var filename = Path.GetFileNameWithoutExtension(PathToAnnotatedFile);
+			filename += Settings.Default.StandardAudioFileSuffix;
+			return Path.Combine(Path.GetDirectoryName(PathToAnnotatedFile), filename);
 		}
 
 		/// ------------------------------------------------------------------------------------

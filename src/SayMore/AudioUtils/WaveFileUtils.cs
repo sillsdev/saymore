@@ -5,6 +5,7 @@ using Localization;
 using NAudio.Wave;
 using NAudio.Wave.Compression;
 using Palaso.Media;
+using Palaso.Progress;
 using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 
@@ -12,6 +13,33 @@ namespace SayMore.AudioUtils
 {
 	public class WaveFileUtils
 	{
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsFilePlainPcm(string audioFilePath)
+		{
+			WaveFileReader reader = null;
+
+			try
+			{
+				reader = new WaveFileReader(audioFilePath);
+				if (reader.WaveFormat.Encoding != WaveFormatEncoding.Pcm)
+					return false;
+			}
+			catch
+			{
+				return false;
+			}
+			finally
+			{
+				if (reader != null)
+				{
+					reader.Close();
+					reader.Dispose();
+				}
+			}
+
+			return true;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public static WaveFormat GetDefaultWaveFormat(int channels)
 		{
@@ -55,6 +83,37 @@ namespace SayMore.AudioUtils
 
 			return new WaveFormat(bestFormat.SampleRate, bestFormat.BitsPerSample, channels);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public static WaveFileReader GetPlainPcmStream(string inputMediaFile,
+			string outputAudioFile, WaveFormat preferredOutputFormat, out Exception error)
+		{
+			error = null;
+
+			try
+			{
+				WaitCursor.Show();
+
+				var execResult = FFmpegRunner.ExtractPcmAudio(inputMediaFile, outputAudioFile,
+					preferredOutputFormat.BitsPerSample, preferredOutputFormat.SampleRate,
+					preferredOutputFormat.Channels, new NullProgress());
+
+				if (execResult.ExitCode == 0)
+					return new WaveFileReader(outputAudioFile);
+
+				var msg = LocalizationManager.GetString("SoundFileUtils.ExtractingAudioError",
+					"There was an error extracting audio from the media file '{0}'\r\n\r\n{1}",
+					"Second parameter is the error message.");
+
+				error = new Exception(string.Format(msg, inputMediaFile, execResult.StandardError));
+				return null;
+			}
+			finally
+			{
+				WaitCursor.Hide();
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// It's up to the caller to close and dispose of the stream.

@@ -7,6 +7,7 @@ using Palaso.Reporting;
 using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.UI;
 using SayMore.UI.ComponentEditors;
 using SilTools;
 
@@ -83,8 +84,19 @@ namespace SayMore.Transcription.UI
 			var format = WaveFileUtils.GetDefaultWaveFormat(mediaInfo.Channels);
 			Exception error;
 
-			WaveFileUtils.GetPlainPcmStream(_file.PathToAnnotatedFile,
-				pathToStdAudioFile, format, out error);
+			var msg = LocalizationManager.GetString(
+				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio.ConvertingMsg",
+				"Converting...");
+
+			using (var dlg = new LoadingDlg(msg))
+			{
+				dlg.Show(this);
+
+				WaveFileUtils.GetPlainPcmStream(_file.PathToAnnotatedFile,
+					pathToStdAudioFile, format, out error);
+
+				dlg.Close();
+			}
 
 			if (error == null && File.Exists(pathToStdAudioFile))
 			{
@@ -94,7 +106,7 @@ namespace SayMore.Transcription.UI
 				return;
 			}
 
-			var msg = LocalizationManager.GetString(
+			msg = LocalizationManager.GetString(
 				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio.ConversionErrorMsg",
 				"There was an error trying to create a standard audio file from:\r\n\r\n{0}");
 

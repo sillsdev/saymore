@@ -336,10 +336,112 @@ namespace SayMoreTests.Model.Files
 			Assert.IsTrue(CreateAudioComponentFile("abc.wav").GetDoesHaveAnnotationFile());
 		}
 
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetSuggestedPathToOralAnnotationFile_FileCannotBeAnnotated_ReturnsNull()
+		{
+			var file = CreateAudioComponentFile("abc.pdf");
+			Assert.IsNull(file.GetSuggestedPathToOralAnnotationFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetSuggestedPathToOralAnnotationFile_FileCanBeAnnotated_ReturnsCorrectPath()
+		{
+			Assert.AreEqual("abc.mp3.oralAnnotations.wav", Path.GetFileName(
+				CreateAudioComponentFile("abc.mp3").GetSuggestedPathToOralAnnotationFile()));
+
+			Assert.AreEqual("abc.wav.oralAnnotations.wav", Path.GetFileName(
+				CreateAudioComponentFile("abc.wav").GetSuggestedPathToOralAnnotationFile()));
+
+			Assert.AreEqual("abc.wma.oralAnnotations.wav", Path.GetFileName(
+				CreateAudioComponentFile("abc.wma").GetSuggestedPathToOralAnnotationFile()));
+
+			Assert.AreEqual("abc.mov.oralAnnotations.wav", Path.GetFileName(
+				CreateVideoComponentFile("abc.mov").GetSuggestedPathToOralAnnotationFile()));
+
+			Assert.AreEqual("abc.mpg.oralAnnotations.wav", Path.GetFileName(
+				CreateVideoComponentFile("abc.mpg").GetSuggestedPathToOralAnnotationFile()));
+
+			Assert.AreEqual("abc.wmv.oralAnnotations.wav", Path.GetFileName(
+				CreateVideoComponentFile("abc.wmv").GetSuggestedPathToOralAnnotationFile()));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetSuggestedPathToAnnotationFile_FileCannotBeAnnotated_ReturnsNull()
+		{
+			var file = CreateAudioComponentFile("abc.pdf");
+			Assert.IsNull(file.GetSuggestedPathToAnnotationFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetSuggestedPathToAnnotationFile_FileCanBeAnnotated_ReturnsCorrectPath()
+		{
+			Assert.AreEqual("abc.mp3.annotations.eaf", Path.GetFileName(
+				CreateAudioComponentFile("abc.mp3").GetSuggestedPathToAnnotationFile()));
+
+			Assert.AreEqual("abc.wav.annotations.eaf", Path.GetFileName(
+				CreateAudioComponentFile("abc.wav").GetSuggestedPathToAnnotationFile()));
+
+			Assert.AreEqual("abc.wma.annotations.eaf", Path.GetFileName(
+				CreateAudioComponentFile("abc.wma").GetSuggestedPathToAnnotationFile()));
+
+			Assert.AreEqual("abc.mov.annotations.eaf", Path.GetFileName(
+				CreateVideoComponentFile("abc.mov").GetSuggestedPathToAnnotationFile()));
+
+			Assert.AreEqual("abc.mpg.annotations.eaf", Path.GetFileName(
+				CreateVideoComponentFile("abc.mpg").GetSuggestedPathToAnnotationFile()));
+
+			Assert.AreEqual("abc.wmv.annotations.eaf", Path.GetFileName(
+				CreateVideoComponentFile("abc.wmv").GetSuggestedPathToAnnotationFile()));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetSuggestedPathToStandardAudioFile_FileCannotBeAnnotated_ReturnsNull()
+		{
+			var file = CreateAudioComponentFile("abc.pdf");
+			Assert.IsNull(file.GetSuggestedPathToStandardAudioFile());
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetSuggestedPathToStandardAudioFile_FileCanBeAnnotated_ReturnsCorrectPath()
+		{
+			foreach (var ext in new[] { "mp3", "wav", "wma" })
+			{
+				Assert.AreEqual("abc_StandardAudio.wav", Path.GetFileName(
+					CreateAudioComponentFile("abc." + ext).GetSuggestedPathToStandardAudioFile()));
+			}
+
+			foreach (var ext in new[] { "mov", "mpg", "wmv" })
+			{
+				Assert.AreEqual("abc_StandardAudio.wav", Path.GetFileName(
+					CreateVideoComponentFile("abc." + ext).GetSuggestedPathToStandardAudioFile()));
+			}
+		}
+
 		private ComponentFile CreateAudioComponentFile(string filename)
 		{
 			var file = new ComponentFile(null, _parentFolder.Combine(filename),
 				new FileType[] { new AudioFileType(null, null), new UnknownFileType(null, null) },
+				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
+
+			var annotationPath = Path.Combine(_parentFolder.Path, filename + ".annotations.eaf");
+			AnnotationFileHelperTests.CreateTestEaf(annotationPath);
+			var annotationFile = new AnnotationComponentFile(null, annotationPath,
+				null, new AnnotationFileType(null), null);
+
+			file.SetAnnotationFile(annotationFile);
+			return file;
+		}
+
+		private ComponentFile CreateVideoComponentFile(string filename)
+		{
+			var file = new ComponentFile(null, _parentFolder.Combine(filename),
+				new FileType[] { new VideoFileType(null, null), new UnknownFileType(null, null) },
 				new ComponentRole[] { }, new FileSerializer(null), null, null, null);
 
 			var annotationPath = Path.Combine(_parentFolder.Path, filename + ".annotations.eaf");

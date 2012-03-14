@@ -229,10 +229,18 @@ namespace SayMore.Model.Files
 				PathToAnnotatedFile + Settings.Default.OralAnnotationGeneratedFileSuffix);
 		}
 
-
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path to what the component file's standard audio file is or should
+		/// be. If the component file is not of a type that can have an annotation file, then
+		/// null is returned.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetSuggestedPathToStandardAudioFile()
 		{
+			if (!GetCanHaveAnnotationFile())
+				return null;
+
 			var filename = Path.GetFileNameWithoutExtension(PathToAnnotatedFile);
 			filename += Settings.Default.StandardAudioFileSuffix;
 			return Path.Combine(Path.GetDirectoryName(PathToAnnotatedFile), filename);

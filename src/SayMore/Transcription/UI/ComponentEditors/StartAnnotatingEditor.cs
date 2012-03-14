@@ -1,8 +1,8 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using Localization;
+using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -57,15 +57,19 @@ namespace SayMore.Transcription.UI
 		{
 			get
 			{
-				return (_file != null && !_file.GetDoesHaveAnnotationFile() &&
-					Path.GetExtension(_file.PathToAnnotatedFile).ToLower() == ".wav");
+				return (_file != null &&
+					!_file.GetDoesHaveAnnotationFile() &&
+					_file.GetCanHaveAnnotationFile() &&
+					WaveFileUtils.GetIsFilePlainPcm(_file.PathToAnnotatedFile));
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleStringsLocalized()
 		{
-			TabText = LocalizationManager.GetString("EventsView.Transcription.StartAnnotatingTab.TabText", "Start Annotating");
+			TabText = LocalizationManager.GetString(
+				"EventsView.Transcription.StartAnnotatingTab.TabText", "Start Annotating");
+
 			base.HandleStringsLocalized();
 		}
 
@@ -91,7 +95,8 @@ namespace SayMore.Transcription.UI
 				var caption = LocalizationManager.GetString(
 					"DialogBoxes.Transcription.CreateAnnotationFileDlg.LoadSegmentFileDlgCaption", "Select Segment File");
 
-				var filetype = LocalizationManager.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString",
+				var filetype = LocalizationManager.GetString(
+					"DialogBoxes.Transcription.CreateAnnotationFileDlg.ElanFileTypeString",
 					"ELAN File (*.eaf)|*.eaf");
 
 				newAnnotationFile = GetAudacityOrElanFile(caption, filetype);
@@ -100,9 +105,11 @@ namespace SayMore.Transcription.UI
 			else if (_radioButtonAudacity.Checked)
 			{
 				var caption = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption", "Select Audacity Label File");
+					"DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.Caption",
+					"Select Audacity Label File");
 
-				var filetype = LocalizationManager.GetString("DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString",
+				var filetype = LocalizationManager.GetString(
+					"DialogBoxes.Transcription.CreateAnnotationFileDlg.AudacityLabelOpenFileDlg.FileTypeString",
 					"Audacity Label File (*.txt)|*.txt");
 
 				newAnnotationFile = GetAudacityOrElanFile(caption, filetype);
@@ -114,7 +121,7 @@ namespace SayMore.Transcription.UI
 			}
 
 			if (newAnnotationFile != null && ComponentFileListRefreshAction != null)
-				ComponentFileListRefreshAction(newAnnotationFile);
+				ComponentFileListRefreshAction(newAnnotationFile, null);
 
 			_buttonGetStarted.Enabled = true;
 		}

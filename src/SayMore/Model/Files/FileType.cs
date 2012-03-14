@@ -514,7 +514,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override bool IsMatch(string path)
 		{
-			return path.ToLower().EndsWith(Settings.Default.OralAnnotationGeneratedFileAffix.ToLower());
+			return path.ToLower().EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix.ToLower());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -548,6 +548,13 @@ namespace SayMore.Model.Files
 			Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
 			: base(name, isMatchPredicate, contributorsEditorFactoryLazy)
 		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
+		{
+			yield return new StartAnnotatingEditor(file);
+			yield return new ConvertToStandardAudioEditor(file);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -794,7 +801,9 @@ namespace SayMore.Model.Files
 			yield return _audioComponentEditorFactoryLazy()(file, null);
 			yield return _contributorsEditorFactoryLazy()(file, null);
 			yield return new NotesEditor(file);
-			yield return new StartAnnotatingEditor(file);
+
+			foreach (var editor in base.GetNewSetOfEditorProviders(file))
+				yield return editor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -955,7 +964,8 @@ namespace SayMore.Model.Files
 				//todo ask the user (or don't offer this in the first place)
 				//File.Delete(outputPath);
 
-				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.Convert.FileAlreadyExistsDuringConversionErrorMsg",
+				var msg = LocalizationManager.GetString(
+					"CommonToMultipleViews.FileList.Convert.FileAlreadyExistsDuringConversionErrorMsg",
 					"Sorry, the file '{0}' already exists.");
 
 				ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(outputPath));
@@ -972,6 +982,9 @@ namespace SayMore.Model.Files
 			yield return _videoComponentEditorFactoryLazy()(file, null);
 			yield return _contributorsEditorFactoryLazy()(file, null);
 			yield return new NotesEditor(file);
+
+			foreach (var editor in base.GetNewSetOfEditorProviders(file))
+				yield return editor;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -268,8 +268,11 @@ namespace SayMore.Transcription.UI
 			var annotationType = (sender == _buttonCarefulSpeech ?
 				OralAnnotationType.Careful : OralAnnotationType.Translation);
 
-			if (AssociatedComponentFile.RecordAnnotations(annotationType) != null && ComponentFileListRefreshAction != null)
-				ComponentFileListRefreshAction(_file.PathToAnnotatedFile);
+			if (AssociatedComponentFile.RecordAnnotations(annotationType) != null &&
+				ComponentFileListRefreshAction != null)
+			{
+				ComponentFileListRefreshAction(_file.PathToAnnotatedFile, null);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

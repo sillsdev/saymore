@@ -32,7 +32,7 @@ namespace SayMore.Transcription.UI
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
+			this._tableLayoutGetStarted = new System.Windows.Forms.TableLayoutPanel();
 			this._radioButtonAutoSegmenter = new System.Windows.Forms.RadioButton();
 			this._radioButtonAudacity = new System.Windows.Forms.RadioButton();
 			this._radioButtonElan = new System.Windows.Forms.RadioButton();
@@ -48,47 +48,47 @@ namespace SayMore.Transcription.UI
 			this._buttonManualSegmentationHelp = new System.Windows.Forms.Button();
 			this._buttonGetStarted = new System.Windows.Forms.Button();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this._tableLayout.SuspendLayout();
+			this._tableLayoutGetStarted.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// _tableLayout
+			// _tableLayoutGetStarted
 			// 
-			this._tableLayout.AutoSize = true;
-			this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._tableLayout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(240)))), ((int)(((byte)(159)))));
-			this._tableLayout.ColumnCount = 2;
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayout.Controls.Add(this._radioButtonAutoSegmenter, 0, 7);
-			this._tableLayout.Controls.Add(this._radioButtonAudacity, 0, 6);
-			this._tableLayout.Controls.Add(this._radioButtonElan, 0, 5);
-			this._tableLayout.Controls.Add(this._radioButtonCarefulSpeech, 0, 4);
-			this._tableLayout.Controls.Add(this._labelSegmentationMethod, 0, 2);
-			this._tableLayout.Controls.Add(this._labelIntroduction, 0, 0);
-			this._tableLayout.Controls.Add(this._labelSegmentationMethodQuestion, 0, 1);
-			this._tableLayout.Controls.Add(this._radioButtonManual, 0, 3);
-			this._tableLayout.Controls.Add(this._buttonAudacityHelp, 1, 6);
-			this._tableLayout.Controls.Add(this._buttonELANFileHelp, 1, 5);
-			this._tableLayout.Controls.Add(this._buttonAutoSegmenterHelp, 1, 7);
-			this._tableLayout.Controls.Add(this._buttonCarefulSpeechToolHelp, 1, 4);
-			this._tableLayout.Controls.Add(this._buttonManualSegmentationHelp, 1, 3);
-			this._tableLayout.Controls.Add(this._buttonGetStarted, 0, 8);
-			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Top;
-			this._tableLayout.Location = new System.Drawing.Point(12, 6);
-			this._tableLayout.Name = "_tableLayout";
-			this._tableLayout.RowCount = 9;
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayout.Size = new System.Drawing.Size(488, 283);
-			this._tableLayout.TabIndex = 0;
+			this._tableLayoutGetStarted.AutoSize = true;
+			this._tableLayoutGetStarted.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._tableLayoutGetStarted.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(240)))), ((int)(((byte)(159)))));
+			this._tableLayoutGetStarted.ColumnCount = 2;
+			this._tableLayoutGetStarted.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutGetStarted.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutGetStarted.Controls.Add(this._radioButtonAutoSegmenter, 0, 7);
+			this._tableLayoutGetStarted.Controls.Add(this._radioButtonAudacity, 0, 6);
+			this._tableLayoutGetStarted.Controls.Add(this._radioButtonElan, 0, 5);
+			this._tableLayoutGetStarted.Controls.Add(this._radioButtonCarefulSpeech, 0, 4);
+			this._tableLayoutGetStarted.Controls.Add(this._labelSegmentationMethod, 0, 2);
+			this._tableLayoutGetStarted.Controls.Add(this._labelIntroduction, 0, 0);
+			this._tableLayoutGetStarted.Controls.Add(this._labelSegmentationMethodQuestion, 0, 1);
+			this._tableLayoutGetStarted.Controls.Add(this._radioButtonManual, 0, 3);
+			this._tableLayoutGetStarted.Controls.Add(this._buttonAudacityHelp, 1, 6);
+			this._tableLayoutGetStarted.Controls.Add(this._buttonELANFileHelp, 1, 5);
+			this._tableLayoutGetStarted.Controls.Add(this._buttonAutoSegmenterHelp, 1, 7);
+			this._tableLayoutGetStarted.Controls.Add(this._buttonCarefulSpeechToolHelp, 1, 4);
+			this._tableLayoutGetStarted.Controls.Add(this._buttonManualSegmentationHelp, 1, 3);
+			this._tableLayoutGetStarted.Controls.Add(this._buttonGetStarted, 0, 8);
+			this._tableLayoutGetStarted.Dock = System.Windows.Forms.DockStyle.Top;
+			this._tableLayoutGetStarted.Location = new System.Drawing.Point(12, 6);
+			this._tableLayoutGetStarted.Name = "_tableLayoutGetStarted";
+			this._tableLayoutGetStarted.RowCount = 9;
+			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutGetStarted.Size = new System.Drawing.Size(512, 283);
+			this._tableLayoutGetStarted.TabIndex = 0;
 			// 
 			// _radioButtonAutoSegmenter
 			// 
@@ -160,14 +160,14 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentationMethod.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelSegmentationMethod.AutoSize = true;
-			this._tableLayout.SetColumnSpan(this._labelSegmentationMethod, 2);
+			this._tableLayoutGetStarted.SetColumnSpan(this._labelSegmentationMethod, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelSegmentationMethod, null);
 			this.locExtender.SetLocalizationComment(this._labelSegmentationMethod, null);
 			this.locExtender.SetLocalizingId(this._labelSegmentationMethod, "EventsView.Transcription.StartAnnotatingTab._labelSegmentationMethod");
 			this._labelSegmentationMethod.Location = new System.Drawing.Point(15, 87);
 			this._labelSegmentationMethod.Margin = new System.Windows.Forms.Padding(15, 0, 15, 4);
 			this._labelSegmentationMethod.Name = "_labelSegmentationMethod";
-			this._labelSegmentationMethod.Size = new System.Drawing.Size(458, 13);
+			this._labelSegmentationMethod.Size = new System.Drawing.Size(482, 13);
 			this._labelSegmentationMethod.TabIndex = 2;
 			this._labelSegmentationMethod.Text = "Segmentation Method";
 			// 
@@ -176,14 +176,14 @@ namespace SayMore.Transcription.UI
 			this._labelIntroduction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelIntroduction.AutoSize = true;
-			this._tableLayout.SetColumnSpan(this._labelIntroduction, 2);
+			this._tableLayoutGetStarted.SetColumnSpan(this._labelIntroduction, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelIntroduction, null);
 			this.locExtender.SetLocalizationComment(this._labelIntroduction, null);
 			this.locExtender.SetLocalizingId(this._labelIntroduction, "EventsView.Transcription.StartAnnotatingTab._labelIntroduction");
 			this._labelIntroduction.Location = new System.Drawing.Point(15, 10);
 			this._labelIntroduction.Margin = new System.Windows.Forms.Padding(15, 10, 15, 15);
 			this._labelIntroduction.Name = "_labelIntroduction";
-			this._labelIntroduction.Size = new System.Drawing.Size(458, 26);
+			this._labelIntroduction.Size = new System.Drawing.Size(482, 26);
 			this._labelIntroduction.TabIndex = 0;
 			this._labelIntroduction.Text = "You can add transcription, translation, careful speech and audio translation to t" +
     "his media file. But first...";
@@ -193,14 +193,14 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentationMethodQuestion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelSegmentationMethodQuestion.AutoSize = true;
-			this._tableLayout.SetColumnSpan(this._labelSegmentationMethodQuestion, 2);
+			this._tableLayoutGetStarted.SetColumnSpan(this._labelSegmentationMethodQuestion, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelSegmentationMethodQuestion, null);
 			this.locExtender.SetLocalizationComment(this._labelSegmentationMethodQuestion, null);
 			this.locExtender.SetLocalizingId(this._labelSegmentationMethodQuestion, "EventsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion");
 			this._labelSegmentationMethodQuestion.Location = new System.Drawing.Point(15, 51);
 			this._labelSegmentationMethodQuestion.Margin = new System.Windows.Forms.Padding(15, 0, 15, 10);
 			this._labelSegmentationMethodQuestion.Name = "_labelSegmentationMethodQuestion";
-			this._labelSegmentationMethodQuestion.Size = new System.Drawing.Size(458, 26);
+			this._labelSegmentationMethodQuestion.Size = new System.Drawing.Size(482, 26);
 			this._labelSegmentationMethodQuestion.TabIndex = 1;
 			this._labelSegmentationMethodQuestion.Text = "Each annotation will be linked to a single time segment of media. How would you l" +
     "ike to identify those segments?";
@@ -357,16 +357,16 @@ namespace SayMore.Transcription.UI
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this._tableLayout);
+			this.Controls.Add(this._tableLayoutGetStarted);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "EventsView.Transcription.StartAnnotatingTab.EditorBase");
 			this.Name = "StartAnnotatingEditor";
 			this.Padding = new System.Windows.Forms.Padding(12, 6, 12, 12);
-			this.Size = new System.Drawing.Size(512, 364);
-			this._tableLayout.ResumeLayout(false);
-			this._tableLayout.PerformLayout();
+			this.Size = new System.Drawing.Size(536, 320);
+			this._tableLayoutGetStarted.ResumeLayout(false);
+			this._tableLayoutGetStarted.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -375,7 +375,7 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		private System.Windows.Forms.TableLayoutPanel _tableLayout;
+		private System.Windows.Forms.TableLayoutPanel _tableLayoutGetStarted;
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Label _labelSegmentationMethodQuestion;
 		private System.Windows.Forms.Label _labelSegmentationMethod;

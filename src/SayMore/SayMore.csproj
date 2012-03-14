@@ -176,6 +176,12 @@
     <Compile Include="Transcription\Model\OralAnnotationFileGenerator.cs" />
     <Compile Include="Transcription\Model\TextTier.cs" />
     <Compile Include="Transcription\Model\TierBase.cs" />
+    <Compile Include="Transcription\UI\ComponentEditors\ConvertToStandardAudioEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transcription\UI\ComponentEditors\ConvertToStandardAudioEditor.designer.cs">
+      <DependentUpon>ConvertToStandardAudioEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transcription\UI\ComponentEditors\OralAnnotationEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -579,6 +585,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Transcription\UI\AutoSegmenterDlg.resx">
       <DependentUpon>AutoSegmenterDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transcription\UI\ComponentEditors\ConvertToStandardAudioEditor.resx">
+      <DependentUpon>ConvertToStandardAudioEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\ComponentEditors\OralAnnotationEditor.resx">
       <DependentUpon>OralAnnotationEditor.cs</DependentUpon>

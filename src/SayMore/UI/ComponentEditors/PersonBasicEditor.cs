@@ -310,11 +310,12 @@ namespace SayMore.UI.ComponentEditors
 			if (error == null)
 			{
 				if (ComponentFileListRefreshAction != null)
-					ComponentFileListRefreshAction(null);
+					ComponentFileListRefreshAction(null, null);
 			}
 			else
 			{
-				var msg = LocalizationManager.GetString("PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg",
+				var msg = LocalizationManager.GetString(
+					"PeopleView.MetadataEditor.ErrorChangingPersonsPhotoMsg",
 					"There was an error changing the person's photo.");
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);

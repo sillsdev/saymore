@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
@@ -44,12 +45,31 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void TrySelectEditorOfType(Type componentEditorType)
+		{
+			if (componentEditorType == null)
+				return;
+
+			foreach (TabPage page in TabPages)
+			{
+				if (page.Controls.Count > 0 && page.Controls[0].GetType() == componentEditorType)
+				{
+					SelectedTab = page;
+					break;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void MakeAppropriateEditorsVisible()
 		{
 			var visibleEditors = EditorProviders.Where(ep => ep.IsOKSToShow).ToList();
 
-			if (visibleEditors.Count == TabPages.Count)
+			if (visibleEditors.Count == TabPages.Count &&
+				GetAreAppropriateEditorsAlreadyVisible(visibleEditors.Select(e => e.GetType()).ToList()))
+			{
 				return;
+			}
 
 			Utils.SetWindowRedraw(this, false);
 
@@ -59,9 +79,17 @@ namespace SayMore.UI.ComponentEditors
 			{
 				TabPages.Add(new ComponentEditorTabPage(editor, _componentEditorBorderColor));
 				editor.Control.BackColor = _componentEditorBackColor;
+				editor.Control.UseWaitCursor = false;
 			}
 
 			Utils.SetWindowRedraw(this, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool GetAreAppropriateEditorsAlreadyVisible(ICollection<Type> desiredEditorTypes)
+		{
+			return TabPages.Cast<TabPage>().All(tp => tp.Controls.Count <= 0 ||
+				!desiredEditorTypes.Contains(tp.Controls[0].GetType()));
 		}
 	}
 }

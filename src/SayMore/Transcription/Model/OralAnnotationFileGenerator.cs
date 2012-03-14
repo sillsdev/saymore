@@ -9,7 +9,6 @@ using NAudio.Wave.SampleProviders;
 using Palaso.Reporting;
 using SayMore.AudioUtils;
 using SayMore.Properties;
-using SayMore.Transcription.UI;
 using SayMore.UI;
 
 namespace SayMore.Transcription.Model
@@ -77,7 +76,7 @@ namespace SayMore.Transcription.Model
 		private static bool CanGenerate(TimeTier originalRecodingTier)
 		{
 			var pathToAnnotationsFolder = originalRecodingTier.MediaFileName +
-				Settings.Default.OralAnnotationsFolderAffix;
+				Settings.Default.OralAnnotationsFolderSuffix;
 
 			// First, look for the folder that stores the oral annotation segment files.
 			if (!Directory.Exists(pathToAnnotationsFolder))
@@ -85,8 +84,8 @@ namespace SayMore.Transcription.Model
 
 			// Now look in that folder to see if any segment files actually exist.
 			return (Directory.GetFiles(pathToAnnotationsFolder).Any(f =>
-				f.ToLower().EndsWith(Settings.Default.OralAnnotationCarefulSegmentFileAffix.ToLower()) ||
-				f.ToLower().EndsWith(Settings.Default.OralAnnotationTranslationSegmentFileAffix.ToLower())));
+				f.ToLower().EndsWith(Settings.Default.OralAnnotationCarefulSegmentFileSuffix.ToLower()) ||
+				f.ToLower().EndsWith(Settings.Default.OralAnnotationTranslationSegmentFileSuffix.ToLower())));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -134,7 +133,7 @@ namespace SayMore.Transcription.Model
 			}
 
 			_outputFileName = _origRecordingTier.MediaFileName +
-				Settings.Default.OralAnnotationGeneratedFileAffix;
+				Settings.Default.OralAnnotationGeneratedFileSuffix;
 
 			var tmpOutputFile = Path.GetFileName(_outputFileName);
 			tmpOutputFile = Path.Combine(Path.GetTempPath(), tmpOutputFile);
@@ -201,7 +200,7 @@ namespace SayMore.Transcription.Model
 			OralAnnotationType annotationType)
 		{
 			var pathToAnnotationsFolder = _origRecordingTier.MediaFileName +
-				Settings.Default.OralAnnotationsFolderAffix;
+				Settings.Default.OralAnnotationsFolderSuffix;
 
 			var filename = Path.Combine(pathToAnnotationsFolder, (annotationType == OralAnnotationType.Careful ?
 				TimeTier.ComputeFileNameForCarefulSpeechSegment(segment) :

@@ -27,7 +27,7 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			// Don't collect info. on oral annotation segment files.
 			var isOralAnnotationSegmentFile =
-				Path.GetDirectoryName(path.ToLower()).EndsWith(Settings.Default.OralAnnotationsFolderAffix.ToLower());
+				Path.GetDirectoryName(path.ToLower()).EndsWith(Settings.Default.OralAnnotationsFolderSuffix.ToLower());
 
 			return (!isOralAnnotationSegmentFile && base.GetDoIncludeFile(path));
 		}

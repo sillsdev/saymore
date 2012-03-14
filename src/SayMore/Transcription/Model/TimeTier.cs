@@ -75,14 +75,14 @@ namespace SayMore.Transcription.Model
 		public static string ComputeFileNameForCarefulSpeechSegment(float start, float end)
 		{
 			return string.Format("{0}_to_{1}{2}", start, end,
-				Settings.Default.OralAnnotationCarefulSegmentFileAffix);
+				Settings.Default.OralAnnotationCarefulSegmentFileSuffix);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static string ComputeFileNameForOralTranslationSegment(float start, float end)
 		{
 			return string.Format("{0}_to_{1}{2}", start, end,
-				Settings.Default.OralAnnotationTranslationSegmentFileAffix);
+				Settings.Default.OralAnnotationTranslationSegmentFileSuffix);
 		}
 
 		#endregion
@@ -97,7 +97,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public string SegmentFileFolder
 		{
-			get { return MediaFileName + Settings.Default.OralAnnotationsFolderAffix; }
+			get { return MediaFileName + Settings.Default.OralAnnotationsFolderSuffix; }
 		}
 
 		/// ------------------------------------------------------------------------------------

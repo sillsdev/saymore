@@ -342,16 +342,16 @@
     <Setting Name="OralAnnotationRecorderDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="OralAnnotationGeneratedFileAffix" Type="System.String" Scope="Application">
+    <Setting Name="OralAnnotationGeneratedFileSuffix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.oralAnnotations.wav</Value>
     </Setting>
-    <Setting Name="OralAnnotationsFolderAffix" Type="System.String" Scope="Application">
+    <Setting Name="OralAnnotationsFolderSuffix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">_Annotations</Value>
     </Setting>
-    <Setting Name="OralAnnotationCarefulSegmentFileAffix" Type="System.String" Scope="Application">
+    <Setting Name="OralAnnotationCarefulSegmentFileSuffix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">_Careful.wav</Value>
     </Setting>
-    <Setting Name="OralAnnotationTranslationSegmentFileAffix" Type="System.String" Scope="Application">
+    <Setting Name="OralAnnotationTranslationSegmentFileSuffix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">_Translation.wav</Value>
     </Setting>
     <Setting Name="MillisecondsToAdvanceSegmentBoundaryOnRightArrow" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
@@ -398,6 +398,9 @@
     </Setting>
     <Setting Name="MPlayerDebuggingOutputWindow" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="StandardAudioFileSuffix" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">_StandardAudio.wav</Value>
     </Setting>
   </Settings>
 </SettingsFile>

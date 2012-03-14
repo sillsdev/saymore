@@ -104,7 +104,7 @@ namespace SayMore.Model
 				!path.EndsWith("thumbs.db") &&
 				!path.EndsWith(".pfsx") &&
 				!path.EndsWith(Settings.Default.AnnotationFileExtension.ToLower()) &&
-				!path.EndsWith(Settings.Default.OralAnnotationGeneratedFileAffix.ToLower()) &&
+				!path.EndsWith(Settings.Default.OralAnnotationGeneratedFileSuffix.ToLower()) &&
 				!Path.GetFileName(path).StartsWith("."); //these are normally hidden
 		}
 

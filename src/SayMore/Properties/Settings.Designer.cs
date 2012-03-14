@@ -1122,36 +1122,36 @@ namespace SayMore.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(".oralAnnotations.wav")]
-        public string OralAnnotationGeneratedFileAffix {
+        public string OralAnnotationGeneratedFileSuffix {
             get {
-                return ((string)(this["OralAnnotationGeneratedFileAffix"]));
+                return ((string)(this["OralAnnotationGeneratedFileSuffix"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("_Annotations")]
-        public string OralAnnotationsFolderAffix {
+        public string OralAnnotationsFolderSuffix {
             get {
-                return ((string)(this["OralAnnotationsFolderAffix"]));
+                return ((string)(this["OralAnnotationsFolderSuffix"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("_Careful.wav")]
-        public string OralAnnotationCarefulSegmentFileAffix {
+        public string OralAnnotationCarefulSegmentFileSuffix {
             get {
-                return ((string)(this["OralAnnotationCarefulSegmentFileAffix"]));
+                return ((string)(this["OralAnnotationCarefulSegmentFileSuffix"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("_Translation.wav")]
-        public string OralAnnotationTranslationSegmentFileAffix {
+        public string OralAnnotationTranslationSegmentFileSuffix {
             get {
-                return ((string)(this["OralAnnotationTranslationSegmentFileAffix"]));
+                return ((string)(this["OralAnnotationTranslationSegmentFileSuffix"]));
             }
         }
         
@@ -1342,6 +1342,19 @@ namespace SayMore.Properties {
             }
             set {
                 this["MPlayerDebuggingOutputWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("_StandardAudio.wav")]
+        public string StandardAudioFileSuffix {
+            get {
+                return ((string)(this["StandardAudioFileSuffix"]));
+            }
+            set {
+                this["StandardAudioFileSuffix"] = value;
             }
         }
     }

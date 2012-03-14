@@ -26,7 +26,7 @@ namespace SayMore.Model.Files
 		public string GetPathToOriginalMediaFile()
 		{
 			return PathToAnnotatedFile.Substring(0,
-				PathToAnnotatedFile.Length -  Settings.Default.OralAnnotationGeneratedFileAffix.Length);
+				PathToAnnotatedFile.Length -  Settings.Default.OralAnnotationGeneratedFileSuffix.Length);
 		}
 
 		/// ------------------------------------------------------------------------------------

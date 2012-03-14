@@ -46,7 +46,7 @@ namespace SayMore.Transcription.UI
 			}
 
 			OralAnnotationsFolder = ComponentFile.PathToAnnotatedFile +
-				Settings.Default.OralAnnotationsFolderAffix;
+				Settings.Default.OralAnnotationsFolderSuffix;
 
 			TempOralAnnotationsFolder = Path.Combine(Path.GetTempPath(), "SayMoreOralAnnotations");
 			_oralAnnotationFilesBeforeChanges = GetListOfOralAnnotationSegmentFilesBeforeChanges().ToList();
@@ -81,8 +81,8 @@ namespace SayMore.Transcription.UI
 				return new string[0];
 
 			return Directory.GetFiles(OralAnnotationsFolder, "*.wav").Where(file =>
-				file.EndsWith(Settings.Default.OralAnnotationCarefulSegmentFileAffix) ||
-				file.EndsWith(Settings.Default.OralAnnotationTranslationSegmentFileAffix));
+				file.EndsWith(Settings.Default.OralAnnotationCarefulSegmentFileSuffix) ||
+				file.EndsWith(Settings.Default.OralAnnotationTranslationSegmentFileSuffix));
 		}
 
 		/// ------------------------------------------------------------------------------------

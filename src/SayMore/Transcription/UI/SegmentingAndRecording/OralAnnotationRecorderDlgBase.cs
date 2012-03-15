@@ -67,7 +67,6 @@ namespace SayMore.Transcription.UI
 				UpdateDisplay();
 			};
 
-			//ViewModel.SelectSegment(0);
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 		}
 
@@ -103,6 +102,20 @@ namespace SayMore.Transcription.UI
 			};
 
 			return _waveControl;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+
+			if (ViewModel.TimeTier.Segments.Count <= 0)
+				return;
+
+			var start = TimeSpan.FromSeconds(ViewModel.TimeTier.Segments[0].Start);
+			var end = TimeSpan.FromSeconds(ViewModel.TimeTier.Segments[0].End);
+			ViewModel.SelectSegmentFromTime(end);
+			_waveControl.SetSelectionTimes(start, end);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Localization;
+using SayMore.Media;
 using SayMore.Model;
 using SayMore.Properties;
 using SayMore.UI.EventRecording;
@@ -180,6 +181,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonNewFromRecordingsClick(object sender, EventArgs e)
 		{
+			if (!AudioUtils.WarnUserIfOSCannotRecord())
+				return;
+
 			using (var viewModel = new EventRecorderDlgViewModel())
 			using (var dlg = new EventRecorderDlg(viewModel))
 			{

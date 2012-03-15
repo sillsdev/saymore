@@ -4,11 +4,12 @@ using System.IO;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
+using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -265,6 +266,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordedAnnotationButtonClick(object sender, EventArgs e)
 		{
+			if (!AudioUtils.WarnUserIfOSCannotRecord())
+				return;
+
 			var annotationType = (sender == _buttonCarefulSpeech ?
 				OralAnnotationType.Careful : OralAnnotationType.Translation);
 

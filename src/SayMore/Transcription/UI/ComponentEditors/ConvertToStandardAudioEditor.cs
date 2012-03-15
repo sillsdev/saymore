@@ -1,14 +1,17 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Localization;
+using NAudio.Wave;
 using Palaso.Reporting;
 using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI;
 using SayMore.UI.ComponentEditors;
+using SayMore.UI.MediaPlayer;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -24,21 +27,6 @@ namespace SayMore.Transcription.UI
 
 			_tableLayoutConvert.Dock = DockStyle.Top;
 			_pictureInfo.Image = SystemIcons.Information.ToBitmap();
-
-			var text = LocalizationManager.GetString(
-				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction",
-				"This media file is not in a format that can be annotated and needs to be " +
-				"converted. During the conversion process, a standard audio file will be created " +
-				"from the original and added to the event's file list. The name of the new audio " +
-				"file will be that of the original with the suffix \"{0}\" added to the end. The " +
-				"original file will remain unchanged in the event's file list.",
-				null, _labelConvertIntroduction);
-
-			_labelConvertIntroduction.Text = string.Format(text,
-				Path.GetFileNameWithoutExtension(Settings.Default.StandardAudioFileSuffix));
-
-			_labelOriginalFileNameValue.Text = Path.GetFileName(_file.PathToAnnotatedFile);
-			_labelStandardAudioFileNameValue.Text = Path.GetFileName(_file.GetSuggestedPathToStandardAudioFile());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -52,6 +40,62 @@ namespace SayMore.Transcription.UI
 			_labelOriginalFileNameValue.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, FontStyle.Bold);
 			_labelStandardAudioFileName.Font = SystemFonts.IconTitleFont;
 			_labelStandardAudioFileNameValue.Font = _labelOriginalFileNameValue.Font;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void SetComponentFile(ComponentFile file)
+		{
+			base.SetComponentFile(file);
+
+			_labelConvertIntroduction.Text = GetIntroMessage();
+			_labelOriginalFileNameValue.Text = Path.GetFileName(_file.PathToAnnotatedFile);
+			_labelStandardAudioFileNameValue.Text = Path.GetFileName(_file.GetSuggestedPathToStandardAudioFile());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetIntroMessage()
+		{
+			string text;
+			var suffix = Path.GetFileNameWithoutExtension(Settings.Default.StandardAudioFileSuffix);
+
+			if (_file.FileType.IsVideo)
+			{
+				text = LocalizationManager.GetString(
+					"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForVideo",
+					"In order to annotate, SayMore needs to convert this video into to WAV PCM audio. " +
+					"During the conversion process, a standard audio file will be created from the " +
+					"original and added to the event's file list. The name of the new audio file will " +
+					"be that of the original with the suffix \"{0}\" added to the end. The original " +
+					"file will remain unchanged in the event's file list.", null, _labelConvertIntroduction);
+
+				return string.Format(text, suffix);
+			}
+
+			var encoding = GetAudioFileEncoding();
+
+			text = LocalizationManager.GetString(
+				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio",
+				"The format of this audio file is '{0}'. In order to annotate, SayMore needs to convert " +
+				"it to WAV PCM, which is a good, standard choice for archiving. During the conversion " +
+				"process, a standard audio file will be created from the original and added to the " +
+				"event's file list. The name of the new audio file will be that of the original with " +
+				"the suffix \"{1}\" added to the end. The original file will remain unchanged in the " +
+				"event's file list.", null, _labelConvertIntroduction);
+
+			return string.Format(text, encoding, suffix);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetAudioFileEncoding()
+		{
+			var encoding = WaveFileUtils.GetFileAudioFormat(_file.PathToAnnotatedFile);
+			if (encoding != WaveFormatEncoding.Unknown)
+				return encoding.ToString().Replace("WAVE_FORMAT", "WAV").Replace('_', ' ').ToUpperInvariant();
+
+			var mediaInfo = MPlayerHelper.GetRawMediaInfoDump(_file.PathToAnnotatedFile);
+			var regex = new Regex(@"Selected audio codec:[^(]*\((?<codecName>[^()]*)");
+			var match = regex.Match(mediaInfo);
+			return (match.Success ? match.Result("${codecName}").Trim() : "UNKNOWN");
 		}
 
 		/// ------------------------------------------------------------------------------------

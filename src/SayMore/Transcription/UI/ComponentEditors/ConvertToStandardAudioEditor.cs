@@ -1,17 +1,12 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Localization;
-using NAudio.Wave;
 using Palaso.Reporting;
-using SayMore.AudioUtils;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI;
 using SayMore.UI.ComponentEditors;
-using SayMore.UI.MediaPlayer;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -19,9 +14,13 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class ConvertToStandardAudioEditor : EditorBase
 	{
+		private readonly ConvertToStandardAudioEditorViewModel _viewModel;
+
 		/// ------------------------------------------------------------------------------------
 		public ConvertToStandardAudioEditor(ComponentFile file) : base(file, null, null)
 		{
+			_viewModel = new ConvertToStandardAudioEditorViewModel();
+
 			InitializeComponent();
 			Name = "StartAnnotating";
 
@@ -71,7 +70,7 @@ namespace SayMore.Transcription.UI
 				return string.Format(text, suffix);
 			}
 
-			var encoding = GetAudioFileEncoding();
+			var encoding = _viewModel.GetAudioFileEncoding(_file.PathToAnnotatedFile);
 
 			text = LocalizationManager.GetString(
 				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio",
@@ -83,19 +82,6 @@ namespace SayMore.Transcription.UI
 				"event's file list.", null, _labelConvertIntroduction);
 
 			return string.Format(text, encoding, suffix);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string GetAudioFileEncoding()
-		{
-			var encoding = WaveFileUtils.GetFileAudioFormat(_file.PathToAnnotatedFile);
-			if (encoding != WaveFormatEncoding.Unknown)
-				return encoding.ToString().Replace("WAVE_FORMAT", "WAV").Replace('_', ' ').ToUpperInvariant();
-
-			var mediaInfo = MPlayerHelper.GetRawMediaInfoDump(_file.PathToAnnotatedFile);
-			var regex = new Regex(@"Selected audio codec:[^(]*\((?<codecName>[^()]*)");
-			var match = regex.Match(mediaInfo);
-			return (match.Success ? match.Result("${codecName}").Trim() : "UNKNOWN");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -123,29 +109,18 @@ namespace SayMore.Transcription.UI
 		{
 			_buttonConvert.Enabled = true;
 
-			var pathToStdAudioFile = _file.GetSuggestedPathToStandardAudioFile();
-			var mediaInfo = new MediaFileInfo(_file.PathToAnnotatedFile);
-			var format = WaveFileUtils.GetDefaultWaveFormat(mediaInfo.Channels);
-			Exception error;
-
 			var msg = LocalizationManager.GetString(
 				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio.ConvertingMsg",
 				"Converting...");
 
-			using (var dlg = new LoadingDlg(msg))
-			{
-				dlg.Show(this);
-
-				WaveFileUtils.GetPlainPcmStream(_file.PathToAnnotatedFile,
-					pathToStdAudioFile, format, out error);
-
-				dlg.Close();
-			}
-
-			if (error == null && File.Exists(pathToStdAudioFile))
+			var error = _viewModel.Convert(this, _file, msg);
+			if (error == null)
 			{
 				if (ComponentFileListRefreshAction != null)
-					ComponentFileListRefreshAction(pathToStdAudioFile, typeof(StartAnnotatingEditor));
+				{
+					ComponentFileListRefreshAction(
+						_file.GetSuggestedPathToStandardAudioFile(), typeof(StartAnnotatingEditor));
+				}
 
 				return;
 			}
@@ -155,9 +130,6 @@ namespace SayMore.Transcription.UI
 				"There was an error trying to create a standard audio file from:\r\n\r\n{0}");
 
 			ErrorReport.NotifyUserOfProblem(error, msg, _file.PathToAnnotatedFile);
-
-			if (File.Exists(pathToStdAudioFile))
-				File.Delete(pathToStdAudioFile);
 		}
 	}
 }

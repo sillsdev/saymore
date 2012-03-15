@@ -81,6 +81,15 @@ namespace SayMore.UI.EventRecording
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnFormClosing(FormClosingEventArgs e)
+		{
+			if (_viewModel.IsRecording)
+				_viewModel.Recorder.Stop();
+
+			base.OnFormClosing(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleRecordClick(object sender, EventArgs e)
 		{
 			_viewModel.BeginRecording();

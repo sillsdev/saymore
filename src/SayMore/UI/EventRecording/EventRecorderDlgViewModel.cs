@@ -55,6 +55,12 @@ namespace SayMore.UI.EventRecording
 				_player.Dispose();
 
 			CloseRecorder();
+
+			if (File.Exists(_path))
+			{
+				try { File.Delete(_path); }
+				catch { }
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

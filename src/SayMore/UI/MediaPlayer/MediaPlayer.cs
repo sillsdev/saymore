@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using SayMore.UI.LowLevelControls;
 using SilTools;
 
-namespace SayMore.UI.MediaPlayer
+namespace SayMore.Media.UI
 {
 	public partial class MediaPlayer : UserControl
 	{

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
 using Localization;
-using SayMore.AudioUtils;
+using SayMore.Media;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SilTools;

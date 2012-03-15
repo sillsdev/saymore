@@ -3,10 +3,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 using NAudio.Wave;
-using SayMore.AudioUtils;
+using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.UI;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 
 namespace SayMore.Transcription.UI
 {
@@ -15,7 +15,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public string GetAudioFileEncoding(string mediaFilePath)
 		{
-			var encoding = WaveFileUtils.GetFileAudioFormat(mediaFilePath);
+			var encoding = AudioUtils.GetFileAudioFormat(mediaFilePath);
 			return (encoding != WaveFormatEncoding.Unknown ?
 				encoding.ToString().Replace("WAVE_FORMAT", "WAV").Replace('_', ' ').ToUpperInvariant() :
 				MPlayerHelper.GetAudioEncoding(mediaFilePath));
@@ -47,9 +47,9 @@ namespace SayMore.Transcription.UI
 				worker.DoWork += delegate
 				{
 					int channels = GetChannelsFromOriginalMediaFile(file.PathToAnnotatedFile);
-					var format = WaveFileUtils.GetDefaultWaveFormat(channels);
+					var format = AudioUtils.GetDefaultWaveFormat(channels);
 
-					WaveFileUtils.GetPlainPcmStream(file.PathToAnnotatedFile,
+					AudioUtils.GetPlainPcmStream(file.PathToAnnotatedFile,
 						pathToStdAudioFile, format, out error);
 
 					if (error != null && File.Exists(pathToStdAudioFile))

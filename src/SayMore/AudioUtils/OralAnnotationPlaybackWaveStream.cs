@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using NAudio.Wave;
 
-namespace SayMore.AudioUtils
+namespace SayMore.Media
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -1,7 +1,7 @@
 using System;
 using NAudio.Wave;
 
-namespace SayMore.AudioUtils
+namespace SayMore.Media
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

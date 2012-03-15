@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using SilTools;
 
-namespace SayMore.AudioUtils
+namespace SayMore.Media
 {
 	public class WavePainterWithBoundarySelection : WavePainterBasic
 	{

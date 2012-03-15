@@ -5,14 +5,36 @@ using Localization;
 using NAudio.Wave;
 using NAudio.Wave.Compression;
 using Palaso.Media;
+using Palaso.Media.Naudio;
 using Palaso.Progress;
 using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 
-namespace SayMore.AudioUtils
+namespace SayMore.Media
 {
-	public class WaveFileUtils
+	public class AudioUtils
 	{
+		/// ------------------------------------------------------------------------------------
+		public static bool GetCanRecordAudio()
+		{
+			return (RecordingDevice.Devices.Any());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool WarnUserIfOSCannotRecord()
+		{
+			if (GetCanRecordAudio())
+				return true;
+
+			var msg = LocalizationManager.GetString(
+				"CommonToMultipleViews.AudioUtils.NoRecordingDevicesFoundMsg",
+				"Currently recordings cannot be made because SayMore is unable " +
+				"to find any recording devices installed on this computer.");
+
+			ErrorReport.NotifyUserOfProblem(msg);
+			return false;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsFilePlainPcm(string audioFilePath)
 		{

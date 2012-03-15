@@ -5,7 +5,7 @@ using System.Linq;
 using NAudio.Wave;
 using Palaso.Media.Naudio;
 using Palaso.Reporting;
-using SayMore.AudioUtils;
+using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 
@@ -196,7 +196,7 @@ namespace SayMore.Transcription.UI
 			_fullPathsToAddedRecordings.Add(path);
 
 			_annotationRecorder = new AudioRecorder(20);
-			_annotationRecorder.RecordingFormat = WaveFileUtils.GetDefaultWaveFormat(1);
+			_annotationRecorder.RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
 			_annotationRecorder.SelectedDevice = RecordingDevice.Devices.First();
 			_annotationRecorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
 			_annotationRecorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();

@@ -6,7 +6,7 @@ using Localization;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 using SilTools;
 
 namespace SayMore.Transcription.UI

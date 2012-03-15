@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
-using SayMore.AudioUtils;
+using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;

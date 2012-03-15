@@ -9,10 +9,10 @@ using Localization;
 using Localization.UI;
 using NAudio.Wave;
 using Palaso.Progress;
-using SayMore.AudioUtils;
+using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI.LowLevelControls;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 using SayMore.UI.Utilities;
 using SilTools;
 

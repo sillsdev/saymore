@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 using SilTools;
 
 namespace SayMore.UI.NewEventsFromFiles
@@ -24,7 +24,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		private readonly NewEventsFromFilesDlgFolderNotFoundMsg _folderMissingMsgCtrl;
 		private readonly CheckBoxColumnHeaderHandler _chkBoxColHdrHandler;
 		private readonly MediaPlayerViewModel _mediaPlayerViewModel;
-		private readonly MediaPlayer.MediaPlayer _mediaPlayer;
+		private readonly MediaPlayer _mediaPlayer;
 
 		/// ------------------------------------------------------------------------------------
 		public NewEventsFromFilesDlg(NewEventsFromFileDlgViewModel viewModel)
@@ -66,7 +66,7 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			_mediaPlayerViewModel = new MediaPlayerViewModel();
 			_mediaPlayerViewModel.SetVolume(Settings.Default.MediaPlayerVolume);
-			_mediaPlayer = new MediaPlayer.MediaPlayer(_mediaPlayerViewModel);
+			_mediaPlayer = new MediaPlayer(_mediaPlayerViewModel);
 			_mediaPlayer.Dock = DockStyle.Fill;
 			_mediaPlayerPanel.Controls.Add(_mediaPlayer);
 

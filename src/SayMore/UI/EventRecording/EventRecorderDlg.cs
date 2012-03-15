@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Localization.UI;
 using SayMore.Properties;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 using SilTools;
 using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
 

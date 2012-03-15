@@ -7,7 +7,7 @@ using Localization;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using Palaso.Reporting;
-using SayMore.AudioUtils;
+using SayMore.Media;
 using SayMore.Properties;
 using SayMore.UI;
 
@@ -93,8 +93,8 @@ namespace SayMore.Transcription.Model
 		{
 			_origRecordingTier = originalRecodingTier;
 			_origRecordingSegments = _origRecordingTier.Segments.ToArray();
-			_outputAudioFormat = WaveFileUtils.GetDefaultWaveFormat(3);
-			_output1ChannelAudioFormat = WaveFileUtils.GetDefaultWaveFormat(1);
+			_outputAudioFormat = AudioUtils.GetDefaultWaveFormat(3);
+			_output1ChannelAudioFormat = AudioUtils.GetDefaultWaveFormat(1);
 
 			_origRecStreamProvider =
 				WaveStreamProvider.Create(_output1ChannelAudioFormat, _origRecordingTier.MediaFileName);

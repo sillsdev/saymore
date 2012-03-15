@@ -1,4 +1,4 @@
-namespace SayMore.UI.MediaPlayer
+namespace SayMore.Media.UI
 {
 	partial class MPlayerDebuggingOutputWindow
 	{

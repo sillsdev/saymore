@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using NAudio.Wave;
 using Palaso.Reporting;
-using SayMore.AudioUtils;
+using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -176,7 +176,7 @@ namespace SayMore.Transcription.UI
 		{
 			Exception error;
 
-			return (WaveFileUtils.GetOneChannelStreamFromAudio(audioFilePath, out error) ??
+			return (AudioUtils.GetOneChannelStreamFromAudio(audioFilePath, out error) ??
 				new WaveFileReader(audioFilePath));
 		}
 

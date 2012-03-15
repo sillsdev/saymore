@@ -2,12 +2,12 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Localization;
-using SayMore.AudioUtils;
+using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.UI.ComponentEditors;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 using SilTools;
 
 namespace SayMore.Transcription.UI
@@ -60,7 +60,7 @@ namespace SayMore.Transcription.UI
 				return (_file != null &&
 					!_file.GetDoesHaveAnnotationFile() &&
 					_file.GetCanHaveAnnotationFile() &&
-					WaveFileUtils.GetIsFilePlainPcm(_file.PathToAnnotatedFile));
+					AudioUtils.GetIsFilePlainPcm(_file.PathToAnnotatedFile));
 			}
 		}
 

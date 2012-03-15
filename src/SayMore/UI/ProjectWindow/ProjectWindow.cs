@@ -13,7 +13,7 @@ using Palaso.IO;
 using Palaso.Media;
 using Palaso.Reporting;
 using SayMore.Properties;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 using SilTools;
 
 namespace SayMore.UI.ProjectWindow

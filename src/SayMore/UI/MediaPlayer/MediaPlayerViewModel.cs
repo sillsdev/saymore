@@ -10,7 +10,7 @@ using Palaso.Reporting;
 using Localization;
 using SayMore.Model.Files;
 
-namespace SayMore.UI.MediaPlayer
+namespace SayMore.Media.UI
 {
 	/// ----------------------------------------------------------------------------------------
 	public class MediaPlayerViewModel

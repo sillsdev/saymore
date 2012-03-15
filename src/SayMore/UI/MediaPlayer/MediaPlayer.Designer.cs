@@ -1,7 +1,7 @@
 
 using SayMore.UI.LowLevelControls;
 
-namespace SayMore.UI.MediaPlayer
+namespace SayMore.Media.UI
 {
 	partial class MediaPlayer
 	{
@@ -29,7 +29,7 @@ namespace SayMore.UI.MediaPlayer
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this._videoPanel = new SayMore.UI.MediaPlayer.VideoPanel();
+			this._videoPanel = new SayMore.Media.UI.VideoPanel();
 			this._volumePopup = new SayMore.UI.LowLevelControls.VolumePopup();
 			this._toolbarButtons = new System.Windows.Forms.ToolStrip();
 			this._buttonPlay = new System.Windows.Forms.ToolStripButton();

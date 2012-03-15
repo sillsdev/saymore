@@ -105,6 +105,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioUtils\AudioUtils.cs" />
     <Compile Include="AudioUtils\OralAnnotationPlaybackWaveStream.cs" />
     <Compile Include="AudioUtils\WaveControls\WaveControlBasic.cs">
       <SubType>UserControl</SubType>
@@ -119,7 +120,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="AudioUtils\WavePainting\WavePainterWithBoundarySelection.cs" />
-    <Compile Include="AudioUtils\WaveFileUtils.cs" />
     <Compile Include="AudioUtils\WavePainting\WavePainterBasic.cs" />
     <Compile Include="AudioUtils\WavePainting\WavePainterWithRangeSelection.cs" />
     <Compile Include="AudioUtils\WaveSegmentStream.cs" />
@@ -935,7 +935,6 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

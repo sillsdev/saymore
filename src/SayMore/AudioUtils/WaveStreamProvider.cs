@@ -3,7 +3,7 @@ using System.IO;
 using Localization;
 using NAudio.Wave;
 
-namespace SayMore.AudioUtils
+namespace SayMore.Media
 {
 	public class WaveStreamProvider : IDisposable
 	{
@@ -58,7 +58,7 @@ namespace SayMore.AudioUtils
 			{
 				// First, just try to open the file as a wave file. If that fails, use
 				// ffmpeg in an attempt to get wave audio out of the file.
-				if (WaveFileUtils.GetIsFilePlainPcm(mediaFile))
+				if (AudioUtils.GetIsFilePlainPcm(mediaFile))
 				{
 					Stream = new WaveFileReader(mediaFile);
 					return;
@@ -70,7 +70,7 @@ namespace SayMore.AudioUtils
 
 			_temporaryWavFile = Path.ChangeExtension(Path.GetTempFileName(), ".wav");
 
-			Stream = WaveFileUtils.GetPlainPcmStream(mediaFile, _temporaryWavFile,
+			Stream = AudioUtils.GetPlainPcmStream(mediaFile, _temporaryWavFile,
 				PreferredOutputFormat, out error);
 
 			Error = error;

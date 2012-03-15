@@ -10,7 +10,7 @@ using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.FileSystem;
-using SayMore.AudioUtils;
+using SayMore.Media;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
@@ -197,7 +197,7 @@ namespace SayMore.Model.Files
 		public virtual bool GetNeedsConvertingToStandardAudio()
 		{
 			return (GetCanHaveAnnotationFile() &&
-				!WaveFileUtils.GetIsFilePlainPcm(PathToAnnotatedFile));
+				!AudioUtils.GetIsFilePlainPcm(PathToAnnotatedFile));
 		}
 
 		/// ------------------------------------------------------------------------------------

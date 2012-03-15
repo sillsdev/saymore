@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 
 namespace SayMore.Transcription.Model
 {

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SayMore.AudioUtils;
+using SayMore.Media;
 
 namespace SayMore.Transcription.UI
 {

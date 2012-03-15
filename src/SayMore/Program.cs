@@ -8,7 +8,7 @@ using Localization;
 using Palaso.IO;
 using Palaso.Reporting;
 using SayMore.Properties;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 using SayMore.UI.ProjectWindow;
 using SilTools;
 

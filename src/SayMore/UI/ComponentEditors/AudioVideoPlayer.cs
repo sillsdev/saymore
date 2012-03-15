@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -14,7 +14,7 @@ namespace SayMore.UI.ComponentEditors
 		private TabPage _owningTab;
 		private bool _playerPausedWhenTabChanged;
 		private readonly MediaPlayerViewModel _mediaPlayerViewModel;
-		private readonly MediaPlayer.MediaPlayer _mediaPlayer;
+		private readonly MediaPlayer _mediaPlayer;
 
 		/// ------------------------------------------------------------------------------------
 		public AudioVideoPlayer(ComponentFile file, string imageKey) : base(file, null, imageKey)
@@ -23,7 +23,7 @@ namespace SayMore.UI.ComponentEditors
 			Name = "AudioVideoPlayer";
 
 			_mediaPlayerViewModel = new MediaPlayerViewModel();
-			_mediaPlayer = new MediaPlayer.MediaPlayer(_mediaPlayerViewModel);
+			_mediaPlayer = new MediaPlayer(_mediaPlayerViewModel);
 			_mediaPlayer.Dock = DockStyle.Fill;
 			Controls.Add(_mediaPlayer);
 

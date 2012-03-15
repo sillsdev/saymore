@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using SilTools;
 using SilTools.Controls;
 
-namespace SayMore.UI.MediaPlayer
+namespace SayMore.Media.UI
 {
 	public class VideoPanel : SilPanel
 	{

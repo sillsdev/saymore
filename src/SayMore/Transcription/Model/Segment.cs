@@ -1,6 +1,6 @@
 
 using System;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 
 namespace SayMore.Transcription.Model
 {

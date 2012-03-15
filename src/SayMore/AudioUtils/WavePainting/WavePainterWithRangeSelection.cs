@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using NAudio.Wave;
 
-namespace SayMore.AudioUtils
+namespace SayMore.Media
 {
 	public class WavePainterWithRangeSelection : WavePainterBasic
 	{

@@ -8,7 +8,7 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using SilTools;
 
-namespace SayMore.AudioUtils
+namespace SayMore.Media
 {
 	/// ----------------------------------------------------------------------------------------
 	public class WaveControlBasic : UserControl

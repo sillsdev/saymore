@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
-using SayMore.UI.MediaPlayer;
+using SayMore.Media.UI;
 
 namespace SayMoreTests.UI.Utilities
 {

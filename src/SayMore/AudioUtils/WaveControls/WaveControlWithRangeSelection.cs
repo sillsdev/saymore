@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
 
-namespace SayMore.AudioUtils
+namespace SayMore.Media
 {
 	public class WaveControlWithRangeSelection : WaveControlWithMovableBoundaries
 	{

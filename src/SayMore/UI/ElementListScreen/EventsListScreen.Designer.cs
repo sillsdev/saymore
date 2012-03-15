@@ -101,7 +101,7 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonNewFromFiles.Name = "_buttonNewFromFiles";
 			this._buttonNewFromFiles.Size = new System.Drawing.Size(117, 26);
 			this._buttonNewFromFiles.TabIndex = 1;
-			this._buttonNewFromFiles.Text = "New From &Device...";
+			this._buttonNewFromFiles.Text = "New From De&vice...";
 			this._buttonNewFromFiles.UseVisualStyleBackColor = true;
 			this._buttonNewFromFiles.Click += new System.EventHandler(this.HandleButtonNewFromFilesClick);
 			// 
@@ -116,7 +116,6 @@ namespace SayMore.UI.ElementListScreen
 			this._eventsListPanel.HeaderPanelBottomBorderColor = System.Drawing.SystemColors.ControlDark;
 			this.locExtender.SetLocalizableToolTip(this._eventsListPanel, null);
 			this.locExtender.SetLocalizationComment(this._eventsListPanel, null);
-			//this.locExtender.SetLocalizationPriority(this._eventsListPanel, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._eventsListPanel, "EventsView.EventsList.HeadingText");
 			this._eventsListPanel.Location = new System.Drawing.Point(0, 0);
 			this._eventsListPanel.MinimumSize = new System.Drawing.Size(165, 0);

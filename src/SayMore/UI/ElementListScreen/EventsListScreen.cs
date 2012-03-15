@@ -59,7 +59,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			MainMenuItem = new ToolStripMenuItem();
 			MainMenuItem.Text = LocalizationManager.GetString(
-				"EventsView.EventsMainMenu.TopLevelMenuText", "E&vent", null, MainMenuItem);
+				"EventsView.EventsMainMenu.TopLevelMenuText", "&Event", null, MainMenuItem);
 
 			var menu = new ToolStripMenuItem();
 			MainMenuItem.DropDownItems.Add(menu);
@@ -71,7 +71,7 @@ namespace SayMore.UI.ElementListScreen
 			MainMenuItem.DropDownItems.Add(menu);
 			menu.Click += HandleButtonNewFromFilesClick;
 			menu.Text = LocalizationManager.GetString(
-				"EventsView.EventsMainMenu.NewFromDeviceMenuText", "New From &Device...", null, menu);
+				"EventsView.EventsMainMenu.NewFromDeviceMenuText", "New From De&vice...", null, menu);
 
 			menu = new ToolStripMenuItem();
 			MainMenuItem.DropDownItems.Add(menu);

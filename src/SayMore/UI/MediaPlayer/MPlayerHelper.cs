@@ -199,33 +199,26 @@ namespace SayMore.UI.MediaPlayer
 			StartProcess(prs);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public static MPlayerMediaInfo GetMediaInfo(string videoPath)
-		//{
-			//var prs = GetNewMPlayerProcess();
-			//prs.OutputDataReceived += minfo.HandleOutputDataReceived;
+		/// ------------------------------------------------------------------------------------
+		public static string GetRawMediaInfoDump(string mediaFile)
+		{
+			string output = string.Empty;
+			var prs = GetNewMPlayerProcess();
+			prs.OutputDataReceived += (s, e) => output += (e.Data + Environment.NewLine);
 
-			//videoPath = videoPath.Replace('\\', '/');
-			//prs.StartInfo.Arguments = string.Format("-nocache -msglevel identify=6 " +
-			//    "-nofontconfig -frames 0 -nosound -vc null -vo null \"{0}\"", videoPath);
+			mediaFile = mediaFile.Replace('\\', '/');
+			prs.StartInfo.Arguments = string.Format("-vo null -ao null -nofontconfig " +
+				"-quiet -identify -endpos 0 \"{0}\"", mediaFile);
 
-			//if (StartProcess(prs))
-			//{
-			//    prs.BeginOutputReadLine();
-			//    prs.WaitForExit();
-			//    prs.Close();
-			//    int seconds = Math.Min(8, (int)(minfo.MediaLength / 2));
-			//    minfo.FullSizedThumbnail = GetImageFromVideo(videoPath, seconds);
-			//}
-			//else
-			//{
-			//    prs = null;
-			//    Palaso.Reporting.ErrorReport.NotifyUserOfProblem(
-			//        "Getting media length failed for file '{0}'.", videoPath);
-			//}
+			if (StartProcess(prs))
+			{
+				prs.BeginOutputReadLine();
+				prs.WaitForExit();
+				prs.Close();
+			}
 
-			//return minfo;
-		//}
+			return output;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public static Image GetImageFromVideo(string videoPath, float seconds)

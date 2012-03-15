@@ -260,9 +260,15 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetCursor(TimeSpan cursorTime)
 		{
+			SetCursor(cursorTime, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void SetCursor(TimeSpan cursorTime, bool ensureCursorIsVisible)
+		{
 			OnCursorTimeChanged(cursorTime < TimeSpan.Zero ? TimeSpan.Zero : cursorTime);
 
-			if (cursorTime >= TimeSpan.Zero)
+			if (cursorTime >= TimeSpan.Zero && ensureCursorIsVisible)
 				EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(cursorTime));
 		}
 
@@ -581,7 +587,7 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnSetCursorWhenMouseDown(TimeSpan timeAtMouseX, bool wasBoundaryClicked)
 		{
-			SetCursor(timeAtMouseX);
+			SetCursor(timeAtMouseX, false);
 		}
 
 		#endregion

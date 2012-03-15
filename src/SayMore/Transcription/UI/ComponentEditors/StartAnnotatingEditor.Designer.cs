@@ -33,20 +33,20 @@ namespace SayMore.Transcription.UI
 		{
 			this.components = new System.ComponentModel.Container();
 			this._tableLayoutGetStarted = new System.Windows.Forms.TableLayoutPanel();
-			this._radioButtonAutoSegmenter = new System.Windows.Forms.RadioButton();
-			this._radioButtonAudacity = new System.Windows.Forms.RadioButton();
 			this._radioButtonElan = new System.Windows.Forms.RadioButton();
 			this._radioButtonCarefulSpeech = new System.Windows.Forms.RadioButton();
 			this._labelSegmentationMethod = new System.Windows.Forms.Label();
 			this._labelIntroduction = new System.Windows.Forms.Label();
 			this._labelSegmentationMethodQuestion = new System.Windows.Forms.Label();
 			this._radioButtonManual = new System.Windows.Forms.RadioButton();
-			this._buttonAudacityHelp = new System.Windows.Forms.Button();
 			this._buttonELANFileHelp = new System.Windows.Forms.Button();
-			this._buttonAutoSegmenterHelp = new System.Windows.Forms.Button();
 			this._buttonCarefulSpeechToolHelp = new System.Windows.Forms.Button();
 			this._buttonManualSegmentationHelp = new System.Windows.Forms.Button();
 			this._buttonGetStarted = new System.Windows.Forms.Button();
+			this._buttonAudacityHelp = new System.Windows.Forms.Button();
+			this._buttonAutoSegmenterHelp = new System.Windows.Forms.Button();
+			this._radioButtonAudacity = new System.Windows.Forms.RadioButton();
+			this._radioButtonAutoSegmenter = new System.Windows.Forms.RadioButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayoutGetStarted.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -57,23 +57,25 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutGetStarted.AutoSize = true;
 			this._tableLayoutGetStarted.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._tableLayoutGetStarted.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(240)))), ((int)(((byte)(159)))));
-			this._tableLayoutGetStarted.ColumnCount = 2;
+			this._tableLayoutGetStarted.ColumnCount = 4;
+			this._tableLayoutGetStarted.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutGetStarted.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutGetStarted.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutGetStarted.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutGetStarted.Controls.Add(this._radioButtonAutoSegmenter, 0, 7);
-			this._tableLayoutGetStarted.Controls.Add(this._radioButtonAudacity, 0, 6);
 			this._tableLayoutGetStarted.Controls.Add(this._radioButtonElan, 0, 5);
 			this._tableLayoutGetStarted.Controls.Add(this._radioButtonCarefulSpeech, 0, 4);
 			this._tableLayoutGetStarted.Controls.Add(this._labelSegmentationMethod, 0, 2);
 			this._tableLayoutGetStarted.Controls.Add(this._labelIntroduction, 0, 0);
 			this._tableLayoutGetStarted.Controls.Add(this._labelSegmentationMethodQuestion, 0, 1);
 			this._tableLayoutGetStarted.Controls.Add(this._radioButtonManual, 0, 3);
-			this._tableLayoutGetStarted.Controls.Add(this._buttonAudacityHelp, 1, 6);
 			this._tableLayoutGetStarted.Controls.Add(this._buttonELANFileHelp, 1, 5);
-			this._tableLayoutGetStarted.Controls.Add(this._buttonAutoSegmenterHelp, 1, 7);
 			this._tableLayoutGetStarted.Controls.Add(this._buttonCarefulSpeechToolHelp, 1, 4);
 			this._tableLayoutGetStarted.Controls.Add(this._buttonManualSegmentationHelp, 1, 3);
 			this._tableLayoutGetStarted.Controls.Add(this._buttonGetStarted, 0, 8);
+			this._tableLayoutGetStarted.Controls.Add(this._buttonAudacityHelp, 3, 3);
+			this._tableLayoutGetStarted.Controls.Add(this._buttonAutoSegmenterHelp, 3, 4);
+			this._tableLayoutGetStarted.Controls.Add(this._radioButtonAudacity, 2, 3);
+			this._tableLayoutGetStarted.Controls.Add(this._radioButtonAutoSegmenter, 2, 4);
 			this._tableLayoutGetStarted.Dock = System.Windows.Forms.DockStyle.Top;
 			this._tableLayoutGetStarted.Location = new System.Drawing.Point(12, 6);
 			this._tableLayoutGetStarted.Name = "_tableLayoutGetStarted";
@@ -87,45 +89,12 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutGetStarted.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutGetStarted.Size = new System.Drawing.Size(512, 283);
+			this._tableLayoutGetStarted.Size = new System.Drawing.Size(512, 227);
 			this._tableLayoutGetStarted.TabIndex = 0;
-			// 
-			// _radioButtonAutoSegmenter
-			// 
-			this._radioButtonAutoSegmenter.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._radioButtonAutoSegmenter.AutoSize = true;
-			this._radioButtonAutoSegmenter.Enabled = false;
-			this.locExtender.SetLocalizableToolTip(this._radioButtonAutoSegmenter, null);
-			this.locExtender.SetLocalizationComment(this._radioButtonAutoSegmenter, null);
-			this.locExtender.SetLocalizingId(this._radioButtonAutoSegmenter, "EventsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter");
-			this._radioButtonAutoSegmenter.Location = new System.Drawing.Point(25, 221);
-			this._radioButtonAutoSegmenter.Margin = new System.Windows.Forms.Padding(25, 3, 3, 3);
-			this._radioButtonAutoSegmenter.Name = "_radioButtonAutoSegmenter";
-			this._radioButtonAutoSegmenter.Size = new System.Drawing.Size(188, 17);
-			this._radioButtonAutoSegmenter.TabIndex = 11;
-			this._radioButtonAutoSegmenter.TabStop = true;
-			this._radioButtonAutoSegmenter.Text = "Use auto segmenter (experimental)";
-			this._radioButtonAutoSegmenter.UseVisualStyleBackColor = true;
-			// 
-			// _radioButtonAudacity
-			// 
-			this._radioButtonAudacity.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._radioButtonAudacity.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._radioButtonAudacity, null);
-			this.locExtender.SetLocalizationComment(this._radioButtonAudacity, null);
-			this.locExtender.SetLocalizingId(this._radioButtonAudacity, "EventsView.Transcription.StartAnnotatingTab._radioButtonAudacity");
-			this._radioButtonAudacity.Location = new System.Drawing.Point(25, 193);
-			this._radioButtonAudacity.Margin = new System.Windows.Forms.Padding(25, 3, 3, 3);
-			this._radioButtonAudacity.Name = "_radioButtonAudacity";
-			this._radioButtonAudacity.Size = new System.Drawing.Size(155, 17);
-			this._radioButtonAudacity.TabIndex = 9;
-			this._radioButtonAudacity.TabStop = true;
-			this._radioButtonAudacity.Text = "Read an Audacity Label file";
-			this._radioButtonAudacity.UseVisualStyleBackColor = true;
 			// 
 			// _radioButtonElan
 			// 
-			this._radioButtonElan.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._radioButtonElan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._radioButtonElan.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._radioButtonElan, null);
 			this.locExtender.SetLocalizationComment(this._radioButtonElan, null);
@@ -133,7 +102,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonElan.Location = new System.Drawing.Point(25, 165);
 			this._radioButtonElan.Margin = new System.Windows.Forms.Padding(25, 3, 3, 3);
 			this._radioButtonElan.Name = "_radioButtonElan";
-			this._radioButtonElan.Size = new System.Drawing.Size(149, 17);
+			this._radioButtonElan.Size = new System.Drawing.Size(174, 17);
 			this._radioButtonElan.TabIndex = 7;
 			this._radioButtonElan.TabStop = true;
 			this._radioButtonElan.Text = "Copy an existing ELAN file";
@@ -141,7 +110,7 @@ namespace SayMore.Transcription.UI
 			// 
 			// _radioButtonCarefulSpeech
 			// 
-			this._radioButtonCarefulSpeech.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._radioButtonCarefulSpeech.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._radioButtonCarefulSpeech.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._radioButtonCarefulSpeech, null);
 			this.locExtender.SetLocalizationComment(this._radioButtonCarefulSpeech, null);
@@ -149,7 +118,7 @@ namespace SayMore.Transcription.UI
 			this._radioButtonCarefulSpeech.Location = new System.Drawing.Point(25, 137);
 			this._radioButtonCarefulSpeech.Margin = new System.Windows.Forms.Padding(25, 3, 3, 3);
 			this._radioButtonCarefulSpeech.Name = "_radioButtonCarefulSpeech";
-			this._radioButtonCarefulSpeech.Size = new System.Drawing.Size(144, 17);
+			this._radioButtonCarefulSpeech.Size = new System.Drawing.Size(174, 17);
 			this._radioButtonCarefulSpeech.TabIndex = 5;
 			this._radioButtonCarefulSpeech.TabStop = true;
 			this._radioButtonCarefulSpeech.Text = "Use Careful Speech Tool";
@@ -160,7 +129,7 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentationMethod.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelSegmentationMethod.AutoSize = true;
-			this._tableLayoutGetStarted.SetColumnSpan(this._labelSegmentationMethod, 2);
+			this._tableLayoutGetStarted.SetColumnSpan(this._labelSegmentationMethod, 4);
 			this.locExtender.SetLocalizableToolTip(this._labelSegmentationMethod, null);
 			this.locExtender.SetLocalizationComment(this._labelSegmentationMethod, null);
 			this.locExtender.SetLocalizingId(this._labelSegmentationMethod, "EventsView.Transcription.StartAnnotatingTab._labelSegmentationMethod");
@@ -176,7 +145,7 @@ namespace SayMore.Transcription.UI
 			this._labelIntroduction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelIntroduction.AutoSize = true;
-			this._tableLayoutGetStarted.SetColumnSpan(this._labelIntroduction, 2);
+			this._tableLayoutGetStarted.SetColumnSpan(this._labelIntroduction, 4);
 			this.locExtender.SetLocalizableToolTip(this._labelIntroduction, null);
 			this.locExtender.SetLocalizationComment(this._labelIntroduction, null);
 			this.locExtender.SetLocalizingId(this._labelIntroduction, "EventsView.Transcription.StartAnnotatingTab._labelIntroduction");
@@ -193,7 +162,7 @@ namespace SayMore.Transcription.UI
 			this._labelSegmentationMethodQuestion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelSegmentationMethodQuestion.AutoSize = true;
-			this._tableLayoutGetStarted.SetColumnSpan(this._labelSegmentationMethodQuestion, 2);
+			this._tableLayoutGetStarted.SetColumnSpan(this._labelSegmentationMethodQuestion, 4);
 			this.locExtender.SetLocalizableToolTip(this._labelSegmentationMethodQuestion, null);
 			this.locExtender.SetLocalizationComment(this._labelSegmentationMethodQuestion, null);
 			this.locExtender.SetLocalizingId(this._labelSegmentationMethodQuestion, "EventsView.Transcription.StartAnnotatingTab._labelSegmentationMethodQuestion");
@@ -207,7 +176,7 @@ namespace SayMore.Transcription.UI
 			// 
 			// _radioButtonManual
 			// 
-			this._radioButtonManual.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._radioButtonManual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._radioButtonManual.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._radioButtonManual, null);
 			this.locExtender.SetLocalizationComment(this._radioButtonManual, null);
@@ -220,29 +189,6 @@ namespace SayMore.Transcription.UI
 			this._radioButtonManual.TabStop = true;
 			this._radioButtonManual.Text = "Use Manual Segmentation Tool";
 			this._radioButtonManual.UseVisualStyleBackColor = true;
-			// 
-			// _buttonAudacityHelp
-			// 
-			this._buttonAudacityHelp.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._buttonAudacityHelp.AutoSize = true;
-			this._buttonAudacityHelp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._buttonAudacityHelp.BackColor = System.Drawing.Color.Transparent;
-			this._buttonAudacityHelp.Cursor = System.Windows.Forms.Cursors.Hand;
-			this._buttonAudacityHelp.FlatAppearance.BorderSize = 0;
-			this._buttonAudacityHelp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-			this._buttonAudacityHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-			this._buttonAudacityHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this._buttonAudacityHelp.Image = global::SayMore.Properties.Resources.Help;
-			this.locExtender.SetLocalizableToolTip(this._buttonAudacityHelp, null);
-			this.locExtender.SetLocalizationComment(this._buttonAudacityHelp, null);
-			this.locExtender.SetLocalizationPriority(this._buttonAudacityHelp, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._buttonAudacityHelp, "EventsView.Transcription.StartAnnotatingTab.AudacityHelpButtonText");
-			this._buttonAudacityHelp.Location = new System.Drawing.Point(219, 191);
-			this._buttonAudacityHelp.Name = "_buttonAudacityHelp";
-			this._buttonAudacityHelp.Size = new System.Drawing.Size(22, 22);
-			this._buttonAudacityHelp.TabIndex = 10;
-			this._buttonAudacityHelp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this._buttonAudacityHelp.UseVisualStyleBackColor = false;
 			// 
 			// _buttonELANFileHelp
 			// 
@@ -260,33 +206,11 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._buttonELANFileHelp, null);
 			this.locExtender.SetLocalizationPriority(this._buttonELANFileHelp, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonELANFileHelp, "EventsView.Transcription.StartAnnotatingTab.ELANFileHelpButtonText");
-			this._buttonELANFileHelp.Location = new System.Drawing.Point(219, 163);
+			this._buttonELANFileHelp.Location = new System.Drawing.Point(205, 163);
 			this._buttonELANFileHelp.Name = "_buttonELANFileHelp";
 			this._buttonELANFileHelp.Size = new System.Drawing.Size(22, 22);
 			this._buttonELANFileHelp.TabIndex = 8;
 			this._buttonELANFileHelp.UseVisualStyleBackColor = false;
-			// 
-			// _buttonAutoSegmenterHelp
-			// 
-			this._buttonAutoSegmenterHelp.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._buttonAutoSegmenterHelp.AutoSize = true;
-			this._buttonAutoSegmenterHelp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._buttonAutoSegmenterHelp.BackColor = System.Drawing.Color.Transparent;
-			this._buttonAutoSegmenterHelp.Cursor = System.Windows.Forms.Cursors.Hand;
-			this._buttonAutoSegmenterHelp.FlatAppearance.BorderSize = 0;
-			this._buttonAutoSegmenterHelp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-			this._buttonAutoSegmenterHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-			this._buttonAutoSegmenterHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this._buttonAutoSegmenterHelp.Image = global::SayMore.Properties.Resources.Help;
-			this.locExtender.SetLocalizableToolTip(this._buttonAutoSegmenterHelp, null);
-			this.locExtender.SetLocalizationComment(this._buttonAutoSegmenterHelp, null);
-			this.locExtender.SetLocalizationPriority(this._buttonAutoSegmenterHelp, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._buttonAutoSegmenterHelp, "EventsView.Transcription.StartAnnotatingTab.ELANFileHelpButtonText");
-			this._buttonAutoSegmenterHelp.Location = new System.Drawing.Point(219, 219);
-			this._buttonAutoSegmenterHelp.Name = "_buttonAutoSegmenterHelp";
-			this._buttonAutoSegmenterHelp.Size = new System.Drawing.Size(22, 22);
-			this._buttonAutoSegmenterHelp.TabIndex = 13;
-			this._buttonAutoSegmenterHelp.UseVisualStyleBackColor = false;
 			// 
 			// _buttonCarefulSpeechToolHelp
 			// 
@@ -304,7 +228,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._buttonCarefulSpeechToolHelp, null);
 			this.locExtender.SetLocalizationPriority(this._buttonCarefulSpeechToolHelp, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonCarefulSpeechToolHelp, "EventsView.Transcription.StartAnnotatingTab.ELANFileHelpButtonText");
-			this._buttonCarefulSpeechToolHelp.Location = new System.Drawing.Point(219, 135);
+			this._buttonCarefulSpeechToolHelp.Location = new System.Drawing.Point(205, 135);
 			this._buttonCarefulSpeechToolHelp.Name = "_buttonCarefulSpeechToolHelp";
 			this._buttonCarefulSpeechToolHelp.Size = new System.Drawing.Size(22, 22);
 			this._buttonCarefulSpeechToolHelp.TabIndex = 6;
@@ -326,7 +250,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._buttonManualSegmentationHelp, null);
 			this.locExtender.SetLocalizationPriority(this._buttonManualSegmentationHelp, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._buttonManualSegmentationHelp, "EventsView.Transcription.StartAnnotatingTab.ELANFileHelpButtonText");
-			this._buttonManualSegmentationHelp.Location = new System.Drawing.Point(219, 107);
+			this._buttonManualSegmentationHelp.Location = new System.Drawing.Point(205, 107);
 			this._buttonManualSegmentationHelp.Name = "_buttonManualSegmentationHelp";
 			this._buttonManualSegmentationHelp.Size = new System.Drawing.Size(22, 22);
 			this._buttonManualSegmentationHelp.TabIndex = 4;
@@ -336,11 +260,12 @@ namespace SayMore.Transcription.UI
 			// 
 			this._buttonGetStarted.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this._buttonGetStarted.AutoSize = true;
+			this._tableLayoutGetStarted.SetColumnSpan(this._buttonGetStarted, 4);
 			this.locExtender.SetLocalizableToolTip(this._buttonGetStarted, null);
 			this.locExtender.SetLocalizationComment(this._buttonGetStarted, null);
 			this.locExtender.SetLocalizingId(this._buttonGetStarted, "EventsView.Transcription.StartAnnotatingTab._buttonGetStarted");
-			this._buttonGetStarted.Location = new System.Drawing.Point(65, 254);
-			this._buttonGetStarted.Margin = new System.Windows.Forms.Padding(15, 10, 0, 3);
+			this._buttonGetStarted.Location = new System.Drawing.Point(206, 198);
+			this._buttonGetStarted.Margin = new System.Windows.Forms.Padding(0, 10, 0, 3);
 			this._buttonGetStarted.MinimumSize = new System.Drawing.Size(100, 26);
 			this._buttonGetStarted.Name = "_buttonGetStarted";
 			this._buttonGetStarted.Size = new System.Drawing.Size(100, 26);
@@ -348,6 +273,84 @@ namespace SayMore.Transcription.UI
 			this._buttonGetStarted.Text = "Get Started...";
 			this._buttonGetStarted.UseVisualStyleBackColor = true;
 			this._buttonGetStarted.Click += new System.EventHandler(this.HandleGetStartedButtonClick);
+			// 
+			// _buttonAudacityHelp
+			// 
+			this._buttonAudacityHelp.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._buttonAudacityHelp.AutoSize = true;
+			this._buttonAudacityHelp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._buttonAudacityHelp.BackColor = System.Drawing.Color.Transparent;
+			this._buttonAudacityHelp.Cursor = System.Windows.Forms.Cursors.Hand;
+			this._buttonAudacityHelp.FlatAppearance.BorderSize = 0;
+			this._buttonAudacityHelp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this._buttonAudacityHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this._buttonAudacityHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this._buttonAudacityHelp.Image = global::SayMore.Properties.Resources.Help;
+			this.locExtender.SetLocalizableToolTip(this._buttonAudacityHelp, null);
+			this.locExtender.SetLocalizationComment(this._buttonAudacityHelp, null);
+			this.locExtender.SetLocalizationPriority(this._buttonAudacityHelp, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._buttonAudacityHelp, "EventsView.Transcription.StartAnnotatingTab.AudacityHelpButtonText");
+			this._buttonAudacityHelp.Location = new System.Drawing.Point(449, 107);
+			this._buttonAudacityHelp.Name = "_buttonAudacityHelp";
+			this._buttonAudacityHelp.Size = new System.Drawing.Size(22, 22);
+			this._buttonAudacityHelp.TabIndex = 10;
+			this._buttonAudacityHelp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this._buttonAudacityHelp.UseVisualStyleBackColor = false;
+			// 
+			// _buttonAutoSegmenterHelp
+			// 
+			this._buttonAutoSegmenterHelp.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._buttonAutoSegmenterHelp.AutoSize = true;
+			this._buttonAutoSegmenterHelp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._buttonAutoSegmenterHelp.BackColor = System.Drawing.Color.Transparent;
+			this._buttonAutoSegmenterHelp.Cursor = System.Windows.Forms.Cursors.Hand;
+			this._buttonAutoSegmenterHelp.FlatAppearance.BorderSize = 0;
+			this._buttonAutoSegmenterHelp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this._buttonAutoSegmenterHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this._buttonAutoSegmenterHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this._buttonAutoSegmenterHelp.Image = global::SayMore.Properties.Resources.Help;
+			this.locExtender.SetLocalizableToolTip(this._buttonAutoSegmenterHelp, null);
+			this.locExtender.SetLocalizationComment(this._buttonAutoSegmenterHelp, null);
+			this.locExtender.SetLocalizationPriority(this._buttonAutoSegmenterHelp, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._buttonAutoSegmenterHelp, "EventsView.Transcription.StartAnnotatingTab.ELANFileHelpButtonText");
+			this._buttonAutoSegmenterHelp.Location = new System.Drawing.Point(449, 135);
+			this._buttonAutoSegmenterHelp.Name = "_buttonAutoSegmenterHelp";
+			this._buttonAutoSegmenterHelp.Size = new System.Drawing.Size(22, 22);
+			this._buttonAutoSegmenterHelp.TabIndex = 13;
+			this._buttonAutoSegmenterHelp.UseVisualStyleBackColor = false;
+			// 
+			// _radioButtonAudacity
+			// 
+			this._radioButtonAudacity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._radioButtonAudacity.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._radioButtonAudacity, null);
+			this.locExtender.SetLocalizationComment(this._radioButtonAudacity, null);
+			this.locExtender.SetLocalizingId(this._radioButtonAudacity, "EventsView.Transcription.StartAnnotatingTab._radioButtonAudacity");
+			this._radioButtonAudacity.Location = new System.Drawing.Point(255, 109);
+			this._radioButtonAudacity.Margin = new System.Windows.Forms.Padding(25, 3, 3, 3);
+			this._radioButtonAudacity.Name = "_radioButtonAudacity";
+			this._radioButtonAudacity.Size = new System.Drawing.Size(188, 17);
+			this._radioButtonAudacity.TabIndex = 9;
+			this._radioButtonAudacity.TabStop = true;
+			this._radioButtonAudacity.Text = "Read an Audacity Label file";
+			this._radioButtonAudacity.UseVisualStyleBackColor = true;
+			// 
+			// _radioButtonAutoSegmenter
+			// 
+			this._radioButtonAutoSegmenter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._radioButtonAutoSegmenter.AutoSize = true;
+			this._radioButtonAutoSegmenter.Enabled = false;
+			this.locExtender.SetLocalizableToolTip(this._radioButtonAutoSegmenter, null);
+			this.locExtender.SetLocalizationComment(this._radioButtonAutoSegmenter, null);
+			this.locExtender.SetLocalizingId(this._radioButtonAutoSegmenter, "EventsView.Transcription.StartAnnotatingTab._radioButtonAutoSegmenter");
+			this._radioButtonAutoSegmenter.Location = new System.Drawing.Point(255, 137);
+			this._radioButtonAutoSegmenter.Margin = new System.Windows.Forms.Padding(25, 3, 3, 3);
+			this._radioButtonAutoSegmenter.Name = "_radioButtonAutoSegmenter";
+			this._radioButtonAutoSegmenter.Size = new System.Drawing.Size(188, 17);
+			this._radioButtonAutoSegmenter.TabIndex = 11;
+			this._radioButtonAutoSegmenter.TabStop = true;
+			this._radioButtonAutoSegmenter.Text = "Use auto segmenter (experimental)";
+			this._radioButtonAutoSegmenter.UseVisualStyleBackColor = true;
 			// 
 			// locExtender
 			// 

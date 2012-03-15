@@ -221,6 +221,26 @@ namespace SayMore.UI.MediaPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static string GetAudioEncoding(string mediaFilePath)
+		{
+			var mediaInfo = GetRawMediaInfoDump(mediaFilePath);
+			var regex = new Regex(@"Selected audio codec:[^(]*\((?<codecName>[^()]*)");
+			var match = regex.Match(mediaInfo);
+			return (match.Success ? match.Result("${codecName}").Trim() : "UNKNOWN");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static int GetAudioChannels(string mediaFilePath)
+		{
+			var mplayerInfo = GetRawMediaInfoDump(mediaFilePath);
+			int i = mplayerInfo.LastIndexOf("ID_AUDIO_NCH=", StringComparison.Ordinal);
+			if (i < 0)
+				return 1;
+
+			return (int.TryParse(mplayerInfo.Substring(i + 13, 2), out i) ? i : 1);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static Image GetImageFromVideo(string videoPath, float seconds)
 		{
 			Image img = null;

@@ -16,18 +16,20 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsFilePlainPcm(string audioFilePath)
 		{
+			return (GetFileAudioFormat(audioFilePath) == WaveFormatEncoding.Pcm);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static WaveFormatEncoding GetFileAudioFormat(string audioFilePath)
+		{
 			WaveFileReader reader = null;
 
 			try
 			{
 				reader = new WaveFileReader(audioFilePath);
-				if (reader.WaveFormat.Encoding != WaveFormatEncoding.Pcm)
-					return false;
+				return reader.WaveFormat.Encoding;
 			}
-			catch
-			{
-				return false;
-			}
+			catch { }
 			finally
 			{
 				if (reader != null)
@@ -37,7 +39,7 @@ namespace SayMore.AudioUtils
 				}
 			}
 
-			return true;
+			return WaveFormatEncoding.Unknown;
 		}
 
 		/// ------------------------------------------------------------------------------------

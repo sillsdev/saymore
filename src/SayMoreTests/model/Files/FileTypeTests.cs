@@ -1,6 +1,10 @@
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model.Files;
+using SayMoreTests.UI.Utilities;
 
 namespace SayMoreTests.Model.Files
 {
@@ -41,6 +45,56 @@ namespace SayMoreTests.Model.Files
 		{
 			var t = FileType.Create("text", new[]{"txt","db"});
 			Assert.IsTrue(t.IsMatch(_parentFolder.Combine("blah.db")));
+		}
+
+		[Test]
+		public void ComputeStandardPcmAudioFilePath_OriginalHasStandardAudioSuffixAndExt_ReturnsOriginal()
+		{
+			Assert.AreEqual(@"c:\blah\dumb_StandardAudio.wav",
+				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(@"c:\blah\dumb_StandardAudio.wav"));
+		}
+
+		[Test]
+		public void ComputeStandardPcmAudioFilePath_OriginalHasStandardAudioSuffixButNotExt_DoesNotDuplicateSuffix()
+		{
+			Assert.AreEqual(@"c:\blah\dumb_StandardAudio.wav",
+				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(@"c:\blah\dumb_StandardAudio.mpg"));
+		}
+
+		[Test]
+		public void ComputeStandardPcmAudioFilePath_OriginalDoesNotHaveStandardAudioSuffix_ReturnsCorrectPath()
+		{
+			Assert.AreEqual(@"c:\blah\dumb_StandardAudio.wav",
+				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(@"c:\blah\dumb.mp3"));
+		}
+
+		[Test]
+		public void GetIsStandardPcmAudioFile_OriginalHasStandardAudioSuffixAndExt_ReturnsTrue()
+		{
+			Assert.IsTrue(AudioVideoFileTypeBase.GetIsStandardPcmAudioFile(@"c:\blah\dumb_StandardAudio.wav"));
+		}
+
+		[Test]
+		public void GetIsStandardPcmAudioFile_OriginalHasStandardAudioSuffixButNotExt_ReturnsFalse()
+		{
+			using (var tempFile = new TempFileFromFolder(_parentFolder, "blah_StandardAudio.mp3", ""))
+				Assert.IsFalse(AudioVideoFileTypeBase.GetIsStandardPcmAudioFile(tempFile.Path));
+		}
+
+		[Test]
+		public void GetIsStandardPcmAudioFile_OriginalIsAlreadyPcm_ReturnsTrue()
+		{
+			var audioFile = MPlayerMediaInfoTests.GetShortTestAudioFile();
+
+			try
+			{
+				Assert.IsTrue(AudioVideoFileTypeBase.GetIsStandardPcmAudioFile(audioFile));
+			}
+			finally
+			{
+				if (audioFile != null && File.Exists(audioFile))
+					File.Delete(audioFile);
+			}
 		}
 	}
 }

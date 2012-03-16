@@ -197,7 +197,7 @@ namespace SayMore.Model.Files
 		public virtual bool GetNeedsConvertingToStandardAudio()
 		{
 			return (GetCanHaveAnnotationFile() &&
-				!AudioUtils.GetIsFilePlainPcm(PathToAnnotatedFile));
+				!AudioUtils.GetIsFileStandardPcm(PathToAnnotatedFile));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -238,12 +238,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetSuggestedPathToStandardAudioFile()
 		{
-			if (!GetCanHaveAnnotationFile())
-				return null;
-
-			var filename = Path.GetFileNameWithoutExtension(PathToAnnotatedFile);
-			filename += Settings.Default.StandardAudioFileSuffix;
-			return Path.Combine(Path.GetDirectoryName(PathToAnnotatedFile), filename);
+			return !GetCanHaveAnnotationFile() ? null :
+				AudioVideoFileTypeBase.ComputeStandardPcmAudioFilePath(PathToAnnotatedFile);
 		}
 
 		/// ------------------------------------------------------------------------------------

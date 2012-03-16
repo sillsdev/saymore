@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
+using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.UI.ComponentEditors;
@@ -14,13 +15,9 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class ConvertToStandardAudioEditor : EditorBase
 	{
-		private readonly ConvertToStandardAudioEditorViewModel _viewModel;
-
 		/// ------------------------------------------------------------------------------------
 		public ConvertToStandardAudioEditor(ComponentFile file) : base(file, null, null)
 		{
-			_viewModel = new ConvertToStandardAudioEditorViewModel();
-
 			InitializeComponent();
 			Name = "StartAnnotating";
 
@@ -70,7 +67,7 @@ namespace SayMore.Transcription.UI
 				return string.Format(text, suffix);
 			}
 
-			var encoding = _viewModel.GetAudioFileEncoding(_file.PathToAnnotatedFile);
+			var encoding = AudioUtils.GetAudioEncoding(_file.PathToAnnotatedFile);
 
 			text = LocalizationManager.GetString(
 				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForAudio",
@@ -109,11 +106,10 @@ namespace SayMore.Transcription.UI
 		{
 			_buttonConvert.Enabled = true;
 
-			var msg = LocalizationManager.GetString(
-				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio.ConvertingMsg",
-				"Converting...");
+			var error = AudioUtils.ConvertToStandardPCM(_file.PathToAnnotatedFile,
+				_file.GetSuggestedPathToStandardAudioFile(), this,
+				AudioUtils.GetConvertingToStandardPcmAudioMsg());
 
-			var error = _viewModel.Convert(this, _file, msg);
 			if (error == null)
 			{
 				if (ComponentFileListRefreshAction != null)
@@ -125,11 +121,8 @@ namespace SayMore.Transcription.UI
 				return;
 			}
 
-			msg = LocalizationManager.GetString(
-				"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio.ConversionErrorMsg",
-				"There was an error trying to create a standard audio file from:\r\n\r\n{0}");
-
-			ErrorReport.NotifyUserOfProblem(error, msg, _file.PathToAnnotatedFile);
+			ErrorReport.NotifyUserOfProblem(error,
+				AudioUtils.GetConvertingToStandardPcmAudioErrorMsg(), _file.PathToAnnotatedFile);
 		}
 	}
 }

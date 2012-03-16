@@ -60,7 +60,7 @@ namespace SayMore.Transcription.UI
 				return (_file != null &&
 					!_file.GetDoesHaveAnnotationFile() &&
 					_file.GetCanHaveAnnotationFile() &&
-					AudioUtils.GetIsFilePlainPcm(_file.PathToAnnotatedFile));
+					AudioUtils.GetIsFileStandardPcm(_file.PathToAnnotatedFile));
 			}
 		}
 

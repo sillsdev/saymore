@@ -5,11 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
+using NAudio.Wave;
 using Palaso.Progress;
 using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.Media;
 using Palaso.Progress.LogBox;
 using Palaso.Reporting;
+using SayMore.Media;
 using SayMore.Model.Fields;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
@@ -717,6 +719,66 @@ namespace SayMore.Model.Files
 			file.RemoveField(fieldId);
 			file.Save();
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<FileCommand> GetCommands(string filePath)
+		{
+			var commands = base.GetCommands(filePath).ToList();
+
+			if (!GetIsStandardPcmAudioFile(filePath) &&
+				!File.Exists(ComputeStandardPcmAudioFilePath(filePath)))
+			{
+				commands.Add(null); // Separator
+				commands.Add(new FileCommand(GetConvertToStandardPcmMenuText(),
+					ConvertToStandardPcmAudio, "convert"));
+			}
+
+			return commands;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string GetConvertToStandardPcmMenuText()
+		{
+			throw new NotImplementedException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ConvertToStandardPcmAudio(string path)
+		{
+			if (AudioUtils.GetNAudioEncoding(path) == WaveFormatEncoding.Pcm)
+				return;
+
+			var error = AudioUtils.ConvertToStandardPCM(path,
+				ComputeStandardPcmAudioFilePath(path), null,
+				AudioUtils.GetConvertingToStandardPcmAudioMsg());
+
+			if (error != null)
+			{
+				ErrorReport.NotifyUserOfProblem(error,
+					AudioUtils.GetConvertingToStandardPcmAudioErrorMsg(), path);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string ComputeStandardPcmAudioFilePath(string path)
+		{
+			if (path.EndsWith(Settings.Default.StandardAudioFileSuffix))
+				return path;
+
+			var pcmPath = Path.GetFileNameWithoutExtension(path);
+			if (pcmPath.EndsWith(Path.GetFileNameWithoutExtension(Settings.Default.StandardAudioFileSuffix)))
+				return Path.Combine(Path.GetDirectoryName(path), pcmPath + ".wav");
+
+			pcmPath += Settings.Default.StandardAudioFileSuffix;
+			return Path.Combine(Path.GetDirectoryName(path), pcmPath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsStandardPcmAudioFile(string path)
+		{
+			return path.EndsWith(Settings.Default.StandardAudioFileSuffix) ||
+				AudioUtils.GetIsFileStandardPcm(path);
+		}
 	}
 
 	#endregion
@@ -795,6 +857,14 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override string GetConvertToStandardPcmMenuText()
+		{
+			return LocalizationManager.GetString(
+				"CommonToMultipleViews.FileList.Convert.ConvertToStandardPcmFromAudioMenuText",
+				"Convert to Standard WAV PCM Audio File");
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
 			yield return new AudioVideoPlayer(file, "Audio");
@@ -869,25 +939,28 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override string GetConvertToStandardPcmMenuText()
+		{
+			return LocalizationManager.GetString(
+				"CommonToMultipleViews.FileList.Convert.ExtractStandardPcmFromVideoMenuText",
+				"Extract Audio to Standard WAV PCM Audio File");
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
-			// TODO: Localize these strings.
-
 			var commands = base.GetCommands(filePath).ToList();
 
 			if (!File.Exists(filePath.Replace(Path.GetExtension(filePath), ".mp3")))
 			{
-				commands.Add(null); // Separator
+				if (commands.Count == 0)
+					commands.Add(null); // Separator
 
-				var menuText = LocalizationManager.GetString("CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText",
+				var menuText = LocalizationManager.GetString(
+					"CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText",
 					"Extract Audio to mono MP3 File (low quality)");
 
 				commands.Add(new FileCommand(menuText, ExtractMp3Audio, "convert"));
-
-				menuText = LocalizationManager.GetString("CommonToMultipleViews.FileList.Convert.ExtractWavAudioMenuText",
-					"Extract Audio to Wave File");
-
-				commands.Add(new FileCommand(menuText, ExtractWavAudio, "convert"));
 			}
 
 			return commands;
@@ -899,7 +972,7 @@ namespace SayMore.Model.Files
 			//var outputPath = path.Replace(Path.GetExtension(path), ".wav");
 			var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
 
-			if (!CheckConversionIsPossible(outputPath))
+			if (!AudioUtils.CheckConversionIsPossible(outputPath))
 				return;
 
 			WaitCursor.Show();
@@ -910,69 +983,10 @@ namespace SayMore.Model.Files
 			WaitCursor.Hide();
 
 			if (results.ExitCode != 0)
-				ErrorReport.NotifyUserOfProblem(GetFFmpegConversionError(), results.StandardError);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void ExtractWavAudio(string path)
-		{
-			var outputPath = path.Replace(Path.GetExtension(path), ".wav");
-
-			if (!CheckConversionIsPossible(outputPath))
-				return;
-
-			Cursor.Current = Cursors.WaitCursor;
-			//TODO...provide some progress
-
-			// REVIEW: At some point, we should probably switch to using MPlayer/MEncoder to do this.
-
-			// Using ExtractBestQualityWavAudio does not ensure pcm will be the audio format
-			// extracted, so call ExtractPcmAudio instead. The only problem is that the bits
-			// per sample must be specified. TODO: use ffmpeg to get the info from the video
-			// file and look for the audio's bits per sample. then use that to pass to
-			// ExtractPcmAudio.
-
-			var results = FFmpegRunner.ExtractPcmAudio(path, outputPath, 16, 0, 0, new NullProgress());
-			//var results = FFmpegRunner.ExtractBestQualityWavAudio(path, outputPath, 0 /* whatever*/, new NullProgress());
-			Cursor.Current = Cursors.Default;
-
-			if (results.ExitCode != 0)
-				ErrorReport.NotifyUserOfProblem(GetFFmpegConversionError(), results.StandardError);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string GetFFmpegConversionError()
-		{
-			return LocalizationManager.GetString("CommonToMultipleViews.FileList.Convert.FailureMsg",
-				"Something didn't work out. FFmpeg said (start reading from the end): {0}\n\n");
-
-		}
-		/// ------------------------------------------------------------------------------------
-		private bool CheckConversionIsPossible(string outputPath)
-		{
-			if (!MediaInfo.HaveNecessaryComponents)
 			{
-				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.Convert.FFmpegMissingErrorMsg",
-					"SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
-
-				ErrorReport.NotifyUserOfProblem(msg);
-				return false;
+				ErrorReport.NotifyUserOfProblem(
+					AudioUtils.GetGeneralFFmpegConversionErrorMsg(), results.StandardError);
 			}
-
-			if (File.Exists(outputPath))
-			{
-				//todo ask the user (or don't offer this in the first place)
-				//File.Delete(outputPath);
-
-				var msg = LocalizationManager.GetString(
-					"CommonToMultipleViews.FileList.Convert.FileAlreadyExistsDuringConversionErrorMsg",
-					"Sorry, the file '{0}' already exists.");
-
-				ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(outputPath));
-				return false;
-			}
-
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

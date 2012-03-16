@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using Localization;
 using NAudio.Wave;
 using NAudio.Wave.Compression;
@@ -9,6 +12,9 @@ using Palaso.Media.Naudio;
 using Palaso.Progress;
 using Palaso.Progress.LogBox;
 using Palaso.Reporting;
+using SayMore.Media.UI;
+using SayMore.Model.Files;
+using SayMore.UI;
 
 namespace SayMore.Media
 {
@@ -36,18 +42,39 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static bool GetIsFilePlainPcm(string audioFilePath)
+		public static bool GetIsFileStandardPcm(string audioFilePath)
 		{
-			return (GetFileAudioFormat(audioFilePath) == WaveFormatEncoding.Pcm);
+			return (GetNAudioEncoding(audioFilePath) == WaveFormatEncoding.Pcm);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static WaveFormatEncoding GetFileAudioFormat(string audioFilePath)
+		/// <summary>
+		/// The input media file may be audio or video.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetAudioEncoding(string mediaFilePath)
+		{
+			var encoding = GetNAudioEncoding(mediaFilePath);
+			return (encoding != WaveFormatEncoding.Unknown ?
+				encoding.ToString().Replace("WAVE_FORMAT", "WAV").Replace('_', ' ').ToUpperInvariant() :
+				MPlayerHelper.GetAudioEncoding(mediaFilePath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The input file must be audio. If it is not or the encoding cannot be determined,
+		/// WaveFormatEncoding.Unknown is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static WaveFormatEncoding GetNAudioEncoding(string audioFilePath)
 		{
 			WaveFileReader reader = null;
 
 			try
 			{
+				if (!GetDoesFileSeemToBeWave(audioFilePath))
+					return WaveFormatEncoding.Unknown;
+
 				reader = new WaveFileReader(audioFilePath);
 				return reader.WaveFormat.Encoding;
 			}
@@ -62,6 +89,42 @@ namespace SayMore.Media
 			}
 
 			return WaveFormatEncoding.Unknown;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method will use NAduio's WaveFileReader.ReadWaveHeader to determine whether
+		/// or not the specified file is a valid wave file. I would just try to create a
+		/// WaveFileReader and catch the exception if construction fails. However if the
+		/// file is not a valid wave file, NAudio throws an exception but does not close the
+		/// file. Therefore, we open the file ourselves, then pass the stream to the
+		/// WaveFileReader.ReadWaveHeader and see if that throws an exception.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool GetDoesFileSeemToBeWave(string mediaFilePath)
+		{
+			FileStream stream = null;
+
+			try
+			{
+				stream = File.OpenRead(mediaFilePath);
+				WaveFormat fmt;
+				long pos;
+				int len;
+				WaveFileReader.ReadWaveHeader(stream, out fmt, out pos, out len, new List<RiffChunk>());
+				return true;
+			}
+			catch { }
+			finally
+			{
+				if (stream != null)
+				{
+					stream.Close();
+					stream.Dispose();
+				}
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,33 +172,168 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static WaveFileReader GetPlainPcmStream(string inputMediaFile,
-			string outputAudioFile, WaveFormat preferredOutputFormat, out Exception error)
+		/// <summary>
+		/// The input media file may be audio or video. If the waitMessage is null, then no
+		/// "progress" dialog box will be displayed during the conversion process.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Exception ConvertToStandardPCM(string inputMediaFile,
+			string outputMediaFile, Control parent, string waitMessage)
 		{
-			error = null;
+			Exception error = null;
+			WaveFileReader outputReader = null;
+			var dlg = (waitMessage == null ? null : new LoadingDlg(waitMessage));
 
 			try
 			{
+				if (dlg != null)
+				{
+					parent = (parent ?? Application.OpenForms[0]);
+					dlg.Show(parent);
+				}
+
 				WaitCursor.Show();
+				var worker = new BackgroundWorker();
+				worker.DoWork += delegate
+				{
+					// TODO: Get and use the audio's bits/sample from ffmpeg or mplayer output dump.
+					int channels = GetChannelsFromMediaFile(inputMediaFile);
+					var format = GetDefaultWaveFormat(channels);
+					outputReader = ConvertToStandardPcmStream(inputMediaFile, outputMediaFile, format, out error);
+				};
 
-				var execResult = FFmpegRunner.ExtractPcmAudio(inputMediaFile, outputAudioFile,
-					preferredOutputFormat.BitsPerSample, preferredOutputFormat.SampleRate,
-					preferredOutputFormat.Channels, new NullProgress());
+				worker.RunWorkerAsync();
+				while (worker.IsBusy) { Application.DoEvents(); }
+				return error;
+			}
+			finally
+			{
+				if (outputReader != null)
+				{
+					outputReader.Close();
+					outputReader.Dispose();
+				}
 
-				if (execResult.ExitCode == 0)
-					return new WaveFileReader(outputAudioFile);
+				if (error != null && File.Exists(outputMediaFile))
+					File.Delete(outputMediaFile);
+
+				if (dlg != null)
+				{
+					dlg.Close();
+					dlg.Dispose();
+				}
+
+				WaitCursor.Hide();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The input media file may be audio or video.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static int GetChannelsFromMediaFile(string mediaFilePath)
+		{
+			var mediaInfo = new MediaFileInfo(mediaFilePath);
+
+			// There are some media files (e.g. MTS) for which ffmpeg -- which is what the
+			// MediaFileInfo class uses -- returns 0 channels. Hence the check. When that
+			// happens, then get the information using mplayer.
+			return (mediaInfo.Channels > 0 ? mediaInfo.Channels :
+				MPlayerHelper.GetAudioChannels(mediaFilePath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static WaveFileReader ConvertToStandardPcmStream(string inputMediaFile,
+			string outputAudioFile, WaveFormat preferredOutputFormat, out Exception error)
+		{
+			try
+			{
+				error = null;
+				string errorMsg = null;
+
+				if (CheckConversionIsPossible(outputAudioFile, false, out errorMsg))
+				{
+					var execResult = FFmpegRunner.ExtractPcmAudio(inputMediaFile, outputAudioFile,
+						preferredOutputFormat.BitsPerSample, preferredOutputFormat.SampleRate,
+						preferredOutputFormat.Channels, new NullProgress());
+
+					if (execResult.ExitCode == 0)
+						return new WaveFileReader(outputAudioFile);
+
+					errorMsg = execResult.StandardError;
+				}
 
 				var msg = LocalizationManager.GetString("SoundFileUtils.ExtractingAudioError",
 					"There was an error extracting audio from the media file '{0}'\r\n\r\n{1}",
 					"Second parameter is the error message.");
 
-				error = new Exception(string.Format(msg, inputMediaFile, execResult.StandardError));
-				return null;
+				error = new Exception(String.Format(msg, inputMediaFile, errorMsg));
 			}
-			finally
+			catch (Exception e)
 			{
-				WaitCursor.Hide();
+				error = e;
 			}
+
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool CheckConversionIsPossible(string outputPath)
+		{
+			string errorMsg;
+			return CheckConversionIsPossible(outputPath, true, out errorMsg);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool CheckConversionIsPossible(string outputPath,
+			bool showMsg, out string message)
+		{
+			message = null;
+
+			if (!MediaInfo.HaveNecessaryComponents)
+			{
+				var msg = LocalizationManager.GetString("SoundFileUtils.FFmpegMissingErrorMsg",
+					"SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
+
+				ErrorReport.NotifyUserOfProblem(msg);
+				return false;
+			}
+
+			if (File.Exists(outputPath))
+			{
+				var msg = LocalizationManager.GetString(
+					"SoundFileUtils.ConversionOutputFileAlreadyErrorMsg",
+					"Sorry, the file '{0}' already exists.");
+
+				ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(outputPath));
+				return false;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetConvertingToStandardPcmAudioMsg()
+		{
+			return LocalizationManager.GetString(
+				"SoundFileUtils.ConvertToStandardWavPcmAudioMsg", "Converting...");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetConvertingToStandardPcmAudioErrorMsg()
+		{
+			return LocalizationManager.GetString(
+				"SoundFileUtils.ConvertToStandardWavPcmAudioErrorMsg",
+				"There was an error trying to create a standard audio file from:\r\n\r\n{0}");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetGeneralFFmpegConversionErrorMsg()
+		{
+			return LocalizationManager.GetString("SoundFileUtils.GeneralFFmpegFailureMsg",
+				"Something didn't work out. FFmpeg reported the following (start " +
+				"reading from the end):\r\n\r\n{0}");
 		}
 
 		/// ------------------------------------------------------------------------------------

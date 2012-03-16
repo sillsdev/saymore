@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Localization;
 using NAudio.Wave;
+using Palaso.Progress;
 
 namespace SayMore.Media
 {
@@ -58,7 +59,7 @@ namespace SayMore.Media
 			{
 				// First, just try to open the file as a wave file. If that fails, use
 				// ffmpeg in an attempt to get wave audio out of the file.
-				if (AudioUtils.GetIsFilePlainPcm(mediaFile))
+				if (AudioUtils.GetIsFileStandardPcm(mediaFile))
 				{
 					Stream = new WaveFileReader(mediaFile);
 					return;
@@ -66,13 +67,15 @@ namespace SayMore.Media
 			}
 			catch { }
 
-			Exception error;
-
 			_temporaryWavFile = Path.ChangeExtension(Path.GetTempFileName(), ".wav");
 
-			Stream = AudioUtils.GetPlainPcmStream(mediaFile, _temporaryWavFile,
-				PreferredOutputFormat, out error);
+			Exception error;
+			WaitCursor.Show();
 
+			Stream = AudioUtils.ConvertToStandardPcmStream(mediaFile,
+				_temporaryWavFile, PreferredOutputFormat, out error);
+
+			WaitCursor.Hide();
 			Error = error;
 		}
 

@@ -182,7 +182,6 @@
     <Compile Include="Transcription\UI\ComponentEditors\ConvertToStandardAudioEditor.designer.cs">
       <DependentUpon>ConvertToStandardAudioEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transcription\UI\ComponentEditors\ConvertToStandardAudioEditorViewModel.cs" />
     <Compile Include="Transcription\UI\ComponentEditors\OralAnnotationEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

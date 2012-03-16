@@ -49,7 +49,7 @@ namespace SayMore.Transcription.UI
 
 			_buttonHelp.Click += delegate
 			{
-				Program.ShowHelpTopic("/Using_Tools/Events_tab/Working_with_annotations.htm");
+				Program.ShowHelpTopic("/Using_Tools/Events_tab/Annotations_tab/Working_with_annotations.htm");
 			};
 		}
 

@@ -136,22 +136,29 @@ namespace SayMore.Transcription.UI
 		/// <summary>
 		/// When the user is in a transcription cell, this will intercept the tab and shift+tab
 		/// keys so they move to the next transcription cell or previous transcription cell
-		/// respectively.
+		/// respectively. I.e. the TimeTier column is bypassed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			if (IsCurrentCellInEditMode && msg.WParam.ToInt32() == (int)Keys.Tab)
+			if (msg.WParam.ToInt32() == (int)Keys.Tab)
 			{
-				int newRowIndex = CurrentCellAddress.Y + (ModifierKeys == Keys.Shift ? -1 : 1);
-
-				if (newRowIndex >= 0 && newRowIndex < RowCount)
-				{
+				if (IsCurrentCellInEditMode)
 					EndEdit();
-					CurrentCell = this[CurrentCell.ColumnIndex, newRowIndex];
+
+				if (CurrentCellAddress.X == ColumnCount - 1 && ModifierKeys != Keys.Shift &&
+					CurrentCellAddress.Y < RowCount - 1)
+				{
+					CurrentCell = this[1, CurrentCellAddress.Y + 1];
+					return true;
 				}
 
-				return true;
+				if (CurrentCellAddress.X == 1 && ModifierKeys == Keys.Shift &&
+					CurrentCellAddress.Y > 0)
+				{
+					CurrentCell = this[ColumnCount - 1, CurrentCellAddress.Y - 1];
+					return true;
+				}
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);

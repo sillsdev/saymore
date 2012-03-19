@@ -19,6 +19,7 @@ namespace SayMore.UI.ComponentEditors
 		string ImageKey { get; }
 		void Initialize(string tabText, string imageKey);
 		void SetComponentFile(ComponentFile file);
+		bool ComponentFileDeletionInitiated(ComponentFile file);
 		Action<string, Type> ComponentFileListRefreshAction { set; }
 		void Deactivated();
 		void Activated();
@@ -70,6 +71,12 @@ namespace SayMore.UI.ComponentEditors
 		{
 			TabText = tabText ?? TabText;
 			ImageKey = imageKey;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool ComponentFileDeletionInitiated(ComponentFile file)
+		{
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

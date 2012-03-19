@@ -140,6 +140,9 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public bool DeleteComponentFile(ComponentFile file)
 		{
+			if (_currentEditorProviders.Any(editor => !editor.ComponentFileDeletionInitiated(file)))
+				return false;
+
 			return DeleteComponentFile(file, true);
 		}
 

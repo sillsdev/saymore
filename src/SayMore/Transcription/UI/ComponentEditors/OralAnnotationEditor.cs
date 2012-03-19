@@ -90,6 +90,18 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override bool ComponentFileDeletionInitiated(ComponentFile file)
+		{
+			if (base.ComponentFileDeletionInitiated(file))
+			{
+				_oralAnnotationWaveViewer.CloseAudioStream();
+				return true;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override void Activated()
 		{
 			base.Activated();

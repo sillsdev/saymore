@@ -19,6 +19,8 @@ namespace SayMore.UI.EventRecording
 		/// ------------------------------------------------------------------------------------
 		public EventRecorderDlgViewModel()
 		{
+			UpdateAction = delegate {  };
+
 			// This code was used to do some testing of what NAudio returns. At some point,
 			// in general, it may prove to lead to something useful for getting the supported
 			// formats for a recording device.
@@ -34,9 +36,6 @@ namespace SayMore.UI.EventRecording
 			Recorder.SelectedDevice = RecordingDevice.Devices.First();
 			Recorder.Stopped += delegate { UpdateAction(); };
 
-			_player = new AudioPlayer();
-			_player.Stopped += delegate { UpdateAction(); };
-
 			_path = Path.Combine(Path.GetTempPath(),
 				string.Format("SayMoreEventRecording_{0}.wav",
 				DateTime.Now.ToString("yyyyMMdd_HHmmss")));
@@ -51,10 +50,7 @@ namespace SayMore.UI.EventRecording
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			if (_player != null)
-				_player.Dispose();
-
-			CloseRecorder();
+			CloseAll();
 
 			if (File.Exists(_path))
 			{
@@ -72,14 +68,27 @@ namespace SayMore.UI.EventRecording
 		/// ------------------------------------------------------------------------------------
 		public void BeginPlayback()
 		{
+			_player = new AudioPlayer();
+			_player.Stopped += delegate { _player.Dispose(); _player = null; UpdateAction(); };
 			_player.LoadFile(_path);
 			_player.Play();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void StopPlayback()
+		public void Stop()
 		{
+			if (IsRecording)
+			{
+				Recorder.Stop();
+				return;
+			}
+
+			if (_player == null)
+				return;
+
 			_player.Stop();
+			_player.Dispose();
+			_player = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -87,9 +96,9 @@ namespace SayMore.UI.EventRecording
 		{
 			get
 			{
-				return Recorder != null && (_player.PlaybackState == PlaybackState.Stopped &&
+				return _player == null && Recorder != null &&
 					(Recorder.RecordingState == RecordingState.Monitoring ||
-					Recorder.RecordingState == RecordingState.Stopped));
+					Recorder.RecordingState == RecordingState.Stopped);
 			}
 		}
 
@@ -116,17 +125,18 @@ namespace SayMore.UI.EventRecording
 		/// ------------------------------------------------------------------------------------
 		public bool IsPlaying
 		{
-			get { return _player.PlaybackState == PlaybackState.Playing; }
+			get { return _player != null && _player.PlaybackState == PlaybackState.Playing; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CloseRecorder()
+		public void CloseAll()
 		{
-			if (Recorder != null)
-			{
-				Recorder.Dispose();
-				Recorder = null;
-			}
+			if (Recorder == null)
+				return;
+
+			Stop();
+			Recorder.Dispose();
+			Recorder = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -134,13 +144,7 @@ namespace SayMore.UI.EventRecording
 		{
 			try
 			{
-				if (_player != null)
-				{
-					_player.Dispose();
-					_player = null;
-				}
-
-				CloseRecorder();
+				CloseAll();
 				File.Move(_path, Path.Combine(evnt.FolderPath, evnt.Id + ".wav"));
 			}
 			catch (Exception e)

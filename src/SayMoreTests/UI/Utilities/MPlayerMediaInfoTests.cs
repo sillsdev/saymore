@@ -105,7 +105,7 @@ namespace SayMoreTests.UI.Utilities
 				Assert.IsTrue(minfo.IsVideo);
 				Assert.AreEqual(tmpfile, minfo.FileName);
 				Assert.AreEqual(5.49f, (float)Math.Round(minfo.StartTime, 2));
-				Assert.AreEqual(4.01f, (float)Math.Round(minfo.Duration, 2));
+				Assert.AreEqual(9.5f, (float)Math.Round(minfo.Duration, 2));
 				Assert.AreEqual(new Size(320, 240), minfo.PictureSize);
 				Assert.IsNotNull(minfo.FullSizedThumbnail);
 			}

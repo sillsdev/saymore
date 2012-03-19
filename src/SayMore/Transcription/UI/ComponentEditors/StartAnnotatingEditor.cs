@@ -21,11 +21,14 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 			Name = "StartAnnotating";
 
-			_buttonAudacityHelp.Click += (s, e) =>
-				Program.ShowHelpTopic("/Using_Tools/Events_tab/Create_Annotation_File.htm");
-
-			_buttonELANFileHelp.Click += (s, e) =>
-				Program.ShowHelpTopic("/Using_Tools/Events_tab/Create_Annotation_File.htm");
+			_buttonManualSegmentationHelp.Click += (s, e) =>
+				Program.ShowHelpTopic("/Using_Tools/Events_tab/Use_Manual_Segmentation_Tool.htm");
+			_buttonCarefulSpeechToolHelp.Click += (s, e) =>
+				Program.ShowHelpTopic("/Using_Tools/Events_tab/Use_Careful_Speech_Tool.htm");
+			_buttonELANFileHelp.Click += (s, e) => Program.ShowHelpTopic("/Concepts/ELAN.htm");
+			_buttonAudacityHelp.Click += (s, e) => Program.ShowHelpTopic("/Concepts/Audacity.htm");
+			_buttonAutoSegmenterHelp.Click += (s, e) =>
+				Program.ShowHelpTopic("/Using_Tools/Events_tab/Use_Auto_Segmenter_Tool.htm");
 
 			switch (Settings.Default.DefaultSegmentationMethod)
 			{

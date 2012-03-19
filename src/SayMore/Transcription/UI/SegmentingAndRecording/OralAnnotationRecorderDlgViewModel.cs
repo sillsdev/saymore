@@ -193,6 +193,9 @@ namespace SayMore.Transcription.UI
 				GetFullPathToAnnotationFileForSegment(CurrentSegment) :
 				GetFullPathForNewSegmentAnnotationFile(GetStartOfCurrentSegment(), cursorTime));
 
+			if (!Directory.Exists(Path.GetDirectoryName(path)))
+				Directory.CreateDirectory(Path.GetDirectoryName(path));
+
 			_fullPathsToAddedRecordings.Add(path);
 
 			_annotationRecorder = new AudioRecorder(20);

@@ -13,8 +13,8 @@ namespace SayMore.Transcription.UI
 		private static Image s_stopButtonImage;
 
 		private TextAnnotationEditorGrid _grid;
-		private bool _mouseIsOverButtonArea;
-		private bool _playButtonVisible;
+
+		public bool IsMouseIsOverButtonArea { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public AudioWaveFormCell()
@@ -95,12 +95,12 @@ namespace SayMore.Transcription.UI
 		{
 			if (!_grid.PlaybackInProgress)
 			{
-				_playButtonVisible = true;
-				return (_mouseIsOverButtonArea ? s_hotPlayButtonImage : s_playButtonImage);
+				//_playButtonVisible = true;
+				return (IsMouseIsOverButtonArea ? s_hotPlayButtonImage : s_playButtonImage);
 			}
 
-			_playButtonVisible = false;
-			return (_mouseIsOverButtonArea ? s_hotStopButtonImage : s_stopButtonImage);
+			//_playButtonVisible = false;
+			return (IsMouseIsOverButtonArea ? s_hotStopButtonImage : s_stopButtonImage);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ namespace SayMore.Transcription.UI
 		{
 			if (!_grid.Disposing && !_grid.IsDisposed && e.ColumnIndex == ColumnIndex && e.RowIndex == RowIndex)
 			{
-				_mouseIsOverButtonArea = false;
+				IsMouseIsOverButtonArea = false;
 				_grid.InvalidateCell(this);
 			}
 		}
@@ -124,16 +124,16 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnMouseClick(e);
 
-			if (e.RowIndex != _grid.CurrentCellAddress.Y || !_mouseIsOverButtonArea ||
+			if (e.RowIndex != _grid.CurrentCellAddress.Y || !IsMouseIsOverButtonArea ||
 				e.Button != MouseButtons.Left)
 			{
 				return;
 			}
 
-			if (_playButtonVisible)
-				_grid.Play();
-			else
+			if (_grid.PlaybackInProgress)
 				_grid.Stop();
+			else
+				_grid.Play();
 
 			_grid.InvalidateCell(this);
 		}
@@ -153,10 +153,10 @@ namespace SayMore.Transcription.UI
 
 			var overButtonArea = GetButtonRectangle(rc).Contains(e.Location);
 
-			if (_mouseIsOverButtonArea == overButtonArea)
+			if (IsMouseIsOverButtonArea == overButtonArea)
 				return;
 
-			_mouseIsOverButtonArea = overButtonArea;
+			IsMouseIsOverButtonArea = overButtonArea;
 			_grid.InvalidateCell(this);
 		}
 
@@ -191,6 +191,5 @@ namespace SayMore.Transcription.UI
 			// Draw the play or stop button.
 			g.DrawImage(GetButtonImageToDraw(), GetButtonRectangle(cellBounds));
 		}
-
 	}
 }

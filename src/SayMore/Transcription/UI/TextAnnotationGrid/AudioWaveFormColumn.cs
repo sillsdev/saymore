@@ -44,6 +44,7 @@ namespace SayMore.Transcription.UI
 			//_grid.Leave += HandleGridLeave;
 			//_grid.Enter += HandleGridEnter;
 			_grid.CellEnter += HandleCellEnter;
+			_grid.PreProcessMouseClick += HandleGridPreProcessMouseClick;
 			_grid.SetPlaybackProgressReportAction(() => _grid.InvalidateCell(Index, _grid.CurrentCellAddress.Y));
 
 			//_grid.PlaybackSpeedChanged += HandlePlaybackSpeedChanged;
@@ -68,10 +69,38 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UnsubscribeToGridEvents()
 		{
+			_grid.PreProcessMouseClick -= HandleGridPreProcessMouseClick;
 			_grid.KeyDown -= HandleKeyDown;
 			_grid.CellEnter -= HandleCellEnter;
 			_grid.SetPlaybackProgressReportAction(null);
 			base.UnsubscribeToGridEvents();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		bool HandleGridPreProcessMouseClick(int x, int y)
+		{
+			var rc = _grid.GetColumnDisplayRectangle(Index, true);
+			if (x < rc.X || x > rc.Right)
+				return false;
+
+			for (int i = 0; i < _grid.RowCount; i++)
+			{
+				var cell = _grid[Index, i] as AudioWaveFormCell;
+
+				if (!cell.IsMouseIsOverButtonArea)
+					continue;
+
+				if (_grid.PlaybackInProgress)
+					_grid.Stop();
+				else
+					_grid.Play();
+
+				_grid.InvalidateCell(cell);
+
+				return true;
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------

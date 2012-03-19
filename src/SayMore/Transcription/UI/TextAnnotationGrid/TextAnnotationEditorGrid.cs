@@ -16,6 +16,13 @@ namespace SayMore.Transcription.UI
 {
 	public class TextAnnotationEditorGrid : SilGrid
 	{
+		private const int WM_LBUTTONDOWN = 0x201;
+		private const int WM_LBUTTONUP = 0x202;
+		private bool _eatNextLButtonUpEvent = false;
+
+		public delegate bool PreProcessMouseClickHandler(int x, int y);
+		public event PreProcessMouseClickHandler PreProcessMouseClick;
+
 		public Func<Segment> SegmentProvider;
 		public Func<OralAnnotationType, IEnumerable<AnnotationPlaybackInfo>> AnnotationPlaybackInfoProvider;
 		public MediaPlayerViewModel PlayerViewModel { get; private set; }
@@ -136,25 +143,63 @@ namespace SayMore.Transcription.UI
 		/// <summary>
 		/// When the user is in a transcription cell, this will intercept the tab and shift+tab
 		/// keys so they move to the next transcription cell or previous transcription cell
-		/// respectively.
+		/// respectively. I.e. the TimeTier column is bypassed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			if (IsCurrentCellInEditMode && msg.WParam.ToInt32() == (int)Keys.Tab)
+			if (msg.WParam.ToInt32() == (int)Keys.Tab)
 			{
-				int newRowIndex = CurrentCellAddress.Y + (ModifierKeys == Keys.Shift ? -1 : 1);
-
-				if (newRowIndex >= 0 && newRowIndex < RowCount)
-				{
+				if (IsCurrentCellInEditMode)
 					EndEdit();
-					CurrentCell = this[CurrentCell.ColumnIndex, newRowIndex];
+
+				if (CurrentCellAddress.X == ColumnCount - 1 && ModifierKeys != Keys.Shift &&
+					CurrentCellAddress.Y < RowCount - 1)
+				{
+					CurrentCell = this[1, CurrentCellAddress.Y + 1];
+					return true;
 				}
 
-				return true;
+				if (CurrentCellAddress.X == 1 && ModifierKeys == Keys.Shift &&
+					CurrentCellAddress.Y > 0)
+				{
+					CurrentCell = this[ColumnCount - 1, CurrentCellAddress.Y - 1];
+					return true;
+				}
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void WndProc(ref Message m)
+		{
+			if (m.Msg == WM_LBUTTONUP && _eatNextLButtonUpEvent)
+			{
+				// The last left button down was "eaten", so we need to eat the corresponding
+				// button up. This is necessary because we found that if the user moves the
+				// mouse between the down and the up, it results in the OnCellClick event
+				// being fired (and possibly other click events we're not monitoring).
+				_eatNextLButtonUpEvent = false;
+				m.Msg = 0;
+				m.Result = IntPtr.Zero;
+			}
+			else if (m.Msg == WM_LBUTTONDOWN && PreProcessMouseClick != null)
+			{
+				int x = (short)(m.LParam.ToInt32() & 0x0000FFFF);
+				int y = (short)((m.LParam.ToInt32() & 0xFFFF0000) >> 16);
+
+				if (HitTest(x, y).RowIndex != CurrentCellAddress.Y)
+					Stop();
+				else if (PreProcessMouseClick(x, y))
+				{
+					_eatNextLButtonUpEvent = true;
+					m.Msg = 0;
+					m.Result = IntPtr.Zero;
+				}
+			}
+
+			base.WndProc(ref m);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -218,13 +263,28 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnCellEnter(DataGridViewCellEventArgs e)
+		protected override void OnEditingControlShowing(DataGridViewEditingControlShowingEventArgs e)
 		{
 			Stop();
 
+			base.OnEditingControlShowing(e);
+
+			// Now that we're on a new row, wait a 1/4 of a second before beginning to
+			// play this row's media segment. Do this just in case the user is moving
+			// from row to row rapidly. Before the 1/4 sec. delay, the program's
+			// responsiveness to moving from row to row rapidly was very sluggish. This
+			// forces the user to settle on a row, at least briefly, before we attempt
+			// to begin playback.
+			_delayBeginRowPlayingTimer = new System.Threading.Timer(
+				a => Play(), null, 250, System.Threading.Timeout.Infinite);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellEnter(DataGridViewCellEventArgs e)
+		{
 			base.OnCellEnter(e);
 
-			if (CurrentCellAddress.Y < 0 || (!Focused && (EditingControl == null || !EditingControl.Focused)))
+			if (e.ColumnIndex != 0 || CurrentCellAddress.Y < 0 || (!Focused && (EditingControl == null || !EditingControl.Focused)))
 				return;
 
 			// Now that we're on a new row, wait a 1/4 of a second before beginning to
@@ -291,21 +351,23 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InternalPlay()
 		{
-			if (_mediaFileQueue.Count == 0)
-				return;
-
-			PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
-			PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
-
-			if (_mediaFileQueue[0].Length > 0f)
-				PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile, _mediaFileQueue[0].Start, _mediaFileQueue[0].Length);
-			else
+			lock (_mediaFileQueue)
 			{
-				PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile);
-				_mediaFileQueue[0].End = PlayerViewModel.GetTotalMediaDuration();
-				_mediaFileQueue[0].Length = _mediaFileQueue[0].End;
-			}
+				if (_mediaFileQueue.Count == 0)
+					return;
 
+				PlayerViewModel.PlaybackStarted -= HandleMediaPlayStarted;
+				PlayerViewModel.PlaybackEnded -= HandleMediaPlaybackEnded;
+
+				if (_mediaFileQueue[0].Length > 0f)
+					PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile, _mediaFileQueue[0].Start, _mediaFileQueue[0].Length);
+				else
+				{
+					PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile);
+					_mediaFileQueue[0].End = PlayerViewModel.GetTotalMediaDuration();
+					_mediaFileQueue[0].Length = _mediaFileQueue[0].End;
+				}
+			}
 			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));

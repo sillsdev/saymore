@@ -57,7 +57,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool IsOKSToLeaveEditor
+		public override bool IsOKToLeaveEditor
 		{
 			get
 			{

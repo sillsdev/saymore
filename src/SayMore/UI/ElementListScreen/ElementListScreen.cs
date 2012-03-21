@@ -514,7 +514,7 @@ namespace SayMore.UI.ElementListScreen
 				return true;
 
 			var editor = SelectedComponentEditorsTabControl.CurrentEditor;
-			return (editor == null || editor.IsOKSToLeaveEditor);
+			return (editor == null || editor.IsOKToLeaveEditor);
 		}
 	}
 }

@@ -82,7 +82,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool IsOKSToShow
+		public override bool IsOKToShow
 		{
 			get
 			{

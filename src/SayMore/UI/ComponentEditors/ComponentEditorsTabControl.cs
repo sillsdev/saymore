@@ -63,7 +63,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void MakeAppropriateEditorsVisible()
 		{
-			var visibleEditors = EditorProviders.Where(ep => ep.IsOKSToShow).ToList();
+			var visibleEditors = EditorProviders.Where(ep => ep.IsOKToShow).ToList();
 
 			if (visibleEditors.Count == TabPages.Count &&
 				GetAreAppropriateEditorsAlreadyVisible(visibleEditors.Select(e => e.GetType()).ToList()))
@@ -75,7 +75,7 @@ namespace SayMore.UI.ComponentEditors
 
 			TabPages.Clear();
 
-			foreach (var editor in EditorProviders.Where(ep => ep.IsOKSToShow))
+			foreach (var editor in EditorProviders.Where(ep => ep.IsOKToShow))
 			{
 				TabPages.Add(new ComponentEditorTabPage(editor, _componentEditorBorderColor));
 				editor.Control.BackColor = _componentEditorBackColor;

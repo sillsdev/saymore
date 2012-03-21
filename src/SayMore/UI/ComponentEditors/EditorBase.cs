@@ -23,8 +23,8 @@ namespace SayMore.UI.ComponentEditors
 		Action<string, Type> ComponentFileListRefreshAction { set; }
 		void Deactivated();
 		void Activated();
-		bool IsOKSToLeaveEditor { get; }
-		bool IsOKSToShow { get; }
+		bool IsOKToLeaveEditor { get; }
+		bool IsOKToShow { get; }
 		event Action<string> TabTextChanged;
 		IEnumerable<Control> ChildControls { get; }
 		ComponentFile ComponentFile { get; }
@@ -183,13 +183,13 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool IsOKSToLeaveEditor
+		public virtual bool IsOKToLeaveEditor
 		{
 			get { return true; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool IsOKSToShow
+		public virtual bool IsOKToShow
 		{
 			get { return true; }
 		}

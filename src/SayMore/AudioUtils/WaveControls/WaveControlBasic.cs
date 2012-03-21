@@ -21,7 +21,7 @@ namespace SayMore.Media
 		public delegate void BoundaryMouseDownHandler(WaveControlBasic ctrl, int mouseX,
 			TimeSpan boundary, int boundaryNumber);
 
-		public event SetCurorAtTimeOnMouseClickHandler SetCurorAtTimeOnMouseClick;
+		public event SetCurorAtTimeOnMouseClickHandler SetCursorAtTimeOnMouseClick;
 		public event PlaybackEventHandler PlaybackStarted;
 		public event PlaybackEventHandler PlaybackStopped;
 		public event PlaybackEventHandler PlaybackUpdate;
@@ -561,8 +561,8 @@ namespace SayMore.Media
 
 			if (_boundaryMouseOver == default(TimeSpan))
 			{
-				if (SetCurorAtTimeOnMouseClick != null)
-					timeAtX = SetCurorAtTimeOnMouseClick(this, timeAtX);
+				if (SetCursorAtTimeOnMouseClick != null)
+					timeAtX = SetCursorAtTimeOnMouseClick(this, timeAtX);
 
 				OnSetCursorWhenMouseDown(timeAtX, false);
 				return;
@@ -570,8 +570,8 @@ namespace SayMore.Media
 
 			OnBoundaryMouseDown(e.X, _boundaryMouseOver, GetIndexOfBoundary(_boundaryMouseOver));
 
-			timeAtX = (SetCurorAtTimeOnMouseClick == null ? _boundaryMouseOver :
-				timeAtX = SetCurorAtTimeOnMouseClick(this, timeAtX));
+			timeAtX = (SetCursorAtTimeOnMouseClick == null ? _boundaryMouseOver :
+				SetCursorAtTimeOnMouseClick(this, timeAtX));
 
 			OnSetCursorWhenMouseDown(timeAtX, true);
 		}

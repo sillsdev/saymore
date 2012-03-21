@@ -33,12 +33,10 @@ namespace SayMore.Transcription.UI
 			//
 			// _waveControl
 			//
-			this._waveControl.AutoScrollMinSize = new System.Drawing.Size(0, 90);
 			this.locExtender.SetLocalizableToolTip(this._waveControl, null);
 			this.locExtender.SetLocalizationComment(this._waveControl, null);
 			this.locExtender.SetLocalizationPriority(this._waveControl, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._waveControl, "CarefulSpeechRecorderDlg._waveControl");
-			this._waveControl.Size = new System.Drawing.Size(656, 90);
 			//
 			// locExtender
 			//
@@ -53,7 +51,6 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.OralTranslationRecorderDlg.WindowTitle");
 			this.Name = "OralTranslationRecorderDlg";
-			this.Opacity = 0D;
 			this.Text = "Oral Translation Recorder";
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);

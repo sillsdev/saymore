@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Moq;
 using NUnit.Framework;
+using Palaso.Media;
 using Palaso.TestUtilities;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
@@ -57,17 +58,31 @@ namespace SayMoreTests.Transcription.UI
 			File.Delete(_tempAudioFile);
 		}
 
-		#region Helper method
+		#region Helper methods
+		/// ------------------------------------------------------------------------------------
+		private void CreateModelAndAnnotationFileForSegment(float start, float end)
+		{
+			CreateModelAndAnnotationFileForType(OralAnnotationType.Careful,
+				OralAnnotationType.Careful, start, end);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void CreateModelAndAnnotationFileForType(OralAnnotationType modelType,
 			OralAnnotationType fileType)
+		{
+			CreateModelAndAnnotationFileForType(modelType, fileType, 25f, 30f);
+			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(30f));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CreateModelAndAnnotationFileForType(OralAnnotationType modelType,
+			OralAnnotationType fileType, float start, float end)
 		{
 			if (Directory.Exists(_model.OralAnnotationsFolder))
 				Directory.Delete(_model.OralAnnotationsFolder, true);
 
 			_model.Dispose();
 			_model = OralAnnotationRecorderDlgViewModel.Create(_componentFile.Object, modelType);
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(30f));
 			Assert.IsNotNull(_model.CurrentSegment);
 
 			Directory.CreateDirectory(_model.OralAnnotationsFolder);
@@ -75,12 +90,12 @@ namespace SayMoreTests.Transcription.UI
 			if (fileType == OralAnnotationType.Careful)
 			{
 				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
-					TimeTier.ComputeFileNameForCarefulSpeechSegment(25f, 30f))).Close();
+					TimeTier.ComputeFileNameForCarefulSpeechSegment(start, end))).Close();
 			}
 			else
 			{
 				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
-					TimeTier.ComputeFileNameForOralTranslationSegment(25f, 30f))).Close();
+					TimeTier.ComputeFileNameForOralTranslationSegment(end, end))).Close();
 			}
 		}
 
@@ -370,6 +385,69 @@ namespace SayMoreTests.Transcription.UI
 		{
 			CreateModelAndAnnotationFileForType(OralAnnotationType.Translation, OralAnnotationType.Translation);
 			Assert.IsTrue(_model.GetDoesCurrentSegmentHaveAnnotationFile());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SetNextUnannotatedSegment_FollowingUnannotatedSegmentExists_MakesCurrentAndReturnsTrue()
+		{
+			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[2], _model.CurrentSegment);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SetNextUnannotatedSegment_FollowingSegmentsHaveAnnotations_ReturnsFalseAndDoesNotChangeCurrentSegment()
+		{
+			CreateModelAndAnnotationFileForSegment(25f, 30f);
+			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
+			Assert.IsFalse(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[2], _model.CurrentSegment);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SetNextUnannotatedSegment_NonAdjacentFollowingSegmentDoesNotHaveAnnotations_MakesCurrentAndReturnsTrue()
+		{
+			CreateModelAndAnnotationFileForSegment(15f, 20f);
+			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[3], _model.CurrentSegment);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SetNextUnannotatedSegment_CurrentSegmentIsLast_ReturnsFalseAndDoesNotChangeCurrentSegment()
+		{
+			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(30f));
+			Assert.IsFalse(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[3], _model.CurrentSegment);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SetNextUnannotatedSegment_NoCurrentSegment_ReturnsFalseAndDoesNotChangeCurrentSegment()
+		{
+			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(50f));
+			Assert.IsNull(_model.CurrentSegment);
+			Assert.IsFalse(_model.SetNextUnannotatedSegment());
+			Assert.IsNull(_model.CurrentSegment);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsFullySegmented_LastSegmentEndsAtEOF_ReturnsTrue()
+		{
+			_model.TimeTier.Segments[3].End = (float)_model.OrigWaveStream.TotalTime.TotalSeconds;
+			Assert.IsTrue(_model.IsFullySegmented);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetIsFullySegmented_LastSegmentEndsBeforeEOF_ReturnsFalse()
+		{
+			Assert.IsFalse(_model.IsFullySegmented);
 		}
 	}
 }

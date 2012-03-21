@@ -87,7 +87,7 @@ namespace SayMore.Transcription.UI
 				UpdateDisplay();
 			};
 
-			_waveControl.SetCurorAtTimeOnMouseClick += (ctrl, desiredTime) =>
+			_waveControl.SetCursorAtTimeOnMouseClick += (ctrl, desiredTime) =>
 			{
 				if (_waveControl.IsPlaying)
 					return desiredTime;
@@ -109,7 +109,7 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnShown(e);
 
-			if (ViewModel.TimeTier.Segments.Count <= 0)
+			if (DesignMode || ViewModel.TimeTier.Segments.Count <= 0)
 				return;
 
 			var start = TimeSpan.FromSeconds(ViewModel.TimeTier.Segments[0].Start);
@@ -414,6 +414,7 @@ namespace SayMore.Transcription.UI
 				else
 					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 
+				GoToNextUnannotatedSegment();
 				UpdateDisplay();
 			}
 			else
@@ -426,6 +427,26 @@ namespace SayMore.Transcription.UI
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private void GoToNextUnannotatedSegment()
+		{
+			if (ViewModel.SetNextUnannotatedSegment())
+			{
+				var start = TimeSpan.FromSeconds(ViewModel.CurrentSegment.Start);
+				var end = TimeSpan.FromSeconds(ViewModel.CurrentSegment.End);
+
+				_waveControl.SetSelectionTimes(start, end);
+				_waveControl.EnsureRangeIsVisible(start, end);
+			}
+			else if (!ViewModel.IsFullySegmented)
+			{
+				_waveControl.ClearSelection();
+				var time = ViewModel.GetEndOfLastSegment();
+				_waveControl.SetCursor(time);
+				//_waveControl.EnsureRangeIsVisible(time, ViewModel.OrigWaveStream.TotalTime);
+				_waveControl.EnsureRangeIsVisible(time, time);
+			}
+		}
 		#endregion
 
 		#region Low level keyboard handling

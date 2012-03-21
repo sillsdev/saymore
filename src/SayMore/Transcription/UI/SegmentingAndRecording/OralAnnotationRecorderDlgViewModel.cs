@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NAudio.Wave;
+using Palaso.Media;
 using Palaso.Media.Naudio;
 using Palaso.Reporting;
 using SayMore.Media;
@@ -42,6 +43,12 @@ namespace SayMore.Transcription.UI
 		public override bool WereChangesMade
 		{
 			get { return base.WereChangesMade || AnnotationRecordingsChanged; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsFullySegmented
+		{
+			get { return (GetEndOfLastSegment() == OrigWaveStream.TotalTime); }
 		}
 
 		#endregion
@@ -134,6 +141,22 @@ namespace SayMore.Transcription.UI
 
 			CurrentSegment = TimeTier.GetSegmentHavingEndBoundary((float)time.TotalSeconds);
 			InvokeUpdateDisplayAction();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool SetNextUnannotatedSegment()
+		{
+			if (CurrentSegment == null)
+				return false;
+
+			var segment = TimeTier.Segments.FirstOrDefault(s =>
+				s.End > CurrentSegment.End && !GetDoesSegmentHaveAnnotationFile(s));
+
+			if (segment == null)
+				return false;
+
+			CurrentSegment = segment;
+			return true;
 		}
 
 		#region Annotation record/player methods

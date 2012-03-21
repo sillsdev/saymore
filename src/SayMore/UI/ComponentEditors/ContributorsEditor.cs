@@ -30,7 +30,6 @@ namespace SayMore.UI.ComponentEditors
 			_contributorsControl = new ContributorsListControl(_model);
 			_contributorsControl.Dock = DockStyle.Fill;
 			_contributorsControl.ValidatingContributor += HandleValidatingContributor;
-			_contributorsControl.ContributorDeleted += HandleContributorDeleted;
 			Controls.Add(_contributorsControl);
 
 
@@ -93,12 +92,6 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			return new KeyValuePair<string, string>();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleContributorDeleted(object sender, System.EventArgs e)
-		{
-			SaveContributors();
 		}
 
 		/// ------------------------------------------------------------------------------------

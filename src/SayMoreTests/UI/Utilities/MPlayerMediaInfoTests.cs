@@ -95,6 +95,7 @@ namespace SayMoreTests.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
+		[Ignore("Unignore when we change the way we get media information (i.e. using mplayer)")]
 		public void MPlayerMediaInfo_CreateVideo_ContainsCorrectInfo()
 		{
 			var tmpfile = GetTestVideoFile();

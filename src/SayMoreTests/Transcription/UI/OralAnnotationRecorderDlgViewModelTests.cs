@@ -72,6 +72,7 @@ namespace SayMoreTests.Transcription.UI
 		{
 			CreateModelAndAnnotationFileForType(modelType, fileType, 25f, 30f);
 			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(30f));
+			Assert.IsNotNull(_model.CurrentSegment);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,7 +84,6 @@ namespace SayMoreTests.Transcription.UI
 
 			_model.Dispose();
 			_model = OralAnnotationRecorderDlgViewModel.Create(_componentFile.Object, modelType);
-			Assert.IsNotNull(_model.CurrentSegment);
 
 			Directory.CreateDirectory(_model.OralAnnotationsFolder);
 
@@ -95,7 +95,7 @@ namespace SayMoreTests.Transcription.UI
 			else
 			{
 				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
-					TimeTier.ComputeFileNameForOralTranslationSegment(end, end))).Close();
+					TimeTier.ComputeFileNameForOralTranslationSegment(start, end))).Close();
 			}
 		}
 

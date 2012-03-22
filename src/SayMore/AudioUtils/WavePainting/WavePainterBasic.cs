@@ -14,6 +14,7 @@ namespace SayMore.Media
 	public class WavePainterBasic : IDisposable
 	{
 		public const int kBoundaryHotZoneHalfWidth = 4;
+		public const int kRightDisplayPadding = 15;
 
 		/// <summary>
 		/// Each pixel value (X direction) represents this many samples in the wavefile
@@ -123,8 +124,8 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetVirtualWidth(int width)
 		{
-			_pixelPerMillisecond = width / _totalTime.TotalMilliseconds;
-			SetSamplesPerPixel(_numberOfSamples / (double)width);
+			_pixelPerMillisecond = (width - kRightDisplayPadding) / _totalTime.TotalMilliseconds;
+			SetSamplesPerPixel(_numberOfSamples / ((double)width - kRightDisplayPadding));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,7 +186,7 @@ namespace SayMore.Media
 
 			_samplesToDraw = new List<float[]>[_channels];
 			for (int c = 0; c < _channels; c++)
-				_samplesToDraw[c] = new List<float[]>(Control == null ? 400 : Control.ClientSize.Width);
+				_samplesToDraw[c] = new List<float[]>(Control == null ? 400 : Control.ClientSize.Width - kRightDisplayPadding);
 
 			_waveStream.Seek(0, SeekOrigin.Begin);
 			var provider = new SampleChannel(_waveStream);
@@ -259,13 +260,13 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual int ConvertTimeToXCoordinate(TimeSpan time)
 		{
-			return (int)(time.TotalMilliseconds * _pixelPerMillisecond) - _offsetOfLeftEdge;
+			return (int)(Math.Ceiling(time.TotalMilliseconds * _pixelPerMillisecond)) - _offsetOfLeftEdge;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan ConvertXCoordinateToTime(int x)
 		{
-			return TimeSpan.FromMilliseconds((x + _offsetOfLeftEdge) / _pixelPerMillisecond);
+			return TimeSpan.FromMilliseconds(Math.Ceiling((x + _offsetOfLeftEdge) / _pixelPerMillisecond));
 		}
 
 		/// ------------------------------------------------------------------------------------

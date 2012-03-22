@@ -33,7 +33,8 @@ namespace SayMore.Media
 				_painter.ConvertTimeToXCoordinate(SegmentBoundaries.LastOrDefault(b => b < boundaryBeingMoved)));
 
 			var nextBoundary = SegmentBoundaries.FirstOrDefault(b => b > boundaryBeingMoved);
-			if (nextBoundary == default(TimeSpan))
+			bool limitedByEndOfStream = nextBoundary == default(TimeSpan);
+			if (limitedByEndOfStream)
 				nextBoundary = _waveStream.TotalTime;
 
 			_maxXForBoundaryMove = _painter.ConvertTimeToXCoordinate(nextBoundary);
@@ -42,8 +43,8 @@ namespace SayMore.Media
 				_minXForBoundaryMove += WavePainterBasic.kBoundaryHotZoneHalfWidth;
 
 			if (_maxXForBoundaryMove == 0)
-				_maxXForBoundaryMove = ClientSize.Width - 1;
-			else
+				_maxXForBoundaryMove = ClientSize.Width - WavePainterBasic.kRightDisplayPadding + 1;
+			else if (!limitedByEndOfStream)
 				_maxXForBoundaryMove -= WavePainterBasic.kBoundaryHotZoneHalfWidth;
 
 			_painter.SetMovingAnchorTime(boundaryBeingMoved);
@@ -62,11 +63,11 @@ namespace SayMore.Media
 			}
 
 			// If moving a boundary has been initiated, there are two conditions in which
-			// a mouse movement is ignored. They are: 1) the boundary has not moved moved
+			// a mouse movement is ignored. They are: 1) the boundary has not moved
 			// more than 2 pixels from it's origin (this is to prevent an unintended
 			// boundary movement when the user just wants to click a boundary to select it;
 			// 2) The mouse has been moved too far to the left or right (i.e. beyond an
-			// adjacent boundary).
+			// adjacent boundary or the end).
 			if ((_mouseXAtBeginningOfSegmentMove > -1 && e.X >= _mouseXAtBeginningOfSegmentMove - 2 &&
 				e.X <= _mouseXAtBeginningOfSegmentMove + 2) || e.X < _minXForBoundaryMove ||
 				e.X > _maxXForBoundaryMove)

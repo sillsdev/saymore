@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using Palaso.Progress;
 using SilTools;
 
 namespace SayMore.Media
@@ -34,9 +35,9 @@ namespace SayMore.Media
 		protected WaveStream _waveStream;
 		protected WaveStream _playbackStream;
 		protected WaveOut _waveOut;
-		protected int _virtualWidth;
 		protected Size _prevClientSize;
 		protected bool _savedAllowDrawingValue = true;
+		protected Form _owningForm;
 
 		protected TimeSpan _playbackStartTime;
 		protected TimeSpan _playbackEndTime;
@@ -220,7 +221,7 @@ namespace SayMore.Media
 			get { return base.AutoScrollMinSize; }
 			set
 			{
-				base.AutoScrollMinSize = value;
+				base.AutoScrollMinSize = new Size(value.Width, value.Height);
 
 				if (_painter != null)
 				{
@@ -233,19 +234,6 @@ namespace SayMore.Media
 		}
 
 		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		public virtual void SetVirtualWidth(int width)
-		{
-			_virtualWidth = width;
-
-			var percentage = _zoomPercentage / 100;
-			var adjustedWidth = (int)(Math.Round(width * percentage, MidpointRounding.AwayFromZero));
-			AutoScrollMinSize = new Size(Math.Max(adjustedWidth, ClientSize.Width), ClientSize.Height);
-
-			if (AutoScrollMinSize.Width == 0 || AutoScrollMinSize.Width == ClientSize.Width)
-				_zoomPercentage = 100;
-		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetCursor(int cursorX)
@@ -424,9 +412,9 @@ namespace SayMore.Media
 				_playbackStartTime = TimeSpan.Zero;
 
 			if (_playbackEndTime <= _playbackStartTime)
-				_playbackEndTime = TimeSpan.Zero;
+				_playbackEndTime = _waveStream.TotalTime;
 
-			var waveOutProvider = new SampleChannel(_playbackEndTime == TimeSpan.Zero ?
+			var waveOutProvider = new SampleChannel(_playbackEndTime == TimeSpan.Zero || _playbackEndTime == _waveStream.TotalTime ?
 				new WaveSegmentStream(_playbackStream, playbackStartTime) :
 				new WaveSegmentStream(_playbackStream, playbackStartTime, playbackEndTime - playbackStartTime));
 
@@ -486,6 +474,8 @@ namespace SayMore.Media
 			OnPlaybackStopped(_playbackStartTime, _playbackStream.CurrentTime);
 		}
 
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnPlaybackStopped(TimeSpan startTime, TimeSpan endTime)
 		{
@@ -493,7 +483,27 @@ namespace SayMore.Media
 				PlaybackStopped(this, startTime, endTime);
 		}
 
-		#endregion
+		/// ------------------------------------------------------------------------------------
+		private void HandleParentFormShown(object sender, EventArgs e)
+		{
+			_owningForm.Shown -= HandleParentFormShown;
+			_owningForm.ResizeEnd += HandleResize;
+			HandleResize(null, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleResize(object sender, EventArgs e)
+		{
+			WaitCursor.Show();
+			if (AutoScroll)
+				AutoScrollMinSize = new Size(AutoScrollMinSize.Width, ClientSize.Height);
+
+			if (_painter != null)
+				_painter.SetVirtualWidth(Math.Max(AutoScrollMinSize.Width, ClientSize.Width));
+
+			Invalidate();
+			WaitCursor.Hide();
+		}
 
 		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
@@ -508,25 +518,14 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		protected override void OnResize(EventArgs e)
 		{
-			if (_prevClientSize != ClientSize)
+			if (_owningForm == null && FindForm() != null)
 			{
-				if (AutoScroll)
-					AutoScrollMinSize = new Size(AutoScrollMinSize.Width, ClientSize.Height);
+				_owningForm = FindForm();
+				_owningForm.Shown += HandleParentFormShown;
 			}
 
 			base.OnResize(e);
-
-			if (_prevClientSize != ClientSize)
-			{
-				if (_painter != null)
-					_painter.SetVirtualWidth(Math.Max(AutoScrollMinSize.Width, ClientSize.Width));
-
-				Invalidate();
-			}
-
-			_prevClientSize = ClientSize;
 		}
-
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
@@ -558,6 +557,8 @@ namespace SayMore.Media
 				Stop();
 
 			var timeAtX = GetTimeFromX(e.X);
+			if (timeAtX > _waveStream.TotalTime)
+				timeAtX = _waveStream.TotalTime;
 
 			if (_boundaryMouseOver == default(TimeSpan))
 			{
@@ -629,7 +630,11 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		private void SetZoom()
 		{
-			SetVirtualWidth(Math.Max(ClientSize.Width, AutoScrollPosition.X));
+			var width = Math.Max(ClientSize.Width, AutoScrollPosition.X);
+			var percentage = _zoomPercentage / 100;
+			var adjustedWidth = (int)(Math.Round(width * percentage, MidpointRounding.AwayFromZero));
+			AutoScrollMinSize = new Size(Math.Max(adjustedWidth, ClientSize.Width), ClientSize.Height);
+			HandleResize(null, null);
 		}
 
 		#endregion

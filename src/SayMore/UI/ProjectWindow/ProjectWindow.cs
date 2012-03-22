@@ -37,6 +37,8 @@ namespace SayMore.UI.ProjectWindow
 		private ProjectWindow()
 		{
 			InitializeComponent();
+			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
+			_menuProject.DropDownItems.Remove(_menuShowMPlayerDebugWindow);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -169,10 +171,20 @@ namespace SayMore.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleProjectMenuOpening(object sender, EventArgs e)
+		private void HandleProjectMenuClick(object sender, EventArgs e)
 		{
-			_menuShowMPlayerDebugWindow.Visible =
-				(_outputDebuggingWindow == null && (int)(ModifierKeys & Keys.Shift) > 0);
+			if (_outputDebuggingWindow == null && (int)(ModifierKeys & Keys.Shift) > 0)
+			{
+				_menuProject.DropDownItems.Insert((int)_menuShowMPlayerDebugWindow.Tag,
+					_menuShowMPlayerDebugWindow);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleProjectMenuDropDownClosed(object sender, EventArgs e)
+		{
+			if (_menuProject.DropDownItems.Contains(_menuShowMPlayerDebugWindow))
+				_menuProject.DropDownItems.Remove(_menuShowMPlayerDebugWindow);
 		}
 
 		/// ------------------------------------------------------------------------------------

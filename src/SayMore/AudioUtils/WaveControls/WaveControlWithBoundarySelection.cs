@@ -33,7 +33,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public void ClearSelectedBoundary()
 		{
-			SetSelectedBoundary(TimeSpan.Zero);
+			Painter.SetSelectedBoundary(TimeSpan.Zero);
 		}
 
 		/// ------------------------------------------------------------------------------------

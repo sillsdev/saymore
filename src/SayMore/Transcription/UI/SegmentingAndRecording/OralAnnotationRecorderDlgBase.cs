@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using System.Linq;
 using Localization;
+using NAudio.Wave;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -74,6 +77,7 @@ namespace SayMore.Transcription.UI
 		protected override WaveControlBasic CreateWaveControl()
 		{
 			_waveControl = new 	WaveControlWithRangeSelection();
+			_waveControl.BottomReservedAreaHeight = 50;
 			_waveControl.Paint += HandleWaveControlPaint;
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
@@ -101,7 +105,26 @@ namespace SayMore.Transcription.UI
 				return lastSegmentEndTime;
 			};
 
+			_waveControl.Paint += new PaintEventHandler(_waveControl_Paint);
+
 			return _waveControl;
+		}
+
+		void _waveControl_Paint(object sender, PaintEventArgs e)
+		{
+			// TODO: put method in view model to return segments having the proper type of annotation file.
+			foreach (var segment in ViewModel.TimeTier.Segments.Where(s => File.Exists(s.GetFullPathToCarefulSpeechFile())))
+			{
+				using (var reader = new WaveFileReader(segment.GetFullPathToCarefulSpeechFile()))
+				{
+					var painter = new WavePainterBasic(reader);
+					var rc = _waveControl.GetRectangleBetweenBoundaries(TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
+					rc.Y = rc.Bottom;
+					rc.Height = _waveControl.BottomReservedAreaHeight;
+					painter.Draw(e, rc);
+					reader.Close();
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

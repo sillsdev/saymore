@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NAudio.Wave;
-using Palaso.Media;
 using Palaso.Media.Naudio;
 using Palaso.Reporting;
 using SayMore.Media;

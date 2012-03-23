@@ -54,7 +54,7 @@ namespace SayMore.Media
 			if (boundary == TimeSpan.Zero)
 				return Rectangle.Empty;
 
-			return _painter.GetRectangleForTimeRange(
+			return GetRectangleBetweenBoundaries(
 				boundary.Subtract(TimeSpan.FromSeconds(1)),
 				boundary.Add(TimeSpan.FromSeconds(1)));
 		}

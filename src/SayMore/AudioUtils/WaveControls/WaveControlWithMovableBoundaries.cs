@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -50,6 +51,12 @@ namespace SayMore.Media
 			_painter.SetMovingAnchorTime(boundaryBeingMoved);
 			IsBoundaryMovingInProgress = true;
 			_mouseXAtBeginningOfSegmentMove = mouseX;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Rectangle GetRectangleBetweenBoundaries(TimeSpan start, TimeSpan end)
+		{
+			return _painter.GetRectangleForTimeRange(start, end);
 		}
 
 		/// ------------------------------------------------------------------------------------

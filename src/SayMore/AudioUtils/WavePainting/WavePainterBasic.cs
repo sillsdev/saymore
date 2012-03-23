@@ -28,6 +28,7 @@ namespace SayMore.Media
 		public virtual Color BoundaryColor { get; set; }
 		public virtual Color CursorColor { get; set; }
 		public virtual Func<WaveFormat, string> FormatNotSupportedMessageProvider { get; set; }
+		public virtual int BottomReservedAreaHeight { get; set; }
 
 		protected IEnumerable<TimeSpan> _segmentBoundaries;
 		protected double _pixelPerMillisecond;
@@ -44,12 +45,18 @@ namespace SayMore.Media
 		protected bool _allowDrawing = true;
 
 		/// ------------------------------------------------------------------------------------
+		public WavePainterBasic(WaveFileReader stream) : this(null, stream)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public WavePainterBasic(Control ctrl, WaveFileReader stream) :
 			this(ctrl, new float[0], stream.TotalTime)
 		{
 			_waveStream = stream;
 			_channels = _waveStream.WaveFormat.Channels;
 			_numberOfSamples = _waveStream.SampleCount;
+			BottomReservedAreaHeight = 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -70,7 +77,9 @@ namespace SayMore.Media
 			_segmentBoundaries = new TimeSpan[0];
 
 			Control = ctrl;
-			ctrl.Paint += DrawControl;
+
+			if (ctrl != null)
+				ctrl.Paint += DrawControl;
 
 			_samples = samples.ToArray();
 			_totalTime = totalTime;
@@ -90,7 +99,11 @@ namespace SayMore.Media
 		{
 			var ctrl = sender as Control;
 			if (ctrl != null)
-				Draw(e, ctrl.ClientRectangle);
+			{
+				var rc = ctrl.ClientRectangle;
+				rc.Height -= BottomReservedAreaHeight;
+				Draw(e, rc);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -283,7 +296,7 @@ namespace SayMore.Media
 
 			var dx = ConvertTimeToXCoordinate(boundary);
 			Control.Invalidate(new Rectangle(dx - pixelsOnEitherSide, 0,
-				pixelsOnEitherSide * 2 + 1, Control.ClientSize.Height));
+				pixelsOnEitherSide * 2 + 1, Control.ClientSize.Height - BottomReservedAreaHeight));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -338,16 +351,16 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<Rectangle> GetChannelDisplayRectangles(Rectangle clientRectangle)
+		public IEnumerable<Rectangle> GetChannelDisplayRectangles(Rectangle rectForAllChannels)
 		{
-			if (clientRectangle != Rectangle.Empty)
+			if (rectForAllChannels != Rectangle.Empty)
 			{
 				// Calculate the rectangle for each channel.
 				int dy = 0;
 				for (int c = 0; c < _channels; c++)
 				{
-					int height = (int)Math.Floor((float)clientRectangle.Height / _channels);
-					var rc = new Rectangle(clientRectangle.X, dy, clientRectangle.Width, height);
+					int height = (int)Math.Floor((float)rectForAllChannels.Height / _channels);
+					var rc = new Rectangle(rectForAllChannels.X, dy, rectForAllChannels.Width, height);
 					dy += height;
 					yield return rc;
 				}
@@ -426,7 +439,7 @@ namespace SayMore.Media
 				return Rectangle.Empty;
 
 			return new Rectangle(x1, 0, x2 - x1 + 1,
-				(Control == null ? 0 : Control.ClientRectangle.Height));
+				(Control == null ? 0 : Control.ClientRectangle.Height - BottomReservedAreaHeight));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -477,10 +490,10 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void DrawMovedBoundary(Graphics g, int clientHeight, int dx)
+		protected virtual void DrawMovedBoundary(Graphics g, int rectHeight, int dx)
 		{
 			using (var pen = new Pen(BoundaryColor))
-				g.DrawLine(pen, dx, 0, dx, clientHeight);
+				g.DrawLine(pen, dx, 0, dx, rectHeight);
 		}
 	}
 }

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using Palaso.Progress;
+using SayMore.Properties;
 using SilTools;
 
 namespace SayMore.Media
@@ -37,6 +38,7 @@ namespace SayMore.Media
 		protected WaveOut _waveOut;
 		protected Size _prevClientSize;
 		protected bool _savedAllowDrawingValue = true;
+		protected int _savedBottomReservedAreaHeight;
 		protected Form _owningForm;
 
 		protected TimeSpan _playbackStartTime;
@@ -109,6 +111,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		protected virtual void InternalInitialize()
 		{
+			_painter.BottomReservedAreaHeight = _savedBottomReservedAreaHeight;
 			_painter.AllowRedraw = _savedAllowDrawingValue;
 			_painter.ForeColor = ForeColor;
 			_painter.BackColor = BackColor;
@@ -141,6 +144,31 @@ namespace SayMore.Media
 		}
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public virtual int BottomReservedAreaHeight
+		{
+			get { return (_painter == null ? _savedBottomReservedAreaHeight : _painter.BottomReservedAreaHeight); }
+			set
+			{
+				_savedBottomReservedAreaHeight = value;
+				if (_painter != null)
+					_painter.BottomReservedAreaHeight = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Rectangle BottomReservedAreaRectangle
+		{
+			get
+			{
+
+				return new Rectangle(0, ClientRectangle.Bottom - BottomReservedAreaHeight,
+					ClientSize.Width, BottomReservedAreaHeight);
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -589,6 +617,22 @@ namespace SayMore.Media
 		protected virtual void OnSetCursorWhenMouseDown(TimeSpan timeAtMouseX, bool wasBoundaryClicked)
 		{
 			SetCursor(timeAtMouseX, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+
+			var rc = BottomReservedAreaRectangle;
+			if (rc.Height > 0)
+			{
+				using (var br = new SolidBrush(Settings.Default.BarColorBegin))
+					e.Graphics.FillRectangle(br, rc);
+
+				using (var pen = new Pen(Settings.Default.BarColorBorder))
+					e.Graphics.DrawLine(pen, 0, rc.Y, rc.Right, rc.Y);
+			}
 		}
 
 		#endregion

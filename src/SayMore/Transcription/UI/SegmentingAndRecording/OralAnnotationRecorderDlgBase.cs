@@ -288,6 +288,8 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnPlayingback(ctrl, current, total);
 
+			System.Diagnostics.Debug.WriteLine(current);
+
 			if (ViewModel.CurrentSegment == null)
 				_waveControl.SetSelectionTimes(ViewModel.GetStartOfCurrentSegment(), current);
 		}
@@ -372,8 +374,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleListenToOriginalMouseDown(object sender, MouseEventArgs e)
 		{
-			if (_waveControl.IsPlaying)
+			if (_waveControl.IsPlaying ||
+				(ViewModel.CurrentSegment == null && _waveControl.GetCursorTime() == ViewModel.OrigWaveStream.TotalTime))
+			{
 				return;
+			}
 
 			if (ViewModel.CurrentSegment != null)
 				_waveControl.PlaySelectedRegion();
@@ -410,10 +415,18 @@ namespace SayMore.Transcription.UI
 				_waveControl.SegmentBoundaries = ViewModel.InsertNewBoundary(_waveControl.GetCursorTime());
 
 				if (ViewModel.CurrentSegment == null)
-					_waveControl.ClearSelection();
-				else
-					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
+				{
+					if (!ViewModel.IsFullySegmented)
+					{
+						_waveControl.ClearSelection();
+						return;
+					}
 
+					ViewModel.SelectSegmentFromTime(ViewModel.OrigWaveStream.TotalTime);
+					_waveControl.SetSelectionTimes(ViewModel.GetStartOfCurrentSegment(), ViewModel.GetEndOfCurrentSegment());
+				}
+
+				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 				GoToNextUnannotatedSegment();
 				UpdateDisplay();
 			}

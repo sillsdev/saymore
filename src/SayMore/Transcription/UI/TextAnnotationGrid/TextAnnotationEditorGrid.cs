@@ -30,7 +30,6 @@ namespace SayMore.Transcription.UI
 
 		private AnnotationComponentFile _annotationFile;
 		private List<AnnotationPlaybackInfo> _mediaFileQueue = new List<AnnotationPlaybackInfo>();
-		private bool _autoResizingRowInProgress;
 		private int _annotationPlaybackLoopCount;
 		private Action _playbackProgressReportingAction;
 
@@ -43,7 +42,7 @@ namespace SayMore.Transcription.UI
 			Margin = new Padding(0);
 			VirtualMode = true;
 			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None; // AllCellsExceptHeaders;
+			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			AllowUserToResizeRows = false;
 			EditMode = DataGridViewEditMode.EditOnEnter;
 			ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
@@ -52,25 +51,14 @@ namespace SayMore.Transcription.UI
 			DefaultCellStyle.SelectionBackColor =
 				ColorHelper.CalculateColor(Color.White, DefaultCellStyle.SelectionBackColor, 140);
 
+			RowTemplate.Height = 25;
+			RowTemplate.MinimumHeight = 24;
+
 			PlayerViewModel = new MediaPlayerViewModel();
 			PlayerViewModel.SetVolume(100);
 			PlayerViewModel.SetSpeed(Settings.Default.AnnotationEditorPlaybackSpeedIndex);
 
 			SetPlaybackProgressReportAction(null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnRowHeightInfoNeeded(DataGridViewRowHeightInfoNeededEventArgs e)
-		{
-			base.OnRowHeightInfoNeeded(e);
-
-			if (_autoResizingRowInProgress)
-				return;
-
-			_autoResizingRowInProgress = true;
-			AutoResizeRow(e.RowIndex);
-			e.Height = Math.Max(Rows[e.RowIndex].Height, 25);
-			_autoResizingRowInProgress = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

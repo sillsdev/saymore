@@ -110,8 +110,6 @@ namespace SayMore.Transcription.UI
 
 			_grid.Load(annotationFile);
 
-			_buttonRecordings.Enabled = (_grid.RowCount > 0);
-			_buttonResegment.Enabled = (_grid.RowCount > 0);
 			_buttonExport.Enabled = (_grid.RowCount > 0);
 
 			SetupWatchingForFileChanges();

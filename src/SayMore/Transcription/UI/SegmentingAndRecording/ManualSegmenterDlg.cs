@@ -115,7 +115,13 @@ namespace SayMore.Transcription.UI
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 			_waveControl.BoundaryMouseDown += delegate { UpdateDisplay(); };
 			_waveControl.CursorTimeChanged += delegate { UpdateDisplay(); };
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
 			UpdateDisplay();
+			base.OnLoad(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -50,6 +50,16 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void AddTextTierWithEmptySegments(string id)
+		{
+			var newTier = new TextTier(id);
+			Add(newTier);
+
+			for (int i = 0; i < GetTimeTier().Segments.Count; i++)
+				newTier.AddSegment(string.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool GetDoTimeSegmentsExist()
 		{
 			return (GetTimeTier() != null && GetTimeTier().Segments.Count > 0);

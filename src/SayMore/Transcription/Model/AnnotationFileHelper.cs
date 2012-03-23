@@ -466,7 +466,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SaveAnnotations(TierCollection collection)
+		private void SaveAnnotations(TierCollection collection)
 		{
 			// Remove all the dependent tiers from the EAF file,
 			foreach (var dependentTier in collection.GetUserDefinedTextTiers())
@@ -475,6 +475,12 @@ namespace SayMore.Transcription.Model
 			// Remove the free translation dependent tier explicitly since
 			// it's display name is not the same as it's tier id.
 			RemoveTiersAnnotations(TextTier.ElanTranslationTierId);
+
+			if (!collection.Any(t => t.Id == TextTier.ElanTranscriptionTierId))
+				collection.AddTextTierWithEmptySegments(TextTier.ElanTranscriptionTierId);
+
+			if (!collection.Any(t => t.Id == TextTier.ElanTranslationTierId))
+				collection.AddTextTierWithEmptySegments(TextTier.ElanTranslationTierId);
 
 			var transcriptionSegments = collection.GetTranscriptionTier().Segments.ToArray();
 			var freeTranslationSegments = collection.GetFreeTranslationTier().Segments.ToArray();

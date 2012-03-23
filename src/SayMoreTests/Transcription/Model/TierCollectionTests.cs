@@ -327,15 +327,35 @@ namespace SayMoreTests.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void CheckTier(TierBase expected, TierBase actual)
+		[Test]
+		public void AddTextTierWithEmptySegments_AddsTier()
+		{
+			_collection.AddTextTierWithEmptySegments("tb");
+			Assert.IsNotNull(_collection.FirstOrDefault(t => t.Id == "tb"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddTextTierWithEmptySegments_NewTierHasCorrectNumberOfEmptySegments()
+		{
+			_collection.AddTextTierWithEmptySegments("tb");
+			var newTier = _collection.FirstOrDefault(t => t.Id == "tb");
+			Assert.AreEqual(_collection.GetTimeTier().Segments.Count, newTier.Segments.Count);
+			Assert.IsTrue(newTier.Segments.All(s => s.Text == string.Empty));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void CheckTier(TierBase expected, TierBase actual)
 		{
 			Assert.AreEqual(expected.DisplayName, actual.DisplayName);
 
-			var expectedSegs = expected.Segments.ToArray();
-			var actualSegs = actual.Segments.ToArray();
-			Assert.AreEqual(expectedSegs.Length, actualSegs.Length);
+			Assert.AreEqual(expected.TierType, actual.TierType);
+			Assert.AreEqual(expected.Id, actual.Id);
 
-			for (int i = 0; i < expectedSegs.Length; i++)
+			var expectedSegs = expected.Segments;
+			var actualSegs = actual.Segments;
+			Assert.AreEqual(expectedSegs.Count, actualSegs.Count);
+			for (int i = 0; i < expectedSegs.Count; i++)
 			{
 				Assert.AreEqual(expectedSegs[i].Start, actualSegs[i].Start);
 				Assert.AreEqual(expectedSegs[i].End, actualSegs[i].End);

@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Transcription.Model;
+using SayMoreTests.UI.MediaPlayer;
 
 namespace SayMoreTests.Transcription.Model
 {
@@ -91,6 +92,61 @@ namespace SayMoreTests.Transcription.Model
 				File.WriteAllBytes(filename, buffer);
 				stream.Close();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Save_ExpectedTiers_SavesAsExpected()
+		{
+			var origMediaFilename = Path.Combine(_folder.Path, "junk.wav");
+
+			var tiers = new TierCollection(origMediaFilename);
+			tiers.GetTimeTier().AddSegment(0, 3);
+			tiers.GetTimeTier().AddSegment(3, 23.8f);
+			tiers.GetTranscriptionTier().AddSegment("yo momma");
+			tiers.GetTranscriptionTier().AddSegment("yo dadda");
+			tiers.GetFreeTranslationTier().AddSegment("your mother");
+			tiers.GetFreeTranslationTier().AddSegment("your father");
+
+			var eafFilename = AnnotationFileHelper.Save(origMediaFilename, tiers);
+
+			Assert.AreEqual(Path.Combine(_folder.Path, "junk.wav.annotations.eaf"), eafFilename);
+			var loadedTiers = AnnotationFileHelper.Load(eafFilename).GetTierCollection();
+
+			CheckTiersAreEqual(tiers, loadedTiers);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Save_NoTextTiers_CreatesTextTiersWithEmptySegments()
+		{
+			var origMediaFilename = Path.Combine(_folder.Path, "junk.wav");
+
+			var tiers = new TierCollection(origMediaFilename);
+			tiers.GetTimeTier().AddSegment(0, 3);
+			tiers.GetTimeTier().AddSegment(3, 23.8f);
+			tiers.GetTranscriptionTier().AddSegment(string.Empty);
+			tiers.GetTranscriptionTier().AddSegment(string.Empty);
+			tiers.GetFreeTranslationTier().AddSegment(string.Empty);
+			tiers.GetFreeTranslationTier().AddSegment(string.Empty);
+			var expectedCollection = tiers.Copy();
+			tiers.RemoveAt(2);
+			tiers.RemoveAt(1);
+
+			var eafFilename = AnnotationFileHelper.Save(origMediaFilename, tiers);
+
+			Assert.AreEqual(Path.Combine(_folder.Path, "junk.wav.annotations.eaf"), eafFilename);
+			var loadedTiers = AnnotationFileHelper.Load(eafFilename).GetTierCollection();
+
+			CheckTiersAreEqual(expectedCollection, loadedTiers);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CheckTiersAreEqual(TierCollection expected, TierCollection actual)
+		{
+			Assert.AreEqual(expected.Count, actual.Count);
+			for (int i = 0; i < expected.Count; i++)
+				TierCollectionTests.CheckTier(expected[i], actual[i]);
 		}
 
 		/// ------------------------------------------------------------------------------------

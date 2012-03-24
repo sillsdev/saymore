@@ -407,7 +407,7 @@ namespace SayMore.Media
 					continue;
 
 				var sampleToDraw = x + _offsetOfLeftEdge - rc.X;
-				if (sampleToDraw == _samplesToDraw[0].Count)
+				if (sampleToDraw >= _samplesToDraw[0].Count)
 					break;
 
 				for (int channel = 0; channel < _channels; channel++)

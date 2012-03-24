@@ -356,7 +356,7 @@ namespace SayMore.Media
 			if (rectForAllChannels != Rectangle.Empty)
 			{
 				// Calculate the rectangle for each channel.
-				int dy = 0;
+				int dy = rectForAllChannels.Y;
 				for (int c = 0; c < _channels; c++)
 				{
 					int height = (int)Math.Floor((float)rectForAllChannels.Height / _channels);
@@ -370,6 +370,9 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		protected virtual void DrawWave(Graphics g, Rectangle rc)
 		{
+			if (!g.VisibleClipBounds.IntersectsWith(rc))
+				return;
+
 			var channelRects = GetChannelDisplayRectangles(rc).ToArray();
 			var dyChannelXAxes = new int[_channels];
 
@@ -381,7 +384,7 @@ namespace SayMore.Media
 			using (var pen = new Pen(ForeColor))
 			{
 				foreach (var xAxis in dyChannelXAxes)
-					g.DrawLine(pen, 0, xAxis, rc.Width, xAxis);
+					g.DrawLine(pen, rc.X, xAxis, rc.Right, xAxis);
 			}
 
 			// If samples per pixel is small or less than zero,
@@ -398,11 +401,18 @@ namespace SayMore.Media
 
 			var clipRect = g.VisibleClipBounds;
 
-			for (int x = (int)clipRect.X; x < clipRect.X + clipRect.Width && x + _offsetOfLeftEdge < _samplesToDraw[0].Count; x++)
+			for (int x = (int)clipRect.X; x < clipRect.X + clipRect.Width; x++)
 			{
+				if (x < rc.X)
+					continue;
+
+				var sampleToDraw = x + _offsetOfLeftEdge - rc.X;
+				if (sampleToDraw == _samplesToDraw[0].Count)
+					break;
+
 				for (int channel = 0; channel < _channels; channel++)
 				{
-					var sampleAmplitudes = _samplesToDraw[channel][x + _offsetOfLeftEdge];
+					var sampleAmplitudes = _samplesToDraw[channel][sampleToDraw];
 
 					if (sampleAmplitudes[0].Equals(0f) && sampleAmplitudes[1].Equals(0f))
 						continue;

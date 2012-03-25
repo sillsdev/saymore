@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using System.Linq;
 using Localization;
@@ -78,9 +77,13 @@ namespace SayMore.Transcription.UI
 		{
 			_waveControl = new 	WaveControlWithRangeSelection();
 			_waveControl.BottomReservedAreaHeight = 50;
+			_waveControl.BottomReservedAreaBorderColor = Settings.Default.DataEntryPanelColorBorder;
+			_waveControl.BottomReservedAreaColor = Color.FromArgb(130, Settings.Default.DataEntryPanelColorBegin);
+			_waveControl.BottomReservedAreaPaintAction = HandlePaintingAnnotatedWaveArea;
 			_waveControl.Paint += HandleWaveControlPaint;
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
+			_waveControl.MouseDoubleClick += HandleWaveControlMouseDoubleClick;
 			_waveControl.SelectedRegionChanged += HandleWaveControlSelectedRegionChanged;
 
 			_waveControl.BoundaryMouseDown += (ctrl, dx, boundary, boundaryNumber) =>
@@ -105,26 +108,7 @@ namespace SayMore.Transcription.UI
 				return lastSegmentEndTime;
 			};
 
-			_waveControl.Paint += new PaintEventHandler(_waveControl_Paint);
-
 			return _waveControl;
-		}
-
-		void _waveControl_Paint(object sender, PaintEventArgs e)
-		{
-			// TODO: put method in view model to return segments having the proper type of annotation file.
-			foreach (var segment in ViewModel.TimeTier.Segments.Where(s => File.Exists(s.GetFullPathToCarefulSpeechFile())))
-			{
-				using (var reader = new WaveFileReader(segment.GetFullPathToCarefulSpeechFile()))
-				{
-					var painter = new WavePainterBasic(reader);
-					var rc = _waveControl.GetRectangleBetweenBoundaries(TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
-					rc.Y = rc.Bottom;
-					rc.Height = _waveControl.BottomReservedAreaHeight;
-					painter.Draw(e, rc);
-					reader.Close();
-				}
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -375,20 +359,79 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleWaveControlPaint(object sender, PaintEventArgs e)
+		private void HandleWaveControlMouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			var img = Resources.MissingAnnotation;
+			var segMouseOver = _waveControl.GetSegmentForX(e.X);
+			if (segMouseOver < 0)
+				return;
 
+			if (e.Y < _waveControl.ClientRectangle.Bottom - _waveControl.BottomReservedAreaHeight)
+			{
+				var segment = ViewModel.TimeTier.Segments[segMouseOver];
+				_waveControl.Play(TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
+			}
+			else if (ViewModel.GetDoesSegmentHaveAnnotationFile(segMouseOver))
+			{
+				//var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
+				ViewModel.StartAnnotationPlayback();
+				UpdateDisplay();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandlePaintingAnnotatedWaveArea(PaintEventArgs e, Rectangle areaRectangle)
+		{
 			int i = 0;
 			foreach (var segRect in _waveControl.GetSegmentRectangles())
 			{
-				if (!segRect.IsEmpty && !ViewModel.GetDoesSegmentHaveAnnotationFile(i++))
+				var segment = ViewModel.TimeTier.Segments[i];
+				if (!ViewModel.GetDoesSegmentHaveAnnotationFile(i++))
+					continue;
+
+				var rc = new Rectangle(segRect.X, areaRectangle.Y + 1, segRect.Width, areaRectangle.Height - 1);
+				if (rc.X == 0)
+					rc.Width -= 2;
+				else
+					rc.Inflate(-2, 0);
+
+				using (var br = new SolidBrush(Color.FromArgb(175, Settings.Default.DataEntryPanelColorBegin)))
+					e.Graphics.FillRectangle(br, rc);
+
+				rc.Inflate(0, -3);
+				rc.Width--;
+
+				List<float[]>[] annotationSamplesToDraw;
+				if (!ViewModel.SegmentsAnnotationSamplesToDraw.TryGetValue(segment.End, out annotationSamplesToDraw))
 				{
-					var rc = new Rectangle(new Point(segRect.X + 1, segRect.Y + 1), img.Size);
-					if (segRect.Contains(rc))
-						e.Graphics.DrawImage(img, rc);
+					using (var reader = new WaveFileReader(segment.GetFullPathToCarefulSpeechFile()))
+					{
+						annotationSamplesToDraw = WavePainterBasic.GetSamplesToDraw(reader, rc.Width, rc.Width);
+						ViewModel.SegmentsAnnotationSamplesToDraw[segment.End] = annotationSamplesToDraw;
+						reader.Close();
+					}
 				}
+
+				var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black };
+				painter.SetSamplesToDraw(annotationSamplesToDraw);
+				painter.Draw(e, rc);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleWaveControlPaint(object sender, PaintEventArgs e)
+		{
+			//var img = Resources.MissingAnnotation;
+
+			//int i = 0;
+			//foreach (var segRect in _waveControl.GetSegmentRectangles())
+			//{
+			//    if (!segRect.IsEmpty && !ViewModel.GetDoesSegmentHaveAnnotationFile(i++))
+			//    {
+			//        var rc = new Rectangle(new Point(segRect.X + 1, segRect.Y + 1), img.Size);
+			//        if (segRect.Contains(rc))
+			//            e.Graphics.DrawImage(img, rc);
+			//    }
+			//}
 		}
 
 		#endregion

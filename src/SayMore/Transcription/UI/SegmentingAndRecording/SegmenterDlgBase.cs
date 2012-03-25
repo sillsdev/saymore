@@ -69,11 +69,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public SegmenterDlgBase(SegmenterDlgBaseViewModel viewModel)
-			: this()
+		public SegmenterDlgBase(SegmenterDlgBaseViewModel viewModel) : this()
 		{
 			_viewModel = viewModel;
 			_viewModel.UpdateDisplayProvider = UpdateDisplay;
+			_viewModel.OralAnnotationWaveAreaRefreshAction = () => _waveControl.InvalidateBottomReservedArea();
 
 			if (!_moreReliableDesignMode && FormSettings == null)
 			{
@@ -478,7 +478,12 @@ namespace SayMore.Transcription.UI
 			var text = _comboBoxZoom.Text.Replace("%", string.Empty).Trim();
 			float newValue;
 			if (float.TryParse(text, out newValue))
+			{
+				if (_viewModel != null)
+					_viewModel.SegmentsAnnotationSamplesToDraw.Clear();
+
 				_waveControl.ZoomPercentage = newValue;
+			}
 
 			_comboBoxZoom.Text = string.Format("{0}%", _waveControl.ZoomPercentage);
 		}

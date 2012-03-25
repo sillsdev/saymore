@@ -21,6 +21,8 @@ namespace SayMore.Transcription.UI
 		public Action UpdateDisplayProvider { get; set; }
 		public TierCollection Tiers { get; protected set; }
 		public TimeTier TimeTier { get; protected set; }
+		public Dictionary<float, List<float[]>[]> SegmentsAnnotationSamplesToDraw { get; private set; }
+		public Action OralAnnotationWaveAreaRefreshAction { get; set; }
 
 		public string TempOralAnnotationsFolder { get; protected set; }
 		public string OralAnnotationsFolder { get; protected set; }
@@ -31,6 +33,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBaseViewModel(ComponentFile file)
 		{
+			SegmentsAnnotationSamplesToDraw = new Dictionary<float, List<float[]>[]>();
 			ComponentFile = file;
 			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile);
 
@@ -231,7 +234,7 @@ namespace SayMore.Transcription.UI
 			if (result != BoundaryModificationResult.Success)
 				return false;
 
-			SegmentBoundariesChanged = true;
+			OnBoundaryWasDeletedInsertedOrMoved();
 			return true;
 		}
 
@@ -239,7 +242,7 @@ namespace SayMore.Transcription.UI
 		public IEnumerable<TimeSpan> InsertNewBoundary(TimeSpan newBoundary)
 		{
 			if (Tiers.InsertTierSegment((float)newBoundary.TotalSeconds) == BoundaryModificationResult.Success)
-				SegmentBoundariesChanged = true;
+				OnBoundaryWasDeletedInsertedOrMoved();
 
 			return GetSegmentEndBoundaries();
 		}
@@ -252,8 +255,18 @@ namespace SayMore.Transcription.UI
 			if (!Tiers.RemoveTierSegments(TimeTier.GetIndexOfSegment(seg)))
 				return false;
 
-			SegmentBoundariesChanged = true;
+			OnBoundaryWasDeletedInsertedOrMoved();
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void OnBoundaryWasDeletedInsertedOrMoved()
+		{
+			SegmentsAnnotationSamplesToDraw.Clear();
+			SegmentBoundariesChanged = true;
+
+			if (OralAnnotationWaveAreaRefreshAction != null)
+				OralAnnotationWaveAreaRefreshAction();
 		}
 
 		/// ------------------------------------------------------------------------------------

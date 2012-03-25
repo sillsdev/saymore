@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using Palaso.Progress;
-using SayMore.Properties;
 using SilTools;
 
 namespace SayMore.Media
@@ -40,6 +39,9 @@ namespace SayMore.Media
 		protected bool _savedAllowDrawingValue = true;
 		protected int _savedBottomReservedAreaHeight;
 		protected Form _owningForm;
+		protected Color _bottomReservedAreaColor;
+		protected Color _bottomReservedAreaBorderColor;
+		protected Action<PaintEventArgs, Rectangle> _bottomReservedAreaPaintAction;
 
 		protected TimeSpan _playbackStartTime;
 		protected TimeSpan _playbackEndTime;
@@ -112,6 +114,9 @@ namespace SayMore.Media
 		protected virtual void InternalInitialize()
 		{
 			_painter.BottomReservedAreaHeight = _savedBottomReservedAreaHeight;
+			_painter.BottomReservedAreaColor = _bottomReservedAreaColor;
+			_painter.BottomReservedAreaBorderColor = _bottomReservedAreaBorderColor;
+			_painter.BottomReservedAreaPaintAction = _bottomReservedAreaPaintAction;
 			_painter.AllowRedraw = _savedAllowDrawingValue;
 			_painter.ForeColor = ForeColor;
 			_painter.BackColor = BackColor;
@@ -149,7 +154,7 @@ namespace SayMore.Media
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual int BottomReservedAreaHeight
 		{
-			get { return (_painter == null ? _savedBottomReservedAreaHeight : _painter.BottomReservedAreaHeight); }
+			get { return _savedBottomReservedAreaHeight; }
 			set
 			{
 				_savedBottomReservedAreaHeight = value;
@@ -163,9 +168,46 @@ namespace SayMore.Media
 		{
 			get
 			{
-
 				return new Rectangle(0, ClientRectangle.Bottom - BottomReservedAreaHeight,
 					ClientSize.Width, BottomReservedAreaHeight);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual Color BottomReservedAreaColor
+		{
+			get { return _bottomReservedAreaColor; }
+			set
+			{
+				_bottomReservedAreaColor = value;
+				if (_painter != null)
+					_painter.BottomReservedAreaColor = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual Color BottomReservedAreaBorderColor
+		{
+			get { return _bottomReservedAreaBorderColor; }
+			set
+			{
+				_bottomReservedAreaBorderColor = value;
+				if (_painter != null)
+					_painter.BottomReservedAreaBorderColor = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Action<PaintEventArgs, Rectangle> BottomReservedAreaPaintAction
+		{
+			get { return _bottomReservedAreaPaintAction; }
+			set
+			{
+				_bottomReservedAreaPaintAction = value;
+				if (_painter != null)
+					_painter.BottomReservedAreaPaintAction = value;
 			}
 		}
 
@@ -174,7 +216,7 @@ namespace SayMore.Media
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual bool AllowDrawing
 		{
-			get { return (_painter == null ? _savedAllowDrawingValue : _painter.AllowRedraw); }
+			get { return _savedAllowDrawingValue; }
 			set
 			{
 				_savedAllowDrawingValue = value;
@@ -262,6 +304,18 @@ namespace SayMore.Media
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void InvalidateBottomReservedArea()
+		{
+			if (BottomReservedAreaHeight == 0)
+				return;
+
+			var rc = ClientRectangle;
+			rc.Y = rc.Bottom - BottomReservedAreaHeight;
+			rc.Height = BottomReservedAreaHeight;
+			Invalidate(rc);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetCursor(int cursorX)
@@ -619,20 +673,27 @@ namespace SayMore.Media
 			SetCursor(timeAtMouseX, false);
 		}
 
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnPaint(PaintEventArgs e)
+		//{
+
+		//    var rc = BottomReservedAreaRectangle;
+		//    if (rc.Height > 0)
+		//    {
+		//        using (var br = new SolidBrush(Settings.Default.BarColorBegin))
+		//            e.Graphics.FillRectangle(br, rc);
+
+		//        using (var pen = new Pen(Settings.Default.BarColorBorder))
+		//            e.Graphics.DrawLine(pen, 0, rc.Y, rc.Right, rc.Y);
+		//    }
+		//    base.OnPaint(e);
+		//}
+
 		/// ------------------------------------------------------------------------------------
-		protected override void OnPaint(PaintEventArgs e)
+		public virtual void DrawBoundary(Graphics g, int x, int y, int height)
 		{
-			base.OnPaint(e);
-
-			var rc = BottomReservedAreaRectangle;
-			if (rc.Height > 0)
-			{
-				using (var br = new SolidBrush(Settings.Default.BarColorBegin))
-					e.Graphics.FillRectangle(br, rc);
-
-				using (var pen = new Pen(Settings.Default.BarColorBorder))
-					e.Graphics.DrawLine(pen, 0, rc.Y, rc.Right, rc.Y);
-			}
+			if (_painter != null)
+				_painter.DrawBoundary(g, x, y, height);
 		}
 
 		#endregion

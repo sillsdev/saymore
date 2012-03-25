@@ -25,14 +25,18 @@ namespace SayMore.Media
 		public virtual Control Control { get; set; }
 		public virtual Color ForeColor { get; set; }
 		public virtual Color BackColor { get; set; }
-		public virtual Color BoundaryColor { get; set; }
+
 		public virtual Color CursorColor { get; set; }
 		public virtual Func<WaveFormat, string> FormatNotSupportedMessageProvider { get; set; }
 		public virtual int BottomReservedAreaHeight { get; set; }
+		public virtual Color BottomReservedAreaColor { get; set; }
+		public virtual Color BottomReservedAreaBorderColor { get; set; }
+		public Action<PaintEventArgs, Rectangle> BottomReservedAreaPaintAction { get; set; }
 
 		protected IEnumerable<TimeSpan> _segmentBoundaries;
 		protected double _pixelPerMillisecond;
 		protected int _offsetOfLeftEdge;
+		protected int _virtualWidth;
 		protected readonly TimeSpan _totalTime;
 
 		protected float[] _samples = new float[0];
@@ -43,6 +47,9 @@ namespace SayMore.Media
 		protected TimeSpan _movedBoundary;
 		protected TimeSpan _movedBoundarysOrigTime;
 		protected bool _allowDrawing = true;
+		protected Color _boundaryColor;
+		protected Pen _solidBorderPen;
+		protected Pen _translucentBorderPen;
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterBasic(WaveFileReader stream) : this(null, stream)
@@ -56,7 +63,6 @@ namespace SayMore.Media
 			_waveStream = stream;
 			_channels = _waveStream.WaveFormat.Channels;
 			_numberOfSamples = _waveStream.SampleCount;
-			BottomReservedAreaHeight = 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -66,16 +72,8 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public WavePainterBasic(Control ctrl, IEnumerable<float> samples, TimeSpan totalTime)
+		public WavePainterBasic(Control ctrl, IEnumerable<float> samples, TimeSpan totalTime) : this()
 		{
-			//BoundaryColor = Color.MidnightBlue;
-			BoundaryColor = Color.FromArgb(220, 121, 0);
-			CursorColor = Color.Green;
-			BackColor = Color.CornflowerBlue;
-			ForeColor = Color.LightGray;
-
-			_segmentBoundaries = new TimeSpan[0];
-
 			Control = ctrl;
 
 			if (ctrl != null)
@@ -86,12 +84,46 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public WavePainterBasic()
+		{
+			BottomReservedAreaHeight = 0;
+			BottomReservedAreaColor = Color.LightGray;
+			BottomReservedAreaBorderColor = Color.Gray;
+
+			//BoundaryColor = Color.MidnightBlue;
+			BoundaryColor = Color.FromArgb(220, 121, 0);
+			CursorColor = Color.Green;
+			BackColor = Color.CornflowerBlue;
+			ForeColor = Color.LightGray;
+
+			_segmentBoundaries = new TimeSpan[0];
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
 			if (Control != null)
 				Control.Paint -= DrawControl;
 
+			DisposeOfPens();
+
 			_waveStream = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DisposeOfPens()
+		{
+			if (_translucentBorderPen != null)
+			{
+				_translucentBorderPen.Dispose();
+				_translucentBorderPen = null;
+			}
+
+			if (_solidBorderPen != null)
+			{
+				_solidBorderPen.Dispose();
+				_solidBorderPen = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -113,7 +145,22 @@ namespace SayMore.Media
 			set
 			{
 				_segmentBoundaries = (value ?? new TimeSpan[0]);
-				if (Control != null)
+				if (_allowDrawing && Control != null)
+					Control.Invalidate();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual Color BoundaryColor
+		{
+			get { return _boundaryColor; }
+			set
+			{
+				_boundaryColor = value;
+				DisposeOfPens();
+				_solidBorderPen = new Pen(_boundaryColor);
+				_translucentBorderPen = new Pen(Color.FromArgb(60, _boundaryColor));
+				if (_allowDrawing && Control != null)
 					Control.Invalidate();
 			}
 		}
@@ -137,6 +184,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetVirtualWidth(int width)
 		{
+			_virtualWidth = width;
 			_pixelPerMillisecond = (width - kRightDisplayPadding) / _totalTime.TotalMilliseconds;
 			SetSamplesPerPixel(_numberOfSamples / ((double)width - kRightDisplayPadding));
 		}
@@ -168,7 +216,10 @@ namespace SayMore.Media
 
 			if (_waveStream != null)
 			{
-				GetSamplesToDrawFromStream();
+				//GetSamplesToDrawFromStream();
+				_samplesToDraw = GetSamplesToDraw(_waveStream, _virtualWidth,
+					Control == null ? 400 : Control.ClientSize.Width - kRightDisplayPadding);
+
 				return;
 			}
 
@@ -192,24 +243,28 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void GetSamplesToDrawFromStream()
+		public static List<float[]>[] GetSamplesToDraw(WaveFileReader stream, int virtualWidth,
+			int visibleWidth)
 		{
-			if (_waveStream.WaveFormat.BitsPerSample == 32 && _waveStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
-				return;
+			var channels = stream.WaveFormat.Channels;
+			var samplesPerPixel = stream.SampleCount / ((double)virtualWidth - kRightDisplayPadding);
 
-			_samplesToDraw = new List<float[]>[_channels];
-			for (int c = 0; c < _channels; c++)
-				_samplesToDraw[c] = new List<float[]>(Control == null ? 400 : Control.ClientSize.Width - kRightDisplayPadding);
+			if (stream.WaveFormat.BitsPerSample == 32 && stream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+				return new List<float[]>[0];
 
-			_waveStream.Seek(0, SeekOrigin.Begin);
-			var provider = new SampleChannel(_waveStream);
+			var samplesToDraw = new List<float[]>[channels];
+			for (int c = 0; c < channels; c++)
+				samplesToDraw[c] = new List<float[]>(visibleWidth - kRightDisplayPadding);
 
-			int numberSamplesInOnePixel = (int)SamplesPerPixel * provider.WaveFormat.Channels;
+			stream.Seek(0, SeekOrigin.Begin);
+			var provider = new SampleChannel(stream);
+
+			int numberSamplesInOnePixel = (int)samplesPerPixel * provider.WaveFormat.Channels;
 			var buffer = new float[numberSamplesInOnePixel];
 
 			while (provider.Read(buffer, 0, numberSamplesInOnePixel) > 0)
 			{
-				for (var c = 0; c < _channels; c++)
+				for (var c = 0; c < channels; c++)
 				{
 					var biggestSample = float.MinValue;
 					var smallestSample = float.MaxValue;
@@ -220,10 +275,54 @@ namespace SayMore.Media
 						smallestSample = Math.Min(smallestSample, buffer[i + c]);
 					}
 
-					_samplesToDraw[c].Add(new[] { biggestSample, smallestSample });
+					samplesToDraw[c].Add(new[] { biggestSample, smallestSample });
 				}
 			}
+
+			return samplesToDraw;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetSamplesToDraw(List<float[]>[] samplesToDraw)
+		{
+			_samplesToDraw = samplesToDraw;
+			_channels = samplesToDraw.Length;
+			SamplesPerPixel = 1d;
+		}
+
+		///// ------------------------------------------------------------------------------------
+		//private void GetSamplesToDrawFromStream()
+		//{
+		//    if (_waveStream.WaveFormat.BitsPerSample == 32 && _waveStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+		//        return;
+
+		//    _samplesToDraw = new List<float[]>[_channels];
+		//    for (int c = 0; c < _channels; c++)
+		//        _samplesToDraw[c] = new List<float[]>(Control == null ? 400 : Control.ClientSize.Width - kRightDisplayPadding);
+
+		//    _waveStream.Seek(0, SeekOrigin.Begin);
+		//    var provider = new SampleChannel(_waveStream);
+
+		//    int numberSamplesInOnePixel = (int)SamplesPerPixel * provider.WaveFormat.Channels;
+		//    var buffer = new float[numberSamplesInOnePixel];
+
+		//    while (provider.Read(buffer, 0, numberSamplesInOnePixel) > 0)
+		//    {
+		//        for (var c = 0; c < _channels; c++)
+		//        {
+		//            var biggestSample = float.MinValue;
+		//            var smallestSample = float.MaxValue;
+
+		//            for (int i = 0; i < numberSamplesInOnePixel; i += provider.WaveFormat.Channels)
+		//            {
+		//                biggestSample = Math.Max(biggestSample, buffer[i + c]);
+		//                smallestSample = Math.Min(smallestSample, buffer[i + c]);
+		//            }
+
+		//            _samplesToDraw[c].Add(new[] { biggestSample, smallestSample });
+		//        }
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual int GetBoundaryNearX(int x)
@@ -326,11 +425,33 @@ namespace SayMore.Media
 			}
 
 			DrawWave(e.Graphics, rc);
-			DrawSegmentBoundaries(e.Graphics, rc.Height);
+			DrawBottomArea(e, rc);
+			DrawSegmentBoundaries(e.Graphics, rc.Height + BottomReservedAreaHeight);
 			DrawCursor(e.Graphics, rc);
 
 			if (_movedBoundary > TimeSpan.Zero)
 				DrawMovedBoundary(e.Graphics, rc.Height, ConvertTimeToXCoordinate(_movedBoundary));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void DrawBottomArea(PaintEventArgs e, Rectangle rc)
+		{
+			if (BottomReservedAreaHeight == 0)
+				return;
+
+			rc.X = (int)Math.Ceiling(e.Graphics.VisibleClipBounds.X);
+			rc.Width = (int)Math.Ceiling(e.Graphics.VisibleClipBounds.Width);
+			rc.Y = rc.Bottom;
+			rc.Height = BottomReservedAreaHeight;
+
+			using (var br = new SolidBrush(BottomReservedAreaColor))
+				e.Graphics.FillRectangle(br, rc);
+
+			using (var pen = new Pen(BottomReservedAreaBorderColor))
+				e.Graphics.DrawLine(pen, rc.X, rc.Y, rc.Right, rc.Y);
+
+			if (BottomReservedAreaPaintAction != null)
+				BottomReservedAreaPaintAction(e, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -458,33 +579,29 @@ namespace SayMore.Media
 			if (_segmentBoundaries == null)
 				return;
 
-			using (var solidPen = new Pen(BoundaryColor))
-			using (var translucentPen = new Pen(Color.FromArgb(60, BoundaryColor)))
-			{
-				foreach (var boundary in _segmentBoundaries)
-				{
-					DrawBoundary(g, clientHeight, translucentPen, solidPen,
-						ConvertTimeToXCoordinate(boundary), boundary);
-				}
-			}
+			foreach (var boundary in _segmentBoundaries)
+				DrawBoundary(g, clientHeight, ConvertTimeToXCoordinate(boundary), boundary);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void DrawBoundary(Graphics g, int clientHeight, Pen edgePen,
-			Pen centerPen, int dx, TimeSpan boundary)
+		protected virtual void DrawBoundary(Graphics g, int clientHeight, int x, TimeSpan boundary)
 		{
 			if (_movedBoundarysOrigTime > TimeSpan.Zero && _movedBoundarysOrigTime == boundary)
 			{
-				centerPen.DashStyle = DashStyle.Dot;
-				g.DrawLine(centerPen, dx, 0, dx, clientHeight);
-				centerPen.DashStyle = DashStyle.Solid;
+				_solidBorderPen.DashStyle = DashStyle.Dot;
+				g.DrawLine(_solidBorderPen, x, 0, x, clientHeight);
+				_solidBorderPen.DashStyle = DashStyle.Solid;
 			}
 			else
-			{
-				g.DrawLine(edgePen, dx - 1, 0, dx - 1, clientHeight);
-				g.DrawLine(centerPen, dx, 0, dx, clientHeight);
-				g.DrawLine(edgePen, dx + 1, 0, dx + 1, clientHeight);
-			}
+				DrawBoundary(g, x, 0, clientHeight);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void DrawBoundary(Graphics g, int x, int y, int height)
+		{
+			g.DrawLine(_translucentBorderPen, x - 1, y, x - 1, y + height);
+			g.DrawLine(_solidBorderPen, x, y, x, y + height);
+			g.DrawLine(_translucentBorderPen, x + 1, y, x + 1, y + height);
 		}
 
 		/// ------------------------------------------------------------------------------------

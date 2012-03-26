@@ -379,6 +379,8 @@ namespace SayMore.Transcription.UI
 				_annotationPlaybackRectangle = _waveControl.GetRectangleBetweenBoundaries(
 					TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
 
+				_annotationPlaybackRectangle.Y = _annotationPlaybackRectangle.Bottom;
+				_annotationPlaybackRectangle.Height = _waveControl.BottomReservedAreaHeight;
 				_annotationPlaybackRectangle.Inflate(-2, 0);
 
 				ViewModel.StartAnnotationPlayback(HandleAnnotationPlaybackProgress,
@@ -389,7 +391,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		private TimeSpan _annotationPlaybackLength;
-		private int _annotationPlaybackCursorX =200;
+		private int _annotationPlaybackCursorX;
 		private Rectangle _annotationPlaybackRectangle;
 
 		/// ------------------------------------------------------------------------------------
@@ -429,20 +431,17 @@ namespace SayMore.Transcription.UI
 				rc.Inflate(0, -3);
 				rc.Width--;
 
-				List<float[]>[] annotationSamplesToDraw;
-				if (!ViewModel.SegmentsAnnotationSamplesToDraw.TryGetValue(segment.End, out annotationSamplesToDraw))
-				{
-					using (var reader = new WaveFileReader(segment.GetFullPathToCarefulSpeechFile()))
-					{
-						annotationSamplesToDraw = WavePainterBasic.GetSamplesToDraw(reader, rc.Width, rc.Width);
-						ViewModel.SegmentsAnnotationSamplesToDraw[segment.End] = annotationSamplesToDraw;
-						reader.Close();
-					}
-				}
-
 				using (var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black })
 				{
-					painter.SetSamplesToDraw(annotationSamplesToDraw);
+					var audioFilePath = segment.GetFullPathToCarefulSpeechFile();
+					var helper = ViewModel.SegmentsAnnotationSamplesToDraw.FirstOrDefault(h => h.AudioFilePath == audioFilePath);
+					if (helper == null)
+					{
+						helper = new AudioFileHelper(audioFilePath);
+						ViewModel.SegmentsAnnotationSamplesToDraw.Add(helper);
+					}
+
+					painter.SetSamplesToDraw(helper.GetSamples((uint)rc.Width));
 					painter.Draw(e, rc);
 				}
 
@@ -450,10 +449,7 @@ namespace SayMore.Transcription.UI
 					_annotationPlaybackCursorX <= rc.Right)
 				{
 					rc.Inflate(0, 3);
-
-					System.Diagnostics.Debug.WriteLine(_annotationPlaybackCursorX + "   " + rc.X + "   " + rc.Right);
-
-					e.Graphics.DrawLine(Pens.Red, _annotationPlaybackCursorX, rc.Y,
+					e.Graphics.DrawLine(Pens.Green, _annotationPlaybackCursorX, rc.Y - 150,
 						_annotationPlaybackCursorX, rc.Bottom);
 				}
 			}

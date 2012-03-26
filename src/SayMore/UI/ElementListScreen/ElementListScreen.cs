@@ -211,7 +211,7 @@ namespace SayMore.UI.ElementListScreen
 					_elementsGrid.SelectElement((ProjectElement)itemToSelectAfterLoad);
 				else if (itemToSelectAfterLoad is int)
 					_elementsGrid.SelectElement((int)itemToSelectAfterLoad);
-				else if (itemToSelectAfterLoad == typeof(string))
+				else if (itemToSelectAfterLoad is string)
 					_elementsGrid.SelectElement((string)itemToSelectAfterLoad);
 			}
 

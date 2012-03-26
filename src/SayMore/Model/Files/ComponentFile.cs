@@ -10,6 +10,7 @@ using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.FileSystem;
+using SayMore;
 using SayMore.Media;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;

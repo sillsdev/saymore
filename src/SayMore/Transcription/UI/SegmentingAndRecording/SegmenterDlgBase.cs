@@ -478,12 +478,7 @@ namespace SayMore.Transcription.UI
 			var text = _comboBoxZoom.Text.Replace("%", string.Empty).Trim();
 			float newValue;
 			if (float.TryParse(text, out newValue))
-			{
-				if (_viewModel != null)
-					_viewModel.SegmentsAnnotationSamplesToDraw.Clear();
-
 				_waveControl.ZoomPercentage = newValue;
-			}
 
 			_comboBoxZoom.Text = string.Format("{0}%", _waveControl.ZoomPercentage);
 		}

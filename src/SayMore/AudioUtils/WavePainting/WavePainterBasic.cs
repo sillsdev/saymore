@@ -40,7 +40,7 @@ namespace SayMore.Media
 		protected readonly TimeSpan _totalTime;
 
 		protected float[] _samples = new float[0];
-		protected List<float[]>[] _samplesToDraw;
+		protected Tuple<float, float>[,] _samplesToDraw;
 		protected int _channels = 1;
 		protected long _numberOfSamples;
 		protected WaveFileReader _waveStream;
@@ -216,113 +216,38 @@ namespace SayMore.Media
 
 			if (_waveStream != null)
 			{
-				//GetSamplesToDrawFromStream();
-				_samplesToDraw = GetSamplesToDraw(_waveStream, _virtualWidth,
-					Control == null ? 400 : Control.ClientSize.Width - kRightDisplayPadding);
+				_samplesToDraw = AudioFileHelper.GetSamples(_waveStream,
+					(uint)(_virtualWidth - kRightDisplayPadding));
 
 				return;
 			}
 
-			_numberOfSamples = _samples.Length;
-			_samplesToDraw = new[] { new List<float[]>((int)(_numberOfSamples / (long)SamplesPerPixel)) };
+			//_numberOfSamples = _samples.Length;
+			//_samplesToDraw = new[] { new List<float[]>((int)(_numberOfSamples / (long)SamplesPerPixel)) };
 
-			for (int sample = 0; sample < _numberOfSamples; sample += (int)SamplesPerPixel)
-			{
-				var biggestSample = float.MinValue;
-				var smallestSample = float.MaxValue;
+			//for (int sample = 0; sample < _numberOfSamples; sample += (int)SamplesPerPixel)
+			//{
+			//    var biggestSample = float.MinValue;
+			//    var smallestSample = float.MaxValue;
 
-				// Find the max and min peaks for this pixel
-				for (int i = 0; i < SamplesPerPixel && sample + i < _numberOfSamples; i++)
-				{
-					biggestSample = Math.Max(biggestSample, _samples[sample + i]);
-					smallestSample = Math.Min(smallestSample, _samples[sample + i]);
-				}
+			//    // Find the max and min peaks for this pixel
+			//    for (int i = 0; i < SamplesPerPixel && sample + i < _numberOfSamples; i++)
+			//    {
+			//        biggestSample = Math.Max(biggestSample, _samples[sample + i]);
+			//        smallestSample = Math.Min(smallestSample, _samples[sample + i]);
+			//    }
 
-				_samplesToDraw[0].Add(new[] { biggestSample, smallestSample });
-			}
+			//    _samplesToDraw[0].Add(new[] { biggestSample, smallestSample });
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static List<float[]>[] GetSamplesToDraw(WaveFileReader stream, int virtualWidth,
-			int visibleWidth)
-		{
-			var channels = stream.WaveFormat.Channels;
-			var samplesPerPixel = stream.SampleCount / ((double)virtualWidth - kRightDisplayPadding);
-
-			if (stream.WaveFormat.BitsPerSample == 32 && stream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
-				return new List<float[]>[0];
-
-			var samplesToDraw = new List<float[]>[channels];
-			for (int c = 0; c < channels; c++)
-				samplesToDraw[c] = new List<float[]>(visibleWidth - kRightDisplayPadding);
-
-			stream.Seek(0, SeekOrigin.Begin);
-			var provider = new SampleChannel(stream);
-
-			int numberSamplesInOnePixel = (int)samplesPerPixel * provider.WaveFormat.Channels;
-			var buffer = new float[numberSamplesInOnePixel];
-
-			while (provider.Read(buffer, 0, numberSamplesInOnePixel) > 0)
-			{
-				for (var c = 0; c < channels; c++)
-				{
-					var biggestSample = float.MinValue;
-					var smallestSample = float.MaxValue;
-
-					for (int i = 0; i < numberSamplesInOnePixel; i += provider.WaveFormat.Channels)
-					{
-						biggestSample = Math.Max(biggestSample, buffer[i + c]);
-						smallestSample = Math.Min(smallestSample, buffer[i + c]);
-					}
-
-					samplesToDraw[c].Add(new[] { biggestSample, smallestSample });
-				}
-			}
-
-			return samplesToDraw;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetSamplesToDraw(List<float[]>[] samplesToDraw)
+		public void SetSamplesToDraw(Tuple<float, float>[,] samplesToDraw)
 		{
 			_samplesToDraw = samplesToDraw;
-			_channels = samplesToDraw.Length;
+			_channels = samplesToDraw.GetLength(1);
 			SamplesPerPixel = 1d;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//private void GetSamplesToDrawFromStream()
-		//{
-		//    if (_waveStream.WaveFormat.BitsPerSample == 32 && _waveStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
-		//        return;
-
-		//    _samplesToDraw = new List<float[]>[_channels];
-		//    for (int c = 0; c < _channels; c++)
-		//        _samplesToDraw[c] = new List<float[]>(Control == null ? 400 : Control.ClientSize.Width - kRightDisplayPadding);
-
-		//    _waveStream.Seek(0, SeekOrigin.Begin);
-		//    var provider = new SampleChannel(_waveStream);
-
-		//    int numberSamplesInOnePixel = (int)SamplesPerPixel * provider.WaveFormat.Channels;
-		//    var buffer = new float[numberSamplesInOnePixel];
-
-		//    while (provider.Read(buffer, 0, numberSamplesInOnePixel) > 0)
-		//    {
-		//        for (var c = 0; c < _channels; c++)
-		//        {
-		//            var biggestSample = float.MinValue;
-		//            var smallestSample = float.MaxValue;
-
-		//            for (int i = 0; i < numberSamplesInOnePixel; i += provider.WaveFormat.Channels)
-		//            {
-		//                biggestSample = Math.Max(biggestSample, buffer[i + c]);
-		//                smallestSample = Math.Min(smallestSample, buffer[i + c]);
-		//            }
-
-		//            _samplesToDraw[c].Add(new[] { biggestSample, smallestSample });
-		//        }
-		//    }
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual int GetBoundaryNearX(int x)
@@ -416,7 +341,7 @@ namespace SayMore.Media
 				return;
 			}
 
-			if ((_samplesToDraw == null || _samplesToDraw[0].Count == 0) && _numberOfSamples > 0)
+			if ((_samplesToDraw == null || _samplesToDraw.Length == 0) && _numberOfSamples > 0)
 			{
 				if (SamplesPerPixel.Equals(0))
 					SetVirtualWidth(rc.Width);
@@ -439,8 +364,8 @@ namespace SayMore.Media
 			if (BottomReservedAreaHeight == 0)
 				return;
 
-			rc.X = (int)Math.Ceiling(e.Graphics.VisibleClipBounds.X);
-			rc.Width = (int)Math.Ceiling(e.Graphics.VisibleClipBounds.Width);
+			rc.X = e.ClipRectangle.X;
+			rc.Width = e.ClipRectangle.Width;
 			rc.Y = rc.Bottom;
 			rc.Height = BottomReservedAreaHeight;
 
@@ -528,18 +453,18 @@ namespace SayMore.Media
 					continue;
 
 				var sampleToDraw = x + _offsetOfLeftEdge - rc.X;
-				if (sampleToDraw >= _samplesToDraw[0].Count)
+				if (sampleToDraw >= _samplesToDraw.GetLength(0))
 					break;
 
 				for (int channel = 0; channel < _channels; channel++)
 				{
-					var sampleAmplitudes = _samplesToDraw[channel][sampleToDraw];
+					var sampleAmplitudes = _samplesToDraw[sampleToDraw, channel];
 
-					if (sampleAmplitudes[0].Equals(0f) && sampleAmplitudes[1].Equals(0f))
+					if (sampleAmplitudes.Item1.Equals(0f) && sampleAmplitudes.Item2.Equals(0f))
 						continue;
 
-					int y1 = dyChannelXAxes[channel] - (int)Math.Ceiling(channelRects[channel].Height * (sampleAmplitudes[0] / 2f));
-					int y2 = dyChannelXAxes[channel] - (int)Math.Ceiling(channelRects[channel].Height * (sampleAmplitudes[1] / 2f));
+					int y1 = dyChannelXAxes[channel] - (int)Math.Ceiling(channelRects[channel].Height * (sampleAmplitudes.Item1 / 2f));
+					int y2 = dyChannelXAxes[channel] - (int)Math.Ceiling(channelRects[channel].Height * (sampleAmplitudes.Item2 / 2f));
 
 					if (y2 - y1 <= 1)
 						continue;

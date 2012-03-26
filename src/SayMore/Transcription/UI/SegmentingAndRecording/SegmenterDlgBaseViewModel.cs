@@ -21,7 +21,7 @@ namespace SayMore.Transcription.UI
 		public Action UpdateDisplayProvider { get; set; }
 		public TierCollection Tiers { get; protected set; }
 		public TimeTier TimeTier { get; protected set; }
-		public Dictionary<float, List<float[]>[]> SegmentsAnnotationSamplesToDraw { get; private set; }
+		public HashSet<AudioFileHelper> SegmentsAnnotationSamplesToDraw { get; private set; }
 		public Action OralAnnotationWaveAreaRefreshAction { get; set; }
 
 		public string TempOralAnnotationsFolder { get; protected set; }
@@ -33,7 +33,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBaseViewModel(ComponentFile file)
 		{
-			SegmentsAnnotationSamplesToDraw = new Dictionary<float, List<float[]>[]>();
+			SegmentsAnnotationSamplesToDraw = new HashSet<AudioFileHelper>();
 			ComponentFile = file;
 			OrigWaveStream = new WaveFileReader(ComponentFile.PathToAnnotatedFile);
 

@@ -244,13 +244,18 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void StartAnnotationPlayback()
+		public void StartAnnotationPlayback(Action<PlaybackProgressEventArgs> playbackProgressAction,
+			Action playbackStoppedAction)
 		{
 			if (!GetDoesCurrentSegmentHaveAnnotationFile())
 				return;
 
 			if (InitializeAnnotationPlayer())
+			{
+				_annotationPlayer.PlaybackProgress += (sender, args) => playbackProgressAction(args);
+				_annotationPlayer.Stopped += (sender, args) => playbackStoppedAction();
 				_annotationPlayer.Play();
+			}
 
 			UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting + "/PlayAnnotation");
 		}

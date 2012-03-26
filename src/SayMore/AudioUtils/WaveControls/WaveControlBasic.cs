@@ -50,8 +50,6 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public WaveControlBasic()
 		{
-			// ENHANCE: This class assumes the audio data is in 16 bit samples.
-
 			SetStyle(ControlStyles.UserPaint, true);
 			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 			SetStyle(ControlStyles.DoubleBuffer, true);

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Linq;
 using Localization;
 using NAudio.Wave;
+using Palaso.Media.Naudio;
 using SayMore.Media;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -55,11 +56,11 @@ namespace SayMore.Transcription.UI
 			_buttonRecordAnnotation.MouseUp += HandleRecordAnnotationMouseUp;
 
 			_buttonListenToOriginal.MouseUp += delegate { _waveControl.Stop(); };
-			_buttonListenToAnnotation.Click += delegate
-			{
-				ViewModel.StartAnnotationPlayback();
-				UpdateDisplay();
-			};
+			//_buttonListenToAnnotation.Click += delegate
+			//{
+			//    ViewModel.StartAnnotationPlayback();
+			//    UpdateDisplay();
+			//};
 
 			_buttonEraseAnnotation.Click += delegate
 			{
@@ -365,16 +366,44 @@ namespace SayMore.Transcription.UI
 			if (segMouseOver < 0)
 				return;
 
+			var segment = ViewModel.TimeTier.Segments[segMouseOver];
+
 			if (e.Y < _waveControl.ClientRectangle.Bottom - _waveControl.BottomReservedAreaHeight)
-			{
-				var segment = ViewModel.TimeTier.Segments[segMouseOver];
 				_waveControl.Play(TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
-			}
 			else if (ViewModel.GetDoesSegmentHaveAnnotationFile(segMouseOver))
 			{
-				//var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
-				ViewModel.StartAnnotationPlayback();
+				var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
+				using (var stream = new WaveFileReader(path))
+					_annotationPlaybackLength = stream.TotalTime;
+
+				_annotationPlaybackRectangle = _waveControl.GetRectangleBetweenBoundaries(
+					TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
+
+				_annotationPlaybackRectangle.Inflate(-2, 0);
+
+				ViewModel.StartAnnotationPlayback(HandleAnnotationPlaybackProgress,
+					() => _annotationPlaybackCursorX = 0);
+
 				UpdateDisplay();
+			}
+		}
+
+		private TimeSpan _annotationPlaybackLength;
+		private int _annotationPlaybackCursorX =200;
+		private Rectangle _annotationPlaybackRectangle;
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleAnnotationPlaybackProgress(PlaybackProgressEventArgs args)
+		{
+			var pixelPerMillisecond = _annotationPlaybackRectangle.Width / _annotationPlaybackLength.TotalMilliseconds;
+
+			var newX  = _annotationPlaybackRectangle.X +
+				(int)(Math.Ceiling(args.PlaybackPosition.TotalMilliseconds * pixelPerMillisecond));
+
+			if (newX != _annotationPlaybackCursorX)
+			{
+				_annotationPlaybackCursorX = newX;
+				Invoke((Action<Rectangle>)_waveControl.Invalidate, _annotationPlaybackRectangle);
 			}
 		}
 
@@ -411,9 +440,22 @@ namespace SayMore.Transcription.UI
 					}
 				}
 
-				var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black };
-				painter.SetSamplesToDraw(annotationSamplesToDraw);
-				painter.Draw(e, rc);
+				using (var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black })
+				{
+					painter.SetSamplesToDraw(annotationSamplesToDraw);
+					painter.Draw(e, rc);
+				}
+
+				if (_annotationPlaybackCursorX > 0 && _annotationPlaybackCursorX >= rc.X &&
+					_annotationPlaybackCursorX <= rc.Right)
+				{
+					rc.Inflate(0, 3);
+
+					System.Diagnostics.Debug.WriteLine(_annotationPlaybackCursorX + "   " + rc.X + "   " + rc.Right);
+
+					e.Graphics.DrawLine(Pens.Red, _annotationPlaybackCursorX, rc.Y,
+						_annotationPlaybackCursorX, rc.Bottom);
+				}
 			}
 		}
 

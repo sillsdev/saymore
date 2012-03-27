@@ -25,6 +25,7 @@ namespace SayMore.Media
 		public virtual Control Control { get; set; }
 		public virtual Color ForeColor { get; set; }
 		public virtual Color BackColor { get; set; }
+		public virtual int VirtualWidth { get; private set; }
 
 		public virtual Color CursorColor { get; set; }
 		public virtual Func<WaveFormat, string> FormatNotSupportedMessageProvider { get; set; }
@@ -36,7 +37,6 @@ namespace SayMore.Media
 		protected IEnumerable<TimeSpan> _segmentBoundaries;
 		protected double _pixelPerMillisecond;
 		protected int _offsetOfLeftEdge;
-		protected int _virtualWidth;
 		protected readonly TimeSpan _totalTime;
 
 		protected float[] _samples = new float[0];
@@ -184,9 +184,17 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetVirtualWidth(int width)
 		{
-			_virtualWidth = width;
+			VirtualWidth = width;
 			_pixelPerMillisecond = (width - kRightDisplayPadding) / _totalTime.TotalMilliseconds;
 			SetSamplesPerPixel(_numberOfSamples / ((double)width - kRightDisplayPadding));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void SetPixelsPerSecond(int value)
+		{
+			_pixelPerMillisecond = value / 1000.0;
+			VirtualWidth = (int)(_pixelPerMillisecond * _totalTime.TotalMilliseconds) + kRightDisplayPadding;
+			SetSamplesPerPixel(_numberOfSamples / ((double)VirtualWidth - kRightDisplayPadding));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -217,7 +225,7 @@ namespace SayMore.Media
 			if (_waveStream != null)
 			{
 				_samplesToDraw = AudioFileHelper.GetSamples(_waveStream,
-					(uint)(_virtualWidth - kRightDisplayPadding));
+					(uint)(VirtualWidth - kRightDisplayPadding));
 
 				return;
 			}
@@ -339,14 +347,6 @@ namespace SayMore.Media
 
 				DrawFormatNotSupportedMessage(e.Graphics, rc, msg);
 				return;
-			}
-
-			if ((_samplesToDraw == null || _samplesToDraw.Length == 0) && _numberOfSamples > 0)
-			{
-				if (SamplesPerPixel.Equals(0))
-					SetVirtualWidth(rc.Width);
-				else
-					LoadBufferOfSamplesToDraw();
 			}
 
 			DrawWave(e.Graphics, rc);

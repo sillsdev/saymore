@@ -47,15 +47,14 @@ namespace SayMore.Transcription.UI
 		{
 			InitializeComponent();
 
-			_normalRecordButtonText = _buttonRecordAnnotation.Text;
+			_tableLayoutTop.Visible = false;
 
-			Controls.Remove(toolStripButtons);
-			_tableLayoutOuter.Controls.Add(toolStripButtons);
+			_normalRecordButtonText = "TODO: Hold down Space to record";
 
-			_buttonRecordAnnotation.MouseDown += HandleRecordAnnotationMouseDown;
-			_buttonRecordAnnotation.MouseUp += HandleRecordAnnotationMouseUp;
+			_labelRecordButton.MouseDown += HandleRecordAnnotationMouseDown;
+			_labelRecordButton.MouseUp += HandleRecordAnnotationMouseUp;
 
-			_buttonListenToOriginal.MouseUp += delegate { _waveControl.Stop(); };
+			_labelListenButton.MouseUp += delegate { _waveControl.Stop(); };
 			//_buttonListenToAnnotation.Click += delegate
 			//{
 			//    ViewModel.StartAnnotationPlayback();
@@ -71,16 +70,35 @@ namespace SayMore.Transcription.UI
 			};
 
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
+
+			_tableLayoutMediaButtons.Dock = DockStyle.Left;
+			_panelWaveControl.Controls.Add(_tableLayoutMediaButtons);
+			_waveControl.BringToFront();
+			_tableLayoutMediaButtons.RowStyles[0].SizeType = SizeType.AutoSize;
+			_tableLayoutMediaButtons.RowStyles[2].SizeType = SizeType.Absolute;
+			_tableLayoutMediaButtons.Controls.Add(_labelOriginalRecording, 0, 0);
+			_labelOriginalRecording.TextAlign = ContentAlignment.TopCenter;
+			_labelOriginalRecording.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			var margin = _labelOriginalRecording.Margin;
+			margin.Top = 10;
+			_labelOriginalRecording.Margin = margin;
+
+			_waveControl.ClientSizeChanged += delegate
+			{
+				_tableLayoutMediaButtons.RowStyles[2].Height = Settings.Default.AnnotationWaveViewHeight +
+					(_waveControl.HorizontalScroll.Visible ? SystemInformation.HorizontalScrollBarHeight : 0);
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override WaveControlBasic CreateWaveControl()
 		{
 			_waveControl = new 	WaveControlWithRangeSelection();
-			_waveControl.BottomReservedAreaHeight = 50;
+			_waveControl.BottomReservedAreaHeight = Settings.Default.AnnotationWaveViewHeight;
 			_waveControl.BottomReservedAreaBorderColor = Settings.Default.DataEntryPanelColorBorder;
 			_waveControl.BottomReservedAreaColor = Color.FromArgb(130, Settings.Default.DataEntryPanelColorBegin);
 			_waveControl.BottomReservedAreaPaintAction = HandlePaintingAnnotatedWaveArea;
+			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
 			_waveControl.Paint += HandleWaveControlPaint;
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
@@ -155,16 +173,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override int GetHeightOfTableLayoutButtonRow()
-		{
-			return (_buttonListenToOriginal.Height * 3) + 5 +
-				_buttonListenToOriginal.Margin.Top + _buttonListenToOriginal.Margin.Bottom +
-				_buttonListenToAnnotation.Margin.Top + _buttonListenToAnnotation.Margin.Bottom +
-				_buttonEraseAnnotation.Margin.Top + _buttonEraseAnnotation.Margin.Bottom +
-				toolStripButtons.Margin.Top + toolStripButtons.Margin.Bottom;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			ViewModel.CloseAnnotationPlayer();
@@ -184,11 +192,11 @@ namespace SayMore.Transcription.UI
 		{
 			if (ViewModel.GetIsRecording())
 			{
-				_buttonListenToOriginal.Enabled = false;
-				_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
-				_buttonRecordAnnotation.Text = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingButtonText.WhenRecording",
-					"Recording...");
+				_labelListenButton.Enabled = false;
+			//	_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
+			//	_labelRecordButton.Text = LocalizationManager.GetString(
+			//		"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingButtonText.WhenRecording",
+			//		"Recording...");
 				return;
 			}
 
@@ -197,14 +205,14 @@ namespace SayMore.Transcription.UI
 
 			_buttonEraseAnnotation.Visible = annotationExistsForCurrSegment;
 			_buttonEraseAnnotation.Enabled = (!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
-			_buttonListenToOriginal.Enabled = !ViewModel.GetIsAnnotationPlaying();
+			_labelListenButton.Enabled = !ViewModel.GetIsAnnotationPlaying();
 			_buttonListenToAnnotation.Visible = annotationExistsForCurrSegment;
 			_buttonListenToAnnotation.Enabled = !_waveControl.IsPlaying;
-			_buttonRecordAnnotation.Visible = !annotationExistsForCurrSegment;
-			_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
-			_buttonRecordAnnotation.Text = _normalRecordButtonText;
-			_buttonRecordAnnotation.Enabled = (!_waveControl.IsPlaying &&
-				(ViewModel.CurrentSegment != null || (_waveControl.GetCursorTime() > ViewModel.GetStartOfCurrentSegment())));
+			//_buttonRecordAnnotation.Visible = !annotationExistsForCurrSegment;
+			//_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
+			//_buttonRecordAnnotation.Text = _normalRecordButtonText;
+			_labelRecordButton.Enabled = !_waveControl.IsPlaying;
+			// TODO: Use re-record image:	(ViewModel.CurrentSegment != null || (_waveControl.GetCursorTime() > ViewModel.GetStartOfCurrentSegment())));
 
 			base.UpdateDisplay();
 			Utils.SetWindowRedraw(_tableLayoutOuter, true);
@@ -307,11 +315,11 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnPlaybackStopped(ctrl, start, end);
 
-			if (ViewModel.GetIsSegmentLongEnough(end))
-			{
-				_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
-				_buttonRecordAnnotation.Text = _normalRecordButtonText;
-			}
+			//if (ViewModel.GetIsSegmentLongEnough(end))
+			//{
+			//    _buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
+			//    _buttonRecordAnnotation.Text = _normalRecordButtonText;
+			//}
 
 			if (ViewModel.CurrentSegment != null)
 				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
@@ -456,6 +464,31 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleWaveControlPostPaint(PaintEventArgs e)
+		{
+			var mousePos = _waveControl.PointToClient(MousePosition);
+
+			int i = 0;
+			var rc = _waveControl.GetSegmentRectangles().FirstOrDefault(r =>
+			{
+				r.Height += Settings.Default.AnnotationWaveViewHeight;
+				if (r.Contains(mousePos))
+					return true;
+				i++;
+				return false;
+			});
+
+			if (rc.IsEmpty)
+				return;
+
+			var img = Resources.PlaySegment;
+			e.Graphics.DrawImage(img, new Point(rc.X + 10, rc.Y + 10));
+
+			if (ViewModel.GetDoesSegmentHaveAnnotationFile(i))
+				e.Graphics.DrawImage(img, new Point(rc.X + 10, rc.Y + _waveControl.ClientSize.Height - Settings.Default.AnnotationWaveViewHeight + 10));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleWaveControlPaint(object sender, PaintEventArgs e)
 		{
 			//var img = Resources.MissingAnnotation;
@@ -497,12 +530,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordAnnotationMouseDown(object sender, MouseEventArgs e)
 		{
-			if (!ViewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
-			{
-				_buttonRecordAnnotation.ForeColor = Color.Red;
-				_buttonRecordAnnotation.Text = GetSegmentTooShortText();
-				return;
-			}
+			//if (!ViewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
+			//{
+			//    _labelRecordButton.BackColor = Color.Red;
+			//    _buttonRecordAnnotation.Text = GetSegmentTooShortText();
+			//    return;
+			//}
 
 			if (ViewModel.BeginAnnotationRecording(_waveControl.GetCursorTime()))
 				UpdateDisplay();
@@ -536,11 +569,11 @@ namespace SayMore.Transcription.UI
 			}
 			else
 			{
-				_buttonRecordAnnotation.ForeColor = Color.Red;
-				_buttonRecordAnnotation.Text = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingButtonText.WhenRecordingTooShort",
-					"Whoops! You need to hold down the SPACE bar or mouse button while talking.");
-				_buttonEraseAnnotation.PerformClick();
+				//_buttonRecordAnnotation.ForeColor = Color.Red;
+				//_buttonRecordAnnotation.Text = LocalizationManager.GetString(
+				//    "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingButtonText.WhenRecordingTooShort",
+				//    "Whoops! You need to hold down the SPACE bar or mouse button while talking.");
+				//_buttonEraseAnnotation.PerformClick();
 			}
 		}
 

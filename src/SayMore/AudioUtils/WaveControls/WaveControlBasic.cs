@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using Palaso.Progress;
+using SayMore.Properties;
 using SilTools;
 
 namespace SayMore.Media
@@ -28,6 +29,7 @@ namespace SayMore.Media
 		public event PlaybackEventHandler PlaybackUpdate;
 		public event BoundaryMouseDownHandler BoundaryMouseDown;
 		public event CursorTimeChangedHandler CursorTimeChanged;
+		public Action<PaintEventArgs> PostPaintAction;
 
 		protected float _zoomPercentage;
 		protected bool _wasStreamCreatedHere;
@@ -118,7 +120,10 @@ namespace SayMore.Media
 			_painter.AllowRedraw = _savedAllowDrawingValue;
 			_painter.ForeColor = ForeColor;
 			_painter.BackColor = BackColor;
-			_painter.SetVirtualWidth(Math.Max(ClientSize.Width, AutoScrollMinSize.Width));
+			_painter.SetPixelsPerSecond(Settings.Default.SegmentingWaveViewPixelsPerSecond);
+			AutoScrollMinSize = new Size(_painter.VirtualWidth, 0);
+
+			//VirtualWidth(Math.Max(ClientSize.Width, AutoScrollMinSize.Width));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -283,23 +288,23 @@ namespace SayMore.Media
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public new Size AutoScrollMinSize
-		{
-			get { return base.AutoScrollMinSize; }
-			set
-			{
-				base.AutoScrollMinSize = new Size(value.Width, value.Height);
+		///// ------------------------------------------------------------------------------------
+		//public new Size AutoScrollMinSize
+		//{
+		//    get { return base.AutoScrollMinSize; }
+		//    set
+		//    {
+		//        base.AutoScrollMinSize = new Size(value.Width, value.Height);
 
-				if (_painter != null)
-				{
-					Utils.SetWindowRedraw(this, false);
-					_painter.SetVirtualWidth(Math.Max(ClientSize.Width, value.Width));
-					Invalidate();
-					Utils.SetWindowRedraw(this, true);
-				}
-			}
-		}
+		//        if (_painter != null)
+		//        {
+		//            Utils.SetWindowRedraw(this, false);
+		//            _painter.SetVirtualWidth(Math.Max(ClientSize.Width, value.Width));
+		//            Invalidate();
+		//            Utils.SetWindowRedraw(this, true);
+		//        }
+		//    }
+		//}
 
 		#endregion
 
@@ -563,29 +568,38 @@ namespace SayMore.Media
 				PlaybackStopped(this, startTime, endTime);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void HandleParentFormShown(object sender, EventArgs e)
-		{
-			_owningForm.Shown -= HandleParentFormShown;
-			_owningForm.ResizeEnd += HandleResize;
-			HandleResize(null, null);
-		}
+		///// ------------------------------------------------------------------------------------
+		//private void HandleParentFormShown(object sender, EventArgs e)
+		//{
+		//    _owningForm.Shown -= HandleParentFormShown;
+		//    _owningForm.ResizeEnd += HandleResize;
+		//    HandleResize(null, null);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		private void HandleResize(object sender, EventArgs e)
-		{
-			WaitCursor.Show();
-			if (AutoScroll)
-				AutoScrollMinSize = new Size(AutoScrollMinSize.Width, ClientSize.Height);
+		///// ------------------------------------------------------------------------------------
+		//private void HandleResize(object sender, EventArgs e)
+		//{
+		//    WaitCursor.Show();
+		//    if (AutoScroll)
+		//        AutoScrollMinSize = new Size(AutoScrollMinSize.Width, ClientSize.Height);
 
-			if (_painter != null)
-				_painter.SetVirtualWidth(Math.Max(AutoScrollMinSize.Width, ClientSize.Width));
+		//    if (_painter != null)
+		//        _painter.SetVirtualWidth(Math.Max(AutoScrollMinSize.Width, ClientSize.Width));
 
-			Invalidate();
-			WaitCursor.Hide();
-		}
+		//    Invalidate();
+		//    WaitCursor.Hide();
+		//}
 
 		#region Overridden methods
+		/// ------------------------------------------------------------------------------------
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+
+			if (PostPaintAction != null)
+				PostPaintAction(e);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnScroll(ScrollEventArgs e)
 		{
@@ -595,17 +609,18 @@ namespace SayMore.Media
 			base.OnScroll(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected override void OnResize(EventArgs e)
-		{
-			if (_owningForm == null && FindForm() != null)
-			{
-				_owningForm = FindForm();
-				_owningForm.Shown += HandleParentFormShown;
-			}
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnResize(EventArgs e)
+		//{
+		//    if (_owningForm == null && FindForm() != null)
+		//    {
+		//        _owningForm = FindForm();
+		//        _owningForm.Shown += HandleParentFormShown;
+		//    }
 
-			base.OnResize(e);
-		}
+		//    base.OnResize(e);
+		//}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
@@ -737,7 +752,7 @@ namespace SayMore.Media
 			var percentage = _zoomPercentage / 100;
 			var adjustedWidth = (int)(Math.Round(width * percentage, MidpointRounding.AwayFromZero));
 			AutoScrollMinSize = new Size(Math.Max(adjustedWidth, ClientSize.Width), ClientSize.Height);
-			HandleResize(null, null);
+			//HandleResize(null, null);
 		}
 
 		#endregion

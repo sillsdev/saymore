@@ -1357,5 +1357,31 @@ namespace SayMore.Properties {
                 this["StandardAudioFileSuffix"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("18")]
+        public int SegmentingWaveViewPixelsPerSecond {
+            get {
+                return ((int)(this["SegmentingWaveViewPixelsPerSecond"]));
+            }
+            set {
+                this["SegmentingWaveViewPixelsPerSecond"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int AnnotationWaveViewHeight {
+            get {
+                return ((int)(this["AnnotationWaveViewHeight"]));
+            }
+            set {
+                this["AnnotationWaveViewHeight"] = value;
+            }
+        }
     }
 }

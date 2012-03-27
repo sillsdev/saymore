@@ -88,20 +88,49 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseDown(MouseEventArgs e)
+		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			base.OnMouseDown(e);
+			base.OnMouseMove(e);
 
 			if (_boundaryMouseOver != default(TimeSpan))
+			{
+				ClearSelection();
 				return;
+			}
 
 			var segNumber = GetSegmentForX(e.X);
 			if (segNumber < 0)
+			{
+				ClearSelection();
 				return;
+			}
 
 			var start = (segNumber == 0 ? TimeSpan.Zero : SegmentBoundaries.ElementAt(segNumber - 1));
 			SetSelectionTimes(start, SegmentBoundaries.ElementAt(segNumber));
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseLeave(EventArgs e)
+		{
+			base.OnMouseLeave(e);
+			ClearSelection();
+		}
+
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnMouseDown(MouseEventArgs e)
+		//{
+		//    base.OnMouseDown(e);
+
+		//    if (_boundaryMouseOver != default(TimeSpan))
+		//        return;
+
+		//    var segNumber = GetSegmentForX(e.X);
+		//    if (segNumber < 0)
+		//        return;
+
+		//    var start = (segNumber == 0 ? TimeSpan.Zero : SegmentBoundaries.ElementAt(segNumber - 1));
+		//    SetSelectionTimes(start, SegmentBoundaries.ElementAt(segNumber));
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnBoundaryMouseDown(int mouseX, TimeSpan boundaryClicked,

@@ -337,6 +337,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ListenToOriginalRecording {
+            get {
+                object obj = ResourceManager.GetObject("ListenToOriginalRecording", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap MissingAnnotation {
             get {
                 object obj = ResourceManager.GetObject("MissingAnnotation", resourceCulture);
@@ -459,6 +466,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap RecordingPlaybackAnnotation {
             get {
                 object obj = ResourceManager.GetObject("RecordingPlaybackAnnotation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RecordOralAnnotation {
+            get {
+                object obj = ResourceManager.GetObject("RecordOralAnnotation", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

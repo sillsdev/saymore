@@ -51,8 +51,8 @@ namespace SayMore.Transcription.UI
 			// _panelWaveControl
 			//
 			this._panelWaveControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._panelWaveControl.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this._panelWaveControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._panelWaveControl.ClipTextForChildControls = true;
@@ -67,7 +67,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._panelWaveControl, null);
 			this.locExtender.SetLocalizingId(this._panelWaveControl, "ManualSegmenterDlg._panelWaveControl");
 			this._panelWaveControl.Location = new System.Drawing.Point(0, 29);
-			this._panelWaveControl.Margin = new System.Windows.Forms.Padding(0, 5, 0, 3);
+			this._panelWaveControl.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._panelWaveControl.MnemonicGeneratesClick = false;
 			this._panelWaveControl.Name = "_panelWaveControl";
 			this._panelWaveControl.PaintExplorerBarBackground = false;
@@ -77,8 +77,8 @@ namespace SayMore.Transcription.UI
 			// _tableLayoutOuter
 			//
 			this._tableLayoutOuter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutOuter.ColumnCount = 2;
 			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -108,7 +108,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutTop.Controls.Add(this._labelZoom, 1, 0);
 			this._tableLayoutTop.Controls.Add(this._comboBoxZoom, 2, 0);
 			this._tableLayoutTop.Location = new System.Drawing.Point(0, 0);
-			this._tableLayoutTop.Margin = new System.Windows.Forms.Padding(0);
+			this._tableLayoutTop.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._tableLayoutTop.Name = "_tableLayoutTop";
 			this._tableLayoutTop.RowCount = 1;
 			this._tableLayoutTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -122,7 +122,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelOriginalRecording, null);
 			this.locExtender.SetLocalizationComment(this._labelOriginalRecording, null);
 			this.locExtender.SetLocalizingId(this._labelOriginalRecording, "DialogBoxes.Transcription.CommonAnnotationSegmenterDlgDlg._labelOriginalRecording" +
-		"");
+					"");
 			this._labelOriginalRecording.Location = new System.Drawing.Point(0, 5);
 			this._labelOriginalRecording.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelOriginalRecording.Name = "_labelOriginalRecording";
@@ -305,12 +305,10 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		private System.Windows.Forms.Label _labelOriginalRecording;
 		private System.Windows.Forms.ComboBox _comboBoxZoom;
 		private System.Windows.Forms.Label _labelZoom;
 		private System.Windows.Forms.Button _buttonOK;
 		private System.Windows.Forms.Button _buttonCancel;
-		private System.Windows.Forms.TableLayoutPanel _tableLayoutTop;
 		private Localization.UI.LocalizationExtender locExtender;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
 		protected SilPanel _panelWaveControl;
@@ -319,5 +317,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripLabel _labelTimeDisplay;
 		protected System.Windows.Forms.ToolStripLabel _labelSegmentXofY;
 		protected System.Windows.Forms.ToolStripLabel _labelSegmentNumber;
+		protected System.Windows.Forms.Label _labelOriginalRecording;
+		protected System.Windows.Forms.TableLayoutPanel _tableLayoutTop;
 	}
 }

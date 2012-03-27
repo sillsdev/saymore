@@ -402,5 +402,11 @@
     <Setting Name="StandardAudioFileSuffix" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">_StandardAudio.wav</Value>
     </Setting>
+    <Setting Name="SegmentingWaveViewPixelsPerSecond" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">18</Value>
+    </Setting>
+    <Setting Name="AnnotationWaveViewHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

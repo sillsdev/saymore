@@ -42,7 +42,6 @@ namespace SayMore.Transcription.UI
 
 			_toolStripStatus.Renderer = new SilTools.NoToolStripBorderRenderer();
 			_waveControl = CreateWaveControl();
-			_waveControl.AllowDrawing = false;
 			_waveControl.Dock = DockStyle.Fill;
 			_panelWaveControl.Controls.Add(_waveControl);
 
@@ -166,14 +165,14 @@ namespace SayMore.Transcription.UI
 			_tableLayoutOuter.RowStyles.Add(new RowStyle(SizeType.Absolute, GetHeightOfTableLayoutButtonRow()));
 			_tableLayoutOuter.RowStyles.Add(new RowStyle());
 
-			_waveControl.ZoomPercentage = ZoomPercentage;
+			_waveControl.ZoomPercentage = 300; //ZoomPercentage;
 			_comboBoxZoom.Text = string.Format("{0}%", ZoomPercentage);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual int GetHeightOfTableLayoutButtonRow()
 		{
-			throw new NotImplementedException();
+			return 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,7 +204,6 @@ namespace SayMore.Transcription.UI
 			base.OnShown(e);
 
 			Application.DoEvents();
-			_waveControl.AllowDrawing = true;
 			Opacity = 1f;
 			WaitCursor.Hide();
 		}

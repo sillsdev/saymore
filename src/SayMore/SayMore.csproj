@@ -895,6 +895,8 @@
     <None Include="Resources\AddBoundary.png" />
     <None Include="Resources\RegenerateAnnotationFile.png" />
     <None Include="Resources\Segment.png" />
+    <None Include="Resources\RecordOralAnnotation.png" />
+    <None Include="Resources\ListenToOriginalRecording.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

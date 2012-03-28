@@ -91,7 +91,7 @@ namespace SayMore.Transcription.UI
 			else if (_radioButtonCarefulSpeech.Checked)
 			{
 				Settings.Default.DefaultSegmentationMethod = 1;
-				newAnnotationFile = _file.RecordAnnotations(OralAnnotationType.Careful);
+				newAnnotationFile = _file.RecordAnnotations(FindForm(), OralAnnotationType.Careful);
 			}
 			else if (_radioButtonElan.Checked)
 			{

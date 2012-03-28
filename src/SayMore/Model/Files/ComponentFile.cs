@@ -730,12 +730,12 @@ namespace SayMore.Model.Files
 		/// file is returned. Otherwise null is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string RecordAnnotations(OralAnnotationType annotationType)
+		public string RecordAnnotations(Form frm, OralAnnotationType annotationType)
 		{
 			using (var viewModel = OralAnnotationRecorderDlgViewModel.Create(this, annotationType))
 			using (var dlg = OralAnnotationRecorderBaseDlg.Create(viewModel, annotationType))
 			{
-				if (dlg.ShowDialog() != DialogResult.OK || !viewModel.WereChangesMade)
+				if (dlg.ShowDialog(frm) != DialogResult.OK || !viewModel.WereChangesMade)
 				{
 					viewModel.DiscardChanges();
 					return null;

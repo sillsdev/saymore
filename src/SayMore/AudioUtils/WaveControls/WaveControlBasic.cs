@@ -370,6 +370,40 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void EnsureTimeIsMoreOrLessCentered(TimeSpan time)
+		{
+			var currentPosition = _painter.ConvertTimeToXCoordinate(time);
+			if (currentPosition > ClientSize.Width * 0.15 && currentPosition < ClientSize.Width * 0.85)
+				return;
+
+			var secondsInVisibleArea = (ClientSize.Width / _painter.PixelPerMillisecond) / 1000;
+			var halfTheVisibleTime = TimeSpan.FromSeconds(secondsInVisibleArea / 2);
+			EnsureRangeIsVisible(time - halfTheVisibleTime, time + halfTheVisibleTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void EnsureRangeIsVisible(TimeSpan start, TimeSpan end)
+		{
+			Utils.SetWindowRedraw(this, false);
+			EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(end) + 3);
+			EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(start) - 3);
+			Utils.SetWindowRedraw(this, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			if (_painter != null && _painter.ConvertTimeToXCoordinate(_waveStream.TotalTime) + WavePainterBasic.kRightDisplayPadding < ClientSize.Width)
+			{
+				//    AutoScrollPosition
+				//if (_painter != null && -AutoScrollPosition.X + ClientSize.Width > _painter.VirtualWidth)
+				AutoScrollPosition = new Point(_painter.VirtualWidth - (ClientSize.Width + 10), 0);
+				_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual void EnsureXIsVisible(int dx)
 		{
 			if (dx < 0 || dx > ClientSize.Width)

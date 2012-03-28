@@ -61,18 +61,15 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void EnsureRangeIsVisible(TimeSpan start, TimeSpan end)
-		{
-			SilTools.Utils.SetWindowRedraw(this, false);
-			EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(end) + 3);
-			EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(start) - 3);
-			SilTools.Utils.SetWindowRedraw(this, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public void ClearSelection()
 		{
 			SetSelectionTimes(TimeSpan.Zero, TimeSpan.Zero);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetHasSelection()
+		{
+			return (Painter.SelectedRegionStartTime < Painter.SelectedRegionEndTime);
 		}
 
 		/// ------------------------------------------------------------------------------------

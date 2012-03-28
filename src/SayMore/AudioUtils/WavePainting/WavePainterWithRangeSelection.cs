@@ -11,7 +11,7 @@ namespace SayMore.Media
 		public TimeSpan SelectedRegionStartTime { get; private set; }
 		public TimeSpan SelectedRegionEndTime { get; private set; }
 
-		private Rectangle _previousSelectedRegionRectangle;
+		private Tuple<int, int> _previousSelectedRegion;
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterWithRangeSelection(Control ctrl, WaveFileReader stream) :
@@ -26,24 +26,30 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private Rectangle PreviousSelectedRectangle
+		{
+			get
+			{
+				return (_previousSelectedRegion == null ? Rectangle.Empty:
+					new Rectangle(_previousSelectedRegion.Item1, 0,
+						_previousSelectedRegion.Item2, Control.ClientSize.Height));
+			}
+		}
+		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeSpan selStartTime, TimeSpan selEndTime)
 		{
 			if (selStartTime == SelectedRegionStartTime && selEndTime == SelectedRegionEndTime)
 				return;
 
-			if (_previousSelectedRegionRectangle != Rectangle.Empty)
-				Control.Invalidate(_previousSelectedRegionRectangle);
-
+			Control.Invalidate(PreviousSelectedRectangle);
 			SelectedRegionStartTime = selStartTime;
 			SelectedRegionEndTime = selEndTime;
 
 			var endX = ConvertTimeToXCoordinate(selEndTime);
 			var startX = ConvertTimeToXCoordinate(selStartTime);
 
-			_previousSelectedRegionRectangle = new Rectangle(startX, 0,
-				endX - startX, Control.ClientSize.Height);
-
-			Control.Invalidate(_previousSelectedRegionRectangle);
+			_previousSelectedRegion = new Tuple<int, int>(startX, endX - startX);
+			Control.Invalidate(PreviousSelectedRectangle);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,7 +73,7 @@ namespace SayMore.Media
 				using (var br = new SolidBrush(Color.FromArgb(90, Color.Orange)))
 					g.FillRectangle(br, regionRect);
 
-				_previousSelectedRegionRectangle = regionRect;
+				_previousSelectedRegion = new Tuple<int,int>(regionRect.X, regionRect.Width);
 			}
 		}
 	}

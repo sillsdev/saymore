@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 using SilTools;
 
 namespace SayMore.Media
@@ -26,6 +24,7 @@ namespace SayMore.Media
 		public virtual Color ForeColor { get; set; }
 		public virtual Color BackColor { get; set; }
 		public virtual int VirtualWidth { get; private set; }
+		public double PixelPerMillisecond { get; private set; }
 
 		public virtual Color CursorColor { get; set; }
 		public virtual Func<WaveFormat, string> FormatNotSupportedMessageProvider { get; set; }
@@ -35,7 +34,6 @@ namespace SayMore.Media
 		public Action<PaintEventArgs, Rectangle> BottomReservedAreaPaintAction { get; set; }
 
 		protected IEnumerable<TimeSpan> _segmentBoundaries;
-		protected double _pixelPerMillisecond;
 		protected int _offsetOfLeftEdge;
 		protected readonly TimeSpan _totalTime;
 
@@ -185,15 +183,15 @@ namespace SayMore.Media
 		public virtual void SetVirtualWidth(int width)
 		{
 			VirtualWidth = width;
-			_pixelPerMillisecond = (width - kRightDisplayPadding) / _totalTime.TotalMilliseconds;
+			PixelPerMillisecond = (width - kRightDisplayPadding) / _totalTime.TotalMilliseconds;
 			SetSamplesPerPixel(_numberOfSamples / ((double)width - kRightDisplayPadding));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetPixelsPerSecond(int value)
 		{
-			_pixelPerMillisecond = value / 1000.0;
-			VirtualWidth = (int)(_pixelPerMillisecond * _totalTime.TotalMilliseconds) + kRightDisplayPadding;
+			PixelPerMillisecond = value / 1000.0;
+			VirtualWidth = (int)(PixelPerMillisecond * _totalTime.TotalMilliseconds) + kRightDisplayPadding;
 			SetSamplesPerPixel(_numberOfSamples / ((double)VirtualWidth - kRightDisplayPadding));
 		}
 
@@ -305,13 +303,13 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual int ConvertTimeToXCoordinate(TimeSpan time)
 		{
-			return (int)(Math.Ceiling(time.TotalMilliseconds * _pixelPerMillisecond)) - _offsetOfLeftEdge;
+			return (int)(Math.Ceiling(time.TotalMilliseconds * PixelPerMillisecond)) - _offsetOfLeftEdge;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan ConvertXCoordinateToTime(int x)
 		{
-			return TimeSpan.FromMilliseconds(Math.Ceiling((x + _offsetOfLeftEdge) / _pixelPerMillisecond));
+			return TimeSpan.FromMilliseconds(Math.Ceiling((x + _offsetOfLeftEdge) / PixelPerMillisecond));
 		}
 
 		/// ------------------------------------------------------------------------------------

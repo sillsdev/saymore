@@ -28,6 +28,9 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeSpan selStartTime, TimeSpan selEndTime)
 		{
+			if (selStartTime == SelectedRegionStartTime && selEndTime == SelectedRegionEndTime)
+				return;
+
 			if (_previousSelectedRegionRectangle != Rectangle.Empty)
 				Control.Invalidate(_previousSelectedRegionRectangle);
 

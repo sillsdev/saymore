@@ -1,3 +1,4 @@
+using System.Windows.Forms;
 using SilTools.Controls;
 
 namespace SayMore.Transcription.UI
@@ -27,7 +28,7 @@ namespace SayMore.Transcription.UI
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this._panelWaveControl = new SilTools.Controls.SilPanel();
+			this._panelWaveControl = new System.Windows.Forms.Panel();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutTop = new System.Windows.Forms.TableLayoutPanel();
 			this._labelOriginalRecording = new System.Windows.Forms.Label();
@@ -53,24 +54,13 @@ namespace SayMore.Transcription.UI
 			this._panelWaveControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this._panelWaveControl.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this._panelWaveControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this._panelWaveControl.ClipTextForChildControls = true;
 			this._tableLayoutOuter.SetColumnSpan(this._panelWaveControl, 2);
-			this._panelWaveControl.ControlReceivingFocusOnMnemonic = null;
-			this._panelWaveControl.DoubleBuffered = true;
-			this._panelWaveControl.DrawOnlyBottomBorder = false;
-			this._panelWaveControl.DrawOnlyTopBorder = false;
 			this._panelWaveControl.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
 			this._panelWaveControl.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this._panelWaveControl, null);
-			this.locExtender.SetLocalizationComment(this._panelWaveControl, null);
-			this.locExtender.SetLocalizingId(this._panelWaveControl, "ManualSegmenterDlg._panelWaveControl");
 			this._panelWaveControl.Location = new System.Drawing.Point(0, 29);
 			this._panelWaveControl.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
-			this._panelWaveControl.MnemonicGeneratesClick = false;
 			this._panelWaveControl.Name = "_panelWaveControl";
-			this._panelWaveControl.PaintExplorerBarBackground = false;
+			this._panelWaveControl.Padding = new System.Windows.Forms.Padding(1);
 			this._panelWaveControl.Size = new System.Drawing.Size(679, 91);
 			this._panelWaveControl.TabIndex = 1;
 			//
@@ -311,7 +301,7 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Button _buttonCancel;
 		private Localization.UI.LocalizationExtender locExtender;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
-		protected SilPanel _panelWaveControl;
+		protected Panel _panelWaveControl;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
 		private System.Windows.Forms.ToolStrip _toolStripStatus;
 		private System.Windows.Forms.ToolStripLabel _labelTimeDisplay;

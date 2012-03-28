@@ -44,6 +44,7 @@ namespace SayMore.Transcription.UI
 			_waveControl = CreateWaveControl();
 			_waveControl.Dock = DockStyle.Fill;
 			_panelWaveControl.Controls.Add(_waveControl);
+			_panelWaveControl.BackColor = Settings.Default.BarColorBorder;
 
 			DoubleBuffered = true;
 			_comboBoxZoom.Text = _comboBoxZoom.Items[0] as string;

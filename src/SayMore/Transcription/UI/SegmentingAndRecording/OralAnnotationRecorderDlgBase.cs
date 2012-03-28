@@ -18,7 +18,6 @@ namespace SayMore.Transcription.UI
 		private readonly string _normalRecordButtonText;
 		private readonly ToolTip _tooltip = new ToolTip();
 		private TimeSpan _currentMovingBoundaryTime;
-		private readonly Image _hotPlayAnnotationButton;
 		private readonly Image _hotPlayOriginalButton;
 		private readonly Image _hotRecordAnnotationButton;
 		private readonly Image _normalPlayOriginalButton;
@@ -63,7 +62,6 @@ namespace SayMore.Transcription.UI
 			_normalRecordAnnotationButton = _labelRecordButton.Image;
 			_hotPlayOriginalButton = PaintingHelper.MakeHotImage(_normalPlayOriginalButton);
 			_hotRecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRecordAnnotationButton);
-			_hotPlayAnnotationButton = PaintingHelper.MakeHotImage(Resources.PlaySegment);
 
 			_labelListenButton.MouseEnter += delegate { _labelListenButton.Image = _hotPlayOriginalButton; };
 			_labelListenButton.MouseLeave += delegate { _labelListenButton.Image = _normalPlayOriginalButton; };
@@ -92,6 +90,7 @@ namespace SayMore.Transcription.UI
 
 			_tableLayoutMediaButtons.Dock = DockStyle.Left;
 			_panelWaveControl.Controls.Add(_tableLayoutMediaButtons);
+			_tableLayoutMediaButtons.BackColor = Settings.Default.BarColorBegin;
 			_waveControl.BringToFront();
 			_tableLayoutMediaButtons.RowStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutMediaButtons.RowStyles[2].SizeType = SizeType.Absolute;
@@ -110,6 +109,19 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+				_hotPlayOriginalButton.Dispose();
+				_hotRecordAnnotationButton.Dispose();
+			}
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override WaveControlBasic CreateWaveControl()
 		{
 			_waveControl = new 	WaveControlWithRangeSelection();
@@ -121,7 +133,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.Paint += HandleWaveControlPaint;
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
-			_waveControl.MouseDoubleClick += HandleWaveControlMouseDoubleClick;
+			_waveControl.MouseClick += HandleWaveControlMouseClick;
 			_waveControl.SelectedRegionChanged += HandleWaveControlSelectedRegionChanged;
 
 			_waveControl.BoundaryMouseDown += (ctrl, dx, boundary, boundaryNumber) =>
@@ -167,7 +179,7 @@ namespace SayMore.Transcription.UI
 		private void HandleWaveControlSelectedRegionChanged(WaveControlWithRangeSelection ctrl,
 			TimeSpan start, TimeSpan end)
 		{
-			if (!_waveControl.IsPlaying)
+			if (!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying())
 				ViewModel.SelectSegmentFromTime(start == end ? TimeSpan.FromSeconds(1).Negate() : end);
 		}
 
@@ -362,6 +374,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleWaveControlMouseMove(object sender, MouseEventArgs e)
 		{
+			//if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying())
+			//    return;
+
+			var playButtonRects = GetPlayButtonRectanglesForSegmentMouseIsOver();
+			if (playButtonRects != null)
+			{
+				_waveControl.Invalidate(playButtonRects.Item1);
+				_waveControl.Invalidate(playButtonRects.Item2);
+			}
+
 			var segMouseOver = _waveControl.GetSegmentForX(e.X);
 
 			if (segMouseOver >= 0 && !ViewModel.GetDoesSegmentHaveAnnotationFile(segMouseOver))
@@ -387,17 +409,26 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleWaveControlMouseDoubleClick(object sender, MouseEventArgs e)
+		private void HandleWaveControlMouseClick(object sender, MouseEventArgs e)
 		{
+			var playButtonRectangles = GetPlayButtonRectanglesForSegmentMouseIsOver();
+			if (playButtonRectangles == null)
+				return;
+
+			bool playOriginal = playButtonRectangles.Item1.Contains(e.Location);
+			bool playAnnotation = playButtonRectangles.Item2.Contains(e.Location);
+			if (!playOriginal && !playAnnotation)
+				return;
+
 			var segMouseOver = _waveControl.GetSegmentForX(e.X);
 			if (segMouseOver < 0)
 				return;
 
 			var segment = ViewModel.TimeTier.Segments[segMouseOver];
 
-			if (e.Y < _waveControl.ClientRectangle.Bottom - _waveControl.BottomReservedAreaHeight)
+			if (playOriginal)
 				_waveControl.Play(TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
-			else if (ViewModel.GetDoesSegmentHaveAnnotationFile(segMouseOver))
+			else
 			{
 				var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
 				using (var stream = new WaveFileReader(path))
@@ -412,9 +443,9 @@ namespace SayMore.Transcription.UI
 
 				ViewModel.StartAnnotationPlayback(HandleAnnotationPlaybackProgress,
 					() => _annotationPlaybackCursorX = 0);
-
-				UpdateDisplay();
 			}
+
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -472,7 +503,7 @@ namespace SayMore.Transcription.UI
 					_annotationPlaybackCursorX <= rc.Right)
 				{
 					rc.Inflate(0, 3);
-					e.Graphics.DrawLine(Pens.Green, _annotationPlaybackCursorX, rc.Y - 150,
+					e.Graphics.DrawLine(Pens.Green, _annotationPlaybackCursorX, rc.Y,
 						_annotationPlaybackCursorX, rc.Bottom);
 				}
 			}
@@ -481,8 +512,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleWaveControlPostPaint(PaintEventArgs e)
 		{
-			if (_waveControl.IsPlaying)
-				return;
+			//if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying())
+			//    return;
 
 			var playButtonRects = GetPlayButtonRectanglesForSegmentMouseIsOver();
 
@@ -499,14 +530,13 @@ namespace SayMore.Transcription.UI
 			if (rc == Rectangle.Empty)
 				return;
 
-			Image img = Resources.PlaySegment;
+			Image img = StandardAudioButtons.PlayButtonImage;
 			var mousePos = _waveControl.PointToClient(MousePosition);
 
-			var buttonRect = new Rectangle(rc.X + 5, rc.Bottom - (img.Height + 5), img.Width, img.Height);
-			if (buttonRect.Contains(mousePos))
-				img = _hotPlayAnnotationButton;
+			if (rc.Contains(mousePos))
+				img = StandardAudioButtons.HotPlayButtonImage;
 
-			g.DrawImage(img, buttonRect);
+			g.DrawImage(img, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -525,16 +555,16 @@ namespace SayMore.Transcription.UI
 				return false;
 			});
 
-			Size playButtonSize = Resources.PlaySegment.Size;
+			Size playButtonSize = StandardAudioButtons.PlayButtonImage.Size;
 
-			if (rc.IsEmpty || playButtonSize.Width + 5 > rc.Width)
+			if (rc.IsEmpty || playButtonSize.Width + 6 > rc.Width)
 				return null;
 
-			var originalRecordingButtonRect = new Rectangle(rc.X + 5,
+			var originalRecordingButtonRect = new Rectangle(rc.X + 6,
 				rc.Bottom - 5 - playButtonSize.Height, playButtonSize.Width, playButtonSize.Height);
 
 			var annotationRecordingButtonRect = (!ViewModel.GetDoesSegmentHaveAnnotationFile(i) ?
-				Rectangle.Empty : new Rectangle(rc.X + 5,
+				Rectangle.Empty : new Rectangle(rc.X + 6,
 				rc.Bottom + _waveControl.BottomReservedAreaHeight - 5 - playButtonSize.Height,
 				playButtonSize.Width, playButtonSize.Height));
 
@@ -573,7 +603,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleListenToOriginalMouseDown(object sender, MouseEventArgs e)
 		{
-			if (_waveControl.IsPlaying ||
+			if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying() ||
 				(ViewModel.CurrentSegment == null && _waveControl.GetCursorTime() == ViewModel.OrigWaveStream.TotalTime))
 			{
 				return;

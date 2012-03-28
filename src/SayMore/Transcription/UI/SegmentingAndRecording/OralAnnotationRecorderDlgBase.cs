@@ -505,6 +505,13 @@ namespace SayMore.Transcription.UI
 			if (segMouseOver < 0)
 				return;
 
+			if (ViewModel.GetIsAnnotationPlaying())
+			{
+				ViewModel.StopAnnotationPlayback();
+				_annotationPlaybackCursorX = 0;
+				_waveControl.Invalidate(_annotationPlaybackRectangle);
+			}
+
 			var segment = ViewModel.TimeTier.Segments[segMouseOver];
 
 			if (playOriginal)
@@ -512,8 +519,8 @@ namespace SayMore.Transcription.UI
 			else
 			{
 				var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
-				using (var stream = new WaveFileReader(path))
-					_annotationPlaybackLength = stream.TotalTime;
+				_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw
+					.First(h => h.AudioFilePath == path).AudioDuration;
 
 				_annotationPlaybackRectangle = _waveControl.GetRectangleBetweenBoundaries(
 					TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
@@ -522,7 +529,7 @@ namespace SayMore.Transcription.UI
 				_annotationPlaybackRectangle.Height = _waveControl.BottomReservedAreaHeight;
 				_annotationPlaybackRectangle.Inflate(-2, 0);
 
-				ViewModel.StartAnnotationPlayback(HandleAnnotationPlaybackProgress,
+				ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress,
 					() => _annotationPlaybackCursorX = 0);
 			}
 

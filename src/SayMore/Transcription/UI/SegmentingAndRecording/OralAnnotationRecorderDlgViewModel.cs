@@ -160,11 +160,11 @@ namespace SayMore.Transcription.UI
 
 		#region Annotation record/player methods
 		/// ------------------------------------------------------------------------------------
-		public bool InitializeAnnotationPlayer()
+		public bool InitializeAnnotationPlayer(Segment segment)
 		{
 			CloseAnnotationPlayer();
 
-			var filename = GetFullPathToAnnotationFileForSegment(CurrentSegment);
+			var filename = GetFullPathToAnnotationFileForSegment(segment);
 			if (!File.Exists(filename))
 				return false;
 
@@ -244,13 +244,14 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void StartAnnotationPlayback(Action<PlaybackProgressEventArgs> playbackProgressAction,
+		public void StartAnnotationPlayback(Segment segment,
+			Action<PlaybackProgressEventArgs> playbackProgressAction,
 			Action playbackStoppedAction)
 		{
-			if (!GetDoesCurrentSegmentHaveAnnotationFile())
+			if (!GetDoesSegmentHaveAnnotationFile(segment))
 				return;
 
-			if (InitializeAnnotationPlayer())
+			if (InitializeAnnotationPlayer(segment))
 			{
 				_annotationPlayer.PlaybackProgress += (sender, args) => playbackProgressAction(args);
 				_annotationPlayer.Stopped += (sender, args) => playbackStoppedAction();
@@ -289,7 +290,7 @@ namespace SayMore.Transcription.UI
 					File.Delete(path);
 				}
 
-				InitializeAnnotationPlayer();
+				//InitializeAnnotationPlayer();
 				UsageReporter.SendNavigationNotice(ProgramAreaForUsageReporting + "/EraseAnnotation");
 			}
 			catch (Exception e)

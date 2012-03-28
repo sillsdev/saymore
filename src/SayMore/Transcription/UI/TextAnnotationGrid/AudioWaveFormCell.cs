@@ -1,53 +1,14 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using SilTools;
 
 namespace SayMore.Transcription.UI
 {
 	public class AudioWaveFormCell : DataGridViewTextBoxCell
 	{
-		private static Image s_hotPlayButtonImage;
-		private static Image s_hotStopButtonImage;
-		private static Image s_playButtonImage;
-		private static Image s_stopButtonImage;
-
 		private TextAnnotationEditorGrid _grid;
 
 		public bool IsMouseIsOverButtonArea { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		public AudioWaveFormCell()
-		{
-			if (s_playButtonImage == null)
-				s_playButtonImage = CreateMediaControlImage(Properties.Resources.PlaySegment);
-
-			if (s_stopButtonImage == null)
-				s_stopButtonImage = CreateMediaControlImage(Properties.Resources.StopSegment);
-
-			if (s_hotPlayButtonImage == null)
-				s_hotPlayButtonImage = PaintingHelper.MakeHotImage(s_playButtonImage);
-
-			if (s_hotStopButtonImage == null)
-				s_hotStopButtonImage = PaintingHelper.MakeHotImage(s_stopButtonImage);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private Image CreateMediaControlImage(Image img)
-		{
-			var bmp = new Bitmap(img.Width + 6, img.Height + 6);
-
-			using (var br = new SolidBrush(Color.FromArgb(255, Color.White)))
-			using (var g = Graphics.FromImage(bmp))
-			{
-				g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-				g.FillEllipse(br, 0, 0, img.Width + 5, img.Width + 5);
-				g.DrawImage(img, 3, 3, img.Width, img.Height);
-			}
-
-			return bmp;
-		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDataGridViewChanged()
@@ -76,7 +37,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private Rectangle GetButtonRectangle(Rectangle rcCell)
 		{
-			var rc = new Rectangle(new Point(0, 0), s_playButtonImage.Size);
+			var rc = new Rectangle(new Point(0, 0), StandardAudioButtons.PlayButtonImage.Size);
 			rc.X = rcCell.Right - rc.Width - 3;
 			rc.Y = rcCell.Y + (int)Math.Floor((rcCell.Height - rc.Height) / 2d);
 			return rc;
@@ -96,11 +57,11 @@ namespace SayMore.Transcription.UI
 			if (!_grid.PlaybackInProgress)
 			{
 				//_playButtonVisible = true;
-				return (IsMouseIsOverButtonArea ? s_hotPlayButtonImage : s_playButtonImage);
+				return (IsMouseIsOverButtonArea ? StandardAudioButtons.HotPlayButtonImage : StandardAudioButtons.PlayButtonImage);
 			}
 
 			//_playButtonVisible = false;
-			return (IsMouseIsOverButtonArea ? s_hotStopButtonImage : s_stopButtonImage);
+			return (IsMouseIsOverButtonArea ? StandardAudioButtons.HotStopButtonImage : StandardAudioButtons.StopButtonImage);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Localization;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.ComponentEditors;
@@ -37,7 +37,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<ProjectElement> Elements
 		{
-			get { return _repository.AllItems.Cast<ProjectElement>(); }
+			get { return _repository.AllItems; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,9 +60,11 @@ namespace SayMore.UI.ElementListScreen
 			if (bldr.Length == 0)
 				return true;
 
-			var msg = "The folders for the following elements have been removed from your computer. Therefore, SayMore will remove them from the list.";
-			bldr.Insert(0, msg + Environment.NewLine + Environment.NewLine);
-			Palaso.Reporting.ErrorReport.NotifyUserOfProblem(bldr.ToString());
+			var msg = LocalizationManager.GetString("MainWindow.RemovedElementsErrorMsg",
+				"The folders for the following elements have been removed from your computer.\r\n" +
+				"Therefore, SayMore will remove them from the list.\r\n\r\n{0}");
+
+			Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, bldr.ToString());
 			RefreshElementList();
 			return false;
 		}

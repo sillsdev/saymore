@@ -147,7 +147,7 @@ namespace SayMore.Model
 			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToArray();
 			bool allParticipantsHaveConsent = personNames.Length > 0;
 
-			return !personNames.Any(name => !_personInformant.GetHasInformedConsent(name)) &&
+			return personNames.All(name => _personInformant.GetHasInformedConsent(name)) &&
 				allParticipantsHaveConsent;
 		}
 

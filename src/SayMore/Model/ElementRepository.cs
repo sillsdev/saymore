@@ -59,7 +59,7 @@ namespace SayMore.Model
 			var folders = new HashSet<string>(Directory.GetDirectories(_rootFolder));
 
 			// Go through the existing events we have and remove
-			// any that no longer have a events folder.
+			// any that no longer have an events folder.
 			for (int i = _items.Count() - 1; i >= 0; i--)
 			{
 				if (!folders.Contains(_items[i].FolderPath))
@@ -67,14 +67,14 @@ namespace SayMore.Model
 			}
 
 			// Add any items we don't already have
-			foreach (string path in folders)
+			foreach (var path in folders)
 			{
 				var item = _items.FirstOrDefault(x => x.FolderPath == path);
 				if (item == null)
 				{
-					var element =_elementFactory(Path.GetDirectoryName(path),
-						Path.GetFileNameWithoutExtension(path), OnElementIdChanged);
-
+					var elementPath = Path.GetDirectoryName(path);
+					var elementId = path.Remove(0, elementPath.Length).TrimStart(Path.DirectorySeparatorChar);
+					var element = _elementFactory(elementPath, elementId, OnElementIdChanged);
 					_items.Add(element);
 				}
 			}

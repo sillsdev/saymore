@@ -347,7 +347,7 @@ namespace SayMore.Media
 				return;
 			}
 
-			DrawWave(e.Graphics, rc);
+			DrawWave(e, rc);
 			DrawBottomArea(e, rc);
 			DrawSegmentBoundaries(e.Graphics, rc.Height + BottomReservedAreaHeight);
 			DrawCursor(e.Graphics, rc);
@@ -412,9 +412,9 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void DrawWave(Graphics g, Rectangle rc)
+		protected virtual void DrawWave(PaintEventArgs e, Rectangle rc)
 		{
-			if (!g.VisibleClipBounds.IntersectsWith(rc))
+			if (!e.ClipRectangle.IntersectsWith(rc))
 				return;
 
 			var channelRects = GetChannelDisplayRectangles(rc).ToArray();
@@ -428,7 +428,7 @@ namespace SayMore.Media
 			using (var pen = new Pen(ForeColor))
 			{
 				foreach (var xAxis in dyChannelXAxes)
-					g.DrawLine(pen, rc.X, xAxis, rc.Right, xAxis);
+					e.Graphics.DrawLine(pen, rc.X, xAxis, rc.Right, xAxis);
 			}
 
 			// If samples per pixel is small or less than zero,
@@ -443,9 +443,7 @@ namespace SayMore.Media
 			blend.Positions = new[] { 0f, 0.15f, 0.5f, 0.85f, 1.0f };
 			blend.Factors = new[] { 0.65f, 0.85f, 1.0f, 0.85f, 0.65f };
 
-			var clipRect = g.VisibleClipBounds;
-
-			for (int x = (int)clipRect.X; x < clipRect.X + clipRect.Width; x++)
+			for (int x = e.ClipRectangle.X; x < e.ClipRectangle.X + e.ClipRectangle.Width; x++)
 			{
 				if (x < rc.X)
 					continue;
@@ -474,7 +472,7 @@ namespace SayMore.Media
 					{
 						br.Blend = blend;
 						using (var pen = new Pen(br))
-							g.DrawLine(pen, pt1, pt2);
+							e.Graphics.DrawLine(pen, pt1, pt2);
 					}
 				}
 			}

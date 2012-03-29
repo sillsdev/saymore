@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
 using Localization;
-using NAudio.Wave;
 using Palaso.Media.Naudio;
 using SayMore.Media;
 using SayMore.Media.UI;
@@ -196,7 +195,6 @@ namespace SayMore.Transcription.UI
 			_waveControl.BottomReservedAreaColor = Color.FromArgb(130, Settings.Default.DataEntryPanelColorBegin);
 			_waveControl.BottomReservedAreaPaintAction = HandlePaintingAnnotatedWaveArea;
 			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
-			_waveControl.Paint += HandleWaveControlPaint;
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
 			_waveControl.MouseClick += HandleWaveControlMouseClick;
@@ -554,14 +552,20 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandlePaintingAnnotatedWaveArea(PaintEventArgs e, Rectangle areaRectangle)
 		{
-			int i = 0;
-			foreach (var segRect in _waveControl.GetSegmentRectangles())
+			var segRects = _waveControl.GetSegmentRectangles().ToArray();
+
+			for (int i = 0; i < segRects.Length; i++)
 			{
-				var segment = ViewModel.TimeTier.Segments[i];
-				if (!ViewModel.GetDoesSegmentHaveAnnotationFile(i++))
+				var rc = new Rectangle(segRects[i].X, areaRectangle.Y + 1,
+					segRects[i].Width, areaRectangle.Height - 1);
+
+				if (rc.X > e.ClipRectangle.Right || rc.Right < e.ClipRectangle.X)
 					continue;
 
-				var rc = new Rectangle(segRect.X, areaRectangle.Y + 1, segRect.Width, areaRectangle.Height - 1);
+				var segment = ViewModel.TimeTier.Segments[i];
+				if (!ViewModel.GetDoesSegmentHaveAnnotationFile(i))
+					continue;
+
 				if (rc.X == 0)
 					rc.Width -= 2;
 				else
@@ -573,36 +577,49 @@ namespace SayMore.Transcription.UI
 				rc.Inflate(0, -3);
 				rc.Width--;
 
-				using (var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black })
-				{
-					var audioFilePath = segment.GetFullPathToCarefulSpeechFile();
-					var helper = ViewModel.SegmentsAnnotationSamplesToDraw.FirstOrDefault(h => h.AudioFilePath == audioFilePath);
-					if (helper == null)
-					{
-						helper = new AudioFileHelper(audioFilePath);
-						ViewModel.SegmentsAnnotationSamplesToDraw.Add(helper);
-					}
+				DrawOralAnnotationWave(e, rc, segment);
+				DrawCursorInOralAnnotationWave(e, rc);
+			}
+		}
 
-					painter.SetSamplesToDraw(helper.GetSamples((uint)rc.Width));
-					painter.Draw(e, rc);
-				}
+		/// ------------------------------------------------------------------------------------
+		private void DrawOralAnnotationWave(PaintEventArgs e, Rectangle rc, Segment segment)
+		{
+			// If the samples to paint for this oral annotation have not been calculated,
+			// then create a helper to get those samples, then cache them in the ViewModel.
+			var audioFilePath = segment.GetFullPathToCarefulSpeechFile();
+			var helper = ViewModel.SegmentsAnnotationSamplesToDraw.FirstOrDefault(h => h.AudioFilePath == audioFilePath);
+			if (helper == null)
+			{
+				helper = new AudioFileHelper(audioFilePath);
+				ViewModel.SegmentsAnnotationSamplesToDraw.Add(helper);
+			}
 
-				if (_annotationPlaybackCursorX > 0 && _annotationPlaybackCursorX >= rc.X &&
-					_annotationPlaybackCursorX <= rc.Right)
-				{
-					rc.Inflate(0, 3);
-					e.Graphics.DrawLine(Pens.Green, _annotationPlaybackCursorX, rc.Y,
-						_annotationPlaybackCursorX, rc.Bottom);
-				}
+			// Draw the oral annotation's wave in the bottom, reserved area of the wave control.
+			using (var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black })
+			{
+				painter.SetSamplesToDraw(helper.GetSamples((uint)rc.Width));
+				painter.Draw(e, rc);
+			}
+
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawCursorInOralAnnotationWave(PaintEventArgs e, Rectangle rc)
+		{
+			// Draw oral annotation's playback cursor if it's non-zero.
+			if (_annotationPlaybackCursorX > 0 && _annotationPlaybackCursorX >= rc.X &&
+				_annotationPlaybackCursorX <= rc.Right)
+			{
+				rc.Inflate(0, 3);
+				e.Graphics.DrawLine(Pens.Green, _annotationPlaybackCursorX, rc.Y,
+					_annotationPlaybackCursorX, rc.Bottom);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleWaveControlPostPaint(PaintEventArgs e)
 		{
-			//if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying())
-			//    return;
-
 			var playButtonRects = GetPlayButtonRectanglesForSegmentMouseIsOver();
 
 			if (playButtonRects == null)
@@ -646,7 +663,7 @@ namespace SayMore.Transcription.UI
 				return false;
 			});
 
-			Size playButtonSize = StandardAudioButtons.PlayButtonImage.Size;
+			var playButtonSize = StandardAudioButtons.PlayButtonImage.Size;
 
 			if (rc.IsEmpty || playButtonSize.Width + 6 > rc.Width)
 				return null;
@@ -660,23 +677,6 @@ namespace SayMore.Transcription.UI
 				playButtonSize.Width, playButtonSize.Height));
 
 			return new Tuple<Rectangle, Rectangle>(originalRecordingButtonRect, annotationRecordingButtonRect);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleWaveControlPaint(object sender, PaintEventArgs e)
-		{
-			//var img = Resources.MissingAnnotation;
-
-			//int i = 0;
-			//foreach (var segRect in _waveControl.GetSegmentRectangles())
-			//{
-			//    if (!segRect.IsEmpty && !ViewModel.GetDoesSegmentHaveAnnotationFile(i++))
-			//    {
-			//        var rc = new Rectangle(new Point(segRect.X + 1, segRect.Y + 1), img.Size);
-			//        if (segRect.Contains(rc))
-			//            e.Graphics.DrawImage(img, rc);
-			//    }
-			//}
 		}
 
 		/// ------------------------------------------------------------------------------------

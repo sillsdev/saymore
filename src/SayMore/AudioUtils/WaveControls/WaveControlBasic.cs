@@ -122,8 +122,6 @@ namespace SayMore.Media
 			_painter.BackColor = BackColor;
 			_painter.SetPixelsPerSecond(Settings.Default.SegmentingWaveViewPixelsPerSecond);
 			AutoScrollMinSize = new Size(_painter.VirtualWidth, 0);
-
-			//VirtualWidth(Math.Max(ClientSize.Width, AutoScrollMinSize.Width));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -385,58 +383,61 @@ namespace SayMore.Media
 		public void EnsureRangeIsVisible(TimeSpan start, TimeSpan end)
 		{
 			Utils.SetWindowRedraw(this, false);
-			EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(end) + 3);
+			EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(end) + 3, true);
 			EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(start) - 3);
 			Utils.SetWindowRedraw(this, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnResize(EventArgs e)
+		public virtual void EnsureXIsVisible(int dx)
 		{
-			base.OnResize(e);
-			if (_painter != null && _painter.ConvertTimeToXCoordinate(_waveStream.TotalTime) + WavePainterBasic.kRightDisplayPadding < ClientSize.Width)
+			EnsureXIsVisible(dx, true);
+		}
+
+		private Timer _slideTimer;
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void EnsureXIsVisible(int dx, bool useSlideEffect)
+		{
+			if (dx >= 0 && dx <= ClientSize.Width || _slideTimer != null)
+				return;
+
+			var newX = -AutoScrollPosition.X + (dx < 0 ? dx : (dx - ClientSize.Width));
+
+			if (!useSlideEffect)
 			{
-				//    AutoScrollPosition
-				//if (_painter != null && -AutoScrollPosition.X + ClientSize.Width > _painter.VirtualWidth)
-				AutoScrollPosition = new Point(_painter.VirtualWidth - (ClientSize.Width + 10), 0);
+				AutoScrollPosition = new Point(newX, AutoScrollPosition.Y);
 				_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+				return;
 			}
+
+			//var interval = (350f / Math.Abs(newX - AutoScrollPosition.X)) * 1000;
+
+			_slideTimer = new Timer();
+			_slideTimer.Tag = newX;
+			_slideTimer.Interval = 1;
+			_slideTimer.Tick += _slideTimer_Tick;
+			_slideTimer.Start();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual void EnsureXIsVisible(int dx)
+		void _slideTimer_Tick(object sender, EventArgs e)
 		{
-			if (dx < 0 || dx > ClientSize.Width)
-			{
-				var newX = -AutoScrollPosition.X + (dx < 0 ? dx : (dx - ClientSize.Width));
-				AutoScrollPosition = new Point(newX, AutoScrollPosition.Y);
-				_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
-			}
+			int newX = (int)_slideTimer.Tag;
+			int incAmount = (newX < -AutoScrollPosition.X ? -35 : 35);
 
-			//var newX = -AutoScrollPosition.X;
+			int x = Math.Min(-AutoScrollPosition.X + incAmount, newX);
+			AutoScrollPosition = new Point(x, AutoScrollPosition.Y);
+			_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
 
-			//if (dx < 10)
-			//    newX -= 10;
-			//else if (dx > (ClientSize.Width - 10))
-			//    newX += (dx - (ClientSize.Width - 10));
-			//else
-			//    return;
+			if (x != newX)
+				return;
 
-			//if (newX < 0)
-			//    newX = 0;
-			//else if (newX > AutoScrollMinSize.Width)
-			//    newX = AutoScrollMinSize.Width;
-
-			//if (newX != -AutoScrollPosition.X)
-			//{
-			//    AutoScrollPosition = new Point(newX, AutoScrollPosition.Y);
-
-			//    if (_painter != null)
-			//        _painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
-
-			//    Invalidate();
-			//}
-		}
+			_slideTimer.Stop();
+			_slideTimer.Tick -= _slideTimer_Tick;
+			_slideTimer.Dispose();
+			_slideTimer = null;
+	}
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<Rectangle> GetSegmentRectangles()
@@ -602,29 +603,20 @@ namespace SayMore.Media
 				PlaybackStopped(this, startTime, endTime);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//private void HandleParentFormShown(object sender, EventArgs e)
-		//{
-		//    _owningForm.Shown -= HandleParentFormShown;
-		//    _owningForm.ResizeEnd += HandleResize;
-		//    HandleResize(null, null);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//private void HandleResize(object sender, EventArgs e)
-		//{
-		//    WaitCursor.Show();
-		//    if (AutoScroll)
-		//        AutoScrollMinSize = new Size(AutoScrollMinSize.Width, ClientSize.Height);
-
-		//    if (_painter != null)
-		//        _painter.SetVirtualWidth(Math.Max(AutoScrollMinSize.Width, ClientSize.Width));
-
-		//    Invalidate();
-		//    WaitCursor.Hide();
-		//}
-
 		#region Overridden methods
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+
+			if (_painter != null && _painter.ConvertTimeToXCoordinate(_waveStream.TotalTime) +
+				WavePainterBasic.kRightDisplayPadding < ClientSize.Width)
+			{
+				AutoScrollPosition = new Point(_painter.VirtualWidth - (ClientSize.Width + 10), 0);
+				_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -642,18 +634,6 @@ namespace SayMore.Media
 
 			base.OnScroll(e);
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnResize(EventArgs e)
-		//{
-		//    if (_owningForm == null && FindForm() != null)
-		//    {
-		//        _owningForm = FindForm();
-		//        _owningForm.Shown += HandleParentFormShown;
-		//    }
-
-		//    base.OnResize(e);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -719,22 +699,6 @@ namespace SayMore.Media
 		{
 			SetCursor(timeAtMouseX, false);
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnPaint(PaintEventArgs e)
-		//{
-
-		//    var rc = BottomReservedAreaRectangle;
-		//    if (rc.Height > 0)
-		//    {
-		//        using (var br = new SolidBrush(Settings.Default.BarColorBegin))
-		//            e.Graphics.FillRectangle(br, rc);
-
-		//        using (var pen = new Pen(Settings.Default.BarColorBorder))
-		//            e.Graphics.DrawLine(pen, 0, rc.Y, rc.Right, rc.Y);
-		//    }
-		//    base.OnPaint(e);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void DrawBoundary(Graphics g, int x, int y, int height)

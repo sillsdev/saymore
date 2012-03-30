@@ -15,7 +15,7 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class OralAnnotationRecorderBaseDlg : SegmenterDlgBase
 	{
-		private readonly string _normalRecordButtonText;
+		//private readonly string _normalRecordButtonText;
 		private readonly ToolTip _tooltip = new ToolTip();
 		private TimeSpan _currentMovingBoundaryTime;
 		private readonly Image _hotPlayOriginalButton;
@@ -23,6 +23,7 @@ namespace SayMore.Transcription.UI
 		private readonly Image _normalPlayOriginalButton;
 		private readonly Image _normalRecordAnnotationButton;
 
+		private TimeSpan _endOfTempSegment;
 		private TimeSpan _annotationPlaybackLength;
 		private int _annotationPlaybackCursorX;
 		private Rectangle _annotationPlaybackRectangle;
@@ -57,36 +58,28 @@ namespace SayMore.Transcription.UI
 			InitializeInfoLabels();
 			_tableLayoutTop.Visible = false;
 
-			_normalRecordButtonText = "TODO: Hold down Space to record";
+			//_normalRecordButtonText = "TODO: Hold down Space to record";
 
 			_normalPlayOriginalButton = _labelListenButton.Image;
 			_normalRecordAnnotationButton = _labelRecordButton.Image;
 			_hotPlayOriginalButton = PaintingHelper.MakeHotImage(_normalPlayOriginalButton);
 			_hotRecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRecordAnnotationButton);
 
-			_timer.Tick += delegate
+			_scrollTimer.Tick += delegate
 			{
-				_timer.Stop();
-
-				var endOfLastSegment = ViewModel.GetEndOfLastSegment();
-				var cursorTime = _waveControl.GetCursorTime();
-				if (cursorTime < endOfLastSegment)
-					_waveControl.SetCursor(endOfLastSegment);
-
-				_waveControl.EnsureTimeIsMoreOrLessCentered(cursorTime);
+				_scrollTimer.Stop();
+				ScrollInPreparationForListenOrRecord((Label)_scrollTimer.Tag);
 			};
 
 			_labelListenButton.MouseEnter += delegate
 			{
-				_labelListenButton.Image = _hotPlayOriginalButton;
-				_timer.Stop();
-				_timer.Start();
+				HandleListenOrRecordButtonMouseEnter(_labelListenButton, _hotPlayOriginalButton);
 			};
 
 			_labelListenButton.MouseLeave += delegate
 			{
 				_labelListenButton.Image = _normalPlayOriginalButton;
-				_timer.Stop();
+				_scrollTimer.Stop();
 			};
 
 			_labelListenButton.MouseUp += delegate
@@ -96,15 +89,13 @@ namespace SayMore.Transcription.UI
 
 			_labelRecordButton.MouseEnter += delegate
 			{
-				_labelRecordButton.Image = _hotRecordAnnotationButton;
-				_timer.Stop();
-				_timer.Start();
+				HandleListenOrRecordButtonMouseEnter(_labelRecordButton, _hotRecordAnnotationButton);
 			};
 
 			_labelRecordButton.MouseLeave += delegate
 			{
 				_labelRecordButton.Image = _normalRecordAnnotationButton;
-				_timer.Stop();
+				_scrollTimer.Stop();
 			};
 
 			_labelRecordButton.MouseDown += HandleRecordAnnotationMouseDown;
@@ -123,6 +114,8 @@ namespace SayMore.Transcription.UI
 			//    _waveControl.InvalidateSelectedRegion();
 			//    UpdateDisplay();
 			//};
+
+			_endOfTempSegment = ViewModel.GetEndOfLastSegment();
 
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 
@@ -285,15 +278,20 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
-			if (ViewModel.GetIsRecording())
-			{
-				_labelListenButton.Enabled = false;
-			//	_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
-			//	_labelRecordButton.Text = LocalizationManager.GetString(
-			//		"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingButtonText.WhenRecording",
-			//		"Recording...");
-				return;
-			}
+			//if (ViewModel.GetIsRecording())
+			//{
+			////	_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
+			////	_labelRecordButton.Text = LocalizationManager.GetString(
+			////		"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingButtonText.WhenRecording",
+			////		"Recording...");
+			////	return;
+			//}
+
+			//_labelListenButton.Enabled = !ViewModel.GetIsAnnotationPlaying() && !ViewModel.GetIsRecording() &&
+			//    (!_waveControl.IsPlaying || _waveControl.GetCursorTime() >= ViewModel.GetEndOfLastSegment());
+			_labelListenButton.Enabled = !ViewModel.GetIsRecording();
+
+			_labelRecordButton.Enabled = _endOfTempSegment > ViewModel.GetEndOfLastSegment();
 
 			Utils.SetWindowRedraw(_tableLayoutMediaButtons, false);
 		//	var annotationExistsForCurrSegment = ViewModel.GetDoesCurrentSegmentHaveAnnotationFile();
@@ -315,13 +313,11 @@ namespace SayMore.Transcription.UI
 
 			//_buttonEraseAnnotation.Visible = annotationExistsForCurrSegment;
 			//_buttonEraseAnnotation.Enabled = (!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
-			_labelListenButton.Enabled = !ViewModel.GetIsAnnotationPlaying();
 			//_buttonListenToAnnotation.Visible = annotationExistsForCurrSegment;
 			//_buttonListenToAnnotation.Enabled = !_waveControl.IsPlaying;
 			//_buttonRecordAnnotation.Visible = !annotationExistsForCurrSegment;
 			//_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
 			//_buttonRecordAnnotation.Text = _normalRecordButtonText;
-			_labelRecordButton.Enabled = !_waveControl.IsPlaying;
 			// TODO: Use re-record image:	(ViewModel.CurrentSegment != null || (_waveControl.GetCursorTime() > ViewModel.GetStartOfCurrentSegment())));
 
 			base.UpdateDisplay();
@@ -414,8 +410,6 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnPlayingback(ctrl, current, total);
 
-			System.Diagnostics.Debug.WriteLine(current);
-
 			if (ViewModel.CurrentSegment == null)
 				_waveControl.SetSelectionTimes(ViewModel.GetStartOfCurrentSegment(), current);
 		}
@@ -433,6 +427,16 @@ namespace SayMore.Transcription.UI
 
 			if (ViewModel.CurrentSegment != null)
 				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
+
+			if (end > ViewModel.GetEndOfLastSegment())
+			{
+				//_waveControl.Invalidate(GetTempCursorRectangle());
+				var rc1 = GetTempCursorRectangle();
+				_endOfTempSegment = end;
+				var rc2 = GetTempSegmentRectangle();
+				rc2.Inflate(rc1.Width / 2, 0);
+				_waveControl.Invalidate(rc2);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -622,11 +626,50 @@ namespace SayMore.Transcription.UI
 		{
 			var playButtonRects = GetPlayButtonRectanglesForSegmentMouseIsOver();
 
-			if (playButtonRects == null)
-				return;
+			if (playButtonRects != null)
+			{
+				DrawPlayButtonsInSegments(e.Graphics, playButtonRects.Item1);
+				DrawPlayButtonsInSegments(e.Graphics, playButtonRects.Item2);
+			}
 
-			DrawPlayButtonsInSegments(e.Graphics, playButtonRects.Item1);
-			DrawPlayButtonsInSegments(e.Graphics, playButtonRects.Item2);
+
+			//if (x - 1 > e.ClipRectangle.Right || x + 1 < e.ClipRectangle.X)
+			//    return;
+
+			var rc = GetTempSegmentRectangle();
+			if (rc != Rectangle.Empty)
+			{
+				using (var br = new SolidBrush(Color.FromArgb(90, Settings.Default.DataEntryPanelColorBorder)))
+					e.Graphics.FillRectangle(br, rc);
+			}
+
+			using (var pen = new Pen(Settings.Default.BarColorBorder))
+			{
+				rc = GetTempCursorRectangle();
+				e.Graphics.DrawLine(pen, rc.X, 0, rc.X, _waveControl.ClientSize.Height);
+				e.Graphics.DrawLine(pen, rc.X + 1, 0, rc.X + 1, _waveControl.ClientSize.Height);
+				e.Graphics.DrawLine(pen, rc.X + 2, 0, rc.X + 2, _waveControl.ClientSize.Height);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetTempCursorRectangle()
+		{
+			var x = _waveControl.Painter.ConvertTimeToXCoordinate(_endOfTempSegment);
+			return new Rectangle(x - 1, 0, 3, _waveControl.ClientSize.Height);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetTempSegmentRectangle()
+		{
+			var timeAtEndOfLastSegment = ViewModel.GetEndOfLastSegment();
+
+			if (_endOfTempSegment == timeAtEndOfLastSegment)
+				return Rectangle.Empty;
+
+			var x1 = _waveControl.Painter.ConvertTimeToXCoordinate(timeAtEndOfLastSegment);
+			var x2 = _waveControl.Painter.ConvertTimeToXCoordinate(_endOfTempSegment);
+			return new Rectangle(x1, 0, x2 - x1 + 1, _waveControl.ClientSize.Height);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -692,22 +735,55 @@ namespace SayMore.Transcription.UI
 
 		#region Annotation Listen/Erase/Record button handling
 		/// ------------------------------------------------------------------------------------
+		private void ScrollInPreparationForListenOrRecord(Label button)
+		{
+			var endOfLastSegment = ViewModel.GetEndOfLastSegment();
+
+			if (_endOfTempSegment < endOfLastSegment)
+				_endOfTempSegment = endOfLastSegment;
+
+			if (_waveControl.GetCursorTime() != _endOfTempSegment)
+				_waveControl.SetCursor(_endOfTempSegment);
+
+			var targetTime = (button == _labelListenButton ? _endOfTempSegment : endOfLastSegment);
+
+			_waveControl.EnsureTimeIsVisible(targetTime, endOfLastSegment,
+				_waveControl.WaveStream.TotalTime, true, button == _labelListenButton);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleListenOrRecordButtonMouseEnter(Label button, Image hotImage)
+		{
+			button.Image = hotImage;
+			if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying() || ViewModel.GetIsRecording())
+				return;
+
+			_scrollTimer.Stop();
+			_scrollTimer.Tag = button;
+			_scrollTimer.Start();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleListenToOriginalMouseDown(object sender, MouseEventArgs e)
 		{
-			if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying() ||
-				(ViewModel.CurrentSegment == null && _waveControl.GetCursorTime() == ViewModel.OrigWaveStream.TotalTime))
-			{
+			if (_waveControl.GetCursorTime() == ViewModel.OrigWaveStream.TotalTime)
 				return;
+
+			if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying())
+			{
+				if (_waveControl.IsPlaying)
+					_waveControl.Stop();
+				else
+					ViewModel.StopAnnotationPlayback();
+
+				var endOfLastSegment = ViewModel.GetEndOfLastSegment();
+				ScrollInPreparationForListenOrRecord(_labelListenButton);
+				_waveControl.SetCursor(endOfLastSegment);
 			}
 
-			if (ViewModel.CurrentSegment != null)
-				_waveControl.PlaySelectedRegion();
-			else
-			{
-				var start = ViewModel.GetTimeWherePlaybackShouldStart(_waveControl.GetCursorTime());
-				_waveControl.SetSelectionTimes(start, start);
-				_waveControl.Play(start);
-			}
+			var start = ViewModel.GetTimeWherePlaybackShouldStart(_waveControl.GetCursorTime());
+			_waveControl.SetSelectionTimes(start, start);
+			_waveControl.Play(start);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -769,15 +845,14 @@ namespace SayMore.Transcription.UI
 				var end = TimeSpan.FromSeconds(ViewModel.CurrentSegment.End);
 
 				_waveControl.SetSelectionTimes(start, end);
-				_waveControl.EnsureRangeIsVisible(start, end);
+				_waveControl.EnsureTimeIsVisible(start, start, end, true, false);
 			}
 			else if (!ViewModel.IsFullySegmented)
 			{
 				_waveControl.ClearSelection();
 				var time = ViewModel.GetEndOfLastSegment();
 				_waveControl.SetCursor(time);
-				//_waveControl.EnsureRangeIsVisible(time, ViewModel.OrigWaveStream.TotalTime);
-				_waveControl.EnsureRangeIsVisible(time, time);
+				_waveControl.EnsureTimeIsVisible(time, time, ViewModel.OrigWaveStream.TotalTime, true, false);
 			}
 		}
 		#endregion

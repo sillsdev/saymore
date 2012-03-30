@@ -114,6 +114,7 @@
     <Compile Include="AudioUtils\WaveControls\WaveControlBasic.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="AudioUtils\WaveControls\WaveControlScrollCalculator.cs" />
     <Compile Include="AudioUtils\WaveControls\WaveControlWithBoundarySelection.cs">
       <SubType>UserControl</SubType>
     </Compile>

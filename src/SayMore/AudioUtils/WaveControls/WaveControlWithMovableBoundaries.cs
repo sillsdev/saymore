@@ -27,18 +27,19 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		protected virtual void InitiatiateBoundaryMove(int mouseX, TimeSpan boundaryBeingMoved)
 		{
+			_scrollCalculator = new WaveControlScrollCalculator(this);
 			// Figure out the limits within which the boundary may be moved. It's not allowed
 			// to be moved to the left of the previous boundary or to the right of the next
 			// boundary.
 			_minXForBoundaryMove = Math.Max(1,
-				_painter.ConvertTimeToXCoordinate(SegmentBoundaries.LastOrDefault(b => b < boundaryBeingMoved)));
+				Painter.ConvertTimeToXCoordinate(SegmentBoundaries.LastOrDefault(b => b < boundaryBeingMoved)));
 
 			var nextBoundary = SegmentBoundaries.FirstOrDefault(b => b > boundaryBeingMoved);
 			bool limitedByEndOfStream = nextBoundary == default(TimeSpan);
 			if (limitedByEndOfStream)
-				nextBoundary = _waveStream.TotalTime;
+				nextBoundary = WaveStream.TotalTime;
 
-			_maxXForBoundaryMove = _painter.ConvertTimeToXCoordinate(nextBoundary);
+			_maxXForBoundaryMove = Painter.ConvertTimeToXCoordinate(nextBoundary);
 
 			if (_minXForBoundaryMove > 0)
 				_minXForBoundaryMove += WavePainterBasic.kBoundaryHotZoneHalfWidth;
@@ -48,7 +49,7 @@ namespace SayMore.Media
 			else if (!limitedByEndOfStream)
 				_maxXForBoundaryMove -= WavePainterBasic.kBoundaryHotZoneHalfWidth;
 
-			_painter.SetMovingAnchorTime(boundaryBeingMoved);
+			Painter.SetMovingAnchorTime(boundaryBeingMoved);
 			IsBoundaryMovingInProgress = true;
 			_mouseXAtBeginningOfSegmentMove = mouseX;
 		}
@@ -56,7 +57,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public Rectangle GetRectangleBetweenBoundaries(TimeSpan start, TimeSpan end)
 		{
-			return _painter.GetRectangleForTimeRange(start, end);
+			return Painter.GetRectangleForTimeRange(start, end);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -90,7 +91,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnBoundaryMoving(TimeSpan newBoundary)
 		{
-			_painter.SetMovedBoundaryTime(newBoundary);
+			Painter.SetMovedBoundaryTime(newBoundary);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,15 +99,17 @@ namespace SayMore.Media
 		{
 			base.OnMouseUp(e);
 
-			_painter.SetMovedBoundaryTime(TimeSpan.Zero);
+			Painter.SetMovedBoundaryTime(TimeSpan.Zero);
 			var boundaryReallyMoved = (_mouseXAtBeginningOfSegmentMove == -1);
 			_mouseXAtBeginningOfSegmentMove = -1;
 
 			if (!IsBoundaryMovingInProgress)
 				return;
 
+			_scrollCalculator = null;
+
 			IsBoundaryMovingInProgress = false;
-			_painter.SetMovingAnchorTime(TimeSpan.Zero);
+			Painter.SetMovingAnchorTime(TimeSpan.Zero);
 
 			if (BoundaryMoved == null || !boundaryReallyMoved)
 				OnBoundaryMovedToOrigin(_boundaryMouseOver);
@@ -127,14 +130,14 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnBoundaryMovedToOrigin(TimeSpan originalBoundary)
 		{
-			_painter.InvalidateBoundary(originalBoundary);
+			Painter.InvalidateBoundary(originalBoundary);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnBoundaryMoved(TimeSpan oldBoundary, TimeSpan newBoundary)
 		{
 			var success = BoundaryMoved(this, oldBoundary, newBoundary);
-			_painter.InvalidateBoundary(oldBoundary);
+			Painter.InvalidateBoundary(oldBoundary);
 			return success;
 		}
 	}

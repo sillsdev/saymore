@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
-using Palaso.Progress;
 using SayMore.Properties;
-using SilTools;
 
 namespace SayMore.Media
 {
@@ -31,10 +30,11 @@ namespace SayMore.Media
 		public event CursorTimeChangedHandler CursorTimeChanged;
 		public Action<PaintEventArgs> PostPaintAction;
 
+		public virtual WavePainterBasic Painter { get; private set; }
+		public WaveStream WaveStream { get; private set; }
+
 		protected float _zoomPercentage;
 		protected bool _wasStreamCreatedHere;
-		protected WavePainterBasic _painter;
-		protected WaveStream _waveStream;
 		protected WaveStream _playbackStream;
 		protected WaveOut _waveOut;
 		protected Size _prevClientSize;
@@ -48,6 +48,10 @@ namespace SayMore.Media
 		protected TimeSpan _playbackStartTime;
 		protected TimeSpan _playbackEndTime;
 		protected TimeSpan _boundaryMouseOver;
+		protected WaveControlScrollCalculator _scrollCalculator;
+		protected Timer _slideTimer;
+		protected DateTime _endSlideTime;
+		protected int _slidingTargetScrollOffset;
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControlBasic()
@@ -69,10 +73,10 @@ namespace SayMore.Media
 			if (_waveOut != null)
 				Stop();
 
-			if (_wasStreamCreatedHere && _waveStream != null)
+			if (_wasStreamCreatedHere && WaveStream != null)
 			{
-				_waveStream.Close();
-				_waveStream.Dispose();
+				WaveStream.Close();
+				WaveStream.Dispose();
 			}
 
 			base.Dispose(disposing);
@@ -88,52 +92,52 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual void Initialize(WaveFileReader stream)
 		{
-			if (_painter != null)
-				_painter.Dispose();
+			if (Painter != null)
+				Painter.Dispose();
 
-			_waveStream = stream;
+			WaveStream = stream;
 
 			_playbackStream = (PlaybackStreamProvider == null ?
-				_waveStream : PlaybackStreamProvider(_waveStream));
+				WaveStream : PlaybackStreamProvider(WaveStream));
 
-			_painter = GetNewWavePainter(stream);
+			Painter = GetNewWavePainter(stream);
 			InternalInitialize();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void Initialize(IEnumerable<float> samples, TimeSpan totalTime)
 		{
-			if (_painter != null)
-				_painter.Dispose();
+			if (Painter != null)
+				Painter.Dispose();
 
-			_painter = GetNewWavePainter(samples, totalTime);
+			Painter = GetNewWavePainter(samples, totalTime);
 			InternalInitialize();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void InternalInitialize()
 		{
-			_painter.BottomReservedAreaHeight = _savedBottomReservedAreaHeight;
-			_painter.BottomReservedAreaColor = _bottomReservedAreaColor;
-			_painter.BottomReservedAreaBorderColor = _bottomReservedAreaBorderColor;
-			_painter.BottomReservedAreaPaintAction = _bottomReservedAreaPaintAction;
-			_painter.AllowRedraw = _savedAllowDrawingValue;
-			_painter.ForeColor = ForeColor;
-			_painter.BackColor = BackColor;
-			_painter.SetPixelsPerSecond(Settings.Default.SegmentingWaveViewPixelsPerSecond);
-			AutoScrollMinSize = new Size(_painter.VirtualWidth, 0);
+			Painter.BottomReservedAreaHeight = _savedBottomReservedAreaHeight;
+			Painter.BottomReservedAreaColor = _bottomReservedAreaColor;
+			Painter.BottomReservedAreaBorderColor = _bottomReservedAreaBorderColor;
+			Painter.BottomReservedAreaPaintAction = _bottomReservedAreaPaintAction;
+			Painter.AllowRedraw = _savedAllowDrawingValue;
+			Painter.ForeColor = ForeColor;
+			Painter.BackColor = BackColor;
+			Painter.SetPixelsPerSecond(Settings.Default.SegmentingWaveViewPixelsPerSecond);
+			AutoScrollMinSize = new Size(Painter.VirtualWidth, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void CloseStream()
 		{
-			if (_wasStreamCreatedHere && _waveStream != null)
+			if (_wasStreamCreatedHere && WaveStream != null)
 			{
-				_painter.Dispose();
-				_painter = null;
-				_waveStream.Close();
-				_waveStream.Dispose();
-				_waveStream = null;
+				Painter.Dispose();
+				Painter = null;
+				WaveStream.Close();
+				WaveStream.Dispose();
+				WaveStream = null;
 			}
 		}
 
@@ -159,8 +163,8 @@ namespace SayMore.Media
 			set
 			{
 				_savedBottomReservedAreaHeight = value;
-				if (_painter != null)
-					_painter.BottomReservedAreaHeight = value;
+				if (Painter != null)
+					Painter.BottomReservedAreaHeight = value;
 			}
 		}
 
@@ -181,8 +185,8 @@ namespace SayMore.Media
 			set
 			{
 				_bottomReservedAreaColor = value;
-				if (_painter != null)
-					_painter.BottomReservedAreaColor = value;
+				if (Painter != null)
+					Painter.BottomReservedAreaColor = value;
 			}
 		}
 
@@ -193,8 +197,8 @@ namespace SayMore.Media
 			set
 			{
 				_bottomReservedAreaBorderColor = value;
-				if (_painter != null)
-					_painter.BottomReservedAreaBorderColor = value;
+				if (Painter != null)
+					Painter.BottomReservedAreaBorderColor = value;
 			}
 		}
 
@@ -207,8 +211,8 @@ namespace SayMore.Media
 			set
 			{
 				_bottomReservedAreaPaintAction = value;
-				if (_painter != null)
-					_painter.BottomReservedAreaPaintAction = value;
+				if (Painter != null)
+					Painter.BottomReservedAreaPaintAction = value;
 			}
 		}
 
@@ -221,8 +225,8 @@ namespace SayMore.Media
 			set
 			{
 				_savedAllowDrawingValue = value;
-				if (_painter != null)
-					_painter.AllowRedraw = value;
+				if (Painter != null)
+					Painter.AllowRedraw = value;
 			}
 		}
 
@@ -231,11 +235,11 @@ namespace SayMore.Media
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual Func<WaveFormat, string> FormatNotSupportedMessageProvider
 		{
-			get { return (_painter == null ? null : _painter.FormatNotSupportedMessageProvider); }
+			get { return (Painter == null ? null : Painter.FormatNotSupportedMessageProvider); }
 			set
 			{
-				if (_painter != null)
-					_painter.FormatNotSupportedMessageProvider = value;
+				if (Painter != null)
+					Painter.FormatNotSupportedMessageProvider = value;
 			}
 		}
 
@@ -252,11 +256,11 @@ namespace SayMore.Media
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual IEnumerable<TimeSpan> SegmentBoundaries
 		{
-			get { return (_painter != null ? _painter.SegmentBoundaries : new TimeSpan[] { }); }
+			get { return (Painter != null ? Painter.SegmentBoundaries : new TimeSpan[] { }); }
 			set
 			{
-				if (_painter != null)
-					_painter.SegmentBoundaries = value;
+				if (Painter != null)
+					Painter.SegmentBoundaries = value;
 			}
 		}
 
@@ -266,8 +270,8 @@ namespace SayMore.Media
 			get { return base.ForeColor; }
 			set
 			{
-				if (_painter != null)
-					_painter.ForeColor = value;
+				if (Painter != null)
+					Painter.ForeColor = value;
 
 				base.ForeColor = value;
 			}
@@ -279,8 +283,8 @@ namespace SayMore.Media
 			get { return base.BackColor; }
 			set
 			{
-				if (_painter != null)
-					_painter.BackColor = value;
+				if (Painter != null)
+					Painter.BackColor = value;
 
 				base.BackColor = value;
 			}
@@ -321,10 +325,10 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual void SetCursor(int cursorX)
 		{
-			if (_painter == null)
+			if (Painter == null)
 				return;
 
-			_painter.SetCursor(cursorX);
+			Painter.SetCursor(cursorX);
 			EnsureXIsVisible(cursorX);
 		}
 
@@ -340,16 +344,16 @@ namespace SayMore.Media
 			OnCursorTimeChanged(cursorTime < TimeSpan.Zero ? TimeSpan.Zero : cursorTime);
 
 			if (cursorTime >= TimeSpan.Zero && ensureCursorIsVisible)
-				EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(cursorTime));
+				EnsureXIsVisible(Painter.ConvertTimeToXCoordinate(cursorTime));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnCursorTimeChanged(TimeSpan cursorTime)
 		{
-			if (_painter == null)
+			if (Painter == null)
 				return;
 
-			_painter.SetCursor(cursorTime);
+			Painter.SetCursor(cursorTime);
 
 			if (CursorTimeChanged != null)
 				CursorTimeChanged(this, cursorTime);
@@ -358,86 +362,149 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan GetCursorTime()
 		{
-			return (_painter == null ? TimeSpan.Zero : _painter.CursorTime);
+			return (Painter == null ? TimeSpan.Zero : Painter.CursorTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual TimeSpan GetTimeFromX(int dx)
 		{
-			return (_painter == null ? TimeSpan.Zero : _painter.ConvertXCoordinateToTime(dx));
+			return (Painter == null ? TimeSpan.Zero : Painter.ConvertXCoordinateToTime(dx));
 		}
 
+//        /// ------------------------------------------------------------------------------------
+//        /// <summary>
+//        /// Ensure that the view is scrolled so that both the start and end times are visible
+//        /// (and not jammed right up against the edge of the view) if possible. If they are not
+//        /// both visible and the requested range is narrow enough to fit in the view, then
+//        /// scroll so that the start is near the left edge of the view. If the requested range
+//        /// is too wide to fit, then the favorStart parameter determines whether the start is
+//        /// visible (true) or the end is visible (false).
+//        /// </summary>
+//        /// ------------------------------------------------------------------------------------
+//        public void EnsureRangeIsVisible(TimeSpan start, TimeSpan end, bool center,
+//            bool favorStart = true)
+//        {
+//            Debug.Assert(start <= end);
+//            var startX = Painter.ConvertTimeToXCoordinate(start) - 3;
+//            var endX = Painter.ConvertTimeToXCoordinate(end) + 3;
+//            if (startX >= 0 && endX <= ClientRectangle.Right)
+//                return;
+
+//            if (endX - startX <= ClientRectangle.Width || favorStart)
+//            {
+//                if (center)
+//                    EnsureXIsVisible((startX + endX) / 2);
+//                else if (startX <
+//                    EnsureXIsVisible((favorStart ? startX : endX), false);
+//            }
+//            else
+//                EnsureXIsVisible(endX - ClientRectangle.Width / 2 + 3, center);
+//        }
+
+//        /// ------------------------------------------------------------------------------------
+//        public virtual void EnsureXIsVisible(int x, bool scrollXToMiddle = true,
+//            float startMarginPercent = 15, float endMarginPercent = 85, bool useSlideEffect = true)
+//        {
+//            int minX = (int)(ClientSize.Width * startMarginPercent / 100);
+//            int maxX = (int)(ClientSize.Width * endMarginPercent / 100);
+
+//            if (x >= minX && x <= maxX)
+//                return;
+
+//            useSlideEffect = true;
+
+//            if (_slideTimer != null)
+//                KillSlideTimer();
+
+////			_slidingTargetScrollOffset = -AutoScrollPosition.X + (dx < 0 ? dx : (dx - ClientSize.Width));
+//            _slidingTargetScrollOffset = -AutoScrollPosition.X + (x - (scrollXToMiddle ? ClientSize.Width / 2 : (x > maxX ? maxX : minX)));
+
+//            if (!useSlideEffect)
+//            {
+//                AutoScrollPosition = new Point(_slidingTargetScrollOffset, AutoScrollPosition.Y);
+//                Painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+//                return;
+//            }
+
+//            _endSlideTime = DateTime.Now.AddMilliseconds(250);
+//            _slideTimer = new Timer();
+//            _slideTimer.Interval = 1;
+//            _slideTimer.Tick += _slideTimer_Tick;
+//            _slideTimer.Start();
+//        }
+
 		/// ------------------------------------------------------------------------------------
-		public void EnsureTimeIsMoreOrLessCentered(TimeSpan time)
+		public void EnsureTimeIsVisible(TimeSpan time, TimeSpan rangeStartTime,
+			TimeSpan rangeEndTime, bool scrollToCenter, bool prepareForPlayback)
 		{
-			var currentPosition = _painter.ConvertTimeToXCoordinate(time);
-			if (currentPosition > ClientSize.Width * 0.15 && currentPosition < ClientSize.Width * 0.85)
-				return;
-
-			var secondsInVisibleArea = (ClientSize.Width / _painter.PixelPerMillisecond) / 1000;
-			var halfTheVisibleTime = TimeSpan.FromSeconds(secondsInVisibleArea / 2);
-			EnsureRangeIsVisible(time - halfTheVisibleTime, time + halfTheVisibleTime);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void EnsureRangeIsVisible(TimeSpan start, TimeSpan end)
-		{
-			Utils.SetWindowRedraw(this, false);
-			EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(end) + 3, true);
-			EnsureXIsVisible(_painter.ConvertTimeToXCoordinate(start) - 3);
-			Utils.SetWindowRedraw(this, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual void EnsureXIsVisible(int dx)
-		{
-			EnsureXIsVisible(dx, true);
-		}
-
-		private Timer _slideTimer;
-
-		/// ------------------------------------------------------------------------------------
-		public virtual void EnsureXIsVisible(int dx, bool useSlideEffect)
-		{
-			if (dx >= 0 && dx <= ClientSize.Width || _slideTimer != null)
-				return;
-
-			var newX = -AutoScrollPosition.X + (dx < 0 ? dx : (dx - ClientSize.Width));
-
-			if (!useSlideEffect)
+			bool discardCalculator = false;
+			if (_scrollCalculator == null)
 			{
-				AutoScrollPosition = new Point(newX, AutoScrollPosition.Y);
-				_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
-				return;
+				_scrollCalculator = new WaveControlScrollCalculator(this, rangeStartTime, rangeEndTime, scrollToCenter);
+				discardCalculator = !prepareForPlayback;
+			}
+			EnsureTimeIsVisible(time);
+			if (discardCalculator)
+				_scrollCalculator = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void EnsureTimeIsVisible(TimeSpan time)
+		{
+			EnsureXIsVisible(Painter.ConvertTimeToXCoordinate(time));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void EnsureXIsVisible(int x)
+		{
+			bool discardCalculator = false;
+			if (_scrollCalculator == null)
+			{
+				_scrollCalculator = new WaveControlScrollCalculator(this, TimeSpan.Zero,
+					_playbackStream.TotalTime, true);
+				discardCalculator = true;
 			}
 
-			//var interval = (350f / Math.Abs(newX - AutoScrollPosition.X)) * 1000;
+			_slidingTargetScrollOffset = _scrollCalculator.ComputeTargetScrollOffset(x);
 
+			if (discardCalculator)
+				_scrollCalculator = null;
+
+			if (_slidingTargetScrollOffset == -AutoScrollPosition.X)
+				return;
+
+			_endSlideTime = DateTime.Now.AddMilliseconds(250);
+			KillSlideTimer();
 			_slideTimer = new Timer();
-			_slideTimer.Tag = newX;
 			_slideTimer.Interval = 1;
-			_slideTimer.Tick += _slideTimer_Tick;
+			_slideTimer.Tick += HandleSlideTimerTick;
 			_slideTimer.Start();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void _slideTimer_Tick(object sender, EventArgs e)
+		void HandleSlideTimerTick(object sender, EventArgs e)
 		{
-			int newX = (int)_slideTimer.Tag;
-			int incAmount = (newX < -AutoScrollPosition.X ? -35 : 35);
+			var currTime = DateTime.Now;
+			var newTargetX = _slidingTargetScrollOffset;
 
-			int x = Math.Min(-AutoScrollPosition.X + incAmount, newX);
-			AutoScrollPosition = new Point(x, AutoScrollPosition.Y);
-			_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+			if (currTime < _endSlideTime)
+				newTargetX = (int)Math.Ceiling((-AutoScrollPosition.X + newTargetX) / 2f);
+			else
+				KillSlideTimer();
 
-			if (x != newX)
+			AutoScrollPosition = new Point(newTargetX, AutoScrollPosition.Y);
+			Painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void KillSlideTimer()
+		{
+			if (_slideTimer == null)
 				return;
-
 			_slideTimer.Stop();
-			_slideTimer.Tick -= _slideTimer_Tick;
 			_slideTimer.Dispose();
 			_slideTimer = null;
-	}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<Rectangle> GetSegmentRectangles()
@@ -446,7 +513,7 @@ namespace SayMore.Media
 
 			foreach (var endTime in SegmentBoundaries)
 			{
-				yield return _painter.GetRectangleForTimeRange(startTime, endTime);
+				yield return Painter.GetRectangleForTimeRange(startTime, endTime);
 				startTime = endTime;
 			}
 		}
@@ -454,8 +521,8 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<Rectangle> GetChannelDisplayRectangles()
 		{
-			return (_painter == null ? new Rectangle[0] :
-				_painter.GetChannelDisplayRectangles(ClientRectangle));
+			return (Painter == null ? new Rectangle[0] :
+				Painter.GetChannelDisplayRectangles(ClientRectangle));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -532,9 +599,14 @@ namespace SayMore.Media
 				_playbackStartTime = TimeSpan.Zero;
 
 			if (_playbackEndTime <= _playbackStartTime)
-				_playbackEndTime = _waveStream.TotalTime;
+			{
+				_playbackEndTime = WaveStream.TotalTime;
+				EnsureTimeIsVisible(_playbackStartTime);
+			}
+			else
+				EnsureTimeIsVisible(_playbackStartTime, _playbackStartTime, _playbackEndTime, true, true);
 
-			var waveOutProvider = new SampleChannel(_playbackEndTime == TimeSpan.Zero || _playbackEndTime == _waveStream.TotalTime ?
+			var waveOutProvider = new SampleChannel(_playbackEndTime == TimeSpan.Zero || _playbackEndTime == WaveStream.TotalTime ?
 				new WaveSegmentStream(_playbackStream, playbackStartTime) :
 				new WaveSegmentStream(_playbackStream, playbackStartTime, playbackEndTime - playbackStartTime));
 
@@ -560,19 +632,15 @@ namespace SayMore.Media
 		{
 			// We're using a WaveSegmentStream which never gets a PlaybackStopped
 			// event on the WaveOut, so we have to force it here.
-			if (_playbackStream.CurrentTime == (_playbackEndTime > TimeSpan.Zero ? _playbackEndTime : _waveStream.TotalTime))
+			if (_playbackStream.CurrentTime == (_playbackEndTime > TimeSpan.Zero ? _playbackEndTime : WaveStream.TotalTime))
 			{
 				SetCursor(_playbackEndTime);
 				_waveOut.Stop();
 				return;
 			}
 
-			var dx = _painter.ConvertTimeToXCoordinate(_playbackStream.CurrentTime);
-			dx += (dx < 0 ? -10 : 10);
-			EnsureXIsVisible(dx);
-
 			OnInternalPlaybackUpdate(_playbackStream.CurrentTime, _playbackStream.TotalTime);
-			SetCursor(_playbackStream.CurrentTime);
+			SetCursor(_playbackStream.CurrentTime, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -591,6 +659,7 @@ namespace SayMore.Media
 			_waveOut.Stop();
 			_waveOut.Dispose();
 			_waveOut = null;
+			_scrollCalculator = null;
 			OnPlaybackStopped(_playbackStartTime, _playbackStream.CurrentTime);
 		}
 
@@ -609,11 +678,11 @@ namespace SayMore.Media
 		{
 			base.OnResize(e);
 
-			if (_painter != null && _painter.ConvertTimeToXCoordinate(_waveStream.TotalTime) +
+			if (Painter != null && Painter.ConvertTimeToXCoordinate(WaveStream.TotalTime) +
 				WavePainterBasic.kRightDisplayPadding < ClientSize.Width)
 			{
-				AutoScrollPosition = new Point(_painter.VirtualWidth - (ClientSize.Width + 10), 0);
-				_painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+				AutoScrollPosition = new Point(Painter.VirtualWidth - (ClientSize.Width + 10), 0);
+				Painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
 			}
 		}
 
@@ -629,8 +698,8 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		protected override void OnScroll(ScrollEventArgs e)
 		{
-			if (e.OldValue != e.NewValue && _painter != null && e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
-				_painter.SetOffsetOfLeftEdge(e.NewValue);
+			if (e.OldValue != e.NewValue && Painter != null && e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+				Painter.SetOffsetOfLeftEdge(e.NewValue);
 
 			base.OnScroll(e);
 		}
@@ -666,8 +735,8 @@ namespace SayMore.Media
 				Stop();
 
 			var timeAtX = GetTimeFromX(e.X);
-			if (timeAtX > _waveStream.TotalTime)
-				timeAtX = _waveStream.TotalTime;
+			if (timeAtX > WaveStream.TotalTime)
+				timeAtX = WaveStream.TotalTime;
 
 			if (_boundaryMouseOver == default(TimeSpan))
 			{
@@ -703,8 +772,8 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual void DrawBoundary(Graphics g, int x, int y, int height)
 		{
-			if (_painter != null)
-				_painter.DrawBoundary(g, x, y, height);
+			if (Painter != null)
+				Painter.DrawBoundary(g, x, y, height);
 		}
 
 		#endregion

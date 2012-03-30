@@ -20,26 +20,26 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private WavePainterWithRangeSelection Painter
+		private WavePainterWithRangeSelection MyPainter
 		{
-			get { return _painter as WavePainterWithRangeSelection; }
+			get { return Painter as WavePainterWithRangeSelection; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void PlaySelectedRegion()
 		{
-			if (Painter.SelectedRegionStartTime < Painter.SelectedRegionEndTime)
-				base.Play(Painter.SelectedRegionStartTime, Painter.SelectedRegionEndTime);
+			if (MyPainter.SelectedRegionStartTime < MyPainter.SelectedRegionEndTime)
+				base.Play(MyPainter.SelectedRegionStartTime, MyPainter.SelectedRegionEndTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void InvalidateSelectedRegion()
 		{
-			if (Painter.SelectedRegionStartTime == Painter.SelectedRegionEndTime)
+			if (MyPainter.SelectedRegionStartTime == MyPainter.SelectedRegionEndTime)
 				return;
 
-			Invalidate(new Rectangle(Painter.ConvertTimeToXCoordinate(Painter.SelectedRegionStartTime),
-				0, Painter.ConvertTimeToXCoordinate(Painter.SelectedRegionEndTime), ClientSize.Height));
+			Invalidate(new Rectangle(MyPainter.ConvertTimeToXCoordinate(MyPainter.SelectedRegionStartTime),
+				0, MyPainter.ConvertTimeToXCoordinate(MyPainter.SelectedRegionEndTime), ClientSize.Height));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,16 +69,16 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public bool GetHasSelection()
 		{
-			return (Painter.SelectedRegionStartTime < Painter.SelectedRegionEndTime);
+			return (MyPainter.SelectedRegionStartTime < MyPainter.SelectedRegionEndTime);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeSpan start, TimeSpan end)
 		{
-			var regionChanged = (start != Painter.SelectedRegionStartTime ||
-				end != Painter.SelectedRegionEndTime);
+			var regionChanged = (start != MyPainter.SelectedRegionStartTime ||
+				end != MyPainter.SelectedRegionEndTime);
 
-			Painter.SetSelectionTimes(start, end);
+			MyPainter.SetSelectionTimes(start, end);
 
 			if (regionChanged && SelectedRegionChanged != null)
 				SelectedRegionChanged(this, start, end);
@@ -136,7 +136,7 @@ namespace SayMore.Media
 			var startTime = (indexOutOfBoundaryClicked == 0 ? TimeSpan.Zero :
 				SegmentBoundaries.ElementAt(indexOutOfBoundaryClicked - 1));
 
-			Painter.SetSelectionTimes(startTime, boundaryClicked);
+			MyPainter.SetSelectionTimes(startTime, boundaryClicked);
 			base.OnBoundaryMouseDown(mouseX, boundaryClicked, indexOutOfBoundaryClicked);
 		}
 
@@ -144,7 +144,7 @@ namespace SayMore.Media
 		protected override void OnBoundaryMoving(TimeSpan newBoundary)
 		{
 			base.OnBoundaryMoving(newBoundary);
-			Painter.SetSelectionTimes(Painter.SelectedRegionStartTime, newBoundary);
+			MyPainter.SetSelectionTimes(MyPainter.SelectedRegionStartTime, newBoundary);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -152,11 +152,11 @@ namespace SayMore.Media
 		{
 			if (base.OnBoundaryMoved(oldBoundary, newBoundary))
 			{
-				SetSelectionTimes(Painter.SelectedRegionStartTime, newBoundary);
+				SetSelectionTimes(MyPainter.SelectedRegionStartTime, newBoundary);
 				return true;
 			}
 
-			SetSelectionTimes(Painter.SelectedRegionStartTime, oldBoundary);
+			SetSelectionTimes(MyPainter.SelectedRegionStartTime, oldBoundary);
 			return false;
 		}
 	}

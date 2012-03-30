@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using NAudio.Wave;
+using SayMore.Properties;
 
 namespace SayMore.Media
 {
@@ -70,7 +71,8 @@ namespace SayMore.Media
 					return;
 
 //				using (var br = new SolidBrush(Color.FromArgb(100, SystemColors.Highlight)))
-				using (var br = new SolidBrush(Color.FromArgb(90, Color.Orange)))
+//				using (var br = new SolidBrush(Color.FromArgb(90, Color.Orange)))
+				using (var br = new SolidBrush(Color.FromArgb(90, Settings.Default.BarColorBorder)))
 					g.FillRectangle(br, regionRect);
 
 				_previousSelectedRegion = new Tuple<int,int>(regionRect.X, regionRect.Width);

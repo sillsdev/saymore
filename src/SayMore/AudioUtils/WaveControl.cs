@@ -225,7 +225,6 @@ namespace SayMore.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public void SetSelectedBoundary(TimeSpan selectedBoundary)
 		{
-			System.Diagnostics.Debug.WriteLine("WaveControl.SetSelectedBoundary: " + selectedBoundary);
 			SetSelectionTimes(TimeSpan.Zero, selectedBoundary);
 		}
 

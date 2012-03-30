@@ -19,21 +19,21 @@ namespace SayMore.Media
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		private WavePainterWithBoundarySelection Painter
+		private WavePainterWithBoundarySelection MyPainter
 		{
-			get { return _painter as WavePainterWithBoundarySelection; }
+			get { return Painter as WavePainterWithBoundarySelection; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetSelectedBoundary()
 		{
-			return Painter.SelectedBoundaryTime;
+			return MyPainter.SelectedBoundaryTime;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void ClearSelectedBoundary()
 		{
-			Painter.SetSelectedBoundary(TimeSpan.Zero);
+			MyPainter.SetSelectedBoundary(TimeSpan.Zero);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -41,9 +41,9 @@ namespace SayMore.Media
 		{
 			if (boundary == TimeSpan.Zero || SegmentBoundaries.Any(b => b == boundary))
 			{
-				Painter.SetSelectedBoundary(boundary);
-				var dx = Painter.ConvertTimeToXCoordinate(boundary);
-				EnsureXIsVisible(dx);
+				MyPainter.SetSelectedBoundary(boundary);
+				var dx = MyPainter.ConvertTimeToXCoordinate(boundary);
+				EnsureTimeIsVisible(boundary, boundary, boundary, false, false);
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace SayMore.Media
 		protected override void OnMouseLeave(EventArgs e)
 		{
 			base.OnMouseLeave(e);
-			Painter.HighlightBoundaryMouseOver(TimeSpan.Zero);
+			MyPainter.HighlightBoundaryMouseOver(TimeSpan.Zero);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,34 +73,34 @@ namespace SayMore.Media
 			base.OnMouseMoveEx(e, boundaryMouseOver);
 
 			if (IsBoundaryMovingInProgress)
-				Painter.SetCursor(TimeSpan.Zero);
+				MyPainter.SetCursor(TimeSpan.Zero);
 			else if (e.Button == System.Windows.Forms.MouseButtons.None)
-				Painter.HighlightBoundaryMouseOver(boundaryMouseOver);
+				MyPainter.HighlightBoundaryMouseOver(boundaryMouseOver);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnBoundaryMouseDown(int mouseX, TimeSpan boundaryClicked,
 			int indexOutOfBoundaryClicked)
 		{
-			Painter.SetSelectedBoundary(IsBoundaryMovingInProgress ? TimeSpan.Zero : boundaryClicked);
+			MyPainter.SetSelectedBoundary(IsBoundaryMovingInProgress ? TimeSpan.Zero : boundaryClicked);
 			base.OnBoundaryMouseDown(mouseX, boundaryClicked, indexOutOfBoundaryClicked);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void InitiatiateBoundaryMove(int mouseX, TimeSpan boundaryBeingMoved)
 		{
-			Painter.HighlightBoundaryWhenMouseIsNear = false;
-			Painter.SetSelectedBoundary(TimeSpan.Zero);
+			MyPainter.HighlightBoundaryWhenMouseIsNear = false;
+			MyPainter.SetSelectedBoundary(TimeSpan.Zero);
 			base.InitiatiateBoundaryMove(mouseX, boundaryBeingMoved);
-			Painter.SetMovedBoundaryTime(boundaryBeingMoved);
+			MyPainter.SetMovedBoundaryTime(boundaryBeingMoved);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnBoundaryMovedToOrigin(TimeSpan originalBoundary)
 		{
 			base.OnBoundaryMovedToOrigin(originalBoundary);
-			Painter.SetSelectedBoundary(originalBoundary);
-			Painter.HighlightBoundaryWhenMouseIsNear = true;
+			MyPainter.SetSelectedBoundary(originalBoundary);
+			MyPainter.HighlightBoundaryWhenMouseIsNear = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,11 +109,11 @@ namespace SayMore.Media
 			var success = base.OnBoundaryMoved(oldBoundary, newBoundary);
 
 			if (success)
-				Painter.SetSelectedBoundary(newBoundary);
+				MyPainter.SetSelectedBoundary(newBoundary);
 			else
 				SetSelectedBoundary(oldBoundary);
 
-			Painter.HighlightBoundaryWhenMouseIsNear = true;
+			MyPainter.HighlightBoundaryWhenMouseIsNear = true;
 			return success;
 		}
 

@@ -30,6 +30,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutSegmentInfo = new System.Windows.Forms.TableLayoutPanel();
 			this._scrollTimer = new System.Windows.Forms.Timer(this.components);
+			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._tableLayoutMediaButtons.SuspendLayout();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
@@ -53,7 +54,6 @@ namespace SayMore.Transcription.UI
 			this._labelListenButton.Size = new System.Drawing.Size(50, 50);
 			this._labelListenButton.TabIndex = 0;
 			this._labelListenButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleListenToOriginalMouseDown);
-
 			//
 			// _labelRecordButton
 			//
@@ -207,9 +207,14 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutSegmentInfo.Size = new System.Drawing.Size(133, 49);
 			this._tableLayoutSegmentInfo.TabIndex = 4;
 			//
-			// _timer
+			// _scrollTimer
 			//
 			this._scrollTimer.Interval = 500;
+			//
+			// _cursorBlinkTimer
+			//
+			this._cursorBlinkTimer.Interval = 600;
+			this._cursorBlinkTimer.Tick += new System.EventHandler(this.HandleCursorBlinkTimerTick);
 			//
 			// OralAnnotationRecorderBaseDlg
 			//
@@ -251,5 +256,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelSegmentDuration;
 		private System.Windows.Forms.Label _labelHighlightedSegment;
 		private System.Windows.Forms.Timer _scrollTimer;
+		private System.Windows.Forms.Timer _cursorBlinkTimer;
 	}
 }

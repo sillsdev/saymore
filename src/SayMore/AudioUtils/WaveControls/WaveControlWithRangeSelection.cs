@@ -35,11 +35,18 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public void InvalidateSelectedRegion()
 		{
-			if (MyPainter.SelectedRegionStartTime == MyPainter.SelectedRegionEndTime)
+			InvalidateRegionBetweenTimes(MyPainter.SelectedRegionStartTime,
+				MyPainter.SelectedRegionEndTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void InvalidateRegionBetweenTimes(TimeSpan start, TimeSpan end)
+		{
+			if (start == end)
 				return;
 
-			Invalidate(new Rectangle(MyPainter.ConvertTimeToXCoordinate(MyPainter.SelectedRegionStartTime),
-				0, MyPainter.ConvertTimeToXCoordinate(MyPainter.SelectedRegionEndTime), ClientSize.Height));
+			Invalidate(new Rectangle(MyPainter.ConvertTimeToXCoordinate(start),
+				0, MyPainter.ConvertTimeToXCoordinate(end), ClientSize.Height));
 		}
 
 		/// ------------------------------------------------------------------------------------

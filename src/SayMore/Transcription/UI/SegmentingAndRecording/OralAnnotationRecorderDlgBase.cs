@@ -57,6 +57,8 @@ namespace SayMore.Transcription.UI
 
 			InitializeInfoLabels();
 			_tableLayoutTop.Visible = false;
+			_cursorBlinkTimer.Enabled = true;
+			_cursorBlinkTimer.Tag = true;
 
 			//_normalRecordButtonText = "TODO: Hold down Space to record";
 
@@ -367,11 +369,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void AdjustPotentialNewSegmentEndBoundaryOnArrowKey(int milliseconds)
 		{
+			_cursorBlinkTimer.Tag = false;
+			_cursorBlinkTimer.Enabled = false;
 			// At this point, we know we're adjusting the selected region beyond the last segment.
 			// I.e. one the user is preparing to record an annotation for.
-			var endTime = _waveControl.GetCursorTime() + TimeSpan.FromMilliseconds(milliseconds);
-			_waveControl.SetCursor(endTime);
-			_waveControl.SetSelectionTimes(ViewModel.GetStartOfCurrentSegment(), endTime);
+			var oldPosition = _endOfTempSegment;
+			_endOfTempSegment = _endOfTempSegment + TimeSpan.FromMilliseconds(milliseconds);
+			_waveControl.InvalidateRegionBetweenTimes((milliseconds > 0 ? oldPosition : _endOfTempSegment),
+				(milliseconds > 0 ? _endOfTempSegment : oldPosition));
+			_waveControl.SetCursor(_endOfTempSegment);
+			_cursorBlinkTimer.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -399,7 +406,13 @@ namespace SayMore.Transcription.UI
 				PlaybackShortPortionUpToBoundary(_currentMovingBoundaryTime);
 			}
 			else
+			{
+				_cursorBlinkTimer.Tag = false;
+				_cursorBlinkTimer.Enabled = false;
+				_waveControl.Invalidate(GetTempCursorRectangle());
 				PlaybackShortPortionUpToBoundary(_waveControl.GetCursorTime());
+				_cursorBlinkTimer.Enabled = true;
+			}
 
 			_currentMovingBoundaryTime = TimeSpan.Zero;
 			base.FinalizeBoundaryMovedUsingArrowKeys();
@@ -410,8 +423,14 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnPlayingback(ctrl, current, total);
 
-			if (ViewModel.CurrentSegment == null)
-				_waveControl.SetSelectionTimes(ViewModel.GetStartOfCurrentSegment(), current);
+			//if (ViewModel.CurrentSegment == null)
+			var endOfLastSegment = ViewModel.GetEndOfLastSegment();
+			if (current > endOfLastSegment)
+			{
+				_endOfTempSegment = current;
+				_waveControl.Invalidate(GetTempSegmentRectangle());
+			}
+//				_waveControl.SetSelectionTimes(ViewModel.GetEndOfLastSegment(), current);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -605,7 +624,6 @@ namespace SayMore.Transcription.UI
 				painter.SetSamplesToDraw(helper.GetSamples((uint)rc.Width));
 				painter.Draw(e, rc);
 			}
-
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -622,6 +640,24 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleCursorBlinkTimerTick(object sender, EventArgs e)
+		{
+			var tempCursorRect = GetTempCursorRectangle();
+			if (tempCursorRect == Rectangle.Empty || _waveControl.IsPlaying ||
+				ViewModel.GetIsAnnotationPlaying() || ViewModel.GetIsRecording())
+			{
+				// Next time it does get painted, make sure it gets drawn in the "on" state.
+				_cursorBlinkTimer.Tag = true;
+				System.Diagnostics.Debug.WriteLine("Blink timer fired but did not invalidate: " + DateTime.Now);
+				return;
+			}
+
+			_cursorBlinkTimer.Tag = !(bool)_cursorBlinkTimer.Tag;
+			System.Diagnostics.Debug.WriteLine("Blink timer fired (new blink value = " + (bool)_cursorBlinkTimer.Tag + "): " + DateTime.Now);
+			_waveControl.Invalidate(tempCursorRect);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleWaveControlPostPaint(PaintEventArgs e)
 		{
 			var playButtonRects = GetPlayButtonRectanglesForSegmentMouseIsOver();
@@ -631,7 +667,6 @@ namespace SayMore.Transcription.UI
 				DrawPlayButtonsInSegments(e.Graphics, playButtonRects.Item1);
 				DrawPlayButtonsInSegments(e.Graphics, playButtonRects.Item2);
 			}
-
 
 			//if (x - 1 > e.ClipRectangle.Right || x + 1 < e.ClipRectangle.X)
 			//    return;
@@ -646,9 +681,15 @@ namespace SayMore.Transcription.UI
 			using (var pen = new Pen(Settings.Default.BarColorBorder))
 			{
 				rc = GetTempCursorRectangle();
-				e.Graphics.DrawLine(pen, rc.X, 0, rc.X, _waveControl.ClientSize.Height);
 				e.Graphics.DrawLine(pen, rc.X + 1, 0, rc.X + 1, _waveControl.ClientSize.Height);
-				e.Graphics.DrawLine(pen, rc.X + 2, 0, rc.X + 2, _waveControl.ClientSize.Height);
+				if ((bool)_cursorBlinkTimer.Tag)
+				{
+					System.Diagnostics.Debug.WriteLine("Painting full cursor");
+					e.Graphics.DrawLine(pen, rc.X, 0, rc.X, _waveControl.ClientSize.Height);
+					e.Graphics.DrawLine(pen, rc.X + 2, 0, rc.X + 2, _waveControl.ClientSize.Height);
+				}
+				else
+					System.Diagnostics.Debug.WriteLine("Painting thin cursor");
 			}
 		}
 
@@ -776,14 +817,10 @@ namespace SayMore.Transcription.UI
 				else
 					ViewModel.StopAnnotationPlayback();
 
-				var endOfLastSegment = ViewModel.GetEndOfLastSegment();
 				ScrollInPreparationForListenOrRecord(_labelListenButton);
-				_waveControl.SetCursor(endOfLastSegment);
 			}
 
-			var start = ViewModel.GetTimeWherePlaybackShouldStart(_waveControl.GetCursorTime());
-			_waveControl.SetSelectionTimes(start, start);
-			_waveControl.Play(start);
+			_waveControl.Play(_endOfTempSegment);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -796,7 +833,17 @@ namespace SayMore.Transcription.UI
 			//    return;
 			//}
 
-			if (ViewModel.BeginAnnotationRecording(_waveControl.GetCursorTime()))
+			if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying())
+			{
+				if (_waveControl.IsPlaying)
+					_waveControl.Stop();
+				else
+					ViewModel.StopAnnotationPlayback();
+
+				ScrollInPreparationForListenOrRecord(_labelRecordButton);
+			}
+
+			if (ViewModel.BeginAnnotationRecording(_endOfTempSegment))
 				UpdateDisplay();
 		}
 

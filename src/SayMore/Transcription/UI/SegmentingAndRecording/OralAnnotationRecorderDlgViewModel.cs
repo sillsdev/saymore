@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NAudio.Wave;
@@ -211,9 +212,15 @@ namespace SayMore.Transcription.UI
 			if (GetIsRecording() || GetDoesCurrentSegmentHaveAnnotationFile())
 				return false;
 
-			var path = (CurrentSegment != null ?
-				GetFullPathToAnnotationFileForSegment(CurrentSegment) :
-				GetFullPathForNewSegmentAnnotationFile(GetStartOfCurrentSegment(), cursorTime));
+			// REVIEW: For now at least, it seems like we only want to record for the temp segment, not the current segment.
+			// I set the Current Segment to null so when the recording finishes, it won't try to find the next unrecorded
+			// segment relative to it.
+			//var path = (CurrentSegment != null ?
+			//    GetFullPathToAnnotationFileForSegment(CurrentSegment) :
+			//    GetFullPathForNewSegmentAnnotationFile(GetStartOfCurrentSegment(), cursorTime));
+			CurrentSegment = null;
+			var path = GetFullPathForNewSegmentAnnotationFile(GetEndOfLastSegment(), cursorTime);
+
 
 			if (!Directory.Exists(Path.GetDirectoryName(path)))
 				Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -227,6 +234,7 @@ namespace SayMore.Transcription.UI
 			_annotationRecorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
 			_annotationRecorder.BeginMonitoring();
 			_annotationRecorder.BeginRecording(path);
+			Debug.WriteLine(path);
 
 			return true;
 		}

@@ -899,6 +899,7 @@
     <None Include="Resources\Segment.png" />
     <None Include="Resources\RecordOralAnnotation.png" />
     <None Include="Resources\ListenToOriginalRecording.png" />
+    <None Include="Resources\RerecordOralAnnotation.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

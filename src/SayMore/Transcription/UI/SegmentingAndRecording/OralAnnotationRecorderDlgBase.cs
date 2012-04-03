@@ -22,6 +22,8 @@ namespace SayMore.Transcription.UI
 		private readonly Image _hotRecordAnnotationButton;
 		private readonly Image _normalPlayOriginalButton;
 		private readonly Image _normalRecordAnnotationButton;
+		private readonly Image _normalRerecordAnnotationButton;
+		private readonly Image _hotRerecordAnnotationButton;
 
 		private TimeSpan _elapsedRecordingTime;
 		private TimeSpan _endOfTempSegment;
@@ -67,8 +69,10 @@ namespace SayMore.Transcription.UI
 
 			_normalPlayOriginalButton = _labelListenButton.Image;
 			_normalRecordAnnotationButton = _labelRecordButton.Image;
+			_normalRerecordAnnotationButton = Resources.RerecordOralAnnotation;
 			_hotPlayOriginalButton = PaintingHelper.MakeHotImage(_normalPlayOriginalButton);
 			_hotRecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRecordAnnotationButton);
+			_hotRerecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRerecordAnnotationButton);
 
 			_scrollTimer.Tick += delegate
 			{
@@ -105,12 +109,6 @@ namespace SayMore.Transcription.UI
 
 			_labelRecordButton.MouseDown += HandleRecordAnnotationMouseDown;
 			_labelRecordButton.MouseUp += HandleRecordAnnotationMouseUp;
-
-			//_buttonListenToAnnotation.Click += delegate
-			//{
-			//    ViewModel.StartAnnotationPlayback();
-			//    UpdateDisplay();
-			//};
 
 			//_buttonEraseAnnotation.Click += delegate
 			//{
@@ -304,10 +302,10 @@ namespace SayMore.Transcription.UI
 			////	return;
 			//}
 
-			//_labelListenButton.Enabled = !ViewModel.GetIsAnnotationPlaying() && !ViewModel.GetIsRecording() &&
-			//    (!_waveControl.IsPlaying || _waveControl.GetCursorTime() >= ViewModel.GetEndOfLastSegment());
 			_labelListenButton.Enabled = !ViewModel.GetIsRecording();
-			_labelRecordButton.Enabled = _endOfTempSegment > ViewModel.GetEndOfLastSegment();
+
+			_labelRecordButton.Enabled = _endOfTempSegment > ViewModel.GetEndOfLastSegment() &&
+				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying();
 
 			Utils.SetWindowRedraw(_tableLayoutSegmentInfo, false);
 
@@ -458,14 +456,12 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnPlayingback(ctrl, current, total);
 
-			//if (ViewModel.CurrentSegment == null)
 			var endOfLastSegment = ViewModel.GetEndOfLastSegment();
-			if (current > endOfLastSegment)
+			if (current > endOfLastSegment && current > _endOfTempSegment)
 			{
 				_endOfTempSegment = current;
 				_waveControl.Invalidate(GetTempSegmentRectangle());
 			}
-//				_waveControl.SetSelectionTimes(ViewModel.GetEndOfLastSegment(), current);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -558,8 +554,6 @@ namespace SayMore.Transcription.UI
 				return;
 
 			var segMouseOver = _waveControl.GetSegmentForX(e.X);
-			if (segMouseOver < 0)
-				return;
 
 			if (ViewModel.GetIsAnnotationPlaying())
 			{
@@ -568,27 +562,34 @@ namespace SayMore.Transcription.UI
 				_waveControl.Invalidate(_annotationPlaybackRectangle);
 			}
 
-			var segment = ViewModel.TimeTier.Segments[segMouseOver];
-
-			if (playOriginal)
-				_waveControl.Play(TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
+			if (segMouseOver < 0)
+			{
+				// Play the original recording for our temp segment.
+				_waveControl.Play(ViewModel.GetEndOfLastSegment(), _endOfTempSegment);
+			}
 			else
 			{
-				var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
-				_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw
-					.First(h => h.AudioFilePath == path).AudioDuration;
+				var segment = ViewModel.TimeTier.Segments[segMouseOver];
 
-				_annotationPlaybackRectangle = _waveControl.GetRectangleBetweenBoundaries(
-					TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
+				if (playOriginal)
+					_waveControl.Play(TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
+				else
+				{
+					var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
+					_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw
+						.First(h => h.AudioFilePath == path).AudioDuration;
 
-				_annotationPlaybackRectangle.Y = _annotationPlaybackRectangle.Bottom;
-				_annotationPlaybackRectangle.Height = _waveControl.BottomReservedAreaHeight;
-				_annotationPlaybackRectangle.Inflate(-2, 0);
+					_annotationPlaybackRectangle = _waveControl.GetRectangleBetweenBoundaries(
+						TimeSpan.FromSeconds(segment.Start), TimeSpan.FromSeconds(segment.End));
 
-				ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress,
-					() => _annotationPlaybackCursorX = 0);
+					_annotationPlaybackRectangle.Y = _annotationPlaybackRectangle.Bottom;
+					_annotationPlaybackRectangle.Height = _waveControl.BottomReservedAreaHeight;
+					_annotationPlaybackRectangle.Inflate(-2, 0);
+
+					ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress,
+						() => _annotationPlaybackCursorX = 0);
+				}
 			}
-
 			UpdateDisplay();
 		}
 
@@ -669,8 +670,11 @@ namespace SayMore.Transcription.UI
 				_annotationPlaybackCursorX <= rc.Right)
 			{
 				rc.Inflate(0, 3);
-				e.Graphics.DrawLine(Pens.Green, _annotationPlaybackCursorX, rc.Y,
-					_annotationPlaybackCursorX, rc.Bottom);
+				using (var pen = new Pen(_waveControl.Painter.CursorColor))
+				{
+					e.Graphics.DrawLine(pen, _annotationPlaybackCursorX, rc.Y,
+						_annotationPlaybackCursorX, rc.Bottom);
+				}
 			}
 		}
 
@@ -693,19 +697,19 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleWaveControlPostPaint(PaintEventArgs e)
 		{
+			var rc = GetTempSegmentRectangle();
+			if (rc != Rectangle.Empty)
+			{
+				using (var br = new SolidBrush(Color.FromArgb(90, Settings.Default.DataEntryPanelColorBorder)))
+					e.Graphics.FillRectangle(br, rc);
+			}
+
 			var playButtonRects = GetPlayButtonRectanglesForSegmentMouseIsOver();
 
 			if (playButtonRects != null)
 			{
 				DrawPlayButtonsInSegments(e.Graphics, playButtonRects.Item1);
 				DrawPlayButtonsInSegments(e.Graphics, playButtonRects.Item2);
-			}
-
-			var rc = GetTempSegmentRectangle();
-			if (rc != Rectangle.Empty)
-			{
-				using (var br = new SolidBrush(Color.FromArgb(90, Settings.Default.DataEntryPanelColorBorder)))
-					e.Graphics.FillRectangle(br, rc);
 			}
 
 			if (ViewModel.GetIsRecording())
@@ -745,13 +749,13 @@ namespace SayMore.Transcription.UI
 		private void DrawTextInAnnotationWaveCellWhileRecording(Graphics g)
 		{
 			var rc = _pictureRecording.Bounds;
-			rc.Inflate(2, 2);
-			rc.Width--;
-			rc.Height--;
-			g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-			g.FillEllipse(Brushes.White, rc);
-			g.DrawEllipse(Pens.Black, rc);
+			//rc.Inflate(2, 2);
+			//rc.Width--;
+			//rc.Height--;
+			//g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+			//g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+			//g.FillEllipse(Brushes.White, rc);
+			//g.DrawEllipse(Pens.Black, rc);
 
 			rc = GetTempSegmentAnnotationRectangle();
 			rc.Inflate(-5, -5);
@@ -815,10 +819,19 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private Tuple<Rectangle, Rectangle> GetPlayButtonRectanglesForSegmentMouseIsOver()
 		{
-			if (!_waveControl.GetHasSelection())
-				return null;
-
 			var mousePos = _waveControl.PointToClient(MousePosition);
+			var playButtonSize = StandardAudioButtons.PlayButtonImage.Size;
+
+			if (!_waveControl.GetHasSelection())
+			{
+				var tempRect = GetTempSegmentRectangle();
+				if (!tempRect.Contains(mousePos))
+					return null;
+
+				return new Tuple<Rectangle, Rectangle>(new Rectangle(tempRect.X + 6,
+					tempRect.Bottom - _waveControl.BottomReservedAreaHeight - 5 - playButtonSize.Height,
+					playButtonSize.Width, playButtonSize.Height), Rectangle.Empty);
+			}
 
 			int i = 0;
 			var rc = _waveControl.GetSegmentRectangles().FirstOrDefault(r =>
@@ -830,8 +843,6 @@ namespace SayMore.Transcription.UI
 				i++;
 				return false;
 			});
-
-			var playButtonSize = StandardAudioButtons.PlayButtonImage.Size;
 
 			if (rc.IsEmpty || playButtonSize.Width + 6 > rc.Width)
 				return null;
@@ -917,15 +928,15 @@ namespace SayMore.Transcription.UI
 			//    return;
 			//}
 
-			if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying())
-			{
-				if (_waveControl.IsPlaying)
-					_waveControl.Stop();
-				else
-					ViewModel.StopAnnotationPlayback();
+			//if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying())
+			//{
+			//    if (_waveControl.IsPlaying)
+			//        _waveControl.Stop();
+			//    else
+			//        ViewModel.StopAnnotationPlayback();
 
-				ScrollInPreparationForListenOrRecord(_labelRecordButton);
-			}
+			//    ScrollInPreparationForListenOrRecord(_labelRecordButton);
+			//}
 
 			if (ViewModel.BeginAnnotationRecording(_endOfTempSegment, HandleAnnotationRecordingProgress))
 			{

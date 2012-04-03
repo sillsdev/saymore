@@ -54,6 +54,24 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+
+				if (_watcher != null)
+				{
+					_watcher.Changed -= HandleAnnotationFileChanged;
+					_watcher.Dispose();
+					_watcher = null;
+				}
+			}
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void LoadPlaybackSpeedCombo()
 		{
 			_comboPlaybackSpeed.Items.Add(LocalizationManager.GetString(

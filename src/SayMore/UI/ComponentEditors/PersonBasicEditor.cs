@@ -63,6 +63,9 @@ namespace SayMore.UI.ComponentEditors
 
 			LoadPersonsPicture();
 			LoadParentLanguages();
+
+			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelFullName); };
+			_birthYear.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelBirthYear); };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -143,13 +146,6 @@ namespace SayMore.UI.ComponentEditors
 		{
 			var picFile = GetPictureFile();
 			return (picFile == null ? null : _imgFileType.GetMetaFilePath(picFile));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleIdEnter(object sender, EventArgs e)
-		{
-			// Makes sure the id's label is also visible when the id field gains focus.
-			AutoScrollPosition = new Point(0, 0);
 		}
 
 		#region Methods for handling parents' language

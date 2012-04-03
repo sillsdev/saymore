@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -139,6 +140,20 @@ namespace SayMore.UI.ComponentEditors
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Makes sure that invalid file name characters cannot be entered into id fields.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected void HandleIdFieldKeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar != (char)Keys.Back && Path.GetInvalidFileNameChars().Contains(e.KeyChar))
+			{
+				System.Media.SystemSounds.Beep.Play();
+				e.Handled = true;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetComponentFile(ComponentFile file)
 		{
 			if (DesignMode)
@@ -176,7 +191,11 @@ namespace SayMore.UI.ComponentEditors
 			else if (ctrl is DatePicker)
 				((DatePicker)ctrl).ValueChanged += HandleDateValueChanged;
 			else
+			{
 				ctrl.Validating += HandleValidatingControl;
+				if (ctrl == _componentFileIdControl)
+					ctrl.KeyPress += HandleIdFieldKeyPress;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -189,7 +208,11 @@ namespace SayMore.UI.ComponentEditors
 			else if (ctrl is DatePicker)
 				((DatePicker)ctrl).ValueChanged -= HandleDateValueChanged;
 			else
+			{
 				ctrl.Validating -= HandleValidatingControl;
+				if (ctrl == _componentFileIdControl)
+					ctrl.KeyPress -= HandleIdFieldKeyPress;
+			}
 
 			if (removeFromBoundControlCollection &&  _boundControls != null && _boundControls.Contains(ctrl))
 				_boundControls.Remove(ctrl);

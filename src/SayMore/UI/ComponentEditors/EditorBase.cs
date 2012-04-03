@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -257,5 +258,14 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		protected void EnsureFirstRowLabelIsVisible(Label lbl)
+		{
+			// Makes sure the specified label at the top of the
+			// editor is scrolled into view if it's not visible.
+			if (!ClientRectangle.Contains(lbl.Bounds))
+				AutoScrollPosition = new Point(0, 0);
+		}
 	}
 }

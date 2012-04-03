@@ -46,6 +46,10 @@ namespace SayMore.UI.ComponentEditors
 			var sampleStatusImage = Properties.Resources.StatusFinished;
 			if (_status.ItemHeight < sampleStatusImage.Height)
 				_status.ItemHeight = sampleStatusImage.Height;
+
+			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelId); };
+			_date.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelDate); };
+			_status.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelStatus); };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -88,8 +92,8 @@ namespace SayMore.UI.ComponentEditors
 		private IEnumerable<PickerPopupItem> HandleParticipantJustInTimeListAcquisition(object sender)
 		{
 			return from name in _personInformant.GetPeopleNamesFromRepository()
-				orderby name
-				select new PickerPopupItem { Text = name, ToolTipText = null };
+				   orderby name
+				   select new PickerPopupItem { Text = name, ToolTipText = null };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -112,13 +116,6 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleIdEnter(object sender, EventArgs e)
-		{
-			// Makes sure the id's label is also visible when the id field gains focus.
-			AutoScrollPosition = new Point(0, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------

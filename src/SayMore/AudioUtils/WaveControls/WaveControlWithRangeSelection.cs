@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
@@ -12,6 +11,13 @@ namespace SayMore.Media
 			TimeSpan newStart, TimeSpan newEnd);
 
 		public event SelectedRegionChangedHandler SelectedRegionChanged;
+		public bool SelectSegmentOnMouseOver { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public WaveControlWithRangeSelection()
+		{
+			SelectSegmentOnMouseOver = true;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override WavePainterBasic GetNewWavePainter(WaveFileReader stream)
@@ -85,6 +91,9 @@ namespace SayMore.Media
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			base.OnMouseMove(e);
+
+			if (!SelectSegmentOnMouseOver)
+				return;
 
 			if (_boundaryMouseOver != default(TimeSpan))
 			{

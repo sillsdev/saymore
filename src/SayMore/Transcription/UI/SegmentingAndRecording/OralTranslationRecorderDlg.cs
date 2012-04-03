@@ -1,4 +1,6 @@
 
+using Localization;
+
 namespace SayMore.Transcription.UI
 {
 	/// ----------------------------------------------------------------------------------------
@@ -10,6 +12,17 @@ namespace SayMore.Transcription.UI
 		{
 			InitializeComponent();
 			Opacity = 0D;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override string ReadyToRecordMessage
+		{
+			get
+			{
+				return LocalizationManager.GetString(
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ReadyToRecordAnnotationMsg.OralTranslation",
+					"Ready to Record\r\nOral Translation");
+			}
 		}
 	}
 }

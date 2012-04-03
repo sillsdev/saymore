@@ -28,6 +28,7 @@ namespace SayMore.Transcription.UI
 		private TimeSpan _annotationPlaybackLength;
 		private int _annotationPlaybackCursorX;
 		private Rectangle _annotationPlaybackRectangle;
+		private Font _annotationSegmentFont;
 
 		protected WaveControlWithRangeSelection _waveControl;
 
@@ -147,6 +148,7 @@ namespace SayMore.Transcription.UI
 			if (disposing && (components != null))
 			{
 				components.Dispose();
+				_annotationSegmentFont.Dispose();
 				_hotPlayOriginalButton.Dispose();
 				_hotRecordAnnotationButton.Dispose();
 				Localization.UI.LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
@@ -164,6 +166,8 @@ namespace SayMore.Transcription.UI
 			//_labelHighlightedSegment.Font = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
 			//_labelSegmentStart.Font = _labelTotalDuration.Font;
 			//_labelSegmentDuration.Font = _labelTotalDuration.Font;
+
+			_annotationSegmentFont = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
 
 			Localization.UI.LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 		}
@@ -225,6 +229,8 @@ namespace SayMore.Transcription.UI
 				UpdateDisplay();
 				return lastSegmentEndTime;
 			};
+
+			_waveControl.Controls.Add(_pictureRecording);
 
 			return _waveControl;
 		}
@@ -505,8 +511,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleWaveControlMouseMove(object sender, MouseEventArgs e)
 		{
-			//if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying())
-			//    return;
+			if (ViewModel.GetIsRecording())
+				return;
 
 			var playButtonRects = GetPlayButtonRectanglesForSegmentMouseIsOver();
 			if (playButtonRects != null)
@@ -632,16 +638,6 @@ namespace SayMore.Transcription.UI
 				DrawOralAnnotationWave(e, rc, segment);
 				DrawCursorInOralAnnotationWave(e, rc);
 			}
-
-			if (!ViewModel.GetIsRecording())
-				return;
-
-			var tempRect = GetTempSegmentRectangle();
-			var pt = new Point(tempRect.X + 5, tempRect.Bottom - _labelHighlightedSegment.Font.Height - 5);
-			var text = string.Format("Recording Length: {0}",
-				MediaPlayerViewModel.MakeTimeString((float)_elapsedRecordingTime.TotalSeconds));
-
-			TextRenderer.DrawText(e.Graphics, text, _labelHighlightedSegment.Font, pt, Color.Black);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -712,6 +708,11 @@ namespace SayMore.Transcription.UI
 					e.Graphics.FillRectangle(br, rc);
 			}
 
+			if (ViewModel.GetIsRecording())
+				DrawTextInAnnotationWaveCellWhileRecording(e.Graphics);
+			else if (!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying() && _labelRecordButton.Enabled)
+				DrawTextInAnnotationWaveCellWhileNotRecording(e.Graphics);
+
 			using (var pen = new Pen(Settings.Default.BarColorBorder))
 			{
 				var cursorRect = GetTempCursorRectangle();
@@ -722,6 +723,49 @@ namespace SayMore.Transcription.UI
 					e.Graphics.DrawLine(pen, cursorRect.X + 2, 0, cursorRect.X + 2, _waveControl.ClientSize.Height);
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawTextInAnnotationWaveCellWhileNotRecording(Graphics g)
+		{
+			var rc = GetTempSegmentAnnotationRectangle();
+			rc.Inflate(-3, -3);
+
+			TextRenderer.DrawText(g, ReadyToRecordMessage, _annotationSegmentFont, rc, Color.Black,
+				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string ReadyToRecordMessage
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawTextInAnnotationWaveCellWhileRecording(Graphics g)
+		{
+			var rc = _pictureRecording.Bounds;
+			rc.Inflate(2, 2);
+			rc.Width--;
+			rc.Height--;
+			g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+			g.FillEllipse(Brushes.White, rc);
+			g.DrawEllipse(Pens.Black, rc);
+
+			rc = GetTempSegmentAnnotationRectangle();
+			rc.Inflate(-5, -5);
+			rc.X += (_pictureRecording.Width + 6);
+			rc.Width -= (_pictureRecording.Width + 6);
+
+			var text = LocalizationManager.GetString(
+				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingAnnotationMsg",
+				"Recording...\r\nLength: {0}");
+
+			text = string.Format(text, MediaPlayerViewModel.MakeTimeString((float)_elapsedRecordingTime.TotalSeconds));
+
+			TextRenderer.DrawText(g, text, _annotationSegmentFont, rc, Color.Black,
+				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -742,6 +786,15 @@ namespace SayMore.Transcription.UI
 			var x1 = _waveControl.Painter.ConvertTimeToXCoordinate(timeAtEndOfLastSegment);
 			var x2 = _waveControl.Painter.ConvertTimeToXCoordinate(_endOfTempSegment);
 			return new Rectangle(x1, 0, x2 - x1 + 1, _waveControl.ClientSize.Height);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetTempSegmentAnnotationRectangle()
+		{
+			var rc = GetTempSegmentRectangle();
+			rc.Y = rc.Bottom - _waveControl.BottomReservedAreaHeight;
+			rc.Height = _waveControl.BottomReservedAreaHeight;
+			return rc;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -875,7 +928,15 @@ namespace SayMore.Transcription.UI
 			}
 
 			if (ViewModel.BeginAnnotationRecording(_endOfTempSegment, HandleAnnotationRecordingProgress))
+			{
 				UpdateDisplay();
+
+				_waveControl.SelectSegmentOnMouseOver = false;
+				var rc = GetTempSegmentAnnotationRectangle();
+				rc.Inflate(-5, -5);
+				_pictureRecording.Location = rc.Location;
+				_pictureRecording.Visible = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -897,6 +958,9 @@ namespace SayMore.Transcription.UI
 			if (!ViewModel.GetIsRecording())
 				return;
 
+			_pictureRecording.Visible = false;
+			_waveControl.SelectSegmentOnMouseOver = true;
+
 			if (ViewModel.StopAnnotationRecording())
 			{
 				_waveControl.SegmentBoundaries = ViewModel.InsertNewBoundary(_waveControl.GetCursorTime());
@@ -906,6 +970,7 @@ namespace SayMore.Transcription.UI
 					if (!ViewModel.IsFullySegmented)
 					{
 						_waveControl.ClearSelection();
+						UpdateDisplay();
 						return;
 					}
 

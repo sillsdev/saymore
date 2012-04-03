@@ -29,10 +29,12 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutSegmentInfo = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutMediaButtons = new System.Windows.Forms.TableLayoutPanel();
+			this._pictureRecording = new System.Windows.Forms.PictureBox();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._tableLayoutSegmentInfo.SuspendLayout();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).BeginInit();
 			this.SuspendLayout();
 			//
 			// locExtender
@@ -174,11 +176,28 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutMediaButtons.TabIndex = 8;
 			this._tableLayoutMediaButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleMediaButtonTableLayoutPaint);
 			//
+			// _pictureRecording
+			//
+			this._pictureRecording.BackColor = System.Drawing.Color.Transparent;
+			this._pictureRecording.Image = global::SayMore.Properties.Resources.BusyWheelSmall;
+			this.locExtender.SetLocalizableToolTip(this._pictureRecording, null);
+			this.locExtender.SetLocalizationComment(this._pictureRecording, null);
+			this.locExtender.SetLocalizationPriority(this._pictureRecording, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pictureRecording, "pictureBox1.pictureBox1");
+			this._pictureRecording.Location = new System.Drawing.Point(189, 5);
+			this._pictureRecording.Name = "_pictureRecording";
+			this._pictureRecording.Size = new System.Drawing.Size(16, 16);
+			this._pictureRecording.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._pictureRecording.TabIndex = 9;
+			this._pictureRecording.TabStop = false;
+			this._pictureRecording.Visible = false;
+			//
 			// OralAnnotationRecorderBaseDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 362);
+			this.Controls.Add(this._pictureRecording);
 			this.Controls.Add(this._tableLayoutSegmentInfo);
 			this.Controls.Add(this._tableLayoutMediaButtons);
 			this.Cursor = System.Windows.Forms.Cursors.Default;
@@ -191,12 +210,15 @@ namespace SayMore.Transcription.UI
 			this.Text = "Change my text";
 			this.Controls.SetChildIndex(this._tableLayoutMediaButtons, 0);
 			this.Controls.SetChildIndex(this._tableLayoutSegmentInfo, 0);
+			this.Controls.SetChildIndex(this._pictureRecording, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this._tableLayoutSegmentInfo.ResumeLayout(false);
 			this._tableLayoutSegmentInfo.PerformLayout();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
 			this._tableLayoutMediaButtons.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -213,5 +235,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelRecordButton;
 		private System.Windows.Forms.Label _labelListenButton;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutMediaButtons;
+		private System.Windows.Forms.PictureBox _pictureRecording;
 	}
 }

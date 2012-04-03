@@ -72,7 +72,7 @@ namespace SayMore.Media
 
 //				using (var br = new SolidBrush(Color.FromArgb(100, SystemColors.Highlight)))
 //				using (var br = new SolidBrush(Color.FromArgb(90, Color.Orange)))
-				using (var br = new SolidBrush(Color.FromArgb(90, Settings.Default.BarColorBorder)))
+				using (var br = new SolidBrush(Color.FromArgb(100, Color.CornflowerBlue)))
 					g.FillRectangle(br, regionRect);
 
 				_previousSelectedRegion = new Tuple<int,int>(regionRect.X, regionRect.Width);

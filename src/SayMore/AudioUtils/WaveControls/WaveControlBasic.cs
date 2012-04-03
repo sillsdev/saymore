@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -380,68 +379,6 @@ namespace SayMore.Media
 		{
 			return (Painter == null ? TimeSpan.Zero : Painter.ConvertXCoordinateToTime(dx));
 		}
-
-//        /// ------------------------------------------------------------------------------------
-//        /// <summary>
-//        /// Ensure that the view is scrolled so that both the start and end times are visible
-//        /// (and not jammed right up against the edge of the view) if possible. If they are not
-//        /// both visible and the requested range is narrow enough to fit in the view, then
-//        /// scroll so that the start is near the left edge of the view. If the requested range
-//        /// is too wide to fit, then the favorStart parameter determines whether the start is
-//        /// visible (true) or the end is visible (false).
-//        /// </summary>
-//        /// ------------------------------------------------------------------------------------
-//        public void EnsureRangeIsVisible(TimeSpan start, TimeSpan end, bool center,
-//            bool favorStart = true)
-//        {
-//            Debug.Assert(start <= end);
-//            var startX = Painter.ConvertTimeToXCoordinate(start) - 3;
-//            var endX = Painter.ConvertTimeToXCoordinate(end) + 3;
-//            if (startX >= 0 && endX <= ClientRectangle.Right)
-//                return;
-
-//            if (endX - startX <= ClientRectangle.Width || favorStart)
-//            {
-//                if (center)
-//                    EnsureXIsVisible((startX + endX) / 2);
-//                else if (startX <
-//                    EnsureXIsVisible((favorStart ? startX : endX), false);
-//            }
-//            else
-//                EnsureXIsVisible(endX - ClientRectangle.Width / 2 + 3, center);
-//        }
-
-//        /// ------------------------------------------------------------------------------------
-//        public virtual void EnsureXIsVisible(int x, bool scrollXToMiddle = true,
-//            float startMarginPercent = 15, float endMarginPercent = 85, bool useSlideEffect = true)
-//        {
-//            int minX = (int)(ClientSize.Width * startMarginPercent / 100);
-//            int maxX = (int)(ClientSize.Width * endMarginPercent / 100);
-
-//            if (x >= minX && x <= maxX)
-//                return;
-
-//            useSlideEffect = true;
-
-//            if (_slideTimer != null)
-//                KillSlideTimer();
-
-////			_slidingTargetScrollOffset = -AutoScrollPosition.X + (dx < 0 ? dx : (dx - ClientSize.Width));
-//            _slidingTargetScrollOffset = -AutoScrollPosition.X + (x - (scrollXToMiddle ? ClientSize.Width / 2 : (x > maxX ? maxX : minX)));
-
-//            if (!useSlideEffect)
-//            {
-//                AutoScrollPosition = new Point(_slidingTargetScrollOffset, AutoScrollPosition.Y);
-//                Painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
-//                return;
-//            }
-
-//            _endSlideTime = DateTime.Now.AddMilliseconds(250);
-//            _slideTimer = new Timer();
-//            _slideTimer.Interval = 1;
-//            _slideTimer.Tick += _slideTimer_Tick;
-//            _slideTimer.Start();
-//        }
 
 		/// ------------------------------------------------------------------------------------
 		public void EnsureTimeIsVisible(TimeSpan time, TimeSpan rangeStartTime,

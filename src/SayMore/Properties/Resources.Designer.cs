@@ -477,6 +477,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap RecordOralAnnotationSmall {
+            get {
+                object obj = ResourceManager.GetObject("RecordOralAnnotationSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap RecordStart {
             get {
                 object obj = ResourceManager.GetObject("RecordStart", resourceCulture);

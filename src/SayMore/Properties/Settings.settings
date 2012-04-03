@@ -60,6 +60,8 @@
   &lt;string&gt;.mov&lt;/string&gt;
   &lt;string&gt;.mp4&lt;/string&gt;
   &lt;string&gt;.mts&lt;/string&gt;
+  &lt;string&gt;.m4v&lt;/string&gt;
+  &lt;string&gt;.m2v&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="ImageFileExtensions" Type="System.Collections.Specialized.StringCollection" Scope="Application">

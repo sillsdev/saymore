@@ -168,6 +168,8 @@ namespace SayMore.Properties {
   <string>.mov</string>
   <string>.mp4</string>
   <string>.mts</string>
+  <string>.m4v</string>
+  <string>.m2v</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection VideoFileExtensions {
             get {

@@ -27,7 +27,7 @@ namespace SayMore.Transcription.UI
 		protected Timer _timer;
 		protected TimeSpan _timeAtBeginningOfboundaryMove = TimeSpan.FromSeconds(1).Negate();
 		protected bool _moreReliableDesignMode;
-		private readonly WaveControlBasic _waveControl;
+		private WaveControlBasic _waveControl;
 
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBase()
@@ -38,22 +38,11 @@ namespace SayMore.Transcription.UI
 				(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
 
 			InitializeComponent();
-			InitializeZoomComboItems();
+			base.DoubleBuffered = true;
 
 			_toolStripStatus.Renderer = new SilTools.NoToolStripBorderRenderer();
-			_waveControl = CreateWaveControl();
-			_waveControl.Dock = DockStyle.Fill;
-			_panelWaveControl.Controls.Add(_waveControl);
+			_tableLayoutButtons.BackColor = Settings.Default.BarColorEnd;
 			_panelWaveControl.BackColor = Settings.Default.BarColorBorder;
-
-			DoubleBuffered = true;
-			_comboBoxZoom.Text = _comboBoxZoom.Items[0] as string;
-			_comboBoxZoom.Font = SystemFonts.MenuFont;
-			_labelZoom.Font = SystemFonts.MenuFont;
-			_labelSegmentXofY.Font = SystemFonts.MenuFont;
-			_labelSegmentNumber.Font = SystemFonts.MenuFont;
-			_labelTimeDisplay.Font = SystemFonts.MenuFont;
-			_labelOriginalRecording.Font = FontHelper.MakeFont(SystemFonts.MenuFont, FontStyle.Bold);
 
 			_buttonCancel.Click += delegate { Close(); };
 			_buttonOK.Click += delegate { Close(); };
@@ -81,10 +70,29 @@ namespace SayMore.Transcription.UI
 				FormSettings = FormSettings.Create(this);
 			}
 
-			InitializeWaveControl();
-
 			_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(0f,
 				(float)_viewModel.OrigWaveStream.TotalTime.TotalSeconds);
+		}
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+
+			if (_moreReliableDesignMode)
+				return;
+
+			_tableLayoutOuter.RowStyles.Clear();
+			_tableLayoutOuter.RowCount = 4;
+			_tableLayoutOuter.RowStyles.Add(new RowStyle());
+			_tableLayoutOuter.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+			_tableLayoutOuter.RowStyles.Add(new RowStyle(SizeType.Absolute, GetHeightOfTableLayoutButtonRow()));
+			_tableLayoutOuter.RowStyles.Add(new RowStyle());
+
+			_waveControl = CreateWaveControl();
+			InitializeWaveControl();
+			_waveControl.Dock = DockStyle.Fill;
+			_panelWaveControl.Controls.Add(_waveControl);
+			_waveControl.BringToFront();
 
 			_waveControl.FormatNotSupportedMessageProvider = waveFormat =>
 			{
@@ -100,12 +108,35 @@ namespace SayMore.Transcription.UI
 					"Segmenting {0} bit, {1} audio files is not supported."),
 					waveFormat.BitsPerSample, waveFormat.Encoding);
 			};
+
+			InitializeZoomComboItems();
+			_comboBoxZoom.Text = _comboBoxZoom.Items[0] as string;
+			_comboBoxZoom.Font = SystemFonts.MenuFont;
+			_labelZoom.Font = SystemFonts.MenuFont;
+			_labelSegmentXofY.Font = SystemFonts.MenuFont;
+			_labelSegmentNumber.Font = SystemFonts.MenuFont;
+			_labelTimeDisplay.Font = SystemFonts.MenuFont;
+			_labelOriginalRecording.Font = FontHelper.MakeFont(SystemFonts.MenuFont, FontStyle.Bold);
+
+			// If we ever get zooming working again, remove the following two
+			// lines and uncomment the two below them.
+			_labelZoom.Visible = false;
+			_comboBoxZoom.Visible = false;
+			//_waveControl.ZoomPercentage = 300; //ZoomPercentage;
+			//_comboBoxZoom.Text = string.Format("{0}%", ZoomPercentage);
+
+			HandleStringsLocalized();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual WaveControlBasic CreateWaveControl()
 		{
-			return new WaveControlBasic();
+			throw new NotImplementedException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleStringsLocalized()
+		{
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,25 +180,6 @@ namespace SayMore.Transcription.UI
 			_waveControl.PlaybackStarted += OnPlaybackStarted;
 			_waveControl.PlaybackUpdate += OnPlayingback;
 			_waveControl.PlaybackStopped += OnPlaybackStopped;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-
-			if (_moreReliableDesignMode)
-				return;
-
-			_tableLayoutOuter.RowStyles.Clear();
-			_tableLayoutOuter.RowCount = 4;
-			_tableLayoutOuter.RowStyles.Add(new RowStyle());
-			_tableLayoutOuter.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-			_tableLayoutOuter.RowStyles.Add(new RowStyle(SizeType.Absolute, GetHeightOfTableLayoutButtonRow()));
-			_tableLayoutOuter.RowStyles.Add(new RowStyle());
-
-			_waveControl.ZoomPercentage = 300; //ZoomPercentage;
-			_comboBoxZoom.Text = string.Format("{0}%", ZoomPercentage);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -244,11 +256,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleTableLayoutButtonsPaint(object sender, PaintEventArgs e)
 		{
-			using (var br = new LinearGradientBrush(_tableLayoutButtons.ClientRectangle,
-				AppColors.BarEnd, AppColors.BarBegin, 0f))
-			{
-					e.Graphics.FillRectangle(br, _tableLayoutButtons.ClientRectangle);
-			}
+			//using (var br = new LinearGradientBrush(_tableLayoutButtons.ClientRectangle,
+			//    AppColors.BarEnd, AppColors.BarBegin, 0f))
+			//{
+			//        e.Graphics.FillRectangle(br, _tableLayoutButtons.ClientRectangle);
+			//}
 
 			using (var pen = new Pen(AppColors.BarBorder))
 				e.Graphics.DrawLine(pen, 0, 0, _tableLayoutButtons.Width, 0);

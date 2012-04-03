@@ -31,13 +31,6 @@ namespace SayMore.Transcription.UI
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			//
-			// _waveControl
-			//
-			this.locExtender.SetLocalizableToolTip(this._waveControl, null);
-			this.locExtender.SetLocalizationComment(this._waveControl, null);
-			this.locExtender.SetLocalizationPriority(this._waveControl, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._waveControl, "CarefulSpeechRecorderDlg._waveControl");
-			//
 			// locExtender
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";

@@ -40,16 +40,6 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void InvalidateRegionBetweenTimes(TimeSpan start, TimeSpan end)
-		{
-			if (start == end)
-				return;
-
-			Invalidate(new Rectangle(MyPainter.ConvertTimeToXCoordinate(start),
-				0, MyPainter.ConvertTimeToXCoordinate(end), ClientSize.Height));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public int GetSegmentForX(int dx)
 		{
 			var timeAtX = GetTimeFromX(dx);

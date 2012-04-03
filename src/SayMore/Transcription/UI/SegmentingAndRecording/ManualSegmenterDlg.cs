@@ -23,7 +23,7 @@ namespace SayMore.Transcription.UI
 		public static string ShowDialog(ComponentFile file, Control parent)
 		{
 			Exception error;
-			string msg = null;
+			string msg;
 
 			using (var viewModel = new ManualSegmenterDlgViewModel(file))
 			using (var dlg = new ManualSegmenterDlg(viewModel))
@@ -111,17 +111,12 @@ namespace SayMore.Transcription.UI
 				_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 				UpdateDisplay();
 			};
-
-			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
-			_waveControl.BoundaryMouseDown += delegate { UpdateDisplay(); };
-			_waveControl.CursorTimeChanged += delegate { UpdateDisplay(); };
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnLoad(EventArgs e)
+		protected override void HandleStringsLocalized()
 		{
 			UpdateDisplay();
-			base.OnLoad(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -134,6 +129,9 @@ namespace SayMore.Transcription.UI
 		protected override WaveControlBasic CreateWaveControl()
 		{
 			_waveControl = new WaveControlWithBoundarySelection();
+			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
+			_waveControl.BoundaryMouseDown += delegate { UpdateDisplay(); };
+			_waveControl.CursorTimeChanged += delegate { UpdateDisplay(); };
 			return _waveControl;
 		}
 

@@ -311,6 +311,16 @@ namespace SayMore.Media
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		public void InvalidateRegionBetweenTimes(TimeSpan start, TimeSpan end)
+		{
+			if (start == end)
+				return;
+
+			Invalidate(new Rectangle(Painter.ConvertTimeToXCoordinate(start),
+				0, Painter.ConvertTimeToXCoordinate(end), ClientSize.Height));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual void InvalidateBottomReservedArea()
 		{
 			if (BottomReservedAreaHeight == 0)

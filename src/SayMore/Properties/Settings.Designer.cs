@@ -1361,7 +1361,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("18")]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
         public int SegmentingWaveViewPixelsPerSecond {
             get {
                 return ((int)(this["SegmentingWaveViewPixelsPerSecond"]));

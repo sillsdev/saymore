@@ -207,7 +207,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool BeginAnnotationRecording(TimeSpan cursorTime)
+		public bool BeginAnnotationRecording(TimeSpan cursorTime, Action<TimeSpan> recordingProgressAction)
 		{
 			if (GetIsRecording() || GetDoesCurrentSegmentHaveAnnotationFile())
 				return false;
@@ -232,6 +232,7 @@ namespace SayMore.Transcription.UI
 			_annotationRecorder.SelectedDevice = RecordingDevice.Devices.First();
 			_annotationRecorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
 			_annotationRecorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
+			_annotationRecorder.RecordingProgress += (s, e) => recordingProgressAction(e.RecordedLength);
 			_annotationRecorder.BeginMonitoring();
 			_annotationRecorder.BeginRecording(path);
 			Debug.WriteLine(path);

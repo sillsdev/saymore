@@ -23,6 +23,7 @@ namespace SayMore.Transcription.UI
 		private readonly Image _normalPlayOriginalButton;
 		private readonly Image _normalRecordAnnotationButton;
 
+		private TimeSpan _elapsedRecordingTime;
 		private TimeSpan _endOfTempSegment;
 		private TimeSpan _annotationPlaybackLength;
 		private int _annotationPlaybackCursorX;
@@ -55,6 +56,7 @@ namespace SayMore.Transcription.UI
 		{
 			InitializeComponent();
 
+			Padding = new Padding(0);
 			InitializeInfoLabels();
 			_tableLayoutTop.Visible = false;
 			_cursorBlinkTimer.Enabled = true;
@@ -119,12 +121,16 @@ namespace SayMore.Transcription.UI
 
 			_endOfTempSegment = ViewModel.GetEndOfLastSegment();
 
-			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
+			_toolStripStatus.Visible = false;
+
+			_tableLayoutSegmentInfo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+			_tableLayoutSegmentInfo.AutoSize = true;
+			_tableLayoutSegmentInfo.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+			_tableLayoutButtons.Controls.Add(_tableLayoutSegmentInfo, 0, 0);
 
 			_tableLayoutMediaButtons.Dock = DockStyle.Left;
 			_panelWaveControl.Controls.Add(_tableLayoutMediaButtons);
 			_tableLayoutMediaButtons.BackColor = Settings.Default.BarColorBegin;
-			_waveControl.BringToFront();
 			_tableLayoutMediaButtons.RowStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutMediaButtons.RowStyles[_tableLayoutMediaButtons.RowCount - 1].SizeType = SizeType.Absolute;
 			_tableLayoutMediaButtons.Controls.Add(_labelOriginalRecording, 0, 0);
@@ -133,13 +139,6 @@ namespace SayMore.Transcription.UI
 			var margin = _labelOriginalRecording.Margin;
 			margin.Top = 10;
 			_labelOriginalRecording.Margin = margin;
-
-			_waveControl.ClientSizeChanged += delegate
-			{
-				_tableLayoutMediaButtons.RowStyles[_tableLayoutMediaButtons.RowCount - 1].Height =
-					Settings.Default.AnnotationWaveViewHeight +
-					(_waveControl.HorizontalScroll.Visible ? SystemInformation.HorizontalScrollBarHeight : 0);
-			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -161,23 +160,25 @@ namespace SayMore.Transcription.UI
 		{
 			_labelTotalDuration.Font = FontHelper.MakeFont(SystemFonts.MenuFont, 8);
 			_labelTotalSegments.Font = _labelTotalDuration.Font;
-			_labelHighlightedSegment.Font = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
-			_labelSegmentStart.Font = _labelTotalDuration.Font;
-			_labelSegmentDuration.Font = _labelTotalDuration.Font;
-
-			HandleStringsLocalized();
+			_labelHighlightedSegment.Font = _labelTotalDuration.Font;
+			//_labelHighlightedSegment.Font = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
+			//_labelSegmentStart.Font = _labelTotalDuration.Font;
+			//_labelSegmentDuration.Font = _labelTotalDuration.Font;
 
 			Localization.UI.LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleStringsLocalized()
+		protected override void HandleStringsLocalized()
 		{
+			base.HandleStringsLocalized();
+
 			_labelTotalDuration.Tag = _labelTotalDuration.Text;
 			_labelTotalSegments.Tag = _labelTotalSegments.Text;
 			_labelHighlightedSegment.Tag = _labelHighlightedSegment.Text;
-			_labelSegmentStart.Tag = _labelSegmentStart.Text;
-			_labelSegmentDuration.Tag = _labelSegmentDuration.Text;
+			//_labelSegmentStart.Tag = _labelSegmentStart.Text;
+			//_labelSegmentDuration.Tag = _labelSegmentDuration.Text;
+
 			UpdateDisplay();
 		}
 
@@ -194,6 +195,14 @@ namespace SayMore.Transcription.UI
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
 			_waveControl.MouseClick += HandleWaveControlMouseClick;
 			_waveControl.SelectedRegionChanged += HandleWaveControlSelectedRegionChanged;
+			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
+
+			_waveControl.ClientSizeChanged += delegate
+			{
+				_tableLayoutMediaButtons.RowStyles[_tableLayoutMediaButtons.RowCount - 1].Height =
+					Settings.Default.AnnotationWaveViewHeight +
+					(_waveControl.HorizontalScroll.Visible ? SystemInformation.HorizontalScrollBarHeight : 0);
+			};
 
 			_waveControl.BoundaryMouseDown += (ctrl, dx, boundary, boundaryNumber) =>
 			{
@@ -292,26 +301,34 @@ namespace SayMore.Transcription.UI
 			//_labelListenButton.Enabled = !ViewModel.GetIsAnnotationPlaying() && !ViewModel.GetIsRecording() &&
 			//    (!_waveControl.IsPlaying || _waveControl.GetCursorTime() >= ViewModel.GetEndOfLastSegment());
 			_labelListenButton.Enabled = !ViewModel.GetIsRecording();
-
 			_labelRecordButton.Enabled = _endOfTempSegment > ViewModel.GetEndOfLastSegment();
 
-			Utils.SetWindowRedraw(_tableLayoutMediaButtons, false);
-		//	var annotationExistsForCurrSegment = ViewModel.GetDoesCurrentSegmentHaveAnnotationFile();
+			Utils.SetWindowRedraw(_tableLayoutSegmentInfo, false);
 
-			_labelTotalDuration.Text = string.Format((string)_labelSegmentDuration.Tag,
+			_labelTotalDuration.Text = string.Format((string)_labelTotalDuration.Tag,
 				MediaPlayerViewModel.MakeTimeString((float)ViewModel.OrigWaveStream.TotalTime.TotalSeconds));
 			_labelTotalSegments.Text = string.Format((string)_labelTotalSegments.Tag, ViewModel.TimeTier.Segments.Count);
-			Segment currentSegment = ViewModel.CurrentSegment;
-			_tableLayoutSegmentInfo.Visible = (currentSegment != null);
+
+			var currentSegment = ViewModel.CurrentSegment;
+			_labelHighlightedSegment.Visible = (currentSegment != null);
+
 			if (currentSegment != null)
 			{
 				_labelHighlightedSegment.Text = string.Format((string)_labelHighlightedSegment.Tag,
-					ViewModel.TimeTier.GetIndexOfSegment(currentSegment) + 1);
-				_labelSegmentStart.Text = string.Format((string)_labelSegmentStart.Tag,
-					MediaPlayerViewModel.MakeTimeString(currentSegment.Start));
-				_labelSegmentDuration.Text = string.Format((string)_labelSegmentDuration.Tag,
-					MediaPlayerViewModel.MakeTimeString(currentSegment.End - currentSegment.Start));
+					ViewModel.TimeTier.GetIndexOfSegment(currentSegment) + 1,
+					MediaPlayerViewModel.MakeTimeString(currentSegment.Start),
+					MediaPlayerViewModel.MakeTimeString(currentSegment.End));
+
+				// Code for displaying start time and duration of a segment
+				//_labelSegmentStart.Text = string.Format((string)_labelSegmentStart.Tag,
+				//    MediaPlayerViewModel.MakeTimeString(currentSegment.Start));
+				//_labelSegmentDuration.Text = string.Format((string)_labelSegmentDuration.Tag,
+				//    MediaPlayerViewModel.MakeTimeString(currentSegment.End - currentSegment.Start));
 			}
+
+			Utils.SetWindowRedraw(_tableLayoutSegmentInfo, true);
+
+			//	var annotationExistsForCurrSegment = ViewModel.GetDoesCurrentSegmentHaveAnnotationFile();
 
 			//_buttonEraseAnnotation.Visible = annotationExistsForCurrSegment;
 			//_buttonEraseAnnotation.Enabled = (!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
@@ -323,7 +340,6 @@ namespace SayMore.Transcription.UI
 			// TODO: Use re-record image:	(ViewModel.CurrentSegment != null || (_waveControl.GetCursorTime() > ViewModel.GetStartOfCurrentSegment())));
 
 			base.UpdateDisplay();
-			Utils.SetWindowRedraw(_tableLayoutMediaButtons, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -369,14 +385,20 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void AdjustPotentialNewSegmentEndBoundaryOnArrowKey(int milliseconds)
 		{
+			var newEndTime = _endOfTempSegment + TimeSpan.FromMilliseconds(milliseconds);
+			if (newEndTime < ViewModel.GetEndOfLastSegment())
+				return;
+
 			_cursorBlinkTimer.Tag = false;
 			_cursorBlinkTimer.Enabled = false;
+
 			// At this point, we know we're adjusting the selected region beyond the last segment.
 			// I.e. one the user is preparing to record an annotation for.
-			var oldPosition = _endOfTempSegment;
-			_endOfTempSegment = _endOfTempSegment + TimeSpan.FromMilliseconds(milliseconds);
-			_waveControl.InvalidateRegionBetweenTimes((milliseconds > 0 ? oldPosition : _endOfTempSegment),
-				(milliseconds > 0 ? _endOfTempSegment : oldPosition));
+			var oldEndTime = _endOfTempSegment;
+			_endOfTempSegment = newEndTime;
+			_waveControl.InvalidateRegionBetweenTimes((milliseconds > 0 ? oldEndTime : _endOfTempSegment),
+				(milliseconds > 0 ? _endOfTempSegment : oldEndTime));
+
 			_waveControl.SetCursor(_endOfTempSegment);
 			_cursorBlinkTimer.Enabled = true;
 		}
@@ -411,11 +433,18 @@ namespace SayMore.Transcription.UI
 				_cursorBlinkTimer.Enabled = false;
 				_waveControl.Invalidate(GetTempCursorRectangle());
 				PlaybackShortPortionUpToBoundary(_waveControl.GetCursorTime());
-				_cursorBlinkTimer.Enabled = true;
 			}
 
 			_currentMovingBoundaryTime = TimeSpan.Zero;
 			base.FinalizeBoundaryMovedUsingArrowKeys();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void PlaybackShortPortionUpToBoundary(WaveControlBasic ctrl,
+			TimeSpan time1, TimeSpan time2)
+		{
+			_cursorBlinkTimer.Enabled = true;
+			base.PlaybackShortPortionUpToBoundary(ctrl, time1, time2);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -603,6 +632,16 @@ namespace SayMore.Transcription.UI
 				DrawOralAnnotationWave(e, rc, segment);
 				DrawCursorInOralAnnotationWave(e, rc);
 			}
+
+			if (!ViewModel.GetIsRecording())
+				return;
+
+			var tempRect = GetTempSegmentRectangle();
+			var pt = new Point(tempRect.X + 5, tempRect.Bottom - _labelHighlightedSegment.Font.Height - 5);
+			var text = string.Format("Recording Length: {0}",
+				MediaPlayerViewModel.MakeTimeString((float)_elapsedRecordingTime.TotalSeconds));
+
+			TextRenderer.DrawText(e.Graphics, text, _labelHighlightedSegment.Font, pt, Color.Black);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -648,12 +687,10 @@ namespace SayMore.Transcription.UI
 			{
 				// Next time it does get painted, make sure it gets drawn in the "on" state.
 				_cursorBlinkTimer.Tag = true;
-				System.Diagnostics.Debug.WriteLine("Blink timer fired but did not invalidate: " + DateTime.Now);
 				return;
 			}
 
 			_cursorBlinkTimer.Tag = !(bool)_cursorBlinkTimer.Tag;
-			System.Diagnostics.Debug.WriteLine("Blink timer fired (new blink value = " + (bool)_cursorBlinkTimer.Tag + "): " + DateTime.Now);
 			_waveControl.Invalidate(tempCursorRect);
 		}
 
@@ -668,9 +705,6 @@ namespace SayMore.Transcription.UI
 				DrawPlayButtonsInSegments(e.Graphics, playButtonRects.Item2);
 			}
 
-			//if (x - 1 > e.ClipRectangle.Right || x + 1 < e.ClipRectangle.X)
-			//    return;
-
 			var rc = GetTempSegmentRectangle();
 			if (rc != Rectangle.Empty)
 			{
@@ -680,16 +714,13 @@ namespace SayMore.Transcription.UI
 
 			using (var pen = new Pen(Settings.Default.BarColorBorder))
 			{
-				rc = GetTempCursorRectangle();
-				e.Graphics.DrawLine(pen, rc.X + 1, 0, rc.X + 1, _waveControl.ClientSize.Height);
+				var cursorRect = GetTempCursorRectangle();
+				e.Graphics.DrawLine(pen, cursorRect.X + 1, 0, cursorRect.X + 1, _waveControl.ClientSize.Height);
 				if ((bool)_cursorBlinkTimer.Tag)
 				{
-					System.Diagnostics.Debug.WriteLine("Painting full cursor");
-					e.Graphics.DrawLine(pen, rc.X, 0, rc.X, _waveControl.ClientSize.Height);
-					e.Graphics.DrawLine(pen, rc.X + 2, 0, rc.X + 2, _waveControl.ClientSize.Height);
+					e.Graphics.DrawLine(pen, cursorRect.X, 0, cursorRect.X, _waveControl.ClientSize.Height);
+					e.Graphics.DrawLine(pen, cursorRect.X + 2, 0, cursorRect.X + 2, _waveControl.ClientSize.Height);
 				}
-				else
-					System.Diagnostics.Debug.WriteLine("Painting thin cursor");
 			}
 		}
 
@@ -843,8 +874,21 @@ namespace SayMore.Transcription.UI
 				ScrollInPreparationForListenOrRecord(_labelRecordButton);
 			}
 
-			if (ViewModel.BeginAnnotationRecording(_endOfTempSegment))
+			if (ViewModel.BeginAnnotationRecording(_endOfTempSegment, HandleAnnotationRecordingProgress))
 				UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleAnnotationRecordingProgress(TimeSpan elapsedRecordedTime)
+		{
+			_elapsedRecordingTime = elapsedRecordedTime;
+
+			var rc = new Rectangle(_waveControl.Painter.ConvertTimeToXCoordinate(ViewModel.GetEndOfLastSegment()),
+				_waveControl.ClientRectangle.Bottom - _waveControl.BottomReservedAreaHeight,
+				_waveControl.Painter.ConvertTimeToXCoordinate(_endOfTempSegment),
+				_waveControl.BottomReservedAreaHeight);
+
+			Invoke((Action<Rectangle>)_waveControl.Invalidate, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------

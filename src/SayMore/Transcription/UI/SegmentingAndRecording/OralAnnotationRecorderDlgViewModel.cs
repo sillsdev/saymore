@@ -207,20 +207,24 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool BeginAnnotationRecording(TimeSpan cursorTime, Action<TimeSpan> recordingProgressAction)
+		public bool BeginAnnotationRecording(TimeSpan endTime, Action<TimeSpan> recordingProgressAction)
+		{
+			return BeginAnnotationRecording(GetFullPathForNewSegmentAnnotationFile(GetEndOfLastSegment(),
+				endTime), recordingProgressAction);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool BeginAnnotationRecording(Segment segment, Action<TimeSpan> recordingProgressAction)
+		{
+			return BeginAnnotationRecording(GetFullPathToAnnotationFileForSegment(segment),
+				recordingProgressAction);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool BeginAnnotationRecording(string path, Action<TimeSpan> recordingProgressAction)
 		{
 			if (GetIsRecording() || GetDoesCurrentSegmentHaveAnnotationFile())
 				return false;
-
-			// REVIEW: For now at least, it seems like we only want to record for the temp segment, not the current segment.
-			// I set the Current Segment to null so when the recording finishes, it won't try to find the next unrecorded
-			// segment relative to it.
-			//var path = (CurrentSegment != null ?
-			//    GetFullPathToAnnotationFileForSegment(CurrentSegment) :
-			//    GetFullPathForNewSegmentAnnotationFile(GetStartOfCurrentSegment(), cursorTime));
-			CurrentSegment = null;
-			var path = GetFullPathForNewSegmentAnnotationFile(GetEndOfLastSegment(), cursorTime);
-
 
 			if (!Directory.Exists(Path.GetDirectoryName(path)))
 				Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -297,6 +301,7 @@ namespace SayMore.Transcription.UI
 				{
 					BackupOralAnnotationSegmentFile(path);
 					File.Delete(path);
+					SegmentsAnnotationSamplesToDraw.RemoveWhere(h => h.AudioFilePath == path);
 				}
 
 				//InitializeAnnotationPlayer();

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
+using Palaso.TestUtilities;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -33,9 +34,6 @@ namespace SayMoreTests.Transcription.UI
 			_timeTier.AddSegment(20f, 30f);
 
 			_textTier = new TextTier("Junk");
-			_textTier.AddSegment("one");
-			_textTier.AddSegment("two");
-			_textTier.AddSegment("three");
 
 			var annotationFile = new Mock<AnnotationComponentFile>();
 			annotationFile.Setup(a => a.Tiers).Returns(new TierCollection { _timeTier, _textTier });
@@ -48,15 +46,6 @@ namespace SayMoreTests.Transcription.UI
 			Directory.CreateDirectory(_model.OralAnnotationsFolder);
 
 			Assert.IsNotNull(_model.OrigWaveStream);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void CreateNewModel()
-		{
-			if (_model != null)
-				_model.Dispose();
-
-			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,6 +62,41 @@ namespace SayMoreTests.Transcription.UI
 
 			try { File.Delete(_tempAudioFile); }
 			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void AddTextSegmentsForAllTimeSegments()
+		{
+			((TextTier)_model.Tiers[1]).AddSegment("one");
+			((TextTier)_model.Tiers[1]).AddSegment("two");
+			((TextTier)_model.Tiers[1]).AddSegment("three");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CreateAnnotationFile(OralAnnotationType fileType, float start, float end)
+		{
+			if (!Directory.Exists(_model.OralAnnotationsFolder))
+				Directory.CreateDirectory(_model.OralAnnotationsFolder);
+
+			if (fileType == OralAnnotationType.Careful)
+			{
+				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
+					TimeTier.ComputeFileNameForCarefulSpeechSegment(start, end))).Close();
+			}
+			else
+			{
+				File.OpenWrite(Path.Combine(_model.OralAnnotationsFolder,
+					TimeTier.ComputeFileNameForOralTranslationSegment(start, end))).Close();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void CreateNewModel()
+		{
+			if (_model != null)
+				_model.Dispose();
+
+			_model = new SegmenterDlgBaseViewModel(_componentFile.Object);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -365,6 +389,8 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void DeleteBoundary_BoundaryExists_RemovesSegmentFromAllTiers()
 		{
+			AddTextSegmentsForAllTimeSegments();
+
 			var deletedTimeSeg = _model.Tiers[0].Segments[1];
 			var deletedTextSeg = _model.Tiers[1].Segments[1];
 
@@ -406,15 +432,134 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void IsBoundaryPermanent_NoSegmentsHaveAnnotations_ReturnsFalse()
+		{
+			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_NonAdjacentSegmentHasOralAnnotation_ReturnsFalse()
+		{
+			CreateAnnotationFile(OralAnnotationType.Careful, 0, 10);
+
+			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_NonAdjacentSegmentHasTextAnnotation_ReturnsFalse()
+		{
+			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
+			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
+			((TextTier)_model.Tiers[1]).AddSegment("three");
+
+			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(10)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_MiddleSegmentBeforeBoundaryHasCarefulSpeechOralAnnotation_ReturnsTrue()
+		{
+			CreateAnnotationFile(OralAnnotationType.Careful, 10, 20);
+
+			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_InitialSegmentBeforeBoundaryHasTranslationOralAnnotation_ReturnsTrue()
+		{
+			CreateAnnotationFile(OralAnnotationType.Translation, 0, 10);
+
+			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(10)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_FinalSegmentAfterBoundaryHasCarefulSpeechOralAnnotation_ReturnsTrue()
+		{
+			CreateAnnotationFile(OralAnnotationType.Careful, 20, 30);
+
+			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_FinalSegmentBeforeBoundaryHasTranslationOralAnnotation_ReturnsTrue()
+		{
+			CreateAnnotationFile(OralAnnotationType.Translation, 20, 30);
+
+			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(30)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_MiddleSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsTrue()
+		{
+			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
+			((TextTier)_model.Tiers[1]).AddSegment("two");
+
+			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_FinalSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsFalse()
+		{
+			((TextTier)_model.Tiers[1]).AddSegment("ignore this");
+			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
+
+			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(30)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_InitialSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsTrue()
+		{
+			((TextTier)_model.Tiers[1]).AddSegment("one");
+
+			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(10)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_FinalSegmentAfterBoundarHasNonEmptySecondTextTier_ReturnsTrue()
+		{
+			_model.Tiers.AddTextTierWithEmptySegments("Garbled Speech");
+			_model.Tiers[2].Segments[2].Text = "Dude, I'm not empty";
+
+			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_FinalSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsTrue()
+		{
+			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
+			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
+			((TextTier)_model.Tiers[1]).AddSegment("three");
+
+			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(30)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void CreateMissingTextSegmentsForTimeSegments_TiersHaveSameNumberSegments_DoesNothing()
 		{
-			Assert.AreEqual(_timeTier.Segments.Count, _textTier.Segments.Count);
+			AddTextSegmentsForAllTimeSegments();
+
+			Assert.AreEqual(_timeTier.Segments.Count, _model.Tiers[1].Segments.Count);
+			_model.CreateMissingTextSegmentsToMatchTimeSegmentCount();
+			Assert.AreEqual(_timeTier.Segments.Count, _model.Tiers[1].Segments.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void CreateMissingTextSegmentsForTimeSegments_TextTierHasFewerSegments_AddsSegments()
 		{
+			AddTextSegmentsForAllTimeSegments();
+
 			_model.Tiers[1].Segments.RemoveAt(1);
 			Assert.Greater(_model.Tiers[0].Segments.Count, _model.Tiers[1].Segments.Count);
 

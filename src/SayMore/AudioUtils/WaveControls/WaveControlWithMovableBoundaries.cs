@@ -9,6 +9,9 @@ namespace SayMore.Media
 	{
 		public delegate bool BoundaryMovedHandler(WaveControlWithMovableBoundaries ctrl, TimeSpan oldTime, TimeSpan newTime);
 		public event BoundaryMovedHandler BoundaryMoved;
+		public delegate void InitiatiatingBoundaryMoveHandler(WaveControlWithMovableBoundaries ctrl, InitiatiatingBoundaryMoveEventArgs e);
+		public event InitiatiatingBoundaryMoveHandler InitiatiatingBoundaryMove;
+
 
 		protected int _mouseXAtBeginningOfSegmentMove;
 		protected int _minXForBoundaryMove;
@@ -27,6 +30,14 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		protected virtual void InitiatiateBoundaryMove(int mouseX, TimeSpan boundaryBeingMoved)
 		{
+			if (InitiatiatingBoundaryMove != null)
+			{
+				InitiatiatingBoundaryMoveEventArgs e = new InitiatiatingBoundaryMoveEventArgs(boundaryBeingMoved);
+				InitiatiatingBoundaryMove(this, e);
+				if (e.Cancel)
+					return;
+			}
+
 			_scrollCalculator = new WaveControlScrollCalculator(this);
 			// Figure out the limits within which the boundary may be moved. It's not allowed
 			// to be moved to the left of the previous boundary or to the right of the next
@@ -139,6 +150,24 @@ namespace SayMore.Media
 			var success = BoundaryMoved(this, oldBoundary, newBoundary);
 			Painter.InvalidateBoundary(oldBoundary);
 			return success;
+		}
+	}
+
+	/// ------------------------------------------------------------------------------------
+	public class InitiatiatingBoundaryMoveEventArgs
+	{
+		private readonly TimeSpan _boundaryBeingMoved;
+
+		public TimeSpan BoundaryBeingMoved
+		{
+			get { return _boundaryBeingMoved; }
+		}
+
+		public bool Cancel { get; set; }
+
+		public InitiatiatingBoundaryMoveEventArgs(TimeSpan boundary)
+		{
+			_boundaryBeingMoved = boundary;
 		}
 	}
 }

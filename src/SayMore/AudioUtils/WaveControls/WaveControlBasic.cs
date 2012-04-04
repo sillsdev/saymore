@@ -152,6 +152,13 @@ namespace SayMore.Media
 			return new WavePainterBasic(this, stream);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public void InvalidateIfNeeded(Rectangle rc)
+		{
+			if (rc.Width * rc.Height != 0)
+				Invalidate(rc);
+		}
+
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
@@ -315,7 +322,7 @@ namespace SayMore.Media
 			if (start == end)
 				return;
 
-			Invalidate(new Rectangle(Painter.ConvertTimeToXCoordinate(start),
+			InvalidateIfNeeded(new Rectangle(Painter.ConvertTimeToXCoordinate(start),
 				0, Painter.ConvertTimeToXCoordinate(end), ClientSize.Height));
 		}
 
@@ -328,7 +335,7 @@ namespace SayMore.Media
 			var rc = ClientRectangle;
 			rc.Y = rc.Bottom - BottomReservedAreaHeight;
 			rc.Height = BottomReservedAreaHeight;
-			Invalidate(rc);
+			InvalidateIfNeeded(rc);
 		}
 
 		/// ------------------------------------------------------------------------------------

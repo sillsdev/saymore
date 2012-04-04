@@ -102,6 +102,35 @@ namespace SayMore.Transcription.Model
 			return result;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public bool HasAdjacentAnnotation(float boundary)
+		{
+			var timeTier = GetTimeTier();
+			var segment = timeTier.GetSegmentHavingEndBoundary(boundary);
+			int i = timeTier.GetIndexOfSegment(segment);
+			foreach (TextTier textTier in this.OfType<TextTier>())
+			{
+				var segments = textTier.Segments;
+				if (segments != null && segments.Count > i)
+				{
+					if (!string.IsNullOrEmpty(segments[i].Text) ||
+						segments.Count > i + 1 && !string.IsNullOrEmpty(segments[i + 1].Text))
+						return true;
+				}
+			}
+			if (File.Exists(segment.GetFullPathToCarefulSpeechFile()) ||
+				File.Exists(segment.GetFullPathToOralTranslationFile()))
+				return true;
+
+			if (timeTier.Segments.Count > i + 1)
+			{
+				segment = timeTier.Segments[i + 1];
+				return (File.Exists(segment.GetFullPathToCarefulSpeechFile()) ||
+					File.Exists(segment.GetFullPathToOralTranslationFile()));
+			}
+			return false;
+		}
+
 		#region Methods for Saving tiers to EAF file
 		/// ------------------------------------------------------------------------------------
 		public string Save()

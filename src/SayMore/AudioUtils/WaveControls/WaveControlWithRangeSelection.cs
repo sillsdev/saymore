@@ -78,12 +78,12 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeSpan start, TimeSpan end)
 		{
-			var regionChanged = (start != MyPainter.SelectedRegionStartTime ||
-				end != MyPainter.SelectedRegionEndTime);
+			if (start == MyPainter.SelectedRegionStartTime && end == MyPainter.SelectedRegionEndTime)
+				return;
 
 			MyPainter.SetSelectionTimes(start, end);
 
-			if (regionChanged && SelectedRegionChanged != null)
+			if (SelectedRegionChanged != null)
 				SelectedRegionChanged(this, start, end);
 		}
 
@@ -116,7 +116,11 @@ namespace SayMore.Media
 		protected override void OnMouseLeave(EventArgs e)
 		{
 			base.OnMouseLeave(e);
-			ClearSelection();
+
+			// Haven't really left if we're still somewhere within the bounds of the client area,
+			// which can happen if the mouse passes over a hosted control (e.g., the busy wheel).
+			if (!ClientRectangle.Contains(PointToClient(MousePosition)))
+				ClearSelection();
 		}
 
 		///// ------------------------------------------------------------------------------------

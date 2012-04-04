@@ -270,6 +270,18 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns a value indicating whether the given boundary cannot be deleted or moved in
+		/// either direction. A boundary is "permanent" if it is adjacent to a segment that
+		/// already has any kind of annotation (text or oral)
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool IsBoundaryPermanent(TimeSpan boundary)
+		{
+			return (Tiers.HasAdjacentAnnotation((float)boundary.TotalSeconds));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool CanMoveBoundary(TimeSpan boundaryToAdjust, int millisecondsToMove)
 		{
 			var secondsToMove = Math.Abs(millisecondsToMove) / 1000f;

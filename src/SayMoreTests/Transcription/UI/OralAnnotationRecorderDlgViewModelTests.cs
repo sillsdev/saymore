@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using Moq;
 using NUnit.Framework;
-using Palaso.Media;
-using Palaso.TestUtilities;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
@@ -14,7 +12,6 @@ namespace SayMoreTests.Transcription.UI
 	[TestFixture]
 	public class OralAnnotationRecorderDlgViewModelTests
 	{
-		private TemporaryFolder _annotationFileFolder;
 		private OralAnnotationRecorderDlgViewModel _model;
 		private string _tempAudioFile;
 		private Mock<ComponentFile> _componentFile;
@@ -23,8 +20,6 @@ namespace SayMoreTests.Transcription.UI
 		[SetUp]
 		public void Setup()
 		{
-			_annotationFileFolder = new TemporaryFolder("OralAnnotationRecorderDlgViewModelTests");
-
 			_tempAudioFile = MPlayerMediaInfoTests.GetLongerTestAudioFile();
 			var tier = new TimeTier(_tempAudioFile);
 			tier.AddSegment(0f, 5f);
@@ -46,9 +41,6 @@ namespace SayMoreTests.Transcription.UI
 		[TearDown]
 		public void TearDown()
 		{
-			_annotationFileFolder.Dispose();
-			_annotationFileFolder = null;
-
 			if (Directory.Exists(_model.OralAnnotationsFolder))
 				Directory.Delete(_model.OralAnnotationsFolder, true);
 

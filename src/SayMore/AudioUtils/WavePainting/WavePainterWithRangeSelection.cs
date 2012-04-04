@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using NAudio.Wave;
-using SayMore.Properties;
 
 namespace SayMore.Media
 {
@@ -42,7 +41,8 @@ namespace SayMore.Media
 			if (selStartTime == SelectedRegionStartTime && selEndTime == SelectedRegionEndTime)
 				return;
 
-			Control.Invalidate(PreviousSelectedRectangle);
+			InvalidateControl(PreviousSelectedRectangle);
+
 			SelectedRegionStartTime = selStartTime;
 			SelectedRegionEndTime = selEndTime;
 
@@ -50,7 +50,7 @@ namespace SayMore.Media
 			var startX = ConvertTimeToXCoordinate(selStartTime);
 
 			_previousSelectedRegion = new Tuple<int, int>(startX, endX - startX);
-			Control.Invalidate(PreviousSelectedRectangle);
+			InvalidateControl(PreviousSelectedRectangle);
 		}
 
 		/// ------------------------------------------------------------------------------------

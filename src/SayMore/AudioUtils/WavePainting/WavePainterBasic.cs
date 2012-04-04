@@ -325,8 +325,17 @@ namespace SayMore.Media
 				return;
 
 			var dx = ConvertTimeToXCoordinate(boundary);
-			Control.Invalidate(new Rectangle(dx - pixelsOnEitherSide, 0,
+			InvalidateControl(new Rectangle(dx - pixelsOnEitherSide, 0,
 				pixelsOnEitherSide * 2 + 1, Control.ClientSize.Height - BottomReservedAreaHeight));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void InvalidateControl(Rectangle rc)
+		{
+			if (Control is WaveControlBasic)
+				((WaveControlBasic)Control).InvalidateIfNeeded(rc);
+			else
+				Control.Invalidate(rc);
 		}
 
 		/// ------------------------------------------------------------------------------------

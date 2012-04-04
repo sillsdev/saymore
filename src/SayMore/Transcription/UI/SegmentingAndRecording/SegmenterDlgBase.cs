@@ -292,6 +292,8 @@ namespace SayMore.Transcription.UI
 			StopAllMedia();
 
 			var boundary = GetBoundaryToAdjustOnArrowKeys();
+			if (_viewModel.IsBoundaryPermanent(boundary))
+				return false;
 			if (boundary == TimeSpan.Zero || !_viewModel.CanMoveBoundary(boundary, milliseconds))
 				return false;
 

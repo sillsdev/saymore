@@ -1,4 +1,5 @@
 
+using System.Windows.Forms;
 using Localization;
 
 namespace SayMore.Transcription.UI
@@ -12,6 +13,12 @@ namespace SayMore.Transcription.UI
 		{
 			InitializeComponent();
 			Opacity = 0D;
+
+			_labelOralTranslation.Margin = _labelOriginalRecording.Margin;
+			_labelOralTranslation.TextAlign = _labelOriginalRecording.TextAlign;
+			_labelOralTranslation.Anchor = _labelOriginalRecording.Anchor;
+			_tableLayoutRecordAnnotations.RowStyles[0].SizeType = SizeType.AutoSize;
+			_tableLayoutRecordAnnotations.Controls.Add(_labelOralTranslation, 0, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -20,7 +27,7 @@ namespace SayMore.Transcription.UI
 			get
 			{
 				return LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ReadyToRecordAnnotationMsg.OralTranslation",
+					"DialogBoxes.Transcription.OralTranslationRecorderDlg.ReadyToRecordAnnotationMsg",
 					"Ready to Record\r\nOral Translation");
 			}
 		}

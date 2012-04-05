@@ -42,8 +42,8 @@ namespace SayMore.Transcription.UI
 			this._labelCarefulSpeech.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelCarefulSpeech, null);
 			this.locExtender.SetLocalizationComment(this._labelCarefulSpeech, null);
-			this.locExtender.SetLocalizingId(this._labelCarefulSpeech, "label1.label1");
-			this._labelCarefulSpeech.Location = new System.Drawing.Point(-3, -4);
+			this.locExtender.SetLocalizingId(this._labelCarefulSpeech, "DialogBoxes.Transcription.CarefulSpeechRecorderDlg._labelCarefulSpeech");
+			this._labelCarefulSpeech.Location = new System.Drawing.Point(-3, 6);
 			this._labelCarefulSpeech.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._labelCarefulSpeech.Name = "_labelCarefulSpeech";
 			this._labelCarefulSpeech.Size = new System.Drawing.Size(80, 13);
@@ -55,13 +55,12 @@ namespace SayMore.Transcription.UI
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(703, 338);
+			this.ClientSize = new System.Drawing.Size(703, 362);
 			this.Controls.Add(this._labelCarefulSpeech);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechRecorderDlg.WindowTitle");
 			this.Name = "CarefulSpeechRecorderDlg";
-			this.Opacity = 1D;
 			this.Text = "Careful Speech Recorder";
 			this.Controls.SetChildIndex(this._labelCarefulSpeech, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

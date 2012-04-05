@@ -34,7 +34,7 @@ namespace SayMore.Transcription.UI
 			get
 			{
 				return LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ReadyToRecordAnnotationMsg.OralTranslation",
+					"DialogBoxes.Transcription.CarefulSpeechRecorderDlg.ReadyToRecordAnnotationMsg",
 					"Ready to Record\r\nCareful Speech");
 			}
 		}

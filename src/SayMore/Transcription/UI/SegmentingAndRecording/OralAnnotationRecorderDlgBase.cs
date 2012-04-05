@@ -31,7 +31,8 @@ namespace SayMore.Transcription.UI
 		private int _annotationPlaybackCursorX;
 		private Rectangle _annotationPlaybackRectangle;
 		private Font _annotationSegmentFont;
-		private Tuple<TimeSpan, TimeSpan> _segmentBeingRecorded = null;
+		private Tuple<TimeSpan, TimeSpan> _segmentBeingRecorded;
+		private bool _spaceKeyIsDown;
 
 		protected WaveControlWithRangeSelection _waveControl;
 
@@ -61,7 +62,6 @@ namespace SayMore.Transcription.UI
 			InitializeComponent();
 
 			Padding = new Padding(0);
-			InitializeInfoLabels();
 			_tableLayoutTop.Visible = false;
 			_cursorBlinkTimer.Enabled = true;
 			_cursorBlinkTimer.Tag = true;
@@ -150,6 +150,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+			InitializeInfoLabels();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void InitializeWaveControlContextActionImages()
 		{
 			if (_moreReliableDesignMode)
@@ -169,6 +176,17 @@ namespace SayMore.Transcription.UI
 			_labelTotalDuration.Font = FontHelper.MakeFont(SystemFonts.MenuFont, 8);
 			_labelTotalSegments.Font = _labelTotalDuration.Font;
 			_labelHighlightedSegment.Font = _labelTotalDuration.Font;
+			_labelListenHint.Font = _labelOriginalRecording.Font;
+			_labelRecordHint.Font = _labelOriginalRecording.Font;
+
+			_labelListenHint.Text = LocalizationManager.GetString(
+				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint",
+				"Listen\r\n(Press and hold\r\nSPACE key)", null, _labelListenHint);
+
+			_labelRecordHint.Text = LocalizationManager.GetString(
+				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint",
+				"Record\r\n(Press and hold\r\nSPACE key)", null, _labelRecordHint);
+
 			//_labelHighlightedSegment.Font = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
 			//_labelSegmentStart.Font = _labelTotalDuration.Font;
 			//_labelSegmentDuration.Font = _labelTotalDuration.Font;
@@ -319,6 +337,9 @@ namespace SayMore.Transcription.UI
 
 			_labelRecordButton.Enabled = _endOfTempSegment > ViewModel.GetEndOfLastSegment() &&
 				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying();
+
+			_labelListenHint.Visible = !_labelRecordButton.Enabled && _endOfTempSegment <= ViewModel.GetEndOfLastSegment();
+			_labelRecordHint.Visible = _labelRecordButton.Enabled;
 
 			Utils.SetWindowRedraw(_tableLayoutSegmentInfo, false);
 
@@ -1167,15 +1188,23 @@ namespace SayMore.Transcription.UI
 			// the localization dialog box. We don't want it to also start playback.
 			if (key == Keys.Space)
 			{
-				HandleListenToOriginalMouseDown(null, null);
+				if (_spaceKeyIsDown)
+					return true;
+
+				if (_labelRecordButton.Enabled)
+					HandleRecordAnnotationMouseDown(null, null);
+				else if (_labelListenButton.Enabled)
+					HandleListenToOriginalMouseDown(null, null);
+
+				_spaceKeyIsDown = true;
 				return true;
 			}
 
-			if (key == Keys.Enter)
-			{
-				HandleRecordAnnotationMouseDown(null, null);
-				return true;
-			}
+			//if (key == Keys.Enter)
+			//{
+			//    HandleRecordAnnotationMouseDown(null, null);
+			//    return true;
+			//}
 
 			if ((key == Keys.Escape || key == Keys.End) && !_waveControl.IsPlaying)
 			{
@@ -1196,15 +1225,21 @@ namespace SayMore.Transcription.UI
 
 			if (key == Keys.Space)
 			{
-				_waveControl.Stop();
+				_spaceKeyIsDown = false;
+
+				if (_waveControl.IsPlaying)
+					_waveControl.Stop();
+				else if (ViewModel.GetIsRecording())
+					HandleRecordAnnotationMouseUp(null, null);
+
 				return true;
 			}
 
-			if (key == Keys.Enter)
-			{
-				HandleRecordAnnotationMouseUp(null, null);
-				return true;
-			}
+			//if (key == Keys.Enter)
+			//{
+			//    HandleRecordAnnotationMouseUp(null, null);
+			//    return true;
+			//}
 
 			return base.OnLowLevelKeyUp(key);
 		}

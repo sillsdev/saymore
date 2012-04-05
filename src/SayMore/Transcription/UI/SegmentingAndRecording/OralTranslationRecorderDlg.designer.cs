@@ -28,6 +28,7 @@ namespace SayMore.Transcription.UI
 		{
 			this.components = new System.ComponentModel.Container();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this._labelOralTranslation = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			//
@@ -35,16 +36,33 @@ namespace SayMore.Transcription.UI
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
 			//
+			// _labelOralTranslation
+			//
+			this._labelOralTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelOralTranslation.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelOralTranslation, null);
+			this.locExtender.SetLocalizationComment(this._labelOralTranslation, null);
+			this.locExtender.SetLocalizingId(this._labelOralTranslation, "DialogBoxes.Transcription.OralTranslationRecorderDlg._labelOralTranslation");
+			this._labelOralTranslation.Location = new System.Drawing.Point(0, 0);
+			this._labelOralTranslation.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+			this._labelOralTranslation.Name = "_labelOralTranslation";
+			this._labelOralTranslation.Size = new System.Drawing.Size(81, 13);
+			this._labelOralTranslation.TabIndex = 10;
+			this._labelOralTranslation.Text = "Oral Translation";
+			this._labelOralTranslation.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			//
 			// OralTranslationRecorderDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(703, 338);
+			this.ClientSize = new System.Drawing.Size(703, 362);
+			this.Controls.Add(this._labelOralTranslation);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.OralTranslationRecorderDlg.WindowTitle");
 			this.Name = "OralTranslationRecorderDlg";
 			this.Text = "Oral Translation Recorder";
+			this.Controls.SetChildIndex(this._labelOralTranslation, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -54,5 +72,6 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		private Localization.UI.LocalizationExtender locExtender;
+		private System.Windows.Forms.Label _labelOralTranslation;
 	}
 }

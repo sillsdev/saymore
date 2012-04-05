@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Media
 {
@@ -34,15 +35,16 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public void PlaySelectedRegion()
 		{
-			if (MyPainter.SelectedRegionStartTime < MyPainter.SelectedRegionEndTime)
-				base.Play(MyPainter.SelectedRegionStartTime, MyPainter.SelectedRegionEndTime);
+			var timeRange = MyPainter.DefaultSelectedRange;
+
+			if (!TimeRange.IsNullOrZeroLength(timeRange))
+				base.Play(timeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void InvalidateSelectedRegion()
 		{
-			InvalidateRegionBetweenTimes(MyPainter.SelectedRegionStartTime,
-				MyPainter.SelectedRegionEndTime);
+			InvalidateRegionBetweenTimes(MyPainter.DefaultSelectedRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,16 +74,18 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public bool GetHasSelection()
 		{
-			return (MyPainter.SelectedRegionStartTime < MyPainter.SelectedRegionEndTime);
+			return (!TimeRange.IsNullOrZeroLength(MyPainter.DefaultSelectedRange));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeSpan start, TimeSpan end)
 		{
-			if (start == MyPainter.SelectedRegionStartTime && end == MyPainter.SelectedRegionEndTime)
+			var newTimeRange = new TimeRange(start, end);
+
+			if (MyPainter.DefaultSelectedRange != newTimeRange)
 				return;
 
-			MyPainter.SetSelectionTimes(start, end);
+			MyPainter.SetSelectionTimes(newTimeRange);
 
 			if (SelectedRegionChanged != null)
 				SelectedRegionChanged(this, start, end);

@@ -338,7 +338,7 @@ namespace SayMore.Transcription.UI
 			_labelRecordButton.Enabled = _endOfTempSegment > ViewModel.GetEndOfLastSegment() &&
 				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying();
 
-			_labelListenHint.Visible = !_labelRecordButton.Enabled && _endOfTempSegment <= ViewModel.GetEndOfLastSegment();
+			_labelListenHint.Visible = !_labelRecordButton.Enabled;
 			_labelRecordHint.Visible = _labelRecordButton.Enabled;
 
 			Utils.SetWindowRedraw(_tableLayoutSegmentInfo, false);
@@ -1127,7 +1127,7 @@ namespace SayMore.Transcription.UI
 
 			if (ViewModel.StopAnnotationRecording())
 			{
-				_waveControl.SegmentBoundaries = ViewModel.InsertNewBoundary(_waveControl.GetCursorTime());
+				_waveControl.SegmentBoundaries = ViewModel.InsertNewBoundary(_endOfTempSegment);
 
 				if (ViewModel.CurrentSegment == null)
 				{

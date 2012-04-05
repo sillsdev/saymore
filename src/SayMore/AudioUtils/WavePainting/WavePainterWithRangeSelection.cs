@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using NAudio.Wave;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Media
 {
 	public class WavePainterWithRangeSelection : WavePainterBasic
 	{
-		public TimeSpan SelectedRegionStartTime { get; private set; }
-		public TimeSpan SelectedRegionEndTime { get; private set; }
-
-		private Tuple<int, int> _previousSelectedRegion;
+		private Dictionary<Color, TimeRange> _selectedRegions = new Dictionary<Color, TimeRange>();
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterWithRangeSelection(Control ctrl, WaveFileReader stream) :
@@ -26,56 +24,81 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Rectangle PreviousSelectedRectangle
+		public Color DefaultSelectionColor
+		{
+			//				using (var br = new SolidBrush(Color.FromArgb(100, SystemColors.Highlight)))
+			//				using (var br = new SolidBrush(Color.FromArgb(90, Color.Orange)))
+			get { return Color.FromArgb(100, Color.CornflowerBlue); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeRange DefaultSelectedRange
 		{
 			get
 			{
-				return (_previousSelectedRegion == null ? Rectangle.Empty:
-					new Rectangle(_previousSelectedRegion.Item1, 0,
-						_previousSelectedRegion.Item2, Control.ClientSize.Height));
+				TimeRange timeRange;
+				return (_selectedRegions.TryGetValue(DefaultSelectionColor, out timeRange) ? timeRange : null);
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetSelectedRectangle(Color color)
+		{
+			TimeRange timeRange;
+			if (!_selectedRegions.TryGetValue(color, out timeRange))
+				return Rectangle.Empty;
+
+			return GetSelectedRectangle(timeRange);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetSelectedRectangle(TimeRange timeRange)
+		{
+			var endX = ConvertTimeToXCoordinate(timeRange.End);
+			var startX = ConvertTimeToXCoordinate(timeRange.Start);
+			return new Rectangle(startX, 0, endX - startX, Control.ClientSize.Height);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeSpan selStartTime, TimeSpan selEndTime)
 		{
-			if (selStartTime == SelectedRegionStartTime && selEndTime == SelectedRegionEndTime)
+			SetSelectionTimes(new TimeRange(selStartTime, selEndTime), DefaultSelectionColor);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetSelectionTimes(TimeRange newTimeRange, Color color)
+		{
+			TimeRange previousTimeRange;
+			if (_selectedRegions.TryGetValue(color, out previousTimeRange) && newTimeRange == previousTimeRange)
 				return;
 
-			InvalidateControl(PreviousSelectedRectangle);
-
-			SelectedRegionStartTime = selStartTime;
-			SelectedRegionEndTime = selEndTime;
-
-			var endX = ConvertTimeToXCoordinate(selEndTime);
-			var startX = ConvertTimeToXCoordinate(selStartTime);
-
-			_previousSelectedRegion = new Tuple<int, int>(startX, endX - startX);
-			InvalidateControl(PreviousSelectedRectangle);
+			InvalidateControl(GetSelectedRectangle(color));
+			_selectedRegions[color] = newTimeRange;
+			InvalidateControl(GetSelectedRectangle(color));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override void Draw(PaintEventArgs e, Rectangle rc)
 		{
 			base.Draw(e, rc);
-			DrawSelectedRegion(e.Graphics);
+			DrawSelectedRegions(e);
 			DrawCursor(e.Graphics, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawSelectedRegion(Graphics g)
+		private void DrawSelectedRegions(PaintEventArgs e)
 		{
-			if (_segmentBoundaries == null || SelectedRegionStartTime >= TimeSpan.Zero)
+			if (_segmentBoundaries != null)
+				return;
+
+			foreach (var kvp in _selectedRegions)
 			{
-				var regionRect = GetRectangleForTimeRange(SelectedRegionStartTime, SelectedRegionEndTime);
-				if (regionRect == Rectangle.Empty)
-					return;
+				var regionRect = GetSelectedRectangle(kvp.Value);
+				if (regionRect == Rectangle.Empty || !e.ClipRectangle.IntersectsWith(regionRect))
+					continue;
 
-//				using (var br = new SolidBrush(Color.FromArgb(100, SystemColors.Highlight)))
-//				using (var br = new SolidBrush(Color.FromArgb(90, Color.Orange)))
-				using (var br = new SolidBrush(Color.FromArgb(100, Color.CornflowerBlue)))
-					g.FillRectangle(br, regionRect);
-
-				_previousSelectedRegion = new Tuple<int,int>(regionRect.X, regionRect.Width);
+				using (var br = new SolidBrush(kvp.Key))
+					e.Graphics.FillRectangle(br, regionRect);
 			}
 		}
 	}

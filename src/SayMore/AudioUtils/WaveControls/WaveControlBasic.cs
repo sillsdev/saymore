@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Media
 {
@@ -317,6 +318,16 @@ namespace SayMore.Media
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		public void InvalidateRegionBetweenTimes(TimeRange timeRange)
+		{
+			if (TimeRange.IsNullOrZeroLength(timeRange))
+				return;
+
+			InvalidateIfNeeded(new Rectangle(Painter.ConvertTimeToXCoordinate(timeRange.Start),
+				0, Painter.ConvertTimeToXCoordinate(timeRange.End), ClientSize.Height));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void InvalidateRegionBetweenTimes(TimeSpan start, TimeSpan end)
 		{
 			if (start == end)
@@ -535,6 +546,12 @@ namespace SayMore.Media
 		public virtual void Play(TimeSpan playbackStartTime)
 		{
 			Play(playbackStartTime, TimeSpan.Zero);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void Play(TimeRange timeRange)
+		{
+			Play(timeRange.Start, timeRange.End);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -168,6 +168,7 @@
     <Compile Include="Model\Event.cs" />
     <Compile Include="Transcription\Model\Segment.cs" />
     <Compile Include="Transcription\Model\TierCollection.cs" />
+    <Compile Include="Transcription\Model\TimeRange.cs" />
     <Compile Include="Transcription\Model\TimeTier.cs" />
     <Compile Include="Transcription\UI\StandardAudioButtons.cs" />
     <Compile Include="Transcription\UI\AutoSegmenterDlg.cs">

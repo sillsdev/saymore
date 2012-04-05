@@ -1363,7 +1363,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        [global::System.Configuration.DefaultSettingValueAttribute("80")]
         public int SegmentingWaveViewPixelsPerSecond {
             get {
                 return ((int)(this["SegmentingWaveViewPixelsPerSecond"]));
@@ -1383,6 +1383,18 @@ namespace SayMore.Properties {
             }
             set {
                 this["AnnotationWaveViewHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent {
+            get {
+                return ((bool)(this["PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent"]));
+            }
+            set {
+                this["PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent"] = value;
             }
         }
     }

@@ -1,5 +1,6 @@
 
 using System;
+using System.IO;
 using SayMore.Media.UI;
 
 namespace SayMore.Transcription.Model
@@ -76,6 +77,15 @@ namespace SayMore.Transcription.Model
 		{
 			return (Tier == null || Tier.TierType != TierType.Time ? null :
 				((TimeTier)Tier).GetFullPathToOralTranslationFile(this));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetHasOralAnnotation()
+		{
+			var pathToCarefulSpeechFile = GetFullPathToCarefulSpeechFile();
+			var pathToOralTranslationFile = GetFullPathToOralTranslationFile();
+			return ((pathToCarefulSpeechFile != null && File.Exists(pathToCarefulSpeechFile)) ||
+				(pathToOralTranslationFile != null && File.Exists(pathToOralTranslationFile)));
 		}
 
 		/// ------------------------------------------------------------------------------------

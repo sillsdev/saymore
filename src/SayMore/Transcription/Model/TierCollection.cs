@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using SayMore.Properties;
 
 namespace SayMore.Transcription.Model
 {
@@ -106,18 +107,29 @@ namespace SayMore.Transcription.Model
 		public bool HasAdjacentAnnotation(float boundary)
 		{
 			var timeTier = GetTimeTier();
+			if (!timeTier.Segments.Any())
+				return false;
+
 			var segment = timeTier.GetSegmentHavingEndBoundary(boundary);
+			if (segment == null && boundary > timeTier.Segments.Last().End)
+				return false;
+
 			int i = timeTier.GetIndexOfSegment(segment);
-			foreach (TextTier textTier in this.OfType<TextTier>())
+
+			if (Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent)
 			{
-				var segments = textTier.Segments;
-				if (segments != null && segments.Count > i)
+				foreach (TextTier textTier in this.OfType<TextTier>())
 				{
-					if (!string.IsNullOrEmpty(segments[i].Text) ||
-						segments.Count > i + 1 && !string.IsNullOrEmpty(segments[i + 1].Text))
-						return true;
+					var segments = textTier.Segments;
+					if (segments != null && segments.Count > i)
+					{
+						if (!string.IsNullOrEmpty(segments[i].Text) ||
+							segments.Count > i + 1 && !string.IsNullOrEmpty(segments[i + 1].Text))
+							return true;
+					}
 				}
 			}
+
 			if (File.Exists(segment.GetFullPathToCarefulSpeechFile()) ||
 				File.Exists(segment.GetFullPathToOralTranslationFile()))
 				return true;
@@ -125,9 +137,9 @@ namespace SayMore.Transcription.Model
 			if (timeTier.Segments.Count > i + 1)
 			{
 				segment = timeTier.Segments[i + 1];
-				return (File.Exists(segment.GetFullPathToCarefulSpeechFile()) ||
-					File.Exists(segment.GetFullPathToOralTranslationFile()));
+				return segment.GetHasOralAnnotation();
 			}
+
 			return false;
 		}
 

@@ -132,7 +132,6 @@ namespace SayMore.Transcription.UI
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 			_waveControl.BoundaryMouseDown += delegate { UpdateDisplay(); };
 			_waveControl.CursorTimeChanged += delegate { UpdateDisplay(); };
-			_waveControl.InitiatiatingBoundaryMove += HandleWaveControlInitiatiatingBoundaryMove;
 			return _waveControl;
 		}
 
@@ -175,7 +174,14 @@ namespace SayMore.Transcription.UI
 			_buttonAddSegmentBoundary.ForeColor = _buttonListenToOriginal.ForeColor;
 			_buttonAddSegmentBoundary.Text = _origAddSegBoundaryButtonText;
 			_buttonAddSegmentBoundary.Enabled = _waveControl.GetCursorTime() > TimeSpan.Zero;
-			_buttonDeleteSegment.Enabled = _waveControl.GetSelectedBoundary() > TimeSpan.Zero;
+			if (_buttonAddSegmentBoundary.Enabled)
+			{
+				var segmentContainingCursor = ViewModel.TimeTier.GetSegmentEnclosingTime((float)_waveControl.GetCursorTime().TotalSeconds);
+				if (segmentContainingCursor != null)
+					_buttonAddSegmentBoundary.Enabled = !segmentContainingCursor.GetHasOralAnnotation();
+			}
+			_buttonDeleteSegment.Enabled = _waveControl.GetSelectedBoundary() > TimeSpan.Zero &&
+				!ViewModel.IsBoundaryPermanent(_waveControl.GetSelectedBoundary());
 
 			base.UpdateDisplay();
 		}
@@ -197,14 +203,6 @@ namespace SayMore.Transcription.UI
 		protected override TimeSpan GetBoundaryToAdjustOnArrowKeys()
 		{
 			return _waveControl.GetSelectedBoundary();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleWaveControlInitiatiatingBoundaryMove(WaveControlWithMovableBoundaries sender,
-			InitiatiatingBoundaryMoveEventArgs e)
-		{
-			e.Cancel = ViewModel.IsBoundaryPermanent(e.BoundaryBeingMoved);
-			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------

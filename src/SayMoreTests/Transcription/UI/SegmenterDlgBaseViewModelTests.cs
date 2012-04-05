@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Palaso.TestUtilities;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -52,6 +51,8 @@ namespace SayMoreTests.Transcription.UI
 		[TearDown]
 		public void TearDown()
 		{
+			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = false;
+
 			try { Directory.Delete(_model.OralAnnotationsFolder, true); }
 			catch { }
 
@@ -448,7 +449,7 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void IsBoundaryPermanent_NonAdjacentSegmentHasTextAnnotation_ReturnsFalse()
+		public void IsBoundaryPermanent_NonAdjacentSegmentHasIgnoredTextAnnotation_ReturnsFalse()
 		{
 			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
 			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
@@ -497,6 +498,8 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_MiddleSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsTrue()
 		{
+			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+
 			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
 			((TextTier)_model.Tiers[1]).AddSegment("two");
 
@@ -507,6 +510,8 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_FinalSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsFalse()
 		{
+			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+
 			((TextTier)_model.Tiers[1]).AddSegment("ignore this");
 			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
 
@@ -517,6 +522,8 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_InitialSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsTrue()
 		{
+			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+
 			((TextTier)_model.Tiers[1]).AddSegment("one");
 
 			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(10)));
@@ -526,6 +533,8 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_FinalSegmentAfterBoundarHasNonEmptySecondTextTier_ReturnsTrue()
 		{
+			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+
 			_model.Tiers.AddTextTierWithEmptySegments("Garbled Speech");
 			_model.Tiers[2].Segments[2].Text = "Dude, I'm not empty";
 
@@ -536,11 +545,73 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_FinalSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsTrue()
 		{
+			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+
 			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
 			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
 			((TextTier)_model.Tiers[1]).AddSegment("three");
 
 			Assert.IsTrue(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(30)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_BoundaryBeyondEndOfLastSegment_ReturnsFalse()
+		{
+			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+
+			AddTextSegmentsForAllTimeSegments();
+
+			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(40)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_MiddleSegmentBeforeBoundaryHasIgnoredNonEmptyFirstTextTier_ReturnsFalse()
+		{
+			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
+			((TextTier)_model.Tiers[1]).AddSegment("two");
+
+			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_InitialSegmentBeforeBoundaryHasIgnoredNonEmptyFirstTextTier_ReturnsFalse()
+		{
+			((TextTier)_model.Tiers[1]).AddSegment("one");
+
+			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(10)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_FinalSegmentAfterBoundarHasIgnoredNonEmptySecondTextTier_ReturnsFalse()
+		{
+			_model.Tiers.AddTextTierWithEmptySegments("Garbled Speech");
+			_model.Tiers[2].Segments[2].Text = "Dude, I'm not empty";
+
+			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(20)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_FinalSegmentBeforeBoundaryHasIgnoredNonEmptyFirstTextTier_ReturnsFalse()
+		{
+			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
+			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
+			((TextTier)_model.Tiers[1]).AddSegment("three");
+
+			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(30)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IsBoundaryPermanent_NoSegments_ReturnsFalse()
+		{
+			_model.TimeTier.Segments.Clear();
+
+			Assert.IsFalse(_model.IsBoundaryPermanent(TimeSpan.FromSeconds(23)));
 		}
 
 		/// ------------------------------------------------------------------------------------

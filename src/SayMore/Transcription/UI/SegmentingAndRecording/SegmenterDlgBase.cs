@@ -180,6 +180,13 @@ namespace SayMore.Transcription.UI
 			_waveControl.PlaybackStarted += OnPlaybackStarted;
 			_waveControl.PlaybackUpdate += OnPlayingback;
 			_waveControl.PlaybackStopped += OnPlaybackStopped;
+			if (_waveControl is WaveControlWithMovableBoundaries)
+			{
+				((WaveControlWithMovableBoundaries)_waveControl).InitiatiatingBoundaryMove += (sender, e) =>
+				{
+					e.Cancel = _viewModel.IsBoundaryPermanent(e.BoundaryBeingMoved);
+				};
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

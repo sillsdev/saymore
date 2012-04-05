@@ -19,7 +19,7 @@ namespace SayMore.Media
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		private WavePainterWithBoundarySelection MyPainter
+		protected WavePainterWithBoundarySelection MyPainter
 		{
 			get { return Painter as WavePainterWithBoundarySelection; }
 		}
@@ -42,7 +42,6 @@ namespace SayMore.Media
 			if (boundary == TimeSpan.Zero || SegmentBoundaries.Any(b => b == boundary))
 			{
 				MyPainter.SetSelectedBoundary(boundary);
-				var dx = MyPainter.ConvertTimeToXCoordinate(boundary);
 				EnsureTimeIsVisible(boundary, boundary, boundary, false, false);
 			}
 		}
@@ -87,12 +86,19 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void InitiatiateBoundaryMove(int mouseX, TimeSpan boundaryBeingMoved)
+		protected override void OnInitiatiatingBoundaryMove(InitiatiatingBoundaryMoveEventArgs e)
 		{
 			MyPainter.HighlightBoundaryWhenMouseIsNear = false;
 			MyPainter.SetSelectedBoundary(TimeSpan.Zero);
-			base.InitiatiateBoundaryMove(mouseX, boundaryBeingMoved);
-			MyPainter.SetMovedBoundaryTime(boundaryBeingMoved);
+			base.OnInitiatiatingBoundaryMove(e);
+			MyPainter.SetMovedBoundaryTime(e.BoundaryBeingMoved);
+
+			if (e.Cancel)
+			{
+				// Can't move it, but still want to select it.
+				MyPainter.SetSelectedBoundary(e.BoundaryBeingMoved);
+				MyPainter.HighlightBoundaryWhenMouseIsNear = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

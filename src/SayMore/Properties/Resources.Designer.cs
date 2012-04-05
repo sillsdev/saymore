@@ -456,13 +456,6 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap RecordingOralAnnotationHighlight {
-            get {
-                object obj = ResourceManager.GetObject("RecordingOralAnnotationHighlight", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap RecordingPlayback {
             get {
                 object obj = ResourceManager.GetObject("RecordingPlayback", resourceCulture);

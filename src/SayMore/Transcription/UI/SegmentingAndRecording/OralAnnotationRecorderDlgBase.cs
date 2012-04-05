@@ -9,7 +9,6 @@ using SayMore.Media.UI;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SilTools;
-using SilTools.Controls;
 
 namespace SayMore.Transcription.UI
 {
@@ -834,7 +833,7 @@ namespace SayMore.Transcription.UI
 			//g.FillEllipse(Brushes.White, rc);
 			//g.DrawEllipse(Pens.Black, rc);
 
-			rc = GetTempSegmentAnnotationRectangle();
+			rc = GetAnnotationRectangleForSegmentBeingRecorded();
 			rc.Inflate(-5, -5);
 			rc.X += (_pictureRecording.Width + 6);
 			rc.Width -= (_pictureRecording.Width + 6);

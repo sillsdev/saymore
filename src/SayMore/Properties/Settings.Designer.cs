@@ -1376,19 +1376,6 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public int AnnotationWaveViewHeight {
-            get {
-                return ((int)(this["AnnotationWaveViewHeight"]));
-            }
-            set {
-                this["AnnotationWaveViewHeight"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent {
             get {
                 return ((bool)(this["PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent"]));

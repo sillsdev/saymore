@@ -407,9 +407,6 @@
     <Setting Name="SegmentingWaveViewPixelsPerSecond" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">80</Value>
     </Setting>
-    <Setting Name="AnnotationWaveViewHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">100</Value>
-    </Setting>
     <Setting Name="PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>

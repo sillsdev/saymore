@@ -197,7 +197,6 @@ namespace SayMore.Transcription.UI
 		protected override WaveControlBasic CreateWaveControl()
 		{
 			_waveControl = new 	WaveControlWithRangeSelection();
-			_waveControl.BottomReservedAreaHeight = Settings.Default.AnnotationWaveViewHeight;
 			_waveControl.BottomReservedAreaBorderColor = Settings.Default.DataEntryPanelColorBorder;
 			_waveControl.BottomReservedAreaColor = Color.FromArgb(130, Settings.Default.DataEntryPanelColorBegin);
 			_waveControl.BottomReservedAreaPaintAction = HandlePaintingAnnotatedWaveArea;
@@ -212,8 +211,11 @@ namespace SayMore.Transcription.UI
 
 			_waveControl.ClientSizeChanged += delegate
 			{
+				_waveControl.BottomReservedAreaHeight =
+					_waveControl.ClientSize.Height / (ViewModel.OrigWaveStream.WaveFormat.Channels + 1);
+
 				_tableLayoutMediaButtons.RowStyles[_tableLayoutMediaButtons.RowCount - 1].Height =
-					Settings.Default.AnnotationWaveViewHeight +
+					_waveControl.BottomReservedAreaHeight +
 					(_waveControl.HorizontalScroll.Visible ? SystemInformation.HorizontalScrollBarHeight : 0);
 			};
 
@@ -925,7 +927,7 @@ namespace SayMore.Transcription.UI
 			var i = 0;
 			var rc = _waveControl.GetSegmentRectangles().FirstOrDefault(r =>
 			{
-				r.Height += Settings.Default.AnnotationWaveViewHeight;
+				r.Height += _waveControl.BottomReservedAreaHeight;
 				if (r.Contains(mousePos))
 					return true;
 

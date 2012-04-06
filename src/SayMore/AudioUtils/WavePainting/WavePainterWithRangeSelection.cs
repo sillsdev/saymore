@@ -10,7 +10,7 @@ namespace SayMore.Media
 {
 	public class WavePainterWithRangeSelection : WavePainterBasic
 	{
-		private Dictionary<Color, TimeRange> _selectedRegions = new Dictionary<Color, TimeRange>();
+		private readonly Dictionary<Color, TimeRange> _selectedRegions = new Dictionary<Color, TimeRange>();
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterWithRangeSelection(Control ctrl, WaveFileReader stream) :
@@ -30,7 +30,7 @@ namespace SayMore.Media
 			// Other possible colors.
 			//	Color.FromArgb(100, SystemColors.Highlight)
 			//	Color.FromArgb(90, Color.Orange)
-			get { return Color.FromArgb(70, Color.CornflowerBlue); }
+			get { return Color.FromArgb(50, Color.CornflowerBlue); }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -186,14 +186,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<TimeSpan> GetSegmentEndBoundaries()
 		{
-			return   TimeTier.Segments.Select(s => TimeSpan.FromSeconds(s.End));
+			return TimeTier.Segments.Select(s => TimeSpan.FromSeconds(s.End));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetEndOfLastSegment()
 		{
 			return (TimeTier.Segments.Count == 0 ? TimeSpan.Zero :
-				TimeSpan.FromSeconds(TimeTier.Segments[TimeTier.Segments.Count - 1].End));
+				TimeTier.Segments[TimeTier.Segments.Count - 1].TimeRange.End);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -204,16 +204,15 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public virtual bool GetIsSegmentLongEnough(TimeSpan proposedEndTime)
 		{
-			var propEndTime = (float)proposedEndTime.TotalSeconds;
-			var minSize = Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds / 1000f;
+			var minSize = TimeSpan.FromMilliseconds(Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
 
 			for (int i = TimeTier.Segments.Count - 1; i >= 0; i--)
 			{
-				if (TimeTier.Segments[i].End < propEndTime)
-					return (propEndTime - TimeTier.Segments[i].End >= minSize);
+				if (TimeTier.Segments[i].TimeRange.End < proposedEndTime)
+					return (proposedEndTime - TimeTier.Segments[i].TimeRange.End >= minSize);
 			}
 
-			return (propEndTime >= minSize);
+			return (proposedEndTime >= minSize);
 		}
 
 		/// ------------------------------------------------------------------------------------

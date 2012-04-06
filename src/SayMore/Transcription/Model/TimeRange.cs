@@ -49,6 +49,21 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool GetIsTimeInRange(float seconds, bool includeStart, bool includeEnd)
+		{
+			if (includeStart && includeEnd)
+				return (seconds >= StartSeconds && seconds <= EndSeconds);
+
+			if (includeStart)
+				return (seconds >= StartSeconds && seconds < EndSeconds);
+
+			if (includeEnd)
+				return (seconds > StartSeconds && seconds <= EndSeconds);
+
+			return (seconds > StartSeconds && seconds < EndSeconds);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
 			return MediaPlayerViewModel.GetRangeTimeDisplay(StartSeconds, EndSeconds);
@@ -84,6 +99,12 @@ namespace SayMore.Transcription.Model
 			{
 				return (Start.GetHashCode() * 397) ^ End.GetHashCode();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeRange Copy()
+		{
+			return new TimeRange(Start, End);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
+using SayMore.Transcription.Model;
 using SilTools;
 
 namespace SayMore.Media
@@ -485,6 +486,12 @@ namespace SayMore.Media
 					}
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual Rectangle GetRectangleForTimeRange(TimeRange timeRange)
+		{
+			return GetRectangleForTimeRange(timeRange.Start, timeRange.End);
 		}
 
 		/// ------------------------------------------------------------------------------------

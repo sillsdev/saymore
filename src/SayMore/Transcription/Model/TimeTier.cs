@@ -114,7 +114,7 @@ namespace SayMore.Transcription.Model
 		{
 			for (int i = 0; segment != null && i < Segments.Count; i++)
 			{
-				if (Segments[i].Start.Equals(segment.Start) && Segments[i].End.Equals(segment.End))
+				if (Segments[i].TimeRange == segment.TimeRange)
 					return i;
 			}
 
@@ -130,7 +130,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public Segment GetSegmentEnclosingTime(float time)
 		{
-			return Segments.FirstOrDefault(s => time > s.Start && time <= s.End);
+			return Segments.FirstOrDefault(s => s.TimeRange.GetIsTimeInRange(time, false, true));
 		}
 
 		#region Methods for Adding and removing segments

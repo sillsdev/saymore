@@ -45,8 +45,7 @@ namespace SayMore.Media
 		protected Color _bottomReservedAreaBorderColor;
 		protected Action<PaintEventArgs, Rectangle> _bottomReservedAreaPaintAction;
 
-		protected TimeSpan _playbackStartTime;
-		protected TimeSpan _playbackEndTime;
+		protected TimeRange _playbackRange;
 		protected TimeSpan _boundaryMouseOver;
 		protected WaveControlScrollCalculator _scrollCalculator;
 		protected Timer _slideTimer;
@@ -399,16 +398,19 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void EnsureTimeIsVisible(TimeSpan time, TimeSpan rangeStartTime,
-			TimeSpan rangeEndTime, bool scrollToCenter, bool prepareForPlayback)
+		public void EnsureTimeIsVisible(TimeSpan time, TimeRange timeRange,
+			bool scrollToCenter, bool prepareForPlayback)
 		{
 			bool discardCalculator = false;
+
 			if (_scrollCalculator == null)
 			{
-				_scrollCalculator = new WaveControlScrollCalculator(this, rangeStartTime, rangeEndTime, scrollToCenter);
+				_scrollCalculator = new WaveControlScrollCalculator(this, timeRange, scrollToCenter);
 				discardCalculator = !prepareForPlayback;
 			}
+
 			EnsureTimeIsVisible(time);
+
 			if (discardCalculator)
 				_scrollCalculator = null;
 		}
@@ -423,10 +425,12 @@ namespace SayMore.Media
 		public void EnsureXIsVisible(int x)
 		{
 			bool discardCalculator = false;
+
 			if (_scrollCalculator == null)
 			{
-				_scrollCalculator = new WaveControlScrollCalculator(this, TimeSpan.Zero,
-					_playbackStream.TotalTime, true);
+				_scrollCalculator = new WaveControlScrollCalculator(this,
+					new TimeRange(TimeSpan.Zero, _playbackStream.TotalTime), true);
+
 				discardCalculator = true;
 			}
 
@@ -466,6 +470,7 @@ namespace SayMore.Media
 		{
 			if (_slideTimer == null)
 				return;
+
 			_slideTimer.Stop();
 			_slideTimer.Dispose();
 			_slideTimer = null;
@@ -563,21 +568,20 @@ namespace SayMore.Media
 				return;
 			}
 
-			_playbackStartTime = playbackStartTime;
-			_playbackEndTime = playbackEndTime;
+			_playbackRange = new TimeRange(playbackStartTime, playbackEndTime);
 
-			if (_playbackStartTime < TimeSpan.Zero)
-				_playbackStartTime = TimeSpan.Zero;
+			if (_playbackRange.Start < TimeSpan.Zero)
+				_playbackRange.Start = TimeSpan.Zero;
 
-			if (_playbackEndTime <= _playbackStartTime)
+			if (_playbackRange.DurationSeconds.Equals(0))
 			{
-				_playbackEndTime = WaveStream.TotalTime;
-				EnsureTimeIsVisible(_playbackStartTime);
+				_playbackRange.End = WaveStream.TotalTime;
+				EnsureTimeIsVisible(_playbackRange.Start);
 			}
 			else
-				EnsureTimeIsVisible(_playbackStartTime, _playbackStartTime, _playbackEndTime, true, true);
+				EnsureTimeIsVisible(_playbackRange.Start, _playbackRange, true, true);
 
-			var waveOutProvider = new SampleChannel(_playbackEndTime == TimeSpan.Zero || _playbackEndTime == WaveStream.TotalTime ?
+			var waveOutProvider = new SampleChannel(_playbackRange.End == TimeSpan.Zero || _playbackRange.End == WaveStream.TotalTime ?
 				new WaveSegmentStream(_playbackStream, playbackStartTime) :
 				new WaveSegmentStream(_playbackStream, playbackStartTime, playbackEndTime - playbackStartTime));
 
@@ -603,9 +607,9 @@ namespace SayMore.Media
 		{
 			// We're using a WaveSegmentStream which never gets a PlaybackStopped
 			// event on the WaveOut, so we have to force it here.
-			if (_playbackStream.CurrentTime == (_playbackEndTime > TimeSpan.Zero ? _playbackEndTime : WaveStream.TotalTime))
+			if (_playbackStream.CurrentTime == (_playbackRange.End > TimeSpan.Zero ? _playbackRange.End : WaveStream.TotalTime))
 			{
-				SetCursor(_playbackEndTime);
+				SetCursor(_playbackRange.End);
 				_waveOut.Stop();
 				return;
 			}
@@ -631,7 +635,7 @@ namespace SayMore.Media
 			_waveOut.Dispose();
 			_waveOut = null;
 			_scrollCalculator = null;
-			OnPlaybackStopped(_playbackStartTime, _playbackStream.CurrentTime);
+			OnPlaybackStopped(_playbackRange.Start, _playbackStream.CurrentTime);
 		}
 
 		#endregion

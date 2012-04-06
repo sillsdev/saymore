@@ -16,7 +16,7 @@ namespace SayMore.Transcription.Model
 		public Segment(TierBase tier)
 		{
 			Tier = tier;
-			TimeRange = new TimeRange(-1f, -1f);
+			TimeRange = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -45,33 +45,21 @@ namespace SayMore.Transcription.Model
 		public TimeRange TimeRange
 		{
 			get { return _timeRange; }
-			set { _timeRange = (value ?? new TimeRange(0f, 0f)); }
+			set { _timeRange = (value ?? new TimeRange(-1f, -1f)); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public float Start
 		{
-			get { return TimeRange == null ? 0f : TimeRange.StartSeconds; }
-			set
-			{
-				if (TimeRange == null)
-					TimeRange = new TimeRange(value, 0f);
-				else
-					TimeRange.StartSeconds = value;
-			}
+			get { return TimeRange.StartSeconds; }
+			set { TimeRange.StartSeconds = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public float End
 		{
-			get { return TimeRange == null ? 0f : TimeRange.EndSeconds; }
-			set
-			{
-				if (TimeRange == null)
-					TimeRange = new TimeRange(0f, value);
-				else
-					TimeRange.EndSeconds = value;
-			}
+			get { return TimeRange.EndSeconds; }
+			set { TimeRange.EndSeconds = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

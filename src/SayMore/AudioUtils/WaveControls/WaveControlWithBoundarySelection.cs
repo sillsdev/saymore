@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using NAudio.Wave;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Media
 {
@@ -42,7 +43,7 @@ namespace SayMore.Media
 			if (boundary == TimeSpan.Zero || SegmentBoundaries.Any(b => b == boundary))
 			{
 				MyPainter.SetSelectedBoundary(boundary);
-				EnsureTimeIsVisible(boundary, boundary, boundary, false, false);
+				EnsureTimeIsVisible(boundary, new TimeRange(boundary, boundary), false, false);
 			}
 		}
 

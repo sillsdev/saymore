@@ -1,17 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using SayMore.Media;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Media
 {
 	/// ----------------------------------------------------------------------------------------
 	public class WaveControlScrollCalculator
 	{
-		private readonly TimeSpan _startTime;
-		private readonly TimeSpan _endTime;
+		private readonly TimeRange _timeRange;
 		private readonly int _leftMarginPercent;
 		private readonly int _rightMarginPercent;
 		private readonly WaveControlBasic _waveControl;
@@ -21,26 +17,25 @@ namespace SayMore.Media
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControlScrollCalculator(WaveControlBasic waveControl)
-			: this(waveControl, TimeSpan.Zero, TimeSpan.Zero, false)
+			: this(waveControl, new TimeRange(0, 0), false)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public WaveControlScrollCalculator(WaveControlBasic waveControl, TimeSpan startTime,
-			TimeSpan endTime, bool scrollToCenter) : this(waveControl, startTime, endTime, scrollToCenter, 5, 95)
+		public WaveControlScrollCalculator(WaveControlBasic waveControl, TimeRange timeRange,
+			bool scrollToCenter) : this(waveControl, timeRange, scrollToCenter, 5, 95)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public WaveControlScrollCalculator(WaveControlBasic waveControl, TimeSpan startTime,
-			TimeSpan endTime, bool scrollToCenter, int leftMarginPct, int rightMarginPct)
+		public WaveControlScrollCalculator(WaveControlBasic waveControl, TimeRange timeRange,
+			bool scrollToCenter, int leftMarginPct, int rightMarginPct)
 		{
-			Debug.Assert(startTime <= endTime);
+			Debug.Assert(!TimeRange.IsNullOrZeroLength(timeRange));
 
 			_waveControl = waveControl;
 			_cachedWaveControlClientWidth = _waveControl.ClientSize.Width;
-			_startTime = startTime;
-			_endTime = endTime;
+			_timeRange = timeRange;
 			_scrollToCenter = scrollToCenter;
 			_leftMarginPercent = leftMarginPct;
 			_rightMarginPercent = rightMarginPct;
@@ -49,7 +44,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		private bool HasRange
 		{
-			get { return _startTime != _endTime; }
+			get { return _timeRange.DurationSeconds > 0; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -87,8 +82,8 @@ namespace SayMore.Media
 			if (_cachedScrollPosAtWhichEntireRangeIsVisible == -_waveControl.AutoScrollPosition.X)
 				return true;
 
-			var startX = _waveControl.Painter.ConvertTimeToXCoordinate(_startTime);
-			var endX = _waveControl.Painter.ConvertTimeToXCoordinate(_endTime);
+			var startX = _waveControl.Painter.ConvertTimeToXCoordinate(_timeRange.Start);
+			var endX = _waveControl.Painter.ConvertTimeToXCoordinate(_timeRange.End);
 
 			if (endX - startX >= _waveControl.ClientSize.Width)
 				return false;

@@ -8,8 +8,8 @@ namespace SayMore.Media
 {
 	public class WaveControlWithRangeSelection : WaveControlWithMovableBoundaries
 	{
-		public delegate void SelectedRegionChangedHandler(WaveControlWithRangeSelection wavCtrl,
-			TimeSpan newStart, TimeSpan newEnd);
+		public delegate void SelectedRegionChangedHandler(
+			WaveControlWithRangeSelection wavCtrl, TimeRange newTimeRange);
 
 		public event SelectedRegionChangedHandler SelectedRegionChanged;
 		public bool SelectSegmentOnMouseOver { get; set; }
@@ -80,15 +80,19 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeSpan start, TimeSpan end)
 		{
-			var newTimeRange = new TimeRange(start, end);
+			SetSelectionTimes(new TimeRange(start, end));
+		}
 
+		/// ------------------------------------------------------------------------------------
+		public void SetSelectionTimes(TimeRange newTimeRange)
+		{
 			if (MyPainter.DefaultSelectedRange == newTimeRange)
 				return;
 
 			MyPainter.SetSelectionTimes(newTimeRange);
 
 			if (SelectedRegionChanged != null)
-				SelectedRegionChanged(this, start, end);
+				SelectedRegionChanged(this, newTimeRange.Copy());
 		}
 
 		/// ------------------------------------------------------------------------------------

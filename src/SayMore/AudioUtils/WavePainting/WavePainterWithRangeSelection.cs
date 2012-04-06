@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using NAudio.Wave;
@@ -26,9 +27,10 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public Color DefaultSelectionColor
 		{
-			//				using (var br = new SolidBrush(Color.FromArgb(100, SystemColors.Highlight)))
-			//				using (var br = new SolidBrush(Color.FromArgb(90, Color.Orange)))
-			get { return Color.FromArgb(100, Color.CornflowerBlue); }
+			// Other possible colors.
+			//	Color.FromArgb(100, SystemColors.Highlight)
+			//	Color.FromArgb(90, Color.Orange)
+			get { return Color.FromArgb(70, Color.CornflowerBlue); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -66,8 +68,16 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void SetSelectionTimes(TimeRange newTimeRange)
+		{
+			SetSelectionTimes(newTimeRange, DefaultSelectionColor);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeRange newTimeRange, Color color)
 		{
+			Debug.Assert(newTimeRange != null);
+
 			TimeRange previousTimeRange;
 			if (_selectedRegions.TryGetValue(color, out previousTimeRange) && newTimeRange == previousTimeRange)
 				return;
@@ -88,7 +98,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		private void DrawSelectedRegions(PaintEventArgs e)
 		{
-			if (_segmentBoundaries != null)
+			if (_segmentBoundaries == null)
 				return;
 
 			foreach (var kvp in _selectedRegions)

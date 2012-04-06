@@ -1,7 +1,6 @@
 
 using System;
 using System.IO;
-using SayMore.Media.UI;
 
 namespace SayMore.Transcription.Model
 {
@@ -10,8 +9,15 @@ namespace SayMore.Transcription.Model
 	{
 		public TierBase Tier { get; private set; }
 		public string Text { get; set; }
-		public float Start { get; set; }
-		public float End { get; set; }
+
+		private TimeRange _timeRange;
+
+		/// ------------------------------------------------------------------------------------
+		public Segment(TierBase tier)
+		{
+			Tier = tier;
+			TimeRange = new TimeRange(-1f, -1f);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public Segment() : this(null)
@@ -19,23 +25,53 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment(TierBase tier)
+		public Segment(TierBase tier, TimeRange timeRange) : this(tier)
 		{
-			Tier = tier;
-			Start = End = -1f;
+			TimeRange = timeRange;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Segment(TierBase tier, float start, float end) : this(tier)
+		public Segment(TierBase tier, float start, float end) : this(tier, new TimeRange(start, end))
 		{
-			Start = start;
-			End = end;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public Segment(TierBase tier, string text) : this(tier)
 		{
 			Text = text;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeRange TimeRange
+		{
+			get { return _timeRange; }
+			set { _timeRange = (value ?? new TimeRange(0f, 0f)); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public float Start
+		{
+			get { return TimeRange == null ? 0f : TimeRange.StartSeconds; }
+			set
+			{
+				if (TimeRange == null)
+					TimeRange = new TimeRange(value, 0f);
+				else
+					TimeRange.StartSeconds = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public float End
+		{
+			get { return TimeRange == null ? 0f : TimeRange.EndSeconds; }
+			set
+			{
+				if (TimeRange == null)
+					TimeRange = new TimeRange(0f, value);
+				else
+					TimeRange.EndSeconds = value;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -51,7 +87,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public float GetLength()
 		{
-			return (End < Start ? 0f : (float)((decimal)End - (decimal)Start));
+			return TimeRange.DurationSeconds;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,8 +97,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public float GetLength(int decimalPlaces)
 		{
-			return (float)Math.Round((decimal)End - (decimal)Start, decimalPlaces,
-				MidpointRounding.AwayFromZero);
+			return (float)Math.Round(TimeRange.DurationSeconds, decimalPlaces, MidpointRounding.AwayFromZero);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -91,15 +126,8 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			if (Start >= 0f || End >= 0f)
-			{
-				var length = GetLength();
-
-				return MediaPlayerViewModel.GetRangeTimeDisplay(Start, (length.Equals(0f) ? 0 :
-					(float)((decimal)Start + (decimal)length)));
-			}
-
-			return Text;
+			return (TimeRange.StartSeconds >= 0f || TimeRange.EndSeconds >= 0f ?
+				TimeRange.ToString() : Text);
 		}
 	}
 }

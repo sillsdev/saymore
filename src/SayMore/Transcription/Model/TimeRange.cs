@@ -45,7 +45,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public float DurationSeconds
 		{
-			get { return EndSeconds - StartSeconds; }
+			get { return Math.Max(EndSeconds - StartSeconds, 0f); }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -82,7 +82,7 @@ namespace SayMore.Media
 		{
 			var newTimeRange = new TimeRange(start, end);
 
-			if (MyPainter.DefaultSelectedRange != newTimeRange)
+			if (MyPainter.DefaultSelectedRange == newTimeRange)
 				return;
 
 			MyPainter.SetSelectionTimes(newTimeRange);
@@ -158,7 +158,7 @@ namespace SayMore.Media
 		protected override void OnBoundaryMoving(TimeSpan newBoundary)
 		{
 			base.OnBoundaryMoving(newBoundary);
-			MyPainter.SetSelectionTimes(MyPainter.SelectedRegionStartTime, newBoundary);
+			MyPainter.SetSelectionTimes(MyPainter.DefaultSelectedRange.Start, newBoundary);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -166,11 +166,11 @@ namespace SayMore.Media
 		{
 			if (base.OnBoundaryMoved(oldBoundary, newBoundary))
 			{
-				SetSelectionTimes(MyPainter.SelectedRegionStartTime, newBoundary);
+				SetSelectionTimes(MyPainter.DefaultSelectedRange.Start, newBoundary);
 				return true;
 			}
 
-			SetSelectionTimes(MyPainter.SelectedRegionStartTime, oldBoundary);
+			SetSelectionTimes(MyPainter.DefaultSelectedRange.Start, oldBoundary);
 			return false;
 		}
 	}

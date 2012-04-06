@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="RerecordOralAnnoation.svg">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <inkscape:perspective
+       id="perspective2849"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       id="perspective6527" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       id="perspective5594" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       id="perspective4096" />
+    <inkscape:perspective
+       id="perspective4120"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       id="perspective5594-8" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       id="perspective4096-4" />
+    <inkscape:perspective
+       id="perspective4120-9"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <radialGradient
+       r="9.399515"
+       fy="1018.2729"
+       fx="19.72304"
+       cy="1020.1797"
+       cx="19"
+       gradientTransform="matrix(2.7661001,5.3907566e-7,-3.0661587e-7,1.5733046,-33.55559,-1592.0534)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient3816"
+       xlink:href="#linearGradient3779"
+       inkscape:collect="always" />
+    <radialGradient
+       r="9.399515"
+       fy="1018.2729"
+       fx="19.72304"
+       cy="1020.1797"
+       cx="19"
+       gradientTransform="matrix(2.7661001,5.3907566e-7,-3.0661587e-7,1.5733046,-33.55559,-1592.0534)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient3811"
+       xlink:href="#linearGradient3779"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient3779"
+       inkscape:collect="always">
+      <stop
+         id="stop3781"
+         offset="0"
+         style="stop-color:#a40000;stop-opacity:1;" />
+      <stop
+         id="stop3783"
+         offset="1"
+         style="stop-color:#ef2929;stop-opacity:1" />
+    </linearGradient>
+    <inkscape:perspective
+       id="perspective4324"
+       inkscape:persp3d-origin="24 : 16 : 1"
+       inkscape:vp_z="48 : 24 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 24 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3779"
+       id="radialGradient4358"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0599159,2.0656333e-7,-1.1748925e-7,0.60285978,-9.9313558,-456.84552)"
+       cx="19"
+       cy="1020.1797"
+       fx="19.72304"
+       fy="1018.2729"
+       r="9.399515" />
+    <inkscape:perspective
+       id="perspective5320"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <filter
+       id="filter6051"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-.25"
+       y="-.25">
+      <feGaussianBlur
+         id="feGaussianBlur6053"
+         in="SourceAlpha"
+         stdDeviation="1.500000"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix6055"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.400000 0 " />
+      <feOffset
+         id="feOffset6057"
+         in="bluralpha"
+         dx="4.000000"
+         dy="4.000000"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge6059">
+        <feMergeNode
+           id="feMergeNode6061"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode6063"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="8.71"
+     inkscape:cx="53.171617"
+     inkscape:cy="860.1221"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="838"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:url(#radialGradient4358);fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 12.15359,155.66754 c -3.7371238,0.0947 -6.7364208,3.15434 -6.7364208,6.9143 0,1.06157 0.239158,2.06749 0.666486,2.96647 l -0.609242,0.35165 2.682302,0.71758 0.717597,-2.68023 -0.431376,0.24941 c -0.20415,-0.49434 -0.316888,-1.03681 -0.316888,-1.60488 0,-2.26122 1.785907,-4.1052 4.0234518,-4.20134 l -1.312528,-1.31251 1.40044,-1.40045 c -0.02803,3.1e-4 -0.05587,0 -0.08382,0 z"
+       id="path2987"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\Olson\Desktop\RefecordOralAnnotation.png"
+       inkscape:export-xdpi="60"
+       inkscape:export-ydpi="60" />
+    <path
+       id="path3007"
+       d="m 18.321543,166.00357 c 1.786564,-3.28378 0.636465,-7.4111 -2.61974,-9.29106 -0.919356,-0.53082 -1.910099,-0.82667 -2.902288,-0.90607 l 6.5e-5,-0.70344 -1.962608,1.96415 1.962372,1.96157 -3.47e-4,-0.49828 c 0.53021,0.0704 1.056353,0.24397 1.548314,0.52802 1.958303,1.13061 2.662277,3.59925 1.626756,5.58505 l 1.792946,-0.4804 0.512597,1.91303 c 0.01368,-0.0245 0.02855,-0.0481 0.04191,-0.0726 z"
+       style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\Olson\Desktop\RefecordOralAnnotation.png"
+       inkscape:export-xdpi="60"
+       inkscape:export-ydpi="60" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#3e5f0e;stroke-width:0.38318056px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 6.2835532,166.1788 c 1.950557,3.18906 6.0999518,4.25675 9.3561568,2.37675 0.919358,-0.53078 1.670943,-1.24089 2.235804,-2.0604 l 0.609165,0.35176 -0.719695,-2.68176 -2.679977,0.71865 0.431698,0.24888 c -0.326058,0.42395 -0.739462,0.79284 -1.231425,1.07685 -1.958286,1.13065 -4.4481678,0.50599 -5.6501898,-1.3837 l -0.48042,1.79294 -1.913036,-0.51258 c 0.01436,0.0238 0.02732,0.0487 0.04191,0.0726 z"
+       id="path3009"
+       inkscape:export-filename="C:\Users\Olson\Desktop\RefecordOralAnnotation.png"
+       inkscape:export-xdpi="60"
+       inkscape:export-ydpi="60" />
+    <path
+       style="fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 12.80537,155.10237 -0.562797,0.5628 c -0.02803,3e-4 -0.05587,0 -0.08382,0 -3.7371238,0.0947 -6.7415828,3.16123 -6.7415828,6.92119 0,0.0562 -0.0014,0.11177 0,0.16765 0.671913,-0.64363 1.762372,-1.17246 2.897803,-1.43693 0.520368,-1.64805 2.0312478,-2.85636 3.8318058,-2.93373 l 0.646617,0.64662 0,-0.50292 c 0.53021,0.0704 1.06471,0.24282 1.556671,0.52687 1.131999,0.65355 1.835112,1.75967 2.035647,2.95767 0.986501,-0.34637 1.899447,-0.77167 2.538572,-1.08967 -0.456506,-1.71586 -1.562258,-3.25725 -3.221112,-4.21498 -0.919357,-0.53082 -1.905615,-0.81869 -2.897803,-0.89808 l 0,-0.70649 z"
+       id="path3805"
+       inkscape:export-filename="C:\Users\Olson\Desktop\RefecordOralAnnotation.png"
+       inkscape:export-xdpi="60"
+       inkscape:export-ydpi="60" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3827"
+       d="m 12.15359,155.66754 c -3.7371238,0.0947 -6.7364208,3.15434 -6.7364208,6.9143 0,1.06157 0.239158,2.06749 0.666486,2.96647 l -0.609242,0.35165 2.682302,0.71758 0.717597,-2.68023 -0.431376,0.24941 c -0.20415,-0.49434 -0.316888,-1.03681 -0.316888,-1.60488 0,-2.26122 1.785907,-4.1052 4.0234518,-4.20134 l -1.312528,-1.31251 1.40044,-1.40045 c -0.02803,3.1e-4 -0.05587,0 -0.08382,0 z"
+       style="fill:#ffff00;fill-opacity:1;stroke:#3e5f0e;stroke-width:0.38318056px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:export-filename="C:\Users\Olson\Desktop\RefecordOralAnnotation.png"
+       inkscape:export-xdpi="60"
+       inkscape:export-ydpi="60" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#3e5f0e;stroke-width:0.38318056px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 18.321543,166.00357 c 1.786564,-3.28378 0.636465,-7.4111 -2.61974,-9.29106 -0.919356,-0.53082 -1.910099,-0.82667 -2.902288,-0.90607 l 6.5e-5,-0.70344 -1.962608,1.96415 1.962372,1.96157 -3.47e-4,-0.49828 c 0.53021,0.0704 1.056353,0.24397 1.548314,0.52802 1.958303,1.13061 2.662277,3.59925 1.626756,5.58505 l 1.792946,-0.4804 0.512597,1.91303 c 0.01368,-0.0245 0.02855,-0.0481 0.04191,-0.0726 z"
+       id="path3831"
+       inkscape:export-filename="C:\Users\Olson\Desktop\RefecordOralAnnotation.png"
+       inkscape:export-xdpi="60"
+       inkscape:export-ydpi="60" />
+    <g
+       id="g5984"
+       style="filter:url(#filter6051)"
+       inkscape:export-filename="C:\Users\Olson\Desktop\Shadow48.png"
+       inkscape:export-xdpi="55.000187"
+       inkscape:export-ydpi="55.000187">
+      <path
+         inkscape:export-ydpi="56.250195"
+         inkscape:export-xdpi="56.250195"
+         inkscape:export-filename="C:\Users\Olson\Desktop\RerecordOralAnnotation.png"
+         id="path5346"
+         d="m 34.468976,211.56021 c -2.449783,-0.32739 -4.526935,-2.29526 -5.055493,-4.78952 -0.245947,-1.16063 -0.245285,-32.65587 7.11e-4,-33.81678 0.512387,-2.41809 2.513792,-4.39282 4.845853,-4.78127 0.565584,-0.0942 5.357412,-0.12138 17.258298,-0.0978 l 16.475315,0.0326 0.654606,0.25023 c 0.912615,0.34886 1.562639,0.74917 2.18534,1.34582 1.142061,1.09429 1.744719,2.36622 1.936952,4.08801 0.06778,0.60708 0.09818,7.16034 0.07808,16.82846 l -0.03293,15.83421 -0.317917,0.89872 c -0.72334,2.0448 -2.060526,3.36584 -4.10229,4.05275 -0.601671,0.20242 -1.400489,0.21325 -16.934558,0.22956 -8.966705,0.009 -16.613088,-0.0243 -16.991963,-0.0749 l 0,0 z m 24.512055,-6.52437 0,-1.01645 0.86703,-0.0733 c 0.476867,-0.0403 1.393916,-0.17994 2.037887,-0.31029 4.096749,-0.82922 6.509549,-2.60205 6.509549,-4.78298 0,-2.59432 -3.149665,-4.34019 -8.986977,-4.98151 -0.680495,-0.0748 -1.259621,-0.11358 -1.286946,-0.0863 -0.02733,0.0273 -0.08469,0.46949 -0.127484,0.98258 l -0.0778,0.9329 0.50367,0.0616 c 2.127232,0.26027 3.34177,0.45942 4.259418,0.69844 2.337226,0.60876 3.764342,1.54529 3.764342,2.47028 0,0.13084 -0.216664,0.47294 -0.481475,0.76023 -0.566196,0.61425 -2.094165,1.39608 -3.422084,1.751 -0.733876,0.19615 -3.027251,0.5918 -3.430349,0.5918 -0.08507,0 -0.128779,-0.33127 -0.128779,-0.97589 0,-0.53674 -0.04484,-0.97589 -0.09964,-0.97589 -0.24408,0 -5.194851,2.25101 -5.176438,2.35361 0.02037,0.11352 5.023725,3.59192 5.189971,3.60814 0.04736,0.005 0.08611,-0.44901 0.08611,-1.00805 l 0,0 z m -12.12305,-1.5955 c 0.357528,-2.21475 0.743248,-3.54136 1.250571,-4.30108 0.434094,-0.65006 0.458086,-0.7313 0.443841,-1.50277 -0.02642,-1.43039 0.35556,-1.68753 2.506709,-1.68753 1.504596,0 2.01735,-0.12881 2.338612,-0.58748 0.22874,-0.32657 0.235197,-0.86431 0.01501,-1.24949 -0.278544,-0.48727 -0.207558,-0.75516 0.315729,-1.19155 l 0.487945,-0.40691 -0.945029,-0.95163 -0.945029,-0.95164 1.150874,0.0396 1.150874,0.0396 -0.07478,-0.29794 c -0.160458,-0.63932 0.21969,-1.10162 0.905861,-1.10162 0.765486,0 0.998495,-0.7659 0.450684,-1.48139 -0.668084,-0.87258 -2.095293,-3.04957 -2.095293,-3.19605 0,-0.0846 0.109027,-0.36746 0.242283,-0.62866 0.305557,-0.59894 0.268182,-0.95075 -0.350737,-3.30134 -0.940575,-3.57221 -1.874346,-4.77559 -4.770995,-6.14855 -3.032279,-1.43724 -5.750046,-1.75398 -8.208955,-0.95671 -1.894024,0.61411 -3.628925,1.88335 -4.396587,3.21649 -0.44139,0.76653 -0.955297,2.38182 -1.181224,3.71276 -0.514509,3.03098 0.387653,6.87133 2.392126,10.18287 0.515074,0.85094 0.717784,1.99096 0.624255,3.51074 -0.07275,1.18214 -0.22524,1.79468 -0.722761,2.90331 l -0.306244,0.6824 0.317795,0.45858 c 0.894457,1.2907 3.011864,3.24936 4.689281,4.33771 1.246951,0.80905 3.90467,2.07309 4.391215,2.08851 0.07041,0.002 0.211497,-0.53352 0.323973,-1.23027 l 0,0 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:#3e5f0e;stroke-width:0.24822043;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <g
+         inkscape:export-ydpi="56.250195"
+         inkscape:export-xdpi="56.250195"
+         inkscape:export-filename="C:\Users\Olson\Desktop\RerecordOralAnnotation.png"
+         id="g10163-0-7"
+         style="stroke:#4d7dc5;stroke-width:1.22957684;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         transform="matrix(1.7344045,0,0,1.7825825,15.726117,-2206.8446)">
+        <rect
+           ry="4.1110163"
+           y="1331.6479"
+           x="7.1428571"
+           height="25.714285"
+           width="26.428572"
+           id="rect9886-03-3"
+           style="fill:#0c0c0c;fill-opacity:0;fill-rule:nonzero;stroke:#3e5f0e;stroke-width:1.22957684;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      </g>
+      <g
+         inkscape:export-ydpi="56.250195"
+         inkscape:export-xdpi="56.250195"
+         inkscape:export-filename="C:\Users\Olson\Desktop\RerecordOralAnnotation.png"
+         transform="translate(-0.80367392,0)"
+         id="g4360">
+        <path
+           style="fill:#3e5f0e;fill-opacity:1;stroke:none"
+           d="m 44.27406,173.18773 c 1.86447,0.0174 3.705805,0.5481 5.396749,1.34126 1.217966,0.57132 2.394504,1.30434 3.221152,2.3657 0.681428,0.8749 1.091825,1.93097 1.362389,3.00641 0.207144,0.82328 0.339037,1.66644 0.609022,2.4713 0.05656,0.16877 0.118469,0.33699 0.158418,0.51046 0.03987,0.17347 0.05786,0.35739 0.02119,0.53157 -0.0429,0.20344 -0.154232,0.38253 -0.256995,0.56327 -0.102764,0.18073 -0.199776,0.37312 -0.207698,0.58087 -0.0069,0.18688 0.05717,0.37004 0.15136,0.53157 0.09427,0.16155 0.216857,0.30595 0.330916,0.45413 0.524679,0.68143 0.902764,1.46671 1.450415,2.12984 0.155555,0.1884 0.32564,0.37214 0.425955,0.59494 0.05016,0.1114 0.08277,0.23339 0.08095,0.35556 -0.0017,0.12215 -0.03814,0.24463 -0.112658,0.34148 -0.07014,0.0912 -0.170543,0.15632 -0.278115,0.19714 -0.107606,0.0408 -0.223472,0.0585 -0.337963,0.0704 -0.228913,0.0237 -0.466509,0.0239 -0.672391,0.12673 -0.146404,0.0732 -0.267728,0.19713 -0.337946,0.34499 -0.07023,0.14788 -0.08935,0.31845 -0.0563,0.47877 0.02197,0.10665 0.06417,0.20773 0.102097,0.3098 0.03788,0.10208 0.07075,0.20803 0.06685,0.31683 -0.0035,0.11191 -0.04584,0.21992 -0.11264,0.3098 -0.06677,0.0899 -0.157829,0.1627 -0.256995,0.21475 -0.04324,0.0227 -0.08848,0.0429 -0.123217,0.0775 -0.0173,0.0172 -0.03165,0.0364 -0.03875,0.0599 -0.0069,0.0234 -0.0069,0.0482 0.0035,0.0704 0.01159,0.0248 0.03321,0.0451 0.0563,0.0599 0.02309,0.0146 0.05008,0.0274 0.0704,0.0457 0.02327,0.0211 0.0384,0.048 0.0493,0.0775 0.01073,0.0295 0.01643,0.0604 0.0211,0.0915 0.02015,0.13499 0.02214,0.275 -0.0069,0.40835 -0.02906,0.13337 -0.0886,0.26079 -0.17952,0.36261 -0.10509,0.11767 -0.248839,0.19543 -0.387261,0.27107 -0.138448,0.0756 -0.278081,0.15393 -0.383716,0.27107 -0.107589,0.11926 -0.174824,0.27592 -0.172497,0.43652 0.0026,0.18639 0.0948,0.36082 0.19008,0.52102 0.09531,0.16019 0.200891,0.31829 0.242915,0.4999 0.05777,0.24941 -0.01617,0.52075 -0.16544,0.72871 -0.149311,0.20796 -0.36871,0.35688 -0.605519,0.45414 -0.295793,0.12145 -0.620256,0.16475 -0.939946,0.16897 -0.319715,0.004 -0.638963,-0.0291 -0.957536,-0.0563 -0.318591,-0.0272 -0.639249,-0.0478 -0.957555,-0.0175 -0.318288,0.0303 -0.636135,0.1138 -0.908256,0.28163 -0.236126,0.14559 -0.436213,0.36141 -0.517493,0.62662 -0.07135,0.2328 -0.0474,0.48401 -0.0141,0.72521 0.03338,0.24119 0.07516,0.48563 0.03166,0.7252 -0.03849,0.21192 -0.141207,0.40745 -0.264035,0.58437 -0.122803,0.17695 -0.265454,0.34052 -0.397796,0.51046 -0.536753,0.68937 -1.095959,4.0572 -1.242692,5.32986 -3.826056,-1.23183 -7.110845,-3.65772 -9.42054,-6.8401 0.256649,-0.52091 0.535223,-1.11356 0.630142,-1.39407 0.41901,-1.23846 0.558427,-2.57183 0.394275,-3.86891 -0.05821,-0.46055 -0.15277,-0.91392 -0.285155,-1.35886 -0.918263,-1.37121 -1.64559,-2.87176 -2.150949,-4.44273 -0.458033,-1.42377 -0.733156,-2.91199 -0.749839,-4.40752 -0.01738,-1.55785 0.369393,-3.04552 0.767041,-4.19193 0.397649,-1.14642 0.727561,-1.76109 1.845098,-2.82772 1.117545,-1.06662 3.454562,-2.07076 5.446029,-2.12631 0.124463,-0.003 0.248848,-0.005 0.373155,-0.003 z"
+           id="path7144"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="csscccccccccccccccccccccccccccccccccccccsccccccccccccccczzccc"
+           inkscape:export-filename="C:\Users\Olson\Desktop\RecordOralAnnotation.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:#ffffff;fill-opacity:0;stroke:none"
+           d="m 55.509427,191.0439 -2.740459,0.21924 2.466409,0.98656 0.27405,-1.2058 z"
+           id="path5556"
+           inkscape:export-filename="C:\Users\Olson\Desktop\RecordOralAnnotation.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 55.694915,190.61339 -2.723345,-0.0672 2.269631,2.28423 0.453714,-2.21703 0,5e-5 z"
+           id="path5648"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="C:\Users\Olson\Desktop\RecordOralAnnotation.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+      </g>
+      <path
+         inkscape:export-ydpi="56.250195"
+         inkscape:export-xdpi="56.250195"
+         inkscape:export-filename="C:\Users\Olson\Desktop\RerecordOralAnnotation.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path6982-5"
+         d="m 58.049384,194.73369 c 13.841065,0.97252 11.148725,7.99362 0,8.3443"
+         style="fill:none;stroke:#3e5f0e;stroke-width:1.87582088;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:none" />
+      <path
+         inkscape:export-ydpi="56.250195"
+         inkscape:export-xdpi="56.250195"
+         inkscape:export-filename="C:\Users\Olson\Desktop\RerecordOralAnnotation.png"
+         style="fill:#3e5f0e;fill-opacity:1;stroke:none"
+         d="m 58.94048,206.01271 c 0,-6.14089 0,-5.92914 0,-5.92914 l -5.293859,2.3293 z"
+         id="path10605-23"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+</svg>

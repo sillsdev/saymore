@@ -18,8 +18,10 @@ namespace SayMore.Transcription.UI
 	{
 		private readonly ToolTip _tooltip = new ToolTip();
 		private TimeSpan _currentMovingBoundaryTime;
+		private Image _hotPlayInSegmentButton;
 		private Image _hotPlayOriginalButton;
 		private Image _hotRecordAnnotationButton;
+		private Image _normalPlayInSegmentButton;
 		private Image _normalPlayOriginalButton;
 		private Image _normalRecordAnnotationButton;
 		private Image _normalRerecordAnnotationButton;
@@ -185,9 +187,11 @@ namespace SayMore.Transcription.UI
 			if (_moreReliableDesignMode)
 				return;
 
+			_normalPlayInSegmentButton = Resources.ListenToSegmentsAnnotation;
 			_normalPlayOriginalButton = _labelListenButton.Image;
 			_normalRecordAnnotationButton = _labelRecordButton.Image;
 			_normalRerecordAnnotationButton = Resources.RerecordOralAnnotation;
+			_hotPlayInSegmentButton = PaintingHelper.MakeHotImage(_normalPlayInSegmentButton);
 			_hotPlayOriginalButton = PaintingHelper.MakeHotImage(_normalPlayOriginalButton);
 			_hotRecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRecordAnnotationButton);
 			_hotRerecordAnnotationButton = PaintingHelper.MakeHotImage(_normalRerecordAnnotationButton);
@@ -348,6 +352,14 @@ namespace SayMore.Transcription.UI
 			////		"Recording...");
 			////	return;
 			//}
+
+			// TODO: Fix this so the down image isn't shown when the user clicked on one of
+			// the play buttons within a segment.
+			_labelListenButton.Image = (_waveControl.IsPlaying ?
+				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
+
+			_labelRecordButton.Image = (ViewModel.GetIsRecording() ?
+				Resources.RecordingOralAnnotationInProgress : Resources.RecordOralAnnotation);
 
 			_labelListenButton.Enabled = !ViewModel.GetIsRecording();
 
@@ -923,11 +935,11 @@ namespace SayMore.Transcription.UI
 			if (rc == Rectangle.Empty)
 				return;
 
-			var img = StandardAudioButtons.PlayButtonImage;
+			var img = _normalPlayInSegmentButton;
 			var mousePos = _waveControl.PointToClient(MousePosition);
 
 			if (rc.Contains(mousePos))
-				img = StandardAudioButtons.HotPlayButtonImage;
+				img = _hotPlayInSegmentButton;
 
 			g.DrawImage(img, rc);
 		}
@@ -969,7 +981,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private Tuple<Rectangle, Rectangle> GetPlayButtonRectanglesForSegmentMouseIsOver()
 		{
-			var playButtonSize = StandardAudioButtons.PlayButtonImage.Size;
+			var playButtonSize = _normalPlayInSegmentButton.Size;
 
 			if (!_waveControl.GetHasSelection())
 			{

@@ -384,4 +384,13 @@
   <data name="RecordOralAnnotationSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RecordOralAnnotationSmall.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ListenToSegmentsAnnotation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListenToSegmentsAnnotation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ListenToOriginalRecordingDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListenToOriginalRecordingDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RecordingOralAnnotationInProgress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RecordingOralAnnotationInProgress.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

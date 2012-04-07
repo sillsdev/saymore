@@ -223,7 +223,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private bool BeginAnnotationRecording(string path, Action<TimeSpan> recordingProgressAction)
 		{
-			if (GetIsRecording() || GetDoesCurrentSegmentHaveAnnotationFile())
+			if (GetIsRecording() || File.Exists(path))
 				return false;
 
 			if (!Directory.Exists(Path.GetDirectoryName(path)))

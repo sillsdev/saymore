@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
@@ -13,6 +14,7 @@ namespace SayMore.Media
 
 		public event SelectedRegionChangedHandler SelectedRegionChanged;
 		public bool SelectSegmentOnMouseOver { get; set; }
+		public Func<TimeRange, Color> PreRangeSelectionHandler { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControlWithRangeSelection()
@@ -86,10 +88,19 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeRange newTimeRange)
 		{
-			if (MyPainter.DefaultSelectedRange == newTimeRange)
-				return;
+			var selectionColor = (PreRangeSelectionHandler == null ?
+				Color.Empty : PreRangeSelectionHandler(newTimeRange));
 
-			MyPainter.SetSelectionTimes(newTimeRange);
+			if (MyPainter.DefaultSelectedRange == newTimeRange &&
+				(selectionColor == Color.Empty || selectionColor == MyPainter.DefaultSelectionColor))
+			{
+				return;
+			}
+
+			if (selectionColor == Color.Empty)
+				MyPainter.SetSelectionTimes(newTimeRange);
+			else
+				MyPainter.SetSelectionTimes(newTimeRange, selectionColor);
 
 			if (SelectedRegionChanged != null)
 				SelectedRegionChanged(this, newTimeRange.Copy());

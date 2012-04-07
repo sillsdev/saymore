@@ -83,6 +83,17 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool GetDoesSegmentHaveAnnotationFile(TimeRange timeRange)
+		{
+			var segment = TimeTier.GetSegmentHavingEndBoundary(timeRange.EndSeconds);
+
+			if (segment != null)
+				Debug.Assert(segment.Start.Equals(timeRange.StartSeconds));
+
+			return GetDoesSegmentHaveAnnotationFile(segment);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool GetDoesSegmentHaveAnnotationFile(Segment segment)
 		{
 			return (segment != null && File.Exists(GetFullPathToAnnotationFileForSegment(segment)));
@@ -90,6 +101,12 @@ namespace SayMore.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		public virtual string GetFullPathToAnnotationFileForSegment(Segment segment)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual string GetFullPathToAnnotationFileForSegment(TimeRange timeRange)
 		{
 			throw new NotImplementedException();
 		}

@@ -36,6 +36,7 @@ namespace SayMore.Transcription.UI
 		private TimeRange _segmentBeingRecorded;
 		private bool _spaceKeyIsDown;
 		private bool _playingBackUsingHoldDownButton;
+		private Color _unannotatedSegmentHighlighColor = Color.FromArgb(90, Settings.Default.DataEntryPanelColorBorder);
 
 		protected WaveControlWithRangeSelection _waveControl;
 
@@ -268,6 +269,10 @@ namespace SayMore.Transcription.UI
 				UpdateDisplay();
 				return lastSegmentEndTime;
 			};
+
+			//_waveControl.PreRangeSelectionHandler = timeRange =>
+			//    (ViewModel.GetDoesSegmentHaveAnnotationFile(timeRange) ?
+			//        Color.Empty : _unannotatedSegmentHighlighColor);
 
 			_waveControl.Controls.Add(_pictureRecording);
 			InitializeWaveControlContextActionImages();
@@ -822,7 +827,7 @@ namespace SayMore.Transcription.UI
 			var rc = GetTempSegmentRectangle();
 			if (rc != Rectangle.Empty)
 			{
-				using (var br = new SolidBrush(Color.FromArgb(90, Settings.Default.DataEntryPanelColorBorder)))
+				using (var br = new SolidBrush(_unannotatedSegmentHighlighColor))
 					e.Graphics.FillRectangle(br, rc);
 			}
 

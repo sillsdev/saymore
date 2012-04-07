@@ -390,7 +390,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void GetFileNameForCarefulSpeechSegment_PassNullSegment_ThrowsException()
 		{
-			Assert.Throws<NullReferenceException>(() => TimeTier.ComputeFileNameForCarefulSpeechSegment(null));
+			Assert.Throws<NullReferenceException>(() => TimeTier.ComputeFileNameForCarefulSpeechSegment(null as Segment));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -443,7 +443,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void ComputeFileNameForOralTranslationSegment_PassNullSegment_ThrowsException()
 		{
-			Assert.Throws<NullReferenceException>(() => TimeTier.ComputeFileNameForOralTranslationSegment(null));
+			Assert.Throws<NullReferenceException>(() => TimeTier.ComputeFileNameForOralTranslationSegment(null as Segment));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -62,13 +62,25 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public static string ComputeFileNameForCarefulSpeechSegment(Segment segment)
 		{
-			return ComputeFileNameForCarefulSpeechSegment(segment.Start, segment.End);
+			return ComputeFileNameForCarefulSpeechSegment(segment.TimeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static string ComputeFileNameForOralTranslationSegment(Segment segment)
 		{
-			return ComputeFileNameForOralTranslationSegment(segment.Start, segment.End);
+			return ComputeFileNameForOralTranslationSegment(segment.TimeRange);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string ComputeFileNameForCarefulSpeechSegment(TimeRange timeRange)
+		{
+			return ComputeFileNameForCarefulSpeechSegment(timeRange.StartSeconds, timeRange.EndSeconds);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string ComputeFileNameForOralTranslationSegment(TimeRange timeRange)
+		{
+			return ComputeFileNameForOralTranslationSegment(timeRange.StartSeconds, timeRange.EndSeconds);
 		}
 
 		/// ------------------------------------------------------------------------------------

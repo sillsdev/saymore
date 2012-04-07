@@ -35,6 +35,7 @@ namespace SayMore.Transcription.UI
 		private Font _annotationSegmentFont;
 		private TimeRange _segmentBeingRecorded;
 		private bool _spaceKeyIsDown;
+		private bool _playingBackUsingHoldDownButton;
 
 		protected WaveControlWithRangeSelection _waveControl;
 
@@ -139,6 +140,7 @@ namespace SayMore.Transcription.UI
 
 			_labelListenButton.MouseUp += delegate
 			{
+				_playingBackUsingHoldDownButton = false;
 				_waveControl.Stop();
 			};
 
@@ -355,7 +357,7 @@ namespace SayMore.Transcription.UI
 
 			// TODO: Fix this so the down image isn't shown when the user clicked on one of
 			// the play buttons within a segment.
-			_labelListenButton.Image = (_waveControl.IsPlaying ?
+			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
 				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
 
 			_labelRecordButton.Image = (ViewModel.GetIsRecording() ?
@@ -1091,6 +1093,7 @@ namespace SayMore.Transcription.UI
 				ScrollInPreparationForListenOrRecord(_labelListenButton);
 			}
 
+			_playingBackUsingHoldDownButton = true;
 			_waveControl.Play(_endOfTempSegment);
 		}
 

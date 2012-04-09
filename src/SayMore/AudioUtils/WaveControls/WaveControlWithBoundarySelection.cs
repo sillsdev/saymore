@@ -48,18 +48,6 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Rectangle GetSelectedBoundaryRectangle()
-		{
-			var boundary = GetSelectedBoundary();
-			if (boundary == TimeSpan.Zero)
-				return Rectangle.Empty;
-
-			return GetRectangleBetweenBoundaries(
-				boundary.Subtract(TimeSpan.FromSeconds(1)),
-				boundary.Add(TimeSpan.FromSeconds(1)));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseLeave(EventArgs e)
 		{
 			base.OnMouseLeave(e);

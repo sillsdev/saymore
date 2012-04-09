@@ -63,8 +63,7 @@ namespace SayMoreTests.Transcription.UI
 			OralAnnotationType fileType)
 		{
 			CreateModelAndAnnotationFileForType(modelType, fileType, 25f, 30f);
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(30f));
-			Assert.IsNotNull(_model.CurrentSegment);
+// REVIEW			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(30f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,97 +92,97 @@ namespace SayMoreTests.Transcription.UI
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetIsSegmentLongEnough_ProposedEndIsNegativeButCurrentSegment_ReturnsTrue()
-		{
-			// The only difference between GetIsSegmentLongEnough in the
-			// OralAnnotationRecorderViewModel and it's base class version occurs when the
-			// OralAnnotationRecorderViewModel's CurrentSegment is not null. Therefore,
-			// that condition is all that's tested in this fixture since there are already
-			// tests for the base class version.
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetIsSegmentLongEnough_ProposedEndIsNegativeButCurrentSegment_ReturnsTrue()
+		//{
+		//    // The only difference between GetIsSegmentLongEnough in the
+		//    // OralAnnotationRecorderViewModel and it's base class version occurs when the
+		//    // OralAnnotationRecorderViewModel's CurrentSegment is not null. Therefore,
+		//    // that condition is all that's tested in this fixture since there are already
+		//    // tests for the base class version.
 
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f).Negate());
-			Assert.IsFalse(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(1).Negate()));
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
-			Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(1).Negate()));
-		}
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f).Negate());
+		//    Assert.IsFalse(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(1).Negate()));
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
+		//    Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(1).Negate()));
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetIsSegmentLongEnough_ProposedEndTooCloseToPrecedingBoundary_ReturnsTrue()
-		{
-			// The only difference between GetIsSegmentLongEnough in the
-			// OralAnnotationRecorderViewModel and it's base class version occurs when the
-			// OralAnnotationRecorderViewModel's CurrentSegment is not null. Therefore,
-			// that condition is all that's tested in this fixture since there are already
-			// tests for the base class version.
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetIsSegmentLongEnough_ProposedEndTooCloseToPrecedingBoundary_ReturnsTrue()
+		//{
+		//    // The only difference between GetIsSegmentLongEnough in the
+		//    // OralAnnotationRecorderViewModel and it's base class version occurs when the
+		//    // OralAnnotationRecorderViewModel's CurrentSegment is not null. Therefore,
+		//    // that condition is all that's tested in this fixture since there are already
+		//    // tests for the base class version.
 
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f).Negate());
-			Assert.IsFalse(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(1).Negate()));
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
-			Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(1).Negate()));
-		}
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f).Negate());
+		//    Assert.IsFalse(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(1).Negate()));
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
+		//    Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(1).Negate()));
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetIsSegmentLongEnough_ProposedEndYieldsMinAllowed_ReturnsTrue()
-		{
-			// The only difference between GetIsSegmentLongEnough in the
-			// OralAnnotationRecorderViewModel and it's base class version occurs when the
-			// OralAnnotationRecorderViewModel's CurrentSegment is not null. Therefore,
-			// that condition is all that's tested in this fixture since there are already
-			// tests for the base class version.
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetIsSegmentLongEnough_ProposedEndYieldsMinAllowed_ReturnsTrue()
+		//{
+		//    // The only difference between GetIsSegmentLongEnough in the
+		//    // OralAnnotationRecorderViewModel and it's base class version occurs when the
+		//    // OralAnnotationRecorderViewModel's CurrentSegment is not null. Therefore,
+		//    // that condition is all that's tested in this fixture since there are already
+		//    // tests for the base class version.
 
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
-			Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(10000)));
-		}
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
+		//    Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(10000)));
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetIsSegmentLongEnough_ProposedEndInRange_ReturnsTrue()
-		{
-			// The only difference between GetIsSegmentLongEnough in the
-			// OralAnnotationRecorderViewModel and it's base class version occurs when the
-			// OralAnnotationRecorderViewModel's CurrentSegment is not null. Therefore,
-			// that condition is all that's tested in this fixture since there are already
-			// tests for the base class version.
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetIsSegmentLongEnough_ProposedEndInRange_ReturnsTrue()
+		//{
+		//    // The only difference between GetIsSegmentLongEnough in the
+		//    // OralAnnotationRecorderViewModel and it's base class version occurs when the
+		//    // OralAnnotationRecorderViewModel's CurrentSegment is not null. Therefore,
+		//    // that condition is all that's tested in this fixture since there are already
+		//    // tests for the base class version.
 
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
-			Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(10000)));
-		}
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
+		//    Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(10000)));
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetStartOfCurrentSegment_CurrentSegmentIsNull_ReturnsEndOfLastSegment()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
-			Assert.AreEqual(TimeSpan.FromSeconds(30f), _model.GetStartOfCurrentSegment());
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetStartOfCurrentSegment_CurrentSegmentIsNull_ReturnsEndOfLastSegment()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
+		//    Assert.AreEqual(TimeSpan.FromSeconds(30f), _model.GetStartOfCurrentSegment());
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetStartOfCurrentSegment_CurrentSegmentIsNotNull_ReturnsStartOfCurrSegment()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
-			Assert.AreEqual(TimeSpan.FromSeconds(15f), _model.GetStartOfCurrentSegment());
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetStartOfCurrentSegment_CurrentSegmentIsNotNull_ReturnsStartOfCurrSegment()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
+		//    Assert.AreEqual(TimeSpan.FromSeconds(15f), _model.GetStartOfCurrentSegment());
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetEndOfCurrentSegment_CurrentSegmentIsNull_ReturnsZero()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
-			Assert.AreEqual(TimeSpan.Zero, _model.GetEndOfCurrentSegment());
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetEndOfCurrentSegment_CurrentSegmentIsNull_ReturnsZero()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
+		//    Assert.AreEqual(TimeSpan.Zero, _model.GetEndOfCurrentSegment());
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetEndOfCurrentSegment_CurrentSegmentIsNotNull_ReturnsEndOfCurrSegment()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
-			Assert.AreEqual(TimeSpan.FromSeconds(20f), _model.GetEndOfCurrentSegment());
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetEndOfCurrentSegment_CurrentSegmentIsNotNull_ReturnsEndOfCurrSegment()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
+		//    Assert.AreEqual(TimeSpan.FromSeconds(20f), _model.GetEndOfCurrentSegment());
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
@@ -200,72 +199,59 @@ namespace SayMoreTests.Transcription.UI
 			Assert.IsTrue(_model.GetDoesHaveSegments());
 		}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GotoEndOfSegments_MakesLastSegmentCurrent()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
-			Assert.IsNull(_model.CurrentSegment);
-			_model.GotoEndOfSegments();
-			Assert.IsNotNull(_model.CurrentSegment);
-			Assert.AreEqual(_model.Tiers[0].Segments[3], _model.CurrentSegment);
-			Assert.AreEqual(25f, _model.CurrentSegment.Start);
-			Assert.AreEqual(30f, _model.CurrentSegment.End);
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void SelectSegmentFromTime_PassNegativeTime_MakesCurrentSegmentNull()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
+		//    Assert.IsNull(_model.HighlightedSegment);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void SelectSegmentFromTime_PassNegativeTime_MakesCurrentSegmentNull()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
-			Assert.IsNull(_model.CurrentSegment);
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void SelectSegmentFromTime_PassNonBoundaryTime_MakesCurrentSegmentNull()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(12f));
+		//    Assert.IsNull(_model.HighlightedSegment);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void SelectSegmentFromTime_PassNonBoundaryTime_MakesCurrentSegmentNull()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(12f));
-			Assert.IsNull(_model.CurrentSegment);
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void SelectSegmentFromTime_PassBoundaryTime_SetsCurrentSegment()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
+		//    Assert.IsNotNull(_model.HighlightedSegment);
+		//    Assert.AreEqual(_model.Tiers[0].Segments[2], _model.HighlightedSegment);
+		//    Assert.AreEqual(15f, _model.HighlightedSegment.Start);
+		//    Assert.AreEqual(20f, _model.HighlightedSegment.End);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void SelectSegmentFromTime_PassBoundaryTime_SetsCurrentSegment()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
-			Assert.IsNotNull(_model.CurrentSegment);
-			Assert.AreEqual(_model.Tiers[0].Segments[2], _model.CurrentSegment);
-			Assert.AreEqual(15f, _model.CurrentSegment.Start);
-			Assert.AreEqual(20f, _model.CurrentSegment.End);
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetTimeWherePlaybackShouldStart_CurrentSegmentIsNull_ReturnsEndOfLastSegment()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
+		//    Assert.AreEqual(TimeSpan.FromSeconds(30f),
+		//        _model.GetTimeWherePlaybackShouldStart(TimeSpan.FromSeconds(3.4f)));
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetTimeWherePlaybackShouldStart_CurrentSegmentIsNull_ReturnsEndOfLastSegment()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
-			Assert.AreEqual(TimeSpan.FromSeconds(30f),
-				_model.GetTimeWherePlaybackShouldStart(TimeSpan.FromSeconds(3.4f)));
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetTimeWherePlaybackShouldStart_CurrentSegmentStartsBeforeProposed_ReturnsProposedTime()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
+		//    Assert.AreEqual(TimeSpan.FromSeconds(24f),
+		//        _model.GetTimeWherePlaybackShouldStart(TimeSpan.FromSeconds(24f)));
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetTimeWherePlaybackShouldStart_CurrentSegmentStartsBeforeProposed_ReturnsProposedTime()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
-			Assert.AreEqual(TimeSpan.FromSeconds(24f),
-				_model.GetTimeWherePlaybackShouldStart(TimeSpan.FromSeconds(24f)));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetTimeWherePlaybackShouldStart_CurrentSegmentStartsAfterProposed_ReturnsStartOfCurrentSegment()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
-			Assert.AreEqual(TimeSpan.FromSeconds(15f),
-				_model.GetTimeWherePlaybackShouldStart(TimeSpan.FromSeconds(10f)));
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetTimeWherePlaybackShouldStart_CurrentSegmentStartsAfterProposed_ReturnsStartOfCurrentSegment()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
+		//    Assert.AreEqual(TimeSpan.FromSeconds(15f),
+		//        _model.GetTimeWherePlaybackShouldStart(TimeSpan.FromSeconds(10f)));
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
@@ -282,13 +268,13 @@ namespace SayMoreTests.Transcription.UI
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetFullPathForNewSegmentAnnotationFile_ReturnsPathWithCorrectFolder()
+		public void GetFullPathOfAnnotationFileForTimeRange_ReturnsPathWithCorrectFolder()
 		{
 			// This test only checks for the correct folder because testing for
 			// correct file name is done in the TimeTier tests.
 
 			Assert.AreEqual(_model.OralAnnotationsFolder, Path.GetDirectoryName(
-				_model.GetFullPathForNewSegmentAnnotationFile(TimeSpan.Zero, TimeSpan.Zero)));
+				_model.GetFullPathOfAnnotationFileForTimeRange(new TimeRange(0, 0))));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -330,72 +316,91 @@ namespace SayMoreTests.Transcription.UI
 			Assert.IsTrue(_model.GetDoesSegmentHaveAnnotationFile(3));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetDoesCurrentSegmentHaveAnnotationFile_CurrentSegmentIsNull_ReturnsFalse()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
-			Assert.IsFalse(_model.GetDoesCurrentSegmentHaveAnnotationFile());
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetDoesCurrentSegmentHaveAnnotationFile_CurrentSegmentIsNull_ReturnsFalse()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(1f).Negate());
+		//    Assert.IsFalse(_model.GetDoesCurrentSegmentHaveAnnotationFile());
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetDoesCurrentSegmentHaveAnnotationFile_FilesDoNotExist_ReturnsFalse()
-		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
-			Assert.IsNotNull(_model.CurrentSegment);
-			Assert.IsFalse(_model.GetDoesCurrentSegmentHaveAnnotationFile());
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetDoesCurrentSegmentHaveAnnotationFile_FilesDoNotExist_ReturnsFalse()
+		//{
+		//    _model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
+		//    Assert.IsNotNull(_model.HighlightedSegment);
+		//    Assert.IsFalse(_model.GetDoesCurrentSegmentHaveAnnotationFile());
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetDoesCurrentSegmentHaveAnnotationFile_TypeIsTranslation_CarefulExistsTranslationDoesNot_ReturnsFalse()
-		{
-			CreateModelAndAnnotationFileForType(OralAnnotationType.Translation, OralAnnotationType.Careful);
-			Assert.IsFalse(_model.GetDoesCurrentSegmentHaveAnnotationFile());
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetDoesCurrentSegmentHaveAnnotationFile_TypeIsTranslation_CarefulExistsTranslationDoesNot_ReturnsFalse()
+		//{
+		//    CreateModelAndAnnotationFileForType(OralAnnotationType.Translation, OralAnnotationType.Careful);
+		//    Assert.IsFalse(_model.GetDoesCurrentSegmentHaveAnnotationFile());
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetDoesCurrentSegmentHaveAnnotationFile_TypeIsCareful_TranslationExistsCarefulDoesNot_ReturnsFalse()
-		{
-			CreateModelAndAnnotationFileForType(OralAnnotationType.Careful, OralAnnotationType.Translation);
-			Assert.IsFalse(_model.GetDoesCurrentSegmentHaveAnnotationFile());
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetDoesCurrentSegmentHaveAnnotationFile_TypeIsCareful_TranslationExistsCarefulDoesNot_ReturnsFalse()
+		//{
+		//    CreateModelAndAnnotationFileForType(OralAnnotationType.Careful, OralAnnotationType.Translation);
+		//    Assert.IsFalse(_model.GetDoesCurrentSegmentHaveAnnotationFile());
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetDoesCurrentSegmentHaveAnnotationFile_TypeIsCareful_CarefulExists_ReturnsTrue()
-		{
-			CreateModelAndAnnotationFileForType(OralAnnotationType.Careful, OralAnnotationType.Careful);
-			Assert.IsTrue(_model.GetDoesCurrentSegmentHaveAnnotationFile());
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetDoesCurrentSegmentHaveAnnotationFile_TypeIsCareful_CarefulExists_ReturnsTrue()
+		//{
+		//    CreateModelAndAnnotationFileForType(OralAnnotationType.Careful, OralAnnotationType.Careful);
+		//    Assert.IsTrue(_model.GetDoesCurrentSegmentHaveAnnotationFile());
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetDoesCurrentSegmentHaveAnnotationFile_TypeIsTranslation_TranslationExists_ReturnsTrue()
-		{
-			CreateModelAndAnnotationFileForType(OralAnnotationType.Translation, OralAnnotationType.Translation);
-			Assert.IsTrue(_model.GetDoesCurrentSegmentHaveAnnotationFile());
-		}
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetDoesCurrentSegmentHaveAnnotationFile_TypeIsTranslation_TranslationExists_ReturnsTrue()
+		//{
+		//    CreateModelAndAnnotationFileForType(OralAnnotationType.Translation, OralAnnotationType.Translation);
+		//    Assert.IsTrue(_model.GetDoesCurrentSegmentHaveAnnotationFile());
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SetNextUnannotatedSegment_FollowingUnannotatedSegmentExists_MakesCurrentAndReturnsTrue()
 		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
 			Assert.IsTrue(_model.SetNextUnannotatedSegment());
-			Assert.AreEqual(_model.TimeTier.Segments[2], _model.CurrentSegment);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[1], _model.CurrentUnannotatedSegment);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[2], _model.CurrentUnannotatedSegment);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SetNextUnannotatedSegment_FollowingSegmentsHaveAnnotations_ReturnsFalseAndDoesNotChangeCurrentSegment()
+		public void SetNextUnannotatedSegment_FollowingSegmentsHaveAnnotations_ReturnsTrueAndFallsBackToFirstUnannotatedSegment()
 		{
 			CreateModelAndAnnotationFileForSegment(25f, 30f);
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(20f));
-			Assert.IsFalse(_model.SetNextUnannotatedSegment());
-			Assert.AreEqual(_model.TimeTier.Segments[2], _model.CurrentSegment);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[2], _model.CurrentUnannotatedSegment);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[0], _model.CurrentUnannotatedSegment);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SetNextUnannotatedSegment_CurrentAndFollowingSegmentsHaveAnnotations_ReturnsTrueAndFallsBackToFirstUnannotatedSegment()
+		{
+			CreateModelAndAnnotationFileForSegment(25f, 30f);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[2], _model.CurrentUnannotatedSegment);
+			CreateModelAndAnnotationFileForSegment(15f, 20f);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[0], _model.CurrentUnannotatedSegment);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -403,28 +408,33 @@ namespace SayMoreTests.Transcription.UI
 		public void SetNextUnannotatedSegment_NonAdjacentFollowingSegmentDoesNotHaveAnnotations_MakesCurrentAndReturnsTrue()
 		{
 			CreateModelAndAnnotationFileForSegment(15f, 20f);
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(10f));
 			Assert.IsTrue(_model.SetNextUnannotatedSegment());
-			Assert.AreEqual(_model.TimeTier.Segments[3], _model.CurrentSegment);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[1], _model.CurrentUnannotatedSegment);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[3], _model.CurrentUnannotatedSegment);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SetNextUnannotatedSegment_CurrentSegmentIsLast_ReturnsFalseAndDoesNotChangeCurrentSegment()
+		public void SetNextUnannotatedSegment_CurrentSegmentIsLast_ReturnsTrueAndFallsBackToFirstUnannotatedSegment()
 		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(30f));
-			Assert.IsFalse(_model.SetNextUnannotatedSegment());
-			Assert.AreEqual(_model.TimeTier.Segments[3], _model.CurrentSegment);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[3], _model.CurrentUnannotatedSegment);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[0], _model.CurrentUnannotatedSegment);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SetNextUnannotatedSegment_NoCurrentSegment_ReturnsFalseAndDoesNotChangeCurrentSegment()
+		public void SetNextUnannotatedSegment_NoCurrentSegment_ReturnsTrueAndSelectsFirstUnannotatedSegment()
 		{
-			_model.SelectSegmentFromTime(TimeSpan.FromSeconds(50f));
-			Assert.IsNull(_model.CurrentSegment);
-			Assert.IsFalse(_model.SetNextUnannotatedSegment());
-			Assert.IsNull(_model.CurrentSegment);
+			Assert.IsNull(_model.CurrentUnannotatedSegment);
+			Assert.IsTrue(_model.SetNextUnannotatedSegment());
+			Assert.AreEqual(_model.TimeTier.Segments[0], _model.CurrentUnannotatedSegment);
 		}
 
 		/// ------------------------------------------------------------------------------------

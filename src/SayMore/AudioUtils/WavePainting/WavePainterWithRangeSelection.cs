@@ -50,15 +50,7 @@ namespace SayMore.Media
 			if (!_selectedRegions.TryGetValue(color, out timeRange))
 				return Rectangle.Empty;
 
-			return GetSelectedRectangle(timeRange);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private Rectangle GetSelectedRectangle(TimeRange timeRange)
-		{
-			var endX = ConvertTimeToXCoordinate(timeRange.End);
-			var startX = ConvertTimeToXCoordinate(timeRange.Start);
-			return new Rectangle(startX, 0, endX - startX, Control.ClientSize.Height);
+			return GetFullRectangleForTimeRange(timeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -78,6 +70,9 @@ namespace SayMore.Media
 		{
 			Debug.Assert(newTimeRange != null);
 
+			if (color == Color.Empty)
+				color = DefaultSelectionColor;
+
 			TimeRange previousTimeRange;
 			if (_selectedRegions.TryGetValue(color, out previousTimeRange) && newTimeRange == previousTimeRange)
 				return;
@@ -90,8 +85,8 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public override void Draw(PaintEventArgs e, Rectangle rc)
 		{
-			base.Draw(e, rc);
 			DrawSelectedRegions(e);
+			base.Draw(e, rc);
 			DrawCursor(e.Graphics, rc);
 		}
 
@@ -103,7 +98,7 @@ namespace SayMore.Media
 
 			foreach (var kvp in _selectedRegions)
 			{
-				var regionRect = GetSelectedRectangle(kvp.Value);
+				var regionRect = GetFullRectangleForTimeRange(kvp.Value);
 				if (regionRect == Rectangle.Empty || !e.ClipRectangle.IntersectsWith(regionRect))
 					continue;
 

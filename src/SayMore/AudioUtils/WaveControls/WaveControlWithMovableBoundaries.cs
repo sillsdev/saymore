@@ -68,18 +68,6 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Rectangle GetRectangleBetweenBoundaries(TimeRange timeRange)
-		{
-			return Painter.GetRectangleForTimeRange(timeRange);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public Rectangle GetRectangleBetweenBoundaries(TimeSpan start, TimeSpan end)
-		{
-			return Painter.GetRectangleForTimeRange(start, end);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseMoveEx(MouseEventArgs e, TimeSpan boundaryMouseOver)
 		{
 			if (!IsBoundaryMovingInProgress)

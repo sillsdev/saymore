@@ -12,9 +12,7 @@ namespace SayMore.Media
 		public delegate void SelectedRegionChangedHandler(
 			WaveControlWithRangeSelection wavCtrl, TimeRange newTimeRange);
 
-		public event SelectedRegionChangedHandler SelectedRegionChanged;
 		public bool SelectSegmentOnMouseOver { get; set; }
-		public Func<TimeRange, Color> PreRangeSelectionHandler { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControlWithRangeSelection()
@@ -74,36 +72,15 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetHasSelection()
-		{
-			return (!TimeRange.IsNullOrZeroLength(MyPainter.DefaultSelectedRange));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public void SetSelectionTimes(TimeSpan start, TimeSpan end)
 		{
-			SetSelectionTimes(new TimeRange(start, end));
+			SetSelectionTimes(new TimeRange(start, end), Color.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetSelectionTimes(TimeRange newTimeRange)
+		public void SetSelectionTimes(TimeRange newTimeRange, Color color)
 		{
-			var selectionColor = (PreRangeSelectionHandler == null ?
-				Color.Empty : PreRangeSelectionHandler(newTimeRange));
-
-			if (MyPainter.DefaultSelectedRange == newTimeRange &&
-				(selectionColor == Color.Empty || selectionColor == MyPainter.DefaultSelectionColor))
-			{
-				return;
-			}
-
-			if (selectionColor == Color.Empty)
-				MyPainter.SetSelectionTimes(newTimeRange);
-			else
-				MyPainter.SetSelectionTimes(newTimeRange, selectionColor);
-
-			if (SelectedRegionChanged != null)
-				SelectedRegionChanged(this, newTimeRange.Copy());
+			MyPainter.SetSelectionTimes(newTimeRange, color);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -15,7 +15,7 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public class OralAnnotationRecorderDlgViewModel : SegmenterDlgBaseViewModel
 	{
-		public Segment CurrentSegment { get; private set; }
+		public Segment CurrentUnannotatedSegment { get; private set; }
 		private AudioPlayer _annotationPlayer;
 		private AudioRecorder _annotationRecorder;
 		private readonly List<string> _fullPathsToAddedRecordings = new List<string>();
@@ -32,7 +32,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected OralAnnotationRecorderDlgViewModel(ComponentFile file) : base(file)
 		{
-			CurrentSegment = (TimeTier.Segments.Count == 0 ? null : TimeTier.Segments[0]);
 		}
 
 		#region Properties
@@ -51,6 +50,12 @@ namespace SayMore.Transcription.UI
 			get { return (GetEndOfLastSegment() == OrigWaveStream.TotalTime); }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsFullyAnnotated()
+		{
+			return IsFullySegmented && TimeTier.Segments.All(GetDoesSegmentHaveAnnotationFile);
+		}
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -58,19 +63,6 @@ namespace SayMore.Transcription.UI
 		{
 			return (_annotationRecorder != null &&
 				_annotationRecorder.RecordedTime <= TimeSpan.FromMilliseconds(500));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override bool GetIsSegmentLongEnough(TimeSpan proposedEndTime)
-		{
-			var segEndTime = (CurrentSegment == null ? proposedEndTime : GetEndOfCurrentSegment());
-			return base.GetIsSegmentLongEnough(segEndTime);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool GetDoesCurrentSegmentHaveAnnotationFile()
-		{
-			return GetDoesSegmentHaveAnnotationFile(CurrentSegment);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,46 +92,15 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual string GetFullPathToAnnotationFileForSegment(Segment segment)
+		public string GetFullPathToAnnotationFileForSegment(Segment segment)
+		{
+			return GetFullPathOfAnnotationFileForTimeRange(segment.TimeRange);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual string GetFullPathOfAnnotationFileForTimeRange(TimeRange timeRange)
 		{
 			throw new NotImplementedException();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual string GetFullPathToAnnotationFileForSegment(TimeRange timeRange)
-		{
-			throw new NotImplementedException();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public virtual string GetFullPathForNewSegmentAnnotationFile(TimeSpan start, TimeSpan end)
-		{
-			throw new NotImplementedException();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public TimeSpan GetTimeWherePlaybackShouldStart(TimeSpan proposedTime)
-		{
-			var start = GetStartOfCurrentSegment();
-			return (start < proposedTime ? proposedTime : start);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public TimeSpan GetStartOfCurrentSegment()
-		{
-			return (CurrentSegment == null ? GetEndOfLastSegment() : TimeSpan.FromSeconds(CurrentSegment.Start));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public TimeSpan GetEndOfCurrentSegment()
-		{
-			return (CurrentSegment == null ? TimeSpan.Zero : TimeSpan.FromSeconds(CurrentSegment.End));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void GotoEndOfSegments()
-		{
-			SelectSegmentFromTime(GetEndOfLastSegment());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,31 +110,16 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SelectSegmentFromTime(TimeSpan time)
-		{
-			CloseAnnotationRecorder();
-
-			if (_annotationPlayer != null && _annotationPlayer.PlaybackState == PlaybackState.Playing)
-				_annotationPlayer.Stop();
-
-			CurrentSegment = TimeTier.GetSegmentHavingEndBoundary((float)time.TotalSeconds);
-			InvokeUpdateDisplayAction();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public bool SetNextUnannotatedSegment()
 		{
-			if (CurrentSegment == null)
-				return false;
+			CurrentUnannotatedSegment = TimeTier.Segments.FirstOrDefault(s =>
+				(CurrentUnannotatedSegment == null || s.End > CurrentUnannotatedSegment.End) &&
+				!s.GetHasOralAnnotation());
 
-			var segment = TimeTier.Segments.FirstOrDefault(s =>
-				s.End > CurrentSegment.End && !GetDoesSegmentHaveAnnotationFile(s));
+			if (CurrentUnannotatedSegment == null)
+				CurrentUnannotatedSegment = TimeTier.Segments.FirstOrDefault(s => !s.GetHasOralAnnotation());
 
-			if (segment == null)
-				return false;
-
-			CurrentSegment = segment;
-			return true;
+			return CurrentUnannotatedSegment != null;
 		}
 
 		#region Annotation record/player methods
@@ -224,17 +170,9 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool BeginAnnotationRecording(TimeSpan endTime, Action<TimeSpan> recordingProgressAction)
+		public bool BeginAnnotationRecording(TimeRange timeRange, Action<TimeSpan> recordingProgressAction)
 		{
-			return BeginAnnotationRecording(GetFullPathForNewSegmentAnnotationFile(GetEndOfLastSegment(),
-				endTime), recordingProgressAction);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool BeginAnnotationRecording(Segment segment, Action<TimeSpan> recordingProgressAction)
-		{
-			return BeginAnnotationRecording(GetFullPathToAnnotationFileForSegment(segment),
-				recordingProgressAction);
+			return BeginAnnotationRecording(GetFullPathOfAnnotationFileForTimeRange(timeRange), recordingProgressAction);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -306,10 +244,10 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void EraseAnnotation()
+		public void EraseAnnotation(Segment segment)
 		{
 			CloseAnnotationPlayer();
-			var path = GetFullPathToAnnotationFileForSegment(CurrentSegment);
+			var path = GetFullPathToAnnotationFileForSegment(segment);
 			ComponentFile.WaitForFileRelease(path);
 
 			try
@@ -357,16 +295,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string GetFullPathToAnnotationFileForSegment(Segment segment)
+		public override string GetFullPathOfAnnotationFileForTimeRange(TimeRange timeRange)
 		{
-			return Path.Combine(OralAnnotationsFolder, segment.GetFullPathToCarefulSpeechFile());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override string GetFullPathForNewSegmentAnnotationFile(TimeSpan start, TimeSpan end)
-		{
-			return TimeTier.GetFullPathToCarefulSpeechFile(
-				new Segment(null, (float)start.TotalSeconds, (float)end.TotalSeconds));
+			var segment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange == timeRange) ??
+				new Segment(null, timeRange);
+			return TimeTier.GetFullPathToCarefulSpeechFile(segment);
 		}
 	}
 
@@ -388,16 +321,11 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string GetFullPathToAnnotationFileForSegment(Segment segment)
+		public override string GetFullPathOfAnnotationFileForTimeRange(TimeRange timeRange)
 		{
-			return Path.Combine(OralAnnotationsFolder, segment.GetFullPathToOralTranslationFile());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override string GetFullPathForNewSegmentAnnotationFile(TimeSpan start, TimeSpan end)
-		{
-			return TimeTier.GetFullPathToOralTranslationFile(
-				new Segment(null, (float)start.TotalSeconds, (float)end.TotalSeconds));
+			var segment = TimeTier.Segments.FirstOrDefault(s => s.TimeRange == timeRange) ??
+				new Segment(null, timeRange);
+			return TimeTier.GetFullPathToOralTranslationFile(segment);
 		}
 	}
 

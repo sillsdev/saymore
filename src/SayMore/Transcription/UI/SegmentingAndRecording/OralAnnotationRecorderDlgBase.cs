@@ -16,6 +16,13 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class OralAnnotationRecorderBaseDlg : SegmenterDlgBase
 	{
+		private enum SpaceBarMode
+		{
+			Listen,
+			Record,
+			Done,
+		}
+
 		private readonly ToolTip _tooltip = new ToolTip();
 		private TimeSpan _currentMovingBoundaryTime;
 		private Image _hotPlayInSegmentButton;
@@ -36,7 +43,8 @@ namespace SayMore.Transcription.UI
 		private TimeRange _segmentBeingRecorded;
 		private bool _spaceKeyIsDown;
 		private bool _playingBackUsingHoldDownButton;
-		private Color _unannotatedSegmentHighlighColor = Color.FromArgb(90, Settings.Default.DataEntryPanelColorBorder);
+		private SpaceBarMode _spaceBarMode;
+		private readonly Color _unannotatedSegmentHighlighColor = Color.FromArgb(90, Settings.Default.DataEntryPanelColorBorder);
 
 		protected WaveControlWithRangeSelection _waveControl;
 
@@ -81,6 +89,8 @@ namespace SayMore.Transcription.UI
 			_toolStripStatus.Visible = false;
 			InitializeTableLayouts();
 
+			_spaceBarMode = viewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
+
 			//_buttonEraseAnnotation.Click += delegate
 			//{
 			//    _waveControl.Stop();
@@ -121,8 +131,11 @@ namespace SayMore.Transcription.UI
 			if (_moreReliableDesignMode || ViewModel.TimeTier.Segments.Count <= 0)
 				return;
 
-			ViewModel.SelectSegmentFromTime(ViewModel.TimeTier.Segments[0].TimeRange.End);
-			_waveControl.SetSelectionTimes(ViewModel.TimeTier.Segments[0].TimeRange);
+			if (ViewModel.SetNextUnannotatedSegment())
+				_waveControl.SetSelectionTimes(ViewModel.CurrentUnannotatedSegment.TimeRange, _unannotatedSegmentHighlighColor);
+
+			//ViewModel.SelectSegmentFromTime(ViewModel.TimeTier.Segments[0].TimeRange.End);
+			//_waveControl.SetSelectionTimes(ViewModel.TimeTier.Segments[0].TimeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -139,11 +152,7 @@ namespace SayMore.Transcription.UI
 				_scrollTimer.Stop();
 			};
 
-			_labelListenButton.MouseUp += delegate
-			{
-				_playingBackUsingHoldDownButton = false;
-				_waveControl.Stop();
-			};
+			_labelListenButton.MouseUp += delegate { FinishListeningUsingEarOrSpace(); };
 
 			_labelRecordButton.MouseEnter += delegate
 			{
@@ -157,8 +166,17 @@ namespace SayMore.Transcription.UI
 			};
 
 			_labelRecordButton.MouseDown += HandleRecordAnnotationMouseDown;
-			_labelRecordButton.MouseUp += HandleRecordAnnotationMouseUp;
+			_labelRecordButton.MouseUp += delegate { FinishRecording(true); };
+		}
 
+		/// ------------------------------------------------------------------------------------
+		private void FinishListeningUsingEarOrSpace()
+		{
+			_waveControl.Stop();
+			_playingBackUsingHoldDownButton = false;
+			_spaceBarMode = SpaceBarMode.Record;
+
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -234,8 +252,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
 			_waveControl.MouseClick += HandleWaveControlMouseClick;
 			_waveControl.MouseDown += HandleWaveControlMouseDown;
-			_waveControl.MouseUp += HandleWaveControlMouseUp;
-			_waveControl.SelectedRegionChanged += HandleWaveControlSelectedRegionChanged;
+			_waveControl.MouseUp += delegate { FinishRecording(false); };
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 
 			_waveControl.ClientSizeChanged += delegate
@@ -251,8 +268,6 @@ namespace SayMore.Transcription.UI
 			_waveControl.BoundaryMouseDown += (ctrl, dx, boundary, boundaryNumber) =>
 			{
 				_waveControl.Stop();
-				ViewModel.SelectSegmentFromTime(boundary);
-				_waveControl.SetSelectionTimes(ViewModel.GetStartOfCurrentSegment(), ViewModel.GetEndOfCurrentSegment());
 				UpdateDisplay();
 			};
 
@@ -269,10 +284,6 @@ namespace SayMore.Transcription.UI
 				UpdateDisplay();
 				return lastSegmentEndTime;
 			};
-
-			//_waveControl.PreRangeSelectionHandler = timeRange =>
-			//    (ViewModel.GetDoesSegmentHaveAnnotationFile(timeRange) ?
-			//        Color.Empty : _unannotatedSegmentHighlighColor);
 
 			_waveControl.Controls.Add(_pictureRecording);
 			InitializeWaveControlContextActionImages();
@@ -331,17 +342,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleWaveControlSelectedRegionChanged(
-			WaveControlWithRangeSelection ctrl, TimeRange timeRange)
-		{
-			if (!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying())
-			{
-				ViewModel.SelectSegmentFromTime(timeRange.DurationSeconds.Equals(0) ?
-					TimeSpan.FromSeconds(1).Negate() : timeRange.End);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override void StopAllMedia()
 		{
 			ViewModel.StopAnnotationPlayback();
@@ -370,11 +370,12 @@ namespace SayMore.Transcription.UI
 
 			_labelListenButton.Enabled = !ViewModel.GetIsRecording();
 
-			_labelRecordButton.Enabled = _endOfTempSegment > ViewModel.GetEndOfLastSegment() &&
+			_labelRecordButton.Enabled =
+				(ViewModel.CurrentUnannotatedSegment != null || _endOfTempSegment > ViewModel.GetEndOfLastSegment()) &&
 				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying();
 
-			_labelListenHint.Visible = !_labelRecordButton.Enabled;
-			_labelRecordHint.Visible = _labelRecordButton.Enabled;
+			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen;
+			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record;
 
 			Utils.SetWindowRedraw(_tableLayoutSegmentInfo, false);
 
@@ -384,7 +385,7 @@ namespace SayMore.Transcription.UI
 			_labelTotalSegments.Text = string.Format((string)_labelTotalSegments.Tag,
 				ViewModel.TimeTier.Segments.Count);
 
-			var currentSegment = ViewModel.CurrentSegment;
+			var currentSegment = GetHighlightedSegment();
 			_labelHighlightedSegment.Visible = (currentSegment != null);
 
 			if (currentSegment != null)
@@ -422,20 +423,21 @@ namespace SayMore.Transcription.UI
 		{
 			base.UpdateStatusLabelsDisplay();
 
-			if (ViewModel.CurrentSegment != null)
-			{
-				_labelSegmentNumber.Visible = false;
-				_labelSegmentXofY.Visible = true;
-				_labelSegmentXofY.Text = string.Format(_segmentXofYFormat,
-					ViewModel.TimeTier.GetIndexOfSegment(ViewModel.CurrentSegment) + 1, _viewModel.GetSegmentCount());
-			}
+			var currentSegment = GetHighlightedSegment();
+			if (currentSegment == null)
+				return;
+
+			_labelSegmentNumber.Visible = false;
+			_labelSegmentXofY.Visible = true;
+			_labelSegmentXofY.Text = string.Format(_segmentXofYFormat,
+				ViewModel.TimeTier.GetIndexOfSegment(currentSegment) + 1, _viewModel.GetSegmentCount());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override TimeSpan GetCurrentTimeForTimeDisplay()
 		{
-			return (ViewModel.CurrentSegment == null ?
-				ViewModel.GetEndOfLastSegment() : ViewModel.GetStartOfCurrentSegment());
+			var currentSegment = GetHighlightedSegment();
+			return (currentSegment == null ? ViewModel.GetEndOfLastSegment() : currentSegment.TimeRange.Start);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -444,10 +446,13 @@ namespace SayMore.Transcription.UI
 			if (!base.OnAdjustBoundaryUsingArrowKey(milliseconds))
 				return false;
 
-			if (ViewModel.GetEndOfCurrentSegment() == TimeSpan.Zero)
+			// REVIEW: How to adjust existing boundaries using arrow keys?
+			//var currentSegment = GetHighlightedSegment();
+			// new: if (currentSegment == null || currentSegment.End.Equals(0))
+			// old: if (ViewModel.GetEndOfCurrentSegment() == TimeSpan.Zero)
 				AdjustPotentialNewSegmentEndBoundaryOnArrowKey(milliseconds);
-			else
-				AdjustExistingSegmentEndBoundaryOnArrowKey(milliseconds);
+			//else
+			//    AdjustExistingSegmentEndBoundaryOnArrowKey(milliseconds);
 
 			return true;
 		}
@@ -478,21 +483,20 @@ namespace SayMore.Transcription.UI
 			_cursorBlinkTimer.Enabled = true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void AdjustExistingSegmentEndBoundaryOnArrowKey(int milliseconds)
-		{
-			if (_currentMovingBoundaryTime == TimeSpan.Zero)
-				_currentMovingBoundaryTime = ViewModel.GetEndOfCurrentSegment();
+		// REVIEW: How to adjust existing boundaries using arrow keys?
+		///// ------------------------------------------------------------------------------------
+		//private void AdjustExistingSegmentEndBoundaryOnArrowKey(int milliseconds)
+		//{
+		//    if (_currentMovingBoundaryTime == TimeSpan.Zero)
+		//        _currentMovingBoundaryTime = ViewModel.GetEndOfCurrentSegment();
 
-			_currentMovingBoundaryTime += TimeSpan.FromMilliseconds(milliseconds);
+		//    _currentMovingBoundaryTime += TimeSpan.FromMilliseconds(milliseconds);
 
-			_waveControl.SegmentBoundaries = ViewModel.GetSegmentEndBoundaries()
-				.Select(b => b == _timeAtBeginningOfboundaryMove ? _currentMovingBoundaryTime : b);
+		//    _waveControl.SegmentBoundaries = ViewModel.GetSegmentEndBoundaries()
+		//        .Select(b => b == _timeAtBeginningOfboundaryMove ? _currentMovingBoundaryTime : b);
 
-			_waveControl.SelectedRegionChanged -= HandleWaveControlSelectedRegionChanged;
-			_waveControl.SetSelectionTimes(ViewModel.GetStartOfCurrentSegment(), _currentMovingBoundaryTime);
-			_waveControl.SelectedRegionChanged += HandleWaveControlSelectedRegionChanged;
-		}
+		//    _waveControl.SetSelectionTimes(ViewModel.GetStartOfCurrentSegment(), _currentMovingBoundaryTime);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void FinalizeBoundaryMovedUsingArrowKeys()
@@ -546,7 +550,7 @@ namespace SayMore.Transcription.UI
 			//    _buttonRecordAnnotation.Text = _normalRecordButtonText;
 			//}
 
-			if (ViewModel.CurrentSegment != null)
+			if (GetHighlightedSegment() != null)
 				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
 
 			if (end > ViewModel.GetEndOfLastSegment())
@@ -562,15 +566,18 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override TimeSpan GetSubSegmentReplayEndTime()
 		{
-			return (ViewModel.CurrentSegment == null ?
-				_waveControl.GetCursorTime() : ViewModel.GetEndOfCurrentSegment());
+			var currentSegment = GetHighlightedSegment();
+			return (currentSegment == null ? _waveControl.GetCursorTime() : currentSegment.TimeRange.End);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override TimeSpan GetBoundaryToAdjustOnArrowKeys()
 		{
-			return (ViewModel.CurrentSegment == null ?
-				_waveControl.GetCursorTime() : ViewModel.GetEndOfCurrentSegment());
+			return _waveControl.GetCursorTime();
+
+			// REVIEW: How to adjust existing boundaries using arrow keys?
+			//return (ViewModel.HighlightedSegment == null ?
+			//    _waveControl.GetCursorTime() : ViewModel.GetEndOfCurrentSegment());
 		}
 
 		#region Event handlers for the wave control
@@ -663,9 +670,7 @@ namespace SayMore.Transcription.UI
 					_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw.First(
 						h => h.AudioFilePath == path).AudioDuration;
 
-					_annotationPlaybackRectangle = _waveControl.GetRectangleBetweenBoundaries(segment.TimeRange);
-					_annotationPlaybackRectangle.Y = _annotationPlaybackRectangle.Bottom;
-					_annotationPlaybackRectangle.Height = _waveControl.BottomReservedAreaHeight;
+					_annotationPlaybackRectangle = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(segment.TimeRange);
 					_annotationPlaybackRectangle.Inflate(-2, 0);
 
 					ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress,
@@ -677,43 +682,53 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private Segment GetHighlightedSegment()
+		{
+			var pt = _waveControl.PointToClient(MousePosition);
+			var index = _waveControl.GetSegmentForX(pt.X);
+			return (index < 0 ? null : ViewModel.TimeTier.Segments[index]);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleWaveControlMouseDown(object sender, MouseEventArgs e)
 		{
 			if (!GetRerecordButtonRectangleForSegmentMouseIsOver().Contains(e.Location))
 				return;
 
-			ViewModel.EraseAnnotation();
-
-			var segMouseOver = ViewModel.TimeTier.Segments[_waveControl.GetSegmentForX(e.X)];
-			if (!ViewModel.BeginAnnotationRecording(segMouseOver, HandleAnnotationRecordingProgress))
-				return;
-
-			UpdateDisplay();
-
-			_waveControl.SelectSegmentOnMouseOver = false;
-
-			var x1 = _waveControl.Painter.ConvertTimeToXCoordinate(segMouseOver.TimeRange.Start);
-			var x2 = _waveControl.Painter.ConvertTimeToXCoordinate(segMouseOver.TimeRange.End);
-			var rc = new Rectangle(x1, 0, x2 - x1 + 1, _waveControl.ClientSize.Height);
-			rc.Y = rc.Bottom - _waveControl.BottomReservedAreaHeight;
-			rc.Height = _waveControl.BottomReservedAreaHeight;
-			rc.Inflate(-5, -5);
-			_pictureRecording.Location = rc.Location;
-			_pictureRecording.Visible = true;
-			_segmentBeingRecorded = segMouseOver.TimeRange.Copy();
+			var segMouseOver = GetHighlightedSegment();
+			ViewModel.EraseAnnotation(segMouseOver);
+			BeginRecording(segMouseOver.TimeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleWaveControlMouseUp(object sender, MouseEventArgs e)
+		private void FinishRecording(bool advanceToNextUnannotatedSegment)
 		{
 			if (!ViewModel.GetIsRecording())
 				return;
 
 			_pictureRecording.Visible = false;
 			_waveControl.SelectSegmentOnMouseOver = true;
-			ViewModel.StopAnnotationRecording();
+
+			if (!ViewModel.StopAnnotationRecording())
+			{
+				// TODO: Figure out where to display a "TOO SHORT" message.
+				return;
+			}
+
 			_waveControl.InvalidateIfNeeded(GetAnnotationRectangleForSegmentBeingRecorded());
 			_segmentBeingRecorded = null;
+
+			if (ViewModel.CurrentUnannotatedSegment == null)
+			{
+				_waveControl.SegmentBoundaries = ViewModel.InsertNewBoundary(_endOfTempSegment);
+				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
+			}
+
+			if (advanceToNextUnannotatedSegment)
+				GoToNextUnannotatedSegment();
+
+			_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
+
 			UpdateDisplay();
 		}
 
@@ -742,7 +757,7 @@ namespace SayMore.Transcription.UI
 				var rc = new Rectangle(segRects[i].X, areaRectangle.Y + 1,
 					segRects[i].Width, areaRectangle.Height - 1);
 
-				if (rc.X > e.ClipRectangle.Right || rc.Right < e.ClipRectangle.X)
+				if (!areaRectangle.IntersectsWith(rc))
 					continue;
 
 				var segment = ViewModel.TimeTier.Segments[i];
@@ -760,8 +775,8 @@ namespace SayMore.Transcription.UI
 				rc.Inflate(0, -3);
 				rc.Width--;
 
-				if (ViewModel.GetIsRecording())
-					return;
+				if (_segmentBeingRecorded == segment.TimeRange && ViewModel.GetIsRecording())
+					continue;
 
 				DrawOralAnnotationWave(e, rc, segment);
 				DrawCursorInOralAnnotationWave(e, rc);
@@ -990,7 +1005,7 @@ namespace SayMore.Transcription.UI
 		{
 			var playButtonSize = _normalPlayInSegmentButton.Size;
 
-			if (!_waveControl.GetHasSelection())
+			if (GetHighlightedSegment() == null)
 			{
 				var tempRect = GetTempSegmentRectangle();
 				if (!tempRect.Contains(_waveControl.PointToClient(MousePosition)))
@@ -1023,7 +1038,7 @@ namespace SayMore.Transcription.UI
 		{
 			var rerecordButtonSize = _normalRerecordAnnotationButton.Size;
 
-			if (!_waveControl.GetHasSelection())
+			if (GetHighlightedSegment() == null)
 				return Rectangle.Empty;
 
 			int i;
@@ -1055,19 +1070,47 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void ScrollInPreparationForListenOrRecord(Label button)
 		{
-			var endOfLastSegment = ViewModel.GetEndOfLastSegment();
+			if (ViewModel.CurrentUnannotatedSegment == null)
+			{
+				var endOfLastSegment = ViewModel.GetEndOfLastSegment();
 
-			if (_endOfTempSegment < endOfLastSegment)
-				_endOfTempSegment = endOfLastSegment;
+				if (_endOfTempSegment < endOfLastSegment)
+					_endOfTempSegment = endOfLastSegment;
 
-			if (_waveControl.GetCursorTime() != _endOfTempSegment)
-				_waveControl.SetCursor(_endOfTempSegment);
+				if (_waveControl.GetCursorTime() != _endOfTempSegment)
+					_waveControl.SetCursor(_endOfTempSegment);
 
-			var targetTime = (button == _labelListenButton ? _endOfTempSegment : endOfLastSegment);
+				var targetTime = (button == _labelListenButton ? _endOfTempSegment : endOfLastSegment);
 
-			_waveControl.EnsureTimeIsVisible(targetTime,
-				new TimeRange(endOfLastSegment, _waveControl.WaveStream.TotalTime),
-				true, button == _labelListenButton);
+				_waveControl.EnsureTimeIsVisible(targetTime,
+					new TimeRange(endOfLastSegment, _waveControl.WaveStream.TotalTime),
+					true, button == _labelListenButton);
+			}
+			else
+			{
+				if (_waveControl.GetCursorTime() != ViewModel.CurrentUnannotatedSegment.TimeRange.Start)
+					_waveControl.SetCursor(ViewModel.CurrentUnannotatedSegment.TimeRange.Start);
+
+				var targetTime = (button == _labelListenButton ?
+					ViewModel.CurrentUnannotatedSegment.TimeRange.End : ViewModel.CurrentUnannotatedSegment.TimeRange.Start);
+
+				_waveControl.EnsureTimeIsVisible(targetTime,
+					ViewModel.CurrentUnannotatedSegment.TimeRange, true, button == _labelListenButton);
+			}
+
+			//var endOfLastSegment = ViewModel.GetEndOfLastSegment();
+
+			//if (_endOfTempSegment < endOfLastSegment)
+			//    _endOfTempSegment = endOfLastSegment;
+
+			//if (_waveControl.GetCursorTime() != _endOfTempSegment)
+			//    _waveControl.SetCursor(_endOfTempSegment);
+
+			//var targetTime = (button == _labelListenButton ? _endOfTempSegment : endOfLastSegment);
+
+			//_waveControl.EnsureTimeIsVisible(targetTime,
+			//    new TimeRange(endOfLastSegment, _waveControl.WaveStream.TotalTime),
+			//    true, button == _labelListenButton);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1099,7 +1142,11 @@ namespace SayMore.Transcription.UI
 			}
 
 			_playingBackUsingHoldDownButton = true;
-			_waveControl.Play(_endOfTempSegment);
+
+			if (ViewModel.CurrentUnannotatedSegment == null)
+				_waveControl.Play(_endOfTempSegment);
+			else
+				_waveControl.Play(ViewModel.CurrentUnannotatedSegment.TimeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1112,27 +1159,27 @@ namespace SayMore.Transcription.UI
 			//    return;
 			//}
 
-			//if (_waveControl.IsPlaying || ViewModel.GetIsAnnotationPlaying())
-			//{
-			//    if (_waveControl.IsPlaying)
-			//        _waveControl.Stop();
-			//    else
-			//        ViewModel.StopAnnotationPlayback();
+			var timeRangeOfOriginalBeingAnnotated = (ViewModel.CurrentUnannotatedSegment == null ?
+				new TimeRange(ViewModel.GetEndOfLastSegment(), _endOfTempSegment) :
+				ViewModel.CurrentUnannotatedSegment.TimeRange);
 
-			//    ScrollInPreparationForListenOrRecord(_labelRecordButton);
-			//}
+			BeginRecording(timeRangeOfOriginalBeingAnnotated);
+		}
 
-			if (ViewModel.BeginAnnotationRecording(_endOfTempSegment, HandleAnnotationRecordingProgress))
-			{
-				UpdateDisplay();
+		/// ------------------------------------------------------------------------------------
+		private void BeginRecording(TimeRange timeRangeOfOriginalBeingAnnotated)
+		{
+			if (!ViewModel.BeginAnnotationRecording(timeRangeOfOriginalBeingAnnotated, HandleAnnotationRecordingProgress))
+				return;
 
-				_waveControl.SelectSegmentOnMouseOver = false;
-				var rc = GetTempSegmentAnnotationRectangle();
-				rc.Inflate(-5, -5);
-				_pictureRecording.Location = rc.Location;
-				_pictureRecording.Visible = true;
-				_segmentBeingRecorded = new TimeRange(ViewModel.GetEndOfLastSegment(), _endOfTempSegment);
-			}
+			UpdateDisplay();
+
+			_waveControl.SelectSegmentOnMouseOver = false;
+			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(timeRangeOfOriginalBeingAnnotated);
+			rc.Inflate(-5, -5);
+			_pictureRecording.Location = rc.Location;
+			_pictureRecording.Visible = true;
+			_segmentBeingRecorded = timeRangeOfOriginalBeingAnnotated.Copy();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1145,52 +1192,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleRecordAnnotationMouseUp(object sender, MouseEventArgs e)
-		{
-			if (!ViewModel.GetIsRecording())
-				return;
-
-			_pictureRecording.Visible = false;
-			_waveControl.SelectSegmentOnMouseOver = true;
-
-			if (ViewModel.StopAnnotationRecording())
-			{
-				_waveControl.SegmentBoundaries = ViewModel.InsertNewBoundary(_endOfTempSegment);
-
-				if (ViewModel.CurrentSegment == null)
-				{
-					if (!ViewModel.IsFullySegmented)
-					{
-						_waveControl.ClearSelection();
-						UpdateDisplay();
-						return;
-					}
-
-					ViewModel.SelectSegmentFromTime(ViewModel.OrigWaveStream.TotalTime);
-					_waveControl.SetSelectionTimes(ViewModel.GetStartOfCurrentSegment(), ViewModel.GetEndOfCurrentSegment());
-				}
-
-				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
-				GoToNextUnannotatedSegment();
-				UpdateDisplay();
-			}
-			else
-			{
-				//_buttonRecordAnnotation.ForeColor = Color.Red;
-				//_buttonRecordAnnotation.Text = LocalizationManager.GetString(
-				//    "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingButtonText.WhenRecordingTooShort",
-				//    "Whoops! You need to hold down the SPACE bar or mouse button while talking.");
-				//_buttonEraseAnnotation.PerformClick();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void GoToNextUnannotatedSegment()
 		{
 			if (ViewModel.SetNextUnannotatedSegment())
 			{
-				var timeRange = ViewModel.CurrentSegment.TimeRange;
-				_waveControl.SetSelectionTimes(timeRange);
+				var timeRange = ViewModel.CurrentUnannotatedSegment.TimeRange;
+				_waveControl.SetSelectionTimes(timeRange, _unannotatedSegmentHighlighColor);
 				_waveControl.EnsureTimeIsVisible(timeRange.Start, timeRange, true, false);
 			}
 			else if (!ViewModel.IsFullySegmented)
@@ -1255,9 +1262,9 @@ namespace SayMore.Transcription.UI
 				_spaceKeyIsDown = false;
 
 				if (_waveControl.IsPlaying)
-					_waveControl.Stop();
+					FinishListeningUsingEarOrSpace();
 				else if (ViewModel.GetIsRecording())
-					HandleRecordAnnotationMouseUp(null, null);
+					FinishRecording(true);
 
 				return true;
 			}

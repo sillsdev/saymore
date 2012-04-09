@@ -477,14 +477,21 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns an enumeration of rectangles representing the top portion of the wave
+		/// control (i.e., excluding the bottom reserved area, if any) for each of the
+		/// segments.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public IEnumerable<Rectangle> GetSegmentRectangles()
 		{
-			var startTime = TimeSpan.Zero;
+			var timeRange = new TimeRange(0, 0);
 
 			foreach (var endTime in SegmentBoundaries)
 			{
-				yield return Painter.GetRectangleForTimeRange(startTime, endTime);
-				startTime = endTime;
+				timeRange.End = endTime;
+				yield return Painter.GetUpperRectangleForTimeRange(timeRange);
+				timeRange.Start = endTime;
 			}
 		}
 
@@ -545,6 +552,24 @@ namespace SayMore.Media
 		{
 			return (_boundaryMouseOver != default(TimeSpan));
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//public TimeRange GetTimeRangeEnclosingMouseX()
+		//{
+		//    var pt = PointToClient(MousePosition);
+		//    var time = Painter.ConvertXCoordinateToTime(pt.X);
+
+		//    var startTime = TimeSpan.Zero;
+		//    foreach (var boundary in Painter.SegmentBoundaries)
+		//    {
+		//        if (boundary >= time)
+		//            return (new TimeRange(startTime, boundary));
+
+		//        startTime = boundary;
+		//    }
+
+		//    return new TimeRange(0, 0);
+		//}
 
 		#region Playback/stop methods
 		/// ------------------------------------------------------------------------------------

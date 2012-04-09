@@ -202,7 +202,7 @@ namespace SayMore.Transcription.UI
 		/// boundary to it's left will make a long enough segment.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual bool GetIsSegmentLongEnough(TimeSpan proposedEndTime)
+		public bool GetIsSegmentLongEnough(TimeSpan proposedEndTime)
 		{
 			var minSize = TimeSpan.FromMilliseconds(Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
 

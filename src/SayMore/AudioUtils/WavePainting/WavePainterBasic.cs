@@ -377,6 +377,9 @@ namespace SayMore.Media
 			rc.Y = rc.Bottom;
 			rc.Height = BottomReservedAreaHeight;
 
+			if (!e.ClipRectangle.IntersectsWith(rc))
+				return;
+
 			using (var br = new SolidBrush(BottomReservedAreaColor))
 				e.Graphics.FillRectangle(br, rc);
 
@@ -489,25 +492,55 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual Rectangle GetRectangleForTimeRange(TimeRange timeRange)
+		/// <summary>
+		/// Returns a rectangle representing the lower portion of the control (i.e., the
+		/// bottom reserved area) corresponding to the given time range.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual Rectangle GetBottomReservedRectangleForTimeRange(TimeRange timeRange)
 		{
-			return GetRectangleForTimeRange(timeRange.Start, timeRange.End);
+			var rc = GetFullRectangleForTimeRange(timeRange);
+
+			if (rc.Height > 0 && BottomReservedAreaHeight > 0)
+			{
+				rc.Y = (rc.Bottom + 1) - BottomReservedAreaHeight;
+				rc.Height = BottomReservedAreaHeight;
+			}
+
+			return rc;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual Rectangle GetRectangleForTimeRange(TimeSpan startTime, TimeSpan endTime)
+		/// <summary>
+		/// Returns a rectangle representing the top portion of the control (i.e., excluding the
+		/// bottom reserved area, if any) corresponding to the given time range.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual Rectangle GetUpperRectangleForTimeRange(TimeRange timeRange)
 		{
-			var endX = ConvertTimeToXCoordinate(endTime);
-			var startX = ConvertTimeToXCoordinate(startTime);
+			var rc = GetFullRectangleForTimeRange(timeRange);
 
-			var x1 = Math.Min(startX, endX);
-			var x2 = Math.Max(startX, endX);
+			if (rc.Height > 0 && BottomReservedAreaHeight > 0)
+				rc.Height = Control.ClientRectangle.Height - BottomReservedAreaHeight;
 
-			if (x1 >= x2)
+			return rc;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns a rectangle representing the portion of the control corresponding to the
+		/// given time range.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual Rectangle GetFullRectangleForTimeRange(TimeRange timeRange)
+		{
+			if (timeRange.DurationSeconds.Equals(0f))
 				return Rectangle.Empty;
 
-			return new Rectangle(x1, 0, x2 - x1 + 1,
-				(Control == null ? 0 : Control.ClientRectangle.Height - BottomReservedAreaHeight));
+			var startX = ConvertTimeToXCoordinate(timeRange.Start);
+			var endX = ConvertTimeToXCoordinate(timeRange.End);
+
+			return new Rectangle(startX, 0, endX - startX + 1, (Control == null ? 0 : Control.ClientRectangle.Height));
 		}
 
 		/// ------------------------------------------------------------------------------------

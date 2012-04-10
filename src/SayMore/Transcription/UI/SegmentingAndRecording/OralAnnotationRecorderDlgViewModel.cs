@@ -114,10 +114,13 @@ namespace SayMore.Transcription.UI
 		{
 			CurrentUnannotatedSegment = TimeTier.Segments.FirstOrDefault(s =>
 				(CurrentUnannotatedSegment == null || s.End > CurrentUnannotatedSegment.End) &&
-				!s.GetHasOralAnnotation());
+				!GetDoesSegmentHaveAnnotationFile(s));
 
 			if (CurrentUnannotatedSegment == null)
-				CurrentUnannotatedSegment = TimeTier.Segments.FirstOrDefault(s => !s.GetHasOralAnnotation());
+			{
+				CurrentUnannotatedSegment = TimeTier.Segments
+					.FirstOrDefault(s => !GetDoesSegmentHaveAnnotationFile(s));
+			}
 
 			return CurrentUnannotatedSegment != null;
 		}

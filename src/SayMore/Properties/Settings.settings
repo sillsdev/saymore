@@ -357,10 +357,10 @@
       <Value Profile="(Default)">_Translation.wav</Value>
     </Setting>
     <Setting Name="MillisecondsToAdvanceSegmentBoundaryOnRightArrow" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">100</Value>
+      <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="MillisecondsToBackupSegmentBoundaryOnLeftArrow" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">100</Value>
+      <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="MillisecondsToRePlayAfterAdjustingSegmentBoundary" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>

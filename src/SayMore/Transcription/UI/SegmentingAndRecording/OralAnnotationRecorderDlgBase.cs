@@ -44,7 +44,8 @@ namespace SayMore.Transcription.UI
 		private bool _spaceKeyIsDown;
 		private bool _playingBackUsingHoldDownButton;
 		private SpaceBarMode _spaceBarMode;
-		private readonly Color _unannotatedSegmentHighlighColor = Color.FromArgb(90, Settings.Default.DataEntryPanelColorBorder);
+		//private readonly Color _unannotatedSegmentHighlighColor = Color.FromArgb(90, 0xC0, 0x42, 0x00);
+		private readonly Color _unannotatedSegmentHighlighColor = Color.FromArgb(90, Color.Orange);
 
 		protected WaveControlWithRangeSelection _waveControl;
 
@@ -446,14 +447,7 @@ namespace SayMore.Transcription.UI
 			if (!base.OnAdjustBoundaryUsingArrowKey(milliseconds))
 				return false;
 
-			// REVIEW: How to adjust existing boundaries using arrow keys?
-			//var currentSegment = GetHighlightedSegment();
-			// new: if (currentSegment == null || currentSegment.End.Equals(0))
-			// old: if (ViewModel.GetEndOfCurrentSegment() == TimeSpan.Zero)
-				AdjustPotentialNewSegmentEndBoundaryOnArrowKey(milliseconds);
-			//else
-			//    AdjustExistingSegmentEndBoundaryOnArrowKey(milliseconds);
-
+			AdjustPotentialNewSegmentEndBoundaryOnArrowKey(milliseconds);
 			return true;
 		}
 
@@ -573,7 +567,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override TimeSpan GetBoundaryToAdjustOnArrowKeys()
 		{
-			return _waveControl.GetCursorTime();
+			if (_endOfTempSegment > ViewModel.GetEndOfLastSegment())
+				return _endOfTempSegment;
+
+			return base.GetBoundaryToAdjustOnArrowKeys();
 
 			// REVIEW: How to adjust existing boundaries using arrow keys?
 			//return (ViewModel.HighlightedSegment == null ?
@@ -876,9 +873,23 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void DrawTextInAnnotationWaveCellWhileNotRecording(Graphics g)
 		{
-			var rc = GetTempSegmentAnnotationRectangle();
-			rc.Inflate(-3, -3);
+			Rectangle rc = Rectangle.Empty;
 
+			if (ViewModel.CurrentUnannotatedSegment != null)
+			{
+				rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(
+					ViewModel.CurrentUnannotatedSegment.TimeRange);
+			}
+			else
+			{
+				rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(
+					new TimeRange(ViewModel.GetEndOfLastSegment(), _endOfTempSegment));
+			}
+
+			if (rc == Rectangle.Empty)
+				return;
+
+			rc.Inflate(-3, -3);
 			TextRenderer.DrawText(g, ReadyToRecordMessage, _annotationSegmentFont, rc, Color.Black,
 				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
 		}
@@ -931,24 +942,10 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Rectangle GetTempSegmentAnnotationRectangle()
-		{
-			var rc = GetTempSegmentRectangle();
-			rc.Y = rc.Bottom - _waveControl.BottomReservedAreaHeight;
-			rc.Height = _waveControl.BottomReservedAreaHeight;
-			return rc;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private Rectangle GetAnnotationRectangleForSegmentBeingRecorded()
 		{
-			if (_segmentBeingRecorded == null)
-				return Rectangle.Empty;
-
-			return new Rectangle(_waveControl.Painter.ConvertTimeToXCoordinate(_segmentBeingRecorded.Start),
-				_waveControl.ClientRectangle.Bottom - _waveControl.BottomReservedAreaHeight,
-				_waveControl.Painter.ConvertTimeToXCoordinate(_segmentBeingRecorded.End),
-				_waveControl.BottomReservedAreaHeight);
+			return (_segmentBeingRecorded == null ? Rectangle.Empty :
+				_waveControl.Painter.GetBottomReservedRectangleForTimeRange(_segmentBeingRecorded));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1173,6 +1170,12 @@ namespace SayMore.Transcription.UI
 				return;
 
 			UpdateDisplay();
+
+			if (ViewModel.CurrentUnannotatedSegment != null)
+			{
+				_waveControl.InvalidateIfNeeded(_waveControl.Painter.GetFullRectangleForTimeRange(
+					ViewModel.CurrentUnannotatedSegment.TimeRange));
+			}
 
 			_waveControl.SelectSegmentOnMouseOver = false;
 			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(timeRangeOfOriginalBeingAnnotated);

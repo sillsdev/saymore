@@ -1160,7 +1160,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int MillisecondsToAdvanceSegmentBoundaryOnRightArrow {
             get {
                 return ((int)(this["MillisecondsToAdvanceSegmentBoundaryOnRightArrow"]));
@@ -1173,7 +1173,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int MillisecondsToBackupSegmentBoundaryOnLeftArrow {
             get {
                 return ((int)(this["MillisecondsToBackupSegmentBoundaryOnLeftArrow"]));

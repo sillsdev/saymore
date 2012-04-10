@@ -17,7 +17,7 @@ namespace SayMore.Media
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControlScrollCalculator(WaveControlBasic waveControl)
-			: this(waveControl, new TimeRange(0, 0), false)
+			: this(waveControl, new TimeRange(TimeSpan.Zero, waveControl.WaveStream.TotalTime), false)
 		{
 		}
 

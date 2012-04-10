@@ -299,11 +299,12 @@ namespace SayMore.Transcription.UI
 			StopAllMedia();
 
 			var boundary = GetBoundaryToAdjustOnArrowKeys();
-			if (_viewModel.IsBoundaryPermanent(boundary))
-				return false;
 
-			if (boundary == TimeSpan.Zero || !_viewModel.CanMoveBoundary(boundary, milliseconds))
+			if (boundary == TimeSpan.Zero || _viewModel.IsBoundaryPermanent(boundary) ||
+				!_viewModel.CanMoveBoundary(boundary, milliseconds))
+			{
 				return false;
+			}
 
 			if (_timeAtBeginningOfboundaryMove <= TimeSpan.Zero)
 				_timeAtBeginningOfboundaryMove = boundary;

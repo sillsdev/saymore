@@ -66,7 +66,7 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void ClearSelection()
+		private void ClearSelection()
 		{
 			SetSelectionTimes(TimeSpan.Zero, TimeSpan.Zero);
 		}
@@ -93,7 +93,7 @@ namespace SayMore.Media
 
 			if (_boundaryMouseOver != default(TimeSpan))
 			{
-				ClearSelection();
+// REVIEW				ClearSelection();
 				return;
 			}
 

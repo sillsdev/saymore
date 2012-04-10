@@ -157,11 +157,13 @@ namespace SayMore.Transcription.UI
 
 			_labelRecordButton.MouseEnter += delegate
 			{
+				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
 				HandleListenOrRecordButtonMouseEnter(_labelRecordButton, _hotRecordAnnotationButton);
 			};
 
 			_labelRecordButton.MouseLeave += delegate
 			{
+				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
 				_labelRecordButton.Image = _normalRecordAnnotationButton;
 				_scrollTimer.Stop();
 			};
@@ -281,7 +283,6 @@ namespace SayMore.Transcription.UI
 				if (desiredTime < lastSegmentEndTime || _waveControl.GetIsMouseOverBoundary())
 					return TimeSpan.Zero;
 
-				_waveControl.ClearSelection();
 				UpdateDisplay();
 				return lastSegmentEndTime;
 			};
@@ -858,14 +859,17 @@ namespace SayMore.Transcription.UI
 			else if (!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying() && _labelRecordButton.Enabled)
 				DrawTextInAnnotationWaveCellWhileNotRecording(e.Graphics);
 
-			using (var pen = new Pen(Settings.Default.BarColorBorder))
+			var cursorRect = GetTempCursorRectangle();
+			if (cursorRect != Rectangle.Empty)
 			{
-				var cursorRect = GetTempCursorRectangle();
-				e.Graphics.DrawLine(pen, cursorRect.X + 1, 0, cursorRect.X + 1, _waveControl.ClientSize.Height);
-				if ((bool)_cursorBlinkTimer.Tag)
+				using (var pen = new Pen(Settings.Default.BarColorBorder))
 				{
-					e.Graphics.DrawLine(pen, cursorRect.X, 0, cursorRect.X, _waveControl.ClientSize.Height);
-					e.Graphics.DrawLine(pen, cursorRect.X + 2, 0, cursorRect.X + 2, _waveControl.ClientSize.Height);
+					e.Graphics.DrawLine(pen, cursorRect.X + 1, 0, cursorRect.X + 1, _waveControl.ClientSize.Height);
+					if ((bool)_cursorBlinkTimer.Tag)
+					{
+						e.Graphics.DrawLine(pen, cursorRect.X, 0, cursorRect.X, _waveControl.ClientSize.Height);
+						e.Graphics.DrawLine(pen, cursorRect.X + 2, 0, cursorRect.X + 2, _waveControl.ClientSize.Height);
+					}
 				}
 			}
 		}
@@ -889,15 +893,36 @@ namespace SayMore.Transcription.UI
 			if (rc == Rectangle.Empty)
 				return;
 
-			rc.Inflate(-3, -3);
+			DrawHighlightedBorderForRecording(g, rc);
+
+			rc.Inflate(-5, -5);
 			TextRenderer.DrawText(g, ReadyToRecordMessage, _annotationSegmentFont, rc, Color.Black,
 				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void DrawHighlightedBorderForRecording(Graphics g, Rectangle rc)
+		{
+			if (_labelRecordButton.ClientRectangle.Contains(_labelRecordButton.PointToClient(MousePosition)) ||
+				ViewModel.GetIsRecording())
+			{
+				using (var pen = new Pen(Settings.Default.BarColorBorder))
+				{
+					var rcHighlight = rc;
+					rcHighlight.Y--;
+					rcHighlight.Width--;
+					rcHighlight.Inflate(-1, -1);
+					g.DrawRectangle(pen, rcHighlight);
+					rcHighlight.Inflate(-1, -1);
+					g.DrawRectangle(pen, rcHighlight);
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void DrawTextInAnnotationWaveCellWhileRecording(Graphics g)
 		{
-			var rc = _pictureRecording.Bounds;
+			//var rc = _pictureRecording.Bounds;
 			//rc.Inflate(2, 2);
 			//rc.Width--;
 			//rc.Height--;
@@ -906,7 +931,8 @@ namespace SayMore.Transcription.UI
 			//g.FillEllipse(Brushes.White, rc);
 			//g.DrawEllipse(Pens.Black, rc);
 
-			rc = GetAnnotationRectangleForSegmentBeingRecorded();
+			var rc = GetAnnotationRectangleForSegmentBeingRecorded();
+			DrawHighlightedBorderForRecording(g, rc);
 			rc.Inflate(-5, -5);
 			rc.X += (_pictureRecording.Width + 6);
 			rc.Width -= (_pictureRecording.Width + 6);
@@ -924,6 +950,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private Rectangle GetTempCursorRectangle()
 		{
+			if (_spaceBarMode == SpaceBarMode.Done || ViewModel.CurrentUnannotatedSegment != null)
+				return Rectangle.Empty;
 			var x = _waveControl.Painter.ConvertTimeToXCoordinate(_endOfTempSegment);
 			return new Rectangle(x - 1, 0, 3, _waveControl.ClientSize.Height);
 		}
@@ -1111,6 +1139,16 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void InvalidateBottomReservedRectangleForCurrentUnannotatedSegment()
+		{
+			if (ViewModel.CurrentUnannotatedSegment != null)
+			{
+				_waveControl.InvalidateIfNeeded(_waveControl.Painter.GetBottomReservedRectangleForTimeRange(
+					ViewModel.CurrentUnannotatedSegment.TimeRange));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleListenOrRecordButtonMouseEnter(Label button, Image hotImage)
 		{
 			button.Image = hotImage;
@@ -1203,12 +1241,17 @@ namespace SayMore.Transcription.UI
 				_waveControl.SetSelectionTimes(timeRange, _unannotatedSegmentHighlighColor);
 				_waveControl.EnsureTimeIsVisible(timeRange.Start, timeRange, true, false);
 			}
-			else if (!ViewModel.IsFullySegmented)
+			else
 			{
-				_waveControl.ClearSelection();
-				var timeRange = new TimeRange(ViewModel.GetEndOfLastSegment(), ViewModel.OrigWaveStream.TotalTime);
-				_waveControl.SetCursor(timeRange.Start);
-				_waveControl.EnsureTimeIsVisible(timeRange.Start, timeRange, true, false);
+				_waveControl.SetSelectionTimes(new TimeRange(TimeSpan.Zero, TimeSpan.Zero),
+					_unannotatedSegmentHighlighColor);
+
+				if (!ViewModel.IsFullySegmented)
+				{
+					var timeRange = new TimeRange(ViewModel.GetEndOfLastSegment(), ViewModel.OrigWaveStream.TotalTime);
+					_waveControl.SetCursor(timeRange.Start);
+					_waveControl.EnsureTimeIsVisible(timeRange.Start, timeRange, true, false);
+				}
 			}
 		}
 
@@ -1228,9 +1271,9 @@ namespace SayMore.Transcription.UI
 				if (_spaceKeyIsDown)
 					return true;
 
-				if (_labelRecordButton.Enabled)
+				if (_spaceBarMode == SpaceBarMode.Record)
 					HandleRecordAnnotationMouseDown(null, null);
-				else if (_labelListenButton.Enabled)
+				else if (_spaceBarMode == SpaceBarMode.Listen)
 					HandleListenToOriginalMouseDown(null, null);
 
 				_spaceKeyIsDown = true;
@@ -1246,7 +1289,7 @@ namespace SayMore.Transcription.UI
 			if ((key == Keys.Escape || key == Keys.End) && !_waveControl.IsPlaying)
 			{
 				_waveControl.SetCursor(ViewModel.GetEndOfLastSegment());
-				_waveControl.ClearSelection();
+// REVIEW				_waveControl.ClearSelection();
 				UpdateDisplay();
 				return true;
 			}

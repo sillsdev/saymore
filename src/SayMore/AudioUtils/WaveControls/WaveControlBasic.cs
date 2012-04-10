@@ -454,12 +454,10 @@ namespace SayMore.Media
 			if (_slidingTargetScrollOffset == -AutoScrollPosition.X)
 				return true;
 
-			System.Diagnostics.Debug.WriteLine("New _slidingTargetScrollOffset = " + _slidingTargetScrollOffset);
 
 			_endSlideTime = DateTime.Now.AddMilliseconds(250);
 			if (_slideTimer == null || !_slideTimer.Enabled)
 			{
-				System.Diagnostics.Debug.WriteLine("Creating new slide timer. InvokeRequired = " + InvokeRequired);
 				Invoke((Action)(() =>
 					{
 						_slideTimer = new Timer();
@@ -482,8 +480,6 @@ namespace SayMore.Media
 			else
 				KillSlideTimer();
 
-			System.Diagnostics.Debug.WriteLine("Scrolling. Current AutoScrollPosition = " + (-AutoScrollPosition.X) + ". newTargetX = " + newTargetX);
-
 			AutoScrollPosition = new Point(newTargetX, AutoScrollPosition.Y);
 			Painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
 		}
@@ -494,8 +490,6 @@ namespace SayMore.Media
 			if (_slideTimer == null)
 				return;
 
-			System.Diagnostics.Debug.WriteLine("Killing timer. Enabled = " + _slideTimer.Enabled);
-
 			_slideTimer.Stop();
 			_slideTimer.Dispose();
 			_slideTimer = null;
@@ -505,7 +499,6 @@ namespace SayMore.Media
 		public void DiscardScrollCalculator()
 		{
 			_scrollCalculator = null;
-		//	KillSlideTimer();
 		}
 
 		/// ------------------------------------------------------------------------------------

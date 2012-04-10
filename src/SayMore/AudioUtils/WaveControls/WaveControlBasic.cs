@@ -398,39 +398,51 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void EnsureTimeIsVisible(TimeSpan time, TimeRange timeRange,
-			bool scrollToCenter, bool prepareForPlayback)
+		/// <returns>true if the requested time is already visible. False if a scroll will be
+		/// done (using the slide timer) to get there.</returns>
+		/// ------------------------------------------------------------------------------------
+		public bool EnsureTimeIsVisible(TimeSpan time, TimeRange timeRange, bool scrollToCenter,
+			bool prepareForPlayback)
 		{
 			bool discardCalculator = false;
 
 			if (_scrollCalculator == null)
 			{
+				KillSlideTimer();
 				_scrollCalculator = new WaveControlScrollCalculator(this, timeRange, scrollToCenter);
 				discardCalculator = !prepareForPlayback;
 			}
 
-			EnsureTimeIsVisible(time);
+			var retVal = EnsureTimeIsVisible(time);
 
 			if (discardCalculator)
 				_scrollCalculator = null;
+
+			return retVal;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void EnsureTimeIsVisible(TimeSpan time)
+		/// <returns>true if the requested time is already visible. False if a scroll will be
+		/// done (using the slide timer) to get there.</returns>
+		/// ------------------------------------------------------------------------------------
+		public bool EnsureTimeIsVisible(TimeSpan time)
 		{
-			EnsureXIsVisible(Painter.ConvertTimeToXCoordinate(time));
+			return EnsureXIsVisible(Painter.ConvertTimeToXCoordinate(time));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void EnsureXIsVisible(int x)
+		/// <returns>true if the requested horizontal pixel location is already visible. False
+		/// if a scroll will be done (using the slide timer) to get there.</returns>
+		/// ------------------------------------------------------------------------------------
+		public bool EnsureXIsVisible(int x)
 		{
 			bool discardCalculator = false;
 
 			if (_scrollCalculator == null)
 			{
+				KillSlideTimer();
 				_scrollCalculator = new WaveControlScrollCalculator(this,
 					new TimeRange(TimeSpan.Zero, _playbackStream.TotalTime), true);
-
 				discardCalculator = true;
 			}
 
@@ -440,18 +452,27 @@ namespace SayMore.Media
 				_scrollCalculator = null;
 
 			if (_slidingTargetScrollOffset == -AutoScrollPosition.X)
-				return;
+				return true;
+
+			System.Diagnostics.Debug.WriteLine("New _slidingTargetScrollOffset = " + _slidingTargetScrollOffset);
 
 			_endSlideTime = DateTime.Now.AddMilliseconds(250);
-			KillSlideTimer();
-			_slideTimer = new Timer();
-			_slideTimer.Interval = 1;
-			_slideTimer.Tick += HandleSlideTimerTick;
-			_slideTimer.Start();
+			if (_slideTimer == null || !_slideTimer.Enabled)
+			{
+				System.Diagnostics.Debug.WriteLine("Creating new slide timer. InvokeRequired = " + InvokeRequired);
+				Invoke((Action)(() =>
+					{
+						_slideTimer = new Timer();
+						_slideTimer.Interval = 1;
+						_slideTimer.Tick += HandleSlideTimerTick;
+						_slideTimer.Start();
+					}));
+			}
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleSlideTimerTick(object sender, EventArgs e)
+		private void HandleSlideTimerTick(object sender, EventArgs e)
 		{
 			var currTime = DateTime.Now;
 			var newTargetX = _slidingTargetScrollOffset;
@@ -460,6 +481,8 @@ namespace SayMore.Media
 				newTargetX = (int)Math.Ceiling((-AutoScrollPosition.X + newTargetX) / 2f);
 			else
 				KillSlideTimer();
+
+			System.Diagnostics.Debug.WriteLine("Scrolling. Current AutoScrollPosition = " + (-AutoScrollPosition.X) + ". newTargetX = " + newTargetX);
 
 			AutoScrollPosition = new Point(newTargetX, AutoScrollPosition.Y);
 			Painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
@@ -471,9 +494,18 @@ namespace SayMore.Media
 			if (_slideTimer == null)
 				return;
 
+			System.Diagnostics.Debug.WriteLine("Killing timer. Enabled = " + _slideTimer.Enabled);
+
 			_slideTimer.Stop();
 			_slideTimer.Dispose();
 			_slideTimer = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DiscardScrollCalculator()
+		{
+			_scrollCalculator = null;
+		//	KillSlideTimer();
 		}
 
 		/// ------------------------------------------------------------------------------------

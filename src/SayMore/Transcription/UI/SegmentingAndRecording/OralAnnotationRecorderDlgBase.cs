@@ -37,8 +37,8 @@ namespace SayMore.Transcription.UI
 		private TimeSpan _elapsedRecordingTime;
 		private TimeSpan _endOfTempSegment;
 		private TimeSpan _annotationPlaybackLength;
-		private int _annotationPlaybackCursorX;
-		private Rectangle _annotationPlaybackRectangle;
+		private TimeSpan _lastAnnotationPlaybackPosition; // REVIEW: used to cache the X location, but scrolling can make it obsolete
+		private Segment _segmentWhoseAnnotationIsBeingPlayedBack;
 		private Font _annotationSegmentFont;
 		private TimeRange _segmentBeingRecorded;
 		private bool _spaceKeyIsDown;
@@ -647,8 +647,8 @@ namespace SayMore.Transcription.UI
 			if (ViewModel.GetIsAnnotationPlaying())
 			{
 				ViewModel.StopAnnotationPlayback();
-				_annotationPlaybackCursorX = 0;
-				_waveControl.InvalidateIfNeeded(_annotationPlaybackRectangle);
+				_lastAnnotationPlaybackPosition = TimeSpan.Zero;
+				_waveControl.InvalidateIfNeeded(GetAnnotationPlaybackRectangle());
 			}
 
 			if (segMouseOver < 0)
@@ -664,19 +664,41 @@ namespace SayMore.Transcription.UI
 					_waveControl.Play(segment.TimeRange);
 				else
 				{
+					_waveControl.EnsureTimeIsVisible(segment.TimeRange.Start, segment.TimeRange, true, true);
+
+					_segmentWhoseAnnotationIsBeingPlayedBack = segment;
+
 					var path = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
 					_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw.First(
 						h => h.AudioFilePath == path).AudioDuration;
 
-					_annotationPlaybackRectangle = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(segment.TimeRange);
-					_annotationPlaybackRectangle.Inflate(-2, 0);
-
-					ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress,
-						() => _annotationPlaybackCursorX = 0);
+					ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress, () =>
+						{
+							_lastAnnotationPlaybackPosition = TimeSpan.Zero;
+							_segmentWhoseAnnotationIsBeingPlayedBack = null;
+							_waveControl.DiscardScrollCalculator();
+						});
 				}
 			}
 
 			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetBottomReservedRectangleForSegment(Segment segment)
+		{
+			return _waveControl.Painter.GetBottomReservedRectangleForTimeRange(segment.TimeRange);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetAnnotationPlaybackRectangle()
+		{
+			if (_segmentWhoseAnnotationIsBeingPlayedBack == null)
+				return Rectangle.Empty;
+
+			var rc = GetBottomReservedRectangleForSegment(_segmentWhoseAnnotationIsBeingPlayedBack);
+			rc.Inflate(-2, 0);
+			return rc;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -733,16 +755,23 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleAnnotationPlaybackProgress(PlaybackProgressEventArgs args)
 		{
-			var pixelPerMillisecond = _annotationPlaybackRectangle.Width / _annotationPlaybackLength.TotalMilliseconds;
+			var newX = GetAnnotationPlaybackCursorX(args.PlaybackPosition);
 
-			var newX  = _annotationPlaybackRectangle.X +
-				(int)(Math.Ceiling(args.PlaybackPosition.TotalMilliseconds * pixelPerMillisecond));
-
-			if (newX != _annotationPlaybackCursorX)
+			if (newX != GetAnnotationPlaybackCursorX(_lastAnnotationPlaybackPosition))
 			{
-				_annotationPlaybackCursorX = newX;
-				Invoke((Action<Rectangle>)_waveControl.InvalidateIfNeeded, _annotationPlaybackRectangle);
+				_lastAnnotationPlaybackPosition = args.PlaybackPosition;
+				if (_waveControl.EnsureXIsVisible(newX))
+					Invoke((Action<Rectangle>)_waveControl.InvalidateIfNeeded, GetAnnotationPlaybackRectangle());
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private int GetAnnotationPlaybackCursorX(TimeSpan playbackPosition)
+		{
+			var rc = GetAnnotationPlaybackRectangle();
+			var pixelPerMillisecond = rc.Width / _annotationPlaybackLength.TotalMilliseconds;
+
+			return rc.X + (int)(Math.Ceiling(playbackPosition.TotalMilliseconds * pixelPerMillisecond));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -806,14 +835,14 @@ namespace SayMore.Transcription.UI
 		private void DrawCursorInOralAnnotationWave(PaintEventArgs e, Rectangle rc)
 		{
 			// Draw oral annotation's playback cursor if it's non-zero.
-			if (_annotationPlaybackCursorX > 0 && _annotationPlaybackCursorX >= rc.X &&
-				_annotationPlaybackCursorX <= rc.Right)
+			var x = GetAnnotationPlaybackCursorX(_lastAnnotationPlaybackPosition);
+			if (x > 0 && x >= rc.X &&
+				x <= rc.Right)
 			{
 				rc.Inflate(0, 3);
 				using (var pen = new Pen(_waveControl.Painter.CursorColor))
 				{
-					e.Graphics.DrawLine(pen, _annotationPlaybackCursorX, rc.Y,
-						_annotationPlaybackCursorX, rc.Bottom);
+					e.Graphics.DrawLine(pen, x, rc.Y, x, rc.Bottom);
 				}
 			}
 		}
@@ -880,10 +909,7 @@ namespace SayMore.Transcription.UI
 			Rectangle rc = Rectangle.Empty;
 
 			if (ViewModel.CurrentUnannotatedSegment != null)
-			{
-				rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(
-					ViewModel.CurrentUnannotatedSegment.TimeRange);
-			}
+				rc = GetBottomReservedRectangleForSegment(ViewModel.CurrentUnannotatedSegment);
 			else
 			{
 				rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(
@@ -1143,8 +1169,8 @@ namespace SayMore.Transcription.UI
 		{
 			if (ViewModel.CurrentUnannotatedSegment != null)
 			{
-				_waveControl.InvalidateIfNeeded(_waveControl.Painter.GetBottomReservedRectangleForTimeRange(
-					ViewModel.CurrentUnannotatedSegment.TimeRange));
+				_waveControl.InvalidateIfNeeded(GetBottomReservedRectangleForSegment(
+					ViewModel.CurrentUnannotatedSegment));
 			}
 		}
 

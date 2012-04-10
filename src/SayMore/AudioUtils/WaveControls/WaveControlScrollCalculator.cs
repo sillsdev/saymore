@@ -31,8 +31,6 @@ namespace SayMore.Media
 		public WaveControlScrollCalculator(WaveControlBasic waveControl, TimeRange timeRange,
 			bool scrollToCenter, int leftMarginPct, int rightMarginPct)
 		{
-			Debug.Assert(!TimeRange.IsNullOrZeroLength(timeRange));
-
 			_waveControl = waveControl;
 			_cachedWaveControlClientWidth = _waveControl.ClientSize.Width;
 			_timeRange = timeRange;
@@ -66,7 +64,7 @@ namespace SayMore.Media
 			if (x < minX)
 				return -_waveControl.AutoScrollPosition.X + x - minX;
 
-			return Math.Max(-_waveControl.AutoScrollPosition.X + x - maxX,
+			return Math.Min(-_waveControl.AutoScrollPosition.X + x - maxX,
 				_waveControl.Painter.VirtualWidth - _waveControl.ClientRectangle.Width);
 		}
 

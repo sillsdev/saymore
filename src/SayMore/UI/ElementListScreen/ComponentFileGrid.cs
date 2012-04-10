@@ -389,7 +389,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public bool TrySetComponent(string file)
 		{
-			if (string.IsNullOrEmpty(file))
+			if (string.IsNullOrEmpty(file) || IsDisposed)
 				return false;
 
 			file = Path.GetFileName(file);

@@ -401,12 +401,6 @@ namespace SayMore.Transcription.UI
 			_waveControl.Stop();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected virtual TimeSpan GetSubSegmentReplayEndTime()
-		{
-			return TimeSpan.Zero;
-		}
-
 		#endregion
 
 		/// ------------------------------------------------------------------------------------

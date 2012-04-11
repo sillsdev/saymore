@@ -194,12 +194,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override TimeSpan GetSubSegmentReplayEndTime()
-		{
-			return _waveControl.GetSelectedBoundary();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override TimeSpan GetBoundaryToAdjustOnArrowKeys()
 		{
 			return _waveControl.GetSelectedBoundary();

@@ -398,8 +398,8 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <returns>true if the requested time is already visible. False if a scroll will be
-		/// done (using the slide timer) to get there.</returns>
+		/// <summary>Returns true if the requested time is already visible. False if a scroll will be
+		/// done (using the slide timer) to get there.</summary>
 		/// ------------------------------------------------------------------------------------
 		public bool EnsureTimeIsVisible(TimeSpan time, TimeRange timeRange, bool scrollToCenter,
 			bool prepareForPlayback)
@@ -422,8 +422,8 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <returns>true if the requested time is already visible. False if a scroll will be
-		/// done (using the slide timer) to get there.</returns>
+		/// <summary>Returns true if the requested time is already visible. False if a scroll will be
+		/// done (using the slide timer) to get there.</summary>
 		/// ------------------------------------------------------------------------------------
 		public bool EnsureTimeIsVisible(TimeSpan time)
 		{
@@ -431,8 +431,8 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <returns>true if the requested horizontal pixel location is already visible. False
-		/// if a scroll will be done (using the slide timer) to get there.</returns>
+		/// <summary>Returns true if the requested horizontal pixel location is already visible. False
+		/// if a scroll will be done (using the slide timer) to get there.</summary>
 		/// ------------------------------------------------------------------------------------
 		public bool EnsureXIsVisible(int x)
 		{

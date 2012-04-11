@@ -91,13 +91,8 @@ namespace SayMore.Media
 			if (!SelectSegmentOnMouseOver)
 				return;
 
-			if (_boundaryMouseOver != default(TimeSpan))
-			{
-// REVIEW				ClearSelection();
-				return;
-			}
-
 			var segNumber = GetSegmentForX(e.X);
+
 			if (segNumber < 0)
 			{
 				ClearSelection();

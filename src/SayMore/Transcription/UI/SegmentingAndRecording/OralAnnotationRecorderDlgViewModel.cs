@@ -59,6 +59,17 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		public void RemoveInvalidAnnotationFiles()
+		{
+			var annotationFiles = from s in TimeTier.Segments
+								  where GetDoesSegmentHaveAnnotationFile(s)
+								  select GetFullPathToAnnotationFileForSegment(s);
+
+			foreach (var path in annotationFiles.Where(p => !AudioUtils.GetDoesFileSeemToBeWave(p)))
+				EraseAnnotation(path);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool GetIsRecordingTooShort()
 		{
 			return (_annotationRecorder != null &&
@@ -247,10 +258,21 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void EraseAnnotation(TimeRange timeRange)
+		{
+			EraseAnnotation(GetFullPathOfAnnotationFileForTimeRange(timeRange));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void EraseAnnotation(Segment segment)
 		{
+			EraseAnnotation(GetFullPathToAnnotationFileForSegment(segment));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void EraseAnnotation(string path)
+		{
 			CloseAnnotationPlayer();
-			var path = GetFullPathToAnnotationFileForSegment(segment);
 			ComponentFile.WaitForFileRelease(path);
 
 			try

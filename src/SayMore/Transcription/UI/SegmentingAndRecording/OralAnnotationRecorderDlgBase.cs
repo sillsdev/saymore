@@ -263,6 +263,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.MouseDown += HandleWaveControlMouseDown;
 			_waveControl.MouseUp += delegate { FinishRecording(false); };
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
+			_waveControl.PlaybackStarted += delegate { KillSegTooShortMsgTimer(); };
 
 			_waveControl.ClientSizeChanged += delegate
 			{
@@ -671,6 +672,8 @@ namespace SayMore.Transcription.UI
 					_annotationPlaybackLength = ViewModel.SegmentsAnnotationSamplesToDraw.First(
 						h => h.AudioFilePath == path).AudioDuration;
 
+					KillSegTooShortMsgTimer();
+
 					ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress, () =>
 						{
 							_lastAnnotationPlaybackPosition = TimeSpan.Zero;
@@ -729,11 +732,7 @@ namespace SayMore.Transcription.UI
 
 			if (!ViewModel.StopAnnotationRecording())
 			{
-				ViewModel.EraseAnnotation(_segmentBeingRecorded);
-				MessageBox.Show("Too short");
-				// TODO: Figure out where to display a "TOO SHORT" message.
-
-				_waveControl.InvalidateIfNeeded(GetAnnotationRectangleForSegmentBeingRecorded());
+				DisplayRecordingTooShortMessage();
 				_segmentBeingRecorded = null;
 				return;
 			}
@@ -753,6 +752,40 @@ namespace SayMore.Transcription.UI
 			_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 
 			UpdateDisplay();
+		}
+
+		Timer _segTooShortMsgTimer;
+
+		/// ------------------------------------------------------------------------------------
+		private void KillSegTooShortMsgTimer()
+		{
+			if (_segTooShortMsgTimer != null)
+			{
+				var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange((TimeRange)_segTooShortMsgTimer.Tag);
+				_segTooShortMsgTimer.Stop();
+				_segTooShortMsgTimer.Dispose();
+				_segTooShortMsgTimer = null;
+
+				_waveControl.InvalidateIfNeeded(rc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DisplayRecordingTooShortMessage()
+		{
+			KillSegTooShortMsgTimer();
+			ViewModel.EraseAnnotation(_segmentBeingRecorded);
+
+			_segTooShortMsgTimer = new Timer();
+			_segTooShortMsgTimer.Interval = 4000;
+			_segTooShortMsgTimer.Tag = _segmentBeingRecorded;
+			_segTooShortMsgTimer.Tick += delegate
+			{
+				KillSegTooShortMsgTimer();
+			};
+
+			_segTooShortMsgTimer.Start();
+			_waveControl.InvalidateIfNeeded(GetAnnotationRectangleForSegmentBeingRecorded());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -887,7 +920,7 @@ namespace SayMore.Transcription.UI
 
 			if (ViewModel.GetIsRecording())
 				DrawTextInAnnotationWaveCellWhileRecording(e.Graphics);
-			else if (!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying() && _labelRecordButton.Enabled)
+			else
 				DrawTextInAnnotationWaveCellWhileNotRecording(e.Graphics);
 
 			var cursorRect = GetTempCursorRectangle();
@@ -906,17 +939,42 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void DrawSegmentTooShortMessage(Graphics g, bool segmentReadyToRecordHadRecordingThatWasTooShort)
+		{
+			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange((TimeRange)_segTooShortMsgTimer.Tag);
+			rc.Inflate(-5, -5);
+			var msg = segmentReadyToRecordHadRecordingThatWasTooShort ? LocalizationManager.GetString(
+				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage",
+				"Whoops. You need to hold down the SPACE bar or mouse button while talking.") :
+				LocalizationManager.GetString(
+				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage",
+				"Whoops. You need to hold down the mouse button while talking.");
+
+			TextRenderer.DrawText(g, msg, _annotationSegmentFont, rc, Color.Red,
+				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void DrawTextInAnnotationWaveCellWhileNotRecording(Graphics g)
 		{
-			Rectangle rc = Rectangle.Empty;
+			var timeRangeReadyToRecord = (ViewModel.CurrentUnannotatedSegment != null) ?
+				ViewModel.CurrentUnannotatedSegment.TimeRange :
+				new TimeRange(ViewModel.GetEndOfLastSegment(), _endOfTempSegment);
 
-			if (ViewModel.CurrentUnannotatedSegment != null)
-				rc = GetBottomReservedRectangleForSegment(ViewModel.CurrentUnannotatedSegment);
-			else
-			{
-				rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(
-					new TimeRange(ViewModel.GetEndOfLastSegment(), _endOfTempSegment));
-			}
+			bool segmentReadyToRecordHadRecordingThatWasTooShort =
+				(_segTooShortMsgTimer != null && timeRangeReadyToRecord == (TimeRange)_segTooShortMsgTimer.Tag);
+
+			if (_segTooShortMsgTimer != null)
+				DrawSegmentTooShortMessage(g, segmentReadyToRecordHadRecordingThatWasTooShort);
+
+			if (timeRangeReadyToRecord.DurationSeconds.Equals(0f))
+				return;
+
+			if (segmentReadyToRecordHadRecordingThatWasTooShort || _waveControl.IsPlaying ||
+				ViewModel.GetIsAnnotationPlaying() || !_labelRecordButton.Enabled)
+				return;
+
+			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(timeRangeReadyToRecord);
 
 			if (rc == Rectangle.Empty)
 				return;
@@ -924,6 +982,7 @@ namespace SayMore.Transcription.UI
 			DrawHighlightedBorderForRecording(g, rc);
 
 			rc.Inflate(-5, -5);
+
 			TextRenderer.DrawText(g, ReadyToRecordMessage, _annotationSegmentFont, rc, Color.Black,
 				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
 		}
@@ -1226,6 +1285,8 @@ namespace SayMore.Transcription.UI
 		{
 			if (!ViewModel.BeginAnnotationRecording(timeRangeOfOriginalBeingAnnotated, HandleAnnotationRecordingProgress))
 				return;
+
+			KillSegTooShortMsgTimer();
 
 			UpdateDisplay();
 

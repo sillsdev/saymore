@@ -154,6 +154,14 @@ namespace SayMore.Transcription.UI
 			model.Start();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public void RestoreSingleOriginalRecordedAnnotation(string path)
+		{
+			if (_oralAnnotationFilesBeforeChanges.Count == 0)
+				return;
+
+		}
+
 		#endregion
 
 		#region Properties

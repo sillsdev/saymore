@@ -20,6 +20,8 @@ namespace SayMore.Transcription.UI
 		private AudioPlayer _annotationPlayer;
 		private AudioRecorder _annotationRecorder;
 		private TimeRange _timeRangeForAnnotationBeingRerecorded;
+		private TimeSpan _endBoundary;
+
 		private readonly List<string> _fullPathsToAddedRecordings = new List<string>();
 
 		/// ----------------------------------------------------------------------------------------
@@ -34,9 +36,20 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected OralAnnotationRecorderDlgViewModel(ComponentFile file) : base(file)
 		{
+			NewSegmentEndBoundary = GetEndOfLastSegment();
 		}
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		public TimeSpan NewSegmentEndBoundary
+		{
+			get { return _endBoundary; }
+			set
+			{
+				_endBoundary = (value < GetEndOfLastSegment()) ? GetEndOfLastSegment() : value;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public bool AnnotationRecordingsChanged { get; private set; }
 
@@ -78,10 +91,33 @@ namespace SayMore.Transcription.UI
 				_annotationRecorder.RecordedTime <= TimeSpan.FromMilliseconds(500));
 		}
 
+		#region Segment-related methods
+		/// ------------------------------------------------------------------------------------
+		public override bool SegmentBoundaryMoved(TimeSpan oldEndTime, TimeSpan newEndTime)
+		{
+			if (oldEndTime == NewSegmentEndBoundary)
+			{
+				NewSegmentEndBoundary = newEndTime;
+				return true;
+			}
+
+			return base.SegmentBoundaryMoved(oldEndTime, newEndTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<TimeSpan> GetSegmentEndBoundaries()
+		{
+			foreach (var boundary in base.GetSegmentEndBoundaries())
+				yield return boundary;
+
+			if (!IsFullySegmented)
+				yield return NewSegmentEndBoundary;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public bool GetDoesSegmentHaveAnnotationFile(int segmentIndex)
 		{
-			if (segmentIndex < 0 && segmentIndex >= TimeTier.Segments.Count)
+			if (segmentIndex < 0 || segmentIndex >= TimeTier.Segments.Count)
 				return false;
 
 			return GetDoesSegmentHaveAnnotationFile(TimeTier.Segments[segmentIndex]);
@@ -116,6 +152,12 @@ namespace SayMore.Transcription.UI
 			throw new NotImplementedException();
 		}
 
+		/// ----------------------------------------------------------------------------------------
+		public bool GetHasNewSegment()
+		{
+			return NewSegmentEndBoundary > GetEndOfLastSegment();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public bool GetDoesHaveSegments()
 		{
@@ -137,6 +179,21 @@ namespace SayMore.Transcription.UI
 
 			return CurrentUnannotatedSegment != null;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeRange GetSelectedTimeRange()
+		{
+			return (CurrentUnannotatedSegment != null) ? CurrentUnannotatedSegment.TimeRange :
+				new TimeRange(GetEndOfLastSegment(), NewSegmentEndBoundary);
+		}
+
+		/// ----------------------------------------------------------------------------------------
+		public IEnumerable<TimeSpan> MakeSegmentForEndBoundary()
+		{
+			return InsertNewBoundary(NewSegmentEndBoundary);
+		}
+
+		#endregion
 
 		#region Annotation record/player methods
 		/// ------------------------------------------------------------------------------------
@@ -358,6 +415,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		#endregion
+
+		/// ----------------------------------------------------------------------------------------
+		public Segment GetSegment(int index)
+		{
+			return (index < 0 || index >= TimeTier.Segments.Count ?
+				null : TimeTier.Segments[index]);
+		}
 	}
 
 	#region CarefulSpeechAnnotationRecorderDlgViewModel class

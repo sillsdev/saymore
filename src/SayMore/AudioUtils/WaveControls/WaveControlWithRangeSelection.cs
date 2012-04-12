@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,6 +14,11 @@ namespace SayMore.Media
 			WaveControlWithRangeSelection wavCtrl, TimeRange newTimeRange);
 
 		public bool SelectSegmentOnMouseOver { get; set; }
+
+		private bool _saveStateOfSelectSegmentOnMouseOver;
+		private Color[] _selectionColorsToLeftOfMovingBoundary;
+		private Color[] _selectionColorsToRightOfMovingBoundary;
+		private TimeSpan _boundaryToRightOfMovingBoundary;
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControlWithRangeSelection()
@@ -114,50 +120,80 @@ namespace SayMore.Media
 				ClearSelection();
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnMouseDown(MouseEventArgs e)
-		//{
-		//    base.OnMouseDown(e);
-
-		//    if (_boundaryMouseOver != default(TimeSpan))
-		//        return;
-
-		//    var segNumber = GetSegmentForX(e.X);
-		//    if (segNumber < 0)
-		//        return;
-
-		//    var start = (segNumber == 0 ? TimeSpan.Zero : SegmentBoundaries.ElementAt(segNumber - 1));
-		//    SetSelectionTimes(start, SegmentBoundaries.ElementAt(segNumber));
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		protected override void OnBoundaryMouseDown(int mouseX, TimeSpan boundaryClicked,
 			int indexOutOfBoundaryClicked)
 		{
+			var boundaries = SegmentBoundaries.ToArray();
+
 			var startTime = (indexOutOfBoundaryClicked == 0 ? TimeSpan.Zero :
-				SegmentBoundaries.ElementAt(indexOutOfBoundaryClicked - 1));
+				boundaries.ElementAt(indexOutOfBoundaryClicked - 1));
 
 			MyPainter.SetSelectionTimes(startTime, boundaryClicked);
+
+			_selectionColorsToLeftOfMovingBoundary = MyPainter.GetColorsOfAreaEndingAtTime(boundaryClicked);
+			System.Diagnostics.Debug.Write("OnBoundaryMouseDown: Left colors = ");
+			foreach (var color in _selectionColorsToLeftOfMovingBoundary)
+				System.Diagnostics.Debug.Write(color + "; ");
+			System.Diagnostics.Debug.WriteLine("");
+
+			if (indexOutOfBoundaryClicked >= boundaries.Length - 1)
+				_selectionColorsToRightOfMovingBoundary = null;
+			else
+			{
+				_selectionColorsToRightOfMovingBoundary = MyPainter.GetColorsOfAreaStartingAtTime(boundaryClicked);
+				_boundaryToRightOfMovingBoundary = SegmentBoundaries.ElementAt(indexOutOfBoundaryClicked + 1);
+
+				System.Diagnostics.Debug.Write("OnBoundaryMouseDown: Right colors = ");
+				foreach (var color in _selectionColorsToRightOfMovingBoundary)
+					System.Diagnostics.Debug.Write(color + "; ");
+				System.Diagnostics.Debug.WriteLine("");
+			}
 			base.OnBoundaryMouseDown(mouseX, boundaryClicked, indexOutOfBoundaryClicked);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnInitiatiatingBoundaryMove(InitiatiatingBoundaryMoveEventArgs e)
+		{
+			_saveStateOfSelectSegmentOnMouseOver = SelectSegmentOnMouseOver;
+			SelectSegmentOnMouseOver = false;
+			base.OnInitiatiatingBoundaryMove(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnBoundaryMoving(TimeSpan newBoundary)
 		{
 			base.OnBoundaryMoving(newBoundary);
-			MyPainter.SetSelectionTimes(MyPainter.DefaultSelectedRange.Start, newBoundary);
+			var newTimeRange = new TimeRange(MyPainter.DefaultSelectedRange.Start, newBoundary);
+
+			SetSelectionTimesForBoundaryMove(newTimeRange);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetSelectionTimesForBoundaryMove(TimeRange newTimeRangeOfLeftSegment)
+		{
+			foreach (var color in _selectionColorsToLeftOfMovingBoundary)
+				MyPainter.SetSelectionTimes(newTimeRangeOfLeftSegment, color);
+
+			if (_selectionColorsToRightOfMovingBoundary == null)
+				return;
+
+			var newTimeRangeOfRightSegment = new TimeRange(newTimeRangeOfLeftSegment.End,
+				_boundaryToRightOfMovingBoundary);
+
+			foreach (var color in _selectionColorsToRightOfMovingBoundary)
+				MyPainter.SetSelectionTimes(newTimeRangeOfRightSegment, color);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnBoundaryMoved(TimeSpan oldBoundary, TimeSpan newBoundary)
 		{
-			if (base.OnBoundaryMoved(oldBoundary, newBoundary))
-			{
-				SetSelectionTimes(MyPainter.DefaultSelectedRange.Start, newBoundary);
-				return true;
-			}
+			SelectSegmentOnMouseOver = _saveStateOfSelectSegmentOnMouseOver;
 
-			SetSelectionTimes(MyPainter.DefaultSelectedRange.Start, oldBoundary);
+			if (base.OnBoundaryMoved(oldBoundary, newBoundary))
+				return true;
+
+			SetSelectionTimesForBoundaryMove(new TimeRange(MyPainter.DefaultSelectedRange.Start, oldBoundary));
 			return false;
 		}
 	}

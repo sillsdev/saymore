@@ -184,7 +184,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<TimeSpan> GetSegmentEndBoundaries()
+		public virtual IEnumerable<TimeSpan> GetSegmentEndBoundaries()
 		{
 			return TimeTier.Segments.Select(s => TimeSpan.FromSeconds(s.End));
 		}
@@ -222,7 +222,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool SegmentBoundaryMoved(TimeSpan oldEndTime, TimeSpan newEndTime)
+		public virtual bool SegmentBoundaryMoved(TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
 			if (oldEndTime == newEndTime)
 				return false;

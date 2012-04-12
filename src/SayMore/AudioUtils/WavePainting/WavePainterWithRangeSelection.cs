@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using NAudio.Wave;
 using SayMore.Transcription.Model;
@@ -31,6 +32,22 @@ namespace SayMore.Media
 			//	Color.FromArgb(100, SystemColors.Highlight)
 			//	Color.FromArgb(90, Color.Orange)
 			get { return Color.FromArgb(50, Color.CornflowerBlue); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Color[] GetColorsOfAreaEndingAtTime(TimeSpan time)
+		{
+			return (from kvp in _selectedRegions
+					where kvp.Value.End == time
+					select kvp.Key).ToArray();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public Color[] GetColorsOfAreaStartingAtTime(TimeSpan time)
+		{
+			return (from kvp in _selectedRegions
+					where kvp.Value.Start == time
+					select kvp.Key).ToArray();
 		}
 
 		/// ------------------------------------------------------------------------------------

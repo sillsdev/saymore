@@ -406,7 +406,7 @@ namespace SayMore.Media
 		{
 			bool discardCalculator = false;
 
-			if (_scrollCalculator == null)
+			if (_scrollCalculator == null || _scrollCalculator.TimeRange != timeRange)
 			{
 				KillSlideTimer();
 				_scrollCalculator = new WaveControlScrollCalculator(this, timeRange, scrollToCenter);

@@ -625,6 +625,8 @@ namespace SayMore.Transcription.UI
 			{
 				var segment = ViewModel.TimeTier.Segments[segMouseOver];
 
+				//_waveControl.DiscardScrollCalculator();
+
 				if (playOriginal)
 					_waveControl.Play(segment.TimeRange);
 				else

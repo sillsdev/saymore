@@ -238,19 +238,15 @@ namespace SayMore.Transcription.UI
 			var isRecordingTooShort = GetIsRecordingTooShort();
 			AnnotationRecordingsChanged = (AnnotationRecordingsChanged || !isRecordingTooShort);
 
-			if (!isRecordingTooShort)
-				return true;
-
-			EraseAnnotation(timeRange);
-
-			if (_timeRangeForAnnotationBeingRerecorded != null)
+			if (isRecordingTooShort)
 			{
-				RecoverTemporarilySavedAnnotation(_timeRangeForAnnotationBeingRerecorded);
-				_timeRangeForAnnotationBeingRerecorded = null;
+				EraseAnnotation(timeRange);
+				RecoverTemporarilySavedAnnotation();
+				_fullPathsToAddedRecordings.RemoveAt(_fullPathsToAddedRecordings.Count - 1);
 			}
 
-			_fullPathsToAddedRecordings.RemoveAt(_fullPathsToAddedRecordings.Count - 1);
-			return false;
+			DeleteTemporarilySavedAnnotation();
+			return !isRecordingTooShort;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -295,12 +291,26 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void RecoverTemporarilySavedAnnotation(TimeRange timeRange)
+		public void RecoverTemporarilySavedAnnotation()
 		{
-			var dstFile = GetFullPathOfAnnotationFileForTimeRange(timeRange);
+			if (_timeRangeForAnnotationBeingRerecorded == null)
+				return;
+
+			var dstFile = GetFullPathOfAnnotationFileForTimeRange(_timeRangeForAnnotationBeingRerecorded);
 			var srcFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(dstFile));
 			CopyFilesViewModel.Copy(srcFile, dstFile, true);
-			File.Delete(srcFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DeleteTemporarilySavedAnnotation()
+		{
+			if (_timeRangeForAnnotationBeingRerecorded == null)
+				return;
+
+			var path = GetFullPathOfAnnotationFileForTimeRange(_timeRangeForAnnotationBeingRerecorded);
+			path = Path.Combine(Path.GetTempPath(), Path.GetFileName(path));
+			File.Delete(path);
+			_timeRangeForAnnotationBeingRerecorded = null;
 		}
 
 		/// ------------------------------------------------------------------------------------

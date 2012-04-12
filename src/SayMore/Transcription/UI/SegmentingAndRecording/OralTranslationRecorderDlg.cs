@@ -22,6 +22,13 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(System.EventArgs e)
+		{
+			base.OnLoad(e);
+			_labelOralTranslation.Font = _labelOriginalRecording.Font;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override string ReadyToRecordMessage
 		{
 			get

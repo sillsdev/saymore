@@ -26,7 +26,6 @@ namespace SayMore.Transcription.UI
 
 		private readonly ToolTip _tooltip = new ToolTip();
 		private Timer _segTooShortMsgTimer;
-		private TimeSpan _currentMovingBoundaryTime;
 		private Image _hotPlayInSegmentButton;
 		private Image _hotPlayOriginalButton;
 		private Image _hotRecordAnnotationButton;
@@ -133,9 +132,6 @@ namespace SayMore.Transcription.UI
 
 			ScrollInPreparationForListenOrRecord(_labelListenButton);
 			UpdateDisplay();
-
-			//ViewModel.SelectSegmentFromTime(ViewModel.TimeTier.Segments[0].TimeRange.End);
-			//_waveControl.SetSelectionTimes(ViewModel.TimeTier.Segments[0].TimeRange);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -475,20 +471,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void FinalizeBoundaryMovedUsingArrowKeys()
 		{
-			if (_currentMovingBoundaryTime != TimeSpan.Zero)
-			{
-				ViewModel.SegmentBoundaryMoved(_timeAtBeginningOfboundaryMove, _currentMovingBoundaryTime);
-				PlaybackShortPortionUpToBoundary(_currentMovingBoundaryTime);
-			}
-			else
-			{
-				_cursorBlinkTimer.Tag = false;
-				_cursorBlinkTimer.Enabled = false;
-				_waveControl.InvalidateIfNeeded(GetTempCursorRectangle());
-				PlaybackShortPortionUpToBoundary(_waveControl.GetCursorTime());
-			}
-
-			_currentMovingBoundaryTime = TimeSpan.Zero;
+			_cursorBlinkTimer.Tag = false;
+			_cursorBlinkTimer.Enabled = false;
+			_waveControl.InvalidateIfNeeded(GetTempCursorRectangle());
+			PlaybackShortPortionUpToBoundary(_endOfTempSegment);
 			base.FinalizeBoundaryMovedUsingArrowKeys();
 		}
 
@@ -508,7 +494,9 @@ namespace SayMore.Transcription.UI
 			var endOfLastSegment = ViewModel.GetEndOfLastSegment();
 			if (current > endOfLastSegment && current > _endOfTempSegment)
 			{
-				_endOfTempSegment = current;
+				if (_playingBackUsingHoldDownButton)
+					_endOfTempSegment = current;
+
 				_waveControl.InvalidateIfNeeded(GetTempSegmentRectangle());
 			}
 		}
@@ -524,7 +512,9 @@ namespace SayMore.Transcription.UI
 			if (end > ViewModel.GetEndOfLastSegment())
 			{
 				var rc1 = GetTempCursorRectangle();
-				_endOfTempSegment = end;
+				if (_playingBackUsingHoldDownButton)
+					_endOfTempSegment = end;
+
 				var rc2 = GetTempSegmentRectangle();
 				rc2.Inflate(rc1.Width / 2, 0);
 				_waveControl.InvalidateIfNeeded(rc2);
@@ -534,14 +524,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override TimeSpan GetBoundaryToAdjustOnArrowKeys()
 		{
-			if (_endOfTempSegment > ViewModel.GetEndOfLastSegment())
-				return _endOfTempSegment;
-
-			return base.GetBoundaryToAdjustOnArrowKeys();
-
-			// REVIEW: How to adjust existing boundaries using arrow keys?
-			//return (ViewModel.HighlightedSegment == null ?
-			//    _waveControl.GetCursorTime() : ViewModel.GetEndOfCurrentSegment());
+			return( _endOfTempSegment > ViewModel.GetEndOfLastSegment() ?
+				_endOfTempSegment : base.GetBoundaryToAdjustOnArrowKeys());
 		}
 
 		#region Event handlers for the wave control
@@ -947,8 +931,7 @@ namespace SayMore.Transcription.UI
 			if (timeRangeReadyToRecord.DurationSeconds.Equals(0f))
 				return;
 
-			if (segmentReadyToRecordHadRecordingThatWasTooShort || _waveControl.IsPlaying ||
-				ViewModel.GetIsAnnotationPlaying() || !_labelRecordButton.Enabled)
+			if (segmentReadyToRecordHadRecordingThatWasTooShort)
 				return;
 
 			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(timeRangeReadyToRecord);

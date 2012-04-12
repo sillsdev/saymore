@@ -363,7 +363,10 @@ namespace SayMore.Media
 			DrawCursor(e.Graphics, rc);
 
 			if (_movedBoundary > TimeSpan.Zero)
-				DrawMovedBoundary(e.Graphics, rc.Height, ConvertTimeToXCoordinate(_movedBoundary));
+			{
+				DrawMovedBoundary(e.Graphics, rc.Height + BottomReservedAreaHeight,
+					ConvertTimeToXCoordinate(_movedBoundary));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -146,8 +146,8 @@ namespace SayMoreTests.Model.Files.DataGathering
 		private bool _eventFired;
 		public void Dispose()
 		{
-			// note: I wanted to just the [TimeOut] on the test fixture to time us out, but that
-			// didn't work, I can't figure out why.
+			// note: I just wanted the [TimeOut] on the test fixture to time us out, but that
+			// didn't work. I can't figure out why.
 			var quitTime = DateTime.Now.AddSeconds(5);
 			while(!_eventFired && quitTime > DateTime.Now )
 			{
@@ -171,7 +171,7 @@ namespace SayMoreTests.Model.Files.DataGathering
 			: base(rootDirectoryPath, typesOfFilesToProcess, fileDataFactory)
 		{
 		}
-		public  ExpectedEvent ExpectNewDataAvailable()
+		public ExpectedEvent ExpectNewDataAvailable()
 		{
 			var x = new ExpectedEvent();
 			NewDataAvailable += x.Event;

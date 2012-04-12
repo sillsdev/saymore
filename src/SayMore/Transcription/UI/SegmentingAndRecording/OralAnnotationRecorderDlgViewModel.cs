@@ -184,13 +184,16 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool BeginAnnotationRecording(TimeRange timeRange, Action<TimeSpan> recordingProgressAction)
+		public bool BeginAnnotationRecording(TimeRange timeRange,
+			Action<TimeSpan> recordingProgressAction, string genericErrorMsg)
 		{
-			return BeginAnnotationRecording(GetFullPathOfAnnotationFileForTimeRange(timeRange), recordingProgressAction);
+			return BeginAnnotationRecording(GetFullPathOfAnnotationFileForTimeRange(timeRange),
+				recordingProgressAction, genericErrorMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool BeginAnnotationRecording(string path, Action<TimeSpan> recordingProgressAction)
+		private bool BeginAnnotationRecording(string path,
+			Action<TimeSpan> recordingProgressAction, string genericErrorMsg)
 		{
 			if (GetIsRecording() || File.Exists(path))
 				return false;
@@ -198,19 +201,31 @@ namespace SayMore.Transcription.UI
 			if (!Directory.Exists(Path.GetDirectoryName(path)))
 				Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-			_fullPathsToAddedRecordings.Add(path);
+			try
+			{
+				_fullPathsToAddedRecordings.Add(path);
 
-			_annotationRecorder = new AudioRecorder(20);
-			_annotationRecorder.RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
-			_annotationRecorder.SelectedDevice = RecordingDevice.Devices.First();
-			_annotationRecorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
-			_annotationRecorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
-			_annotationRecorder.RecordingProgress += (s, e) => recordingProgressAction(e.RecordedLength);
-			_annotationRecorder.BeginMonitoring();
-			_annotationRecorder.BeginRecording(path);
-			Debug.WriteLine(path);
+				if (_annotationRecorder == null)
+				{
+					_annotationRecorder = new AudioRecorder(20);
+					_annotationRecorder.RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
+					_annotationRecorder.SelectedDevice = RecordingDevice.Devices.First();
+					_annotationRecorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
+					_annotationRecorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
+					_annotationRecorder.RecordingProgress += (s, e) => recordingProgressAction(e.RecordedLength);
+					_annotationRecorder.BeginMonitoring();
+				}
 
-			return true;
+				_annotationRecorder.BeginRecording(path);
+				return true;
+			}
+			catch (Exception e)
+			{
+				CloseAnnotationPlayer();
+				CloseAnnotationRecorder();
+				ErrorReport.NotifyUserOfProblem(e, genericErrorMsg);
+				return false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

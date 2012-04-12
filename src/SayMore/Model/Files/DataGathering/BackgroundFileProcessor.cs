@@ -161,19 +161,17 @@ namespace SayMore.Model.Files.DataGathering
 							_restartRequested = false;
 							ProcessAllFiles();
 						}
+
 						lock (_pendingFileEvents)
 						{
 							if (_pendingFileEvents.Count > 0 && !_suspendEventProcessing)
-							{
 								ProcessFileEvent(_pendingFileEvents.Dequeue());
-							}
 						}
 
 						if (!ShouldStop)
 							Thread.Sleep(100);
 					}
 				}
-
 			}
 			catch (ThreadAbortException)
 			{
@@ -190,11 +188,13 @@ namespace SayMore.Model.Files.DataGathering
 		{
 			lock (_pendingFileEvents)
 			{
-				Debug.WriteLine(GetType().Name + ": " + e.ChangeType + ": " + e.Name);
 
-				// REVIEW: Except for possibly rename events, could we ignore adding events
-				// to the queue if the file for the event already has a pending event?
-				_pendingFileEvents.Enqueue(e);
+				if (!_pendingFileEvents.Any(fsea =>
+					fsea.FullPath == e.FullPath && fsea.ChangeType == e.ChangeType))
+				{
+					Debug.WriteLine(GetType().Name + ": " + e.ChangeType + ": " + e.Name);
+					_pendingFileEvents.Enqueue(e);
+				}
 			}
 		}
 

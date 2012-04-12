@@ -34,7 +34,7 @@ namespace SayMore
 		[STAThread]
 		static void Main()
 		{
-			// This is pretty annoying: When because .Net doesn't have a font style of SemiBold
+			// This is pretty annoying: When, because .Net doesn't have a font style of SemiBold
 			// (e.g. Segoe UI SemiBold), fonts having that style are assumed to be bold, but
 			// when some controls (e.g. Label) are set to a SemiBold font, they are displayed as
 			// bold, so we'll create our own, forcing the style to regular, which seems to work.
@@ -232,6 +232,20 @@ namespace SayMore
 			{
 				Application.Exit();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void SuspendBackgroundProcesses()
+		{
+			if (_projectContext != null)
+				_projectContext.SuspendBackgroundProcesses();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void ResumeBackgroundProcesses(bool processAllPendingEventsNow)
+		{
+			if (_projectContext != null)
+				_projectContext.ResumeBackgroundProcesses(processAllPendingEventsNow);
 		}
 
 		/// ------------------------------------------------------------------------------------

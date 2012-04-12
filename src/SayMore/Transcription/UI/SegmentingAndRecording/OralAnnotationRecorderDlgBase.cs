@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using System.Linq;
 using Localization;
@@ -11,6 +10,7 @@ using SayMore.Media.UI;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SilTools;
+using Timer = System.Windows.Forms.Timer;
 
 namespace SayMore.Transcription.UI
 {
@@ -92,14 +92,6 @@ namespace SayMore.Transcription.UI
 			InitializeTableLayouts();
 
 			_spaceBarMode = viewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
-
-			//_buttonEraseAnnotation.Click += delegate
-			//{
-			//    _waveControl.Stop();
-			//    ViewModel.EraseAnnotation();
-			//    _waveControl.InvalidateSelectedRegion();
-			//    UpdateDisplay();
-			//};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -943,12 +935,14 @@ namespace SayMore.Transcription.UI
 		{
 			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange((TimeRange)_segTooShortMsgTimer.Tag);
 			rc.Inflate(-5, -5);
-			var msg = segmentReadyToRecordHadRecordingThatWasTooShort ? LocalizationManager.GetString(
-				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage",
-				"Whoops. You need to hold down the SPACE bar or mouse button while talking.") :
+
+			var msg = segmentReadyToRecordHadRecordingThatWasTooShort ?
 				LocalizationManager.GetString(
-				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage",
-				"Whoops. You need to hold down the mouse button while talking.");
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid",
+					"Whoops. You need to hold down the SPACE bar or mouse button while talking.") :
+				LocalizationManager.GetString(
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenOnlyMouseIsValid",
+					"Whoops. You need to hold down the mouse button while talking.");
 
 			TextRenderer.DrawText(g, msg, _annotationSegmentFont, rc, Color.Red,
 				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
@@ -1283,8 +1277,15 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void BeginRecording(TimeRange timeRangeOfOriginalBeingAnnotated)
 		{
-			if (!ViewModel.BeginAnnotationRecording(timeRangeOfOriginalBeingAnnotated, HandleAnnotationRecordingProgress))
+			var genericRecordingErrorMsg = LocalizationManager.GetString(
+				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.GenericRecordingErrorMessage",
+				"There was an error while attempting to begin recording annotation.");
+
+			if (!ViewModel.BeginAnnotationRecording(timeRangeOfOriginalBeingAnnotated,
+				HandleAnnotationRecordingProgress, genericRecordingErrorMsg))
+			{
 				return;
+			}
 
 			KillSegTooShortMsgTimer();
 

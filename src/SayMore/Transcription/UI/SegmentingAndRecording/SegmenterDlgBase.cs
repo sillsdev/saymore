@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -15,6 +14,7 @@ using SayMore.UI.LowLevelControls;
 using SayMore.Media.UI;
 using SayMore.UI.Utilities;
 using SilTools;
+using Timer = System.Windows.Forms.Timer;
 
 namespace SayMore.Transcription.UI
 {
@@ -126,6 +126,17 @@ namespace SayMore.Transcription.UI
 			//_comboBoxZoom.Text = string.Format("{0}%", ZoomPercentage);
 
 			HandleStringsLocalized();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------

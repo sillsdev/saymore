@@ -732,18 +732,36 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public string RecordAnnotations(Form frm, OralAnnotationType annotationType)
 		{
-			using (var viewModel = OralAnnotationRecorderDlgViewModel.Create(this, annotationType))
-			using (var dlg = OralAnnotationRecorderBaseDlg.Create(viewModel, annotationType))
+			try
 			{
-				if (dlg.ShowDialog(frm) != DialogResult.OK || !viewModel.WereChangesMade)
-				{
-					viewModel.DiscardChanges();
-					return null;
-				}
+				Program.SuspendBackgroundProcesses();
 
-				var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
-				GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), null);
-				return eafFileName;
+				using (var viewModel = OralAnnotationRecorderDlgViewModel.Create(this, annotationType))
+				using (var dlg = OralAnnotationRecorderBaseDlg.Create(viewModel, annotationType))
+				{
+					if (dlg.ShowDialog(frm) != DialogResult.OK || !viewModel.WereChangesMade)
+					{
+						viewModel.DiscardChanges();
+						return null;
+					}
+
+					var eafFileName = viewModel.Tiers.Save(PathToAnnotatedFile);
+					GenerateOralAnnotationFile(viewModel.Tiers.GetTimeTier(), null);
+					return eafFileName;
+				}
+			}
+			catch (Exception e)
+			{
+				var msg = LocalizationManager.GetString(
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.GenericErrorMessage",
+					"There was an unexpected error.");
+
+				ErrorReport.NotifyUserOfProblem(e, msg);
+				return null;
+			}
+			finally
+			{
+				Program.ResumeBackgroundProcesses(true);
 			}
 		}
 

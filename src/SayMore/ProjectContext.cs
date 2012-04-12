@@ -182,6 +182,38 @@ namespace SayMore
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void SuspendBackgroundProcesses()
+		{
+			if (_audioVideoDataGatherer != null)
+				_audioVideoDataGatherer.SuspendProcessing();
+
+			if (_autoCompleteValueGatherer != null)
+				_autoCompleteValueGatherer.SuspendProcessing();
+
+			if (_fieldGatherer != null)
+				_fieldGatherer.SuspendProcessing();
+
+			if (_presetGatherer != null)
+				_presetGatherer.SuspendProcessing();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ResumeBackgroundProcesses(bool processAllPendingEventsNow)
+		{
+			if (_audioVideoDataGatherer != null)
+				_audioVideoDataGatherer.ResumeProcessing(processAllPendingEventsNow);
+
+			if (_autoCompleteValueGatherer != null)
+				_autoCompleteValueGatherer.ResumeProcessing(processAllPendingEventsNow);
+
+			if (_fieldGatherer != null)
+				_fieldGatherer.ResumeProcessing(processAllPendingEventsNow);
+
+			if (_presetGatherer != null)
+				_presetGatherer.ResumeProcessing(processAllPendingEventsNow);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public T ResolveForTests<T>() where T: class
 		{
 			return _scope.Resolve<T>();

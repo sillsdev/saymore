@@ -25,6 +25,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		private readonly ToolTip _tooltip = new ToolTip();
+		private Timer _segTooShortMsgTimer;
 		private TimeSpan _currentMovingBoundaryTime;
 		private Image _hotPlayInSegmentButton;
 		private Image _hotPlayOriginalButton;
@@ -352,17 +353,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
-			//if (ViewModel.GetIsRecording())
-			//{
-			////	_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
-			////	_labelRecordButton.Text = LocalizationManager.GetString(
-			////		"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingButtonText.WhenRecording",
-			////		"Recording...");
-			////	return;
-			//}
-
-			// TODO: Fix this so the down image isn't shown when the user clicked on one of
-			// the play buttons within a segment.
 			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
 				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
 
@@ -404,17 +394,6 @@ namespace SayMore.Transcription.UI
 			//}
 
 			Utils.SetWindowRedraw(_tableLayoutSegmentInfo, true);
-
-			//	var annotationExistsForCurrSegment = ViewModel.GetDoesCurrentSegmentHaveAnnotationFile();
-
-			//_buttonEraseAnnotation.Visible = annotationExistsForCurrSegment;
-			//_buttonEraseAnnotation.Enabled = (!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
-			//_buttonListenToAnnotation.Visible = annotationExistsForCurrSegment;
-			//_buttonListenToAnnotation.Enabled = !_waveControl.IsPlaying;
-			//_buttonRecordAnnotation.Visible = !annotationExistsForCurrSegment;
-			//_buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
-			//_buttonRecordAnnotation.Text = _normalRecordButtonText;
-			// TODO: Use re-record image:	(ViewModel.CurrentSegment != null || (_waveControl.GetCursorTime() > ViewModel.GetStartOfCurrentSegment())));
 
 			base.UpdateDisplay();
 		}
@@ -537,12 +516,6 @@ namespace SayMore.Transcription.UI
 		protected override void OnPlaybackStopped(WaveControlBasic ctrl, TimeSpan start, TimeSpan end)
 		{
 			base.OnPlaybackStopped(ctrl, start, end);
-
-			//if (ViewModel.GetIsSegmentLongEnough(end))
-			//{
-			//    _buttonRecordAnnotation.ForeColor = _buttonEraseAnnotation.ForeColor;
-			//    _buttonRecordAnnotation.Text = _normalRecordButtonText;
-			//}
 
 			if (GetHighlightedSegment() != null)
 				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
@@ -667,11 +640,11 @@ namespace SayMore.Transcription.UI
 					KillSegTooShortMsgTimer();
 
 					ViewModel.StartAnnotationPlayback(segment, HandleAnnotationPlaybackProgress, () =>
-						{
-							_lastAnnotationPlaybackPosition = TimeSpan.Zero;
-							_segmentWhoseAnnotationIsBeingPlayedBack = null;
-							_waveControl.DiscardScrollCalculator();
-						});
+					{
+						_lastAnnotationPlaybackPosition = TimeSpan.Zero;
+						_segmentWhoseAnnotationIsBeingPlayedBack = null;
+						_waveControl.DiscardScrollCalculator();
+					});
 				}
 			}
 
@@ -709,6 +682,7 @@ namespace SayMore.Transcription.UI
 				return;
 
 			var segMouseOver = GetHighlightedSegment();
+			ViewModel.TemporarilySaveAnnotationBeingRerecorded(segMouseOver.TimeRange);
 			ViewModel.EraseAnnotation(segMouseOver);
 			BeginRecording(segMouseOver.TimeRange);
 		}
@@ -722,7 +696,7 @@ namespace SayMore.Transcription.UI
 			_pictureRecording.Visible = false;
 			_waveControl.SelectSegmentOnMouseOver = true;
 
-			if (!ViewModel.StopAnnotationRecording())
+			if (!ViewModel.StopAnnotationRecording(_segmentBeingRecorded))
 			{
 				DisplayRecordingTooShortMessage();
 				_segmentBeingRecorded = null;
@@ -746,8 +720,6 @@ namespace SayMore.Transcription.UI
 			UpdateDisplay();
 		}
 
-		Timer _segTooShortMsgTimer;
-
 		/// ------------------------------------------------------------------------------------
 		private void KillSegTooShortMsgTimer()
 		{
@@ -766,16 +738,11 @@ namespace SayMore.Transcription.UI
 		private void DisplayRecordingTooShortMessage()
 		{
 			KillSegTooShortMsgTimer();
-			ViewModel.EraseAnnotation(_segmentBeingRecorded);
 
 			_segTooShortMsgTimer = new Timer();
 			_segTooShortMsgTimer.Interval = 4000;
 			_segTooShortMsgTimer.Tag = _segmentBeingRecorded;
-			_segTooShortMsgTimer.Tick += delegate
-			{
-				KillSegTooShortMsgTimer();
-			};
-
+			_segTooShortMsgTimer.Tick += delegate { KillSegTooShortMsgTimer(); };
 			_segTooShortMsgTimer.Start();
 			_waveControl.InvalidateIfNeeded(GetAnnotationRectangleForSegmentBeingRecorded());
 		}
@@ -843,7 +810,7 @@ namespace SayMore.Transcription.UI
 		{
 			// If the samples to paint for this oral annotation have not been calculated,
 			// then create a helper to get those samples, then cache them in the ViewModel.
-			var audioFilePath = segment.GetFullPathToCarefulSpeechFile();
+			var audioFilePath = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
 			var helper = ViewModel.SegmentsAnnotationSamplesToDraw.FirstOrDefault(h => h.AudioFilePath == audioFilePath);
 			if (helper == null)
 			{

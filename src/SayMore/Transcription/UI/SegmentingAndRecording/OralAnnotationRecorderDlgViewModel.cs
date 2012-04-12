@@ -9,6 +9,7 @@ using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
+using SayMore.UI.NewEventsFromFiles;
 
 namespace SayMore.Transcription.UI
 {
@@ -18,6 +19,7 @@ namespace SayMore.Transcription.UI
 		public Segment CurrentUnannotatedSegment { get; private set; }
 		private AudioPlayer _annotationPlayer;
 		private AudioRecorder _annotationRecorder;
+		private TimeRange _timeRangeForAnnotationBeingRerecorded;
 		private readonly List<string> _fullPathsToAddedRecordings = new List<string>();
 
 		/// ----------------------------------------------------------------------------------------
@@ -229,12 +231,23 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool StopAnnotationRecording()
+		public bool StopAnnotationRecording(TimeRange timeRange)
 		{
 			_annotationRecorder.Stop();
-			AnnotationRecordingsChanged = (AnnotationRecordingsChanged || !GetIsRecordingTooShort());
-			if (!GetIsRecordingTooShort())
+
+			var isRecordingTooShort = GetIsRecordingTooShort();
+			AnnotationRecordingsChanged = (AnnotationRecordingsChanged || !isRecordingTooShort);
+
+			if (!isRecordingTooShort)
 				return true;
+
+			EraseAnnotation(timeRange);
+
+			if (_timeRangeForAnnotationBeingRerecorded != null)
+			{
+				RecoverTemporarilySavedAnnotation(_timeRangeForAnnotationBeingRerecorded);
+				_timeRangeForAnnotationBeingRerecorded = null;
+			}
 
 			_fullPathsToAddedRecordings.RemoveAt(_fullPathsToAddedRecordings.Count - 1);
 			return false;
@@ -270,6 +283,24 @@ namespace SayMore.Transcription.UI
 		{
 			return (_annotationPlayer != null &&
 				_annotationPlayer.PlaybackState == PlaybackState.Playing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void TemporarilySaveAnnotationBeingRerecorded(TimeRange timeRange)
+		{
+			var srcFile = GetFullPathOfAnnotationFileForTimeRange(timeRange);
+			var dstFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(srcFile));
+			CopyFilesViewModel.Copy(srcFile, dstFile, true);
+			_timeRangeForAnnotationBeingRerecorded = timeRange;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void RecoverTemporarilySavedAnnotation(TimeRange timeRange)
+		{
+			var dstFile = GetFullPathOfAnnotationFileForTimeRange(timeRange);
+			var srcFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(dstFile));
+			CopyFilesViewModel.Copy(srcFile, dstFile, true);
+			File.Delete(srcFile);
 		}
 
 		/// ------------------------------------------------------------------------------------

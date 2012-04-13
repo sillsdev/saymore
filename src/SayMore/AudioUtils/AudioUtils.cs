@@ -20,6 +20,8 @@ namespace SayMore.Media
 {
 	public class AudioUtils
 	{
+		public static Action<Exception> NAudioErrorAction { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		public static bool GetCanRecordAudio()
 		{
@@ -27,18 +29,72 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static bool WarnUserIfOSCannotRecord()
+		public static bool GetCanPlaybackAudio()
+		{
+			return (WaveOut.DeviceCount > 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetCanRecordAudio(bool displayWarning)
 		{
 			if (GetCanRecordAudio())
 				return true;
 
-			var msg = LocalizationManager.GetString(
-				"CommonToMultipleViews.AudioUtils.NoRecordingDevicesFoundMsg",
-				"Currently recordings cannot be made because SayMore is unable " +
-				"to find any recording devices installed on this computer.");
+			if (displayWarning)
+			{
+				var msg = LocalizationManager.GetString(
+					"CommonToMultipleViews.AudioUtils.NoRecordingDevicesFoundMsg",
+					"Currently audio recordings cannot be made because SayMore is unable " +
+					"to find any recording devices installed and enabled on this computer.");
 
-			ErrorReport.NotifyUserOfProblem(msg);
+				ErrorReport.NotifyUserOfProblem(msg);
+			}
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetCanPlaybackAudio(bool displayWarning)
+		{
+			if (GetCanPlaybackAudio())
+				return true;
+
+			if (displayWarning)
+			{
+				var msg = LocalizationManager.GetString(
+					"CommonToMultipleViews.AudioUtils.NoPlaybackDevicesFoundMsg",
+					"Currently SayMore is unable to find any audio playback " +
+					"devices installed and enabled on this computer.");
+
+				ErrorReport.NotifyUserOfProblem(msg);
+			}
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsNAudioErrror(Exception e)
+		{
+			return (e.Source == "NAudio");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void HandleGlobalNAudioException(object sender, CancelExceptionHandlingEventArgs e)
+		{
+			if (!GetIsNAudioErrror(e.Exception))
+				return;
+
+			e.Cancel = true;
+
+			if (GetCanPlaybackAudio(true) && GetCanRecordAudio(true))
+			{
+				var msg = LocalizationManager.GetString(
+					"CommonToMultipleViews.AudioUtils.UnexpectedAudioErrorMsg",
+					"There was an unexpected audio error.");
+
+				ErrorReport.NotifyUserOfProblem(e.Exception, msg);
+			}
+
+			if (NAudioErrorAction != null)
+				NAudioErrorAction(e.Exception);
 		}
 
 		/// ------------------------------------------------------------------------------------

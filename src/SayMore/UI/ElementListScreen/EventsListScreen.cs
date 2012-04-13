@@ -181,7 +181,7 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonNewFromRecordingsClick(object sender, EventArgs e)
 		{
-			if (!AudioUtils.WarnUserIfOSCannotRecord())
+			if (!AudioUtils.GetCanRecordAudio(true))
 				return;
 
 			using (var viewModel = new EventRecorderDlgViewModel())

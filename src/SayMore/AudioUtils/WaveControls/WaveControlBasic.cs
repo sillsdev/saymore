@@ -29,6 +29,8 @@ namespace SayMore.Media
 		public event BoundaryMouseDownHandler BoundaryMouseDown;
 		public event CursorTimeChangedHandler CursorTimeChanged;
 		public Action<PaintEventArgs> PostPaintAction;
+		public Action<Exception> PlaybackErrorAction { get; set; }
+
 
 		public virtual WavePainterBasic Painter { get; private set; }
 		public WaveStream WaveStream { get; private set; }
@@ -630,6 +632,14 @@ namespace SayMore.Media
 			}
 			else
 				EnsureTimeIsVisible(_playbackRange.Start, _playbackRange, true, true);
+
+			AudioUtils.NAudioErrorAction = exception =>
+			{
+				AudioUtils.NAudioErrorAction = null;
+				Stop();
+				if (PlaybackErrorAction != null)
+					PlaybackErrorAction(exception);
+			};
 
 			var waveOutProvider = new SampleChannel(_playbackRange.End == TimeSpan.Zero || _playbackRange.End == WaveStream.TotalTime ?
 				new WaveSegmentStream(_playbackStream, playbackStartTime) :

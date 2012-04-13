@@ -750,15 +750,15 @@ namespace SayMore.Model.Files
 					return eafFileName;
 				}
 			}
-			catch (Exception e)
-			{
-				var msg = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.GenericErrorMessage",
-					"There was an unexpected error.");
+			//catch (Exception e)
+			//{
+			//    var msg = LocalizationManager.GetString(
+			//        "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.GenericErrorMessage",
+			//        "There was an unexpected error.");
 
-				ErrorReport.NotifyUserOfProblem(e, msg);
-				return null;
-			}
+			//    ErrorReport.NotifyUserOfProblem(e, msg);
+			//    return null;
+			//}
 			finally
 			{
 				Program.ResumeBackgroundProcesses(true);

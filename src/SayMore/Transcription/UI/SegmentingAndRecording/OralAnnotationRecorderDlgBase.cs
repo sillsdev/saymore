@@ -91,6 +91,8 @@ namespace SayMore.Transcription.UI
 			InitializeTableLayouts();
 
 			_spaceBarMode = viewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
+			viewModel.PlaybackErrorAction = HandlePlaybackError;
+			viewModel.RecordingErrorAction = HandleRecordingError;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -256,6 +258,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.MouseUp += delegate { FinishRecording(false); };
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 			_waveControl.PlaybackStarted += delegate { KillSegTooShortMsgTimer(); };
+			_waveControl.PlaybackErrorAction = HandlePlaybackError;
 
 			_waveControl.ClientSizeChanged += delegate
 			{
@@ -706,14 +709,16 @@ namespace SayMore.Transcription.UI
 				_reRecording = false;
 			}
 
-			if (!ViewModel.StopAnnotationRecording(_segmentBeingRecorded))
+			var tooShort = !ViewModel.StopAnnotationRecording(_segmentBeingRecorded);
+			_waveControl.InvalidateIfNeeded(GetVisibleAnnotationRectangleForSegmentBeingRecorded());
+
+			if (tooShort)
 			{
 				DisplayRecordingTooShortMessage();
 				_segmentBeingRecorded = null;
 				return;
 			}
 
-			_waveControl.InvalidateIfNeeded(GetVisibleAnnotationRectangleForSegmentBeingRecorded());
 			_segmentBeingRecorded = null;
 
 			if (ViewModel.CurrentUnannotatedSegment == null)
@@ -1221,6 +1226,24 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void HandleRecordingError(Exception e)
+		{
+			FinishRecording(false);
+			_waveControl.Invalidate();
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void HandlePlaybackError(Exception e)
+		{
+			_waveControl.Stop();
+			_waveControl.SetCursor(TimeSpan.Zero);
+			ViewModel.NewSegmentEndBoundary = ViewModel.GetEndOfLastSegment();
+			_waveControl.Invalidate();
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleRecordAnnotationMouseDown(object sender, MouseEventArgs e)
 		{
 			//if (!ViewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
@@ -1236,15 +1259,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void BeginRecording(TimeRange timeRangeOfOriginalBeingAnnotated)
 		{
-			var genericRecordingErrorMsg = LocalizationManager.GetString(
-				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.GenericRecordingErrorMessage",
-				"There was an error while attempting to begin recording annotation.");
-
 			Segment hotSegment;
 			var rcHot = GetRectangleAndIndexOfHotSegment(out hotSegment);
 
 			if (!ViewModel.BeginAnnotationRecording(timeRangeOfOriginalBeingAnnotated,
-				HandleAnnotationRecordingProgress, genericRecordingErrorMsg))
+				HandleAnnotationRecordingProgress))
 			{
 				return;
 			}

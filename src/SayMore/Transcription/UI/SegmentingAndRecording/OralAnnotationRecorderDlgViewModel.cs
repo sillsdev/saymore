@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Localization;
 using NAudio.Wave;
 using Palaso.Media.Naudio;
 using Palaso.Reporting;
@@ -16,6 +17,8 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public class OralAnnotationRecorderDlgViewModel : SegmenterDlgBaseViewModel
 	{
+		public Action<Exception> RecordingErrorAction { get; set; }
+		public Action<Exception> PlaybackErrorAction { get; set; }
 		public Segment CurrentUnannotatedSegment { get; private set; }
 		private AudioPlayer _annotationPlayer;
 		private AudioRecorder _annotationRecorder;
@@ -39,15 +42,20 @@ namespace SayMore.Transcription.UI
 			NewSegmentEndBoundary = GetEndOfLastSegment();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public override void Dispose()
+		{
+			CloseAnnotationPlayer();
+			CloseAnnotationRecorder();
+			base.Dispose();
+		}
+
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan NewSegmentEndBoundary
 		{
 			get { return _endBoundary; }
-			set
-			{
-				_endBoundary = (value < GetEndOfLastSegment()) ? GetEndOfLastSegment() : value;
-			}
+			set { _endBoundary = (value < GetEndOfLastSegment()) ? GetEndOfLastSegment() : value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -212,6 +220,13 @@ namespace SayMore.Transcription.UI
 				return false;
 			}
 
+			AudioUtils.NAudioErrorAction = exception =>
+			{
+				CloseAnnotationPlayer();
+				if (PlaybackErrorAction != null)
+					PlaybackErrorAction(exception);
+			};
+
 			_annotationPlayer = new AudioPlayer();
 			_annotationPlayer.LoadFile(filename);
 			_annotationPlayer.PlaybackStarted += (sender, args) => InvokeUpdateDisplayAction();
@@ -227,6 +242,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void CloseAnnotationPlayer()
 		{
+			AudioUtils.NAudioErrorAction = null;
+
 			if (_annotationPlayer != null)
 				_annotationPlayer.Dispose();
 
@@ -236,6 +253,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void CloseAnnotationRecorder()
 		{
+			AudioUtils.NAudioErrorAction = null;
+
 			if (_annotationRecorder != null)
 				_annotationRecorder.Dispose();
 
@@ -243,18 +262,19 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool BeginAnnotationRecording(TimeRange timeRange,
-			Action<TimeSpan> recordingProgressAction, string genericErrorMsg)
+		public bool BeginAnnotationRecording(TimeRange timeRange, Action<TimeSpan> recordingProgressAction)
 		{
 			return BeginAnnotationRecording(GetFullPathOfAnnotationFileForTimeRange(timeRange),
-				recordingProgressAction, genericErrorMsg);
+				recordingProgressAction);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool BeginAnnotationRecording(string path,
-			Action<TimeSpan> recordingProgressAction, string genericErrorMsg)
+		private bool BeginAnnotationRecording(string path, Action<TimeSpan> recordingProgressAction)
 		{
 			if (GetIsRecording() || File.Exists(path))
+				return false;
+
+			if (!AudioUtils.GetCanRecordAudio(true))
 				return false;
 
 			if (!Directory.Exists(Path.GetDirectoryName(path)))
@@ -263,26 +283,39 @@ namespace SayMore.Transcription.UI
 			try
 			{
 				_fullPathsToAddedRecordings.Add(path);
+				CloseAnnotationRecorder();
 
-				if (_annotationRecorder == null)
+				AudioUtils.NAudioErrorAction = exception =>
 				{
-					_annotationRecorder = new AudioRecorder(20);
-					_annotationRecorder.RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
-					_annotationRecorder.SelectedDevice = RecordingDevice.Devices.First();
-					_annotationRecorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
-					_annotationRecorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
-					_annotationRecorder.RecordingProgress += (s, e) => recordingProgressAction(e.RecordedLength);
-					_annotationRecorder.BeginMonitoring();
-				}
+					CloseAnnotationRecorder();
+					if (RecordingErrorAction != null)
+						RecordingErrorAction(exception);
+				};
 
+				_annotationRecorder = new AudioRecorder(20);
+				_annotationRecorder.RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
+				_annotationRecorder.SelectedDevice = RecordingDevice.Devices.First();
+				_annotationRecorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
+				_annotationRecorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
+				_annotationRecorder.RecordingProgress += (s, e) => recordingProgressAction(e.RecordedLength);
+				_annotationRecorder.BeginMonitoring();
 				_annotationRecorder.BeginRecording(path);
 				return true;
 			}
 			catch (Exception e)
 			{
-				CloseAnnotationPlayer();
 				CloseAnnotationRecorder();
-				ErrorReport.NotifyUserOfProblem(e, genericErrorMsg);
+
+
+				////////////////// TODO: Finish This!!!!!!!!!!!!!!!!!!
+
+
+
+				//if (GetIsNAudioError(e))
+				//    throw e;
+				//if (RecordingErrorAction != null)
+				//    RecordingErrorAction(e);
+				//ErrorReport.NotifyUserOfProblem(e, genericErrorMsg);
 				return false;
 			}
 		}
@@ -293,6 +326,9 @@ namespace SayMore.Transcription.UI
 			_annotationRecorder.Stop();
 
 			var isRecordingTooShort = GetIsRecordingTooShort();
+
+			CloseAnnotationRecorder();
+
 			AnnotationRecordingsChanged = (AnnotationRecordingsChanged || !isRecordingTooShort);
 
 			if (isRecordingTooShort)
@@ -301,6 +337,7 @@ namespace SayMore.Transcription.UI
 				RecoverTemporarilySavedAnnotation();
 				_fullPathsToAddedRecordings.RemoveAt(_fullPathsToAddedRecordings.Count - 1);
 			}
+
 
 			DeleteTemporarilySavedAnnotation();
 			return !isRecordingTooShort;

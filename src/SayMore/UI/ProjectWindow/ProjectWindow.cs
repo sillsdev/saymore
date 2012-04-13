@@ -12,6 +12,7 @@ using Localization.UI;
 using Palaso.IO;
 using Palaso.Media;
 using Palaso.Reporting;
+using SayMore.Media;
 using SayMore.Properties;
 using SayMore.Media.UI;
 using SilTools;
@@ -36,6 +37,8 @@ namespace SayMore.UI.ProjectWindow
 		/// ------------------------------------------------------------------------------------
 		private ProjectWindow()
 		{
+			ExceptionHandler.AddDelegate(AudioUtils.HandleGlobalNAudioException);
+
 			InitializeComponent();
 			_menuShowMPlayerDebugWindow.Tag = _menuProject.DropDownItems.IndexOf(_menuShowMPlayerDebugWindow);
 			_menuProject.DropDownItems.Remove(_menuShowMPlayerDebugWindow);
@@ -69,6 +72,18 @@ namespace SayMore.UI.ProjectWindow
 
 			SetWindowText();
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				ExceptionHandler.RemoveDelegate(AudioUtils.HandleGlobalNAudioException);
+				components.Dispose();
+			}
+
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------

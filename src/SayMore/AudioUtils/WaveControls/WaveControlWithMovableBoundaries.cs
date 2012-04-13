@@ -1,9 +1,6 @@
 using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using SayMore.Transcription.Model;
 
 namespace SayMore.Media
 {
@@ -11,9 +8,8 @@ namespace SayMore.Media
 	{
 		public delegate bool BoundaryMovedHandler(WaveControlWithMovableBoundaries ctrl, TimeSpan oldTime, TimeSpan newTime);
 		public event BoundaryMovedHandler BoundaryMoved;
-		public delegate void InitiatiatingBoundaryMoveHandler(WaveControlWithMovableBoundaries ctrl, InitiatiatingBoundaryMoveEventArgs e);
-		public event InitiatiatingBoundaryMoveHandler InitiatiatingBoundaryMove;
-
+		public delegate bool CanBoundaryBeMovedHandler(TimeSpan boundary);
+		public event CanBoundaryBeMovedHandler CanBoundaryBeMoved;
 
 		protected int _mouseXAtBeginningOfSegmentMove;
 		protected int _minXForBoundaryMove;
@@ -26,18 +22,14 @@ namespace SayMore.Media
 			int indexOutOfBoundaryClicked)
 		{
 			base.OnBoundaryMouseDown(mouseX, boundaryClicked, indexOutOfBoundaryClicked);
-			OnInitiatiatingBoundaryMove(new InitiatiatingBoundaryMoveEventArgs(mouseX, boundaryClicked));
+			OnInitiatiatingBoundaryMove(mouseX, boundaryClicked);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnInitiatiatingBoundaryMove(InitiatiatingBoundaryMoveEventArgs e)
+		protected virtual bool OnInitiatiatingBoundaryMove(int mouseX, TimeSpan boundary)
 		{
-			if (InitiatiatingBoundaryMove != null)
-			{
-				InitiatiatingBoundaryMove(this, e);
-				if (e.Cancel)
-					return;
-			}
+			if (CanBoundaryBeMoved != null && !CanBoundaryBeMoved(boundary))
+				return false;
 
 			_scrollCalculator = new WaveControlScrollCalculator(this);
 
@@ -45,9 +37,9 @@ namespace SayMore.Media
 			// to be moved to the left of the previous boundary or to the right of the next
 			// boundary.
 			_minXForBoundaryMove = Math.Max(1,
-				Painter.ConvertTimeToXCoordinate(SegmentBoundaries.LastOrDefault(b => b < e.BoundaryBeingMoved)));
+				Painter.ConvertTimeToXCoordinate(SegmentBoundaries.LastOrDefault(b => b < boundary)));
 
-			var nextBoundary = SegmentBoundaries.FirstOrDefault(b => b > e.BoundaryBeingMoved);
+			var nextBoundary = SegmentBoundaries.FirstOrDefault(b => b > boundary);
 			bool limitedByEndOfStream = nextBoundary == default(TimeSpan);
 			if (limitedByEndOfStream)
 				nextBoundary = WaveStream.TotalTime;
@@ -62,9 +54,11 @@ namespace SayMore.Media
 			else if (!limitedByEndOfStream)
 				_maxXForBoundaryMove -= WavePainterBasic.kBoundaryHotZoneHalfWidth;
 
-			Painter.SetMovingAnchorTime(e.BoundaryBeingMoved);
+			Painter.SetMovingAnchorTime(boundary);
 			IsBoundaryMovingInProgress = true;
-			_mouseXAtBeginningOfSegmentMove = e.MouseX;
+			_mouseXAtBeginningOfSegmentMove = mouseX;
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,7 +67,9 @@ namespace SayMore.Media
 			if (!IsBoundaryMovingInProgress)
 			{
 				base.OnMouseMoveEx(e, boundaryMouseOver);
-				Cursor = (boundaryMouseOver == default(TimeSpan) ? Cursors.Default : Cursors.SizeWE);
+				Cursor = boundaryMouseOver == default(TimeSpan) ||
+					(CanBoundaryBeMoved != null && !CanBoundaryBeMoved(boundaryMouseOver)) ?
+					Cursors.Default : Cursors.SizeWE;
 				return;
 			}
 
@@ -148,21 +144,4 @@ namespace SayMore.Media
 			return success;
 		}
 	}
-
-	#region InitiatiatingBoundaryMoveEventArgs class
-	/// ------------------------------------------------------------------------------------
-	public class InitiatiatingBoundaryMoveEventArgs : CancelEventArgs
-	{
-		public int MouseX { get; private set; }
-		public TimeSpan BoundaryBeingMoved { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		public InitiatiatingBoundaryMoveEventArgs(int mouseX, TimeSpan boundary)
-		{
-			MouseX = mouseX;
-			BoundaryBeingMoved = boundary;
-		}
-	}
-
-	#endregion
 }

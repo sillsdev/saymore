@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -153,11 +152,11 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnInitiatiatingBoundaryMove(InitiatiatingBoundaryMoveEventArgs e)
+		protected override bool OnInitiatiatingBoundaryMove(int mouseX, TimeSpan boundary)
 		{
 			_saveStateOfSelectSegmentOnMouseOver = SelectSegmentOnMouseOver;
 			SelectSegmentOnMouseOver = false;
-			base.OnInitiatiatingBoundaryMove(e);
+			return base.OnInitiatiatingBoundaryMove(mouseX, boundary);
 		}
 
 		/// ------------------------------------------------------------------------------------

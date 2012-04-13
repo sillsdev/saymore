@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Linq;
 using NAudio.Wave;
 using SayMore.Transcription.Model;
@@ -75,19 +74,21 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnInitiatiatingBoundaryMove(InitiatiatingBoundaryMoveEventArgs e)
+		protected override bool OnInitiatiatingBoundaryMove(int mouseX, TimeSpan boundary)
 		{
 			MyPainter.HighlightBoundaryWhenMouseIsNear = false;
 			MyPainter.SetSelectedBoundary(TimeSpan.Zero);
-			base.OnInitiatiatingBoundaryMove(e);
-			MyPainter.SetMovedBoundaryTime(e.BoundaryBeingMoved);
+			var canMove = base.OnInitiatiatingBoundaryMove(mouseX, boundary);
+			MyPainter.SetMovedBoundaryTime(boundary);
 
-			if (e.Cancel)
+			if (!canMove)
 			{
 				// Can't move it, but still want to select it.
-				MyPainter.SetSelectedBoundary(e.BoundaryBeingMoved);
+				MyPainter.SetSelectedBoundary(boundary);
 				MyPainter.HighlightBoundaryWhenMouseIsNear = true;
 			}
+
+			return canMove;
 		}
 
 		/// ------------------------------------------------------------------------------------

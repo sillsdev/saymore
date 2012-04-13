@@ -93,7 +93,7 @@ namespace SayMore.Transcription.UI
 			//
 			this._labelRecordButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this._labelRecordButton.Image = global::SayMore.Properties.Resources.RecordOralAnnotation;
-			this.locExtender.SetLocalizableToolTip(this._labelRecordButton, null);
+			this.locExtender.SetLocalizableToolTip(this._labelRecordButton, "Hold button down to record");
 			this.locExtender.SetLocalizationComment(this._labelRecordButton, null);
 			this.locExtender.SetLocalizingId(this._labelRecordButton, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton");
 			this._labelRecordButton.Location = new System.Drawing.Point(41, 30);
@@ -106,7 +106,7 @@ namespace SayMore.Transcription.UI
 			//
 			this._labelListenButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this._labelListenButton.Image = global::SayMore.Properties.Resources.ListenToOriginalRecording;
-			this.locExtender.SetLocalizableToolTip(this._labelListenButton, null);
+			this.locExtender.SetLocalizableToolTip(this._labelListenButton, "Hold button down to listen\\nto original recording");
 			this.locExtender.SetLocalizationComment(this._labelListenButton, null);
 			this.locExtender.SetLocalizingId(this._labelListenButton, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton");
 			this._labelListenButton.Location = new System.Drawing.Point(41, 30);

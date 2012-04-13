@@ -454,6 +454,8 @@ namespace SayMore.Transcription.UI
 			// I.e. one the user is preparing to record an annotation for.
 			SetNewSegmentEndBoundary(newEndTime);
 
+			// The above call selects the new range using the "current" color, but this segment is
+			// also the "hot" segment, so we need to highlight it using that color as well.
 			WavePainter.SetSelectionTimes(ViewModel.GetEndOfLastSegment(), newEndTime);
 
 			_waveControl.SetCursor(ViewModel.NewSegmentEndBoundary);
@@ -528,9 +530,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void SetNewSegmentEndBoundary(TimeSpan end)
 		{
+			var rcOldCursorIfShrinking = (end < ViewModel.NewSegmentEndBoundary) ? GetNewSegmentCursorRectangle() : Rectangle.Empty;
 			ViewModel.NewSegmentEndBoundary = end;
 			WavePainter.SetSelectionTimes(new TimeRange(ViewModel.GetEndOfLastSegment(), end),
 				_selectedSegmentHighlighColor);
+			_waveControl.InvalidateIfNeeded(rcOldCursorIfShrinking);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -884,13 +888,17 @@ namespace SayMore.Transcription.UI
 			var cursorRect = GetNewSegmentCursorRectangle();
 			if (cursorRect != Rectangle.Empty)
 			{
-				using (var pen = new Pen(Settings.Default.BarColorBorder))
+				//using (var lightPen = new Pen(Color.FromArgb(75, Settings.Default.BarColorBorder)))
+				using (var lightPen = new Pen(ColorHelper.CalculateColor(Color.White, Settings.Default.BarColorBorder, 75)))
+				using (var darkPen = new Pen(Settings.Default.BarColorBorder))
 				{
+					var pen = ((bool)_cursorBlinkTimer.Tag) ? darkPen : lightPen;
+
 					e.Graphics.DrawLine(pen, cursorRect.X + 1, 0, cursorRect.X + 1, _waveControl.ClientSize.Height);
 					if ((bool)_cursorBlinkTimer.Tag)
 					{
-						e.Graphics.DrawLine(pen, cursorRect.X, 0, cursorRect.X, _waveControl.ClientSize.Height);
-						e.Graphics.DrawLine(pen, cursorRect.X + 2, 0, cursorRect.X + 2, _waveControl.ClientSize.Height);
+						e.Graphics.DrawLine(lightPen, cursorRect.X, 0, cursorRect.X, _waveControl.ClientSize.Height);
+						e.Graphics.DrawLine(lightPen, cursorRect.X + 2, 0, cursorRect.X + 2, _waveControl.ClientSize.Height);
 					}
 				}
 			}

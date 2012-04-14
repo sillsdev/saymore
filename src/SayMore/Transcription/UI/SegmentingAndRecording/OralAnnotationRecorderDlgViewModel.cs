@@ -271,10 +271,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private bool BeginAnnotationRecording(string path, Action<TimeSpan> recordingProgressAction)
 		{
-			if (GetIsRecording() || File.Exists(path))
-				return false;
-
-			if (!AudioUtils.GetCanRecordAudio(true))
+			if (GetIsRecording() || File.Exists(path) || !AudioUtils.GetCanRecordAudio(true))
 				return false;
 
 			if (!Directory.Exists(Path.GetDirectoryName(path)))
@@ -304,18 +301,16 @@ namespace SayMore.Transcription.UI
 			}
 			catch (Exception e)
 			{
-				CloseAnnotationRecorder();
+				var args = new CancelExceptionHandlingEventArgs(e);
+				AudioUtils.HandleGlobalNAudioException(this, args);
+				if (!args.Cancel)
+				{
+					var msg = LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UnexpectedErrorAttemptingToRecordMsg",
+						"An unexpected error occurred when attempting to record an annotation.");
+					ErrorReport.NotifyUserOfProblem(e, msg);
+				}
 
-
-				////////////////// TODO: Finish This!!!!!!!!!!!!!!!!!!
-
-
-
-				//if (GetIsNAudioError(e))
-				//    throw e;
-				//if (RecordingErrorAction != null)
-				//    RecordingErrorAction(e);
-				//ErrorReport.NotifyUserOfProblem(e, genericErrorMsg);
 				return false;
 			}
 		}
@@ -323,7 +318,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool StopAnnotationRecording(TimeRange timeRange)
 		{
-			_annotationRecorder.Stop();
+			if (_annotationRecorder != null)
+				_annotationRecorder.Stop();
 
 			var isRecordingTooShort = GetIsRecordingTooShort();
 
@@ -337,7 +333,6 @@ namespace SayMore.Transcription.UI
 				RecoverTemporarilySavedAnnotation();
 				_fullPathsToAddedRecordings.RemoveAt(_fullPathsToAddedRecordings.Count - 1);
 			}
-
 
 			DeleteTemporarilySavedAnnotation();
 			return !isRecordingTooShort;

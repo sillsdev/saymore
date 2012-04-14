@@ -176,6 +176,7 @@ namespace SayMore.Transcription.UI
 		{
 			if (_waveControl.IsPlaying)
 				_waveControl.Stop();
+
 			_playingBackUsingHoldDownButton = false;
 			_spaceBarMode = SpaceBarMode.Record;
 
@@ -255,10 +256,15 @@ namespace SayMore.Transcription.UI
 			_waveControl.MouseLeave += HandleWaveControlMouseLeave;
 			_waveControl.MouseClick += HandleWaveControlMouseClick;
 			_waveControl.MouseDown += HandleWaveControlMouseDown;
-			_waveControl.MouseUp += delegate { FinishRecording(false); };
 			_waveControl.BoundaryMoved += HandleSegmentBoundaryMovedInWaveControl;
 			_waveControl.PlaybackStarted += delegate { KillSegTooShortMsgTimer(); };
 			_waveControl.PlaybackErrorAction = HandlePlaybackError;
+
+			_waveControl.MouseUp += delegate
+			{
+				if (ViewModel.GetIsRecording())
+					FinishRecording(false);
+			};
 
 			_waveControl.ClientSizeChanged += delegate
 			{
@@ -696,9 +702,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void FinishRecording(bool advanceToNextUnannotatedSegment)
 		{
-			if (!ViewModel.GetIsRecording())
-				return;
-
 			_pictureRecording.Visible = false;
 			_waveControl.SelectSegmentOnMouseOver = true;
 
@@ -1228,7 +1231,11 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void HandleRecordingError(Exception e)
 		{
-			FinishRecording(false);
+			_pictureRecording.Visible = false;
+			_waveControl.SelectSegmentOnMouseOver = true;
+			_reRecording = false;
+			_spaceBarMode = SpaceBarMode.Listen;
+			_spaceKeyIsDown = false;
 			_waveControl.Invalidate();
 			UpdateDisplay();
 		}
@@ -1236,9 +1243,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void HandlePlaybackError(Exception e)
 		{
+			_spaceKeyIsDown = false;
 			_waveControl.Stop();
-			_waveControl.SetCursor(TimeSpan.Zero);
-			ViewModel.NewSegmentEndBoundary = ViewModel.GetEndOfLastSegment();
 			_waveControl.Invalidate();
 			UpdateDisplay();
 		}
@@ -1265,6 +1271,7 @@ namespace SayMore.Transcription.UI
 			if (!ViewModel.BeginAnnotationRecording(timeRangeOfOriginalBeingAnnotated,
 				HandleAnnotationRecordingProgress))
 			{
+				_spaceKeyIsDown = false;
 				return;
 			}
 
@@ -1339,12 +1346,13 @@ namespace SayMore.Transcription.UI
 				if (_spaceKeyIsDown)
 					return true;
 
+				_spaceKeyIsDown = true;
+
 				if (_spaceBarMode == SpaceBarMode.Record && _labelRecordHint.Visible)
 					HandleRecordAnnotationMouseDown(null, null);
 				else if (_spaceBarMode == SpaceBarMode.Listen && _labelListenHint.Visible)
 					HandleListenToOriginalMouseDown(null, null);
 
-				_spaceKeyIsDown = true;
 				return true;
 			}
 

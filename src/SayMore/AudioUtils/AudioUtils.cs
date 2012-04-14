@@ -71,7 +71,7 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static bool GetIsNAudioErrror(Exception e)
+		public static bool GetIsNAudioError(Exception e)
 		{
 			return (e.Source == "NAudio");
 		}
@@ -79,7 +79,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public static void HandleGlobalNAudioException(object sender, CancelExceptionHandlingEventArgs e)
 		{
-			if (!GetIsNAudioErrror(e.Exception))
+			if (!GetIsNAudioError(e.Exception))
 				return;
 
 			e.Cancel = true;

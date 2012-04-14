@@ -38,72 +38,112 @@ namespace SayMore.Transcription.Model
 		private WaveStreamProvider _origRecStreamProvider;
 		private string _outputFileName;
 
+		#region Static methods
+		/// ------------------------------------------------------------------------------------
+		private static string GetGenericErrorMsg()
+		{
+			return LocalizationManager.GetString(
+				"EventsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileGenericErrorMsg",
+				"There was an error generating the oral annotation file.");
+
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public static string Generate(TimeTier originalRecodingTier, Control parentControlForDialog)
 		{
 			if (!CanGenerate(originalRecodingTier))
 				return null;
 
-			var msg = LocalizationManager.GetString(
-				"EventsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg",
-				"Generating Oral Annotation file...");
-
-			using (var generator = new OralAnnotationFileGenerator(originalRecodingTier))
-			using (var dlg = new LoadingDlg(msg))
+			try
 			{
-				if (parentControlForDialog != null)
-					dlg.Show(parentControlForDialog);
-				else
+				Program.SuspendBackgroundProcesses();
+				ExceptionHandler.AddDelegate(HandleOralAnnotationFileGeneratorException);
+
+				var msg = LocalizationManager.GetString(
+					"EventsView.Transcription.GeneratedOralAnnotationView.GeneratingOralAnnotationFileMsg",
+					"Generating Oral Annotation file...");
+
+				using (var generator = new OralAnnotationFileGenerator(originalRecodingTier))
+				using (var dlg = new LoadingDlg(msg))
 				{
-					dlg.StartPosition = FormStartPosition.CenterScreen;
-					dlg.Show();
+					if (parentControlForDialog != null)
+						dlg.Show(parentControlForDialog);
+					else
+					{
+						dlg.StartPosition = FormStartPosition.CenterScreen;
+						dlg.Show();
+					}
+
+					var worker = new BackgroundWorker();
+					worker.DoWork += generator.CreateInterleavedAudioFile;
+					worker.RunWorkerAsync();
+
+					while (worker.IsBusy)
+						Application.DoEvents();
+
+					dlg.Close();
+
+					return generator._outputFileName;
 				}
-
-				var worker = new BackgroundWorker();
-				worker.DoWork += generator.CreateInterleavedAudioFile;
-				worker.RunWorkerAsync();
-
-				while (worker.IsBusy)
-					Application.DoEvents();
-
-				dlg.Close();
-
-				return generator._outputFileName;
 			}
+			catch (Exception error)
+			{
+				HandleOralAnnotationFileGeneratorException(null,
+					new CancelExceptionHandlingEventArgs(error));
+			}
+			finally
+			{
+				Program.ResumeBackgroundProcesses(true);
+				ExceptionHandler.RemoveDelegate(HandleOralAnnotationFileGeneratorException);
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private static bool CanGenerate(TimeTier originalRecodingTier)
 		{
-			var pathToAnnotationsFolder = originalRecodingTier.MediaFileName +
-				Settings.Default.OralAnnotationsFolderSuffix;
+			return Directory.Exists(originalRecodingTier.MediaFileName +
+				Settings.Default.OralAnnotationsFolderSuffix);
 
-			// First, look for the folder that stores the oral annotation segment files.
-			if (!Directory.Exists(pathToAnnotationsFolder))
-				return false;
+			//var pathToAnnotationsFolder = originalRecodingTier.MediaFileName +
+			//    Settings.Default.OralAnnotationsFolderSuffix;
 
-			// Now look in that folder to see if any segment files actually exist.
-			return (Directory.GetFiles(pathToAnnotationsFolder).Any(f =>
-				f.ToLower().EndsWith(Settings.Default.OralAnnotationCarefulSegmentFileSuffix.ToLower()) ||
-				f.ToLower().EndsWith(Settings.Default.OralAnnotationTranslationSegmentFileSuffix.ToLower())));
+			//// First, look for the folder that stores the oral annotation segment files.
+			//if (!Directory.Exists(pathToAnnotationsFolder))
+			//    return false;
+
+			//// Now look in that folder to see if any segment files actually exist.
+			//return (Directory.GetFiles(pathToAnnotationsFolder).Any(f =>
+			//    f.ToLower().EndsWith(Settings.Default.OralAnnotationCarefulSegmentFileSuffix.ToLower()) ||
+			//    f.ToLower().EndsWith(Settings.Default.OralAnnotationTranslationSegmentFileSuffix.ToLower())));
 		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void HandleOralAnnotationFileGeneratorException(object sender,
+			CancelExceptionHandlingEventArgs e)
+		{
+			ErrorReport.NotifyUserOfProblem(e.Exception, GetGenericErrorMsg());
+		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		private OralAnnotationFileGenerator(TimeTier originalRecodingTier)
 		{
 			_origRecordingTier = originalRecodingTier;
 			_origRecordingSegments = _origRecordingTier.Segments.ToArray();
-			_outputAudioFormat = AudioUtils.GetDefaultWaveFormat(3);
-			_output1ChannelAudioFormat = AudioUtils.GetDefaultWaveFormat(1);
 
-			_origRecStreamProvider =
-				WaveStreamProvider.Create(_output1ChannelAudioFormat, _origRecordingTier.MediaFileName);
+			_origRecStreamProvider = WaveStreamProvider.Create(
+				AudioUtils.GetDefaultWaveFormat(1), _origRecordingTier.MediaFileName);
 
-			if (_origRecStreamProvider.Stream.WaveFormat.Channels >= 2)
-			{
-				_outputAudioFormat = new WaveFormat(_outputAudioFormat.SampleRate,
-					_outputAudioFormat.BitsPerSample, _origRecStreamProvider.Stream.WaveFormat.Channels + 2);
-			}
+			var originalFormat = _origRecStreamProvider.Stream.WaveFormat;
+
+			_outputAudioFormat = new WaveFormat(originalFormat.SampleRate,
+				originalFormat.BitsPerSample, originalFormat.Channels + 2);
+
+			_output1ChannelAudioFormat = new WaveFormat(originalFormat.SampleRate,
+				originalFormat.BitsPerSample, 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -142,8 +182,8 @@ namespace SayMore.Transcription.Model
 			{
 				using (_audioFileWriter = new WaveFileWriter(tmpOutputFile, _outputAudioFormat))
 				{
-					for (int i = 0; i < _origRecordingSegments.Length; i++)
-						InterleaveSegments(i);
+					foreach (var segment in _origRecordingSegments)
+						InterleaveSegments(segment);
 				}
 
 				if (File.Exists(_outputFileName))
@@ -153,11 +193,7 @@ namespace SayMore.Transcription.Model
 			}
 			catch (Exception error)
 			{
-				var msg = LocalizationManager.GetString(
-					"EventsView.Transcription.GeneratedOralAnnotationView.GenericErrorCreatingOralAnnotationFileMsg",
-					"There was an error generating the oral annotation file.");
-
-				ErrorReport.NotifyUserOfProblem(error, msg);
+				ErrorReport.NotifyUserOfProblem(error, GetGenericErrorMsg());
 			}
 			finally
 			{
@@ -171,12 +207,10 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InterleaveSegments(int segmentIndex)
+		private void InterleaveSegments(Segment segment)
 		{
-			var segment = _origRecordingSegments[segmentIndex];
-
 			// Write a channel for the original recording segment
-			var inputStream = _origRecStreamProvider.GetStreamSubset(segment.Start, segment.GetLength());
+			var inputStream = _origRecStreamProvider.GetStreamSubset(segment);
 			if (inputStream != null)
 				WriteAudioStreamToChannel(AnnotationChannel.Original, inputStream);
 
@@ -225,8 +259,8 @@ namespace SayMore.Transcription.Model
 		private void WriteAudioStreamToChannel(AnnotationChannel channel, WaveStream inputStream)
 		{
 			var silentBlocksForOrig = new float[_origRecStreamProvider.Stream.WaveFormat.Channels];
-			var totalBlocks = inputStream.Length / inputStream.WaveFormat.BlockAlign;
 			var blocksRead = 0;
+			var totalBlocks = inputStream.Length / inputStream.WaveFormat.BlockAlign;
 			var provider = new SampleChannel(inputStream);
 			var buffer = new float[provider.WaveFormat.Channels];
 

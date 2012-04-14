@@ -3,6 +3,7 @@ using System.IO;
 using Localization;
 using NAudio.Wave;
 using Palaso.Progress;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Media
 {
@@ -58,7 +59,7 @@ namespace SayMore.Media
 			try
 			{
 				// First, just try to open the file as a wave file. If that fails, use
-				// ffmpeg in an attempt to get wave audio out of the file.
+				// ffmpeg or mplayer in an attempt to get wave audio out of the file.
 				if (AudioUtils.GetIsFileStandardPcm(mediaFile))
 				{
 					Stream = new WaveFileReader(mediaFile);
@@ -80,16 +81,10 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="startOffsetInSource">Number of seconds into media where to begin.</param>
-		/// <param name="returnedStreamLength">Number of seconds of media to return in stream.</param>
-		/// ------------------------------------------------------------------------------------
-		public WaveStream GetStreamSubset(double startOffsetInSource, double returnedStreamLength)
+		public WaveStream GetStreamSubset(Segment segment)
 		{
-			return (returnedStreamLength > 0d ? new WaveSegmentStream(Stream,
-				TimeSpan.FromSeconds(startOffsetInSource), TimeSpan.FromSeconds(returnedStreamLength)) : Stream);
+			return (segment.TimeRange.DurationSeconds > 0 ? new WaveSegmentStream(Stream,
+				segment.TimeRange.Start, segment.TimeRange.Duration) : Stream);
 		}
 	}
 }

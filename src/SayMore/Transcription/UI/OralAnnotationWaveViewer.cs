@@ -78,6 +78,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void LoadAnnotationAudioFile(string filename)
 		{
+			_waveControl.AllowDrawing = true;
 			_waveControl.Initialize(filename);
 		}
 

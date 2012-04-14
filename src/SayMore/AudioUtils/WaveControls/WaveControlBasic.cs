@@ -132,6 +132,8 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual void CloseStream()
 		{
+			KillSlideTimer();
+
 			if (_wasStreamCreatedHere && WaveStream != null)
 			{
 				Painter.Dispose();
@@ -456,17 +458,16 @@ namespace SayMore.Media
 			if (_slidingTargetScrollOffset == -AutoScrollPosition.X)
 				return true;
 
-
 			_endSlideTime = DateTime.Now.AddMilliseconds(250);
 			if (_slideTimer == null || !_slideTimer.Enabled)
 			{
 				Invoke((Action)(() =>
-					{
-						_slideTimer = new Timer();
-						_slideTimer.Interval = 1;
-						_slideTimer.Tick += HandleSlideTimerTick;
-						_slideTimer.Start();
-					}));
+				{
+					_slideTimer = new Timer();
+					_slideTimer.Interval = 1;
+					_slideTimer.Tick += HandleSlideTimerTick;
+					_slideTimer.Start();
+				}));
 			}
 			return false;
 		}

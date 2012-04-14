@@ -225,8 +225,6 @@ namespace SayMore.Media
 			{
 				_samplesToDraw = AudioFileHelper.GetSamples(_waveStream,
 					(uint)(VirtualWidth - kRightDisplayPadding));
-
-				return;
 			}
 
 			//_numberOfSamples = _samples.Length;

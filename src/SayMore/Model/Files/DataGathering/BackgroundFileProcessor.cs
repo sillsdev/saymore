@@ -50,6 +50,7 @@ namespace SayMore.Model.Files.DataGathering
 		protected Dictionary<string, T> _fileToDataDictionary = new Dictionary<string, T>();
 		private readonly Queue<FileSystemEventArgs> _pendingFileEvents;
 		private volatile bool _suspendEventProcessing;
+		private volatile int _countOfcallsToSuspendProcessingBeforeResume;
 
 		public event EventHandler NewDataAvailable;
 		public event EventHandler FinishedProcessingAllFiles;
@@ -84,6 +85,7 @@ namespace SayMore.Model.Files.DataGathering
 		public virtual void SuspendProcessing()
 		{
 			_suspendEventProcessing = true;
+			_countOfcallsToSuspendProcessingBeforeResume++;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -96,6 +98,14 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void ResumeProcessing(bool processAllPendingEventsNow)
 		{
+			if (_countOfcallsToSuspendProcessingBeforeResume > 0)
+				_countOfcallsToSuspendProcessingBeforeResume--;
+
+			if (_countOfcallsToSuspendProcessingBeforeResume > 0)
+				return;
+
+			_suspendEventProcessing = false;
+
 			if (processAllPendingEventsNow)
 			{
 				lock (_pendingFileEvents)
@@ -104,8 +114,6 @@ namespace SayMore.Model.Files.DataGathering
 						ProcessFileEvent(_pendingFileEvents.Dequeue());
 				}
 			}
-
-			_suspendEventProcessing = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

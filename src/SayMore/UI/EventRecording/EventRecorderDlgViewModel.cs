@@ -5,6 +5,7 @@ using Localization;
 using NAudio.Wave;
 using Palaso.Media.Naudio;
 using Palaso.Reporting;
+using SayMore.Media;
 using SayMore.Model;
 
 namespace SayMore.UI.EventRecording
@@ -62,12 +63,16 @@ namespace SayMore.UI.EventRecording
 		/// ------------------------------------------------------------------------------------
 		public void BeginRecording()
 		{
-			Recorder.BeginRecording(_path, true);
+			if (AudioUtils.GetCanRecordAudio(true))
+				Recorder.BeginRecording(_path, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void BeginPlayback()
 		{
+			if (!AudioUtils.GetCanPlaybackAudio(true))
+				return;
+
 			_player = new AudioPlayer();
 			_player.Stopped += delegate { _player.Dispose(); _player = null; UpdateAction(); };
 			_player.LoadFile(_path);

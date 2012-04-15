@@ -255,6 +255,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void ChangePersonsPicture(string fileName)
 		{
+			Program.SuspendBackgroundProcesses();
 			Exception error = null;
 
 			var oldPicMetaFile = GetPictureMetaFile();
@@ -275,7 +276,7 @@ namespace SayMore.UI.ComponentEditors
 				}
 			}
 
-			if (error == null && oldPicMetaFile != null)
+			if (error == null && oldPicMetaFile != null && File.Exists(oldPicMetaFile))
 			{
 				try
 				{
@@ -316,6 +317,8 @@ namespace SayMore.UI.ComponentEditors
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(error, msg);
 			}
+
+			Program.ResumeBackgroundProcesses(true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -323,6 +326,8 @@ namespace SayMore.UI.ComponentEditors
 		{
 			if (_personsPicture == null)
 				return;
+
+			Program.SuspendBackgroundProcesses();
 
 			try
 			{
@@ -347,6 +352,8 @@ namespace SayMore.UI.ComponentEditors
 
 				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg);
 			}
+
+			Program.ResumeBackgroundProcesses(true);
 		}
 
 		/// ------------------------------------------------------------------------------------

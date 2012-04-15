@@ -4,6 +4,8 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 using Localization.UI;
+using Palaso.Media.Naudio.UI;
+using SayMore.Media;
 using SayMore.Properties;
 using SayMore.Media.UI;
 using SilTools;
@@ -16,6 +18,9 @@ namespace SayMore.UI.EventRecording
 	{
 		private readonly EventRecorderDlgViewModel _viewModel;
 		private string _recordedLengthLabelFormat;
+		private readonly bool _moreReliableDesignMode;
+		private PeakMeterCtrl _peakMeter;
+		private RecordingDeviceButton _recDeviceButton;
 
 		/// ------------------------------------------------------------------------------------
 		public EventRecorderDlg()
@@ -25,18 +30,17 @@ namespace SayMore.UI.EventRecording
 			_recordedLengthLabelFormat = _labelRecLength.Text;
 			_labelRecLength.Text = string.Format(_recordedLengthLabelFormat, "00.0");
 
-			if ((DesignMode || GetService(typeof(IDesignerHost)) != null) ||
-				LicenseManager.UsageMode == LicenseUsageMode.Designtime)
-			{
+			_moreReliableDesignMode = (DesignMode || GetService(typeof(IDesignerHost)) != null) ||
+				(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+
+			if (_moreReliableDesignMode)
 				return;
-			}
 
 			DoubleBuffered = true;
 
 			_labelRecLength.Font = SystemFonts.MenuFont;
 			_labelRecordingFormat.Font = SystemFonts.MenuFont;
 			toolStrip1.Renderer = new NoToolStripBorderRenderer();
-			_peakMeter.Start(33); //the number here is how often it updates
 
 			_buttonOK.Click += delegate
 			{
@@ -60,6 +64,9 @@ namespace SayMore.UI.EventRecording
 		/// ------------------------------------------------------------------------------------
 		public EventRecorderDlg(EventRecorderDlgViewModel viewModel) : this()
 		{
+			if (_moreReliableDesignMode)
+				return;
+
 			_viewModel = viewModel;
 			_viewModel.UpdateAction = UpdateDisplay;
 			_viewModel.Recorder.PeakLevelChanged += ((s, e) => _peakMeter.PeakLevel = e.Level);
@@ -67,8 +74,23 @@ namespace SayMore.UI.EventRecording
 				_labelRecLength.Text = string.Format(_recordedLengthLabelFormat,
 					MediaPlayerViewModel.MakeTimeString((float)e.RecordedLength.TotalSeconds));
 
-			_recDeviceButton.Recorder = _viewModel.Recorder;
+			_peakMeter = AudioUtils.CreatePeakMeterControl(_panelPeakMeter);
+			SetupRecordingDeviceButton();
+
 			LocalizeItemDlg.StringsLocalized += delegate { _recordedLengthLabelFormat = _labelRecLength.Text; };
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetupRecordingDeviceButton()
+		{
+			_recDeviceButton = new RecordingDeviceButton();
+			_recDeviceButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+			_recDeviceButton.AutoSize = true;
+			_recDeviceButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+			_recDeviceButton.Margin = new Padding(0);
+			tableLayoutPanel1.Controls.Add(_recDeviceButton, 0, 3);
+			tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.AutoSize;
+			_recDeviceButton.Recorder = _viewModel.Recorder;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -76,6 +98,10 @@ namespace SayMore.UI.EventRecording
 		{
 			Settings.Default.EventRecorderDlg.InitializeForm(this);
 			base.OnShown(e);
+
+			if (_moreReliableDesignMode)
+				return;
+
 			UpdateDisplay();
 			_viewModel.Recorder.BeginMonitoring();
 		}

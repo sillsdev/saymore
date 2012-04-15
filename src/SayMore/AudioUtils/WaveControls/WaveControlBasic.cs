@@ -31,7 +31,6 @@ namespace SayMore.Media
 		public Action<PaintEventArgs> PostPaintAction;
 		public Action<Exception> PlaybackErrorAction { get; set; }
 
-
 		public virtual WavePainterBasic Painter { get; private set; }
 		public WaveStream WaveStream { get; private set; }
 

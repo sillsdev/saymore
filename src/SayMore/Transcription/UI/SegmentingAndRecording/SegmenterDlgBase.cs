@@ -73,6 +73,7 @@ namespace SayMore.Transcription.UI
 			_labelTimeDisplay.Text = MediaPlayerViewModel.GetTimeDisplay(0f,
 				(float)_viewModel.OrigWaveStream.TotalTime.TotalSeconds);
 		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{

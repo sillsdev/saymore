@@ -33,11 +33,9 @@ namespace SayMore.UI.EventRecording
 			this.components = new System.ComponentModel.Container();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this._buttonOK = new System.Windows.Forms.Button();
-			this._recDeviceButton = new Palaso.Media.Naudio.UI.RecordingDeviceButton();
 			this._labelRecordingFormat = new System.Windows.Forms.Label();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._panelPeakMeter = new SilTools.Controls.SilPanel();
-			this._peakMeter = new Palaso.Media.Naudio.UI.PeakMeterCtrl();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this._buttonRecord = new System.Windows.Forms.ToolStripButton();
 			this._buttonPlayback = new System.Windows.Forms.ToolStripButton();
@@ -45,7 +43,6 @@ namespace SayMore.UI.EventRecording
 			this._labelRecLength = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
-			this._panelPeakMeter.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -54,13 +51,12 @@ namespace SayMore.UI.EventRecording
 			//
 			this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
 			this.tableLayoutPanel1.ColumnCount = 5;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.Controls.Add(this._buttonOK, 2, 3);
-			this.tableLayoutPanel1.Controls.Add(this._recDeviceButton, 0, 3);
 			this.tableLayoutPanel1.Controls.Add(this._labelRecordingFormat, 1, 3);
 			this.tableLayoutPanel1.Controls.Add(this._buttonCancel, 3, 3);
 			this.tableLayoutPanel1.Controls.Add(this._panelPeakMeter, 4, 1);
@@ -92,23 +88,6 @@ namespace SayMore.UI.EventRecording
 			this._buttonOK.Text = "OK";
 			this._buttonOK.UseVisualStyleBackColor = true;
 			//
-			// _recDeviceButton
-			//
-			this._recDeviceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._recDeviceButton.AutoSize = true;
-			this._recDeviceButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._recDeviceButton.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this._recDeviceButton, null);
-			this.locExtender.SetLocalizationComment(this._recDeviceButton, null);
-			this.locExtender.SetLocalizationPriority(this._recDeviceButton, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._recDeviceButton, "recordingDeviceButton1.RecordingDeviceButton");
-			this._recDeviceButton.Location = new System.Drawing.Point(0, 171);
-			this._recDeviceButton.Margin = new System.Windows.Forms.Padding(0);
-			this._recDeviceButton.Name = "_recDeviceButton";
-			this._recDeviceButton.Recorder = null;
-			this._recDeviceButton.Size = new System.Drawing.Size(16, 16);
-			this._recDeviceButton.TabIndex = 2;
-			//
 			// _labelRecordingFormat
 			//
 			this._labelRecordingFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
@@ -119,10 +98,10 @@ namespace SayMore.UI.EventRecording
 			this.locExtender.SetLocalizableToolTip(this._labelRecordingFormat, null);
 			this.locExtender.SetLocalizationComment(this._labelRecordingFormat, null);
 			this.locExtender.SetLocalizingId(this._labelRecordingFormat, "DialogBoxes.EventRecorderDlg.RecordingFormatLabel");
-			this._labelRecordingFormat.Location = new System.Drawing.Point(19, 171);
+			this._labelRecordingFormat.Location = new System.Drawing.Point(23, 171);
 			this._labelRecordingFormat.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
 			this._labelRecordingFormat.Name = "_labelRecordingFormat";
-			this._labelRecordingFormat.Size = new System.Drawing.Size(176, 13);
+			this._labelRecordingFormat.Size = new System.Drawing.Size(172, 13);
 			this._labelRecordingFormat.TabIndex = 2;
 			this._labelRecordingFormat.Text = "Format: {0} bits, {1} Hz";
 			//
@@ -151,7 +130,6 @@ namespace SayMore.UI.EventRecording
 			this._panelPeakMeter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._panelPeakMeter.ClipTextForChildControls = true;
 			this._panelPeakMeter.ControlReceivingFocusOnMnemonic = null;
-			this._panelPeakMeter.Controls.Add(this._peakMeter);
 			this._panelPeakMeter.DoubleBuffered = true;
 			this._panelPeakMeter.DrawOnlyBottomBorder = false;
 			this._panelPeakMeter.DrawOnlyTopBorder = false;
@@ -169,30 +147,6 @@ namespace SayMore.UI.EventRecording
 			this._panelPeakMeter.PaintExplorerBarBackground = false;
 			this._panelPeakMeter.Size = new System.Drawing.Size(17, 135);
 			this._panelPeakMeter.TabIndex = 4;
-			//
-			// _peakMeter
-			//
-			this._peakMeter.BandsCount = 1;
-			this._peakMeter.ColorHigh = System.Drawing.Color.Red;
-			this._peakMeter.ColorHighBack = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-			this._peakMeter.ColorMedium = System.Drawing.Color.Yellow;
-			this._peakMeter.ColorMediumBack = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(150)))));
-			this._peakMeter.ColorNormal = System.Drawing.Color.Green;
-			this._peakMeter.ColorNormalBack = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(255)))), ((int)(((byte)(150)))));
-			this._peakMeter.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._peakMeter.FalloffColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this._peakMeter.FalloffSpeed = 7;
-			this._peakMeter.GridColor = System.Drawing.Color.White;
-			this._peakMeter.LEDCount = 12;
-			this.locExtender.SetLocalizableToolTip(this._peakMeter, null);
-			this.locExtender.SetLocalizationComment(this._peakMeter, null);
-			this.locExtender.SetLocalizationPriority(this._peakMeter, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._peakMeter, "peakMeterCtrl1.peakMeterCtrl1");
-			this._peakMeter.Location = new System.Drawing.Point(0, 0);
-			this._peakMeter.Name = "_peakMeter";
-			this._peakMeter.Size = new System.Drawing.Size(14, 133);
-			this._peakMeter.TabIndex = 3;
-			this._peakMeter.Text = "peakMeterCtrl1";
 			//
 			// toolStrip1
 			//
@@ -302,7 +256,6 @@ namespace SayMore.UI.EventRecording
 			this.Text = "Event Recorder";
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
-			this._panelPeakMeter.ResumeLayout(false);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
@@ -315,19 +268,13 @@ namespace SayMore.UI.EventRecording
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.Label _labelRecordingFormat;
 		private Localization.UI.LocalizationExtender locExtender;
-		private Palaso.Media.Naudio.UI.RecordingDeviceButton _recDeviceButton;
 		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.ToolStripButton _buttonRecord;
 		private System.Windows.Forms.ToolStripButton _buttonPlayback;
 		private System.Windows.Forms.Button _buttonCancel;
 		private SilPanel _panelPeakMeter;
-		private Palaso.Media.Naudio.UI.PeakMeterCtrl _peakMeter;
 		private System.Windows.Forms.ToolStripButton _buttonStop;
 		private System.Windows.Forms.Button _buttonOK;
 		private System.Windows.Forms.Label _labelRecLength;
-
-
-
-
 	}
 }

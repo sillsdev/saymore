@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -9,6 +10,7 @@ using NAudio.Wave;
 using NAudio.Wave.Compression;
 using Palaso.Media;
 using Palaso.Media.Naudio;
+using Palaso.Media.Naudio.UI;
 using Palaso.Progress;
 using Palaso.Progress.LogBox;
 using Palaso.Reporting;
@@ -453,6 +455,23 @@ namespace SayMore.Media
 					catch { }
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static PeakMeterCtrl CreatePeakMeterControl(Control owningCtrl)
+		{
+			var peakMeter = new PeakMeterCtrl
+			{
+				BandsCount = 1,
+				Dock = DockStyle.Fill,
+				FalloffSpeed = 7,
+				GridColor = Color.White,
+				LEDCount = 12,
+			};
+
+			owningCtrl.Controls.Add(peakMeter);
+			peakMeter.Start(33); //the number here is how often it updates
+			return peakMeter;
 		}
 
 		///// ------------------------------------------------------------------------------------

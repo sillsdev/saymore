@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using Localization;
 using Palaso.IO;
+using Palaso.Progress;
 using Palaso.Reporting;
 using SayMore.Properties;
 using SayMore.Media.UI;
@@ -244,8 +245,16 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static void ResumeBackgroundProcesses(bool processAllPendingEventsNow)
 		{
-			if (_projectContext != null)
-				_projectContext.ResumeBackgroundProcesses(processAllPendingEventsNow);
+			if (_projectContext == null)
+				return;
+
+			if (processAllPendingEventsNow)
+				WaitCursor.Show();
+
+			_projectContext.ResumeBackgroundProcesses(processAllPendingEventsNow);
+
+			if (processAllPendingEventsNow)
+				WaitCursor.Hide();
 		}
 
 		/// ------------------------------------------------------------------------------------

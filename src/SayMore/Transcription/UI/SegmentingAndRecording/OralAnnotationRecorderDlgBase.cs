@@ -5,6 +5,7 @@ using System.Linq;
 using Localization;
 using Localization.UI;
 using Palaso.Media.Naudio;
+using Palaso.Media.Naudio.UI;
 using SayMore.Media;
 using SayMore.Media.UI;
 using SayMore.Properties;
@@ -25,6 +26,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		private readonly ToolTip _tooltip = new ToolTip();
+		private PeakMeterCtrl _peakMeter;
 		private Timer _segTooShortMsgTimer;
 		private Image _hotPlayInSegmentButton;
 		private Image _hotPlayOriginalButton;
@@ -116,6 +118,7 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnLoad(e);
 			InitializeInfoLabels();
+			ViewModel.InitializeAnnotationRecorder(_peakMeter, HandleAnnotationRecordingProgress);
 			ViewModel.RemoveInvalidAnnotationFiles();
 		}
 
@@ -193,8 +196,17 @@ namespace SayMore.Transcription.UI
 			_tableLayoutSegmentInfo.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 			_tableLayoutButtons.Controls.Add(_tableLayoutSegmentInfo, 0, 0);
 
+			var peakPanel = new Panel();
+			peakPanel.Width = 17;
+			peakPanel.BackColor = Color.White;
+			peakPanel.Dock = DockStyle.Left;
+			_panelWaveControl.Controls.Add(peakPanel);
+			peakPanel.BringToFront();
+			_peakMeter = AudioUtils.CreatePeakMeterControl(peakPanel);
+
 			_tableLayoutMediaButtons.Dock = DockStyle.Left;
 			_panelWaveControl.Controls.Add(_tableLayoutMediaButtons);
+			_tableLayoutMediaButtons.BringToFront();
 			_tableLayoutMediaButtons.BackColor = Settings.Default.BarColorBegin;
 			_tableLayoutMediaButtons.RowStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutMediaButtons.RowStyles[_tableLayoutMediaButtons.RowCount - 1].SizeType = SizeType.Absolute;
@@ -203,6 +215,7 @@ namespace SayMore.Transcription.UI
 			_labelOriginalRecording.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 			var margin = _labelOriginalRecording.Margin;
 			margin.Top = 10;
+			margin.Left = margin.Right;
 			_labelOriginalRecording.Margin = margin;
 		}
 
@@ -712,6 +725,9 @@ namespace SayMore.Transcription.UI
 				_reRecording = false;
 			}
 
+			if (!ViewModel.GetIsRecording())
+				return;
+
 			var tooShort = !ViewModel.StopAnnotationRecording(_segmentBeingRecorded);
 			_waveControl.InvalidateIfNeeded(GetVisibleAnnotationRectangleForSegmentBeingRecorded());
 
@@ -1147,7 +1163,10 @@ namespace SayMore.Transcription.UI
 			var rc = _tableLayoutMediaButtons.ClientRectangle;
 
 			using (var pen = new Pen(Settings.Default.BarColorBorder))
+			{
+				e.Graphics.DrawLine(pen, rc.X, rc.Y, rc.X, rc.Bottom);
 				e.Graphics.DrawLine(pen, rc.Right - 1, rc.Y, rc.Right - 1, rc.Bottom);
+			}
 		}
 
 		#endregion
@@ -1268,8 +1287,7 @@ namespace SayMore.Transcription.UI
 			Segment hotSegment;
 			var rcHot = GetRectangleAndIndexOfHotSegment(out hotSegment);
 
-			if (!ViewModel.BeginAnnotationRecording(timeRangeOfOriginalBeingAnnotated,
-				HandleAnnotationRecordingProgress))
+			if (!ViewModel.BeginAnnotationRecording(timeRangeOfOriginalBeingAnnotated))
 			{
 				_spaceKeyIsDown = false;
 				return;

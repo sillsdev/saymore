@@ -6,6 +6,7 @@ using System.Linq;
 using Localization;
 using NAudio.Wave;
 using Palaso.Media.Naudio;
+using Palaso.Media.Naudio.UI;
 using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Model.Files;
@@ -20,10 +21,12 @@ namespace SayMore.Transcription.UI
 		public Action<Exception> RecordingErrorAction { get; set; }
 		public Action<Exception> PlaybackErrorAction { get; set; }
 		public Segment CurrentUnannotatedSegment { get; private set; }
+		public AudioRecorder Recorder { get; private set; }
 		private AudioPlayer _annotationPlayer;
-		private AudioRecorder _annotationRecorder;
 		private TimeRange _timeRangeForAnnotationBeingRerecorded;
 		private TimeSpan _endBoundary;
+		private PeakMeterCtrl _peakMeterCtrl;
+		private Action<TimeSpan> _recordingProgressAction;
 
 		private readonly List<string> _fullPathsToAddedRecordings = new List<string>();
 
@@ -48,6 +51,17 @@ namespace SayMore.Transcription.UI
 			CloseAnnotationPlayer();
 			CloseAnnotationRecorder();
 			base.Dispose();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void RemoveInvalidAnnotationFiles()
+		{
+			var annotationFiles = from s in TimeTier.Segments
+								  where GetDoesSegmentHaveAnnotationFile(s)
+								  select GetFullPathToAnnotationFileForSegment(s);
+
+			foreach (var path in annotationFiles.Where(p => !AudioUtils.GetDoesFileSeemToBeWave(p)))
+				EraseAnnotation(path);
 		}
 
 		#region Properties
@@ -81,25 +95,14 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		public void RemoveInvalidAnnotationFiles()
-		{
-			var annotationFiles = from s in TimeTier.Segments
-								  where GetDoesSegmentHaveAnnotationFile(s)
-								  select GetFullPathToAnnotationFileForSegment(s);
-
-			foreach (var path in annotationFiles.Where(p => !AudioUtils.GetDoesFileSeemToBeWave(p)))
-				EraseAnnotation(path);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool GetIsRecordingTooShort()
-		{
-			return (_annotationRecorder != null &&
-				_annotationRecorder.RecordedTime <= TimeSpan.FromMilliseconds(500));
-		}
-
 		#region Segment-related methods
+		/// ----------------------------------------------------------------------------------------
+		public Segment GetSegment(int index)
+		{
+			return (index < 0 || index >= TimeTier.Segments.Count ?
+				null : TimeTier.Segments[index]);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public override bool SegmentBoundaryMoved(TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
@@ -203,7 +206,171 @@ namespace SayMore.Transcription.UI
 
 		#endregion
 
-		#region Annotation record/player methods
+		#region Annotation recording methods
+		/// ------------------------------------------------------------------------------------
+		public void InitializeAnnotationRecorder(PeakMeterCtrl peakMeter,
+			Action<TimeSpan> recordingProgressAction)
+		{
+			_peakMeterCtrl = peakMeter;
+			_recordingProgressAction = recordingProgressAction;
+
+			CloseAnnotationRecorder();
+
+			Recorder = new AudioRecorder(20);
+			Recorder.RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
+			Recorder.SelectedDevice = RecordingDevice.Devices.First();
+			Recorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
+			Recorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
+			Recorder.RecordingProgress += (s, e) => _recordingProgressAction(e.RecordedLength);
+			Recorder.PeakLevelChanged += (s, e) =>
+			{
+				if (_peakMeterCtrl != null)
+					_peakMeterCtrl.PeakLevel = e.Level;
+			};
+
+			Recorder.BeginMonitoring();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void CloseAnnotationRecorder()
+		{
+			AudioUtils.NAudioErrorAction = null;
+
+			if (Recorder != null)
+				Recorder.Dispose();
+
+			Recorder = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool BeginAnnotationRecording(TimeRange timeRange)
+		{
+			return BeginAnnotationRecording(GetFullPathOfAnnotationFileForTimeRange(timeRange));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool BeginAnnotationRecording(string path)
+		{
+			if (GetIsRecording() || File.Exists(path) || !AudioUtils.GetCanRecordAudio(true))
+				return false;
+
+			if (!Directory.Exists(Path.GetDirectoryName(path)))
+				Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+			try
+			{
+				AudioUtils.NAudioErrorAction = exception =>
+				{
+					AudioUtils.NAudioErrorAction = null;
+					if (RecordingErrorAction != null)
+						RecordingErrorAction(exception);
+				};
+
+				_fullPathsToAddedRecordings.Add(path);
+				Recorder.BeginRecording(path);
+				return true;
+			}
+			catch (Exception e)
+			{
+				AudioUtils.NAudioErrorAction = null;
+				var args = new CancelExceptionHandlingEventArgs(e);
+				AudioUtils.HandleGlobalNAudioException(this, args);
+				if (!args.Cancel)
+				{
+					ErrorReport.NotifyUserOfProblem(e, LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UnexpectedErrorAttemptingToRecordMsg",
+						"An unexpected error occurred when attempting to record an annotation."));
+				}
+
+				return false;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool StopAnnotationRecording(TimeRange timeRange)
+		{
+			AudioUtils.NAudioErrorAction = null;
+
+			//// The user could have unplugged his recording device in the middle of recording.
+			//// If that's the case, we need to get out now because telling the Recorder to
+			//// stop when there are no recording devices throws an exception. REVIEW: what
+			//// happens if there's still another recording device (e.g. built-in mic)?
+			//if (!AudioUtils.GetCanRecordAudio(false))
+			//{
+			//    DeleteTemporarilySavedAnnotation();
+			//    return false;
+			//}
+
+			if (Recorder != null)
+				Recorder.Stop();
+
+			var isRecordingTooShort = GetIsRecordingTooShort();
+
+			AnnotationRecordingsChanged = (AnnotationRecordingsChanged || !isRecordingTooShort);
+
+			if (isRecordingTooShort)
+			{
+				EraseAnnotation(timeRange);
+				RecoverTemporarilySavedAnnotation();
+				_fullPathsToAddedRecordings.RemoveAt(_fullPathsToAddedRecordings.Count - 1);
+			}
+
+			DeleteTemporarilySavedAnnotation();
+			return !isRecordingTooShort;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsRecording()
+		{
+			return (Recorder != null &&
+				Recorder.RecordingState == RecordingState.Recording);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsRecordingTooShort()
+		{
+			return (Recorder != null &&
+				Recorder.RecordedTime <= TimeSpan.FromMilliseconds(500));
+		}
+
+		#endregion
+
+		#region Methods for dealing with temporarily saved rerecorded annotation
+		/// ------------------------------------------------------------------------------------
+		public void TemporarilySaveAnnotationBeingRerecorded(TimeRange timeRange)
+		{
+			var srcFile = GetFullPathOfAnnotationFileForTimeRange(timeRange);
+			var dstFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(srcFile));
+			CopyFilesViewModel.Copy(srcFile, dstFile, true);
+			_timeRangeForAnnotationBeingRerecorded = timeRange;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void RecoverTemporarilySavedAnnotation()
+		{
+			if (_timeRangeForAnnotationBeingRerecorded == null)
+				return;
+
+			var dstFile = GetFullPathOfAnnotationFileForTimeRange(_timeRangeForAnnotationBeingRerecorded);
+			var srcFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(dstFile));
+			CopyFilesViewModel.Copy(srcFile, dstFile, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DeleteTemporarilySavedAnnotation()
+		{
+			if (_timeRangeForAnnotationBeingRerecorded == null)
+				return;
+
+			var path = GetFullPathOfAnnotationFileForTimeRange(_timeRangeForAnnotationBeingRerecorded);
+			path = Path.Combine(Path.GetTempPath(), Path.GetFileName(path));
+			File.Delete(path);
+			_timeRangeForAnnotationBeingRerecorded = null;
+		}
+
+		#endregion
+
+		#region Annotation playback methods
 		/// ------------------------------------------------------------------------------------
 		public bool InitializeAnnotationPlayer(Segment segment)
 		{
@@ -251,94 +418,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void CloseAnnotationRecorder()
-		{
-			AudioUtils.NAudioErrorAction = null;
-
-			if (_annotationRecorder != null)
-				_annotationRecorder.Dispose();
-
-			_annotationRecorder = null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool BeginAnnotationRecording(TimeRange timeRange, Action<TimeSpan> recordingProgressAction)
-		{
-			return BeginAnnotationRecording(GetFullPathOfAnnotationFileForTimeRange(timeRange),
-				recordingProgressAction);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private bool BeginAnnotationRecording(string path, Action<TimeSpan> recordingProgressAction)
-		{
-			if (GetIsRecording() || File.Exists(path) || !AudioUtils.GetCanRecordAudio(true))
-				return false;
-
-			if (!Directory.Exists(Path.GetDirectoryName(path)))
-				Directory.CreateDirectory(Path.GetDirectoryName(path));
-
-			try
-			{
-				_fullPathsToAddedRecordings.Add(path);
-				CloseAnnotationRecorder();
-
-				AudioUtils.NAudioErrorAction = exception =>
-				{
-					CloseAnnotationRecorder();
-					if (RecordingErrorAction != null)
-						RecordingErrorAction(exception);
-				};
-
-				_annotationRecorder = new AudioRecorder(20);
-				_annotationRecorder.RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
-				_annotationRecorder.SelectedDevice = RecordingDevice.Devices.First();
-				_annotationRecorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
-				_annotationRecorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
-				_annotationRecorder.RecordingProgress += (s, e) => recordingProgressAction(e.RecordedLength);
-				_annotationRecorder.BeginMonitoring();
-				_annotationRecorder.BeginRecording(path);
-				return true;
-			}
-			catch (Exception e)
-			{
-				var args = new CancelExceptionHandlingEventArgs(e);
-				AudioUtils.HandleGlobalNAudioException(this, args);
-				if (!args.Cancel)
-				{
-					var msg = LocalizationManager.GetString(
-						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.UnexpectedErrorAttemptingToRecordMsg",
-						"An unexpected error occurred when attempting to record an annotation.");
-					ErrorReport.NotifyUserOfProblem(e, msg);
-				}
-
-				return false;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool StopAnnotationRecording(TimeRange timeRange)
-		{
-			if (_annotationRecorder != null)
-				_annotationRecorder.Stop();
-
-			var isRecordingTooShort = GetIsRecordingTooShort();
-
-			CloseAnnotationRecorder();
-
-			AnnotationRecordingsChanged = (AnnotationRecordingsChanged || !isRecordingTooShort);
-
-			if (isRecordingTooShort)
-			{
-				EraseAnnotation(timeRange);
-				RecoverTemporarilySavedAnnotation();
-				_fullPathsToAddedRecordings.RemoveAt(_fullPathsToAddedRecordings.Count - 1);
-			}
-
-			DeleteTemporarilySavedAnnotation();
-			return !isRecordingTooShort;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public void StartAnnotationPlayback(Segment segment,
 			Action<PlaybackProgressEventArgs> playbackProgressAction,
 			Action playbackStoppedAction)
@@ -370,38 +449,9 @@ namespace SayMore.Transcription.UI
 				_annotationPlayer.PlaybackState == PlaybackState.Playing);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public void TemporarilySaveAnnotationBeingRerecorded(TimeRange timeRange)
-		{
-			var srcFile = GetFullPathOfAnnotationFileForTimeRange(timeRange);
-			var dstFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(srcFile));
-			CopyFilesViewModel.Copy(srcFile, dstFile, true);
-			_timeRangeForAnnotationBeingRerecorded = timeRange;
-		}
+		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		public void RecoverTemporarilySavedAnnotation()
-		{
-			if (_timeRangeForAnnotationBeingRerecorded == null)
-				return;
-
-			var dstFile = GetFullPathOfAnnotationFileForTimeRange(_timeRangeForAnnotationBeingRerecorded);
-			var srcFile = Path.Combine(Path.GetTempPath(), Path.GetFileName(dstFile));
-			CopyFilesViewModel.Copy(srcFile, dstFile, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void DeleteTemporarilySavedAnnotation()
-		{
-			if (_timeRangeForAnnotationBeingRerecorded == null)
-				return;
-
-			var path = GetFullPathOfAnnotationFileForTimeRange(_timeRangeForAnnotationBeingRerecorded);
-			path = Path.Combine(Path.GetTempPath(), Path.GetFileName(path));
-			File.Delete(path);
-			_timeRangeForAnnotationBeingRerecorded = null;
-		}
-
+		#region Methods for erasing an annotation recording
 		/// ------------------------------------------------------------------------------------
 		public void EraseAnnotation(TimeRange timeRange)
 		{
@@ -439,21 +489,7 @@ namespace SayMore.Transcription.UI
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public bool GetIsRecording()
-		{
-			return (_annotationRecorder != null &&
-				_annotationRecorder.RecordingState == RecordingState.Recording);
-		}
-
 		#endregion
-
-		/// ----------------------------------------------------------------------------------------
-		public Segment GetSegment(int index)
-		{
-			return (index < 0 || index >= TimeTier.Segments.Count ?
-				null : TimeTier.Segments[index]);
-		}
 	}
 
 	#region CarefulSpeechAnnotationRecorderDlgViewModel class

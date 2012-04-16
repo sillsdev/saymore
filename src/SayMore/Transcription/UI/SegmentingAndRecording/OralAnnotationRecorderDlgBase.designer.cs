@@ -46,7 +46,7 @@ namespace SayMore.Transcription.UI
 			// _labelHighlightedSegment
 			//
 			this._labelHighlightedSegment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelHighlightedSegment.AutoEllipsis = true;
 			this._labelHighlightedSegment.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelHighlightedSegment, null);
@@ -135,7 +135,7 @@ namespace SayMore.Transcription.UI
 			// _labelListenHint
 			//
 			this._labelListenHint.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelListenHint.AutoSize = true;
 			this._labelListenHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelListenHint, null);
@@ -152,7 +152,7 @@ namespace SayMore.Transcription.UI
 			// _labelRecordHint
 			//
 			this._labelRecordHint.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this._labelRecordHint.AutoSize = true;
 			this._labelRecordHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this._labelRecordHint, null);
@@ -161,7 +161,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizingId(this._labelRecordHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint");
 			this._labelRecordHint.Location = new System.Drawing.Point(3, 90);
 			this._labelRecordHint.Name = "_labelRecordHint";
-			this._labelRecordHint.Size = new System.Drawing.Size(127, 10);
+			this._labelRecordHint.Size = new System.Drawing.Size(126, 10);
 			this._labelRecordHint.TabIndex = 3;
 			this._labelRecordHint.Text = "Internationalized in Code file";
 			this._labelRecordHint.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -201,14 +201,14 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutRecordAnnotations.Controls.Add(this._labelRecordHint, 0, 2);
 			this._tableLayoutRecordAnnotations.Controls.Add(this._labelRecordButton, 0, 1);
 			this._tableLayoutRecordAnnotations.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._tableLayoutRecordAnnotations.Location = new System.Drawing.Point(0, 219);
-			this._tableLayoutRecordAnnotations.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
+			this._tableLayoutRecordAnnotations.Location = new System.Drawing.Point(1, 213);
+			this._tableLayoutRecordAnnotations.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
 			this._tableLayoutRecordAnnotations.Name = "_tableLayoutRecordAnnotations";
 			this._tableLayoutRecordAnnotations.RowCount = 3;
 			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutRecordAnnotations.Size = new System.Drawing.Size(133, 100);
+			this._tableLayoutRecordAnnotations.Size = new System.Drawing.Size(132, 100);
 			this._tableLayoutRecordAnnotations.TabIndex = 1;
 			//
 			// _tableLayoutMediaButtons
@@ -227,7 +227,7 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutMediaButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
 			this._tableLayoutMediaButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableLayoutMediaButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayoutMediaButtons.Size = new System.Drawing.Size(134, 319);
+			this._tableLayoutMediaButtons.Size = new System.Drawing.Size(134, 313);
 			this._tableLayoutMediaButtons.TabIndex = 8;
 			this._tableLayoutMediaButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleMediaButtonTableLayoutPaint);
 			//

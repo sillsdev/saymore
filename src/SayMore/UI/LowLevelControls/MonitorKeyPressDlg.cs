@@ -14,6 +14,17 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			// This should have happened when the form closed, but in case it crashed, we
+			// do it now to prevent having keystrokes get directed to a defunct window.
+			if (disposing)
+				Application.RemoveMessageFilter(this);
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
 			Application.RemoveMessageFilter(this);

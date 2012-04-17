@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using System.Linq;
 using Localization;
@@ -275,7 +276,7 @@ namespace SayMore.Transcription.UI
 
 			_waveControl.MouseUp += delegate
 			{
-				if (ViewModel.GetIsRecording())
+				if (_reRecording)
 					FinishRecording(false);
 			};
 
@@ -352,11 +353,11 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
+		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
 			ViewModel.CloseAnnotationPlayer();
 			ViewModel.CloseAnnotationRecorder();
-			base.OnFormClosing(e);
+			base.OnFormClosed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -705,11 +706,23 @@ namespace SayMore.Transcription.UI
 			if (!GetRerecordButtonRectangleForSegmentMouseIsOver().Contains(e.Location))
 				return;
 
+			if (ViewModel.Recorder.GetIsInErrorState(true))
+				return;
+
 			var segMouseOver = GetHighlightedSegment();
 			ViewModel.TemporarilySaveAnnotationBeingRerecorded(segMouseOver.TimeRange);
 			ViewModel.EraseAnnotation(segMouseOver);
 			_reRecording = true;
 			BeginRecording(segMouseOver.TimeRange);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnDeactivate(EventArgs e)
+		{
+			if (ViewModel.GetIsRecording())
+				FinishRecording(!_reRecording);
+
+			base.OnDeactivate(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -725,13 +738,10 @@ namespace SayMore.Transcription.UI
 				_reRecording = false;
 			}
 
-			if (!ViewModel.GetIsRecording())
-				return;
-
-			var tooShort = !ViewModel.StopAnnotationRecording(_segmentBeingRecorded);
+			var stopResult = ViewModel.StopAnnotationRecording(_segmentBeingRecorded);
 			_waveControl.InvalidateIfNeeded(GetVisibleAnnotationRectangleForSegmentBeingRecorded());
 
-			if (tooShort)
+			if (stopResult == StopAnnotationRecordingResult.AnnotationTooShort)
 			{
 				DisplayRecordingTooShortMessage();
 				_segmentBeingRecorded = null;
@@ -739,6 +749,9 @@ namespace SayMore.Transcription.UI
 			}
 
 			_segmentBeingRecorded = null;
+
+			if (stopResult == StopAnnotationRecordingResult.RecordingError)
+				return;
 
 			if (ViewModel.CurrentUnannotatedSegment == null)
 			{
@@ -842,21 +855,31 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void DrawOralAnnotationWave(PaintEventArgs e, Rectangle rc, Segment segment)
 		{
-			// If the samples to paint for this oral annotation have not been calculated,
-			// then create a helper to get those samples, then cache them in the ViewModel.
-			var audioFilePath = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
-			var helper = ViewModel.SegmentsAnnotationSamplesToDraw.FirstOrDefault(h => h.AudioFilePath == audioFilePath);
-			if (helper == null)
+			// The reason we wrap this in a try/catch block is because in some rare cases
+			// when an audio error occurs (e.g. unplugging the mic. while recording) we'll
+			// get to this method to paint the annotation before the original annotation
+			// is restored because of the error.
+			try
 			{
-				helper = new AudioFileHelper(audioFilePath);
-				ViewModel.SegmentsAnnotationSamplesToDraw.Add(helper);
-			}
+				// If the samples to paint for this oral annotation have not been calculated,
+				// then create a helper to get those samples, then cache them in the ViewModel.
+				var audioFilePath = ViewModel.GetFullPathToAnnotationFileForSegment(segment);
+				var helper = ViewModel.SegmentsAnnotationSamplesToDraw.FirstOrDefault(h => h.AudioFilePath == audioFilePath);
+				if (helper == null)
+				{
+					helper = new AudioFileHelper(audioFilePath);
+					ViewModel.SegmentsAnnotationSamplesToDraw.Add(helper);
+				}
 
-			// Draw the oral annotation's wave in the bottom, reserved area of the wave control.
-			using (var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black })
+				// Draw the oral annotation's wave in the bottom, reserved area of the wave control.
+				using (var painter = new WavePainterBasic { ForeColor = Color.Black, BackColor = Color.Black })
+				{
+					painter.SetSamplesToDraw(helper.GetSamples((uint)rc.Width));
+					painter.Draw(e, rc);
+				}
+			}
+			catch (IOException)
 			{
-				painter.SetSamplesToDraw(helper.GetSamples((uint)rc.Width));
-				painter.Draw(e, rc);
 			}
 		}
 
@@ -909,21 +932,27 @@ namespace SayMore.Transcription.UI
 			else
 				DrawTextInAnnotationWaveCellWhileNotRecording(e.Graphics);
 
-			var cursorRect = GetNewSegmentCursorRectangle();
-			if (cursorRect != Rectangle.Empty)
-			{
-				//using (var lightPen = new Pen(Color.FromArgb(75, Settings.Default.BarColorBorder)))
-				using (var lightPen = new Pen(ColorHelper.CalculateColor(Color.White, Settings.Default.BarColorBorder, 75)))
-				using (var darkPen = new Pen(Settings.Default.BarColorBorder))
-				{
-					var pen = ((bool)_cursorBlinkTimer.Tag) ? darkPen : lightPen;
+			DrawNewSegmentCursor(e.Graphics);
+		}
 
-					e.Graphics.DrawLine(pen, cursorRect.X + 1, 0, cursorRect.X + 1, _waveControl.ClientSize.Height);
-					if ((bool)_cursorBlinkTimer.Tag)
-					{
-						e.Graphics.DrawLine(lightPen, cursorRect.X, 0, cursorRect.X, _waveControl.ClientSize.Height);
-						e.Graphics.DrawLine(lightPen, cursorRect.X + 2, 0, cursorRect.X + 2, _waveControl.ClientSize.Height);
-					}
+		/// ------------------------------------------------------------------------------------
+		private void DrawNewSegmentCursor(Graphics g)
+		{
+			var rc = GetNewSegmentCursorRectangle();
+			if (rc == Rectangle.Empty)
+				return;
+
+			//using (var lightPen = new Pen(Color.FromArgb(75, Settings.Default.BarColorBorder)))
+			using (var lightPen = new Pen(ColorHelper.CalculateColor(Color.White, Settings.Default.BarColorBorder, 75)))
+			using (var darkPen = new Pen(Settings.Default.BarColorBorder))
+			{
+				var pen = ((bool)_cursorBlinkTimer.Tag) ? darkPen : lightPen;
+
+				g.DrawLine(pen, rc.X + 1, 0, rc.X + 1, _waveControl.ClientSize.Height);
+				if ((bool)_cursorBlinkTimer.Tag)
+				{
+					g.DrawLine(lightPen, rc.X, 0, rc.X, _waveControl.ClientSize.Height);
+					g.DrawLine(lightPen, rc.X + 2, 0, rc.X + 2, _waveControl.ClientSize.Height);
 				}
 			}
 		}
@@ -968,11 +997,24 @@ namespace SayMore.Transcription.UI
 			if (rc == Rectangle.Empty)
 				return;
 
-			DrawHighlightedBorderForRecording(g, rc);
+			var msg = ReadyToRecordMessage;
+
+			if (!ViewModel.Recorder.GetIsInErrorState())
+				DrawHighlightedBorderForRecording(g, rc);
+			else
+			{
+				// We can get here while reporting the warning in AudioUtils.GetCanRecordAudio before we've
+				// actually been officially notified of the error, so we need to hide the busy wheel now to
+				// avoid an ugly paint job.
+				_pictureRecording.Visible = false;
+				msg = LocalizationManager.GetString(
+					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg",
+					"Recording not working. Please make sure your microphone is plugged in.");
+			}
 
 			rc.Inflate(-5, -5);
 
-			TextRenderer.DrawText(g, ReadyToRecordMessage, _annotationSegmentFont, rc, Color.Black,
+			TextRenderer.DrawText(g, msg, _annotationSegmentFont, rc, Color.Black,
 				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
 		}
 
@@ -1048,11 +1090,13 @@ namespace SayMore.Transcription.UI
 		{
 			var rc = (_segmentBeingRecorded == null ? Rectangle.Empty :
 				_waveControl.Painter.GetBottomReservedRectangleForTimeRange(_segmentBeingRecorded));
+
 			if (rc.X < 0)
 			{
 				rc.Width = rc.Right;
 				rc.X = 0;
 			}
+
 			return rc;
 		}
 
@@ -1091,10 +1135,8 @@ namespace SayMore.Transcription.UI
 		{
 			segment = GetHighlightedSegment();
 
-			if (segment == null)
-				return Rectangle.Empty;
-
-			return _waveControl.Painter.GetFullRectangleForTimeRange(segment.TimeRange);
+			return (segment == null ? Rectangle.Empty :
+				_waveControl.Painter.GetFullRectangleForTimeRange(segment.TimeRange));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1250,11 +1292,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void HandleRecordingError(Exception e)
 		{
-			_pictureRecording.Visible = false;
-			_waveControl.SelectSegmentOnMouseOver = true;
-			_reRecording = false;
-			_spaceBarMode = SpaceBarMode.Listen;
 			_spaceKeyIsDown = false;
+			FinishRecording(false);
 			_waveControl.Invalidate();
 			UpdateDisplay();
 		}
@@ -1278,7 +1317,8 @@ namespace SayMore.Transcription.UI
 			//    return;
 			//}
 
-			BeginRecording(ViewModel.GetSelectedTimeRange());
+			if (!ViewModel.Recorder.GetIsInErrorState(true))
+				BeginRecording(ViewModel.GetSelectedTimeRange());
 		}
 
 		/// ------------------------------------------------------------------------------------

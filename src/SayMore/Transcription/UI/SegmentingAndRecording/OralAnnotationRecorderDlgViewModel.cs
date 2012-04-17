@@ -11,24 +11,29 @@ using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
+using SayMore.Transcription.UI.SegmentingAndRecording;
 using SayMore.UI.NewEventsFromFiles;
 
 namespace SayMore.Transcription.UI
 {
+	/// ----------------------------------------------------------------------------------------
+	public enum StopAnnotationRecordingResult
+	{
+		Normal,
+		AnnotationTooShort,
+		RecordingError
+	}
+
 	/// ----------------------------------------------------------------------------------------
 	public class OralAnnotationRecorderDlgViewModel : SegmenterDlgBaseViewModel
 	{
 		public Action<Exception> RecordingErrorAction { get; set; }
 		public Action<Exception> PlaybackErrorAction { get; set; }
 		public Segment CurrentUnannotatedSegment { get; private set; }
-		public AudioRecorder Recorder { get; private set; }
+		public OralAnnotationRecorder Recorder { get; private set; }
 		private AudioPlayer _annotationPlayer;
 		private TimeRange _timeRangeForAnnotationBeingRerecorded;
 		private TimeSpan _endBoundary;
-		private PeakMeterCtrl _peakMeterCtrl;
-		private Action<TimeSpan> _recordingProgressAction;
-
-		private readonly List<string> _fullPathsToAddedRecordings = new List<string>();
 
 		/// ----------------------------------------------------------------------------------------
 		public static OralAnnotationRecorderDlgViewModel Create(ComponentFile file,
@@ -211,23 +216,10 @@ namespace SayMore.Transcription.UI
 		public void InitializeAnnotationRecorder(PeakMeterCtrl peakMeter,
 			Action<TimeSpan> recordingProgressAction)
 		{
-			_peakMeterCtrl = peakMeter;
-			_recordingProgressAction = recordingProgressAction;
-
 			CloseAnnotationRecorder();
-
-			Recorder = new AudioRecorder(20);
-			Recorder.RecordingFormat = AudioUtils.GetDefaultWaveFormat(1);
-			Recorder.SelectedDevice = RecordingDevice.Devices.First();
+			Recorder = new OralAnnotationRecorder(peakMeter, recordingProgressAction);
 			Recorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
 			Recorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
-			Recorder.RecordingProgress += (s, e) => _recordingProgressAction(e.RecordedLength);
-			Recorder.PeakLevelChanged += (s, e) =>
-			{
-				if (_peakMeterCtrl != null)
-					_peakMeterCtrl.PeakLevel = e.Level;
-			};
-
 			Recorder.BeginMonitoring();
 		}
 
@@ -251,7 +243,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private bool BeginAnnotationRecording(string path)
 		{
-			if (GetIsRecording() || File.Exists(path) || !AudioUtils.GetCanRecordAudio(true))
+			if (GetIsRecording() || File.Exists(path))
 				return false;
 
 			if (!Directory.Exists(Path.GetDirectoryName(path)))
@@ -266,9 +258,7 @@ namespace SayMore.Transcription.UI
 						RecordingErrorAction(exception);
 				};
 
-				_fullPathsToAddedRecordings.Add(path);
-				Recorder.BeginRecording(path);
-				return true;
+				return Recorder.BeginAnnotationRecording(path);
 			}
 			catch (Exception e)
 			{
@@ -287,50 +277,38 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool StopAnnotationRecording(TimeRange timeRange)
+		public StopAnnotationRecordingResult StopAnnotationRecording(TimeRange timeRange)
 		{
 			AudioUtils.NAudioErrorAction = null;
 
-			//// The user could have unplugged his recording device in the middle of recording.
-			//// If that's the case, we need to get out now because telling the Recorder to
-			//// stop when there are no recording devices throws an exception. REVIEW: what
-			//// happens if there's still another recording device (e.g. built-in mic)?
-			//if (!AudioUtils.GetCanRecordAudio(false))
-			//{
-			//    DeleteTemporarilySavedAnnotation();
-			//    return false;
-			//}
+			Recorder.Stop();
 
-			if (Recorder != null)
-				Recorder.Stop();
-
-			var isRecordingTooShort = GetIsRecordingTooShort();
+			var isRecorderInErrorState = Recorder.GetIsInErrorState();
+			var isRecordingTooShort = Recorder.GetIsRecordingTooShort() && !isRecorderInErrorState;
 
 			AnnotationRecordingsChanged = (AnnotationRecordingsChanged || !isRecordingTooShort);
 
-			if (isRecordingTooShort)
+			if (isRecordingTooShort || isRecorderInErrorState)
 			{
 				EraseAnnotation(timeRange);
 				RecoverTemporarilySavedAnnotation();
-				_fullPathsToAddedRecordings.RemoveAt(_fullPathsToAddedRecordings.Count - 1);
 			}
 
 			DeleteTemporarilySavedAnnotation();
-			return !isRecordingTooShort;
+
+			if (isRecorderInErrorState)
+				return StopAnnotationRecordingResult.RecordingError;
+
+			return (isRecordingTooShort ?
+				StopAnnotationRecordingResult.AnnotationTooShort :
+				StopAnnotationRecordingResult.Normal);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsRecording()
 		{
-			return (Recorder != null &&
+			return (Recorder != null && !Recorder.GetIsInErrorState() &&
 				Recorder.RecordingState == RecordingState.Recording);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool GetIsRecordingTooShort()
-		{
-			return (Recorder != null &&
-				Recorder.RecordedTime <= TimeSpan.FromMilliseconds(500));
 		}
 
 		#endregion

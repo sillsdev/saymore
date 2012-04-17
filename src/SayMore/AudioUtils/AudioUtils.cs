@@ -85,18 +85,26 @@ namespace SayMore.Media
 				return;
 
 			e.Cancel = true;
-
-			if (GetCanPlaybackAudio(true) && GetCanRecordAudio(true))
-			{
-				var msg = LocalizationManager.GetString(
-					"CommonToMultipleViews.AudioUtils.UnexpectedAudioErrorMsg",
-					"There was an unexpected audio error.");
-
-				ErrorReport.NotifyUserOfProblem(e.Exception, msg);
-			}
+			DisplayNAudioError(e.Exception);
 
 			if (NAudioErrorAction != null)
 				NAudioErrorAction(e.Exception);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void DisplayNAudioError(Exception error)
+		{
+			if (!GetCanPlaybackAudio(true) || !GetCanRecordAudio(true))
+				return;
+
+			var msg = LocalizationManager.GetString(
+				"CommonToMultipleViews.AudioUtils.UnexpectedAudioErrorMsg",
+				"There was an unexpected audio error.");
+
+			if (error != null)
+				ErrorReport.NotifyUserOfProblem(error, msg);
+			else
+				ErrorReport.NotifyUserOfProblem(msg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -534,5 +542,6 @@ namespace SayMore.Media
 		//    reader.Dispose();
 		//    return totalTime;
 		//}
+
 	}
 }

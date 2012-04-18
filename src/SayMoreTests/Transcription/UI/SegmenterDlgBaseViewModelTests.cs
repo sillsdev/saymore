@@ -329,7 +329,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void GetIsSegmentLongEnough_ProposedEndTooCloseToPrecedingBoundary_ReturnsFalse()
 		{
-			var minSize = Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds / 1000f;
+			var minSize = Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f;
 			Assert.IsFalse(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(20 + minSize / 2)));
 		}
 
@@ -337,7 +337,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void GetIsSegmentLongEnough_ProposedEndYieldsMinAllowed_ReturnsTrue()
 		{
-			var minSize = Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds / 1000f;
+			var minSize = Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f;
 			Assert.IsTrue(_model.GetIsSegmentLongEnough(TimeSpan.FromSeconds(20 + minSize)));
 		}
 

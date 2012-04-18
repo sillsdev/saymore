@@ -204,7 +204,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsSegmentLongEnough(TimeSpan proposedEndTime)
 		{
-			var minSize = TimeSpan.FromMilliseconds(Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
+			var minSize = TimeSpan.FromMilliseconds(Settings.Default.MinimumSegmentLengthInMilliseconds);
 
 			for (int i = TimeTier.Segments.Count - 1; i >= 0; i--)
 			{

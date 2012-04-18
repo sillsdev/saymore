@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Palaso.Reporting;
 using Localization;
 using SayMore.Model.Files;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Media.UI
 {
@@ -382,7 +383,7 @@ namespace SayMore.Media.UI
 					PlaybackEnded(this, false);
 
 				if (waitForMediaFileToBeReleased && MediaFile != null)
-					ComponentFile.WaitForFileRelease(MediaFile);
+					FileSystemUtils.WaitForFileRelease(MediaFile);
 			}
 
 			if (_loopDelayTimer != null)

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.UI.Utilities;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -56,7 +57,7 @@ namespace SayMore.UI.ComponentEditors
 				// The browser takes a moment to finish navigating and thus
 				// to release the file pointed to by the previous URL.
 				Cursor = Cursors.WaitCursor;
-				ComponentFile.WaitForFileRelease(file.PathToAnnotatedFile, true);
+				FileSystemUtils.WaitForFileRelease(file.PathToAnnotatedFile, true);
 				Cursor = Cursors.Default;
 			});
 		}

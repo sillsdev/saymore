@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using Palaso.Media;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Model.Files
 {
@@ -17,7 +18,7 @@ namespace SayMore.Model.Files
 			MediaFilePath = mediaFilePath;
 			LengthInBytes = new FileInfo(mediaFilePath).Length;
 			_mediaInfo = MediaInfo.GetInfo(mediaFilePath);
-			ComponentFile.WaitForFileRelease(mediaFilePath);
+			FileSystemUtils.WaitForFileRelease(mediaFilePath);
 		}
 
 		#region Properties

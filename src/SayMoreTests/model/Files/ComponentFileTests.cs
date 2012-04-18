@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
+using SayMore.UI.Utilities;
 using SayMoreTests.Transcription.Model;
 
 namespace SayMoreTests.Model.Files
@@ -576,20 +577,20 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void IsFileLocked_FilePathIsNull_ReturnsFalse()
 		{
-			Assert.IsFalse(ComponentFile.IsFileLocked(null));
+			Assert.IsFalse(FileSystemUtils.IsFileLocked(null));
 		}
 
 		[Test]
 		public void IsFileLocked_FileDoesntExist_ReturnsFalse()
 		{
-			Assert.IsFalse(ComponentFile.IsFileLocked(@"c:\blahblah.blah"));
+			Assert.IsFalse(FileSystemUtils.IsFileLocked(@"c:\blahblah.blah"));
 		}
 
 		[Test]
 		public void IsFileLocked_FileExistsAndIsNotLocked_ReturnsFalse()
 		{
 			using (var file = new TempFileFromFolder(_parentFolder))
-				Assert.IsFalse(ComponentFile.IsFileLocked(file.Path));
+				Assert.IsFalse(FileSystemUtils.IsFileLocked(file.Path));
 		}
 
 		[Test]
@@ -600,7 +601,7 @@ namespace SayMoreTests.Model.Files
 				var stream = File.OpenWrite(file.Path);
 				try
 				{
-					Assert.IsTrue(ComponentFile.IsFileLocked(file.Path));
+					Assert.IsTrue(FileSystemUtils.IsFileLocked(file.Path));
 				}
 				finally
 				{

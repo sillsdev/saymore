@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Palaso.IO;
 using Localization;
 using SayMore.Model.Files;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Media.UI
 {
@@ -309,7 +310,7 @@ namespace SayMore.Media.UI
 				Kill();
 
 			if (MediaFileName != null)
-				ComponentFile.WaitForFileRelease(MediaFileName);
+				FileSystemUtils.WaitForFileRelease(MediaFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------

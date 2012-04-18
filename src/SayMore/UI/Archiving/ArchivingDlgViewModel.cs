@@ -232,7 +232,7 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		private void CheckIfPackageFileIsLocked(Object packageFile)
 		{
-			if (!ComponentFile.IsFileLocked(packageFile as string))
+			if (!FileSystemUtils.IsFileLocked(packageFile as string))
 				CleanUpTempRampPackage();
 		}
 

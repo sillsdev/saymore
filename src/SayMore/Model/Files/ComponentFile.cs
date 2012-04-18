@@ -4,13 +4,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.FileSystem;
-using SayMore;
 using SayMore.Media;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
@@ -995,65 +993,6 @@ namespace SayMore.Model.Files
 			}
 
 			Save();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Waits for the lock on a file to be released. The method will give up after waiting
-		/// for 10 seconds.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void WaitForFileRelease(string filePath)
-		{
-			WaitForFileRelease(filePath, false);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Waits for the lock on a file to be released. The method will give up after waiting
-		/// for 10 seconds.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void WaitForFileRelease(string filePath, bool fileOpenedByThisProcess)
-		{
-			var timeout = DateTime.Now.AddSeconds(10);
-
-			// Now wait until the process lets go of the file.
-			while (true)
-			{
-				try
-				{
-					if (fileOpenedByThisProcess)
-						Application.DoEvents();
-					else
-						Thread.Sleep(100);
-
-					if (!IsFileLocked(filePath) || DateTime.Now >= timeout)
-						return;
-				}
-				catch
-				{
-					if (DateTime.Now >= timeout)
-						return;
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static bool IsFileLocked(string filePath)
-		{
-			if (filePath == null || !File.Exists(filePath))
-				return false;
-
-			try
-			{
-				File.OpenWrite(filePath).Close();
-				return false;
-			}
-			catch
-			{
-				return true;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

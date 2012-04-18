@@ -155,6 +155,7 @@
     <Compile Include="UI\Overview\Statistics\StatisticsViewModelTests.cs" />
     <Compile Include="UI\ProjectWindow\AppSmokeTests.cs" />
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommandTests.cs" />
+    <Compile Include="UI\Utilities\FileSystemUtilsTests.cs" />
     <Compile Include="UI\Utilities\MPlayerMediaInfoTests.cs" />
     <Compile Include="UI\Archiving\ArchivingDlgViewModelTests.cs" />
     <Compile Include="UI\Utilities\JSONUtilsTests.cs" />

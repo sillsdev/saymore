@@ -104,6 +104,8 @@ namespace SayMoreTests.UI.ProjectWindow
 			WalkThroughElements("EventEditor", "_eventsListPanel", "_eventComponentFileGrid", "EventsListScreen");
 
 			_projectContext.ProjectWindow.Close();
+			_projectContext.Dispose();
+			_projectContext = null;
 			SetupProjectWindow();
 			_projectContext.ProjectWindow.Close();
 		}

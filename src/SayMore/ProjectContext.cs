@@ -179,6 +179,12 @@ namespace SayMore
 			_fieldGatherer.Dispose();
 			_scope.Dispose();
 			_scope = null;
+
+			if (ProjectWindow != null)
+			{
+				ProjectWindow.Dispose();
+				ProjectWindow = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

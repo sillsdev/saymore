@@ -6,7 +6,6 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.UI.Utilities;
 using SayMoreTests.Transcription.Model;
 
 namespace SayMoreTests.Model.Files
@@ -572,42 +571,6 @@ namespace SayMoreTests.Model.Files
 			f.AssignRole(role);
 			Assert.AreEqual(ParentFolderName + "_someRole.txt", Path.GetFileName(f.PathToAnnotatedFile));
 			Assert.IsTrue(File.Exists(f.PathToAnnotatedFile));
-		}
-
-		[Test]
-		public void IsFileLocked_FilePathIsNull_ReturnsFalse()
-		{
-			Assert.IsFalse(FileSystemUtils.IsFileLocked(null));
-		}
-
-		[Test]
-		public void IsFileLocked_FileDoesntExist_ReturnsFalse()
-		{
-			Assert.IsFalse(FileSystemUtils.IsFileLocked(@"c:\blahblah.blah"));
-		}
-
-		[Test]
-		public void IsFileLocked_FileExistsAndIsNotLocked_ReturnsFalse()
-		{
-			using (var file = new TempFileFromFolder(_parentFolder))
-				Assert.IsFalse(FileSystemUtils.IsFileLocked(file.Path));
-		}
-
-		[Test]
-		public void IsFileLocked_FileExistsAndIsLocked_ReturnsTrue()
-		{
-			using (var file = new TempFileFromFolder(_parentFolder))
-			{
-				var stream = File.OpenWrite(file.Path);
-				try
-				{
-					Assert.IsTrue(FileSystemUtils.IsFileLocked(file.Path));
-				}
-				finally
-				{
-					stream.Close();
-				}
-			}
 		}
 
 		public string SetStringValue(ComponentFile file, string key, string value)

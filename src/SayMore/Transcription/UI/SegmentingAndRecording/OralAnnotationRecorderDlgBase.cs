@@ -28,6 +28,7 @@ namespace SayMore.Transcription.UI
 
 		private readonly ToolTip _tooltip = new ToolTip();
 		private PeakMeterCtrl _peakMeter;
+		private RecordingDeviceButton _recDeviceButton;
 		private Timer _segTooShortMsgTimer;
 		private Image _hotPlayInSegmentButton;
 		private Image _hotPlayOriginalButton;
@@ -92,6 +93,7 @@ namespace SayMore.Transcription.UI
 
 			_toolStripStatus.Visible = false;
 			InitializeTableLayouts();
+			SetupPeakMeterAndRecordingDeviceIndicator();
 
 			_spaceBarMode = viewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 			viewModel.PlaybackErrorAction = HandlePlaybackError;
@@ -140,6 +142,28 @@ namespace SayMore.Transcription.UI
 			}
 
 			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetupPeakMeterAndRecordingDeviceIndicator()
+		{
+			_tableLayoutRecordAnnotations.ColumnStyles[0].SizeType = SizeType.AutoSize;
+			_tableLayoutRecordAnnotations.ColumnStyles[1].SizeType = SizeType.Percent;
+
+			_recDeviceButton = new RecordingDeviceButton();
+			_recDeviceButton.Anchor = AnchorStyles.Top;
+			_recDeviceButton.AutoSize = true;
+			_recDeviceButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+			_recDeviceButton.Margin = new Padding(4, 3, 0, 3);
+			_tableLayoutRecordAnnotations.Controls.Add(_recDeviceButton, 0, 2);
+			_recDeviceButton.Recorder = ViewModel.Recorder;
+
+			_panelPeakMeter.BorderColor = Settings.Default.BarColorBorder;
+			_panelPeakMeter.BackColor = Settings.Default.BarColorBegin;
+			_peakMeter = AudioUtils.CreatePeakMeterControl(_panelPeakMeter);
+			_peakMeter.MeterStyle = PeakMeterStyle.PMS_Vertical;
+			_peakMeter.LEDCount = 10;
+			_peakMeter.SetRange(10, 40, 50);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -192,18 +216,7 @@ namespace SayMore.Transcription.UI
 		{
 			_tableLayoutTop.Visible = false;
 
-			_tableLayoutSegmentInfo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-			_tableLayoutSegmentInfo.AutoSize = true;
-			_tableLayoutSegmentInfo.Anchor = AnchorStyles.Left | AnchorStyles.Top;
-			_tableLayoutButtons.Controls.Add(_tableLayoutSegmentInfo, 0, 0);
-
-			var peakPanel = new Panel();
-			peakPanel.Width = 17;
-			peakPanel.BackColor = Color.White;
-			peakPanel.Dock = DockStyle.Left;
-			_panelWaveControl.Controls.Add(peakPanel);
-			peakPanel.BringToFront();
-			_peakMeter = AudioUtils.CreatePeakMeterControl(peakPanel);
+			_tableLayoutSegmentInfo.Visible = false;
 
 			_tableLayoutMediaButtons.Dock = DockStyle.Left;
 			_panelWaveControl.Controls.Add(_tableLayoutMediaButtons);
@@ -239,20 +252,17 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeInfoLabels()
 		{
+			_tableLayoutButtons.ColumnStyles[0].SizeType = SizeType.AutoSize;
+			_tableLayoutButtons.ColumnStyles[1].SizeType = SizeType.Percent;
+			_tableLayoutButtons.Controls.Add(_labelListenHint, 0, 0);
+			_tableLayoutButtons.Controls.Add(_labelRecordHint, 1, 0);
+			_tableLayoutButtons.SetColumnSpan(_labelListenHint, 2);
+
 			_labelTotalDuration.Font = FontHelper.MakeFont(SystemFonts.MenuFont, 8);
 			_labelTotalSegments.Font = _labelTotalDuration.Font;
 			_labelHighlightedSegment.Font = _labelTotalDuration.Font;
 			_labelListenHint.Font = _labelOriginalRecording.Font;
 			_labelRecordHint.Font = _labelOriginalRecording.Font;
-
-			_labelListenHint.Text = LocalizationManager.GetString(
-				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint",
-				"Listen\r\n(Press and hold\r\nSPACE key)", null, _labelListenHint);
-
-			_labelRecordHint.Text = LocalizationManager.GetString(
-				"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint",
-				"Record\r\n(Press and hold\r\nSPACE key)", null, _labelRecordHint);
-
 			_annotationSegmentFont = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
@@ -396,13 +406,13 @@ namespace SayMore.Transcription.UI
 			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
 			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording;
 
-			Utils.SetWindowRedraw(_tableLayoutSegmentInfo, false);
+			//Utils.SetWindowRedraw(_tableLayoutSegmentInfo, false);
 
-			_labelTotalDuration.Text = string.Format((string)_labelTotalDuration.Tag,
-				MediaPlayerViewModel.MakeTimeString((float)ViewModel.OrigWaveStream.TotalTime.TotalSeconds));
+			//_labelTotalDuration.Text = string.Format((string)_labelTotalDuration.Tag,
+			//    MediaPlayerViewModel.MakeTimeString((float)ViewModel.OrigWaveStream.TotalTime.TotalSeconds));
 
-			_labelTotalSegments.Text = string.Format((string)_labelTotalSegments.Tag,
-				ViewModel.GetSegmentCount());
+			//_labelTotalSegments.Text = string.Format((string)_labelTotalSegments.Tag,
+			//    ViewModel.GetSegmentCount());
 
 			//	var currentSegment = GetHighlightedSegment();
 			_labelHighlightedSegment.Visible = false; //				(currentSegment != null);
@@ -421,7 +431,7 @@ namespace SayMore.Transcription.UI
 			//    //    MediaPlayerViewModel.MakeTimeString(currentSegment.End - currentSegment.Start));
 			//}
 
-			Utils.SetWindowRedraw(_tableLayoutSegmentInfo, true);
+			//Utils.SetWindowRedraw(_tableLayoutSegmentInfo, true);
 
 			base.UpdateDisplay();
 		}

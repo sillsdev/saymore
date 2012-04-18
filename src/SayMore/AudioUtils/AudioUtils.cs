@@ -16,6 +16,7 @@ using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 using SayMore.Media.UI;
 using SayMore.Model.Files;
+using SayMore.Properties;
 using SayMore.UI;
 
 namespace SayMore.Media
@@ -471,13 +472,18 @@ namespace SayMore.Media
 			var peakMeter = new PeakMeterCtrl
 			{
 				BandsCount = 1,
-				Dock = DockStyle.Fill,
-				FalloffSpeed = 7,
-				GridColor = Color.White,
 				LEDCount = 12,
+				FalloffSpeed = 7,
+				ShowGrid = false,
+				BackColor = owningCtrl.BackColor,
+				ColorMedium = Settings.Default.BarColorBorder,
+				ColorNormal = Settings.Default.BarColorEnd,
+				ColorHigh = Color.FromArgb(215, 2, 0),
+				Dock = DockStyle.Fill,
 			};
 
 			owningCtrl.Controls.Add(peakMeter);
+			peakMeter.SetRange(10, 40, 50);
 			peakMeter.Start(33); //the number here is how often it updates
 			return peakMeter;
 		}

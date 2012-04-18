@@ -13,6 +13,7 @@ using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI.SegmentingAndRecording;
 using SayMore.UI.NewEventsFromFiles;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Transcription.UI
 {
@@ -446,7 +447,7 @@ namespace SayMore.Transcription.UI
 		private void EraseAnnotation(string path)
 		{
 			CloseAnnotationPlayer();
-			ComponentFile.WaitForFileRelease(path);
+			FileSystemUtils.WaitForFileRelease(path);
 
 			try
 			{

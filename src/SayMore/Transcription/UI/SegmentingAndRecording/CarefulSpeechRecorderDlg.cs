@@ -19,6 +19,7 @@ namespace SayMore.Transcription.UI
 			_labelCarefulSpeech.Anchor = _labelOriginalRecording.Anchor;
 			_tableLayoutRecordAnnotations.RowStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutRecordAnnotations.Controls.Add(_labelCarefulSpeech, 0, 0);
+			_tableLayoutRecordAnnotations.SetColumnSpan(_labelCarefulSpeech, 2);
 		}
 
 		/// ------------------------------------------------------------------------------------

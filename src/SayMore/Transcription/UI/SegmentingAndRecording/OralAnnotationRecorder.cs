@@ -4,7 +4,7 @@ using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
 using SayMore.Media;
 
-namespace SayMore.Transcription.UI.SegmentingAndRecording
+namespace SayMore.Transcription.UI
 {
 	public class OralAnnotationRecorder : AudioRecorder
 	{

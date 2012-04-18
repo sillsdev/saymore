@@ -1287,7 +1287,7 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1250")]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
         public int MinimumAnnotationSegmentLengthInMilliseconds {
             get {
                 return ((int)(this["MinimumAnnotationSegmentLengthInMilliseconds"]));
@@ -1382,6 +1382,19 @@ namespace SayMore.Properties {
             }
             set {
                 this["PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("850")]
+        public int MinimumSegmentLengthInMilliseconds {
+            get {
+                return ((int)(this["MinimumSegmentLengthInMilliseconds"]));
+            }
+            set {
+                this["MinimumSegmentLengthInMilliseconds"] = value;
             }
         }
     }

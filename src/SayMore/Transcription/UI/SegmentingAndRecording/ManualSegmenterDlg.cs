@@ -209,7 +209,7 @@ namespace SayMore.Transcription.UI
 				TimeSpan.FromMilliseconds(milliseconds);
 
 			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries()
-				.Select(b => b == _timeAtBeginningOfboundaryMove ? currBoundary : b);
+				.Select(b => b == _timeAtBeginningOfBoundaryMove ? currBoundary : b);
 
 			_waveControl.SetSelectedBoundary(currBoundary);
 
@@ -220,7 +220,7 @@ namespace SayMore.Transcription.UI
 		protected override void FinalizeBoundaryMovedUsingArrowKeys()
 		{
 			var newBoundary = _waveControl.GetSelectedBoundary();
-			ViewModel.SaveBoundaryPositionAfterMovedUsingArrowKeys(_timeAtBeginningOfboundaryMove, newBoundary);
+			ViewModel.SaveBoundaryPositionAfterMovedUsingArrowKeys(_timeAtBeginningOfBoundaryMove, newBoundary);
 			PlaybackShortPortionUpToBoundary(newBoundary);
 			base.FinalizeBoundaryMovedUsingArrowKeys();
 		}

@@ -206,7 +206,8 @@ namespace SayMore.Transcription.UI
 				_waveControl.Stop();
 
 			_playingBackUsingHoldDownButton = false;
-			_spaceBarMode = SpaceBarMode.Record;
+			if (ViewModel.GetSelectedSegmentIsLongEnough())
+				_spaceBarMode = SpaceBarMode.Record;
 
 			UpdateDisplay();
 		}
@@ -399,9 +400,8 @@ namespace SayMore.Transcription.UI
 
 			_labelListenButton.Enabled = !ViewModel.GetIsRecording();
 
-			_labelRecordButton.Enabled =
-				(ViewModel.CurrentUnannotatedSegment != null || ViewModel.GetHasNewSegment()) &&
-				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying();
+			_labelRecordButton.Enabled = (ViewModel.GetSelectedSegmentIsLongEnough() &&
+				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
 
 			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
 			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording;
@@ -968,12 +968,12 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void DrawSegmentTooShortMessage(Graphics g, bool segmentReadyToRecordHadRecordingThatWasTooShort)
+		private void DrawRecordingTooShortMessage(Graphics g, bool selectedSegmentHadRecordingThatWasTooShort)
 		{
 			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange((TimeRange)_segTooShortMsgTimer.Tag);
 			rc.Inflate(-5, -5);
 
-			var msg = segmentReadyToRecordHadRecordingThatWasTooShort ?
+			var msg = selectedSegmentHadRecordingThatWasTooShort ?
 				LocalizationManager.GetString(
 					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid",
 					"Whoops. You need to hold down the SPACE bar or mouse button while talking.") :
@@ -988,18 +988,18 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void DrawTextInAnnotationWaveCellWhileNotRecording(Graphics g)
 		{
+			if (!ViewModel.GetSelectedSegmentIsLongEnough())
+				return;
+
 			var timeRangeReadyToRecord = ViewModel.GetSelectedTimeRange();
 
-			bool segmentReadyToRecordHadRecordingThatWasTooShort =
+			bool selectedSegmentHadRecordingThatWasTooShort =
 				(_segTooShortMsgTimer != null && timeRangeReadyToRecord == (TimeRange)_segTooShortMsgTimer.Tag);
 
 			if (_segTooShortMsgTimer != null)
-				DrawSegmentTooShortMessage(g, segmentReadyToRecordHadRecordingThatWasTooShort);
+				DrawRecordingTooShortMessage(g, selectedSegmentHadRecordingThatWasTooShort);
 
-			if (timeRangeReadyToRecord.DurationSeconds.Equals(0f))
-				return;
-
-			if (segmentReadyToRecordHadRecordingThatWasTooShort)
+			if (selectedSegmentHadRecordingThatWasTooShort)
 				return;
 
 			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(timeRangeReadyToRecord);

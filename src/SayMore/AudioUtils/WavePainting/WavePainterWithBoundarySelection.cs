@@ -38,6 +38,7 @@ namespace SayMore.Media
 		public void SetSelectedBoundary(TimeSpan selTime)
 		{
 			InvalidateBoundary(SelectedBoundaryTime, kHighlightHalfWidth);
+			System.Diagnostics.Debug.WriteLine("SelectedBoundaryTime changing from " + SelectedBoundaryTime + " to " + selTime);
 			SelectedBoundaryTime = selTime;
 			InvalidateBoundary(SelectedBoundaryTime, kHighlightHalfWidth);
 		}

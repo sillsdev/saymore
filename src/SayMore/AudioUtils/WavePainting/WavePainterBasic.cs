@@ -532,7 +532,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public virtual Rectangle GetFullRectangleForTimeRange(TimeRange timeRange)
 		{
-			if (timeRange.DurationSeconds.Equals(0f))
+			if (TimeRange.IsNullOrZeroLength(timeRange))
 				return Rectangle.Empty;
 
 			var startX = ConvertTimeToXCoordinate(timeRange.Start);

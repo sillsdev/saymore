@@ -25,7 +25,7 @@ namespace SayMore.Transcription.UI
 		protected string _segmentNumberFormat;
 		protected string _segmentXofYFormat;
 		protected Timer _timer;
-		protected TimeSpan _timeAtBeginningOfboundaryMove = TimeSpan.FromSeconds(1).Negate();
+		protected TimeSpan _timeAtBeginningOfBoundaryMove = TimeSpan.FromSeconds(1).Negate();
 		protected bool _moreReliableDesignMode;
 		private WaveControlBasic _waveControl;
 
@@ -309,14 +309,16 @@ namespace SayMore.Transcription.UI
 
 			var boundary = GetBoundaryToAdjustOnArrowKeys();
 
-			if (boundary == TimeSpan.Zero || _viewModel.IsBoundaryPermanent(boundary) ||
+			var timeAtBeginningOfBoundaryMove = (_timeAtBeginningOfBoundaryMove > TimeSpan.Zero) ?
+				_timeAtBeginningOfBoundaryMove : boundary;
+
+			if (boundary == TimeSpan.Zero || _viewModel.IsBoundaryPermanent(timeAtBeginningOfBoundaryMove) ||
 				!_viewModel.CanMoveBoundary(boundary, milliseconds))
 			{
 				return false;
 			}
 
-			if (_timeAtBeginningOfboundaryMove <= TimeSpan.Zero)
-				_timeAtBeginningOfboundaryMove = boundary;
+			_timeAtBeginningOfBoundaryMove = timeAtBeginningOfBoundaryMove;
 
 			return true;
 		}
@@ -462,10 +464,10 @@ namespace SayMore.Transcription.UI
 		{
 			var result = base.OnLowLevelKeyUp(key);
 
-			if (_timeAtBeginningOfboundaryMove >= TimeSpan.Zero)
+			if (_timeAtBeginningOfBoundaryMove >= TimeSpan.Zero)
 			{
 				FinalizeBoundaryMovedUsingArrowKeys();
-				_timeAtBeginningOfboundaryMove = TimeSpan.FromSeconds(1).Negate();
+				_timeAtBeginningOfBoundaryMove = TimeSpan.FromSeconds(1).Negate();
 			}
 
 			return result;

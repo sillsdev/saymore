@@ -3,6 +3,7 @@ using System.Linq;
 using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
 using SayMore.Media;
+using SayMore.Properties;
 
 namespace SayMore.Transcription.UI
 {
@@ -53,10 +54,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override void Stop()
 		{
-			if (!GetIsInErrorState())
+			if (!GetIsInErrorState() && RecordingState == RecordingState.Recording)
 			{
-				if (RecordingState != RecordingState.Recording)
-					throw new InvalidOperationException("Stop recording should not be called when recording was not initiated.");
+				//if (RecordingState != RecordingState.Recording)
+				//    throw new InvalidOperationException("Stop recording should not be called when recording was not initiated.");
 
 				base.Stop();
 				return;
@@ -70,7 +71,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsRecordingTooShort()
 		{
-			return RecordedTime <= TimeSpan.FromMilliseconds(500);
+			return RecordedTime < TimeSpan.FromMilliseconds(Settings.Default.MinimumAnnotationSegmentLengthInMilliseconds);
 		}
 
 		/// ------------------------------------------------------------------------------------

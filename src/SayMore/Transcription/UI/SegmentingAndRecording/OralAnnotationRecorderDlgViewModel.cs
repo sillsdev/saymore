@@ -10,6 +10,7 @@ using Palaso.Media.Naudio.UI;
 using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Model.Files;
+using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI.SegmentingAndRecording;
 using SayMore.UI.NewEventsFromFiles;
@@ -202,6 +203,13 @@ namespace SayMore.Transcription.UI
 		{
 			return (CurrentUnannotatedSegment != null) ? CurrentUnannotatedSegment.TimeRange :
 				new TimeRange(GetEndOfLastSegment(), NewSegmentEndBoundary);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetSelectedSegmentIsLongEnough()
+		{
+			return GetSelectedTimeRange().Duration >= TimeSpan.FromMilliseconds(
+				Settings.Default.MinimumSegmentLengthInMilliseconds);
 		}
 
 		/// ----------------------------------------------------------------------------------------

@@ -387,7 +387,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="MinimumAnnotationSegmentLengthInMilliseconds" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1250</Value>
+      <Value Profile="(Default)">500</Value>
     </Setting>
     <Setting Name="EventRecorderDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
@@ -409,6 +409,9 @@
     </Setting>
     <Setting Name="PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MinimumSegmentLengthInMilliseconds" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">850</Value>
     </Setting>
   </Settings>
 </SettingsFile>

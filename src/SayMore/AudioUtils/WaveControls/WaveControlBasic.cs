@@ -482,7 +482,13 @@ namespace SayMore.Media
 			else
 				KillSlideTimer();
 
-			AutoScrollPosition = new Point(newTargetX, AutoScrollPosition.Y);
+			SetAutoScrollPosition(newTargetX);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void SetAutoScrollPosition(int newTargetX)
+		{
+			AutoScrollPosition = new Point(newTargetX, 0);
 			Painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
 		}
 
@@ -716,8 +722,7 @@ namespace SayMore.Media
 			if (Painter != null && Painter.ConvertTimeToXCoordinate(WaveStream.TotalTime) +
 				WavePainterBasic.kRightDisplayPadding < ClientSize.Width)
 			{
-				AutoScrollPosition = new Point(Painter.VirtualWidth - (ClientSize.Width + 10), 0);
-				Painter.SetOffsetOfLeftEdge(-AutoScrollPosition.X);
+				SetAutoScrollPosition(Painter.VirtualWidth - (ClientSize.Width + 10));
 			}
 		}
 

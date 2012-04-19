@@ -36,8 +36,7 @@ namespace SayMore.Media
 			// Figure out the limits within which the boundary may be moved. It's not allowed
 			// to be moved to the left of the previous boundary or to the right of the next
 			// boundary.
-			_minXForBoundaryMove = Math.Max(1,
-				Painter.ConvertTimeToXCoordinate(SegmentBoundaries.LastOrDefault(b => b < boundary)));
+			_minXForBoundaryMove = Painter.ConvertTimeToXCoordinate(SegmentBoundaries.LastOrDefault(b => b < boundary));
 
 			var nextBoundary = SegmentBoundaries.FirstOrDefault(b => b > boundary);
 			bool limitedByEndOfStream = nextBoundary == default(TimeSpan);
@@ -59,6 +58,18 @@ namespace SayMore.Media
 			_mouseXAtBeginningOfSegmentMove = mouseX;
 
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void SetAutoScrollPosition(int newTargetX)
+		{
+			if (IsBoundaryMovingInProgress)
+			{
+				_maxXForBoundaryMove -= newTargetX + AutoScrollPosition.X;
+				_minXForBoundaryMove -= newTargetX + AutoScrollPosition.X;
+			}
+
+			base.SetAutoScrollPosition(newTargetX);
 		}
 
 		/// ------------------------------------------------------------------------------------

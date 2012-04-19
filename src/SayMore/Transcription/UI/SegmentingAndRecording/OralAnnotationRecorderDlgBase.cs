@@ -120,7 +120,7 @@ namespace SayMore.Transcription.UI
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
-			InitializeInfoLabels();
+			InitializeHintLabels();
 			ViewModel.InitializeAnnotationRecorder(_peakMeter, HandleAnnotationRecordingProgress);
 			ViewModel.RemoveInvalidAnnotationFiles();
 		}
@@ -217,8 +217,6 @@ namespace SayMore.Transcription.UI
 		{
 			_tableLayoutTop.Visible = false;
 
-			_tableLayoutSegmentInfo.Visible = false;
-
 			_tableLayoutMediaButtons.Dock = DockStyle.Left;
 			_panelWaveControl.Controls.Add(_tableLayoutMediaButtons);
 			_tableLayoutMediaButtons.BringToFront();
@@ -251,19 +249,24 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeInfoLabels()
+		private void InitializeHintLabels()
 		{
+			_labelSegmentTooShort.Text = GetSegmentTooShortText();
+
+			_tableLayoutButtons.Controls.Add(_labelSegmentTooShort, 0, 0);
+			_tableLayoutButtons.Controls.Add(_labelListenHint, 0, 1);
+			_tableLayoutButtons.Controls.Add(_labelRecordHint, 0, 2);
+
+			_tableLayoutButtons.SetColumnSpan(_labelSegmentTooShort, 2);
+			_tableLayoutButtons.SetColumnSpan(_labelListenHint, 2);
+			_tableLayoutButtons.SetColumnSpan(_labelRecordHint, 2);
+
 			_tableLayoutButtons.ColumnStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutButtons.ColumnStyles[1].SizeType = SizeType.Percent;
-			_tableLayoutButtons.Controls.Add(_labelListenHint, 0, 0);
-			_tableLayoutButtons.Controls.Add(_labelRecordHint, 1, 0);
-			_tableLayoutButtons.SetColumnSpan(_labelListenHint, 2);
 
-			_labelTotalDuration.Font = FontHelper.MakeFont(SystemFonts.MenuFont, 8);
-			_labelTotalSegments.Font = _labelTotalDuration.Font;
-			_labelHighlightedSegment.Font = _labelTotalDuration.Font;
 			_labelListenHint.Font = _labelOriginalRecording.Font;
 			_labelRecordHint.Font = _labelOriginalRecording.Font;
+			_labelSegmentTooShort.Font = _labelOriginalRecording.Font;
 			_annotationSegmentFont = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
@@ -376,9 +379,6 @@ namespace SayMore.Transcription.UI
 		{
 			base.HandleStringsLocalized();
 
-			_labelTotalDuration.Tag = _labelTotalDuration.Text;
-			_labelTotalSegments.Tag = _labelTotalSegments.Text;
-			_labelHighlightedSegment.Tag = _labelHighlightedSegment.Text;
 			UpdateDisplay();
 		}
 
@@ -405,33 +405,13 @@ namespace SayMore.Transcription.UI
 
 			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
 			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording;
+			_labelSegmentTooShort.Visible = ViewModel.GetHasNewSegment() && !ViewModel.GetSelectedSegmentIsLongEnough() &&
+				!_spaceKeyIsDown && !_waveControl.IsBoundaryMovingInProgress;
 
-			//Utils.SetWindowRedraw(_tableLayoutSegmentInfo, false);
-
-			//_labelTotalDuration.Text = string.Format((string)_labelTotalDuration.Tag,
-			//    MediaPlayerViewModel.MakeTimeString((float)ViewModel.OrigWaveStream.TotalTime.TotalSeconds));
-
-			//_labelTotalSegments.Text = string.Format((string)_labelTotalSegments.Tag,
-			//    ViewModel.GetSegmentCount());
-
-			//	var currentSegment = GetHighlightedSegment();
-			_labelHighlightedSegment.Visible = false; //				(currentSegment != null);
-
-			//if (currentSegment != null)
-			//{
-			//    _labelHighlightedSegment.Text = string.Format((string)_labelHighlightedSegment.Tag,
-			//        ViewModel.TimeTier.GetIndexOfSegment(currentSegment) + 1,
-			//        MediaPlayerViewModel.MakeTimeString(currentSegment.Start),
-			//        MediaPlayerViewModel.MakeTimeString(currentSegment.End));
-
-			//    // Code for displaying start time and duration of a segment
-			//    //_labelSegmentStart.Text = string.Format((string)_labelSegmentStart.Tag,
-			//    //    MediaPlayerViewModel.MakeTimeString(currentSegment.Start));
-			//    //_labelSegmentDuration.Text = string.Format((string)_labelSegmentDuration.Tag,
-			//    //    MediaPlayerViewModel.MakeTimeString(currentSegment.End - currentSegment.Start));
-			//}
-
-			//Utils.SetWindowRedraw(_tableLayoutSegmentInfo, true);
+			float percentage = (_labelSegmentTooShort.Visible) ? 50 : 100;
+			_tableLayoutButtons.RowStyles[0].Height = (_labelSegmentTooShort.Visible) ? percentage : 0;
+			_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
+			_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
 
 			base.UpdateDisplay();
 		}
@@ -516,8 +496,33 @@ namespace SayMore.Transcription.UI
 			_cursorBlinkTimer.Tag = false;
 			_cursorBlinkTimer.Enabled = false;
 			_waveControl.InvalidateIfNeeded(GetNewSegmentCursorRectangle());
-			PlaybackShortPortionUpToBoundary(ViewModel.NewSegmentEndBoundary);
+			if (ViewModel.GetHasNewSegment())
+				UpdateFollowingNewSegmentBoundaryMove();
+			else
+			{
+				_spaceBarMode = SpaceBarMode.Listen;
+				UpdateDisplay();
+			}
 			base.FinalizeBoundaryMovedUsingArrowKeys();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnSegmentBoundaryMovedInWaveControl(bool segMoved,
+			TimeSpan oldEndTime, TimeSpan newEndTime)
+		{
+			if (newEndTime == ViewModel.NewSegmentEndBoundary)
+				UpdateFollowingNewSegmentBoundaryMove();
+			else
+				base.OnSegmentBoundaryMovedInWaveControl(segMoved, oldEndTime, newEndTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateFollowingNewSegmentBoundaryMove()
+		{
+			PlaybackShortPortionUpToBoundary(ViewModel.NewSegmentEndBoundary);
+			_spaceBarMode = (ViewModel.GetIsSegmentLongEnough(ViewModel.NewSegmentEndBoundary)) ?
+				SpaceBarMode.Record : SpaceBarMode.Listen;
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -568,6 +573,7 @@ namespace SayMore.Transcription.UI
 			WavePainter.SetSelectionTimes(new TimeRange(ViewModel.GetEndOfLastSegment(), end),
 				_selectedSegmentHighlighColor);
 			_waveControl.InvalidateIfNeeded(rcOldCursorIfShrinking);
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1404,14 +1410,14 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnLowLevelKeyDown(Keys key)
 		{
-			if (!ContainsFocus)
+			if (!ContainsFocus || _waveControl.IsBoundaryMovingInProgress)
 				return true;
 
 			// Check that SHIFT is not down too, because Ctrl+Shift on a UI item brings up
 			// the localization dialog box. We don't want it to also start playback.
 			if (key == Keys.Space)
 			{
-				if (_spaceKeyIsDown)
+				if (_spaceKeyIsDown || IsBoundaryMovingInProgressUsingArrowKeys)
 					return true;
 
 				_spaceKeyIsDown = true;
@@ -1424,16 +1430,9 @@ namespace SayMore.Transcription.UI
 				return true;
 			}
 
-			//if (key == Keys.Enter)
-			//{
-			//    HandleRecordAnnotationMouseDown(null, null);
-			//    return true;
-			//}
-
 			if ((key == Keys.Escape || key == Keys.End) && !_waveControl.IsPlaying)
 			{
 				_waveControl.SetCursor(ViewModel.GetEndOfLastSegment());
-// REVIEW				_waveControl.ClearSelection();
 				UpdateDisplay();
 				return true;
 			}
@@ -1447,23 +1446,20 @@ namespace SayMore.Transcription.UI
 			if (!ContainsFocus)
 				return true;
 
-			if (key == Keys.Space && _spaceKeyIsDown)
+			if (key == Keys.Space)
 			{
-				_spaceKeyIsDown = false;
+				if (!IsBoundaryMovingInProgressUsingArrowKeys && _spaceKeyIsDown)
+				{
+					_spaceKeyIsDown = false;
 
-				if (_playingBackUsingHoldDownButton)
-					FinishListeningUsingEarOrSpace();
-				else if (!_reRecording && ViewModel.GetIsRecording())
-					FinishRecording(true);
+					if (_playingBackUsingHoldDownButton)
+						FinishListeningUsingEarOrSpace();
+					else if (!_reRecording && ViewModel.GetIsRecording())
+						FinishRecording(true);
+				}
 
 				return true;
 			}
-
-			//if (key == Keys.Enter)
-			//{
-			//    HandleRecordAnnotationMouseUp(null, null);
-			//    return true;
-			//}
 
 			return base.OnLowLevelKeyUp(key);
 		}

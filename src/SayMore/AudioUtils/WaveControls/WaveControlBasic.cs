@@ -750,14 +750,20 @@ namespace SayMore.Media
 			base.OnMouseMove(e);
 
 			if (SegmentBoundaries == null)
-			{
-				_boundaryMouseOver = default(TimeSpan);
-				return;
-			}
+				_boundaryMouseOver = GetBoundaryNearX(e.X);
+			else
+				OnMouseMoveEx(e, GetBoundaryNearX(e.X));
+		}
 
-			var timeAtMouseA = (e.X <= 4 ? TimeSpan.Zero : GetTimeFromX(e.X - 4));
-			var timeAtMouseB = GetTimeFromX(e.X + 4);
-			OnMouseMoveEx(e, SegmentBoundaries.FirstOrDefault(b => b >= timeAtMouseA && b <= timeAtMouseB));
+		/// ------------------------------------------------------------------------------------
+		private TimeSpan GetBoundaryNearX(int x)
+		{
+			if (SegmentBoundaries == null)
+				return default(TimeSpan);
+
+			var timeAtMouseA = (x <= 4 ? TimeSpan.Zero : GetTimeFromX(x - 4));
+			var timeAtMouseB = GetTimeFromX(x + 4);
+			return SegmentBoundaries.FirstOrDefault(b => b >= timeAtMouseA && b <= timeAtMouseB);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -771,6 +777,8 @@ namespace SayMore.Media
 		{
 			base.OnMouseDown(e);
 
+			var boundaryMouseOver = GetBoundaryNearX(e.X);
+
 			if (IsPlaying)
 				Stop();
 
@@ -778,7 +786,7 @@ namespace SayMore.Media
 			if (timeAtX > WaveStream.TotalTime)
 				timeAtX = WaveStream.TotalTime;
 
-			if (_boundaryMouseOver == default(TimeSpan))
+			if (boundaryMouseOver == default(TimeSpan))
 			{
 				if (SetCursorAtTimeOnMouseClick != null)
 					timeAtX = SetCursorAtTimeOnMouseClick(this, timeAtX);
@@ -787,9 +795,9 @@ namespace SayMore.Media
 				return;
 			}
 
-			OnBoundaryMouseDown(e.X, _boundaryMouseOver, GetIndexOfBoundary(_boundaryMouseOver));
+			OnBoundaryMouseDown(e.X, boundaryMouseOver, GetIndexOfBoundary(boundaryMouseOver));
 
-			timeAtX = (SetCursorAtTimeOnMouseClick == null ? _boundaryMouseOver :
+			timeAtX = (SetCursorAtTimeOnMouseClick == null ? boundaryMouseOver :
 				SetCursorAtTimeOnMouseClick(this, timeAtX));
 
 			OnSetCursorWhenMouseDown(timeAtX, true);

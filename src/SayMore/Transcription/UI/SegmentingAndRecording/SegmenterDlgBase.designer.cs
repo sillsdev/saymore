@@ -205,6 +205,7 @@ namespace SayMore.Transcription.UI
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(3, 12, 3, 12);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonOK.Name = "_buttonOK";
+			this._tableLayoutButtons.SetRowSpan(this._buttonOK, 3);
 			this._buttonOK.Size = new System.Drawing.Size(75, 26);
 			this._buttonOK.TabIndex = 7;
 			this._buttonOK.Text = "OK";
@@ -220,6 +221,7 @@ namespace SayMore.Transcription.UI
 			this._buttonCancel.Location = new System.Drawing.Point(616, 17);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 12, 12, 12);
 			this._buttonCancel.Name = "_buttonCancel";
+			this._tableLayoutButtons.SetRowSpan(this._buttonCancel, 3);
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
 			this._buttonCancel.TabIndex = 8;
 			this._buttonCancel.Text = "Cancel";
@@ -241,8 +243,10 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this._tableLayoutButtons.Location = new System.Drawing.Point(0, 302);
 			this._tableLayoutButtons.Name = "_tableLayoutButtons";
-			this._tableLayoutButtons.RowCount = 1;
-			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutButtons.RowCount = 3;
+			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this._tableLayoutButtons.Size = new System.Drawing.Size(703, 60);
 			this._tableLayoutButtons.TabIndex = 7;
 			this._tableLayoutButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleTableLayoutButtonsPaint);

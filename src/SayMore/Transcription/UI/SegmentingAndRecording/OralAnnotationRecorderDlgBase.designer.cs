@@ -19,23 +19,19 @@ namespace SayMore.Transcription.UI
 		{
 			this.components = new System.ComponentModel.Container();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this._labelHighlightedSegment = new System.Windows.Forms.Label();
-			this._labelTotalDuration = new System.Windows.Forms.Label();
-			this._labelTotalSegments = new System.Windows.Forms.Label();
 			this._labelRecordButton = new System.Windows.Forms.Label();
 			this._labelListenButton = new System.Windows.Forms.Label();
 			this._pictureRecording = new System.Windows.Forms.PictureBox();
-			this._labelListenHint = new System.Windows.Forms.Label();
+			this._labelSegmentTooShort = new System.Windows.Forms.Label();
 			this._labelRecordHint = new System.Windows.Forms.Label();
+			this._panelPeakMeter = new SilTools.Controls.SilPanel();
+			this._labelListenHint = new System.Windows.Forms.Label();
 			this._scrollTimer = new System.Windows.Forms.Timer(this.components);
 			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
-			this._tableLayoutSegmentInfo = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
-			this._panelPeakMeter = new SilTools.Controls.SilPanel();
 			this._tableLayoutMediaButtons = new System.Windows.Forms.TableLayoutPanel();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).BeginInit();
-			this._tableLayoutSegmentInfo.SuspendLayout();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -43,52 +39,6 @@ namespace SayMore.Transcription.UI
 			// locExtender
 			//
 			this.locExtender.LocalizationManagerId = "SayMore";
-			//
-			// _labelHighlightedSegment
-			//
-			this._labelHighlightedSegment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this._labelHighlightedSegment.AutoEllipsis = true;
-			this._labelHighlightedSegment.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelHighlightedSegment, null);
-			this.locExtender.SetLocalizationComment(this._labelHighlightedSegment, null);
-			this.locExtender.SetLocalizingId(this._labelHighlightedSegment, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelHighlightedSegment");
-			this._labelHighlightedSegment.Location = new System.Drawing.Point(0, 36);
-			this._labelHighlightedSegment.Margin = new System.Windows.Forms.Padding(0);
-			this._labelHighlightedSegment.Name = "_labelHighlightedSegment";
-			this._labelHighlightedSegment.Size = new System.Drawing.Size(195, 13);
-			this._labelHighlightedSegment.TabIndex = 3;
-			this._labelHighlightedSegment.Text = "Segment {0}: {1} - {2}";
-			//
-			// _labelTotalDuration
-			//
-			this._labelTotalDuration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelTotalDuration.AutoEllipsis = true;
-			this._labelTotalDuration.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelTotalDuration, null);
-			this.locExtender.SetLocalizationComment(this._labelTotalDuration, null);
-			this.locExtender.SetLocalizingId(this._labelTotalDuration, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelTotalDuration");
-			this._labelTotalDuration.Location = new System.Drawing.Point(0, 0);
-			this._labelTotalDuration.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
-			this._labelTotalDuration.Name = "_labelTotalDuration";
-			this._labelTotalDuration.Size = new System.Drawing.Size(195, 13);
-			this._labelTotalDuration.TabIndex = 2;
-			this._labelTotalDuration.Text = "Original Recording Duration: {0}";
-			//
-			// _labelTotalSegments
-			//
-			this._labelTotalSegments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelTotalSegments.AutoEllipsis = true;
-			this._labelTotalSegments.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._labelTotalSegments, null);
-			this.locExtender.SetLocalizationComment(this._labelTotalSegments, null);
-			this.locExtender.SetLocalizingId(this._labelTotalSegments, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelTotalSegments");
-			this._labelTotalSegments.Location = new System.Drawing.Point(0, 18);
-			this._labelTotalSegments.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
-			this._labelTotalSegments.Name = "_labelTotalSegments";
-			this._labelTotalSegments.Size = new System.Drawing.Size(195, 13);
-			this._labelTotalSegments.TabIndex = 3;
-			this._labelTotalSegments.Text = "Number of Segments: {0}";
 			//
 			// _labelRecordButton
 			//
@@ -134,19 +84,22 @@ namespace SayMore.Transcription.UI
 			this._pictureRecording.TabStop = false;
 			this._pictureRecording.Visible = false;
 			//
-			// _labelListenHint
+			// _labelSegmentTooShort
 			//
-			this._labelListenHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelListenHint.AutoSize = true;
-			this._labelListenHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.locExtender.SetLocalizableToolTip(this._labelListenHint, null);
-			this.locExtender.SetLocalizationComment(this._labelListenHint, null);
-			this.locExtender.SetLocalizingId(this._labelListenHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint");
-			this._labelListenHint.Location = new System.Drawing.Point(87, 2);
-			this._labelListenHint.Name = "_labelListenHint";
-			this._labelListenHint.Size = new System.Drawing.Size(376, 13);
-			this._labelListenHint.TabIndex = 2;
-			this._labelListenHint.Text = "To listen to the original recording, press and hold SPACE the key";
+			this._labelSegmentTooShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelSegmentTooShort.AutoSize = true;
+			this._labelSegmentTooShort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelSegmentTooShort.ForeColor = System.Drawing.Color.Red;
+			this.locExtender.SetLocalizableToolTip(this._labelSegmentTooShort, null);
+			this.locExtender.SetLocalizationComment(this._labelSegmentTooShort, null);
+			this.locExtender.SetLocalizationPriority(this._labelSegmentTooShort, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelSegmentTooShort, "OralAnnotationRecorderBaseDlg._labelListenHint");
+			this._labelSegmentTooShort.Location = new System.Drawing.Point(8, 204);
+			this._labelSegmentTooShort.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this._labelSegmentTooShort.Name = "_labelSegmentTooShort";
+			this._labelSegmentTooShort.Size = new System.Drawing.Size(326, 13);
+			this._labelSegmentTooShort.TabIndex = 2;
+			this._labelSegmentTooShort.Text = "Segment too short - this text will be set programmatically";
 			//
 			// _labelRecordHint
 			//
@@ -156,64 +109,17 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelRecordHint, null);
 			this.locExtender.SetLocalizationComment(this._labelRecordHint, null);
 			this.locExtender.SetLocalizingId(this._labelRecordHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint");
-			this._labelRecordHint.Location = new System.Drawing.Point(454, 2);
+			this._labelRecordHint.Location = new System.Drawing.Point(9, 271);
+			this._labelRecordHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this._labelRecordHint.Name = "_labelRecordHint";
 			this._labelRecordHint.Size = new System.Drawing.Size(243, 13);
 			this._labelRecordHint.TabIndex = 3;
 			this._labelRecordHint.Text = "To record, press and hold the SPACE key";
 			//
-			// _scrollTimer
-			//
-			this._scrollTimer.Interval = 500;
-			//
-			// _cursorBlinkTimer
-			//
-			this._cursorBlinkTimer.Interval = 600;
-			this._cursorBlinkTimer.Tick += new System.EventHandler(this.HandleCursorBlinkTimerTick);
-			//
-			// _tableLayoutSegmentInfo
-			//
-			this._tableLayoutSegmentInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this._tableLayoutSegmentInfo.BackColor = System.Drawing.Color.Transparent;
-			this._tableLayoutSegmentInfo.ColumnCount = 1;
-			this._tableLayoutSegmentInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutSegmentInfo.Controls.Add(this._labelTotalSegments, 0, 1);
-			this._tableLayoutSegmentInfo.Controls.Add(this._labelTotalDuration, 0, 0);
-			this._tableLayoutSegmentInfo.Controls.Add(this._labelHighlightedSegment, 0, 2);
-			this._tableLayoutSegmentInfo.Location = new System.Drawing.Point(6, 241);
-			this._tableLayoutSegmentInfo.Margin = new System.Windows.Forms.Padding(5, 5, 5, 3);
-			this._tableLayoutSegmentInfo.Name = "_tableLayoutSegmentInfo";
-			this._tableLayoutSegmentInfo.RowCount = 2;
-			this._tableLayoutSegmentInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutSegmentInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutSegmentInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutSegmentInfo.Size = new System.Drawing.Size(195, 74);
-			this._tableLayoutSegmentInfo.TabIndex = 4;
-			//
-			// _tableLayoutRecordAnnotations
-			//
-			this._tableLayoutRecordAnnotations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this._tableLayoutRecordAnnotations.ColumnCount = 2;
-			this._tableLayoutRecordAnnotations.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayoutRecordAnnotations.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutRecordAnnotations.Controls.Add(this._labelRecordButton, 0, 1);
-			this._tableLayoutRecordAnnotations.Controls.Add(this._panelPeakMeter, 1, 2);
-			this._tableLayoutRecordAnnotations.Location = new System.Drawing.Point(1, 163);
-			this._tableLayoutRecordAnnotations.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-			this._tableLayoutRecordAnnotations.Name = "_tableLayoutRecordAnnotations";
-			this._tableLayoutRecordAnnotations.RowCount = 3;
-			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutRecordAnnotations.Size = new System.Drawing.Size(144, 150);
-			this._tableLayoutRecordAnnotations.TabIndex = 1;
-			//
 			// _panelPeakMeter
 			//
 			this._panelPeakMeter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._panelPeakMeter.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this._panelPeakMeter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this._panelPeakMeter.ClipTextForChildControls = true;
@@ -235,6 +141,50 @@ namespace SayMore.Transcription.UI
 			this._panelPeakMeter.Size = new System.Drawing.Size(108, 17);
 			this._panelPeakMeter.TabIndex = 1;
 			//
+			// _labelListenHint
+			//
+			this._labelListenHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelListenHint.AutoSize = true;
+			this._labelListenHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.locExtender.SetLocalizableToolTip(this._labelListenHint, null);
+			this.locExtender.SetLocalizationComment(this._labelListenHint, null);
+			this.locExtender.SetLocalizingId(this._labelListenHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint");
+			this._labelListenHint.Location = new System.Drawing.Point(9, 234);
+			this._labelListenHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this._labelListenHint.Name = "_labelListenHint";
+			this._labelListenHint.Size = new System.Drawing.Size(376, 13);
+			this._labelListenHint.TabIndex = 10;
+			this._labelListenHint.Text = "To listen to the original recording, press and hold the SPACE key";
+			//
+			// _scrollTimer
+			//
+			this._scrollTimer.Interval = 500;
+			//
+			// _cursorBlinkTimer
+			//
+			this._cursorBlinkTimer.Interval = 600;
+			this._cursorBlinkTimer.Tick += new System.EventHandler(this.HandleCursorBlinkTimerTick);
+			//
+			// _tableLayoutRecordAnnotations
+			//
+			this._tableLayoutRecordAnnotations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._tableLayoutRecordAnnotations.ColumnCount = 2;
+			this._tableLayoutRecordAnnotations.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this._tableLayoutRecordAnnotations.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutRecordAnnotations.Controls.Add(this._labelRecordButton, 0, 1);
+			this._tableLayoutRecordAnnotations.Controls.Add(this._panelPeakMeter, 1, 2);
+			this._tableLayoutRecordAnnotations.Location = new System.Drawing.Point(1, 163);
+			this._tableLayoutRecordAnnotations.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+			this._tableLayoutRecordAnnotations.Name = "_tableLayoutRecordAnnotations";
+			this._tableLayoutRecordAnnotations.RowCount = 3;
+			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutRecordAnnotations.Size = new System.Drawing.Size(144, 150);
+			this._tableLayoutRecordAnnotations.TabIndex = 1;
+			//
 			// _tableLayoutMediaButtons
 			//
 			this._tableLayoutMediaButtons.ColumnCount = 1;
@@ -255,29 +205,28 @@ namespace SayMore.Transcription.UI
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(703, 362);
+			this.ClientSize = new System.Drawing.Size(703, 412);
 			this.Controls.Add(this._labelRecordHint);
 			this.Controls.Add(this._pictureRecording);
-			this.Controls.Add(this._tableLayoutSegmentInfo);
 			this.Controls.Add(this._labelListenHint);
+			this.Controls.Add(this._labelSegmentTooShort);
 			this.Controls.Add(this._tableLayoutMediaButtons);
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, "Localized in subclass");
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.CarefulSpeechAnnotationDlg.WindowTitle");
+			this.MinimumSize = new System.Drawing.Size(330, 415);
 			this.Name = "OralAnnotationRecorderBaseDlg";
 			this.Opacity = 1D;
 			this.Text = "Change my text";
 			this.Controls.SetChildIndex(this._tableLayoutMediaButtons, 0);
+			this.Controls.SetChildIndex(this._labelSegmentTooShort, 0);
 			this.Controls.SetChildIndex(this._labelListenHint, 0);
-			this.Controls.SetChildIndex(this._tableLayoutSegmentInfo, 0);
 			this.Controls.SetChildIndex(this._pictureRecording, 0);
 			this.Controls.SetChildIndex(this._labelRecordHint, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
-			this._tableLayoutSegmentInfo.ResumeLayout(false);
-			this._tableLayoutSegmentInfo.PerformLayout();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
 			this._tableLayoutMediaButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -290,17 +239,14 @@ namespace SayMore.Transcription.UI
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Timer _scrollTimer;
 		private System.Windows.Forms.Timer _cursorBlinkTimer;
-		private System.Windows.Forms.Label _labelHighlightedSegment;
-		private System.Windows.Forms.Label _labelTotalDuration;
-		private System.Windows.Forms.Label _labelTotalSegments;
-		private System.Windows.Forms.TableLayoutPanel _tableLayoutSegmentInfo;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutRecordAnnotations;
 		private System.Windows.Forms.Label _labelRecordButton;
 		private System.Windows.Forms.Label _labelListenButton;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutMediaButtons;
 		private System.Windows.Forms.PictureBox _pictureRecording;
-		private System.Windows.Forms.Label _labelListenHint;
+		private System.Windows.Forms.Label _labelSegmentTooShort;
 		private System.Windows.Forms.Label _labelRecordHint;
 		private SilPanel _panelPeakMeter;
+		private System.Windows.Forms.Label _labelListenHint;
 	}
 }

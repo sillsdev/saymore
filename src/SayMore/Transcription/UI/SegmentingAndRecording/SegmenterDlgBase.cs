@@ -32,13 +32,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBase()
 		{
-			WaitCursor.Show();
+			InitializeComponent();
+			base.DoubleBuffered = true;
 
 			_moreReliableDesignMode = (DesignMode || GetService(typeof(IDesignerHost)) != null) ||
 				(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
 
-			InitializeComponent();
-			base.DoubleBuffered = true;
+			if (_moreReliableDesignMode)
+				return;
+
+			WaitCursor.Show();
 
 			_toolStripStatus.Renderer = new SilTools.NoToolStripBorderRenderer();
 			_tableLayoutButtons.BackColor = Settings.Default.BarColorEnd;
@@ -181,7 +184,7 @@ namespace SayMore.Transcription.UI
 		{
 			return LocalizationManager.GetString(
 				"DialogBoxes.Transcription.SegmenterDlgBase.ButtonTextWhenSegmentTooShort",
-				"Whoops! The segment will be too short. Continue playing.");
+				"Whoops! The segment will be too short. Continue listening.");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -222,6 +225,12 @@ namespace SayMore.Transcription.UI
 		protected virtual bool ShouldShadePlaybackAreaDuringPlayback
 		{
 			get { return true; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool IsBoundaryMovingInProgressUsingArrowKeys
+		{
+			get { return (_timeAtBeginningOfBoundaryMove >= TimeSpan.Zero); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -309,7 +318,7 @@ namespace SayMore.Transcription.UI
 
 			var boundary = GetBoundaryToAdjustOnArrowKeys();
 
-			var timeAtBeginningOfBoundaryMove = (_timeAtBeginningOfBoundaryMove > TimeSpan.Zero) ?
+			var timeAtBeginningOfBoundaryMove = (IsBoundaryMovingInProgressUsingArrowKeys) ?
 				_timeAtBeginningOfBoundaryMove : boundary;
 
 			if (boundary == TimeSpan.Zero || _viewModel.IsBoundaryPermanent(timeAtBeginningOfBoundaryMove) ||
@@ -339,21 +348,21 @@ namespace SayMore.Transcription.UI
 		public bool HandleSegmentBoundaryMovedInWaveControl(WaveControlWithMovableBoundaries waveCtrl,
 			TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
-			return OnSegmentBoundaryMovedInWaveControl(oldEndTime, newEndTime);
+			StopAllMedia();
+			var segMoved = _viewModel.SegmentBoundaryMoved(oldEndTime, newEndTime);
+			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
+			OnSegmentBoundaryMovedInWaveControl(segMoved, oldEndTime, newEndTime);
+			return segMoved;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual bool OnSegmentBoundaryMovedInWaveControl(TimeSpan oldEndTime, TimeSpan newEndTime)
+		protected virtual void OnSegmentBoundaryMovedInWaveControl(bool segMoved,
+			TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
-			StopAllMedia();
-			var segMoved = (_viewModel.SegmentBoundaryMoved(oldEndTime, newEndTime));
-			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 			UpdateDisplay();
 
 			if (segMoved)
 				PlaybackShortPortionUpToBoundary(newEndTime);
-
-			return segMoved;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -464,7 +473,7 @@ namespace SayMore.Transcription.UI
 		{
 			var result = base.OnLowLevelKeyUp(key);
 
-			if (_timeAtBeginningOfBoundaryMove >= TimeSpan.Zero)
+			if (IsBoundaryMovingInProgressUsingArrowKeys)
 			{
 				FinalizeBoundaryMovedUsingArrowKeys();
 				_timeAtBeginningOfBoundaryMove = TimeSpan.FromSeconds(1).Negate();

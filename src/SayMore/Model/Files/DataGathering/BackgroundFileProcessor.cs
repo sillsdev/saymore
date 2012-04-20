@@ -49,8 +49,8 @@ namespace SayMore.Model.Files.DataGathering
 		protected bool _restartRequested = true;
 		protected Dictionary<string, T> _fileToDataDictionary = new Dictionary<string, T>();
 		private readonly Queue<FileSystemEventArgs> _pendingFileEvents;
-		private volatile bool _suspendEventProcessing;
-		private volatile int _countOfcallsToSuspendProcessingBeforeResume;
+		private volatile int _suspendEventProcessingCount;
+		private readonly object _lockObj = new object();
 
 		public event EventHandler NewDataAvailable;
 		public event EventHandler FinishedProcessingAllFiles;
@@ -84,8 +84,10 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void SuspendProcessing()
 		{
-			_suspendEventProcessing = true;
-			_countOfcallsToSuspendProcessingBeforeResume++;
+			lock (_lockObj)
+			{
+				_suspendEventProcessingCount++;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,17 +100,15 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public virtual void ResumeProcessing(bool processAllPendingEventsNow)
 		{
-			if (_countOfcallsToSuspendProcessingBeforeResume > 0)
-				_countOfcallsToSuspendProcessingBeforeResume--;
-
-			if (_countOfcallsToSuspendProcessingBeforeResume > 0)
-				return;
-
-			_suspendEventProcessing = false;
-
-			if (processAllPendingEventsNow)
+			lock (_lockObj)
 			{
-				lock (_pendingFileEvents)
+				if (_suspendEventProcessingCount > 0)
+					_suspendEventProcessingCount--;
+			}
+
+			if (processAllPendingEventsNow && _suspendEventProcessingCount == 0)
+			{
+				lock (_lockObj)
 				{
 					while (_pendingFileEvents.Count > 0)
 						ProcessFileEvent(_pendingFileEvents.Dequeue());
@@ -170,9 +170,9 @@ namespace SayMore.Model.Files.DataGathering
 							ProcessAllFiles();
 						}
 
-						lock (_pendingFileEvents)
+						lock (_lockObj)
 						{
-							if (_pendingFileEvents.Count > 0 && !_suspendEventProcessing)
+							if (_pendingFileEvents.Count > 0 && _suspendEventProcessingCount == 0)
 								ProcessFileEvent(_pendingFileEvents.Dequeue());
 						}
 
@@ -194,9 +194,8 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		private void QueueFileEvent(object sender, FileSystemEventArgs e)
 		{
-			lock (_pendingFileEvents)
+			lock (_lockObj)
 			{
-
 				if (!_pendingFileEvents.Any(fsea =>
 					fsea.FullPath == e.FullPath && fsea.ChangeType == e.ChangeType))
 				{

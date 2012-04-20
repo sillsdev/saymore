@@ -354,15 +354,12 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool PauseMediaPlayerWhenTabLoosesFocus {
             get {
                 return ((bool)(this["PauseMediaPlayerWhenTabLoosesFocus"]));
-            }
-            set {
-                this["PauseMediaPlayerWhenTabLoosesFocus"] = value;
             }
         }
         
@@ -960,19 +957,16 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://www.help.insitehome.org/reap/manual/ramp-users-manual")]
         public string RampWebSite {
             get {
                 return ((string)(this["RampWebSite"]));
             }
-            set {
-                this["RampWebSite"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("author;compiler;consultant;developer;editor;facilitator;illustrator;interviewer;p" +
@@ -980,9 +974,6 @@ namespace SayMore.Properties {
         public string RampContributorRoles {
             get {
                 return ((string)(this["RampContributorRoles"]));
-            }
-            set {
-                this["RampContributorRoles"] = value;
             }
         }
         
@@ -1157,7 +1148,7 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
@@ -1165,12 +1156,9 @@ namespace SayMore.Properties {
             get {
                 return ((int)(this["MillisecondsToAdvanceSegmentBoundaryOnRightArrow"]));
             }
-            set {
-                this["MillisecondsToAdvanceSegmentBoundaryOnRightArrow"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
@@ -1178,21 +1166,15 @@ namespace SayMore.Properties {
             get {
                 return ((int)(this["MillisecondsToBackupSegmentBoundaryOnLeftArrow"]));
             }
-            set {
-                this["MillisecondsToBackupSegmentBoundaryOnLeftArrow"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
         public int MillisecondsToRePlayAfterAdjustingSegmentBoundary {
             get {
                 return ((int)(this["MillisecondsToRePlayAfterAdjustingSegmentBoundary"]));
-            }
-            set {
-                this["MillisecondsToRePlayAfterAdjustingSegmentBoundary"] = value;
             }
         }
         
@@ -1221,16 +1203,13 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("600")]
         public int MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary {
             get {
                 return ((int)(this["MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary"]));
-            }
-            set {
-                this["MillisecondsToDelayPlaybackAfterAdjustingSegmentBoundary"] = value;
             }
         }
         
@@ -1284,16 +1263,13 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("500")]
         public int MinimumAnnotationSegmentLengthInMilliseconds {
             get {
                 return ((int)(this["MinimumAnnotationSegmentLengthInMilliseconds"]));
-            }
-            set {
-                this["MinimumAnnotationSegmentLengthInMilliseconds"] = value;
             }
         }
         
@@ -1347,7 +1323,7 @@ namespace SayMore.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("_StandardAudio.wav")]
@@ -1355,12 +1331,9 @@ namespace SayMore.Properties {
             get {
                 return ((string)(this["StandardAudioFileSuffix"]));
             }
-            set {
-                this["StandardAudioFileSuffix"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("80")]
@@ -1368,33 +1341,24 @@ namespace SayMore.Properties {
             get {
                 return ((int)(this["SegmentingWaveViewPixelsPerSecond"]));
             }
-            set {
-                this["SegmentingWaveViewPixelsPerSecond"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent {
             get {
                 return ((bool)(this["PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent"]));
             }
-            set {
-                this["PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("850")]
         public int MinimumSegmentLengthInMilliseconds {
             get {
                 return ((int)(this["MinimumSegmentLengthInMilliseconds"]));
-            }
-            set {
-                this["MinimumSegmentLengthInMilliseconds"] = value;
             }
         }
     }

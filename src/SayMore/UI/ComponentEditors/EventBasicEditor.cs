@@ -20,6 +20,7 @@ namespace SayMore.UI.ComponentEditors
 		private FieldsValuesGrid _gridCustomFields;
 		private FieldsValuesGridViewModel _gridViewModel;
 		private readonly PersonInformant _personInformant;
+		private AutoCompleteValueGatherer _autoCompleteProvider;
 
 		/// ------------------------------------------------------------------------------------
 		public EventBasicEditor(ComponentFile file, string imageKey,
@@ -36,8 +37,8 @@ namespace SayMore.UI.ComponentEditors
 			_status.Items.AddRange(Enum.GetNames(typeof(Event.Status))
 				.Select(x => x.ToString().Replace('_', ' ')).ToArray());
 
-			//LoadGenreList(autoCompleteProvider, null);
-			autoCompleteProvider.NewDataAvailable += LoadGenreList;
+			_autoCompleteProvider = autoCompleteProvider;
+			_autoCompleteProvider.NewDataAvailable += LoadGenreList;
 
 			SetBindingHelper(_binder);
 			_autoCompleteHelper.SetAutoCompleteProvider(autoCompleteProvider);
@@ -116,6 +117,15 @@ namespace SayMore.UI.ComponentEditors
 
 			if (_gridViewModel != null)
 				_gridViewModel.SetComponentFile(file);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Activated()
+		{
+			if (_genre.Items.Count == 0)
+				LoadGenreList(_autoCompleteProvider, null);
+
+			base.Activated();
 		}
 
 		/// ------------------------------------------------------------------------------------

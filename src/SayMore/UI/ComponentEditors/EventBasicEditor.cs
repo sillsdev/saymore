@@ -81,7 +81,7 @@ namespace SayMore.UI.ComponentEditors
 				return;
 
 			// Do this because we've gotten here when the auto-complete helper has new data available.
-			_genre.Invoke((MethodInvoker)delegate
+			_genre.BeginInvoke((MethodInvoker)delegate
 			{
 				_genre.Items.Clear();
 				_genre.Items.AddRange(genreList.ToArray());

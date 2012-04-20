@@ -10,6 +10,8 @@ namespace SayMore.Transcription.Model
 	/// ----------------------------------------------------------------------------------------
 	public class TierCollection : Collection<TierBase>
 	{
+		public bool PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		public static TierCollection LoadFromAnnotationFile(string eafFilePath)
 		{
@@ -23,6 +25,8 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public TierCollection()
 		{
+			PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent =
+				Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -116,7 +120,7 @@ namespace SayMore.Transcription.Model
 
 			int i = timeTier.GetIndexOfSegment(segment);
 
-			if (Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent)
+			if (PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent)
 			{
 				foreach (TextTier textTier in this.OfType<TextTier>())
 				{

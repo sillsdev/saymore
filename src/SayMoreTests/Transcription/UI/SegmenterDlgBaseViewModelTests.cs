@@ -51,8 +51,6 @@ namespace SayMoreTests.Transcription.UI
 		[TearDown]
 		public void TearDown()
 		{
-			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = false;
-
 			try { Directory.Delete(_model.OralAnnotationsFolder, true); }
 			catch { }
 
@@ -498,7 +496,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_MiddleSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsTrue()
 		{
-			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+			_model.Tiers.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
 
 			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
 			((TextTier)_model.Tiers[1]).AddSegment("two");
@@ -510,7 +508,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_FinalSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsFalse()
 		{
-			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+			_model.Tiers.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
 
 			((TextTier)_model.Tiers[1]).AddSegment("ignore this");
 			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
@@ -522,7 +520,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_InitialSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsTrue()
 		{
-			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+			_model.Tiers.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
 
 			((TextTier)_model.Tiers[1]).AddSegment("one");
 
@@ -533,7 +531,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_FinalSegmentAfterBoundarHasNonEmptySecondTextTier_ReturnsTrue()
 		{
-			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+			_model.Tiers.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
 
 			_model.Tiers.AddTextTierWithEmptySegments("Garbled Speech");
 			_model.Tiers[2].Segments[2].Text = "Dude, I'm not empty";
@@ -545,7 +543,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_FinalSegmentBeforeBoundaryHasNonEmptyFirstTextTier_ReturnsTrue()
 		{
-			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+			_model.Tiers.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
 
 			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
 			((TextTier)_model.Tiers[1]).AddSegment(string.Empty);
@@ -558,7 +556,7 @@ namespace SayMoreTests.Transcription.UI
 		[Test]
 		public void IsBoundaryPermanent_BoundaryBeyondEndOfLastSegment_ReturnsFalse()
 		{
-			Settings.Default.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
+			_model.Tiers.PreventSegmentBoundaryMovingWhereTextAnnotationsAreAdjacent = true;
 
 			AddTextSegmentsForAllTimeSegments();
 

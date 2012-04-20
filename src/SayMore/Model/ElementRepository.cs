@@ -9,6 +9,22 @@ using SayMore.Model.Files;
 namespace SayMore.Model
 {
 	/// ----------------------------------------------------------------------------------------
+	public class ElementIdChangedArgs : EventArgs
+	{
+		public ProjectElement Element { get; private set; }
+		public string OldId { get; private set; }
+		public string NewId { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public ElementIdChangedArgs(ProjectElement element, string oldId, string newId)
+		{
+			Element = element;
+			OldId = oldId;
+			NewId = newId;
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// This is reposible for finding, creating, and removing items of the given type T
 	/// (i.e. Events or People)
@@ -16,8 +32,7 @@ namespace SayMore.Model
 	/// ----------------------------------------------------------------------------------------
 	public class ElementRepository<T> where T : ProjectElement
 	{
-		public delegate void ElementIdChangedHandler(ProjectElement element, string oldId, string newId);
-		public event ElementIdChangedHandler ElementIdChanged;
+		public event EventHandler<ElementIdChangedArgs> ElementIdChanged;
 
 		public delegate ElementRepository<T> Factory(string projectDirectory, string elementGroupName, FileType type);
 
@@ -140,7 +155,7 @@ namespace SayMore.Model
 		protected virtual void OnElementIdChanged(ProjectElement element, string oldId, string newId)
 		{
 			if (ElementIdChanged != null)
-				ElementIdChanged(element, oldId, newId);
+				ElementIdChanged(this, new ElementIdChangedArgs(element, oldId, newId));
 		}
 	}
 }

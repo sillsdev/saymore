@@ -158,10 +158,10 @@ namespace SayMore.Model
 		/// it contains a name that changed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandlePersonsNameChanged(ProjectElement element, string oldId, string newId)
+		private void HandlePersonsNameChanged(object sender, ElementIdChangedArgs e)
 		{
 			var allParticipants = GetAllParticipants();
-			var newNames = allParticipants.Select(name => (name == oldId ? newId : name));
+			var newNames = allParticipants.Select(name => (name == e.OldId ? e.NewId : name));
 
 			string failureMessage;
 			MetaDataFile.SetStringValue("participants",

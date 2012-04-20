@@ -11,7 +11,7 @@ namespace SayMore.Model
 	/// </summary>
 	public class PersonInformant
 	{
-		public event ElementRepository<Person>.ElementIdChangedHandler PersonNameChanged;
+		public event EventHandler<ElementIdChangedArgs> PersonNameChanged;
 
 		private readonly ElementRepository<Person> _peopleRepository;
 		private readonly AutoCompleteValueGatherer _autoCompleteValueGatherer;
@@ -35,10 +35,10 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void HandlePersonNameChanged(ProjectElement element, string oldId, string newId)
+		protected void HandlePersonNameChanged(object sender, ElementIdChangedArgs args)
 		{
 			if (PersonNameChanged != null)
-				PersonNameChanged(element, oldId, newId);
+				PersonNameChanged(this, args);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,9 +60,9 @@ namespace SayMore.Model
 		public virtual IEnumerable<string> GetAllPeopleNames()
 		{
 			var gathererNames = (_autoCompleteValueGatherer == null ? null :
-				_autoCompleteValueGatherer.GetValueLists(false).Where(x => x.Key == "person"));
+				_autoCompleteValueGatherer.GetValueLists(false).Where(x => x.Key == "person").ToArray());
 
-			if (gathererNames == null || gathererNames.Count() == 0)
+			if (gathererNames == null || gathererNames.Length == 0)
 			{
 				foreach (var name in GetPeopleNamesFromRepository())
 					yield return name;

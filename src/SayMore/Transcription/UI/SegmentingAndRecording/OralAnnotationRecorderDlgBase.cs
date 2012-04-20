@@ -406,7 +406,7 @@ namespace SayMore.Transcription.UI
 			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
 			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording;
 			_labelSegmentTooShort.Visible = ViewModel.GetHasNewSegment() && !ViewModel.GetSelectedSegmentIsLongEnough() &&
-				!_spaceKeyIsDown && !_waveControl.IsBoundaryMovingInProgress;
+				!_playingBackUsingHoldDownButton && !_waveControl.IsBoundaryMovingInProgress;
 
 			float percentage = (_labelSegmentTooShort.Visible) ? 50 : 100;
 			_tableLayoutButtons.RowStyles[0].Height = (_labelSegmentTooShort.Visible) ? percentage : 0;

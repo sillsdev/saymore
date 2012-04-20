@@ -55,7 +55,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private void LoadGenreList(object sender, EventArgs e)
 		{
-			List<string> genreList = new List<string>();
+			var genreList = new List<string>();
 
 			var autoCompleteProvider = sender as AutoCompleteValueGatherer;
 

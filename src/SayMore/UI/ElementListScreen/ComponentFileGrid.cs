@@ -19,6 +19,7 @@ namespace SayMore.UI.ElementListScreen
 	{
 		private IEnumerable<ComponentFile> _files;
 		private string _gridColSettingPrefix;
+		private bool _handlingForceRefresh;
 
 		/// <summary>When the user selects a different component, this is called</summary>
 		public Action<int> AfterComponentSelected;
@@ -326,17 +327,23 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleFileGridCurrentRowChanged(object sender, EventArgs e)
 		{
-			if (Disposing)
+			if (!Disposing)
+				ForceRefresh();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void ForceRefresh()
+		{
+			if (_handlingForceRefresh)
 				return;
 
+			_handlingForceRefresh = true;
 			BuildMenuCommands(_grid.CurrentCellAddress.Y);
-
-			_grid.CurrentRowChanged -= HandleFileGridCurrentRowChanged;
 
 			if (null != AfterComponentSelected && _grid.CurrentCellAddress.Y >= 0)
 				AfterComponentSelected(_grid.CurrentCellAddress.Y);
 
-			_grid.CurrentRowChanged += HandleFileGridCurrentRowChanged;
+			_handlingForceRefresh = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -355,8 +362,10 @@ namespace SayMore.UI.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public void SelectComponent(int index)
 		{
-			_grid.CurrentCell = (index >= 0 && index < _files.Count() ? _grid[0, index] : null);
-			HandleFileGridCurrentRowChanged(null, null);
+			if (_grid.CurrentCellAddress.Y != index)
+				_grid.CurrentCell = (index >= 0 && index < _files.Count() ? _grid[0, index] : null);
+			else
+				ForceRefresh();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -553,7 +562,7 @@ namespace SayMore.UI.ElementListScreen
 				index--;
 
 			UpdateComponentFileList(newList, newList[index]);
-			HandleFileGridCurrentRowChanged(null, null);
+			ForceRefresh();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -11,6 +11,7 @@ using SayMore.Properties;
 using SayMore.Model;
 using SayMore.UI.ComponentEditors;
 using SayMore.UI.LowLevelControls;
+using SilTools;
 
 namespace SayMore.UI.ElementListScreen
 {
@@ -245,10 +246,6 @@ namespace SayMore.UI.ElementListScreen
 			}
 			else
 			{
-				// Setting the selected component to nothing now will make sure that
-				// setting it to zero below will cause a row changed event, thus causing
-				// the ComponentSelectedCallback event.
-				_componentFilesControl.SelectComponent(-1);
 				_componentFilesControl.AfterComponentSelected = HandleAfterComponentFileSelected;
 				_componentFilesControl.SelectComponent(0);
 				ShowSelectedComponentFileEditors();

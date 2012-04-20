@@ -72,7 +72,6 @@ namespace SayMore.UI.ComponentEditors
 			}
 
 			Utils.SetWindowRedraw(this, false);
-
 			TabPages.Clear();
 
 			foreach (var editor in EditorProviders.Where(ep => ep.IsOKToShow))
@@ -88,8 +87,8 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		private bool GetAreAppropriateEditorsAlreadyVisible(ICollection<Type> desiredEditorTypes)
 		{
-			return TabPages.Cast<TabPage>().All(tp => tp.Controls.Count <= 0 ||
-				!desiredEditorTypes.Contains(tp.Controls[0].GetType()));
+			return TabPages.Cast<TabPage>().All(tp => tp.Controls.Count >= 0 &&
+				desiredEditorTypes.Contains(tp.Controls[0].GetType()));
 		}
 	}
 }

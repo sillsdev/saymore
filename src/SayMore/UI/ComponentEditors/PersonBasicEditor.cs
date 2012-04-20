@@ -457,16 +457,14 @@ namespace SayMore.UI.ComponentEditors
 		/// localized to non English text.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool HandleBinderTranslateBoundValueBeingRetrieved(BindingHelper helper,
-			Control boundControl, string valueFromFile, out string translatedValue)
+		private void HandleBinderTranslateBoundValueBeingRetrieved(object sender,
+			TranslateBoundValueBeingRetrievedArgs args)
 		{
-			translatedValue = null;
-
-			if (boundControl != _gender)
-				return false;
-
-			_gender.SelectedIndex = (valueFromFile == "Male" ? 0 : 1);
-			return true;
+			if (args.BoundControl == _gender)
+			{
+				_gender.SelectedIndex = (args.ValueFromFile == "Male" ? 0 : 1);
+				args.Handled = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -476,16 +474,11 @@ namespace SayMore.UI.ComponentEditors
 		/// the localized values for male and female (which is what is in the gender combo box).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool HandleBinderTranslateBoundValueBeingSaved(BindingHelper helper,
-			Control boundControl, out string newValue)
+		private void HandleBinderTranslateBoundValueBeingSaved(object sender,
+			TranslateBoundValueBeingSavedArgs args)
 		{
-			newValue = null;
-
-			if (boundControl != _gender)
-				return false;
-
-			newValue = (_gender.SelectedIndex == 0 ? "Male" : "Female");
-			return true;
+			if (args.BoundControl == _gender)
+				args.NewValue = (_gender.SelectedIndex == 0 ? "Male" : "Female");
 		}
 
 		#endregion

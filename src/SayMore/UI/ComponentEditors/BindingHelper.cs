@@ -24,21 +24,8 @@ namespace SayMore.UI.ComponentEditors
 		private readonly Func<Control, string> MakeIdFromControlName = (ctrl => ctrl.Name.TrimStart('_'));
 		private readonly Func<string, string> MakeControlNameFromId = (id => "_" + id);
 
-		public delegate bool TranslateBoundValueBeingSavedHandler(BindingHelper helper,
-			Control boundControl, out string newValue);
-
-		/// <summary>
-		/// When this method returns true, it means the delegate updated the control so nothing
-		/// further is needed for the binder to do, even if the newValue comes back different
-		/// from the valueFromFile. If false is returned and newValue is null, then the
-		/// valueFromFile is used. If false is returned and newValue is not null, it will be
-		/// used in place of valueFromFile.
-		/// </summary>
-		public delegate bool TranslateBoundValueBeingRetrievedHandler(BindingHelper helper,
-			Control boundControl, string valueFromFile, out string newValue);
-
-		public event TranslateBoundValueBeingSavedHandler TranslateBoundValueBeingSaved;
-		public event TranslateBoundValueBeingRetrievedHandler TranslateBoundValueBeingRetrieved;
+		public event EventHandler<TranslateBoundValueBeingSavedArgs> TranslateBoundValueBeingSaved;
+		public event EventHandler<TranslateBoundValueBeingRetrievedArgs> TranslateBoundValueBeingRetrieved;
 
 		public ComponentFile ComponentFile { get; private set; }
 
@@ -246,11 +233,12 @@ namespace SayMore.UI.ComponentEditors
 			{
 				if (TranslateBoundValueBeingRetrieved != null)
 				{
-					string translatedValue;
-					if (TranslateBoundValueBeingRetrieved(this, ctrl, stringValue, out translatedValue))
+					var args = new TranslateBoundValueBeingRetrievedArgs(ctrl, stringValue);
+					TranslateBoundValueBeingRetrieved(this, args);
+					if (args.Handled)
 						return;
 
-					stringValue = (translatedValue ?? stringValue);
+					stringValue = (args.TranslatedValue ?? stringValue);
 				}
 
 				ctrl.Text = stringValue;
@@ -314,9 +302,14 @@ namespace SayMore.UI.ComponentEditors
 			var key = MakeIdFromControlName(ctrl);
 
 			string newValue = null;
+			var gotNewValueFromDelegate = false;
 
-			var gotNewValueFromDelegate = (TranslateBoundValueBeingSaved != null &&
-				TranslateBoundValueBeingSaved(this, ctrl, out newValue));
+			if (TranslateBoundValueBeingSaved != null)
+			{
+				var args = new TranslateBoundValueBeingSavedArgs(ctrl);
+				newValue = args.NewValue;
+				gotNewValueFromDelegate = (newValue != null);
+			}
 
 			if (!gotNewValueFromDelegate)
 			{
@@ -373,6 +366,48 @@ namespace SayMore.UI.ComponentEditors
 			var ctrl = GetBoundControlFromKey(fieldId);
 			if (ctrl != null)
 				UpdateControlValueFromField(ctrl);
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	public class TranslateBoundValueBeingRetrievedArgs : EventArgs
+	{
+		public Control BoundControl { get; private set; }
+		public string ValueFromFile { get; private set; }
+		public string TranslatedValue { get; set; }
+
+		/// <summary>
+		/// When the Handled property is returned true, it means the delegate updated the
+		/// control so nothing further is needed for the binder to do, even if the newValue
+		/// comes back different from the valueFromFile. If Handled is false and newValue
+		/// is null, then the valueFromFile is used. If Handled is false and newValue is not
+		/// null, it will be used in place of valueFromFile.
+		/// </summary>
+		public bool Handled { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public TranslateBoundValueBeingRetrievedArgs(Control boundControl, string valueFromFile)
+		{
+			BoundControl = boundControl;
+			ValueFromFile = valueFromFile;
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	public class TranslateBoundValueBeingSavedArgs : EventArgs
+	{
+		public Control BoundControl { get; private set; }
+
+		/// <summary>
+		/// Initially, this value is null. If delegates do not want to translate the
+		/// value, then NewValue should remain null.
+		/// </summary>
+		public string NewValue { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public TranslateBoundValueBeingSavedArgs(Control boundControl)
+		{
+			BoundControl = boundControl;
 		}
 	}
 }

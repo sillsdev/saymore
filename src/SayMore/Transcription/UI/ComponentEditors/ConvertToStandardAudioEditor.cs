@@ -36,6 +36,8 @@ namespace SayMore.Transcription.UI
 			_labelOriginalFileNameValue.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, FontStyle.Bold);
 			_labelStandardAudioFileName.Font = SystemFonts.IconTitleFont;
 			_labelStandardAudioFileNameValue.Font = _labelOriginalFileNameValue.Font;
+
+			SetComponentFile(_file);
 		}
 
 		/// ------------------------------------------------------------------------------------

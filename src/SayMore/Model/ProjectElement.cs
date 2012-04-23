@@ -8,6 +8,7 @@ using Palaso.Reporting;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.Transcription.Model;
 
 namespace SayMore.Model
 {
@@ -289,7 +290,18 @@ namespace SayMore.Model
 					{
 						//todo: do a case-insensitive replacement
 						//todo... this could over-replace
-						File.Move(file, Path.Combine(FolderPath, name.Replace(Id, newId)));
+
+						var newFileName = Path.Combine(FolderPath, name.Replace(Id, newId));
+						File.Move(file, newFileName);
+
+						if (Path.GetExtension(newFileName) == Settings.Default.AnnotationFileExtension)
+						{
+							// If the file just renamed is an annotation file (i.e. .eaf) then we
+							// need to make sure the annotation file is updated internally so it's
+							// pointing to the renamed media file. This fixes SP-399.
+							try { AnnotationFileHelper.Load(newFileName); }
+							catch { }
+						}
 					}
 				}
 

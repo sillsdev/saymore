@@ -76,7 +76,24 @@ namespace SayMore.Transcription.Model
 				helper = new AnnotationFileHelper(annotationFileName);
 			}
 
+			// This fixes SP-399: Renaming event IDs made the EAF's internal media file
+			// name different from the media file it's annotating.
+			helper.VerifyMediaFileNameIsCorrect();
+
 			return helper;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void VerifyMediaFileNameIsCorrect()
+		{
+			var expectedMediaFileName = AnnotationFileName.Replace(
+				".annotations" + Settings.Default.AnnotationFileExtension, string.Empty);
+
+			if (expectedMediaFileName == GetFullPathToMediaFile())
+				return;
+
+			SetMediaFile(expectedMediaFileName);
+			Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -136,8 +153,7 @@ namespace SayMore.Transcription.Model
 			}
 
 			return (_mediaFileName == null || Path.IsPathRooted(_mediaFileName) ?
-				_mediaFileName :
-				Path.Combine(GetAnnotationFolderPath(), Path.GetFileName(_mediaFileName)));
+				_mediaFileName : Path.Combine(GetAnnotationFolderPath(), Path.GetFileName(_mediaFileName)));
 		}
 
 		/// ------------------------------------------------------------------------------------

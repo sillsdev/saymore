@@ -864,15 +864,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.85"
-     inkscape:cx="331.88877"
-     inkscape:cy="150.4826"
+     inkscape:cx="331.24132"
+     inkscape:cy="211.01889"
      inkscape:current-layer="layer1"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1058"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="1379"
+     inkscape:window-height="878"
+     inkscape:window-x="-32000"
+     inkscape:window-y="-32000"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7823">
@@ -1194,6 +1194,13 @@
        height="120"
        x="37.331497"
        y="65.318626" />
+    <rect
+       style="fill:#bccfe8;fill-opacity:1;stroke:none"
+       id="rect8436-1"
+       width="324.8031"
+       height="120"
+       x="38.479668"
+       y="64.15873" />
     <text
        xml:space="preserve"
        style="font-size:12.84313202px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#4d7dc5;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
@@ -1414,13 +1421,6 @@ rkJggg==
        width="478.33334"
        clip-path="url(#clipPath8988)"
        transform="matrix(0.9109589,0,0,1,-207.45568,-534.26471)" />
-    <rect
-       style="fill:#bccfe8;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       id="rect8436-1"
-       width="188.3325"
-       height="120"
-       x="174.95026"
-       y="64.15873" />
     <image
        y="612.5"
        x="188.33333"

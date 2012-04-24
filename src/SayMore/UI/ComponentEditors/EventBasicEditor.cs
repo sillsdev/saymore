@@ -21,6 +21,7 @@ namespace SayMore.UI.ComponentEditors
 		private FieldsValuesGridViewModel _gridViewModel;
 		private readonly PersonInformant _personInformant;
 		private AutoCompleteValueGatherer _autoCompleteProvider;
+		private bool _genreFieldEntered;
 
 		/// ------------------------------------------------------------------------------------
 		public EventBasicEditor(ComponentFile file, string imageKey,
@@ -51,6 +52,10 @@ namespace SayMore.UI.ComponentEditors
 			_id.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelId); };
 			_date.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelDate); };
 			_status.Enter += delegate { EnsureFirstRowLabelIsVisible(_labelStatus); };
+
+			_genre.Enter += delegate { _genreFieldEntered = true; };
+			_genre.Leave += delegate { _genreFieldEntered = false; };
+			_genre.KeyPress += HandleGenreKeyPress;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -87,6 +92,20 @@ namespace SayMore.UI.ComponentEditors
 				_genre.Items.Clear();
 				_genre.Items.AddRange(genreList.ToArray());
 			});
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGenreKeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (_genreFieldEntered && !Char.IsControl(e.KeyChar) &&
+				_genre.SelectionLength < _genre.Text.Length &&
+				_genre.Text.Contains(GenreDefinition.UnknownType.Name))
+			{
+				_genre.Text = _genre.Text.Replace(GenreDefinition.UnknownType.Name, string.Empty);
+				_genre.SelectionLength = 0;
+				_genre.SelectionStart = 0;
+				_genreFieldEntered = false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

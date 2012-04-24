@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
@@ -57,7 +58,7 @@ namespace SayMore.UI.ComponentEditors
 				// The browser takes a moment to finish navigating and thus
 				// to release the file pointed to by the previous URL.
 				Cursor = Cursors.WaitCursor;
-				FileSystemUtils.WaitForFileRelease(file.PathToAnnotatedFile, true);
+				FileSystemUtils.WaitForFileRelease(file.PathToAnnotatedFile, Thread.CurrentThread);
 				Cursor = Cursors.Default;
 			});
 		}

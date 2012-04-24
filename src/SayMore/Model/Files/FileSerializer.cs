@@ -2,10 +2,12 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using SayMore.Model.Fields;
 using Palaso.Xml;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Model.Files
 {
@@ -29,10 +31,26 @@ namespace SayMore.Model.Files
 		{
 			var child = new XElement(rootElementName);//todo could use actual name
 
-			foreach (var element in fields.Select(f => GetElementFromField(f)).Where(e => e != null))
+			foreach (var element in fields.Select(GetElementFromField).Where(e => e != null))
 				child.Add(element);
 
-			child.Save(path);
+			var giveUpTime = DateTime.Now.AddSeconds(4);
+
+			while (true)
+			{
+				try
+				{
+					child.Save(path);
+					break;
+				}
+				catch (IOException)
+				{
+					if (DateTime.Now >= giveUpTime)
+						throw;
+
+					Thread.Sleep(100);
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -79,13 +97,34 @@ namespace SayMore.Model.Files
 		{
 			fields.Clear();
 			var doc = new XmlDocument();
-			doc.Load(path);
 
-			foreach (var fld in doc.ChildNodes[1].ChildNodes.Cast<XmlNode>()
-				.Select(n => GetFieldFromNode(n)).Where(f => f != null))
+			var giveUpTime = DateTime.Now.AddSeconds(4);
+
+			while (true)
 			{
-				fields.Add(fld);
+				try
+				{
+					doc.Load(path);
+					break;
+				}
+				catch (IOException)
+				{
+					if (DateTime.Now >= giveUpTime)
+						throw;
+
+					Thread.Sleep(100);
+				}
 			}
+
+			//using (var reader = XElement.Load(path).CreateReader())
+			//{
+			//    doc.Load(reader);
+			//    reader.Close();
+			//}
+
+			fields.AddRange(doc.ChildNodes[1].ChildNodes.Cast<XmlNode>()
+				.Select(GetFieldFromNode)
+				.Where(fieldInstance => fieldInstance != null));
 		}
 
 		/// ------------------------------------------------------------------------------------

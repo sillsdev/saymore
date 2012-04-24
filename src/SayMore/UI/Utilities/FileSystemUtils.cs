@@ -15,7 +15,7 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		public static void WaitForFileRelease(string filePath)
 		{
-			WaitForFileRelease(filePath, false);
+			WaitForFileRelease(filePath, Thread.CurrentThread);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -24,9 +24,9 @@ namespace SayMore.UI.Utilities
 		/// for 10 seconds.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void WaitForFileRelease(string filePath, bool fileOpenedByThisProcess)
+		public static void WaitForFileRelease(string filePath, Thread callingThread)
 		{
-			WaitForFileRelease(filePath, fileOpenedByThisProcess, 10000);
+			WaitForFileRelease(filePath, callingThread, 10000);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ namespace SayMore.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		public static void WaitForFileRelease(string filePath, int millisecondsToWait)
 		{
-			WaitForFileRelease(filePath, false, millisecondsToWait);
+			WaitForFileRelease(filePath, Thread.CurrentThread, millisecondsToWait);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ namespace SayMore.UI.Utilities
 		/// Waits up to the specified time for a lock on a file to be released.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void WaitForFileRelease(string filePath, bool fileOpenedByThisProcess,
+		public static void WaitForFileRelease(string filePath, Thread callingThread,
 			int millisecondsToWait)
 		{
 			var timeout = DateTime.Now.AddMilliseconds(millisecondsToWait);
@@ -54,7 +54,7 @@ namespace SayMore.UI.Utilities
 			{
 				try
 				{
-					if (fileOpenedByThisProcess)
+					if (callingThread == Thread.CurrentThread)
 						Application.DoEvents();
 					else
 						Thread.Sleep(100);

@@ -192,6 +192,8 @@ namespace SayMore.Media.UI
 		{
 			videoPath = videoPath.Replace('\\', '/');
 
+			// -af format=s{0}ne channels=
+
 			var prs = GetNewMPlayerProcess();
 			prs.StartInfo.Arguments =
 				string.Format("\"{0}\" -nofontconfig -vo null -vc null -ao pcm:fast:file=%{1}%\"{2}\"",

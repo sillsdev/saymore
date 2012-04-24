@@ -299,8 +299,10 @@ namespace SayMore.Model
 							// If the file just renamed is an annotation file (i.e. .eaf) then we
 							// need to make sure the annotation file is updated internally so it's
 							// pointing to the renamed media file. This fixes SP-399.
-							try { AnnotationFileHelper.Load(newFileName); }
-							catch { }
+							var newMediaFileName = newFileName.Replace(
+								".annotations" + Settings.Default.AnnotationFileExtension, string.Empty);
+
+							AnnotationFileHelper.ChangeMediaFileName(newFileName, newMediaFileName);
 						}
 					}
 				}

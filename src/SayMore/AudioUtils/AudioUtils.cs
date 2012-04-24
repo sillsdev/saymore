@@ -263,10 +263,7 @@ namespace SayMore.Media
 				var worker = new BackgroundWorker();
 				worker.DoWork += delegate
 				{
-					// TODO: Get and use the audio's bits/sample from ffmpeg or mplayer output dump.
-					int channels = GetChannelsFromMediaFile(inputMediaFile);
-					var format = GetDefaultWaveFormat(channels);
-					outputReader = ConvertToStandardPcmStream(inputMediaFile, outputMediaFile, format, out error);
+					outputReader = ConvertToStandardPcmStream(inputMediaFile, outputMediaFile, out error);
 				};
 
 				worker.RunWorkerAsync();
@@ -312,7 +309,7 @@ namespace SayMore.Media
 
 		/// ------------------------------------------------------------------------------------
 		public static WaveFileReader ConvertToStandardPcmStream(string inputMediaFile,
-			string outputAudioFile, WaveFormat preferredOutputFormat, out Exception error)
+			string outputAudioFile, out Exception error)
 		{
 			try
 			{
@@ -321,21 +318,15 @@ namespace SayMore.Media
 
 				if (CheckConversionIsPossible(outputAudioFile, false, out errorMsg))
 				{
-					var execResult = FFmpegRunner.ExtractPcmAudio(inputMediaFile, outputAudioFile,
-						preferredOutputFormat.BitsPerSample, preferredOutputFormat.SampleRate,
-						preferredOutputFormat.Channels, new NullProgress());
-
-					if (execResult.ExitCode == 0)
-						return new WaveFileReader(outputAudioFile);
-
-					errorMsg = execResult.StandardError;
+					MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile, outputAudioFile);
+					return new WaveFileReader(outputAudioFile);
 				}
 
 				var msg = LocalizationManager.GetString("SoundFileUtils.ExtractingAudioError",
 					"There was an error extracting audio from the media file '{0}'\r\n\r\n{1}",
 					"Second parameter is the error message.");
 
-				error = new Exception(String.Format(msg, inputMediaFile, errorMsg));
+				error = new Exception(string.Format(msg, inputMediaFile, errorMsg));
 			}
 			catch (Exception e)
 			{

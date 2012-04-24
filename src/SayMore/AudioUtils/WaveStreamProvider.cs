@@ -59,7 +59,7 @@ namespace SayMore.Media
 			try
 			{
 				// First, just try to open the file as a wave file. If that fails, use
-				// ffmpeg or mplayer in an attempt to get wave audio out of the file.
+				// mplayer in an attempt to get wave audio out of the file.
 				if (AudioUtils.GetIsFileStandardPcm(mediaFile))
 				{
 					Stream = new WaveFileReader(mediaFile);
@@ -72,10 +72,7 @@ namespace SayMore.Media
 
 			Exception error;
 			WaitCursor.Show();
-
-			Stream = AudioUtils.ConvertToStandardPcmStream(mediaFile,
-				_temporaryWavFile, PreferredOutputFormat, out error);
-
+			Stream = AudioUtils.ConvertToStandardPcmStream(mediaFile, _temporaryWavFile, out error);
 			WaitCursor.Hide();
 			Error = error;
 		}

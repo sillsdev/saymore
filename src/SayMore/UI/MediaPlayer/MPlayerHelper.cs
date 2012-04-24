@@ -188,16 +188,15 @@ namespace SayMore.Media.UI
 		/// file (i.e. raw PCM).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void ExtractAudioToWave(string videoPath, string audioOutPath)
+		public static void CreatePcmAudioFromMediaFile(string mediaInPath, string audioOutPath)
 		{
-			videoPath = videoPath.Replace('\\', '/');
-
-			// -af format=s{0}ne channels=
+			mediaInPath = mediaInPath.Replace('\\', '/');
+			var channels = AudioUtils.GetChannelsFromMediaFile(mediaInPath);
 
 			var prs = GetNewMPlayerProcess();
 			prs.StartInfo.Arguments =
-				string.Format("\"{0}\" -nofontconfig -vo null -vc null -ao pcm:fast:file=%{1}%\"{2}\"",
-				videoPath, audioOutPath.Length, audioOutPath);
+				string.Format("\"{0}\" -nofontconfig -vo null -vc null -af channels={1} -ao pcm:fast:file=%{2}%\"{3}\"",
+				mediaInPath, channels, audioOutPath.Length, audioOutPath);
 
 			StartProcess(prs);
 		}

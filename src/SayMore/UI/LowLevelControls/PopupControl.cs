@@ -9,6 +9,7 @@ namespace SayMore.UI.LowLevelControls
 	{
 		public CancelEventHandler PopupOpening;
 		public ToolStripDropDownClosingEventHandler PopupClosing;
+		public ToolStripDropDownClosedEventHandler PopupClosed;
 
 		protected ToolStripControlHost _controlHost;
 		protected ToolStripDropDown _dropDown;
@@ -39,8 +40,9 @@ namespace SayMore.UI.LowLevelControls
 				LayoutStyle = ToolStripLayoutStyle.Table
 			};
 
-			_dropDown.Closing += HandlePopupClosing;
-			_dropDown.Opening += HandlePopupOpening;
+			_dropDown.Closed += (s, e) => { if (PopupClosed != null) PopupClosed(this, e); };
+			_dropDown.Closing += (s, e) => { if (PopupClosing != null) PopupClosing(this, e); };
+			_dropDown.Opening += (s, e) => { if (PopupOpening != null) PopupOpening(this, e); };
 			_dropDown.Items.Add(_controlHost);
 		}
 
@@ -93,20 +95,6 @@ namespace SayMore.UI.LowLevelControls
 
 			if (!DesignMode)
 				_controlHost.Size = _dropDown.Size = Size;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void HandlePopupOpening(object sender, CancelEventArgs e)
-		{
-			if (PopupOpening != null)
-				PopupOpening(this, e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandlePopupClosing(object sender, ToolStripDropDownClosingEventArgs e)
-		{
-			if (PopupClosing != null)
-				PopupClosing(this, e);
 		}
 
 		#endregion

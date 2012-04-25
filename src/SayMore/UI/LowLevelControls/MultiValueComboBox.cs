@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilTools;
@@ -10,6 +11,11 @@ namespace SayMore.UI.LowLevelControls
 {
 	public partial class MultiValueComboBox : UserControl
 	{
+#if !__MonoCS__
+		[DllImport("user32")]
+		private static extern bool HideCaret(IntPtr hWnd);
+#endif
+
 		public delegate IEnumerable<PickerPopupItem> JITListAcquisitionHandler(object sender);
 		public event JITListAcquisitionHandler JITListAcquisition;
 		public event CancelEventHandler DropDownOpening;
@@ -19,12 +25,11 @@ namespace SayMore.UI.LowLevelControls
 		public MultiValuePickerPopup Popup { get; private set; }
 
 		protected readonly int _borderWidth;
-		//protected Color _backColor;
-		//protected Color _foreColor;
 		protected AutoCompleteMode _autoCompleteMode;
 		protected AutoCompleteSource _autoCompleteSource;
 		protected AutoCompleteStringCollection _autoCompleteCustomSource;
 		protected bool _readOnly;
+		private bool _selectAllTextOnMouseDown;
 
 		/// ------------------------------------------------------------------------------------
 		public MultiValueComboBox()
@@ -45,6 +50,17 @@ namespace SayMore.UI.LowLevelControls
 
 			Padding = new Padding(_borderWidth, borderHeight, _borderWidth, borderHeight);
 			CausesValidation = true;
+
+			_textBox.MouseMove += delegate { HideTextBoxInsertionPoint(); };
+			_textBox.MouseClick += delegate { HideTextBoxInsertionPoint(); };
+			_textBox.MouseDown += delegate
+			{
+				if (_selectAllTextOnMouseDown)
+				{
+					_selectAllTextOnMouseDown = false;
+					_textBox.SelectAll();
+				}
+			};
 		}
 
 		#region Properties
@@ -141,6 +157,16 @@ namespace SayMore.UI.LowLevelControls
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private void HideTextBoxInsertionPoint()
+		{
+			// Another way of doing this will have to be found when compiling for Mono.
+#if !__MonoCS__
+			if (_readOnly)
+				HideCaret(_textBox.Handle);
+#endif
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SelectAll()
@@ -280,7 +306,14 @@ namespace SayMore.UI.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void HandleTextBoxEnter(object sender, EventArgs e)
 		{
-			_textBox.SelectAll();
+			var pt = _textBox.PointToClient(MousePosition);
+
+			if (MouseButtons == MouseButtons.Left && _textBox.ClientRectangle.Contains(pt))
+				_selectAllTextOnMouseDown = true;
+			else
+				_textBox.SelectAll();
+
+			Application.Idle += HandleApplicationIdle;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -288,18 +321,21 @@ namespace SayMore.UI.LowLevelControls
 		{
 			_textBox.SelectionStart = 0;
 			_textBox.SelectionLength = 0;
+			HideTextBoxInsertionPoint();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonMouseEnterLeave(object sender, EventArgs e)
 		{
 			_panelButton.Invalidate();
+			HideTextBoxInsertionPoint();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonMouseDownUp(object sender, MouseEventArgs e)
 		{
 			_panelButton.Invalidate();
+			HideTextBoxInsertionPoint();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -337,6 +373,8 @@ namespace SayMore.UI.LowLevelControls
 		{
 			if (!e.Cancel)
 				_textBox.HideSelection = true;
+
+			HideTextBoxInsertionPoint();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -344,6 +382,7 @@ namespace SayMore.UI.LowLevelControls
 		{
 			Text = Popup.GetCheckedItemsString();
 			_textBox.SelectAll();
+			Application.Idle += HandleApplicationIdle;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -351,6 +390,8 @@ namespace SayMore.UI.LowLevelControls
 		{
 			if (ValueChanged != null)
 				ValueChanged(this, EventArgs.Empty);
+
+			HideTextBoxInsertionPoint();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -364,6 +405,24 @@ namespace SayMore.UI.LowLevelControls
 
 			if (e.Alt && e.KeyCode == Keys.Down)
 				HandleMouseClickOnDropDownButton(null, null);
+
+			if (!_textBox.ReadOnly)
+				return;
+
+			if (e.KeyCode == Keys.Right || e.KeyCode == Keys.Left ||
+				e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
+			{
+				e.Handled = true;
+			}
+
+			HideTextBoxInsertionPoint();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleApplicationIdle(object sender, EventArgs e)
+		{
+			Application.Idle -= HandleApplicationIdle;
+			HideTextBoxInsertionPoint();
 		}
 
 		#endregion

@@ -53,10 +53,10 @@ namespace SayMore.Transcription.UI
 				_labelCursorTime.Text = MediaPlayerViewModel.GetTimeDisplay(
 					(float)time.TotalSeconds, (float)_oralAnnotationWaveViewer.AudioLength.TotalSeconds);
 
-			//_buttonHelp.Click += delegate
-			//{
-			//    Program.ShowHelpTopic("/Using_Tools/Events_tab/Create_Annotation_File_overview.htm");
-			//};
+			_buttonHelp.Click += delegate
+			{
+				Program.ShowHelpTopic("/Using_Tools/Events_tab/Generated_Audio_tab_overview.htm");
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------

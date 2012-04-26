@@ -49,10 +49,10 @@ namespace SayMore.Transcription.Model
 				{
 					var mediaInfo = MediaFileInfo.GetInfo(_mediaFile);
 
-					if (segments[i].Start.Equals(mediaInfo.DurationSeconds))
+					if (segments[i].Start.Equals(mediaInfo.DurationInSeconds))
 						segments.RemoveAt(i);
 					else
-						segments[i].End = mediaInfo.DurationSeconds;
+						segments[i].End = mediaInfo.DurationInSeconds;
 				}
 			}
 

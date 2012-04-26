@@ -1,52 +1,43 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
+using System.Xml.Serialization;
 using Palaso.IO;
 using SayMore.Media.UI;
 using SayMore.Properties;
-using SayMore.UI.Utilities;
 using SilTools;
 
 namespace SayMore.Model.Files
 {
 	#region MediaFileInfo class
 	/// ----------------------------------------------------------------------------------------
+	[XmlType("mediaFileInfo")]
 	public class MediaFileInfo
 	{
 		private Image _fullSizeThumbnail;
 
+		[XmlIgnore]
 		public string MediaFilePath { get; private set; }
-		public AudioInfo Audio { get; private set; }
-		public VideoInfo Video { get; private set; }
-		public long LengthInBytes { get; private set; }
+
+		[XmlElement("audio")]
+		public AudioInfo Audio { get; set; }
+
+		[XmlElement("video")]
+		public VideoInfo Video { get; set; }
+
+		[XmlElement("fileSize")]
+		public long LengthInBytes { get; set; }
+
+		[XmlElement("duration")]
+		public float DurationInMilliseconds { get; set; }
+
+		[XmlElement("format")]
+		public string Format { get; set; }
 
 		#region Constructor and initialization helper methods
 		/// ------------------------------------------------------------------------------------
-		private MediaFileInfo(string path, XElement xmlInfo)
+		public MediaFileInfo()
 		{
-			MediaFilePath = path;
-			LengthInBytes = new FileInfo(path).Length;
-			FileSystemUtils.WaitForFileRelease(path);
-
-			Audio = new AudioInfo(GetTrack(xmlInfo, "Audio"));
-
-			var videoTrack = GetTrack(xmlInfo, "Video");
-			if (videoTrack != null)
-				Video = new VideoInfo(videoTrack);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static XElement GetTrack(XElement xmlInfo, string trackName)
-		{
-			var fileElement = xmlInfo.Element("File");
-			return fileElement.Elements("track").FirstOrDefault(t =>
-				{
-					var typeAttrib = t.Attribute("type");
-					return typeAttrib != null && typeAttrib.Value == trackName;
-				});
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -64,28 +55,32 @@ namespace SayMore.Model.Files
 
 			try
 			{
-				mediaFile = mediaFile.Replace('\\', '/');
-				prs.StartInfo.Arguments = string.Format("--inform=\"{0}\" \"{1}\"", templatePath, mediaFile);
+				prs.StartInfo.Arguments = string.Format("--inform=file://\"{0}\" \"{1}\"", templatePath, mediaFile);
 
 				if (!prs.StartProcess())
 					return null;
 
-				return XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(prs.StandardOutput.ReadToEnd());
+				var output = prs.StandardOutput.ReadToEnd();
+				prs.WaitForExit();
+				prs.Close();
 
-				//var xmlInfo = XElement.Load(prs.StandardOutput);
+				Exception error;
+				var mediaInfo = XmlSerializationHelper.DeserializeFromString<MediaFileInfo>(output, out error);
+
+				if (mediaInfo == null || mediaInfo.Audio == null)
+					return null;
+
+				mediaInfo.MediaFilePath = mediaFile;
+				return mediaInfo;
 			}
 			finally
 			{
-				prs.WaitForExit();
-				prs.Close();
 
 				if (File.Exists(templatePath))
 					File.Delete(templatePath);
 			}
-
-			// SayMore is not interested in media with no audio track.
-			//return GetTrack(xmlInfo, "Audio") == null ? null : new MediaFileInfo(mediaFile, xmlInfo);
 		}
+
 		#endregion
 
 		#region Public properties
@@ -97,9 +92,13 @@ namespace SayMore.Model.Files
 		/// not guaranteed to start and end simultaneouly).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public float DurationSeconds
+		public float DurationInSeconds
 		{
-			get { return (float)Duration.TotalSeconds; }
+			get
+			{
+				return (Video == null || Audio.DurationInSeconds > Video.DurationInSeconds) ?
+					Audio.DurationInSeconds : Video.DurationInSeconds;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -113,7 +112,7 @@ namespace SayMore.Model.Files
 		public TimeSpan Duration
 		{
 			// ENHANCE: Account for Delay_relative_to_video
-			get { return (Video == null || Audio.Duration > Video.Duration) ? Audio.Duration : Video.Duration; }
+			get { return TimeSpan.FromSeconds(DurationInSeconds); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -141,12 +140,6 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string VideoCodec
-		{
-			get { return (Video != null ? Video.Encoding : string.Empty); }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public string Resolution
 		{
 			get { return (Video != null ? Video.Resolution : string.Empty); }
@@ -154,18 +147,13 @@ namespace SayMore.Model.Files
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Returns the bit depth for PCM audio. Other audio types don't have a bit depth.
+		/// Returns the bit depth for PCM or WMA audio. Other audio types don't have a
+		/// bit depth.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int BitDepth
+		public int BitsPerSample
 		{
-			get { return Audio.BitDepth; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public int AudioBitRate
-		{
-			get { return Audio.BitRate; }
+			get { return Audio.BitsPerSample; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -179,11 +167,12 @@ namespace SayMore.Model.Files
 		{
 			get
 			{
-				if (_fullSizeThumbnail == null)
+				if (_fullSizeThumbnail == null && Video != null)
 				{
-					int seconds = Math.Min(8, Video.Duration.Seconds / 2);
+					int seconds = (int)Math.Min(8, Video.DurationInSeconds / 2);
 					_fullSizeThumbnail = MPlayerHelper.GetImageFromVideo(MediaFilePath, seconds);
 				}
+
 				return _fullSizeThumbnail;
 			}
 		}
@@ -193,213 +182,136 @@ namespace SayMore.Model.Files
 		{
 			get { return Video != null; }
 		}
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public class TrackInfo
 		{
-			private readonly TimeSpan _duration;
-			private readonly int _bitRate;
-			public string Encoding { get; private set; } // Format
-			public string EncodingDescription { get; private set; } // Codec_ID_Info
-
 			/// ------------------------------------------------------------------------------------
-			protected TrackInfo(XElement xmlTrackInfo)
+			public TrackInfo()
 			{
-				_duration = GetDuration(xmlTrackInfo);
-				_bitRate = GetRate(xmlTrackInfo, "Bit");
-				ExtractEncoding(xmlTrackInfo);
 			}
 
-			/// ------------------------------------------------------------------------------------
-			public TimeSpan Duration
+			[XmlElement("format")]
+			public string Encoding { get; set; } // Format
+
+			[XmlElement("formatInfo")]
+			public string EncodingDescription { get; set; }
+
+			[XmlElement("formatCommercialInfo")]
+			public string EncodingCommercialDescription { get; set; }
+
+			[XmlElement("internetMediaType")]
+			public string InternetMediaType { get; set; }
+
+			[XmlElement("codecInfo")]
+			public string CodecInformation { get; set; }
+
+			[XmlElement("duration")]
+			public string DurationInMilliseconds { get; set; }
+
+			[XmlElement("bitRateMode")]
+			public string BitRateMode { get; set; }
+
+			[XmlElement("bitRate")]
+			public int BitRate { get; set; }
+
+			[XmlIgnore]
+			public float DurationInSeconds
 			{
-				get { return _duration; }
-			}
-
-			/// ------------------------------------------------------------------------------------
-			public int BitRate // Bit_rate * 1000
-			{
-				get { return _bitRate; }
-			}
-
-			/// ------------------------------------------------------------------------------------
-			private TimeSpan GetDuration(XElement xmlTrackInfo)
-			{
-				return GetTime(xmlTrackInfo, "Duration");
-			}
-
-			/// ------------------------------------------------------------------------------------
-			protected TimeSpan GetTime(XElement xmlTrackInfo, string elementName)
-			{
-				var duration = xmlTrackInfo.Element(elementName);
-				if (duration == null)
-					return default(TimeSpan);
-
-				// ENHANCE: deal with videos longer than a day.
-				// ENHANCE: allow for a leading negative sign, in order to process the "Delay_relative_to_video" element.
-				var match = Regex.Match(duration.Value, @"=((?<hours>\d+)h)? ((?<minutes>\d+)mn)? ((?<seconds>\d+)s)? ((?<milliseconds>\d+)ms)?");
-				if (!match.Success)
-					return default(TimeSpan);
-
-				var hours = GetIntFromMatchedGroup(match, "hours");
-				var minutes = GetIntFromMatchedGroup(match, "minutes");
-				var seconds = GetIntFromMatchedGroup(match, "seconds");
-				var milliseconds = GetIntFromMatchedGroup(match, "milliseconds");
-
-				return new TimeSpan(0, hours, minutes, seconds, milliseconds);
-			}
-
-			/// ------------------------------------------------------------------------------------
-			protected int GetRate(XElement xmlTrackInfo, string rateType)
-			{
-				return (int)(GetFloatValue(xmlTrackInfo, rateType + "_rate") * 1000);
-			}
-
-			/// ------------------------------------------------------------------------------------
-			private void ExtractEncoding(XElement xmlTrackInfo)
-			{
-				XElement format = xmlTrackInfo.Element("Format");
-				if (format != null)
-					Encoding = format.Value;
-
-				XElement encodingDesc = xmlTrackInfo.Element("Codec_ID_Info");
-				if (encodingDesc != null)
-					EncodingDescription = encodingDesc.Value;
-			}
-
-			/// ------------------------------------------------------------------------------------
-			/// <summary>
-			/// Gets the integer value of the specified element.
-			/// </summary>
-			/// ------------------------------------------------------------------------------------
-			internal static int GetIntValue(XElement track, string elementName)
-			{
-				int val = default(int);
-				var element = track.Element(elementName);
-				if (element != null)
+				get
 				{
-					var match = Regex.Match(element.Value, @"\d+");
-					if (match.Groups.Count == 1)
-						int.TryParse(match.Groups[0].Value, out val);
+					long milliseconds;
+					return (DurationInMilliseconds != null &&
+						long.TryParse(DurationInMilliseconds, out milliseconds) ? milliseconds / 1000f : 0f);
 				}
-				return val;
-			}
-
-			/// ------------------------------------------------------------------------------------
-			/// <summary>
-			/// Gets the double value of the specified element.
-			/// </summary>
-			/// ------------------------------------------------------------------------------------
-			internal static float GetFloatValue(XElement track, string elementName)
-			{
-				float val = default(float);
-				var element = track.Element(elementName);
-				if (element != null)
-				{
-					var match = Regex.Match(element.Value, @"=\d*.?\d*");
-					if (match.Groups.Count == 1)
-						float.TryParse(match.Groups[0].Value, out val);
-				}
-				return val;
-			}
-
-			/// ------------------------------------------------------------------------------------
-			private static int GetIntFromMatchedGroup(Match match, string groupName)
-			{
-				int val;
-				return !int.TryParse(match.Result("${" + groupName + "}"), out val) ? default(int) : val;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
+		[XmlType("audio")]
 		public class AudioInfo : TrackInfo
 		{
-			private readonly int _channelCount;
-			private readonly int _samplesPerSecond;
-			private readonly int _bitDepth;
-			//private readonly TimeSpan _delay;
-
 			/// ------------------------------------------------------------------------------------
-			internal AudioInfo(XElement xmlAudioTrackInfo) : base(xmlAudioTrackInfo)
+			public AudioInfo()
 			{
-				_bitDepth = GetIntValue(xmlAudioTrackInfo, "Bit_depth");
-				_samplesPerSecond = GetRate(xmlAudioTrackInfo, "Sampling");
-				_channelCount = GetIntValue(xmlAudioTrackInfo, "Channel_s_");
-				//_delay = GetTime(xmlAudioTrackInfo, "Delay_relative_to_video");
 			}
 
-			/// ------------------------------------------------------------------------------------
-			public int ChannelCount
-			{
-				get { return _channelCount; }
-			}
+			[XmlElement("sampleRate")]
+			public int SamplesPerSecond { get; set; }
+
+			[XmlElement("channels")]
+			public int ChannelCount { get; set; }
+
+			[XmlElement("bitDepth")]
+			public string BitDepth { get; set; }
 
 			/// ------------------------------------------------------------------------------------
-			public int SamplesPerSecond // Sampling_rate * 1000
+			public int BitsPerSample
 			{
-				get { return _samplesPerSecond; }
-			}
-
-			/// ------------------------------------------------------------------------------------
-			public int BitDepth
-			{
-				get { return _bitDepth; }
+				get
+				{
+					int bitDepth;
+					return (BitDepth != null && int.TryParse(BitDepth, out bitDepth) ? bitDepth : 0);
+				}
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
+		[XmlType("video")]
 		public class VideoInfo : TrackInfo
 		{
-			private readonly float _framesPerSecond;
-			private readonly Size _size;
-			private readonly string _standard;
-
 			/// ------------------------------------------------------------------------------------
-			internal VideoInfo(XElement xmlInfo) : base(xmlInfo)
+			public VideoInfo()
 			{
-				_framesPerSecond = GetFloatValue(xmlInfo, "Frame_rate");
-				_size = new Size(GetIntValue(xmlInfo, "Width"), GetIntValue(xmlInfo, "Height"));
-				XElement standard = xmlInfo.Element("Standard");
-				if (standard != null)
-					_standard = standard.Value;
 			}
 
-			/// ------------------------------------------------------------------------------------
-			public float FramesPerSecond // Frame_rate
-			{
-				get { return _framesPerSecond; }
-			}
+			[XmlElement("width")]
+			public int Width { get; set; }
+
+			[XmlElement("height")]
+			public int Height { get; set; }
+
+			[XmlElement("resolution")]
+			public string ResolutionString { get; set; }
+
+			[XmlElement("frameRate")]
+			public string FrameRate { get; set; }
+
+			[XmlElement("displayAspectRatio")]
+			public float AspectRatio { get; set; }
+
+			[XmlElement("standard")]
+			public string Standard  { get; set; }  // NTSC or PAL
 
 			/// ------------------------------------------------------------------------------------
 			public Size PictureSize // in pixels
 			{
-				get { return _size; }
-			}
-
-			/// ------------------------------------------------------------------------------------
-			public float AspectRatio
-			{
-				get { return ((float)PictureSize.Width) / PictureSize.Height; }
-			}
-
-			/// ------------------------------------------------------------------------------------
-			public string Standard // NTSC or PAL
-			{
-				get { return _standard; }
+				get { return new Size(Width, Height); }
 			}
 
 			/// ------------------------------------------------------------------------------------
 			public string Resolution
 			{
-				get { return PictureSize.Width + " x " + PictureSize.Height; }
+				get { return Width + " x " + Height; }
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public float FramesPerSecond
+			{
+				get
+				{
+					float frameRate;
+					return (FrameRate != null && float.TryParse(FrameRate, out frameRate) ? frameRate : 0f);
+				}
 			}
 		}
 	}
 
 	#endregion
 
-	#region MediaFileInfo class if MPlayer is used (Commented out)
+	#region MediaFileInfo class if MPlayer is used
 	///// ----------------------------------------------------------------------------------------
 	///// <summary>
 	///// Class that, using MPlayer, gets the information about a specific audio or video file.

@@ -146,7 +146,7 @@ namespace SayMore.Media.UI
 			{
 				ErrorReport.NotifyUserOfProblem(
 					LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotSpecifiedMsg",
-					"Media player file name has not been specified."));
+						"Media player file name has not been specified."));
 
 				return;
 			}
@@ -155,7 +155,7 @@ namespace SayMore.Media.UI
 			{
 				ErrorReport.NotifyUserOfProblem(
 					LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg",
-					"Media file '{0}' not found."), filename);
+						"Media file '{0}' not found."), filename);
 
 				return;
 			}
@@ -164,9 +164,9 @@ namespace SayMore.Media.UI
 			MediaInfo = MediaFileInfo.GetInfo(filename);
 			if (MediaInfo == null)
 			{
-		fix!!!		ErrorReport.NotifyUserOfProblem(
-					LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg",
-					"Media file '{0}' not found."), filename);
+				ErrorReport.NotifyUserOfProblem(
+					LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.InvalidMediaFile",
+						"File '{0}' does not appear to be a valid media file."), filename);
 
 				return;
 			}

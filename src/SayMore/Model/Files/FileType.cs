@@ -577,7 +577,7 @@ namespace SayMore.Model.Files
 				Key = "Audio_Bit_Rate",
 				Suffix = "kbps",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.AudioBitRateSuffix", "kbps"),
-				DataItemChooser = (info => info.AudioBitRate),
+				DataItemChooser = (info => info.Audio.BitRate),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 
@@ -604,7 +604,7 @@ namespace SayMore.Model.Files
 				Key = "Bit_Depth",
 				Suffix = "bits",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.BitDepthSuffix", "bits"),
-				DataItemChooser = (info => info.BitDepth == 0 ? null : info.BitDepth.ToString()),
+				DataItemChooser = (info => info.BitsPerSample == 0 ? null : info.BitsPerSample.ToString()),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 

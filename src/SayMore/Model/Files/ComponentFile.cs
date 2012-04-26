@@ -296,9 +296,7 @@ namespace SayMore.Model.Files
 					return GetStringValue("Duration", string.Empty);
 
 				//trim off the milliseconds so it doesn't get too geeky
-				return new TimeSpan(stats.Duration.Hours,
-					stats.Duration.Minutes,
-					stats.Duration.Seconds).ToString();
+				return TimeSpan.FromSeconds((int)stats.Duration.TotalSeconds).ToString();
 			}
 		}
 

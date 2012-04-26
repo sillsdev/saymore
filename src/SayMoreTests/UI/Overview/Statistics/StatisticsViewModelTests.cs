@@ -8,7 +8,6 @@ using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.UI.Overview.Statistics;
-using SayMoreTests.Model.Files.DataGathering;
 
 namespace SayMoreTests.UI.Overview.Statistics
 {
@@ -107,10 +106,10 @@ namespace SayMoreTests.UI.Overview.Statistics
 		}
 	*/
 
-		private void CreateCanonciallyNamedRecordingInEvent(ComponentRole roleDefinition, string eventId)
-		{
-			var path = FileStatisticsTests.CreateRecording(_folder.Path);
-			File.Move(path, roleDefinition.GetCanoncialName(eventId, path));
-		}
+		//private void CreateCanonciallyNamedRecordingInEvent(ComponentRole roleDefinition, string eventId)
+		//{
+		//    var path = MediaFileInfoTests.CreateRecording(_folder.Path);
+		//    File.Move(path, roleDefinition.GetCanoncialName(eventId, path));
+		//}
 	}
 }

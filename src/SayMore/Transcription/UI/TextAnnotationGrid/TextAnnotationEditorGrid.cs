@@ -352,8 +352,7 @@ namespace SayMore.Transcription.UI
 				else
 				{
 					PlayerViewModel.LoadFile(_mediaFileQueue[0].MediaFile);
-					_mediaFileQueue[0].End = PlayerViewModel.GetTotalMediaDuration();
-					_mediaFileQueue[0].Length = _mediaFileQueue[0].End;
+					_mediaFileQueue[0].Length = _mediaFileQueue[0].End = PlayerViewModel.GetTotalMediaDuration();
 				}
 			}
 			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;

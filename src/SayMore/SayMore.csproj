@@ -468,6 +468,9 @@
     <Compile Include="UI\LowLevelControls\VolumePopup.designer.cs">
       <DependentUpon>VolumePopup.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\MediaPlayer\ExternalProcess.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\MediaPlayer\MediaPlayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -480,6 +483,9 @@
     </Compile>
     <Compile Include="UI\MediaPlayer\MPlayerDebuggingOutputWindow.Designer.cs">
       <DependentUpon>MPlayerDebuggingOutputWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MediaPlayer\MPlayerHelper.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\MediaPlayer\VideoPanel.cs">
       <SubType>Component</SubType>
@@ -757,9 +763,6 @@
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
     <Compile Include="Model\Files\DataGathering\UniqueCombinationsFinder.cs" />
     <Compile Include="UI\Utilities\JSONUtils.cs" />
-    <Compile Include="UI\MediaPlayer\MPlayerHelper.cs">
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ContributorsTab.png" />
@@ -907,6 +910,7 @@
     <None Include="Resources\ListenToSegmentsAnnotation.png" />
     <None Include="Resources\RecordingOralAnnotationInProgress.gif" />
     <None Include="Resources\ListenToOriginalRecordingDown.png" />
+    <None Include="Resources\mediaFileInfoOutputTemplate.txt" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

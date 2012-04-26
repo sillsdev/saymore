@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using SayMore.Transcription.Model;
-using SayMoreTests.UI.Utilities;
+using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.Transcription.Model
 {
@@ -305,7 +305,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void Save_CanReadSavedFile()
 		{
-			var mediafile = MPlayerMediaInfoTests.GetShortTestAudioFile();
+			var mediafile = MediaFileInfoTests.GetShortTestAudioFile();
 			var expectedEafFile = mediafile + ".annotations.eaf";
 
 			try

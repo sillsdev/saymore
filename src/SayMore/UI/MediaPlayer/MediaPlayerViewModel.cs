@@ -27,7 +27,7 @@ namespace SayMore.Media.UI
 		public event EventHandler MediaQueued;
 
 		private readonly StringBuilder _mplayerStartInfo = new StringBuilder();
-		private MPlayerProcess _mplayerProcess;
+		private ExternalProcess _mplayerProcess;
 		private StreamWriter _stdIn;
 		private float _prevPostion;
 		private MPlayerOutputLogForm _formMPlayerOutputLog;
@@ -160,9 +160,18 @@ namespace SayMore.Media.UI
 				return;
 			}
 
-			ShutdownMPlayerProcess();
+			ShutdownMPlayerProcess(); // REVIEW: Is this needed? Should it be shutting down the process associated with the MediInfo program instead?
+			MediaInfo = MediaFileInfo.GetInfo(filename);
+			if (MediaInfo == null)
+			{
+		fix!!!		ErrorReport.NotifyUserOfProblem(
+					LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.MediaFileNotFoundMsg",
+					"Media file '{0}' not found."), filename);
+
+				return;
+			}
+
 			MediaFile = filename.Replace('\\', '/');
-			MediaInfo = new MPlayerMediaInfo(filename);
 			PlaybackStartPosition = playbackStartPosition;
 			PlaybackLength = playbackLength;
 			OnMediaQueued();
@@ -180,7 +189,7 @@ namespace SayMore.Media.UI
 			CurrentPosition = PlaybackStartPosition;
 
 			if (MediaQueued != null && GetTotalMediaDuration() > 0f && (!MediaInfo.IsVideo ||
-				(MediaInfo.PictureSize.Width > 0 && MediaInfo.PictureSize.Height > 0)))
+				(MediaInfo.Video.PictureSize.Width > 0 && MediaInfo.Video.PictureSize.Height > 0)))
 			{
 				MediaQueued(this, EventArgs.Empty);
 			}
@@ -190,12 +199,15 @@ namespace SayMore.Media.UI
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the duration plus the start time. For audio files, the start time is zero.
+		/// Gets the total duration in seconds. For audio files, the duration is always the
+		/// duration of the audio. For video files, it is the total duration, counting from the
+		/// start of the first track to the end of the last track (audio and video tracks are
+		/// not guaranteed to start and end simultaneouly).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public float GetTotalMediaDuration()
 		{
-			return (MediaInfo == null ? 0f : MediaInfo.Duration + MediaInfo.StartTime);
+			return (MediaInfo == null ? 0f : (float)MediaInfo.Duration.TotalSeconds);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -216,7 +228,7 @@ namespace SayMore.Media.UI
 				return null;
 
 			return (PlaybackStartPosition.Equals(0f) ? MediaInfo.FullSizedThumbnail :
-				MPlayerHelper.GetImageFromVideo(MediaInfo.FileName, PlaybackStartPosition));
+				MPlayerHelper.GetImageFromVideo(MediaInfo.MediaFilePath, PlaybackStartPosition));
 		}
 
 		#region Button state properties
@@ -257,7 +269,7 @@ namespace SayMore.Media.UI
 		public int Speed { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public MPlayerMediaInfo MediaInfo { get; private set; }
+		public MediaFileInfo MediaInfo { get; private set; }
 
 		#endregion
 
@@ -325,7 +337,7 @@ namespace SayMore.Media.UI
 				_outputDebuggingWindow.AddText(_mplayerStartInfo.ToString());
 			}
 
-			_mplayerProcess.MediaFileName = MediaFile;
+			_mplayerProcess.FileOpenedByProcess = MediaFile;
 			_stdIn = _mplayerProcess.StandardInput;
 			_stdIn.WriteLine(string.Format("loadfile \"{0}\" ", MediaFile));
 

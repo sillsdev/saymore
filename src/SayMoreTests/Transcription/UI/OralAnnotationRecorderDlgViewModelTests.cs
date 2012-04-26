@@ -1,11 +1,10 @@
-using System;
 using System.IO;
 using Moq;
 using NUnit.Framework;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
-using SayMoreTests.UI.Utilities;
+using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.Transcription.UI
 {
@@ -20,7 +19,7 @@ namespace SayMoreTests.Transcription.UI
 		[SetUp]
 		public void Setup()
 		{
-			_tempAudioFile = MPlayerMediaInfoTests.GetLongerTestAudioFile();
+			_tempAudioFile = MediaFileInfoTests.GetLongerTestAudioFile();
 			var tier = new TimeTier(_tempAudioFile);
 			tier.AddSegment(0f, 5f);
 			tier.AddSegment(5f, 10f);

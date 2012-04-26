@@ -7,7 +7,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
-using SayMoreTests.UI.Utilities;
+using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.Transcription.UI
 {
@@ -26,7 +26,7 @@ namespace SayMoreTests.Transcription.UI
 		{
 			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
 
-			_tempAudioFile = MPlayerMediaInfoTests.GetLongerTestAudioFile();
+			_tempAudioFile = MediaFileInfoTests.GetLongerTestAudioFile();
 			_timeTier = new TimeTier(_tempAudioFile);
 			_timeTier.AddSegment(0f, 10f);
 			_timeTier.AddSegment(10f, 20f);

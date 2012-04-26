@@ -1,10 +1,7 @@
 using System.IO;
-using System.Threading;
-using System.Windows.Forms;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model.Files;
-using SayMoreTests.UI.Utilities;
 
 namespace SayMoreTests.Model.Files
 {
@@ -84,7 +81,7 @@ namespace SayMoreTests.Model.Files
 		[Test]
 		public void GetIsStandardPcmAudioFile_OriginalIsAlreadyPcm_ReturnsTrue()
 		{
-			var audioFile = MPlayerMediaInfoTests.GetShortTestAudioFile();
+			var audioFile = MediaFileInfoTests.GetShortTestAudioFile();
 
 			try
 			{

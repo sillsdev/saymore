@@ -281,9 +281,9 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private static void SetUpErrorHandling()
 		{
-			Application.ApplicationExit += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
-			Application.ThreadException += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
-			AppDomain.CurrentDomain.UnhandledException += (sender, args) => MPlayerHelper.CleanUpMPlayerProcesses();
+			Application.ApplicationExit += (sender, args) => ExternalProcess.CleanUpAllProcesses();
+			Application.ThreadException += (sender, args) => ExternalProcess.CleanUpAllProcesses();
+			AppDomain.CurrentDomain.UnhandledException += (sender, args) => ExternalProcess.CleanUpAllProcesses();
 
 			ErrorReport.EmailAddress = "issues@saymore.palaso.org";
 			ErrorReport.AddStandardProperties();

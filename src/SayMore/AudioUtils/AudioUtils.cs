@@ -298,7 +298,7 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public static int GetChannelsFromMediaFile(string mediaFilePath)
 		{
-			var mediaInfo = new MediaFileInfo(mediaFilePath);
+			var mediaInfo = MediaFileInfo.GetInfo(mediaFilePath);
 
 			// There are some media files (e.g. MTS) for which ffmpeg -- which is what the
 			// MediaFileInfo class uses -- returns 0 channels. Hence the check. When that
@@ -349,7 +349,7 @@ namespace SayMore.Media
 		{
 			message = null;
 
-			if (!MediaInfo.HaveNecessaryComponents)
+			if (!Palaso.Media.MediaInfo.HaveNecessaryComponents)
 			{
 				var msg = LocalizationManager.GetString("SoundFileUtils.FFmpegMissingErrorMsg",
 					"SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");

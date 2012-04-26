@@ -6,7 +6,7 @@ IF "%~2"=="-All" GOTO All
 :Loop
 IF "%~1"=="" GOTO End
 mkdir "%~p1Output"
-..\..\DistFiles\mplayer\mplayer -vo null -ao null -nofontconfig -identify -endpos 0 "%~1" > "%~p1Output\%~n1.txt"
+..\..\DistFiles\MediaInfo\MediaInfo --output=xml "%~1" > "%~p1Output\%~n1.xml"
 SHIFT
 GOTO Loop
 

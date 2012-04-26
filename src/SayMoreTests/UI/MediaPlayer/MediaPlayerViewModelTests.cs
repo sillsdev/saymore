@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using NUnit.Framework;
 using SayMore.Media.UI;
-using SayMoreTests.UI.Utilities;
+using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.UI.MediaPlayer
 {
@@ -292,7 +292,7 @@ namespace SayMoreTests.UI.MediaPlayer
 		/// ------------------------------------------------------------------------------------
 		private string LoadMediaFile()
 		{
-			var file = MPlayerMediaInfoTests.GetTestVideoFile();
+			var file = MediaFileInfoTests.GetTestVideoFile();
 			Assert.IsTrue(File.Exists(file));
 
 			try

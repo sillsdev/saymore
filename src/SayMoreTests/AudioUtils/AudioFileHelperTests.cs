@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using NUnit.Framework;
 using SayMore.Media;
-using SayMoreTests.UI.Utilities;
+using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.AudioUtils
 {
@@ -15,7 +15,7 @@ namespace SayMoreTests.AudioUtils
 		[SetUp]
 		public void SetUp()
 		{
-			_testAudioFileName = MPlayerMediaInfoTests.GetLongerTestAudioFile();
+			_testAudioFileName = MediaFileInfoTests.GetLongerTestAudioFile();
 			_helper = new AudioFileHelper(_testAudioFileName);
 		}
 

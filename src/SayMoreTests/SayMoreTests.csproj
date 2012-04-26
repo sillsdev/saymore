@@ -108,9 +108,9 @@
     <Compile Include="model\Fields\ContributionSerializerTests.cs" />
     <Compile Include="model\Fields\FieldInstanceTests.cs" />
     <Compile Include="model\Files\DataGathering\BackgroundFileProcessorTests.cs" />
+    <Compile Include="model\Files\MediaFileInfoTests.cs" />
     <Compile Include="model\Files\DataGathering\PresetDataTests.cs" />
     <Compile Include="model\Files\DataGathering\PresetGathererTests.cs" />
-    <Compile Include="model\Files\DataGathering\FileStatisticsTests.cs" />
     <Compile Include="ExportTests.cs" />
     <Compile Include="model\Files\ComponentFileTests.cs" />
     <Compile Include="ApplicationContextTests.cs" />
@@ -156,7 +156,6 @@
     <Compile Include="UI\ProjectWindow\AppSmokeTests.cs" />
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommandTests.cs" />
     <Compile Include="UI\Utilities\FileSystemUtilsTests.cs" />
-    <Compile Include="UI\Utilities\MPlayerMediaInfoTests.cs" />
     <Compile Include="UI\Archiving\ArchivingDlgViewModelTests.cs" />
     <Compile Include="UI\Utilities\JSONUtilsTests.cs" />
   </ItemGroup>

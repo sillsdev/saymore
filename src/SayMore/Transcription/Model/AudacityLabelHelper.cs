@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SayMore.Media.UI;
+using SayMore.Model.Files;
 
 namespace SayMore.Transcription.Model
 {
@@ -46,12 +47,12 @@ namespace SayMore.Transcription.Model
 					segments[i].End = segments[i + 1].Start;
 				else if (i == segments.Count - 1 && _mediaFile != null)
 				{
-					var mediaInfo = new MPlayerMediaInfo(_mediaFile);
+					var mediaInfo = MediaFileInfo.GetInfo(_mediaFile);
 
-					if (segments[i].Start.Equals(mediaInfo.Duration))
+					if (segments[i].Start.Equals(mediaInfo.DurationSeconds))
 						segments.RemoveAt(i);
 					else
-						segments[i].End = mediaInfo.Duration;
+						segments[i].End = mediaInfo.DurationSeconds;
 				}
 			}
 

@@ -1,15 +1,23 @@
 using System;
+using System.Linq;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
-using SayMore.Media.UI;
+using Palaso.TestUtilities;
+using SayMore.Model.Files;
 
-namespace SayMoreTests.UI.Utilities
+namespace SayMoreTests.Model.Files
 {
 	[TestFixture]
-	public class MPlayerMediaInfoTests
+	public class MediaFileInfoTests
 	{
+		[SetUp]
+		public void Setup()
+		{
+			Palaso.Reporting.ErrorReport.IsOkToInteractWithUser = false;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates video file in the temp. folder. It's up to the caller to delete the file
@@ -71,6 +79,33 @@ namespace SayMoreTests.UI.Utilities
 			return mediaFilePath;
 		}
 
+
+		/// ------------------------------------------------------------------------------------
+		public static string CreateRecording(string folder)
+		{
+			var buf = new byte[Resources.shortSound.Length];
+			Resources.shortSound.Read(buf, 0, buf.Length);
+			string destination = folder;
+			string wavPath = Path.Combine(destination, Directory.GetFiles(destination).Count() + ".wav");
+			var f = File.Create(wavPath);
+			f.Write(buf, 0, buf.Length);
+			f.Close();
+			return wavPath;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void Duration_Audio_Correct()
+		{
+			using (var folder = new TemporaryFolder("FileStatisticsTests"))
+			{
+				var recording = CreateRecording(folder.Path);
+				var info = MediaFileInfo.GetInfo(recording);
+				Assert.AreEqual(1450, info.Duration.TotalMilliseconds);
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
@@ -80,9 +115,9 @@ namespace SayMoreTests.UI.Utilities
 
 			try
 			{
-				var minfo = new MPlayerMediaInfo(tmpfile);
+				var minfo = MediaFileInfo.GetInfo(tmpfile);
 				Assert.IsFalse(minfo.IsVideo);
-				Assert.AreEqual(tmpfile, minfo.FileName);
+				Assert.AreEqual(tmpfile, minfo.MediaFilePath);
 				Assert.AreEqual(1.45f, minfo.Duration);
 				Assert.IsNull(minfo.FullSizedThumbnail);
 			}
@@ -95,19 +130,18 @@ namespace SayMoreTests.UI.Utilities
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		[Category("SkipOnTeamCity")]
-		[Ignore("Unignore when we change the way we get media information (i.e. using mplayer)")]
 		public void MPlayerMediaInfo_CreateVideo_ContainsCorrectInfo()
 		{
 			var tmpfile = GetTestVideoFile();
 
 			try
 			{
-				var minfo = new MPlayerMediaInfo(tmpfile);
+				var minfo = MediaFileInfo.GetInfo(tmpfile);
 				Assert.IsTrue(minfo.IsVideo);
-				Assert.AreEqual(tmpfile, minfo.FileName);
-				Assert.AreEqual(5.49f, (float)Math.Round(minfo.StartTime, 2));
-				Assert.AreEqual(9.5f, (float)Math.Round(minfo.Duration, 2));
-				Assert.AreEqual(new Size(320, 240), minfo.PictureSize);
+				Assert.AreEqual(tmpfile, minfo.MediaFilePath);
+// REVIEW: What to do?				Assert.AreEqual(5.49f, (float)Math.Round(minfo.StartTime, 2));
+				Assert.AreEqual(9.5f, (float)Math.Round(minfo.DurationSeconds, 2));
+				Assert.AreEqual(new Size(320, 240), minfo.Video.PictureSize);
 				Assert.IsNotNull(minfo.FullSizedThumbnail);
 			}
 			finally

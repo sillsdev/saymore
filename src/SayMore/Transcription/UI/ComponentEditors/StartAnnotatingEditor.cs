@@ -80,7 +80,7 @@ namespace SayMore.Transcription.UI
 		private void HandleGetStartedButtonClick(object sender, EventArgs e)
 		{
 			_buttonGetStarted.Enabled = false;
-			MPlayerHelper.CleanUpMPlayerProcesses();
+			ExternalProcess.CleanUpAllProcesses();
 			string newAnnotationFile = null;
 
 			if (_radioButtonManual.Checked)

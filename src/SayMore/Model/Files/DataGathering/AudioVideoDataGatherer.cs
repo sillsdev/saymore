@@ -18,7 +18,7 @@ namespace SayMore.Model.Files.DataGathering
 		/// ------------------------------------------------------------------------------------
 		public AudioVideoDataGatherer(string rootDirectoryPath, IEnumerable<FileType> allFileTypes) :
 			base(rootDirectoryPath, allFileTypes.Where(t => t.IsAudioOrVideo),
-				path => new MediaFileInfo(path))
+				MediaFileInfo.GetInfo)
 		{
 		}
 

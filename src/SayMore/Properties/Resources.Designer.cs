@@ -358,6 +358,17 @@ namespace SayMore.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to General;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;mediaFileInfo&gt;&lt;fileSize&gt;%FileSize%&lt;/fileSize&gt;&lt;duration&gt;%Duration%&lt;/duration&gt;&lt;format&gt;%Format%&lt;/format&gt;
+        ///
+        ///Video;&lt;video&gt;&lt;format&gt;%Format%&lt;/format&gt;&lt;formatInfo&gt;%Format/Info%&lt;/formatInfo&gt;&lt;formatCommercialInfo&gt;%Format_Commercial%&lt;/formatCommercialInfo&gt;&lt;internetMediaType&gt;%InternetMediaType%&lt;/internetMediaType&gt;&lt;codecId&gt;%CodecID%&lt;/codecId&gt;&lt;codecInfo&gt;%CodecID/Info%&lt;/codecInfo&gt;&lt;duration&gt;%Duration%&lt;/duration&gt;&lt;bitRateMode&gt;%BitRate_Mode%&lt;/bitRateMode&gt;&lt;bitRate&gt;%BitRate%&lt;/bitRa [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string mediaFileInfoOutputTemplate {
+            get {
+                return ResourceManager.GetString("mediaFileInfoOutputTemplate", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap MissingAnnotation {
             get {
                 object obj = ResourceManager.GetObject("MissingAnnotation", resourceCulture);

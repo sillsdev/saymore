@@ -76,8 +76,8 @@ namespace SayMore.Media.UI
 		{
 			_panelPlayingSurface.BackgroundImage = null;
 
-			if (_viewModel == null || _viewModel.MediaInfo == null ||
-				_viewModel.MediaInfo.PictureSize.Width == 0 || _viewModel.MediaInfo.PictureSize.Height == 0)
+			if (_viewModel == null || _viewModel.MediaInfo == null || !_viewModel.MediaInfo.IsVideo ||
+				_viewModel.MediaInfo.Video.PictureSize.Width == 0 || _viewModel.MediaInfo.Video.PictureSize.Height == 0)
 			{
 				return;
 			}
@@ -85,7 +85,7 @@ namespace SayMore.Media.UI
 			Utils.SetWindowRedraw(this, false);
 			var rc = Rectangle.Empty;
 			var usableRatio = (float)ClientSize.Width / ClientSize.Height;
-			var videoRatio = (float)_viewModel.MediaInfo.PictureSize.Width / _viewModel.MediaInfo.PictureSize.Height;
+			var videoRatio = _viewModel.MediaInfo.Video.AspectRatio;
 
 			if (usableRatio < videoRatio)
 			{

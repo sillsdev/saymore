@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -247,27 +246,18 @@ namespace SayMore.Media
 		public static Exception ConvertToStandardPCM(string inputMediaFile,
 			string outputMediaFile, Control parent, string waitMessage)
 		{
+			Program.SuspendBackgroundProcesses();
 			Exception error = null;
 			WaveFileReader outputReader = null;
+			WaitCursor.Show();
 			var dlg = (waitMessage == null ? null : new LoadingDlg(waitMessage));
+
+			if (dlg != null)
+				dlg.Show(parent ?? Application.OpenForms[0]);
 
 			try
 			{
-				if (dlg != null)
-				{
-					parent = (parent ?? Application.OpenForms[0]);
-					dlg.Show(parent);
-				}
-
-				WaitCursor.Show();
-				var worker = new BackgroundWorker();
-				worker.DoWork += delegate
-				{
-					outputReader = ConvertToStandardPcmStream(inputMediaFile, outputMediaFile, out error);
-				};
-
-				worker.RunWorkerAsync();
-				while (worker.IsBusy) { Application.DoEvents(); }
+				outputReader = ConvertToStandardPcmStream(inputMediaFile, outputMediaFile, out error);
 				return error;
 			}
 			finally
@@ -287,6 +277,7 @@ namespace SayMore.Media
 					dlg.Dispose();
 				}
 
+				Program.ResumeBackgroundProcesses(true);
 				WaitCursor.Hide();
 			}
 		}
@@ -318,8 +309,11 @@ namespace SayMore.Media
 
 				if (CheckConversionIsPossible(outputAudioFile, false, out errorMsg))
 				{
-					MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile, outputAudioFile);
-					return new WaveFileReader(outputAudioFile);
+					if (MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile, outputAudioFile))
+						return new WaveFileReader(outputAudioFile);
+
+					errorMsg = LocalizationManager.GetString("SoundFileUtils.FileMayNotBeValidAudioError",
+						"No audio track could be found in the specified file. Verify that the file is a valid audio file.");
 				}
 
 				var msg = LocalizationManager.GetString("SoundFileUtils.ExtractingAudioError",

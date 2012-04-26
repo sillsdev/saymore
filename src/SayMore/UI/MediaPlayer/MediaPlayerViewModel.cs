@@ -5,10 +5,10 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Palaso.Reporting;
 using Localization;
-using SayMore.Model.Files;
 using SayMore.UI.Utilities;
 
 namespace SayMore.Media.UI
@@ -341,9 +341,6 @@ namespace SayMore.Media.UI
 			_stdIn = _mplayerProcess.StandardInput;
 			_stdIn.WriteLine(string.Format("loadfile \"{0}\" ", MediaFile));
 
-			//if (Loop)
-			//    _stdIn.WriteLine("loop 32000 ");
-
 			HasPlaybackStarted = true;
 
 			if (PlaybackStarted != null)
@@ -549,15 +546,13 @@ namespace SayMore.Media.UI
 			if (_outputDebuggingWindow != null)
 				_outputDebuggingWindow.AddText(data);
 
-			//if (_formMPlayerOutputLog != null)
-			//    _formMPlayerOutputLog.UpdateLogDisplay(data);
-
 			if (data.StartsWith("A: "))
 			{
 				ProcessPlaybackPositionMessage(data);
 			}
 			else if (data.StartsWith("EOF code:"))
 			{
+				EnsurePlaybackUntilEndOfMedia();
 				OnMediaQueued();
 
 				if (PlaybackEnded != null)
@@ -575,10 +570,33 @@ namespace SayMore.Media.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void EnsurePlaybackUntilEndOfMedia()
+		{
+			// This method is called when mplayer reports that it has come to the end of
+			// playing a media file. For some reason, mplayer sometimes reports that its
+			// at the end when there's actually a little bit remaining (e.g. by about one
+			// second). mplayer won't stop playing until the real end, however, so in
+			// order to avoid passing on the false report that we're at EOF (which will
+			// cause our code to prematurely terminate playback) this method will figure
+			// out how long to delay (and then delay) before passing on an accurate report
+			// that we've reached EOF.
+
+			var secondsLeftToPlay = (GetPlayBackEndPosition() - _prevPostion);
+			if (secondsLeftToPlay <= 0)
+				return;
+
+			var finishedTime = DateTime.Now.AddSeconds(secondsLeftToPlay);
+			while (finishedTime >= DateTime.Now)
+			{
+				var newPosition = _prevPostion + (finishedTime - DateTime.Now).TotalSeconds;
+				ProcessPlaybackPositionMessage((float)newPosition);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void StartLoopTimer()
 		{
-			_loopDelayTimer = new System.Threading.Timer(a => Play(), null, LoopDelay,
-				System.Threading.Timeout.Infinite);
+			_loopDelayTimer = new System.Threading.Timer(a => Play(), null, LoopDelay, Timeout.Infinite);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -593,22 +611,26 @@ namespace SayMore.Media.UI
 
 			try
 			{
-				CurrentPosition = float.Parse(
+				ProcessPlaybackPositionMessage(float.Parse(
 					data.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[1],
-						CultureInfo.InvariantCulture.NumberFormat);
+						CultureInfo.InvariantCulture.NumberFormat));
 			}
-			catch
+			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ProcessPlaybackPositionMessage(float newCurrentTime)
+		{
+			if (IsPaused)
 			{
-				return;
+				IsPaused = false;
+				if (PlaybackResumed != null)
+					PlaybackResumed();
 			}
 
-			if (CurrentPosition < 0f)
-			{
-				CurrentPosition = 0f;
-				return;
-			}
+			CurrentPosition = Math.Max(0, newCurrentTime);
 
-			if (CurrentPosition.Equals(_prevPostion))
+			if (CurrentPosition.Equals(0) || CurrentPosition.Equals(_prevPostion))
 				return;
 
 			_prevPostion = CurrentPosition;

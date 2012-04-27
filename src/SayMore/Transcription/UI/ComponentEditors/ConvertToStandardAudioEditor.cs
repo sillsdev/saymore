@@ -60,7 +60,7 @@ namespace SayMore.Transcription.UI
 			{
 				text = LocalizationManager.GetString(
 					"EventsView.Transcription.StartAnnotatingTab.ConvertToStandardAudio._labelIntroduction.ForVideo",
-					"In order to annotate, SayMore needs to convert this video into to WAV PCM audio. " +
+					"In order to annotate, SayMore needs to convert this video to WAV PCM audio. " +
 					"During the conversion process, a standard audio file will be created from the " +
 					"original and added to the event's file list. The name of the new audio file will " +
 					"be that of the original with the suffix \"{0}\" added to the end. The original " +

@@ -1,6 +1,6 @@
-using SayMore.UI.LowLevelControls;
+using SayMore.Utilities.LowLevelControls;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	partial class PersonBasicEditor
 	{
@@ -36,25 +36,25 @@ namespace SayMore.UI.ComponentEditors
 			this._labelBirthYear = new System.Windows.Forms.Label();
 			this._birthYear = new System.Windows.Forms.TextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._pbOtherLangMother3 = new SayMore.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangMother3 = new SayMore.Utilities.LowLevelControls.ParentButton();
 			this._primaryLanguageLearnedIn = new System.Windows.Forms.TextBox();
 			this._labelPrimaryLanguageLearnedIn = new System.Windows.Forms.Label();
-			this._pbOtherLangMother1 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._pbOtherLangFather3 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._pbOtherLangFather2 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._pbOtherLangFather1 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._pbOtherLangMother0 = new SayMore.UI.LowLevelControls.ParentButton();
-			this._pbOtherLangFather0 = new SayMore.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangMother1 = new SayMore.Utilities.LowLevelControls.ParentButton();
+			this._pbOtherLangFather3 = new SayMore.Utilities.LowLevelControls.ParentButton();
+			this._pbOtherLangFather2 = new SayMore.Utilities.LowLevelControls.ParentButton();
+			this._pbOtherLangFather1 = new SayMore.Utilities.LowLevelControls.ParentButton();
+			this._pbOtherLangMother0 = new SayMore.Utilities.LowLevelControls.ParentButton();
+			this._pbOtherLangFather0 = new SayMore.Utilities.LowLevelControls.ParentButton();
 			this._otherLanguage3 = new System.Windows.Forms.TextBox();
 			this._otherLanguage0 = new System.Windows.Forms.TextBox();
 			this._otherLanguage1 = new System.Windows.Forms.TextBox();
 			this._otherLanguage2 = new System.Windows.Forms.TextBox();
 			this._primaryLanguage = new System.Windows.Forms.TextBox();
 			this._labelPrimaryLanguage = new System.Windows.Forms.Label();
-			this._pbPrimaryLangMother = new SayMore.UI.LowLevelControls.ParentButton();
-			this._pbPrimaryLangFather = new SayMore.UI.LowLevelControls.ParentButton();
+			this._pbPrimaryLangMother = new SayMore.Utilities.LowLevelControls.ParentButton();
+			this._pbPrimaryLangFather = new SayMore.Utilities.LowLevelControls.ParentButton();
 			this._labelOtherLanguages = new System.Windows.Forms.Label();
-			this._pbOtherLangMother2 = new SayMore.UI.LowLevelControls.ParentButton();
+			this._pbOtherLangMother2 = new SayMore.Utilities.LowLevelControls.ParentButton();
 			this._labelEducation = new System.Windows.Forms.Label();
 			this._education = new System.Windows.Forms.TextBox();
 			this._labelPrimaryOccupation = new System.Windows.Forms.Label();
@@ -67,8 +67,8 @@ namespace SayMore.UI.ComponentEditors
 			this._panelGrid = new System.Windows.Forms.Panel();
 			this._panelPicture = new System.Windows.Forms.Panel();
 			this._personsPicture = new System.Windows.Forms.PictureBox();
-			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
-			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
+			this._binder = new SayMore.Utilities.ComponentEditors.BindingHelper(this.components);
+			this._autoCompleteHelper = new SayMore.Utilities.ComponentEditors.AutoCompleteHelper(this.components);
 			this._tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
@@ -223,7 +223,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother3.Location = new System.Drawing.Point(207, 211);
 			this._pbOtherLangMother3.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._pbOtherLangMother3.Name = "_pbOtherLangMother3";
-			this._pbOtherLangMother3.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
+			this._pbOtherLangMother3.ParentType = SayMore.Utilities.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother3.Selected = false;
 			this._pbOtherLangMother3.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother3.TabIndex = 24;
@@ -273,7 +273,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother1.Location = new System.Drawing.Point(207, 155);
 			this._pbOtherLangMother1.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
 			this._pbOtherLangMother1.Name = "_pbOtherLangMother1";
-			this._pbOtherLangMother1.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
+			this._pbOtherLangMother1.ParentType = SayMore.Utilities.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother1.Selected = false;
 			this._pbOtherLangMother1.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother1.TabIndex = 18;
@@ -290,7 +290,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather3.Location = new System.Drawing.Point(183, 211);
 			this._pbOtherLangFather3.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._pbOtherLangFather3.Name = "_pbOtherLangFather3";
-			this._pbOtherLangFather3.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
+			this._pbOtherLangFather3.ParentType = SayMore.Utilities.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather3.Selected = false;
 			this._pbOtherLangFather3.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather3.TabIndex = 23;
@@ -307,7 +307,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather2.Location = new System.Drawing.Point(183, 183);
 			this._pbOtherLangFather2.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
 			this._pbOtherLangFather2.Name = "_pbOtherLangFather2";
-			this._pbOtherLangFather2.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
+			this._pbOtherLangFather2.ParentType = SayMore.Utilities.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather2.Selected = false;
 			this._pbOtherLangFather2.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather2.TabIndex = 20;
@@ -324,7 +324,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather1.Location = new System.Drawing.Point(183, 155);
 			this._pbOtherLangFather1.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
 			this._pbOtherLangFather1.Name = "_pbOtherLangFather1";
-			this._pbOtherLangFather1.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
+			this._pbOtherLangFather1.ParentType = SayMore.Utilities.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather1.Selected = false;
 			this._pbOtherLangFather1.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather1.TabIndex = 17;
@@ -341,7 +341,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother0.Location = new System.Drawing.Point(207, 129);
 			this._pbOtherLangMother0.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._pbOtherLangMother0.Name = "_pbOtherLangMother0";
-			this._pbOtherLangMother0.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
+			this._pbOtherLangMother0.ParentType = SayMore.Utilities.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother0.Selected = false;
 			this._pbOtherLangMother0.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother0.TabIndex = 15;
@@ -358,7 +358,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangFather0.Location = new System.Drawing.Point(183, 129);
 			this._pbOtherLangFather0.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._pbOtherLangFather0.Name = "_pbOtherLangFather0";
-			this._pbOtherLangFather0.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
+			this._pbOtherLangFather0.ParentType = SayMore.Utilities.LowLevelControls.ParentType.Father;
 			this._pbOtherLangFather0.Selected = false;
 			this._pbOtherLangFather0.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangFather0.TabIndex = 14;
@@ -494,7 +494,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangMother.Location = new System.Drawing.Point(207, 58);
 			this._pbPrimaryLangMother.Margin = new System.Windows.Forms.Padding(0, 1, 14, 0);
 			this._pbPrimaryLangMother.Name = "_pbPrimaryLangMother";
-			this._pbPrimaryLangMother.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
+			this._pbPrimaryLangMother.ParentType = SayMore.Utilities.LowLevelControls.ParentType.Mother;
 			this._pbPrimaryLangMother.Selected = false;
 			this._pbPrimaryLangMother.Size = new System.Drawing.Size(24, 24);
 			this._pbPrimaryLangMother.TabIndex = 7;
@@ -510,7 +510,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbPrimaryLangFather.Location = new System.Drawing.Point(183, 58);
 			this._pbPrimaryLangFather.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this._pbPrimaryLangFather.Name = "_pbPrimaryLangFather";
-			this._pbPrimaryLangFather.ParentType = SayMore.UI.LowLevelControls.ParentType.Father;
+			this._pbPrimaryLangFather.ParentType = SayMore.Utilities.LowLevelControls.ParentType.Father;
 			this._pbPrimaryLangFather.Selected = false;
 			this._pbPrimaryLangFather.Size = new System.Drawing.Size(24, 24);
 			this._pbPrimaryLangFather.TabIndex = 6;
@@ -542,7 +542,7 @@ namespace SayMore.UI.ComponentEditors
 			this._pbOtherLangMother2.Location = new System.Drawing.Point(207, 183);
 			this._pbOtherLangMother2.Margin = new System.Windows.Forms.Padding(0, 1, 0, 3);
 			this._pbOtherLangMother2.Name = "_pbOtherLangMother2";
-			this._pbOtherLangMother2.ParentType = SayMore.UI.LowLevelControls.ParentType.Mother;
+			this._pbOtherLangMother2.ParentType = SayMore.Utilities.LowLevelControls.ParentType.Mother;
 			this._pbOtherLangMother2.Selected = false;
 			this._pbOtherLangMother2.Size = new System.Drawing.Size(24, 24);
 			this._pbOtherLangMother2.TabIndex = 21;
@@ -796,14 +796,14 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.TextBox _howToContact;
 		private System.Windows.Forms.TextBox _education;
 		private System.Windows.Forms.TextBox _primaryOccupation;
-		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother0;
-		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather0;
-		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother3;
-		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother2;
-		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangMother1;
-		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather1;
-		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather2;
-		private SayMore.UI.LowLevelControls.ParentButton _pbOtherLangFather3;
+		private SayMore.Utilities.LowLevelControls.ParentButton _pbOtherLangMother0;
+		private SayMore.Utilities.LowLevelControls.ParentButton _pbOtherLangFather0;
+		private SayMore.Utilities.LowLevelControls.ParentButton _pbOtherLangMother3;
+		private SayMore.Utilities.LowLevelControls.ParentButton _pbOtherLangMother2;
+		private SayMore.Utilities.LowLevelControls.ParentButton _pbOtherLangMother1;
+		private SayMore.Utilities.LowLevelControls.ParentButton _pbOtherLangFather1;
+		private SayMore.Utilities.LowLevelControls.ParentButton _pbOtherLangFather2;
+		private SayMore.Utilities.LowLevelControls.ParentButton _pbOtherLangFather3;
 		private System.Windows.Forms.Panel _panelGrid;
 		private ParentButton _pbPrimaryLangMother;
 		private ParentButton _pbPrimaryLangFather;

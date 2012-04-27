@@ -1,7 +1,7 @@
 using System.IO;
 using System.Windows.Forms;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.Utilities.NewEventsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

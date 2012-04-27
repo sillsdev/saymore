@@ -8,11 +8,11 @@ using Localization;
 using Localization.UI;
 using NAudio.Wave;
 using Palaso.Progress;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMore.Properties;
-using SayMore.UI.LowLevelControls;
-using SayMore.Media.UI;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.LowLevelControls;
+using SayMore.Media.MPlayer;
+using SayMore.Utilities;
 using SilTools;
 using Timer = System.Windows.Forms.Timer;
 

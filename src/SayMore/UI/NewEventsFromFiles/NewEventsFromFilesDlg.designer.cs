@@ -1,7 +1,7 @@
 using System.Windows.Forms;
 using SilTools;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.Utilities.NewEventsFromFiles
 {
 	partial class NewEventsFromFilesDlg
 	{
@@ -44,7 +44,7 @@ namespace SayMore.UI.NewEventsFromFiles
 			this._progressBar = new System.Windows.Forms.ProgressBar();
 			this._outerTableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
-			this._gridFiles = new SayMore.UI.ElementListScreen.ComponentFileGrid();
+			this._gridFiles = new SayMore.Utilities.ElementListScreen.ComponentFileGrid();
 			this._panelMetadata = new System.Windows.Forms.Panel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._mediaPlayerPanel.SuspendLayout();
@@ -343,7 +343,7 @@ namespace SayMore.UI.NewEventsFromFiles
 		private System.Windows.Forms.Label _labelProgress;
 		private System.Windows.Forms.ProgressBar _progressBar;
 		private System.Windows.Forms.Panel _panelMetadata;
-		private SayMore.UI.ElementListScreen.ComponentFileGrid _gridFiles;
+		private SayMore.Utilities.ElementListScreen.ComponentFileGrid _gridFiles;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
 		private Localization.UI.LocalizationExtender locExtender;
 	}

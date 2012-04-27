@@ -2,7 +2,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
+namespace SayMore.Utilities.ProjectChoosingAndCreating.NewProjectDialog
 {
 	/// ----------------------------------------------------------------------------------------
 	public class PathValidator

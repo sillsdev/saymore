@@ -10,7 +10,7 @@ using Palaso.IO;
 using Localization;
 using SayMore.Model.Files;
 
-namespace SayMore.Media.UI
+namespace SayMore.Media.MPlayer
 {
 	#region MPlayerHelper class
 	/// ----------------------------------------------------------------------------------------

@@ -6,10 +6,10 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using SayMore.Model.Files;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.Utilities;
 using SilTools;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public interface IEditorProvider

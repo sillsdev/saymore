@@ -9,9 +9,9 @@ using Localization;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
-using SayMore.UI.LowLevelControls;
+using SayMore.Utilities.LowLevelControls;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class PersonBasicEditor : EditorBase

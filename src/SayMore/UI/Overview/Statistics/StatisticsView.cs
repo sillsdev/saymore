@@ -4,7 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace SayMore.UI.Overview.Statistics
+namespace SayMore.Utilities.Overview.Statistics
 {
 	public partial class StatisticsView : UserControl
 	{

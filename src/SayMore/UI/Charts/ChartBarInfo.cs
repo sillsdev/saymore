@@ -5,7 +5,7 @@ using System.Linq;
 using SayMore.Model;
 using SayMore.Properties;
 
-namespace SayMore.UI.Charts
+namespace SayMore.Utilities.Charts
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ChartBarInfo

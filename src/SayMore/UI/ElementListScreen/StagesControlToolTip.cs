@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 
-namespace SayMore.UI.ElementListScreen
+namespace SayMore.Utilities.ElementListScreen
 {
 	public partial class StagesControlToolTip : Form
 	{

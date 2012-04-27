@@ -1,7 +1,7 @@
 using System.IO;
 using NAudio.Wave;
 using NUnit.Framework;
-using SayMore.Media;
+using SayMore.Media.Audio;
 
 namespace SayMoreTests.AudioUtils
 {

@@ -3,7 +3,7 @@ using System.Linq;
 using NAudio.Wave;
 using SayMore.Transcription.Model;
 
-namespace SayMore.Media
+namespace SayMore.Media.Audio
 {
 	public class WaveControlWithBoundarySelection : WaveControlWithMovableBoundaries
 	{

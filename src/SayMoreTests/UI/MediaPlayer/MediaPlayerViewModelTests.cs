@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using NUnit.Framework;
-using SayMore.Media.UI;
+using SayMore.Media.MPlayer;
 using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.UI.MediaPlayer

@@ -4,9 +4,9 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.Media.UI;
+using SayMore.Media.MPlayer;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class AudioVideoPlayer : EditorBase

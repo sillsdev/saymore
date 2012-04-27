@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilTools;
 
-namespace SayMore.UI.LowLevelControls
+namespace SayMore.Utilities.LowLevelControls
 {
 	public partial class MultiValueComboBox : UserControl
 	{

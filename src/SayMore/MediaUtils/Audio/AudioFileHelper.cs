@@ -3,7 +3,7 @@ using System.IO;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 
-namespace SayMore.Media
+namespace SayMore.Media.Audio
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

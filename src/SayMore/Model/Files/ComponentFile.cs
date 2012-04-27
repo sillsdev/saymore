@@ -9,14 +9,14 @@ using Localization;
 using Palaso.Code;
 using Palaso.Reporting;
 using Palaso.UI.WindowsForms.FileSystem;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMore.Model.Fields;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
-using SayMore.UI.ElementListScreen;
-using SayMore.UI.Utilities;
+using SayMore.Utilities;
+using SayMore.Utilities.ElementListScreen;
 
 namespace SayMore.Model.Files
 {

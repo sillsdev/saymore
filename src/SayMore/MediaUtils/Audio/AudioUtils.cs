@@ -13,12 +13,12 @@ using Palaso.Media.Naudio.UI;
 using Palaso.Progress;
 using Palaso.Progress.LogBox;
 using Palaso.Reporting;
-using SayMore.Media.UI;
+using SayMore.Media.MPlayer;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI;
+using SayMore.Utilities;
 
-namespace SayMore.Media
+namespace SayMore.Media.Audio
 {
 	public class AudioUtils
 	{

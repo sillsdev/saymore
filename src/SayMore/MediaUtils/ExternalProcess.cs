@@ -1,9 +1,9 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using SayMore.UI.Utilities;
+using SayMore.Utilities;
 
-namespace SayMore.Media.UI
+namespace SayMore.Media.MPlayer
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ExternalProcess : Process

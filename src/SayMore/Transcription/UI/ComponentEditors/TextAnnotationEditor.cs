@@ -4,12 +4,12 @@ using System.IO;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Reporting;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.UI.ComponentEditors;
-using SayMore.Media.UI;
+using SayMore.Utilities.ComponentEditors;
+using SayMore.Media.MPlayer;
 using SilTools;
 
 namespace SayMore.Transcription.UI

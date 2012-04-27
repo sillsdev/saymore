@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Xml.Serialization;
 using Palaso.IO;
-using SayMore.Media.UI;
+using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SilTools;
 

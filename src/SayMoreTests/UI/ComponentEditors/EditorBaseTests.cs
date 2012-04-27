@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using NUnit.Framework;
-using SayMore.UI.ComponentEditors;
+using SayMore.Utilities.ComponentEditors;
 
 namespace SayMoreTests.UI.ComponentEditors
 {

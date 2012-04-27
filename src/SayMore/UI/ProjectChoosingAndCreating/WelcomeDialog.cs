@@ -6,12 +6,12 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using SayMore.Properties;
-using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.ProjectChoosingAndCreating.NewProjectDialog;
+using SayMore.Utilities.Utilities;
 using SilTools;
 using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
 
-namespace SayMore.UI.ProjectChoosingAndCreating
+namespace SayMore.Utilities.ProjectChoosingAndCreating
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

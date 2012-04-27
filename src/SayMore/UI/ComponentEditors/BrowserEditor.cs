@@ -5,9 +5,9 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.Utilities;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class BrowserEditor : EditorBase

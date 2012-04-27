@@ -1,4 +1,4 @@
-namespace SayMore.UI.ProjectWindow
+namespace SayMore.Utilities.ProjectWindow
 {
 	partial class UILanguageDlg
 	{

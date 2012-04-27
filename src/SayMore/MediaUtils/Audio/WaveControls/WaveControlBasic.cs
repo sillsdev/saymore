@@ -9,7 +9,7 @@ using NAudio.Wave.SampleProviders;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 
-namespace SayMore.Media
+namespace SayMore.Media.Audio
 {
 	/// ----------------------------------------------------------------------------------------
 	public class WaveControlBasic : UserControl

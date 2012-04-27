@@ -3,7 +3,7 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SayMore.UI.LowLevelControls
+namespace SayMore.Utilities.LowLevelControls
 {
 	public partial class PopupControl : UserControl
 	{

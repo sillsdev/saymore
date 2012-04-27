@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SayMore.UI.ComponentEditors;
+using SayMore.Utilities.ComponentEditors;
 
 namespace SayMore.Model.Files
 {

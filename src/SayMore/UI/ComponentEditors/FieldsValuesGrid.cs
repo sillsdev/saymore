@@ -5,11 +5,11 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using SayMore.Properties;
-using SayMore.UI.LowLevelControls;
+using SayMore.Utilities.LowLevelControls;
 using SilTools;
 using ColorHelper = SilTools.ColorHelper;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public class FieldsValuesGrid : SilGrid

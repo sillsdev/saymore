@@ -5,7 +5,7 @@ using NAudio.Wave;
 using Palaso.Progress;
 using SayMore.Transcription.Model;
 
-namespace SayMore.Media
+namespace SayMore.Media.Audio
 {
 	public class WaveStreamProvider : IDisposable
 	{

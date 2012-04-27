@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using SayMore.Properties;
 using SilTools;
 
-namespace SayMore.Media.UI
+namespace SayMore.Media.MPlayer
 {
 	public partial class MPlayerDebuggingOutputWindow : Form
 	{

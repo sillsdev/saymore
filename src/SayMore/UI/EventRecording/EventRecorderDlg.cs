@@ -5,13 +5,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using Localization.UI;
 using Palaso.Media.Naudio.UI;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMore.Properties;
-using SayMore.Media.UI;
+using SayMore.Media.MPlayer;
 using SilTools;
 using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
 
-namespace SayMore.UI.EventRecording
+namespace SayMore.Utilities.EventRecording
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class EventRecorderDlg : Form

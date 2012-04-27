@@ -1,7 +1,7 @@
 using System;
 using SayMore.Transcription.Model;
 
-namespace SayMore.Media
+namespace SayMore.Media.Audio
 {
 	/// ----------------------------------------------------------------------------------------
 	public class WaveControlScrollCalculator

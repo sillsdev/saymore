@@ -3,9 +3,9 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Localization;
-using SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog;
+using SayMore.Utilities.ProjectChoosingAndCreating.NewProjectDialog;
 
-namespace SayMore.UI.ElementListScreen
+namespace SayMore.Utilities.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class CustomComponentFileRenamingDialog : Form

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 using Palaso.Reporting;
 using Localization;
 using SayMore.Model.Files;
-using SayMore.UI.Utilities;
+using SayMore.Utilities;
 
-namespace SayMore.Media.UI
+namespace SayMore.Media.MPlayer
 {
 	/// ----------------------------------------------------------------------------------------
 	public class MediaPlayerViewModel

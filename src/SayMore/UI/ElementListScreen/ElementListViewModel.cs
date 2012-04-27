@@ -5,9 +5,9 @@ using System.Text;
 using Localization;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.UI.ComponentEditors;
+using SayMore.Utilities.ComponentEditors;
 
-namespace SayMore.UI.ElementListScreen
+namespace SayMore.Utilities.ElementListScreen
 {
 	/// <summary>
 	/// This is the logic behind the screen which shows the list of events, and also the

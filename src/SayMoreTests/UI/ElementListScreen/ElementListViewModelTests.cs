@@ -5,7 +5,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.UI.ElementListScreen;
+using SayMore.Utilities.ElementListScreen;
 using System.Collections.Generic;
 using SayMoreTests.Model.Files;
 

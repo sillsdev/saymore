@@ -9,8 +9,8 @@ using Palaso.IO;
 using Palaso.Progress;
 using Palaso.Reporting;
 using SayMore.Properties;
-using SayMore.Media.UI;
-using SayMore.UI.ProjectWindow;
+using SayMore.Media.MPlayer;
+using SayMore.Utilities.ProjectWindow;
 using SilTools;
 
 namespace SayMore

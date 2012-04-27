@@ -9,7 +9,7 @@ using SayMore.Properties;
 using Palaso.Extensions;
 using SilTools;
 
-namespace SayMore.UI.ElementListScreen
+namespace SayMore.Utilities.ElementListScreen
 {
 	public class EventsGrid : ElementGrid
 	{

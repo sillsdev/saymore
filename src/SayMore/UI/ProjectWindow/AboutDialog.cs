@@ -5,9 +5,9 @@ using Localization;
 using Localization.UI;
 using Palaso.Reporting;
 using SayMore.Properties;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.Utilities;
 
-namespace SayMore.UI.ProjectWindow
+namespace SayMore.Utilities.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

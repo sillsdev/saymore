@@ -5,10 +5,10 @@ using Localization;
 using NAudio.Wave;
 using Palaso.Media.Naudio;
 using Palaso.Reporting;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMore.Model;
 
-namespace SayMore.UI.EventRecording
+namespace SayMore.Utilities.EventRecording
 {
 	public class EventRecorderDlgViewModel : IDisposable
 	{

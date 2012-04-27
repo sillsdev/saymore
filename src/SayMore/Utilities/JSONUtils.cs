@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace SayMore.UI.Utilities
+namespace SayMore.Utilities
 {
 	public class JSONUtils
 	{

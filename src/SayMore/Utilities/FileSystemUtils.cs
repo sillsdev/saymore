@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace SayMore.UI.Utilities
+namespace SayMore.Utilities
 {
 	public class FileSystemUtils
 	{

@@ -10,7 +10,7 @@ using Palaso.UI.WindowsForms.ClearShare.WinFormsUI;
 using SilTools;
 using SilTools.Controls;
 
-namespace SayMore.UI.LowLevelControls
+namespace SayMore.Utilities.LowLevelControls
 {
 	public class ColumnChooserButton : XButton
 	{

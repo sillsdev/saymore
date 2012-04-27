@@ -4,7 +4,7 @@ using SayMore.Model;
 using SayMore.Properties;
 using SilTools;
 
-namespace SayMore.UI.ElementListScreen
+namespace SayMore.Utilities.ElementListScreen
 {
 	public class PersonGrid : ElementGrid
 	{

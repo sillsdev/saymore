@@ -12,12 +12,12 @@ using Localization.UI;
 using Palaso.IO;
 using Palaso.Media;
 using Palaso.Reporting;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMore.Properties;
-using SayMore.Media.UI;
+using SayMore.Media.MPlayer;
 using SilTools;
 
-namespace SayMore.UI.ProjectWindow
+namespace SayMore.Utilities.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

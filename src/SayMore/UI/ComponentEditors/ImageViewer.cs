@@ -7,7 +7,7 @@ using SayMore.Properties;
 using SilTools;
 using SilTools.Controls;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class ImageViewer : EditorBase

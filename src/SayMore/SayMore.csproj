@@ -107,29 +107,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MediaUtils\AudioFileHelper.cs">
+    <Compile Include="MediaUtils\Audio\AudioFileHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MediaUtils\AudioUtils.cs" />
-    <Compile Include="MediaUtils\OralAnnotationPlaybackWaveStream.cs" />
-    <Compile Include="MediaUtils\WaveControls\WaveControlBasic.cs">
+    <Compile Include="MediaUtils\Audio\AudioUtils.cs" />
+    <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStream.cs" />
+    <Compile Include="MediaUtils\Audio\WaveControls\WaveControlBasic.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MediaUtils\WaveControls\WaveControlScrollCalculator.cs" />
-    <Compile Include="MediaUtils\WaveControls\WaveControlWithBoundarySelection.cs">
+    <Compile Include="MediaUtils\Audio\WaveControls\WaveControlScrollCalculator.cs" />
+    <Compile Include="MediaUtils\Audio\WaveControls\WaveControlWithBoundarySelection.cs" />
+    <Compile Include="MediaUtils\Audio\WaveControls\WaveControlWithMovableBoundaries.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MediaUtils\WaveControls\WaveControlWithMovableBoundaries.cs">
+    <Compile Include="MediaUtils\Audio\WaveControls\WaveControlWithRangeSelection.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MediaUtils\WaveControls\WaveControlWithRangeSelection.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MediaUtils\WavePainting\WavePainterWithBoundarySelection.cs" />
-    <Compile Include="MediaUtils\WavePainting\WavePainterBasic.cs" />
-    <Compile Include="MediaUtils\WavePainting\WavePainterWithRangeSelection.cs" />
-    <Compile Include="MediaUtils\WaveSegmentStream.cs" />
-    <Compile Include="MediaUtils\WaveStreamProvider.cs" />
+    <Compile Include="MediaUtils\Audio\WavePainting\WavePainterWithBoundarySelection.cs" />
+    <Compile Include="MediaUtils\Audio\WavePainting\WavePainterBasic.cs" />
+    <Compile Include="MediaUtils\Audio\WavePainting\WavePainterWithRangeSelection.cs" />
+    <Compile Include="MediaUtils\Audio\WaveSegmentStream.cs" />
+    <Compile Include="MediaUtils\Audio\WaveStreamProvider.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
@@ -468,26 +466,26 @@
     <Compile Include="UI\LowLevelControls\VolumePopup.designer.cs">
       <DependentUpon>VolumePopup.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MediaPlayer\ExternalProcess.cs">
+    <Compile Include="MediaUtils\ExternalProcess.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\MediaPlayer\MediaPlayer.cs">
+    <Compile Include="MediaUtils\MPlayer\MediaPlayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\MediaPlayer\MediaPlayer.designer.cs">
+    <Compile Include="MediaUtils\MPlayer\MediaPlayer.designer.cs">
       <DependentUpon>MediaPlayer.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MediaPlayer\MediaPlayerViewModel.cs" />
-    <Compile Include="UI\MediaPlayer\MPlayerDebuggingOutputWindow.cs">
+    <Compile Include="MediaUtils\MPlayer\MediaPlayerViewModel.cs" />
+    <Compile Include="MediaUtils\MPlayer\MPlayerDebuggingOutputWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\MediaPlayer\MPlayerDebuggingOutputWindow.Designer.cs">
+    <Compile Include="MediaUtils\MPlayer\MPlayerDebuggingOutputWindow.Designer.cs">
       <DependentUpon>MPlayerDebuggingOutputWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MediaPlayer\MPlayerHelper.cs">
+    <Compile Include="MediaUtils\MPlayer\MPlayerHelper.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\MediaPlayer\VideoPanel.cs">
+    <Compile Include="MediaUtils\MPlayer\VideoPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ProgressDlg.cs">
@@ -688,7 +686,7 @@
     <EmbeddedResource Include="UI\LowLevelControls\ProgressControl.resx">
       <DependentUpon>ProgressControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MediaPlayer\MPlayerDebuggingOutputWindow.resx">
+    <EmbeddedResource Include="MediaUtils\MPlayer\MPlayerDebuggingOutputWindow.resx">
       <DependentUpon>MPlayerDebuggingOutputWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\NewEventsFromFiles\NewEventsFromFilesDlg.resx">
@@ -757,12 +755,12 @@
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Archiving\ArchivingDlgViewModel.cs" />
-    <Compile Include="UI\Utilities\FileSystemUtils.cs" />
-    <Compile Include="UI\Utilities\IconHelper.cs" />
-    <Compile Include="UI\Utilities\AppColors.cs" />
+    <Compile Include="Utilities\FileSystemUtils.cs" />
+    <Compile Include="Utilities\IconHelper.cs" />
+    <Compile Include="Utilities\AppColors.cs" />
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
     <Compile Include="Model\Files\DataGathering\UniqueCombinationsFinder.cs" />
-    <Compile Include="UI\Utilities\JSONUtils.cs" />
+    <Compile Include="Utilities\JSONUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ContributorsTab.png" />
@@ -811,7 +809,7 @@
     <EmbeddedResource Include="UI\LowLevelControls\VolumePopup.resx">
       <DependentUpon>VolumePopup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MediaPlayer\MediaPlayer.resx">
+    <EmbeddedResource Include="MediaUtils\MPlayer\MediaPlayer.resx">
       <DependentUpon>MediaPlayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Overview\ProgressScreen.resx">
@@ -954,9 +952,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MediaUtils\Audio\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

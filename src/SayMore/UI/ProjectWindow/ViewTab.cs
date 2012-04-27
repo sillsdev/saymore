@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilTools;
 
-namespace SayMore.UI.ProjectWindow
+namespace SayMore.Utilities.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ViewTab : Label

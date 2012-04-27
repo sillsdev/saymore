@@ -6,10 +6,10 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.Media.UI;
+using SayMore.Media.MPlayer;
 using SilTools;
 
-namespace SayMore.UI.NewEventsFromFiles
+namespace SayMore.Utilities.NewEventsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

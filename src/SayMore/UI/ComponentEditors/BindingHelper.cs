@@ -8,9 +8,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using Palaso.Extensions;
 using SayMore.Model.Files;
-using SayMore.UI.LowLevelControls;
+using SayMore.Utilities.LowLevelControls;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -9,7 +9,7 @@ using Localization;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.Media.UI;
+using SayMore.Media.MPlayer;
 using SilTools;
 
 namespace SayMore.Transcription.UI

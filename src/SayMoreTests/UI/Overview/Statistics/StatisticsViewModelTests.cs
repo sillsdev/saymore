@@ -7,7 +7,7 @@ using Palaso.TestUtilities;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
-using SayMore.UI.Overview.Statistics;
+using SayMore.Utilities.Overview.Statistics;
 
 namespace SayMoreTests.UI.Overview.Statistics
 {

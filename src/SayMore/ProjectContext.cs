@@ -6,10 +6,10 @@ using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
-using SayMore.UI.ComponentEditors;
-using SayMore.UI.ElementListScreen;
-using SayMore.UI.Overview;
-using SayMore.UI.ProjectWindow;
+using SayMore.Utilities.ComponentEditors;
+using SayMore.Utilities.ElementListScreen;
+using SayMore.Utilities.Overview;
+using SayMore.Utilities.ProjectWindow;
 
 namespace SayMore
 {

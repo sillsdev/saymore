@@ -4,7 +4,7 @@ using System.Media;
 using System.Windows.Forms;
 using SayMore.Properties;
 
-namespace SayMore.UI.LowLevelControls
+namespace SayMore.Utilities.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
 	public interface IProgressViewModel

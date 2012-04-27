@@ -1,4 +1,4 @@
-namespace SayMore.UI.ElementListScreen
+namespace SayMore.Utilities.ElementListScreen
 {
 	partial class CustomComponentFileRenamingDialog
 	{

@@ -1,7 +1,7 @@
 using System.Drawing;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using SayMore.UI.ComponentEditors;
+using SayMore.Utilities.ComponentEditors;
 
 namespace SayMoreTests.UI.ComponentEditors
 {

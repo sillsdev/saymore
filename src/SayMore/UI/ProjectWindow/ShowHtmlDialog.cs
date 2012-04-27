@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace SayMore.UI.ProjectWindow
+namespace SayMore.Utilities.ProjectWindow
 {
 	/// <summary>
 	/// Just shows a simple dialog containing the html pointed to by the Path property

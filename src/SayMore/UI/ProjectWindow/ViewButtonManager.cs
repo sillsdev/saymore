@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using SilTools;
 
-namespace SayMore.UI.ProjectWindow
+namespace SayMore.Utilities.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	public interface ISayMoreView

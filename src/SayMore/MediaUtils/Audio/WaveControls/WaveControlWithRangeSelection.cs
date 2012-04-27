@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using SayMore.Transcription.Model;
 
-namespace SayMore.Media
+namespace SayMore.Media.Audio
 {
 	public class WaveControlWithRangeSelection : WaveControlWithMovableBoundaries
 	{

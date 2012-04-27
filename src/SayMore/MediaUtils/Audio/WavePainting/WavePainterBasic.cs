@@ -8,7 +8,7 @@ using NAudio.Wave;
 using SayMore.Transcription.Model;
 using SilTools;
 
-namespace SayMore.Media
+namespace SayMore.Media.Audio
 {
 	public class WavePainterBasic : IDisposable
 	{

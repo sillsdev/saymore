@@ -2,7 +2,7 @@ using Localization;
 using Localization.UI;
 using SilTools.Controls;
 
-namespace SayMore.UI.LowLevelControls
+namespace SayMore.Utilities.LowLevelControls
 {
 	partial class ListPanel
 	{
@@ -27,7 +27,7 @@ namespace SayMore.UI.LowLevelControls
 			this._buttonNew = new System.Windows.Forms.Button();
 			this._buttonDelete = new System.Windows.Forms.Button();
 			this._headerLabel = new SilTools.Controls.HeaderLabel();
-			this._buttonColChooser = new SayMore.UI.LowLevelControls.ColumnChooserButton();
+			this._buttonColChooser = new SayMore.Utilities.LowLevelControls.ColumnChooserButton();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._outerPanel.SuspendLayout();
 			this._buttonsFlowLayoutPanel.SuspendLayout();

@@ -9,10 +9,10 @@ using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI.ElementListScreen;
-using SayMore.UI.ProjectChoosingAndCreating;
+using SayMore.Utilities.ElementListScreen;
+using SayMore.Utilities.ProjectChoosingAndCreating;
 using SilTools;
-using SplashScreen=SayMore.UI.SplashScreen;
+using SplashScreen=SayMore.Utilities.SplashScreen;
 
 namespace SayMore
 {

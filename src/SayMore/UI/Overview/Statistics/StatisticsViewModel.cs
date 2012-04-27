@@ -5,9 +5,9 @@ using Localization;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
-using SayMore.UI.Charts;
+using SayMore.Utilities.Charts;
 
-namespace SayMore.UI.Overview.Statistics
+namespace SayMore.Utilities.Overview.Statistics
 {
 	public class StatisticsViewModel : IDisposable
 	{

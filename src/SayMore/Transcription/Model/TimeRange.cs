@@ -1,5 +1,5 @@
 using System;
-using SayMore.Media.UI;
+using SayMore.Media.MPlayer;
 
 namespace SayMore.Transcription.Model
 {

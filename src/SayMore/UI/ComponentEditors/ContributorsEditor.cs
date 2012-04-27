@@ -8,7 +8,7 @@ using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class ContributorsEditor : EditorBase

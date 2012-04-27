@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Palaso.TestUtilities;
 using Moq;
 using SayMore.Model;
-using SayMore.UI.EventRecording;
+using SayMore.Utilities.EventRecording;
 
 namespace SayMoreTests.UI
 {

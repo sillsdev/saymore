@@ -1,4 +1,4 @@
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	partial class ContributorsEditor
 	{
@@ -30,7 +30,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ContributorsEditor));
-			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
+			this._binder = new SayMore.Utilities.ComponentEditors.BindingHelper(this.components);
 			this.SuspendLayout();
 			// 
 			// ContributorsEditor

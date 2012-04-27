@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using Localization;
 using SayMore.Model;
-using SayMore.UI.Overview.Statistics;
+using SayMore.Utilities.Overview.Statistics;
 
-namespace SayMore.UI.Charts
+namespace SayMore.Utilities.Charts
 {
 	/// ----------------------------------------------------------------------------------------
 	public class HTMLChartBuilder

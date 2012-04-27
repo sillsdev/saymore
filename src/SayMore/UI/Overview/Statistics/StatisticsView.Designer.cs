@@ -1,4 +1,4 @@
-namespace SayMore.UI.Overview.Statistics
+namespace SayMore.Utilities.Overview.Statistics
 {
     partial class StatisticsView
     {

@@ -1,6 +1,6 @@
-using SayMore.UI.LowLevelControls;
+using SayMore.Utilities.LowLevelControls;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	partial class EventBasicEditor
 	{
@@ -39,7 +39,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis = new System.Windows.Forms.Label();
 			this._synopsis = new System.Windows.Forms.TextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._participants = new SayMore.UI.LowLevelControls.MultiValueComboBox();
+			this._participants = new SayMore.Utilities.LowLevelControls.MultiValueComboBox();
 			this._panelGrid = new System.Windows.Forms.Panel();
 			this._labelCustomFields = new System.Windows.Forms.Label();
 			this._access = new System.Windows.Forms.TextBox();
@@ -56,8 +56,8 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStatus = new System.Windows.Forms.Label();
 			this._status = new System.Windows.Forms.ComboBox();
 			this._date = new DatePicker();
-			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
-			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
+			this._binder = new SayMore.Utilities.ComponentEditors.BindingHelper(this.components);
+			this._autoCompleteHelper = new SayMore.Utilities.ComponentEditors.AutoCompleteHelper(this.components);
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -584,7 +584,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelCustomFields;
 		private AutoCompleteHelper _autoCompleteHelper;
 		private System.Windows.Forms.Panel _panelGrid;
-		private SayMore.UI.LowLevelControls.MultiValueComboBox _participants;
+		private SayMore.Utilities.LowLevelControls.MultiValueComboBox _participants;
 		private System.Windows.Forms.Label _labelDate;
 		private System.Windows.Forms.ComboBox _status;
 		private Localization.UI.LocalizationExtender locExtender;

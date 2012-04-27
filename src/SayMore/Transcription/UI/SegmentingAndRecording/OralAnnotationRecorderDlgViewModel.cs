@@ -8,13 +8,12 @@ using NAudio.Wave;
 using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
 using Palaso.Reporting;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.Transcription.UI.SegmentingAndRecording;
-using SayMore.UI.NewEventsFromFiles;
-using SayMore.UI.Utilities;
+using SayMore.Utilities;
+using SayMore.Utilities.NewEventsFromFiles;
 
 namespace SayMore.Transcription.UI
 {

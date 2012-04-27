@@ -26,12 +26,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace SayMore.UI.Utilities
+namespace SayMore.Utilities
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	///
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public static class IconHelper
 	{
@@ -104,7 +100,7 @@ namespace SayMore.UI.Utilities
 		};
 
 		[Flags]
-		enum FileInfoFlags : int
+		enum FileInfoFlags
 		{
 			/// <summary>
 			/// Retrieve the handle to the icon that represents the file and the index
@@ -138,8 +134,8 @@ namespace SayMore.UI.Utilities
 		/// icon in the specified file.
 		/// </para>
 		/// <para>
-		/// If this value is 1 and <paramref name="phiconLarge"/> and
-		/// <paramref name="phiconSmall"/> are both NULL, the function returns
+		/// If this value is 1 and <paramref name="phIconLarge"/> and
+		/// <paramref name="phIconSmall"/> are both NULL, the function returns
 		/// the total number of icons in the specified file. If the file is an
 		/// executable file or DLL, the return value is the number of
 		/// RT_GROUP_ICON resources. If the file is an .ico file, the return
@@ -147,8 +143,8 @@ namespace SayMore.UI.Utilities
 		/// </para>
 		/// <para>
 		/// Windows 95/98/Me, Windows NT 4.0 and later: If this value is a
-		/// negative number and either <paramref name="phiconLarge"/> or
-		/// <paramref name="phiconSmall"/> is not NULL, the function begins by
+		/// negative number and either <paramref name="phIconLarge"/> or
+		/// <paramref name="phIconSmall"/> is not NULL, the function begins by
 		/// extracting the icon whose resource identifier is equal to the
 		/// absolute value of <paramref name="nIconIndex"/>. For example, use -3
 		/// to extract the icon whose resource identifier is 3.
@@ -170,7 +166,7 @@ namespace SayMore.UI.Utilities
 		/// <returns>
 		/// If the <paramref name="nIconIndex"/> parameter is -1, the
 		/// <paramref name="phIconLarge"/> parameter is NULL, and the
-		/// <paramref name="phiconSmall"/> parameter is NULL, then the return
+		/// <paramref name="phIconSmall"/> parameter is NULL, then the return
 		/// value is the number of icons contained in the specified file.
 		/// Otherwise, the return value is the number of icons successfully
 		/// extracted from the file.
@@ -199,7 +195,7 @@ namespace SayMore.UI.Utilities
 		/// Two constants extracted from the FileInfoFlags, the only that are
 		/// meaningfull for the user of this class.
 		/// </summary>
-		public enum SystemIconSize : int
+		public enum SystemIconSize
 		{
 			Large = 0x000000000,
 			Small = 0x000000001
@@ -387,10 +383,6 @@ namespace SayMore.UI.Utilities
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static Icon IconFromExtensionShell(string extension, SystemIconSize size)
 		{
 			//add '.' if nessesry
@@ -406,10 +398,6 @@ namespace SayMore.UI.Utilities
 			return Icon.FromHandle(fileInfo.hIcon);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static Icon IconFromResource(string resourceName)
 		{
@@ -442,10 +430,6 @@ namespace SayMore.UI.Utilities
 				int.TryParse(strArr[1].Trim(), out index);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static Icon ExtractFromRegistryString(string regString, SystemIconSize size)
 		{
@@ -531,6 +515,4 @@ namespace SayMore.UI.Utilities
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
 		public string szTypeName;
 	};
-
-
 }

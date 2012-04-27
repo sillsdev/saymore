@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace SayMore.Media
+namespace SayMore.Media.Audio
 {
 	public abstract class WaveControlWithMovableBoundaries : WaveControlBasic
 	{

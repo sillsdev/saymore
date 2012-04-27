@@ -4,9 +4,9 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model;
 using SayMore.Properties;
-using SayMore.UI.ProjectWindow;
+using SayMore.Utilities.ProjectWindow;
 
-namespace SayMore.UI.ElementListScreen
+namespace SayMore.Utilities.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class PersonListScreen : ConcretePersonListScreen, ISayMoreView

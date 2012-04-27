@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.Utilities;
 using SilTools;
 
-namespace SayMore.UI.LowLevelControls
+namespace SayMore.Utilities.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

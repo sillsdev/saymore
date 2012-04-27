@@ -4,12 +4,12 @@ using System.Linq;
 using System.Collections.Generic;
 using NAudio.Wave;
 using Palaso.Reporting;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.UI.NewEventsFromFiles;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.NewEventsFromFiles;
+using SayMore.Utilities;
 
 namespace SayMore.Transcription.UI
 {

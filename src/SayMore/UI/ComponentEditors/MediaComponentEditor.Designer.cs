@@ -1,4 +1,4 @@
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	partial class MediaComponentEditor
 	{

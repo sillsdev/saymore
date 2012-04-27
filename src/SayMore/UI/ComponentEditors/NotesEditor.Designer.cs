@@ -1,4 +1,4 @@
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	partial class NotesEditor
 	{
@@ -30,7 +30,7 @@ namespace SayMore.UI.ComponentEditors
 		{
 			this.components = new System.ComponentModel.Container();
 			this._notes = new System.Windows.Forms.TextBox();
-			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
+			this._binder = new SayMore.Utilities.ComponentEditors.BindingHelper(this.components);
 			this.SuspendLayout();
 			// 
 			// _notes

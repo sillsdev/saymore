@@ -2,14 +2,14 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Localization;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Properties;
-using SayMore.UI.EventRecording;
-using SayMore.UI.NewEventsFromFiles;
-using SayMore.UI.ProjectWindow;
+using SayMore.Utilities.EventRecording;
+using SayMore.Utilities.NewEventsFromFiles;
+using SayMore.Utilities.ProjectWindow;
 
-namespace SayMore.UI.ElementListScreen
+namespace SayMore.Utilities.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class EventsListScreen : ConcreteEventScreen, ISayMoreView

@@ -1,7 +1,7 @@
 using System.IO;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.Utilities;
 
 namespace SayMoreTests.UI.Utilities
 {

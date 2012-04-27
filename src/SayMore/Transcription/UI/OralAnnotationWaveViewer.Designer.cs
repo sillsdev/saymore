@@ -21,7 +21,7 @@ namespace SayMore.Transcription.UI
 			this._labelTranslation = new System.Windows.Forms.Label();
 			this._labelCareful = new System.Windows.Forms.Label();
 			this._labelOriginal = new System.Windows.Forms.Label();
-			this._waveControl = new SayMore.Media.WaveControlBasic();
+			this._waveControl = new SayMore.Media.Audio.WaveControlBasic();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			this._panelLabels.SuspendLayout();
@@ -149,7 +149,7 @@ namespace SayMore.Transcription.UI
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
-		private SayMore.Media.WaveControlBasic _waveControl;
+		private SayMore.Media.Audio.WaveControlBasic _waveControl;
 		private System.Windows.Forms.Label _labelOriginal;
 		private System.Windows.Forms.Label _labelTranslation;
 		private System.Windows.Forms.Label _labelCareful;

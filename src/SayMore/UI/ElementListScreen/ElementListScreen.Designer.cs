@@ -1,7 +1,7 @@
 using SilTools;
-using SayMore.UI.LowLevelControls;
+using SayMore.Utilities.LowLevelControls;
 
-namespace SayMore.UI.ElementListScreen
+namespace SayMore.Utilities.ElementListScreen
 {
 	partial class ElementListScreen<T> 
 	{

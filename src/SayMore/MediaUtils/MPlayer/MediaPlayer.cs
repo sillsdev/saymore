@@ -4,10 +4,10 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using SayMore.UI.LowLevelControls;
+using SayMore.Utilities.LowLevelControls;
 using SilTools;
 
-namespace SayMore.Media.UI
+namespace SayMore.Media.MPlayer
 {
 	public partial class MediaPlayer : UserControl
 	{

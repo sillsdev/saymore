@@ -1,6 +1,6 @@
 using Palaso.UI.WindowsForms.Widgets;
 
-namespace SayMore.UI.LowLevelControls
+namespace SayMore.Utilities.LowLevelControls
 {
 	partial class ProgressControl
 	{

@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SilTools;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ComponentEditorsTabControl : TabControl

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.Utilities;
 
 namespace SayMoreTests.Utilities
 {

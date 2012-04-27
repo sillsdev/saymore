@@ -1,4 +1,4 @@
-namespace SayMore.UI.LowLevelControls
+namespace SayMore.Utilities.LowLevelControls
 {
 	partial class DeleteMessageBox
 	{

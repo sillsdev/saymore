@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using SilTools;
-using SayMore.UI.ProjectChoosingAndCreating;
+using SayMore.Utilities.ProjectChoosingAndCreating;
 
 namespace SayMoreTests.ProjectChosingAndCreating
 {

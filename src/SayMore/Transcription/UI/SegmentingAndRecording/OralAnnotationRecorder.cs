@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Palaso.Media.Naudio;
 using Palaso.Media.Naudio.UI;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMore.Properties;
 
 namespace SayMore.Transcription.UI

@@ -1,9 +1,9 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.Utilities;
 
-namespace SayMore.UI
+namespace SayMore.Utilities
 {
 	public partial class LoadingDlg : Form
 	{

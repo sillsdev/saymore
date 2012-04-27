@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.Utilities;
 
-namespace SayMore.UI.LowLevelControls
+namespace SayMore.Utilities.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

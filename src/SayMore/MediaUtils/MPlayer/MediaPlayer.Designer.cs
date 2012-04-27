@@ -1,7 +1,7 @@
 
-using SayMore.UI.LowLevelControls;
+using SayMore.Utilities.LowLevelControls;
 
-namespace SayMore.Media.UI
+namespace SayMore.Media.MPlayer
 {
 	partial class MediaPlayer
 	{
@@ -29,15 +29,15 @@ namespace SayMore.Media.UI
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this._videoPanel = new SayMore.Media.UI.VideoPanel();
-			this._volumePopup = new SayMore.UI.LowLevelControls.VolumePopup();
+			this._videoPanel = new SayMore.Media.MPlayer.VideoPanel();
+			this._volumePopup = new SayMore.Utilities.LowLevelControls.VolumePopup();
 			this._toolbarButtons = new System.Windows.Forms.ToolStrip();
 			this._buttonPlay = new System.Windows.Forms.ToolStripButton();
 			this._buttonPause = new System.Windows.Forms.ToolStripButton();
 			this._buttonStop = new System.Windows.Forms.ToolStripButton();
 			this._buttonVolume = new System.Windows.Forms.ToolStripSplitButton();
 			this._labelTime = new System.Windows.Forms.ToolStripLabel();
-			this._sliderTime = new SayMore.UI.LowLevelControls.Slider();
+			this._sliderTime = new SayMore.Utilities.LowLevelControls.Slider();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._videoPanel.SuspendLayout();
 			this._toolbarButtons.SuspendLayout();

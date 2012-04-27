@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Linq;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.UI.Utilities;
+using SayMore.Utilities.Utilities;
 
-namespace SayMore.UI.ElementListScreen
+namespace SayMore.Utilities.ElementListScreen
 {
 	/// ------------------------------------------------------------------------------------
 	public class StagesDataProvider

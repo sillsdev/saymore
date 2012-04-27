@@ -1,6 +1,6 @@
 using System.Drawing;
 using NUnit.Framework;
-using SayMore.UI.Charts;
+using SayMore.Utilities.Charts;
 
 namespace SayMoreTests.UI.Charts
 {

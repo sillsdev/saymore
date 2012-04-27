@@ -3,10 +3,10 @@ using System.Drawing;
 using Localization;
 using System.Windows.Forms;
 using SayMore.Properties;
-using SayMore.UI.Overview.Statistics;
-using SayMore.UI.ProjectWindow;
+using SayMore.Utilities.Overview.Statistics;
+using SayMore.Utilities.ProjectWindow;
 
-namespace SayMore.UI.Overview
+namespace SayMore.Utilities.Overview
 {
 	public partial class ProgressScreen : UserControl, ISayMoreView
 	{

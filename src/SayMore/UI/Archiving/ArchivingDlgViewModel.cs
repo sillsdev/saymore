@@ -21,7 +21,7 @@ using SayMore.Properties;
 using Timer = System.Threading.Timer;
 using ZipFile = Ionic.Zip.ZipFile;
 
-namespace SayMore.UI.Utilities
+namespace SayMore.Utilities.Utilities
 {
 	public class ArchivingDlgViewModel
 	{

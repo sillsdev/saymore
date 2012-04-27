@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using SayMore.Media;
+using SayMore.Media.Audio;
 using SayMoreTests.Model.Files;
 
 namespace SayMoreTests.AudioUtils

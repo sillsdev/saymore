@@ -1,7 +1,7 @@
 using System;
 using SayMore.Model.Files;
 
-namespace SayMore.UI.ComponentEditors
+namespace SayMore.Utilities.ComponentEditors
 {
 	/// <summary>
 	/// THis is just for development purposes. The idea is to just show all fields

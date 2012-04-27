@@ -8,8 +8,8 @@ using Localization;
 using Palaso.IO;
 using Palaso.Progress;
 using Palaso.Reporting;
+using SayMore.Media;
 using SayMore.Properties;
-using SayMore.Media.MPlayer;
 using SayMore.Utilities.ProjectWindow;
 using SilTools;
 

@@ -7,7 +7,7 @@ using SayMore.Media.MPlayer;
 using SayMore.Properties;
 using SilTools;
 
-namespace SayMore.Model.Files
+namespace SayMore.Media
 {
 	#region MediaFileInfo class
 	/// ----------------------------------------------------------------------------------------

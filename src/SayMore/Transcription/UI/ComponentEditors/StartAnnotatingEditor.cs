@@ -7,7 +7,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Utilities.ComponentEditors;
-using SayMore.Media.MPlayer;
+using SayMore.Media;
 using SilTools;
 
 namespace SayMore.Transcription.UI

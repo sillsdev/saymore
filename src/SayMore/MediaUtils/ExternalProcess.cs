@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using SayMore.Utilities;
 
-namespace SayMore.Media.MPlayer
+namespace SayMore.Media
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ExternalProcess : Process

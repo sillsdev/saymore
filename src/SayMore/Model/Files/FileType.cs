@@ -11,6 +11,7 @@ using Palaso.UI.WindowsForms.ClearShare;
 using Palaso.Media;
 using Palaso.Progress.LogBox;
 using Palaso.Reporting;
+using SayMore.Media;
 using SayMore.Media.Audio;
 using SayMore.Model.Fields;
 using SayMore.Properties;

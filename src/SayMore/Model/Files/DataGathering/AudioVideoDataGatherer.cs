@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SayMore.Media;
 using SayMore.Properties;
 
 namespace SayMore.Model.Files.DataGathering

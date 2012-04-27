@@ -114,12 +114,9 @@ namespace SayMore.Utilities.Overview.Statistics
 		/// ------------------------------------------------------------------------------------
 		public TimeSpan GetRecordingDurations(ComponentRole role)
 		{
-			var total = TimeSpan.Zero;
-			foreach (MediaFileInfo info in _backgroundStatisticsGather.GetAllFileData())
-			{
-				if (role.IsMatch(info.MediaFilePath))
-					total += info.Duration;
-			}
+			var total = _backgroundStatisticsGather.GetAllFileData()
+				.Where(info => role.IsMatch(info.MediaFilePath))
+				.Aggregate(TimeSpan.Zero, (current, info) => current + info.Duration);
 
 			// Trim off the milliseconds so it doesn't get too geeky
 			return new TimeSpan(total.Hours, total.Minutes, total.Seconds);

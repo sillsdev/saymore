@@ -6,7 +6,6 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using Palaso.TestUtilities;
 using SayMore.Transcription.Model;
-using SayMoreTests.UI.MediaPlayer;
 
 namespace SayMoreTests.Transcription.Model
 {

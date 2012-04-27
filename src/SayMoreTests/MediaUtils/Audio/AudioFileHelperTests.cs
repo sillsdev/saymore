@@ -4,7 +4,7 @@ using NUnit.Framework;
 using SayMore.Media.Audio;
 using SayMoreTests.Model.Files;
 
-namespace SayMoreTests.AudioUtils
+namespace SayMoreTests.Media.Audio
 {
 	[TestFixture]
 	public class AudioFileHelperTests

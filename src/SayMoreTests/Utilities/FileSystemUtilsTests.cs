@@ -1,9 +1,9 @@
 using System.IO;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using SayMore.Utilities.Utilities;
+using SayMore.Utilities;
 
-namespace SayMoreTests.UI.Utilities
+namespace SayMoreTests.Utilities
 {
 	[TestFixture]
 	public class FileSystemUtilsTests

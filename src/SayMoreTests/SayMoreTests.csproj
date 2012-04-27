@@ -100,15 +100,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioUtils\AudioFileHelperTests.cs" />
-    <Compile Include="AudioUtils\OralAnnotationPlaybackWaveStreamTests.cs" />
+    <Compile Include="MediaUtils\Audio\AudioFileHelperTests.cs" />
+    <Compile Include="MediaUtils\Audio\OralAnnotationPlaybackWaveStreamTests.cs" />
     <Compile Include="model\EventWorkflowInformantTests.cs" />
     <Compile Include="model\ElementRepositoryTests.cs" />
     <Compile Include="model\Fields\ContributionCollectionTests.cs" />
     <Compile Include="model\Fields\ContributionSerializerTests.cs" />
     <Compile Include="model\Fields\FieldInstanceTests.cs" />
     <Compile Include="model\Files\DataGathering\BackgroundFileProcessorTests.cs" />
-    <Compile Include="model\Files\MediaFileInfoTests.cs" />
+    <Compile Include="MediaUtils\MediaFileInfoTests.cs" />
     <Compile Include="model\Files\DataGathering\PresetDataTests.cs" />
     <Compile Include="model\Files\DataGathering\PresetGathererTests.cs" />
     <Compile Include="ExportTests.cs" />
@@ -150,14 +150,14 @@
     <Compile Include="UI\EventRecording\EventRecorderDlgViewModelTests.cs" />
     <Compile Include="UI\LowLevelControls\ListPanelTests.cs" />
     <Compile Include="UI\LowLevelControls\MultiValuePickerPopupTests.cs" />
-    <Compile Include="UI\MediaPlayer\MediaPlayerViewModelTests.cs" />
+    <Compile Include="MediaUtils\MPlayer\MediaPlayerViewModelTests.cs" />
     <Compile Include="UI\NewEventsFromFiles\NewEventsFromFileDlgViewModelTests.cs" />
     <Compile Include="UI\Overview\Statistics\StatisticsViewModelTests.cs" />
     <Compile Include="UI\ProjectWindow\AppSmokeTests.cs" />
     <Compile Include="UI\ProjectWindow\ReleaseNotesCommandTests.cs" />
-    <Compile Include="UI\Utilities\FileSystemUtilsTests.cs" />
+    <Compile Include="Utilities\FileSystemUtilsTests.cs" />
     <Compile Include="UI\Archiving\ArchivingDlgViewModelTests.cs" />
-    <Compile Include="UI\Utilities\JSONUtilsTests.cs" />
+    <Compile Include="Utilities\JSONUtilsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SayMore\SayMore.csproj">

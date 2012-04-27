@@ -5,7 +5,7 @@ using NUnit.Framework;
 using SayMore.Media.MPlayer;
 using SayMoreTests.Model.Files;
 
-namespace SayMoreTests.UI.MediaPlayer
+namespace SayMoreTests.Media.MPlayer
 {
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]

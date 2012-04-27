@@ -3,7 +3,7 @@ using NAudio.Wave;
 using NUnit.Framework;
 using SayMore.Media.Audio;
 
-namespace SayMoreTests.AudioUtils
+namespace SayMoreTests.Media.Audio
 {
 	[TestFixture]
 	public class OralAnnotationPlaybackWaveStreamTests

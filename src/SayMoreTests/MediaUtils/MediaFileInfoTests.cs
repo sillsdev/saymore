@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using NUnit.Framework;
 using Palaso.TestUtilities;
-using SayMore.Model.Files;
+using SayMore.Media;
 
 namespace SayMoreTests.Model.Files
 {

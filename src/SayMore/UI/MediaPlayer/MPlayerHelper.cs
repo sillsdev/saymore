@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Palaso.IO;
 using Localization;
+using SayMore.Model.Files;
 
 namespace SayMore.Media.UI
 {
@@ -121,6 +120,21 @@ namespace SayMore.Media.UI
 			return bldr.ToString();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private static IEnumerable<string> GetArgumentsToCreatePcmAudio(string mediaInPath, string audioOutPath)
+		{
+			mediaInPath = mediaInPath.Replace('\\', '/');
+			var info = MediaFileInfo.GetInfo(mediaInPath);
+
+			yield return "\"" + mediaInPath + "\"";
+			yield return "-nofontconfig";
+			yield return "-nocorrect-pts";
+			yield return "-vo null";
+			yield return "-vc null";
+			yield return string.Format("-af channels={0}", info.Audio.Channels);
+			yield return string.Format("-ao pcm:fast:file=%{0}%\"{1}\"", audioOutPath.Length, audioOutPath);
+		}
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -137,57 +151,24 @@ namespace SayMore.Media.UI
 		/// file (i.e. raw PCM).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void ExtractAudioToWave(string videoPath, string audioOutPath)
+		public static bool CreatePcmAudioFromMediaFile(string mediaInPath, string audioOutPath)
 		{
-			videoPath = videoPath.Replace('\\', '/');
+			var args = GetArgumentsToCreatePcmAudio(mediaInPath, audioOutPath);
+			var finishedProcessing = false;
+			var error = false;
 
-			var prs = new ExternalProcess(MPlayerPath);
-			prs.StartInfo.Arguments =
-				string.Format("\"{0}\" -nofontconfig -vo null -vc null -ao pcm:fast:file=%{1}%\"{2}\"",
-				videoPath, audioOutPath.Length, audioOutPath);
+			var prs = StartProcessToMonitor(args,
+				(s, e) => finishedProcessing = (e.Data == "Exiting... (End of file)"),
+				(s, e) => error = (e.Data != null && (e.Data == "Seek failed" || e.Data.StartsWith("Failed to open"))));
 
-			prs.StartProcess();
-		}
+			if (prs == null)
+				return false;
 
-		/// ------------------------------------------------------------------------------------
-		public static string GetRawMediaInfoDump(string mediaFile)
-		{
-			string output = string.Empty;
-			var prs = new ExternalProcess(MPlayerPath);
-			prs.OutputDataReceived += (s, e) => output += (e.Data + Environment.NewLine);
+			while (!finishedProcessing && !error)
+				Application.DoEvents();
 
-			mediaFile = mediaFile.Replace('\\', '/');
-			prs.StartInfo.Arguments = string.Format("-vo null -ao null -nofontconfig " +
-				"-quiet -identify -endpos 0 \"{0}\"", mediaFile);
-
-			if (prs.StartProcess())
-			{
-				prs.BeginOutputReadLine();
-				prs.WaitForExit();
-				prs.Close();
-			}
-
-			return output;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string GetAudioEncoding(string mediaFilePath)
-		{
-			var mediaInfo = GetRawMediaInfoDump(mediaFilePath);
-			var regex = new Regex(@"Selected audio codec:[^(]*\((?<codecName>[^()]*)");
-			var match = regex.Match(mediaInfo);
-			return (match.Success ? match.Result("${codecName}").Trim() : "UNKNOWN");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static int GetAudioChannels(string mediaFilePath)
-		{
-			var mplayerInfo = GetRawMediaInfoDump(mediaFilePath);
-			int i = mplayerInfo.LastIndexOf("ID_AUDIO_NCH=", StringComparison.Ordinal);
-			if (i < 0)
-				return 1;
-
-			return (int.TryParse(mplayerInfo.Substring(i + 13, 2), out i) ? i : 1);
+			prs.Dispose();
+			return !error;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Palaso.Reporting;
 using Localization;
+using SayMore.Model.Files;
 using SayMore.UI.Utilities;
 
 namespace SayMore.Media.UI
@@ -142,6 +143,8 @@ namespace SayMore.Media.UI
 		/// ------------------------------------------------------------------------------------
 		public void LoadFile(string filename, float playbackStartPosition, float playbackLength)
 		{
+			ShutdownMPlayerProcess();
+
 			if (string.IsNullOrEmpty(filename))
 			{
 				ErrorReport.NotifyUserOfProblem(
@@ -160,7 +163,6 @@ namespace SayMore.Media.UI
 				return;
 			}
 
-			ShutdownMPlayerProcess(); // REVIEW: Is this needed? Should it be shutting down the process associated with the MediInfo program instead?
 			MediaInfo = MediaFileInfo.GetInfo(filename);
 			if (MediaInfo == null)
 			{

@@ -121,9 +121,12 @@ namespace SayMore.Media
 		public static string GetAudioEncoding(string mediaFilePath)
 		{
 			var encoding = GetNAudioEncoding(mediaFilePath);
-			return (encoding != WaveFormatEncoding.Unknown ?
-				encoding.ToString().Replace("WAVE_FORMAT", "WAV").Replace('_', ' ').ToUpperInvariant() :
-				MPlayerHelper.GetAudioEncoding(mediaFilePath));
+
+			if (encoding != WaveFormatEncoding.Unknown)
+				return encoding.ToString().Replace("WAVE_FORMAT", "WAV").Replace('_', ' ').ToUpperInvariant();
+
+			var info = MediaFileInfo.GetInfo(mediaFilePath);
+			return info.Audio.Encoding;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -283,22 +286,6 @@ namespace SayMore.Media
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The input media file may be audio or video.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static int GetChannelsFromMediaFile(string mediaFilePath)
-		{
-			var mediaInfo = MediaFileInfo.GetInfo(mediaFilePath);
-
-			// There are some media files (e.g. MTS) for which ffmpeg -- which is what the
-			// MediaFileInfo class uses -- returns 0 channels. Hence the check. When that
-			// happens, then get the information using mplayer.
-			return (mediaInfo.Channels > 0 ? mediaInfo.Channels :
-				MPlayerHelper.GetAudioChannels(mediaFilePath));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public static WaveFileReader ConvertToStandardPcmStream(string inputMediaFile,
 			string outputAudioFile, out Exception error)
 		{
@@ -343,14 +330,14 @@ namespace SayMore.Media
 		{
 			message = null;
 
-			if (!Palaso.Media.MediaInfo.HaveNecessaryComponents)
-			{
-				var msg = LocalizationManager.GetString("SoundFileUtils.FFmpegMissingErrorMsg",
-					"SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
+			//if (!MediaInfo.HaveNecessaryComponents)
+			//{
+			//    var msg = LocalizationManager.GetString("SoundFileUtils.FFmpegMissingErrorMsg",
+			//        "SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
 
-				ErrorReport.NotifyUserOfProblem(msg);
-				return false;
-			}
+			//    ErrorReport.NotifyUserOfProblem(msg);
+			//    return false;
+			//}
 
 			if (File.Exists(outputPath))
 			{

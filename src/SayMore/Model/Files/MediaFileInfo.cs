@@ -50,11 +50,13 @@ namespace SayMore.Model.Files
 		public static MediaFileInfo GetInfo(string mediaFile)
 		{
 			var templatePath = Path.Combine(Path.GetTempPath(), "mediaInfoTemplate.xml");
-			File.WriteAllText(templatePath, Resources.mediaFileInfoOutputTemplate);
+
 			var prs = new ExternalProcess(MediaInfoProgramPath);
 
 			try
 			{
+				var templateData = Resources.mediaFileInfoOutputTemplate.Replace(Environment.NewLine + "<", "<");
+				File.WriteAllText(templatePath, templateData);
 				prs.StartInfo.Arguments = string.Format("--inform=file://\"{0}\" \"{1}\"", templatePath, mediaFile);
 
 				if (!prs.StartProcess())
@@ -124,7 +126,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public int Channels
 		{
-			get { return Audio.ChannelCount; }
+			get { return Audio.Channels; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -159,7 +161,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public int VideoBitRate
 		{
-			get { return (Video == null) ? 0 : Video.BitRate; }
+			get { return (Video == null) ? 0 : Video.BitRate / 1000; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -209,7 +211,12 @@ namespace SayMore.Model.Files
 			public string CodecInformation { get; set; }
 
 			[XmlElement("duration")]
-			public string DurationInMilliseconds { get; set; }
+			public long DurationInMilliseconds { get; set; }
+
+			public float DurationInSeconds
+			{
+				get { return DurationInMilliseconds / 1000f; }
+			}
 
 			[XmlElement("bitRateMode")]
 			public string BitRateMode { get; set; }
@@ -217,15 +224,10 @@ namespace SayMore.Model.Files
 			[XmlElement("bitRate")]
 			public int BitRate { get; set; }
 
-			[XmlIgnore]
-			public float DurationInSeconds
+			/// ------------------------------------------------------------------------------------
+			public int KilobitsPerSecond
 			{
-				get
-				{
-					long milliseconds;
-					return (DurationInMilliseconds != null &&
-						long.TryParse(DurationInMilliseconds, out milliseconds) ? milliseconds / 1000f : 0f);
-				}
+				get { return BitRate / 1000; }
 			}
 		}
 
@@ -242,20 +244,10 @@ namespace SayMore.Model.Files
 			public int SamplesPerSecond { get; set; }
 
 			[XmlElement("channels")]
-			public int ChannelCount { get; set; }
+			public int Channels { get; set; }
 
 			[XmlElement("bitDepth")]
-			public string BitDepth { get; set; }
-
-			/// ------------------------------------------------------------------------------------
-			public int BitsPerSample
-			{
-				get
-				{
-					int bitDepth;
-					return (BitDepth != null && int.TryParse(BitDepth, out bitDepth) ? bitDepth : 0);
-				}
-			}
+			public int BitsPerSample { get; set; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -277,7 +269,7 @@ namespace SayMore.Model.Files
 			public string ResolutionString { get; set; }
 
 			[XmlElement("frameRate")]
-			public string FrameRate { get; set; }
+			public float FramesPerSecond { get; set; }
 
 			[XmlElement("displayAspectRatio")]
 			public float AspectRatio { get; set; }
@@ -295,16 +287,6 @@ namespace SayMore.Model.Files
 			public string Resolution
 			{
 				get { return Width + " x " + Height; }
-			}
-
-			/// ------------------------------------------------------------------------------------
-			public float FramesPerSecond
-			{
-				get
-				{
-					float frameRate;
-					return (FrameRate != null && float.TryParse(FrameRate, out frameRate) ? frameRate : 0f);
-				}
 			}
 		}
 	}

@@ -577,7 +577,7 @@ namespace SayMore.Model.Files
 				Key = "Audio_Bit_Rate",
 				Suffix = "kbps",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.AudioBitRateSuffix", "kbps"),
-				DataItemChooser = (info => info.Audio.BitRate),
+				DataItemChooser = (info => info.Audio.KilobitsPerSecond),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 
@@ -974,6 +974,15 @@ namespace SayMore.Model.Files
 
 			if (!AudioUtils.CheckConversionIsPossible(outputPath))
 				return;
+
+			if (!MediaInfo.HaveNecessaryComponents)
+			{
+				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.FFmpegMissingErrorMsg",
+					"SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
+
+				ErrorReport.NotifyUserOfProblem(msg);
+				return;
+			}
 
 			WaitCursor.Show();
 			//TODO...provide some progress

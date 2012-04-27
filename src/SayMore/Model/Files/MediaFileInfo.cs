@@ -136,9 +136,21 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string AudioCodec
+		public string AudioEncoding
 		{
-			get { return Audio.Encoding; }
+			get
+			{
+				if (Audio.Encoding == "MPEG Audio")
+				{
+					if (Audio.EncodingProfile == "Layer 3")
+						return "MP3";
+
+					if (Audio.EncodingProfile == "Layer 2")
+						return "MP2";
+				}
+
+				return Audio.Encoding;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -200,6 +212,15 @@ namespace SayMore.Model.Files
 
 			[XmlElement("formatInfo")]
 			public string EncodingDescription { get; set; }
+
+			[XmlElement("formatVersion")]
+			public string EncodingVersion { get; set; }
+
+			[XmlElement("formatProfile")]
+			public string EncodingProfile { get; set; }
+
+			[XmlElement("formatCompression")]
+			public string EncodingCompression { get; set; }
 
 			[XmlElement("formatCommercialInfo")]
 			public string EncodingCommercialDescription { get; set; }

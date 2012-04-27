@@ -9,6 +9,9 @@ Video;
 <video>
 <format>%Format%</format>
 <formatInfo>%Format/Info%</formatInfo>
+<formatVersion>%Format_Version%</formatVersion>
+<formatProfile>%Format_Profile%</formatProfile>
+<formatCompression>%Format_Compression%</formatCompression>
 <formatCommercialInfo>%Format_Commercial%</formatCommercialInfo>
 <internetMediaType>%InternetMediaType%</internetMediaType>
 <codecId>%CodecID%</codecId>
@@ -28,6 +31,9 @@ Audio;
 <audio>
 <format>%Format%</format>
 <formatInfo>%Format/Info%</formatInfo>
+<formatVersion>%Format_Version%</formatVersion>
+<formatProfile>%Format_Profile%</formatProfile>
+<formatCompression>%Format_Compression%</formatCompression>
 <formatCommercialInfo>%Format_Commercial%</formatCommercialInfo>
 <internetMediaType>%InternetMediaType%</internetMediaType>
 <codecId>%CodecID%</codecId>

@@ -107,29 +107,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioUtils\AudioFileHelper.cs">
+    <Compile Include="MediaUtils\AudioFileHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AudioUtils\AudioUtils.cs" />
-    <Compile Include="AudioUtils\OralAnnotationPlaybackWaveStream.cs" />
-    <Compile Include="AudioUtils\WaveControls\WaveControlBasic.cs">
+    <Compile Include="MediaUtils\AudioUtils.cs" />
+    <Compile Include="MediaUtils\OralAnnotationPlaybackWaveStream.cs" />
+    <Compile Include="MediaUtils\WaveControls\WaveControlBasic.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AudioUtils\WaveControls\WaveControlScrollCalculator.cs" />
-    <Compile Include="AudioUtils\WaveControls\WaveControlWithBoundarySelection.cs">
+    <Compile Include="MediaUtils\WaveControls\WaveControlScrollCalculator.cs" />
+    <Compile Include="MediaUtils\WaveControls\WaveControlWithBoundarySelection.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AudioUtils\WaveControls\WaveControlWithMovableBoundaries.cs">
+    <Compile Include="MediaUtils\WaveControls\WaveControlWithMovableBoundaries.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AudioUtils\WaveControls\WaveControlWithRangeSelection.cs">
+    <Compile Include="MediaUtils\WaveControls\WaveControlWithRangeSelection.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AudioUtils\WavePainting\WavePainterWithBoundarySelection.cs" />
-    <Compile Include="AudioUtils\WavePainting\WavePainterBasic.cs" />
-    <Compile Include="AudioUtils\WavePainting\WavePainterWithRangeSelection.cs" />
-    <Compile Include="AudioUtils\WaveSegmentStream.cs" />
-    <Compile Include="AudioUtils\WaveStreamProvider.cs" />
+    <Compile Include="MediaUtils\WavePainting\WavePainterWithBoundarySelection.cs" />
+    <Compile Include="MediaUtils\WavePainting\WavePainterBasic.cs" />
+    <Compile Include="MediaUtils\WavePainting\WavePainterWithRangeSelection.cs" />
+    <Compile Include="MediaUtils\WaveSegmentStream.cs" />
+    <Compile Include="MediaUtils\WaveStreamProvider.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
@@ -953,6 +953,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MediaUtils\Audio\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

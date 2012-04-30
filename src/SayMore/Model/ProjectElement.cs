@@ -304,6 +304,11 @@ namespace SayMore.Model
 
 							AnnotationFileHelper.ChangeMediaFileName(newFileName, newMediaFileName);
 						}
+						else if (Directory.Exists(file + Settings.Default.OralAnnotationsFolderSuffix))
+						{
+							Directory.Move(file + Settings.Default.OralAnnotationsFolderSuffix,
+								newFileName + Settings.Default.OralAnnotationsFolderSuffix);
+						}
 					}
 				}
 

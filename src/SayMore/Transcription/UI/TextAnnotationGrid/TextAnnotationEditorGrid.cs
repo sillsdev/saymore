@@ -386,19 +386,23 @@ namespace SayMore.Transcription.UI
 			if (!EndedBecauseEOF)
 				return;
 
-			_mediaFileQueue.RemoveAt(0);
-
-			if (_mediaFileQueue.Count > 0)
-				InternalPlay();
-			else if (_annotationPlaybackLoopCount++ < 4)
-				Play(false);
-			else
+			lock (_mediaFileQueue)
 			{
-				PlaybackInProgress = false;
-				if (InvokeRequired)
-					Invoke(_playbackProgressReportingAction);
+				if (_mediaFileQueue.Count > 0)
+					_mediaFileQueue.RemoveAt(0);
+
+				if (_mediaFileQueue.Count > 0)
+					InternalPlay();
+				else if (_annotationPlaybackLoopCount++ < 4)
+					Play(false);
 				else
-					_playbackProgressReportingAction();
+				{
+					PlaybackInProgress = false;
+					if (InvokeRequired)
+						Invoke(_playbackProgressReportingAction);
+					else
+						_playbackProgressReportingAction();
+				}
 			}
 		}
 

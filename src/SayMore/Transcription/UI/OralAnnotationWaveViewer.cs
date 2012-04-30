@@ -80,6 +80,8 @@ namespace SayMore.Transcription.UI
 		{
 			_waveControl.AllowDrawing = true;
 			_waveControl.Initialize(filename);
+			_waveControl.AutoScrollPosition = new Point(0, AutoScrollPosition.Y);
+			_waveControl.SetCursor(0);
 		}
 
 		/// ------------------------------------------------------------------------------------

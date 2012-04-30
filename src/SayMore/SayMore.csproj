@@ -130,6 +130,7 @@
     <Compile Include="MediaUtils\Audio\WavePainting\WavePainterWithRangeSelection.cs" />
     <Compile Include="MediaUtils\Audio\WaveSegmentStream.cs" />
     <Compile Include="MediaUtils\Audio\WaveStreamProvider.cs" />
+    <Compile Include="MediaUtils\VideoConversionUtils.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">

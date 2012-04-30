@@ -191,6 +191,8 @@ namespace SayMore.Model
 			if (filesToAdd.Length == 0)
 				return false;
 
+			Program.SuspendBackgroundProcesses();
+
 			foreach (var srcFile in filesToAdd)
 			{
 				try
@@ -204,6 +206,7 @@ namespace SayMore.Model
 				}
 			}
 
+			Program.ResumeBackgroundProcesses(true);
 			return true;
 		}
 

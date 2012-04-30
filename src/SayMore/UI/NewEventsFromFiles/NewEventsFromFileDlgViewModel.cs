@@ -293,7 +293,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			using (var dlg = new FolderBrowserDialog())
 			{
 				dlg.Description = LocalizationManager.GetString("DialogBoxes.NewEventsFromFilesDlg.FolderBrowserDlgDescription",
-					"Choose a Folder of Medial Files.");
+					"Choose a Folder of Media Files.");
 
 				if (SelectedFolder != null && Directory.Exists(SelectedFolder))
 					dlg.SelectedPath = SelectedFolder;

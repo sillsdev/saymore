@@ -191,7 +191,7 @@ namespace SayMore.Media.MPlayer
 			CurrentPosition = PlaybackStartPosition;
 
 			if (MediaQueued != null && GetTotalMediaDuration() > 0f && (!MediaInfo.IsVideo ||
-				(MediaInfo.Video.PictureSize.Width > 0 && MediaInfo.Video.PictureSize.Height > 0)))
+				(MediaInfo.Video.Width > 0 && MediaInfo.Video.Height > 0)))
 			{
 				MediaQueued(this, EventArgs.Empty);
 			}
@@ -317,7 +317,7 @@ namespace SayMore.Media.MPlayer
 			// If the file is a video file and we don't have a window in which to play
 			// the video, then set the handle to -1 to indicate to the helper that we
 			// only want to play the audio from the video file.
-			if (MediaInfo.IsVideo)
+			if (MediaInfo != null && MediaInfo.IsVideo)
 				videoWindowHandle = (VideoWindowHandle > 0 ? VideoWindowHandle : -1);
 
 			var args = MPlayerHelper.GetPlaybackArguments(PlaybackStartPosition,

@@ -1,6 +1,7 @@
-
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using SayMore.Utilities;
 
 namespace SayMore.Media
@@ -20,6 +21,47 @@ namespace SayMore.Media
 			StartInfo.UseShellExecute = false;
 			StartInfo.RedirectStandardOutput = true;
 			StartInfo.FileName = processesExePath;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static ExternalProcess StartProcessToMonitor(string exePath,
+			IEnumerable<string> playbackArgs, DataReceivedEventHandler outputDataHandler,
+			DataReceivedEventHandler errorDataHandler, string processFailedToStartErrorMsg)
+		{
+			if (outputDataHandler == null)
+				throw new ArgumentNullException("outputDataHandler");
+
+			if (errorDataHandler == null)
+				throw new ArgumentNullException("errorDataHandler");
+
+			var prs = new ExternalProcess(exePath);
+			prs.StartInfo.RedirectStandardInput = true;
+			prs.StartInfo.RedirectStandardError = true;
+			prs.OutputDataReceived += outputDataHandler;
+			prs.ErrorDataReceived += errorDataHandler;
+			prs.StartInfo.Arguments = BuildCommandLine(playbackArgs);
+
+			if (!prs.StartProcess())
+			{
+				prs = null;
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(processFailedToStartErrorMsg);
+			}
+
+			prs.StandardInput.AutoFlush = true;
+			prs.BeginOutputReadLine();
+			prs.BeginErrorReadLine();
+
+			return prs;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static string BuildCommandLine(IEnumerable<string> args)
+		{
+			var bldr = new StringBuilder();
+			foreach (var arg in args)
+				bldr.AppendFormat("{0} ", arg);
+
+			return bldr.ToString();
 		}
 
 		/// ------------------------------------------------------------------------------------

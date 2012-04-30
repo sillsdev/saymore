@@ -26,31 +26,10 @@ namespace SayMore.Media.MPlayer
 		public static ExternalProcess StartProcessToMonitor(IEnumerable<string> playbackArgs,
 			DataReceivedEventHandler outputDataHandler, DataReceivedEventHandler errorDataHandler)
 		{
-			if (outputDataHandler == null)
-				throw new ArgumentNullException("outputDataHandler");
-
-			if (errorDataHandler == null)
-				throw new ArgumentNullException("errorDataHandler");
-
-			var prs = new ExternalProcess(MPlayerPath);
-			prs.StartInfo.RedirectStandardInput = true;
-			prs.StartInfo.RedirectStandardError = true;
-			prs.OutputDataReceived += outputDataHandler;
-			prs.ErrorDataReceived += errorDataHandler;
-			prs.StartInfo.Arguments = BuildCommandLine(playbackArgs);
-
-			if (!prs.StartProcess())
-			{
-				prs = null;
-				var msg = LocalizationManager.GetString("CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg", "Unable to start mplayer.");
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg);
-			}
-
-			prs.StandardInput.AutoFlush = true;
-			prs.BeginOutputReadLine();
-			prs.BeginErrorReadLine();
-
-			return prs;
+			return ExternalProcess.StartProcessToMonitor(MPlayerPath, playbackArgs,
+				outputDataHandler, errorDataHandler, LocalizationManager.GetString(
+				"CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg",
+				"Unable to start mplayer."));
 		}
 
 		#region Methods for building MPlayer command-line arguments.
@@ -108,16 +87,6 @@ namespace SayMore.Media.MPlayer
 					yield return string.Format("-wid {0}", hwndVideo);
 				}
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static string BuildCommandLine(IEnumerable<string> args)
-		{
-			var bldr = new StringBuilder();
-			foreach (var arg in args)
-				bldr.AppendFormat("{0} ", arg);
-
-			return bldr.ToString();
 		}
 
 		/// ------------------------------------------------------------------------------------

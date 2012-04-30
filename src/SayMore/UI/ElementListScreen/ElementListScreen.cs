@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -171,7 +172,7 @@ namespace SayMore.Utilities.ElementListScreen
 		private DragDropEffects HandleFilesBeingDraggedOverComponentGrid(string[] files)
 		{
 			var validFiles = _model.SelectedElement.RemoveInvalidFilesFromProspectiveFilesToAdd(files);
-			return (validFiles.Any() ? DragDropEffects.Copy : DragDropEffects.None);
+			return (validFiles.All(File.Exists) ? DragDropEffects.Copy : DragDropEffects.None);
 		}
 
 		/// ------------------------------------------------------------------------------------

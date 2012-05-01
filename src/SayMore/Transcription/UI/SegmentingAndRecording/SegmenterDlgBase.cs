@@ -328,6 +328,7 @@ namespace SayMore.Transcription.UI
 			}
 
 			_timeAtBeginningOfBoundaryMove = timeAtBeginningOfBoundaryMove;
+			_waveControl.IgnoreMouseProcessing(true);
 
 			return true;
 		}
@@ -336,6 +337,7 @@ namespace SayMore.Transcription.UI
 		protected virtual void FinalizeBoundaryMovedUsingArrowKeys()
 		{
 			_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
+			_waveControl.IgnoreMouseProcessing(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

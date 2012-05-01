@@ -142,7 +142,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void InsertTierSegment_BoundaryIsTooCloseToPrevious_ReturnsNotSuccess()
 		{
-			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(10.5f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(10.501f));
 			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(30.4f));
 		}
 
@@ -150,8 +150,8 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void InsertTierSegment_BoundaryIsTooCloseToNext_ReturnsNotSuccess()
 		{
-			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _collection.InsertTierSegment(19.5f));
-			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _collection.InsertTierSegment(29.5f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _collection.InsertTierSegment(19.501f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _collection.InsertTierSegment(29.501f));
 		}
 
 		/// ------------------------------------------------------------------------------------

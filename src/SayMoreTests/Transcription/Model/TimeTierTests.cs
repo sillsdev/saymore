@@ -789,8 +789,8 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void CanBoundaryMoveLeft_MoveWillResultInTooShortSegment_ReturnsFalse()
 		{
-			Assert.IsFalse(_tier.CanBoundaryMoveLeft(12f, 2f));
-			Assert.IsFalse(_tier.CanBoundaryMoveLeft(12f, 1.5f));
+			Assert.IsFalse(_tier.CanBoundaryMoveLeft(12f, 2.0f));
+			Assert.IsFalse(_tier.CanBoundaryMoveLeft(12f, 1.501f));
 		}
 
 		/// ------------------------------------------------------------------------------------

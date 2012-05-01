@@ -112,13 +112,15 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public override bool SegmentBoundaryMoved(TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
-			if (oldEndTime == NewSegmentEndBoundary)
+			var moved = base.SegmentBoundaryMoved(oldEndTime, newEndTime);
+			if (oldEndTime == NewSegmentEndBoundary && (moved || !TimeTier.Segments.Any(s => s.TimeRange.End == oldEndTime)))
 			{
 				NewSegmentEndBoundary = newEndTime;
+				if (!moved)
+					OnBoundaryWasDeletedInsertedOrMoved();
 				return true;
 			}
-
-			return base.SegmentBoundaryMoved(oldEndTime, newEndTime);
+			return moved;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -127,7 +129,7 @@ namespace SayMore.Transcription.UI
 			foreach (var boundary in base.GetSegmentEndBoundaries())
 				yield return boundary;
 
-			if (!IsFullySegmented)
+			if (!IsFullySegmented && GetHasNewSegment())
 				yield return NewSegmentEndBoundary;
 		}
 

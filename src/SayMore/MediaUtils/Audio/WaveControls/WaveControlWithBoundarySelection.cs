@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Windows.Forms;
 using NAudio.Wave;
 using SayMore.Transcription.Model;
 
@@ -37,6 +38,18 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override void IgnoreMouseProcessing(bool ignore)
+		{
+			base.IgnoreMouseProcessing(ignore);
+
+			if (ignore)
+			{
+				Cursor = Cursors.Default;
+				MyPainter.HighlightBoundaryMouseOver(TimeSpan.Zero);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetSelectedBoundary(TimeSpan boundary)
 		{
 			if (boundary == TimeSpan.Zero || SegmentBoundaries.Any(b => b == boundary))
@@ -54,14 +67,14 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseMoveEx(System.Windows.Forms.MouseEventArgs e,
+		protected override void OnMouseMoveEx(MouseEventArgs e,
 			TimeSpan boundaryMouseOver)
 		{
 			base.OnMouseMoveEx(e, boundaryMouseOver);
 
 			if (IsBoundaryMovingInProgress)
 				MyPainter.SetCursor(TimeSpan.Zero);
-			else if (e.Button == System.Windows.Forms.MouseButtons.None)
+			else if (e.Button == MouseButtons.None)
 				MyPainter.HighlightBoundaryMouseOver(boundaryMouseOver);
 		}
 

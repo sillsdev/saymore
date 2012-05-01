@@ -84,22 +84,25 @@ namespace SayMore.Media.Audio
 				return;
 			}
 
-			// If moving a boundary has been initiated, there are two conditions in which
-			// a mouse movement is ignored. They are: 1) the boundary has not moved
-			// more than 2 pixels from it's origin (this is to prevent an unintended
-			// boundary movement when the user just wants to click a boundary to select it;
-			// 2) The mouse has been moved too far to the left or right (i.e. beyond an
-			// adjacent boundary or the end).
-			if ((_mouseXAtBeginningOfSegmentMove > -1 && e.X >= _mouseXAtBeginningOfSegmentMove - 2 &&
-				e.X <= _mouseXAtBeginningOfSegmentMove + 2) || e.X < _minXForBoundaryMove ||
-				e.X > _maxXForBoundaryMove)
+			// If moving a boundary has been initiated, a mouse movement is ignored if
+			// the boundary has not moved more than 2 pixels from its origin. This is to
+			// prevent an unintended boundary movement when the user just wants to click
+			// a boundary to select it.
+			var x = e.X;
+			if ((_mouseXAtBeginningOfSegmentMove > -1 && x >= _mouseXAtBeginningOfSegmentMove - 2 &&
+				x <= _mouseXAtBeginningOfSegmentMove + 2))
 			{
 				return;
 			}
 
+			if (x < _minXForBoundaryMove)
+				x = _minXForBoundaryMove;
+			else if (x > _maxXForBoundaryMove)
+				x = _maxXForBoundaryMove;
+
 			_mouseXAtBeginningOfSegmentMove = -1;
-			OnBoundaryMoving(GetTimeFromX(e.X));
-			EnsureXIsVisible(e.X);
+			OnBoundaryMoving(GetTimeFromX(x));
+			EnsureXIsVisible(x);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -202,7 +202,7 @@ namespace SayMore.Transcription.Model
 		public BoundaryModificationResult ChangeSegmentsEndBoundary(Segment segment, float newEndBoundary)
 		{
 			// New boundary must be at least 1/2 second greater than the segment's start boundary.
-			if (segment.Start >= newEndBoundary - 0.5f)
+			if (!GetIsAcceptableSegmentLength(segment.Start, newEndBoundary))
 				return BoundaryModificationResult.SegmentWillBeTooShort;
 
 			var segIndex = GetIndexOfSegment(segment);
@@ -213,7 +213,7 @@ namespace SayMore.Transcription.Model
 
 			if (nextSegment != null)
 			{
-				if (newEndBoundary + 0.5f >= nextSegment.End)
+				if (!GetIsAcceptableSegmentLength(newEndBoundary, nextSegment.End))
 					return BoundaryModificationResult.NextSegmentWillBeTooShort;
 
 				RenameAnnotationSegmentFile(nextSegment, newEndBoundary, nextSegment.End);
@@ -227,6 +227,12 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private bool GetIsAcceptableSegmentLength(float start, float end)
+		{
+			return end - start >= 0.5f;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public BoundaryModificationResult InsertSegmentBoundary(float newBoundary)
 		{
 			float newSegStart = 0f;
@@ -237,17 +243,17 @@ namespace SayMore.Transcription.Model
 				if (Segments.GetLast() != null)
 					newSegStart = Segments.GetLast().End;
 
-				if (newSegStart >= newBoundary - 0.5f)
+				if (!GetIsAcceptableSegmentLength(newSegStart, newBoundary))
 					return BoundaryModificationResult.SegmentWillBeTooShort;
 
 				AddSegment(newSegStart, newBoundary);
 				return BoundaryModificationResult.Success;
 			}
 
-			if (segBeingSplit.Start >= newBoundary - 0.5f)
+			if (!GetIsAcceptableSegmentLength(segBeingSplit.Start, newBoundary))
 				return BoundaryModificationResult.SegmentWillBeTooShort;
 
-			if (newBoundary + 0.5f >= segBeingSplit.End)
+			if (!GetIsAcceptableSegmentLength(newBoundary, segBeingSplit.End))
 				return BoundaryModificationResult.NextSegmentWillBeTooShort;
 
 			RenameAnnotationSegmentFile(segBeingSplit, segBeingSplit.Start, newBoundary);
@@ -336,7 +342,7 @@ namespace SayMore.Transcription.Model
 			var newBoundary = boundaryToMove - secondsToMove;
 			var segment = GetSegmentEnclosingTime(boundaryToMove);
 
-			return (newBoundary > 0 && (segment == null || newBoundary > segment.Start + 0.5f));
+			return (newBoundary > 0 && (segment == null || GetIsAcceptableSegmentLength(segment.Start, newBoundary)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -350,11 +356,11 @@ namespace SayMore.Transcription.Model
 			if (segment != null)
 			{
 				int i = GetIndexOfSegment(segment);
-				return (i == Segments.Count - 1 || newBoundary <= Segments[i + 1].End - 0.5f);
+				return (i == Segments.Count - 1 || GetIsAcceptableSegmentLength(newBoundary, Segments[i + 1].End));
 			}
 
 			segment = GetSegmentEnclosingTime(boundaryToMove);
-			return (segment == null || newBoundary <= segment.End - 0.5f);
+			return (segment == null || GetIsAcceptableSegmentLength(newBoundary, segment.End));
 		}
 
 		#endregion

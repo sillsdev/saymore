@@ -52,6 +52,7 @@ namespace SayMore.Media.Audio
 		protected Timer _slideTimer;
 		protected DateTime _endSlideTime;
 		protected int _slidingTargetScrollOffset;
+		protected bool _ignoreMouseProcessing;
 
 		/// ------------------------------------------------------------------------------------
 		public WaveControlBasic()
@@ -349,6 +350,12 @@ namespace SayMore.Media.Audio
 			rc.Y = rc.Bottom - BottomReservedAreaHeight;
 			rc.Height = BottomReservedAreaHeight;
 			InvalidateIfNeeded(rc);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void IgnoreMouseProcessing(bool ignore)
+		{
+			_ignoreMouseProcessing = ignore;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -751,7 +758,7 @@ namespace SayMore.Media.Audio
 
 			if (SegmentBoundaries == null)
 				_boundaryMouseOver = GetBoundaryNearX(e.X);
-			else
+			else if (!_ignoreMouseProcessing)
 				OnMouseMoveEx(e, GetBoundaryNearX(e.X));
 		}
 

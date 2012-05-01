@@ -11,13 +11,17 @@ namespace SayMore.Transcription.UI.SegmentingAndRecording
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SaveBoundaryPositionAfterMovedUsingArrowKeys(TimeSpan oldBoundary, TimeSpan newBoundary)
+		public bool SaveBoundaryPositionAfterMovedUsingArrowKeys(TimeSpan oldBoundary, TimeSpan newBoundary)
 		{
 			var oldbndry = (float)oldBoundary.TotalSeconds;
 			var newbndry = (float)newBoundary.TotalSeconds;
 
 			if (TimeTier.ChangeSegmentsEndBoundary(oldbndry, newbndry) == Model.BoundaryModificationResult.Success)
+			{
 				SegmentBoundariesChanged = true;
+				return true;
+			}
+			return false;
 		}
 	}
 }

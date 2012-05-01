@@ -219,10 +219,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void FinalizeBoundaryMovedUsingArrowKeys()
 		{
+			System.Diagnostics.Debug.WriteLine("In ManualSegmenterDlg.FinalizeBoundaryMovedUsingArrowKeys.");
+
 			var newBoundary = _waveControl.GetSelectedBoundary();
-			ViewModel.SaveBoundaryPositionAfterMovedUsingArrowKeys(_timeAtBeginningOfBoundaryMove, newBoundary);
-			PlaybackShortPortionUpToBoundary(newBoundary);
-			base.FinalizeBoundaryMovedUsingArrowKeys();
+			if (ViewModel.SaveBoundaryPositionAfterMovedUsingArrowKeys(_timeAtBeginningOfBoundaryMove, newBoundary))
+			{
+				base.FinalizeBoundaryMovedUsingArrowKeys();
+				PlaybackShortPortionUpToBoundary(newBoundary);
+			}
+			else
+				_waveControl.SetSelectedBoundary(_timeAtBeginningOfBoundaryMove);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -620,7 +620,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			var segment = _tier.Segments[1];
 			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 20.51f));
-			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment, 20.5f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment, 20.49f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -629,7 +629,7 @@ namespace SayMoreTests.Transcription.Model
 		{
 			var segment = _tier.Segments[1];
 			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 39.49f));
-			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment, 39.5f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment, 39.501f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -704,7 +704,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void InsertSegmentBoundary_NewBoundaryTooCloseToFollowingBoundary_ReturnsNotSuccess()
 		{
-			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.InsertSegmentBoundary(29.5f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.InsertSegmentBoundary(29.501f));
 			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.InsertSegmentBoundary(29.51f));
 		}
 
@@ -713,7 +713,7 @@ namespace SayMoreTests.Transcription.Model
 		public void InsertSegmentBoundary_WhenNoSegmentsAndNewBoundaryTooSmall_ReturnsNotSuccess()
 		{
 			_tier.Segments.Clear();
-			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.InsertSegmentBoundary(0.5f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.InsertSegmentBoundary(0.4999f));
 		}
 
 		/// ------------------------------------------------------------------------------------

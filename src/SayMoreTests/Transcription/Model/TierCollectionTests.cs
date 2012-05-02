@@ -142,7 +142,7 @@ namespace SayMoreTests.Transcription.Model
 		[Test]
 		public void InsertTierSegment_BoundaryIsTooCloseToPrevious_ReturnsNotSuccess()
 		{
-			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(10.501f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(10.49f));
 			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _collection.InsertTierSegment(30.4f));
 		}
 

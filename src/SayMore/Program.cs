@@ -76,8 +76,21 @@ namespace SayMore
 			Application.Run();
 			Settings.Default.Save();
 
-			if (_projectContext != null)
-				_projectContext.Dispose();
+			SafelyDisposeProjectContext();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void SafelyDisposeProjectContext()
+		{
+			var localCopy = _projectContext;
+			if (localCopy != null)
+			{
+				lock (localCopy)
+				{
+					localCopy.Dispose();
+					_projectContext = null;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -172,16 +185,16 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		private static void HandleErrorOpeningProjectWindow(Exception error, string projectPath)
 		{
-			if (_projectContext != null)
+			var localCopy = _projectContext;
+			if (localCopy != null)
 			{
-				if (_projectContext.ProjectWindow != null)
+				lock (localCopy)
 				{
-					_projectContext.ProjectWindow.Closed -= HandleProjectWindowClosed;
-					_projectContext.ProjectWindow.Close();
+					localCopy.ProjectWindow.Closed -= HandleProjectWindowClosed;
+					localCopy.ProjectWindow.Close();
+					localCopy.Dispose();
+					_projectContext = null;
 				}
-
-				_projectContext.Dispose();
-				_projectContext = null;
 			}
 
 			_applicationContainer.CloseSplashScreen();
@@ -222,8 +235,7 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		static void HandleProjectWindowClosed(object sender, EventArgs e)
 		{
-			_projectContext.Dispose();
-			_projectContext = null;
+			SafelyDisposeProjectContext();
 
 			if (((ProjectWindow)sender).UserWantsToOpenADifferentProject)
 			{
@@ -238,21 +250,30 @@ namespace SayMore
 		/// ------------------------------------------------------------------------------------
 		public static void SuspendBackgroundProcesses()
 		{
-			if (_projectContext != null)
-				_projectContext.SuspendBackgroundProcesses();
+			var localCopy = _projectContext;
+			if (localCopy == null)
+				return;
+
+			lock (localCopy)
+			{
+				localCopy.SuspendBackgroundProcesses();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static void ResumeBackgroundProcesses(bool processAllPendingEventsNow)
 		{
-			if (_projectContext == null)
+			var localCopy = _projectContext;
+			if (localCopy == null)
 				return;
 
-			if (processAllPendingEventsNow)
-				WaitCursor.Show();
+			lock (localCopy)
+			{
+				if (processAllPendingEventsNow)
+					WaitCursor.Show();
 
-			_projectContext.ResumeBackgroundProcesses(processAllPendingEventsNow);
-
+				localCopy.ResumeBackgroundProcesses(processAllPendingEventsNow);
+			}
 			if (processAllPendingEventsNow)
 				WaitCursor.Hide();
 		}

@@ -36,11 +36,6 @@ namespace SayMore.Media
 
 		#region Constructor and initialization helper methods
 		/// ------------------------------------------------------------------------------------
-		public MediaFileInfo()
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public static string MediaInfoProgramPath
 		{
 			get { return FileLocator.GetFileDistributedWithApplication("MediaInfo", "MediaInfo.exe"); }
@@ -173,6 +168,12 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public int VideoBitRate
 		{
+			get { return (Video == null) ? 0 : Video.BitRate; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int VideoKilobitsPerSecond
+		{
 			get { return (Video == null) ? 0 : Video.BitRate / 1000; }
 		}
 
@@ -202,11 +203,6 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public class TrackInfo
 		{
-			/// ------------------------------------------------------------------------------------
-			public TrackInfo()
-			{
-			}
-
 			[XmlElement("format")]
 			public string Encoding { get; set; } // Format
 
@@ -256,11 +252,6 @@ namespace SayMore.Media
 		[XmlType("audio")]
 		public class AudioInfo : TrackInfo
 		{
-			/// ------------------------------------------------------------------------------------
-			public AudioInfo()
-			{
-			}
-
 			[XmlElement("sampleRate")]
 			public int SamplesPerSecond { get; set; }
 
@@ -275,11 +266,6 @@ namespace SayMore.Media
 		[XmlType("video")]
 		public class VideoInfo : TrackInfo
 		{
-			/// ------------------------------------------------------------------------------------
-			public VideoInfo()
-			{
-			}
-
 			[XmlElement("width")]
 			public int Width { get; set; }
 

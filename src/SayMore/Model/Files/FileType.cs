@@ -13,6 +13,7 @@ using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Media.Audio;
+using SayMore.MediaUtils;
 using SayMore.Model.Fields;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
@@ -587,7 +588,7 @@ namespace SayMore.Model.Files
 				Key = "Video_Bit_Rate",
 				Suffix = "kbps",
 				//Suffix = Program.Get____String("Model.Files.AudioVideoFileType.VideoBitRateSuffix", "kbps"),
-				DataItemChooser = (info => info.VideoBitRate),
+				DataItemChooser = (info => info.VideoKilobitsPerSecond),
 				GetFormatedStatProvider = GetStringStatistic
 			};
 
@@ -962,6 +963,16 @@ namespace SayMore.Model.Files
 					"Extract Audio to mono MP3 File (low quality)");
 
 				commands.Add(new FileCommand(menuText, ExtractMp3Audio, "convert"));
+
+				if (!File.Exists(filePath.Replace(Path.GetExtension(filePath).ToLowerInvariant(), ".mp4")) &&
+					!filePath.ToLowerInvariant().EndsWith(".mp4"))
+				{
+					menuText = LocalizationManager.GetString(
+						"CommonToMultipleViews.FileList.Convert.ConvertToMP4MenuText",
+						"Convert to MP4...");
+
+					commands.Add(new FileCommand(menuText, VideoConversionUtils.ConvertToMp4, "convert"));
+				}
 			}
 
 			return commands;

@@ -619,8 +619,10 @@ namespace SayMoreTests.Transcription.Model
 		public void ChangeSegmentsEndBoundary_NewBoundaryTooCloseToStart_ReturnsNotSuccess()
 		{
 			var segment = _tier.Segments[1];
-			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 20.51f));
-			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment, 20.49f));
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment,
+				20f + SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f));
+			Assert.AreEqual(BoundaryModificationResult.SegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment,
+				19.99f + SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -628,8 +630,10 @@ namespace SayMoreTests.Transcription.Model
 		public void ChangeSegmentsEndBoundary_NewBoundaryTooCloseToNextSegEnd_ReturnsNotSuccess()
 		{
 			var segment = _tier.Segments[1];
-			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment, 39.49f));
-			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment, 39.501f));
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.ChangeSegmentsEndBoundary(segment,
+				39.99f - SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f));
+			Assert.AreEqual(BoundaryModificationResult.NextSegmentWillBeTooShort, _tier.ChangeSegmentsEndBoundary(segment,
+				40f - SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -721,10 +725,11 @@ namespace SayMoreTests.Transcription.Model
 		public void InsertSegmentBoundary_WhenNoSegmentsAndNewBoundaryIsValid_CreatesSegmentAndReturnsSuccess()
 		{
 			_tier.Segments.Clear();
-			Assert.AreEqual(BoundaryModificationResult.Success, _tier.InsertSegmentBoundary(0.501f));
+			var end = SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f;
+			Assert.AreEqual(BoundaryModificationResult.Success, _tier.InsertSegmentBoundary(end));
 			Assert.AreEqual(1, _tier.Segments.Count);
 			Assert.AreEqual(0f, _tier.Segments[0].Start);
-			Assert.AreEqual(0.501f, _tier.Segments[0].End);
+			Assert.AreEqual(end, _tier.Segments[0].End);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -798,7 +803,7 @@ namespace SayMoreTests.Transcription.Model
 		public void CanBoundaryMoveLeft_MoveWillResultInBigEnoughSegment_ReturnsTrue()
 		{
 			Assert.IsTrue(_tier.CanBoundaryMoveLeft(13f, 2f));
-			Assert.IsTrue(_tier.CanBoundaryMoveLeft(12f, 1.49f));
+			Assert.IsTrue(_tier.CanBoundaryMoveLeft(12f, .99f - SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f));
 		}
 
 		/// ------------------------------------------------------------------------------------

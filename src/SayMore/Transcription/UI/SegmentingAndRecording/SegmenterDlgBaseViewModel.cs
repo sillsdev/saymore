@@ -186,7 +186,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<TimeSpan> GetSegmentEndBoundaries()
 		{
-			return TimeTier.Segments.Select(s => TimeSpan.FromSeconds(s.End));
+			return TimeTier.Segments.Select(s => s.TimeRange.End);
 		}
 
 		/// ------------------------------------------------------------------------------------

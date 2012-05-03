@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -156,20 +157,21 @@ namespace SayMoreTests.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void InsertTierSegment_BoundaryIsBeyonodLast_InsertsAndReturnsSuccess()
+		public void InsertTierSegment_BoundaryIsBeyondLast_InsertsAndReturnsSuccess()
 		{
 			var segs = _collection.GetTimeTier().Segments;
 			Assert.AreEqual(3, segs.Count);
 
-			Assert.AreEqual(BoundaryModificationResult.Success, _collection.InsertTierSegment(40.501f));
+			var endOfSeg3 = 40.001f + SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f;
+			Assert.AreEqual(BoundaryModificationResult.Success, _collection.InsertTierSegment(endOfSeg3));
 			Assert.AreEqual(4, segs.Count);
-			Assert.AreEqual(40f, segs[3].Start);
-			Assert.AreEqual(40.501f, segs[3].End);
+			Assert.IsTrue(segs[3].StartsAt(40f));
+			Assert.IsTrue(segs[3].EndsAt(endOfSeg3));
 
 			Assert.AreEqual(BoundaryModificationResult.Success, _collection.InsertTierSegment(50f));
 			Assert.AreEqual(5, _collection[0].Segments.Count);
-			Assert.AreEqual(40.501f, segs[4].Start);
-			Assert.AreEqual(50f, segs[4].End);
+			Assert.IsTrue(segs[4].StartsAt(endOfSeg3));
+			Assert.IsTrue(segs[4].EndsAt(50f));
 		}
 
 		/// ------------------------------------------------------------------------------------

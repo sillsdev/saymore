@@ -136,7 +136,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public Segment GetSegmentHavingEndBoundary(float endBoundary)
 		{
-			return Segments.FirstOrDefault(s => s.End.Equals(endBoundary));
+			return Segments.FirstOrDefault(s => s.EndsAt(endBoundary));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public BoundaryModificationResult ChangeSegmentsEndBoundary(Segment segment, float newEndBoundary)
 		{
-			// New boundary must be at least 1/2 second greater than the segment's start boundary.
+			// New boundary must be at least a minimal amount greater than the segment's start boundary.
 			if (!GetIsAcceptableSegmentLength(segment.Start, newEndBoundary))
 				return BoundaryModificationResult.SegmentWillBeTooShort;
 
@@ -227,16 +227,17 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool GetIsAcceptableSegmentLength(float start, float end)
+		public bool GetIsAcceptableSegmentLength(float start, float end)
 		{
-			return end - start >= 0.5f;
+			return end - start >= Settings.Default.MinimumSegmentLengthInMilliseconds / 1000f;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public BoundaryModificationResult InsertSegmentBoundary(float newBoundary)
 		{
 			float newSegStart = 0f;
-			var segBeingSplit = Segments.FirstOrDefault(seg => newBoundary > seg.Start && newBoundary <= seg.End);
+			var segBeingSplit = Segments.FirstOrDefault(
+				seg => seg.TimeRange.Contains(TimeSpan.FromSeconds(newBoundary), true));
 
 			if (segBeingSplit == null)
 			{

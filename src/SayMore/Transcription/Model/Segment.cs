@@ -63,6 +63,24 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool StartsAt(float boundary)
+		{
+			// We need to use TimeSpan to do the comparison since floats have a lot more
+			// preceision than TimeSpan -- two floats that are very nearly (but not quite)
+			// equal will result in the same time span, so we want to consider them as equal.
+			return TimeRange.Start.Equals(TimeSpan.FromSeconds(boundary));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool EndsAt(float boundary)
+		{
+			// We need to use TimeSpan to do the comparison since floats have a lot more
+			// preceision than TimeSpan -- two floats that are very nearly (but not quite)
+			// equal will result in the same time span, so we want to consider them as equal.
+			return TimeRange.End.Equals(TimeSpan.FromSeconds(boundary));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual Segment Copy(TierBase owningTier)
 		{
 			return new Segment(owningTier, Start, End) { Text = Text };

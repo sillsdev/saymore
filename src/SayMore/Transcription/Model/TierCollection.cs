@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -115,7 +116,7 @@ namespace SayMore.Transcription.Model
 				return false;
 
 			var segment = timeTier.GetSegmentHavingEndBoundary(boundary);
-			if (segment == null && boundary > timeTier.Segments.Last().End)
+			if (segment == null && TimeSpan.FromSeconds(boundary) > timeTier.Segments.Last().TimeRange.End)
 				return false;
 
 			int i = timeTier.GetIndexOfSegment(segment);

@@ -126,11 +126,9 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>Non-inclusive</summary>
-		/// ------------------------------------------------------------------------------------
-		public bool Contains(TimeSpan time)
+		public bool Contains(TimeSpan time, bool inclusive = false)
 		{
-			return (Start < time && End > time);
+			return inclusive ? (Start <= time && End >= time) : (Start < time && End > time);
 		}
 	}
 }

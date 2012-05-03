@@ -209,8 +209,8 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public bool GetSelectedSegmentIsLongEnough()
 		{
-			return GetSelectedTimeRange().Duration >= TimeSpan.FromMilliseconds(
-				Settings.Default.MinimumSegmentLengthInMilliseconds);
+			return TimeTier.GetIsAcceptableSegmentLength(GetSelectedTimeRange().StartSeconds,
+				GetSelectedTimeRange().EndSeconds);
 		}
 
 		/// ----------------------------------------------------------------------------------------

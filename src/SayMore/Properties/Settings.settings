@@ -413,5 +413,8 @@
     <Setting Name="MinimumSegmentLengthInMilliseconds" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">850</Value>
     </Setting>
+    <Setting Name="FFmpegForSayMoreDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

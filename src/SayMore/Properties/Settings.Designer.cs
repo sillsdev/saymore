@@ -1361,5 +1361,17 @@ namespace SayMore.Properties {
                 return ((int)(this["MinimumSegmentLengthInMilliseconds"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.FormSettings FFmpegForSayMoreDlg {
+            get {
+                return ((global::SilTools.FormSettings)(this["FFmpegForSayMoreDlg"]));
+            }
+            set {
+                this["FFmpegForSayMoreDlg"] = value;
+            }
+        }
     }
 }

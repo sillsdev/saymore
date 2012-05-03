@@ -412,6 +412,13 @@
       <DependentUpon>EventRecorderDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\EventRecording\EventRecorderDlgViewModel.cs" />
+    <Compile Include="UI\FFmpegForSayMore\FFmpegForSayMoreDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FFmpegForSayMore\FFmpegForSayMoreDlg.Designer.cs">
+      <DependentUpon>FFmpegForSayMoreDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FFmpegForSayMore\FFmpegForSayMoreUtils.cs" />
     <Compile Include="UI\LoadingDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -682,6 +689,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\EventRecording\EventRecorderDlg.resx">
       <DependentUpon>EventRecorderDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FFmpegForSayMore\FFmpegForSayMoreDlg.resx">
+      <DependentUpon>FFmpegForSayMoreDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LoadingDlg.resx">
       <DependentUpon>LoadingDlg.cs</DependentUpon>

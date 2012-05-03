@@ -238,7 +238,6 @@ namespace SayMore.Transcription.UI
 			_tableLayoutMediaButtons.RowStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutMediaButtons.RowStyles[_tableLayoutMediaButtons.RowCount - 1].SizeType = SizeType.Absolute;
 			_tableLayoutMediaButtons.Controls.Add(_labelOriginalRecording, 0, 0);
-			_labelOriginalRecording.TextAlign = ContentAlignment.TopCenter;
 			_labelOriginalRecording.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 			var margin = _labelOriginalRecording.Margin;
 			margin.Top = 10;

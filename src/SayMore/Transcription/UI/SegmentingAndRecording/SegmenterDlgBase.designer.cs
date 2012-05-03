@@ -105,9 +105,9 @@ namespace SayMore.Transcription.UI
 			this._labelOriginalRecording.Location = new System.Drawing.Point(0, 5);
 			this._labelOriginalRecording.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._labelOriginalRecording.Name = "_labelOriginalRecording";
-			this._labelOriginalRecording.Size = new System.Drawing.Size(94, 13);
+			this._labelOriginalRecording.Size = new System.Drawing.Size(72, 13);
 			this._labelOriginalRecording.TabIndex = 4;
-			this._labelOriginalRecording.Text = "Original Recording";
+			this._labelOriginalRecording.Text = "Original Audio";
 			//
 			// _labelZoom
 			//

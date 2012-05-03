@@ -124,5 +124,13 @@ namespace SayMore.Transcription.Model
 		{
 			return (timeRange == null || timeRange.Duration == default(TimeSpan));
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>Non-inclusive</summary>
+		/// ------------------------------------------------------------------------------------
+		public bool Contains(TimeSpan time)
+		{
+			return (Start < time && End > time);
+		}
 	}
 }

@@ -48,6 +48,7 @@ namespace SayMore.Transcription.UI
 		private bool _spaceKeyIsDown;
 		private bool _playingBackUsingHoldDownButton;
 		private bool _reRecording;
+		private bool _userHasListenedToSelectedSegment;
 		private SpaceBarMode _spaceBarMode;
 		//private readonly Color _selectedSegmentHighlighColor = Color.FromArgb(90, 0xC0, 0x42, 0x00);
 		private readonly Color _selectedSegmentHighlighColor = Color.FromArgb(90, Color.Orange);
@@ -206,7 +207,7 @@ namespace SayMore.Transcription.UI
 				_waveControl.Stop();
 
 			_playingBackUsingHoldDownButton = false;
-			if (ViewModel.GetSelectedSegmentIsLongEnough())
+			if (ViewModel.GetSelectedSegmentIsLongEnough() && _userHasListenedToSelectedSegment)
 				_spaceBarMode = SpaceBarMode.Record;
 
 			UpdateDisplay();
@@ -256,6 +257,7 @@ namespace SayMore.Transcription.UI
 			_tableLayoutButtons.Controls.Add(_labelSegmentTooShort, 0, 0);
 			_tableLayoutButtons.Controls.Add(_labelListenHint, 0, 1);
 			_tableLayoutButtons.Controls.Add(_labelRecordHint, 0, 2);
+			_tableLayoutButtons.Controls.Add(_labelFinishedHint, 0, 3);
 
 			_tableLayoutButtons.SetColumnSpan(_labelSegmentTooShort, 2);
 			_tableLayoutButtons.SetColumnSpan(_labelListenHint, 2);
@@ -267,6 +269,7 @@ namespace SayMore.Transcription.UI
 			_labelListenHint.Font = _labelOriginalRecording.Font;
 			_labelRecordHint.Font = _labelOriginalRecording.Font;
 			_labelSegmentTooShort.Font = _labelOriginalRecording.Font;
+			_labelFinishedHint.Font = _labelOriginalRecording.Font;
 			_annotationSegmentFont = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
@@ -398,9 +401,11 @@ namespace SayMore.Transcription.UI
 			_labelRecordButton.Image = (ViewModel.GetIsRecording() ?
 				Resources.RecordingOralAnnotationInProgress : Resources.RecordOralAnnotation);
 
-			_labelListenButton.Enabled = !ViewModel.GetIsRecording();
+			_labelListenButton.Enabled = !ViewModel.GetIsRecording() &&
+				(ViewModel.CurrentUnannotatedSegment != null || !ViewModel.GetIsFullyAnnotated());
 
 			_labelRecordButton.Enabled = (ViewModel.GetSelectedSegmentIsLongEnough() &&
+				_userHasListenedToSelectedSegment &&
 				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
 
 			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
@@ -408,11 +413,21 @@ namespace SayMore.Transcription.UI
 			_labelSegmentTooShort.Visible = ViewModel.GetHasNewSegment() && !ViewModel.GetSelectedSegmentIsLongEnough() &&
 				!_playingBackUsingHoldDownButton && !_waveControl.IsBoundaryMovingInProgress;
 
-			float percentage = (_labelSegmentTooShort.Visible) ? 50 : 100;
-			_tableLayoutButtons.RowStyles[0].Height = (_labelSegmentTooShort.Visible) ? percentage : 0;
-			_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
-			_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
-
+			if (_spaceBarMode == SpaceBarMode.Done)
+			{
+				_labelFinishedHint.Visible = true;
+				_tableLayoutButtons.Controls.Add(_labelFinishedHint, 0, 0);
+				_tableLayoutButtons.SetColumnSpan(_labelFinishedHint, 2);
+				_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
+				AcceptButton = _buttonOK;
+			}
+			else
+			{
+				float percentage = (_labelSegmentTooShort.Visible) ? 50 : 100;
+				_tableLayoutButtons.RowStyles[0].Height = (_labelSegmentTooShort.Visible) ? percentage : 0;
+				_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
+				_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
+			}
 			base.UpdateDisplay();
 		}
 
@@ -548,10 +563,18 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnPlaybackStopped(ctrl, start, end);
 
-			if (GetHighlightedSegment() == null)
-				_waveControl.SetCursor(end);
-			else
-				_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
+			if (!ViewModel.GetSelectedTimeRange().Contains(end))
+			{
+				if (GetHighlightedSegment() != null)
+					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
+				//else
+				//_waveControl.SetCursor(end);
+			}
+			if (end == ViewModel.GetSelectedTimeRange().End)
+			{
+				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
+				_userHasListenedToSelectedSegment = true;
+			}
 
 			if (end > ViewModel.GetEndOfLastSegment())
 			{
@@ -776,7 +799,10 @@ namespace SayMore.Transcription.UI
 			}
 
 			if (advanceToNextUnannotatedSegment)
+			{
+				_userHasListenedToSelectedSegment = false;
 				GoToNextUnannotatedSegment();
+			}
 
 			_spaceBarMode = ViewModel.GetIsFullyAnnotated() ? SpaceBarMode.Done : SpaceBarMode.Listen;
 
@@ -1013,7 +1039,7 @@ namespace SayMore.Transcription.UI
 			if (rc == Rectangle.Empty)
 				return;
 
-			var msg = ReadyToRecordMessage;
+			var msg = (_userHasListenedToSelectedSegment ? ReadyToRecordMessage : null);
 
 			if (!ViewModel.Recorder.GetIsInErrorState())
 				DrawHighlightedBorderForRecording(g, rc);
@@ -1028,10 +1054,13 @@ namespace SayMore.Transcription.UI
 					"Recording not working. Please make sure your microphone is plugged in.");
 			}
 
-			rc.Inflate(-5, -5);
+			if (msg != null)
+			{
+				rc.Inflate(-5, -5);
 
-			TextRenderer.DrawText(g, msg, _annotationSegmentFont, rc, Color.Black,
-				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
+				TextRenderer.DrawText(g, msg, _annotationSegmentFont, rc, Color.Black,
+					TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1302,7 +1331,12 @@ namespace SayMore.Transcription.UI
 			if (ViewModel.CurrentUnannotatedSegment == null)
 				_waveControl.Play(ViewModel.NewSegmentEndBoundary);
 			else
-				_waveControl.Play(ViewModel.CurrentUnannotatedSegment.TimeRange);
+			{
+				if (ViewModel.CurrentUnannotatedSegment.TimeRange.Contains(_waveControl.GetCursorTime()))
+					_waveControl.Play(_waveControl.GetCursorTime(), ViewModel.CurrentUnannotatedSegment.TimeRange.End);
+				else
+					_waveControl.Play(ViewModel.CurrentUnannotatedSegment.TimeRange);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

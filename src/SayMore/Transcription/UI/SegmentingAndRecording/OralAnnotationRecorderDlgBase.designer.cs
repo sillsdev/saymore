@@ -26,6 +26,7 @@ namespace SayMore.Transcription.UI
 			this._labelRecordHint = new System.Windows.Forms.Label();
 			this._panelPeakMeter = new SilTools.Controls.SilPanel();
 			this._labelListenHint = new System.Windows.Forms.Label();
+			this._labelFinishedHint = new System.Windows.Forms.Label();
 			this._scrollTimer = new System.Windows.Forms.Timer(this.components);
 			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
@@ -156,6 +157,23 @@ namespace SayMore.Transcription.UI
 			this._labelListenHint.TabIndex = 10;
 			this._labelListenHint.Text = "To listen to the original recording, press and hold the SPACE key";
 			//
+			// _labelFinishedHint
+			//
+			this._labelFinishedHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelFinishedHint.AutoSize = true;
+			this._labelFinishedHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelFinishedHint.ForeColor = System.Drawing.Color.Green;
+			this.locExtender.SetLocalizableToolTip(this._labelFinishedHint, null);
+			this.locExtender.SetLocalizationComment(this._labelFinishedHint, null);
+			this.locExtender.SetLocalizingId(this._labelFinishedHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelFinishedHint");
+			this._labelFinishedHint.Location = new System.Drawing.Point(11, 306);
+			this._labelFinishedHint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this._labelFinishedHint.Name = "_labelFinishedHint";
+			this._labelFinishedHint.Size = new System.Drawing.Size(58, 13);
+			this._labelFinishedHint.TabIndex = 11;
+			this._labelFinishedHint.Text = "Finished!";
+			this._labelFinishedHint.Visible = false;
+			//
 			// _scrollTimer
 			//
 			this._scrollTimer.Interval = 500;
@@ -206,6 +224,7 @@ namespace SayMore.Transcription.UI
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 412);
+			this.Controls.Add(this._labelFinishedHint);
 			this.Controls.Add(this._labelRecordHint);
 			this.Controls.Add(this._pictureRecording);
 			this.Controls.Add(this._labelListenHint);
@@ -225,6 +244,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.SetChildIndex(this._labelListenHint, 0);
 			this.Controls.SetChildIndex(this._pictureRecording, 0);
 			this.Controls.SetChildIndex(this._labelRecordHint, 0);
+			this.Controls.SetChildIndex(this._labelFinishedHint, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
@@ -248,5 +268,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelRecordHint;
 		private SilPanel _panelPeakMeter;
 		private System.Windows.Forms.Label _labelListenHint;
+		private System.Windows.Forms.Label _labelFinishedHint;
 	}
 }

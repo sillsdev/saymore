@@ -289,7 +289,7 @@ namespace SayMore.Transcription.UI
 
 		private System.Windows.Forms.ComboBox _comboBoxZoom;
 		private System.Windows.Forms.Label _labelZoom;
-		private System.Windows.Forms.Button _buttonOK;
+		protected System.Windows.Forms.Button _buttonOK;
 		private System.Windows.Forms.Button _buttonCancel;
 		private Localization.UI.LocalizationExtender locExtender;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;

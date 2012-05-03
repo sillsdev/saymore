@@ -278,7 +278,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override WaveControlBasic CreateWaveControl()
 		{
-			_waveControl = new 	WaveControlWithRangeSelection();
+			_waveControl = new WaveControlWithRangeSelection();
 			_waveControl.BottomReservedAreaBorderColor = Settings.Default.DataEntryPanelColorBorder;
 			_waveControl.BottomReservedAreaColor = Color.FromArgb(130, Settings.Default.DataEntryPanelColorBegin);
 			_waveControl.BottomReservedAreaPaintAction = HandlePaintingAnnotatedWaveArea;
@@ -567,13 +567,8 @@ namespace SayMore.Transcription.UI
 			{
 				if (GetHighlightedSegment() != null)
 					_waveControl.SetCursor(TimeSpan.FromSeconds(1).Negate());
-				//else
-				//_waveControl.SetCursor(end);
-			}
-			if (end == ViewModel.GetSelectedTimeRange().End)
-			{
-				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
-				_userHasListenedToSelectedSegment = true;
+				else if (ViewModel.GetHasNewSegment())
+					_waveControl.SetCursor(end);
 			}
 
 			if (end > ViewModel.GetEndOfLastSegment())
@@ -585,6 +580,12 @@ namespace SayMore.Transcription.UI
 				var rc2 = GetNewSegmentRectangle();
 				rc2.Inflate(rc1.Width / 2, 0);
 				_waveControl.InvalidateIfNeeded(rc2);
+			}
+
+			if (end == ViewModel.GetSelectedTimeRange().End)
+			{
+				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
+				_userHasListenedToSelectedSegment = true;
 			}
 		}
 

@@ -981,7 +981,6 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		private void ExtractMp3Audio(string path)
 		{
-			//var outputPath = path.Replace(Path.GetExtension(path), ".wav");
 			var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
 
 			if (!AudioUtils.CheckConversionIsPossible(outputPath))

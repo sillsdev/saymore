@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using Ionic.Zip;
 
-namespace SayMore.UI.FFmpegForSayMore
+namespace SayMore.Media.FFmpeg
 {
 	public class FFmpegForSayMoreUtils
 	{

@@ -130,6 +130,13 @@
     <Compile Include="MediaUtils\Audio\WavePainting\WavePainterWithRangeSelection.cs" />
     <Compile Include="MediaUtils\Audio\WaveSegmentStream.cs" />
     <Compile Include="MediaUtils\Audio\WaveStreamProvider.cs" />
+    <Compile Include="MediaUtils\FFmpeg\FFmpegForSayMoreDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MediaUtils\FFmpeg\FFmpegForSayMoreDlg.designer.cs">
+      <DependentUpon>FFmpegForSayMoreDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MediaUtils\FFmpeg\FFmpegForSayMoreUtils.cs" />
     <Compile Include="MediaUtils\VideoConversionUtils.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
@@ -412,13 +419,6 @@
       <DependentUpon>EventRecorderDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\EventRecording\EventRecorderDlgViewModel.cs" />
-    <Compile Include="UI\FFmpegForSayMore\FFmpegForSayMoreDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\FFmpegForSayMore\FFmpegForSayMoreDlg.Designer.cs">
-      <DependentUpon>FFmpegForSayMoreDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\FFmpegForSayMore\FFmpegForSayMoreUtils.cs" />
     <Compile Include="UI\LoadingDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -606,6 +606,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MediaUtils\FFmpeg\FFmpegForSayMoreDlg.resx">
+      <DependentUpon>FFmpegForSayMoreDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\AutoSegmenterDlg.resx">
       <DependentUpon>AutoSegmenterDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -689,9 +692,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\EventRecording\EventRecorderDlg.resx">
       <DependentUpon>EventRecorderDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\FFmpegForSayMore\FFmpegForSayMoreDlg.resx">
-      <DependentUpon>FFmpegForSayMoreDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LoadingDlg.resx">
       <DependentUpon>LoadingDlg.cs</DependentUpon>

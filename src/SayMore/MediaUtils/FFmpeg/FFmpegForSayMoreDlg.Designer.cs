@@ -1,4 +1,4 @@
-namespace SayMore.UI.FFmpegForSayMore
+namespace SayMore.Media.FFmpeg
 {
 	partial class FFmpegForSayMoreDlg
 	{

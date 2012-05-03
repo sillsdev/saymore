@@ -7,11 +7,11 @@ using Palaso.Progress.LogBox;
 using SayMore.Properties;
 using SilTools;
 
-namespace SayMore.UI.FFmpegForSayMore
+namespace SayMore.Media.FFmpeg
 {
 	public partial class FFmpegForSayMoreDlg : Form
 	{
-		private LogBox _logBox;
+		private readonly LogBox _logBox;
 
 		/// ------------------------------------------------------------------------------------
 		public FFmpegForSayMoreDlg()

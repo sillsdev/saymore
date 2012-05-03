@@ -509,6 +509,8 @@ namespace SayMore.Transcription.UI
 			if (newEndTime < ViewModel.GetEndOfLastSegment())
 				return;
 
+			_newSegmentDefinedBy = SegmentDefinitionMode.ArrowKeys;
+
 			_cursorBlinkTimer.Tag = false;
 			_cursorBlinkTimer.Enabled = false;
 
@@ -559,8 +561,6 @@ namespace SayMore.Transcription.UI
 		protected override void OnSegmentBoundaryMovedInWaveControl(bool segMoved,
 			TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
-			_newSegmentDefinedBy = SegmentDefinitionMode.ArrowKeys;
-
 			if (newEndTime == ViewModel.NewSegmentEndBoundary)
 				UpdateFollowingNewSegmentBoundaryMove();
 			else

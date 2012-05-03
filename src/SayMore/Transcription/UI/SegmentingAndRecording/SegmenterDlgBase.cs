@@ -180,7 +180,7 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected string GetSegmentTooShortText()
+		protected virtual string GetSegmentTooShortText()
 		{
 			return LocalizationManager.GetString(
 				"DialogBoxes.Transcription.SegmenterDlgBase.ButtonTextWhenSegmentTooShort",

@@ -26,6 +26,14 @@ namespace SayMore.Transcription.UI
 			Done,
 		}
 
+		private enum SegmentDefinitionMode
+		{
+			HoldingSpace,
+			PressingButton,
+			ArrowKeys,
+			MouseDragging,
+		}
+
 		private readonly ToolTip _tooltip = new ToolTip();
 		private PeakMeterCtrl _peakMeter;
 		private RecordingDeviceButton _recDeviceButton;
@@ -50,6 +58,7 @@ namespace SayMore.Transcription.UI
 		private bool _reRecording;
 		private bool _userHasListenedToSelectedSegment;
 		private SpaceBarMode _spaceBarMode;
+		private SegmentDefinitionMode _newSegmentDefinedBy;
 		//private readonly Color _selectedSegmentHighlighColor = Color.FromArgb(90, 0xC0, 0x42, 0x00);
 		private readonly Color _selectedSegmentHighlighColor = Color.FromArgb(90, Color.Orange);
 
@@ -181,7 +190,11 @@ namespace SayMore.Transcription.UI
 				_scrollTimer.Stop();
 			};
 
-			_labelListenButton.MouseUp += delegate { FinishListeningUsingEarOrSpace(); };
+			_labelListenButton.MouseUp += delegate
+			{
+				_newSegmentDefinedBy = SegmentDefinitionMode.PressingButton;
+				FinishListeningUsingEarOrSpace();
+			};
 
 			_labelRecordButton.MouseEnter += delegate
 			{
@@ -252,8 +265,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeHintLabels()
 		{
-			_labelSegmentTooShort.Text = GetSegmentTooShortText();
-
 			_tableLayoutButtons.Controls.Add(_labelSegmentTooShort, 0, 0);
 			_tableLayoutButtons.Controls.Add(_labelListenHint, 0, 1);
 			_tableLayoutButtons.Controls.Add(_labelRecordHint, 0, 2);
@@ -273,6 +284,26 @@ namespace SayMore.Transcription.UI
 			_annotationSegmentFont = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override string GetSegmentTooShortText()
+		{
+			switch (_newSegmentDefinedBy)
+			{
+				case SegmentDefinitionMode.HoldingSpace:
+					return LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortHoldingSpace",
+						"You need to keep the space bar down while you listen.");
+				case SegmentDefinitionMode.PressingButton:
+					return LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortPressingButton",
+						"You need to hold the button down while you listen.");
+				default:
+					return LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortManualDragging",
+						"Whoops! The segment will be too short.");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -310,6 +341,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.BoundaryMouseDown += (ctrl, dx, boundary, boundaryNumber) =>
 			{
 				_waveControl.Stop();
+				_newSegmentDefinedBy = SegmentDefinitionMode.MouseDragging;
 				UpdateDisplay();
 			};
 
@@ -412,6 +444,8 @@ namespace SayMore.Transcription.UI
 			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording;
 			_labelSegmentTooShort.Visible = ViewModel.GetHasNewSegment() && !ViewModel.GetSelectedSegmentIsLongEnough() &&
 				!_playingBackUsingHoldDownButton && !_waveControl.IsBoundaryMovingInProgress;
+			if (_labelSegmentTooShort.Visible)
+				_labelSegmentTooShort.Text = GetSegmentTooShortText();
 
 			if (_spaceBarMode == SpaceBarMode.Done)
 			{
@@ -525,6 +559,8 @@ namespace SayMore.Transcription.UI
 		protected override void OnSegmentBoundaryMovedInWaveControl(bool segMoved,
 			TimeSpan oldEndTime, TimeSpan newEndTime)
 		{
+			_newSegmentDefinedBy = SegmentDefinitionMode.ArrowKeys;
+
 			if (newEndTime == ViewModel.NewSegmentEndBoundary)
 				UpdateFollowingNewSegmentBoundaryMove();
 			else
@@ -1488,7 +1524,10 @@ namespace SayMore.Transcription.UI
 					_spaceKeyIsDown = false;
 
 					if (_playingBackUsingHoldDownButton)
+					{
+						_newSegmentDefinedBy = SegmentDefinitionMode.HoldingSpace;
 						FinishListeningUsingEarOrSpace();
+					}
 					else if (!_reRecording && ViewModel.GetIsRecording())
 						FinishRecording(true);
 				}

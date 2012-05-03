@@ -13,6 +13,7 @@ using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Media.Audio;
+using SayMore.Media.FFmpeg;
 using SayMore.MediaUtils;
 using SayMore.Model.Fields;
 using SayMore.Properties;
@@ -996,10 +997,7 @@ namespace SayMore.Model.Files
 			}
 
 			WaitCursor.Show();
-			//TODO...provide some progress
-
-			// REVIEW: At some point, we should probably switch to using MPlayer/MEncoder to do this.
-			var results = FFmpegRunner.ExtractMp3Audio(path, outputPath, 1 /*mono*/, new NullProgress());
+			var results = FFmpegHelper.ExtractMonoMp3Audio(path, outputPath);
 			WaitCursor.Hide();
 
 			if (results.ExitCode != 0)

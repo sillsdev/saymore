@@ -10,13 +10,13 @@ namespace SayMore.MediaUtils
 	{
 		public static void ConvertToMp4(string filePath)
 		{
-			if (!FFmpegForSayMoreUtils.DoesFFmpegForSayMoreExist)
+			if (!FFmpegHelper.DoesFFmpegForSayMoreExist)
 			{
-				using (var dlg = new FFmpegForSayMoreDlg())
+				using (var dlg = new FFmpegDownloadDlg())
 					dlg.ShowDialog();
 			}
 
-			if (!FFmpegForSayMoreUtils.DoesFFmpegForSayMoreExist)
+			if (!FFmpegHelper.DoesFFmpegForSayMoreExist)
 				return;
 
 			Program.SuspendBackgroundProcesses();
@@ -24,7 +24,7 @@ namespace SayMore.MediaUtils
 			try
 			{
 				var prs = ExternalProcess.StartProcessToMonitor(
-					FFmpegForSayMoreUtils.GetFullPathToFFmpegForSayMoreExe(),
+					FFmpegHelper.GetFullPathToFFmpegForSayMoreExe(),
 					GetConvertToMp4Args(filePath),
 					HandleFFmpegOutputDataReceived, HandleFFmpegOutputDataReceived, "");
 

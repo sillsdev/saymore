@@ -1,6 +1,6 @@
 namespace SayMore.Media.FFmpeg
 {
-	partial class FFmpegForSayMoreDlg
+	partial class FFmpegDownloadDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@ namespace SayMore.Media.FFmpeg
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FFmpegForSayMoreDlg));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FFmpegDownloadDlg));
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this._labelOverview = new System.Windows.Forms.Label();
 			this._linkDownload = new System.Windows.Forms.LinkLabel();

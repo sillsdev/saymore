@@ -9,12 +9,12 @@ using SilTools;
 
 namespace SayMore.Media.FFmpeg
 {
-	public partial class FFmpegForSayMoreDlg : Form
+	public partial class FFmpegDownloadDlg : Form
 	{
 		private readonly LogBox _logBox;
 
 		/// ------------------------------------------------------------------------------------
-		public FFmpegForSayMoreDlg()
+		public FFmpegDownloadDlg()
 		{
 			InitializeComponent();
 
@@ -38,7 +38,7 @@ namespace SayMore.Media.FFmpeg
 
 			int i = _linkDownload.Text.IndexOf(underlinedPortion);
 			if (i >= 0)
-				_linkDownload.Links.Add(i, underlinedPortion.Length, FFmpegForSayMoreUtils.GetFFmpegForSayMoreUrl(true));
+				_linkDownload.Links.Add(i, underlinedPortion.Length, FFmpegHelper.GetFFmpegForSayMoreUrl(true));
 
 			_logBox = new LogBox();
 			_logBox.TabStop = false;
@@ -76,14 +76,14 @@ namespace SayMore.Media.FFmpeg
 
 				_logBox.WriteMessage(msg);
 				Application.DoEvents();
-				var tempPathToZipFile = FFmpegForSayMoreUtils.DownloadZipFile();
+				var tempPathToZipFile = FFmpegHelper.DownloadZipFile();
 
 				msg = LocalizationManager.GetString("DialogBoxes.FFmpegForSayMoreDlg.ExtractingDownloadFileMsg",
 					"- Unpacking downloaded zip file...");
 
 				_logBox.WriteMessage(msg);
 				Application.DoEvents();
-				if (FFmpegForSayMoreUtils.ExtractDownloadedZipFile(tempPathToZipFile))
+				if (FFmpegHelper.ExtractDownloadedZipFile(tempPathToZipFile))
 				{
 					msg = LocalizationManager.GetString("DialogBoxes.FFmpegForSayMoreDlg.ExtractingCompleteMsg",
 						"Downloading and unpacking complete. Your video file is now ready to be converted.");
@@ -120,7 +120,7 @@ namespace SayMore.Media.FFmpeg
 			_logBox.WriteError(msg + Environment.NewLine);
 
 			_logBox.WriteMessageWithColor("Blue",
-				FFmpegForSayMoreUtils.GetFFmpegForSayMoreUrl(false) + Environment.NewLine);
+				FFmpegHelper.GetFFmpegForSayMoreUrl(false) + Environment.NewLine);
 
 			if (error != null)
 				_logBox.WriteException(error);

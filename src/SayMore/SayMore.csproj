@@ -130,13 +130,13 @@
     <Compile Include="MediaUtils\Audio\WavePainting\WavePainterWithRangeSelection.cs" />
     <Compile Include="MediaUtils\Audio\WaveSegmentStream.cs" />
     <Compile Include="MediaUtils\Audio\WaveStreamProvider.cs" />
-    <Compile Include="MediaUtils\FFmpeg\FFmpegForSayMoreDlg.cs">
+    <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MediaUtils\FFmpeg\FFmpegForSayMoreDlg.designer.cs">
-      <DependentUpon>FFmpegForSayMoreDlg.cs</DependentUpon>
+    <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadDlg.designer.cs">
+      <DependentUpon>FFmpegDownloadDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="MediaUtils\FFmpeg\FFmpegForSayMoreUtils.cs" />
+    <Compile Include="MediaUtils\FFmpeg\FFmpegHelper.cs" />
     <Compile Include="MediaUtils\VideoConversionUtils.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
@@ -606,8 +606,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MediaUtils\FFmpeg\FFmpegForSayMoreDlg.resx">
-      <DependentUpon>FFmpegForSayMoreDlg.cs</DependentUpon>
+    <EmbeddedResource Include="MediaUtils\FFmpeg\FFmpegDownloadDlg.resx">
+      <DependentUpon>FFmpegDownloadDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transcription\UI\AutoSegmenterDlg.resx">
       <DependentUpon>AutoSegmenterDlg.cs</DependentUpon>

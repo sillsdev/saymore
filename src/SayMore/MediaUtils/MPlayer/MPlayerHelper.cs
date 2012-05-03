@@ -4,11 +4,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 using Palaso.IO;
 using Localization;
-using SayMore.Model.Files;
 
 namespace SayMore.Media.MPlayer
 {

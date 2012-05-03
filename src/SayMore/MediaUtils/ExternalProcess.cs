@@ -44,7 +44,8 @@ namespace SayMore.Media
 			if (!prs.StartProcess())
 			{
 				prs = null;
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(processFailedToStartErrorMsg);
+				if (processFailedToStartErrorMsg != null)
+					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(processFailedToStartErrorMsg);
 			}
 
 			prs.StandardInput.AutoFlush = true;

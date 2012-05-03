@@ -23,10 +23,10 @@ namespace SayMore.Media.MPlayer
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static ExternalProcess StartProcessToMonitor(IEnumerable<string> playbackArgs,
+		public static ExternalProcess StartProcessToMonitor(IEnumerable<string> args,
 			DataReceivedEventHandler outputDataHandler, DataReceivedEventHandler errorDataHandler)
 		{
-			return ExternalProcess.StartProcessToMonitor(MPlayerPath, playbackArgs,
+			return ExternalProcess.StartProcessToMonitor(MPlayerPath, args,
 				outputDataHandler, errorDataHandler, LocalizationManager.GetString(
 				"CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg",
 				"Unable to start mplayer."));

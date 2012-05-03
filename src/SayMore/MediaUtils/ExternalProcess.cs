@@ -25,7 +25,7 @@ namespace SayMore.Media
 
 		/// ------------------------------------------------------------------------------------
 		public static ExternalProcess StartProcessToMonitor(string exePath,
-			IEnumerable<string> playbackArgs, DataReceivedEventHandler outputDataHandler,
+			IEnumerable<string> args, DataReceivedEventHandler outputDataHandler,
 			DataReceivedEventHandler errorDataHandler, string processFailedToStartErrorMsg)
 		{
 			if (outputDataHandler == null)
@@ -39,7 +39,7 @@ namespace SayMore.Media
 			prs.StartInfo.RedirectStandardError = true;
 			prs.OutputDataReceived += outputDataHandler;
 			prs.ErrorDataReceived += errorDataHandler;
-			prs.StartInfo.Arguments = BuildCommandLine(playbackArgs);
+			prs.StartInfo.Arguments = BuildCommandLine(args);
 
 			if (!prs.StartProcess())
 			{

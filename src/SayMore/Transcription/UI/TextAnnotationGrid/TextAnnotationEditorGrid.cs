@@ -18,7 +18,7 @@ namespace SayMore.Transcription.UI
 	{
 		private const int WM_LBUTTONDOWN = 0x201;
 		private const int WM_LBUTTONUP = 0x202;
-		private bool _eatNextLButtonUpEvent = false;
+		private bool _eatNextLButtonUpEvent;
 
 		public delegate bool PreProcessMouseClickHandler(int x, int y);
 		public event PreProcessMouseClickHandler PreProcessMouseClick;
@@ -355,6 +355,7 @@ namespace SayMore.Transcription.UI
 					_mediaFileQueue[0].Length = _mediaFileQueue[0].End = PlayerViewModel.GetTotalMediaDuration();
 				}
 			}
+
 			PlayerViewModel.PlaybackStarted += HandleMediaPlayStarted;
 			PlayerViewModel.PlaybackEnded += HandleMediaPlaybackEnded;
 			PlayerViewModel.PlaybackPositionChanged = (pos => Invoke(_playbackProgressReportingAction));

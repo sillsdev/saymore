@@ -103,8 +103,8 @@ namespace SayMore
 			// In Windows 7, just holding down the shift key while starting the app. works to
 			// prevent the last project from being loaded. However, I found on XP (at least
 			// running XP mode) that holding the shift key while starting an app. does
-			// nothing... as in the app. is not launched. Therefore, running SayMore with a
-			// 'nl' command-line options will also suppress loading the last project.
+			// nothing... as in the app. is not launched. Therefore, running SayMore with an
+			// 'nl' command-line option will also suppress loading the last project.
 			var noLoadArg = Environment.GetCommandLineArgs().FirstOrDefault(a => "-nl-NL/nl/NL".Contains(a));
 
 			if (MruFiles.Latest == null || !File.Exists(MruFiles.Latest) ||

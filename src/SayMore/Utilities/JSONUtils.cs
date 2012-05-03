@@ -26,11 +26,15 @@ namespace SayMore.Utilities
 		/// ------------------------------------------------------------------------------------
 		public static string MakeBracketedListFromValues(string key, IEnumerable<string> values)
 		{
-			if (string.IsNullOrEmpty(key) ||  values == null || values.Count() == 0)
+			if (string.IsNullOrEmpty(key) ||  values == null)
+				return null;
+
+			var valueList = values.ToArray();
+			if (valueList.Length == 0)
 				return null;
 
 			var bldr = new StringBuilder();
-			foreach (var value in values)
+			foreach (var value in valueList)
 				bldr.AppendFormat("\"{0}\",", value);
 
 			// Get rid of last comma.

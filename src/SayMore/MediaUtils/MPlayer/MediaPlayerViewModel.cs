@@ -9,7 +9,6 @@ using System.Threading;
 using System.Windows.Forms;
 using Palaso.Reporting;
 using Localization;
-using SayMore.Model.Files;
 using SayMore.Utilities;
 
 namespace SayMore.Media.MPlayer
@@ -112,12 +111,6 @@ namespace SayMore.Media.MPlayer
 					_mplayerProcess = null;
 					_stdIn = null;
 				}
-
-				//if (_formMPlayerOutputLog != null)
-				//{
-				//    _formMPlayerOutputLog.Close();
-				//    _formMPlayerOutputLog = null;
-				//}
 
 				if (_loopDelayTimer != null)
 				{

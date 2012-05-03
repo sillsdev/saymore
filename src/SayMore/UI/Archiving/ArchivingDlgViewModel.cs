@@ -254,7 +254,8 @@ namespace SayMore.Utilities.Utilities
 			if (success)
 			{
 				LogBox.WriteMessageWithColor(Color.DarkGreen, Environment.NewLine +
-					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ReadyToCallRampMsg", "Ready to hand the package to RAMP"));
+					LocalizationManager.GetString("DialogBoxes.ArchivingDlg.ReadyToCallRampMsg",
+					"Ready to hand the package to RAMP"));
 			}
 
 			IsBusy = false;
@@ -467,7 +468,8 @@ namespace SayMore.Utilities.Utilities
 			}
 			catch (Exception e)
 			{
-				ReportError(e, LocalizationManager.GetString("DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg",
+				ReportError(e, LocalizationManager.GetString(
+					"DialogBoxes.ArchivingDlg.CreatingZipFileErrorMsg",
 					"There was a problem starting process to create zip file."));
 
 				return false;

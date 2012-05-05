@@ -1,39 +1,51 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using Nini.Ini;
+using Palaso.IO;
 using SayMore.Media;
 using SayMore.Media.FFmpeg;
+using SayMore.UI;
 
 namespace SayMore.MediaUtils
 {
+
+
 	public class VideoConversionUtils
 	{
-		public static void ConvertToMp4(string filePath)
+
+		public static void Convert(string filePath)
 		{
-			if (!FFmpegHelper.DoesFFmpegForSayMoreExist)
-			{
-				using (var dlg = new FFmpegDownloadDlg())
-					dlg.ShowDialog();
-			}
+			var viewModel = new ConvertMediaDlgViewModel(filePath, null);
+			using (var dlg = new ConvertMediaDlg(viewModel))
+				dlg.ShowDialog();
 
-			if (!FFmpegHelper.DoesFFmpegForSayMoreExist)
-				return;
 
-			Program.SuspendBackgroundProcesses();
+			//if (!FFmpegHelper.DoesFFmpegForSayMoreExist)
+			//{
+			//    using (var dlg = new FFmpegDownloadDlg())
+			//        dlg.ShowDialog();
+			//}
 
-			try
-			{
-				var prs = ExternalProcess.StartProcessToMonitor(
-					FFmpegHelper.GetFullPathToFFmpegForSayMoreExe(),
-					GetConvertToMp4Args(filePath),
-					HandleFFmpegOutputDataReceived, HandleFFmpegOutputDataReceived, "");
+			//if (!FFmpegHelper.DoesFFmpegForSayMoreExist)
+			//    return;
 
-				prs.WaitForExit();
-			}
-			finally
-			{
-				Program.ResumeBackgroundProcesses(true);
-			}
+			//Program.SuspendBackgroundProcesses();
+
+			//try
+			//{
+			//    var prs = ExternalProcess.StartProcessToMonitor(
+			//        FFmpegHelper.GetFullPathToFFmpegForSayMoreExe(),
+			//        GetConvertToMp4Args(filePath),
+			//        HandleFFmpegOutputDataReceived, HandleFFmpegOutputDataReceived, "");
+
+			//    prs.WaitForExit();
+			//}
+			//finally
+			//{
+			//    Program.ResumeBackgroundProcesses(true);
+			//}
 			//LocalizationManager.GetString(
 			//    "CommonToMultipleViews.MediaPlayer.UnableToStartMplayerProcessMsg",
 			//    "Unable to start mplayer.")

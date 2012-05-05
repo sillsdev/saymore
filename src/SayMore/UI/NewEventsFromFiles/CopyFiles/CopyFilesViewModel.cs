@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -27,7 +28,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 		private Exception _encounteredError;
 		private readonly bool _overwrite;
 
-		public event EventHandler OnFinished;
+		public event EventHandler<ProgressFinishedArgs> OnFinished;
 		public event EventHandler OnUpdateProgress;
 		public event EventHandler OnUpdateStatus;
 
@@ -129,7 +130,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 		/// ------------------------------------------------------------------------------------
 		private string Megs(long bytes)
 		{
-			return (bytes / (1024 * 1024)).ToString();
+			return (bytes / (1024 * 1024)).ToString(CultureInfo.InvariantCulture);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -222,7 +223,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void Cancel()
+		public void Cancel()
 		{
 			if (_worker != null)
 				_worker.CancelAsync();
@@ -297,7 +298,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 		void HandleWorkerFinished(object sender, RunWorkerCompletedEventArgs e)
 		{
 			if (OnFinished != null)
-				OnFinished.Invoke(_encounteredError, null);
+				OnFinished.Invoke(this, new ProgressFinishedArgs(false, _encounteredError));
 		}
 
 		/// ------------------------------------------------------------------------------------

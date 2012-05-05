@@ -50,24 +50,23 @@ namespace SayMore.Utilities.LowLevelControls
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._labelStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold);
-			this._labelStatus.Location = new System.Drawing.Point(3, 20);
-			this._labelStatus.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+			this._labelStatus.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._labelStatus.Location = new System.Drawing.Point(0, 20);
 			this._labelStatus.Multiline = true;
 			this._labelStatus.Name = "_labelStatus";
 			this._labelStatus.ReadOnly = true;
-			this._labelStatus.Size = new System.Drawing.Size(298, 58);
+			this._labelStatus.Size = new System.Drawing.Size(303, 58);
 			this._labelStatus.TabIndex = 4;
 			this._labelStatus.TabStop = false;
 			this._labelStatus.Text = "Status";
 			// 
-			// CopyFilesControl
+			// ProgressControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._progressBar);
 			this.Controls.Add(this._labelStatus);
-			this.Name = "CopyFilesControl";
+			this.Name = "ProgressControl";
 			this.Size = new System.Drawing.Size(307, 83);
 			this.ResumeLayout(false);
 			this.PerformLayout();

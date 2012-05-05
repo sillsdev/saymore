@@ -12,31 +12,63 @@ namespace SayMore.Utilities.LowLevelControls
 		int CurrentProgressValue { get; }
 		int MaximumProgressValue { get; }
 		string StatusString { get; }
+		void Cancel();
 		void Start();
-		event EventHandler OnFinished;
+		event EventHandler<ProgressFinishedArgs> OnFinished;
 		event EventHandler OnUpdateProgress;
 		event EventHandler OnUpdateStatus;
 	}
 
 	/// ----------------------------------------------------------------------------------------
+	public class ProgressFinishedArgs : EventArgs
+	{
+		public bool ProgressCanceled { get; private set; }
+		public Exception Exception { get; private set; }
+
+		public ProgressFinishedArgs(bool canceled, Exception error)
+		{
+			ProgressCanceled = canceled;
+			Exception = error;
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
 	public partial class ProgressControl : UserControl
 	{
-		private readonly IProgressViewModel _model;
+		private IProgressViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public ProgressControl(IProgressViewModel model)
+		public ProgressControl()
 		{
 			InitializeComponent();
-			_labelStatus.Font = new Font(SystemFonts.IconTitleFont, FontStyle.Bold);
-			_model = model;
-			_model.OnFinished += HandleCopyFinished;
-			_model.OnUpdateProgress += HandleCopyProgressUpdate;
-			_model.OnUpdateStatus += HandleCopyStatusUpdate;
-			_progressBar.Maximum = _model.MaximumProgressValue;
+			_labelStatus.Font = new Font(Program.DialogFont, FontStyle.Bold);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleCopyStatusUpdate(object sender, EventArgs e)
+		public ProgressControl(IProgressViewModel model) : this()
+		{
+			Initialize(model);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Initialize(IProgressViewModel model)
+		{
+			_model = model;
+			_model.OnFinished += HandleFinished;
+			_model.OnUpdateProgress += HandleProgressUpdate;
+			_model.OnUpdateStatus += HandleStatusUpdate;
+			_progressBar.Maximum = _model.MaximumProgressValue;
+			_labelStatus.ForeColor = ForeColor;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetStatusMessage(string message)
+		{
+			_labelStatus.Text = message;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleStatusUpdate(object sender, EventArgs e)
 		{
 			if (InvokeRequired)
 				Invoke((Action)(() => _labelStatus.Text = _model.StatusString));
@@ -45,33 +77,36 @@ namespace SayMore.Utilities.LowLevelControls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleCopyProgressUpdate(object sender, EventArgs e)
+		void HandleProgressUpdate(object sender, EventArgs e)
 		{
 			if (InvokeRequired)
-				Invoke((Action)(() => _progressBar.Value = _model.CurrentProgressValue));
+				Invoke((Action)(() => _progressBar.Value = Math.Min(_progressBar.Maximum, _model.CurrentProgressValue)));
 			else
-				_progressBar.Value = _model.CurrentProgressValue;
+				_progressBar.Value = Math.Min(_progressBar.Maximum, _model.CurrentProgressValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleCopyFinished(object sender, EventArgs e)
+		void HandleFinished(object sender, ProgressFinishedArgs e)
 		{
-			_progressBar.Value = _progressBar.Maximum;
 			_labelStatus.Text = _model.StatusString;
 
-			if (sender == null)
+			if (e.Exception == null && !e.ProgressCanceled)
 			{
+				_progressBar.Value = _progressBar.Maximum;
 				using (var player = new SoundPlayer(Resources.Finished))
 					player.Play();
 			}
 			else
 			{
+				_progressBar.Value = 0;
+
 				if (InvokeRequired)
 					Invoke((Action)(() => _labelStatus.ForeColor = Color.Red));
 				else
 					_labelStatus.ForeColor = Color.Red;
 
-				//enhance...  play an error sound.
+				if (!e.ProgressCanceled)
+					SystemSounds.Exclamation.Play();
 			}
 		}
 	}

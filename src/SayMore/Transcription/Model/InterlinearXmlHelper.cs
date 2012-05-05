@@ -13,7 +13,7 @@ namespace SayMore.Transcription.Model
 {
 	public class InterlinearXmlHelper : IProgressViewModel
 	{
-		public event EventHandler OnFinished;
+		public event EventHandler<ProgressFinishedArgs> OnFinished;
 		public event EventHandler OnUpdateProgress;
 		public event EventHandler OnUpdateStatus;
 
@@ -52,6 +52,17 @@ namespace SayMore.Transcription.Model
 
 		/// ------------------------------------------------------------------------------------
 		public string StatusString { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public bool Canceled
+		{
+			get { return false; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Cancel()
+		{
+		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Start()
@@ -102,7 +113,7 @@ namespace SayMore.Transcription.Model
 					"EventsView.Transcription.TextAnnotationEditor.ExportingToFLExInterlinear.ProgressDlg.FinsihedMsg",
 					"Finished Exporting");
 
-				OnFinished.Invoke(null, null);
+				OnFinished.Invoke(this, new ProgressFinishedArgs(false, null));
 			}
 		}
 

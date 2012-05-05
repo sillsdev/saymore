@@ -1365,12 +1365,24 @@ namespace SayMore.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.FormSettings FFmpegForSayMoreDlg {
+        public global::SilTools.FormSettings FFmpegDownloadDlg {
             get {
-                return ((global::SilTools.FormSettings)(this["FFmpegForSayMoreDlg"]));
+                return ((global::SilTools.FormSettings)(this["FFmpegDownloadDlg"]));
             }
             set {
-                this["FFmpegForSayMoreDlg"] = value;
+                this["FFmpegDownloadDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.FormSettings ConvertMediaDlg {
+            get {
+                return ((global::SilTools.FormSettings)(this["ConvertMediaDlg"]));
+            }
+            set {
+                this["ConvertMediaDlg"] = value;
             }
         }
     }

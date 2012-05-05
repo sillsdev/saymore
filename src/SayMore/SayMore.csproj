@@ -130,12 +130,14 @@
     <Compile Include="MediaUtils\Audio\WavePainting\WavePainterWithRangeSelection.cs" />
     <Compile Include="MediaUtils\Audio\WaveSegmentStream.cs" />
     <Compile Include="MediaUtils\Audio\WaveStreamProvider.cs" />
+    <Compile Include="MediaUtils\FFmpeg\FFmpegConversionInfo.cs" />
     <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadDlg.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadDlg.designer.cs">
       <DependentUpon>FFmpegDownloadDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadHelper.cs" />
     <Compile Include="MediaUtils\FFmpeg\FFmpegHelper.cs" />
     <Compile Include="MediaUtils\VideoConversionUtils.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
@@ -372,6 +374,13 @@
     <Compile Include="UI\ComponentEditors\VideoComponentEditor.designer.cs">
       <DependentUpon>VideoComponentEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ConvertMediaDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ConvertMediaDlg.Designer.cs">
+      <DependentUpon>ConvertMediaDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ConvertMediaDlgViewModel.cs" />
     <Compile Include="UI\ElementListScreen\ComponentFileGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -678,6 +687,9 @@
     <EmbeddedResource Include="UI\ComponentEditors\VideoComponentEditor.resx">
       <DependentUpon>VideoComponentEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ConvertMediaDlg.resx">
+      <DependentUpon>ConvertMediaDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\ComponentFileGrid.resx">
       <DependentUpon>ComponentFileGrid.cs</DependentUpon>
     </EmbeddedResource>
@@ -773,6 +785,15 @@
     <Compile Include="Utilities\AppColors.cs" />
     <Compile Include="UI\ProjectWindow\ViewButtonManager.cs" />
     <Compile Include="Model\Files\DataGathering\UniqueCombinationsFinder.cs" />
+    <Compile Include="Utilities\IniFileHandling\IniDocument.cs" />
+    <Compile Include="Utilities\IniFileHandling\IniException.cs" />
+    <Compile Include="Utilities\IniFileHandling\IniItem.cs" />
+    <Compile Include="Utilities\IniFileHandling\IniReader.cs" />
+    <Compile Include="Utilities\IniFileHandling\IniSection.cs" />
+    <Compile Include="Utilities\IniFileHandling\IniSectionCollection.cs" />
+    <Compile Include="Utilities\IniFileHandling\IniWriter.cs" />
+    <Compile Include="Utilities\IniFileHandling\OrderedList.cs" />
+    <Compile Include="Utilities\IniFileHandling\OrderedListEnumerator.cs" />
     <Compile Include="Utilities\JSONUtils.cs" />
   </ItemGroup>
   <ItemGroup>

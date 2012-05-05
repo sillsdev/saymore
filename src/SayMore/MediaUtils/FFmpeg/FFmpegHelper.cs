@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Text;
 using Ionic.Zip;
 using Localization;
 using Palaso.CommandLineProcessing;
+using Palaso.Reporting;
 
 namespace SayMore.Media.FFmpeg
 {
@@ -27,13 +27,6 @@ namespace SayMore.Media.FFmpeg
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string GetFFmpegForSayMoreUrl(bool forAutoDownload)
-		{
-			return "https://www.dropbox.com/s/vs77d9rrfm2pvcn/FFmpegForSayMore.zip" +
-				(forAutoDownload ? "?dl=1" : string.Empty);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public static bool DoesFFmpegForSayMoreExist
 		{
 			get { return File.Exists(GetFullPathToFFmpegForSayMoreExe()); }
@@ -52,56 +45,54 @@ namespace SayMore.Media.FFmpeg
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string DownloadZipFile()
+		public static bool GetIsValidFFmpegForSayMoreFile(string pathToZipFile,
+			string msgToDisplayIfError)
 		{
-			Stream downloadStream = null;
-			var tempPathToZipFile = Path.Combine(Path.GetTempPath(), "FFmpegForSayMore.zip");
-
 			try
 			{
-				var req = WebRequest.Create(GetFFmpegForSayMoreUrl(true));
-				var response = req.GetResponse();
-				downloadStream = response.GetResponseStream();
-
-				using (var fileStream = new FileStream(tempPathToZipFile, FileMode.Create))
-				using (var binaryWriter = new BinaryWriter(fileStream))
+				using (var zip = new ZipFile(pathToZipFile))
 				{
-					int bytesRead;
-					var buffer = new byte[1024 * 100];
-					while ((bytesRead = downloadStream.Read(buffer, 0, buffer.Length)) > 0)
-						binaryWriter.Write(buffer, 0, bytesRead);
+					if (zip.EntryFileNames.Contains("FFmpegForSayMore/OtherFiles.zip") &&
+						zip.EntryFileNames.Contains("FFmpegForSayMore/ffmpeg.exe"))
+					{
+						return true;
+					}
 
-					binaryWriter.Close();
-					fileStream.Close();
+					ErrorReport.NotifyUserOfProblem(msgToDisplayIfError);
 				}
 			}
-			finally
+			catch (Exception e)
 			{
-				if (downloadStream != null)
-					downloadStream.Close();
+				ErrorReport.NotifyUserOfProblem(e, msgToDisplayIfError);
 			}
 
-			return tempPathToZipFile;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static bool ExtractDownloadedZipFile(string tempPathToZipFile)
+		public static bool ExtractDownloadedZipFile(string pathToZipFile,
+			string msgToDisplayIfError)
 		{
 			try
 			{
 				var tgtFolder = GetFFmpegForSayMoreFolder();
 
-				using (var zip = new ZipFile(tempPathToZipFile))
+				using (var zip = new ZipFile(pathToZipFile))
 					zip.ExtractAll(tgtFolder, ExtractExistingFileAction.OverwriteSilently);
 
 				return DoesFFmpegForSayMoreExist;
+			}
+			catch (Exception e)
+			{
+				ErrorReport.NotifyUserOfProblem(e, msgToDisplayIfError);
+				return false;
 			}
 			finally
 			{
 				try
 				{
-					if (File.Exists(tempPathToZipFile))
-						File.Delete(tempPathToZipFile);
+					if (File.Exists(pathToZipFile))
+						File.Delete(pathToZipFile);
 				}
 				catch { }
 			}
@@ -174,7 +165,7 @@ namespace SayMore.Media.FFmpeg
 			yield return "-vn";
 			yield return "-acodec libmp3lame";
 			yield return "-ac 1";
-			yield return string.Format("\"{0}\"", Path.ChangeExtension(filePath, "mp4"));
+			yield return string.Format("\"{0}\"", Path.ChangeExtension(filePath, "mp3"));
 		}
 	}
 }

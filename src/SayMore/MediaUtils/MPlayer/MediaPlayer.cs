@@ -241,6 +241,11 @@ namespace SayMore.Media.MPlayer
 		/// ------------------------------------------------------------------------------------
 		private void HandleMediaQueued(object sender, EventArgs e)
 		{
+			// Sometimes we get here when shutting down happens very quickly after, for
+			// example closeing a dialog that was open from a ComponentFile command.
+			if (_sliderTime.IsDisposed)
+				return;
+
 			Invoke((Action)(() => _sliderTime.SetValueWithoutEvent(0)));
 			Invoke((Action)(() => _sliderTime.Maximum = _viewModel.GetTotalMediaDuration()));
 			Invoke((Action)(() => _sliderTime.Enabled = true));

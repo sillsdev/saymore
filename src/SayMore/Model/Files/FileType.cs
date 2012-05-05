@@ -950,6 +950,14 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static string GetExtractToMp3AudioCommandString()
+		{
+			return LocalizationManager.GetString(
+				"CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText",
+				"Extract Audio to mono MP3 File (low quality)");
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
 			var commands = base.GetCommands(filePath).ToList();
@@ -959,21 +967,20 @@ namespace SayMore.Model.Files
 				if (commands.Count == 0)
 					commands.Add(null); // Separator
 
+				commands.Add(new FileCommand(GetExtractToMp3AudioCommandString(), ExtractMp3Audio, "convert"));
+			}
+
+			if (!File.Exists(filePath.Replace(Path.GetExtension(filePath).ToLowerInvariant(), ".mp4")) &&
+				!filePath.ToLowerInvariant().EndsWith(".mp4"))
+			{
+				if (commands.Count == 0)
+					commands.Add(null); // Separator
+
 				var menuText = LocalizationManager.GetString(
-					"CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText",
-					"Extract Audio to mono MP3 File (low quality)");
+					"CommonToMultipleViews.FileList.Convert.ConvertMenuText",
+					"Convert...");
 
-				commands.Add(new FileCommand(menuText, ExtractMp3Audio, "convert"));
-
-				if (!File.Exists(filePath.Replace(Path.GetExtension(filePath).ToLowerInvariant(), ".mp4")) &&
-					!filePath.ToLowerInvariant().EndsWith(".mp4"))
-				{
-					menuText = LocalizationManager.GetString(
-						"CommonToMultipleViews.FileList.Convert.ConvertToMP4MenuText",
-						"Convert to MP4...");
-
-					commands.Add(new FileCommand(menuText, VideoConversionUtils.ConvertToMp4, "convert"));
-				}
+				commands.Add(new FileCommand(menuText, VideoConversionUtils.Convert, "convert"));
 			}
 
 			return commands;
@@ -986,15 +993,6 @@ namespace SayMore.Model.Files
 
 			if (!AudioUtils.CheckConversionIsPossible(outputPath))
 				return;
-
-			if (!MediaInfo.HaveNecessaryComponents)
-			{
-				var msg = LocalizationManager.GetString("CommonToMultipleViews.FileList.FFmpegMissingErrorMsg",
-					"SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
-
-				ErrorReport.NotifyUserOfProblem(msg);
-				return;
-			}
 
 			WaitCursor.Show();
 			var results = FFmpegHelper.ExtractMonoMp3Audio(path, outputPath);

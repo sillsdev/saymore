@@ -10,21 +10,28 @@ namespace SayMore.Utilities
 		private readonly IProgressViewModel _model;
 
 		/// ------------------------------------------------------------------------------------
-		public ProgressDlg(IProgressViewModel model, string caption)
+		public ProgressDlg(IProgressViewModel model, string caption) : this(model, caption, false)
 		{
-			_model = model;
-			InitializeComponent();
-			_model.OnFinished += HandleCopyFinished;
-			var copyControl = new ProgressControl(_model);
-			copyControl.Dock = DockStyle.Fill;
-			_tableLayout.Controls.Add(copyControl, 0, 0);
-			Text = caption;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void HandleCopyFinished(object sender, EventArgs e)
+		public ProgressDlg(IProgressViewModel model, string caption, bool showCancel)
 		{
-			_buttonOK.Enabled = true;
+			_model = model;
+			InitializeComponent();
+			_model.OnFinished += HandleFinished;
+			var copyControl = new ProgressControl(_model);
+			copyControl.Dock = DockStyle.Fill;
+			_tableLayout.Controls.Add(copyControl, 0, 0);
+			_tableLayout.SetColumnSpan(copyControl, 3);
+			Text = caption;
+
+			if (showCancel)
+			{
+				_buttonCancel.Visible = true;
+				_buttonOK.Visible = false;
+				_buttonCancel.Click += delegate { _model.Cancel(); };
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -32,6 +39,17 @@ namespace SayMore.Utilities
 		{
 			base.OnShown(e);
 			_model.Start();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleFinished(object sender, ProgressFinishedArgs e)
+		{
+			if (e.ProgressCanceled)
+				Close();
+
+			_buttonOK.Enabled = true;
+			_buttonCancel.Visible = false;
+			_buttonOK.Visible = true;
 		}
 	}
 }

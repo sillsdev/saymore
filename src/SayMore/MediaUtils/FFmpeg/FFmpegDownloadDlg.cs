@@ -1,131 +1,257 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Localization;
-using Palaso.Progress;
-using Palaso.Progress.LogBox;
 using SayMore.Properties;
+using SayMore.Utilities.LowLevelControls;
 using SilTools;
 
 namespace SayMore.Media.FFmpeg
 {
 	public partial class FFmpegDownloadDlg : Form
 	{
-		private readonly LogBox _logBox;
+		/// ------------------------------------------------------------------------------------
+		private enum ProgressSate
+		{
+			NotStarted,
+			DownloadStarted,
+			DownloadedAndInstallSucceeded,
+			DownloadCanceled,
+			Installing,
+			Installed
+		}
+
+		private FFmpegDownloadHelper _downloadHelper;
+		private ProgressSate _state = ProgressSate.NotStarted;
 
 		/// ------------------------------------------------------------------------------------
 		public FFmpegDownloadDlg()
 		{
 			InitializeComponent();
+			InitializeDownloadLinkLabel();
 
-			if (Settings.Default.FFmpegForSayMoreDlg == null)
+			if (Settings.Default.FFmpegDownloadDlg == null)
 			{
 				StartPosition = FormStartPosition.CenterScreen;
-				Settings.Default.FFmpegForSayMoreDlg = FormSettings.Create(this);
+				Settings.Default.FFmpegDownloadDlg = FormSettings.Create(this);
 			}
 
 			_buttonClose.Click += delegate { Close(); };
+			_buttonCancel.Click += delegate { _downloadHelper.Cancel(); };
+			_buttonCancel.MouseMove += delegate
+			{
+				// Not sure why both of these are necessary, but it seems to be the case.
+				_buttonCancel.UseWaitCursor = false;
+				_buttonCancel.Cursor = Cursors.Default;
+			};
 
-			_labelOverview.Font = Program.DialogFont;
-			_linkDownload.Font = Program.DialogFont;
+			_labelOverview.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
+			_labelOr.Font = _labelOverview.Font;
+			_labelStatus.Font = _labelOverview.Font;
+			_linkAutoDownload.Font = Program.DialogFont;
+			_linkManualDownload.Font = Program.DialogFont;
+		}
 
-			var underlinedPortion = LocalizationManager.GetString(
-				"DialogBoxes.FFmpegForSayMoreDlg._linkDownload_LinkPortion",
-				"Click here to download and unpack",
+		/// ------------------------------------------------------------------------------------
+		private void InitializeDownloadLinkLabel()
+		{
+			var underlinedPortionOfAutoLink = LocalizationManager.GetString(
+				"DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion",
+				"Click here and SayMore will automatically download",
 				"This is the portion of the text that is underlined, indicating the link to the download.");
 
-			_linkDownload.Links.Clear();
+			var underlinedPortionOfManualLink = LocalizationManager.GetString(
+				"DialogBoxes.FFmpegDownloadDlg._linkAutoDownload_LinkPortion",
+				"Click here to download",
+				"This is the portion of the text that is underlined, indicating the link to the download.");
 
-			int i = _linkDownload.Text.IndexOf(underlinedPortion);
+			_linkAutoDownload.Links.Clear();
+			_linkManualDownload.Links.Clear();
+
+			int i = _linkAutoDownload.Text.IndexOf(underlinedPortionOfAutoLink);
 			if (i >= 0)
-				_linkDownload.Links.Add(i, underlinedPortion.Length, FFmpegHelper.GetFFmpegForSayMoreUrl(true));
+				_linkAutoDownload.LinkArea = new LinkArea(i, underlinedPortionOfAutoLink.Length);
 
-			_logBox = new LogBox();
-			_logBox.TabStop = false;
-			_logBox.ShowMenu = false;
+			i = _linkManualDownload.Text.IndexOf(underlinedPortionOfManualLink);
+			if (i >= 0)
+				_linkManualDownload.LinkArea = new LinkArea(i, underlinedPortionOfManualLink.Length);
 
-			if (Program.DialogFont.FontFamily.IsStyleAvailable(FontStyle.Bold))
-				_logBox.Font = new Font(Program.DialogFont, FontStyle.Bold);
-
-			_logBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-			_logBox.Margin = new Padding(0);
-			_logBox.ReportErrorLinkClicked += delegate { Close(); };
-			_tableLayoutPanel.Controls.Add(_logBox, 0, 2);
+			_linkAutoDownload.LinkClicked += HanleAudoAutoDownloadLinkClicked;
+			_linkManualDownload.LinkClicked += HandleManualDownloadLinkClicked;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			Settings.Default.FFmpegForSayMoreDlg.InitializeForm(this);
+			Settings.Default.FFmpegDownloadDlg.InitializeForm(this);
 			base.OnLoad(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleDownloadLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		protected override void OnShown(EventArgs e)
 		{
-			Exception error = null;
-
-			try
-			{
-				_buttonClose.Enabled = false;
-				_logBox.Clear();
-				WaitCursor.Show();
-				Application.DoEvents();
-				var msg = LocalizationManager.GetString("DialogBoxes.FFmpegForSayMoreDlg.DownloadingMsg",
-					"- Downloading zip file for FFmpeg for SayMore...");
-
-				_logBox.WriteMessage(msg);
-				Application.DoEvents();
-				var tempPathToZipFile = FFmpegHelper.DownloadZipFile();
-
-				msg = LocalizationManager.GetString("DialogBoxes.FFmpegForSayMoreDlg.ExtractingDownloadFileMsg",
-					"- Unpacking downloaded zip file...");
-
-				_logBox.WriteMessage(msg);
-				Application.DoEvents();
-				if (FFmpegHelper.ExtractDownloadedZipFile(tempPathToZipFile))
-				{
-					msg = LocalizationManager.GetString("DialogBoxes.FFmpegForSayMoreDlg.ExtractingCompleteMsg",
-						"Downloading and unpacking complete. Your video file is now ready to be converted.");
-
-					_logBox.WriteMessageWithColor("Green", Environment.NewLine + msg);
-					return;
-				}
-			}
-			catch (Exception err)
-			{
-				error = err;
-			}
-			finally
-			{
-				WaitCursor.Hide();
-				_buttonClose.Enabled = true;
-			}
-
-			LogError(error);
-
+			base.OnShown(e);
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void LogError(Exception error)
+		private void UpdateDisplay()
 		{
-			_logBox.Clear();
+			_labelStatus.Visible = false;
 
-			var msg = LocalizationManager.GetString(
-				"DialogBoxes.FFmpegForSayMoreDlg.DownloadingErrorMsg",
-				"There was a problem trying to download or unpack the zip. Verify that you " +
-				"are connected to the internet.\r\n\r\nIf the problem persists, try downloading the " +
-				"file manually by using the following link in your browser.");
+			if (_state == ProgressSate.DownloadStarted)
+				_progressControl.Visible = true;
+			else if (_state != ProgressSate.NotStarted)
+			{
+				_progressControl.Visible = false;
 
-			_logBox.WriteError(msg + Environment.NewLine);
+				switch (_state)
+				{
+					case ProgressSate.DownloadCanceled:
+						_labelStatus.ForeColor = Color.Red;
+						_labelStatus.Text = LocalizationManager.GetString(
+							"DialogBoxes.FFmpegDownloadDlg.DownloadCancelledMsg",
+							"Downloading and Installing Cancelled.");
 
-			_logBox.WriteMessageWithColor("Blue",
-				FFmpegHelper.GetFFmpegForSayMoreUrl(false) + Environment.NewLine);
+						break;
 
-			if (error != null)
-				_logBox.WriteException(error);
+					case ProgressSate.DownloadedAndInstallSucceeded:
+						_labelStatus.ForeColor = Color.Green;
+						_labelStatus.Text = LocalizationManager.GetString(
+							"DialogBoxes.FFmpegDownloadDlg.DownloadCompleteMsg",
+							"Downloading and Installing Completed Successfully.");
 
-			_logBox.ScrollToTop();
+						break;
+
+					case ProgressSate.Installing:
+						_labelStatus.ForeColor = ForeColor;
+						_labelStatus.Text = LocalizationManager.GetString(
+							"DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg",
+							"Installing...");
+
+						break;
+
+					case ProgressSate.Installed:
+						_labelStatus.ForeColor = Color.Green;
+						_labelStatus.Text = LocalizationManager.GetString(
+							"DialogBoxes.FFmpegDownloadDlg.InstallCompletedingMsg",
+							"Installed Successfully.");
+
+						break;
+				}
+
+				_labelStatus.Visible = true;
+			}
+
+			_buttonInstall.Enabled = (_state != ProgressSate.DownloadStarted && !FFmpegHelper.DoesFFmpegForSayMoreExist);
+			_buttonCancel.Visible = (_state == ProgressSate.DownloadStarted);
+			_buttonClose.Visible = !_buttonCancel.Visible;
+
+			if (!_buttonClose.Visible)
+			{
+				_tableLayoutPanel.SetColumn(_buttonClose, 0);
+				_tableLayoutPanel.SetColumn(_buttonCancel, 2);
+			}
+			else
+			{
+				_tableLayoutPanel.SetColumn(_buttonCancel, 1);
+				_tableLayoutPanel.SetColumn(_buttonClose, 2);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HanleAudoAutoDownloadLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			if (_state != ProgressSate.NotStarted && _state != ProgressSate.DownloadCanceled)
+				return;
+
+			UseWaitCursor = true;
+			_downloadHelper = new FFmpegDownloadHelper();
+			_downloadHelper.OnFinished += HandleDownloadProgressFinished;
+			_progressControl.Initialize(_downloadHelper);
+
+			_state = ProgressSate.DownloadStarted;
+			UpdateDisplay();
+			_downloadHelper.Start();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleDownloadProgressFinished(object sender, ProgressFinishedArgs e)
+		{
+			if (e.ProgressCanceled)
+				_state = ProgressSate.DownloadCanceled;
+			else if (InstallDownloadedFile(_downloadHelper.DownloadedZipFilePath))
+				_state = ProgressSate.DownloadedAndInstallSucceeded;
+
+			_downloadHelper = null;
+			UpdateDisplay();
+			UseWaitCursor = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool InstallDownloadedFile(string downloadedZipFile)
+		{
+			var errorMsg = string.Format(LocalizationManager.GetString(
+				"DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileErrorMsg",
+				"The file '{0}'\r\n\r\neither does not contain ffmpeg or is not a valid zip file."),
+				downloadedZipFile);
+
+			if (!FFmpegHelper.GetIsValidFFmpegForSayMoreFile(downloadedZipFile, errorMsg))
+				return false;
+
+			_progressControl.SetStatusMessage(LocalizationManager.GetString(
+				"DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg", "Installing..."));
+
+			Application.DoEvents();
+
+			errorMsg = string.Format(LocalizationManager.GetString(
+				"DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileErrorMsg",
+				"There was an error installing the downloaded file:\r\n\r\n{0}"),
+				downloadedZipFile);
+
+			return FFmpegHelper.ExtractDownloadedZipFile(downloadedZipFile, errorMsg);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleManualDownloadLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			if (_state != ProgressSate.NotStarted && _state != ProgressSate.DownloadCanceled)
+				return;
+
+			var prs = new Process();
+			prs.StartInfo.FileName = FFmpegDownloadHelper.GetFFmpegForSayMoreUrl(false);
+			prs.Start();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleInstallClick(object sender, EventArgs e)
+		{
+			var caption = LocalizationManager.GetString(
+				"DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.Caption",
+				"Select the Downloaded FFmpeg File");
+
+			using (var dlg = new OpenFileDialog())
+			{
+				dlg.Title = caption;
+				dlg.CheckFileExists = true;
+				dlg.CheckPathExists = true;
+				dlg.Multiselect = false;
+				dlg.Filter = LocalizationManager.GetString(
+					"DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.FileTypesString",
+					"Zip Archive (*.zip)|*.zip|All Files (*.*)|*.*");
+
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+					_state = ProgressSate.Installing;
+					UpdateDisplay();
+					Application.DoEvents();
+					_state = (InstallDownloadedFile(dlg.FileName) ?
+						ProgressSate.Installed : ProgressSate.NotStarted);
+				}
+			}
+
+			UpdateDisplay();
 		}
 	}
 }

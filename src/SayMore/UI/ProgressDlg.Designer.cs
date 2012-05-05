@@ -32,6 +32,7 @@ namespace SayMore.Utilities
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this._buttonCancel = new System.Windows.Forms.Button();
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -46,7 +47,7 @@ namespace SayMore.Utilities
 			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
 			this.locExtender.SetLocalizationComment(this._buttonOK, null);
 			this.locExtender.SetLocalizingId(this._buttonOK, "DialogBoxes.NewEventsFromFileProgressDlg._buttonOK");
-			this._buttonOK.Location = new System.Drawing.Point(285, 82);
+			this._buttonOK.Location = new System.Drawing.Point(207, 82);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonOK.Name = "_buttonOK";
@@ -57,9 +58,12 @@ namespace SayMore.Utilities
 			// 
 			// _tableLayout
 			// 
-			this._tableLayout.ColumnCount = 1;
+			this._tableLayout.ColumnCount = 3;
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayout.Controls.Add(this._buttonOK, 0, 1);
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayout.Controls.Add(this._buttonCancel, 2, 1);
+			this._tableLayout.Controls.Add(this._buttonOK, 1, 1);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayout.Location = new System.Drawing.Point(15, 20);
 			this._tableLayout.Name = "_tableLayout";
@@ -72,6 +76,24 @@ namespace SayMore.Utilities
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
+			// _buttonCancel
+			// 
+			this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._buttonCancel.AutoSize = true;
+			this._buttonCancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
+			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.NewEventsFromFileProgressDlg._buttonCancel");
+			this._buttonCancel.Location = new System.Drawing.Point(285, 82);
+			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
+			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
+			this._buttonCancel.Name = "_buttonCancel";
+			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
+			this._buttonCancel.TabIndex = 1;
+			this._buttonCancel.Text = "Cancel";
+			this._buttonCancel.UseVisualStyleBackColor = true;
+			this._buttonCancel.Visible = false;
 			// 
 			// ProgressDlg
 			// 
@@ -103,5 +125,6 @@ namespace SayMore.Utilities
 		private System.Windows.Forms.Button _buttonOK;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private Localization.UI.LocalizationExtender locExtender;
+		private System.Windows.Forms.Button _buttonCancel;
 	}
 }

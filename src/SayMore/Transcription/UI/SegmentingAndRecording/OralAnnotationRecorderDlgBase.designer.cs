@@ -109,6 +109,7 @@ namespace SayMore.Transcription.UI
 			this._labelRecordHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelRecordHint.AutoSize = true;
 			this._labelRecordHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelRecordHint.ForeColor = System.Drawing.Color.White;
 			this.locExtender.SetLocalizableToolTip(this._labelRecordHint, null);
 			this.locExtender.SetLocalizationComment(this._labelRecordHint, null);
 			this.locExtender.SetLocalizingId(this._labelRecordHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelRecordHint");
@@ -149,6 +150,7 @@ namespace SayMore.Transcription.UI
 			this._labelListenHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelListenHint.AutoSize = true;
 			this._labelListenHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelListenHint.ForeColor = System.Drawing.Color.White;
 			this.locExtender.SetLocalizableToolTip(this._labelListenHint, null);
 			this.locExtender.SetLocalizationComment(this._labelListenHint, null);
 			this.locExtender.SetLocalizingId(this._labelListenHint, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase._labelListenHint");

@@ -110,7 +110,6 @@ namespace SayMore.Media.FFmpeg
 			this._linkAutoDownload.TabStop = true;
 			this._linkAutoDownload.Text = "1) Click here and SayMore will automatically download and install FFmpeg in the p" +
     "roper location.";
-			this._linkAutoDownload.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleDownloadLinkClicked);
 			// 
 			// _labelOr
 			// 

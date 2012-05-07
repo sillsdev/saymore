@@ -6,18 +6,14 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using NAudio.Wave;
-using Palaso.Progress;
 using Palaso.UI.WindowsForms.ClearShare;
-using Palaso.Media;
-using Palaso.Progress.LogBox;
 using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Media.Audio;
-using SayMore.Media.FFmpeg;
-using SayMore.MediaUtils;
 using SayMore.Model.Fields;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
+using SayMore.UI;
 using SayMore.Utilities.ComponentEditors;
 using SilTools;
 
@@ -73,6 +69,12 @@ namespace SayMore.Model.Files
 		public virtual string FieldsGridSettingsName
 		{
 			get { return "UnknownFileFieldsGrid"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual bool CanBeConverted
+		{
+			get { return false; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -936,6 +938,12 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override bool CanBeConverted
+		{
+			get { return true; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override bool GetShowInPresetOptions(string key)
 		{
 			return (base.GetShowInPresetOptions(key) && key != "notes");
@@ -967,42 +975,23 @@ namespace SayMore.Model.Files
 				if (commands.Count == 0)
 					commands.Add(null); // Separator
 
-				commands.Add(new FileCommand(GetExtractToMp3AudioCommandString(), ExtractMp3Audio, "convert"));
+				var commandString = GetExtractToMp3AudioCommandString();
+				commands.Add(new FileCommand(commandString,
+					path => ConvertMediaDlg.Show(path, commandString),
+					"convert"));
 			}
 
-			if (!File.Exists(filePath.Replace(Path.GetExtension(filePath).ToLowerInvariant(), ".mp4")) &&
-				!filePath.ToLowerInvariant().EndsWith(".mp4"))
-			{
-				if (commands.Count == 0)
-					commands.Add(null); // Separator
+			if (commands.Count == 0)
+				commands.Add(null); // Separator
 
-				var menuText = LocalizationManager.GetString(
-					"CommonToMultipleViews.FileList.Convert.ConvertMenuText",
-					"Convert...");
+			var menuText = LocalizationManager.GetString(
+				"CommonToMultipleViews.FileList.Convert.ConvertMenuText",
+				"Convert...");
 
-				commands.Add(new FileCommand(menuText, VideoConversionUtils.Convert, "convert"));
-			}
+			commands.Add(new FileCommand(menuText,
+				path => ConvertMediaDlg.Show(path, null), "convert"));
 
 			return commands;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void ExtractMp3Audio(string path)
-		{
-			var outputPath = path.Replace(Path.GetExtension(path), ".mp3");
-
-			if (!AudioUtils.CheckConversionIsPossible(outputPath))
-				return;
-
-			WaitCursor.Show();
-			var results = FFmpegHelper.ExtractMonoMp3Audio(path, outputPath);
-			WaitCursor.Hide();
-
-			if (results.ExitCode != 0)
-			{
-				ErrorReport.NotifyUserOfProblem(
-					AudioUtils.GetGeneralFFmpegConversionErrorMsg(), results.StandardError);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

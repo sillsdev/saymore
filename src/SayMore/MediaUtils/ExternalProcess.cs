@@ -28,6 +28,15 @@ namespace SayMore.Media
 			IEnumerable<string> args, DataReceivedEventHandler outputDataHandler,
 			DataReceivedEventHandler errorDataHandler, string processFailedToStartErrorMsg)
 		{
+			return StartProcessToMonitor(exePath, BuildCommandLine(args),
+				outputDataHandler, errorDataHandler, processFailedToStartErrorMsg);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static ExternalProcess StartProcessToMonitor(string exePath, string args,
+			DataReceivedEventHandler outputDataHandler, DataReceivedEventHandler errorDataHandler,
+			string processFailedToStartErrorMsg)
+		{
 			if (outputDataHandler == null)
 				throw new ArgumentNullException("outputDataHandler");
 
@@ -39,7 +48,7 @@ namespace SayMore.Media
 			prs.StartInfo.RedirectStandardError = true;
 			prs.OutputDataReceived += outputDataHandler;
 			prs.ErrorDataReceived += errorDataHandler;
-			prs.StartInfo.Arguments = BuildCommandLine(args);
+			prs.StartInfo.Arguments = args;
 
 			if (!prs.StartProcess())
 			{

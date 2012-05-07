@@ -139,7 +139,6 @@
     </Compile>
     <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadHelper.cs" />
     <Compile Include="MediaUtils\FFmpeg\FFmpegHelper.cs" />
-    <Compile Include="MediaUtils\VideoConversionUtils.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">
@@ -943,6 +942,8 @@
     <None Include="Resources\RecordingOralAnnotationInProgress.gif" />
     <None Include="Resources\ListenToOriginalRecordingDown.png" />
     <None Include="Resources\mediaFileInfoOutputTemplate.txt" />
+    <None Include="Resources\LessArrows.png" />
+    <None Include="Resources\MoreArrows.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Ionic.Zip;
-using Localization;
-using Palaso.CommandLineProcessing;
 using Palaso.Reporting;
 
 namespace SayMore.Media.FFmpeg
@@ -98,74 +94,74 @@ namespace SayMore.Media.FFmpeg
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Extracts the audio from a video. Note, it will fail if the file exists, so the client
-		/// is resonsible for verifying with the user and deleting the file before calling this.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static ExecutionResult ExtractMonoMp3Audio(string inputPath, string outputPath)
-		{
-			if (!OfferToDownloadFFmpegForSayMoreIfNecessary())
-			{
-				var msg = LocalizationManager.GetString(
-					"CommonToMultipleViews.FFmpegMethods.UnableToFindFFmpegMsg",
-					"Could not locate FFmpeg for SayMore.");
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Extracts the audio from a video. Note, it will fail if the file exists, so the client
+		///// is resonsible for verifying with the user and deleting the file before calling this.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static ExecutionResult ExtractMonoMp3Audio(string inputPath, string outputPath)
+		//{
+		//    if (!OfferToDownloadFFmpegForSayMoreIfNecessary())
+		//    {
+		//        var msg = LocalizationManager.GetString(
+		//            "CommonToMultipleViews.FFmpegMethods.UnableToFindFFmpegMsg",
+		//            "Could not locate FFmpeg for SayMore.");
 
-				return new ExecutionResult { StandardError = msg };
-			}
+		//        return new ExecutionResult { StandardError = msg };
+		//    }
 
-			Program.SuspendBackgroundProcesses();
+		//    Program.SuspendBackgroundProcesses();
 
-			var stdOut = new StringBuilder();
-			var stdErrors = new StringBuilder();
-			var result = new ExecutionResult();
+		//    var stdOut = new StringBuilder();
+		//    var stdErrors = new StringBuilder();
+		//    var result = new ExecutionResult();
 
-			try
-			{
-				var prs = ExternalProcess.StartProcessToMonitor(GetFullPathToFFmpegForSayMoreExe(),
-					GetExtractMonoMp3Args(inputPath), (s, e) => stdOut.AppendLine(e.Data),
-					(s, e) => stdErrors.AppendLine(e.Data), null);
+		//    try
+		//    {
+		//        var prs = ExternalProcess.StartProcessToMonitor(GetFullPathToFFmpegForSayMoreExe(),
+		//            GetExtractMonoMp3Args(inputPath), (s, e) => stdOut.AppendLine(e.Data),
+		//            (s, e) => stdErrors.AppendLine(e.Data), null);
 
-				if (prs == null)
-				{
-					result.ExitCode = 1;
-					result.StandardError = LocalizationManager.GetString(
-						"CommonToMultipleViews.FFmpegMethods.UnableToStartFFmpegProcessMsg",
-						"Unable to start FFmpeg.");
+		//        if (prs == null)
+		//        {
+		//            result.ExitCode = 1;
+		//            result.StandardError = LocalizationManager.GetString(
+		//                "CommonToMultipleViews.FFmpegMethods.UnableToStartFFmpegProcessMsg",
+		//                "Unable to start FFmpeg.");
 
-					return result;
-				}
+		//            return result;
+		//        }
 
-				prs.WaitForExit();
-				result.ExitCode = prs.ExitCode;
-			}
-			finally
-			{
-				Program.ResumeBackgroundProcesses(true);
-			}
+		//        prs.WaitForExit();
+		//        result.ExitCode = prs.ExitCode;
+		//    }
+		//    finally
+		//    {
+		//        Program.ResumeBackgroundProcesses(true);
+		//    }
 
-			result.StandardOutput = stdOut.ToString();
-			result.StandardError = stdErrors.ToString();
+		//    result.StandardOutput = stdOut.ToString();
+		//    result.StandardError = stdErrors.ToString();
 
-			// Hide a meaningless error produced by some versions of liblame
-			if (result.StandardError.Contains("lame: output buffer too small") && File.Exists(outputPath))
-			{
-				result.ExitCode = 0;
-				result.StandardError = string.Empty;
-			}
+		//    // Hide a meaningless error produced by some versions of liblame
+		//    if (result.StandardError.Contains("lame: output buffer too small") && File.Exists(outputPath))
+		//    {
+		//        result.ExitCode = 0;
+		//        result.StandardError = string.Empty;
+		//    }
 
-			return result;
-		}
+		//    return result;
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		private static IEnumerable<string> GetExtractMonoMp3Args(string filePath)
-		{
-			yield return string.Format("-i \"{0}\"", filePath);
-			yield return "-vn";
-			yield return "-acodec libmp3lame";
-			yield return "-ac 1";
-			yield return string.Format("\"{0}\"", Path.ChangeExtension(filePath, "mp3"));
-		}
+		///// ------------------------------------------------------------------------------------
+		//private static IEnumerable<string> GetExtractMonoMp3Args(string filePath)
+		//{
+		//    yield return string.Format("-i \"{0}\"", filePath);
+		//    yield return "-vn";
+		//    yield return "-acodec libmp3lame";
+		//    yield return "-ac 1";
+		//    yield return string.Format("\"{0}\"", Path.ChangeExtension(filePath, "mp3"));
+		//}
 	}
 }

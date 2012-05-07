@@ -1385,5 +1385,17 @@ namespace SayMore.Properties {
                 this["ConvertMediaDlg"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool ShowFFmpegDetailsWhenConvertingMedia {
+            get {
+                return ((bool)(this["ShowFFmpegDetailsWhenConvertingMedia"]));
+            }
+            set {
+                this["ShowFFmpegDetailsWhenConvertingMedia"] = value;
+            }
+        }
     }
 }

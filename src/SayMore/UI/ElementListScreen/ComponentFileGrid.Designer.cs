@@ -47,7 +47,7 @@ namespace SayMore.Utilities.ElementListScreen
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
 			this._buttonOpen = new System.Windows.Forms.ToolStripDropDownButton();
 			this._buttonRename = new System.Windows.Forms.ToolStripDropDownButton();
-			this._buttonConvert = new System.Windows.Forms.ToolStripDropDownButton();
+			this._buttonConvert = new System.Windows.Forms.ToolStripButton();
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._contextMenuStrip.SuspendLayout();
@@ -277,8 +277,8 @@ namespace SayMore.Utilities.ElementListScreen
 			this._buttonConvert.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
 			this._buttonConvert.Name = "_buttonConvert";
 			this._buttonConvert.Size = new System.Drawing.Size(62, 20);
-			this._buttonConvert.Text = "Convert";
-			this._buttonConvert.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
+			this._buttonConvert.Text = "Convert...";
+			this._buttonConvert.Click += new System.EventHandler(this.HandleConvertButtonClick);
 			// 
 			// _buttonAddFiles
 			// 
@@ -325,7 +325,6 @@ namespace SayMore.Utilities.ElementListScreen
 		private System.Windows.Forms.ToolStrip _toolStripActions;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonOpen;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonRename;
-		private System.Windows.Forms.ToolStripDropDownButton _buttonConvert;
 		private System.Windows.Forms.ToolStripButton _buttonAddFiles;
 		private System.Windows.Forms.ToolStripMenuItem _menuDeleteFile;
 		private System.Windows.Forms.DataGridViewImageColumn colIcon;
@@ -335,6 +334,7 @@ namespace SayMore.Utilities.ElementListScreen
 		private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDuration;
 		private Localization.UI.LocalizationExtender locExtender;
+		private System.Windows.Forms.ToolStripButton _buttonConvert;
 
 	}
 }

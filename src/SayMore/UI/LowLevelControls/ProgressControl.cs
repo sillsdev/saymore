@@ -20,19 +20,6 @@ namespace SayMore.Utilities.LowLevelControls
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	public class ProgressFinishedArgs : EventArgs
-	{
-		public bool ProgressCanceled { get; private set; }
-		public Exception Exception { get; private set; }
-
-		public ProgressFinishedArgs(bool canceled, Exception error)
-		{
-			ProgressCanceled = canceled;
-			Exception = error;
-		}
-	}
-
-	/// ----------------------------------------------------------------------------------------
 	public partial class ProgressControl : UserControl
 	{
 		private IProgressViewModel _model;
@@ -108,6 +95,19 @@ namespace SayMore.Utilities.LowLevelControls
 				if (!e.ProgressCanceled)
 					SystemSounds.Exclamation.Play();
 			}
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	public class ProgressFinishedArgs : EventArgs
+	{
+		public bool ProgressCanceled { get; private set; }
+		public Exception Exception { get; private set; }
+
+		public ProgressFinishedArgs(bool canceled, Exception error)
+		{
+			ProgressCanceled = canceled;
+			Exception = error;
 		}
 	}
 }

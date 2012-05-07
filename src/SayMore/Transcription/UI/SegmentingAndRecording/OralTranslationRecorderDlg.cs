@@ -28,16 +28,5 @@ namespace SayMore.Transcription.UI
 			base.OnLoad(e);
 			_labelOralTranslation.Font = _labelOriginalRecording.Font;
 		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override string ReadyToRecordMessage
-		{
-			get
-			{
-				return LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralTranslationRecorderDlg.ReadyToRecordAnnotationMsg",
-					"Ready to Record\r\nOral Translation");
-			}
-		}
 	}
 }

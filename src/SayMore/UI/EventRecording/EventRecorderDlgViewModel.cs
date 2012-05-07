@@ -63,14 +63,14 @@ namespace SayMore.Utilities.EventRecording
 		/// ------------------------------------------------------------------------------------
 		public void BeginRecording()
 		{
-			if (AudioUtils.GetCanRecordAudio(true))
+			if (AudioUtils.GetCanRecordAudio())
 				Recorder.BeginRecording(_path, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void BeginPlayback()
 		{
-			if (!AudioUtils.GetCanPlaybackAudio(true))
+			if (!AudioUtils.GetCanPlaybackAudio())
 				return;
 
 			_player = new AudioPlayer();

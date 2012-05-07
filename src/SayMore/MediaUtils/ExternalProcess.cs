@@ -101,12 +101,12 @@ namespace SayMore.Media
 		/// ------------------------------------------------------------------------------------
 		public static void CleanUpProcesses(string processExePath)
 		{
-			HashSet<int> processIds;
-			if (!s_processIds.TryGetValue(processExePath, out processIds))
-				return;
-
 			lock (s_processIds)
 			{
+				HashSet<int> processIds;
+				if (!s_processIds.TryGetValue(processExePath, out processIds))
+					return;
+
 				foreach (int id in processIds)
 				{
 					try

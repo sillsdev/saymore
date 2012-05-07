@@ -37,7 +37,7 @@ namespace SayMore.Transcription.UI
 		private readonly ToolTip _tooltip = new ToolTip();
 		private PeakMeterCtrl _peakMeter;
 		private RecordingDeviceButton _recDeviceButton;
-		private Timer _segTooShortMsgTimer;
+		private Timer _recordingTooShortMsgTimer;
 		private Image _hotPlayInSegmentButton;
 		private Image _hotPlayOriginalButton;
 		private Image _hotRecordAnnotationButton;
@@ -87,6 +87,8 @@ namespace SayMore.Transcription.UI
 		protected OralAnnotationRecorderBaseDlg(OralAnnotationRecorderDlgViewModel viewModel)
 			: base(viewModel)
 		{
+			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
+
 			InitializeComponent();
 
 			Padding = new Padding(0);
@@ -111,6 +113,30 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleNAudioExceptionThrown(Exception exception)
+		{
+			if (!AudioUtils.GetCanRecordAudio(true))
+			{
+				ViewModel.CloseAnnotationRecorder();
+				if (!_checkForRecordingDevice.Enabled)
+					_checkForRecordingDevice.Start();
+			}
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void CheckForRecordingDevice(object sender, EventArgs e)
+		{
+			if (AudioUtils.GetCanRecordAudio())
+			{
+				_checkForRecordingDevice.Stop();
+				ViewModel.InitializeAnnotationRecorder(_peakMeter, HandleAnnotationRecordingProgress);
+				_waveControl.Invalidate();
+				UpdateDisplay();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && (components != null))
@@ -120,6 +146,7 @@ namespace SayMore.Transcription.UI
 				_hotPlayOriginalButton.Dispose();
 				_hotRecordAnnotationButton.Dispose();
 				LocalizeItemDlg.StringsLocalized -= HandleStringsLocalized;
+				AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrown;
 			}
 
 			base.Dispose(disposing);
@@ -129,9 +156,9 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
+			ViewModel.InitializeAnnotationRecorder(_peakMeter, HandleAnnotationRecordingProgress);
 			base.OnLoad(e);
 			InitializeHintLabels();
-			ViewModel.InitializeAnnotationRecorder(_peakMeter, HandleAnnotationRecordingProgress);
 			ViewModel.RemoveInvalidAnnotationFiles();
 		}
 
@@ -264,12 +291,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeHintLabels()
 		{
-			_tableLayoutButtons.Controls.Add(_labelSegmentTooShort, 0, 0);
+			_tableLayoutButtons.Controls.Add(_labelErrorInfo, 0, 0);
 			_tableLayoutButtons.Controls.Add(_labelListenHint, 0, 1);
 			_tableLayoutButtons.Controls.Add(_labelRecordHint, 0, 2);
 			_tableLayoutButtons.Controls.Add(_labelFinishedHint, 0, 3);
 
-			_tableLayoutButtons.SetColumnSpan(_labelSegmentTooShort, 2);
+			_tableLayoutButtons.SetColumnSpan(_labelErrorInfo, 2);
 			_tableLayoutButtons.SetColumnSpan(_labelListenHint, 2);
 			_tableLayoutButtons.SetColumnSpan(_labelRecordHint, 2);
 
@@ -278,7 +305,7 @@ namespace SayMore.Transcription.UI
 
 			_labelListenHint.Font = _labelOriginalRecording.Font;
 			_labelRecordHint.Font = _labelOriginalRecording.Font;
-			_labelSegmentTooShort.Font = _labelOriginalRecording.Font;
+			_labelErrorInfo.Font = _labelOriginalRecording.Font;
 			_labelFinishedHint.Font = _labelOriginalRecording.Font;
 			_annotationSegmentFont = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
 
@@ -392,12 +419,6 @@ namespace SayMore.Transcription.UI
 			set { Settings.Default.ZoomPercentageInAnnotationRecordingDlg = value; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected virtual string ReadyToRecordMessage
-		{
-			get { throw new NotImplementedException(); }
-		}
-
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -437,14 +458,43 @@ namespace SayMore.Transcription.UI
 
 			_labelRecordButton.Enabled = (ViewModel.GetSelectedSegmentIsLongEnough() &&
 				_userHasListenedToSelectedSegment &&
+				AudioUtils.GetCanRecordAudio(true) &&
 				!_waveControl.IsPlaying && !ViewModel.GetIsAnnotationPlaying());
 
 			_labelListenHint.Visible = _spaceBarMode == SpaceBarMode.Listen && _labelListenButton.Enabled;
 			_labelRecordHint.Visible = _spaceBarMode == SpaceBarMode.Record && _labelRecordButton.Enabled && !_reRecording;
-			_labelSegmentTooShort.Visible = ViewModel.GetHasNewSegment() && !ViewModel.GetSelectedSegmentIsLongEnough() &&
-				!_playingBackUsingHoldDownButton && !_waveControl.IsBoundaryMovingInProgress;
-			if (_labelSegmentTooShort.Visible)
-				_labelSegmentTooShort.Text = GetSegmentTooShortText();
+
+			_labelErrorInfo.Visible = false;
+			if (!_playingBackUsingHoldDownButton && !_waveControl.IsBoundaryMovingInProgress)
+			{
+				if (ViewModel.GetHasNewSegment() && !ViewModel.GetSelectedSegmentIsLongEnough())
+				{
+					_labelErrorInfo.Visible = true;
+					_labelErrorInfo.Text = GetSegmentTooShortText();
+				}
+				else if (ViewModel.GetIsRecorderInErrorState())
+				{
+					_labelErrorInfo.Visible = true;
+					_labelErrorInfo.Text = LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg",
+						"Recording not working. Please make sure your microphone is plugged in.");
+				}
+				else if (_recordingTooShortMsgTimer != null)
+				{
+					_labelErrorInfo.Visible = true;
+
+					bool selectedSegmentHadRecordingThatWasTooShort =
+						(_recordingTooShortMsgTimer != null && ViewModel.GetSelectedTimeRange() == (TimeRange)_recordingTooShortMsgTimer.Tag);
+
+					_labelErrorInfo.Text = selectedSegmentHadRecordingThatWasTooShort ?
+						LocalizationManager.GetString(
+							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid",
+							"Whoops. You need to hold down the SPACE bar or mouse button while talking.") :
+						LocalizationManager.GetString(
+							"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenOnlyMouseIsValid",
+							"Whoops. You need to hold down the mouse button while talking.");
+				}
+			}
 
 			if (_spaceBarMode == SpaceBarMode.Done)
 			{
@@ -456,8 +506,8 @@ namespace SayMore.Transcription.UI
 			}
 			else
 			{
-				float percentage = (_labelSegmentTooShort.Visible) ? 50 : 100;
-				_tableLayoutButtons.RowStyles[0].Height = (_labelSegmentTooShort.Visible) ? percentage : 0;
+				float percentage = (_labelErrorInfo.Visible) ? 50 : 100;
+				_tableLayoutButtons.RowStyles[0].Height = (_labelErrorInfo.Visible) ? percentage : 0;
 				_tableLayoutButtons.RowStyles[1].Height = (_labelListenHint.Visible) ? percentage : 0;
 				_tableLayoutButtons.RowStyles[2].Height = (_labelRecordHint.Visible) ? percentage : 0;
 			}
@@ -848,14 +898,12 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void KillSegTooShortMsgTimer()
 		{
-			if (_segTooShortMsgTimer != null)
+			if (_recordingTooShortMsgTimer != null)
 			{
-				var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange((TimeRange)_segTooShortMsgTimer.Tag);
-				_segTooShortMsgTimer.Stop();
-				_segTooShortMsgTimer.Dispose();
-				_segTooShortMsgTimer = null;
-
-				_waveControl.InvalidateIfNeeded(rc);
+				_recordingTooShortMsgTimer.Stop();
+				_recordingTooShortMsgTimer.Dispose();
+				_recordingTooShortMsgTimer = null;
+				UpdateDisplay();
 			}
 		}
 
@@ -864,12 +912,12 @@ namespace SayMore.Transcription.UI
 		{
 			KillSegTooShortMsgTimer();
 
-			_segTooShortMsgTimer = new Timer();
-			_segTooShortMsgTimer.Interval = 4000;
-			_segTooShortMsgTimer.Tag = _segmentBeingRecorded;
-			_segTooShortMsgTimer.Tick += delegate { KillSegTooShortMsgTimer(); };
-			_segTooShortMsgTimer.Start();
-			_waveControl.InvalidateIfNeeded(GetVisibleAnnotationRectangleForSegmentBeingRecorded());
+			_recordingTooShortMsgTimer = new Timer();
+			_recordingTooShortMsgTimer.Interval = 4000;
+			_recordingTooShortMsgTimer.Tag = _segmentBeingRecorded;
+			_recordingTooShortMsgTimer.Tick += delegate { KillSegTooShortMsgTimer(); };
+			_recordingTooShortMsgTimer.Start();
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -990,6 +1038,7 @@ namespace SayMore.Transcription.UI
 
 			_cursorBlinkTimer.Tag = !(bool)_cursorBlinkTimer.Tag;
 			_waveControl.InvalidateIfNeeded(newSegmentCursorRect);
+			_waveControl.InvalidateIfNeeded(GetReadyToRecordCursorRectangle());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1007,8 +1056,17 @@ namespace SayMore.Transcription.UI
 
 			if (ViewModel.GetIsRecording())
 				DrawTextInAnnotationWaveCellWhileRecording(e.Graphics);
-			else
-				DrawTextInAnnotationWaveCellWhileNotRecording(e.Graphics);
+			else if (ViewModel.GetIsRecorderInErrorState())
+				_pictureRecording.Visible = false;
+			else if ((bool)_cursorBlinkTimer.Tag)
+			{
+				var rc = GetReadyToRecordCursorRectangle();
+				if (rc != Rectangle.Empty)
+				{
+					using (var brush = new SolidBrush(Settings.Default.DataEntryPanelColorEnd))
+						e.Graphics.FillRectangle(brush, rc);
+				}
+			}
 
 			DrawNewSegmentCursor(e.Graphics);
 		}
@@ -1020,82 +1078,24 @@ namespace SayMore.Transcription.UI
 			if (rc == Rectangle.Empty)
 				return;
 
+			//var gb = new System.Drawing.Drawing2D.PathGradientBrush();
+			//gb.
+			//LinearGradientBrush(rc,
+			//    ColorHelper.CalculateColor(Color.White, Settings.Default.BarColorBorder, 75),
+			//    Settings.Default.BarColorBorder, System.Drawing.Drawing2D.LinearGradientMode.Horizontal, );
+
 			//using (var lightPen = new Pen(Color.FromArgb(75, Settings.Default.BarColorBorder)))
 			using (var lightPen = new Pen(ColorHelper.CalculateColor(Color.White, Settings.Default.BarColorBorder, 75)))
 			using (var darkPen = new Pen(Settings.Default.BarColorBorder))
 			{
 				var pen = ((bool)_cursorBlinkTimer.Tag) ? darkPen : lightPen;
 
-				g.DrawLine(pen, rc.X + 1, 0, rc.X + 1, _waveControl.ClientSize.Height);
+				g.DrawLine(pen, rc.X + 1, 0, rc.X + 1, rc.Height);
 				if ((bool)_cursorBlinkTimer.Tag)
 				{
-					g.DrawLine(lightPen, rc.X, 0, rc.X, _waveControl.ClientSize.Height);
-					g.DrawLine(lightPen, rc.X + 2, 0, rc.X + 2, _waveControl.ClientSize.Height);
+					g.DrawLine(lightPen, rc.X, 0, rc.X, rc.Height);
+					g.DrawLine(lightPen, rc.X + 2, 0, rc.X + 2, rc.Height);
 				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void DrawRecordingTooShortMessage(Graphics g, bool selectedSegmentHadRecordingThatWasTooShort)
-		{
-			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange((TimeRange)_segTooShortMsgTimer.Tag);
-			rc.Inflate(-5, -5);
-
-			var msg = selectedSegmentHadRecordingThatWasTooShort ?
-				LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenSpaceOrMouseIsValid",
-					"Whoops. You need to hold down the SPACE bar or mouse button while talking.") :
-				LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordingTooShortMessage.WhenOnlyMouseIsValid",
-					"Whoops. You need to hold down the mouse button while talking.");
-
-			TextRenderer.DrawText(g, msg, _annotationSegmentFont, rc, Color.Red,
-				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void DrawTextInAnnotationWaveCellWhileNotRecording(Graphics g)
-		{
-			if (!ViewModel.GetSelectedSegmentIsLongEnough())
-				return;
-
-			var timeRangeReadyToRecord = ViewModel.GetSelectedTimeRange();
-
-			bool selectedSegmentHadRecordingThatWasTooShort =
-				(_segTooShortMsgTimer != null && timeRangeReadyToRecord == (TimeRange)_segTooShortMsgTimer.Tag);
-
-			if (_segTooShortMsgTimer != null)
-				DrawRecordingTooShortMessage(g, selectedSegmentHadRecordingThatWasTooShort);
-
-			if (selectedSegmentHadRecordingThatWasTooShort)
-				return;
-
-			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(timeRangeReadyToRecord);
-
-			if (rc == Rectangle.Empty)
-				return;
-
-			var msg = (_userHasListenedToSelectedSegment ? ReadyToRecordMessage : null);
-
-			if (!ViewModel.Recorder.GetIsInErrorState())
-				DrawHighlightedBorderForRecording(g, rc);
-			else
-			{
-				// We can get here while reporting the warning in AudioUtils.GetCanRecordAudio before we've
-				// actually been officially notified of the error, so we need to hide the busy wheel now to
-				// avoid an ugly paint job.
-				_pictureRecording.Visible = false;
-				msg = LocalizationManager.GetString(
-					"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.CannotRecordErrorMsg",
-					"Recording not working. Please make sure your microphone is plugged in.");
-			}
-
-			if (msg != null)
-			{
-				rc.Inflate(-5, -5);
-
-				TextRenderer.DrawText(g, msg, _annotationSegmentFont, rc, Color.Black,
-					TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis);
 			}
 		}
 
@@ -1121,15 +1121,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void DrawTextInAnnotationWaveCellWhileRecording(Graphics g)
 		{
-			//var rc = _pictureRecording.Bounds;
-			//rc.Inflate(2, 2);
-			//rc.Width--;
-			//rc.Height--;
-			//g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-			//g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-			//g.FillEllipse(Brushes.White, rc);
-			//g.DrawEllipse(Pens.Black, rc);
-
 			var rc = GetVisibleAnnotationRectangleForSegmentBeingRecorded();
 			DrawHighlightedBorderForRecording(g, rc);
 			rc.Inflate(-5, -5);
@@ -1152,7 +1143,20 @@ namespace SayMore.Transcription.UI
 			if (_spaceBarMode == SpaceBarMode.Done || ViewModel.CurrentUnannotatedSegment != null)
 				return Rectangle.Empty;
 			var x = _waveControl.Painter.ConvertTimeToXCoordinate(ViewModel.NewSegmentEndBoundary);
-			return new Rectangle(x - 1, 0, 3, _waveControl.ClientSize.Height);
+			return new Rectangle(x - 1, 0, 3, _waveControl.ClientSize.Height - _waveControl.BottomReservedAreaHeight);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetReadyToRecordCursorRectangle()
+		{
+			if (!ViewModel.GetSelectedSegmentIsLongEnough())
+				return Rectangle.Empty;
+
+			var rc = _waveControl.Painter.GetBottomReservedRectangleForTimeRange(ViewModel.GetSelectedTimeRange());
+
+			if (rc != Rectangle.Empty)
+				rc.Width = 5;
+			return rc;
 		}
 
 		/// ------------------------------------------------------------------------------------

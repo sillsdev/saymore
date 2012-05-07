@@ -22,7 +22,7 @@ namespace SayMore.Transcription.UI
 			this._labelRecordButton = new System.Windows.Forms.Label();
 			this._labelListenButton = new System.Windows.Forms.Label();
 			this._pictureRecording = new System.Windows.Forms.PictureBox();
-			this._labelSegmentTooShort = new System.Windows.Forms.Label();
+			this._labelErrorInfo = new System.Windows.Forms.Label();
 			this._labelRecordHint = new System.Windows.Forms.Label();
 			this._panelPeakMeter = new SilTools.Controls.SilPanel();
 			this._labelListenHint = new System.Windows.Forms.Label();
@@ -31,6 +31,7 @@ namespace SayMore.Transcription.UI
 			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutMediaButtons = new System.Windows.Forms.TableLayoutPanel();
+			this._checkForRecordingDevice = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).BeginInit();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
@@ -85,22 +86,23 @@ namespace SayMore.Transcription.UI
 			this._pictureRecording.TabStop = false;
 			this._pictureRecording.Visible = false;
 			//
-			// _labelSegmentTooShort
+			// _labelErrorInfo
 			//
-			this._labelSegmentTooShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelSegmentTooShort.AutoSize = true;
-			this._labelSegmentTooShort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelSegmentTooShort.ForeColor = System.Drawing.Color.Red;
-			this.locExtender.SetLocalizableToolTip(this._labelSegmentTooShort, null);
-			this.locExtender.SetLocalizationComment(this._labelSegmentTooShort, null);
-			this.locExtender.SetLocalizationPriority(this._labelSegmentTooShort, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelSegmentTooShort, "OralAnnotationRecorderBaseDlg._labelListenHint");
-			this._labelSegmentTooShort.Location = new System.Drawing.Point(8, 204);
-			this._labelSegmentTooShort.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this._labelSegmentTooShort.Name = "_labelSegmentTooShort";
-			this._labelSegmentTooShort.Size = new System.Drawing.Size(326, 13);
-			this._labelSegmentTooShort.TabIndex = 2;
-			this._labelSegmentTooShort.Text = "Segment too short - this text will be set programmatically";
+			this._labelErrorInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelErrorInfo.AutoSize = true;
+			this._labelErrorInfo.BackColor = System.Drawing.Color.Yellow;
+			this._labelErrorInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this._labelErrorInfo.ForeColor = System.Drawing.Color.Black;
+			this.locExtender.SetLocalizableToolTip(this._labelErrorInfo, null);
+			this.locExtender.SetLocalizationComment(this._labelErrorInfo, null);
+			this.locExtender.SetLocalizationPriority(this._labelErrorInfo, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelErrorInfo, "OralAnnotationRecorderBaseDlg._labelListenHint");
+			this._labelErrorInfo.Location = new System.Drawing.Point(8, 204);
+			this._labelErrorInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this._labelErrorInfo.Name = "_labelErrorInfo";
+			this._labelErrorInfo.Size = new System.Drawing.Size(215, 13);
+			this._labelErrorInfo.TabIndex = 2;
+			this._labelErrorInfo.Text = "This text will be set programmatically";
 			//
 			// _labelRecordHint
 			//
@@ -219,6 +221,11 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutMediaButtons.TabIndex = 8;
 			this._tableLayoutMediaButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleMediaButtonTableLayoutPaint);
 			//
+			// _checkForRecordingDevice
+			//
+			this._checkForRecordingDevice.Interval = 500;
+			this._checkForRecordingDevice.Tick += new System.EventHandler(this.CheckForRecordingDevice);
+			//
 			// OralAnnotationRecorderBaseDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -228,7 +235,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.Add(this._labelRecordHint);
 			this.Controls.Add(this._pictureRecording);
 			this.Controls.Add(this._labelListenHint);
-			this.Controls.Add(this._labelSegmentTooShort);
+			this.Controls.Add(this._labelErrorInfo);
 			this.Controls.Add(this._tableLayoutMediaButtons);
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.locExtender.SetLocalizableToolTip(this, null);
@@ -240,7 +247,7 @@ namespace SayMore.Transcription.UI
 			this.Opacity = 1D;
 			this.Text = "Change my text";
 			this.Controls.SetChildIndex(this._tableLayoutMediaButtons, 0);
-			this.Controls.SetChildIndex(this._labelSegmentTooShort, 0);
+			this.Controls.SetChildIndex(this._labelErrorInfo, 0);
 			this.Controls.SetChildIndex(this._labelListenHint, 0);
 			this.Controls.SetChildIndex(this._pictureRecording, 0);
 			this.Controls.SetChildIndex(this._labelRecordHint, 0);
@@ -264,10 +271,11 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelListenButton;
 		protected System.Windows.Forms.TableLayoutPanel _tableLayoutMediaButtons;
 		private System.Windows.Forms.PictureBox _pictureRecording;
-		private System.Windows.Forms.Label _labelSegmentTooShort;
+		private System.Windows.Forms.Label _labelErrorInfo;
 		private System.Windows.Forms.Label _labelRecordHint;
 		private SilPanel _panelPeakMeter;
 		private System.Windows.Forms.Label _labelListenHint;
 		private System.Windows.Forms.Label _labelFinishedHint;
+		private System.Windows.Forms.Timer _checkForRecordingDevice;
 	}
 }

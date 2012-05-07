@@ -28,16 +28,5 @@ namespace SayMore.Transcription.UI
 			base.OnLoad(e);
 			_labelCarefulSpeech.Font = _labelOriginalRecording.Font;
 		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override string ReadyToRecordMessage
-		{
-			get
-			{
-				return LocalizationManager.GetString(
-					"DialogBoxes.Transcription.CarefulSpeechRecorderDlg.ReadyToRecordAnnotationMsg",
-					"Ready to Record\r\nCareful Speech");
-			}
-		}
 	}
 }

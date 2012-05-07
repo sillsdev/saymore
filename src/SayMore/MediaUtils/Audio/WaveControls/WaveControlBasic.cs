@@ -646,13 +646,7 @@ namespace SayMore.Media.Audio
 			else
 				EnsureTimeIsVisible(_playbackRange.Start, _playbackRange, true, true);
 
-			AudioUtils.NAudioErrorAction = exception =>
-			{
-				AudioUtils.NAudioErrorAction = null;
-				Stop();
-				if (PlaybackErrorAction != null)
-					PlaybackErrorAction(exception);
-			};
+			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrown;
 
 			var waveOutProvider = new SampleChannel(_playbackRange.End == TimeSpan.Zero || _playbackRange.End == WaveStream.TotalTime ?
 				new WaveSegmentStream(_playbackStream, playbackStartTime) :
@@ -666,6 +660,19 @@ namespace SayMore.Media.Audio
 			_waveOut.PlaybackStopped += delegate { Stop(); };
 			_waveOut.Play();
 			OnPlaybackStarted(playbackStartTime, playbackEndTime);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleNAudioExceptionThrown(Exception exception)
+		{
+			try
+			{
+				Stop();
+			}
+			catch { }
+
+			if (PlaybackErrorAction != null)
+				PlaybackErrorAction(exception);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -701,6 +708,8 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public virtual void Stop()
 		{
+			AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrown;
+
 			if (_waveOut == null)
 				return;
 

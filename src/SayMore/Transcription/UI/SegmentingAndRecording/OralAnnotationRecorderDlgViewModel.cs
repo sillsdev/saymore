@@ -10,7 +10,6 @@ using Palaso.Media.Naudio.UI;
 using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
-using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Utilities;
 using SayMore.Utilities.NewEventsFromFiles;
@@ -99,6 +98,11 @@ namespace SayMore.Transcription.UI
 			return IsFullySegmented && TimeTier.Segments.All(GetDoesSegmentHaveAnnotationFile);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsRecorderInErrorState()
+		{
+			return Recorder == null || Recorder.GetIsInErrorState();
+		}
 		#endregion
 
 		#region Segment-related methods
@@ -226,7 +230,6 @@ namespace SayMore.Transcription.UI
 		public void InitializeAnnotationRecorder(PeakMeterCtrl peakMeter,
 			Action<TimeSpan> recordingProgressAction)
 		{
-			CloseAnnotationRecorder();
 			Recorder = new OralAnnotationRecorder(peakMeter, recordingProgressAction);
 			Recorder.RecordingStarted += (s, e) => InvokeUpdateDisplayAction();
 			Recorder.Stopped += (sender, args) => InvokeUpdateDisplayAction();
@@ -236,12 +239,21 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void CloseAnnotationRecorder()
 		{
-			AudioUtils.NAudioErrorAction = null;
+			AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrownDuringRecord;
 
 			if (Recorder != null)
 				Recorder.Dispose();
 
 			Recorder = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleNAudioExceptionThrownDuringRecord(Exception exception)
+		{
+			CloseAnnotationRecorder();
+
+			if (RecordingErrorAction != null)
+				RecordingErrorAction(exception);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -256,23 +268,18 @@ namespace SayMore.Transcription.UI
 			if (GetIsRecording() || File.Exists(path))
 				return false;
 
-			if (!Directory.Exists(Path.GetDirectoryName(path)))
-				Directory.CreateDirectory(Path.GetDirectoryName(path));
+			var dir = Path.GetDirectoryName(path);
+			if (dir != null && !Directory.Exists(dir))
+				Directory.CreateDirectory(dir);
 
 			try
 			{
-				AudioUtils.NAudioErrorAction = exception =>
-				{
-					AudioUtils.NAudioErrorAction = null;
-					if (RecordingErrorAction != null)
-						RecordingErrorAction(exception);
-				};
-
+				AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrownDuringRecord;
 				return Recorder.BeginAnnotationRecording(path);
 			}
 			catch (Exception e)
 			{
-				AudioUtils.NAudioErrorAction = null;
+				AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrownDuringRecord;
 				var args = new CancelExceptionHandlingEventArgs(e);
 				AudioUtils.HandleGlobalNAudioException(this, args);
 				if (!args.Cancel)
@@ -289,7 +296,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public StopAnnotationRecordingResult StopAnnotationRecording(TimeRange timeRange)
 		{
-			AudioUtils.NAudioErrorAction = null;
+			AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrownDuringRecord;
 
 			Recorder.Stop();
 
@@ -375,12 +382,7 @@ namespace SayMore.Transcription.UI
 				return false;
 			}
 
-			AudioUtils.NAudioErrorAction = exception =>
-			{
-				CloseAnnotationPlayer();
-				if (PlaybackErrorAction != null)
-					PlaybackErrorAction(exception);
-			};
+			AudioUtils.NAudioExceptionThrown += HandleNAudioExceptionThrownDuringPlayback;
 
 			_annotationPlayer = new AudioPlayer();
 			_annotationPlayer.LoadFile(filename);
@@ -397,12 +399,21 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		public void CloseAnnotationPlayer()
 		{
-			AudioUtils.NAudioErrorAction = null;
+			AudioUtils.NAudioExceptionThrown -= HandleNAudioExceptionThrownDuringPlayback;
 
 			if (_annotationPlayer != null)
 				_annotationPlayer.Dispose();
 
 			_annotationPlayer = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleNAudioExceptionThrownDuringPlayback(Exception exception)
+		{
+			CloseAnnotationPlayer();
+
+			if (PlaybackErrorAction != null)
+				PlaybackErrorAction(exception);
 		}
 
 		/// ------------------------------------------------------------------------------------

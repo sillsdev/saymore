@@ -282,7 +282,7 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordedAnnotationButtonClick(object sender, EventArgs e)
 		{
-			if (!AudioUtils.GetCanRecordAudio(true))
+			if (!AudioUtils.GetCanRecordAudio())
 				return;
 
 			var annotationType = (sender == _buttonCarefulSpeech ?

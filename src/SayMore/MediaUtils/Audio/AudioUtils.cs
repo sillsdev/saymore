@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -22,28 +23,22 @@ namespace SayMore.Media.Audio
 {
 	public class AudioUtils
 	{
-		public static Action<Exception> NAudioErrorAction { get; set; }
+		public static event Action<Exception> NAudioExceptionThrown;
+		private static bool _displayCannotRecordWarning = true;
+		private static bool _displayCannotPlayWarning = true;
 
 		/// ------------------------------------------------------------------------------------
-		public static bool GetCanRecordAudio()
+		public static bool GetCanRecordAudio(bool suppressWarningDisplay = false)
 		{
-			return (RecordingDevice.Devices.Any());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static bool GetCanPlaybackAudio()
-		{
-			return (WaveOut.DeviceCount > 0);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static bool GetCanRecordAudio(bool displayWarning)
-		{
-			if (GetCanRecordAudio())
-				return true;
-
-			if (displayWarning)
+			if (RecordingDevice.Devices.Any())
 			{
+				_displayCannotRecordWarning = true;
+				return true;
+			}
+
+			if (!suppressWarningDisplay && _displayCannotRecordWarning)
+			{
+				_displayCannotRecordWarning = false; // Don't display this again until the problem is fixed.
 				var msg = LocalizationManager.GetString(
 					"CommonToMultipleViews.AudioUtils.NoRecordingDevicesFoundMsg",
 					"Currently audio recordings cannot be made because SayMore is unable " +
@@ -55,13 +50,17 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static bool GetCanPlaybackAudio(bool displayWarning)
+		public static bool GetCanPlaybackAudio()
 		{
-			if (GetCanPlaybackAudio())
-				return true;
-
-			if (displayWarning)
+			if (WaveOut.DeviceCount > 0)
 			{
+				_displayCannotPlayWarning = true;
+				return true;
+			}
+
+			if (_displayCannotPlayWarning)
+			{
+				_displayCannotPlayWarning = false; // Don't display this again until the problem is fixed.
 				var msg = LocalizationManager.GetString(
 					"CommonToMultipleViews.AudioUtils.NoPlaybackDevicesFoundMsg",
 					"Currently SayMore is unable to find any audio playback " +
@@ -85,16 +84,17 @@ namespace SayMore.Media.Audio
 				return;
 
 			e.Cancel = true;
-			DisplayNAudioError(e.Exception);
 
-			if (NAudioErrorAction != null)
-				NAudioErrorAction(e.Exception);
+			if (NAudioExceptionThrown != null)
+				NAudioExceptionThrown(e.Exception);
+
+			DisplayNAudioError(e.Exception);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static void DisplayNAudioError(Exception error)
 		{
-			if (!GetCanPlaybackAudio(true) || !GetCanRecordAudio(true))
+			if (!GetCanPlaybackAudio() || !GetCanRecordAudio())
 				return;
 
 			var msg = LocalizationManager.GetString(

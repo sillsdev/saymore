@@ -171,7 +171,7 @@ namespace SayMore.Utilities.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		public void SelectAll()
 		{
-			_textBox.SelectAll();
+			//_textBox.SelectAll();
 		}
 
 		#region Overrides and painting methods
@@ -306,19 +306,25 @@ namespace SayMore.Utilities.LowLevelControls
 		/// ------------------------------------------------------------------------------------
 		private void HandleTextBoxEnter(object sender, EventArgs e)
 		{
-			var pt = _textBox.PointToClient(MousePosition);
+			//var pt = _textBox.PointToClient(MousePosition);
 
-			if (MouseButtons == MouseButtons.Left && _textBox.ClientRectangle.Contains(pt))
-				_selectAllTextOnMouseDown = true;
-			else
-				_textBox.SelectAll();
+			//if (MouseButtons == MouseButtons.Left && _textBox.ClientRectangle.Contains(pt))
+			//    _selectAllTextOnMouseDown = true;
+			//else
+			//{
+			////	_textBox.SelectAll();
+			//}
 
+			_textBox.BackColor = SystemColors.Highlight;
+			_textBox.ForeColor = SystemColors.HighlightText;
 			Application.Idle += HandleApplicationIdle;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleTextBoxLeave(object sender, EventArgs e)
 		{
+			_textBox.BackColor = SystemColors.Window;
+			_textBox.ForeColor = SystemColors.WindowText;
 			_textBox.SelectionStart = 0;
 			_textBox.SelectionLength = 0;
 			HideTextBoxInsertionPoint();
@@ -363,6 +369,8 @@ namespace SayMore.Utilities.LowLevelControls
 
 			if (!e.Cancel)
 			{
+				_textBox.BackColor = SystemColors.Window;
+				_textBox.ForeColor = SystemColors.WindowText;
 				_textBox.HideSelection = false;
 				Popup.SetCheckedItemsFromDelimitedString(Text);
 			}
@@ -372,7 +380,11 @@ namespace SayMore.Utilities.LowLevelControls
 		protected virtual void OnDropDownClosing(object sender, ToolStripDropDownClosingEventArgs e)
 		{
 			if (!e.Cancel)
+			{
+				_textBox.BackColor = SystemColors.Highlight;
+				_textBox.ForeColor = SystemColors.HighlightText;
 				_textBox.HideSelection = true;
+			}
 
 			HideTextBoxInsertionPoint();
 		}

@@ -11,14 +11,16 @@ using SayMore.Utilities;
 
 namespace SayMore.UI
 {
+	[Flags]
 	public enum ConvertMediaUIState
 	{
-		FFmpegDownloadNeeded,
-		WaitingToConvert,
-		Converting,
-		ConversionCancelled,
-		ConversionFailed,
-		FinishedConverting,
+		FFmpegDownloadNeeded = 0,
+		WaitingToConvert = 1,
+		Converting = 2,
+		ConversionCancelled = 4,
+		ConversionFailed = 8,
+		FinishedConverting = 16,
+		AllFinishedStates = ConversionCancelled | ConversionFailed | FinishedConverting
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -33,6 +35,7 @@ namespace SayMore.UI
 		private Thread _workerThread;
 		private ExternalProcess _process;
 		private Action<TimeSpan, string> _conversionReportingAction;
+		private TimeSpan _prevReportedTime;
 
 		/// ------------------------------------------------------------------------------------
 		public ConvertMediaDlgViewModel(string inputFile, string initialConversionName)
@@ -116,6 +119,7 @@ namespace SayMore.UI
 				HandleProcessDataReceived, HandleProcessDataReceived, null);
 
 			_process.WaitForExit();
+			_conversionReportingAction(TimeSpan.FromSeconds(int.MaxValue), null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,17 +154,20 @@ namespace SayMore.UI
 			// frame=  593 fps=192 q=3.6 size=    1628kB time=00:00:59.30 bitrate= 224.9kbits/s
 
 			if (outputData == null)
-				return default(TimeSpan);
+				return _prevReportedTime;
 
 			var data = outputData.ToLower();
 			int i = data.IndexOf("time=", StringComparison.Ordinal);
 
-			if (!data.StartsWith("frame=") || i < 0)
-				return default(TimeSpan);
+			if (data.StartsWith("frame=") && i >= 0)
+			{
+				var time = data.Substring(i + 5, 11);
+				TimeSpan returnTime;
+				if (TimeSpan.TryParse(time, out returnTime))
+					_prevReportedTime = returnTime;
+			}
 
-			var time = data.Substring(i + 5, 11);
-			TimeSpan returnTime;
-			return (TimeSpan.TryParse(time, out returnTime) ? returnTime : default(TimeSpan));
+			return _prevReportedTime;
 		}
 	}
 }

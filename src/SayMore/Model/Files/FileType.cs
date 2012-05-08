@@ -954,7 +954,7 @@ namespace SayMore.Model.Files
 		{
 			return LocalizationManager.GetString(
 				"CommonToMultipleViews.FileList.Convert.ExtractStandardPcmFromVideoMenuText",
-				"Extract Audio to Standard WAV PCM Audio File");
+				"Extract audio to standard WAV PCM audio file");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -962,7 +962,7 @@ namespace SayMore.Model.Files
 		{
 			return LocalizationManager.GetString(
 				"CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText",
-				"Extract Audio to mono MP3 File (low quality)");
+				"Extract audio to mono mp3 audio file (low quality)");
 		}
 
 		/// ------------------------------------------------------------------------------------

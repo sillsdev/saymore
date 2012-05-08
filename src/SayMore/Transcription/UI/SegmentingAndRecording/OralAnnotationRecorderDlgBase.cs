@@ -307,9 +307,27 @@ namespace SayMore.Transcription.UI
 			_labelRecordHint.Font = _labelOriginalRecording.Font;
 			_labelErrorInfo.Font = _labelOriginalRecording.Font;
 			_labelFinishedHint.Font = _labelOriginalRecording.Font;
+			_labelListenButton.Font = SystemFonts.MenuFont;
+			//_labelListenButton.Height = 50;
+			_labelRecordButton.Font = SystemFonts.MenuFont;
+			_labelOriginalRecording.ForeColor = _labelListenButton.ForeColor;
+
 			_annotationSegmentFont = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void InitializeRecordingLabel(Label labelRecording)
+		{
+			labelRecording.Margin = _labelOriginalRecording.Margin;
+			labelRecording.TextAlign = _labelOriginalRecording.TextAlign;
+			labelRecording.Anchor = _labelOriginalRecording.Anchor;
+			_tableLayoutRecordAnnotations.RowStyles[0].SizeType = SizeType.AutoSize;
+			_tableLayoutRecordAnnotations.Controls.Add(labelRecording, 0, 0);
+			_tableLayoutRecordAnnotations.SetColumnSpan(labelRecording, 2);
+			labelRecording.ForeColor = _labelRecordButton.ForeColor;
+			_labelOriginalRecording.FontChanged += delegate { labelRecording.Font = _labelOriginalRecording.Font; };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1063,7 +1081,7 @@ namespace SayMore.Transcription.UI
 				var rc = GetReadyToRecordCursorRectangle();
 				if (rc != Rectangle.Empty)
 				{
-					using (var brush = new SolidBrush(Settings.Default.DataEntryPanelColorEnd))
+					using (var brush = new SolidBrush(_labelRecordButton.ForeColor))
 						e.Graphics.FillRectangle(brush, rc);
 				}
 			}
@@ -1078,15 +1096,8 @@ namespace SayMore.Transcription.UI
 			if (rc == Rectangle.Empty)
 				return;
 
-			//var gb = new System.Drawing.Drawing2D.PathGradientBrush();
-			//gb.
-			//LinearGradientBrush(rc,
-			//    ColorHelper.CalculateColor(Color.White, Settings.Default.BarColorBorder, 75),
-			//    Settings.Default.BarColorBorder, System.Drawing.Drawing2D.LinearGradientMode.Horizontal, );
-
-			//using (var lightPen = new Pen(Color.FromArgb(75, Settings.Default.BarColorBorder)))
-			using (var lightPen = new Pen(ColorHelper.CalculateColor(Color.White, Settings.Default.BarColorBorder, 75)))
-			using (var darkPen = new Pen(Settings.Default.BarColorBorder))
+			using (var lightPen = new Pen(ColorHelper.CalculateColor(Color.White, _labelListenButton.ForeColor, 75)))
+			using (var darkPen = new Pen(_labelListenButton.ForeColor))
 			{
 				var pen = ((bool)_cursorBlinkTimer.Tag) ? darkPen : lightPen;
 
@@ -1105,7 +1116,7 @@ namespace SayMore.Transcription.UI
 			if (_labelRecordButton.ClientRectangle.Contains(_labelRecordButton.PointToClient(MousePosition)) ||
 				ViewModel.GetIsRecording())
 			{
-				using (var pen = new Pen(Settings.Default.BarColorBorder))
+				using (var pen = new Pen(_labelRecordButton.ForeColor))
 				{
 					var rcHighlight = rc;
 					rcHighlight.Y--;

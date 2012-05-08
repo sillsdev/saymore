@@ -44,30 +44,40 @@ namespace SayMore.Transcription.UI
 			//
 			// _labelRecordButton
 			//
-			this._labelRecordButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this._labelRecordButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutRecordAnnotations.SetColumnSpan(this._labelRecordButton, 2);
+			this._labelRecordButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(95)))), ((int)(((byte)(14)))));
 			this._labelRecordButton.Image = global::SayMore.Properties.Resources.RecordOralAnnotation;
+			this._labelRecordButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.locExtender.SetLocalizableToolTip(this._labelRecordButton, "Hold button down to record");
 			this.locExtender.SetLocalizationComment(this._labelRecordButton, null);
 			this.locExtender.SetLocalizingId(this._labelRecordButton, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton");
-			this._labelRecordButton.Location = new System.Drawing.Point(47, 30);
+			this._labelRecordButton.Location = new System.Drawing.Point(0, 30);
 			this._labelRecordButton.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
 			this._labelRecordButton.Name = "_labelRecordButton";
-			this._labelRecordButton.Size = new System.Drawing.Size(50, 50);
+			this._labelRecordButton.Size = new System.Drawing.Size(144, 65);
 			this._labelRecordButton.TabIndex = 0;
+			this._labelRecordButton.Text = "Speak";
+			this._labelRecordButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			//
 			// _labelListenButton
 			//
-			this._labelListenButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this._labelListenButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._labelListenButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
 			this._labelListenButton.Image = global::SayMore.Properties.Resources.ListenToOriginalRecording;
+			this._labelListenButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.locExtender.SetLocalizableToolTip(this._labelListenButton, "Hold button down to listen\\nto original recording");
 			this.locExtender.SetLocalizationComment(this._labelListenButton, null);
 			this.locExtender.SetLocalizingId(this._labelListenButton, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton");
-			this._labelListenButton.Location = new System.Drawing.Point(47, 30);
+			this._labelListenButton.Location = new System.Drawing.Point(0, 30);
 			this._labelListenButton.Margin = new System.Windows.Forms.Padding(0, 10, 1, 10);
 			this._labelListenButton.Name = "_labelListenButton";
-			this._labelListenButton.Size = new System.Drawing.Size(50, 50);
+			this._labelListenButton.Size = new System.Drawing.Size(145, 65);
 			this._labelListenButton.TabIndex = 0;
+			this._labelListenButton.Text = "Listen";
+			this._labelListenButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this._labelListenButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleListenToOriginalMouseDown);
 			//
 			// _pictureRecording
@@ -88,11 +98,11 @@ namespace SayMore.Transcription.UI
 			//
 			// _labelErrorInfo
 			//
-			this._labelErrorInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelErrorInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelErrorInfo.AutoSize = true;
-			this._labelErrorInfo.BackColor = System.Drawing.Color.Yellow;
+			this._labelErrorInfo.BackColor = System.Drawing.Color.Transparent;
 			this._labelErrorInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._labelErrorInfo.ForeColor = System.Drawing.Color.Black;
+			this._labelErrorInfo.ForeColor = System.Drawing.Color.White;
 			this.locExtender.SetLocalizableToolTip(this._labelErrorInfo, null);
 			this.locExtender.SetLocalizationComment(this._labelErrorInfo, null);
 			this.locExtender.SetLocalizationPriority(this._labelErrorInfo, Localization.LocalizationPriority.NotLocalizable);
@@ -106,7 +116,7 @@ namespace SayMore.Transcription.UI
 			//
 			// _labelRecordHint
 			//
-			this._labelRecordHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelRecordHint.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelRecordHint.AutoSize = true;
 			this._labelRecordHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._labelRecordHint.ForeColor = System.Drawing.Color.White;
@@ -136,7 +146,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._panelPeakMeter, null);
 			this.locExtender.SetLocalizationComment(this._panelPeakMeter, null);
 			this.locExtender.SetLocalizingId(this._panelPeakMeter, "OralAnnotationRecorderBaseDlg._panelPeakMeter");
-			this._panelPeakMeter.Location = new System.Drawing.Point(28, 93);
+			this._panelPeakMeter.Location = new System.Drawing.Point(28, 108);
 			this._panelPeakMeter.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
 			this._panelPeakMeter.MnemonicGeneratesClick = false;
 			this._panelPeakMeter.Name = "_panelPeakMeter";
@@ -147,7 +157,7 @@ namespace SayMore.Transcription.UI
 			//
 			// _labelListenHint
 			//
-			this._labelListenHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelListenHint.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelListenHint.AutoSize = true;
 			this._labelListenHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._labelListenHint.ForeColor = System.Drawing.Color.White;
@@ -163,7 +173,7 @@ namespace SayMore.Transcription.UI
 			//
 			// _labelFinishedHint
 			//
-			this._labelFinishedHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelFinishedHint.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelFinishedHint.AutoSize = true;
 			this._labelFinishedHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._labelFinishedHint.ForeColor = System.Drawing.Color.Green;

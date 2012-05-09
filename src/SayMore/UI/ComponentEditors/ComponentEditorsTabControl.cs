@@ -63,32 +63,39 @@ namespace SayMore.Utilities.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		public void MakeAppropriateEditorsVisible()
 		{
-			var visibleEditors = EditorProviders.Where(ep => ep.IsOKToShow).ToList();
-
-			if (visibleEditors.Count == TabPages.Count &&
-				GetAreAppropriateEditorsAlreadyVisible(visibleEditors.Select(e => e.GetType()).ToList()))
+			try
 			{
-				return;
+				var visibleEditors = EditorProviders.Where(ep => ep.IsOKToShow).ToList();
+
+				if (visibleEditors.Count == TabPages.Count &&
+					GetAreAppropriateEditorsAlreadyVisible(visibleEditors.Select(e => e.GetType()).ToList()))
+				{
+					return;
+				}
+
+				Utils.SetWindowRedraw(this, false);
+				TabPages.Clear();
+
+				foreach (var editor in EditorProviders.Where(ep => ep.IsOKToShow))
+				{
+					TabPages.Add(new ComponentEditorTabPage(editor, _componentEditorBorderColor));
+					editor.Control.BackColor = _componentEditorBackColor;
+					editor.Control.UseWaitCursor = false;
+				}
+
+				Utils.SetWindowRedraw(this, true);
 			}
-
-			Utils.SetWindowRedraw(this, false);
-			TabPages.Clear();
-
-			foreach (var editor in EditorProviders.Where(ep => ep.IsOKToShow))
+			catch (ObjectDisposedException)
 			{
-				TabPages.Add(new ComponentEditorTabPage(editor, _componentEditorBorderColor));
-				editor.Control.BackColor = _componentEditorBackColor;
-				editor.Control.UseWaitCursor = false;
+				// This can happen when shutting down.
 			}
-
-			Utils.SetWindowRedraw(this, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private bool GetAreAppropriateEditorsAlreadyVisible(ICollection<Type> desiredEditorTypes)
 		{
-			return TabPages.Cast<TabPage>().All(tp => tp.Controls.Count >= 0 &&
-				desiredEditorTypes.Contains(tp.Controls[0].GetType()));
+			return TabPages.Cast<TabPage>().All(tp =>
+				(from object ctrl in tp.Controls select desiredEditorTypes.Contains(ctrl)).FirstOrDefault());
 		}
 	}
 }

@@ -391,7 +391,7 @@ namespace SayMore.Utilities.ElementListScreen
 
 			_buttonOpen.Enabled = (_buttonOpen.DropDown.Items.Count > 0);
 			_buttonRename.Enabled = (_buttonRename.DropDown.Items.Count > 0);
-			_buttonConvert.Enabled = file.FileType.CanBeConverted;
+			_buttonConvert.Enabled = file != null && file.FileType.CanBeConverted;
 		}
 
 		/// ------------------------------------------------------------------------------------

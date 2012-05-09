@@ -82,7 +82,10 @@ namespace SayMore.Transcription.UI
 			_buttonListenToOriginal.Click += delegate
 			{
 				if (!_waveControl.IsPlaying)
+				{
 					_waveControl.Play(_waveControl.GetCursorTime());
+					_newSegmentDefinedBy = SegmentDefinitionMode.Manual;
+				}
 			};
 
 			_buttonStopOriginal.Click += delegate { _waveControl.Stop(); };
@@ -97,13 +100,18 @@ namespace SayMore.Transcription.UI
 				}
 				else
 				{
+					_newSegmentDefinedBy = _waveControl.IsPlaying ? SegmentDefinitionMode.AddButtonWhileListening : SegmentDefinitionMode.Manual;
+					StopAllMedia();
 					_buttonAddSegmentBoundary.ForeColor = Color.Red;
 					_buttonAddSegmentBoundary.Text = GetSegmentTooShortText();
+					_clearWarningMessageTimer.Tick += ResetAddSegmentButton;
+					_clearWarningMessageTimer.Start();
 				}
 			};
 
 			_buttonDeleteSegment.Click += delegate
 			{
+				_newSegmentDefinedBy = SegmentDefinitionMode.Manual;
 				var boundary = _waveControl.GetSelectedBoundary();
 				_waveControl.ClearSelectedBoundary();
 				if (!ViewModel.DeleteBoundary(boundary))
@@ -112,6 +120,14 @@ namespace SayMore.Transcription.UI
 				_waveControl.SegmentBoundaries = _viewModel.GetSegmentEndBoundaries();
 				UpdateDisplay();
 			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ResetAddSegmentButton(object sender, EventArgs e)
+		{
+			_clearWarningMessageTimer.Stop();
+			_buttonAddSegmentBoundary.ForeColor = _buttonListenToOriginal.ForeColor;
+			_buttonAddSegmentBoundary.Text = _origAddSegBoundaryButtonText;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -172,12 +188,14 @@ namespace SayMore.Transcription.UI
 			_buttonListenToOriginal.Visible = !_waveControl.IsPlaying;
 			_buttonStopOriginal.Visible = _waveControl.IsPlaying;
 
-			_buttonAddSegmentBoundary.ForeColor = _buttonListenToOriginal.ForeColor;
-			_buttonAddSegmentBoundary.Text = _origAddSegBoundaryButtonText;
-			_buttonAddSegmentBoundary.Enabled = _waveControl.GetCursorTime() > TimeSpan.Zero;
+			if (_newSegmentDefinedBy != SegmentDefinitionMode.AddButtonWhileListening)
+				ResetAddSegmentButton(null, null);
+
+			var cursorTime = _waveControl.GetCursorTime();
+			_buttonAddSegmentBoundary.Enabled = cursorTime > TimeSpan.Zero;
 			if (_buttonAddSegmentBoundary.Enabled)
 			{
-				var segmentContainingCursor = ViewModel.TimeTier.GetSegmentEnclosingTime((float)_waveControl.GetCursorTime().TotalSeconds);
+				var segmentContainingCursor = ViewModel.TimeTier.GetSegmentEnclosingTime((float)cursorTime.TotalSeconds);
 				if (segmentContainingCursor != null)
 					_buttonAddSegmentBoundary.Enabled = !segmentContainingCursor.GetHasOralAnnotation();
 			}

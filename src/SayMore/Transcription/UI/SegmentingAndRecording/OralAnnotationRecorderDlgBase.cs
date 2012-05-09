@@ -26,14 +26,6 @@ namespace SayMore.Transcription.UI
 			Done,
 		}
 
-		private enum SegmentDefinitionMode
-		{
-			HoldingSpace,
-			PressingButton,
-			ArrowKeys,
-			MouseDragging,
-		}
-
 		private readonly ToolTip _tooltip = new ToolTip();
 		private PeakMeterCtrl _peakMeter;
 		private RecordingDeviceButton _recDeviceButton;
@@ -58,7 +50,6 @@ namespace SayMore.Transcription.UI
 		private bool _reRecording;
 		private bool _userHasListenedToSelectedSegment;
 		private SpaceBarMode _spaceBarMode;
-		private SegmentDefinitionMode _newSegmentDefinedBy;
 		private readonly Color _selectedSegmentHighlighColor = Color.Moccasin;
 
 		protected WaveControlWithRangeSelection _waveControl;
@@ -333,26 +324,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override string GetSegmentTooShortText()
-		{
-			switch (_newSegmentDefinedBy)
-			{
-				case SegmentDefinitionMode.HoldingSpace:
-					return LocalizationManager.GetString(
-						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortHoldingSpace",
-						"You need to keep the space bar down while you listen.");
-				case SegmentDefinitionMode.PressingButton:
-					return LocalizationManager.GetString(
-						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortPressingButton",
-						"You need to hold the button down while you listen.");
-				default:
-					return LocalizationManager.GetString(
-						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortManualDragging",
-						"Whoops! The segment will be too short.");
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override WaveControlBasic CreateWaveControl()
 		{
 			_waveControl = new WaveControlWithRangeSelection();
@@ -387,7 +358,7 @@ namespace SayMore.Transcription.UI
 			_waveControl.BoundaryMouseDown += (ctrl, dx, boundary, boundaryNumber) =>
 			{
 				_waveControl.Stop();
-				_newSegmentDefinedBy = SegmentDefinitionMode.MouseDragging;
+				_newSegmentDefinedBy = SegmentDefinitionMode.Manual;
 				UpdateDisplay();
 			};
 
@@ -577,7 +548,7 @@ namespace SayMore.Transcription.UI
 			if (newEndTime < ViewModel.GetEndOfLastSegment())
 				return;
 
-			_newSegmentDefinedBy = SegmentDefinitionMode.ArrowKeys;
+			_newSegmentDefinedBy = SegmentDefinitionMode.Manual;
 
 			_cursorBlinkTimer.Tag = false;
 			_cursorBlinkTimer.Enabled = false;
@@ -1412,13 +1383,6 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecordAnnotationMouseDown(object sender, MouseEventArgs e)
 		{
-			//if (!ViewModel.GetIsSegmentLongEnough(_waveControl.GetCursorTime()))
-			//{
-			//    _labelRecordButton.BackColor = Color.Red;
-			//    _buttonRecordAnnotation.Text = GetSegmentTooShortText();
-			//    return;
-			//}
-
 			if (!ViewModel.Recorder.GetIsInErrorState(true))
 				BeginRecording(ViewModel.GetSelectedTimeRange());
 		}

@@ -33,6 +33,7 @@ namespace SayMore.Transcription.UI
 			this._buttonListenToOriginal = new System.Windows.Forms.ToolStripButton();
 			this._buttonStopOriginal = new System.Windows.Forms.ToolStripButton();
 			this._buttonDeleteSegment = new System.Windows.Forms.ToolStripButton();
+			this._clearWarningMessageTimer = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.toolStripButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -122,18 +123,22 @@ namespace SayMore.Transcription.UI
 			this._buttonDeleteSegment.Size = new System.Drawing.Size(253, 26);
 			this._buttonDeleteSegment.Text = "Delete Selected Boundary (press DEL key)";
 			//
+			// _clearWarningMessageTimer
+			//
+			this._clearWarningMessageTimer.Interval = 4000;
+			//
 			// ManualSegmenterDlg
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(703, 338);
+			this.ClientSize = new System.Drawing.Size(703, 362);
 			this.Controls.Add(this.toolStripButtons);
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.Transcription.ManualSegmenterDlg.WindowTitle");
 			this.Name = "ManualSegmenterDlg";
-			this.Opacity = 0D;
+			this.Opacity = 1D;
 			this.Text = "Manual Segmenter";
 			this.Controls.SetChildIndex(this.toolStripButtons, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
@@ -152,5 +157,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.ToolStripButton _buttonListenToOriginal;
 		private System.Windows.Forms.ToolStripButton _buttonStopOriginal;
 		private System.Windows.Forms.ToolStripButton _buttonDeleteSegment;
+		private System.Windows.Forms.Timer _clearWarningMessageTimer;
 	}
 }

@@ -21,6 +21,14 @@ namespace SayMore.Transcription.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class SegmenterDlgBase : MonitorKeyPressDlg
 	{
+		protected enum SegmentDefinitionMode
+		{
+			HoldingSpace,
+			PressingButton,
+			AddButtonWhileListening,
+			Manual,
+		}
+
 		protected readonly SegmenterDlgBaseViewModel _viewModel;
 		protected string _segmentNumberFormat;
 		protected string _segmentXofYFormat;
@@ -28,6 +36,7 @@ namespace SayMore.Transcription.UI
 		protected TimeSpan _timeAtBeginningOfBoundaryMove = TimeSpan.FromSeconds(1).Negate();
 		protected bool _moreReliableDesignMode;
 		private WaveControlBasic _waveControl;
+		protected SegmentDefinitionMode _newSegmentDefinedBy;
 
 		/// ------------------------------------------------------------------------------------
 		public SegmenterDlgBase()
@@ -180,11 +189,27 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual string GetSegmentTooShortText()
+		protected string GetSegmentTooShortText()
 		{
-			return LocalizationManager.GetString(
-				"DialogBoxes.Transcription.SegmenterDlgBase.ButtonTextWhenSegmentTooShort",
-				"Whoops! The segment will be too short. Continue listening.");
+			switch (_newSegmentDefinedBy)
+			{
+				case SegmentDefinitionMode.AddButtonWhileListening:
+					return LocalizationManager.GetString(
+						"DialogBoxes.Transcription.ManualSegmenterDlg.ButtonTextWhenSegmentTooShort",
+						"Whoops! The segment will be too short. Continue listening.");
+				case SegmentDefinitionMode.HoldingSpace:
+					return LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortHoldingSpace",
+						"You need to keep the space bar down while you listen.");
+				case SegmentDefinitionMode.PressingButton:
+					return LocalizationManager.GetString(
+						"DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.MessageWhenSegmentTooShortPressingButton",
+						"You need to hold the button down while you listen.");
+				default:
+					return LocalizationManager.GetString(
+						"DialogBoxes.Transcription.SegmenterDlgBase.MessageWhenSegmentTooShortManualDragging",
+						"Whoops! The segment will be too short.");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

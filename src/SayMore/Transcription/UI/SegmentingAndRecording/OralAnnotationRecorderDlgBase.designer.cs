@@ -62,7 +62,7 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizationComment(this._labelListenButton, null);
 			this.locExtender.SetLocalizingId(this._labelListenButton, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton");
 			this._labelListenButton.Location = new System.Drawing.Point(0, 10);
-			this._labelListenButton.Margin = new System.Windows.Forms.Padding(0, 10, 1, 10);
+			this._labelListenButton.Margin = new System.Windows.Forms.Padding(1, 10, 1, 10);
 			this._labelListenButton.Name = "_labelListenButton";
 			this._labelListenButton.Size = new System.Drawing.Size(142, 65);
 			this._labelListenButton.TabIndex = 0;
@@ -85,10 +85,10 @@ namespace SayMore.Transcription.UI
 			this.locExtender.SetLocalizableToolTip(this._labelRecordButton, "Hold button down to record");
 			this.locExtender.SetLocalizationComment(this._labelRecordButton, null);
 			this.locExtender.SetLocalizingId(this._labelRecordButton, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.RecordButton");
-			this._labelRecordButton.Location = new System.Drawing.Point(0, 30);
-			this._labelRecordButton.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
+			this._labelRecordButton.Location = new System.Drawing.Point(1, 30);
+			this._labelRecordButton.Margin = new System.Windows.Forms.Padding(1, 10, 1, 10);
 			this._labelRecordButton.Name = "_labelRecordButton";
-			this._labelRecordButton.Size = new System.Drawing.Size(144, 65);
+			this._labelRecordButton.Size = new System.Drawing.Size(143, 65);
 			this._labelRecordButton.TabIndex = 0;
 			this._labelRecordButton.Text = "Speak";
 			this._labelRecordButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -165,7 +165,7 @@ namespace SayMore.Transcription.UI
 			this._panelPeakMeter.Name = "_panelPeakMeter";
 			this._panelPeakMeter.Padding = new System.Windows.Forms.Padding(0, 0, 0, 1);
 			this._panelPeakMeter.PaintExplorerBarBackground = false;
-			this._panelPeakMeter.Size = new System.Drawing.Size(108, 17);
+			this._panelPeakMeter.Size = new System.Drawing.Size(109, 17);
 			this._panelPeakMeter.TabIndex = 1;
 			//
 			// _labelListenHint
@@ -221,14 +221,14 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutRecordAnnotations.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutRecordAnnotations.Controls.Add(this._labelRecordButton, 0, 1);
 			this._tableLayoutRecordAnnotations.Controls.Add(this._panelPeakMeter, 1, 2);
-			this._tableLayoutRecordAnnotations.Location = new System.Drawing.Point(1, 164);
-			this._tableLayoutRecordAnnotations.Margin = new System.Windows.Forms.Padding(1, 1, 1, 0);
+			this._tableLayoutRecordAnnotations.Location = new System.Drawing.Point(0, 164);
+			this._tableLayoutRecordAnnotations.Margin = new System.Windows.Forms.Padding(0, 1, 1, 0);
 			this._tableLayoutRecordAnnotations.Name = "_tableLayoutRecordAnnotations";
 			this._tableLayoutRecordAnnotations.RowCount = 3;
 			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutRecordAnnotations.Size = new System.Drawing.Size(144, 149);
+			this._tableLayoutRecordAnnotations.Size = new System.Drawing.Size(145, 149);
 			this._tableLayoutRecordAnnotations.TabIndex = 1;
 			//
 			// _tableLayoutMediaButtons

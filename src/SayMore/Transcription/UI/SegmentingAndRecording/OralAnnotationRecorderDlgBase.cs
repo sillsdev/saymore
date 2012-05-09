@@ -59,8 +59,7 @@ namespace SayMore.Transcription.UI
 		private bool _userHasListenedToSelectedSegment;
 		private SpaceBarMode _spaceBarMode;
 		private SegmentDefinitionMode _newSegmentDefinedBy;
-		//private readonly Color _selectedSegmentHighlighColor = Color.FromArgb(90, 0xC0, 0x42, 0x00);
-		private readonly Color _selectedSegmentHighlighColor = Color.FromArgb(90, Color.Orange);
+		private readonly Color _selectedSegmentHighlighColor = Color.Moccasin;
 
 		protected WaveControlWithRangeSelection _waveControl;
 
@@ -160,6 +159,8 @@ namespace SayMore.Transcription.UI
 			base.OnLoad(e);
 			InitializeHintLabels();
 			ViewModel.RemoveInvalidAnnotationFiles();
+			WavePainter.UnsegmentedBackgroundColor = _panelListen.BackColor;
+			WavePainter.SegmentedBackgroundColor = Settings.Default.BarColorBegin;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -261,15 +262,21 @@ namespace SayMore.Transcription.UI
 			_tableLayoutMediaButtons.Dock = DockStyle.Left;
 			_panelWaveControl.Controls.Add(_tableLayoutMediaButtons);
 			_tableLayoutMediaButtons.BringToFront();
-			_tableLayoutMediaButtons.BackColor = Settings.Default.BarColorBegin;
 			_tableLayoutMediaButtons.RowStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutMediaButtons.RowStyles[_tableLayoutMediaButtons.RowCount - 1].SizeType = SizeType.Absolute;
-			_tableLayoutMediaButtons.Controls.Add(_labelOriginalRecording, 0, 0);
+			Panel panel = new Panel();
+			panel.Dock = DockStyle.Fill;
+			panel.BackColor = Color.AliceBlue;
+			panel.AutoSize = true;
+			_tableLayoutMediaButtons.Controls.Add(panel, 0, 0);
+			panel.Margin = _panelListen.Margin;
 			_labelOriginalRecording.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 			var margin = _labelOriginalRecording.Margin;
 			margin.Top = 10;
 			margin.Left = margin.Right;
 			_labelOriginalRecording.Margin = margin;
+			panel.Controls.Add(_labelOriginalRecording);
+			_labelOriginalRecording.Location = new Point(3, 10);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -291,14 +298,10 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeHintLabels()
 		{
-			_tableLayoutButtons.Controls.Add(_labelErrorInfo, 0, 0);
-			_tableLayoutButtons.Controls.Add(_labelListenHint, 0, 1);
-			_tableLayoutButtons.Controls.Add(_labelRecordHint, 0, 2);
-			_tableLayoutButtons.Controls.Add(_labelFinishedHint, 0, 3);
-
-			_tableLayoutButtons.SetColumnSpan(_labelErrorInfo, 2);
-			_tableLayoutButtons.SetColumnSpan(_labelListenHint, 2);
-			_tableLayoutButtons.SetColumnSpan(_labelRecordHint, 2);
+			_tableLayoutButtons.Controls.Add(_labelErrorInfo, 1, 0);
+			_tableLayoutButtons.Controls.Add(_labelListenHint, 1, 1);
+			_tableLayoutButtons.Controls.Add(_labelRecordHint, 1, 2);
+			_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 3);
 
 			_tableLayoutButtons.ColumnStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutButtons.ColumnStyles[1].SizeType = SizeType.Percent;
@@ -308,7 +311,6 @@ namespace SayMore.Transcription.UI
 			_labelErrorInfo.Font = _labelOriginalRecording.Font;
 			_labelFinishedHint.Font = _labelOriginalRecording.Font;
 			_labelListenButton.Font = SystemFonts.MenuFont;
-			//_labelListenButton.Height = 50;
 			_labelRecordButton.Font = SystemFonts.MenuFont;
 			_labelOriginalRecording.ForeColor = _labelListenButton.ForeColor;
 
@@ -355,7 +357,7 @@ namespace SayMore.Transcription.UI
 		{
 			_waveControl = new WaveControlWithRangeSelection();
 			_waveControl.BottomReservedAreaBorderColor = Settings.Default.DataEntryPanelColorBorder;
-			_waveControl.BottomReservedAreaColor = Color.FromArgb(130, Settings.Default.DataEntryPanelColorBegin);
+			_waveControl.BottomReservedAreaColor = _tableLayoutRecordAnnotations.BackColor;
 			_waveControl.BottomReservedAreaPaintAction = HandlePaintingAnnotatedWaveArea;
 			_waveControl.PostPaintAction = HandleWaveControlPostPaint;
 			_waveControl.MouseMove += HandleWaveControlMouseMove;
@@ -517,8 +519,7 @@ namespace SayMore.Transcription.UI
 			if (_spaceBarMode == SpaceBarMode.Done)
 			{
 				_labelFinishedHint.Visible = true;
-				_tableLayoutButtons.Controls.Add(_labelFinishedHint, 0, 0);
-				_tableLayoutButtons.SetColumnSpan(_labelFinishedHint, 2);
+				_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
 				_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
 				AcceptButton = _buttonOK;
 			}

@@ -18,9 +18,10 @@ namespace SayMore.Transcription.UI
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			this._panelListen = new System.Windows.Forms.Panel();
+			this._labelListenButton = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._labelRecordButton = new System.Windows.Forms.Label();
-			this._labelListenButton = new System.Windows.Forms.Label();
 			this._pictureRecording = new System.Windows.Forms.PictureBox();
 			this._labelErrorInfo = new System.Windows.Forms.Label();
 			this._labelRecordHint = new System.Windows.Forms.Label();
@@ -32,11 +33,42 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutMediaButtons = new System.Windows.Forms.TableLayoutPanel();
 			this._checkForRecordingDevice = new System.Windows.Forms.Timer(this.components);
+			this._panelListen.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).BeginInit();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
 			this.SuspendLayout();
+			//
+			// _panelListen
+			//
+			this._panelListen.BackColor = System.Drawing.Color.AliceBlue;
+			this._panelListen.Controls.Add(this._labelListenButton);
+			this._panelListen.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._panelListen.Location = new System.Drawing.Point(0, 20);
+			this._panelListen.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
+			this._panelListen.Name = "_panelListen";
+			this._panelListen.Size = new System.Drawing.Size(145, 143);
+			this._panelListen.TabIndex = 2;
+			//
+			// _labelListenButton
+			//
+			this._labelListenButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this._labelListenButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._labelListenButton.Image = global::SayMore.Properties.Resources.ListenToOriginalRecording;
+			this._labelListenButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.locExtender.SetLocalizableToolTip(this._labelListenButton, "Hold button down to listen\\nto original recording");
+			this.locExtender.SetLocalizationComment(this._labelListenButton, null);
+			this.locExtender.SetLocalizingId(this._labelListenButton, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton");
+			this._labelListenButton.Location = new System.Drawing.Point(0, 10);
+			this._labelListenButton.Margin = new System.Windows.Forms.Padding(0, 10, 1, 10);
+			this._labelListenButton.Name = "_labelListenButton";
+			this._labelListenButton.Size = new System.Drawing.Size(142, 65);
+			this._labelListenButton.TabIndex = 0;
+			this._labelListenButton.Text = "Listen";
+			this._labelListenButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this._labelListenButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleListenToOriginalMouseDown);
 			//
 			// locExtender
 			//
@@ -60,25 +92,6 @@ namespace SayMore.Transcription.UI
 			this._labelRecordButton.TabIndex = 0;
 			this._labelRecordButton.Text = "Speak";
 			this._labelRecordButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			//
-			// _labelListenButton
-			//
-			this._labelListenButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this._labelListenButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
-			this._labelListenButton.Image = global::SayMore.Properties.Resources.ListenToOriginalRecording;
-			this._labelListenButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.locExtender.SetLocalizableToolTip(this._labelListenButton, "Hold button down to listen\\nto original recording");
-			this.locExtender.SetLocalizationComment(this._labelListenButton, null);
-			this.locExtender.SetLocalizingId(this._labelListenButton, "DialogBoxes.Transcription.OralAnnotationRecorderDlgBase.ListenButton");
-			this._labelListenButton.Location = new System.Drawing.Point(0, 30);
-			this._labelListenButton.Margin = new System.Windows.Forms.Padding(0, 10, 1, 10);
-			this._labelListenButton.Name = "_labelListenButton";
-			this._labelListenButton.Size = new System.Drawing.Size(145, 65);
-			this._labelListenButton.TabIndex = 0;
-			this._labelListenButton.Text = "Listen";
-			this._labelListenButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this._labelListenButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleListenToOriginalMouseDown);
 			//
 			// _pictureRecording
 			//
@@ -202,27 +215,28 @@ namespace SayMore.Transcription.UI
 			this._tableLayoutRecordAnnotations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this._tableLayoutRecordAnnotations.BackColor = System.Drawing.Color.MintCream;
 			this._tableLayoutRecordAnnotations.ColumnCount = 2;
 			this._tableLayoutRecordAnnotations.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableLayoutRecordAnnotations.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutRecordAnnotations.Controls.Add(this._labelRecordButton, 0, 1);
 			this._tableLayoutRecordAnnotations.Controls.Add(this._panelPeakMeter, 1, 2);
-			this._tableLayoutRecordAnnotations.Location = new System.Drawing.Point(1, 163);
-			this._tableLayoutRecordAnnotations.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+			this._tableLayoutRecordAnnotations.Location = new System.Drawing.Point(1, 164);
+			this._tableLayoutRecordAnnotations.Margin = new System.Windows.Forms.Padding(1, 1, 1, 0);
 			this._tableLayoutRecordAnnotations.Name = "_tableLayoutRecordAnnotations";
 			this._tableLayoutRecordAnnotations.RowCount = 3;
 			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutRecordAnnotations.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutRecordAnnotations.Size = new System.Drawing.Size(144, 150);
+			this._tableLayoutRecordAnnotations.Size = new System.Drawing.Size(144, 149);
 			this._tableLayoutRecordAnnotations.TabIndex = 1;
 			//
 			// _tableLayoutMediaButtons
 			//
 			this._tableLayoutMediaButtons.ColumnCount = 1;
 			this._tableLayoutMediaButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutMediaButtons.Controls.Add(this._labelListenButton, 0, 1);
 			this._tableLayoutMediaButtons.Controls.Add(this._tableLayoutRecordAnnotations, 0, 2);
+			this._tableLayoutMediaButtons.Controls.Add(this._panelListen, 0, 1);
 			this._tableLayoutMediaButtons.Location = new System.Drawing.Point(357, 16);
 			this._tableLayoutMediaButtons.Name = "_tableLayoutMediaButtons";
 			this._tableLayoutMediaButtons.RowCount = 3;
@@ -264,6 +278,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.SetChildIndex(this._pictureRecording, 0);
 			this.Controls.SetChildIndex(this._labelRecordHint, 0);
 			this.Controls.SetChildIndex(this._labelFinishedHint, 0);
+			this._panelListen.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
@@ -289,5 +304,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelListenHint;
 		private System.Windows.Forms.Label _labelFinishedHint;
 		private System.Windows.Forms.Timer _checkForRecordingDevice;
+		private System.Windows.Forms.Panel _panelListen;
 	}
 }

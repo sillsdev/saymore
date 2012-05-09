@@ -11,18 +11,25 @@ namespace SayMore.Media.Audio
 {
 	public class WavePainterWithRangeSelection : WavePainterBasic
 	{
+		public Color UnsegmentedBackgroundColor { get; set; }
+		public Color SegmentedBackgroundColor { get; set; }
+
 		private readonly Dictionary<Color, TimeRange> _selectedRegions = new Dictionary<Color, TimeRange>();
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterWithRangeSelection(Control ctrl, WaveFileReader stream) :
 			base(ctrl, stream)
 		{
+			UnsegmentedBackgroundColor = Color.Transparent;
+			SegmentedBackgroundColor = Color.Transparent;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public WavePainterWithRangeSelection(Control ctrl, IEnumerable<float> samples, TimeSpan totalTime) :
 			base(ctrl, samples, totalTime)
 		{
+			UnsegmentedBackgroundColor = Color.Transparent;
+			SegmentedBackgroundColor = Color.Transparent;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -102,9 +109,38 @@ namespace SayMore.Media.Audio
 		/// ------------------------------------------------------------------------------------
 		public override void Draw(PaintEventArgs e, Rectangle rc)
 		{
+			DrawBackground(e, rc);
 			DrawSelectedRegions(e);
 			base.Draw(e, rc);
 			DrawCursor(e.Graphics, rc);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawBackground(PaintEventArgs e, Rectangle rc)
+		{
+			var rcSegmentedArea = GetFullRectangleForTimeRange(new TimeRange(TimeSpan.Zero,
+				SegmentBoundaries.LastOrDefault()));
+			rcSegmentedArea.Intersect(rc);
+			if (rcSegmentedArea.Width > 0)
+			{
+				using (var brush = new SolidBrush(SegmentedBackgroundColor))
+					e.Graphics.FillRectangle(brush, rcSegmentedArea);
+			}
+
+			if (!SegmentBoundaries.Any())
+				return;
+
+			var x = ConvertTimeToXCoordinate(SegmentBoundaries.Last()) + 1;
+			if (x > rc.Right)
+				return;
+
+			if (x > rc.X)
+			{
+				rc.Width -= (x - rc.X);
+				rc.X = x;
+			}
+			using (var brush = new SolidBrush(UnsegmentedBackgroundColor))
+				e.Graphics.FillRectangle(brush, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------

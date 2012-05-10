@@ -635,5 +635,182 @@ namespace SayMoreTests.Transcription.UI
 			_model.CreateMissingTextSegmentsToMatchTimeSegmentCount();
 			Assert.AreEqual(_model.Tiers[0].Segments.Count, _model.Tiers[1].Segments.Count);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Undo_NoChangesHaveBeenMade_InvalidOperation()
+		{
+			var startingSegmentCount = _model.GetSegmentCount();
+			var startingLastSegmentBoundary = _model.GetEndOfLastSegment();
+			Assert.AreEqual(null, _model.TimeRangeForUndo);
+			Assert.IsFalse(_model.WereChangesMade);
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.Throws(typeof(InvalidOperationException), _model.Undo);
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.AreEqual(startingLastSegmentBoundary, _model.GetEndOfLastSegment());
+			Assert.IsFalse(_model.WereChangesMade);
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(null, _model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Undo_LastSegmentBoundaryHasBeenChanged_ResetsLastSegmentBoundary()
+		{
+			var startingSegmentCount = _model.GetSegmentCount();
+			var startingLastSegmentBoundary = _model.GetEndOfLastSegment();
+			var newEnd = TimeSpan.FromSeconds(40);
+			_model.SegmentBoundaryMoved(TimeSpan.FromSeconds(30), newEnd);
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(newEnd, _model.GetEndOfLastSegment());
+			Assert.AreEqual(new TimeRange(20, 40), _model.TimeRangeForUndo);
+			_model.Undo();
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.AreEqual(startingLastSegmentBoundary, _model.GetEndOfLastSegment());
+			Assert.IsFalse(_model.WereChangesMade);
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(null, _model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Undo_SegmentHasBeenAdded_RemovesLastAddedSegment()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			var startingSegmentCount = _model.GetSegmentCount();
+			var startingLastSegmentBoundary = _model.GetEndOfLastSegment();
+			var newEnd = TimeSpan.FromSeconds(40);
+			_model.InsertNewBoundary(newEnd);
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(newEnd, _model.GetEndOfLastSegment());
+			Assert.AreEqual(new TimeRange(30, 40), _model.TimeRangeForUndo);
+			_model.Undo();
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.AreEqual(startingLastSegmentBoundary, _model.GetEndOfLastSegment());
+			Assert.IsFalse(_model.WereChangesMade);
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(null, _model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Undo_SegmentHasBeenDeleted_UndoNotImplemented()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			var startingSegmentCount = _model.GetSegmentCount();
+			_model.DeleteBoundary(TimeSpan.FromSeconds(30));
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(TimeSpan.FromSeconds(20), _model.GetEndOfLastSegment());
+			Assert.IsNull(_model.TimeRangeForUndo);
+			Assert.Throws(typeof(NotImplementedException), _model.Undo);
+			Assert.AreEqual(startingSegmentCount - 1, _model.GetSegmentCount());
+			Assert.AreEqual(TimeSpan.FromSeconds(20), _model.GetEndOfLastSegment());
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.IsNull(_model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Undo_SegmentHasBeenAddedAndThenChanged_RemovesLastAddedSegment()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			var startingSegmentCount = _model.GetSegmentCount();
+			var startingLastSegmentBoundary = _model.GetEndOfLastSegment();
+			var endWhenAdded = TimeSpan.FromSeconds(40);
+			var newEnd = TimeSpan.FromSeconds(38);
+			_model.InsertNewBoundary(endWhenAdded);
+			_model.SegmentBoundaryMoved(endWhenAdded, newEnd);
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(newEnd, _model.GetEndOfLastSegment());
+			Assert.AreEqual(new TimeRange(30, 38), _model.TimeRangeForUndo);
+			_model.Undo();
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.AreEqual(startingLastSegmentBoundary, _model.GetEndOfLastSegment());
+			Assert.IsFalse(_model.WereChangesMade);
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(null, _model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Undo_MultipleSegmentsHaveBeenAdded_RemovesSegmentsInReverseOrder()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			var startingSegmentCount = _model.GetSegmentCount();
+			var startingLastSegmentBoundary = _model.GetEndOfLastSegment();
+			var newEnd1 = TimeSpan.FromSeconds(40);
+			_model.InsertNewBoundary(newEnd1);
+			var newEnd2 = TimeSpan.FromSeconds(50);
+			_model.InsertNewBoundary(newEnd2);
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(newEnd2, _model.GetEndOfLastSegment());
+			Assert.AreEqual(new TimeRange(40, 50), _model.TimeRangeForUndo);
+			_model.Undo();
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(newEnd1, _model.GetEndOfLastSegment());
+			Assert.AreEqual(new TimeRange(30, 40), _model.TimeRangeForUndo);
+			_model.Undo();
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.AreEqual(startingLastSegmentBoundary, _model.GetEndOfLastSegment());
+			Assert.IsFalse(_model.WereChangesMade);
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(null, _model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Undo_SegmentHasBeenDeletedAndReAdded_RemovesAddedSegment()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			var startingSegmentCount = _model.GetSegmentCount();
+			var end = TimeSpan.FromSeconds(30);
+			_model.DeleteBoundary(end);
+			_model.InsertNewBoundary(end);
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(end, _model.GetEndOfLastSegment());
+			Assert.AreEqual(new TimeRange(20, 30), _model.TimeRangeForUndo);
+			_model.Undo();
+			Assert.AreEqual(startingSegmentCount - 1, _model.GetSegmentCount());
+			Assert.AreEqual(TimeSpan.FromSeconds(20), _model.GetEndOfLastSegment());
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.IsNull(_model.TimeRangeForUndo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Undo_SegmentBoundaryHasBeenMovedAndFollowingSegmentAdded_RemovesAddedSegmentAndThnRestoresOriginalBoundary()
+		{
+			AddTextSegmentsForAllTimeSegments();
+			var startingSegmentCount = _model.GetSegmentCount();
+			var startingLastSegmentBoundary = _model.GetEndOfLastSegment();
+			var newEnd = TimeSpan.FromSeconds(40);
+			_model.SegmentBoundaryMoved(startingLastSegmentBoundary, newEnd);
+			var addedEnd = TimeSpan.FromSeconds(50);
+			_model.InsertNewBoundary(addedEnd);
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(addedEnd, _model.GetEndOfLastSegment());
+			Assert.AreEqual(new TimeRange(40, 50), _model.TimeRangeForUndo);
+			_model.Undo();
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsTrue(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(newEnd, _model.GetEndOfLastSegment());
+			Assert.AreEqual(new TimeRange(20, 40), _model.TimeRangeForUndo);
+			_model.Undo();
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.AreEqual(startingLastSegmentBoundary, _model.GetEndOfLastSegment());
+			Assert.IsFalse(_model.WereChangesMade);
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.AreEqual(null, _model.TimeRangeForUndo);
+		}
 	}
 }

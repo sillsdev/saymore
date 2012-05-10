@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Threading;
 using Moq;
 using NUnit.Framework;
 using SayMore.Model.Files;
@@ -449,6 +451,33 @@ namespace SayMoreTests.Transcription.UI
 		public void GetIsFullySegmented_LastSegmentEndsBeforeEOF_ReturnsFalse()
 		{
 			Assert.IsFalse(_model.IsFullySegmented);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Ignore("Can't figure out how to record during tests")]
+		public void Undo_AnnotationHasBeenAddedToExistingLastSegment_RemovesAnnotation()
+		{
+			var startingSegmentCount = _model.GetSegmentCount();
+			var startingLastSegmentBoundary = _model.GetEndOfLastSegment();
+			var segmentTimeRange = _model.GetSegment(0).TimeRange.Copy();
+			_model.InitializeAnnotationRecorder(null, t => { });
+			_model.BeginAnnotationRecording(segmentTimeRange);
+			var endTime = DateTime.Now.AddMilliseconds(SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds);
+			while (endTime < DateTime.Now)
+				System.Windows.Forms.Application.DoEvents();
+			//Thread.Sleep(SayMore.Properties.Settings.Default.MinimumSegmentLengthInMilliseconds);
+			_model.StopAnnotationRecording(segmentTimeRange);
+			Assert.IsTrue(_model.WereChangesMade);
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.IsTrue(_model.GetDoesSegmentHaveAnnotationFile(0));
+			_model.Undo();
+			Assert.AreEqual(startingSegmentCount, _model.GetSegmentCount());
+			Assert.AreEqual(startingLastSegmentBoundary, _model.GetEndOfLastSegment());
+			Assert.IsFalse(_model.WereChangesMade);
+			Assert.IsFalse(_model.SegmentBoundariesChanged);
+			Assert.IsFalse(_model.GetDoesSegmentHaveAnnotationFile(0));
+			Assert.AreEqual(null, _model.TimeRangeForUndo);
 		}
 	}
 }

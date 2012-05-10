@@ -148,7 +148,8 @@ namespace SayMore.Transcription.UI
 		{
 			ViewModel.InitializeAnnotationRecorder(_peakMeter, HandleAnnotationRecordingProgress);
 			base.OnLoad(e);
-			InitializeHintLabels();
+			InitializeTableLayoutButtonControls();
+			InitializeHintLabelsAndButtonFonts();
 			ViewModel.RemoveInvalidAnnotationFiles();
 			WavePainter.UnsegmentedBackgroundColor = _panelListen.BackColor;
 			WavePainter.SegmentedBackgroundColor = Settings.Default.BarColorBegin;
@@ -287,7 +288,28 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializeHintLabels()
+		private void InitializeHintLabelsAndButtonFonts()
+		{
+			_labelListenHint.Font = _labelOriginalRecording.Font;
+			_labelRecordHint.Font = _labelOriginalRecording.Font;
+			_labelErrorInfo.Font = _labelOriginalRecording.Font;
+			_labelFinishedHint.Font = new Font(_labelOriginalRecording.Font.FontFamily, 10, FontStyle.Bold);
+			_labelListenButton.Font = SystemFonts.MenuFont;
+			_labelRecordButton.Font = SystemFonts.MenuFont;
+			_labelUndoButton.Font = SystemFonts.MenuFont;
+			var undoButtonSize = _labelUndoButton.Size;
+			undoButtonSize.Width += _labelUndoButton.MinimumSize.Width;
+			_labelUndoButton.AutoSize = false;
+			_labelUndoButton.Size = undoButtonSize;
+			_labelOriginalRecording.ForeColor = _labelListenButton.ForeColor;
+
+			_annotationSegmentFont = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
+
+			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeTableLayoutButtonControls()
 		{
 			_tableLayoutButtons.Controls.Add(_labelErrorInfo, 1, 0);
 			_tableLayoutButtons.Controls.Add(_labelListenHint, 1, 1);
@@ -295,18 +317,6 @@ namespace SayMore.Transcription.UI
 
 			_tableLayoutButtons.ColumnStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutButtons.ColumnStyles[1].SizeType = SizeType.Percent;
-
-			_labelListenHint.Font = _labelOriginalRecording.Font;
-			_labelRecordHint.Font = _labelOriginalRecording.Font;
-			_labelErrorInfo.Font = _labelOriginalRecording.Font;
-			_labelFinishedHint.Font = new Font(_labelOriginalRecording.Font.FontFamily, 10, FontStyle.Bold);
-			_labelListenButton.Font = SystemFonts.MenuFont;
-			_labelRecordButton.Font = SystemFonts.MenuFont;
-			_labelOriginalRecording.ForeColor = _labelListenButton.ForeColor;
-
-			_annotationSegmentFont = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
-
-			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -437,6 +447,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
+			var undoableSegmentRange = ViewModel.TimeRangeForUndo;
+			_labelUndoButton.Visible = undoableSegmentRange != null;
+			if (_labelUndoButton.Visible)
+			{
+				// TODO: Figure out why this button gets placed wrong. Also get it to move when the wave view is scrolled.
+				_labelUndoButton.Location = new Point(
+					WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _labelUndoButton.Width - 5,
+					_waveControl.ClientRectangle.Top + 5);
+			}
+
 			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
 				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);
 
@@ -674,11 +694,20 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		private void SetNewSegmentEndBoundary(TimeSpan end)
 		{
-			var rcOldCursorIfShrinking = (end < ViewModel.NewSegmentEndBoundary) ? GetNewSegmentCursorRectangle() : Rectangle.Empty;
-			ViewModel.NewSegmentEndBoundary = end;
-			WavePainter.SetSelectionTimes(new TimeRange(ViewModel.GetEndOfLastSegment(), end),
+			UpdateDisplayForChangeInNewSegmentEndBoundary(delegate { ViewModel.NewSegmentEndBoundary = end; });
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateDisplayForChangeInNewSegmentEndBoundary(Action action)
+		{
+			var origNewSegmentEndBoundary = ViewModel.NewSegmentEndBoundary;
+			var origNewSegmentCursorRectangle = GetNewSegmentCursorRectangle();
+			action();
+			var newEnd = ViewModel.NewSegmentEndBoundary;
+			WavePainter.SetSelectionTimes(new TimeRange(ViewModel.GetEndOfLastSegment(), newEnd),
 				_selectedSegmentHighlighColor);
-			_waveControl.InvalidateIfNeeded(rcOldCursorIfShrinking);
+			_waveControl.InvalidateIfNeeded((newEnd < origNewSegmentEndBoundary) ?
+				origNewSegmentCursorRectangle : Rectangle.Empty);
 			UpdateDisplay();
 		}
 
@@ -796,6 +825,33 @@ namespace SayMore.Transcription.UI
 			}
 
 			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleUndoButtonClick(object sender, EventArgs e)
+		{
+			// TODO: Figure out why undo doesn't work right. After listening to create a new
+			// segment and then recording an annotation for it, we should have exactly one
+			// SegmentChange in the ViewModel's UndoStack, whose undo action should be a
+			// compounding of the lamba expressions from adding the annotation and creating the
+			// segment. Possibly, they need to be undone in a different order. See
+			// SegmentChange.TryUpdate in SegmenterDlgBaseViewModel.cs.
+			UpdateDisplayForChangeInNewSegmentEndBoundary(delegate
+			{
+				ViewModel.Undo();
+				_spaceBarMode = SpaceBarMode.Listen;
+
+				if (_labelFinishedHint.Visible)
+				{
+					_tableLayoutButtons.Controls.Remove(_pictureFinished);
+					_pictureFinished.Visible = false;
+					_labelFinishedHint.Visible = false;
+					_tableLayoutButtons.Controls.Remove(_labelFinishedHint);
+					AcceptButton = null;
+
+					InitializeTableLayoutButtonControls();
+				}
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -15,6 +15,129 @@ namespace SayMore.Transcription.UI
 {
 	public class SegmenterDlgBaseViewModel : IDisposable
 	{
+		/// ------------------------------------------------------------------------------------
+		protected enum SegmentChangeType
+		{
+			Addition,
+			Deletion,
+			EndBoundaryMoved,
+			AnnotationAdded,
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected class SegmentChange
+		{
+			private readonly SegmentChangeType _type;
+			private readonly TimeRange _originalRange;
+
+			public SegmentChangeType Type { get { return _type; } }
+			public TimeRange OriginalRange { get { return _originalRange; } }
+			public Action<SegmentChange> UndoAction { get; private set; }
+			public TimeRange NewRange { get; private set; }
+
+			/// ------------------------------------------------------------------------------------
+			public SegmentChange(TimeRange newRange, Action<SegmentChange> undoAction) :
+				this(SegmentChangeType.Addition, null, newRange, undoAction)
+			{
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public SegmentChange(SegmentChangeType type, TimeRange originalRange,
+				TimeRange newRange, Action<SegmentChange> undoAction)
+			{
+				_type = type;
+				_originalRange = originalRange;
+				NewRange = newRange;
+				UndoAction = undoAction;
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public bool TryUpdate(SegmentChange newChange)
+			{
+				if (NewRange == newChange.OriginalRange && newChange.Type == SegmentChangeType.EndBoundaryMoved)
+				{
+					NewRange = newChange.NewRange;
+					return true;
+				}
+				if (newChange.Type == SegmentChangeType.Addition && Type == SegmentChangeType.AnnotationAdded &&
+					newChange.NewRange == OriginalRange)
+				{
+					UndoAction = c => { newChange.UndoAction(c); UndoAction(c); };
+					return true;
+				}
+
+				return false;
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public void Undo()
+			{
+				UndoAction(this);
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public override string ToString()
+			{
+				switch (Type)
+				{
+					case SegmentChangeType.Deletion: return "Deletion of segment " + OriginalRange;
+					case SegmentChangeType.Addition: return "Addition of segment " + NewRange;
+					case SegmentChangeType.EndBoundaryMoved: return "Segment boundary change from " + OriginalRange + " to " + NewRange;
+					case SegmentChangeType.AnnotationAdded: return "Annotation addition " + OriginalRange;
+					default: return "Unknown action";
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected class UndoStack
+		{
+			private readonly Stack<SegmentChange> _undoStack = new Stack<SegmentChange>();
+			private bool _inUndo;
+
+			/// ------------------------------------------------------------------------------------
+			public bool SegmentBoundariesChanged
+			{
+				get { return _undoStack.Any(c => c.Type != SegmentChangeType.AnnotationAdded); }
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public bool IsEmpty
+			{
+				get { return _undoStack.Count == 0; }
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public TimeRange TimeRangeForUndo
+			{
+				get { return (_undoStack.Count == 0) ? null : _undoStack.Peek().NewRange; }
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public void Push(SegmentChange segmentChange)
+			{
+				if (!_inUndo)
+				{
+					if (_undoStack.Count == 0 || !_undoStack.Peek().TryUpdate(segmentChange))
+						_undoStack.Push(segmentChange);
+				}
+			}
+
+			/// ------------------------------------------------------------------------------------
+			public void Undo()
+			{
+				if (_undoStack.Count == 0)
+					throw new InvalidOperationException("Undo stack is empty!");
+
+				if (_undoStack.Peek().UndoAction == null)
+					throw new NotImplementedException(_undoStack.Peek() + " cannot be undone!");
+
+				_inUndo = true;
+				_undoStack.Pop().Undo();
+				_inUndo = false;
+			}
+		}
+
 		public ComponentFile ComponentFile { get; protected set; }
 		public WaveStream OrigWaveStream { get; protected set; }
 		public bool HaveSegmentBoundaries { get; set; }
@@ -28,6 +151,7 @@ namespace SayMore.Transcription.UI
 		public string OralAnnotationsFolder { get; protected set; }
 
 		protected List<string> _oralAnnotationFilesBeforeChanges = new List<string>();
+		protected readonly UndoStack _undoStack = new UndoStack();
 
 		#region Construction and disposal
 		/// ------------------------------------------------------------------------------------
@@ -158,7 +282,10 @@ namespace SayMore.Transcription.UI
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		public bool SegmentBoundariesChanged { get; protected set; }
+		public bool SegmentBoundariesChanged
+		{
+			get { return _undoStack.SegmentBoundariesChanged; }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual string ProgramAreaForUsageReporting
@@ -167,9 +294,9 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool WereChangesMade
+		public bool WereChangesMade
 		{
-			get { return SegmentBoundariesChanged; }
+			get { return !_undoStack.IsEmpty; }
 		}
 
 		#endregion
@@ -194,6 +321,12 @@ namespace SayMore.Transcription.UI
 		{
 			return (TimeTier.Segments.Count == 0 ? TimeSpan.Zero :
 				TimeTier.Segments[TimeTier.Segments.Count - 1].TimeRange.End);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public TimeRange TimeRangeForUndo
+		{
+			get { return _undoStack.TimeRangeForUndo; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -227,13 +360,28 @@ namespace SayMore.Transcription.UI
 			if (oldEndTime == newEndTime)
 				return false;
 
+			if (!UpdateSegmentBoundary(oldEndTime, newEndTime))
+				return false;
+			OnBoundaryWasDeletedInsertedOrMoved();
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool UpdateSegmentBoundary(TimeSpan oldEndTime, TimeSpan newEndTime)
+		{
+			var seg = TimeTier.Segments.First(s => s.TimeRange.End == oldEndTime);
+			// TODO: Figure out why dragging new segment end boundary to the left can cause seg to be null (resulting in a crash).
+			var origTimeRange = seg.TimeRange.Copy();
+
 			var result = TimeTier.ChangeSegmentsEndBoundary(
 				(float)oldEndTime.TotalSeconds, (float)newEndTime.TotalSeconds);
 
 			if (result != BoundaryModificationResult.Success)
 				return false;
 
-			OnBoundaryWasDeletedInsertedOrMoved();
+			_undoStack.Push(new SegmentChange(SegmentChangeType.EndBoundaryMoved, origTimeRange, seg.TimeRange.Copy(),
+				c => SegmentBoundaryMoved(c.NewRange.End, c.OriginalRange.End)));
+
 			return true;
 		}
 
@@ -241,7 +389,11 @@ namespace SayMore.Transcription.UI
 		public IEnumerable<TimeSpan> InsertNewBoundary(TimeSpan newBoundary)
 		{
 			if (Tiers.InsertTierSegment((float)newBoundary.TotalSeconds) == BoundaryModificationResult.Success)
+			{
+				_undoStack.Push(new SegmentChange(TimeTier.Segments.First(s => s.TimeRange.End == newBoundary).TimeRange.Copy(),
+					c => DeleteBoundary(c.NewRange.End)));
 				OnBoundaryWasDeletedInsertedOrMoved();
+			}
 
 			return GetSegmentEndBoundaries();
 		}
@@ -254,15 +406,21 @@ namespace SayMore.Transcription.UI
 			if (!Tiers.RemoveTierSegments(TimeTier.GetIndexOfSegment(seg)))
 				return false;
 
+			_undoStack.Push(new SegmentChange(SegmentChangeType.Deletion, seg.TimeRange.Copy(), null, null));
 			OnBoundaryWasDeletedInsertedOrMoved();
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Undo()
+		{
+			_undoStack.Undo();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected void OnBoundaryWasDeletedInsertedOrMoved()
 		{
 			SegmentsAnnotationSamplesToDraw.Clear();
-			SegmentBoundariesChanged = true;
 
 			if (OralAnnotationWaveAreaRefreshAction != null)
 				OralAnnotationWaveAreaRefreshAction();

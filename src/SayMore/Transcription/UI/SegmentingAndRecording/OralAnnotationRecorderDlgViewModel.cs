@@ -78,15 +78,6 @@ namespace SayMore.Transcription.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool AnnotationRecordingsChanged { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		public override bool WereChangesMade
-		{
-			get { return base.WereChangesMade || AnnotationRecordingsChanged; }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public bool IsFullySegmented
 		{
 			get { return (GetEndOfLastSegment() == OrigWaveStream.TotalTime); }
@@ -303,12 +294,15 @@ namespace SayMore.Transcription.UI
 			var isRecorderInErrorState = Recorder.GetIsInErrorState();
 			var isRecordingTooShort = Recorder.GetIsRecordingTooShort() && !isRecorderInErrorState;
 
-			AnnotationRecordingsChanged = (AnnotationRecordingsChanged || !isRecordingTooShort);
-
 			if (isRecordingTooShort || isRecorderInErrorState)
 			{
 				EraseAnnotation(timeRange);
 				RecoverTemporarilySavedAnnotation();
+			}
+			else
+			{
+				_undoStack.Push(new SegmentChange(SegmentChangeType.AnnotationAdded, timeRange, timeRange,
+					c => EraseAnnotation(timeRange)));
 			}
 
 			DeleteTemporarilySavedAnnotation();

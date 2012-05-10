@@ -29,6 +29,7 @@ namespace SayMore.Transcription.UI
 			this._labelListenHint = new System.Windows.Forms.Label();
 			this._labelFinishedHint = new System.Windows.Forms.Label();
 			this._pictureFinished = new System.Windows.Forms.PictureBox();
+			this._labelUndoButton = new System.Windows.Forms.Label();
 			this._scrollTimer = new System.Windows.Forms.Timer(this.components);
 			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
@@ -214,11 +215,33 @@ namespace SayMore.Transcription.UI
 			this._pictureFinished.Location = new System.Drawing.Point(12, 375);
 			this._pictureFinished.Name = "_pictureFinished";
 			this._pictureFinished.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-			this._pictureFinished.Size = new System.Drawing.Size(40, 30);
+			this._pictureFinished.Size = new System.Drawing.Size(35, 30);
 			this._pictureFinished.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
 			this._pictureFinished.TabIndex = 12;
 			this._pictureFinished.TabStop = false;
 			this._pictureFinished.Visible = false;
+			//
+			// _labelUndoButton
+			//
+			this._labelUndoButton.AutoSize = true;
+			this._labelUndoButton.BackColor = System.Drawing.Color.AliceBlue;
+			this._labelUndoButton.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this._labelUndoButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this._labelUndoButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(129)))), ((int)(((byte)(199)))));
+			this._labelUndoButton.Image = global::SayMore.Properties.Resources.undo;
+			this._labelUndoButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.locExtender.SetLocalizableToolTip(this._labelUndoButton, null);
+			this.locExtender.SetLocalizationComment(this._labelUndoButton, null);
+			this.locExtender.SetLocalizingId(this._labelUndoButton, "label1.label1");
+			this._labelUndoButton.Location = new System.Drawing.Point(90, 3);
+			this._labelUndoButton.MinimumSize = new System.Drawing.Size(20, 20);
+			this._labelUndoButton.Name = "_labelUndoButton";
+			this._labelUndoButton.Size = new System.Drawing.Size(35, 20);
+			this._labelUndoButton.TabIndex = 13;
+			this._labelUndoButton.Text = "Undo";
+			this._labelUndoButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this._labelUndoButton.Visible = false;
+			this._labelUndoButton.Click += new System.EventHandler(this.HandleUndoButtonClick);
 			//
 			// _scrollTimer
 			//
@@ -276,6 +299,7 @@ namespace SayMore.Transcription.UI
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 412);
+			this.Controls.Add(this._labelUndoButton);
 			this.Controls.Add(this._pictureFinished);
 			this.Controls.Add(this._labelFinishedHint);
 			this.Controls.Add(this._labelRecordHint);
@@ -299,6 +323,7 @@ namespace SayMore.Transcription.UI
 			this.Controls.SetChildIndex(this._labelRecordHint, 0);
 			this.Controls.SetChildIndex(this._labelFinishedHint, 0);
 			this.Controls.SetChildIndex(this._pictureFinished, 0);
+			this.Controls.SetChildIndex(this._labelUndoButton, 0);
 			this._panelListen.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
@@ -328,5 +353,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Timer _checkForRecordingDevice;
 		private System.Windows.Forms.Panel _panelListen;
 		private System.Windows.Forms.PictureBox _pictureFinished;
+		private System.Windows.Forms.Label _labelUndoButton;
 	}
 }

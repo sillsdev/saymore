@@ -88,7 +88,7 @@ namespace SayMore.Utilities.ProjectWindow
 			this.locExtender.SetLocalizingId(this._menuOpenProject, "MainWindow._menuOpenProject");
 			this._menuOpenProject.Name = "_menuOpenProject";
 			this._menuOpenProject.Size = new System.Drawing.Size(254, 22);
-			this._menuOpenProject.Text = "&Open Project...";
+			this._menuOpenProject.Text = "&Open/Create Project...";
 			this._menuOpenProject.Click += new System.EventHandler(this.HandleOpenProjectClick);
 			// 
 			// _toolStripSeparator0

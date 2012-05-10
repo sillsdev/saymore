@@ -28,6 +28,7 @@ namespace SayMore.UI
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._labelOverview = new System.Windows.Forms.Label();
 			this._labelFileToConvert = new System.Windows.Forms.Label();
@@ -48,11 +49,13 @@ namespace SayMore.UI
 			this._buttonShowOutput = new System.Windows.Forms.Button();
 			this._buttonHideOutput = new System.Windows.Forms.Button();
 			this._textBoxOutput = new System.Windows.Forms.TextBox();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayoutOuter.SuspendLayout();
 			this._tableLayoutFFmpegMissing.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureInformation)).BeginInit();
 			this._flowLayoutBottomButtons.SuspendLayout();
 			this._flowLayoutShowHideButtons.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _tableLayoutOuter
@@ -93,6 +96,9 @@ namespace SayMore.UI
 			this._labelOverview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelOverview.AutoSize = true;
 			this._tableLayoutOuter.SetColumnSpan(this._labelOverview, 2);
+			this.locExtender.SetLocalizableToolTip(this._labelOverview, null);
+			this.locExtender.SetLocalizationComment(this._labelOverview, null);
+			this.locExtender.SetLocalizingId(this._labelOverview, "DialogBoxes.ConvertMediaDlg.OverviewLabel");
 			this._labelOverview.Location = new System.Drawing.Point(0, 0);
 			this._labelOverview.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
 			this._labelOverview.Name = "_labelOverview";
@@ -106,6 +112,9 @@ namespace SayMore.UI
 			// 
 			this._labelFileToConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelFileToConvert.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelFileToConvert, null);
+			this.locExtender.SetLocalizationComment(this._labelFileToConvert, null);
+			this.locExtender.SetLocalizingId(this._labelFileToConvert, "DialogBoxes.ConvertMediaDlg.FileToConvertLabel");
 			this._labelFileToConvert.Location = new System.Drawing.Point(0, 41);
 			this._labelFileToConvert.Margin = new System.Windows.Forms.Padding(0, 0, 5, 15);
 			this._labelFileToConvert.Name = "_labelFileToConvert";
@@ -117,6 +126,9 @@ namespace SayMore.UI
 			// 
 			this._labelAvailableConversions.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._labelAvailableConversions.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelAvailableConversions, null);
+			this.locExtender.SetLocalizationComment(this._labelAvailableConversions, null);
+			this.locExtender.SetLocalizingId(this._labelAvailableConversions, "DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel");
 			this._labelAvailableConversions.Location = new System.Drawing.Point(0, 73);
 			this._labelAvailableConversions.Margin = new System.Windows.Forms.Padding(0, 0, 5, 15);
 			this._labelAvailableConversions.Name = "_labelAvailableConversions";
@@ -146,11 +158,15 @@ namespace SayMore.UI
 			// 
 			// _pictureInformation
 			// 
-			this._pictureInformation.Image = global::SayMore.Properties.Resources.Information;
+			this._pictureInformation.Image = global::SayMore.Properties.Resources.InfoBlue24x24;
+			this.locExtender.SetLocalizableToolTip(this._pictureInformation, null);
+			this.locExtender.SetLocalizationComment(this._pictureInformation, null);
+			this.locExtender.SetLocalizationPriority(this._pictureInformation, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pictureInformation, "ConvertMediaDlg._pictureInformation");
 			this._pictureInformation.Location = new System.Drawing.Point(0, 0);
 			this._pictureInformation.Margin = new System.Windows.Forms.Padding(0);
 			this._pictureInformation.Name = "_pictureInformation";
-			this._pictureInformation.Size = new System.Drawing.Size(16, 16);
+			this._pictureInformation.Size = new System.Drawing.Size(24, 24);
 			this._pictureInformation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
 			this._pictureInformation.TabIndex = 13;
 			this._pictureInformation.TabStop = false;
@@ -159,15 +175,21 @@ namespace SayMore.UI
 			// 
 			this._labelDownloadNeeded.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelDownloadNeeded.AutoSize = true;
-			this._labelDownloadNeeded.Location = new System.Drawing.Point(21, 0);
+			this.locExtender.SetLocalizableToolTip(this._labelDownloadNeeded, null);
+			this.locExtender.SetLocalizationComment(this._labelDownloadNeeded, null);
+			this.locExtender.SetLocalizingId(this._labelDownloadNeeded, "DialogBoxes.ConvertMediaDlg.DownloadNeededLabel");
+			this._labelDownloadNeeded.Location = new System.Drawing.Point(29, 0);
 			this._labelDownloadNeeded.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this._labelDownloadNeeded.Name = "_labelDownloadNeeded";
-			this._labelDownloadNeeded.Size = new System.Drawing.Size(259, 26);
+			this._labelDownloadNeeded.Size = new System.Drawing.Size(251, 26);
 			this._labelDownloadNeeded.TabIndex = 14;
 			this._labelDownloadNeeded.Text = "The selected conversion \'{0}\' requires FFmpeg which must be downloaded.";
 			// 
 			// _buttonDownload
 			// 
+			this.locExtender.SetLocalizableToolTip(this._buttonDownload, null);
+			this.locExtender.SetLocalizationComment(this._buttonDownload, null);
+			this.locExtender.SetLocalizingId(this._buttonDownload, "DialogBoxes.ConvertMediaDlg.DownloadButton");
 			this._buttonDownload.Location = new System.Drawing.Point(285, 0);
 			this._buttonDownload.Margin = new System.Windows.Forms.Padding(0);
 			this._buttonDownload.Name = "_buttonDownload";
@@ -180,6 +202,10 @@ namespace SayMore.UI
 			// 
 			this._labelFileToConvertValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelFileToConvertValue.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelFileToConvertValue, null);
+			this.locExtender.SetLocalizationComment(this._labelFileToConvertValue, null);
+			this.locExtender.SetLocalizationPriority(this._labelFileToConvertValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelFileToConvertValue, "ConvertMediaDlg._labelFileToConvertValue");
 			this._labelFileToConvertValue.Location = new System.Drawing.Point(119, 41);
 			this._labelFileToConvertValue.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
 			this._labelFileToConvertValue.Name = "_labelFileToConvertValue";
@@ -192,6 +218,10 @@ namespace SayMore.UI
 			this._comboAvailableConversions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._comboAvailableConversions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._comboAvailableConversions.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this._comboAvailableConversions, null);
+			this.locExtender.SetLocalizationComment(this._comboAvailableConversions, null);
+			this.locExtender.SetLocalizationPriority(this._comboAvailableConversions, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._comboAvailableConversions, "ConvertMediaDlg._comboAvailableConversions");
 			this._comboAvailableConversions.Location = new System.Drawing.Point(119, 69);
 			this._comboAvailableConversions.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
 			this._comboAvailableConversions.Name = "_comboAvailableConversions";
@@ -203,6 +233,10 @@ namespace SayMore.UI
 			this._labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelStatus.AutoSize = true;
 			this._tableLayoutOuter.SetColumnSpan(this._labelStatus, 2);
+			this.locExtender.SetLocalizableToolTip(this._labelStatus, null);
+			this.locExtender.SetLocalizationComment(this._labelStatus, null);
+			this.locExtender.SetLocalizationPriority(this._labelStatus, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelStatus, "ConvertMediaDlg._labelStatus");
 			this._labelStatus.Location = new System.Drawing.Point(0, 131);
 			this._labelStatus.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._labelStatus.Name = "_labelStatus";
@@ -242,6 +276,9 @@ namespace SayMore.UI
 			// 
 			this._buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonClose.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._buttonClose, null);
+			this.locExtender.SetLocalizationComment(this._buttonClose, null);
+			this.locExtender.SetLocalizingId(this._buttonClose, "DialogBoxes.ConvertMediaDlg.CloseButton");
 			this._buttonClose.Location = new System.Drawing.Point(404, 0);
 			this._buttonClose.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._buttonClose.MinimumSize = new System.Drawing.Size(75, 26);
@@ -255,6 +292,9 @@ namespace SayMore.UI
 			// 
 			this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonCancel.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
+			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.ConvertMediaDlg.CancelButton");
 			this._buttonCancel.Location = new System.Drawing.Point(326, 0);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._buttonCancel.Name = "_buttonCancel";
@@ -267,6 +307,9 @@ namespace SayMore.UI
 			// 
 			this._buttonBeginConversion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonBeginConversion.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._buttonBeginConversion, null);
+			this.locExtender.SetLocalizationComment(this._buttonBeginConversion, null);
+			this.locExtender.SetLocalizingId(this._buttonBeginConversion, "DialogBoxes.ConvertMediaDlg.BeginConversionButton");
 			this._buttonBeginConversion.Location = new System.Drawing.Point(220, 0);
 			this._buttonBeginConversion.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._buttonBeginConversion.MinimumSize = new System.Drawing.Size(0, 26);
@@ -296,12 +339,16 @@ namespace SayMore.UI
 			this._buttonShowOutput.AutoSize = true;
 			this._buttonShowOutput.Image = global::SayMore.Properties.Resources.MoreArrows;
 			this._buttonShowOutput.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.locExtender.SetLocalizableToolTip(this._buttonShowOutput, null);
+			this.locExtender.SetLocalizationComment(this._buttonShowOutput, null);
+			this.locExtender.SetLocalizingId(this._buttonShowOutput, "DialogBoxes.ConvertMediaDlg.ShowOutputButton");
 			this._buttonShowOutput.Location = new System.Drawing.Point(0, 0);
 			this._buttonShowOutput.Margin = new System.Windows.Forms.Padding(0);
 			this._buttonShowOutput.Name = "_buttonShowOutput";
-			this._buttonShowOutput.Size = new System.Drawing.Size(110, 26);
+			this._buttonShowOutput.Size = new System.Drawing.Size(91, 26);
 			this._buttonShowOutput.TabIndex = 20;
 			this._buttonShowOutput.Text = "Show Details";
+			this._buttonShowOutput.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonShowOutput.UseVisualStyleBackColor = true;
 			// 
 			// _buttonHideOutput
@@ -309,12 +356,16 @@ namespace SayMore.UI
 			this._buttonHideOutput.AutoSize = true;
 			this._buttonHideOutput.Image = global::SayMore.Properties.Resources.LessArrows;
 			this._buttonHideOutput.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this._buttonHideOutput.Location = new System.Drawing.Point(110, 0);
+			this.locExtender.SetLocalizableToolTip(this._buttonHideOutput, null);
+			this.locExtender.SetLocalizationComment(this._buttonHideOutput, null);
+			this.locExtender.SetLocalizingId(this._buttonHideOutput, "DialogBoxes.ConvertMediaDlg.HideOutputButton");
+			this._buttonHideOutput.Location = new System.Drawing.Point(91, 0);
 			this._buttonHideOutput.Margin = new System.Windows.Forms.Padding(0);
 			this._buttonHideOutput.Name = "_buttonHideOutput";
-			this._buttonHideOutput.Size = new System.Drawing.Size(110, 26);
+			this._buttonHideOutput.Size = new System.Drawing.Size(87, 26);
 			this._buttonHideOutput.TabIndex = 21;
 			this._buttonHideOutput.Text = "Hide Details";
+			this._buttonHideOutput.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this._buttonHideOutput.UseVisualStyleBackColor = true;
 			this._buttonHideOutput.Visible = false;
 			// 
@@ -325,6 +376,10 @@ namespace SayMore.UI
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._textBoxOutput.BackColor = System.Drawing.SystemColors.Window;
 			this._tableLayoutOuter.SetColumnSpan(this._textBoxOutput, 2);
+			this.locExtender.SetLocalizableToolTip(this._textBoxOutput, null);
+			this.locExtender.SetLocalizationComment(this._textBoxOutput, null);
+			this.locExtender.SetLocalizationPriority(this._textBoxOutput, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._textBoxOutput, "ConvertMediaDlg._textBoxOutput");
 			this._textBoxOutput.Location = new System.Drawing.Point(0, 207);
 			this._textBoxOutput.Margin = new System.Windows.Forms.Padding(0);
 			this._textBoxOutput.Multiline = true;
@@ -335,12 +390,19 @@ namespace SayMore.UI
 			this._textBoxOutput.TabIndex = 22;
 			this._textBoxOutput.WordWrap = false;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
 			// ConvertMediaDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(509, 318);
 			this.Controls.Add(this._tableLayoutOuter);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.ConvertMediaDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(525, 320);
@@ -359,6 +421,7 @@ namespace SayMore.UI
 			this._flowLayoutBottomButtons.PerformLayout();
 			this._flowLayoutShowHideButtons.ResumeLayout(false);
 			this._flowLayoutShowHideButtons.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -385,5 +448,6 @@ namespace SayMore.UI
 		private System.Windows.Forms.Button _buttonShowOutput;
 		private System.Windows.Forms.Button _buttonHideOutput;
 		private System.Windows.Forms.TextBox _textBoxOutput;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

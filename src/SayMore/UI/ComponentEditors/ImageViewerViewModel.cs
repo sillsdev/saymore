@@ -4,7 +4,7 @@ using System.Linq;
 using System.Drawing;
 using Localization;
 
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ImageViewerViewModel

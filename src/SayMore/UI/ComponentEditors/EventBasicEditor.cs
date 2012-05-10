@@ -10,7 +10,7 @@ using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 using SayMore.Utilities.LowLevelControls;
 
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class EventBasicEditor : EditorBase

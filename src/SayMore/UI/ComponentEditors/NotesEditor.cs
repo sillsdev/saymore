@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class NotesEditor : EditorBase

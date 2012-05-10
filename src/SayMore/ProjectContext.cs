@@ -6,7 +6,7 @@ using SayMore.Model;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
-using SayMore.Utilities.ComponentEditors;
+using SayMore.UI.ComponentEditors;
 using SayMore.Utilities.ElementListScreen;
 using SayMore.Utilities.Overview;
 using SayMore.Utilities.ProjectWindow;

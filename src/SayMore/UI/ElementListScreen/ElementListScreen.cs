@@ -10,9 +10,8 @@ using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Model;
-using SayMore.Utilities.ComponentEditors;
+using SayMore.UI.ComponentEditors;
 using SayMore.Utilities.LowLevelControls;
-using SilTools;
 
 namespace SayMore.Utilities.ElementListScreen
 {

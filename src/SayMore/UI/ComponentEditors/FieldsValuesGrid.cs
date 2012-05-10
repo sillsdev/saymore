@@ -9,7 +9,7 @@ using SayMore.Utilities.LowLevelControls;
 using SilTools;
 using ColorHelper = SilTools.ColorHelper;
 
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public class FieldsValuesGrid : SilGrid

@@ -8,7 +8,7 @@ using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.Utilities.ComponentEditors;
+using SayMore.UI.ComponentEditors;
 using SayMore.Media.MPlayer;
 using SilTools;
 

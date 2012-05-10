@@ -5,8 +5,8 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
-using SayMore.Utilities.ComponentEditors;
 using SayMore.Media.MPlayer;
+using SayMore.UI.ComponentEditors;
 using SilTools;
 
 namespace SayMore.Transcription.UI

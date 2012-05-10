@@ -1,6 +1,6 @@
 using SayMore.Utilities.LowLevelControls;
 
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	partial class EventBasicEditor
 	{
@@ -56,8 +56,8 @@ namespace SayMore.Utilities.ComponentEditors
 			this._labelStatus = new System.Windows.Forms.Label();
 			this._status = new System.Windows.Forms.ComboBox();
 			this._date = new DatePicker();
-			this._binder = new SayMore.Utilities.ComponentEditors.BindingHelper(this.components);
-			this._autoCompleteHelper = new SayMore.Utilities.ComponentEditors.AutoCompleteHelper(this.components);
+			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
+			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();

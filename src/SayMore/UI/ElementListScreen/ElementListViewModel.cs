@@ -5,7 +5,7 @@ using System.Text;
 using Localization;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.Utilities.ComponentEditors;
+using SayMore.UI.ComponentEditors;
 
 namespace SayMore.Utilities.ElementListScreen
 {

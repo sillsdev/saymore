@@ -7,7 +7,7 @@ using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public class FieldsValuesGridViewModel

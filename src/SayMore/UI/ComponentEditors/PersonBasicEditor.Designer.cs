@@ -1,6 +1,6 @@
 using SayMore.Utilities.LowLevelControls;
 
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	partial class PersonBasicEditor
 	{
@@ -67,8 +67,8 @@ namespace SayMore.Utilities.ComponentEditors
 			this._panelGrid = new System.Windows.Forms.Panel();
 			this._panelPicture = new System.Windows.Forms.Panel();
 			this._personsPicture = new System.Windows.Forms.PictureBox();
-			this._binder = new SayMore.Utilities.ComponentEditors.BindingHelper(this.components);
-			this._autoCompleteHelper = new SayMore.Utilities.ComponentEditors.AutoCompleteHelper(this.components);
+			this._binder = new SayMore.UI.ComponentEditors.BindingHelper(this.components);
+			this._autoCompleteHelper = new SayMore.UI.ComponentEditors.AutoCompleteHelper(this.components);
 			this._tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();

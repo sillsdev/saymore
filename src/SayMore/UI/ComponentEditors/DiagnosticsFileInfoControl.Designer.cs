@@ -1,4 +1,4 @@
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	partial class DiagnosticsFileInfoControl
 	{

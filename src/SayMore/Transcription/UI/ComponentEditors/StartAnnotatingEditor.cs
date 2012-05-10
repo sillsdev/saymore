@@ -6,8 +6,8 @@ using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.Utilities.ComponentEditors;
 using SayMore.Media;
+using SayMore.UI.ComponentEditors;
 using SilTools;
 
 namespace SayMore.Transcription.UI

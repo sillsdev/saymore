@@ -2,7 +2,7 @@ using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class BasicFieldGridEditor : EditorBase

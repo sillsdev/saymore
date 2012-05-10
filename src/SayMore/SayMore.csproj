@@ -944,6 +944,7 @@
     <None Include="Resources\mediaFileInfoOutputTemplate.txt" />
     <None Include="Resources\LessArrows.png" />
     <None Include="Resources\MoreArrows.png" />
+    <None Include="Resources\Green_check.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />
     <None Include="Resources\Warning.png" />

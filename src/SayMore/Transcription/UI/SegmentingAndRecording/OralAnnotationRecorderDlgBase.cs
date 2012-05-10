@@ -292,7 +292,6 @@ namespace SayMore.Transcription.UI
 			_tableLayoutButtons.Controls.Add(_labelErrorInfo, 1, 0);
 			_tableLayoutButtons.Controls.Add(_labelListenHint, 1, 1);
 			_tableLayoutButtons.Controls.Add(_labelRecordHint, 1, 2);
-			_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 3);
 
 			_tableLayoutButtons.ColumnStyles[0].SizeType = SizeType.AutoSize;
 			_tableLayoutButtons.ColumnStyles[1].SizeType = SizeType.Percent;
@@ -300,7 +299,7 @@ namespace SayMore.Transcription.UI
 			_labelListenHint.Font = _labelOriginalRecording.Font;
 			_labelRecordHint.Font = _labelOriginalRecording.Font;
 			_labelErrorInfo.Font = _labelOriginalRecording.Font;
-			_labelFinishedHint.Font = _labelOriginalRecording.Font;
+			_labelFinishedHint.Font = new Font(_labelOriginalRecording.Font.FontFamily, 10, FontStyle.Bold);
 			_labelListenButton.Font = SystemFonts.MenuFont;
 			_labelRecordButton.Font = SystemFonts.MenuFont;
 			_labelOriginalRecording.ForeColor = _labelListenButton.ForeColor;
@@ -489,10 +488,17 @@ namespace SayMore.Transcription.UI
 
 			if (_spaceBarMode == SpaceBarMode.Done)
 			{
-				_labelFinishedHint.Visible = true;
-				_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
-				_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
-				AcceptButton = _buttonOK;
+				if (!_labelFinishedHint.Visible)
+				{
+					_tableLayoutButtons.Controls.Add(_pictureFinished, 0, 0);
+					_tableLayoutButtons.SetRowSpan(_pictureFinished, 3);
+					_pictureFinished.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+					_pictureFinished.Visible = true;
+					_labelFinishedHint.Visible = true;
+					_tableLayoutButtons.Controls.Add(_labelFinishedHint, 1, 0);
+					_tableLayoutButtons.SetRowSpan(_labelFinishedHint, 3);
+					AcceptButton = _buttonOK;
+				}
 			}
 			else
 			{
@@ -661,6 +667,7 @@ namespace SayMore.Transcription.UI
 			{
 				InvalidateBottomReservedRectangleForCurrentUnannotatedSegment();
 				_userHasListenedToSelectedSegment = true;
+				UpdateDisplay();
 			}
 		}
 

@@ -402,4 +402,7 @@
   <data name="MoreArrows" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MoreArrows.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Green_check" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Green_check.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

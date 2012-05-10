@@ -28,6 +28,7 @@ namespace SayMore.Transcription.UI
 			this._panelPeakMeter = new SilTools.Controls.SilPanel();
 			this._labelListenHint = new System.Windows.Forms.Label();
 			this._labelFinishedHint = new System.Windows.Forms.Label();
+			this._pictureFinished = new System.Windows.Forms.PictureBox();
 			this._scrollTimer = new System.Windows.Forms.Timer(this.components);
 			this._cursorBlinkTimer = new System.Windows.Forms.Timer(this.components);
 			this._tableLayoutRecordAnnotations = new System.Windows.Forms.TableLayoutPanel();
@@ -36,6 +37,7 @@ namespace SayMore.Transcription.UI
 			this._panelListen.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._pictureFinished)).BeginInit();
 			this._tableLayoutRecordAnnotations.SuspendLayout();
 			this._tableLayoutMediaButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -201,6 +203,23 @@ namespace SayMore.Transcription.UI
 			this._labelFinishedHint.Text = "Finished!";
 			this._labelFinishedHint.Visible = false;
 			//
+			// _pictureFinished
+			//
+			this._pictureFinished.BackColor = System.Drawing.Color.Transparent;
+			this._pictureFinished.Image = global::SayMore.Properties.Resources.Green_check;
+			this.locExtender.SetLocalizableToolTip(this._pictureFinished, null);
+			this.locExtender.SetLocalizationComment(this._pictureFinished, null);
+			this.locExtender.SetLocalizationPriority(this._pictureFinished, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pictureFinished, "pictureBox1.pictureBox1");
+			this._pictureFinished.Location = new System.Drawing.Point(12, 375);
+			this._pictureFinished.Name = "_pictureFinished";
+			this._pictureFinished.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this._pictureFinished.Size = new System.Drawing.Size(40, 30);
+			this._pictureFinished.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._pictureFinished.TabIndex = 12;
+			this._pictureFinished.TabStop = false;
+			this._pictureFinished.Visible = false;
+			//
 			// _scrollTimer
 			//
 			this._scrollTimer.Interval = 500;
@@ -257,6 +276,7 @@ namespace SayMore.Transcription.UI
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 412);
+			this.Controls.Add(this._pictureFinished);
 			this.Controls.Add(this._labelFinishedHint);
 			this.Controls.Add(this._labelRecordHint);
 			this.Controls.Add(this._pictureRecording);
@@ -278,9 +298,11 @@ namespace SayMore.Transcription.UI
 			this.Controls.SetChildIndex(this._pictureRecording, 0);
 			this.Controls.SetChildIndex(this._labelRecordHint, 0);
 			this.Controls.SetChildIndex(this._labelFinishedHint, 0);
+			this.Controls.SetChildIndex(this._pictureFinished, 0);
 			this._panelListen.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._pictureRecording)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._pictureFinished)).EndInit();
 			this._tableLayoutRecordAnnotations.ResumeLayout(false);
 			this._tableLayoutMediaButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -305,5 +327,6 @@ namespace SayMore.Transcription.UI
 		private System.Windows.Forms.Label _labelFinishedHint;
 		private System.Windows.Forms.Timer _checkForRecordingDevice;
 		private System.Windows.Forms.Panel _panelListen;
+		private System.Windows.Forms.PictureBox _pictureFinished;
 	}
 }

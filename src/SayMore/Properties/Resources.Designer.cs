@@ -204,6 +204,13 @@ namespace SayMore.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Green_check {
+            get {
+                object obj = ResourceManager.GetObject("Green_check", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Help {
             get {
                 object obj = ResourceManager.GetObject("Help", resourceCulture);

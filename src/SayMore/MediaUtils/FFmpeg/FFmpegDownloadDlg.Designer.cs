@@ -28,6 +28,7 @@ namespace SayMore.Media.FFmpeg
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this._buttonClose = new System.Windows.Forms.Button();
 			this._labelOverview = new System.Windows.Forms.Label();
@@ -36,11 +37,13 @@ namespace SayMore.Media.FFmpeg
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this._linkManualDownload = new System.Windows.Forms.LinkLabel();
 			this._buttonInstall = new System.Windows.Forms.Button();
+			this._progressControl = new SayMore.Utilities.LowLevelControls.ProgressControl();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._labelStatus = new System.Windows.Forms.Label();
-			this._progressControl = new SayMore.Utilities.LowLevelControls.ProgressControl();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayoutPanel.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _tableLayoutPanel
@@ -77,6 +80,9 @@ namespace SayMore.Media.FFmpeg
 			// _buttonClose
 			// 
 			this._buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.locExtender.SetLocalizableToolTip(this._buttonClose, null);
+			this.locExtender.SetLocalizationComment(this._buttonClose, null);
+			this.locExtender.SetLocalizingId(this._buttonClose, "DialogBoxes.FFmpegDownloadDlg.CloseButton");
 			this._buttonClose.Location = new System.Drawing.Point(362, 216);
 			this._buttonClose.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._buttonClose.Name = "_buttonClose";
@@ -90,6 +96,9 @@ namespace SayMore.Media.FFmpeg
 			this._labelOverview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelOverview.AutoSize = true;
 			this._tableLayoutPanel.SetColumnSpan(this._labelOverview, 3);
+			this.locExtender.SetLocalizableToolTip(this._labelOverview, null);
+			this.locExtender.SetLocalizationComment(this._labelOverview, null);
+			this.locExtender.SetLocalizingId(this._labelOverview, "DialogBoxes.FFmpegDownloadDlg.OverviewLabel");
 			this._labelOverview.Location = new System.Drawing.Point(0, 0);
 			this._labelOverview.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
 			this._labelOverview.Name = "_labelOverview";
@@ -102,6 +111,9 @@ namespace SayMore.Media.FFmpeg
 			this._linkAutoDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._linkAutoDownload.AutoSize = true;
 			this._tableLayoutPanel.SetColumnSpan(this._linkAutoDownload, 3);
+			this.locExtender.SetLocalizableToolTip(this._linkAutoDownload, null);
+			this.locExtender.SetLocalizationComment(this._linkAutoDownload, null);
+			this.locExtender.SetLocalizingId(this._linkAutoDownload, "DialogBoxes.FFmpegDownloadDlg._linkAutoDownload");
 			this._linkAutoDownload.Location = new System.Drawing.Point(15, 28);
 			this._linkAutoDownload.Margin = new System.Windows.Forms.Padding(15, 0, 0, 0);
 			this._linkAutoDownload.Name = "_linkAutoDownload";
@@ -116,6 +128,9 @@ namespace SayMore.Media.FFmpeg
 			this._labelOr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelOr.AutoSize = true;
 			this._tableLayoutPanel.SetColumnSpan(this._labelOr, 3);
+			this.locExtender.SetLocalizableToolTip(this._labelOr, null);
+			this.locExtender.SetLocalizationComment(this._labelOr, null);
+			this.locExtender.SetLocalizingId(this._labelOr, "DialogBoxes.FFmpegDownloadDlg.OrLabel");
 			this._labelOr.Location = new System.Drawing.Point(0, 69);
 			this._labelOr.Margin = new System.Windows.Forms.Padding(0, 15, 0, 15);
 			this._labelOr.Name = "_labelOr";
@@ -147,6 +162,9 @@ namespace SayMore.Media.FFmpeg
 			// 
 			this._linkManualDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._linkManualDownload.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._linkManualDownload, null);
+			this.locExtender.SetLocalizationComment(this._linkManualDownload, null);
+			this.locExtender.SetLocalizingId(this._linkManualDownload, "DialogBoxes.FFmpegDownloadDlg._linkManualDownload");
 			this._linkManualDownload.Location = new System.Drawing.Point(15, 0);
 			this._linkManualDownload.Margin = new System.Windows.Forms.Padding(15, 0, 0, 15);
 			this._linkManualDownload.Name = "_linkManualDownload";
@@ -158,6 +176,9 @@ namespace SayMore.Media.FFmpeg
 			// 
 			// _buttonInstall
 			// 
+			this.locExtender.SetLocalizableToolTip(this._buttonInstall, null);
+			this.locExtender.SetLocalizationComment(this._buttonInstall, null);
+			this.locExtender.SetLocalizingId(this._buttonInstall, "DialogBoxes.FFmpegDownloadDlg.InstallButton");
 			this._buttonInstall.Location = new System.Drawing.Point(362, 0);
 			this._buttonInstall.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
 			this._buttonInstall.Name = "_buttonInstall";
@@ -167,10 +188,30 @@ namespace SayMore.Media.FFmpeg
 			this._buttonInstall.UseVisualStyleBackColor = true;
 			this._buttonInstall.Click += new System.EventHandler(this.HandleInstallClick);
 			// 
+			// _progressControl
+			// 
+			this._progressControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._tableLayoutPanel.SetColumnSpan(this._progressControl, 3);
+			this.locExtender.SetLocalizableToolTip(this._progressControl, null);
+			this.locExtender.SetLocalizationComment(this._progressControl, null);
+			this.locExtender.SetLocalizationPriority(this._progressControl, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._progressControl, "FFmpegDownloadDlg.ProgressControl");
+			this._progressControl.Location = new System.Drawing.Point(0, 151);
+			this._progressControl.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
+			this._progressControl.Name = "_progressControl";
+			this._progressControl.Size = new System.Drawing.Size(437, 60);
+			this._progressControl.TabIndex = 13;
+			this._progressControl.Visible = false;
+			// 
 			// _buttonCancel
 			// 
 			this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonCancel.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
+			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.FFmpegDownloadDlg.CancelButton");
 			this._buttonCancel.Location = new System.Drawing.Point(281, 216);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._buttonCancel.Name = "_buttonCancel";
@@ -185,6 +226,10 @@ namespace SayMore.Media.FFmpeg
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelStatus.AutoSize = true;
 			this._tableLayoutPanel.SetColumnSpan(this._labelStatus, 3);
+			this.locExtender.SetLocalizableToolTip(this._labelStatus, null);
+			this.locExtender.SetLocalizationComment(this._labelStatus, null);
+			this.locExtender.SetLocalizationPriority(this._labelStatus, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelStatus, "FFmpegDownloadDlg._labelStatus");
 			this._labelStatus.Location = new System.Drawing.Point(0, 138);
 			this._labelStatus.Margin = new System.Windows.Forms.Padding(0);
 			this._labelStatus.Name = "_labelStatus";
@@ -193,18 +238,9 @@ namespace SayMore.Media.FFmpeg
 			this._labelStatus.Text = "#";
 			this._labelStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// _progressControl
+			// locExtender
 			// 
-			this._progressControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._tableLayoutPanel.SetColumnSpan(this._progressControl, 3);
-			this._progressControl.Location = new System.Drawing.Point(0, 151);
-			this._progressControl.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
-			this._progressControl.Name = "_progressControl";
-			this._progressControl.Size = new System.Drawing.Size(437, 60);
-			this._progressControl.TabIndex = 13;
-			this._progressControl.Visible = false;
+			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// FFmpegDownloadDlg
 			// 
@@ -212,6 +248,9 @@ namespace SayMore.Media.FFmpeg
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(467, 272);
 			this.Controls.Add(this._tableLayoutPanel);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.FFmpegDownloadDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FFmpegDownloadDlg";
@@ -224,6 +263,7 @@ namespace SayMore.Media.FFmpeg
 			this._tableLayoutPanel.PerformLayout();
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -241,5 +281,6 @@ namespace SayMore.Media.FFmpeg
 		private Utilities.LowLevelControls.ProgressControl _progressControl;
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Label _labelStatus;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

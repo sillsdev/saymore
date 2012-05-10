@@ -229,7 +229,8 @@ namespace SayMore.Media.FFmpeg
 		{
 			var caption = LocalizationManager.GetString(
 				"DialogBoxes.FFmpegDownloadDlg.SelectDownloadedFFmpegFileDlg.Caption",
-				"Select the Downloaded FFmpeg File");
+				"Select the Downloaded FFmpeg File",
+				"This is the caption for the 'Open File' dialog box when specifying the manually downloaded FFmpeg zip file.");
 
 			using (var dlg = new OpenFileDialog())
 			{

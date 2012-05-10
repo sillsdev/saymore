@@ -105,9 +105,6 @@ namespace SayMore.Utilities.ProjectWindow
 			base.OnLoad(e);
 
 			_viewTabGroup.SetActiveView(_viewTabGroup.Tabs[0]);
-
-			if (!MediaInfo.HaveNecessaryComponents)
-				new MissingFFmpegPopup().Show();
 		}
 
 		/// ------------------------------------------------------------------------------------

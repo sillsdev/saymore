@@ -14,7 +14,7 @@ using SayMore.Model.Fields;
 using SayMore.Properties;
 using SayMore.Transcription.UI;
 using SayMore.UI;
-using SayMore.Utilities.ComponentEditors;
+using SayMore.UI.ComponentEditors;
 using SilTools;
 
 namespace SayMore.Model.Files
@@ -186,7 +186,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual bool GetShowInPresetOptions(string key)
 		{
-			return (!GetIsCustomFieldId(key) && !GetIsReadonly(key));
+			return (!GetIsCustomFieldId(key) && !GetIsReadonly(key) && key != "contributions");
 		}
 
 		/// ------------------------------------------------------------------------------------

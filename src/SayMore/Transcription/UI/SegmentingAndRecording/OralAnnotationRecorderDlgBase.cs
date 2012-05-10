@@ -447,15 +447,16 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void UpdateDisplay()
 		{
-			var undoableSegmentRange = ViewModel.TimeRangeForUndo;
-			_labelUndoButton.Visible = undoableSegmentRange != null;
-			if (_labelUndoButton.Visible)
-			{
-				// TODO: Figure out why this button gets placed wrong. Also get it to move when the wave view is scrolled.
-				_labelUndoButton.Location = new Point(
-					WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _labelUndoButton.Width - 5,
-					_waveControl.ClientRectangle.Top + 5);
-			}
+			// Restore this code to work on UNDO feature
+			//var undoableSegmentRange = ViewModel.TimeRangeForUndo;
+			//_labelUndoButton.Visible = undoableSegmentRange != null;
+			//if (_labelUndoButton.Visible)
+			//{
+			//    // TODO: Figure out why this button gets placed wrong. Also get it to move when the wave view is scrolled.
+			//    _labelUndoButton.Location = new Point(
+			//        WavePainter.ConvertTimeToXCoordinate(undoableSegmentRange.End) - _labelUndoButton.Width - 5,
+			//        _waveControl.ClientRectangle.Top + 5);
+			//}
 
 			_labelListenButton.Image = (_waveControl.IsPlaying && _playingBackUsingHoldDownButton ?
 				Resources.ListenToOriginalRecordingDown : Resources.ListenToOriginalRecording);

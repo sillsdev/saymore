@@ -207,9 +207,6 @@
   <data name="RecordErase" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RecordErase.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Information" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Information.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="kimidChangePicture" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ChangePicture.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -401,6 +398,18 @@
   </data>
   <data name="MoreArrows" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MoreArrows.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MoreMediaInfoStyles" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MoreMediaInfoStyles.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="InfoBlue16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InfoBlue16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InfoBlue24x24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InfoBlue24x24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Presets" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Presets.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Green_check" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Green_check.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

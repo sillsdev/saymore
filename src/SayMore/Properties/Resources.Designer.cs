@@ -246,9 +246,16 @@ namespace SayMore.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap Information {
+        internal static System.Drawing.Bitmap InfoBlue16x16 {
             get {
-                object obj = ResourceManager.GetObject("Information", resourceCulture);
+                object obj = ResourceManager.GetObject("InfoBlue16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap InfoBlue24x24 {
+            get {
+                object obj = ResourceManager.GetObject("InfoBlue24x24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -410,6 +417,52 @@ namespace SayMore.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to * {
+        ///	margin: 0;
+        ///	border: 0;
+        ///	padding: 0;
+        ///}
+        ///
+        ///body
+        ///{
+        ///	font-family: &apos;Segoe UI&apos;, &apos;Tahoma&apos;, &apos;Arial&apos;, &apos;Helvetica&apos;, sans-serif;
+        ///	font-size: 10pt;
+        ///	line-height: 1.3;
+        ///	background-color:white;
+        ///}
+        ///
+        ///table
+        ///{
+        ///    border-spacing: 0;
+        ///    width:100%;
+        ///}
+        ///
+        ///th
+        ///{
+        ///	line-height:1.7;
+        ///	font-weight:bold;
+        ///	font-size:12pt;
+        ///	color:white;
+        ///	background-color:rgb(83,110,145);
+        ///	text-align:left;
+        ///    text-indent: 10px;
+        ///}
+        ///
+        ///.avhdr { border-top: 15px solid white}
+        ///
+        ///td { vertical-align: top; }
+        ///
+        ///.fieldName 
+        ///{
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string MoreMediaInfoStyles {
+            get {
+                return ResourceManager.GetString("MoreMediaInfoStyles", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap MuteVolume {
             get {
                 object obj = ResourceManager.GetObject("MuteVolume", resourceCulture);
@@ -476,6 +529,13 @@ namespace SayMore.Properties {
         internal static System.Drawing.Bitmap PlayTabImage {
             get {
                 object obj = ResourceManager.GetObject("PlayTabImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Presets {
+            get {
+                object obj = ResourceManager.GetObject("Presets", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

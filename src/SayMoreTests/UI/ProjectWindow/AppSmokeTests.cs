@@ -90,6 +90,7 @@ namespace SayMoreTests.UI.ProjectWindow
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		[NUnit.Framework.Category("SkipOnTeamCity")]
 		public void Application_WalkThrough_DoesNotCrash()
 		{
 			CopySampleProject();
@@ -207,7 +208,8 @@ namespace SayMoreTests.UI.ProjectWindow
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[Test][Ignore("Having trouble with ambiguous control name. Need to figure out why.")]
+		[Test]
+		[NUnit.Framework.Category("SkipOnTeamCity")]
 		public void Application_CreateProject_DoesNotCrash()
 		{
 			CreateProject();
@@ -245,7 +247,7 @@ namespace SayMoreTests.UI.ProjectWindow
 			// Open the dialog to add files from a device, then cancel it.
 			using (var modalFormTester = new ModalFormTester())
 			{
-				var cancelButtonTester = new ButtonTester("_cancelButton");
+				var cancelButtonTester = new ButtonTester("_buttonCancel");
 				modalFormTester.ExpectModal("NewEventsFromFilesDlg", cancelButtonTester.Click);
 				var newButtonTester = new ButtonTester("_buttonNewFromFiles");
 				newButtonTester.Click();
@@ -269,7 +271,7 @@ namespace SayMoreTests.UI.ProjectWindow
 			using (var modalFormTester = new ModalFormTester())
 			{
 				var createButtonTester = new ToolStripButtonTester("_buttonCreate");
-				var nameTextBoxTester = new TextBoxTester("_nameTextBox");
+				var nameTextBoxTester = new TextBoxTester("_textBoxName");
 				var okButtonTester = new ButtonTester("_buttonOK");
 
 				modalFormTester.ExpectModal("WelcomeDialog", createButtonTester.Click);

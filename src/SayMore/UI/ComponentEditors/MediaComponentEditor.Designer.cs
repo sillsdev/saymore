@@ -1,4 +1,4 @@
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	partial class MediaComponentEditor
 	{
@@ -30,10 +30,13 @@ namespace SayMore.Utilities.ComponentEditors
 		{
 			this.components = new System.ComponentModel.Container();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._presetMenuButton = new System.Windows.Forms.Button();
+			this._toolStrip = new System.Windows.Forms.ToolStrip();
+			this._buttonPresets = new System.Windows.Forms.ToolStripDropDownButton();
+			this._buttonMoreInfo = new System.Windows.Forms.ToolStripButton();
 			this._presetMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
+			this._toolStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -42,33 +45,58 @@ namespace SayMore.Utilities.ComponentEditors
 			this._tableLayout.AutoSize = true;
 			this._tableLayout.ColumnCount = 1;
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayout.Controls.Add(this._presetMenuButton, 0, 0);
+			this._tableLayout.Controls.Add(this._toolStrip, 0, 0);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
 			this._tableLayout.Name = "_tableLayout";
 			this._tableLayout.RowCount = 2;
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableLayout.Size = new System.Drawing.Size(435, 194);
 			this._tableLayout.TabIndex = 0;
 			// 
-			// _presetMenuButton
+			// _toolStrip
 			// 
-			this._presetMenuButton.AutoSize = true;
-			this._presetMenuButton.Image = global::SayMore.Properties.Resources.DropDownArrow;
-			this._presetMenuButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.locExtender.SetLocalizableToolTip(this._presetMenuButton, null);
-			this.locExtender.SetLocalizationComment(this._presetMenuButton, null);
-			this.locExtender.SetLocalizingId(this._presetMenuButton, "CommonToMultipleViews.MediaPropertiesEditor.PresetsButton");
-			this._presetMenuButton.Location = new System.Drawing.Point(0, 0);
-			this._presetMenuButton.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
-			this._presetMenuButton.MinimumSize = new System.Drawing.Size(73, 26);
-			this._presetMenuButton.Name = "_presetMenuButton";
-			this._presetMenuButton.Size = new System.Drawing.Size(73, 26);
-			this._presetMenuButton.TabIndex = 16;
-			this._presetMenuButton.Text = "Presets";
-			this._presetMenuButton.UseVisualStyleBackColor = true;
-			this._presetMenuButton.Click += new System.EventHandler(this.HandlePresetMenuButtonClick);
+			this._toolStrip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._toolStrip.BackColor = System.Drawing.Color.Transparent;
+			this._toolStrip.Dock = System.Windows.Forms.DockStyle.None;
+			this._toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.locExtender.SetLocalizableToolTip(this._toolStrip, null);
+			this.locExtender.SetLocalizationComment(this._toolStrip, null);
+			this.locExtender.SetLocalizationPriority(this._toolStrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._toolStrip, "Transcription.UI.TextAnnotationEditor._toolStrip");
+			this._toolStrip.Location = new System.Drawing.Point(0, 0);
+			this._toolStrip.Name = "_toolStrip";
+			this._toolStrip.Size = new System.Drawing.Size(435, 25);
+			this._toolStrip.TabIndex = 17;
+			_toolStrip.Items.Add(_buttonPresets);
+			_toolStrip.Items.Add(_buttonMoreInfo);
+			// 
+			// _buttonPresets
+			// 
+			this._buttonPresets.Image = global::SayMore.Properties.Resources.Presets;
+			this.locExtender.SetLocalizableToolTip(this._buttonPresets, "Select presets for media file");
+			this.locExtender.SetLocalizationComment(this._buttonPresets, null);
+			this.locExtender.SetLocalizingId(this._buttonPresets, "CommonToMultipleViews.MediaPropertiesEditor.PresetsButton");
+			this._buttonPresets.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
+			this._buttonPresets.Name = "_buttonPresets";
+			this._buttonPresets.Size = new System.Drawing.Size(73, 22);
+			this._buttonPresets.Text = "Presets";
+			this._buttonPresets.DropDownClosed += new System.EventHandler(this.HandlePresetsDropDownClosed);
+			this._buttonPresets.DropDownOpening += new System.EventHandler(this.HandlePresetsDropDownOpening);
+			// 
+			// _buttonMoreInfo
+			// 
+			this._buttonMoreInfo.Image = global::SayMore.Properties.Resources.InfoBlue16x16;
+			this.locExtender.SetLocalizableToolTip(this._buttonMoreInfo, "More information about this file");
+			this.locExtender.SetLocalizationComment(this._buttonMoreInfo, null);
+			this.locExtender.SetLocalizingId(this._buttonMoreInfo, "CommonToMultipleViews.MediaPropertiesEditor.MoreInfoButton");
+			this._buttonMoreInfo.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
+			this._buttonMoreInfo.Name = "_buttonMoreInfo";
+			this._buttonMoreInfo.Size = new System.Drawing.Size(130, 22);
+			this._buttonMoreInfo.Text = "More Information...";
+			this._buttonMoreInfo.Click += new System.EventHandler(this.HandleMoreInfoButtonClick);
 			// 
 			// _presetMenu
 			// 
@@ -96,6 +124,8 @@ namespace SayMore.Utilities.ComponentEditors
 			this.Size = new System.Drawing.Size(449, 208);
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
+			this._toolStrip.ResumeLayout(false);
+			this._toolStrip.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -106,7 +136,9 @@ namespace SayMore.Utilities.ComponentEditors
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private Localization.UI.LocalizationExtender locExtender;
-		protected System.Windows.Forms.Button _presetMenuButton;
 		protected System.Windows.Forms.ContextMenuStrip _presetMenu;
+		private System.Windows.Forms.ToolStrip _toolStrip;
+		private System.Windows.Forms.ToolStripButton _buttonMoreInfo;
+		private System.Windows.Forms.ToolStripDropDownButton _buttonPresets;
 	}
 }

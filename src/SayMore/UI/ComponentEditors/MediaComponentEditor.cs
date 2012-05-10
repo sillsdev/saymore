@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Drawing;
 using System.Windows.Forms;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
+using SilTools;
 
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class MediaComponentEditor : EditorBase
@@ -32,6 +32,8 @@ namespace SayMore.Utilities.ComponentEditors
 		{
 			InitializeComponent();
 			InitializeGrid(autoCompleteProvider, fieldGatherer);
+			_toolStrip.Renderer = new NoToolStripBorderRenderer();
+			_buttonPresets.DropDownItems.Add("HIDE");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,19 +57,25 @@ namespace SayMore.Utilities.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandlePresetMenuButtonClick(object sender, EventArgs e)
+		private void HandlePresetsDropDownOpening(object sender, EventArgs e)
 		{
-			_presetMenu.Items.Clear();
+			for (int i = _buttonPresets.DropDownItems.Count - 1; i > 0; i--)
+				_buttonPresets.DropDownItems.RemoveAt(i);
+
+			_buttonPresets.DropDownItems[0].Visible = false;
 
 			foreach (KeyValuePair<string, Dictionary<string, string>> pair in _file.GetPresetChoices())
 			{
 				// Copy to avoid the dreaded "access to modified closure"
 				KeyValuePair<string, Dictionary<string, string>> valuePair = pair;
-				_presetMenu.Items.Add(pair.Key, null, (obj, sendr) => UsePreset(valuePair.Value));
+				_buttonPresets.DropDownItems.Add(pair.Key, null, (obj, sendr) => UsePreset(valuePair.Value));
 			}
+		}
 
-			var pt = _presetMenuButton.PointToScreen(new Point(0, _presetMenuButton.Height));
-			_presetMenu.Show(pt);
+		/// ------------------------------------------------------------------------------------
+		private void HandlePresetsDropDownClosed(object sender, EventArgs e)
+		{
+			_buttonPresets.DropDownItems[0].Visible = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -76,6 +84,13 @@ namespace SayMore.Utilities.ComponentEditors
 			_file.UsePreset(preset);
 			_gridViewModel.SetComponentFile(_file);
 			_grid.Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleMoreInfoButtonClick(object sender, EventArgs e)
+		{
+			using (var dlg = new MediaFileMoreInfoDlg(_file.PathToAnnotatedFile))
+				dlg.ShowDialog(this);
 		}
 	}
 }

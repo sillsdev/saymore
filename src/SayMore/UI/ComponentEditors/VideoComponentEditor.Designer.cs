@@ -1,4 +1,4 @@
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	partial class VideoComponentEditor
 	{
@@ -30,7 +30,6 @@ namespace SayMore.Utilities.ComponentEditors
 		{
 			this.components = new System.ComponentModel.Container();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._presetMenuButton = new System.Windows.Forms.Button();
 			this._presetMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
@@ -40,7 +39,6 @@ namespace SayMore.Utilities.ComponentEditors
 			this._tableLayout.AutoSize = true;
 			this._tableLayout.ColumnCount = 1;
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayout.Controls.Add(this._presetMenuButton, 0, 0);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayout.Location = new System.Drawing.Point(7, 7);
 			this._tableLayout.Name = "_tableLayout";

@@ -176,6 +176,11 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectElement.cs" />
     <Compile Include="Model\Event.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Transcription\Model\Segment.cs" />
     <Compile Include="Transcription\Model\TierCollection.cs" />
     <Compile Include="Transcription\Model\TimeRange.cs" />
@@ -339,6 +344,12 @@
     </Compile>
     <Compile Include="UI\ComponentEditors\MediaComponentEditor.designer.cs">
       <DependentUpon>MediaComponentEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\MediaFileMoreInfoDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\MediaFileMoreInfoDlg.Designer.cs">
+      <DependentUpon>MediaFileMoreInfoDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ComponentEditors\NotesEditor.cs">
       <SubType>UserControl</SubType>
@@ -558,11 +569,6 @@
     </Compile>
     <Compile Include="UI\ProjectChoosingAndCreating\NewProjectDialog\NewProjectDlgViewModel.cs" />
     <Compile Include="UI\ProjectChoosingAndCreating\WelcomeDialogViewModel.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="UI\ElementListScreen\ElementListViewModel.cs" />
     <Compile Include="UI\ElementListScreen\EventsListScreen.cs">
       <SubType>UserControl</SubType>
@@ -671,6 +677,9 @@
     <EmbeddedResource Include="UI\ComponentEditors\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\MediaFileMoreInfoDlg.resx">
+      <DependentUpon>MediaFileMoreInfoDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\NotesEditor.resx">
       <DependentUpon>NotesEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -728,8 +737,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ElementListScreen\EventsListScreen.resx">
       <DependentUpon>EventsListScreen.cs</DependentUpon>
@@ -944,6 +953,11 @@
     <None Include="Resources\mediaFileInfoOutputTemplate.txt" />
     <None Include="Resources\LessArrows.png" />
     <None Include="Resources\MoreArrows.png" />
+    <EmbeddedResource Include="UI\ComponentEditors\ModifyMediaFileInfoOutput.xslt" />
+    <None Include="Resources\InfoBlue16x16.png" />
+    <None Include="Resources\InfoBlue24x24.png" />
+    <Content Include="Resources\MoreMediaInfoStyles.css" />
+    <None Include="Resources\Presets.png" />
     <None Include="Resources\Green_check.png" />
     <Content Include="UI\LowLevelControls\Readme.txt" />
     <None Include="app.config" />

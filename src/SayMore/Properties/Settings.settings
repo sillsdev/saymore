@@ -422,5 +422,8 @@
     <Setting Name="ShowFFmpegDetailsWhenConvertingMedia" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="MediaFileMoreInfoDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

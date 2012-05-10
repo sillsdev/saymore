@@ -6,7 +6,7 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
 
-namespace SayMore.Utilities.ComponentEditors
+namespace SayMore.UI.ComponentEditors
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class AudioVideoPlayer : EditorBase

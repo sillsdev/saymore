@@ -78,6 +78,23 @@ namespace SayMore.Media
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public static string GetInfoAsHtml(string mediaFile, bool verbose)
+		{
+			var prs = new ExternalProcess(MediaInfoProgramPath);
+			prs.StartInfo.Arguments = string.Format(
+				"--output=HTML {0} \"{1}\"", (verbose ? "-f" : string.Empty), mediaFile);
+
+			if (!prs.StartProcess())
+				return null;
+
+			var output = prs.StandardOutput.ReadToEnd();
+			prs.WaitForExit();
+			prs.Close();
+
+			return output;
+		}
+
 		#endregion
 
 		#region Public properties

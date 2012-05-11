@@ -50,6 +50,8 @@ namespace SayMore.UI
 			this._buttonHideOutput = new System.Windows.Forms.Button();
 			this._textBoxOutput = new System.Windows.Forms.TextBox();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this._labelOutputFile = new System.Windows.Forms.Label();
+			this._labelOutputFileValue = new System.Windows.Forms.Label();
 			this._tableLayoutOuter.SuspendLayout();
 			this._tableLayoutFFmpegMissing.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureInformation)).BeginInit();
@@ -63,22 +65,24 @@ namespace SayMore.UI
 			this._tableLayoutOuter.ColumnCount = 2;
 			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this._tableLayoutOuter.Controls.Add(this._labelOverview, 0, 0);
 			this._tableLayoutOuter.Controls.Add(this._labelFileToConvert, 0, 1);
-			this._tableLayoutOuter.Controls.Add(this._labelAvailableConversions, 0, 2);
-			this._tableLayoutOuter.Controls.Add(this._tableLayoutFFmpegMissing, 1, 3);
+			this._tableLayoutOuter.Controls.Add(this._labelAvailableConversions, 0, 3);
+			this._tableLayoutOuter.Controls.Add(this._tableLayoutFFmpegMissing, 1, 4);
 			this._tableLayoutOuter.Controls.Add(this._labelFileToConvertValue, 1, 1);
-			this._tableLayoutOuter.Controls.Add(this._comboAvailableConversions, 1, 2);
-			this._tableLayoutOuter.Controls.Add(this._labelStatus, 0, 4);
-			this._tableLayoutOuter.Controls.Add(this._progressBar, 0, 5);
-			this._tableLayoutOuter.Controls.Add(this._flowLayoutBottomButtons, 0, 8);
-			this._tableLayoutOuter.Controls.Add(this._flowLayoutShowHideButtons, 0, 6);
-			this._tableLayoutOuter.Controls.Add(this._textBoxOutput, 0, 7);
+			this._tableLayoutOuter.Controls.Add(this._comboAvailableConversions, 1, 3);
+			this._tableLayoutOuter.Controls.Add(this._labelStatus, 0, 5);
+			this._tableLayoutOuter.Controls.Add(this._progressBar, 0, 6);
+			this._tableLayoutOuter.Controls.Add(this._flowLayoutBottomButtons, 0, 9);
+			this._tableLayoutOuter.Controls.Add(this._flowLayoutShowHideButtons, 0, 7);
+			this._tableLayoutOuter.Controls.Add(this._textBoxOutput, 0, 8);
+			this._tableLayoutOuter.Controls.Add(this._labelOutputFile, 0, 2);
+			this._tableLayoutOuter.Controls.Add(this._labelOutputFileValue, 1, 2);
 			this._tableLayoutOuter.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._tableLayoutOuter.Location = new System.Drawing.Point(15, 15);
 			this._tableLayoutOuter.Name = "_tableLayoutOuter";
-			this._tableLayoutOuter.RowCount = 7;
+			this._tableLayoutOuter.RowCount = 8;
+			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -88,7 +92,7 @@ namespace SayMore.UI
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutOuter.Size = new System.Drawing.Size(479, 288);
+			this._tableLayoutOuter.Size = new System.Drawing.Size(479, 338);
 			this._tableLayoutOuter.TabIndex = 0;
 			// 
 			// _labelOverview
@@ -129,7 +133,7 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizableToolTip(this._labelAvailableConversions, null);
 			this.locExtender.SetLocalizationComment(this._labelAvailableConversions, null);
 			this.locExtender.SetLocalizingId(this._labelAvailableConversions, "DialogBoxes.ConvertMediaDlg.AvailableConversionsLabel");
-			this._labelAvailableConversions.Location = new System.Drawing.Point(0, 73);
+			this._labelAvailableConversions.Location = new System.Drawing.Point(0, 101);
 			this._labelAvailableConversions.Margin = new System.Windows.Forms.Padding(0, 0, 5, 15);
 			this._labelAvailableConversions.Name = "_labelAvailableConversions";
 			this._labelAvailableConversions.Size = new System.Drawing.Size(114, 13);
@@ -148,7 +152,7 @@ namespace SayMore.UI
 			this._tableLayoutFFmpegMissing.Controls.Add(this._pictureInformation, 0, 0);
 			this._tableLayoutFFmpegMissing.Controls.Add(this._labelDownloadNeeded, 1, 0);
 			this._tableLayoutFFmpegMissing.Controls.Add(this._buttonDownload, 2, 0);
-			this._tableLayoutFFmpegMissing.Location = new System.Drawing.Point(119, 105);
+			this._tableLayoutFFmpegMissing.Location = new System.Drawing.Point(119, 133);
 			this._tableLayoutFFmpegMissing.Margin = new System.Windows.Forms.Padding(0);
 			this._tableLayoutFFmpegMissing.Name = "_tableLayoutFFmpegMissing";
 			this._tableLayoutFFmpegMissing.RowCount = 1;
@@ -222,7 +226,7 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizationComment(this._comboAvailableConversions, null);
 			this.locExtender.SetLocalizationPriority(this._comboAvailableConversions, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboAvailableConversions, "ConvertMediaDlg._comboAvailableConversions");
-			this._comboAvailableConversions.Location = new System.Drawing.Point(119, 69);
+			this._comboAvailableConversions.Location = new System.Drawing.Point(119, 97);
 			this._comboAvailableConversions.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
 			this._comboAvailableConversions.Name = "_comboAvailableConversions";
 			this._comboAvailableConversions.Size = new System.Drawing.Size(360, 21);
@@ -237,7 +241,7 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizationComment(this._labelStatus, null);
 			this.locExtender.SetLocalizationPriority(this._labelStatus, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelStatus, "ConvertMediaDlg._labelStatus");
-			this._labelStatus.Location = new System.Drawing.Point(0, 131);
+			this._labelStatus.Location = new System.Drawing.Point(0, 159);
 			this._labelStatus.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._labelStatus.Name = "_labelStatus";
 			this._labelStatus.Size = new System.Drawing.Size(479, 13);
@@ -248,7 +252,7 @@ namespace SayMore.UI
 			// 
 			this._progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutOuter.SetColumnSpan(this._progressBar, 2);
-			this._progressBar.Location = new System.Drawing.Point(0, 147);
+			this._progressBar.Location = new System.Drawing.Point(0, 175);
 			this._progressBar.Margin = new System.Windows.Forms.Padding(0);
 			this._progressBar.Name = "_progressBar";
 			this._progressBar.Size = new System.Drawing.Size(479, 17);
@@ -265,7 +269,7 @@ namespace SayMore.UI
 			this._flowLayoutBottomButtons.Controls.Add(this._buttonCancel);
 			this._flowLayoutBottomButtons.Controls.Add(this._buttonBeginConversion);
 			this._flowLayoutBottomButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this._flowLayoutBottomButtons.Location = new System.Drawing.Point(0, 262);
+			this._flowLayoutBottomButtons.Location = new System.Drawing.Point(0, 312);
 			this._flowLayoutBottomButtons.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._flowLayoutBottomButtons.Name = "_flowLayoutBottomButtons";
 			this._flowLayoutBottomButtons.Size = new System.Drawing.Size(479, 26);
@@ -327,7 +331,7 @@ namespace SayMore.UI
 			this._tableLayoutOuter.SetColumnSpan(this._flowLayoutShowHideButtons, 2);
 			this._flowLayoutShowHideButtons.Controls.Add(this._buttonShowOutput);
 			this._flowLayoutShowHideButtons.Controls.Add(this._buttonHideOutput);
-			this._flowLayoutShowHideButtons.Location = new System.Drawing.Point(0, 176);
+			this._flowLayoutShowHideButtons.Location = new System.Drawing.Point(0, 204);
 			this._flowLayoutShowHideButtons.Margin = new System.Windows.Forms.Padding(0, 12, 0, 5);
 			this._flowLayoutShowHideButtons.Name = "_flowLayoutShowHideButtons";
 			this._flowLayoutShowHideButtons.Size = new System.Drawing.Size(479, 26);
@@ -380,13 +384,13 @@ namespace SayMore.UI
 			this.locExtender.SetLocalizationComment(this._textBoxOutput, null);
 			this.locExtender.SetLocalizationPriority(this._textBoxOutput, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._textBoxOutput, "ConvertMediaDlg._textBoxOutput");
-			this._textBoxOutput.Location = new System.Drawing.Point(0, 207);
+			this._textBoxOutput.Location = new System.Drawing.Point(0, 235);
 			this._textBoxOutput.Margin = new System.Windows.Forms.Padding(0);
 			this._textBoxOutput.Multiline = true;
 			this._textBoxOutput.Name = "_textBoxOutput";
 			this._textBoxOutput.ReadOnly = true;
 			this._textBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this._textBoxOutput.Size = new System.Drawing.Size(479, 45);
+			this._textBoxOutput.Size = new System.Drawing.Size(479, 67);
 			this._textBoxOutput.TabIndex = 22;
 			this._textBoxOutput.WordWrap = false;
 			// 
@@ -394,11 +398,40 @@ namespace SayMore.UI
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
+			// _labelOutputFile
+			// 
+			this._labelOutputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelOutputFile.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelOutputFile, null);
+			this.locExtender.SetLocalizationComment(this._labelOutputFile, null);
+			this.locExtender.SetLocalizingId(this._labelOutputFile, "DialogBoxes.ConvertMediaDlg.OutputFileLabel");
+			this._labelOutputFile.Location = new System.Drawing.Point(0, 69);
+			this._labelOutputFile.Margin = new System.Windows.Forms.Padding(0, 0, 5, 15);
+			this._labelOutputFile.Name = "_labelOutputFile";
+			this._labelOutputFile.Size = new System.Drawing.Size(114, 13);
+			this._labelOutputFile.TabIndex = 23;
+			this._labelOutputFile.Text = "Output File:";
+			// 
+			// _labelOutputFileValue
+			// 
+			this._labelOutputFileValue.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelOutputFileValue, null);
+			this.locExtender.SetLocalizationComment(this._labelOutputFileValue, null);
+			this.locExtender.SetLocalizationPriority(this._labelOutputFileValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelOutputFileValue, "label1.label1");
+			this._labelOutputFileValue.Location = new System.Drawing.Point(119, 69);
+			this._labelOutputFileValue.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
+			this._labelOutputFileValue.Name = "_labelOutputFileValue";
+			this._labelOutputFileValue.Size = new System.Drawing.Size(14, 13);
+			this._labelOutputFileValue.TabIndex = 24;
+			this._labelOutputFileValue.Text = "#";
+			// 
 			// ConvertMediaDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(509, 318);
+			this.ClientSize = new System.Drawing.Size(509, 368);
 			this.Controls.Add(this._tableLayoutOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
@@ -449,5 +482,7 @@ namespace SayMore.UI
 		private System.Windows.Forms.Button _buttonHideOutput;
 		private System.Windows.Forms.TextBox _textBoxOutput;
 		private Localization.UI.LocalizationExtender locExtender;
+		private System.Windows.Forms.Label _labelOutputFile;
+		private System.Windows.Forms.Label _labelOutputFileValue;
 	}
 }

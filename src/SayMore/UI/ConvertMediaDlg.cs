@@ -48,11 +48,13 @@ namespace SayMore.UI
 
 			InitializeFonts();
 			_labelFileToConvertValue.Text = Path.GetFileName(_viewModel.InputFile);
+			_labelOutputFileValue.Text = _viewModel.GetOutputFileName(true);
 			_comboAvailableConversions.Items.AddRange(_viewModel.AvailableConversions);
 			_comboAvailableConversions.SelectedItem = _viewModel.SelectedConversion;
 			_comboAvailableConversions.SelectionChangeCommitted += delegate
 			{
 				_viewModel.SelectedConversion = _comboAvailableConversions.SelectedItem as FFmpegConversionInfo;
+				_labelOutputFileValue.Text = _viewModel.GetOutputFileName(true);
 				UpdateDisplay();
 			};
 
@@ -122,6 +124,8 @@ namespace SayMore.UI
 			_labelAvailableConversions.Font = Program.DialogFont;
 			_labelFileToConvert.Font = Program.DialogFont;
 			_labelFileToConvertValue.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
+			_labelOutputFile.Font = Program.DialogFont;
+			_labelOutputFileValue.Font = _labelFileToConvertValue.Font;
 			_labelDownloadNeeded.Font = Program.DialogFont;
 			_comboAvailableConversions.Font = Program.DialogFont;
 			_labelStatus.Font = _labelFileToConvertValue.Font;
@@ -144,6 +148,7 @@ namespace SayMore.UI
 			_buttonBeginConversion.Enabled =
 				(_viewModel.ConversionState != ConvertMediaUIState.FFmpegDownloadNeeded &&
 				_viewModel.ConversionState != ConvertMediaUIState.Converting &&
+				_viewModel.ConversionState != ConvertMediaUIState.FinishedConverting &&
 				_comboAvailableConversions.SelectedItem != null);
 
 			_comboAvailableConversions.Enabled = _buttonBeginConversion.Enabled;

@@ -67,6 +67,28 @@ namespace SayMore.UI
 				return null;
 
 			var outputFile = Path.ChangeExtension(InputFile, SelectedConversion.OutputExtension);
+
+			while (File.Exists(outputFile))
+			{
+				int fileNumber = 1;
+
+				var fileWOExt = Path.GetFileNameWithoutExtension(outputFile);
+				if (fileWOExt.Length > 3)
+				{
+					if (fileWOExt[fileWOExt.Length - 3] == '_')
+					{
+						fileNumber = (int.TryParse(fileWOExt.Substring(fileWOExt.Length - 2),
+							out fileNumber) ? fileNumber + 1 : 1);
+
+						fileWOExt = fileWOExt.Substring(0, fileWOExt.Length - 3);
+					}
+				}
+
+				fileWOExt += string.Format("_{0:D2}", fileNumber);
+				outputFile = Path.Combine(Path.GetDirectoryName(outputFile),
+					fileWOExt + "." + SelectedConversion.OutputExtension);
+			}
+
 			return (returnFileNameOnly ? Path.GetFileName(outputFile) : outputFile);
 		}
 

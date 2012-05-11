@@ -115,7 +115,7 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string BuildCommandLine()
+		public string BuildCommandLine()
 		{
 			var commandLine = "-i \"" + InputFile + "\" " +
 				SelectedConversion.CommandLine + " \"" + GetOutputFileName(false) + "\"";
@@ -140,6 +140,7 @@ namespace SayMore.UI
 				FFmpegHelper.GetFullPathToFFmpegForSayMoreExe(), commandLine as string,
 				HandleProcessDataReceived, HandleProcessDataReceived, null);
 
+			_process.PriorityClass = ProcessPriorityClass.BelowNormal;
 			_process.WaitForExit();
 			_conversionReportingAction(TimeSpan.FromSeconds(int.MaxValue), null);
 		}

@@ -728,41 +728,59 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
+			//var commands = base.GetCommands(filePath).ToList();
+
+			//if (!GetIsStandardPcmAudioFile(filePath) &&
+			//    !File.Exists(ComputeStandardPcmAudioFilePath(filePath)))
+			//{
+			//    commands.Add(null); // Separator
+			//    commands.Add(new FileCommand(GetConvertToStandardPcmMenuText(),
+			//        ConvertToStandardPcmAudio, "convert"));
+			//}
+
 			var commands = base.GetCommands(filePath).ToList();
 
-			if (!GetIsStandardPcmAudioFile(filePath) &&
-				!File.Exists(ComputeStandardPcmAudioFilePath(filePath)))
-			{
+			if (commands.Count > 0)
 				commands.Add(null); // Separator
-				commands.Add(new FileCommand(GetConvertToStandardPcmMenuText(),
-					ConvertToStandardPcmAudio, "convert"));
-			}
+
+			var menuText = LocalizationManager.GetString(
+				"CommonToMultipleViews.FileList.Convert.ConvertMenuText",
+				"Convert...");
+
+			commands.Add(new FileCommand(menuText,
+				path => ConvertMediaDlg.Show(path, null), "convert"));
 
 			return commands;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual string GetConvertToStandardPcmMenuText()
+		public override bool CanBeConverted
 		{
-			throw new NotImplementedException();
+			get { return true; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void ConvertToStandardPcmAudio(string path)
-		{
-			if (AudioUtils.GetNAudioEncoding(path) == WaveFormatEncoding.Pcm)
-				return;
+		///// ------------------------------------------------------------------------------------
+		//protected virtual string GetConvertToStandardPcmMenuText()
+		//{
+		//    throw new NotImplementedException();
+		//}
 
-			var error = AudioUtils.ConvertToStandardPCM(path,
-				ComputeStandardPcmAudioFilePath(path), null,
-				AudioUtils.GetConvertingToStandardPcmAudioMsg());
+		///// ------------------------------------------------------------------------------------
+		//private void ConvertToStandardPcmAudio(string path)
+		//{
+		//    if (AudioUtils.GetNAudioEncoding(path) == WaveFormatEncoding.Pcm)
+		//        return;
 
-			if (error != null)
-			{
-				ErrorReport.NotifyUserOfProblem(error,
-					AudioUtils.GetConvertingToStandardPcmAudioErrorMsg(), path);
-			}
-		}
+		//    var error = AudioUtils.ConvertToStandardPCM(path,
+		//        ComputeStandardPcmAudioFilePath(path), null,
+		//        AudioUtils.GetConvertingToStandardPcmAudioMsg());
+
+		//    if (error != null)
+		//    {
+		//        ErrorReport.NotifyUserOfProblem(error,
+		//            AudioUtils.GetConvertingToStandardPcmAudioErrorMsg(), path);
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public static string ComputeStandardPcmAudioFilePath(string path)
@@ -862,14 +880,6 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override string GetConvertToStandardPcmMenuText()
-		{
-			return LocalizationManager.GetString(
-				"CommonToMultipleViews.FileList.Convert.ConvertToStandardPcmFromAudioMenuText",
-				"Convert to Standard WAV PCM Audio File");
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
 			yield return new AudioVideoPlayer(file, "Audio");
@@ -938,60 +948,9 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool CanBeConverted
-		{
-			get { return true; }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public override bool GetShowInPresetOptions(string key)
 		{
 			return (base.GetShowInPresetOptions(key) && key != "notes");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override string GetConvertToStandardPcmMenuText()
-		{
-			return LocalizationManager.GetString(
-				"CommonToMultipleViews.FileList.Convert.ExtractStandardPcmFromVideoMenuText",
-				"Extract audio to standard WAV PCM audio file");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string GetExtractToMp3AudioCommandString()
-		{
-			return LocalizationManager.GetString(
-				"CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText",
-				"Extract audio to mono mp3 audio file (low quality)");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<FileCommand> GetCommands(string filePath)
-		{
-			var commands = base.GetCommands(filePath).ToList();
-
-			if (!File.Exists(filePath.Replace(Path.GetExtension(filePath), ".mp3")))
-			{
-				if (commands.Count == 0)
-					commands.Add(null); // Separator
-
-				var commandString = GetExtractToMp3AudioCommandString();
-				commands.Add(new FileCommand(commandString,
-					path => ConvertMediaDlg.Show(path, commandString),
-					"convert"));
-			}
-
-			if (commands.Count == 0)
-				commands.Add(null); // Separator
-
-			var menuText = LocalizationManager.GetString(
-				"CommonToMultipleViews.FileList.Convert.ConvertMenuText",
-				"Convert...");
-
-			commands.Add(new FileCommand(menuText,
-				path => ConvertMediaDlg.Show(path, null), "convert"));
-
-			return commands;
 		}
 
 		/// ------------------------------------------------------------------------------------

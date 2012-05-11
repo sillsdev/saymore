@@ -1,11 +1,12 @@
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Localization;
+using Localization.UI;
 using SayMore.Media.FFmpeg;
 using SayMore.Properties;
-using SayMore.Utilities;
 using SilTools;
 
 namespace SayMore.UI
@@ -21,10 +22,7 @@ namespace SayMore.UI
 		{
 			var viewModel = new ConvertMediaDlgViewModel(inputFile, initialConversionName);
 			using (var dlg = new ConvertMediaDlg(viewModel))
-			{
-				return (dlg.ShowDialog() == DialogResult.Cancel ?
-					null : viewModel.GetOutputFileName(true));
-			}
+				return (dlg.ShowDialog() == DialogResult.Cancel ? null : viewModel.OutputFileCreated);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -48,13 +46,13 @@ namespace SayMore.UI
 
 			InitializeFonts();
 			_labelFileToConvertValue.Text = Path.GetFileName(_viewModel.InputFile);
-			_labelOutputFileValue.Text = _viewModel.GetOutputFileName(true);
+			_labelOutputFileValue.Text = _viewModel.GetNewOutputFileName(true);
 			_comboAvailableConversions.Items.AddRange(_viewModel.AvailableConversions);
 			_comboAvailableConversions.SelectedItem = _viewModel.SelectedConversion;
 			_comboAvailableConversions.SelectionChangeCommitted += delegate
 			{
 				_viewModel.SelectedConversion = _comboAvailableConversions.SelectedItem as FFmpegConversionInfo;
-				_labelOutputFileValue.Text = _viewModel.GetOutputFileName(true);
+				_labelOutputFileValue.Text = _viewModel.GetNewOutputFileName(true);
 				UpdateDisplay();
 			};
 
@@ -87,7 +85,7 @@ namespace SayMore.UI
 			};
 
 			_labelDownloadNeeded.Tag = _labelDownloadNeeded.Text;
-			Localization.UI.LocalizeItemDlg.StringsLocalized += delegate
+			LocalizeItemDlg.StringsLocalized += delegate
 			{
 				_labelDownloadNeeded.Tag = _labelDownloadNeeded.Text;
 				UpdateDisplay();
@@ -105,7 +103,7 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+		protected override void OnClosing(CancelEventArgs e)
 		{
 			Settings.Default.ShowFFmpegDetailsWhenConvertingMedia = _showOutput;
 			Program.ResumeBackgroundProcesses(true);
@@ -132,17 +130,33 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string GetFactoryMp4ConversionName()
+		public static string GetFactoryConvertToH263Mp4ConversionName()
 		{
 			return LocalizationManager.GetString(
 				"DialogBoxes.ConvertMediaDlg.ConvertToMp4AndAACConversionName",
-				"Convert to mpeg4 video with AAC audio");
+				"Convert to H.263/MPEG-4 video with AAC Audio");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetFactoryExtractToStandardPcmConversionName()
+		{
+			return LocalizationManager.GetString(
+				"DialogBoxes.ConvertMediaDlg.ExtractStandardPcmFromVideoMenuText",
+				"Extract audio to standard WAV PCM audio file");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetFactoryExtractToMp3AudioConversionName()
+		{
+			return LocalizationManager.GetString(
+			"CommonToMultipleViews.FileList.Convert.ExtractMp3AudioMenuText",
+			"Extract audio to mono mp3 audio file (low quality)");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
-			_labelDownloadNeeded.Text = string.Format(_labelDownloadNeeded.Tag as string,
+			_labelDownloadNeeded.Text = String.Format(_labelDownloadNeeded.Tag as string,
 				_comboAvailableConversions.SelectedItem);
 
 			_buttonBeginConversion.Enabled =
@@ -184,16 +198,17 @@ namespace SayMore.UI
 			switch (_viewModel.ConversionState)
 			{
 				case ConvertMediaUIState.ConversionCancelled:
+					_viewModel.DeleteOutputFile();
 					_labelStatus.Text = LocalizationManager.GetString(
 						"DialogBoxes.ConvertMediaDlg.ConversionCancelledMsg",
 						"Conversion Cancelled.");
 					break;
 
 				case ConvertMediaUIState.ConversionFailed:
+					_viewModel.DeleteOutputFile();
 					_labelStatus.Text = LocalizationManager.GetString(
 						"DialogBoxes.ConvertMediaDlg.ConversionFailedMsg",
 						"Conversion Failed.");
-					_textBoxOutput.AppendText(_labelStatus.Text);
 					break;
 
 				case ConvertMediaUIState.FinishedConverting:
@@ -211,8 +226,8 @@ namespace SayMore.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleBeginConversionClick(object sender, EventArgs e)
 		{
-			if (!CheckOutputFileAlreadyExists())
-				return;
+			//if (!CheckOutputFileAlreadyExists())
+			//    return;
 
 			UseWaitCursor = true;
 			_textBoxOutput.Clear();
@@ -229,32 +244,32 @@ namespace SayMore.UI
 			UpdateDisplay();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private bool CheckOutputFileAlreadyExists()
-		{
-			var outputFile = _viewModel.GetOutputFileName(false);
+		///// ------------------------------------------------------------------------------------
+		//private bool CheckOutputFileAlreadyExists()
+		//{
+		//    var outputFile = _viewModel.GetNewOutputFileName(false);
 
-			if (!File.Exists(outputFile))
-				return true;
+		//    if (!File.Exists(outputFile))
+		//        return true;
 
-			var msg = LocalizationManager.GetString(
-				"DialogBoxes.ConvertMediaDlg.OutputFileAlreadyExistsMsg",
-				"This conversion will create the output file '{0}', " +
-				"but that file already exists. If you continue, the file will be overwritten." +
-				"\r\n\r\nDo you want to continue?");
+		//    var msg = LocalizationManager.GetString(
+		//        "DialogBoxes.ConvertMediaDlg.OutputFileAlreadyExistsMsg",
+		//        "This conversion will create the output file '{0}', " +
+		//        "but that file already exists. If you continue, the file will be overwritten." +
+		//        "\r\n\r\nDo you want to continue?");
 
-			msg = string.Format(msg, outputFile);
+		//    msg = string.Format(msg, outputFile);
 
-			var result = MessageBox.Show(this, msg, Application.ProductName,
-				MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+		//    var result = MessageBox.Show(this, msg, Application.ProductName,
+		//        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-			if (result == DialogResult.No)
-				return false;
+		//    if (result == DialogResult.No)
+		//        return false;
 
-			FileSystemUtils.WaitForFileRelease(outputFile);
-			File.Delete(outputFile);
-			return true;
-		}
+		//    FileSystemUtils.WaitForFileRelease(outputFile);
+		//    File.Delete(outputFile);
+		//    return true;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleUpdateDisplayDuringConversion(TimeSpan convertedSoFar, string rawData)
@@ -274,7 +289,7 @@ namespace SayMore.UI
 			_textBoxOutput.AppendText(rawData + Environment.NewLine);
 
 			_progressBar.Value = Math.Min(_progressBar.Maximum, (int)convertedSoFar.TotalSeconds);
-			_labelStatus.Text = string.Format(_conversionInProgressStatusFormat,
+			_labelStatus.Text = String.Format(_conversionInProgressStatusFormat,
 				convertedSoFar.ToString(@"hh\:mm\:ss"),
 				_viewModel.MediaInfo.Duration.ToString(@"hh\:mm\:ss"));
 		}

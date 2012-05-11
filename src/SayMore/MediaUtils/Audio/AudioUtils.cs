@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -14,9 +13,10 @@ using Palaso.Media.Naudio.UI;
 using Palaso.Progress;
 using Palaso.Progress.LogBox;
 using Palaso.Reporting;
+using SayMore.Media.FFmpeg;
 using SayMore.Media.MPlayer;
-using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.UI;
 using SayMore.Utilities;
 
 namespace SayMore.Media.Audio
@@ -240,6 +240,7 @@ namespace SayMore.Media.Audio
 			return new WaveFormat(bestFormat.SampleRate, bestFormat.BitsPerSample, channels);
 		}
 
+		#region Methods for converting to PCM audio stream
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The input media file may be audio or video. If the waitMessage is null, then no
@@ -296,7 +297,7 @@ namespace SayMore.Media.Audio
 
 				if (CheckConversionIsPossible(outputAudioFile, false, out errorMsg))
 				{
-					if (MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile, outputAudioFile))
+					if (DoPcmConversion(inputMediaFile, outputAudioFile))
 						return new WaveFileReader(outputAudioFile);
 
 					errorMsg = LocalizationManager.GetString("SoundFileUtils.FileMayNotBeValidAudioError",
@@ -318,6 +319,29 @@ namespace SayMore.Media.Audio
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private static bool DoPcmConversion(string inputMediaFile, string outputAudioFile)
+		{
+			// If ffmpeg is is available, then use it. Otherwise do the conversion using mplayer.
+			if (!FFmpegHelper.DoesFFmpegForSayMoreExist)
+			{
+				if (MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile, outputAudioFile))
+					return true;
+			}
+			else
+			{
+				var _model = new ConvertMediaDlgViewModel(inputMediaFile,
+					ConvertMediaDlg.GetFactoryExtractToStandardPcmConversionName());
+
+				_model.BeginConversion(null, outputAudioFile);
+
+				if (_model.ConversionState == ConvertMediaUIState.FinishedConverting)
+					return true;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static bool CheckConversionIsPossible(string outputPath)
 		{
 			string errorMsg;
@@ -330,26 +354,15 @@ namespace SayMore.Media.Audio
 		{
 			message = null;
 
-			//if (!MediaInfo.HaveNecessaryComponents)
-			//{
-			//    var msg = LocalizationManager.GetString("SoundFileUtils.FFmpegMissingErrorMsg",
-			//        "SayMore could not find the proper FFmpeg on this computer. FFmpeg is required to do that conversion.");
+			if (!File.Exists(outputPath))
+				return true;
 
-			//    ErrorReport.NotifyUserOfProblem(msg);
-			//    return false;
-			//}
-
-			if (File.Exists(outputPath))
-			{
-				var msg = LocalizationManager.GetString(
+			var msg = LocalizationManager.GetString(
 					"SoundFileUtils.ConversionOutputFileAlreadyErrorMsg",
 					"Sorry, the file '{0}' already exists.");
 
-				ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(outputPath));
-				return false;
-			}
-
-			return true;
+			ErrorReport.NotifyUserOfProblem(msg, Path.GetFileName(outputPath));
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -367,13 +380,7 @@ namespace SayMore.Media.Audio
 				"There was an error trying to create a standard audio file from:\r\n\r\n{0}");
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public static string GetGeneralFFmpegConversionErrorMsg()
-		{
-			return LocalizationManager.GetString("SoundFileUtils.GeneralFFmpegFailureMsg",
-				"Something didn't work out. FFmpeg reported the following (start " +
-				"reading from the end):\r\n\r\n{0}");
-		}
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

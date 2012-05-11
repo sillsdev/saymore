@@ -31,6 +31,7 @@ namespace SayMore.UI
 		public FFmpegConversionInfo[] AvailableConversions { get; private set; }
 		public ConvertMediaUIState ConversionState { get; private set; }
 		public MediaFileInfo MediaInfo { get; private set; }
+		public string OutputFileCreated { get; private set; }
 
 		private Thread _workerThread;
 		private ExternalProcess _process;
@@ -43,7 +44,7 @@ namespace SayMore.UI
 			InputFile = inputFile;
 
 			MediaInfo = MediaFileInfo.GetInfo(inputFile);
-			AvailableConversions = FFmpegConversionInfo.GetConversions().OrderBy(c => c.Name).ToArray();
+			AvailableConversions = FFmpegConversionInfo.GetConversions(inputFile).OrderBy(c => c.Name).ToArray();
 			SelectedConversion = AvailableConversions.FirstOrDefault(c => c.Name == initialConversionName) ?? AvailableConversions[0];
 
 			ConversionState = (FFmpegHelper.DoesFFmpegForSayMoreExist ?
@@ -61,7 +62,7 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetOutputFileName(bool returnFileNameOnly)
+		public string GetNewOutputFileName(bool returnFileNameOnly)
 		{
 			if (SelectedConversion == null)
 				return null;
@@ -93,14 +94,19 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void BeginConversion(Action<TimeSpan, string> conversionReportingAction)
+		public void BeginConversion(Action<TimeSpan, string> conversionReportingAction,
+			string outputFile = null)
 		{
 			ConversionState = ConvertMediaUIState.Converting;
 
-			var commandLine = BuildCommandLine();
+			var commandLine = BuildCommandLine(outputFile ?? GetNewOutputFileName(false));
 
 			_conversionReportingAction = conversionReportingAction;
-			_conversionReportingAction(default(TimeSpan), "Command Line: " + commandLine + Environment.NewLine);
+			if (_conversionReportingAction != null)
+			{
+				_conversionReportingAction(default(TimeSpan),
+					"Command Line: " + commandLine + Environment.NewLine);
+			}
 
 			_workerThread = new Thread(DoConversion);
 			_workerThread.Name = "FFmpegConversion";
@@ -115,13 +121,26 @@ namespace SayMore.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string BuildCommandLine()
+		public string BuildCommandLine(string outputFileName)
 		{
+			OutputFileCreated = outputFileName;
+
 			var commandLine = "-i \"" + InputFile + "\" " +
-				SelectedConversion.CommandLine + " \"" + GetOutputFileName(false) + "\"";
+				SelectedConversion.CommandLine + " \"" + OutputFileCreated + "\"";
 
 			var bitRate = (MediaInfo.VideoBitRate == 0 ? string.Empty :
 				MediaInfo.VideoBitRate.ToString(CultureInfo.InvariantCulture));
+
+			if (commandLine.Contains("{pcm}"))
+			{
+				switch (MediaInfo.BitsPerSample)
+				{
+					case 32: commandLine = commandLine.Replace("{pcm}", "pcm_f32le"); break;
+					case 24: commandLine = commandLine.Replace("{pcm}", "pcm_s24le"); break;
+					case 8: commandLine = commandLine.Replace("{pcm}", "pcm_s8"); break;
+					default: commandLine = commandLine.Replace("{pcm}", "pcm_s16le"); break;
+				}
+			}
 
 			commandLine = commandLine.Replace("{vb}", bitRate);
 
@@ -142,7 +161,9 @@ namespace SayMore.UI
 
 			_process.PriorityClass = ProcessPriorityClass.BelowNormal;
 			_process.WaitForExit();
-			_conversionReportingAction(TimeSpan.FromSeconds(int.MaxValue), null);
+
+			if (_conversionReportingAction != null)
+				_conversionReportingAction(TimeSpan.FromSeconds(int.MaxValue), null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -155,10 +176,17 @@ namespace SayMore.UI
 			_process.KillProcess();
 			_process.Dispose();
 
-			var outputFile = GetOutputFileName(false);
-			FileSystemUtils.WaitForFileRelease(outputFile);
-			if (File.Exists(outputFile))
-				File.Delete(outputFile);
+			DeleteOutputFile();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DeleteOutputFile()
+		{
+			if (OutputFileCreated != null && File.Exists(OutputFileCreated))
+			{
+				FileSystemUtils.WaitForFileRelease(OutputFileCreated);
+				File.Delete(OutputFileCreated);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -167,7 +195,8 @@ namespace SayMore.UI
 			if (e.Data != null && e.Data.ToLower().Contains("error"))
 				ConversionState = ConvertMediaUIState.ConversionFailed;
 
-			_conversionReportingAction(GetTimeOfProgress(e.Data), e.Data);
+			if (_conversionReportingAction != null)
+				_conversionReportingAction(GetTimeOfProgress(e.Data), e.Data);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -182,7 +211,7 @@ namespace SayMore.UI
 			var data = outputData.ToLower();
 			int i = data.IndexOf("time=", StringComparison.Ordinal);
 
-			if (data.StartsWith("frame=") && i >= 0)
+			if ((data.StartsWith("frame=") || data.StartsWith("size=")) && i >= 0)
 			{
 				var time = data.Substring(i + 5, 11);
 				TimeSpan returnTime;

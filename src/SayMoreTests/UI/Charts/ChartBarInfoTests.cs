@@ -5,7 +5,7 @@ using System.Linq;
 using NUnit.Framework;
 using Moq;
 using SayMore.Model;
-using SayMore.Utilities.Charts;
+using SayMore.UI.Charts;
 
 namespace SayMoreTests.UI.Charts
 {

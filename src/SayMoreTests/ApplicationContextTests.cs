@@ -8,7 +8,7 @@ using Palaso.TestUtilities;
 using SayMore;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.Utilities.ElementListScreen;
+using SayMore.UI.ElementListScreen;
 
 
 namespace SayMoreTests

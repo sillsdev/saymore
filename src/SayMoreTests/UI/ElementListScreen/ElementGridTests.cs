@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using NUnit.Framework;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.Utilities.ElementListScreen;
+using SayMore.UI.ElementListScreen;
 using Palaso.TestUtilities;
 using SayMoreTests.Model;
 

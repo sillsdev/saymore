@@ -1,6 +1,6 @@
 using System.Linq;
 using NUnit.Framework;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
 namespace SayMoreTests.UI.LowLevelControls
 {

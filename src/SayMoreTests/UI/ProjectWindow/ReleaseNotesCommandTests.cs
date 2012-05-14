@@ -1,7 +1,7 @@
 using System;
 using NUnit.Extensions.Forms;
 using NUnit.Framework;
-using SayMore.Utilities.ProjectWindow;
+using SayMore.UI.ProjectWindow;
 
 namespace SayMoreTests.UI.ProjectWindow
 {

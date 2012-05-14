@@ -6,8 +6,8 @@ using Palaso.TestUtilities;
 using Moq;
 using SayMore.Model;
 using SayMore.Model.Files;
-using SayMore.Utilities.ElementListScreen;
-using SayMore.Utilities.NewEventsFromFiles;
+using SayMore.UI.ElementListScreen;
+using SayMore.UI.NewEventsFromFiles;
 
 namespace SayMoreTests.UI.NewEventsFromFiles
 {

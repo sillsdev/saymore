@@ -320,7 +320,7 @@
 		<member name="M:Localization.TransUnitUpdater.#ctor(Localization.TMXUtils.TMXDocument)">
 			------------------------------------------------------------------------------------
 		</member>
-		<member name="M:Localization.TransUnitUpdater.Update(Localization.TMXUtils.TMXDocument,Localization.LocalizingInfo)">
+		<member name="M:Localization.TransUnitUpdater.Update(Localization.LocalizingInfo)">
 			------------------------------------------------------------------------------------
 			<summary>
 			Updates the localized info. in the cache with the info. from the specified
@@ -3731,17 +3731,65 @@
 		</member>
 		<member name="M:Localization.LocalizationManager.GetStringForObject(System.Object,System.String)">
 			------------------------------------------------------------------------------------
+			<summary>
+			Gets the text for the specified object. The englishText is returned when the text
+			for the specified object cannot be found for the current UI language.
+			</summary>
+			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:Localization.LocalizationManager.GetString(System.String,System.String)">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets a string for the specified string id. The englishText is returned when
+			a string cannot be found for the specified id and the current UI language.
+			</summary>
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:Localization.LocalizationManager.GetString(System.String,System.String,System.String)">
 			------------------------------------------------------------------------------------
+			<summary>
+			Gets a string for the specified string id. The englishText is returned when
+			a string cannot be found for the specified id and the current UI language.
+			</summary>
+			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:Localization.LocalizationManager.GetString(System.String,System.String,System.String,System.Object)">
 			------------------------------------------------------------------------------------
+			<summary>
+			Gets a string for the specified string id. The englishText is returned when
+			a string cannot be found for the specified id and the current UI language.
+			</summary>
+			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:Localization.LocalizationManager.GetString(System.String,System.String,System.String,System.String,System.String,System.Object)">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets a string for the specified string id. The englishText is returned when
+			a string cannot be found for the specified id and the current UI language.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:Localization.LocalizationManager.GetDynamicString(System.String,System.String,System.String)">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets a string for the specified application id and string id. When a string for the
+			specified id cannot be found, then one is added  using the specified englishText is
+			returned when a string cannot be found for the specified id and the current UI
+			language.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:Localization.LocalizationManager.GetDynamicString(System.String,System.String,System.String,System.String)">
+			------------------------------------------------------------------------------------
+			<summary>
+			Gets a string for the specified application id and string id. When a string for the
+			specified id cannot be found, then one is added  using the specified englishText is
+			returned when a string cannot be found for the specified id and the current UI
+			language.
+			</summary>
+			------------------------------------------------------------------------------------
+		</member>
+		<member name="M:Localization.LocalizationManager.GetIsStringAvailableForLangId(System.String,System.String)">
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="M:Localization.LocalizationManager.StripOffLocalizationInfoFromText(System.String)">
@@ -3975,6 +4023,11 @@
 			be shown. It will only be shown if the current UI language is not the default.
 			</summary>
 			------------------------------------------------------------------------------------
+		</member>
+		<member name="P:Localization.LocalizationManager.EnableClickingOnControlToBringUpLocalizationDialog">
+			<summary>
+			Set this to false to make Localization Manager ignore clicks on the UI
+			</summary>
 		</member>
 		<member name="T:Localization.Translators.TranslatorTypes">
 			----------------------------------------------------------------------------------------

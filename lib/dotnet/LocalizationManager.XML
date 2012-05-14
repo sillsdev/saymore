@@ -4025,9 +4025,11 @@
 			------------------------------------------------------------------------------------
 		</member>
 		<member name="P:Localization.LocalizationManager.EnableClickingOnControlToBringUpLocalizationDialog">
+			------------------------------------------------------------------------------------
 			<summary>
 			Set this to false to make Localization Manager ignore clicks on the UI
 			</summary>
+			------------------------------------------------------------------------------------
 		</member>
 		<member name="T:Localization.Translators.TranslatorTypes">
 			----------------------------------------------------------------------------------------

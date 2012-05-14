@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
-namespace SayMore.Utilities
+namespace SayMore.UI
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class ProgressDlg : Form

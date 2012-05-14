@@ -7,9 +7,9 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Code;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
-namespace SayMore.Utilities.NewEventsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

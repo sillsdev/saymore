@@ -11,7 +11,7 @@ using SayMore.Media.MPlayer;
 using SilTools;
 using NoToolStripBorderRenderer = SilTools.NoToolStripBorderRenderer;
 
-namespace SayMore.Utilities.EventRecording
+namespace SayMore.UI.EventRecording
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class EventRecorderDlg : Form
@@ -38,8 +38,8 @@ namespace SayMore.Utilities.EventRecording
 
 			DoubleBuffered = true;
 
-			_labelRecLength.Font = SystemFonts.MenuFont;
-			_labelRecordingFormat.Font = SystemFonts.MenuFont;
+			_labelRecLength.Font = Program.DialogFont;
+			_labelRecordingFormat.Font = Program.DialogFont;
 			toolStrip1.Renderer = new NoToolStripBorderRenderer();
 
 			_buttonOK.Click += delegate

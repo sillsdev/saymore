@@ -1,6 +1,6 @@
 using System.Windows.Forms;
 
-namespace SayMore.Utilities.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	public class MonitorKeyPressDlg : Form, IMessageFilter
 	{

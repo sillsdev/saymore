@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace SayMore.Utilities.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	public partial class MissingFFmpegPopup : Form
 	{

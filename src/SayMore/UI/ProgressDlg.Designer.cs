@@ -1,4 +1,4 @@
-namespace SayMore.Utilities
+namespace SayMore.UI
 {
 	partial class ProgressDlg
 	{

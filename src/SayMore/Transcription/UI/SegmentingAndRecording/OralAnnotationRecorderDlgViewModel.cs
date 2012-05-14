@@ -11,8 +11,8 @@ using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Transcription.Model;
+using SayMore.UI.NewEventsFromFiles;
 using SayMore.Utilities;
-using SayMore.Utilities.NewEventsFromFiles;
 
 namespace SayMore.Transcription.UI
 {

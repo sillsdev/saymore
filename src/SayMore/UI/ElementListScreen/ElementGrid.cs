@@ -11,7 +11,7 @@ using SayMore.Model.Files;
 using SilTools;
 using ColorHelper = SilTools.ColorHelper;
 
-namespace SayMore.Utilities.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ElementGrid : SilGrid

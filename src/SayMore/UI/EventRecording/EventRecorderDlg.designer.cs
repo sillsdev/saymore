@@ -1,6 +1,6 @@
 using SilTools.Controls;
 
-namespace SayMore.Utilities.EventRecording
+namespace SayMore.UI.EventRecording
 {
 	partial class EventRecorderDlg
 	{

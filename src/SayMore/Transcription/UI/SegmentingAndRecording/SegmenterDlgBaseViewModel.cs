@@ -8,7 +8,7 @@ using SayMore.Media.Audio;
 using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
-using SayMore.Utilities.NewEventsFromFiles;
+using SayMore.UI.NewEventsFromFiles;
 using SayMore.Utilities;
 
 namespace SayMore.Transcription.UI

@@ -4,13 +4,12 @@ using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms.ClearShare;
 using Localization;
 using Palaso.UI.WindowsForms.ClearShare.WinFormsUI;
 using SilTools;
 using SilTools.Controls;
 
-namespace SayMore.Utilities.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	public class ColumnChooserButton : XButton
 	{

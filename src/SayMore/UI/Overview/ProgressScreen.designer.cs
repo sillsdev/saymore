@@ -1,6 +1,6 @@
 using System;
 
-namespace SayMore.Utilities.Overview
+namespace SayMore.UI.Overview
 {
 	partial class ProgressScreen
 	{

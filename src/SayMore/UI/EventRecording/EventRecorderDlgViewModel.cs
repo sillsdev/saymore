@@ -8,7 +8,7 @@ using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Model;
 
-namespace SayMore.Utilities.EventRecording
+namespace SayMore.UI.EventRecording
 {
 	public class EventRecorderDlgViewModel : IDisposable
 	{

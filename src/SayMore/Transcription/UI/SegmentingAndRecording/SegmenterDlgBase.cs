@@ -10,7 +10,7 @@ using NAudio.Wave;
 using Palaso.Progress;
 using SayMore.Media.Audio;
 using SayMore.Properties;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 using SayMore.Media.MPlayer;
 using SayMore.Utilities;
 using SilTools;
@@ -124,12 +124,12 @@ namespace SayMore.Transcription.UI
 
 			InitializeZoomComboItems();
 			_comboBoxZoom.Text = _comboBoxZoom.Items[0] as string;
-			_comboBoxZoom.Font = SystemFonts.MenuFont;
-			_labelZoom.Font = SystemFonts.MenuFont;
-			_labelSegmentXofY.Font = SystemFonts.MenuFont;
-			_labelSegmentNumber.Font = SystemFonts.MenuFont;
-			_labelTimeDisplay.Font = SystemFonts.MenuFont;
-			_labelOriginalRecording.Font = FontHelper.MakeFont(SystemFonts.MenuFont, FontStyle.Bold);
+			_comboBoxZoom.Font = Program.DialogFont;
+			_labelZoom.Font = Program.DialogFont;
+			_labelSegmentXofY.Font = Program.DialogFont;
+			_labelSegmentNumber.Font = Program.DialogFont;
+			_labelTimeDisplay.Font = Program.DialogFont;
+			_labelOriginalRecording.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
 
 			// If we ever get zooming working again, remove the following two
 			// lines and uncomment the two below them.

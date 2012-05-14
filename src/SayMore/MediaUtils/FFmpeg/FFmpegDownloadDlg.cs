@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Localization;
 using SayMore.Properties;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 using SilTools;
 
 namespace SayMore.Media.FFmpeg

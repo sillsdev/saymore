@@ -395,7 +395,7 @@ namespace SayMore.Media.Audio
 			{
 			}
 
-			using (var fnt = FontHelper.MakeFont(SystemFonts.MenuFont, 10, FontStyle.Bold))
+			using (var fnt = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold))
 			{
 				const TextFormatFlags fmt = TextFormatFlags.VerticalCenter |
 					TextFormatFlags.HorizontalCenter | TextFormatFlags.WordBreak |

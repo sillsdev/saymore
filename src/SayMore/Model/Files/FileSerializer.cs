@@ -7,7 +7,6 @@ using System.Xml;
 using System.Xml.Linq;
 using SayMore.Model.Fields;
 using Palaso.Xml;
-using SayMore.Utilities.Utilities;
 
 namespace SayMore.Model.Files
 {

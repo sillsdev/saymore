@@ -8,7 +8,7 @@ using Localization;
 using SilTools;
 using SilTools.Controls;
 
-namespace SayMore.Utilities.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	public class ViewTabGroup : Panel

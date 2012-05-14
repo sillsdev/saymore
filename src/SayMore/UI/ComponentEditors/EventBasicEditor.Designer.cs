@@ -1,4 +1,5 @@
-using SayMore.Utilities.LowLevelControls;
+
+using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -39,7 +40,7 @@ namespace SayMore.UI.ComponentEditors
 			this._labelSynopsis = new System.Windows.Forms.Label();
 			this._synopsis = new System.Windows.Forms.TextBox();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this._participants = new SayMore.Utilities.LowLevelControls.MultiValueComboBox();
+			this._participants = new MultiValueComboBox();
 			this._panelGrid = new System.Windows.Forms.Panel();
 			this._labelCustomFields = new System.Windows.Forms.Label();
 			this._access = new System.Windows.Forms.TextBox();
@@ -584,7 +585,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelCustomFields;
 		private AutoCompleteHelper _autoCompleteHelper;
 		private System.Windows.Forms.Panel _panelGrid;
-		private SayMore.Utilities.LowLevelControls.MultiValueComboBox _participants;
+		private SayMore.UI.LowLevelControls.MultiValueComboBox _participants;
 		private System.Windows.Forms.Label _labelDate;
 		private System.Windows.Forms.ComboBox _status;
 		private Localization.UI.LocalizationExtender locExtender;

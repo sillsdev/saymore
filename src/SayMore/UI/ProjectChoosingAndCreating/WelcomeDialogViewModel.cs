@@ -7,7 +7,7 @@ using SayMore.Model;
 using SayMore.Properties;
 using SilTools;
 
-namespace SayMore.Utilities.ProjectChoosingAndCreating
+namespace SayMore.UI.ProjectChoosingAndCreating
 {
 	/// <summary>
 	/// This contains all easily testable logic/behavior for the WelcomeDialog,

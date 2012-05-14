@@ -9,10 +9,10 @@ using Localization;
 using Palaso.Reporting;
 using SayMore.Model;
 using SayMore.Properties;
-using SayMore.Utilities.ElementListScreen;
+using SayMore.UI.ElementListScreen;
 using Palaso.Extensions;
 
-namespace SayMore.Utilities.NewEventsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	#region NewEventsFromFileDlgModel class
 	/// ----------------------------------------------------------------------------------------

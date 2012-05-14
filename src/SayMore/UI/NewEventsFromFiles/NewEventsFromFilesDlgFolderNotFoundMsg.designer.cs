@@ -1,4 +1,4 @@
-namespace SayMore.Utilities.NewEventsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	partial class NewEventsFromFilesDlgFolderNotFoundMsg
 	{

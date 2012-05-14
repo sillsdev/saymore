@@ -18,10 +18,12 @@ using Palaso.Progress.LogBox;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Properties;
+using SayMore.Utilities;
+using SilTools;
 using Timer = System.Threading.Timer;
 using ZipFile = Ionic.Zip.ZipFile;
 
-namespace SayMore.Utilities.Utilities
+namespace SayMore.UI.Utilities
 {
 	public class ArchivingDlgViewModel
 	{
@@ -61,9 +63,7 @@ namespace SayMore.Utilities.Utilities
 			LogBox = new LogBox();
 			LogBox.TabStop = false;
 			LogBox.ShowMenu = false;
-
-			if (Program.DialogFont.FontFamily.IsStyleAvailable(FontStyle.Bold))
-				LogBox.Font = new Font(Program.DialogFont, FontStyle.Bold);
+			LogBox.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
 		}
 
 		/// ------------------------------------------------------------------------------------

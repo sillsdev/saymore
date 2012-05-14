@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Linq;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.Utilities.Utilities;
+using SayMore.Utilities;
 
-namespace SayMore.Utilities.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	/// ------------------------------------------------------------------------------------
 	public class StagesDataProvider
@@ -39,7 +39,8 @@ namespace SayMore.Utilities.ElementListScreen
 		/// ------------------------------------------------------------------------------------
 		public Image CreateImageForComponentStage(IEnumerable<ComponentRole> completedRoles)
 		{
-			var completedRolesKey = GetCompletedRolesKey(completedRoles);
+			var completedRolesList = completedRoles.ToArray();
+			var completedRolesKey = GetCompletedRolesKey(completedRolesList);
 
 			Image img;
 			if (s_stagesImageCache.TryGetValue(completedRolesKey, out img))
@@ -56,7 +57,7 @@ namespace SayMore.Utilities.ElementListScreen
 
 				foreach (var role in _componentRoles)
 				{
-					g.DrawImageUnscaled(GetComponentStageColorBlock(role, completedRoles), dx, 0);
+					g.DrawImageUnscaled(GetComponentStageColorBlock(role, completedRolesList), dx, 0);
 					dx += (sz.Width - 1);
 				}
 			}

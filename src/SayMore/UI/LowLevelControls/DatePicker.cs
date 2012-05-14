@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using Palaso.Extensions;
 
-namespace SayMore.Utilities.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// A DateTimePicker that allows null values and displays an empty picker when the value

@@ -2,9 +2,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SayMore.Properties;
-using SayMore.Utilities.Utilities;
+using SayMore.Utilities;
 
-namespace SayMore.Utilities
+namespace SayMore.UI
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class SplashScreenForm : SilTools.SplashScreenForm

@@ -6,8 +6,9 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Localization;
 using Palaso.Reporting;
+using SayMore.UI;
 using SayMore.Utilities;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
 namespace SayMore.Transcription.Model
 {

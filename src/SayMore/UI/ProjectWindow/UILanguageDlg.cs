@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using Localization;
 
-namespace SayMore.Utilities.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	public partial class UILanguageDlg : Form
 	{

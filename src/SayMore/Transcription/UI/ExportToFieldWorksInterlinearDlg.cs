@@ -51,11 +51,11 @@ namespace SayMore.Transcription.UI
 			_labelFreeTranslationColumnHeadingText.Text =
 				string.Format(_labelFreeTranslationColumnHeadingText.Text, TextTier.FreeTranslationTierDisplayName);
 
-			_labelOverview.Font = SystemFonts.MenuFont;
-			_labelTranscriptionColumnHeadingText.Font = SystemFonts.MenuFont;
-			_labelFreeTranslationColumnHeadingText.Font = SystemFonts.MenuFont;
-			_comboTranscriptionWs.Font = SystemFonts.MenuFont;
-			_comboTranslationWs.Font = SystemFonts.MenuFont;
+			_labelOverview.Font = Program.DialogFont;
+			_labelTranscriptionColumnHeadingText.Font = Program.DialogFont;
+			_labelFreeTranslationColumnHeadingText.Font = Program.DialogFont;
+			_comboTranscriptionWs.Font = Program.DialogFont;
+			_comboTranslationWs.Font = Program.DialogFont;
 
 		}
 

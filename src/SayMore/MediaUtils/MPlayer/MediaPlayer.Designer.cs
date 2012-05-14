@@ -1,5 +1,5 @@
 
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
 namespace SayMore.Media.MPlayer
 {
@@ -29,60 +29,20 @@ namespace SayMore.Media.MPlayer
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this._videoPanel = new SayMore.Media.MPlayer.VideoPanel();
-			this._volumePopup = new SayMore.Utilities.LowLevelControls.VolumePopup();
 			this._toolbarButtons = new System.Windows.Forms.ToolStrip();
 			this._buttonPlay = new System.Windows.Forms.ToolStripButton();
 			this._buttonPause = new System.Windows.Forms.ToolStripButton();
 			this._buttonStop = new System.Windows.Forms.ToolStripButton();
 			this._buttonVolume = new System.Windows.Forms.ToolStripSplitButton();
 			this._labelTime = new System.Windows.Forms.ToolStripLabel();
-			this._sliderTime = new SayMore.Utilities.LowLevelControls.Slider();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this._videoPanel.SuspendLayout();
+			this._videoPanel = new SayMore.Media.MPlayer.VideoPanel();
+			this._volumePopup = new SayMore.UI.LowLevelControls.VolumePopup();
+			this._sliderTime = new SayMore.UI.LowLevelControls.Slider();
 			this._toolbarButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			this._videoPanel.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// _videoPanel
-			// 
-			this._videoPanel.BackColor = System.Drawing.Color.Black;
-			this._videoPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this._videoPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this._videoPanel.ClipTextForChildControls = true;
-			this._videoPanel.ControlReceivingFocusOnMnemonic = null;
-			this._videoPanel.Controls.Add(this._volumePopup);
-			this._videoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._videoPanel.DoubleBuffered = true;
-			this._videoPanel.DrawOnlyBottomBorder = false;
-			this._videoPanel.DrawOnlyTopBorder = false;
-			this._videoPanel.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
-			this._videoPanel.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this._videoPanel, null);
-			this.locExtender.SetLocalizationComment(this._videoPanel, null);
-			this.locExtender.SetLocalizationPriority(this._videoPanel, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._videoPanel, "_videoPanel");
-			this._videoPanel.Location = new System.Drawing.Point(0, 0);
-			this._videoPanel.MnemonicGeneratesClick = false;
-			this._videoPanel.Name = "_videoPanel";
-			this._videoPanel.PaintExplorerBarBackground = false;
-			this._videoPanel.Size = new System.Drawing.Size(305, 208);
-			this._videoPanel.TabIndex = 10;
-			// 
-			// _volumePopup
-			// 
-			this.locExtender.SetLocalizableToolTip(this._volumePopup, null);
-			this.locExtender.SetLocalizationComment(this._volumePopup, null);
-			this.locExtender.SetLocalizationPriority(this._volumePopup, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._volumePopup, "UI.MediaPlayer.VolumePopup");
-			this._volumePopup.Location = new System.Drawing.Point(260, 31);
-			this._volumePopup.Name = "_volumePopup";
-			this._volumePopup.OwningDropDown = null;
-			this._volumePopup.Padding = new System.Windows.Forms.Padding(10, 8, 10, 8);
-			this._volumePopup.Size = new System.Drawing.Size(33, 160);
-			this._volumePopup.TabIndex = 0;
-			this._volumePopup.VolumeLevel = 0F;
-			this._volumePopup.VolumeChanged += new System.EventHandler(this.HandleVolumePopupValueChanged);
 			// 
 			// _toolbarButtons
 			// 
@@ -102,7 +62,7 @@ namespace SayMore.Media.MPlayer
 			this._toolbarButtons.Location = new System.Drawing.Point(0, 217);
 			this._toolbarButtons.Name = "_toolbarButtons";
 			this._toolbarButtons.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this._toolbarButtons.Size = new System.Drawing.Size(305, 34);
+			this._toolbarButtons.Size = new System.Drawing.Size(318, 34);
 			this._toolbarButtons.TabIndex = 12;
 			this._toolbarButtons.Text = "toolStrip1";
 			// 
@@ -187,6 +147,50 @@ namespace SayMore.Media.MPlayer
 			this._labelTime.Text = "#";
 			this._labelTime.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
+			// _videoPanel
+			// 
+			this._videoPanel.BackColor = System.Drawing.Color.Black;
+			this._videoPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._videoPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._videoPanel.ClipTextForChildControls = true;
+			this._videoPanel.ControlReceivingFocusOnMnemonic = null;
+			this._videoPanel.Controls.Add(this._volumePopup);
+			this._videoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._videoPanel.DoubleBuffered = true;
+			this._videoPanel.DrawOnlyBottomBorder = false;
+			this._videoPanel.DrawOnlyTopBorder = false;
+			this._videoPanel.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
+			this._videoPanel.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this._videoPanel, null);
+			this.locExtender.SetLocalizationComment(this._videoPanel, null);
+			this.locExtender.SetLocalizationPriority(this._videoPanel, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._videoPanel, "_videoPanel");
+			this._videoPanel.Location = new System.Drawing.Point(0, 0);
+			this._videoPanel.MnemonicGeneratesClick = false;
+			this._videoPanel.Name = "_videoPanel";
+			this._videoPanel.PaintExplorerBarBackground = false;
+			this._videoPanel.Size = new System.Drawing.Size(318, 208);
+			this._videoPanel.TabIndex = 10;
+			// 
+			// _volumePopup
+			// 
+			this.locExtender.SetLocalizableToolTip(this._volumePopup, null);
+			this.locExtender.SetLocalizationComment(this._volumePopup, null);
+			this.locExtender.SetLocalizationPriority(this._volumePopup, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._volumePopup, "UI.MediaPlayer.VolumePopup");
+			this._volumePopup.Location = new System.Drawing.Point(260, 31);
+			this._volumePopup.Name = "_volumePopup";
+			this._volumePopup.OwningDropDown = null;
+			this._volumePopup.Padding = new System.Windows.Forms.Padding(10, 8, 10, 8);
+			this._volumePopup.Size = new System.Drawing.Size(33, 160);
+			this._volumePopup.TabIndex = 0;
+			this._volumePopup.VolumeLevel = 0F;
+			this._volumePopup.VolumeChanged += new System.EventHandler(this.HandleVolumePopupValueChanged);
+			// 
 			// _sliderTime
 			// 
 			this._sliderTime.BackColor = System.Drawing.Color.DimGray;
@@ -200,14 +204,10 @@ namespace SayMore.Media.MPlayer
 			this._sliderTime.Location = new System.Drawing.Point(0, 208);
 			this._sliderTime.Name = "_sliderTime";
 			this._sliderTime.ShowTooltip = false;
-			this._sliderTime.Size = new System.Drawing.Size(305, 9);
+			this._sliderTime.Size = new System.Drawing.Size(318, 9);
 			this._sliderTime.TabIndex = 7;
 			this._sliderTime.TrackThickness = 3;
 			this._sliderTime.AfterUserMovingThumb += new System.EventHandler(this.HandleSliderTimeAfterUserMovingThumb);
-			// 
-			// locExtender
-			// 
-			this.locExtender.LocalizationManagerId = "SayMore";
 			// 
 			// MediaPlayer
 			// 
@@ -221,11 +221,11 @@ namespace SayMore.Media.MPlayer
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SayMore");
 			this.Name = "MediaPlayer";
-			this.Size = new System.Drawing.Size(305, 251);
-			this._videoPanel.ResumeLayout(false);
+			this.Size = new System.Drawing.Size(318, 251);
 			this._toolbarButtons.ResumeLayout(false);
 			this._toolbarButtons.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			this._videoPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

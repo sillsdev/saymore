@@ -5,11 +5,11 @@ using Localization;
 using SayMore.Media.Audio;
 using SayMore.Model;
 using SayMore.Properties;
-using SayMore.Utilities.EventRecording;
-using SayMore.Utilities.NewEventsFromFiles;
-using SayMore.Utilities.ProjectWindow;
+using SayMore.UI.EventRecording;
+using SayMore.UI.NewEventsFromFiles;
+using SayMore.UI.ProjectWindow;
 
-namespace SayMore.Utilities.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class EventsListScreen : ConcreteEventScreen, ISayMoreView

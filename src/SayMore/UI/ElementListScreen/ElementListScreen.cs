@@ -11,9 +11,9 @@ using SayMore.Model.Files;
 using SayMore.Properties;
 using SayMore.Model;
 using SayMore.UI.ComponentEditors;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
-namespace SayMore.Utilities.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

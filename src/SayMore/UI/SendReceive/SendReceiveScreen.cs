@@ -1,9 +1,8 @@
 using System;
 using System.Windows.Forms;
 using SayMore.Properties;
-using SayMore.Utilities.ProjectWindow;
 
-namespace SayMore.Utilities.SendReceive
+namespace SayMore.UI.SendReceive
 {
 	/// ----------------------------------------------------------------------------------------
 	//public class SendReceiveScreen : UserControl, ISayMoreView

@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
 
-namespace SayMore.Utilities.NewEventsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

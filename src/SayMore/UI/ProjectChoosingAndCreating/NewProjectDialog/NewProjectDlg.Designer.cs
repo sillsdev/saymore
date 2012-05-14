@@ -1,6 +1,6 @@
 using Localization.UI;
 
-namespace SayMore.Utilities.ProjectChoosingAndCreating.NewProjectDialog
+namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
 	partial class NewProjectDlg
 	{

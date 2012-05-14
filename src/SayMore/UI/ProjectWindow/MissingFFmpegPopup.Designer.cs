@@ -1,4 +1,4 @@
-namespace SayMore.Utilities.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	partial class MissingFFmpegPopup
 	{

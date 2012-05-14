@@ -9,7 +9,7 @@ using Localization;
 using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Properties;
-using SayMore.Utilities.Charts;
+using SayMore.UI.Charts;
 using SilTools;
 
 namespace SayMore.UI.ComponentEditors

@@ -5,9 +5,9 @@ using Localization;
 using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.Model.Files.DataGathering;
-using SayMore.Utilities.Charts;
+using SayMore.UI.Charts;
 
-namespace SayMore.Utilities.Overview.Statistics
+namespace SayMore.UI.Overview.Statistics
 {
 	public class StatisticsViewModel : IDisposable
 	{
@@ -77,7 +77,7 @@ namespace SayMore.Utilities.Overview.Statistics
 			var eventsLabel = LocalizationManager.GetString("ProgressView.EventsLabel", "Events:");
 			var peopleLabel = LocalizationManager.GetString("ProgressView.PeopleLabel", "People:");
 
-			yield return new KeyValuePair<string, string>(eventsLabel ,EventInformant.NumberOfEvents.ToString());
+			yield return new KeyValuePair<string, string>(eventsLabel, EventInformant.NumberOfEvents.ToString());
 			yield return new KeyValuePair<string, string>(peopleLabel, PersonInformant.NumberOfPeople.ToString());
 		}
 

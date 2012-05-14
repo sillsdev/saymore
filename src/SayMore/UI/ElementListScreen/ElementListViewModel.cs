@@ -7,7 +7,7 @@ using SayMore.Model;
 using SayMore.Model.Files;
 using SayMore.UI.ComponentEditors;
 
-namespace SayMore.Utilities.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	/// <summary>
 	/// This is the logic behind the screen which shows the list of events, and also the

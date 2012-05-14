@@ -1,3 +1,5 @@
+using SayMore.UI.LowLevelControls;
+
 namespace SayMore.Media.FFmpeg
 {
 	partial class FFmpegDownloadDlg
@@ -37,7 +39,7 @@ namespace SayMore.Media.FFmpeg
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this._linkManualDownload = new System.Windows.Forms.LinkLabel();
 			this._buttonInstall = new System.Windows.Forms.Button();
-			this._progressControl = new SayMore.Utilities.LowLevelControls.ProgressControl();
+			this._progressControl = new SayMore.UI.LowLevelControls.ProgressControl();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._labelStatus = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
@@ -278,7 +280,7 @@ namespace SayMore.Media.FFmpeg
 		private System.Windows.Forms.Label _labelOr;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.Button _buttonInstall;
-		private Utilities.LowLevelControls.ProgressControl _progressControl;
+		private ProgressControl _progressControl;
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Label _labelStatus;
 		private Localization.UI.LocalizationExtender locExtender;

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using SayMore.Properties;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 using SilTools;
 using ColorHelper = SilTools.ColorHelper;
 

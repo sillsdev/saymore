@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Ionic.Zip;
 using Localization;
 using Palaso.Reporting;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
 namespace SayMore.Media.FFmpeg
 {

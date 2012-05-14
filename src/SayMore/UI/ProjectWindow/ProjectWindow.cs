@@ -10,14 +10,13 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using Palaso.IO;
-using Palaso.Media;
 using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Properties;
 using SayMore.Media.MPlayer;
 using SilTools;
 
-namespace SayMore.Utilities.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

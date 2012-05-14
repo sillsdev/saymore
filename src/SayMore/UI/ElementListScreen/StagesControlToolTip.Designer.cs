@@ -1,4 +1,4 @@
-namespace SayMore.Utilities.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	partial class StagesControlToolTip
 	{

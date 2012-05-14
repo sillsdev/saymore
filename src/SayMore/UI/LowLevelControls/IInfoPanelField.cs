@@ -1,5 +1,5 @@
 
-namespace SayMore.Utilities.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	public interface IInfoPanelField
 	{

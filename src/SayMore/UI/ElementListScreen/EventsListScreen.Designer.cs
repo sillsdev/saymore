@@ -1,8 +1,8 @@
 using System;
+using SayMore.UI.LowLevelControls;
 using SilTools;
-using SayMore.Utilities.LowLevelControls;
 
-namespace SayMore.Utilities.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	partial class EventsListScreen
 	{
@@ -36,9 +36,9 @@ namespace SayMore.Utilities.ElementListScreen
 			this._elementListSplitter = new System.Windows.Forms.SplitContainer();
 			this._buttonNewFromRecording = new System.Windows.Forms.Button();
 			this._buttonNewFromFiles = new System.Windows.Forms.Button();
-			this._eventsListPanel = new SayMore.Utilities.LowLevelControls.ListPanel();
+			this._eventsListPanel = new SayMore.UI.LowLevelControls.ListPanel();
 			this._componentsSplitter = new System.Windows.Forms.SplitContainer();
-			this._eventComponentFileGrid = new SayMore.Utilities.ElementListScreen.ComponentFileGrid();
+			this._eventComponentFileGrid = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._labelClickNewHelpPrompt = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._elementListSplitter.Panel1.SuspendLayout();

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using SayMore.Model.Fields;
 using SilTools;
 
-namespace SayMore.Utilities.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	public partial class MultiValuePickerPopup : PopupControl
 	{

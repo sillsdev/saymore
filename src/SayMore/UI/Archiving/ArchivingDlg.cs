@@ -1,11 +1,12 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Localization;
 using Palaso.Progress;
 using SayMore.Properties;
 using SilTools;
 
-namespace SayMore.Utilities.Utilities
+namespace SayMore.UI.Utilities
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class ArchivingDlg : Form

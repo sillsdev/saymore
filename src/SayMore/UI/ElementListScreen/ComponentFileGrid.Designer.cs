@@ -1,4 +1,4 @@
-namespace SayMore.Utilities.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	partial class ComponentFileGrid
 	{
@@ -37,7 +37,7 @@ namespace SayMore.Utilities.ElementListScreen
 			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._menuDeleteFile = new System.Windows.Forms.ToolStripMenuItem();
 			this._panelOuter = new SilTools.Controls.SilPanel();
-			this._grid = new SayMore.Utilities.ElementListScreen.InternalComponentFileGrid();
+			this._grid = new SayMore.UI.ElementListScreen.InternalComponentFileGrid();
 			this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
 			this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();

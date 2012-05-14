@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using SayMore.Model.Files.DataGathering;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ComponentEditors
 {

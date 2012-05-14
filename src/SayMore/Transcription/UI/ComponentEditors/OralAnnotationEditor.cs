@@ -111,7 +111,7 @@ namespace SayMore.Transcription.UI
 
 			SetComponentFile(_file);
 			_isFirstTimeActivated = false;
-			_labelCursorTime.Font = SystemFonts.MenuFont;
+			_labelCursorTime.Font = Program.DialogFont;
 		}
 
 		/// ------------------------------------------------------------------------------------

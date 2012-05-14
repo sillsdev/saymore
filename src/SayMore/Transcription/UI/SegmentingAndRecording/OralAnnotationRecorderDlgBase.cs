@@ -293,17 +293,17 @@ namespace SayMore.Transcription.UI
 			_labelListenHint.Font = _labelOriginalRecording.Font;
 			_labelRecordHint.Font = _labelOriginalRecording.Font;
 			_labelErrorInfo.Font = _labelOriginalRecording.Font;
-			_labelFinishedHint.Font = new Font(_labelOriginalRecording.Font.FontFamily, 10, FontStyle.Bold);
-			_labelListenButton.Font = SystemFonts.MenuFont;
-			_labelRecordButton.Font = SystemFonts.MenuFont;
-			_labelUndoButton.Font = SystemFonts.MenuFont;
+			_labelFinishedHint.Font = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold);
+			_labelListenButton.Font = Program.DialogFont;
+			_labelRecordButton.Font = Program.DialogFont;
+			_labelUndoButton.Font = Program.DialogFont;
 			var undoButtonSize = _labelUndoButton.Size;
 			undoButtonSize.Width += _labelUndoButton.MinimumSize.Width;
 			_labelUndoButton.AutoSize = false;
 			_labelUndoButton.Size = undoButtonSize;
 			_labelOriginalRecording.ForeColor = _labelListenButton.ForeColor;
 
-			_annotationSegmentFont = FontHelper.MakeFont(SystemFonts.MenuFont, 8, FontStyle.Bold);
+			_annotationSegmentFont = FontHelper.MakeFont(Program.DialogFont, 8, FontStyle.Bold);
 
 			LocalizeItemDlg.StringsLocalized += HandleStringsLocalized;
 		}

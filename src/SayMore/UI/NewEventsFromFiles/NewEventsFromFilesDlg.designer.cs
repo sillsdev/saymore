@@ -1,7 +1,7 @@
 using System.Windows.Forms;
 using SilTools;
 
-namespace SayMore.Utilities.NewEventsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	partial class NewEventsFromFilesDlg
 	{
@@ -44,7 +44,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this._progressBar = new System.Windows.Forms.ProgressBar();
 			this._outerTableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
-			this._gridFiles = new SayMore.Utilities.ElementListScreen.ComponentFileGrid();
+			this._gridFiles = new SayMore.UI.ElementListScreen.ComponentFileGrid();
 			this._panelMetadata = new System.Windows.Forms.Panel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._mediaPlayerPanel.SuspendLayout();
@@ -120,7 +120,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this._labelSourceFolder.Location = new System.Drawing.Point(162, 10);
 			this._labelSourceFolder.Margin = new System.Windows.Forms.Padding(3, 10, 3, 20);
 			this._labelSourceFolder.Name = "_labelSourceFolder";
-			this._labelSourceFolder.Size = new System.Drawing.Size(477, 13);
+			this._labelSourceFolder.Size = new System.Drawing.Size(524, 13);
 			this._labelSourceFolder.TabIndex = 1;
 			this._labelSourceFolder.Text = "#";
 			//
@@ -153,7 +153,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this._labelInstructions.Location = new System.Drawing.Point(3, 266);
 			this._labelInstructions.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this._labelInstructions.Name = "_labelInstructions";
-			this._labelInstructions.Size = new System.Drawing.Size(388, 26);
+			this._labelInstructions.Size = new System.Drawing.Size(419, 26);
 			this._labelInstructions.TabIndex = 2;
 			this._labelInstructions.Text = "Mark each file which represents an original recording of an event. For each one, " +
 	"SayMore will create a new event and copy the file into it.";
@@ -174,12 +174,12 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this.locExtender.SetLocalizableToolTip(this._mediaPlayerPanel, null);
 			this.locExtender.SetLocalizationComment(this._mediaPlayerPanel, null);
 			this.locExtender.SetLocalizingId(this._mediaPlayerPanel, "DialogBoxes.NewEventsFromFilesDlg._mediaPlayerPanel");
-			this._mediaPlayerPanel.Location = new System.Drawing.Point(414, 61);
+			this._mediaPlayerPanel.Location = new System.Drawing.Point(445, 61);
 			this._mediaPlayerPanel.Margin = new System.Windows.Forms.Padding(20, 0, 0, 0);
 			this._mediaPlayerPanel.MnemonicGeneratesClick = false;
 			this._mediaPlayerPanel.Name = "_mediaPlayerPanel";
 			this._mediaPlayerPanel.PaintExplorerBarBackground = false;
-			this._mediaPlayerPanel.Size = new System.Drawing.Size(228, 198);
+			this._mediaPlayerPanel.Size = new System.Drawing.Size(244, 198);
 			this._mediaPlayerPanel.TabIndex = 6;
 			//
 			// _panelProgress
@@ -191,7 +191,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this._panelProgress.Controls.Add(this._progressBar);
 			this._panelProgress.Location = new System.Drawing.Point(14, 102);
 			this._panelProgress.Name = "_panelProgress";
-			this._panelProgress.Size = new System.Drawing.Size(198, 41);
+			this._panelProgress.Size = new System.Drawing.Size(214, 41);
 			this._panelProgress.TabIndex = 7;
 			//
 			// _labelProgress
@@ -205,7 +205,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this.locExtender.SetLocalizingId(this._labelProgress, "DialogBoxes.NewEventsFromFilesDlg._labelProgress");
 			this._labelProgress.Location = new System.Drawing.Point(0, 0);
 			this._labelProgress.Name = "_labelProgress";
-			this._labelProgress.Size = new System.Drawing.Size(198, 18);
+			this._labelProgress.Size = new System.Drawing.Size(214, 18);
 			this._labelProgress.TabIndex = 0;
 			this._labelProgress.Text = "Reading Files...";
 			this._labelProgress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -215,7 +215,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this._progressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this._progressBar.Location = new System.Drawing.Point(0, 21);
 			this._progressBar.Name = "_progressBar";
-			this._progressBar.Size = new System.Drawing.Size(198, 20);
+			this._progressBar.Size = new System.Drawing.Size(214, 20);
 			this._progressBar.Step = 1;
 			this._progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this._progressBar.TabIndex = 1;
@@ -243,7 +243,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this._outerTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
 			this._outerTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._outerTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this._outerTableLayout.Size = new System.Drawing.Size(642, 382);
+			this._outerTableLayout.Size = new System.Drawing.Size(689, 382);
 			this._outerTableLayout.TabIndex = 8;
 			this._outerTableLayout.SizeChanged += new System.EventHandler(this.HandleOuterTableLayoutSizeChanged);
 			//
@@ -257,7 +257,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this._tableLayoutButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutButtons.Controls.Add(this._buttonCreateEvents, 0, 0);
 			this._tableLayoutButtons.Controls.Add(this._buttonCancel, 1, 0);
-			this._tableLayoutButtons.Location = new System.Drawing.Point(412, 356);
+			this._tableLayoutButtons.Location = new System.Drawing.Point(459, 356);
 			this._tableLayoutButtons.Margin = new System.Windows.Forms.Padding(5, 5, 0, 0);
 			this._tableLayoutButtons.Name = "_tableLayoutButtons";
 			this._tableLayoutButtons.RowCount = 1;
@@ -284,7 +284,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this._gridFiles.Name = "_gridFiles";
 			this._gridFiles.RenameButtonVisible = false;
 			this._gridFiles.ShowContextMenu = false;
-			this._gridFiles.Size = new System.Drawing.Size(394, 200);
+			this._gridFiles.Size = new System.Drawing.Size(425, 200);
 			this._gridFiles.TabIndex = 0;
 			//
 			// _panelMetadata
@@ -293,7 +293,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			this._panelMetadata.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._panelMetadata.Location = new System.Drawing.Point(3, 298);
 			this._panelMetadata.Name = "_panelMetadata";
-			this._panelMetadata.Size = new System.Drawing.Size(388, 81);
+			this._panelMetadata.Size = new System.Drawing.Size(419, 81);
 			this._panelMetadata.TabIndex = 3;
 			//
 			// locExtender
@@ -304,7 +304,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(672, 412);
+			this.ClientSize = new System.Drawing.Size(719, 412);
 			this.Controls.Add(this._outerTableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
@@ -343,7 +343,7 @@ namespace SayMore.Utilities.NewEventsFromFiles
 		private System.Windows.Forms.Label _labelProgress;
 		private System.Windows.Forms.ProgressBar _progressBar;
 		private System.Windows.Forms.Panel _panelMetadata;
-		private SayMore.Utilities.ElementListScreen.ComponentFileGrid _gridFiles;
+		private SayMore.UI.ElementListScreen.ComponentFileGrid _gridFiles;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
 		private Localization.UI.LocalizationExtender locExtender;
 	}

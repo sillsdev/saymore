@@ -9,7 +9,7 @@ using SayMore.Properties;
 using SayMore.Media.MPlayer;
 using SilTools;
 
-namespace SayMore.Utilities.NewEventsFromFiles
+namespace SayMore.UI.NewEventsFromFiles
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

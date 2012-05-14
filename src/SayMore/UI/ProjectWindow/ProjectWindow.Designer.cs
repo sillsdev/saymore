@@ -1,6 +1,6 @@
 using Localization.UI;
 
-namespace SayMore.Utilities.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	partial class ProjectWindow
 	{
@@ -35,7 +35,7 @@ namespace SayMore.Utilities.ProjectWindow
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this._menuAbout = new System.Windows.Forms.ToolStripMenuItem();
-			this._viewTabGroup = new SayMore.Utilities.ProjectWindow.ViewTabGroup();
+			this._viewTabGroup = new SayMore.UI.ProjectWindow.ViewTabGroup();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this._mainMenuStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -220,8 +220,8 @@ namespace SayMore.Utilities.ProjectWindow
 			this._viewTabGroup.Name = "_viewTabGroup";
 			this._viewTabGroup.Size = new System.Drawing.Size(697, 445);
 			this._viewTabGroup.TabIndex = 2;
-			this._viewTabGroup.ViewActivated += new SayMore.Utilities.ProjectWindow.ViewTabGroup.ViewTabChangedHandler(this.HandleViewActivated);
-			this._viewTabGroup.ViewDeactivated += new SayMore.Utilities.ProjectWindow.ViewTabGroup.ViewTabChangedHandler(this.HandleViewDeactivated);
+			this._viewTabGroup.ViewActivated += new SayMore.UI.ProjectWindow.ViewTabGroup.ViewTabChangedHandler(this.HandleViewActivated);
+			this._viewTabGroup.ViewDeactivated += new SayMore.UI.ProjectWindow.ViewTabGroup.ViewTabChangedHandler(this.HandleViewDeactivated);
 			// 
 			// ProjectWindow
 			// 

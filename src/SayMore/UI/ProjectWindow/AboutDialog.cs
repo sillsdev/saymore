@@ -5,9 +5,10 @@ using Localization;
 using Localization.UI;
 using Palaso.Reporting;
 using SayMore.Properties;
-using SayMore.Utilities.Utilities;
+using SayMore.Utilities;
+using SilTools;
 
-namespace SayMore.Utilities.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -22,9 +23,9 @@ namespace SayMore.Utilities.ProjectWindow
 		{
 			InitializeComponent();
 
-			Font = SystemFonts.MessageBoxFont; //use the default OS UI font
-			_linkSayMoreWebSite.Font = new Font(Font.FontFamily, 9, FontStyle.Bold, GraphicsUnit.Point);
-			_linkSiLWebSite.Font = new Font(Font.FontFamily, 9, FontStyle.Regular, GraphicsUnit.Point);
+			Font = Program.DialogFont;
+			_linkSayMoreWebSite.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
+			_linkSiLWebSite.Font = _linkSayMoreWebSite.Font;
 			_labelVersionInfo.Font = _linkSiLWebSite.Font;
 
 			LocalizeItemDlg.StringsLocalized += LocalizationInitiated;

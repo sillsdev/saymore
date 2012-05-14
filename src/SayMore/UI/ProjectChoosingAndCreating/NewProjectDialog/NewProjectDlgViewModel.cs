@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Localization;
 using SayMore.Properties;
 
-namespace SayMore.Utilities.ProjectChoosingAndCreating.NewProjectDialog
+namespace SayMore.UI.ProjectChoosingAndCreating.NewProjectDialog
 {
 	/// ----------------------------------------------------------------------------------------
 	public class NewProjectDlgViewModel

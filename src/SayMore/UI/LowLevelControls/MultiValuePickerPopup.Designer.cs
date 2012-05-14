@@ -1,4 +1,4 @@
-namespace SayMore.Utilities.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	partial class MultiValuePickerPopup
 	{
@@ -31,7 +31,7 @@ namespace SayMore.Utilities.LowLevelControls
 			this._panelCheckboxes = new System.Windows.Forms.Panel();
 			this._toolStripItems = new System.Windows.Forms.ToolStrip();
 			this._panelTextBox = new System.Windows.Forms.Panel();
-			this._textBoxPrompt = new SayMore.Utilities.LowLevelControls.PromptTextBox();
+			this._textBoxPrompt = new SayMore.UI.LowLevelControls.PromptTextBox();
 			this._panelItems = new System.Windows.Forms.Panel();
 			this._panelTextBox.SuspendLayout();
 			this._panelItems.SuspendLayout();

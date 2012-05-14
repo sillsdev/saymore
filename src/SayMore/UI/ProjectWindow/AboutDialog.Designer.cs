@@ -1,6 +1,6 @@
 using Localization.UI;
 
-namespace SayMore.Utilities.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	partial class AboutDialog
 	{

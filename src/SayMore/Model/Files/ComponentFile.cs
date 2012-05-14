@@ -15,8 +15,8 @@ using SayMore.Model.Files.DataGathering;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
 using SayMore.Transcription.UI;
+using SayMore.UI.ElementListScreen;
 using SayMore.Utilities;
-using SayMore.Utilities.ElementListScreen;
 
 namespace SayMore.Model.Files
 {

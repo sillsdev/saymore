@@ -1,8 +1,8 @@
 using Localization;
 using Localization.UI;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
-namespace SayMore.Utilities.ProjectChoosingAndCreating
+namespace SayMore.UI.ProjectChoosingAndCreating
 {
 	partial class WelcomeDialog
 	{
@@ -34,7 +34,7 @@ namespace SayMore.Utilities.ProjectChoosingAndCreating
 		{
 			this.components = new System.ComponentModel.Container();
 			this.pnlOptions = new System.Windows.Forms.Panel();
-			this.tsOptions = new SayMore.Utilities.LowLevelControls.ElementBar();
+			this.tsOptions = new SayMore.UI.LowLevelControls.ElementBar();
 			this._labelOpen = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this._buttonMru0 = new System.Windows.Forms.ToolStripButton();

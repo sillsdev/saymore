@@ -2,8 +2,9 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using SilTools;
 
-namespace SayMore.Utilities.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -26,9 +27,7 @@ namespace SayMore.Utilities.LowLevelControls
 				TextAlign = ContentAlignment.MiddleLeft,
 				BackColor = Color.Transparent,
 				ForeColor = SystemColors.GrayText,
-				Font = new Font(SystemFonts.MenuFont,
-					(SystemFonts.MenuFont.FontFamily.IsStyleAvailable(FontStyle.Italic) ?
-					FontStyle.Italic : SystemFonts.MenuFont.Style))
+				Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Italic)
 			};
 
 			_labelPrompt.Click += HandlePromptLabelClick;

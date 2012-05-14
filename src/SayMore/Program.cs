@@ -10,7 +10,7 @@ using Palaso.Progress;
 using Palaso.Reporting;
 using SayMore.Media;
 using SayMore.Properties;
-using SayMore.Utilities.ProjectWindow;
+using SayMore.UI.ProjectWindow;
 using SilTools;
 
 namespace SayMore

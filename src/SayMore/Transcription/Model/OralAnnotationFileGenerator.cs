@@ -9,7 +9,7 @@ using NAudio.Wave.SampleProviders;
 using Palaso.Reporting;
 using SayMore.Media.Audio;
 using SayMore.Properties;
-using SayMore.Utilities;
+using SayMore.UI;
 
 namespace SayMore.Transcription.Model
 {

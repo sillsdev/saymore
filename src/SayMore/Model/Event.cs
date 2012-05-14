@@ -5,7 +5,7 @@ using Localization;
 using SayMore.Model.Fields;
 using SayMore.Model.Files;
 using SayMore.Properties;
-using SayMore.Utilities.Utilities;
+using SayMore.UI.Utilities;
 
 namespace SayMore.Model
 {

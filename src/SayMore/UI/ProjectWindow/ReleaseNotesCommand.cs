@@ -1,7 +1,7 @@
 using Palaso.IO;
 using Palaso.Reporting;
 
-namespace SayMore.Utilities.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	/// <summary>
 	/// Show the release notes which come with this version

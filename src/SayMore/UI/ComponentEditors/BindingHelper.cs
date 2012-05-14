@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Palaso.Extensions;
 using SayMore.Model.Files;
-using SayMore.Utilities.LowLevelControls;
+using SayMore.UI.LowLevelControls;
 
 namespace SayMore.UI.ComponentEditors
 {
@@ -157,7 +157,7 @@ namespace SayMore.UI.ComponentEditors
 
 			foreach (var ctrl in _boundControls)
 			{
-				ctrl.Font = SystemFonts.MenuFont;
+				ctrl.Font = Program.DialogFont;
 				BindControl(ctrl);
 			}
 		}

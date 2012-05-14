@@ -1,7 +1,7 @@
 using System.IO;
 using System.Windows.Forms;
 
-namespace SayMore.Utilities.ProjectWindow
+namespace SayMore.UI.ProjectWindow
 {
 	public partial class FirstTimeRunDialog : Form
 	{

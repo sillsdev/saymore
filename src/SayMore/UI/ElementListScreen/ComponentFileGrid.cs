@@ -13,7 +13,7 @@ using SilTools;
 using SayMore.Model.Files;
 using SayMore.Properties;
 
-namespace SayMore.Utilities.ElementListScreen
+namespace SayMore.UI.ElementListScreen
 {
 	/// ----------------------------------------------------------------------------------------
 	public partial class ComponentFileGrid : UserControl

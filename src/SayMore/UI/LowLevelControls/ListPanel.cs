@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SayMore.Utilities.Utilities;
+using SayMore.Utilities;
 using SilTools;
 
-namespace SayMore.Utilities.LowLevelControls
+namespace SayMore.UI.LowLevelControls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -49,7 +49,7 @@ namespace SayMore.Utilities.LowLevelControls
 				return;
 
 			DeleteButton.Enabled = false;
-			_headerLabel.Font = FontHelper.MakeFont(SystemFonts.MenuFont, FontStyle.Bold);
+			_headerLabel.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
 		}
 
 		/// ------------------------------------------------------------------------------------

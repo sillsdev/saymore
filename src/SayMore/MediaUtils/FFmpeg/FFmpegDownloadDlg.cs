@@ -38,7 +38,15 @@ namespace SayMore.Media.FFmpeg
 			}
 
 			_buttonClose.Click += delegate { Close(); };
-			_buttonCancel.Click += delegate { _downloadHelper.Cancel(); };
+
+			_buttonCancel.Click += delegate
+			{
+				if (_downloadHelper == null)
+					Close();
+				else
+					_downloadHelper.Cancel();
+			};
+
 			_buttonCancel.MouseMove += delegate
 			{
 				// Not sure why both of these are necessary, but it seems to be the case.
@@ -144,7 +152,7 @@ namespace SayMore.Media.FFmpeg
 				_labelStatus.Visible = true;
 			}
 
-			_buttonInstall.Enabled = (_state != ProgressSate.DownloadStarted && !FFmpegHelper.DoesFFmpegForSayMoreExist);
+			_buttonInstall.Enabled = (_state != ProgressSate.DownloadStarted && !FFmpegDownloadHelper.DoesFFmpegForSayMoreExist);
 			_buttonCancel.Visible = (_state == ProgressSate.DownloadStarted);
 			_buttonClose.Visible = !_buttonCancel.Visible;
 
@@ -197,8 +205,11 @@ namespace SayMore.Media.FFmpeg
 				"The file '{0}'\r\n\r\neither does not contain ffmpeg or is not a valid zip file."),
 				downloadedZipFile);
 
-			if (!FFmpegHelper.GetIsValidFFmpegForSayMoreFile(downloadedZipFile, errorMsg))
+			if (!_downloadHelper.GetIsValidFFmpegForSayMoreFile(downloadedZipFile, errorMsg))
+			{
+				_state = ProgressSate.DownloadCanceled;
 				return false;
+			}
 
 			_progressControl.SetStatusMessage(LocalizationManager.GetString(
 				"DialogBoxes.FFmpegDownloadDlg.InstallingDownloadedFileMsg", "Installing..."));
@@ -210,7 +221,7 @@ namespace SayMore.Media.FFmpeg
 				"There was an error installing the downloaded file:\r\n\r\n{0}"),
 				downloadedZipFile);
 
-			return FFmpegHelper.ExtractDownloadedZipFile(downloadedZipFile, errorMsg);
+			return _downloadHelper.ExtractDownloadedZipFile(downloadedZipFile, errorMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------

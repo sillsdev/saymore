@@ -322,7 +322,7 @@ namespace SayMore.Media.Audio
 		private static bool DoPcmConversion(string inputMediaFile, string outputAudioFile)
 		{
 			// If ffmpeg is is available, then use it. Otherwise do the conversion using mplayer.
-			if (!FFmpegHelper.DoesFFmpegForSayMoreExist)
+			if (!FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
 			{
 				if (MPlayerHelper.CreatePcmAudioFromMediaFile(inputMediaFile, outputAudioFile))
 					return true;

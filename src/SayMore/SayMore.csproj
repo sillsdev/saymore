@@ -138,7 +138,6 @@
       <DependentUpon>FFmpegDownloadDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaUtils\FFmpeg\FFmpegDownloadHelper.cs" />
-    <Compile Include="MediaUtils\FFmpeg\FFmpegHelper.cs" />
     <Compile Include="Model\EventWorkflowInformant.cs" />
     <Compile Include="Model\Fields\ContributionSerializer.cs" />
     <Compile Include="Model\Fields\FieldDefinition.cs">

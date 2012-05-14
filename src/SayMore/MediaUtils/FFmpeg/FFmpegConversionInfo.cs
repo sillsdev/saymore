@@ -73,6 +73,17 @@ namespace SayMore.Media.FFmpeg
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static FFmpegConversionInfo CreateForTest(string extension, string commandLine)
+		{
+			return new FFmpegConversionInfo
+			{
+				Name = "TestConversion",
+				OutputExtension = extension,
+				CommandLine = commandLine,
+			};
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
 			return Name;

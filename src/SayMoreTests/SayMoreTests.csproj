@@ -145,6 +145,7 @@
     <Compile Include="UI\Charts\HTMLChartBuilderTests.cs" />
     <Compile Include="UI\ComponentEditors\EditorBaseTests.cs" />
     <Compile Include="UI\ComponentEditors\ImageViewerViewModelTests.cs" />
+    <Compile Include="UI\ConvertMediaDlgViewModelTests.cs" />
     <Compile Include="UI\ElementListScreen\ElementGridTests.cs" />
     <Compile Include="UI\ElementListScreen\ElementListViewModelTests.cs" />
     <Compile Include="UI\EventRecording\EventRecorderDlgViewModelTests.cs" />

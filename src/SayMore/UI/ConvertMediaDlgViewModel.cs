@@ -47,7 +47,7 @@ namespace SayMore.UI
 			AvailableConversions = FFmpegConversionInfo.GetConversions(inputFile).OrderBy(c => c.Name).ToArray();
 			SelectedConversion = AvailableConversions.FirstOrDefault(c => c.Name == initialConversionName) ?? AvailableConversions[0];
 
-			ConversionState = (FFmpegHelper.DoesFFmpegForSayMoreExist ?
+			ConversionState = (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist ?
 				ConvertMediaUIState.WaitingToConvert : ConvertMediaUIState.FFmpegDownloadNeeded);
 		}
 
@@ -57,7 +57,7 @@ namespace SayMore.UI
 			using (var dlg = new FFmpegDownloadDlg())
 				dlg.ShowDialog();
 
-			if (FFmpegHelper.DoesFFmpegForSayMoreExist)
+			if (FFmpegDownloadHelper.DoesFFmpegForSayMoreExist)
 				ConversionState = ConvertMediaUIState.WaitingToConvert;
 		}
 
@@ -97,9 +97,8 @@ namespace SayMore.UI
 		public void BeginConversion(Action<TimeSpan, string> conversionReportingAction,
 			string outputFile = null)
 		{
-			ConversionState = ConvertMediaUIState.Converting;
-
 			var commandLine = BuildCommandLine(outputFile ?? GetNewOutputFileName(false));
+			ConversionState = ConvertMediaUIState.Converting;
 
 			_conversionReportingAction = conversionReportingAction;
 			if (_conversionReportingAction != null)
@@ -125,8 +124,11 @@ namespace SayMore.UI
 		{
 			OutputFileCreated = outputFileName;
 
-			var commandLine = "-i \"" + InputFile + "\" " +
-				SelectedConversion.CommandLine + " \"" + OutputFileCreated + "\"";
+			var switches = (SelectedConversion.CommandLine != null ?
+				SelectedConversion.CommandLine.Trim() : string.Empty);
+
+			var commandLine = string.Format("-i \"{0}\" {1} \"{2}\"",
+				InputFile, switches, OutputFileCreated);
 
 			var bitRate = (MediaInfo.VideoBitRate == 0 ? string.Empty :
 				MediaInfo.VideoBitRate.ToString(CultureInfo.InvariantCulture));
@@ -156,7 +158,7 @@ namespace SayMore.UI
 			// ffmpeg always seems to write the output to standarderror.
 			// I don't understand why and that's wrong, but we'll deal with it.
 			_process = ExternalProcess.StartProcessToMonitor(
-				FFmpegHelper.GetFullPathToFFmpegForSayMoreExe(), commandLine as string,
+				FFmpegDownloadHelper.GetFullPathToFFmpegForSayMoreExe(), commandLine as string,
 				HandleProcessDataReceived, HandleProcessDataReceived, null);
 
 			_process.PriorityClass = ProcessPriorityClass.BelowNormal;

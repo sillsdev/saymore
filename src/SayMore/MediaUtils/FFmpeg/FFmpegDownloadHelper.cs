@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
+using Ionic.Zip;
 using Localization;
 using Palaso.Reporting;
 using SayMore.Utilities.LowLevelControls;
@@ -34,6 +35,37 @@ namespace SayMore.Media.FFmpeg
 				"The 'F2' in the parameters specifies displaying a number to 2 decimal places.");
 		}
 
+		#region Static methods
+		/// ------------------------------------------------------------------------------------
+		public static string GetFFmpegForSayMoreUrl(bool forAutoDownload)
+		{
+			return "https://www.dropbox.com/s/vs77d9rrfm2pvcn/FFmpegForSayMore.zip" +
+				(forAutoDownload ? "?dl=1" : String.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetFFmpegForSayMoreFolder()
+		{
+			var folder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+			folder = Path.Combine(folder, "SIL");
+			return Path.Combine(folder, "SayMore");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetFullPathToFFmpegForSayMoreExe()
+		{
+			var path = Path.Combine(GetFFmpegForSayMoreFolder(), "FFmpegForSayMore");
+			return Path.Combine(path, "ffmpeg.exe");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool DoesFFmpegForSayMoreExist
+		{
+			get { return File.Exists(GetFullPathToFFmpegForSayMoreExe()); }
+		}
+
+		#endregion
+
 		#region IProgressViewModel implementation
 		/// ------------------------------------------------------------------------------------
 		public int MaximumProgressValue
@@ -49,7 +81,7 @@ namespace SayMore.Media.FFmpeg
 		{
 			get
 			{
-				return (_statusMessage ?? string.Format(_statusFormat,
+				return (_statusMessage ?? String.Format(_statusFormat,
 					(double)CurrentProgressValue / (1024 * 1024),
 					(double)kApproxDownloadSize / (1024 * 1024)));
 			}
@@ -97,13 +129,6 @@ namespace SayMore.Media.FFmpeg
 		}
 
 		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		public static string GetFFmpegForSayMoreUrl(bool forAutoDownload)
-		{
-			return "https://www.dropbox.com/s/vs77d9rrfm2pvcn/FFmpegForSayMore.zip" +
-				(forAutoDownload ? "?dl=1" : string.Empty);
-		}
 
 		/// ------------------------------------------------------------------------------------
 		private void Download(object sender, DoWorkEventArgs e)
@@ -170,6 +195,55 @@ namespace SayMore.Media.FFmpeg
 					"DialogBoxes.ConvertMediaDlg.DownloadingGeneralFailureMsg",
 					"There was an error attempting to download FFmpeg. " +
 					"Try pasting this Url in your browser to see if the file's location is available.\r\n\r\n{0}");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsValidFFmpegForSayMoreFile(string pathToZipFile, string msgToDisplayIfError)
+		{
+			try
+			{
+				using (var zip = new ZipFile(pathToZipFile))
+				{
+					if (zip.EntryFileNames.Contains("FFmpegForSayMore/ffmpeg.exe"))
+						return true;
+
+					ErrorReport.NotifyUserOfProblem(msgToDisplayIfError);
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorReport.NotifyUserOfProblem(e, msgToDisplayIfError);
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool ExtractDownloadedZipFile(string pathToZipFile, string msgToDisplayIfError)
+		{
+			try
+			{
+				var tgtFolder = GetFFmpegForSayMoreFolder();
+
+				using (var zip = new ZipFile(pathToZipFile))
+					zip.ExtractAll(tgtFolder, ExtractExistingFileAction.OverwriteSilently);
+
+				return DoesFFmpegForSayMoreExist;
+			}
+			catch (Exception e)
+			{
+				ErrorReport.NotifyUserOfProblem(e, msgToDisplayIfError);
+				return false;
+			}
+			finally
+			{
+				try
+				{
+					if (File.Exists(pathToZipFile))
+						File.Delete(pathToZipFile);
+				}
+				catch { }
 			}
 		}
 	}

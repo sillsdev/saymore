@@ -683,7 +683,7 @@ namespace SayMore.Model.Files
 
 				}) { Tag = "rename" };
 
-				LocalizationManager.GetString("CommonToMultipleViews.FileList.CustomRenameMenu",
+				menu.Text = LocalizationManager.GetString("CommonToMultipleViews.FileList.CustomRenameMenu",
 					"Custom Rename...", null, menu);
 
 				yield return menu;

@@ -50,18 +50,8 @@ namespace SayMore.Transcription.UI
 			//_grid.PlaybackSpeedChanged += HandlePlaybackSpeedChanged;
 
 			_grid.KeyDown += HandleKeyDown;
-
-			_grid.EditingControlShowing += (s, e) =>
-			{
-				_gridEditControl = e.Control;
-				_gridEditControl.KeyDown += HandleKeyDown;
-			};
-
-			_grid.CellEndEdit += (s, e) =>
-			{
-				_gridEditControl.KeyDown -= HandleKeyDown;
-				_gridEditControl = null;
-			};
+			_grid.EditingControlShowing += HandleGridEditControlShowing;
+			_grid.CellEndEdit += HandleGridCellEndEdit;
 
 			base.SubscribeToGridEvents();
 		}
@@ -73,7 +63,26 @@ namespace SayMore.Transcription.UI
 			_grid.KeyDown -= HandleKeyDown;
 			_grid.CellEnter -= HandleCellEnter;
 			_grid.SetPlaybackProgressReportAction(null);
+			_grid.EditingControlShowing -= HandleGridEditControlShowing;
+			_grid.CellEndEdit -= HandleGridCellEndEdit;
 			base.UnsubscribeToGridEvents();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridEditControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+		{
+			if (_gridEditControl != null)
+				_gridEditControl.KeyDown -= HandleKeyDown;
+
+			_gridEditControl = e.Control;
+			_gridEditControl.KeyDown += HandleKeyDown;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridCellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			_gridEditControl.KeyDown -= HandleKeyDown;
+			_gridEditControl = null;
 		}
 
 		/// ------------------------------------------------------------------------------------

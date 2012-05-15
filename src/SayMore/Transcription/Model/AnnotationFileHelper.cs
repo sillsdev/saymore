@@ -62,21 +62,46 @@ namespace SayMore.Transcription.Model
 			var helper = new AnnotationFileHelper(annotationFileName);
 
 			// Ensure there is a dependent free translation tier.
-			var elements = helper.GetDependentTiersElements();
-			if (elements.FirstOrDefault(e =>
-				e.Attribute("TIER_ID").Value.ToLower() == TextTier.ElanTranslationTierId.ToLower()) == null)
+			if (helper.AddDependentTierToEaf(TextTier.ElanTranslationTierId))
 			{
-				helper.Root.Add(new XElement("TIER",
-					new XAttribute("DEFAULT_LOCALE", "en"),
-					new XAttribute("LINGUISTIC_TYPE_REF", "Translation"),
-					new XAttribute("PARENT_REF", TextTier.ElanTranscriptionTierId),
-					new XAttribute("TIER_ID", TextTier.ElanTranslationTierId)));
-
 				helper.Save();
 				helper = new AnnotationFileHelper(annotationFileName);
 			}
 
+			//var elements = helper.GetDependentTiersElements();
+			//if (elements.FirstOrDefault(e =>
+			//    e.Attribute("TIER_ID").Value.ToLower() == TextTier.ElanTranslationTierId.ToLower()) == null)
+			//{
+			//    helper.Root.Add(new XElement("TIER",
+			//        new XAttribute("DEFAULT_LOCALE", "en"),
+			//        new XAttribute("LINGUISTIC_TYPE_REF", "Translation"),
+			//        new XAttribute("PARENT_REF", TextTier.ElanTranscriptionTierId),
+			//        new XAttribute("TIER_ID", TextTier.ElanTranslationTierId)));
+
+			//    helper.Save();
+			//    helper = new AnnotationFileHelper(annotationFileName);
+			//}
+
 			return helper;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool AddDependentTierToEaf(string tierId)
+		{
+			// Ensure there is a dependent free translation tier.
+			var elements = GetDependentTiersElements();
+			if (elements.FirstOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == tierId.ToLower()) == null)
+			{
+				Root.Add(new XElement("TIER",
+					new XAttribute("DEFAULT_LOCALE", "en"),
+					new XAttribute("LINGUISTIC_TYPE_REF", "Translation"),
+					new XAttribute("PARENT_REF", TextTier.ElanTranscriptionTierId),
+					new XAttribute("TIER_ID", tierId)));
+
+				return true;
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -483,6 +508,10 @@ namespace SayMore.Transcription.Model
 
 			var transcriptionSegments = collection.GetTranscriptionTier().Segments.ToArray();
 			var freeTranslationSegments = collection.GetFreeTranslationTier().Segments.ToArray();
+
+			// Add user defined tier's back in.
+			foreach (var userDefTier in collection.GetUserDefinedTextTiers())
+				AddDependentTierToEaf(userDefTier.Id);
 
 			// At this point, it's assumed that all the time-alignable annotations elements exist
 			// in the parent tier (what SayMore calls the transcription tier) and that they are

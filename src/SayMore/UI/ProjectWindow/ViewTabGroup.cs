@@ -50,7 +50,7 @@ namespace SayMore.UI.ProjectWindow
 			Visible = true;
 			base.DoubleBuffered = true;
 			base.BackColor = SystemColors.Control;
-			TabFont = new Font(SystemFonts.IconTitleFont.FontFamily, 9, FontStyle.Bold);
+			TabFont = FontHelper.MakeFont(Program.DialogFont, 9, FontStyle.Bold);
 			_tooltip = new ToolTip();
 
 			SetupOuterTabCollectionContainer();

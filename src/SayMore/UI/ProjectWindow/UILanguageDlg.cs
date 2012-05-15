@@ -14,10 +14,10 @@ namespace SayMore.UI.ProjectWindow
 		{
 			InitializeComponent();
 
-			_labelLanguage.Font = SystemFonts.IconTitleFont;
-			_linkIWantToLocalize.Font = SystemFonts.IconTitleFont;
-			_linkHelpOnLocalizing.Font = SystemFonts.IconTitleFont;
-			_comboUILanguage.Font = SystemFonts.IconTitleFont;
+			_labelLanguage.Font = Program.DialogFont;
+			_linkIWantToLocalize.Font = Program.DialogFont;
+			_linkHelpOnLocalizing.Font = Program.DialogFont;
+			_comboUILanguage.Font = Program.DialogFont;
 			_comboUILanguage.SelectedItem = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);
 			DialogResult = DialogResult.Cancel;
 		}

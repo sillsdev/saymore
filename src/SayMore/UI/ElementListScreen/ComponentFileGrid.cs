@@ -45,7 +45,7 @@ namespace SayMore.UI.ElementListScreen
 			ShowContextMenu = true;
 
 			InitializeComponent();
-			Font = SystemFonts.IconTitleFont;
+			Font = Program.DialogFont;
 			_toolStripActions.Renderer = new NoToolStripBorderRenderer();
 
 			try
@@ -70,7 +70,7 @@ namespace SayMore.UI.ElementListScreen
 			_grid.Paint += HandleFileGridPaint;
 			_grid.CellPainting += HandleFileGridCellPainting;
 			_grid.ClientSizeChanged += HandleFileGridClientSizeChanged;
-			_grid.Font = SystemFonts.IconTitleFont;
+			_grid.Font = Program.DialogFont;
 
 			_grid.IsOkToChangeRows = (() => (IsOKToSelectDifferentFile == null || IsOKToSelectDifferentFile()));
 

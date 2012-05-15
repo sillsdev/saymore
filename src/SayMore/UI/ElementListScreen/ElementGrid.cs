@@ -37,7 +37,7 @@ namespace SayMore.UI.ElementListScreen
 			RowHeadersVisible = false;
 			BorderStyle = BorderStyle.None;
 			StandardTab = true;
-			Font = SystemFonts.IconTitleFont;
+			Font = Program.DialogFont;
 			MultiSelect = true;
 			PaintFullRowFocusRectangle = true;
 			ExtendFullRowSelectRectangleToEdge = true;

@@ -20,7 +20,7 @@ namespace SayMore.Transcription.UI
 			Debug.Assert(tier.TierType == TierType.Time);
 			ReadOnly = true;
 
-			DefaultCellStyle.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 7f);
+			DefaultCellStyle.Font = FontHelper.MakeFont(Program.DialogFont, 7f);
 			DefaultCellStyle.ForeColor = ColorHelper.CalculateColor(Color.White, DefaultCellStyle.ForeColor, 85);
 		}
 

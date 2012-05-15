@@ -148,7 +148,7 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			SetLabelFonts(this, FontHelper.MakeFont(SystemFonts.IconTitleFont, FontStyle.Bold));
+			SetLabelFonts(this, FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold));
 			base.OnLoad(e);
 		}
 

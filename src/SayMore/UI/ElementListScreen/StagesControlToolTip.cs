@@ -88,7 +88,7 @@ namespace SayMore.UI.ElementListScreen
 		{
 			var lbl = new Label
 			{
-				Font = SystemFonts.IconTitleFont,
+				Font = Program.DialogFont,
 				Text = text,
 				Margin = lblTemplate.Margin,
 				AutoSize = true

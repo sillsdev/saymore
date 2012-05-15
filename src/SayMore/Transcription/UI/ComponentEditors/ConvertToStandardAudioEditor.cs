@@ -30,11 +30,11 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnLoad(e);
 
-			_labelConvertHeading.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 10, FontStyle.Bold);
-			_labelConvertIntroduction.Font = SystemFonts.IconTitleFont;
-			_labelOriginalFileName.Font = SystemFonts.IconTitleFont;
-			_labelOriginalFileNameValue.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, FontStyle.Bold);
-			_labelStandardAudioFileName.Font = SystemFonts.IconTitleFont;
+			_labelConvertHeading.Font = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold);
+			_labelConvertIntroduction.Font = Program.DialogFont;
+			_labelOriginalFileName.Font = Program.DialogFont;
+			_labelOriginalFileNameValue.Font = FontHelper.MakeFont(Program.DialogFont, FontStyle.Bold);
+			_labelStandardAudioFileName.Font = Program.DialogFont;
 			_labelStandardAudioFileNameValue.Font = _labelOriginalFileNameValue.Font;
 
 			SetComponentFile(_file);

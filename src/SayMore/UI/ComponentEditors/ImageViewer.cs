@@ -21,7 +21,7 @@ namespace SayMore.UI.ComponentEditors
 			InitializeComponent();
 			Name = "ImageViewer";
 
-			_labelZoom.Font = SystemFonts.IconTitleFont;
+			_labelZoom.Font = Program.DialogFont;
 			_zoomTrackBar.BackColor = BackColor;
 
 			_panelImage = new SilPanel();

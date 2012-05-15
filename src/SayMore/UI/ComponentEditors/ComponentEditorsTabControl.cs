@@ -22,7 +22,7 @@ namespace SayMore.UI.ComponentEditors
 			Color componentEditorBorderColor)
 		{
 			ImageList = imgList;
-			Font = SystemFonts.IconTitleFont;
+			Font = Program.DialogFont;
 			Dock = DockStyle.Fill;
 			Visible = false;
 			ProviderKey = providerKey;

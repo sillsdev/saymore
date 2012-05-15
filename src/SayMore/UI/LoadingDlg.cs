@@ -13,7 +13,7 @@ namespace SayMore.UI
 		public LoadingDlg()
 		{
 			InitializeComponent();
-			_linkCancel.Font = SystemFonts.IconTitleFont;
+			_linkCancel.Font = Program.DialogFont;
 			BackColor = Color.White;
 			_linkCancel.Visible = false;
 		}

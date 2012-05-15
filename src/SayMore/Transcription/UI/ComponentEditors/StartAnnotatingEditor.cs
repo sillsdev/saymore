@@ -45,14 +45,14 @@ namespace SayMore.Transcription.UI
 		{
 			base.OnLoad(e);
 
-			_labelSegmentationMethod.Font = FontHelper.MakeFont(SystemFonts.IconTitleFont, 10, FontStyle.Bold);
-			_labelIntroduction.Font = SystemFonts.IconTitleFont;
-			_labelSegmentationMethodQuestion.Font = SystemFonts.IconTitleFont;
-			_radioButtonManual.Font = SystemFonts.IconTitleFont;
-			_radioButtonCarefulSpeech.Font = SystemFonts.IconTitleFont;
-			_radioButtonElan.Font = SystemFonts.IconTitleFont;
-			_radioButtonAudacity.Font = SystemFonts.IconTitleFont;
-			_radioButtonAutoSegmenter.Font = SystemFonts.IconTitleFont;
+			_labelSegmentationMethod.Font = FontHelper.MakeFont(Program.DialogFont, 10, FontStyle.Bold);
+			_labelIntroduction.Font = Program.DialogFont;
+			_labelSegmentationMethodQuestion.Font = Program.DialogFont;
+			_radioButtonManual.Font = Program.DialogFont;
+			_radioButtonCarefulSpeech.Font = Program.DialogFont;
+			_radioButtonElan.Font = Program.DialogFont;
+			_radioButtonAudacity.Font = Program.DialogFont;
+			_radioButtonAutoSegmenter.Font = Program.DialogFont;
 		}
 
 		/// ------------------------------------------------------------------------------------

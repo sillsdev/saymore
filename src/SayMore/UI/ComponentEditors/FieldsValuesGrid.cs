@@ -28,7 +28,7 @@ namespace SayMore.UI.ComponentEditors
 			_locExtender.SetLocalizingId(this, "FieldsAndValuesGrid");
 
 			VirtualMode = true;
-			Font = SystemFonts.IconTitleFont;
+			Font = Program.DialogFont;
 			_factoryFieldFont = new Font(Font, FontStyle.Bold);
 			AllowUserToAddRows = true;
 			AllowUserToDeleteRows = true;

@@ -39,7 +39,7 @@ namespace SayMore.UI.LowLevelControls
 			Popup.PopupClosing += OnDropDownClosing;
 			Popup.ItemCheckChanged += HandleItemCheckChanged;
 
-			base.Font = SystemFonts.IconTitleFont;
+			base.Font = Program.DialogFont;
 			InitializeComponent();
 			Font = base.Font;
 

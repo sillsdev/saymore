@@ -29,7 +29,7 @@ namespace SayMore.Transcription.UI
 			Name = "Annotations";
 			_toolStrip.Renderer = new NoToolStripBorderRenderer();
 
-			_comboPlaybackSpeed.Font = SystemFonts.IconTitleFont;
+			_comboPlaybackSpeed.Font = Program.DialogFont;
 
 			_grid = new TextAnnotationEditorGrid();
 			_grid.Dock = DockStyle.Fill;

@@ -46,10 +46,10 @@ namespace SayMore.UI.NewEventsFromFiles
 
 			Controls.Add(_panelProgress);
 
-			_labelIncomingFiles.Font = SystemFonts.IconTitleFont;
-			_labelInstructions.Font = SystemFonts.IconTitleFont;
-			_linkFindFiles.Font = SystemFonts.IconTitleFont;
-			_labelSourceFolder.Font = new Font(SystemFonts.IconTitleFont, FontStyle.Bold);
+			_labelIncomingFiles.Font = Program.DialogFont;
+			_labelInstructions.Font = Program.DialogFont;
+			_linkFindFiles.Font = Program.DialogFont;
+			_labelSourceFolder.Font = new Font(Program.DialogFont, FontStyle.Bold);
 			_panelProgress.Visible = false;
 
 			if (Settings.Default.NewEventsFromFilesDlg == null)

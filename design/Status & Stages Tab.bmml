@@ -1,0 +1,135 @@
+<mockup version="1.0" skin="sketch" measuredW="1237" measuredH="574" mockupW="1171" mockupH="515">
+  <controls>
+    <control controlID="17" controlTypeID="com.balsamiq.mockups::Label" x="296" y="106" w="-1" h="-1" measuredW="58" measuredH="26" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>18</size>
+        <text>Status</text>
+      </controlProperties>
+    </control>
+    <control controlID="20" controlTypeID="com.balsamiq.mockups::Label" x="573" y="109" w="-1" h="-1" measuredW="303" measuredH="21" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>6710886</color>
+        <text>Use%20the%20Status%20to%20mark%20the%20big%20picture%20of%20this%20event.</text>
+      </controlProperties>
+    </control>
+    <control controlID="34" controlTypeID="com.balsamiq.mockups::TabBar" x="252" y="59" w="650" h="409" measuredW="271" measuredH="100" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>1</selectedIndex>
+        <text>Event%2C%20Status%20%26%20Stages%2C%20Notes</text>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::RadioButton" x="296" y="136" w="-1" h="-1" measuredW="77" measuredH="22" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <text>Incoming</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::RadioButton" x="296" y="165" w="-1" h="-1" measuredW="89" measuredH="22" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <state>up</state>
+        <text>In%20Progress</text>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::RadioButton" x="296" y="194" w="-1" h="-1" measuredW="73" measuredH="22" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <text>Finished</text>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::RadioButton" x="296" y="223" w="-1" h="-1" measuredW="70" measuredH="22" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <state>selected</state>
+        <text>Skipped</text>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::Label" x="294" y="299" w="-1" h="-1" measuredW="61" measuredH="26" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>18</size>
+        <text>Stages</text>
+      </controlProperties>
+    </control>
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::HelpButton" x="855" y="131" w="-1" h="-1" measuredW="18" measuredH="18" zOrder="1" locked="false" isInGroup="-1"/>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Label" x="678" y="130" w="-1" h="-1" measuredW="170" measuredH="21" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Read%20About%20SayMore%20Status</text>
+      </controlProperties>
+    </control>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::Icon" x="1211" y="301" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CircledXIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::Icon" x="1211" y="214" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CircleIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::Icon" x="1205" y="243" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>10066329</color>
+        <icon>DotIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::Icon" x="1205" y="272" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>DotIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::CheckBoxGroup" x="296" y="325" w="-1" h="-1" measuredW="220" measuredH="126" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>-%5Bx%5D%20Original%20Recording%20%28on%20auto-pilot%29-%0A%5Bx%5D%20Informed%20Consent%0A-%5B%20%5D%20Careful%20Speech%20%28on%20auto-pilot%29-%0A-%5B%20%5D%20Oral%20Translation%20%28on%20auto-pilot%29-%0A-%5B%20%5D%20Transcription%20%28on%20auto-pilot%29-%0A-%5B%20%5D%20Written%20Translation%20%28on%20auto-pilot%29-</text>
+      </controlProperties>
+    </control>
+    <control controlID="59" controlTypeID="com.balsamiq.mockups::HelpButton" x="855" y="433" w="-1" h="-1" measuredW="18" measuredH="18" zOrder="15" locked="false" isInGroup="-1"/>
+    <control controlID="60" controlTypeID="com.balsamiq.mockups::Label" x="678" y="432" w="-1" h="-1" measuredW="174" measuredH="21" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Read%20About%20SayMore%20Stages</text>
+      </controlProperties>
+    </control>
+    <control controlID="61" controlTypeID="com.balsamiq.mockups::Label" x="573" y="325" w="300" h="87" measuredW="938" measuredH="21" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>6710886</color>
+        <text>Stages%20are%20normally%20automatic%20indicators%20of%20what%20has%20been%20done%2C%20based%20on%20file%20names%20and%20annotation%20work%20you%27ve%20done.%20Click%20any%20item%20to%20take%20control%20of%20this%20indicator.</text>
+      </controlProperties>
+    </control>
+    <control controlID="62" controlTypeID="com.balsamiq.mockups::CheckBox" x="450" y="508" w="-1" h="-1" measuredW="26" measuredH="22" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>2848996</color>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="63" controlTypeID="com.balsamiq.mockups::Tooltip" x="66" y="73" w="227" h="76" measuredW="228" measuredH="103" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>I%27m%20gathering%20the%20recording%20and%20meta%20data%2C%20may%20or%20may%20not%20take%20it%20further.</text>
+        <tooltipDirection>SE</tooltipDirection>
+      </controlProperties>
+    </control>
+    <control controlID="64" controlTypeID="com.balsamiq.mockups::Tooltip" x="78" y="223" w="203" h="58" measuredW="134" measuredH="116" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>I%27ve%20decided%20to%20not%20develop%20this%20event%20at%20this%20time.</text>
+        <tooltipDirection>NE</tooltipDirection>
+      </controlProperties>
+    </control>
+    <control controlID="65" controlTypeID="com.balsamiq.mockups::Tooltip" x="385" y="141" w="-1" h="-1" measuredW="140" measuredH="33" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>I%27m%20working%20on%20it.</text>
+        <tooltipDirection>SW</tooltipDirection>
+      </controlProperties>
+    </control>
+    <control controlID="66" controlTypeID="com.balsamiq.mockups::Tooltip" x="366" y="210" w="174" h="35" measuredW="171" measuredH="35" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>I%27m%20done%20working%20on%20it.</text>
+        <tooltipDirection>NW</tooltipDirection>
+      </controlProperties>
+    </control>
+    <control controlID="67" controlTypeID="com.balsamiq.mockups::StickyNote" x="199" y="451" w="292" h="123" measuredW="109" measuredH="123" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>The%20boxes%20would%20be%203-state.%20So%20click%20once%20to%20take%20over%20and%20toggle%20the%20value%20%28e.g.%20done%20to%20not%20done%29%2C%20again%20to%20toggle%20again%2C%20a%20third%20time%20to%20return%20to%20auto.</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

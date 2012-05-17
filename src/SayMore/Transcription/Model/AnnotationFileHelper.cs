@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Localization;
 using Palaso.IO;
 using Palaso.Reporting;
+using SayMore.Media;
 using SayMore.Properties;
 
 namespace SayMore.Transcription.Model
@@ -32,6 +33,8 @@ namespace SayMore.Transcription.Model
 
 			if (Root.Name.LocalName != "ANNOTATION_DOCUMENT")
 				Root = null;
+			else
+				CorrectLastUsedAnnotationIdIfNecessary();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -53,55 +56,14 @@ namespace SayMore.Transcription.Model
 
 			if (!GetIsElanFile(annotationFileName))
 			{
-				var msg = LocalizationManager.GetString("EventsView.Transcription.AnnotationFileHelper.BadAnnotationFileMsg",
+				var msg = LocalizationManager.GetString(
+					"EventsView.Transcription.BadAnnotationFileMsg",
 					"File '{0}' is not a SayMore annotation file. It is possibly corrupt.");
 
 				throw new Exception(string.Format(msg, annotationFileName));
 			}
 
-			var helper = new AnnotationFileHelper(annotationFileName);
-
-			// Ensure there is a dependent free translation tier.
-			if (helper.AddDependentTierToEaf(TextTier.ElanTranslationTierId))
-			{
-				helper.Save();
-				helper = new AnnotationFileHelper(annotationFileName);
-			}
-
-			//var elements = helper.GetDependentTiersElements();
-			//if (elements.FirstOrDefault(e =>
-			//    e.Attribute("TIER_ID").Value.ToLower() == TextTier.ElanTranslationTierId.ToLower()) == null)
-			//{
-			//    helper.Root.Add(new XElement("TIER",
-			//        new XAttribute("DEFAULT_LOCALE", "en"),
-			//        new XAttribute("LINGUISTIC_TYPE_REF", "Translation"),
-			//        new XAttribute("PARENT_REF", TextTier.ElanTranscriptionTierId),
-			//        new XAttribute("TIER_ID", TextTier.ElanTranslationTierId)));
-
-			//    helper.Save();
-			//    helper = new AnnotationFileHelper(annotationFileName);
-			//}
-
-			return helper;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private bool AddDependentTierToEaf(string tierId)
-		{
-			// Ensure there is a dependent free translation tier.
-			var elements = GetDependentTiersElements();
-			if (elements.FirstOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == tierId.ToLower()) == null)
-			{
-				Root.Add(new XElement("TIER",
-					new XAttribute("DEFAULT_LOCALE", "en"),
-					new XAttribute("LINGUISTIC_TYPE_REF", "Translation"),
-					new XAttribute("PARENT_REF", TextTier.ElanTranscriptionTierId),
-					new XAttribute("TIER_ID", tierId)));
-
-				return true;
-			}
-
-			return false;
+			return new AnnotationFileHelper(annotationFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,7 +91,54 @@ namespace SayMore.Transcription.Model
 
 		#endregion
 
-		#region Methods for reading/writing media file
+		#region Methods for getting/creating a header element (including media descriptor element)
+		/// ------------------------------------------------------------------------------------
+		public XElement GetOrCreateHeader()
+		{
+			var header = Root.Element("HEADER");
+			if (header == null)
+			{
+				Root.Add(new XElement("HEADER",
+					new XAttribute("MEDIA_FILE", string.Empty),
+					new XAttribute("TIME_UNITS", "milliseconds"),
+					CreateMediaDescriptorElement()));
+			}
+
+			return Root.Element("HEADER");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public XElement CreateMediaDescriptorElement()
+		{
+			var element = new XElement("MEDIA_DESCRIPTOR");
+
+			if (_mediaFileName != null)
+			{
+				element.Add(new XAttribute("MEDIA_URL", Path.GetFileName(_mediaFileName)),
+					new XAttribute("MIME_TYPE", CreateMediaFileMimeType()));
+			}
+
+			return element;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string CreateMediaFileMimeType()
+		{
+			var ext = Path.GetExtension(_mediaFileName).ToLower();
+
+			switch (ext)
+			{
+				case ".wav": return "audio/x-wav";
+				case ".mpg":
+				case ".mpeg": return "video/mpeg";
+			}
+
+			return (Settings.Default.AudioFileExtensions.Contains(ext) ? "audio" : "video") + "/*";
+		}
+
+		#endregion
+
+		#region Methods for reading/writing media file information
 		/// ------------------------------------------------------------------------------------
 		public static void ChangeMediaFileName(string annotationFileName, string mediaFileName)
 		{
@@ -205,7 +214,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetLastUsedAnnotationId(int id)
 		{
-			if (id <= 0)
+			if (id < 0)
 			{
 				var msg = "{0} is an invalid value for the last used annotation id. Must be greater than zero.";
 				throw new ArgumentOutOfRangeException(string.Format(msg, id));
@@ -250,34 +259,40 @@ namespace SayMore.Transcription.Model
 
 		#endregion
 
-		#region Methods for time Order and time-alignable annotation elements
+		#region Methods for creating transcription and free translation annotation elements
 		/// ------------------------------------------------------------------------------------
-		public void CreateTranscriptionElement(Segment seg)
+		/// <summary>
+		/// Creates an annotation element in the transcription tier for the specified segment
+		/// and returns the id of the annotation added.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string CreateTranscriptionAnnotationElement(Segment seg)
 		{
-			var timeSlotRef1 = CreateTimeOrderElementAndReturnId(seg.Start);
-			var timeSlotRef2 = CreateTimeOrderElementAndReturnId(seg.End);
+			var timeSlotRef1 = GetOrCreateTimeOrderElementAndReturnId(seg.Start);
+			var timeSlotRef2 = GetOrCreateTimeOrderElementAndReturnId(seg.End);
 
-			GetTranscriptionTierElement().Add(new XElement("ANNOTATION",
+			var annotationId = GetNextAvailableAnnotationIdAndIncrement();
+
+			GetOrCreateTranscriptionTierElement().Add(new XElement("ANNOTATION",
 				new XElement("ALIGNABLE_ANNOTATION",
-					new XAttribute("ANNOTATION_ID", GetNextAvailableAnnotationIdAndIncrement()),
+					new XAttribute("ANNOTATION_ID", annotationId),
 					new XAttribute("TIME_SLOT_REF1", timeSlotRef1),
 					new XAttribute("TIME_SLOT_REF2", timeSlotRef2),
 					new XElement("ANNOTATION_VALUE", seg.Text))));
+
+			return annotationId;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string CreateTimeOrderElementAndReturnId(float time)
+		public void CreateFreeTranslationAnnotationElement(string parentAnnotationId, string text)
 		{
-			var timeOrderElement = Root.Element("TIME_ORDER");
+			var newId = GetNextAvailableAnnotationIdAndIncrement();
 
-			var lastTimeSlotId = (timeOrderElement.LastNode == null ? 0 :
-				int.Parse(((XElement)timeOrderElement.LastNode).Attribute("TIME_SLOT_ID").Value.Substring(2)));
-
-			timeOrderElement.Add(new XElement("TIME_SLOT",
-				new XAttribute("TIME_SLOT_ID", string.Format("ts{0}", ++lastTimeSlotId)),
-				new XAttribute("TIME_VALUE", (int)Math.Round(time * 1000))));
-
-			return string.Format("ts{0}", lastTimeSlotId);
+			GetOrCreateFreeTranslationTierElement().Add(new XElement("ANNOTATION",
+				new XElement("REF_ANNOTATION",
+				new XAttribute("ANNOTATION_ID", newId),
+				new XAttribute("ANNOTATION_REF", parentAnnotationId),
+				new XElement("ANNOTATION_VALUE", text ?? string.Empty))));
 		}
 
 		#endregion
@@ -288,66 +303,52 @@ namespace SayMore.Transcription.Model
 		{
 			var element = Root.Element("TIME_ORDER");
 			if (element == null)
-				return new Dictionary<string, float>();
+			{
+				Root.Element("HEADER").AddAfterSelf(new XElement("TIME_ORDER"));
+				element = Root.Element("TIME_ORDER");
+			}
 
-			return element.Elements("TIME_SLOT").ToDictionary(
-				e => e.Attribute("TIME_SLOT_ID").Value,
-				e => (float)(int.Parse(e.Attribute("TIME_VALUE").Value) / (decimal)1000));
+			var kvpList = from tse in element.Elements("TIME_SLOT")
+						  let id = tse.Attribute("TIME_SLOT_ID").Value
+						  let timeVal = (float)(int.Parse(tse.Attribute("TIME_VALUE").Value) / 1000d)
+						  orderby id
+						  select new KeyValuePair<string, float>(id, timeVal);
+
+			return kvpList.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetOrCreateTimeOrderElementAndReturnId(float time)
+		{
+			var timeSlots = GetTimeSlots();
+
+			var slot = timeSlots.FirstOrDefault(kvp => kvp.Value.Equals(time));
+			if (!slot.Equals(default(KeyValuePair<string, float>)))
+				return slot.Key;
+
+			var lastTimeSlotId = (timeSlots.Count == 0 ? 0 :
+				timeSlots.Keys.Max(id => int.Parse(id.Substring(2))));
+
+			Root.Element("TIME_ORDER").Add(new XElement("TIME_SLOT",
+				new XAttribute("TIME_SLOT_ID", string.Format("ts{0}", ++lastTimeSlotId)),
+				new XAttribute("TIME_VALUE", (int)Math.Round(time * 1000))));
+
+			return string.Format("ts{0}", lastTimeSlotId);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void RemoveTimeSlots()
 		{
-			var element = Root.Element("TIME_ORDER");
-			if (element != null)
-				element.RemoveAll();
-		}
-
-		#endregion
-
-		#region Methods for getting/creating a header element (including media descriptor element)
-		/// ------------------------------------------------------------------------------------
-		public XElement GetOrCreateHeader()
-		{
-			var header = Root.Element("HEADER");
-			if (header == null)
+			// Only remove time slots when there are no time subdivision tiers dependent on
+			// the transcription tier. If there is, there could be a lot of time slots that
+			// are not referenced by the transcription annotations. In that case we don't
+			// want to lose those slots.
+			if (!GetDoesTranscriptionTierHaveDepedentTimeSubdivisionTier())
 			{
-				Root.Add(new XElement("HEADER",
-					new XAttribute("MEDIA_FILE", string.Empty),
-					new XAttribute("TIME_UNITS", "milliseconds"),
-					CreateMediaDescriptorElement()));
+				var element = Root.Element("TIME_ORDER");
+				if (element != null)
+					element.RemoveAll();
 			}
-
-			return Root.Element("HEADER");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public XElement CreateMediaDescriptorElement()
-		{
-			var element = new XElement("MEDIA_DESCRIPTOR");
-
-			if (_mediaFileName != null)
-			{
-				element.Add(new XAttribute("MEDIA_URL", Path.GetFileName(_mediaFileName)),
-					new XAttribute("MIME_TYPE", CreateMediaFileMimeType()));
-			}
-
-			return element;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string CreateMediaFileMimeType()
-		{
-			var ext = Path.GetExtension(_mediaFileName).ToLower();
-
-			switch (ext)
-			{
-				case ".wav" : return "audio/x-wav";
-				case ".mpg":
-				case ".mpeg": return "video/mpeg";
-			}
-
-			return (Settings.Default.AudioFileExtensions.Contains(ext) ? "audio" : "video") + "/*";
 		}
 
 		#endregion
@@ -365,58 +366,49 @@ namespace SayMore.Transcription.Model
 			if (transcriptionAnnotations.Count == 0)
 				return collection;
 
+			var freeTransAnnotations = GetFreeTranslationTierAnnotations();
+
 			var timeOrderTier = new TimeTier(GetFullPathToMediaFile());
-			var textTier = new TextTier(TextTier.ElanTranscriptionTierId);
+			var transcriptionTier = new TextTier(TextTier.ElanTranscriptionTierId);
+			var freeTransTier = new TextTier(TextTier.ElanTranslationTierId);
 
 			foreach (var kvp in transcriptionAnnotations)
 			{
 				var start = timeSlots[kvp.Value.Attribute("TIME_SLOT_REF1").Value];
 				var stop = timeSlots[kvp.Value.Attribute("TIME_SLOT_REF2").Value];
 				timeOrderTier.AddSegment(start, stop);
-				textTier.AddSegment(kvp.Value.Value);
+				transcriptionTier.AddSegment(kvp.Value.Value);
+
+				string freeTransValue;
+				freeTransTier.AddSegment(freeTransAnnotations.TryGetValue(kvp.Key,
+					out freeTransValue) ? freeTransValue : string.Empty);
 			}
 
+			// Add the time and transcription tiers to the collection.
 			collection.Add(timeOrderTier);
-			collection.Add(textTier);
+			collection.Add(transcriptionTier);
+			collection.Add(freeTransTier);
 
-			foreach (var tier in CreateDependentSayMoreTiers(transcriptionAnnotations.Keys))
-				collection.Add(tier);
+			timeOrderTier.ReadOnlyTimeRanges = GetDoesTranscriptionTierHaveDepedentTimeSubdivisionTier();
 
 			return collection;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<TierBase> CreateDependentSayMoreTiers(IEnumerable<string> ids)
+		public bool GetDoesTranscriptionTierHaveDepedentTimeSubdivisionTier()
 		{
-			var annotationIds = ids.ToArray();
-
-			foreach (var dependentTierElement in GetDependentTiersElements())
-			{
-				var depAnnotations = GetDependentTierAnnotationElements(dependentTierElement);
-				var dependentTier = new TextTier(dependentTierElement.Attribute("TIER_ID").Value);
-
-				// Go through all the annotations in the transcription tier looking for
-				// annotations in the dependent tier that reference the annotations in
-				// the transcription tier.
-				foreach (var id in annotationIds)
-				{
-					XElement depElement;
-					dependentTier.AddSegment(depAnnotations.TryGetValue(id, out depElement) ?
-						depElement.Element("ANNOTATION_VALUE").Value : string.Empty);
-				}
-
-				if (dependentTier.Segments.Any())
-					yield return dependentTier;
-			}
+			return Root.Elements("TIER").Where(e => e.Attribute("TIER_ID") != null &&
+				e.Attribute("TIER_ID").Value.ToLower() != TextTier.ElanTranscriptionTierId.ToLower())
+				.Elements("ANNOTATION").Any(e => e.Element("ALIGNABLE_ANNOTATION") != null);
 		}
 
 		#endregion
 
-		#region Methods for getting information from the EAF file.
+		#region Methods for getting transcription tier element and annotation information
 		/// ------------------------------------------------------------------------------------
 		public IDictionary<string, XElement> GetTranscriptionTierAnnotations()
 		{
-			var transcriptionTierElement = GetTranscriptionTierElement();
+			var transcriptionTierElement = GetOrCreateTranscriptionTierElement();
 
 			if (transcriptionTierElement == null)
 				return new Dictionary<string, XElement>();
@@ -427,7 +419,7 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public XElement GetTranscriptionTierElement()
+		public XElement GetOrCreateTranscriptionTierElement()
 		{
 			var element = Root.Elements().FirstOrDefault(e => e.Name.LocalName == "TIER" &&
 				e.Attribute("TIER_ID") != null &&
@@ -447,40 +439,61 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> GetTranscriptionTierIds()
+		public IEnumerable<string> GetTranscriptionTierAnnotationIds()
 		{
-			var transcriptionTier = GetTranscriptionTierElement();
+			var transcriptionTier = GetOrCreateTranscriptionTierElement();
 
 			return transcriptionTier.Elements("ANNOTATION")
 				.Select(e => e.Element("ALIGNABLE_ANNOTATION"))
 				.Where(e => e != null).Select(aae => aae.Attribute("ANNOTATION_ID").Value);
 		}
 
+		#endregion
+
+		#region Methods for getting free translation tier element and annotation elements
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<XElement> GetDependentTiersElements()
+		public XElement GetOrCreateFreeTranslationTierElement()
 		{
-			// Create a list of all tiers that reference the transcription tier.
-			return Root.Elements().Where(e => e.Name.LocalName == "TIER" &&
-				e.Attribute("PARENT_REF") != null &&
-				e.Attribute("PARENT_REF").Value.ToLower() == TextTier.ElanTranscriptionTierId.ToLower());
+			var element = Root.Elements().FirstOrDefault(e => e.Name.LocalName == "TIER" &&
+				e.Attribute("TIER_ID") != null &&
+				e.Attribute("TIER_ID").Value.ToLower() == TextTier.ElanTranslationTierId.ToLower());
+
+			if (element == null)
+			{
+				element = new XElement("TIER",
+					new XAttribute("LINGUISTIC_TYPE_REF", "Transcription"),
+					new XAttribute("PARENT_REF", TextTier.ElanTranscriptionTierId),
+					new XAttribute("TIER_ID", TextTier.ElanTranslationTierId));
+
+				Root.Add(element);
+			}
+
+			return element;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IDictionary<string, XElement> GetDependentTierAnnotationElements(XElement dependentTierElement)
+		/// <summary>
+		/// This returns -- from the annotation file -- a dictionary of free translation
+		/// values keyed on the transcription annotation id to which the free translation
+		/// refers (i.e. the free translation's parent transcription).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IDictionary<string, string> GetFreeTranslationTierAnnotations()
 		{
-			if (dependentTierElement == null)
-				return new Dictionary<string, XElement>();
+			var freeTransAnnotationElements = GetOrCreateFreeTranslationTierElement().Elements("ANNOTATION").ToArray();
 
-			return dependentTierElement.Elements("ANNOTATION")
-				.Select(e => e.Element("REF_ANNOTATION"))
-				.ToDictionary(e => e.Attribute("ANNOTATION_REF").Value, e => e);
+			return (from e in freeTransAnnotationElements
+					let re = e.Element("REF_ANNOTATION")
+					where re != null
+					select re).ToDictionary(re => re.Attribute("ANNOTATION_REF").Value,
+											re => re.Element("ANNOTATION_VALUE").Value);
 		}
 
 		#endregion
 
 		#region Methods for modifying/saving EAF file
 		/// ------------------------------------------------------------------------------------
-		public void RemoveTiersAnnotations(string tierId)
+		public void RemoveAnnotationsFromTier(string tierId)
 		{
 			var element = Root.Elements("TIER")
 				.SingleOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == tierId.ToLower());
@@ -490,95 +503,60 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SaveAnnotations(TierCollection collection)
+		private void SaveFromTierCollection(TierCollection collection)
 		{
-			// Remove all the dependent tiers from the EAF file,
-			foreach (var dependentTier in collection.GetUserDefinedTextTiers())
-				RemoveTiersAnnotations(dependentTier.Id);
+			RemoveTimeSlots();
+			RemoveAnnotationsFromTier(TextTier.ElanTranscriptionTierId);
+			RemoveAnnotationsFromTier(TextTier.ElanTranslationTierId);
 
-			// Remove the free translation dependent tier explicitly since
-			// it's display name is not the same as it's tier id.
-			RemoveTiersAnnotations(TextTier.ElanTranslationTierId);
+			var timeTier = collection.GetTimeTier();
+			if (timeTier == null)
+				return;
 
-			if (!collection.Any(t => t.Id == TextTier.ElanTranscriptionTierId))
-				collection.AddTextTierWithEmptySegments(TextTier.ElanTranscriptionTierId);
+			var timeSegments = timeTier.Segments.ToArray();
+			if (timeSegments.Length == 0)
+				return;
 
-			if (!collection.Any(t => t.Id == TextTier.ElanTranslationTierId))
-				collection.AddTextTierWithEmptySegments(TextTier.ElanTranslationTierId);
+			var transcriptionSegments = collection.GetTranscriptionTier(true).Segments.ToArray();
+			var freeTranslationSegments = collection.GetFreeTranslationTier(true).Segments.ToArray();
 
-			var transcriptionSegments = collection.GetTranscriptionTier().Segments.ToArray();
-			var freeTranslationSegments = collection.GetFreeTranslationTier().Segments.ToArray();
-
-			// Add user defined tier's back in.
-			foreach (var userDefTier in collection.GetUserDefinedTextTiers())
-				AddDependentTierToEaf(userDefTier.Id);
-
-			// At this point, it's assumed that all the time-alignable annotations elements exist
-			// in the parent tier (what SayMore calls the transcription tier) and that they are
-			// empty. This will loop through those elements and update them with the transcriptions
-			// while also writing annotations belonging to dependent tiers (e.g. free translation
-			// tier.
-			int i = 0;
-			foreach (var id in GetTranscriptionTierIds())
+			for (int i = 0; i < timeSegments.Length; i++)
 			{
-				SaveTranscriptionValue(id, transcriptionSegments[i].Text);
-
-				// Save the free translation value associated with this transcription
-				var text = (i < freeTranslationSegments.Length ? freeTranslationSegments[i].Text : string.Empty);
-				SaveDependentAnnotationValue(id, TextTier.ElanTranslationTierId, text);
-
-				// Save values in other tiers associated with this transcription.
-				foreach (var userDefTier in collection.GetUserDefinedTextTiers())
+				var annotationId = CreateTranscriptionAnnotationElement(new Segment
 				{
-					var segments = userDefTier.Segments.ToArray();
-					text = (i < segments.Length ? segments[i].Text : string.Empty);
-					SaveDependentAnnotationValue(id, userDefTier.Id, text);
-				}
+					Start = timeSegments[i].Start,
+					End = timeSegments[i].End,
+					Text = (i < transcriptionSegments.Length ? transcriptionSegments[i].Text : string.Empty)
+				});
 
-				i++;
+				var text = (i < freeTranslationSegments.Length ? freeTranslationSegments[i].Text : string.Empty);
+				CreateFreeTranslationAnnotationElement(annotationId, text);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SaveTranscriptionValue(string id, string text)
+		private void SaveFromSegments(IEnumerable<Segment> segments)
 		{
-			var element = Root.Elements("TIER")
-				.SingleOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == TextTier.ElanTranscriptionTierId.ToLower());
+			RemoveTimeSlots();
+			RemoveAnnotationsFromTier(TextTier.ElanTranscriptionTierId);
+			RemoveAnnotationsFromTier(TextTier.ElanTranslationTierId);
 
-			if (element == null)
-				return;
+			var mediaInfo = MediaFileInfo.GetInfo(_mediaFileName);
 
-			element = element.Elements("ANNOTATION")
-				.SingleOrDefault(e => e.Element("ALIGNABLE_ANNOTATION").Attribute("ANNOTATION_ID").Value == id);
+			// Don't add any segments that extend beyond the end of the media file.
+			foreach (var seg in segments.Where(s => s.Start <= mediaInfo.Audio.DurationInSeconds))
+			{
+				if (seg.End > mediaInfo.Audio.DurationInSeconds)
+					seg.End = mediaInfo.Audio.DurationInSeconds;
 
-			if (element == null)
-				return;
+				CreateTranscriptionAnnotationElement(seg);
+			}
 
-			element.Element("ALIGNABLE_ANNOTATION").SetElementValue("ANNOTATION_VALUE", text ?? string.Empty);
+			Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SaveDependentAnnotationValue(string parentId, string dependentTierId, string text)
-		{
-			if (dependentTierId == TextTier.FreeTranslationTierDisplayName)
-				dependentTierId = TextTier.ElanTranslationTierId;
-
-			var tierElement = Root.Elements("TIER")
-				.SingleOrDefault(e => e.Attribute("TIER_ID").Value.ToLower() == dependentTierId.ToLower());
-
-			if (tierElement == null)
-				return;
-
-			var newId = GetNextAvailableAnnotationIdAndIncrement();
-			tierElement.Add(new XElement("ANNOTATION",
-				new XElement("REF_ANNOTATION",
-				new XAttribute("ANNOTATION_ID", newId),
-				new XAttribute("ANNOTATION_REF", parentId),
-				new XElement("ANNOTATION_VALUE", text ?? string.Empty))));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void Save()
+		private void Save()
 		{
 			var folder = Path.GetDirectoryName(AnnotationFileName);
 			if (!Directory.Exists(folder))
@@ -590,12 +568,10 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public static string Save(string mediaFileName, TierCollection collection)
 		{
-			var timeTier = collection.GetTimeTier();
-			var eafFile = CreateFileFromSegments(null, mediaFileName, timeTier.Segments);
-			var helper = Load(eafFile);
-			helper.SaveAnnotations(collection);
+			var helper = GetOrCreateFile(null, mediaFileName);
+			helper.SaveFromTierCollection(collection);
 			helper.Save();
-			return eafFile;
+			return helper.AnnotationFileName;
 		}
 
 		#endregion
@@ -616,17 +592,16 @@ namespace SayMore.Transcription.Model
 		public static string CreateFileFromFile(string segmentFileName, string mediaFileName)
 		{
 			var isElanFile = GetIsElanFile(segmentFileName);
-
 			var eafFile = ComputeEafFileNameFromOralAnnotationFile(mediaFileName);
 			File.Copy(isElanFile ? segmentFileName :
 				FileLocator.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile);
 
-			ChangeMediaFileName(eafFile, mediaFileName);
+			var helper = GetOrCreateFile(eafFile, mediaFileName);
 
 			if (!isElanFile)
 			{
-				var helper = new AudacityLabelHelper(File.ReadAllLines(segmentFileName), mediaFileName);
-				CreateFileFromSegments(eafFile, mediaFileName, helper.Segments);
+				var labelHelper = new AudacityLabelHelper(File.ReadAllLines(segmentFileName), mediaFileName);
+				helper.SaveFromSegments(labelHelper.Segments);
 				UsageReporter.SendNavigationNotice("Annotations/Import segment file");
 			}
 			else
@@ -634,65 +609,35 @@ namespace SayMore.Transcription.Model
 				UsageReporter.SendNavigationNotice("Annotations/Import ELAN file");
 			}
 
-			return eafFile;
+			return helper.AnnotationFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string CreateFileFromTimesAsString(string eafFile, string mediaFileName,
-			IEnumerable<string> times)
+		public static AnnotationFileHelper GetOrCreateFile(string eafFile, string mediaFileName)
 		{
-			return CreateFileFromSegments(eafFile, mediaFileName, GetSegmentsFromTimeStrings(times));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<Segment> GetSegmentsFromTimeStrings(IEnumerable<string> times)
-		{
-			var prevEnd = 0f;
-
-			foreach (var t in times)
-			{
-				var seg = new Segment { Start = prevEnd };
-				float seconds;
-				seg.End = (float.TryParse(t.Trim(), out seconds) ? seconds : 0f);
-
-				if (prevEnd >= seg.End)
-				{
-					var msg = "The end of a segment ({0}) may not be less than or equal to the end of the previous segment ({1})";
-					throw new Exception(string.Format(msg, seg.End, prevEnd));
-				}
-
-				prevEnd = seg.End;
-				yield return seg;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string CreateFileFromSegments(string eafFile, string mediaFileName, IEnumerable<Segment> segments)
-		{
-			var fileAlreadyExisted = true;
-
 			if (string.IsNullOrEmpty(eafFile))
-			{
 				eafFile = ComputeEafFileNameFromOralAnnotationFile(mediaFileName);
+
+			var fileExisted = File.Exists(eafFile);
+
+			if (!fileExisted)
+			{
 				File.Copy(FileLocator.GetFileDistributedWithApplication("annotationTemplate.etf"), eafFile, true);
 				ChangeMediaFileName(eafFile, mediaFileName);
-				fileAlreadyExisted = false;
 			}
 
 			var helper = Load(eafFile);
+			helper.SetMediaFile(mediaFileName);
 
-			if (fileAlreadyExisted)
+			if (!fileExisted)
 			{
-				helper.RemoveTimeSlots();
-				helper.CorrectLastUsedAnnotationIdIfNecessary();
+				helper.GetOrCreateHeader();
+				helper.GetOrCreateTranscriptionTierElement();
+				helper.GetOrCreateFreeTranslationTierElement();
 			}
 
-			foreach (var seg in segments.ToArray())
-				helper.CreateTranscriptionElement(seg);
-
-			helper.SetMediaFile(mediaFileName);
 			helper.Save();
-			return eafFile;
+			return helper;
 		}
 
 		#endregion

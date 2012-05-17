@@ -18,6 +18,7 @@ namespace SayMore.Transcription.Model
 	public class TimeTier : TierBase
 	{
 		public string MediaFileName { get; protected set; }
+		public bool ReadOnlyTimeRanges { get; set; }
 		public Action<string> BackupOralAnnotationSegmentFileAction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -40,7 +41,7 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		protected override TierBase GetNewTierInstance()
 		{
-			return new TimeTier(Id, MediaFileName);
+			return new TimeTier(Id, MediaFileName) { ReadOnlyTimeRanges = ReadOnlyTimeRanges };
 		}
 
 		#region Methods for getting segment file paths
@@ -340,6 +341,9 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public bool CanBoundaryMoveLeft(float boundaryToMove, float secondsToMove)
 		{
+			if (ReadOnlyTimeRanges)
+				return false;
+
 			var newBoundary = boundaryToMove - secondsToMove;
 			var segment = GetSegmentEnclosingTime(boundaryToMove);
 
@@ -349,6 +353,9 @@ namespace SayMore.Transcription.Model
 		/// ------------------------------------------------------------------------------------
 		public bool CanBoundaryMoveRight(float boundaryToMove, float secondsToMove, float limit)
 		{
+			if (ReadOnlyTimeRanges)
+				return false;
+
 			var newBoundary = boundaryToMove + secondsToMove;
 			if (newBoundary <= 0 || newBoundary > limit)
 				return false;

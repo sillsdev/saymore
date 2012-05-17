@@ -24,6 +24,7 @@ namespace SayMore.Transcription.UI
 			AnnotationAdded,
 		}
 
+		#region SegmentChange class
 		/// ------------------------------------------------------------------------------------
 		protected class SegmentChange
 		{
@@ -89,6 +90,9 @@ namespace SayMore.Transcription.UI
 			}
 		}
 
+		#endregion
+
+		#region UndoStack class
 		/// ------------------------------------------------------------------------------------
 		protected class UndoStack
 		{
@@ -137,6 +141,8 @@ namespace SayMore.Transcription.UI
 				_inUndo = false;
 			}
 		}
+
+		#endregion
 
 		public ComponentFile ComponentFile { get; protected set; }
 		public WaveStream OrigWaveStream { get; protected set; }
@@ -429,13 +435,13 @@ namespace SayMore.Transcription.UI
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns a value indicating whether the given boundary cannot be deleted or moved in
-		/// either direction. A boundary is "permanent" if it is adjacent to a segment that
-		/// already has any kind of annotation (text or oral)
+		/// either direction. A boundary is "permanent" if the time tier has readonly ranges
+		/// or if it is adjacent to a segment that already has any kind of annotation (text or oral)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool IsBoundaryPermanent(TimeSpan boundary)
 		{
-			return (Tiers.HasAdjacentAnnotation((float)boundary.TotalSeconds));
+			return (TimeTier.ReadOnlyTimeRanges || Tiers.HasAdjacentAnnotation((float)boundary.TotalSeconds));
 		}
 
 		/// ------------------------------------------------------------------------------------

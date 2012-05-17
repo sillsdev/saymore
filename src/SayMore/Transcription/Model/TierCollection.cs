@@ -173,15 +173,19 @@ namespace SayMore.Transcription.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TextTier GetTranscriptionTier()
+		public TextTier GetTranscriptionTier(bool createEmptyIfNotExist = false)
 		{
-			return this.FirstOrDefault(t => t.TierType == TierType.Transcription) as TextTier;
+			var tier = this.FirstOrDefault(t => t.TierType == TierType.Transcription) as TextTier;
+			return (tier == null && createEmptyIfNotExist ?
+				new TextTier(TextTier.ElanTranscriptionTierId) : tier);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public TextTier GetFreeTranslationTier()
+		public TextTier GetFreeTranslationTier(bool createEmptyIfNotExist = false)
 		{
-			return this.FirstOrDefault(t => t.TierType == TierType.FreeTranslation) as TextTier;
+			var tier = this.FirstOrDefault(t => t.TierType == TierType.FreeTranslation) as TextTier;
+			return (tier == null && createEmptyIfNotExist ?
+				new TextTier(TextTier.ElanTranslationTierId) : tier);
 		}
 
 		/// ------------------------------------------------------------------------------------

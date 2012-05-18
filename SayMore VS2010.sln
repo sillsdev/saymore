@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SayMore", "src\SayMore\SayM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SayMoreTests", "src\SayMoreTests\SayMoreTests.csproj", "{B534A7B9-FF0D-46C7-A845-C00845B223BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSegmenter", "src\AutoSegmenter\AutoSegmenter.csproj", "{EE3B22CF-038A-41F7-9C13-092F6A64384D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,26 +61,6 @@ Global
 		{B534A7B9-FF0D-46C7-A845-C00845B223BC}.ReleaseMono|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B534A7B9-FF0D-46C7-A845-C00845B223BC}.ReleaseMono|Mixed Platforms.Build.0 = Release|Any CPU
 		{B534A7B9-FF0D-46C7-A845-C00845B223BC}.ReleaseMono|x86.ActiveCfg = Release|Any CPU
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.Debug|x86.ActiveCfg = Debug|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.Debug|x86.Build.0 = Debug|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.DebugMono|Any CPU.ActiveCfg = Debug|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.DebugMono|Mixed Platforms.ActiveCfg = Debug|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.DebugMono|Mixed Platforms.Build.0 = Debug|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.DebugMono|x86.ActiveCfg = Debug|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.DebugMono|x86.Build.0 = Debug|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.Release|Any CPU.ActiveCfg = Release|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.Release|Mixed Platforms.Build.0 = Release|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.Release|x86.ActiveCfg = Release|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.Release|x86.Build.0 = Release|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.ReleaseMono|Any CPU.ActiveCfg = Release|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.ReleaseMono|Mixed Platforms.ActiveCfg = Release|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.ReleaseMono|Mixed Platforms.Build.0 = Release|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.ReleaseMono|x86.ActiveCfg = Release|x86
-		{EE3B22CF-038A-41F7-9C13-092F6A64384D}.ReleaseMono|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

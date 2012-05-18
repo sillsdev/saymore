@@ -308,13 +308,40 @@ namespace SayMore.Transcription.Model
 				element = Root.Element("TIME_ORDER");
 			}
 
-			var kvpList = from tse in element.Elements("TIME_SLOT")
-						  let id = tse.Attribute("TIME_SLOT_ID").Value
-						  let timeVal = (float)(int.Parse(tse.Attribute("TIME_VALUE").Value) / 1000d)
-						  orderby id
-						  select new KeyValuePair<string, float>(id, timeVal);
+			// Put all the time slot ids and their values in an array of key/value pairs. Sometimes,
+			// some of the time values may not be there if the user used ELAN to make "Regular
+			// Annotations". Those are n number of segments created between a start and stop time.
+			// the number of those segments is determined by how many slots there are without
+			// time values.
+			var kvpList = (from tse in element.Elements("TIME_SLOT")
+						   let id = tse.Attribute("TIME_SLOT_ID").Value
+						   let timeVal = (tse.Attribute("TIME_VALUE") == null ? -1 :
+								 (float)(int.Parse(tse.Attribute("TIME_VALUE").Value) / 1000d))
+						   select new KeyValuePair<string, float>(id, timeVal)).ToArray();
 
-			return kvpList.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+			// Now go through the list and fill-in any times whose values were not included because
+			// there were "Regular Annotations". Those values will be -1 in the array of key/value
+			// pairs just created.
+			int endTimeIndex = -1;
+			for (int i = kvpList.Length - 1; i >= 0; i--)
+			{
+				if (kvpList[i].Value >= 0 && endTimeIndex < 0)
+					endTimeIndex = i;
+				else if (kvpList[i].Value >= 0 && endTimeIndex >= 0)
+				{
+					var startTime = kvpList[i].Value;
+					var timeDiff = (kvpList[endTimeIndex].Value - startTime) / (endTimeIndex - i);
+					for (var emptyIndex = i + 1; emptyIndex < endTimeIndex; emptyIndex++)
+					{
+						startTime += timeDiff;
+						kvpList[emptyIndex] = new KeyValuePair<string, float>(kvpList[emptyIndex].Key, startTime);
+					}
+
+					endTimeIndex = -1;
+				}
+			}
+
+			return kvpList.OrderBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 		}
 
 		/// ------------------------------------------------------------------------------------

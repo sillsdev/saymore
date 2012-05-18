@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -362,6 +363,37 @@ namespace SayMoreTests.Transcription.Model
 			Assert.AreEqual(1.25f, list["ts4"]);
 			Assert.AreEqual(1.25f, list["ts5"]);
 			Assert.AreEqual(2.121f, list["ts6"]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetTimeSlots_UnspecifiedTimeValuesExist_CalculatesRegularIntervals()
+		{
+			LoadEafFile();
+			var timeElement = new XElement("TIME_ORDER");
+			AddTimeSlots(timeElement, new[] { 10, 20, -1, -1, 37 });
+			_helper.Root.Add(timeElement);
+
+			var timeList = _helper.GetTimeSlots();
+			Assert.AreEqual(0.010f, timeList["ts1"]);
+			Assert.AreEqual(0.020f, timeList["ts2"]);
+			Assert.AreEqual((20 + (17f / 3)) / 1000f, timeList["ts3"]);
+			Assert.AreEqual((20 + (17f / 3) + (17f / 3)) / 1000f, timeList["ts4"]);
+			Assert.AreEqual(0.037f, timeList["ts5"]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void AddTimeSlots(XElement timeElement, IEnumerable<int> values)
+		{
+			int id = 1;
+			foreach (int val in values)
+			{
+				var slot = new XElement("TIME_SLOT", new XAttribute("TIME_SLOT_ID", string.Format("ts{0}", id++)));
+				if (val >= 0)
+					slot.Add(new XAttribute("TIME_VALUE", val));
+
+				timeElement.Add(slot);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

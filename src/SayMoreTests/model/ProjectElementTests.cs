@@ -46,7 +46,7 @@ namespace SayMoreTests.Model
 
 		public static Event CreateEvent(string parentFolderPath, string name)
 		{
-			return new Event(parentFolderPath, name, null, new EventFileType(() => null),
+			return new Event(parentFolderPath, name, null, new EventFileType(() => null, () => null),
 				MakeComponent, new FileSerializer(null), (w, x, y, z) =>
 					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
 					ApplicationContainer.ComponentRoles, null);

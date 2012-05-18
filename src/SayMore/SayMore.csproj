@@ -373,6 +373,12 @@
     <Compile Include="UI\ComponentEditors\ComponentEditorTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ComponentEditors\StatusAndStagesEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ComponentEditors\StatusAndStagesEditor.Designer.cs">
+      <DependentUpon>StatusAndStagesEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ComponentEditors\VideoComponentEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -683,6 +689,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\EventBasicEditor.resx">
       <DependentUpon>EventBasicEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ComponentEditors\StatusAndStagesEditor.resx">
+      <DependentUpon>StatusAndStagesEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComponentEditors\VideoComponentEditor.resx">
       <DependentUpon>VideoComponentEditor.cs</DependentUpon>

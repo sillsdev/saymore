@@ -324,6 +324,7 @@ namespace SayMore.Model.Files
 	public class EventFileType : FileType
 	{
 		private readonly Func<EventBasicEditor.Factory> _eventBasicEditorFactoryLazy;
+		private readonly Func<StatusAndStagesEditor.Factory> _statusAndStagesEditorFactoryLazy;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -333,10 +334,12 @@ namespace SayMore.Model.Files
 		/// error in autofac.  NB: when we move to .net 4, this can be replaced by
 		/// Lazy<Func<EventBasicEditor.Factory></param>
 		/// ------------------------------------------------------------------------------------
-		public EventFileType(Func<EventBasicEditor.Factory> eventBasicEditorFactoryLazy)
+		public EventFileType(Func<EventBasicEditor.Factory> eventBasicEditorFactoryLazy,
+			Func<StatusAndStagesEditor.Factory> statusAndStagesEditorFactoryLazy)
 			: base("Event", p => p.ToLower().EndsWith(Settings.Default.EventFileExtension.ToLower()))
 		{
 			_eventBasicEditorFactoryLazy = eventBasicEditorFactoryLazy;
+			_statusAndStagesEditorFactoryLazy = statusAndStagesEditorFactoryLazy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -434,6 +437,7 @@ namespace SayMore.Model.Files
 		protected override IEnumerable<IEditorProvider> GetNewSetOfEditorProviders(ComponentFile file)
 		{
 			yield return _eventBasicEditorFactoryLazy()(file, "Event");
+			yield return _statusAndStagesEditorFactoryLazy()(file, "StatusAndStages");
 			yield return new NotesEditor(file);
 		}
 

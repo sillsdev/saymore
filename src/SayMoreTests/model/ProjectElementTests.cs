@@ -261,10 +261,21 @@ namespace SayMoreTests.Model
 
 		[Test]
 		[Category("SkipOnTeamCity")]
-		public void GetShowAsNormalComponentFile_IsAnnotationFile_ReturnsFalse()
+		public void GetShowAsNormalComponentFile_HasAnnotationFileExtButNotSuffix_ReturnsTrue()
 		{
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("peas.mp3.eaf"));
-			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile("PEAS.MP3.EAF"));
+			File.OpenWrite(_parentFolder.Combine("peas.mp3")).Close();
+			Assert.IsTrue(CreatePerson().GetShowAsNormalComponentFile("peas.mp3.eaf"));
+			Assert.IsTrue(CreatePerson().GetShowAsNormalComponentFile("PEAS.MP3.EAF"));
+		}
+
+		[Test]
+		[Category("SkipOnTeamCity")]
+		public void GetShowAsNormalComponentFile_HasAnnotationFileExtAndSuffix_ReturnsFalse()
+		{
+			File.OpenWrite(_parentFolder.Combine("corn.mp3")).Close();
+
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile(_parentFolder.Combine("corn.mp3.ANNotations.eaf")));
+			Assert.IsFalse(CreatePerson().GetShowAsNormalComponentFile(_parentFolder.Combine("CORN.MP3.annotations.EAF")));
 		}
 
 		[Test]

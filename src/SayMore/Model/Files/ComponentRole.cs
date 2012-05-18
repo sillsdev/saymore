@@ -81,20 +81,12 @@ namespace SayMore.Model.Files
 
 		public static bool GetCanHaveTranscriptionRole(string path)
 		{
-			return (GetIsAudioVideo(path) || GetIsAnAnnotationFile(path));
+			return (GetIsAudioVideo(path) || AnnotationFileType.GetIsAnAnnotationFile(path));
 		}
 
 		public static bool GetCanHaveWrittenTranslationRole(string path)
 		{
-			return (GetIsText(path) || GetIsAnAnnotationFile(path));
-		}
-
-		private static bool GetIsAnAnnotationFile(string path)
-		{
-			// EHANCE: This should not return true if the .eaf file is not associated with
-			// a media file in the same folder. In other words, if the file name without the
-			// .eaf extension is the same as a media file without it's extension.
-			return (Path.GetExtension(path).ToLower() == ".eaf");
+			return (GetIsText(path) || AnnotationFileType.GetIsAnAnnotationFile(path));
 		}
 
 		public static bool GetIsAudioVideo(string path)

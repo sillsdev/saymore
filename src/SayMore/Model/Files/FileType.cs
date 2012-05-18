@@ -482,10 +482,17 @@ namespace SayMore.Model.Files
 	{
 		/// ------------------------------------------------------------------------------------
 		public AnnotationFileType(Func<ContributorsEditor.Factory> contributorsEditorFactoryLazy)
-			: base("Annotations",
-				f => f.ToLower().EndsWith(Settings.Default.AnnotationFileExtension.ToLower()),
-				contributorsEditorFactoryLazy)
+			: base("Annotations", GetIsAnAnnotationFile, contributorsEditorFactoryLazy)
 		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsAnAnnotationFile(string path)
+		{
+			var annotationSuffix = ".annotations" + Settings.Default.AnnotationFileExtension.ToLower();
+
+			return (path.ToLower().EndsWith(annotationSuffix) &&
+				File.Exists(path.ToLower().Replace(annotationSuffix, string.Empty)));
 		}
 
 		/// ------------------------------------------------------------------------------------

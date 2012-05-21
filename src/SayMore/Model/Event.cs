@@ -30,7 +30,6 @@ namespace SayMore.Model
 		//autofac uses this
 		public delegate Event Factory(string parentElementFolder, string id);
 
-		private readonly IEnumerable<ComponentRole> _componentRoles;
 		private readonly PersonInformant _personInformant;
 
 		[Obsolete("For Mocking Only")]
@@ -46,9 +45,8 @@ namespace SayMore.Model
 			IEnumerable<ComponentRole> componentRoles,
 			PersonInformant personInformant)
 			: base(parentElementFolder, id, idChangedNotificationReceiver, eventFileType,
-				componentFileFactory, fileSerializer, prjElementComponentFileFactory)
+				componentFileFactory, fileSerializer, prjElementComponentFileFactory, componentRoles)
 		{
-			_componentRoles = componentRoles;
 			_personInformant = personInformant;
 
 			if (string.IsNullOrEmpty(MetaDataFile.GetStringValue("genre", null)))
@@ -135,7 +133,7 @@ namespace SayMore.Model
 			var list = base.GetCompletedStages().ToList();
 
 			if (GetShouldReportHaveConsent())
-			   list.Insert(0, _componentRoles.First(r => r.Id == "consent"));
+			   list.Insert(0, ComponentRoles.First(r => r.Id == "consent"));
 
 			return list;
 		}
@@ -143,6 +141,12 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		private bool GetShouldReportHaveConsent()
 		{
+			if (StageCompletedControlValues["consent"] == StageCompleteType.Complete)
+				return true;
+
+			if (StageCompletedControlValues["consent"] == StageCompleteType.NotComplete)
+				return false;
+
 			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
 			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToArray();
 			bool allParticipantsHaveConsent = personNames.Length > 0;
@@ -185,6 +189,16 @@ namespace SayMore.Model
 
 			using (var dlg = new ArchivingDlg(helper))
 				dlg.ShowDialog();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Load()
+		{
+			base.Load();
+
+			StageCompletedControlValues = ComponentRoles.ToDictionary(role => role.Id,
+				role => (StageCompleteType)Enum.Parse(typeof(StageCompleteType),
+					MetaDataFile.GetValue("stage_" + role.Id, StageCompleteType.Auto.ToString()) as string));
 		}
 	}
 

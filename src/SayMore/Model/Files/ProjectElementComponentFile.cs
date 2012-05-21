@@ -32,11 +32,11 @@ namespace SayMore.Model.Files
 		{
 			if (key == "status")
 			{
-				var value = base.GetStringValue(key, _parentElement.DefaultStatusValue);
+				var value = base.GetStringValue(key, ParentElement.DefaultStatusValue);
 				return value.Replace('_', ' ');
 			}
 
-			return (key != "id" ? base.GetStringValue(key, defaultValue) : _parentElement.Id);
+			return (key != "id" ? base.GetStringValue(key, defaultValue) : ParentElement.Id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -53,10 +53,10 @@ namespace SayMore.Model.Files
 		{
 			failureMessage = null;
 
-			if (_parentElement.Id != newId)
+			if (ParentElement.Id != newId)
 			{
-				var oldId = _parentElement.Id;
-				if (_parentElement.TryChangeIdAndSave(newId, out failureMessage))
+				var oldId = ParentElement.Id;
+				if (ParentElement.TryChangeIdAndSave(newId, out failureMessage))
 				{
 					LoadFileSizeAndDateModified();
 					OnIdChanged("id", oldId, newId);
@@ -64,7 +64,7 @@ namespace SayMore.Model.Files
 			}
 
 			// Send back whatever the id is now, whether or not renaming succeeded.
-			return _parentElement.Id;
+			return ParentElement.Id;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ namespace SayMore.Model.Files
 		public override void Save(string path)
 		{
 			base.Save(path);
-			PathToAnnotatedFile = _parentElement.SettingsFilePath;
+			PathToAnnotatedFile = ParentElement.SettingsFilePath;
 		}
 
 		/// ------------------------------------------------------------------------------------

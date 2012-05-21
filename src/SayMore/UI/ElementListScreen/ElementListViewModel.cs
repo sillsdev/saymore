@@ -121,8 +121,8 @@ namespace SayMore.UI.ElementListScreen
 
 			SelectedComponentFile = _componentFiles[index];
 
-			_currentEditorProviders =
-				SelectedComponentFile.FileType.GetEditorProviders(GetHashCode(), SelectedComponentFile);
+			_currentEditorProviders = SelectedComponentFile.FileType.GetEditorProviders(
+				GetHashCode(), SelectedComponentFile);
 
 			return true;
 		}

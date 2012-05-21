@@ -12,9 +12,16 @@ using SayMore.Transcription.Model;
 
 namespace SayMore.Model
 {
+	public enum StageCompleteType
+	{
+		Auto,
+		Complete,
+		NotComplete
+	};
+
 	/// <summary>
-	/// A project is made of events and people, each of which subclass from this simple class.
-	/// Here, we call those things "ProjectElements"
+	/// A project is made of events and people, each of which subclass from
+	/// this simple class. Here, we call those things "ProjectElements"
 	/// </summary>
 	public abstract class ProjectElement
 	{
@@ -27,6 +34,9 @@ namespace SayMore.Model
 		public virtual string Id { get { return _id; } }
 		public Action<ProjectElement, string, string> IdChangedNotificationReceiver { get; protected set; }
 		public virtual ProjectElementComponentFile MetaDataFile { get; private set; }
+		public IEnumerable<ComponentRole> ComponentRoles { get; protected set; }
+		public Dictionary<string, StageCompleteType> StageCompletedControlValues { get; protected set; }
+
 		public abstract string RootElementName { get; }
 		protected internal string ParentFolderPath { get; set; }
 		protected abstract string ExtensionWithoutPeriod { get; }
@@ -42,15 +52,20 @@ namespace SayMore.Model
 		/// <param name="fileSerializer">used to load/save</param>
 		/// <param name="fileType"></param>
 		/// <param name="prjElementComponentFileFactory"></param>
+		/// <param name="componentRoles"></param>
 		/// ------------------------------------------------------------------------------------
 		protected ProjectElement(string parentElementFolder, string id,
 			Action<ProjectElement, string, string> idChangedNotificationReceiver, FileType fileType,
 			Func<ProjectElement, string, ComponentFile> componentFileFactory,
 			FileSerializer fileSerializer,
-			ProjectElementComponentFile.Factory prjElementComponentFileFactory)
+			ProjectElementComponentFile.Factory prjElementComponentFileFactory,
+			IEnumerable<ComponentRole> componentRoles)
 		{
 			_componentFileFactory = componentFileFactory;
+			ComponentRoles = componentRoles;
 			RequireThat.Directory(parentElementFolder).Exists();
+
+			StageCompletedControlValues = ComponentRoles.ToDictionary(r => r.Id, r => StageCompleteType.Auto);
 
 			ParentFolderPath = parentElementFolder;
 			_id = id ?? GetNewDefaultElementName();
@@ -167,7 +182,7 @@ namespace SayMore.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Load()
+		public virtual void Load()
 		{
 			MetaDataFile.Load();
 		}
@@ -393,14 +408,21 @@ namespace SayMore.Model
 			// is in progress, and one that is in fact marked as completed. For now, just
 			// being there gets you the gold star.
 
-			// Use a dictionary rather than yield so we don't emit more
-			// than one instance of each role.
-			var completedRoles = new Dictionary<string, ComponentRole>();
+			// First, gather all the stages that have been forced to complete. Use a
+			// dictionary rather than yield so we don't emit more than one instance
+			// of each role.
+			var completedRoles = (from kvp in StageCompletedControlValues
+								  where kvp.Value == StageCompleteType.Complete
+								  select ComponentRoles.First(r => r.Id == kvp.Key)).ToDictionary(r => r.Id, r => r);
 
 			foreach (var component in GetComponentFiles())
 			{
-				foreach(var role in component.GetAssignedRoles(GetType()))
-					completedRoles[role.Id] =  role;
+				// Now only add the stages that are auto. computed.
+				foreach (var role in component.GetAssignedRoles(GetType())
+					.Where(role => StageCompletedControlValues[role.Id] == StageCompleteType.Auto))
+				{
+					completedRoles[role.Id] = role;
+				}
 			}
 
 			return completedRoles.Values;

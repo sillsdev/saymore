@@ -105,7 +105,7 @@ namespace SayMore
 			get
 			{
 				yield return new
-					ComponentRole(typeof(Event), Settings.Default.OriginalRecordingComponentRoleId,
+					ComponentRole(typeof(Event), ComponentRole.kOriginalComponentRoleId,
 						LocalizationManager.GetString("EventsView.EventsList.Stages.OriginalRecording", "Original Recording"),
 						ComponentRole.MeasurementTypes.Time,
 						ComponentRole.GetIsAudioVideo, "$ElementId$_Original",

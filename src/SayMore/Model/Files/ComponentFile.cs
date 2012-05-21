@@ -66,6 +66,7 @@ namespace SayMore.Model.Files
 		private readonly PresetGatherer _presetProvider;
 		private readonly FieldUpdater _fieldUpdater;
 
+		public ProjectElement ParentElement { get; protected set; }
 		public string RootElementName { get; protected set; }
 		public virtual string PathToAnnotatedFile { get; protected set; }
 		public List<FieldInstance> MetaDataFieldValues { get; protected set; }
@@ -83,7 +84,6 @@ namespace SayMore.Model.Files
 		public Action PostGenerateOralAnnotationFileAction;
 
 		protected string _metaDataPath;
-		protected ProjectElement _parentElement;
 
 		/// ------------------------------------------------------------------------------------
 		public ComponentFile(ProjectElement parentElement,
@@ -95,7 +95,7 @@ namespace SayMore.Model.Files
 			PresetGatherer presetProvider,
 			FieldUpdater fieldUpdater)
 		{
-			_parentElement = parentElement;
+			ParentElement = parentElement;
 			PathToAnnotatedFile = pathToAnnotatedFile;
 			_componentRoles = componentRoles;
 			_fileSerializer = fileSerializer;
@@ -136,7 +136,7 @@ namespace SayMore.Model.Files
 			FileSerializer fileSerializer, FieldUpdater fieldUpdater)
 		{
 			RootElementName = rootElementName;
-			_parentElement = parentElement;
+			ParentElement = parentElement;
 			FileType = fileType;
 			_fileSerializer = fileSerializer;
 			_metaDataPath = filePath;
@@ -699,8 +699,8 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentRole> GetRelevantComponentRoles()
 		{
-			return (_parentElement == null ? _componentRoles :
-				_componentRoles.Where(r => r.RelevantElementType == _parentElement.GetType()));
+			return (ParentElement == null ? _componentRoles :
+				_componentRoles.Where(r => r.RelevantElementType == ParentElement.GetType()));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -814,7 +814,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public void DoCustomRename()
 		{
-			using (var dlg = new CustomComponentFileRenamingDialog(_parentElement.Id, PathToAnnotatedFile))
+			using (var dlg = new CustomComponentFileRenamingDialog(ParentElement.Id, PathToAnnotatedFile))
 			{
 				if (dlg.ShowDialog() == DialogResult.OK)
 					RenameAnnotatedFile(dlg.NewFilePath);

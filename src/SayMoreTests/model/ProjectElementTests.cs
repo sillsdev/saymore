@@ -61,7 +61,8 @@ namespace SayMoreTests.Model
 		{
 			return new Person(parentFolderPath, name, null, new PersonFileType(() => null),
 				MakeComponent, new FileSerializer(null), (w, x, y, z) =>
-					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)));
+					new ProjectElementComponentFile(w, x, y, z, FieldUpdater.CreateMinimalFieldUpdaterForTests(null)),
+				new ComponentRole[] {});
 		}
 
 		private static ComponentFile MakeComponent(ProjectElement parentElement, string pathtoannotatedfile)

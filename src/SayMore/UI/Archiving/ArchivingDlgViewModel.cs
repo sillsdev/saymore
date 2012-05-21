@@ -116,7 +116,7 @@ namespace SayMore.UI.Utilities
 			_progressMessages[msgKey] = string.Format(fmt, _eventTitle);
 
 			var fileList = new Dictionary<string, IEnumerable<string>>();
-			fileList[string.Empty] = filesInDir.Where(f => IncludeFileInArchive(f));
+			fileList[string.Empty] = filesInDir.Where(IncludeFileInArchive);
 
 			fmt = LocalizationManager.GetString("DialogBoxes.ArchivingDlg.AddingContributorFilesProgressMsg", "Adding Files for Contributor '{0}'");
 
@@ -124,7 +124,7 @@ namespace SayMore.UI.Utilities
 				.Select(n => _personInformant.GetPersonByName(n)).Where(p => p != null))
 			{
 				filesInDir = Directory.GetFiles(person.FolderPath);
-				fileList[person.Id] = filesInDir.Where(f => IncludeFileInArchive(f));
+				fileList[person.Id] = filesInDir.Where(IncludeFileInArchive);
 
 				msgKey = GetPathToContributorFileInArchive(person.Id, filesInDir[0]);
 				msgKey = Path.Combine(Path.Combine("Contributors", person.Id), Path.GetFileName(filesInDir[0]));
@@ -331,13 +331,13 @@ namespace SayMore.UI.Utilities
 			if (contributions != null && contributions.Count > 0)
 			{
 				yield return JSONUtils.MakeArrayFromValues("dc.contributor",
-					contributions.Select(c => GetContributorsMetsPair(c)));
+					contributions.Select(GetContributorsMetsPair));
 			}
 
 			// Return total duration of original audio/video recordings.
 			var recExtent = GetRecordingExtent(_event.GetComponentFiles().Where(file =>
 				file.GetAssignedRoles().FirstOrDefault(r =>
-					r.Id == Settings.Default.OriginalRecordingComponentRoleId) != null)
+					r.Id == ComponentRole.kOriginalComponentRoleId) != null)
 					.Where(f => !string.IsNullOrEmpty(f.DurationString)).Select(f => f.DurationString));
 
 			if (!string.IsNullOrEmpty(recExtent))

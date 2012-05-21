@@ -85,6 +85,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="SilTools, Version=2.0.4416.18215, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnet\SilTools.dll</HintPath>
@@ -94,6 +96,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -105,6 +108,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MediaUtils\Audio\AudioFileHelper.cs">
@@ -403,6 +407,9 @@
     </Compile>
     <Compile Include="UI\ElementListScreen\CustomComponentFileRenamingDialog.Designer.cs">
       <DependentUpon>CustomComponentFileRenamingDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ElementListScreen\ElementList.xaml.cs">
+      <DependentUpon>ElementList.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ElementListScreen\PersonGrid.cs">
       <SubType>Component</SubType>
@@ -1003,6 +1010,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\ElementListScreen\ElementList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

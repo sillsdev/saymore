@@ -19,6 +19,8 @@ namespace SayMore.Model.Files
 	/// </summary>
 	public class ComponentRole
 	{
+		public static string kOriginalComponentRoleId = "original";
+
 		private readonly string _englishLabel;
 		private readonly string _renamingTemplate;
 

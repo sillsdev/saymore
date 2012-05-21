@@ -122,7 +122,7 @@ namespace SayMore.UI.Overview.Statistics
 
 			// I could use the browser's ShowSaveAsDialog method, but that
 			// doesn't give me as much control over the dialog's settings.
-			using (var dlg = new SaveFileDialog())
+			using (var dlg = new System.Windows.Forms.SaveFileDialog())
 			{
 				dlg.DefaultExt = "html";
 				dlg.Filter = "HTML File (*.html)|*.html|All Files (*.*)|*.*";

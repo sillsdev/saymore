@@ -408,9 +408,6 @@
     <Compile Include="UI\ElementListScreen\CustomComponentFileRenamingDialog.Designer.cs">
       <DependentUpon>CustomComponentFileRenamingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ElementListScreen\ElementList.xaml.cs">
-      <DependentUpon>ElementList.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\ElementListScreen\PersonGrid.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -1010,12 +1007,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="UI\ElementListScreen\ElementList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

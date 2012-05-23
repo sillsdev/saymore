@@ -28,16 +28,20 @@ namespace SayMore.UI.ComponentEditors
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
-			this._labelStatus = new System.Windows.Forms.Label();
-			this._labelStages = new System.Windows.Forms.Label();
 			this._labelReadAboutStatus = new System.Windows.Forms.Label();
+			this._labelStatus = new System.Windows.Forms.Label();
 			this._buttonReadAboutStatus = new System.Windows.Forms.Button();
 			this._labelStatusHint = new System.Windows.Forms.Label();
+			this._labelStages = new System.Windows.Forms.Label();
 			this._labelReadAboutStages = new System.Windows.Forms.Label();
 			this._labelStagesHint = new System.Windows.Forms.Label();
 			this._buttonReadAboutStages = new System.Windows.Forms.Button();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this._toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this._tableLayoutOuter.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _tableLayoutOuter
@@ -76,39 +80,34 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayoutOuter.TabIndex = 0;
 			this._tableLayoutOuter.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleTableLayoutOuterPaint);
 			// 
-			// _labelStatus
-			// 
-			this._labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._labelStatus.AutoSize = true;
-			this._tableLayoutOuter.SetColumnSpan(this._labelStatus, 4);
-			this._labelStatus.Location = new System.Drawing.Point(0, 0);
-			this._labelStatus.Margin = new System.Windows.Forms.Padding(0, 0, 0, 4);
-			this._labelStatus.Name = "_labelStatus";
-			this._labelStatus.Size = new System.Drawing.Size(37, 13);
-			this._labelStatus.TabIndex = 0;
-			this._labelStatus.Text = "Status";
-			// 
-			// _labelStages
-			// 
-			this._labelStages.AutoSize = true;
-			this._tableLayoutOuter.SetColumnSpan(this._labelStages, 4);
-			this._labelStages.Location = new System.Drawing.Point(0, 109);
-			this._labelStages.Margin = new System.Windows.Forms.Padding(0, 12, 0, 4);
-			this._labelStages.Name = "_labelStages";
-			this._labelStages.Size = new System.Drawing.Size(40, 13);
-			this._labelStages.TabIndex = 9;
-			this._labelStages.Text = "Stages";
-			// 
 			// _labelReadAboutStatus
 			// 
 			this._labelReadAboutStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelReadAboutStatus.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelReadAboutStatus, null);
+			this.locExtender.SetLocalizationComment(this._labelReadAboutStatus, null);
+			this.locExtender.SetLocalizingId(this._labelReadAboutStatus, "EventsView.StatusAndStagesEditor._labelReadAboutStatus");
 			this._labelReadAboutStatus.Location = new System.Drawing.Point(257, 81);
 			this._labelReadAboutStatus.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
 			this._labelReadAboutStatus.Name = "_labelReadAboutStatus";
 			this._labelReadAboutStatus.Size = new System.Drawing.Size(145, 16);
 			this._labelReadAboutStatus.TabIndex = 25;
 			this._labelReadAboutStatus.Text = "Read About SayMore Status Indicators";
+			// 
+			// _labelStatus
+			// 
+			this._labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._labelStatus.AutoSize = true;
+			this._tableLayoutOuter.SetColumnSpan(this._labelStatus, 4);
+			this.locExtender.SetLocalizableToolTip(this._labelStatus, null);
+			this.locExtender.SetLocalizationComment(this._labelStatus, null);
+			this.locExtender.SetLocalizingId(this._labelStatus, "EventsView.StatusAndStagesEditor._labelStatus");
+			this._labelStatus.Location = new System.Drawing.Point(0, 0);
+			this._labelStatus.Margin = new System.Windows.Forms.Padding(0, 0, 0, 4);
+			this._labelStatus.Name = "_labelStatus";
+			this._labelStatus.Size = new System.Drawing.Size(37, 13);
+			this._labelStatus.TabIndex = 0;
+			this._labelStatus.Text = "Status";
 			// 
 			// _buttonReadAboutStatus
 			// 
@@ -122,6 +121,10 @@ namespace SayMore.UI.ComponentEditors
 			this._buttonReadAboutStatus.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonReadAboutStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this._buttonReadAboutStatus.Image = global::SayMore.Properties.Resources.Help;
+			this.locExtender.SetLocalizableToolTip(this._buttonReadAboutStatus, null);
+			this.locExtender.SetLocalizationComment(this._buttonReadAboutStatus, null);
+			this.locExtender.SetLocalizationPriority(this._buttonReadAboutStatus, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._buttonReadAboutStatus, "StatusAndStagesEditor._buttonReadAboutStatus");
 			this._buttonReadAboutStatus.Location = new System.Drawing.Point(405, 77);
 			this._buttonReadAboutStatus.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this._buttonReadAboutStatus.Name = "_buttonReadAboutStatus";
@@ -135,6 +138,9 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStatusHint.AutoSize = true;
 			this._tableLayoutOuter.SetColumnSpan(this._labelStatusHint, 2);
 			this._labelStatusHint.ForeColor = System.Drawing.Color.DimGray;
+			this.locExtender.SetLocalizableToolTip(this._labelStatusHint, null);
+			this.locExtender.SetLocalizationComment(this._labelStatusHint, null);
+			this.locExtender.SetLocalizingId(this._labelStatusHint, "EventsView.StatusAndStagesEditor._labelStatusHint");
 			this._labelStatusHint.Location = new System.Drawing.Point(245, 21);
 			this._labelStatusHint.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
 			this._labelStatusHint.Name = "_labelStatusHint";
@@ -143,10 +149,27 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStatusHint.TabIndex = 22;
 			this._labelStatusHint.Text = "Use the status to mark the big picture of this event.";
 			// 
+			// _labelStages
+			// 
+			this._labelStages.AutoSize = true;
+			this._tableLayoutOuter.SetColumnSpan(this._labelStages, 4);
+			this.locExtender.SetLocalizableToolTip(this._labelStages, null);
+			this.locExtender.SetLocalizationComment(this._labelStages, null);
+			this.locExtender.SetLocalizingId(this._labelStages, "EventsView.StatusAndStagesEditor._labelStages");
+			this._labelStages.Location = new System.Drawing.Point(0, 109);
+			this._labelStages.Margin = new System.Windows.Forms.Padding(0, 12, 0, 4);
+			this._labelStages.Name = "_labelStages";
+			this._labelStages.Size = new System.Drawing.Size(40, 13);
+			this._labelStages.TabIndex = 9;
+			this._labelStages.Text = "Stages";
+			// 
 			// _labelReadAboutStages
 			// 
 			this._labelReadAboutStages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelReadAboutStages.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelReadAboutStages, null);
+			this.locExtender.SetLocalizationComment(this._labelReadAboutStages, null);
+			this.locExtender.SetLocalizingId(this._labelReadAboutStages, "EventsView.StatusAndStagesEditor._labelReadAboutStages");
 			this._labelReadAboutStages.Location = new System.Drawing.Point(257, 230);
 			this._labelReadAboutStages.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
 			this._labelReadAboutStages.Name = "_labelReadAboutStages";
@@ -160,6 +183,9 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStagesHint.AutoSize = true;
 			this._tableLayoutOuter.SetColumnSpan(this._labelStagesHint, 2);
 			this._labelStagesHint.ForeColor = System.Drawing.Color.DimGray;
+			this.locExtender.SetLocalizableToolTip(this._labelStagesHint, null);
+			this.locExtender.SetLocalizationComment(this._labelStagesHint, null);
+			this.locExtender.SetLocalizingId(this._labelStagesHint, "EventsView.StatusAndStagesEditor._labelStagesHint");
 			this._labelStagesHint.Location = new System.Drawing.Point(253, 130);
 			this._labelStagesHint.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
 			this._labelStagesHint.Name = "_labelStagesHint";
@@ -182,6 +208,10 @@ namespace SayMore.UI.ComponentEditors
 			this._buttonReadAboutStages.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonReadAboutStages.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this._buttonReadAboutStages.Image = global::SayMore.Properties.Resources.Help;
+			this.locExtender.SetLocalizableToolTip(this._buttonReadAboutStages, null);
+			this.locExtender.SetLocalizationComment(this._buttonReadAboutStages, null);
+			this.locExtender.SetLocalizationPriority(this._buttonReadAboutStages, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._buttonReadAboutStages, "StatusAndStagesEditor._buttonReadAboutStages");
 			this._buttonReadAboutStages.Location = new System.Drawing.Point(406, 226);
 			this._buttonReadAboutStages.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this._buttonReadAboutStages.Name = "_buttonReadAboutStages";
@@ -189,16 +219,29 @@ namespace SayMore.UI.ComponentEditors
 			this._buttonReadAboutStages.TabIndex = 29;
 			this._buttonReadAboutStages.UseVisualStyleBackColor = false;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "SayMore";
+			// 
+			// _toolTip
+			// 
+			this._toolTip.IsBalloon = true;
+			this._toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+			// 
 			// StatusAndStagesEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this._tableLayoutOuter);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "StatusAndStagesEditor.EditorBase");
 			this.Name = "StatusAndStagesEditor";
 			this.Padding = new System.Windows.Forms.Padding(15);
 			this.Size = new System.Drawing.Size(461, 304);
 			this._tableLayoutOuter.ResumeLayout(false);
 			this._tableLayoutOuter.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -215,5 +258,7 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelReadAboutStages;
 		private System.Windows.Forms.Label _labelStagesHint;
 		private System.Windows.Forms.Button _buttonReadAboutStages;
+		private Localization.UI.LocalizationExtender locExtender;
+		private System.Windows.Forms.ToolTip _toolTip;
 	}
 }

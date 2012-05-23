@@ -72,8 +72,13 @@ namespace SayMore.UI.ComponentEditors
 
 			foreach (var status in Enum.GetValues(typeof(Event.Status)).Cast<Event.Status>())
 			{
-				AddStatusImage(row, status.ToString());
-				AddStatusRadioButton(row++, tabIndex++, status);
+				var picBox = AddStatusImage(row, status);
+				var radioButton = AddStatusRadioButton(row++, tabIndex++, status);
+
+				if (radioButton.Height > picBox.Height)
+					AdjustTopMarginForStatusControls(radioButton, picBox);
+				else if (picBox.Height > radioButton.Height)
+					AdjustTopMarginForStatusControls(picBox, radioButton);
 			}
 
 			_tableLayoutOuter.SetRow(_labelReadAboutStatus, row - 1);
@@ -82,36 +87,67 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void AddStatusImage(int row, string statusName)
+		private void AdjustTopMarginForStatusControls(Control tallCtrl, Control shortCtrl)
+		{
+			int y = (int)Math.Round((tallCtrl.Height - shortCtrl.Height) / 2d, MidpointRounding.AwayFromZero);
+			shortCtrl.Margin = new Padding(shortCtrl.Margin.Left,
+				tallCtrl.Margin.Top + y, shortCtrl.Margin.Right, shortCtrl.Margin.Bottom);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private PictureBox AddStatusImage(int row, Event.Status status)
 		{
 			var statusPicBox = new PictureBox
 			{
-				Name = "picture_" + statusName,
-				Anchor = AnchorStyles.Left,
-				Image = (Image)Properties.Resources.ResourceManager.GetObject("Status" + statusName),
-				Margin = new Padding(5, 0, 0, 0),
+				Name = "picture_" + status,
+				Anchor = AnchorStyles.Top | AnchorStyles.Left,
+				Image = (Image)Properties.Resources.ResourceManager.GetObject("Status" + status),
+				Margin = new Padding(5, 4, 0, 2),
 				SizeMode = PictureBoxSizeMode.AutoSize,
+			};
+
+			statusPicBox.Size = statusPicBox.Image.Size;
+
+			var toolTip = GetStatusToolTip(status);
+			if (toolTip != null)
+				_toolTip.SetToolTip(statusPicBox, toolTip);
+
+			statusPicBox.MouseEnter += delegate
+			{
+				_toolTip.ToolTipTitle = Event.GetLocalizedStatus(status.ToString());
 			};
 
 			if (row == _tableLayoutOuter.GetRow(_labelStages))
 				_tableLayoutOuter.RowStyles.Insert(row, new RowStyle(SizeType.AutoSize));
 
 			_tableLayoutOuter.Controls.Add(statusPicBox, 0, row);
+			return statusPicBox;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void AddStatusRadioButton(int row, int tabIndex, Event.Status status)
+		private RadioButton AddStatusRadioButton(int row, int tabIndex, Event.Status status)
 		{
 			var statusRadioButton = new RadioButton
 			{
 				Name = "radioButton_" + status,
-				Anchor = AnchorStyles.Left | AnchorStyles.Right,
+				Anchor = AnchorStyles.Top | AnchorStyles.Left,
+				AutoEllipsis = true,
 				AutoSize = true,
-				Margin = new Padding(10, 1, 0, 2),
+				Margin = new Padding(10, 4, 0, 2),
 				Text = Event.GetLocalizedStatus(status.ToString()),
+				Font = Program.DialogFont,
 				UseVisualStyleBackColor = true,
 				Tag = status,
 				TabIndex = tabIndex,
+			};
+
+			var toolTip = GetStatusToolTip(status);
+			if (toolTip != null)
+				_toolTip.SetToolTip(statusRadioButton, toolTip);
+
+			statusRadioButton.MouseEnter += delegate
+			{
+				_toolTip.ToolTipTitle = statusRadioButton.Text;
 			};
 
 			statusRadioButton.CheckedChanged += (s, e) =>
@@ -123,6 +159,41 @@ namespace SayMore.UI.ComponentEditors
 
 			_tableLayoutOuter.Controls.Add(statusRadioButton, 1, row);
 			_statusRadioButtons.Add(statusRadioButton);
+			return statusRadioButton;
+		}
+
+		/// ----------------------------------------------------------------------------------------
+		private string GetStatusToolTip(Event.Status status)
+		{
+			if (status == Event.Status.Incoming)
+			{
+				return LocalizationManager.GetString(
+					"EventsView.StatusAndStagesEditor.StatusToolTips.Incoming",
+					"I am gathering the recording and meta\ndata and may or may not take it further.");
+			}
+
+			if (status == Event.Status.In_Progress)
+			{
+				return LocalizationManager.GetString(
+					"EventsView.StatusAndStagesEditor.StatusToolTips.In_Progress",
+					"I'm working on it.");
+			}
+
+			if (status == Event.Status.Finished)
+			{
+				return LocalizationManager.GetString(
+					"EventsView.StatusAndStagesEditor.StatusToolTips.Finished",
+					"I'm done working on it.");
+			}
+
+			if (status == Event.Status.Skipped)
+			{
+				return LocalizationManager.GetString(
+					"EventsView.StatusAndStagesEditor.StatusToolTips.Skipped",
+					"I've decided to not develop\nthis event at this time.");
+			}
+
+			return null;
 		}
 
 		/// ----------------------------------------------------------------------------------------

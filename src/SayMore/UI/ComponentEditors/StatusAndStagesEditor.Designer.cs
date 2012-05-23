@@ -31,7 +31,6 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._labelStatus = new System.Windows.Forms.Label();
 			this._labelStages = new System.Windows.Forms.Label();
-			this._tableLayoutStatusHelp = new System.Windows.Forms.TableLayoutPanel();
 			this._labelReadAboutStatus = new System.Windows.Forms.Label();
 			this._buttonReadAboutStatus = new System.Windows.Forms.Button();
 			this._labelStatusHint = new System.Windows.Forms.Label();
@@ -39,7 +38,6 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStagesHint = new System.Windows.Forms.Label();
 			this._buttonReadAboutStages = new System.Windows.Forms.Button();
 			this._tableLayoutOuter.SuspendLayout();
-			this._tableLayoutStatusHelp.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _tableLayoutOuter
@@ -47,12 +45,14 @@ namespace SayMore.UI.ComponentEditors
 			this._tableLayoutOuter.AutoSize = true;
 			this._tableLayoutOuter.ColumnCount = 4;
 			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
+			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
 			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutOuter.Controls.Add(this._labelReadAboutStatus, 2, 4);
 			this._tableLayoutOuter.Controls.Add(this._labelStatus, 0, 0);
+			this._tableLayoutOuter.Controls.Add(this._buttonReadAboutStatus, 3, 4);
+			this._tableLayoutOuter.Controls.Add(this._labelStatusHint, 2, 1);
 			this._tableLayoutOuter.Controls.Add(this._labelStages, 0, 5);
-			this._tableLayoutOuter.Controls.Add(this._tableLayoutStatusHelp, 2, 1);
 			this._tableLayoutOuter.Controls.Add(this._labelReadAboutStages, 2, 11);
 			this._tableLayoutOuter.Controls.Add(this._labelStagesHint, 2, 6);
 			this._tableLayoutOuter.Controls.Add(this._buttonReadAboutStages, 3, 11);
@@ -99,37 +99,14 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStages.TabIndex = 9;
 			this._labelStages.Text = "Stages";
 			// 
-			// _tableLayoutStatusHelp
-			// 
-			this._tableLayoutStatusHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this._tableLayoutStatusHelp.AutoSize = true;
-			this._tableLayoutStatusHelp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._tableLayoutStatusHelp.ColumnCount = 2;
-			this._tableLayoutOuter.SetColumnSpan(this._tableLayoutStatusHelp, 2);
-			this._tableLayoutStatusHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutStatusHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this._tableLayoutStatusHelp.Controls.Add(this._labelReadAboutStatus, 0, 1);
-			this._tableLayoutStatusHelp.Controls.Add(this._buttonReadAboutStatus, 1, 1);
-			this._tableLayoutStatusHelp.Controls.Add(this._labelStatusHint, 0, 0);
-			this._tableLayoutStatusHelp.Location = new System.Drawing.Point(184, 17);
-			this._tableLayoutStatusHelp.Margin = new System.Windows.Forms.Padding(15, 0, 0, 0);
-			this._tableLayoutStatusHelp.Name = "_tableLayoutStatusHelp";
-			this._tableLayoutStatusHelp.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-			this._tableLayoutStatusHelp.RowCount = 2;
-			this._tableLayoutOuter.SetRowSpan(this._tableLayoutStatusHelp, 4);
-			this._tableLayoutStatusHelp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutStatusHelp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutStatusHelp.Size = new System.Drawing.Size(247, 46);
-			this._tableLayoutStatusHelp.TabIndex = 26;
-			// 
 			// _labelReadAboutStatus
 			// 
 			this._labelReadAboutStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelReadAboutStatus.AutoSize = true;
-			this._labelReadAboutStatus.Location = new System.Drawing.Point(28, 25);
-			this._labelReadAboutStatus.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
+			this._labelReadAboutStatus.Location = new System.Drawing.Point(257, 81);
+			this._labelReadAboutStatus.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
 			this._labelReadAboutStatus.Name = "_labelReadAboutStatus";
-			this._labelReadAboutStatus.Size = new System.Drawing.Size(191, 13);
+			this._labelReadAboutStatus.Size = new System.Drawing.Size(145, 16);
 			this._labelReadAboutStatus.TabIndex = 25;
 			this._labelReadAboutStatus.Text = "Read About SayMore Status Indicators";
 			// 
@@ -145,23 +122,24 @@ namespace SayMore.UI.ComponentEditors
 			this._buttonReadAboutStatus.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this._buttonReadAboutStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this._buttonReadAboutStatus.Image = global::SayMore.Properties.Resources.Help;
-			this._buttonReadAboutStatus.Location = new System.Drawing.Point(222, 21);
-			this._buttonReadAboutStatus.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+			this._buttonReadAboutStatus.Location = new System.Drawing.Point(405, 77);
+			this._buttonReadAboutStatus.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this._buttonReadAboutStatus.Name = "_buttonReadAboutStatus";
-			this._buttonReadAboutStatus.Size = new System.Drawing.Size(22, 22);
+			this._buttonReadAboutStatus.Size = new System.Drawing.Size(22, 20);
 			this._buttonReadAboutStatus.TabIndex = 24;
 			this._buttonReadAboutStatus.UseVisualStyleBackColor = false;
 			// 
 			// _labelStatusHint
 			// 
-			this._labelStatusHint.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._labelStatusHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelStatusHint.AutoSize = true;
-			this._tableLayoutStatusHelp.SetColumnSpan(this._labelStatusHint, 2);
+			this._tableLayoutOuter.SetColumnSpan(this._labelStatusHint, 2);
 			this._labelStatusHint.ForeColor = System.Drawing.Color.DimGray;
-			this._labelStatusHint.Location = new System.Drawing.Point(0, 6);
-			this._labelStatusHint.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+			this._labelStatusHint.Location = new System.Drawing.Point(245, 21);
+			this._labelStatusHint.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
 			this._labelStatusHint.Name = "_labelStatusHint";
-			this._labelStatusHint.Size = new System.Drawing.Size(247, 13);
+			this._tableLayoutOuter.SetRowSpan(this._labelStatusHint, 3);
+			this._labelStatusHint.Size = new System.Drawing.Size(186, 26);
 			this._labelStatusHint.TabIndex = 22;
 			this._labelStatusHint.Text = "Use the status to mark the big picture of this event.";
 			// 
@@ -169,7 +147,7 @@ namespace SayMore.UI.ComponentEditors
 			// 
 			this._labelReadAboutStages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelReadAboutStages.AutoSize = true;
-			this._labelReadAboutStages.Location = new System.Drawing.Point(258, 230);
+			this._labelReadAboutStages.Location = new System.Drawing.Point(257, 230);
 			this._labelReadAboutStages.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
 			this._labelReadAboutStages.Name = "_labelReadAboutStages";
 			this._labelReadAboutStages.Size = new System.Drawing.Size(145, 13);
@@ -182,11 +160,11 @@ namespace SayMore.UI.ComponentEditors
 			this._labelStagesHint.AutoSize = true;
 			this._tableLayoutOuter.SetColumnSpan(this._labelStagesHint, 2);
 			this._labelStagesHint.ForeColor = System.Drawing.Color.DimGray;
-			this._labelStagesHint.Location = new System.Drawing.Point(51, 130);
+			this._labelStagesHint.Location = new System.Drawing.Point(253, 130);
 			this._labelStagesHint.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
 			this._labelStagesHint.Name = "_labelStagesHint";
 			this._tableLayoutOuter.SetRowSpan(this._labelStagesHint, 5);
-			this._labelStagesHint.Size = new System.Drawing.Size(380, 39);
+			this._labelStagesHint.Size = new System.Drawing.Size(178, 65);
 			this._labelStagesHint.TabIndex = 28;
 			this._labelStagesHint.Text = "Stages are normally automatic indicators of what  has been done, based on file na" +
     "mes and annotation work you\'ve done. Click any item to take control of this indi" +
@@ -221,8 +199,6 @@ namespace SayMore.UI.ComponentEditors
 			this.Size = new System.Drawing.Size(461, 304);
 			this._tableLayoutOuter.ResumeLayout(false);
 			this._tableLayoutOuter.PerformLayout();
-			this._tableLayoutStatusHelp.ResumeLayout(false);
-			this._tableLayoutStatusHelp.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -236,7 +212,6 @@ namespace SayMore.UI.ComponentEditors
 		private System.Windows.Forms.Label _labelStatusHint;
 		private System.Windows.Forms.Button _buttonReadAboutStatus;
 		private System.Windows.Forms.Label _labelReadAboutStatus;
-		private System.Windows.Forms.TableLayoutPanel _tableLayoutStatusHelp;
 		private System.Windows.Forms.Label _labelReadAboutStages;
 		private System.Windows.Forms.Label _labelStagesHint;
 		private System.Windows.Forms.Button _buttonReadAboutStages;

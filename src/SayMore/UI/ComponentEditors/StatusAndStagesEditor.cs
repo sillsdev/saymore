@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using Localization;
 using SayMore.Model;
 using SayMore.Model.Files;
@@ -16,8 +17,8 @@ namespace SayMore.UI.ComponentEditors
 	{
 		public delegate StatusAndStagesEditor Factory(ComponentFile file, string imageKey);
 		private List<RadioButton> _statusRadioButtons;
-		private List<CheckBox> _stageCheckBoxes;
-		private ComponentRole[] _componentRoles;
+		private List<StageCheckBox> _stageCheckBoxes;
+		private readonly ComponentRole[] _componentRoles;
 
 		/// ----------------------------------------------------------------------------------------
 		public StatusAndStagesEditor(ComponentFile file, string imageKey,
@@ -67,11 +68,17 @@ namespace SayMore.UI.ComponentEditors
 			for (int i = row; i <= lastRow; i++)
 				_tableLayoutOuter.RowStyles[i].SizeType = SizeType.AutoSize;
 
+			int tabIndex = 0;
+
 			foreach (var status in Enum.GetValues(typeof(Event.Status)).Cast<Event.Status>())
 			{
 				AddStatusImage(row, status.ToString());
-				AddStatusRadioButton(row++, status);
+				AddStatusRadioButton(row++, tabIndex++, status);
 			}
+
+			_tableLayoutOuter.SetRow(_labelReadAboutStatus, row - 1);
+			_tableLayoutOuter.SetRow(_buttonReadAboutStatus, row - 1);
+			_buttonReadAboutStatus.TabIndex = tabIndex;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,7 +100,7 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void AddStatusRadioButton(int row, Event.Status status)
+		private void AddStatusRadioButton(int row, int tabIndex, Event.Status status)
 		{
 			var statusRadioButton = new RadioButton
 			{
@@ -104,6 +111,7 @@ namespace SayMore.UI.ComponentEditors
 				Text = Event.GetLocalizedStatus(status.ToString()),
 				UseVisualStyleBackColor = true,
 				Tag = status,
+				TabIndex = tabIndex,
 			};
 
 			statusRadioButton.CheckedChanged += (s, e) =>
@@ -125,13 +133,18 @@ namespace SayMore.UI.ComponentEditors
 			for (int i = row; i < _tableLayoutOuter.RowCount; i++)
 				_tableLayoutOuter.RowStyles[i].SizeType = SizeType.AutoSize;
 
-			_stageCheckBoxes = new List<CheckBox>(_componentRoles.Length);
+			_stageCheckBoxes = new List<StageCheckBox>(_componentRoles.Length);
+
+			int tabIndex = _buttonReadAboutStatus.TabIndex + 1;
 
 			foreach (var role in _componentRoles)
 			{
 				AddColorBlockLabel(row, role.Color);
-				AddStageCheckBox(row++, role);
+				AddStageCheckBox(row++, tabIndex++, role);
 			}
+
+			_tableLayoutOuter.SetRow(_labelReadAboutStages, row - 1);
+			_tableLayoutOuter.SetRow(_buttonReadAboutStages, row - 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -142,7 +155,7 @@ namespace SayMore.UI.ComponentEditors
 				AutoSize = false,
 				Anchor = AnchorStyles.Top,
 				Size = new Size(10, 14),
-				Margin = new Padding(0, 4, 0, 2),
+				Margin = new Padding(0, 5, 0, 2),
 				BackColor = roleColor
 			};
 
@@ -155,21 +168,15 @@ namespace SayMore.UI.ComponentEditors
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void AddStageCheckBox(int row, ComponentRole role)
+		private void AddStageCheckBox(int row, int tabIndex, ComponentRole role)
 		{
-			var stageCheckBox = new CheckBox
-			{
-				Name = "checkBoxStage_" + role.Name,
-				Font = Program.DialogFont,
-				AutoSize = true,
-				Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-				Text = role.Name,
-				Margin = new Padding(10, 4, 0, 2),
-				UseVisualStyleBackColor = true,
-				Tag = role,
-			};
+			var stageCheckBox = new StageCheckBox(role) { TabIndex = tabIndex };
 
 			stageCheckBox.CheckedChanged += HandleStageCheckBoxCheckChanged;
+
+			stageCheckBox.IsRoleCompleteProvider = r1 =>
+				_file.ParentElement.GetCompletedStages(false).Any(r2 => r2.Id == r1.Id);
+
 			_tableLayoutOuter.Controls.Add(stageCheckBox, 1, row);
 			_stageCheckBoxes.Add(stageCheckBox);
 		}
@@ -193,29 +200,10 @@ namespace SayMore.UI.ComponentEditors
 			foreach (var radioButton in _statusRadioButtons.Where(r => r.Tag.ToString() == status))
 				radioButton.Checked = true;
 
-			var roleFormat = LocalizationManager.GetString(
-				"EventsView.StatusAndStagesEditor.StageNameDisplayFormat", "{0} (on auto-pilot)");
-
 			foreach (var checkBox in _stageCheckBoxes)
 			{
 				checkBox.CheckedChanged -= HandleStageCheckBoxCheckChanged;
-				var role = checkBox.Tag as ComponentRole;
-				var completeType = _file.ParentElement.StageCompletedControlValues[role.Id];
-
-				if (completeType == StageCompleteType.Auto)
-				{
-					checkBox.Text = string.Format(roleFormat, role.Name);
-					checkBox.ForeColor = Color.DimGray;
-					checkBox.CheckState = CheckState.Indeterminate;
-				}
-				else
-				{
-					checkBox.Text = role.Name;
-					checkBox.ForeColor = ForeColor;
-					checkBox.CheckState = (completeType == StageCompleteType.Complete ?
-						CheckState.Checked : CheckState.Unchecked);
-				}
-
+				checkBox.Update(false, _file.ParentElement.StageCompletedControlValues);
 				checkBox.CheckedChanged += HandleStageCheckBoxCheckChanged;
 			}
 
@@ -238,23 +226,13 @@ namespace SayMore.UI.ComponentEditors
 		/// ------------------------------------------------------------------------------------
 		void HandleStageCheckBoxCheckChanged(object sender, EventArgs e)
 		{
-			var roleId = ((ComponentRole)((CheckBox)sender).Tag).Id;
+			var checkBox = sender as StageCheckBox;
 
-			switch (_file.ParentElement.StageCompletedControlValues[roleId])
-			{
-				case StageCompleteType.Auto:
-					_file.ParentElement.StageCompletedControlValues[roleId] = StageCompleteType.NotComplete;
-					break;
-				case StageCompleteType.NotComplete:
-					_file.ParentElement.StageCompletedControlValues[roleId] = StageCompleteType.Complete;
-					break;
-				default:
-					_file.ParentElement.StageCompletedControlValues[roleId] = StageCompleteType.Auto;
-					break;
-			}
+			checkBox.CheckedChanged -= HandleStageCheckBoxCheckChanged;
+			var newCompleteType = checkBox.Update(true, _file.ParentElement.StageCompletedControlValues);
+			checkBox.CheckedChanged += HandleStageCheckBoxCheckChanged;
 
-			SaveFieldValue("stage_" + roleId, _file.ParentElement.StageCompletedControlValues[roleId].ToString());
-			UpdateDisplay();
+			SaveFieldValue("stage_" + checkBox.Role.Id, newCompleteType);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -288,4 +266,139 @@ namespace SayMore.UI.ComponentEditors
 
 		#endregion
 	}
+
+	#region StageCheckBox class
+	/// ----------------------------------------------------------------------------------------
+	public class StageCheckBox : CheckBox
+	{
+		public Func<ComponentRole, bool> IsRoleCompleteProvider;
+		public ComponentRole Role { get; private set; }
+
+		private StageCompleteType _completeType;
+
+		/// ------------------------------------------------------------------------------------
+		public StageCheckBox(ComponentRole role)
+		{
+			Name = "checkBoxStage_" + role.Name;
+			Font = Program.DialogFont;
+			AutoSize = true;
+			Anchor = AnchorStyles.Left;
+			Text = role.Name;
+			Margin = new Padding(10, 4, 0, 2);
+			UseVisualStyleBackColor = true;
+			Role = role;
+
+			DoubleBuffered = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string Update(bool toggleValue,
+			IDictionary<string, StageCompleteType> stageCompletedControlValues)
+		{
+			var isRoleAutoCompleted = IsRoleCompleteProvider(Role);
+			_completeType = stageCompletedControlValues[Role.Id];
+
+			if (toggleValue)
+			{
+				switch (_completeType)
+				{
+					case StageCompleteType.Auto:
+						_completeType = (isRoleAutoCompleted ? StageCompleteType.NotComplete : StageCompleteType.Complete);
+						break;
+
+					case StageCompleteType.NotComplete:
+						_completeType = (isRoleAutoCompleted ? StageCompleteType.Complete : StageCompleteType.Auto);
+						break;
+
+					default:
+						_completeType = (isRoleAutoCompleted ? StageCompleteType.Auto : StageCompleteType.NotComplete);
+						break;
+				}
+			}
+
+			var roleFormat = LocalizationManager.GetString(
+				"EventsView.StatusAndStagesEditor.StageNameDisplayFormat", "{0} (on auto-pilot)");
+
+			if (_completeType == StageCompleteType.Auto)
+			{
+				Text = string.Format(roleFormat, Role.Name);
+				CheckState = CheckState.Indeterminate;
+			}
+			else
+			{
+				Text = Role.Name;
+				CheckState = (_completeType == StageCompleteType.Complete ?
+					CheckState.Checked : CheckState.Unchecked);
+			}
+
+			stageCompletedControlValues[Role.Id] = _completeType;
+			return _completeType.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			using (var br = new SolidBrush(BackColor))
+				e.Graphics.FillRectangle(br, ClientRectangle);
+
+			var textRect = GetTextRectangle(e.Graphics);
+
+			// I was having some trouble getting the DrawCheckBox to honor the ForeColor property
+			// under curtain circumstances and I never could sort out why. Therefore, I draw the
+			// text as a separate operations in which I can specify the text color. It may
+			// actually be better since if I were to set the ForeColor property here, I would get
+			// a recursive call to OnPaint.
+
+			CheckBoxRenderer.DrawCheckBox(e.Graphics, GetCheckBoxLocation(e.Graphics),
+				textRect, string.Empty, Font, Focused, GetCheckState());
+
+			var clr = (ClientRectangle.Contains(PointToClient(MousePosition)) || _completeType != StageCompleteType.Auto ?
+				SystemColors.ControlText : Color.DimGray);
+
+			TextRenderer.DrawText(e.Graphics, Text, Font, textRect, clr,
+				TextFormatFlags.Left |TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private CheckBoxState GetCheckState()
+		{
+			if (CheckState == CheckState.Indeterminate)
+				return (IsRoleCompleteProvider(Role) ? CheckBoxState.CheckedDisabled : CheckBoxState.UncheckedDisabled);
+
+			var hot = ClientRectangle.Contains(PointToClient(MousePosition));
+			var buttonDown = (MouseButtons == MouseButtons.Left && hot);
+
+			if (CheckState == CheckState.Checked)
+			{
+				if (buttonDown)
+					return CheckBoxState.CheckedPressed;
+
+				return (hot ? CheckBoxState.CheckedHot : CheckBoxState.CheckedNormal);
+			}
+
+			if (buttonDown)
+				return CheckBoxState.UncheckedPressed;
+
+			return (hot ? CheckBoxState.UncheckedHot : CheckBoxState.UncheckedNormal);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle GetTextRectangle(Graphics g)
+		{
+			var checkBoxWidth = CheckBoxRenderer.GetGlyphSize(g, CheckBoxState.UncheckedNormal).Width;
+
+			return new Rectangle(ClientRectangle.X + checkBoxWidth + 3, ClientRectangle.Y,
+				ClientRectangle.Width - checkBoxWidth - 3, ClientRectangle.Height);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Point GetCheckBoxLocation(Graphics g)
+		{
+			var checkBoxHeight = CheckBoxRenderer.GetGlyphSize(g, CheckBoxState.UncheckedNormal).Height;
+			var y = (int)Math.Round((ClientSize.Height - checkBoxHeight) / 2d, MidpointRounding.AwayFromZero);
+			return new Point(0, y);
+		}
+	}
+
+	#endregion
 }

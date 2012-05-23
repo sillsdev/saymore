@@ -130,23 +130,25 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<ComponentRole> GetCompletedStages()
 		{
-			var list = base.GetCompletedStages().ToList();
+			return GetCompletedStages(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<ComponentRole> GetCompletedStages(
+			bool modifyComputedListWithUserOverrides)
+		{
+			var list = base.GetCompletedStages(modifyComputedListWithUserOverrides).ToList();
 
 			if (GetShouldReportHaveConsent())
 			   list.Insert(0, ComponentRoles.First(r => r.Id == "consent"));
 
-			return list;
+			return (modifyComputedListWithUserOverrides ?
+				GetCompletedStagesModifedByUserOverrides(list) : list);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private bool GetShouldReportHaveConsent()
 		{
-			if (StageCompletedControlValues["consent"] == StageCompleteType.Complete)
-				return true;
-
-			if (StageCompletedControlValues["consent"] == StageCompleteType.NotComplete)
-				return false;
-
 			var allParticipants = MetaDataFile.GetStringValue("participants", string.Empty);
 			var personNames = FieldInstance.GetMultipleValuesFromText(allParticipants).ToArray();
 			bool allParticipantsHaveConsent = personNames.Length > 0;

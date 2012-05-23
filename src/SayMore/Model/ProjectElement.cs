@@ -65,7 +65,9 @@ namespace SayMore.Model
 			ComponentRoles = componentRoles;
 			RequireThat.Directory(parentElementFolder).Exists();
 
-			StageCompletedControlValues = ComponentRoles.ToDictionary(r => r.Id, r => StageCompleteType.Auto);
+			StageCompletedControlValues = (ComponentRoles == null ?
+				new Dictionary<string, StageCompleteType>() :
+				ComponentRoles.ToDictionary(r => r.Id, r => StageCompleteType.Auto));
 
 			ParentFolderPath = parentElementFolder;
 			_id = id ?? GetNewDefaultElementName();
@@ -404,28 +406,53 @@ namespace SayMore.Model
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ComponentRole> GetCompletedStages()
 		{
+			return GetCompletedStages(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// What are the workflow stages which have been complete for this event/person?
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual IEnumerable<ComponentRole> GetCompletedStages(
+			bool modifyComputedListWithUserOverrides)
+		{
 			//Todo: eventually, we need to differentiate between a file sitting there that
 			// is in progress, and one that is in fact marked as completed. For now, just
 			// being there gets you the gold star.
 
-			// First, gather all the stages that have been forced to complete. Use a
-			// dictionary rather than yield so we don't emit more than one instance
-			// of each role.
-			var completedRoles = (from kvp in StageCompletedControlValues
-								  where kvp.Value == StageCompleteType.Complete
-								  select ComponentRoles.First(r => r.Id == kvp.Key)).ToDictionary(r => r.Id, r => r);
+			// Use a dictionary rather than yield so we don't emit more than
+			// one instance of each role.
+			var completedRoles = new Dictionary<string, ComponentRole>();
 
 			foreach (var component in GetComponentFiles())
 			{
-				// Now only add the stages that are auto. computed.
-				foreach (var role in component.GetAssignedRoles(GetType())
-					.Where(role => StageCompletedControlValues[role.Id] == StageCompleteType.Auto))
-				{
+				foreach (var role in component.GetAssignedRoles(GetType()))
 					completedRoles[role.Id] = role;
-				}
 			}
 
-			return completedRoles.Values;
+			return (modifyComputedListWithUserOverrides ?
+				GetCompletedStagesModifedByUserOverrides(completedRoles.Values) :
+				completedRoles.Values);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected IEnumerable<ComponentRole> GetCompletedStagesModifedByUserOverrides(
+			IEnumerable<ComponentRole> autoComputedCompletedRoles)
+		{
+			// Return the auto-computed roles for which the user has kept the auto-compute setting.
+			foreach (var role in autoComputedCompletedRoles.Where(role =>
+				StageCompletedControlValues.Any(kvp => kvp.Key == role.Id && kvp.Value == StageCompleteType.Auto)))
+			{
+				yield return role;
+			}
+
+			// Return the roles the user has forced to be complete.
+			foreach (var role in ComponentRoles.Where(role =>
+				StageCompletedControlValues.Any(kvp => kvp.Key == role.Id && kvp.Value == StageCompleteType.Complete)))
+			{
+				yield return role;
+			}
 		}
 	}
 }

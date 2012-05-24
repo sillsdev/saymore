@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using Palaso.UI.WindowsForms.FileSystem;
 using SayMore.Properties;
 using SayMore.Transcription.Model;
@@ -119,21 +118,21 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<ToolStripItem> GetRenamingMenuCommands(Action<string> refreshAction)
-		{
-			return new ToolStripItem[] { };
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public override bool GetCanHaveAnnotationFile()
 		{
 			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool GetCanBeCustomRenamed()
+		public override bool CanBeRenamedForRole
 		{
-			return false;
+			get { return false; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool CanBeCustomRenamed
+		{
+			get { return false; }
 		}
 
 		/// ------------------------------------------------------------------------------------

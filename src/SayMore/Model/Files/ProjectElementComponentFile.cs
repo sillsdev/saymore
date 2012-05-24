@@ -68,9 +68,15 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool GetCanBeCustomRenamed()
+		public override bool CanBeRenamedForRole
 		{
-			return false;
+			get { return false; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override bool CanBeCustomRenamed
+		{
+			get { return false; }
 		}
 
 		/// ------------------------------------------------------------------------------------

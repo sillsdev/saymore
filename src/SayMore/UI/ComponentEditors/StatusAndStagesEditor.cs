@@ -32,6 +32,12 @@ namespace SayMore.UI.ComponentEditors
 			AddStatusFields();
 			AddStageFields();
 			_tableLayoutOuter.ColumnStyles[0].SizeType = SizeType.AutoSize;
+
+			_buttonReadAboutStatus.Click += (s, e) =>
+				Program.ShowHelpTopic("/Using_Tools/Events_tab/Status_Stages_tab/Select_event_status.htm");
+
+			_buttonReadAboutStages.Click += (s, e) =>
+				Program.ShowHelpTopic("/Using_Tools/Events_tab/Status_Stages_tab/Select_event_stages.htm");
 		}
 
 		/// ------------------------------------------------------------------------------------

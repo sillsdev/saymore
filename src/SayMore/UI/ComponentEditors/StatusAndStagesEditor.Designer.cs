@@ -141,11 +141,11 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelStatusHint, null);
 			this.locExtender.SetLocalizationComment(this._labelStatusHint, null);
 			this.locExtender.SetLocalizingId(this._labelStatusHint, "EventsView.StatusAndStagesEditor._labelStatusHint");
-			this._labelStatusHint.Location = new System.Drawing.Point(245, 21);
-			this._labelStatusHint.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
+			this._labelStatusHint.Location = new System.Drawing.Point(236, 21);
+			this._labelStatusHint.Margin = new System.Windows.Forms.Padding(5, 4, 0, 0);
 			this._labelStatusHint.Name = "_labelStatusHint";
 			this._tableLayoutOuter.SetRowSpan(this._labelStatusHint, 3);
-			this._labelStatusHint.Size = new System.Drawing.Size(186, 26);
+			this._labelStatusHint.Size = new System.Drawing.Size(195, 26);
 			this._labelStatusHint.TabIndex = 22;
 			this._labelStatusHint.Text = "Use the status to mark the big picture of this event.";
 			// 
@@ -186,11 +186,11 @@ namespace SayMore.UI.ComponentEditors
 			this.locExtender.SetLocalizableToolTip(this._labelStagesHint, null);
 			this.locExtender.SetLocalizationComment(this._labelStagesHint, null);
 			this.locExtender.SetLocalizingId(this._labelStagesHint, "EventsView.StatusAndStagesEditor._labelStagesHint");
-			this._labelStagesHint.Location = new System.Drawing.Point(253, 130);
-			this._labelStagesHint.Margin = new System.Windows.Forms.Padding(15, 4, 0, 0);
+			this._labelStagesHint.Location = new System.Drawing.Point(235, 130);
+			this._labelStagesHint.Margin = new System.Windows.Forms.Padding(5, 4, 0, 0);
 			this._labelStagesHint.Name = "_labelStagesHint";
 			this._tableLayoutOuter.SetRowSpan(this._labelStagesHint, 5);
-			this._labelStagesHint.Size = new System.Drawing.Size(178, 65);
+			this._labelStagesHint.Size = new System.Drawing.Size(196, 65);
 			this._labelStagesHint.TabIndex = 28;
 			this._labelStagesHint.Text = "Stages are normally automatic indicators of what  has been done, based on file na" +
     "mes and annotation work you\'ve done. Click any item to take control of this indi" +
@@ -222,11 +222,6 @@ namespace SayMore.UI.ComponentEditors
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "SayMore";
-			// 
-			// _toolTip
-			// 
-			this._toolTip.IsBalloon = true;
-			this._toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
 			// 
 			// StatusAndStagesEditor
 			// 

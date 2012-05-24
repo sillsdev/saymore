@@ -39,16 +39,10 @@ namespace SayMore.UI.ComponentEditors
 				_fileLink = null;
 			}
 
-			if (_browser == null)
+			if (_browser == null || IsDisposed)
 				return;
 
-			if (GetShouldAvoidShowingInBrowserControl(file.PathToAnnotatedFile))
-			{
-				DisplayInfoForFileNotShownInBrowser(file.PathToAnnotatedFile);
-				return;
-			}
-
-			TryToDisplayFileInBrowser(file.PathToAnnotatedFile);
+			DisplayFile(file.PathToAnnotatedFile);
 
 			file.PreRenameAction = file.PreFileCommandAction = file.PreDeleteAction = (() =>
 			{
@@ -61,9 +55,23 @@ namespace SayMore.UI.ComponentEditors
 				FileSystemUtils.WaitForFileRelease(file.PathToAnnotatedFile, Thread.CurrentThread);
 				Cursor = Cursors.Default;
 			});
+
+			file.PostRenameAction = () => DisplayFile(file.PathToAnnotatedFile);
 		}
 
 		#region Methods for trying to display file in browser control
+		/// ------------------------------------------------------------------------------------
+		private void DisplayFile(string filePath)
+		{
+			if (GetShouldAvoidShowingInBrowserControl(filePath))
+			{
+				DisplayInfoForFileNotShownInBrowser(filePath);
+				return;
+			}
+
+			TryToDisplayFileInBrowser(filePath);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void TryToDisplayFileInBrowser(string filePath)
 		{

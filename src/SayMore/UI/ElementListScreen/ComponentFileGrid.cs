@@ -8,7 +8,6 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using Localization;
-using SayMore.UI;
 using SilTools;
 using SayMore.Model.Files;
 using SayMore.Properties;
@@ -373,24 +372,17 @@ namespace SayMore.UI.ElementListScreen
 		private void BuildMenuCommands(int index)
 		{
 			_buttonOpen.DropDown.Items.Clear();
-			_buttonRename.DropDown.Items.Clear();
 
 			var file = (index >= 0 && index < _files.Count() ? _files.ElementAt(index) : null);
 
 			if (file != null)
 			{
-				foreach (var item in file.GetMenuCommands(PostMenuCommandRefreshAction))
-				{
-					switch (item.Tag as string)
-					{
-						case "open": _buttonOpen.DropDown.Items.Add(item); break;
-						case "rename": _buttonRename.DropDown.Items.Add(item); break;
-					}
-				}
+				foreach (var item in file.GetMenuCommands(PostMenuCommandRefreshAction).Where(i => (i.Tag as string) == "open"))
+					_buttonOpen.DropDown.Items.Add(item);
 			}
 
 			_buttonOpen.Enabled = (_buttonOpen.DropDown.Items.Count > 0);
-			_buttonRename.Enabled = (_buttonRename.DropDown.Items.Count > 0);
+			_buttonRename.Enabled = file != null && (file.CanBeCustomRenamed || file.CanBeRenamedForRole);
 			_buttonConvert.Enabled = file != null && file.FileType.CanBeConverted;
 		}
 
@@ -553,6 +545,21 @@ namespace SayMore.UI.ElementListScreen
 
 			if (outputFile != null && PostMenuCommandRefreshAction != null)
 				PostMenuCommandRefreshAction(outputFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleRenameButtonClick(object sender, EventArgs e)
+		{
+			var index = _grid.CurrentCellAddress.Y;
+			var file = (index >= 0 && index < _files.Count() ? _files.ElementAt(index) : null);
+
+			if (file == null)
+			{
+				SystemSounds.Beep.Play();
+				return;
+			}
+
+			file.Rename(PostMenuCommandRefreshAction);
 		}
 
 		/// ------------------------------------------------------------------------------------

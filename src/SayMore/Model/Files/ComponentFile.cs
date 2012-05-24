@@ -587,25 +587,7 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<ToolStripItem> GetMenuCommands(Action<string> refreshAction)
 		{
-			bool addSeparator = false;
-
-			foreach (var cmd in GetFileTypeMenuCommands(refreshAction))
-			{
-				addSeparator = true;
-				yield return cmd;
-			}
-
-			var menuCommands = GetRenamingMenuCommands(refreshAction).ToArray();
-			if (menuCommands.Length > 0 && addSeparator)
-				yield return new ToolStripSeparator();
-
-			addSeparator = false;
-
-			foreach (var cmd in menuCommands)
-			{
-				addSeparator = true;
-				yield return cmd;
-			}
+			return GetFileTypeMenuCommands(refreshAction);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -637,63 +619,15 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual IEnumerable<ToolStripItem> GetRenamingMenuCommands(Action<string> refreshAction)
+		public virtual bool CanBeRenamedForRole
 		{
-			// Commands which rename for assigning to roles
-			foreach (var role in GetRelevantComponentRoles().Where(role => role.IsPotential(PathToAnnotatedFile)))
-			{
-				var role1 = role;
-				var menu = new ToolStripMenuItem(string.Empty, null, (s, e) =>
-				{
-					if (PreRenameAction != null)
-						PreRenameAction();
-
-					AssignRole(role1);
-
-					if (refreshAction != null)
-						refreshAction(PathToAnnotatedFile);
-
-					if (PostRenameAction != null)
-						PostRenameAction();
-
-					// Disable if the file is already named appropriately for this role
-				}) { Tag = "rename", Enabled = !role.IsMatch(PathToAnnotatedFile) };
-
-				var menuText = LocalizationManager.GetString("CommonToMultipleViews.FileList.RenameMenuTextFormatString",
-					"Rename For {0}", null, menu);
-
-				menu.Text = string.Format(menuText, role.Name);
-				yield return menu;
-			}
-
-			if (GetCanBeCustomRenamed())
-			{
-				var menu = new ToolStripMenuItem(string.Empty, null, (s, e) =>
-				{
-					if (PreRenameAction != null)
-						PreRenameAction();
-
-					DoCustomRename();
-
-					if (refreshAction != null)
-						refreshAction(PathToAnnotatedFile);
-
-					if (PostRenameAction != null)
-						PostRenameAction();
-
-				}) { Tag = "rename" };
-
-				menu.Text = LocalizationManager.GetString("CommonToMultipleViews.FileList.CustomRenameMenu",
-					"Custom Rename...", null, menu);
-
-				yield return menu;
-			}
+			get { return true; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public virtual bool GetCanBeCustomRenamed()
+		public virtual bool CanBeCustomRenamed
 		{
-			return true;
+			get { return true; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -767,6 +701,31 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void Rename(Action<string> refreshAction)
+		{
+			using (var dlg = new ComponentFileRenamingDialog(this, _componentRoles))
+			{
+				if (dlg.ShowDialog() != DialogResult.OK)
+					return;
+
+				if (PreRenameAction != null)
+					PreRenameAction();
+
+				var newRole = dlg.GetNewRoleOfFile();
+				if (newRole != null)
+					AssignRole(newRole);
+				else
+					RenameAnnotatedFile(dlg.NewFilePath);
+
+				if (refreshAction != null)
+					refreshAction(PathToAnnotatedFile);
+
+				if (PostRenameAction != null)
+					PostRenameAction();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual void RenameAnnotatedFile(string newPath)
 		{
 			try
@@ -808,16 +767,6 @@ namespace SayMore.Model.Files
 					"Sorry, SayMore could not rename that file because something else (perhaps another part of SayMore) is reading it. Please try again later.");
 
 				ErrorReport.NotifyUserOfProblem(e, msg);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void DoCustomRename()
-		{
-			using (var dlg = new CustomComponentFileRenamingDialog(ParentElement.Id, PathToAnnotatedFile))
-			{
-				if (dlg.ShowDialog() == DialogResult.OK)
-					RenameAnnotatedFile(dlg.NewFilePath);
 			}
 		}
 

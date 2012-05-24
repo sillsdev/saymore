@@ -737,16 +737,6 @@ namespace SayMore.Model.Files
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FileCommand> GetCommands(string filePath)
 		{
-			//var commands = base.GetCommands(filePath).ToList();
-
-			//if (!GetIsStandardPcmAudioFile(filePath) &&
-			//    !File.Exists(ComputeStandardPcmAudioFilePath(filePath)))
-			//{
-			//    commands.Add(null); // Separator
-			//    commands.Add(new FileCommand(GetConvertToStandardPcmMenuText(),
-			//        ConvertToStandardPcmAudio, "convert"));
-			//}
-
 			var commands = base.GetCommands(filePath).ToList();
 
 			if (commands.Count > 0)
@@ -767,29 +757,6 @@ namespace SayMore.Model.Files
 		{
 			get { return true; }
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//protected virtual string GetConvertToStandardPcmMenuText()
-		//{
-		//    throw new NotImplementedException();
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//private void ConvertToStandardPcmAudio(string path)
-		//{
-		//    if (AudioUtils.GetNAudioEncoding(path) == WaveFormatEncoding.Pcm)
-		//        return;
-
-		//    var error = AudioUtils.ConvertToStandardPCM(path,
-		//        ComputeStandardPcmAudioFilePath(path), null,
-		//        AudioUtils.GetConvertingToStandardPcmAudioMsg());
-
-		//    if (error != null)
-		//    {
-		//        ErrorReport.NotifyUserOfProblem(error,
-		//            AudioUtils.GetConvertingToStandardPcmAudioErrorMsg(), path);
-		//    }
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		public static string ComputeStandardPcmAudioFilePath(string path)

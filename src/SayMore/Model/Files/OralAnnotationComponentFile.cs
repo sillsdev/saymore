@@ -35,26 +35,6 @@ namespace SayMore.Model.Files
 			get { return 1; }
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public override void RenameAnnotatedFile(string newPath)
-		//{
-		//    var oldPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
-		//    base.RenameAnnotatedFile(newPath);
-		//    AnnotationFileHelper.ChangeMediaFileName(PathToAnnotatedFile, GetPathToAssociatedMediaFile());
-
-		//    if (!File.Exists(oldPfsxFile))
-		//        return;
-
-		//    var newPfsxFile = Path.ChangeExtension(PathToAnnotatedFile, ".pfsx");
-		//    File.Move(oldPfsxFile, newPfsxFile);
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		public override IEnumerable<ToolStripItem> GetRenamingMenuCommands(Action<string> refreshAction)
-		{
-			return new ToolStripItem[] { };
-		}
-
 		/// ------------------------------------------------------------------------------------
 		public override bool GetCanHaveAnnotationFile()
 		{
@@ -62,26 +42,15 @@ namespace SayMore.Model.Files
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override bool GetCanBeCustomRenamed()
+		public override bool CanBeRenamedForRole
 		{
-			return false;
+			get { return false; }
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Return the transcription and/or translation roles if all the segments are not
-		///// empty.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public override IEnumerable<ComponentRole> GetAssignedRoles(Type elementType)
-		//{
-		//    var tier = GetTranscriptionTier();
-		//    if (tier != null && tier.GetIsComplete())
-		//        yield return _componentRoles.Single(r => r.Id == "transcription");
-
-		//    tier = GetFreeTranslationTier();
-		//    if (tier != null && tier.GetIsComplete())
-		//        yield return _componentRoles.Single(r => r.Id == "transcriptionN");
-		//}
+		/// ------------------------------------------------------------------------------------
+		public override bool CanBeCustomRenamed
+		{
+			get { return false; }
+		}
 	}
 }

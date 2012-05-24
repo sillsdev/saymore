@@ -29,10 +29,10 @@ namespace SayMore.UI.ElementListScreen
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentFileGrid));
 			this._contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this._menuDeleteFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +46,7 @@ namespace SayMore.UI.ElementListScreen
 			this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._toolStripActions = new System.Windows.Forms.ToolStrip();
 			this._buttonOpen = new System.Windows.Forms.ToolStripDropDownButton();
-			this._buttonRename = new System.Windows.Forms.ToolStripDropDownButton();
+			this._buttonRename = new System.Windows.Forms.ToolStripButton();
 			this._buttonConvert = new System.Windows.Forms.ToolStripButton();
 			this._buttonAddFiles = new System.Windows.Forms.ToolStripButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
@@ -110,19 +110,19 @@ namespace SayMore.UI.ElementListScreen
 			this._grid.AllowUserToDeleteRows = false;
 			this._grid.AllowUserToOrderColumns = true;
 			this._grid.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			this._grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+			this._grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
 			this._grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this._grid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this._grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this._grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
 			this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colIcon,
@@ -199,8 +199,8 @@ namespace SayMore.UI.ElementListScreen
 			// colSize
 			// 
 			this.colSize.DataPropertyName = "FileSize";
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colSize.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colSize.DefaultCellStyle = dataGridViewCellStyle7;
 			this.colSize.HeaderText = "_L10N_:CommonToMultipleViews.FileList.ColumnHeadings.FileSize!Size";
 			this.colSize.Name = "colSize";
 			this.colSize.ReadOnly = true;
@@ -209,8 +209,8 @@ namespace SayMore.UI.ElementListScreen
 			// colDuration
 			// 
 			this.colDuration.DataPropertyName = "DurationString";
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.colDuration.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.colDuration.DefaultCellStyle = dataGridViewCellStyle8;
 			this.colDuration.HeaderText = "_L10N_:CommonToMultipleViews.FileList.ColumnHeadings.FileDuration!Duration";
 			this.colDuration.Name = "colDuration";
 			this.colDuration.ReadOnly = true;
@@ -262,8 +262,8 @@ namespace SayMore.UI.ElementListScreen
 			this._buttonRename.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
 			this._buttonRename.Name = "_buttonRename";
 			this._buttonRename.Size = new System.Drawing.Size(63, 20);
-			this._buttonRename.Text = "Rename";
-			this._buttonRename.DropDownOpening += new System.EventHandler(this.HandleActionsDropDownOpening);
+			this._buttonRename.Text = "Rename...";
+			this._buttonRename.Click += new System.EventHandler(this.HandleRenameButtonClick);
 			// 
 			// _buttonConvert
 			// 
@@ -324,7 +324,7 @@ namespace SayMore.UI.ElementListScreen
 		private SilTools.Controls.SilPanel _panelOuter;
 		private System.Windows.Forms.ToolStrip _toolStripActions;
 		private System.Windows.Forms.ToolStripDropDownButton _buttonOpen;
-		private System.Windows.Forms.ToolStripDropDownButton _buttonRename;
+		private System.Windows.Forms.ToolStripButton _buttonRename;
 		private System.Windows.Forms.ToolStripButton _buttonAddFiles;
 		private System.Windows.Forms.ToolStripMenuItem _menuDeleteFile;
 		private System.Windows.Forms.DataGridViewImageColumn colIcon;

@@ -19,14 +19,14 @@ namespace SayMore.Model.Files
 	/// </summary>
 	public class ComponentRole
 	{
-		public static string kOriginalComponentRoleId = "original";
+		public const string kOriginalComponentRoleId = "original";
 
 		private readonly string _englishLabel;
-		private readonly string _renamingTemplate;
 
 		public enum MeasurementTypes { None, Time, Words }
 
-		public Type RelevantElementType { get; private set;}
+		public string RenamingTemplate { get; private set; }
+		public Type RelevantElementType { get; private set; }
 		public MeasurementTypes MeasurementType { get; private set; }
 		public string Id { get; private set; }
 		public Color Color { get; private set; }
@@ -47,7 +47,7 @@ namespace SayMore.Model.Files
 			ElligibilityFilter = elligibilityFilter;
 			Color = color;
 			TextColor = textColor;
-			_renamingTemplate = renamingTemplate;
+			RenamingTemplate = renamingTemplate;
 		}
 
 		public string ConvertFileNameToMatchThisRole(string name)
@@ -60,7 +60,7 @@ namespace SayMore.Model.Files
 		/// </summary>
 		public bool IsMatch(string path)
 		{
-			string partofRenamingTemplateWhichDoesNotDependOnId = _renamingTemplate.Replace("$ElementId$", "");
+			string partofRenamingTemplateWhichDoesNotDependOnId = RenamingTemplate.Replace("$ElementId$", "");
 
 			if (!Path.GetFileNameWithoutExtension(path).Contains(partofRenamingTemplateWhichDoesNotDependOnId))
 				return false;
@@ -124,7 +124,7 @@ namespace SayMore.Model.Files
 		{
 			var dir = Path.GetDirectoryName(path);
 			//var fileName = Path.GetFileNameWithoutExtension(path);
-			var name = _renamingTemplate + Path.GetExtension(path);
+			var name = RenamingTemplate + Path.GetExtension(path);
 			name = name.Replace("$ElementId$", eventId);
 
 			return (string.IsNullOrEmpty(dir) ? name : Path.Combine(dir, name));
@@ -136,7 +136,7 @@ namespace SayMore.Model.Files
 			{
 				var name = Path.GetFileNameWithoutExtension(p);
 				return ElligibilityFilter(Path.GetExtension(p))
-				&& name.ToLower() == _renamingTemplate.Replace("$ElementId$", eventId).ToLower();
+				&& name.ToLower() == RenamingTemplate.Replace("$ElementId$", eventId).ToLower();
 			});
 		}
 
